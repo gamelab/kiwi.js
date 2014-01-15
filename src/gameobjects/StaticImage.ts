@@ -75,7 +75,7 @@ module Kiwi.GameObjects {
             super.render(camera);
 
             //if it is would even be visible.
-            if (this.alpha > 0 && this.visibility) {
+            if (this.alpha > 0 && this.visible) {
 
                 var ctx: CanvasRenderingContext2D = this.game.stage.ctx;
                 ctx.save();

@@ -2331,7 +2331,7 @@ var Kiwi;
             configurable: true
         });
 
-        Object.defineProperty(Entity.prototype, "visibility", {
+        Object.defineProperty(Entity.prototype, "visible", {
             get: function () {
                 return this._visible;
             },
@@ -9965,7 +9965,7 @@ var Kiwi;
                 _super.prototype.render.call(this, camera);
 
                 //if it is would even be visible.
-                if (this.alpha > 0 && this.visibility) {
+                if (this.alpha > 0 && this.visible) {
                     var ctx = this.game.stage.ctx;
                     ctx.save();
 
@@ -10065,7 +10065,7 @@ var Kiwi;
                 _super.prototype.render.call(this, camera);
 
                 //if it is would even be visible.
-                if (this.alpha > 0 && this.visibility) {
+                if (this.alpha > 0 && this.visible) {
                     var ctx = this.game.stage.ctx;
                     ctx.save();
 
@@ -10309,7 +10309,7 @@ var Kiwi;
             * @public
             */
             Textfield.prototype.render = function (camera) {
-                if (this.alpha > 0 && this.visibility) {
+                if (this.alpha > 0 && this.visible) {
                     //render on stage
                     var ctx = this.game.stage.ctx;
                     ctx.save();
@@ -10432,8 +10432,6 @@ var Kiwi;
                 */
                 Tile.prototype.tileUpdate = function (tileType) {
                     this.tileType = tileType;
-                    this.physics.allowCollisions = this.tileType.allowCollisions;
-                    this.physics.immovable = this.tileType.immovable;
                 };
                 return Tile;
             })(Kiwi.Entity);
@@ -10468,33 +10466,13 @@ var Kiwi;
             *
             */
             var TileType = (function () {
-                function TileType(game, tilemap, cellIndex, index) {
-                    /**
-                    * The mass of the tile. Intended to be used in future with ArcadePhysics. Currently not used.
-                    * @property mass
-                    * @type number
-                    * @default 1.0
-                    * @public
-                    */
-                    this.mass = 1.0;
-                    this._game = game;
+                function TileType(tilemap, index, cellIndex) {
+                    if (typeof cellIndex === "undefined") { cellIndex = -1; }
+                    this.properties = {};
                     this.tilemap = tilemap;
                     this.index = index;
                     this.cellIndex = cellIndex;
-
-                    this.allowCollisions = Kiwi.Components.ArcadePhysics.NONE;
-                    this.seperate = false;
-                    this.immovable = true;
                 }
-                /**
-                * Clean up memory by destroying the references to other objects that this class maintains.
-                * @method destroy
-                * @public
-                */
-                TileType.prototype.destroy = function () {
-                    delete this.tilemap;
-                    delete this._game;
-                };
                 return TileType;
             })();
             Tilemap.TileType = TileType;
@@ -10504,7 +10482,6 @@ var Kiwi;
     var GameObjects = Kiwi.GameObjects;
 })(Kiwi || (Kiwi = {}));
 /**
-* An area of the GameObjects section which deals specifically with the use of TileMap or items related with TileMaps.
 *
 * @module GameObjects
 * @submodule Tilemap
@@ -10515,88 +10492,172 @@ var Kiwi;
     (function (GameObjects) {
         (function (Tilemap) {
             /**
-            * A GameObject that can be used when wanting to generate and use TileMaps in a game and the job of it is to handle the creation and management of TileMapLayers/Tiles on the whole map. Each TileMap (once created) will contain at least one TileMapLayer, which will hold the information about the map generated, but more TileMapLayers can be generated on a single TileMap.
             *
             * @class TileMap
             * @namespace Kiwi.GameObjects.Tilemap
-            * @extends Entity
             * @constructor
             * @param state {State} The state that this Tilemap is on.
             * @return {TileMap}
             */
-            var TileMap = (function (_super) {
-                __extends(TileMap, _super);
-                function TileMap(state) {
-                    _super.call(this, state, 0, 0);
-                    /**
-                    * Tilemap collision callback method.
-                    * @property _collisionCallback
-                    * @type Function
-                    * @default null
-                    * @private
-                    */
-                    this._collisionCallback = null;
-                }
-                /**
-                * Creates a tile map from some data you already have.
-                *
-                * @method createFromData
-                * @param tileMapData {any} The map information.
-                * @param atlas {SpriteSheet} The image that is being used.
-                * @param game {Game} The game that this tilemap belongs to.
-                * @param format {number} The format that this information was saved as.
-                * @public
-                */
-                TileMap.prototype.createFromData = function (tileMapData, atlas, format) {
-                    var data;
-
-                    this._atlas = atlas;
-                    this.tiles = [];
+            var TileMap = (function () {
+                function TileMap(state, tileMapDataKey, atlas) {
+                    this.tileWidth = 0;
+                    this.tileHeight = 0;
+                    this.width = 0;
+                    this.height = 0;
+                    this.properties = {};
+                    this.tileTypes = [];
+                    this._newTileType(-1);
                     this.layers = [];
+                    this.atlas = [];
 
-                    this.mapFormat = format;
+                    this.state = state;
+                    this.game = state.game;
 
-                    if (typeof tileMapData === "string") {
-                        data = data.trim();
-                        data = JSON.parse(tileMapData);
-                        this.parseTiledJSON(data);
-                    } else {
-                        this.parseTiledJSON(tileMapData);
+                    if (tileMapDataKey !== null && atlas !== null) {
+                        this.createFromFileStore(tileMapDataKey, atlas);
                     }
-                };
+                }
+                Object.defineProperty(TileMap.prototype, "widthInPixels", {
+                    get: function () {
+                        return this.width * this.tileWidth;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
 
-                /**
-                * Creates the tilemap from the file store. This tilemap is based on a data file and texture atlas that is in the main fileStore.
-                *
-                * @method createFromFileStore
-                * @param tileMapDataKey {string} The key of the data file.
-                * @param atlas {SpriteSheet} The texture atlas that is to be used.
-                * @param format {Number} The format that the data was saved in.
-                * @public
-                */
-                TileMap.prototype.createFromFileStore = function (tileMapDataKey, atlas, format) {
-                    //get the json
+                Object.defineProperty(TileMap.prototype, "heightInPixels", {
+                    get: function () {
+                        return this.height * this.tileHeight;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                TileMap.prototype.createFromFileStore = function (tileMapDataKey, atlas) {
+                    //Does the JSON exist?
                     if (this.game.fileStore.exists(tileMapDataKey) == false) {
+                        console.error('The Tilemap Data you passed does not exist in the FileStore.  ');
                         return;
                     }
 
-                    //save the data information
-                    this._tileMapDataKey = tileMapDataKey;
-                    this._atlas = atlas;
+                    //Parse the JSON
+                    var json = JSON.parse(this.game.fileStore.getFile(tileMapDataKey).data);
 
-                    //create the tiles
-                    this.tiles = [];
-                    this.layers = [];
+                    //Get the map information
+                    this.orientation = (json.orietation == undefined) ? "orthogonal" : json.orientation;
+                    this.tileWidth = (json.tilewidth == undefined) ? 32 : json.tilewidth;
+                    this.tileHeight = (json.tileheight == undefined) ? 32 : json.tileheight;
+                    this.width = json.width;
+                    this.height = json.height;
 
-                    //save the format
-                    this.mapFormat = format;
-
-                    switch (format) {
-                        case TileMap.FORMAT_TILED_JSON:
-                            var obj = JSON.parse(this.game.fileStore.getFile(tileMapDataKey).data);
-                            this.parseTiledJSON(obj);
-                            break;
+                    for (var prop in json.properties) {
+                        this.properties[prop] = json.properties[prop];
                     }
+
+                    //Add the atlas to the atlas of used atlases.
+                    this.atlas.push(atlas);
+
+                    //Generate the Tiles needed.
+                    if (json.tilesets !== "undefined")
+                        this._generateTypesFromTileset(json.tilesets);
+
+                    for (var i = 0; i < json.layers.length; i++) {
+                        var layerData = json.layers[i];
+
+                        switch (json.layers[i].type) {
+                            case "tilelayer":
+                                var layer = this.createNewLayer(layerData.name, layerData.data, layerData.x * this.tileWidth, layerData.y * this.tileHeight);
+
+                                //Add the extra data...
+                                layer.visible = (layerData.visible == undefined) ? true : layerData.visible;
+                                layer.alpha = (layerData.opacity == undefined) ? 1 : layerData.opacity;
+                                if (layerData.width !== undefined)
+                                    layer.width = layerData.width;
+                                if (layerData.height !== undefined)
+                                    layer.height = layerData.height;
+                                if (layerData.properties !== undefined)
+                                    layer.properties = layerData.properties;
+
+                                break;
+
+                            case "objectgroup":
+                                this.createNewObjectLayer();
+                                continue;
+                                break;
+
+                            case "imagelayer":
+                                this.createNewImageLayer();
+                                continue;
+                                break;
+                        }
+                    }
+                };
+
+                TileMap.prototype._generateTypesFromTileset = function (tilesetData) {
+                    for (var i = 0; i < tilesetData.length; i++) {
+                        var tileset = tilesetData[i];
+
+                        var m = tileset.margin;
+                        var s = tileset.spacing;
+                        var tw = tileset.tilewidth;
+                        var th = tileset.tileheight;
+                        var iw = tileset.imagewidth - m;
+                        var ih = tileset.imageheight - m;
+
+                        for (var y = m; y < ih; y += th) {
+                            for (var x = m; x < iw; x += tw) {
+                                this._newTileType();
+                            }
+                        }
+
+                        for (var tp in tileset.tileproperties) {
+                            this.tileTypes[(tp + tileset.firstgid)].properties = tileset.tileproperties[tp];
+                        }
+                    }
+                };
+
+                //Generates a new tile type and appends it to the tiletypes array
+                TileMap.prototype._newTileType = function (cell) {
+                    if (typeof cell === "undefined") { cell = -1; }
+                    var tileType = new Kiwi.GameObjects.Tilemap.TileType(this, this.tileTypes.length, cell);
+                    this.tileTypes.push(tileType);
+
+                    return tileType;
+                };
+
+                //Creates a new general tilelayer
+                TileMap.prototype.createNewLayer = function (name, data, x, y) {
+                    if (typeof name === "undefined") { name = ''; }
+                    if (typeof x === "undefined") { x = 0; }
+                    if (typeof y === "undefined") { y = 0; }
+                    //If no data has been provided then create a blank one.
+                    if (data == undefined) {
+                        var i = 0;
+                        while (i < this.width * this.height) {
+                            data.push(0);
+                        }
+                    }
+
+                    //Create the new layer
+                    var layer = new Kiwi.GameObjects.Tilemap.TileMapLayer(this, name, data, x, y);
+                    layer.width = this.width;
+                    layer.height = this.height;
+
+                    //Add the new layer to the array
+                    this.layers.push(layer);
+
+                    return layer;
+                };
+
+                //eventually will create a new object layer
+                TileMap.prototype.createNewObjectLayer = function () {
+                    console.log("OBJECT GROUP layers are currently not supported.");
+                };
+
+                //eventually will create a new image layer
+                TileMap.prototype.createNewImageLayer = function () {
+                    console.log("IMAGE layers are currently not supported.");
                 };
 
                 /**
@@ -10608,341 +10669,8 @@ var Kiwi;
                 TileMap.prototype.objType = function () {
                     return "TileMap";
                 };
-
-                /**
-                * The render loop.
-                * @method render
-                * @param camera {Camera}
-                * @public
-                */
-                TileMap.prototype.render = function (camera) {
-                    for (var i = 0; i < this.layers.length; i++) {
-                        this.layers[i].render(camera);
-                    }
-                };
-
-                /**
-                * Creates the tilemap based of some json data that gets parsed.
-                *
-                * @method parseTiledJSON
-                * @param data {any} The JSON data to create the map based off.
-                * @private
-                */
-                TileMap.prototype.parseTiledJSON = function (data) {
-                    var mapObj = data;
-                    this.generateTiles();
-
-                    for (var i = 0; i < mapObj.layers.length; i++) {
-                        //perhaps should change width/height to spritesheet width/height
-                        var layer = new Kiwi.GameObjects.Tilemap.TileMapLayer(this.state, this, this._atlas, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
-
-                        layer.transform.parent = this.transform;
-                        layer.transform.setPosition(mapObj.layers[i].x, mapObj.layers[i].y);
-                        layer.alpha = parseInt(mapObj.layers[i].opacity);
-                        layer.visibility = mapObj.layers[i].visible;
-
-                        var c = 0;
-                        var row;
-
-                        for (var t = 0; t < mapObj.layers[i].data.length; t++) {
-                            if (c == 0) {
-                                row = [];
-                            }
-
-                            row.push(this.tiles[parseInt(mapObj.layers[i].data[t])]);
-                            c++;
-
-                            if (c == mapObj.layers[i].width) {
-                                layer.addRow(row);
-                                c = 0;
-                            }
-                        }
-
-                        this.currentLayer = layer;
-
-                        this.layers.push(layer);
-                    }
-                };
-
-                /**
-                * Generates the new TileTypes and add them to the tiles array based upon the SpriteSheet that is parsed.
-                * @method generateTiles
-                * @param layer {TileMapLayer} The TileMapLayer that these TileTypes are based on.
-                * @param qty {Number} THe number of TileTypes to create.
-                * @private
-                */
-                TileMap.prototype.generateTiles = function () {
-                    if (this.tiles[-1] == undefined) {
-                        this.tiles[-1] = new Kiwi.GameObjects.Tilemap.TileType(this.game, this, -1, -1); //perhaps create a custom class.
-                        this.tiles[-1].allowCollisions = Kiwi.Components.ArcadePhysics.NONE;
-                    }
-
-                    for (var i = 0; i < this._atlas.cells.length; i++) {
-                        this.tiles.push(new Kiwi.GameObjects.Tilemap.TileType(this.game, this, this._atlas.cells[i], i));
-                    }
-                };
-
-                Object.defineProperty(TileMap.prototype, "widthInPixels", {
-                    /**
-                    * Gets the current TileMapLayer's width in pixels.
-                    * @property widthInPixels
-                    * @type number
-                    * @public
-                    */
-                    get: function () {
-                        return this.currentLayer.widthInPixels;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-
-                /**
-                * Gets the current TileMapLayers height in pixels.
-                * @property heightInPixels
-                * @type number
-                * @public
-                */
-                TileMap.prototype.heightInPixels = function () {
-                    return this.currentLayer.heightInPixels;
-                };
-
-                /**
-                * Gets a tiletype by a index provided.
-                *
-                * @method getTileTypeByIndex
-                * @param value {number} The index of the tile type you are getting
-                * @return {TileType}
-                * @public
-                */
-                TileMap.prototype.getTileTypeByIndex = function (value) {
-                    if (this.tiles[value]) {
-                        return this.tiles[value];
-                    }
-
-                    return null;
-                };
-
-                /**
-                * Gets a single tile either off the tile layer passed otherwise off the currentLayer if no layer is specified.
-                *
-                * @method getTile
-                * @param x {number} The x coordinate of the tile you would like to get.
-                * @param y {number} The y cooridnate of the tile you would like to get.
-                * @param [layer] {number} The layer that you want to get the tile on. If not passed then it uses the current layer.
-                * @return {Tile}
-                * @public
-                */
-                TileMap.prototype.getTile = function (x, y, layer) {
-                    if (layer === undefined) {
-                        return this.currentLayer.getTile(x, y);
-                        ;
-                    } else {
-                        return this.layers[layer].getTile(x, y);
-                        ;
-                    }
-                };
-
-                /**
-                * Gets an array of tiles based on a TileType index.
-                *
-                * @method getTilesByType
-                * @param index {number} The index of the TileType you would like to get.
-                * @param layer {number} The layer that you would like to get them on. If not passed then this is based on the current layer.
-                * @return {Tile }
-                * @public
-                */
-                TileMap.prototype.getTilesByType = function (index, layer) {
-                    if (layer === undefined) {
-                        return this.currentLayer.getTilesByIndex(index);
-                    } else {
-                        return this.layers[layer].getTilesByIndex(index);
-                    }
-                };
-
-                /**
-                * Gets a tile based on the passed X and Y.
-                * Caution! If the tilemap has moved make sure you put that into account.
-                *
-                * @method getTileFromWorldXY
-                * @param {number} x
-                * @param {number} y
-                * @param {number} layer
-                * @return {Tile}
-                * @public
-                */
-                TileMap.prototype.getTileFromXY = function (x, y, layer) {
-                    if (layer === undefined) {
-                        return this.currentLayer.getTileFromXY(x, y);
-                    } else {
-                        return this.layers[layer].getTileFromXY(x, y);
-                    }
-                };
-
-                /**
-                * Checks to see if an entity overlaps with any colliable tiles on the current layer. Returns the tiles that it overlaps with.
-                *
-                * @method getTileOverlaps
-                * @param object {Entity}
-                * @returns {Array}
-                * @public
-                */
-                TileMap.prototype.getTileOverlaps = function (object) {
-                    return this.currentLayer.getTileOverlaps(object);
-                };
-
-                /**
-                * Adds/Reassign's a tile on the point in the map you specify.
-                *
-                * @method putTile
-                * @param {number} x
-                * @param {number} y
-                * @param {number} index
-                * @param {number} layer
-                * @public
-                */
-                TileMap.prototype.putTile = function (x, y, index, layer) {
-                    if (layer === undefined) {
-                        var usedLayer = this.currentLayer;
-                    } else {
-                        var usedLayer = this.layers[layer];
-                    }
-
-                    usedLayer.putTile(x, y, this.tiles[index]);
-                };
-
-                //collision stuff
-                /**
-                * Set the callback to be called when the tilemap collides.
-                *
-                * @method setCollisionCallback
-                * @param {function} Callback function
-                * @param {any} Callback will be called with this context
-                * @public
-                */
-                TileMap.prototype.setCollisionCallback = function (callback, context) {
-                    this._collisionCallback = callback;
-                    this._collisionCallbackContext = context;
-                };
-
-                /**
-                * Sets the collision of a range of tiletypes.
-                *
-                * @method setCollisionRange
-                * @param {number} start
-                * @param {number} end
-                * @param {number} [collision=ArcadePhysics.ANY]
-                * @param {boolean} [seperate=true]
-                * @public
-                */
-                TileMap.prototype.setCollisionRange = function (start, end, collision, seperate) {
-                    if (typeof collision === "undefined") { collision = Kiwi.Components.ArcadePhysics.ANY; }
-                    if (typeof seperate === "undefined") { seperate = true; }
-                    for (var i = start; i <= end; i++) {
-                        this.setCollisionByIndex(i, collision, seperate);
-                    }
-                };
-
-                /**
-                * Sets the collision of a single tiletype by the index.
-                *
-                * @method setCollisionIndex
-                * @param {number} index
-                * @param {number} [collision=ArcadePhysics.ANY]
-                * @param {boolean} [seperate=true]
-                * @public
-                */
-                TileMap.prototype.setCollisionByIndex = function (index, collision, seperate) {
-                    if (typeof collision === "undefined") { collision = Kiwi.Components.ArcadePhysics.ANY; }
-                    if (typeof seperate === "undefined") { seperate = true; }
-                    this.tiles[index].seperate = seperate;
-                    this.tiles[index].allowCollisions = collision;
-
-                    var tiles = this.currentLayer.getTilesByIndex(index);
-
-                    for (var t = 0; t < tiles.length; t++) {
-                        tiles[t].physics.seperate = seperate;
-                        tiles[t].physics.allowCollisions = collision;
-                    }
-                };
-
-                /**
-                * Checks to see if a single object is colliding with any colliable tiles.
-                *
-                * @method collideSingle
-                * @param {Entity} object
-                * @return {boolean}
-                * @public
-                */
-                TileMap.prototype.collideSingle = function (object) {
-                    if (object.exists === false || !object.components.hasComponent('ArcadePhysics'))
-                        return false;
-
-                    var tiles = this.currentLayer.getTileOverlaps(object);
-
-                    if (tiles !== undefined) {
-                        var col = false;
-                        for (var i = 0; i < tiles.length; i++) {
-                            if (object.components.getComponent('ArcadePhysics').overlaps(tiles[i], tiles[i].tileType.seperate)) {
-                                col = true;
-
-                                if (this._collisionCallback !== null) {
-                                    this._collisionCallback.call(this._collisionCallbackContext, object, tiles[i]);
-                                }
-                            }
-                        }
-                        return col;
-                    }
-                    return false;
-                };
-
-                /**
-                * Tests to see if a group of entities are colliding with any tiles.
-                *
-                * @method collideGroup
-                * @param group {Group}
-                * @public
-                */
-                TileMap.prototype.collideGroup = function (group) {
-                    for (var i = 0; i < group.members.length; i++) {
-                        //this.collideSingle(group.members[i]);
-                    }
-                };
-
-                /**
-                * Destroys everything.
-                * @method destroy
-                * @param [immediate=false] {Boolean} If the tilemap should be removed right away or if it should be removed next time the update loop executes?
-                * @public
-                */
-                TileMap.prototype.destroy = function (immediate) {
-                    if (typeof immediate === "undefined") { immediate = false; }
-                    _super.prototype.destroy.call(this, immediate);
-
-                    if (immediate === true) {
-                        delete this.tiles;
-                        if (this.layers) {
-                            for (var i = 0; i < this.layers.length; i++) {
-                                this.layers[i].destroy();
-                                delete this.layers[i];
-                            }
-                        }
-                        if (this.tiles) {
-                            for (var i = 0; i < this.tiles.length; i++) {
-                                this.tiles[i].destroy();
-                                delete this.tiles[i];
-                            }
-                        }
-                        delete this.tiles;
-                        delete this.layers;
-                        delete this._tileMapDataKey;
-                        delete this._atlas;
-                    }
-                };
-                TileMap.FORMAT_CSV = 0;
-
-                TileMap.FORMAT_TILED_JSON = 1;
                 return TileMap;
-            })(Kiwi.Entity);
+            })();
             Tilemap.TileMap = TileMap;
         })(GameObjects.Tilemap || (GameObjects.Tilemap = {}));
         var Tilemap = GameObjects.Tilemap;
@@ -10959,456 +10687,18 @@ var Kiwi;
 (function (Kiwi) {
     (function (GameObjects) {
         (function (Tilemap) {
-            /**
-            * Maintains information about a single two dimensional TileMap (saved in the property mapData) and is created on TileMap. This class should generally never be directly instantiated as the creation of TileMapLayers are handled through a TileMap.
-            *
-            * @class TileMapLayer
-            * @namespace Kiwi.GameObjects.Tilemap
-            * @extends Entity
-            * @constructor
-            * @param state {State} The state that this tilemap belongs to.
-            * @param parent {TileMap} The TileMap on which this TileMapLayer is a part of.
-            * @param atlas {SpriteSheet} The spritesheet that is being used to render the tiles.
-            * @param name {string} The name of this tilemap.
-            * @param tileWidth {number} The width of a single tile.
-            * @param tileHeight {number} The height of a single tile
-            * @return {TileMapLayer}
-            *
-            */
             var TileMapLayer = (function (_super) {
                 __extends(TileMapLayer, _super);
-                function TileMapLayer(state, parent, atlas, name, tileWidth, tileHeight) {
-                    _super.call(this, state, 0, 0);
-                    /**
-                    * The starting tile on the x axis (the row) that needs to rendered.
-                    * This is calculated based upon where the tiles are in relation to the camera.
-                    * This is updated each frame.
-                    * @property _startX
-                    * @type number
-                    * @private
-                    */
-                    this._startX = 0;
-                    /**
-                    * The starting tile on the y axis (the column) that needs to rendered.
-                    * This is calculated based upon where the tiles are in relation to the camera.
-                    * This is updated each frame.
-                    * @property _startY
-                    * @type number
-                    * @private
-                    */
-                    this._startY = 0;
-                    /**
-                    * The maximum number of tiles that can fit on the camera. On the x axis. From this we can calculate the last tile we need to render.
-                    * @property _maxX
-                    * @type number
-                    * @private
-                    */
-                    this._maxX = 0;
-                    /**
-                    * The maximum number of tiles that can fit on the camera. On the y axis. From this we can calculate the last tile we need to render.
-                    * @property _maxY
-                    * @type number
-                    * @private
-                    */
-                    this._maxY = 0;
-                    /**
-                    * The number of tiles on the x-axis for this TileMapLayer.
-                    * @property widthInTiles
-                    * @type number
-                    * @public
-                    */
-                    this.widthInTiles = 0;
-                    /**
-                    * The number of tile on the y-axis for the TileMapLayer.
-                    * @property heightInTiles
-                    * @type number
-                    * @public
-                    */
-                    this.heightInTiles = 0;
-                    /**
-                    * The width of the whole TileMapLayer in pixels.
-                    * @property widthInPixels
-                    * @type number
-                    * @public
-                    */
-                    this.widthInPixels = 0;
-                    /**
-                    * The height of the while TileMapLayer in pixels.
-                    * @property heightInPixels
-                    * @type number
-                    * @public
-                    */
-                    this.heightInPixels = 0;
-
-                    this.tileParent = parent;
+                function TileMapLayer(tilemap, name, data, x, y) {
+                    if (typeof x === "undefined") { x = 0; }
+                    if (typeof y === "undefined") { y = 0; }
+                    _super.call(this, tilemap.state, x, y);
+                    this.properties = {};
 
                     this.name = name;
-                    this.tileWidth = tileWidth;
-                    this.tileHeight = tileHeight;
-
-                    this.mapData = [];
-                    this._tempTileBlock = [];
-                    this._atlas = atlas;
+                    this.tilemap = tilemap;
+                    this._data = data;
                 }
-                /**
-                * Adds a single tile to the map at the given boundaries. This could be used to override a currently existing map tile.
-                *
-                * @method putTile
-                * @param x {number} The x coordinate of the tile.
-                * @param y {number} The y coordinate of the tile.
-                * @param tileType {TileType} The type of tile that you are adding.
-                * @public
-                */
-                TileMapLayer.prototype.putTile = function (x, y, tileType) {
-                    x = Kiwi.Utils.GameMath.snapToFloor(x, this.tileWidth) / this.tileWidth;
-                    y = Kiwi.Utils.GameMath.snapToFloor(y, this.tileHeight) / this.tileHeight;
-
-                    if (y >= 0 && y < this.mapData.length) {
-                        if (x >= 0 && x < this.mapData[y].length) {
-                            this.mapData[y][x].tileUpdate(tileType);
-                        }
-                    }
-                };
-
-                /**
-                * Replaces a section of tiles on the map with a particular tile. [NEEDS UPDATING]
-                *
-                * @method fillTile
-                * @param index {number} The type of tile that you are using.
-                * @param [x=0] {number} The starting coordinate of the tile on the x-axis.
-                * @param [y=0] {number} The starting coordinate of the tile on the y-axis.
-                * @param [width] {number} The width of the area you want to replace. Defaults to the whole maps width.
-                * @param [height] {number} The height of the area you want to replace. Defaults to the whole maps height.
-                * @public
-                */
-                TileMapLayer.prototype.fillTiles = function (index, x, y, width, height) {
-                    if (typeof x === "undefined") { x = 0; }
-                    if (typeof y === "undefined") { y = 0; }
-                    if (typeof width === "undefined") { width = this.widthInTiles; }
-                    if (typeof height === "undefined") { height = this.heightInTiles; }
-                    this.getTempBlock(x, y, width, height);
-
-                    for (var r = 0; r < this._tempTileBlock.length; r++) {
-                        this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this.tileParent.tiles[index]);
-                    }
-                };
-
-                /**
-                * Randomises a section of tiles on the map based on the tiles you want there.
-                *
-                * @method randomiseTiles
-                * @param tiles {number[]} An array consisting of the TileTypes that you want.
-                * @param [x=0] {number} The starting coordinate of the tile on the x-axis.
-                * @param [y=0] {number} The starting coordinate of the tile on the y-axis.
-                * @param [width] {number} The width of the area you want to replace. Defaults to the whole maps width.
-                * @param [height] {number} The height of the area you want to replace. Defaults to the whole maps height.
-                * @public
-                */
-                TileMapLayer.prototype.randomiseTiles = function (tiles, x, y, width, height) {
-                    if (typeof x === "undefined") { x = 0; }
-                    if (typeof y === "undefined") { y = 0; }
-                    if (typeof width === "undefined") { width = this.widthInTiles; }
-                    if (typeof height === "undefined") { height = this.heightInTiles; }
-                    this.getTempBlock(x, y, width, height);
-
-                    for (var r = 0; r < this._tempTileBlock.length; r++) {
-                        this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this.tileParent.tiles[this.game.rnd.pick(tiles)]);
-                    }
-                };
-
-                /**
-                * Swaps all of the tiles of indexA with tiles of indexB and the same alternatively.
-                *
-                * @method swapTiles
-                * @param indexA {number} The first type of tile you want to swapped with indexB.
-                * @param indexB {number} The second type of tile that is to be swapped with indexA.
-                * @param [x=0] {number} The starting coordinate of the tile on the x-axis.
-                * @param [y=0] {number} The starting coordinate of the tile on the y-axis.
-                * @param [width] {number} The width of the area you want to replace. Defaults to the whole maps width.
-                * @param [height] {number} The height of the area you want to replace. Defaults to the whole maps height.
-                * @public
-                */
-                TileMapLayer.prototype.swapTiles = function (indexA, indexB, x, y, width, height) {
-                    if (typeof x === "undefined") { x = 0; }
-                    if (typeof y === "undefined") { y = 0; }
-                    if (typeof width === "undefined") { width = this.widthInTiles; }
-                    if (typeof height === "undefined") { height = this.heightInTiles; }
-                    this.getTempBlock(x, y, width, height);
-
-                    for (var r = 0; r < this._tempTileBlock.length; r++) {
-                        if (this._tempTileBlock[r].tileType.index === indexA) {
-                            this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this.tileParent.tiles[indexB]);
-                        } else if (this._tempTileBlock[r].tileType.index === indexB) {
-                            this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this.tileParent.tiles[indexA]);
-                        }
-                    }
-                };
-
-                /**
-                * Replaces all of the tiles of indexA with the tiles of indexB. This only happen's one way.
-                *
-                * @method replaceTiles
-                * @param indexA {number} The tile type that you want to be replaced.
-                * @param indexB {number} The tile type that you want to replace it with.
-                * @param [x=0] {number} The starting coordinate of the tile on the x-axis.
-                * @param [y=0] {number} The starting coordinate of the tile on the y-axis.
-                * @param [width] {number} The width of the area you want to replace. Defaults to the whole maps width.
-                * @param [height] {number} The height of the area you want to replace. Defaults to the whole maps height.
-                * @public
-                */
-                TileMapLayer.prototype.replaceTiles = function (indexA, indexB, x, y, width, height) {
-                    if (typeof x === "undefined") { x = 0; }
-                    if (typeof y === "undefined") { y = 0; }
-                    if (typeof width === "undefined") { width = this.widthInTiles; }
-                    if (typeof height === "undefined") { height = this.heightInTiles; }
-                    this.getTempBlock(x, y, width, height);
-
-                    for (var r = 0; r < this._tempTileBlock.length; r++) {
-                        if (this._tempTileBlock[r].tileType.index === indexA) {
-                            this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this.tileParent.tiles[indexB]);
-                        }
-                    }
-                };
-
-                /**
-                * Gets a single tile from the x and y provided.
-                *
-                * @method getTileFromWorldXY
-                * @param x {number} The coordinate of the tile on the x axis.
-                * @param y {number} The coordinate of the tile on the y axis.
-                * @return {Tile} The tile that is at the coordinates if there was one.
-                * @public
-                */
-                TileMapLayer.prototype.getTileFromXY = function (x, y) {
-                    x = Kiwi.Utils.GameMath.snapToFloor(((x - this.transform.worldX)), this.tileWidth) / this.tileWidth;
-                    y = Kiwi.Utils.GameMath.snapToFloor(((y - this.transform.worldY)), this.tileHeight) / this.tileHeight;
-
-                    return this.getTile(x, y);
-                };
-
-                /**
-                * Gets all of the tiles by the index number you pass.
-                *
-                * @method getTilesByIndex
-                * @param {number} The index of the types of tiles you want to retrieve.
-                * @return {Tile[]}
-                * @public
-                */
-                TileMapLayer.prototype.getTilesByIndex = function (index) {
-                    var tiles = [];
-                    for (var ty = 0; ty < this.mapData.length; ty++) {
-                        for (var tx = 0; tx < this.mapData[ty].length; tx++) {
-                            if (this.mapData[ty][tx].tileType.index === index) {
-                                tiles.push(this.mapData[ty][tx]);
-                            }
-                        }
-                    }
-                    return tiles;
-                };
-
-                /**
-                * Creates a set of temporary tile blocks based on the current map data.
-                * Perhaps add another param which is by a certain tile index?
-                *
-                * @method getTempBlock
-                * @param x {number} The x first tile in the row you want to use. (In tiles).
-                * @param y {number} The y first tile in the column you want to use. (In tiles).
-                * @param width {number} The number of tiles wide.
-                * @param height {number} The number of tiles high.
-                * @param [collisionOnly=false] {boolean} Get only the tiles that can have collisions.
-                * @private
-                */
-                TileMapLayer.prototype.getTempBlock = function (x, y, width, height, collisionOnly) {
-                    if (typeof collisionOnly === "undefined") { collisionOnly = false; }
-                    if (x < 0)
-                        x = 0;
-                    if (y < 0)
-                        y = 0;
-
-                    if (x + width > this.widthInTiles)
-                        width = this.widthInTiles - x + 1;
-                    if (y + height > this.heightInTiles)
-                        height = this.heightInTiles - y + 1;
-
-                    this._tempTileBlock = [];
-
-                    for (var ty = y; ty < y + height; ty++) {
-                        for (var tx = x; tx < x + width; tx++) {
-                            if (this.mapData[ty] && this.mapData[ty][tx] && this.mapData[ty][tx].cellIndex !== -1) {
-                                if (collisionOnly) {
-                                    //  We only want to consider the tile for checking if you can actually collide with it
-                                    if (this.mapData[ty][tx].tileType.allowCollisions != Kiwi.Components.ArcadePhysics.NONE) {
-                                        this._tempTileBlock.push(this.mapData[ty][tx]);
-                                    }
-                                } else {
-                                    this._tempTileBlock.push(this.mapData[ty][tx]);
-                                }
-                            }
-                        }
-                    }
-                };
-
-                /**
-                * Returns all of the tiles that overlap a given entity.
-                * Returns an array with each index containing the tiles
-                *
-                * @method getTileOverlaps
-                * @param object {Entity} The entity that you are checking.
-                * @return {Array}
-                * @public
-                */
-                TileMapLayer.prototype.getTileOverlaps = function (object) {
-                    //if the object is within the bounds at all.?
-                    var objPos = object.transform;
-
-                    if (objPos.worldX > this.transform.worldX + this.widthInPixels || objPos.worldX + object.width < this.transform.worldX || objPos.worldY > this.transform.worldY + this.heightInPixels || objPos.worldY + object.height < this.transform.worldY) {
-                        return;
-                    }
-
-                    this._tempTileX = Kiwi.Utils.GameMath.snapToFloor(objPos.worldX - this.transform.worldX, this.tileWidth) / this.tileWidth;
-                    this._tempTileY = Kiwi.Utils.GameMath.snapToFloor(objPos.worldY - this.transform.worldY, this.tileHeight) / this.tileHeight;
-
-                    this._tempTileW = Kiwi.Utils.GameMath.snapToCeil(object.width, this.tileWidth) / this.tileWidth;
-                    this._tempTileH = Kiwi.Utils.GameMath.snapToCeil(object.height, this.tileHeight) / this.tileHeight;
-
-                    this.getTempBlock(this._tempTileX, this._tempTileY, this._tempTileW + 1, this._tempTileH + 1, true);
-
-                    return this._tempTileBlock;
-                };
-
-                /**
-                * Gets a tile's index based on the indexs provided.
-                *
-                * @method getTileIndex
-                * @param x {number}
-                * @param y {number}
-                * @return {number}
-                * @public
-                */
-                TileMapLayer.prototype.getTileIndex = function (x, y) {
-                    if (y >= 0 && y < this.mapData.length) {
-                        if (x >= 0 && x < this.mapData[y].length) {
-                            return this.mapData[y][x].tileType.index;
-                        }
-                    }
-
-                    return null;
-                };
-
-                /**
-                * Gets a tile based on the given position it would be in the tile map.
-                *
-                * @method getTileIndex
-                * @param x {number}
-                * @param y {number}
-                * @return {Tile}
-                * @public
-                */
-                TileMapLayer.prototype.getTile = function (x, y) {
-                    if (y >= 0 && y < this.mapData.length) {
-                        if (x >= 0 && x < this.mapData[y].length) {
-                            return this.mapData[y][x];
-                        }
-                    }
-
-                    return null;
-                };
-
-                /**
-                * Adds a row of tiles to the tilemap.
-                *
-                * @method addRow
-                * @param row {Array}
-                * @public
-                */
-                TileMapLayer.prototype.addRow = function (row) {
-                    var data = [];
-
-                    for (var c = 0; c < row.length; c++) {
-                        data[c] = new Kiwi.GameObjects.Tilemap.Tile(this.state, this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth, this.heightInPixels);
-                        data[c].transform.parent = this.transform;
-                        data[c].ty = this.heightInTiles;
-                        data[c].tx = c;
-                    }
-
-                    if (this.widthInTiles == 0) {
-                        this.widthInTiles = data.length;
-                        this.widthInPixels = this.widthInTiles * this.tileWidth;
-                    }
-
-                    this.mapData.push(data);
-
-                    this.heightInTiles++;
-                    this.heightInPixels += this.tileHeight;
-                };
-
-                /**
-                * Renders the tileMap to the stage. It also updates the position component of all of the tiles that appear. [NEED TO UPDATE]
-                *
-                * @method render
-                * @param camera {Camera}
-                * @public
-                */
-                TileMapLayer.prototype.render = function (camera) {
-                    if (this.visibility === false || this.alpha < 0.1 || this.exists === false) {
-                        return;
-                    }
-
-                    var ctx = this.game.stage.ctx;
-                    ctx.save();
-
-                    if (this.alpha > 0 && this.alpha <= 1) {
-                        ctx.globalAlpha = this.alpha;
-                    }
-
-                    var t = this.transform;
-                    var m = t.getConcatenatedMatrix();
-
-                    ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - camera.transform.rotPointX, m.ty + t.rotPointY - camera.transform.rotPointY);
-
-                    //  Work out how many tiles we can fit into our camera and round it up for the edges
-                    this._maxX = Math.min(Math.ceil(camera.width / this.tileWidth) + 1, this.widthInTiles);
-                    this._maxY = Math.min(Math.ceil(camera.height / this.tileHeight) + 1, this.heightInTiles);
-
-                    //  And now work out where in the tilemap the camera actually is
-                    this._startX = Math.floor((-camera.transform.x - t.x) / this.tileWidth);
-                    this._startY = Math.floor((-camera.transform.y - t.y) / this.tileHeight);
-
-                    //boundaries check
-                    if (this._startX < 0) {
-                        this._startX = 0;
-                    }
-                    if (this._startY < 0) {
-                        this._startY = 0;
-                    }
-
-                    if (this._maxX > this.widthInTiles)
-                        this._maxX = this.widthInTiles;
-                    if (this._maxY > this.heightInTiles)
-                        this._maxY = this.heightInTiles;
-
-                    if (this._startX + this._maxX > this.widthInTiles) {
-                        this._maxX = this.widthInTiles - this._startX;
-                    }
-                    if (this._startY + this._maxY > this.heightInTiles) {
-                        this._maxY = this.heightInTiles - this._startY;
-                    }
-
-                    for (var column = this._startY; column < this._startY + this._maxY; column++) {
-                        this._columnData = this.mapData[column]; //get the column data
-
-                        for (var tile = this._startX; tile < this._startX + this._maxX; tile++) {
-                            if (this._columnData[tile].tileType.cellIndex !== -1) {
-                                ctx.drawImage(this._atlas.image, this._columnData[tile].tileType.cellIndex.x, this._columnData[tile].tileType.cellIndex.y, this._columnData[tile].tileType.cellIndex.w, this._columnData[tile].tileType.cellIndex.h, this._columnData[tile].x - t.rotPointX, this._columnData[tile].y - t.rotPointY, this.tileWidth, this.tileHeight);
-
-                                this._columnData[tile].physics.update();
-                            }
-                        }
-                    }
-
-                    ctx.restore();
-                    return true;
-                };
                 return TileMapLayer;
             })(Kiwi.Entity);
             Tilemap.TileMapLayer = TileMapLayer;

@@ -220,10 +220,10 @@ module Kiwi {
         * @default true
         * @public
         */
-        public set visibility(value: boolean) {
+        public set visible(value: boolean) {
             this._visible = value;
         }
-        public get visibility(): boolean {
+        public get visible(): boolean {
             return this._visible;
         }
         

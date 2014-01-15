@@ -58,8 +58,6 @@ module Kiwi.GameObjects.Tilemap {
         */
         public tileUpdate(tileType: Kiwi.GameObjects.Tilemap.TileType) {
             this.tileType = tileType;
-            this.physics.allowCollisions = this.tileType.allowCollisions;
-            this.physics.immovable = this.tileType.immovable;
                 
         }
 
