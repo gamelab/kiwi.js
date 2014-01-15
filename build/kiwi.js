@@ -1,4 +1,46 @@
-﻿/**
+﻿var Kiwi;
+(function (Kiwi) {
+    // Module
+    (function (Geom) {
+        // Class
+        var Random = (function () {
+            function Random() {
+            }
+            Random.randomPointCirclePerimeter = function () {
+                var t = Math.random() * Math.PI * 2;
+                return new Kiwi.Geom.Point(Math.cos(t), Math.sin(t));
+            };
+
+            Random.randomPointCircle = function () {
+                var t = Math.random() * Math.PI * 2;
+                var u = Math.random() + Math.random();
+                var r = (u > 1) ? 2 - u : u;
+                return new Kiwi.Geom.Point(r * Math.cos(t), r * Math.sin(t));
+            };
+
+            Random.randomPointSquare = function () {
+                return new Kiwi.Geom.Point(Math.random() - 0.5, Math.random() - 0.5);
+            };
+
+            Random.randomPointSquarePerimeter = function () {
+                var t = Math.random() * 4;
+
+                if (t < 1)
+                    return new Kiwi.Geom.Point(t - 0.5, -0.5);
+                if (t < 2)
+                    return new Kiwi.Geom.Point(0.5, t - 1.5);
+                if (t < 3)
+                    return new Kiwi.Geom.Point(t - 2.5, 0.5);
+
+                return new Kiwi.Geom.Point(-0.5, t - 3.5);
+            };
+            return Random;
+        })();
+        Geom.Random = Random;
+    })(Kiwi.Geom || (Kiwi.Geom = {}));
+    var Geom = Kiwi.Geom;
+})(Kiwi || (Kiwi = {}));
+/**
 * Contains various methods that can be used when you are wanting to ease a Tween.
 *
 * @module Tweens
@@ -11597,8 +11639,6 @@ var Kiwi;
                     return;
                 }
 
-                this.config = config;
-
                 //Set coordinates and texture
                 this.atlas = atlas;
                 this.cellIndex = this.atlas.cellIndex;
@@ -11608,7 +11648,10 @@ var Kiwi;
                 this.transform.rotPointY = this.height / 2;
 
                 this.box = this.components.add(new Kiwi.Components.Box(this, x, y, this.width, this.height));
-                this.init();
+
+                this.config = config;
+                this._generateParticles();
+                //this.init();
             }
             /**
             * Returns the type of object that this is.
@@ -11620,15 +11663,74 @@ var Kiwi;
                 return "StatelessParticles";
             };
 
-            StatelessParticles.prototype.init = function () {
-                console.log("init parts");
-                this._posVel = new Array();
-                this._startTimeLifeSpan = new Array();
-                for (var i = 0; i < this.numParticles; i++) {
-                    this._posVel.push(0, 0, Math.random() * 100 - 50, Math.random() * 200 - 100);
-                    this._startTimeLifeSpan.push(Math.random() * 5, Math.random() * 8);
+            StatelessParticles.prototype._generateParticles = function () {
+                var cfg = this.config;
+                cfg["numParts"] = 100;
+                var posVelItems = new Array();
+                var ageItems = new Array();
+
+                var velShapeGenFunc = null;
+                var posShapeGenFunc = null;
+
+                switch (cfg.velGenShape) {
+                    case "Radial":
+                        velShapeGenFunc = (cfg.velConstrain) ? Kiwi.Geom.Random.randomPointCirclePerimeter : Kiwi.Geom.Random.randomPointCircle;
+                        break;
+                    case "Rect":
+                        velShapeGenFunc = (cfg.velConstrain) ? Kiwi.Geom.Random.randomPointSquarePerimeter : Kiwi.Geom.Random.randomPointSquare;
+                        break;
                 }
-                this.glRenderer.initBatch(this._posVel, this._startTimeLifeSpan);
+
+                switch (cfg.posGenShape) {
+                    case "Radial":
+                        posShapeGenFunc = (cfg.posConstrain) ? Kiwi.Geom.Random.randomPointCirclePerimeter : Kiwi.Geom.Random.randomPointCircle;
+                        break;
+                    case "Rect":
+                        posShapeGenFunc = (cfg.posConstrain) ? Kiwi.Geom.Random.randomPointSquarePerimeter : Kiwi.Geom.Random.randomPointSquare;
+                        break;
+                }
+
+                for (var i = 0; i < cfg.numParts; i++) {
+                    //calculate pos
+                    var pos = { x: 0, y: 0 };
+                    var posSeed = { x: 0, y: 0 };
+                    if (posShapeGenFunc != null) {
+                        posSeed = posShapeGenFunc();
+                        if (cfg.posGenShape === "Radial") {
+                            pos.x = posSeed.x * cfg.posRadius;
+                            pos.y = posSeed.y * cfg.posRadius;
+                        } else if (cfg.posGenShape === "Rect") {
+                            pos.x = posSeed.x * cfg.posWidth / 2;
+                            pos.y = posSeed.y * cfg.posHeight / 2;
+                        }
+                    }
+
+                    var vel = { x: 0, y: 0 };
+
+                    if (cfg.inherit) {
+                        console.log("inheriting");
+                        vel.x = cfg.minVelX + posSeed.x * cfg.maxVelX - cfg.minVelX;
+                        vel.y = cfg.minVelY + posSeed.y * cfg.maxVelY - cfg.minVelY;
+                    } else {
+                        if (velShapeGenFunc === null) {
+                            vel.x = cfg.maxVelX;
+                            vel.y = cfg.maxVelY;
+                        } else {
+                            vel = velShapeGenFunc();
+                            vel.x = cfg.minVelX + vel.x * cfg.maxVelX - cfg.minVelX;
+                            vel.y = cfg.minVelY + vel.y * cfg.maxVelY - cfg.minVelY;
+                        }
+                    }
+
+                    posVelItems.push(pos.x + cfg.offsetX, pos.y + cfg.offsetY, vel.x, vel.y);
+
+                    var startTime = cfg.minStartTime + Math.random() * (cfg.maxStartTime - cfg.minStartTime);
+                    var lifespan = cfg.minLifespan + Math.random() * (cfg.maxLifespan - cfg.minLifespan);
+
+                    ageItems.push(startTime, lifespan);
+                }
+
+                this.glRenderer.initBatch(posVelItems, ageItems);
             };
 
             StatelessParticles.prototype.start = function () {
@@ -23145,7 +23247,7 @@ var Kiwi;
                 this.aBirthLifespanBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, 2);
 
                 //6 verts per quad **************************fix
-                this.indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
+                this.indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(500));
 
                 //use shaders
                 this.shaderPair = this.shaderManager.requestShader(gl, "StatelessParticlesShader");
@@ -23184,7 +23286,7 @@ var Kiwi;
                 gl.uniform4fv(this.shaderPair.uniforms.uDecayColor, new Float32Array(cfg.decayCol));
                 gl.uniform4fv(this.shaderPair.uniforms.uSustainColor, new Float32Array(cfg.sustainCol));
                 gl.uniform4fv(this.shaderPair.uniforms.uReleaseColor, new Float32Array(cfg.releaseCol));
-                gl.uniform3fv(this.shaderPair.uniforms.uADSR, new Float32Array(cfg.DSR));
+                gl.uniform3fv(this.shaderPair.uniforms.uADSRKeyframes, new Float32Array(cfg.DSR));
                 gl.uniform1f(this.shaderPair.uniforms.uAlpha, cfg.alpha);
                 gl.uniform1f(this.shaderPair.uniforms.uLoop, (cfg.loop) ? 1 : 0);
             };
@@ -23716,7 +23818,7 @@ var Kiwi;
                 this.uniforms.uT = gl.getUniformLocation(this.shaderProgram, "uT");
                 this.uniforms.uGravity = gl.getUniformLocation(this.shaderProgram, "uGravity");
                 this.uniforms.uPointSizeRange = gl.getUniformLocation(this.shaderProgram, "uPointSizeRange");
-                this.uniforms.uAttackColor = gl.getUniformLocation(this.shaderProgram, "uAttackColorT");
+                this.uniforms.uAttackColor = gl.getUniformLocation(this.shaderProgram, "uAttackColor");
                 this.uniforms.uDecayColor = gl.getUniformLocation(this.shaderProgram, "uDecayColor");
                 this.uniforms.uSustainColor = gl.getUniformLocation(this.shaderProgram, "uSustainColor");
                 this.uniforms.uReleaseColor = gl.getUniformLocation(this.shaderProgram, "uReleaseColor");
@@ -28427,6 +28529,7 @@ var Kiwi;
 /// <reference path="geom/Rectangle.ts" />
 /// <reference path="geom/Transform.ts" />
 /// <reference path="geom/Vector2.ts" />
+/// <reference path="geom/Random.ts" />
 /// <reference path="hud/HUDDisplay.ts" />
 /// <reference path="hud/HUDManager.ts" />
 /// <reference path="hud/HUDWidget.ts" />

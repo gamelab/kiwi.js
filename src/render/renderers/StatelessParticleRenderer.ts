@@ -27,8 +27,10 @@ module Kiwi.Renderers {
             this.aXYVxVyBuffer = new GLArrayBuffer(gl, 4);
             this.aBirthLifespanBuffer = new GLArrayBuffer(gl, 2);
 
+          
+
             //6 verts per quad **************************fix
-            this.indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
+            this.indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(500));
 
             //use shaders
             this.shaderPair = <Kiwi.Shaders.TextureAtlasShader>this.shaderManager.requestShader(gl, "StatelessParticlesShader");
@@ -79,7 +81,7 @@ module Kiwi.Renderers {
             gl.uniform4fv(this.shaderPair.uniforms.uDecayColor, new Float32Array(cfg.decayCol));
             gl.uniform4fv(this.shaderPair.uniforms.uSustainColor, new Float32Array(cfg.sustainCol));
             gl.uniform4fv(this.shaderPair.uniforms.uReleaseColor, new Float32Array(cfg.releaseCol));
-            gl.uniform3fv(this.shaderPair.uniforms.uADSR, new Float32Array(cfg.DSR));
+            gl.uniform3fv(this.shaderPair.uniforms.uADSRKeyframes, new Float32Array(cfg.DSR));
             gl.uniform1f(this.shaderPair.uniforms.uAlpha, cfg.alpha);
             gl.uniform1f(this.shaderPair.uniforms.uLoop, (cfg.loop) ? 1:0);
            
@@ -122,6 +124,9 @@ module Kiwi.Renderers {
             //4 components per attributes, 6 verts per quad - used to work out how many elements to draw
             gl.drawElements(gl.POINTS,100, gl.UNSIGNED_SHORT, 0);
         }
+
+
+        
 
         /**
        * Maximum allowable sprites to render per frame

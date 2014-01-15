@@ -31,6 +31,10 @@
     <Content Include="file\Loader.ts" />
     <None Include="gameobjects\StatelessParticles.ts" />
     <Content Include="gameobjects\TestObject.ts" />
+    <TypeScriptCompile Include="geom\Random.ts" />
+    <Content Include="geom\Random.js">
+      <DependentUpon>Random.ts</DependentUpon>
+    </Content>
     <Content Include="gl-matrix-min.js" />
     <Content Include="hud\components\Time.ts" />
     <Content Include="input\MouseCursor.ts" />

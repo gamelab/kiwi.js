@@ -33,7 +33,7 @@ module Kiwi.Shaders {
             this.uniforms.uT = gl.getUniformLocation(this.shaderProgram, "uT");
             this.uniforms.uGravity = gl.getUniformLocation(this.shaderProgram, "uGravity");
             this.uniforms.uPointSizeRange = gl.getUniformLocation(this.shaderProgram, "uPointSizeRange");
-            this.uniforms.uAttackColor = gl.getUniformLocation(this.shaderProgram, "uAttackColorT");
+            this.uniforms.uAttackColor = gl.getUniformLocation(this.shaderProgram, "uAttackColor");
             this.uniforms.uDecayColor = gl.getUniformLocation(this.shaderProgram, "uDecayColor");
             this.uniforms.uSustainColor = gl.getUniformLocation(this.shaderProgram, "uSustainColor");
             this.uniforms.uReleaseColor = gl.getUniformLocation(this.shaderProgram, "uReleaseColor");

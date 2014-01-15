@@ -37,8 +37,8 @@ module Kiwi.GameObjects {
                 return;
             }
 
-            this.config = config;
-
+            
+            
             //Set coordinates and texture
             this.atlas = atlas;
             this.cellIndex = this.atlas.cellIndex;
@@ -48,7 +48,11 @@ module Kiwi.GameObjects {
             this.transform.rotPointY = this.height / 2;
 
             this.box = this.components.add(new Kiwi.Components.Box(this, x, y, this.width, this.height));
-            this.init();
+            
+            this.config = config;
+            this._generateParticles();
+
+            //this.init();
         }
 
         public config: any;
@@ -79,16 +83,78 @@ module Kiwi.GameObjects {
         public numParticles: number = 100;
         public gravity: number = 0.1;
 
-        public init() {
-            console.log("init parts");
-            this._posVel = new Array<number>();
-            this._startTimeLifeSpan = new Array<number>();
-            for (var i = 0; i < this.numParticles; i++) {
-                this._posVel.push(0, 0, Math.random() * 100 - 50, Math.random() * 200 - 100);
-                this._startTimeLifeSpan.push(Math.random()*5, Math.random() * 8);
+        
+        private _generateParticles() {
+
+        var cfg = this.config;
+        cfg["numParts"] = 100;
+        var posVelItems: Array<number> = new Array<number>();
+        var ageItems: Array<number> = new Array<number>();
+
+
+        var velShapeGenFunc: any = null; //null = "constant"
+        var posShapeGenFunc: any = null;
+
+        switch (cfg.velGenShape) {
+            case "Radial": velShapeGenFunc = (cfg.velConstrain) ? Kiwi.Geom.Random.randomPointCirclePerimeter : Kiwi.Geom.Random.randomPointCircle; break;
+            case "Rect": velShapeGenFunc = (cfg.velConstrain) ? Kiwi.Geom.Random.randomPointSquarePerimeter : Kiwi.Geom.Random.randomPointSquare; break;
+
+        }
+
+        switch (cfg.posGenShape) {
+            case "Radial": posShapeGenFunc = (cfg.posConstrain) ? Kiwi.Geom.Random.randomPointCirclePerimeter : Kiwi.Geom.Random.randomPointCircle; break;
+            case "Rect": posShapeGenFunc = (cfg.posConstrain) ? Kiwi.Geom.Random.randomPointSquarePerimeter : Kiwi.Geom.Random.randomPointSquare; break;
+        }
+
+        for (var i = 0; i < cfg.numParts; i++) {
+            //calculate pos
+            var pos = { x: 0, y: 0 };
+            var posSeed = { x: 0, y: 0 };
+            if (posShapeGenFunc != null) {
+
+                posSeed = posShapeGenFunc();
+                if (cfg.posGenShape === "Radial") {
+                    pos.x = posSeed.x * cfg.posRadius;
+                    pos.y = posSeed.y * cfg.posRadius;
+
+                } else if (cfg.posGenShape === "Rect") {
+                    pos.x = posSeed.x * cfg.posWidth / 2;
+                    pos.y = posSeed.y * cfg.posHeight / 2;
+                }
             }
-            this.glRenderer.initBatch(this._posVel,this._startTimeLifeSpan);
-            
+
+            var vel = { x: 0, y: 0 };
+
+            if (cfg.inherit) {
+                console.log("inheriting")
+                    vel.x = cfg.minVelX + posSeed.x * cfg.maxVelX - cfg.minVelX;
+                vel.y = cfg.minVelY + posSeed.y * cfg.maxVelY - cfg.minVelY;
+            } else {
+
+                if (velShapeGenFunc === null) {
+                    vel.x = cfg.maxVelX;
+                    vel.y = cfg.maxVelY;
+                } else {
+                    vel = velShapeGenFunc();
+                    vel.x = cfg.minVelX + vel.x * cfg.maxVelX - cfg.minVelX;
+                    vel.y = cfg.minVelY + vel.y * cfg.maxVelY - cfg.minVelY;
+                }
+            }
+
+
+
+            posVelItems.push(pos.x + cfg.offsetX, pos.y + cfg.offsetY, vel.x, vel.y);
+
+
+            var startTime = cfg.minStartTime + Math.random() * (cfg.maxStartTime - cfg.minStartTime);
+            var lifespan = cfg.minLifespan + Math.random() * (cfg.maxLifespan - cfg.minLifespan);
+
+            ageItems.push(startTime, lifespan);
+
+        }
+
+
+            this.glRenderer.initBatch(posVelItems, ageItems);
         }
 
         public start() {

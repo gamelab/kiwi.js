@@ -63,6 +63,7 @@
 /// <reference path="geom/Rectangle.ts" />
 /// <reference path="geom/Transform.ts" />
 /// <reference path="geom/Vector2.ts" />
+/// <reference path="geom/Random.ts" />
 
 /// <reference path="hud/HUDDisplay.ts" />
 /// <reference path="hud/HUDManager.ts" />
