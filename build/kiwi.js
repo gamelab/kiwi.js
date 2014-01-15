@@ -10383,75 +10383,6 @@ var Kiwi;
     (function (GameObjects) {
         (function (Tilemap) {
             /**
-            * A single Tile that exists on the mapData property inside of a TileMapLayer. A Tile should never be directly created by a user but instead reference through its TileMapLayer which would have created it. Each Tile has an ArcadePhysics component that can be used for collision detection.
-            *
-            * @class Tile
-            * @namespace Kiwi.GameObjects.Tilemap
-            * @extends Entity
-            * @constructor
-            * @param state {State} The state that this Tile is on.
-            * @param tileLayer {TileMapLayer} The TileMapLayer that this Tile is a part of.
-            * @param tileTypes {TileType} The type of tile that this is.
-            * @param width {number} The width of this tile.
-            * @param height {number} The height of this tile.
-            * @param x {number} The tiles x coordinate.
-            * @param y {number} The tiles y coordinate.
-            * @return {Tile}
-            *
-            */
-            var Tile = (function (_super) {
-                __extends(Tile, _super);
-                function Tile(state, tileLayer, tileType, width, height, x, y) {
-                    _super.call(this, state, x, y);
-
-                    this.width = width;
-                    this.height = height;
-                    this.tileLayer = tileLayer;
-
-                    this.box = this.components.add(new Kiwi.Components.Box(this, this.x, this.y, this.width, this.height));
-                    this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.box));
-
-                    this.tileUpdate(tileType);
-                }
-                /**
-                * The type of object that this is.
-                * @method objType
-                * @return {String}
-                * @public
-                */
-                Tile.prototype.objType = function () {
-                    return "Tile";
-                };
-
-                /**
-                * This method handles the updating of the type of tile this tile is. Internal use by Kiwi only.
-                *
-                * @method tileUpdate
-                * @param {TileType} tileType
-                * @public
-                */
-                Tile.prototype.tileUpdate = function (tileType) {
-                    this.tileType = tileType;
-                };
-                return Tile;
-            })(Kiwi.Entity);
-            Tilemap.Tile = Tile;
-        })(GameObjects.Tilemap || (GameObjects.Tilemap = {}));
-        var Tilemap = GameObjects.Tilemap;
-    })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
-    var GameObjects = Kiwi.GameObjects;
-})(Kiwi || (Kiwi = {}));
-/**
-*
-* @module GameObjects
-* @submodule Tilemap
-*
-*/
-var Kiwi;
-(function (Kiwi) {
-    (function (GameObjects) {
-        (function (Tilemap) {
-            /**
             * Defines a particular type of tile that is used on a TileMap. A TileType object should never be directly instantiated by a developer, but instead referenced through the TileMap that it belongs to. A new TileType is created for each cell that exists on the SpriteSheet that is parse when creating a TileMap. Note: There is always a TileType (at index of -1) generated which you can use when no tile will be placed in that spot.
             *
             * @class TileType
@@ -10500,22 +10431,22 @@ var Kiwi;
             * @return {TileMap}
             */
             var TileMap = (function () {
-                function TileMap(state, tileMapDataKey, atlas) {
+                function TileMap(state, tileMapDataKey, atlas, startingCell) {
+                    if (typeof startingCell === "undefined") { startingCell = 0; }
                     this.tileWidth = 0;
                     this.tileHeight = 0;
                     this.width = 0;
                     this.height = 0;
                     this.properties = {};
                     this.tileTypes = [];
-                    this._newTileType(-1);
+                    this.createNewTileType(-1);
                     this.layers = [];
-                    this.atlas = [];
 
                     this.state = state;
                     this.game = state.game;
 
                     if (tileMapDataKey !== null && atlas !== null) {
-                        this.createFromFileStore(tileMapDataKey, atlas);
+                        this.createFromFileStore(tileMapDataKey, atlas, startingCell);
                     }
                 }
                 Object.defineProperty(TileMap.prototype, "widthInPixels", {
@@ -10534,10 +10465,11 @@ var Kiwi;
                     configurable: true
                 });
 
-                TileMap.prototype.createFromFileStore = function (tileMapDataKey, atlas) {
+                TileMap.prototype.createFromFileStore = function (tileMapDataKey, atlas, startingCell) {
+                    if (typeof startingCell === "undefined") { startingCell = 0; }
                     //Does the JSON exist?
                     if (this.game.fileStore.exists(tileMapDataKey) == false) {
-                        console.error('The Tilemap Data you passed does not exist in the FileStore.  ');
+                        console.error('The Tilemap Data you passed does not exist in the FileStore.');
                         return;
                     }
 
@@ -10555,27 +10487,23 @@ var Kiwi;
                         this.properties[prop] = json.properties[prop];
                     }
 
-                    //Add the atlas to the atlas of used atlases.
-                    this.atlas.push(atlas);
-
                     //Generate the Tiles needed.
                     if (json.tilesets !== "undefined")
-                        this._generateTypesFromTileset(json.tilesets);
+                        this._generateTypesFromTileset(json.tilesets, atlas, startingCell);
 
                     for (var i = 0; i < json.layers.length; i++) {
                         var layerData = json.layers[i];
 
                         switch (json.layers[i].type) {
                             case "tilelayer":
-                                var layer = this.createNewLayer(layerData.name, layerData.data, layerData.x * this.tileWidth, layerData.y * this.tileHeight);
+                                var w = (layerData.width !== undefined) ? layerData.width : this.width;
+                                var h = (layerData.height !== undefined) ? layerData.height : this.height;
+
+                                var layer = this.createNewLayer(layerData.name, atlas, layerData.data, layerData.x * this.tileWidth, layerData.y * this.tileHeight, w, h);
 
                                 //Add the extra data...
                                 layer.visible = (layerData.visible == undefined) ? true : layerData.visible;
                                 layer.alpha = (layerData.opacity == undefined) ? 1 : layerData.opacity;
-                                if (layerData.width !== undefined)
-                                    layer.width = layerData.width;
-                                if (layerData.height !== undefined)
-                                    layer.height = layerData.height;
                                 if (layerData.properties !== undefined)
                                     layer.properties = layerData.properties;
 
@@ -10594,10 +10522,11 @@ var Kiwi;
                     }
                 };
 
-                TileMap.prototype._generateTypesFromTileset = function (tilesetData) {
+                TileMap.prototype._generateTypesFromTileset = function (tilesetData, atlas, startingCell) {
                     for (var i = 0; i < tilesetData.length; i++) {
                         var tileset = tilesetData[i];
 
+                        //Tileset Information
                         var m = tileset.margin;
                         var s = tileset.spacing;
                         var tw = tileset.tilewidth;
@@ -10607,18 +10536,22 @@ var Kiwi;
 
                         for (var y = m; y < ih; y += th) {
                             for (var x = m; x < iw; x += tw) {
-                                this._newTileType();
+                                //Does the cell exist? Then use that.
+                                var cell = (atlas.cells[startingCell] == undefined) ? -1 : startingCell;
+
+                                this.createNewTileType(cell);
+                                startingCell++; //Increase the cell to use by one.
                             }
                         }
 
                         for (var tp in tileset.tileproperties) {
-                            this.tileTypes[(tp + tileset.firstgid)].properties = tileset.tileproperties[tp];
+                            this.tileTypes[(parseInt(tileset.firstgid) + parseInt(tp))].properties = tileset.tileproperties[tp];
                         }
                     }
                 };
 
                 //Generates a new tile type and appends it to the tiletypes array
-                TileMap.prototype._newTileType = function (cell) {
+                TileMap.prototype.createNewTileType = function (cell) {
                     if (typeof cell === "undefined") { cell = -1; }
                     var tileType = new Kiwi.GameObjects.Tilemap.TileType(this, this.tileTypes.length, cell);
                     this.tileTypes.push(tileType);
@@ -10626,11 +10559,20 @@ var Kiwi;
                     return tileType;
                 };
 
+                //Changes a range of tile type cell indexs
+                TileMap.prototype.changeCellIndexByRange = function (typeStart, cellStart, range) {
+                    for (var i = typeStart; i < typeStart + range; i++) {
+                        this.tileTypes[i].cellIndex = cellStart;
+                        cellStart++;
+                    }
+                };
+
                 //Creates a new general tilelayer
-                TileMap.prototype.createNewLayer = function (name, data, x, y) {
-                    if (typeof name === "undefined") { name = ''; }
+                TileMap.prototype.createNewLayer = function (name, atlas, data, x, y, w, h) {
                     if (typeof x === "undefined") { x = 0; }
                     if (typeof y === "undefined") { y = 0; }
+                    if (typeof w === "undefined") { w = 0; }
+                    if (typeof h === "undefined") { h = 0; }
                     //If no data has been provided then create a blank one.
                     if (data == undefined) {
                         var i = 0;
@@ -10640,9 +10582,7 @@ var Kiwi;
                     }
 
                     //Create the new layer
-                    var layer = new Kiwi.GameObjects.Tilemap.TileMapLayer(this, name, data, x, y);
-                    layer.width = this.width;
-                    layer.height = this.height;
+                    var layer = new Kiwi.GameObjects.Tilemap.TileMapLayer(this, name, atlas, data, this.tileWidth, this.tileHeight, x, y, w, h);
 
                     //Add the new layer to the array
                     this.layers.push(layer);
@@ -10687,18 +10627,112 @@ var Kiwi;
 (function (Kiwi) {
     (function (GameObjects) {
         (function (Tilemap) {
+            //Not to be directly instantated.
             var TileMapLayer = (function (_super) {
                 __extends(TileMapLayer, _super);
-                function TileMapLayer(tilemap, name, data, x, y) {
+                function TileMapLayer(tilemap, name, atlas, data, tw, th, x, y, w, h) {
                     if (typeof x === "undefined") { x = 0; }
                     if (typeof y === "undefined") { y = 0; }
+                    if (typeof w === "undefined") { w = 0; }
+                    if (typeof h === "undefined") { h = 0; }
                     _super.call(this, tilemap.state, x, y);
                     this.properties = {};
 
                     this.name = name;
+                    this.atlas = atlas;
                     this.tilemap = tilemap;
                     this._data = data;
+                    this.tileWidth = tw;
+                    this.tileHeight = th;
+                    this.width = w;
+                    this.height = h;
                 }
+                Object.defineProperty(TileMapLayer.prototype, "widthInPixels", {
+                    get: function () {
+                        return this.width * this.tilemap.tileWidth;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                Object.defineProperty(TileMapLayer.prototype, "heightInPixels", {
+                    get: function () {
+                        return this.height * this.tilemap.tileHeight;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                TileMapLayer.prototype.getIndexFromXY = function (x, y) {
+                    return x + y * this.width;
+                };
+
+                //Update loop.
+                TileMapLayer.prototype.update = function () {
+                };
+
+                //Render loop.
+                TileMapLayer.prototype.render = function (camera) {
+                    //When not to render the map.
+                    if (this.visible === false || this.alpha < 0.1 || this.exists === false) {
+                        return;
+                    }
+
+                    //Get the context.
+                    var ctx = this.game.stage.ctx;
+                    ctx.save();
+
+                    //Make the map alphed out.
+                    if (this.alpha > 0 && this.alpha <= 1) {
+                        ctx.globalAlpha = this.alpha;
+                    }
+
+                    //Transform
+                    var t = this.transform;
+                    var m = t.getConcatenatedMatrix();
+
+                    ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - camera.transform.rotPointX, m.ty + t.rotPointY - camera.transform.rotPointY);
+
+                    //  Work out how many tiles we can fit into our camera and round it up for the edges
+                    this._maxX = Math.min(Math.ceil(camera.width / this.tileWidth) + 1, this.width);
+                    this._maxY = Math.min(Math.ceil(camera.height / this.tileHeight) + 1, this.height);
+
+                    //  And now work out where in the tilemap the camera actually is
+                    this._startX = Math.floor((-camera.transform.x - t.x) / this.tileWidth);
+                    this._startY = Math.floor((-camera.transform.y - t.y) / this.tileHeight);
+
+                    //boundaries check
+                    if (this._startX < 0)
+                        this._startX = 0;
+                    if (this._startY < 0)
+                        this._startY = 0;
+
+                    if (this._maxX > this.width)
+                        this._maxX = this.width;
+                    if (this._maxY > this.height)
+                        this._maxY = this.height;
+
+                    if (this._startX + this._maxX > this.width)
+                        this._maxX = this.width - this._startX;
+                    if (this._startY + this._maxY > this.height)
+                        this._maxY = this.height - this._startY;
+
+                    for (var y = this._startY; y < this._startY + this._maxY; y++) {
+                        for (var x = this._startX; x < this._startX + this._maxX; x++) {
+                            var index = this.getIndexFromXY(x, y);
+                            var type = this._data[index];
+
+                            if (type !== undefined && this.tilemap.tileTypes[type].cellIndex !== -1) {
+                                var cell = this.atlas.cells[this.tilemap.tileTypes[type].cellIndex];
+
+                                ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, x * this.tileWidth, y * this.tileHeight, cell.w, cell.h);
+                            }
+                        }
+                    }
+
+                    ctx.restore();
+                    return true;
+                };
                 return TileMapLayer;
             })(Kiwi.Entity);
             Tilemap.TileMapLayer = TileMapLayer;
@@ -26769,7 +26803,6 @@ var Kiwi;
 /// <reference path="gameobjects/Sprite.ts" />
 /// <reference path="gameobjects/StaticImage.ts" />
 /// <reference path="gameobjects/Textfield.ts" />
-/// <reference path="gameobjects/tilemap/Tile.ts" />
 /// <reference path="gameobjects/tilemap/TileType.ts" />
 /// <reference path="gameobjects/tilemap/TileMap.ts" />
 /// <reference path="gameobjects/tilemap/TileMapLayer.ts" />

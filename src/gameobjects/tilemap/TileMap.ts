@@ -17,18 +17,17 @@ module Kiwi.GameObjects.Tilemap {
     */
     export class TileMap {
  
-        constructor(state: Kiwi.State, tileMapDataKey?: string, atlas?: Kiwi.Textures.TextureAtlas) {
+        constructor(state: Kiwi.State, tileMapDataKey?: string, atlas?: Kiwi.Textures.TextureAtlas, startingCell:number=0) {
 
             this.tileTypes = [];
-            this._newTileType(-1);
+            this.createNewTileType(-1);
             this.layers = [];
-            this.atlas = [];
 
             this.state = state;
             this.game = state.game;
 
             if (tileMapDataKey !== null && atlas !== null) {
-                this.createFromFileStore(tileMapDataKey, atlas);
+                this.createFromFileStore(tileMapDataKey, atlas, startingCell);
             }
 
         }
@@ -42,8 +41,6 @@ module Kiwi.GameObjects.Tilemap {
         public state: Kiwi.State;
 
         public game: Kiwi.Game;
-
-        public atlas: Kiwi.Textures.TextureAtlas[];
 
         private _data: any[];
 
@@ -65,16 +62,18 @@ module Kiwi.GameObjects.Tilemap {
 
         public properties: any = {};
 
-        public createFromFileStore(tileMapDataKey: string, atlas: Kiwi.Textures.TextureAtlas) {
+        public createFromFileStore(tileMapDataKey: string, atlas: Kiwi.Textures.TextureAtlas, startingCell:number=0) {
 
             //Does the JSON exist?
             if (this.game.fileStore.exists(tileMapDataKey) == false) {
-                console.error('The Tilemap Data you passed does not exist in the FileStore.  ');
+                console.error('The Tilemap Data you passed does not exist in the FileStore.');
                 return;
             }
 
+
             //Parse the JSON
             var json = JSON.parse( this.game.fileStore.getFile(tileMapDataKey).data );
+
 
             //Get the map information
             this.orientation = (json.orietation == undefined) ? "orthogonal" : json.orientation;
@@ -83,18 +82,16 @@ module Kiwi.GameObjects.Tilemap {
             this.width = json.width;
             this.height = json.height;
 
+
             //Add the properties
             for (var prop in json.properties) {
                 this.properties[prop] = json.properties[prop];
             }
 
 
-            //Add the atlas to the atlas of used atlases.
-            this.atlas.push(atlas);
-
             //Generate the Tiles needed.
             if (json.tilesets !== "undefined") 
-                this._generateTypesFromTileset(json.tilesets);
+                this._generateTypesFromTileset(json.tilesets, atlas, startingCell);
             
 
             //Generate the layers we need
@@ -104,13 +101,14 @@ module Kiwi.GameObjects.Tilemap {
                 //Check what type it is.
                 switch (json.layers[i].type) {
                     case "tilelayer":
-                        var layer = this.createNewLayer(layerData.name, layerData.data, layerData.x * this.tileWidth, layerData.y * this.tileHeight);
+                        var w = (layerData.width !== undefined) ? layerData.width : this.width;
+                        var h = (layerData.height !== undefined) ? layerData.height : this.height;
+
+                        var layer = this.createNewLayer(layerData.name, atlas, layerData.data, layerData.x * this.tileWidth, layerData.y * this.tileHeight, w, h );
                         
                         //Add the extra data...
                         layer.visible = (layerData.visible == undefined) ? true : layerData.visible;
                         layer.alpha = (layerData.opacity == undefined) ? 1 : layerData.opacity;
-                        if (layerData.width !== undefined) layer.width = layerData.width;  
-                        if (layerData.height !== undefined) layer.height = layerData.height;
                         if (layerData.properties !== undefined)layer.properties = layerData.properties;
 
                         break;
@@ -131,13 +129,14 @@ module Kiwi.GameObjects.Tilemap {
 
         }
 
-        private _generateTypesFromTileset( tilesetData:any[] ) {
+        private _generateTypesFromTileset( tilesetData:any[], atlas, startingCell ) {
 
             //Loop through the tilesets
             for (var i = 0; i < tilesetData.length; i++) {
 
                 var tileset = tilesetData[i];
 
+                //Tileset Information
                 var m = tileset.margin;
                 var s = tileset.spacing; 
                 var tw = tileset.tilewidth;
@@ -148,31 +147,46 @@ module Kiwi.GameObjects.Tilemap {
                 //Calculate how many tiles there are in this tileset and thus how many different tile type there can be.
                 for (var y = m; y < ih; y += th) {
                     for (var x = m; x < iw; x += tw) {
-                        this._newTileType();
+
+                        //Does the cell exist? Then use that.
+                        var cell = (atlas.cells[startingCell] == undefined) ? -1 : startingCell ;  
+                       
+                        this.createNewTileType(cell);
+                        startingCell++; //Increase the cell to use by one.
                     }
                 }
 
 
                 //Add tile properties
                 for (var tp in tileset.tileproperties) {
-                    this.tileTypes[(tp + tileset.firstgid)].properties = tileset.tileproperties[tp];
+                    this.tileTypes[(parseInt(tileset.firstgid) + parseInt(tp))].properties = tileset.tileproperties[tp];
                 }
 
             }
 
-
         }
 
+
         //Generates a new tile type and appends it to the tiletypes array
-        private _newTileType(cell:number = -1):TileType {
+        public createNewTileType(cell:number = -1):TileType {
             var tileType = new TileType(this, this.tileTypes.length, cell);
             this.tileTypes.push(tileType);
 
             return tileType;
         }
 
+        //Changes a range of tile type cell indexs 
+        public changeCellIndexByRange(typeStart: number, cellStart: number, range:number) {
+
+            for (var i = typeStart; i < typeStart + range; i++) {
+                this.tileTypes[i].cellIndex = cellStart;
+                cellStart++;
+            } 
+
+        }
+
         //Creates a new general tilelayer
-        public createNewLayer(name: string= '', data?: number[], x: number= 0, y: number= 0): TileMapLayer {
+        public createNewLayer(name: string, atlas: Kiwi.Textures.TextureAtlas, data?: number[], x: number= 0, y: number= 0, w:number=0, h:number=0): TileMapLayer {
 
             //If no data has been provided then create a blank one.
             if (data == undefined) {
@@ -183,9 +197,7 @@ module Kiwi.GameObjects.Tilemap {
             }
 
             //Create the new layer
-            var layer = new Kiwi.GameObjects.Tilemap.TileMapLayer(this, name, data, x, y);
-            layer.width = this.width;
-            layer.height = this.height;
+            var layer = new Kiwi.GameObjects.Tilemap.TileMapLayer(this, name, atlas, data, this.tileWidth, this.tileHeight, x, y, w,h);
 
             //Add the new layer to the array
             this.layers.push(layer);
@@ -193,15 +205,18 @@ module Kiwi.GameObjects.Tilemap {
             return layer;
         }
 
+
         //eventually will create a new object layer
         public createNewObjectLayer() {
             console.log("OBJECT GROUP layers are currently not supported.");
         }
 
+
         //eventually will create a new image layer
         public createNewImageLayer() {
             console.log("IMAGE layers are currently not supported.");
         }
+
 
         /**
         * The type of object that it is.
