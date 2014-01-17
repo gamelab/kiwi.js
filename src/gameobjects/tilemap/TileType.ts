@@ -8,18 +8,17 @@
 module Kiwi.GameObjects.Tilemap {
 
     /**
-    * Defines a particular type of tile that is used on a TileMap. A TileType object should never be directly instantiated by a developer, but instead referenced through the TileMap that it belongs to. A new TileType is created for each cell that exists on the SpriteSheet that is parse when creating a TileMap. Note: There is always a TileType (at index of -1) generated which you can use when no tile will be placed in that spot.
+    * Define's the properties of a single Type of Tile for a TileMap. This class should not be directly instanted, 
+    * but instead when wanting to create new TileType's you should use the 'createdTileType' methods on a TileMap object.
     * 
     * @class TileType
     * @namespace Kiwi.GameObjects.Tilemap
     * @constructor
-    * @param game {Game} The game that this type of tile belongs to.
-    * @param tilemap {TileMap} The TileMap that this type of tile is on.
-    * @param index {number} The unique index that this tile has associated with it.
-    * @param width {number} The width of this tile. Only used for collision detection.
-    * @param height {number} The height of this tile. Only used for collision detection.
-    * @return {TileType}
-    * 
+    * @param tilemap {TileMap} The TileMap that this TileType is a part of.
+    * @param index {Number} The index of this TileType, which Tiles use when wanting to use this TileType.
+    * @param cellIndex {Number} The cell number to use when rendering this Type of Tile.
+    * @return {TileType} This TileType
+    * @public
     */
     export class TileType {
  
@@ -31,6 +30,13 @@ module Kiwi.GameObjects.Tilemap {
 
         }
 
+        /**
+        * The properties associated with this type of tile. 
+        * These are set when loading a JSON file that had properties associated with a TileType. 
+        * @property properties
+        * @type Object
+        * @public
+        */
         public properties: any = {};
 
         /**
@@ -50,7 +56,24 @@ module Kiwi.GameObjects.Tilemap {
         */
         public index: number;
 
+        /**
+        * A number relating to the cell that should be when rendering a Tile that uses this TileType.
+        * A cellIndex of -1 means this type of tile will not be rendered.
+        * @property cellIndex
+        * @type number
+        * @public
+        */
         public cellIndex: number;
+
+        /**
+        * The type of object that it is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType() {
+            return "TileType";
+        }
 
     }
 

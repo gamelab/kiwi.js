@@ -10383,27 +10383,42 @@ var Kiwi;
     (function (GameObjects) {
         (function (Tilemap) {
             /**
-            * Defines a particular type of tile that is used on a TileMap. A TileType object should never be directly instantiated by a developer, but instead referenced through the TileMap that it belongs to. A new TileType is created for each cell that exists on the SpriteSheet that is parse when creating a TileMap. Note: There is always a TileType (at index of -1) generated which you can use when no tile will be placed in that spot.
+            * Define's the properties of a single Type of Tile for a TileMap. This class should not be directly instanted,
+            * but instead when wanting to create new TileType's you should use the 'createdTileType' methods on a TileMap object.
             *
             * @class TileType
             * @namespace Kiwi.GameObjects.Tilemap
             * @constructor
-            * @param game {Game} The game that this type of tile belongs to.
-            * @param tilemap {TileMap} The TileMap that this type of tile is on.
-            * @param index {number} The unique index that this tile has associated with it.
-            * @param width {number} The width of this tile. Only used for collision detection.
-            * @param height {number} The height of this tile. Only used for collision detection.
-            * @return {TileType}
-            *
+            * @param tilemap {TileMap} The TileMap that this TileType is a part of.
+            * @param index {Number} The index of this TileType, which Tiles use when wanting to use this TileType.
+            * @param cellIndex {Number} The cell number to use when rendering this Type of Tile.
+            * @return {TileType} This TileType
+            * @public
             */
             var TileType = (function () {
                 function TileType(tilemap, index, cellIndex) {
                     if (typeof cellIndex === "undefined") { cellIndex = -1; }
+                    /**
+                    * The properties associated with this type of tile.
+                    * These are set when loading a JSON file that had properties associated with a TileType.
+                    * @property properties
+                    * @type Object
+                    * @public
+                    */
                     this.properties = {};
                     this.tilemap = tilemap;
                     this.index = index;
                     this.cellIndex = cellIndex;
                 }
+                /**
+                * The type of object that it is.
+                * @method objType
+                * @return {String}
+                * @public
+                */
+                TileType.prototype.objType = function () {
+                    return "TileType";
+                };
                 return TileType;
             })();
             Tilemap.TileType = TileType;
@@ -10423,33 +10438,83 @@ var Kiwi;
     (function (GameObjects) {
         (function (Tilemap) {
             /**
+            * A TileMap handles the creation of TileMapLayers and the TileTypes that they use.
+            * Since a TileMap isn't a Entity itself you cannot add it to the Stage inorder to render that it manages,
+            * Instead you have to add each layer lies within it. This way you can have other GameObjects behind/in-front of layers.
             *
             * @class TileMap
             * @namespace Kiwi.GameObjects.Tilemap
             * @constructor
             * @param state {State} The state that this Tilemap is on.
+            * @param [tileMapDataKey] {String} The Data key for the JSON you would like to use.
+            * @param [atlas] {TextureAtlas} The texture atlas that you would like the tilemap layers to use.
+            * @param [startingCell=0] {number} The number for the initial cell that the first TileType should use. See 'createFromFileStore' for more information.
             * @return {TileMap}
             */
             var TileMap = (function () {
                 function TileMap(state, tileMapDataKey, atlas, startingCell) {
                     if (typeof startingCell === "undefined") { startingCell = 0; }
+                    /**
+                    * The default width of a single tile that a TileMapLayer is told to have upon its creation.
+                    * @property tileWidth
+                    * @type Number
+                    * @default 0
+                    * @public
+                    */
                     this.tileWidth = 0;
+                    /**
+                    * The default height of a single tile that a TileMapLayer is told to have upon its creation.
+                    * @property tileHeight
+                    * @type Number
+                    * @default 0
+                    * @public
+                    */
                     this.tileHeight = 0;
+                    /**
+                    * The default width of all TileMapLayers when they are created.
+                    * This value is in Tiles.
+                    * @property width
+                    * @type Number
+                    * @default 0
+                    * @public
+                    */
                     this.width = 0;
+                    /**
+                    * The default height of all TileMapLayers when they are created.
+                    * This value is in Tiles.
+                    * @property height
+                    * @type Number
+                    * @default 0
+                    * @public
+                    */
                     this.height = 0;
+                    /**
+                    * Any properties that were found in the JSON during creation.
+                    * @property properties
+                    * @type Object
+                    * @public
+                    */
                     this.properties = {};
                     this.tileTypes = [];
-                    this.createNewTileType(-1);
+                    this.createTileType(-1);
                     this.layers = [];
 
                     this.state = state;
                     this.game = state.game;
 
-                    if (tileMapDataKey !== null && atlas !== null) {
+                    if (tileMapDataKey !== undefined && atlas !== undefined) {
                         this.createFromFileStore(tileMapDataKey, atlas, startingCell);
+                    } else if (tileMapDataKey !== undefined || atlas !== undefined) {
+                        console.log('You must pass BOTH the TileMapDataKey and TextureAtlas inorder to create a TileMap from the File Store.');
                     }
                 }
                 Object.defineProperty(TileMap.prototype, "widthInPixels", {
+                    /**
+                    * The width of the tilemap in pixels. This value is READ ONLY.
+                    * @property widthInPixels
+                    * @type Number
+                    * @public
+                    */
                     get: function () {
                         return this.width * this.tileWidth;
                     },
@@ -10458,6 +10523,12 @@ var Kiwi;
                 });
 
                 Object.defineProperty(TileMap.prototype, "heightInPixels", {
+                    /**
+                    * The height of the tilemap in pixels. This value is READ ONLY.
+                    * @property heightInPixels
+                    * @type Number
+                    * @public
+                    */
                     get: function () {
                         return this.height * this.tileHeight;
                     },
@@ -10465,6 +10536,17 @@ var Kiwi;
                     configurable: true
                 });
 
+                /**
+                * Creates new tilemap layers from a JSON file that you pass (has to be in the Tiled Format).
+                * The texture atlas you pass is that one that eeach TileMapLayer found in the JSON will use, You can change the TextureAtlas afterwards.
+                * New TileTypes will automatically be created. The number is based on the Tileset parameter of the JSON.
+                * The cell used for new TileTypes will begin at 0 and increment each time a new TileType is created (and a cell exists). Otherwise new TileTypes will start will a cell of -1 (none).
+                * @method createFromFileStore
+                * @param tileMapDataKey {String} The Data key for the JSON you would like to use.
+                * @param atlas {TextureAtlas} The texture atlas that you would like the tilemap layers to use.
+                * @param [startingCell=0] {number} The number for the initial cell that the first TileType should use. If you pass -1 then no new TileTypes will be created.
+                * @public
+                */
                 TileMap.prototype.createFromFileStore = function (tileMapDataKey, atlas, startingCell) {
                     if (typeof startingCell === "undefined") { startingCell = 0; }
                     //Does the JSON exist?
@@ -10488,7 +10570,7 @@ var Kiwi;
                     }
 
                     //Generate the Tiles needed.
-                    if (json.tilesets !== "undefined")
+                    if (json.tilesets !== "undefined" && startingCell !== -1)
                         this._generateTypesFromTileset(json.tilesets, atlas, startingCell);
 
                     for (var i = 0; i < json.layers.length; i++) {
@@ -10499,7 +10581,7 @@ var Kiwi;
                                 var w = (layerData.width !== undefined) ? layerData.width : this.width;
                                 var h = (layerData.height !== undefined) ? layerData.height : this.height;
 
-                                var layer = this.createNewLayer(layerData.name, atlas, layerData.data, layerData.x * this.tileWidth, layerData.y * this.tileHeight, w, h);
+                                var layer = this.createNewLayer(layerData.name, atlas, layerData.data, w, h, layerData.x * this.tileWidth, layerData.y * this.tileHeight);
 
                                 //Add the extra data...
                                 layer.visible = (layerData.visible == undefined) ? true : layerData.visible;
@@ -10522,6 +10604,15 @@ var Kiwi;
                     }
                 };
 
+                /**
+                * Generates new TileTypes based upon the Tileset information that lies inside the Tiled JSON.
+                * This is an INTERNAL method, which is used when the createFromFileStore method is executed.
+                * @method _generateTypesFromTileset
+                * @param tilesetData {Any[]} The tileset part of the JSON.
+                * @param atlas {TextureAtlas} The Texture atlas which contains the cells that the new TileTypes will use.
+                * @param startingCell {Number} The first cell number that would be used.
+                * @private
+                */
                 TileMap.prototype._generateTypesFromTileset = function (tilesetData, atlas, startingCell) {
                     for (var i = 0; i < tilesetData.length; i++) {
                         var tileset = tilesetData[i];
@@ -10539,7 +10630,7 @@ var Kiwi;
                                 //Does the cell exist? Then use that.
                                 var cell = (atlas.cells[startingCell] == undefined) ? -1 : startingCell;
 
-                                this.createNewTileType(cell);
+                                this.createTileType(cell);
                                 startingCell++; //Increase the cell to use by one.
                             }
                         }
@@ -10550,8 +10641,35 @@ var Kiwi;
                     }
                 };
 
-                //Generates a new tile type and appends it to the tiletypes array
-                TileMap.prototype.createNewTileType = function (cell) {
+                /**
+                * Method to set the default TileMap properties. Useful when wanting to create tilemaps programmatically.
+                * @method setTo
+                * @param tileWidth {Number} The width of a single tile.
+                * @param tileHeight {Number} The height of a single tile.
+                * @param width {Number} The width of the whole map.
+                * @param height {Number} The height of the whole map.
+                * @public
+                */
+                TileMap.prototype.setTo = function (tileWidth, tileHeight, width, height) {
+                    this.tileWidth = tileWidth;
+                    this.tileHeight = tileHeight;
+                    this.width = width;
+                    this.height = height;
+                };
+
+                /**
+                *-----------------------
+                * Creation of Tile Types
+                *-----------------------
+                **/
+                /**
+                * Generates a single new TileType. Returns the TileType that was generated.
+                * @method createTileType
+                * @param [cell=-1] {Number} The cell that is to be used. Default is -1 (which means none)
+                * @return {TileType} The TileType generated.
+                * @public
+                */
+                TileMap.prototype.createTileType = function (cell) {
                     if (typeof cell === "undefined") { cell = -1; }
                     var tileType = new Kiwi.GameObjects.Tilemap.TileType(this, this.tileTypes.length, cell);
                     this.tileTypes.push(tileType);
@@ -10559,30 +10677,109 @@ var Kiwi;
                     return tileType;
                 };
 
-                //Changes a range of tile type cell indexs
-                TileMap.prototype.changeCellIndexByRange = function (typeStart, cellStart, range) {
+                /**
+                * Creates a new TileType for each cell that you pass.
+                * @method createTileTypes
+                * @param cells {Number[]} The cells that you want a new TileType created for.
+                * @return {TileTypes[]} The TileTypes generated.
+                * @public
+                */
+                TileMap.prototype.createTileTypes = function (cells) {
+                    var types = [];
+                    for (var i = 0; i < cells.length; i++) {
+                        types.push(this.createTileType(cells[i]));
+                    }
+                    return types;
+                };
+
+                /**
+                * Used to create a number of TileTypes based starting cell number and how many you want from there.
+                * @method createTileTypesByRange
+                * @param cellStart {Number} The starting number of the cell.
+                * @param range {Number} How many cells (from the starting cell) should be created.
+                * @return {TileTypes[]} The TileTypes generated.
+                */
+                TileMap.prototype.createTileTypesByRange = function (cellStart, range) {
+                    var types = [];
+                    for (var i = cellStart; i <= cellStart + range; i++) {
+                        types.push(this.createTileType(i));
+                    }
+                    return types;
+                };
+
+                /**
+                *-----------------------
+                * Cell Modifications
+                *-----------------------
+                **/
+                /**
+                * Changes a single cellIndex that a TileType is to use when it is rendered.
+                * @method setCell
+                * @param type {number} The number of the TileType that is to change.
+                * @param cell {number} The new cellIndex it should have.
+                * @public
+                */
+                TileMap.prototype.setCell = function (type, cell) {
+                    this.tileTypes[type].cellIndex = cell;
+                };
+
+                /**
+                * Changes a range of cellIndexs for Tiles the same range of TileTypes.
+                * @method setCellsByRange
+                * @param typeStart {number} The starting TileType that is to be modified.
+                * @param cellStart {number} The starting cellIndex that the first TileType should have.
+                * @param range {number} How many times it should run.
+                * @public
+                */
+                TileMap.prototype.setCellsByRange = function (typeStart, cellStart, range) {
                     for (var i = typeStart; i < typeStart + range; i++) {
                         this.tileTypes[i].cellIndex = cellStart;
                         cellStart++;
                     }
                 };
 
-                //Creates a new general tilelayer
-                TileMap.prototype.createNewLayer = function (name, atlas, data, x, y, w, h) {
+                /**
+                *-----------------------
+                * Creation of Tilemap Layers
+                *-----------------------
+                **/
+                /**
+                * Creates a new TileMapLayer with the details that are provided.
+                * If no width/height/tileWidth/tileHeight parameters are passed then the values will be what this TileMap has.
+                * If no 'data' is provided then the map will be automatically filled with empty Types of Tiles.
+                * Returns the new TileMapLayer that was created.
+                * @method createNewLayer
+                * @param name {String} Name of the TileMap.
+                * @param atlas {TextureAtlas} The TextureAtlas that this layer should use.
+                * @param data {Number[]} The tile information.
+                * @param [w=this.width] {Number} The width of the whole tile map. In Tiles.
+                * @param [h=this.height] {Number} The height of the whole tile map. In Tiles.
+                * @param [x=0] {Number} The position of the tilemap on the x axis. In pixels.
+                * @param [y=0] {Number} The position of the tilemap on the y axis. In pixels.
+                * @param [tw=this.tileWidth] {Number} The width of a single tile.
+                * @param [th=this.tileHeight] {Number} The height of a single tile.
+                * @return {TileMapLayer} The TileMapLayer that was created.
+                * @public
+                */
+                TileMap.prototype.createNewLayer = function (name, atlas, data, w, h, x, y, tw, th) {
+                    if (typeof data === "undefined") { data = []; }
+                    if (typeof w === "undefined") { w = this.width; }
+                    if (typeof h === "undefined") { h = this.height; }
                     if (typeof x === "undefined") { x = 0; }
                     if (typeof y === "undefined") { y = 0; }
-                    if (typeof w === "undefined") { w = 0; }
-                    if (typeof h === "undefined") { h = 0; }
-                    //If no data has been provided then create a blank one.
-                    if (data == undefined) {
-                        var i = 0;
-                        while (i < this.width * this.height) {
+                    if (typeof tw === "undefined") { tw = this.tileWidth; }
+                    if (typeof th === "undefined") { th = this.tileHeight; }
+                    //Did the user provide enough data?
+                    if (data.length < w * h) {
+                        //No... So push empty cells instead
+                        var i = data.length - 1;
+                        while (++i < w * h) {
                             data.push(0);
                         }
                     }
 
                     //Create the new layer
-                    var layer = new Kiwi.GameObjects.Tilemap.TileMapLayer(this, name, atlas, data, this.tileWidth, this.tileHeight, x, y, w, h);
+                    var layer = new Kiwi.GameObjects.Tilemap.TileMapLayer(this, name, atlas, data, tw, th, x, y, w, h);
 
                     //Add the new layer to the array
                     this.layers.push(layer);
@@ -10590,14 +10787,55 @@ var Kiwi;
                     return layer;
                 };
 
-                //eventually will create a new object layer
+                /**
+                * Eventually will create a new object layer. Currently does nothing.
+                * @method createNewObjectLayer
+                * @public
+                */
                 TileMap.prototype.createNewObjectLayer = function () {
                     console.log("OBJECT GROUP layers are currently not supported.");
                 };
 
-                //eventually will create a new image layer
+                /**
+                * Eventually will create a new image layer. Currently does nothing.
+                * @method createNewObjectLayer
+                * @public
+                */
                 TileMap.prototype.createNewImageLayer = function () {
                     console.log("IMAGE layers are currently not supported.");
+                };
+
+                /**
+                *-----------------------
+                * TileMapLayer Management Functions
+                *-----------------------
+                **/
+                /**
+                * Get a layer by the name that it was given upon creation.
+                * Returns null if no layer with that name was found.
+                * @method getLayerByName
+                * @param name {String} Name of the layer you would like to select.
+                * @return {TileMapLayer} Either the layer with the name passed, or null if no Layer with that name was found.
+                * @public
+                */
+                TileMap.prototype.getLayerByName = function (name) {
+                    for (var i = 0; i < this.layers.length; i++) {
+                        if (this.layers[i].name == name) {
+                            return this.layers[i];
+                        }
+                    }
+                    return null;
+                };
+
+                /**
+                * Returns the la
+                * @method getLayer
+                * @param num {Number} Number of the Layer you would like to get.
+                * @return {TileMapLayer}
+                * @public
+                */
+                TileMap.prototype.getLayer = function (num) {
+                    return (this.layers[num] !== undefined) ? this.layers[num] : null;
                 };
 
                 /**
@@ -10627,7 +10865,26 @@ var Kiwi;
 (function (Kiwi) {
     (function (GameObjects) {
         (function (Tilemap) {
-            //Not to be directly instantated.
+            /**
+            * Is GameObject that contains the information held for a single Layer of Tiles, along with methods to handle the rendering of those Tiles.
+            * A TileMapLayer should not be directly created, but instead should be created through a TileMap object instead.
+            *
+            * @class TileMapLayer
+            * @extends Entity
+            * @namespace Kiwi.GameObjects.Tilemap
+            * @constructor
+            * @param tilemap {TileMap} The TileMap that this layer belongs to.
+            * @param name {String} The name of this TileMapLayer.
+            * @param atlas {TextureAtlas} The texture atlas that should be used when rendering this TileMapLayer onscreen.
+            * @param data {Number[]} The information about the tiles.
+            * @param tw {Number} The width of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
+            * @param th {Number} The height of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
+            * @param [x=0] {Number} The x coordinate of the tilemap in pixels.
+            * @param [y=0] {Number} The y coordinate of the tilemap in pixels.
+            * @param [w=0] {Number} The width of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
+            * @param [h=0] {Number} The height of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
+            * @return {TileMapLayer}
+            */
             var TileMapLayer = (function (_super) {
                 __extends(TileMapLayer, _super);
                 function TileMapLayer(tilemap, name, atlas, data, tw, th, x, y, w, h) {
@@ -10636,6 +10893,12 @@ var Kiwi;
                     if (typeof w === "undefined") { w = 0; }
                     if (typeof h === "undefined") { h = 0; }
                     _super.call(this, tilemap.state, x, y);
+                    /**
+                    * Properties about that this TileMapLayer has when it was created from a JSON file.
+                    * @property properties
+                    * @type Object
+                    * @public
+                    */
                     this.properties = {};
 
                     this.name = name;
@@ -10646,8 +10909,25 @@ var Kiwi;
                     this.tileHeight = th;
                     this.width = w;
                     this.height = h;
+                    this.cellIndex = null; //Cell Index doesn't matter for a TileMapLayer itself.
                 }
+                /**
+                * The type of object that it is.
+                * @method objType
+                * @return {String}
+                * @public
+                */
+                TileMapLayer.prototype.objType = function () {
+                    return "TileMapLayer";
+                };
+
                 Object.defineProperty(TileMapLayer.prototype, "widthInPixels", {
+                    /**
+                    * The width of the layer in pixels. This property is READ ONLY.
+                    * @property widthInPixels
+                    * @type number
+                    * @public
+                    */
                     get: function () {
                         return this.width * this.tilemap.tileWidth;
                     },
@@ -10656,6 +10936,12 @@ var Kiwi;
                 });
 
                 Object.defineProperty(TileMapLayer.prototype, "heightInPixels", {
+                    /**
+                    * The height of the layer in pixels. This property is READ ONLY.
+                    * @property heightInPixels
+                    * @type number
+                    * @public
+                    */
                     get: function () {
                         return this.height * this.tilemap.tileHeight;
                     },
@@ -10663,15 +10949,261 @@ var Kiwi;
                     configurable: true
                 });
 
+                /**
+                * Returns the total number of tiles. Either for a particular type if passed, otherwise of any type if not passed.
+                * @method countTiles
+                * @param [type] {Number} The type of tile you want to count.
+                * @return {Number} The number of tiles on this layer.
+                * @public
+                */
+                TileMapLayer.prototype.countTiles = function (type) {
+                    var cnt = 0;
+
+                    for (var i = 0; i < this._data.length; i++) {
+                        if (type == undefined && this._data[i] !== 0)
+                            cnt++;
+                        else if (type === this._data[i])
+                            cnt++;
+                    }
+
+                    return cnt;
+                };
+
+                Object.defineProperty(TileMapLayer.prototype, "tileData", {
+                    /**
+                    *-----------------------
+                    * Getting Tiles
+                    *-----------------------
+                    */
+                    /**
+                    * A list containing all of the types of tiles found on this TileMapLayer. This is READ ONLY.
+                    * @property tileData
+                    * @type number[]
+                    * @public
+                    */
+                    get: function () {
+                        return this._data;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                /**
+                * Returns the index of the tile based on the x and y coordinates of the tile passed.
+                * If no tile is a the coordinates given then -1 is returned instead.
+                * Coordinates are in tiles not pixels.
+                * @method getIndexFromXY
+                * @param x {Number} The x coordinate of the Tile you would like to retrieve.
+                * @param y {Number} The y coordinate of the Tile you would like to retrieve.
+                * @return {Number} Either the index of the tile retrieved or -1 if none was found.
+                * @public
+                */
                 TileMapLayer.prototype.getIndexFromXY = function (x, y) {
-                    return x + y * this.width;
+                    var num = x + y * this.width;
+
+                    //Does the index exist?
+                    if (num < 0 || num >= this._data.length)
+                        return -1;
+                    else
+                        return num;
                 };
 
-                //Update loop.
+                /**
+                * Returns the TileType for a tile that is at a particular coordinate passed.
+                * If no tile is found the null is returned instead.
+                * Coordinates passed are in tiles.
+                * @method getTileFromXY
+                * @param x {Number}
+                * @param y {Number}
+                * @return {Number} The tile
+                * @public
+                */
+                TileMapLayer.prototype.getTileFromXY = function (x, y) {
+                    var t = this.getIndexFromXY(x, y);
+                    return (t !== -1) ? this.tilemap.tileTypes[this._data[t]] : null;
+                };
+
+                /**
+                * Returns the indexes of every tile of a type you pass.
+                * @method getIndexsByType
+                * @param type {Number}
+                * @return {Number[]}
+                * @public
+                */
+                TileMapLayer.prototype.getIndexesByType = function (type) {
+                    var tiles = [];
+                    for (var i = 0; i < this._data.length; i++) {
+                        if (this._data[i] == type)
+                            tiles.push(i);
+                    }
+                    return tiles;
+                };
+
+                /**
+                *-----------------------
+                * Tiles Manipulation
+                *-----------------------
+                */
+                /**
+                * Sets the tile to be used at the coordinates provided.
+                * Can be used to override a tile that may already exist at the location.
+                * @method setTile
+                * @param x {number} The coordinate of the tile on the x axis.
+                * @param y {number} The coordinate of the tile on the y axis.
+                * @param tileType {number} The type of tile that should be now used.
+                * @return {boolean} If a tile was changed or not.
+                * @public
+                */
+                TileMapLayer.prototype.setTile = function (x, y, tileType) {
+                    var x = this.getIndexFromXY(x, y);
+
+                    if (x !== -1) {
+                        this._data[x] = tileType;
+                        return true;
+                    }
+
+                    return false;
+                };
+
+                /**
+                * Sets the tile to be used at the index provided.
+                * Can be used to override a tile that may already exist at the location.
+                * @method setTileByIndex
+                * @param index {number} The index of the tile that you want to change.
+                * @param tileType {number} The new tile type to be used at that position.
+                * @public
+                */
+                TileMapLayer.prototype.setTileByIndex = function (index, tileType) {
+                    this._data[index] = tileType;
+                };
+
+                /**
+                * Randomizes the types of tiles used in an area of the layer. You can choose which types of tiles to use, and the area.
+                * Default tile types used are everyone avaiable.
+                * @method randomizeTiles
+                * @param [types] {number[]} A list of TileTypes that can be used. Default is every tiletype on the TileMap.
+                * @param [x=0] {number} The starting tile on the x axis to fill.
+                * @param [y=0] {number} The starting tile on the y axis to fill.
+                * @param [width=this.width] {number} How far across you want to go.
+                * @param [height=this.height] {number} How far down you want to go.
+                * @public
+                */
+                TileMapLayer.prototype.randomizeTiles = function (types, x, y, width, height) {
+                    if (typeof x === "undefined") { x = 0; }
+                    if (typeof y === "undefined") { y = 0; }
+                    if (typeof width === "undefined") { width = this.width; }
+                    if (typeof height === "undefined") { height = this.height; }
+                    if (types == undefined) {
+                        types = [];
+                        var i = 0;
+                        while (i++ < this.tilemap.tileTypes.length) {
+                            types.push(i);
+                        }
+                    }
+
+                    for (var j = y; j < y + height; j++) {
+                        for (var i = x; i < x + width; i++) {
+                            var tile = this.getIndexFromXY(i, j);
+                            if (tile !== -1)
+                                this._data[tile] = this.game.rnd.pick(types);
+                        }
+                    }
+                };
+
+                /**
+                * Makes all of the tiles in the area specified a single type that is passed.
+                * @method fill
+                * @param type {number} The type of tile you want to fill in the area with.
+                * @param [x=0] {number} The starting tile on the x axis to fill.
+                * @param [y=0] {number} The starting tile on the y axis to fill.
+                * @param [width=this.width] {number} How far across you want to go.
+                * @param [height=this.height] {number} How far down you want to go.
+                * @public
+                */
+                TileMapLayer.prototype.fill = function (type, x, y, width, height) {
+                    if (typeof x === "undefined") { x = 0; }
+                    if (typeof y === "undefined") { y = 0; }
+                    if (typeof width === "undefined") { width = this.width; }
+                    if (typeof height === "undefined") { height = this.height; }
+                    for (var j = y; j < y + height; j++) {
+                        for (var i = x; i < x + width; i++) {
+                            var tile = this.getIndexFromXY(i, j);
+                            if (tile !== -1)
+                                this._data[tile] = type;
+                        }
+                    }
+                };
+
+                /**
+                * Replaces all tiles of typeA to typeB in the area specified. If no area is specified then it is on the whole layer.
+                * @method replaceTiles
+                * @param typeA {number} The type of tile you want to be replaced.
+                * @param typeB {number} The type of tile you want to be used instead.
+                * @param [x=0] {number} The starting tile on the x axis to fill.
+                * @param [y=0] {number} The starting tile on the y axis to fill.
+                * @param [width=this.width] {number} How far across you want to go.
+                * @param [height=this.height] {number} How far down you want to go.
+                * @public
+                */
+                TileMapLayer.prototype.replaceTiles = function (typeA, typeB, x, y, width, height) {
+                    if (typeof x === "undefined") { x = 0; }
+                    if (typeof y === "undefined") { y = 0; }
+                    if (typeof width === "undefined") { width = this.width; }
+                    if (typeof height === "undefined") { height = this.height; }
+                    for (var j = y; j < y + height; j++) {
+                        for (var i = x; i < x + width; i++) {
+                            var tile = this.getIndexFromXY(i, j);
+                            if (tile !== -1 && this._data[tile] == typeA)
+                                this._data[tile] = typeB;
+                        }
+                    }
+                };
+
+                /**
+                * Swaps all the tiles that are typeA -> typeB and typeB -> typeA inside the area specified. If no area is specified then it is on the whole layer.
+                * @method swapTiles
+                * @param typeA {number} The type of tile you want to be replaced with typeB.
+                * @param typeB {number} The type of tile you want to be replaced with typeA.
+                * @param [x=0] {number} The starting tile on the x axis to fill.
+                * @param [y=0] {number} The starting tile on the y axis to fill.
+                * @param [width=this.width] {number} How far across you want to go.
+                * @param [height=this.height] {number} How far down you want to go.
+                * @public
+                */
+                TileMapLayer.prototype.swapTiles = function (typeA, typeB, x, y, width, height) {
+                    if (typeof x === "undefined") { x = 0; }
+                    if (typeof y === "undefined") { y = 0; }
+                    if (typeof width === "undefined") { width = this.width; }
+                    if (typeof height === "undefined") { height = this.height; }
+                    for (var j = y; j < y + height; j++) {
+                        for (var i = x; i < x + width; i++) {
+                            var tile = this.getIndexFromXY(i, j);
+
+                            if (tile !== -1) {
+                                if (this._data[tile] == typeA)
+                                    this._data[tile] = typeB;
+                                else if (this._data[tile] == typeB)
+                                    this._data[tile] = typeA;
+                            }
+                        }
+                    }
+                };
+
+                /**
+                * The update loop that is executed when this TileMapLayer is add to the Stage.
+                * @method update
+                * @public
+                */
                 TileMapLayer.prototype.update = function () {
+                    _super.prototype.update.call(this);
                 };
 
-                //Render loop.
+                /**
+                * The render loop which is used when using the Canvas renderer.
+                * @method render
+                * @param camera {Camera}
+                * @public
+                */
                 TileMapLayer.prototype.render = function (camera) {
                     //When not to render the map.
                     if (this.visible === false || this.alpha < 0.1 || this.exists === false) {
@@ -10687,26 +11219,27 @@ var Kiwi;
                         ctx.globalAlpha = this.alpha;
                     }
 
-                    //Transform
+                    // Transform
                     var t = this.transform;
                     var m = t.getConcatenatedMatrix();
 
                     ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - camera.transform.rotPointX, m.ty + t.rotPointY - camera.transform.rotPointY);
 
-                    //  Work out how many tiles we can fit into our camera and round it up for the edges
+                    // Work out how many tiles we can fit into our camera and round it up for the edges
                     this._maxX = Math.min(Math.ceil(camera.width / this.tileWidth) + 1, this.width);
                     this._maxY = Math.min(Math.ceil(camera.height / this.tileHeight) + 1, this.height);
 
-                    //  And now work out where in the tilemap the camera actually is
+                    // And now work out where in the tilemap the camera actually is
                     this._startX = Math.floor((-camera.transform.x - t.x) / this.tileWidth);
                     this._startY = Math.floor((-camera.transform.y - t.y) / this.tileHeight);
 
-                    //boundaries check
+                    // Boundaries check for the start
                     if (this._startX < 0)
                         this._startX = 0;
                     if (this._startY < 0)
                         this._startY = 0;
 
+                    // Check for the Maximum
                     if (this._maxX > this.width)
                         this._maxX = this.width;
                     if (this._maxY > this.height)
@@ -10719,13 +11252,10 @@ var Kiwi;
 
                     for (var y = this._startY; y < this._startY + this._maxY; y++) {
                         for (var x = this._startX; x < this._startX + this._maxX; x++) {
-                            var index = this.getIndexFromXY(x, y);
-                            var type = this._data[index];
+                            if ((this._temptype = this.getTileFromXY(x, y)) && this._temptype.cellIndex !== -1) {
+                                var cell = this.atlas.cells[this._temptype.cellIndex];
 
-                            if (type !== undefined && this.tilemap.tileTypes[type].cellIndex !== -1) {
-                                var cell = this.atlas.cells[this.tilemap.tileTypes[type].cellIndex];
-
-                                ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, x * this.tileWidth, y * this.tileHeight, cell.w, cell.h);
+                                ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, x * this.tileWidth, y * this.tileHeight - (cell.h - this.tileHeight), cell.w, cell.h);
                             }
                         }
                     }
