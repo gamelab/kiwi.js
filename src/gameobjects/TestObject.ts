@@ -4,7 +4,7 @@
 * @module Kiwi
 * @submodule GameObjects 
 * @main GameObjects
-*/ 
+*/
 module Kiwi.GameObjects {
 
     /**
@@ -21,8 +21,8 @@ module Kiwi.GameObjects {
     * @param [enableInput=false] {boolean} If the input component should be enabled or not.
     * @return {Sprite}
     */
-    export class Sprite extends Kiwi.Entity {
-         
+    export class TestObject extends Kiwi.Entity {
+        
         constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0, enableInput: boolean = false) {
 
             super(state, x, y);
@@ -33,10 +33,10 @@ module Kiwi.GameObjects {
                 this.willRender = false;
                 this.active = false;
                 return;
-            } 
+            }
 
             if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
-                this.glRenderer = this.game.renderer.requestSharedRenderer("TextureAtlasRenderer");
+                this.glRenderer = this.game.renderer.requestSharedRenderer("TestRenderer");
             }
 
             this.atlas = atlas;
@@ -48,13 +48,13 @@ module Kiwi.GameObjects {
             this.height = atlas.cells[0].h;
             this.transform.rotPointX = this.width / 2;
             this.transform.rotPointY = this.height / 2;
-                
+            
 
             //Create the components needed
             this.box = this.components.add(new Kiwi.Components.Box(this, x, y, this.width, this.height));
             this.input = this.components.add(new Kiwi.Components.Input(this, this.box, enableInput));
 
-                
+            
             //Check to see if this sprite could be animated or not
             if (this.atlas.type === Kiwi.Textures.TextureAtlas.SINGLE_IMAGE) {
                 this.animation = null;
@@ -63,7 +63,7 @@ module Kiwi.GameObjects {
                 this.animation = this.components.add(new Kiwi.Components.AnimationManager(this));
                 this._isAnimated = true;
             }
-            
+        
         }
 
         /**
@@ -72,10 +72,10 @@ module Kiwi.GameObjects {
         * @return {string}
         * @public
         */
-        public objType():string {
-            return "Sprite";
+        public objType(): string {
+            return "TestObject";
         }
-        
+
         /**
         * Indicates whether or not this sprite is animated or not. 
         * This sprite will not be animated if the texture used is a SINGLE_IMAGE.
@@ -86,14 +86,14 @@ module Kiwi.GameObjects {
         private _isAnimated: boolean;
 
         /** 
-	    * The animation component that allows you to create a animation with spritesheets/texture atlas's. 
+        * The animation component that allows you to create a animation with spritesheets/texture atlas's. 
         * Note: If the atlas that was added is of type Kiwi.Textures.TextureAtlas.SINGLE_IMAGE then no animation component will be created.
-	    * @property animation
-	    * @type AnimationManager
+        * @property animation
+        * @type AnimationManager
         * @public
-	    */
+        */
         public animation: Kiwi.Components.AnimationManager;
-        
+
         /** 
         * The box component that controls the bounding box around this Game Object
         * @property bounds
@@ -103,20 +103,20 @@ module Kiwi.GameObjects {
         public box: Kiwi.Components.Box;
 
         /** 
-	    * The Input component controls the user interaction with this Game Object
-	    * @property input
-	    * @type Input
+        * The Input component controls the user interaction with this Game Object
+        * @property input
+        * @type Input
         * @public
-	    */
+        */
         public input: Kiwi.Components.Input;
-        
+
         /**
-	    * Called by parent when its update loop gets executed.
-	    * @method update
+        * Called by parent when its update loop gets executed.
+        * @method update
         * @public
-	    */
+        */
         public update() {
-            
+
             super.update();
 
             if (this._isAnimated) {
@@ -124,24 +124,24 @@ module Kiwi.GameObjects {
                 this.width = this.atlas.cells[this.cellIndex].w;
                 this.height = this.atlas.cells[this.cellIndex].h;
 
-            }    
+            }
 
             this.input.update();
         }
 
         /**
-	    * Called by the Layer to which this Game Object is attached
-	    * @method render
+        * Called by the Layer to which this Game Object is attached
+        * @method render
         * @param {Camera} camera
         * @public
-	    */
-        public render(camera:Kiwi.Camera) {
-           
-            super.render(camera);
+        */
+        public render(camera: Kiwi.Camera) {
             
+            super.render(camera);
+
             //if it is would even be visible.
             if (this.alpha > 0 && this.visibility) {
-                
+
                 var ctx: CanvasRenderingContext2D = this.game.stage.ctx;
                 ctx.save();
 
@@ -152,24 +152,24 @@ module Kiwi.GameObjects {
                 //get entity/view matrix
                 var t: Kiwi.Geom.Transform = this.transform;
                 var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
-                
+
                 var ct: Kiwi.Geom.Transform = camera.transform;
 
                 //ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
                 ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - ct.rotPointX, m.ty + t.rotPointY - ct.rotPointY);
 
-                             
+                
                 var cell = this.atlas.cells[this.cellIndex];
                 ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
                 ctx.restore();
-                    
+            
             }
 
-        
+
         }
 
-        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params: any = null) {
-            (<Kiwi.Renderers.TextureAtlasRenderer>this.glRenderer).addToBatch(gl, this, camera);
+        public renderGL(gl: WebGLRenderingContext,  camera: Kiwi.Camera, params: any = null) {
+            (<Kiwi.Renderers.TestRenderer>this.glRenderer).addToBatch(gl, this, camera);
         }
 
     }

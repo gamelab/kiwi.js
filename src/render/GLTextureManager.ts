@@ -186,7 +186,7 @@ module Kiwi.Renderers {
         * @return boolean
         * @public
         */
-        public useTexture(gl:WebGLRenderingContext,glTextureWrapper: GLTextureWrapper,textureSizeUniform):boolean {
+        public useTexture(gl:WebGLRenderingContext,glTextureWrapper: GLTextureWrapper):boolean {
             
             if (!glTextureWrapper.created || !glTextureWrapper.uploaded) {
                 if(!this._uploadTexture(gl, glTextureWrapper)) {
@@ -200,7 +200,7 @@ module Kiwi.Renderers {
             if (glTextureWrapper.created && glTextureWrapper.uploaded) {
                 
                 gl.bindTexture(gl.TEXTURE_2D, glTextureWrapper.texture);
-                gl.uniform2fv(textureSizeUniform, new Float32Array([glTextureWrapper.image.width, glTextureWrapper.image.height]));
+                //gl.uniform2fv(textureSizeUniform, new Float32Array([glTextureWrapper.image.width, glTextureWrapper.image.height]));
                 return true;
 
             }

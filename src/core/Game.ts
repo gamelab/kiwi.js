@@ -102,7 +102,7 @@ module Kiwi {
             if (this._renderOption === Kiwi.RENDERER_CANVAS) {
                 this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
             } else {
-                this.renderer = new Kiwi.Renderers.GLRenderer(this);
+                this.renderer = new Kiwi.Renderers.GLRenderManager(this);
             }
            
             this.cameras = new Kiwi.CameraManager(this);

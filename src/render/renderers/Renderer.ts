@@ -1,22 +1,19 @@
-interface IRenderer {
-    init(gl: WebGLRenderingContext, params: any);
-    clear(gl: WebGLRenderingContext, params: any);
-    draw(gl: WebGLRenderingContext, params: any);
-    updateStageResolution(gl: WebGLRenderingContext,res: Float32Array);
-}
 
 
 module Kiwi.Renderers {
 
 
-    export class Renderer  {
+    export class Renderer {
 
 
-        constructor() {
-           
+        constructor(gl: WebGLRenderingContext,shaderManager:Kiwi.Shaders.ShaderManager) {
+            this.shaderManager = shaderManager;
+            this.loaded = true;
+       
         }
 
-       
+        public static RENDERER_ID: string = "Renderer";
+        
         /**
         * GL-Matrix.js provided 4x4 matrix used for matrix uniform
         * @property mvMatrix
@@ -26,28 +23,39 @@ module Kiwi.Renderers {
         public mvMatrix: Float32Array;
 
 
+        public loaded: boolean = false;
+
+        public shaderManager: Kiwi.Shaders.ShaderManager;
+
         /**
+
         * The stage resolution in pixels
         * @property _stageResolution
         * @type Float32Array
         * @public
         */
-        
 
-        public stageResolution: Float32Array;
+        //public init(gl: WebGLRenderingContext, params: any = null) {
+        //    this.loaded = true;
+        //}
 
+        public enable(gl: WebGLRenderingContext, params: any = null) {
+            
+        }
 
-        /**
-      * Shader pair for standard 2d sprite rendering
-      * @property _texture2DShaderPair
-      * @type GLShaders
-      * @private
-      */
-        public shaderPair: Texture2DShader;
+        public disable(gl: WebGLRenderingContext) {
 
-        public cameraOffset: Float32Array;
+        }
 
-       
+        public clear(gl: WebGLRenderingContext, params: any) {
+        }
+        public draw(gl: WebGLRenderingContext) {
+        }
+
+        public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array) {
+        }
+        public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array) {
+        }
 
     }
 

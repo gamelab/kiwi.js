@@ -24,7 +24,7 @@ Spritesheets.create = function () {
     this.skele = new Kiwi.GameObjects.Sprite(this, this.textures.characters, 10, 30);
     this.skele.cellIndex = 2;
 
-    this.robot = new Kiwi.GameObjects.StaticImage(this, this.textures.characters, 210, 30);
+    this.robot = new Kiwi.GameObjects.Sprite(this, this.textures.characters, 210, 30);
     this.robot.cellIndex = 8;
 
     this.spartan = new Kiwi.GameObjects.Sprite(this, this.textures.characters, 410, 30);

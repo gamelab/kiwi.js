@@ -1,20 +1,50 @@
-    /**
-    *
-    * @class GLShaders
-    * @constructor
-    * @param gl {WebGLRenderingContext}
-    * @return {GLShaders}
-    */
+/**
+*
+* @class GLShaders
+* @constructor
+* @param gl {WebGLRenderingContext}
+* @return {GLShaders}
+*/
 
-    module Kiwi.Renderers {
+module Kiwi.Shaders {
 
-    export class Texture2DShader extends GLShaderPair {
+    export class TestShader extends ShaderPair {
 
         constructor() {
             super();
-            
-          
+              
         }
+
+        public init(gl: WebGLRenderingContext) {
+            super.init(gl);
+            
+            
+            //attributes
+            this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+            //gl.enableVertexAttribArray(this.attributes.aXYUV);
+            this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
+            //gl.enableVertexAttribArray(this.attributes.aAlpha);
+
+            //uniforms
+
+            this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
+            this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, "uResolution");
+            this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, "uSampler");
+            this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
+            this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
+        }
+
+        public enableAttributes(gl: WebGLRenderingContext) {
+            gl.enableVertexAttribArray(this.attributes.aXYUV);
+            gl.enableVertexAttribArray(this.attributes.aAlpha);
+        }
+
+        public disableAttributes(gl: WebGLRenderingContext) {
+            gl.disableVertexAttribArray(this.attributes.aXYUV);
+            gl.disableVertexAttribArray(this.attributes.aAlpha);
+        }
+
+
 
         /**
         *
@@ -30,6 +60,8 @@
             "void main(void) {",
             "gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));",
             "gl_FragColor.a *= vAlpha;",
+            "gl_FragColor.r = 1.0;",
+
             "}"
         ];
 
@@ -65,7 +97,7 @@
         public attributes: any = {
             aXYUV: null,
             aAlpha: null,
-           
+        
         };
 
         public uniforms: any = {
@@ -79,8 +111,8 @@
 
 
 
-        public uMVMatrix(gl: WebGLRenderingContext,uMVMatrixVal:Float32Array) {
-            gl.uniformMatrix4fv(this.uniforms.uMVMatrix, false,uMVMatrixVal);
+        public uMVMatrix(gl: WebGLRenderingContext, uMVMatrixVal: Float32Array) {
+            gl.uniformMatrix4fv(this.uniforms.uMVMatrix, false, uMVMatrixVal);
         }
 
         public uSampler(gl: WebGLRenderingContext, uSamplerVal: number) {
@@ -99,54 +131,21 @@
             gl.uniform2fv(this.uniforms.uCameraOffset, uCameraOffsetVal);
         }
 
-        public aXYUV(gl: WebGLRenderingContext, aXYUVVal: GLArrayBuffer) {
+        public aXYUV(gl: WebGLRenderingContext, aXYUVVal: Kiwi.Renderers.GLArrayBuffer) {
             gl.bindBuffer(gl.ARRAY_BUFFER, aXYUVVal.buffer);
             gl.vertexAttribPointer(this.attributes.aXYUV, aXYUVVal.itemSize, gl.FLOAT, false, 0, 0);
         }
 
-        public aAlpha(gl: WebGLRenderingContext, aAlphaVal: GLArrayBuffer) {
+        public aAlpha(gl: WebGLRenderingContext, aAlphaVal: Kiwi.Renderers.GLArrayBuffer) {
             gl.bindBuffer(gl.ARRAY_BUFFER, aAlphaVal.buffer);
             gl.vertexAttribPointer(this.attributes.aAlpha, aAlphaVal.itemSize, gl.FLOAT, false, 0, 0);
         }
 
+       
+       
 
 
-
-        /**
-        *
-        * @method use
-        * @param gl {WebGLRenderingContext}
-        * @param shaderProrgram {WebGLProgram}
-        * @public
-        */
-        public use(gl: WebGLRenderingContext) {
-            
-            gl.useProgram(this.shaderProgram);
-            
-            //attributes
-            this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
-            gl.enableVertexAttribArray(this.attributes.aXYUV);
-            this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
-            gl.enableVertexAttribArray(this.attributes.aAlpha);
-            
-            //uniforms
-
-            this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
-            this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, "uResolution");
-            this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, "uSampler");
-            this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
-            this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
-
-        }
-
-        public draw(gl: WebGLRenderingContext, numElements: number) {
-            gl.drawElements(gl.TRIANGLES, numElements, gl.UNSIGNED_SHORT, 0);
-        }
-
-
-
-        }
+    }
 
 }
 
-       
