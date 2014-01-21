@@ -45,12 +45,11 @@
 /// <reference path="gameobjects/Sprite.ts" />
 /// <reference path="gameobjects/StaticImage.ts" />
 /// <reference path="gameobjects/Textfield.ts" />
-/// <reference path="gameobjects/TestObject.ts" />
 /// <reference path="gameobjects/tilemap/Tile.ts" />
 /// <reference path="gameobjects/tilemap/TileType.ts" />
 /// <reference path="gameobjects/tilemap/TileMap.ts" />
 /// <reference path="gameobjects/tilemap/TileMapLayer.ts" />
-/// <reference path="gameobjects/StatelessParticles.ts" />
+
 
 /// <reference path="geom/AABB.ts" />
 /// <reference path="geom/Circle.ts" />
@@ -110,13 +109,9 @@
 /// <reference path="render/GLElementArrayBuffer.ts" />
 /// <reference path="render/renderers/Renderer.ts" />
 /// <reference path="render/renderers/TextureAtlasRenderer.ts" />
-/// <reference path="render/renderers/TestRenderer.ts" />
-/// <reference path="render/renderers/StatelessParticleRenderer.ts" />
+
 /// <reference path="render/shaders/ShaderPair.ts" />
 /// <reference path="render/shaders/TextureAtlasShader.ts" />
-/// <reference path="render/shaders/TestShader.ts" />
-/// <reference path="render/shaders/StatelessParticleShader.ts" />
-
 
 /// <reference path="system/Bootstrap.ts" />
 /// <reference path="system/Browser.ts" />
