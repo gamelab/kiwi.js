@@ -11665,7 +11665,7 @@ var Kiwi;
 
             StatelessParticles.prototype._generateParticles = function () {
                 var cfg = this.config;
-                cfg["numParts"] = 100;
+
                 var posVelItems = new Array();
                 var ageItems = new Array();
 
@@ -11705,6 +11705,8 @@ var Kiwi;
                         }
                     }
 
+                    pos.x += this.x;
+                    pos.y += this.y;
                     var vel = { x: 0, y: 0 };
 
                     if (cfg.inherit) {
@@ -23319,7 +23321,7 @@ var Kiwi;
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
 
                 //4 components per attributes, 6 verts per quad - used to work out how many elements to draw
-                gl.drawElements(gl.POINTS, 100, gl.UNSIGNED_SHORT, 0);
+                gl.drawElements(gl.POINTS, this._config.numParts, gl.UNSIGNED_SHORT, 0);
             };
 
             /**
@@ -23744,6 +23746,7 @@ var Kiwi;
                     "attribute vec2 aBirthLifespan;",
                     "uniform mat4 uMVMatrix;",
                     "uniform vec2 uResolution;",
+                    "uniform vec2 uCameraOffset;",
                     "uniform float uT;",
                     "uniform float uGravity;",
                     "uniform vec2 uPointSizeRange;",
@@ -23771,7 +23774,7 @@ var Kiwi;
                     "if (uT < birthTime || (uT >= deathTime && !uLoop )) {",
                     "gl_Position = vec4(0);",
                     "} else {",
-                    "vec4 transpos = vec4(aXYVxVy.xy,0,1); ",
+                    "vec4 transpos = vec4(aXYVxVy.xy - uCameraOffset,0,1); ",
                     "transpos =  uMVMatrix * transpos;",
                     "vec2 pos = ((transpos.xy / uResolution) * 2.0) - 1.0;",
                     "vec2 vel = aXYVxVy.zw / uResolution;",

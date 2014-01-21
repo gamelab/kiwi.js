@@ -87,7 +87,7 @@ module Kiwi.GameObjects {
         private _generateParticles() {
 
         var cfg = this.config;
-        cfg["numParts"] = 100;
+      
         var posVelItems: Array<number> = new Array<number>();
         var ageItems: Array<number> = new Array<number>();
 
@@ -123,6 +123,8 @@ module Kiwi.GameObjects {
                 }
             }
 
+            pos.x += this.x;
+            pos.y += this.y;
             var vel = { x: 0, y: 0 };
 
             if (cfg.inherit) {

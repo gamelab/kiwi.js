@@ -122,7 +122,7 @@ module Kiwi.Renderers {
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
             //4 components per attributes, 6 verts per quad - used to work out how many elements to draw
-            gl.drawElements(gl.POINTS,100, gl.UNSIGNED_SHORT, 0);
+            gl.drawElements(gl.POINTS,this._config.numParts, gl.UNSIGNED_SHORT, 0);
         }
 
 

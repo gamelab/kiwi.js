@@ -105,6 +105,7 @@ module Kiwi.Shaders {
 
             "uniform mat4 uMVMatrix;",
             "uniform vec2 uResolution;",
+            "uniform vec2 uCameraOffset;",
 
             "uniform float uT;",
             "uniform float uGravity;",
@@ -140,7 +141,7 @@ module Kiwi.Shaders {
             "if (uT < birthTime || (uT >= deathTime && !uLoop )) {",
             "gl_Position = vec4(0);",
             "} else {",
-            "vec4 transpos = vec4(aXYVxVy.xy,0,1); ",
+            "vec4 transpos = vec4(aXYVxVy.xy - uCameraOffset,0,1); ",
             "transpos =  uMVMatrix * transpos;",
             "vec2 pos = ((transpos.xy / uResolution) * 2.0) - 1.0;",
             "vec2 vel = aXYVxVy.zw / uResolution;",
