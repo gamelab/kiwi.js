@@ -6,18 +6,19 @@
 
 module Kiwi.Geom {
 
-     /**
-     * A Circle object is an area defined by its position, as indicated by its center point (x,y) and diameter.
-     *	
-     * @class Circle
-     * @namespace Kiwi.Geom
-     * @constructor
-     * @param x {Number} The x coordinate of the center of the circle.
-     * @param y {Number} The y coordinate of the center of the circle.
-     * @param diameter {number} The diameter of the circle.
-     * @return {Circle} This circle object
-     *
-     */
+    /**
+    * A Circle object is an area defined by its position, 
+    * as indicated by its center point (x,y) and diameter.
+    *	
+    * @class Circle
+    * @namespace Kiwi.Geom
+    * @constructor
+    * @param [x = 0] {Number} The x coordinate of the center of the circle.
+    * @param [y = 0] {Number} The y coordinate of the center of the circle.
+    * @param [diameter = 0] {number} The diameter of the circle.
+    * @return {Circle} This circle object
+    *
+    */
     export class Circle {
         
         constructor (x: number = 0, y: number = 0, diameter: number = 0) {
@@ -76,7 +77,6 @@ module Kiwi.Geom {
         * The diameter of the circle. The largest distance between any two points on the circle. The same as the radius * 2.
         * @property diameter
         * @type number
-        * @default 0
         * @public
 	    */
         public set diameter(value: number) {

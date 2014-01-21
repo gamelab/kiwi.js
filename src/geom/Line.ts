@@ -7,7 +7,9 @@
 module Kiwi.Geom {
 
     /**
-    * A line object is an infinte line through space. The two sets of x/y coordinates define the Line Segment.
+    * A Kiwi Line object has two meanings depending on the situation you need. 
+    * Either an infinte line through space (this is the normal meaning of a Line) 
+    * OR it can be a Line Segment which just exists between the TWO points you specify. 
     *
     * @class Line
     * @namespace Kiwi.Geom
@@ -16,7 +18,7 @@ module Kiwi.Geom {
     * @param [y1 = 0]{Number} y1 y component of first point.
     * @param [x2 = 0]{Number} x2 x component of second point.
     * @param [y2 = 0]{Number} y2 y component of second point.
-    * @return {Kiwi.Geom.Line} This Object
+    * @return {Line} This Object
     *
     */
     export class Line {
@@ -38,7 +40,7 @@ module Kiwi.Geom {
         }
 
         /**
-        * x component of first point.
+        * X position of first point in your line.
         * @property x1
         * @type Number
         * @public
@@ -46,7 +48,7 @@ module Kiwi.Geom {
         public x1: number = 0;
 
         /**
-        * y component of first point.
+        * Y position of first point in your line.
         * @property y1
         * @type Number
         * @public
@@ -70,7 +72,9 @@ module Kiwi.Geom {
         public y2: number = 0;
 
         /**
-        * Return a clone of the line.
+        * Makes a clone of this Line. 
+        * The clone will either be a new Line Object, 
+        * Otherwise you can pass a existing Line Object that you want to be a clone of this one.
         * @method clone
         * @param [output = Line] {Line}
         * @return {Line}
@@ -83,7 +87,7 @@ module Kiwi.Geom {
         }
 
         /**
-        * Copy the line from another existing line.
+        * Make this Line a copy of another passed Line.
         * @method copyFrom 
         * @param source {Line} source
         * @return {Line}
@@ -96,7 +100,7 @@ module Kiwi.Geom {
         }
 
         /**
-        * Copy the line to another existing line.
+        * Make another passed Line a copy of this one.
         * @method copyTo
         * @param target {Line} target
         * @return {Line}
@@ -109,13 +113,13 @@ module Kiwi.Geom {
         }
 
         /**
-        * Set all components on the line.
+        * Used to set all components on the line.
         * @method setTo
-        * @param [x1 = 0]{Number} x1 x component of first point.
-        * @param [y1 = 0]{Number} y1 y component of first point.
-        * @param [x2 = 0]{Number} x2 x component of second point.
-        * @param [y2 = 0]{Number} y2 y component of second point.
-        * @return {Kiwi.Geom.Line}
+        * @param [x1 = 0]{Number} X component of first point.
+        * @param [y1 = 0]{Number} Y component of first point.
+        * @param [x2 = 0]{Number} X component of second point.
+        * @param [y2 = 0]{Number} Y component of second point.
+        * @return {Line}
         * @public
         */
         public setTo(x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0): Line {
@@ -130,7 +134,7 @@ module Kiwi.Geom {
         }
 
         /**
-        * Get the length of the line as a line segment.
+        * Get the length of the Line as a Line Segment.
         * @property length
         * @type number
         * @public
@@ -251,13 +255,14 @@ module Kiwi.Geom {
         }
 
         /**
-        * [REQUIRES DESCRIPTION]
+        * Check to see if this Line object intersects at any point with a passed Line.
+        * Note: Both are treated as extending infinately through space.
         * @method intersectLineLine
-        * @param line {Any} line
-        * @return {Any}
+        * @param line {Line} The line you want to check for a Intersection with.
+        * @return {IntersectResult} The Intersect Result containing the collision information.
         * @public
         */
-        public intersectLineLine(line): any {
+        public intersectLineLine(line): IntersectResult {
             return Kiwi.Geom.Intersect.lineToLine(this,line);
         }
 
@@ -266,7 +271,7 @@ module Kiwi.Geom {
         * @method perp
         * @param x {Number} 
         * @param y {Number} 
-        * @param [output = Line]{Line} 
+        * @param [output = Line] {Line} 
         * @return {Line}
         * @public
         */

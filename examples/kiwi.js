@@ -1,46 +1,4 @@
-﻿var Kiwi;
-(function (Kiwi) {
-    // Module
-    (function (Geom) {
-        // Class
-        var Random = (function () {
-            function Random() {
-            }
-            Random.randomPointCirclePerimeter = function () {
-                var t = Math.random() * Math.PI * 2;
-                return new Kiwi.Geom.Point(Math.cos(t), Math.sin(t));
-            };
-
-            Random.randomPointCircle = function () {
-                var t = Math.random() * Math.PI * 2;
-                var u = Math.random() + Math.random();
-                var r = (u > 1) ? 2 - u : u;
-                return new Kiwi.Geom.Point(r * Math.cos(t), r * Math.sin(t));
-            };
-
-            Random.randomPointSquare = function () {
-                return new Kiwi.Geom.Point(Math.random() - 0.5, Math.random() - 0.5);
-            };
-
-            Random.randomPointSquarePerimeter = function () {
-                var t = Math.random() * 4;
-
-                if (t < 1)
-                    return new Kiwi.Geom.Point(t - 0.5, -0.5);
-                if (t < 2)
-                    return new Kiwi.Geom.Point(0.5, t - 1.5);
-                if (t < 3)
-                    return new Kiwi.Geom.Point(t - 2.5, 0.5);
-
-                return new Kiwi.Geom.Point(-0.5, t - 3.5);
-            };
-            return Random;
-        })();
-        Geom.Random = Random;
-    })(Kiwi.Geom || (Kiwi.Geom = {}));
-    var Geom = Kiwi.Geom;
-})(Kiwi || (Kiwi = {}));
-/**
+﻿/**
 * Contains various methods that can be used when you are wanting to ease a Tween.
 *
 * @module Tweens
@@ -2123,6 +2081,7 @@ var Kiwi;
     */
     var Entity = (function () {
         function Entity(state, x, y) {
+            this.requiredRenderers = ["Texture2DRenderer"];
             /**
             * The group that this entity belongs to. If added onto the state then this is the state.
             * @property _parent
@@ -2524,7 +2483,7 @@ var Kiwi;
         Entity.prototype.render = function (camera) {
         };
 
-        Entity.prototype.renderGL = function (gl, camera, params) {
+        Entity.prototype.renderGL = function (gl, renderer, camera, params) {
             if (typeof params === "undefined") { params = null; }
         };
 
@@ -2788,7 +2747,7 @@ var Kiwi;
             if (this._renderOption === Kiwi.RENDERER_CANVAS) {
                 this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
             } else {
-                this.renderer = new Kiwi.Renderers.GLRenderManager(this);
+                this.renderer = new Kiwi.Renderers.GLRenderer(this);
             }
 
             this.cameras = new Kiwi.CameraManager(this);
@@ -4472,7 +4431,8 @@ var Kiwi;
             if (typeof deleteAll === "undefined") { deleteAll = true; }
             if (deleteAll == true) {
                 for (var i = 0; i < this._trackingList.length; i++) {
-                    this._trackingList[i].destroy(true);
+                    //If the item is a group then we don't want it to destory it's children, as this method will do that eventually anyway.
+                    this._trackingList[i].destroy(true, false);
                 }
                 this._trackingList = [];
 
@@ -6988,9 +6948,21 @@ var Kiwi;
             };
 
             /**
-            * Whether the object collides or not.  For more control over what directions
-            * the object will collide from, use collision constants (like LEFT, FLOOR, etc)
-            * to set the value of allowCollisions directly.
+            * Returns a boolean indicating whether the or not the object is currently colliding on a particular side that is passed.
+            * Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.
+            * @method touching
+            * @param value [number] The collision constant of the side you want to check against.
+            * @return boolean
+            * @public
+            */
+            ArcadePhysics.prototype.isTouching = function (value) {
+                return (this.touching & value) == value;
+            };
+
+            /**
+            * Whether the object collides or not.
+            * For more control over what directions the object will collide from, use collision constants (like LEFT, FLOOR, etc)
+            * and set the value of allowCollisions directly.
             * @method solid
             * @param [value] {boolean} If left empty, this will then just toggle between ANY and NONE.
             * @return boolean
@@ -9933,10 +9905,6 @@ var Kiwi;
                     return;
                 }
 
-                if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
-                    this.glRenderer = this.game.renderer.requestSharedRenderer("TextureAtlasRenderer");
-                }
-
                 this.atlas = atlas;
                 this.name = this.atlas.name;
                 this.cellIndex = this.atlas.cellIndex;
@@ -10020,9 +9988,9 @@ var Kiwi;
                 }
             };
 
-            Sprite.prototype.renderGL = function (gl, camera, params) {
+            Sprite.prototype.renderGL = function (gl, renderer, camera, params) {
                 if (typeof params === "undefined") { params = null; }
-                this.glRenderer.addToBatch(gl, this, camera);
+                renderer.addToBatch(gl, this, camera);
             };
             return Sprite;
         })(Kiwi.Entity);
@@ -10058,10 +10026,6 @@ var Kiwi;
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
                 _super.call(this, state, x, y);
-
-                if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
-                    this.glRenderer = this.game.renderer.requestSharedRenderer("TextureAtlasRenderer");
-                }
 
                 //Texture atlas error check.
                 if (typeof atlas == "undefined") {
@@ -10122,11 +10086,6 @@ var Kiwi;
                     ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
                     ctx.restore();
                 }
-            };
-
-            StaticImage.prototype.renderGL = function (gl, camera, params) {
-                if (typeof params === "undefined") { params = null; }
-                this.glRenderer.addToBatch(gl, this, camera);
             };
             return StaticImage;
         })(Kiwi.Entity);
@@ -11405,15 +11364,15 @@ var Kiwi;
                     var t = this.transform;
                     var m = t.getConcatenatedMatrix();
 
-                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
+                    ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - camera.transform.rotPointX, m.ty + t.rotPointY - camera.transform.rotPointY);
 
                     //  Work out how many tiles we can fit into our camera and round it up for the edges
                     this._maxX = Math.min(Math.ceil(camera.width / this.tileWidth) + 1, this.widthInTiles);
                     this._maxY = Math.min(Math.ceil(camera.height / this.tileHeight) + 1, this.heightInTiles);
 
                     //  And now work out where in the tilemap the camera actually is
-                    this._startX = Math.floor((camera.transform.x - t.x) / this.tileWidth);
-                    this._startY = Math.floor((camera.transform.y - t.y) / this.tileHeight);
+                    this._startX = Math.floor((-camera.transform.x - t.x) / this.tileWidth);
+                    this._startY = Math.floor((-camera.transform.y - t.y) / this.tileHeight);
 
                     //boundaries check
                     if (this._startX < 0) {
@@ -11440,7 +11399,7 @@ var Kiwi;
 
                         for (var tile = this._startX; tile < this._startX + this._maxX; tile++) {
                             if (this._columnData[tile].tileType.cellIndex !== -1) {
-                                ctx.drawImage(this._atlas.image, this._columnData[tile].tileType.cellIndex.x, this._columnData[tile].tileType.cellIndex.y, this._columnData[tile].tileType.cellIndex.w, this._columnData[tile].tileType.cellIndex.h, this._columnData[tile].x, this._columnData[tile].y, this.tileWidth, this.tileHeight);
+                                ctx.drawImage(this._atlas.image, this._columnData[tile].tileType.cellIndex.x, this._columnData[tile].tileType.cellIndex.y, this._columnData[tile].tileType.cellIndex.w, this._columnData[tile].tileType.cellIndex.h, this._columnData[tile].x - t.rotPointX, this._columnData[tile].y - t.rotPointY, this.tileWidth, this.tileHeight);
 
                                 this._columnData[tile].physics.update();
                             }
@@ -11636,14 +11595,15 @@ var Kiwi;
 (function (Kiwi) {
     (function (Geom) {
         /**
-        * A Circle object is an area defined by its position, as indicated by its center point (x,y) and diameter.
+        * A Circle object is an area defined by its position,
+        * as indicated by its center point (x,y) and diameter.
         *
         * @class Circle
         * @namespace Kiwi.Geom
         * @constructor
-        * @param x {Number} The x coordinate of the center of the circle.
-        * @param y {Number} The y coordinate of the center of the circle.
-        * @param diameter {number} The diameter of the circle.
+        * @param [x = 0] {Number} The x coordinate of the center of the circle.
+        * @param [y = 0] {Number} The y coordinate of the center of the circle.
+        * @param [diameter = 0] {number} The diameter of the circle.
         * @return {Circle} This circle object
         *
         */
@@ -11704,7 +11664,6 @@ var Kiwi;
                 * The diameter of the circle. The largest distance between any two points on the circle. The same as the radius * 2.
                 * @property diameter
                 * @type number
-                * @default 0
                 * @public
                 */
                 set: function (value) {
@@ -12066,11 +12025,11 @@ var Kiwi;
         * @class Ray
         * @namespace Kiwi.Geom
         * @constructor
-        * @param x1 {Number} x1
-        * @param y1 {Number} y1
-        * @param x2 {Number} x2
-        * @param y2 {Number} y2
-        * @return {Kiwi.Geom.Ray} This Object
+        * @param [x1 = 0] {Number} x1
+        * @param [y1 = 0] {Number} y1
+        * @param [x2 = 0] {Number} x2
+        * @param [y2 = 0] {Number} y2
+        * @return {Ray} This Object
         *
         */
         var Ray = (function () {
@@ -12120,7 +12079,8 @@ var Kiwi;
             };
 
             /**
-            *
+            * Makes a copy of this Ray either as a new Ray object or,
+            * makes a passed Ray a copy of this one.
             * @method clone
             * @param [output = Ray] {Ray}
             * @return {Ray}
@@ -12132,7 +12092,7 @@ var Kiwi;
             };
 
             /**
-            *
+            * Makes this Ray the same as a passed Ray.
             * @method copyFrom
             * @param source {Ray}
             * @return {Ray}
@@ -12143,7 +12103,7 @@ var Kiwi;
             };
 
             /**
-            *
+            * Makes a passed Ray the same as this Ray object.
             * @method copyTo
             * @param target {Ray}
             * @return {Ray}
@@ -12154,7 +12114,7 @@ var Kiwi;
             };
 
             /**
-            *
+            * Sets the origin and the direction of this Ray.
             * @method setTo
             * @param x1{Number}
             * @param y1{Number}
@@ -12220,7 +12180,7 @@ var Kiwi;
             });
 
             /**
-            * Check if a the ray passes through a point.
+            * Check if the Ray passes through a point.
             * @method isPointOnRay
             * @param {Number} x
             * @param {Number} y
@@ -12231,7 +12191,6 @@ var Kiwi;
                     if (Math.atan2(y - this.y1, x - this.x1) == Math.atan2(this.y2 - this.y1, this.x2 - this.x1)) {
                         return true;
                     }
-                    //  return true;
                 }
 
                 return false;
@@ -12260,11 +12219,11 @@ var Kiwi;
 (function (Kiwi) {
     (function (Geom) {
         /**
-        * A collection of methods to help determine and return intersection between geometric objects.
+        * Contains a collection of STATIC methods to help determine and return intersection between geometric objects.
         *
         * @class Intersect
         * @namespace Kiwi.Geom
-        *
+        * @static
         */
         var Intersect = (function () {
             function Intersect() {
@@ -12285,27 +12244,31 @@ var Kiwi;
             * -------------------------------------------------------------------------------------------
             **/
             /**
-            *
+            * Returns the distance between two sets of coordinates that you specify.
             * @method distance
-            * @param {Number} x1
-            * @param {Number} y1
-            * @param {Number} x2
-            * @param {Number} y2
-            * @return {Number}
+            * @param x1 {Number} The x position of the first coordinate.
+            * @param y1 {Number} The y position of the first coordinate.
+            * @param x2 {Number} The x position of the second coordinate.
+            * @param y2 {Number} The y position of the second coordinate.
+            * @return {Number} The distance between the two points.
+            * @public
+            * @static
             **/
             Intersect.distance = function (x1, y1, x2, y2) {
                 return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
             };
 
             /**
-            *
+            * Returns the distance squared between two sets of coordinates that you specify.
             * @method distanceSquared
-            * @param {Number} x1
-            * @param {Number} y1
-            * @param {Number} x2
-            * @param {Number} y2
-            * @return {Number}
-            **/
+            * @param x1 {Number} The x position of the first coordinate.
+            * @param y1 {Number} The y position of the first coordinate.
+            * @param x2 {Number} The x position of the second coordinate.
+            * @param y2 {Number} The y position of the second coordinate.
+            * @return {Number} The distance between the two points squared.
+            * @public
+            * @static
+            */
             Intersect.distanceSquared = function (x1, y1, x2, y2) {
                 return (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
             };
@@ -12316,13 +12279,16 @@ var Kiwi;
             * -------------------------------------------------------------------------------------------
             **/
             /**
-            * Check if the two given Line objects intersect
+            * Check to see if any two Lines intersect at any point.
+            * Both lines are treated as if they extend infintely through space.
             * @method lineToLine
-            * @param {Kiwi.Geom.Line} The first line object to check
-            * @param {Kiwi.Geom.Line} The second line object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
-            **/
+            * @param line1 {Line} The first line object to check
+            * @param line2 {Line} The second line object to check
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in. (One is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+            * @public
+            * @static
+            */
             Intersect.lineToLine = function (line1, line2, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var denom = (line1.x1 - line1.x2) * (line2.y1 - line2.y2) - (line1.y1 - line1.y2) * (line2.x1 - line2.x2);
@@ -12337,13 +12303,17 @@ var Kiwi;
             };
 
             /**
-            * Check if the Line and Line Segment intersects
+            * Check to see if a Line and a Line Segment intersect at any point.
+            * Note: The first line passed is treated as if it extends infinately though space,
+            * The second is treated as if it only exists between its two points.
             * @method lineToLineSegment
-            * @param {Kiwi.Geom.Line} The line object to check
-            * @param {Kiwi.Geom.Line} The line segment object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
-            **/
+            * @param line1 {Line} The first line to check. This is the one that will extend through space infinately.
+            * @param seg {Line} The second line to check. This is the one that will only exist between its two coordinates.
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection.
+            * @public
+            * @static
+            */
             Intersect.lineToLineSegment = function (line1, seg, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var denom = (line1.x1 - line1.x2) * (seg.y1 - seg.y2) - (line1.y1 - line1.y2) * (seg.x1 - seg.x2);
@@ -12367,16 +12337,20 @@ var Kiwi;
             };
 
             /**
-            * Check if the Line and Line Segment intersects
-            * @method lineToLineSegment
-            * @param {Kiwi.Geom.Line} The line object to check
-            * @param {number} The x1 value
-            * @param {number} The y1 value
-            * @param {number} The x2 value
-            * @param {number} The y2 value
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
-            **/
+            * Checks to see if a Line that is passed, intersects at any point another Line that is made by passing a set of coordinates to this method.
+            * Note: The first line will extend infinately through space.
+            * And the second line will only exist between the two points passed.
+            * @method lineToRawSegment
+            * @param line {Line} The line object that extends infinatly through space.
+            * @param x1 {number} The x coordinate of the first point in the second line.
+            * @param y1 {number} The y coordinate of the first point in the second line.
+            * @param x2 {number} The x coordinate of the second point in the second line.
+            * @param y2 {number} The y coordinate of the second point in the second line.
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+            * @static
+            * @public
+            */
             Intersect.lineToRawSegment = function (line, x1, y1, x2, y2, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var denom = (line.x1 - line.x2) * (y1 - y2) - (line.y1 - line.y2) * (x1 - x2);
@@ -12399,13 +12373,16 @@ var Kiwi;
             };
 
             /**
-            * Check if the Line and Ray intersects
+            * Checks to see if a Line and Ray object intersects at any point.
+            * Note: The line in this case extends infinately through space.
             * @method lineToRay
-            * @param {Kiwi.Geom.Line} The Line object to check
-            * @param {Kiwi.Geom.Line} The Ray object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
-            **/
+            * @param line1 {Line} The Line object that extends infinatly through space.
+            * @param ray {Ray} The Ray object that you want to check it against.
+            * @param {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+            * @public
+            * @static
+            */
             Intersect.lineToRay = function (line1, ray, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var denom = (line1.x1 - line1.x2) * (ray.y1 - ray.y2) - (line1.y1 - line1.y2) * (ray.x1 - ray.x2);
@@ -12428,13 +12405,16 @@ var Kiwi;
             };
 
             /**
-            * Check if the Line and Circle intersects
+            * Checks to see if a Line and a Circle intersect at any point.
+            * Note: The line passed is assumed to extend infinately through space.
             * @method lineToCircle
-            * @param {Kiwi.Geom.Line} The Line object to check
-            * @param {Kiwi.Geom.Circle} The Circle object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
-            **/
+            * @param line {Line} The Line object that you want to check it against.
+            * @param circle {Circle} The Circle object to check.
+            * @param [output=Intersect] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+            * @public
+            * @static
+            */
             Intersect.lineToCircle = function (line, circle, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 //  Get a perpendicular line running to the center of the circle
@@ -12446,13 +12426,16 @@ var Kiwi;
             };
 
             /**
-            * Check if the Line intersects each side of the Rectangle
+            * Check if the Line intersects with each side of a Rectangle.
+            * Note: The Line is assumned to extend infinately through space.
             * @method lineToRectangle
-            * @param {Kiwi.Geom.Line} The Line object to check
-            * @param {Kiwi.Geom.Rectangle} The Rectangle object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
-            **/
+            * @param line {Line} The Line object to check
+            * @param rectangle {Rectangle} The Rectangle object to check
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+            * @public
+            * @static
+            */
             Intersect.lineToRectangle = function (line, rect, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 //  Top of the Rectangle vs the Line
@@ -12488,13 +12471,16 @@ var Kiwi;
             * -------------------------------------------------------------------------------------------
             **/
             /**
-            * Check if Line1 intersects with Line2
+            * Checks to see if two Line Segments intersect at any point in space.
+            * Note: Both lines are treated as if they only exist between their two line coordinates.
             * @method lineSegmentToLineSegment
-            * @param {Kiwi.Geom.Line} The first line object to check
-            * @param {Kiwi.Geom.Line} The second line object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
-            **/
+            * @param line1 {Line} The first line object to check.
+            * @param line2 {Line} The second line object to check.
+            * @param [output=IntersectResult]{IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y.
+            * @public
+            * @static
+            */
             Intersect.lineSegmentToLineSegment = function (line1, line2, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 Intersect.lineToLineSegment(line1, line2, output);
@@ -12509,13 +12495,16 @@ var Kiwi;
             };
 
             /**
-            * Check if the Line Segment intersects with the Ray
+            * Check if the Line Segment intersects with the Ray.
+            * Note: The Line only exists between its two points.
             * @method lineSegmentToRay
-            * @param {Kiwi.Geom.Line} The Line object to check
-            * @param {Kiwi.Geom.Line} The Line Ray object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @param line1 {Line} The Line object to check.
+            * @param ray {Line} The Ray object to check.
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
             * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
-            **/
+            * @public
+            * @static
+            */
             Intersect.lineSegmentToRay = function (line1, ray, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 Intersect.lineToRay(line1, ray, output);
@@ -12530,13 +12519,16 @@ var Kiwi;
             };
 
             /**
-            * Check if the Line Segment intersects with the Circle
+            * Check if the Line Segment intersects with the Circle.
+            * Note the Line only exists between its point points.
             * @method lineSegmentToCircle
-            * @param {Kiwi.Geom.Line} The Line object to check
-            * @param {Kiwi.Geom.Circle} The Circle object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
-            **/
+            * @param seg {Line} The Line object to check
+            * @param circle {Circle} The Circle object to check
+            * @param [ouput=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+            * @public
+            * @static
+            */
             Intersect.lineSegmentToCircle = function (seg, circle, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var perp = seg.perp(circle.x, circle.y);
@@ -12562,13 +12554,16 @@ var Kiwi;
             };
 
             /**
-            * Check if the Line Segment intersects with the Rectangle
+            * Check if the Line Segment intersects with any side of a Rectangle.
+            * Note: The Line only exists between its two points.
             * @method lineSegmentToCircle
-            * @param {Kiwi.Geom.Line} The Line object to check
-            * @param {Kiwi.Geom.Circle} The Circle object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
-            **/
+            * @param seg {Line} The Line object to check.
+            * @param rect {Rectangle} The Rectangle object to check.
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given).
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y.
+            * @public
+            * @static
+            */
             Intersect.lineSegmentToRectangle = function (seg, rect, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 if (rect.contains(seg.x1, seg.y1) && rect.contains(seg.x2, seg.y2)) {
@@ -12610,13 +12605,15 @@ var Kiwi;
             * -------------------------------------------------------------------------------------------
             **/
             /**
-            * Check if the two given Circle objects intersect
-            * @method circleToCircle
-            * @param {Kiwi.Geom.Circle} The first circle object to check
-            * @param {Kiwi.Geom.Circle} The second circle object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
-            **/
+            * Check to see if a Ray intersects at any point with a Rectangle.
+            * @method rayToRectangle
+            * @param ray {Ray} The Ray object to check.
+            * @param rect {Rectangle} The Rectangle to check.
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+            * @public
+            * @static
+            */
             Intersect.rayToRectangle = function (ray, rect, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 //  Currently just finds first intersection - might not be closest to ray pt1
@@ -12626,20 +12623,22 @@ var Kiwi;
             };
 
             /**
-            * Check whether a ray intersects a line segment, returns the parametric value where the intersection occurs.
+            * Check whether a Ray intersects a Line segment, returns the parametric value where the intersection occurs.
+            * Note: The Line only exists between its two points.
             * @method rayToLineSegment
             * @static
-            * @param {Number} rayx1. The origin x of the ray.
-            * @param {Number} rayy1. The origin y of the ray.
-            * @param {Number} rayx2. The direction x of the ray.
-            * @param {Number} rayy2. The direction y of the ray.
-            * @param {Number} linex1. The x of the first point of the line segment.
-            * @param {Number} liney1. The y of the first point of the line segment.
-            * @param {Number} linex2. The x of the second point of the line segment.
-            * @param {Number} liney2. The y of the second point of the line segment.
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection stored in x
-            **/
+            * @param rayx1 {Number} The origin point of the ray on the x axis.
+            * @param rayy1 {Number} The origin point of the ray on the y axis.
+            * @param rayx2 {Number} The direction of the ray on the x axis.
+            * @param rayy2 {Number} The direction of the ray on the y axis.
+            * @param linex1 {Number} The x of the first point of the line segment.
+            * @param liney1 {Number} The y of the first point of the line segment.
+            * @param linex2 {Number} The x of the second point of the line segment.
+            * @param liney2 {Number} The y of the second point of the line segment.
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection stored in x
+            * @public
+            */
             Intersect.rayToLineSegment = function (rayx1, rayy1, rayx2, rayy2, linex1, liney1, linex2, liney2, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var r, s, d;
@@ -12670,13 +12669,15 @@ var Kiwi;
             * -------------------------------------------------------------------------------------------
             **/
             /**
-            * Check if the two given Circle objects intersect
+            * Check if the two given Circle objects intersect at any point.
             * @method circleToCircle
-            * @param {Kiwi.Geom.Circle} The first circle object to check
-            * @param {Kiwi.Geom.Circle} The second circle object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
-            **/
+            * @param circle1 {Circle} The first circle object to check.
+            * @param circle2 {Circle} The second circle object to check.
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+            * @public
+            * @static
+            */
             Intersect.circleToCircle = function (circle1, circle2, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 output.result = ((circle1.radius + circle2.radius) * (circle1.radius + circle2.radius)) >= Intersect.distanceSquared(circle1.x, circle1.y, circle2.x, circle2.y);
@@ -12685,13 +12686,15 @@ var Kiwi;
             };
 
             /**
-            * Check if the given Rectangle intersects with the given Circle
+            * Check if a Circle and a Rectangle intersect with each other at any point.
             * @method circleToRectangle
-            * @param {Kiwi.Geom.Circle} The circle object to check
-            * @param {Kiwi.Geom.Rectangle} The Rectangle object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
-            **/
+            * @param circle {Circle} The circle object to check.
+            * @param rect {Rectangle} The Rectangle object to check.
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+            * @public
+            * @static
+            */
             Intersect.circleToRectangle = function (circle, rect, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var inflatedRect = rect.clone();
@@ -12704,13 +12707,15 @@ var Kiwi;
             };
 
             /**
-            * Check if the given Point is found within the given Circle
+            * Check if the given Point is found within the given Circle.
             * @method circleContainsPoint
-            * @param {Kiwi.Geom.Circle} The circle object to check
-            * @param {Kiwi.Geom.Point} The point object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
-            **/
+            * @param circle {Circle} The circle object to check
+            * @param point {Point} The point object to check
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+            * @public
+            * @static
+            */
             Intersect.circleContainsPoint = function (circle, point, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 output.result = circle.radius * circle.radius >= Intersect.distanceSquared(circle.x, circle.y, point.x, point.y);
@@ -12724,12 +12729,15 @@ var Kiwi;
             * -------------------------------------------------------------------------------------------
             **/
             /**
-            * Determines whether the specified point is contained within the rectangular region defined the Rectangle object.
+            * Determines whether the specified point is contained within a given Rectangle object.
             * @method pointToRectangle
-            * @param {Point} point The point object being checked.
-            * @param {Rectangle} rect The rectangle object being checked.
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y/result
-            **/
+            * @param point {Point} The point object being checked.
+            * @param rect {Rectangle} The rectangle object being checked.
+            * @param [output=Intersect] {IntersectResult}  An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y/result
+            * @public
+            * @static
+            */
             Intersect.pointToRectangle = function (point, rect, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 output.setTo(point.x, point.y);
@@ -12742,11 +12750,13 @@ var Kiwi;
             /**
             * Check whether two axis aligned rectangles intersect. Return the intersecting rectangle dimensions if they do.
             * @method rectangleToRectangle
-            * @param {Kiwi.Geom.Rectangle} The first Rectangle object
-            * @param {Kiwi.Geom.Rectangle} The second Rectangle object
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y/width/height
-            **/
+            * @param rect1 {Rectangle} The first Rectangle object.
+            * @param rect2 {Rectangle} The second Rectangle object.
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y/width/height
+            * @public
+            * @static
+            */
             Intersect.rectangleToRectangle = function (rect1, rect2, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var leftX = Math.max(rect1.x, rect2.x);
@@ -12780,18 +12790,21 @@ var Kiwi;
 (function (Kiwi) {
     (function (Geom) {
         /**
-        * A light result object to hold the results of an intersection
+        * A Lightweight object to hold the results of an Intersection.
+        * Used in combination with the STATIC methods on the Intersect class.
         *
         * @class IntersectResult
         * @namespace Kiwi.Geom
-        *
+        * @constructor
         */
         var IntersectResult = (function () {
             function IntersectResult() {
                 /**
-                * [REQUIRES DESCRIPTION]
+                * Holds the result of an Intersection between two geometric items.
+                * TRUE means an Intersection did occur and FALSE means not.
                 * @property result
                 * @type boolean
+                * @default false
                 */
                 this.result = false;
             }
@@ -12806,14 +12819,14 @@ var Kiwi;
             };
 
             /**
-            *
+            * Sets the coordinates of the points based on the parameters passed.
             * @method setTo
             * @param {Number} x1
             * @param {Number} y1
-            * @param {Number} [x2]
-            * @param {Number} [y2]
-            * @param {Number} [width]
-            * @param {Number} [height]
+            * @param {Number} [x2=0]
+            * @param {Number} [y2=0]
+            * @param {Number} [width=0]
+            * @param {Number} [height=0]
             */
             IntersectResult.prototype.setTo = function (x1, y1, x2, y2, width, height) {
                 if (typeof x2 === "undefined") { x2 = 0; }
@@ -12847,7 +12860,9 @@ var Kiwi;
 (function (Kiwi) {
     (function (Geom) {
         /**
-        * A line object is an infinte line through space. The two sets of x/y coordinates define the Line Segment.
+        * A Kiwi Line object has two meanings depending on the situation you need.
+        * Either an infinte line through space (this is the normal meaning of a Line)
+        * OR it can be a Line Segment which just exists between the TWO points you specify.
         *
         * @class Line
         * @namespace Kiwi.Geom
@@ -12856,7 +12871,7 @@ var Kiwi;
         * @param [y1 = 0]{Number} y1 y component of first point.
         * @param [x2 = 0]{Number} x2 x component of second point.
         * @param [y2 = 0]{Number} y2 y component of second point.
-        * @return {Kiwi.Geom.Line} This Object
+        * @return {Line} This Object
         *
         */
         var Line = (function () {
@@ -12866,14 +12881,14 @@ var Kiwi;
                 if (typeof x2 === "undefined") { x2 = 0; }
                 if (typeof y2 === "undefined") { y2 = 0; }
                 /**
-                * x component of first point.
+                * X position of first point in your line.
                 * @property x1
                 * @type Number
                 * @public
                 */
                 this.x1 = 0;
                 /**
-                * y component of first point.
+                * Y position of first point in your line.
                 * @property y1
                 * @type Number
                 * @public
@@ -12906,7 +12921,9 @@ var Kiwi;
             };
 
             /**
-            * Return a clone of the line.
+            * Makes a clone of this Line.
+            * The clone will either be a new Line Object,
+            * Otherwise you can pass a existing Line Object that you want to be a clone of this one.
             * @method clone
             * @param [output = Line] {Line}
             * @return {Line}
@@ -12918,7 +12935,7 @@ var Kiwi;
             };
 
             /**
-            * Copy the line from another existing line.
+            * Make this Line a copy of another passed Line.
             * @method copyFrom
             * @param source {Line} source
             * @return {Line}
@@ -12929,7 +12946,7 @@ var Kiwi;
             };
 
             /**
-            * Copy the line to another existing line.
+            * Make another passed Line a copy of this one.
             * @method copyTo
             * @param target {Line} target
             * @return {Line}
@@ -12940,13 +12957,13 @@ var Kiwi;
             };
 
             /**
-            * Set all components on the line.
+            * Used to set all components on the line.
             * @method setTo
-            * @param [x1 = 0]{Number} x1 x component of first point.
-            * @param [y1 = 0]{Number} y1 y component of first point.
-            * @param [x2 = 0]{Number} x2 x component of second point.
-            * @param [y2 = 0]{Number} y2 y component of second point.
-            * @return {Kiwi.Geom.Line}
+            * @param [x1 = 0]{Number} X component of first point.
+            * @param [y1 = 0]{Number} Y component of first point.
+            * @param [x2 = 0]{Number} X component of second point.
+            * @param [y2 = 0]{Number} Y component of second point.
+            * @return {Line}
             * @public
             */
             Line.prototype.setTo = function (x1, y1, x2, y2) {
@@ -12964,7 +12981,7 @@ var Kiwi;
 
             Object.defineProperty(Line.prototype, "length", {
                 /**
-                * Get the length of the line as a line segment.
+                * Get the length of the Line as a Line Segment.
                 * @property length
                 * @type number
                 * @public
@@ -13083,10 +13100,11 @@ var Kiwi;
             };
 
             /**
-            * [REQUIRES DESCRIPTION]
+            * Check to see if this Line object intersects at any point with a passed Line.
+            * Note: Both are treated as extending infinately through space.
             * @method intersectLineLine
-            * @param line {Any} line
-            * @return {Any}
+            * @param line {Line} The line you want to check for a Intersection with.
+            * @return {IntersectResult} The Intersect Result containing the collision information.
             * @public
             */
             Line.prototype.intersectLineLine = function (line) {
@@ -13098,7 +13116,7 @@ var Kiwi;
             * @method perp
             * @param x {Number}
             * @param y {Number}
-            * @param [output = Line]{Line}
+            * @param [output = Line] {Line}
             * @return {Line}
             * @public
             */
@@ -13926,10 +13944,10 @@ var Kiwi;
         * @class Rectangle
         * @namespace Kiwi.Geom
         * @constructor
-        * @param x {Number} x The x coordinate of the top-left corner of the rectangle.
-        * @param y {Number} y The y coordinate of the top-left corner of the rectangle.
-        * @param width {Number} width The width of the rectangle in pixels.
-        * @param height {Number} height The height of the rectangle in pixels.
+        * @param [x = 0] {Number} The x coordinate of the top-left corner of the rectangle.
+        * @param [y = 0] {Number} The y coordinate of the top-left corner of the rectangle.
+        * @param [width = 0] {Number} width The width of the rectangle in pixels.
+        * @param [height = 0] {Number} height The height of the rectangle in pixels.
         * @return {Rectangle} This rectangle object
         *
         */
@@ -14444,7 +14462,7 @@ var Kiwi;
             };
 
             /**
-            * Sets the members of Rectangle to the specified values.
+            * Sets the properties of Rectangle to the specified values.
             * @method setTo
             * @param x {Number} x The x coordinate of the top-left corner of the rectangle.
             * @param y {Number} y The y coordinate of the top-left corner of the rectangle.
@@ -14482,7 +14500,7 @@ var Kiwi;
             };
 
             /**
-            [Requires Description]
+            * [DESCRIPTION REQUIRED]
             * @method scale
             * @param x {number}
             * @param y {number}
@@ -21656,17 +21674,6 @@ var Kiwi;
                 }
             };
 
-            //for gl compatibility - refactor me
-            CanvasRenderer.prototype.requestRendererInstance = function (rendererID, params) {
-                if (typeof params === "undefined") { params = null; }
-                return null;
-            };
-
-            CanvasRenderer.prototype.requestSharedRenderer = function (rendererID, params) {
-                if (typeof params === "undefined") { params = null; }
-                return null;
-            };
-
             CanvasRenderer.prototype.initState = function (state) {
             };
 
@@ -21719,14 +21726,14 @@ var Kiwi;
     (function (Renderers) {
         /**
         * Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  https://github.com/toji/gl-matrix
-        * @class GLRenderManager
+        * @class GLRenderer
         * @extends IRenderer
         * @constructor
         * @param game {Game} The game that this renderer belongs to.
         * @return {GLRenderer}
         */
-        var GLRenderManager = (function () {
-            function GLRenderManager(game) {
+        var GLRenderer = (function () {
+            function GLRenderer(game) {
                 /**
                 * Tally of number of entities rendered per frame
                 * @property _entityCount
@@ -21758,7 +21765,6 @@ var Kiwi;
                 * @private
                 */
                 this._currentTextureAtlas = null;
-                this._sharedRenderers = {};
                 this._game = game;
                 if (typeof mat4 === "undefined") {
                     throw "ERROR: gl-matrix.js is missing - you need to include this javascript to use webgl - https://github.com/toji/gl-matrix";
@@ -21769,10 +21775,9 @@ var Kiwi;
             * @method boot
             * @public
             */
-            GLRenderManager.prototype.boot = function () {
-                this._textureManager = new Kiwi.Renderers.GLTextureManager();
-                this._shaderManager = new Kiwi.Shaders.ShaderManager();
+            GLRenderer.prototype.boot = function () {
                 this._init();
+                this._textureManager = new Kiwi.Renderers.GLTextureManager();
             };
 
             /**
@@ -21781,49 +21786,8 @@ var Kiwi;
             * @return {String}
             * @public
             */
-            GLRenderManager.prototype.objType = function () {
+            GLRenderer.prototype.objType = function () {
                 return "GLRenderer";
-            };
-
-            GLRenderManager.prototype.addSharedRenderer = function (rendererID, params) {
-                if (typeof params === "undefined") { params = null; }
-                //does renderer exist?
-                if (Kiwi.Renderers[rendererID]) {
-                    //already added?
-                    if (!(rendererID in this._sharedRenderers)) {
-                        this._sharedRenderers[rendererID] = new Kiwi.Renderers[rendererID](this._game.stage.gl, this._shaderManager, params);
-                        return true;
-                    }
-                }
-                return false;
-            };
-
-            GLRenderManager.prototype.requestRendererInstance = function (rendererID, params) {
-                if (typeof params === "undefined") { params = null; }
-                if (rendererID in Kiwi.Renderers) {
-                    var renderer = new Kiwi.Renderers[rendererID](this._game.stage.gl, this._shaderManager, params);
-                    return renderer;
-                } else {
-                    console.log("No renderer with id " + rendererID + " exists");
-                }
-                return null;
-            };
-
-            GLRenderManager.prototype.requestSharedRenderer = function (rendererID, params) {
-                if (typeof params === "undefined") { params = null; }
-                var renderer = this._sharedRenderers[rendererID];
-                if (renderer) {
-                    return renderer;
-                } else {
-                    if (this.addSharedRenderer(rendererID, params)) {
-                        return this._sharedRenderers[rendererID];
-                    } else {
-                        console.log("no renderer called " + rendererID);
-                    }
-                }
-
-                //failed request
-                return null;
             };
 
             /**
@@ -21831,36 +21795,34 @@ var Kiwi;
             * @method _init
             * @private
             */
-            GLRenderManager.prototype._init = function () {
+            GLRenderer.prototype._init = function () {
                 console.log("Intialising WebGL");
+
                 var gl = this._game.stage.gl;
+
+                this._currentRenderer = new Kiwi.Renderers.Texture2DRenderer;
 
                 //init stage and viewport
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
                 gl.viewport(0, 0, this._game.stage.width, this._game.stage.height);
 
-                this._cameraOffset = new Float32Array([0, 0]);
-
                 //set default state
                 gl.enable(gl.BLEND);
                 gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-                //create Model View Matrix
                 this.mvMatrix = mat4.create();
                 mat2d.identity(this.mvMatrix);
 
-                //shader manager
-                this._shaderManager.init(gl, "TextureAtlasShader");
-
-                //initialise default renderer
-                this.requestSharedRenderer("TextureAtlasRenderer");
-                this._sharedRenderers.TextureAtlasRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
-                this._currentRenderer = this._sharedRenderers.TextureAtlasRenderer;
+                var renderer = this._currentRenderer;
+                renderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
 
                 //stage res needs update on stage resize
+                // this._currentRenderer.shaderPair.uResolution(gl,this._stageResolution);
                 this._game.stage.onResize.add(function (width, height) {
                     this._stageResolution = new Float32Array([width, height]);
-                    this._currentRenderer.updateStageResolution(gl, this._stageResolution);
+                    renderer.updateStageResolution(gl, this._stageResolution);
+
+                    //   this._texture2DRenderer.shaderPair.uResolution(gl, this._stageResolution);
                     gl.viewport(0, 0, width, height);
                 }, this);
             };
@@ -21870,7 +21832,7 @@ var Kiwi;
             * @method initState
             * @public
             */
-            GLRenderManager.prototype.initState = function (state) {
+            GLRenderer.prototype.initState = function (state) {
                 console.log("initialising WebGL on State");
                 this._textureManager.uploadTextureLibrary(this._game.stage.gl, state.textureLibrary);
             };
@@ -21881,7 +21843,7 @@ var Kiwi;
             * @param state {Kiwi.State}
             * @public
             */
-            GLRenderManager.prototype.endState = function (state) {
+            GLRenderer.prototype.endState = function (state) {
                 this._textureManager.clearTextures(this._game.stage.gl);
                 console.log("ending WebGL on State");
             };
@@ -21892,15 +21854,17 @@ var Kiwi;
             * @param camera {Camera}
             * @public
             */
-            GLRenderManager.prototype.render = function (camera) {
+            GLRenderer.prototype.render = function (camera) {
+                this.numDrawCalls = 0;
+                this._currentCamera = camera;
+                var root = this._game.states.current.members;
                 var gl = this._game.stage.gl;
 
-                //reset stats
-                this.numDrawCalls = 0;
                 this._textureManager.numTextureWrites = 0;
+
                 this._entityCount = 0;
 
-                //clear stage
+                //clear
                 var col = this._game.stage.normalizedColor;
                 gl.clearColor(col.r, col.g, col.b, col.a);
                 gl.clear(gl.COLOR_BUFFER_BIT);
@@ -21909,7 +21873,6 @@ var Kiwi;
                 var cm = camera.transform.getConcatenatedMatrix();
                 var ct = camera.transform;
 
-                //**Optimise me
                 this.mvMatrix = new Float32Array([
                     cm.a, cm.b, 0, 0,
                     cm.c, cm.d, 0, 0,
@@ -21917,19 +21880,15 @@ var Kiwi;
                     ct.rotPointX - cm.tx, ct.rotPointY - cm.ty, 0, 1
                 ]);
                 this._cameraOffset = new Float32Array([ct.rotPointX, ct.rotPointY]);
+                var renderer = this._currentRenderer;
+                renderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
 
-                //clear current renderer ready for a batch
-                this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
-
-                //render the scene graph starting at the root
-                var root = this._game.states.current.members;
                 for (var i = 0; i < root.length; i++) {
                     this._recurse(gl, root[i], camera);
                 }
 
                 //draw anything left over
-                this._currentRenderer.draw(gl);
-                this.numDrawCalls++;
+                renderer.draw(gl, { entityCount: this._entityCount });
             };
 
             /**
@@ -21940,142 +21899,125 @@ var Kiwi;
             * @param camera {Camera}
             * @private
             */
-            GLRenderManager.prototype._recurse = function (gl, child, camera) {
+            GLRenderer.prototype._recurse = function (gl, child, camera) {
                 if (!child.willRender)
                     return;
+                var renderer = this._currentRenderer;
 
                 if (child.childType() === Kiwi.GROUP) {
                     for (var i = 0; i < child.members.length; i++) {
                         this._recurse(gl, child.members[i], camera);
                     }
                 } else {
-                    this._processEntity(gl, child, camera);
+                    //draw and switch to different texture if need be
+                    if (child.atlas !== this._currentTextureAtlas) {
+                        renderer.draw(gl, { entityCount: this._entityCount });
+                        this.numDrawCalls++;
+                        this._entityCount = 0;
+                        renderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+
+                        if (!this._textureManager.useTexture(gl, child.atlas.glTextureWrapper, this._currentRenderer.shaderPair.uniforms.uTextureSize))
+                            return;
+                        this._currentTextureAtlas = child.atlas;
+                    }
+
+                    //"render"
+                    //renderer.collateVertexAttributeArrays(gl, <Entity>child, camera);
+                    child.renderGL(gl, renderer, camera);
+                    this._entityCount++;
                 }
             };
-
-            GLRenderManager.prototype._processEntity = function (gl, entity, camera) {
-                //is the entity's required renderer active and using the correct shader? If not then flush and re-enable renderer
-                //this is to allow the same renderer to use different shaders on different objects - renderer can be configured on a per object basis
-                //this needs thorough testing - also the text property lookups may need refactoring
-                if (entity.glRenderer !== this._currentRenderer || entity.glRenderer["shaderPair"] !== this._shaderManager.currentShader) {
-                    this._flushBatch(gl);
-                    this._switchRenderer(gl, entity);
-
-                    //force texture switch
-                    this._switchTexture(gl, entity);
-                }
-
-                //assert: required renderer is now active
-                //are the entity's texture requirements met?
-                if (entity.atlas !== this._currentTextureAtlas) {
-                    this._flushBatch(gl);
-                    this._switchTexture(gl, entity);
-                }
-
-                //assert: texture requirements are met
-                entity.renderGL(gl, camera);
-                this._entityCount++;
-            };
-
-            GLRenderManager.prototype._flushBatch = function (gl) {
-                this._currentRenderer.draw(gl);
-                this.numDrawCalls++;
-                this._entityCount = 0;
-                this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
-            };
-
-            GLRenderManager.prototype._switchRenderer = function (gl, entity) {
-                //console.log("switching program");
-                this._currentRenderer.disable(gl);
-                this._currentRenderer = entity.glRenderer;
-
-                // if (!this._currentRenderer.loaded) {    // could be done at instantiation time?
-                //     this._currentRenderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
-                // }
-                this._currentRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
-            };
-
-            GLRenderManager.prototype._switchTexture = function (gl, entity) {
-                this._currentTextureAtlas = entity.atlas;
-                this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
-                this._textureManager.useTexture(gl, entity.atlas.glTextureWrapper);
-            };
-            return GLRenderManager;
+            return GLRenderer;
         })();
-        Renderers.GLRenderManager = GLRenderManager;
+        Renderers.GLRenderer = GLRenderer;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Shaders) {
-        var ShaderManager = (function () {
-            function ShaderManager() {
-                this._shaderPairs = {};
+    /**
+    *
+    * @module Kiwi
+    * @submodule Renderers
+    *
+    */
+    (function (Renderers) {
+        /**
+        *
+        * @class GLShaders
+        * @constructor
+        * @param gl {WebGLRenderingContext}
+        * @return {GLShaders}
+        */
+        var GLShaderPair = (function () {
+            function GLShaderPair() {
+                /**
+                *
+                * @property ready
+                * @type boolean
+                * @public
+                */
+                this.ready = false;
             }
-            Object.defineProperty(ShaderManager.prototype, "currentShader", {
-                get: function () {
-                    return this._currentShader;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            ShaderManager.prototype.init = function (gl, defaultShaderID) {
-                this._currentShader = this.requestShader(gl, defaultShaderID);
+            GLShaderPair.prototype.init = function (gl) {
+                this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
+                this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
+                this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
+                this.use(gl);
+                this.ready = true;
             };
 
-            ShaderManager.prototype.requestShader = function (gl, shaderID) {
-                var shader;
+            /**
+            *
+            * @method attach
+            * @param gl {WebGLRenderingContext}
+            * @param vertShader {WebGLShader}
+            * @param fragShader {WebGLShader}
+            * @return {WebGLProgram}
+            * @public
+            */
+            GLShaderPair.prototype.attach = function (gl, vertShader, fragShader) {
+                var shaderProgram = gl.createProgram();
+                gl.attachShader(shaderProgram, fragShader);
+                gl.attachShader(shaderProgram, vertShader);
+                gl.linkProgram(shaderProgram);
+                return shaderProgram;
+            };
 
-                //in list already?
-                if (shaderID in this._shaderPairs) {
-                    shader = this._shaderPairs[shaderID];
-                    if (!shader.loaded) {
-                        this._loadShader(gl, shader);
-                    }
-                    this._useShader(gl, shader);
-                    return shader;
-                } else {
-                    //not in list, does it exist?
-                    if (this.shaderExists) {
-                        shader = this.addShader(gl, shaderID);
-                        this._loadShader(gl, shader);
-                        this._useShader(gl, shader);
-                        return shader;
-                    } else {
-                        console.log("Shader " + shaderID + " does not exist");
-                    }
+            /**
+            *
+            * @method compile
+            * @param gl {WebGLRenderingContext}
+            * @param src {string}
+            * @param shaderType {number}
+            * @return {WebGLShader}
+            * @public
+            */
+            GLShaderPair.prototype.compile = function (gl, src, shaderType) {
+                var shader = gl.createShader(shaderType);
+                gl.shaderSource(shader, src);
+                gl.compileShader(shader);
+
+                if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                    return null;
                 }
-
-                //unsuccessful request
-                return null;
+                return shader;
             };
 
-            ShaderManager.prototype.shaderExists = function (gl, shaderID) {
-                return shaderID in Kiwi.Shaders;
+            /**
+            *
+            * @method use
+            * @param gl {WebGLRenderingContext}
+            * @param shaderProrgram {WebGLProgram}
+            * @public
+            */
+            GLShaderPair.prototype.use = function (gl) {
             };
-
-            ShaderManager.prototype.addShader = function (gl, shaderID) {
-                this._shaderPairs[shaderID] = new Kiwi.Shaders[shaderID]();
-                return this._shaderPairs[shaderID];
-            };
-
-            ShaderManager.prototype._loadShader = function (gl, shader) {
-                shader.init(gl);
-            };
-
-            ShaderManager.prototype._useShader = function (gl, shader) {
-                if (shader !== this._currentShader) {
-                    this._currentShader = shader;
-                    gl.useProgram(shader.shaderProgram);
-                }
-            };
-            return ShaderManager;
+            return GLShaderPair;
         })();
-        Shaders.ShaderManager = ShaderManager;
-    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
-    var Shaders = Kiwi.Shaders;
+        Renderers.GLShaderPair = GLShaderPair;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
 /**
 *
@@ -22335,7 +22277,7 @@ var Kiwi;
             * @return boolean
             * @public
             */
-            GLTextureManager.prototype.useTexture = function (gl, glTextureWrapper) {
+            GLTextureManager.prototype.useTexture = function (gl, glTextureWrapper, textureSizeUniform) {
                 if (!glTextureWrapper.created || !glTextureWrapper.uploaded) {
                     if (!this._uploadTexture(gl, glTextureWrapper)) {
                         this._freeSpace(gl, glTextureWrapper.numBytes);
@@ -22347,8 +22289,7 @@ var Kiwi;
                 //use texture
                 if (glTextureWrapper.created && glTextureWrapper.uploaded) {
                     gl.bindTexture(gl.TEXTURE_2D, glTextureWrapper.texture);
-
-                    //gl.uniform2fv(textureSizeUniform, new Float32Array([glTextureWrapper.image.width, glTextureWrapper.image.height]));
+                    gl.uniform2fv(textureSizeUniform, new Float32Array([glTextureWrapper.image.width, glTextureWrapper.image.height]));
                     return true;
                 }
 
@@ -22607,38 +22548,8 @@ var Kiwi;
 (function (Kiwi) {
     (function (Renderers) {
         var Renderer = (function () {
-            function Renderer(gl, shaderManager) {
-                this.loaded = false;
-                this.shaderManager = shaderManager;
-                this.loaded = true;
+            function Renderer() {
             }
-            /**
-            
-            * The stage resolution in pixels
-            * @property _stageResolution
-            * @type Float32Array
-            * @public
-            */
-            //public init(gl: WebGLRenderingContext, params: any = null) {
-            //    this.loaded = true;
-            //}
-            Renderer.prototype.enable = function (gl, params) {
-                if (typeof params === "undefined") { params = null; }
-            };
-
-            Renderer.prototype.disable = function (gl) {
-            };
-
-            Renderer.prototype.clear = function (gl, params) {
-            };
-            Renderer.prototype.draw = function (gl) {
-            };
-
-            Renderer.prototype.updateStageResolution = function (gl, res) {
-            };
-            Renderer.prototype.updateTextureSize = function (gl, size) {
-            };
-            Renderer.RENDERER_ID = "Renderer";
             return Renderer;
         })();
         Renderers.Renderer = Renderer;
@@ -22654,11 +22565,10 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Renderers) {
-        var TextureAtlasRenderer = (function (_super) {
-            __extends(TextureAtlasRenderer, _super);
-            function TextureAtlasRenderer(gl, shaderManager, params) {
-                if (typeof params === "undefined") { params = null; }
-                _super.call(this, gl, shaderManager);
+        var Texture2DRenderer = (function (_super) {
+            __extends(Texture2DRenderer, _super);
+            function Texture2DRenderer() {
+                _super.call(this);
                 /**
                 * Maximum allowable sprites to render per frame
                 * @property _maxItems
@@ -22667,59 +22577,42 @@ var Kiwi;
                 * @private
                 */
                 this._maxItems = 2000;
-
+            }
+            Texture2DRenderer.prototype.init = function (gl, params) {
                 //create buffers
                 //dynamic
                 this.xyuvBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, 4);
                 this.alphaBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, 1);
 
-                //6 verts per quad
+                //static
                 this.indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
                 //use shaders
-                this.shaderPair = this.shaderManager.requestShader(gl, "TextureAtlasShader");
-            }
-            TextureAtlasRenderer.prototype.enable = function (gl, params) {
-                if (typeof params === "undefined") { params = null; }
-                //gl.useProgram(this.shaderPair.shaderProgram);
-                this.shaderPair = this.shaderManager.requestShader(gl, "TextureAtlasShader");
-                gl.enableVertexAttribArray(this.shaderPair.attributes.aXYUV);
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.xyuvBuffer.buffer);
-                gl.vertexAttribPointer(this.shaderPair.attributes.aXYUV, this.xyuvBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                gl.enableVertexAttribArray(this.shaderPair.attributes.aAlpha);
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.alphaBuffer.buffer);
-                gl.vertexAttribPointer(this.shaderPair.attributes.aAlpha, this.alphaBuffer.itemSize, gl.FLOAT, false, 0, 0);
+                this.shaderPair = new Kiwi.Renderers.Texture2DShader();
+                this.shaderPair.init(gl);
+                this.shaderPair.use(gl);
+                this.shaderPair.aXYUV(gl, this.xyuvBuffer);
+                this.shaderPair.aAlpha(gl, this.alphaBuffer);
 
                 //Texture
                 gl.activeTexture(gl.TEXTURE0);
-                gl.uniform1i(this.shaderPair.uniforms.samplerUniform, 0);
+                this.shaderPair.uSampler(gl, 0);
 
-                //Other uniforms
-                gl.uniform2fv(this.shaderPair.uniforms.uResolution, params.stageResolution);
-                gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset, params.cameraOffset);
-                gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix, false, params.mvMatrix);
+                //stage res
+                this.updateStageResolution(gl, params.stageResolution);
             };
 
-            TextureAtlasRenderer.prototype.disable = function (gl) {
-                gl.disableVertexAttribArray(this.shaderPair.attributes.aXYUV);
-                gl.disableVertexAttribArray(this.shaderPair.attributes.aAlpha);
-            };
-
-            TextureAtlasRenderer.prototype.clear = function (gl, params) {
+            Texture2DRenderer.prototype.clear = function (gl, params) {
                 this.xyuvBuffer.clear();
                 this.alphaBuffer.clear();
-                gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix, false, params.mvMatrix);
-                gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset, new Float32Array(params.uCameraOffset));
+                this.shaderPair.uMVMatrix(gl, params.mvMatrix);
+                this.shaderPair.uCameraOffset(gl, new Float32Array(params.uCameraOffset));
             };
 
-            TextureAtlasRenderer.prototype.draw = function (gl) {
+            Texture2DRenderer.prototype.draw = function (gl, params) {
                 this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
                 this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
-                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
-
-                //4 components per attributes, 6 verts per quad - used to work out how many elements to draw
-                gl.drawElements(gl.TRIANGLES, (this.alphaBuffer.items.length / 4) * 6, gl.UNSIGNED_SHORT, 0);
+                this.shaderPair.draw(gl, params.entityCount * 6);
             };
 
             /**
@@ -22729,7 +22622,7 @@ var Kiwi;
             * @return number[]
             * @private
             */
-            TextureAtlasRenderer.prototype._generateIndices = function (numQuads) {
+            Texture2DRenderer.prototype._generateIndices = function (numQuads) {
                 var quads = new Array();
                 for (var i = 0; i < numQuads; i++) {
                     quads.push(i * 4 + 0, i * 4 + 1, i * 4 + 2, i * 4 + 0, i * 4 + 2, i * 4 + 3);
@@ -22737,14 +22630,9 @@ var Kiwi;
                 return quads;
             };
 
-            TextureAtlasRenderer.prototype.updateStageResolution = function (gl, res) {
-                //this.shaderPair.uResolution(gl, res);
-                gl.uniform2fv(this.shaderPair.uniforms.uResolution, res);
-            };
-
-            TextureAtlasRenderer.prototype.updateTextureSize = function (gl, size) {
-                //this.shaderPair.uTextureSize(gl, size);
-                gl.uniform2fv(this.shaderPair.uniforms.uTextureSize, size);
+            Texture2DRenderer.prototype.updateStageResolution = function (gl, res) {
+                this.stageResolution = res;
+                this.shaderPair.uResolution(gl, res);
             };
 
             /**
@@ -22755,9 +22643,11 @@ var Kiwi;
             * @param camera {Camera}
             * @public
             */
-            TextureAtlasRenderer.prototype.addToBatch = function (gl, entity, camera) {
+            Texture2DRenderer.prototype.addToBatch = function (gl, entity, camera) {
                 var t = entity.transform;
                 var m = t.getConcatenatedMatrix();
+                var ct = camera.transform;
+                var cm = ct.getConcatenatedMatrix();
 
                 var cell = entity.atlas.cells[entity.cellIndex];
 
@@ -22774,87 +22664,11 @@ var Kiwi;
                 this.xyuvBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
                 this.alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
             };
-
-            TextureAtlasRenderer.prototype.concatBatch = function (xyuvItems, alphaItems) {
-                this.xyuvBuffer.items = this.xyuvBuffer.items.concat(xyuvItems);
-                this.alphaBuffer.items = this.alphaBuffer.items.concat(alphaItems);
-            };
-            TextureAtlasRenderer.RENDERER_ID = "TextureAtlasRenderer";
-            return TextureAtlasRenderer;
+            return Texture2DRenderer;
         })(Kiwi.Renderers.Renderer);
-        Renderers.TextureAtlasRenderer = TextureAtlasRenderer;
+        Renderers.Texture2DRenderer = Texture2DRenderer;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
-})(Kiwi || (Kiwi = {}));
-/**
-*
-* @module Kiwi
-* @submodule Renderers
-*
-*/
-var Kiwi;
-(function (Kiwi) {
-    (function (Shaders) {
-        /**
-        *
-        * @class GLShaders
-        * @constructor
-        * @param gl {WebGLRenderingContext}
-        * @return {GLShaders}
-        */
-        var ShaderPair = (function () {
-            function ShaderPair() {
-                this.loaded = false;
-            }
-            ShaderPair.prototype.init = function (gl) {
-                this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
-                this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
-                this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
-                this.loaded = true;
-            };
-
-            /**
-            *
-            * @method attach
-            * @param gl {WebGLRenderingContext}
-            * @param vertShader {WebGLShader}
-            * @param fragShader {WebGLShader}
-            * @return {WebGLProgram}
-            * @public
-            */
-            ShaderPair.prototype.attach = function (gl, vertShader, fragShader) {
-                var shaderProgram = gl.createProgram();
-                gl.attachShader(shaderProgram, fragShader);
-                gl.attachShader(shaderProgram, vertShader);
-                gl.linkProgram(shaderProgram);
-                return shaderProgram;
-            };
-
-            /**
-            *
-            * @method compile
-            * @param gl {WebGLRenderingContext}
-            * @param src {string}
-            * @param shaderType {number}
-            * @return {WebGLShader}
-            * @public
-            */
-            ShaderPair.prototype.compile = function (gl, src, shaderType) {
-                var shader = gl.createShader(shaderType);
-                gl.shaderSource(shader, src);
-                gl.compileShader(shader);
-
-                if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-                    return null;
-                }
-                return shader;
-            };
-            ShaderPair.RENDERER_ID = "ShaderPair";
-            return ShaderPair;
-        })();
-        Shaders.ShaderPair = ShaderPair;
-    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
-    var Shaders = Kiwi.Shaders;
 })(Kiwi || (Kiwi = {}));
 /**
 *
@@ -22865,22 +22679,11 @@ var Kiwi;
 */
 var Kiwi;
 (function (Kiwi) {
-    (function (Shaders) {
-        var TextureAtlasShader = (function (_super) {
-            __extends(TextureAtlasShader, _super);
-            function TextureAtlasShader() {
+    (function (Renderers) {
+        var Texture2DShader = (function (_super) {
+            __extends(Texture2DShader, _super);
+            function Texture2DShader() {
                 _super.call(this);
-                this.attributes = {
-                    aXYUV: null,
-                    aAlpha: null
-                };
-                this.uniforms = {
-                    uMVMatrix: null,
-                    uSampler: null,
-                    uResolution: null,
-                    uTextureSize: null,
-                    uCameraOffset: null
-                };
                 /**
                 *
                 * @property texture2DFrag
@@ -22921,13 +22724,63 @@ var Kiwi;
                     "vAlpha = aAlpha;",
                     "}"
                 ];
+                this.attributes = {
+                    aXYUV: null,
+                    aAlpha: null
+                };
+                this.uniforms = {
+                    uMVMatrix: null,
+                    uSampler: null,
+                    uResolution: null,
+                    uTextureSize: null,
+                    uCameraOffset: null
+                };
             }
-            TextureAtlasShader.prototype.init = function (gl) {
-                _super.prototype.init.call(this, gl);
+            Texture2DShader.prototype.uMVMatrix = function (gl, uMVMatrixVal) {
+                gl.uniformMatrix4fv(this.uniforms.uMVMatrix, false, uMVMatrixVal);
+            };
+
+            Texture2DShader.prototype.uSampler = function (gl, uSamplerVal) {
+                gl.uniform1i(this.uniforms.samplerUniform, uSamplerVal);
+            };
+
+            Texture2DShader.prototype.uResolution = function (gl, uResolutionVal) {
+                gl.uniform2fv(this.uniforms.uResolution, uResolutionVal);
+            };
+
+            Texture2DShader.prototype.uTextureSize = function (gl, uTextureSizeVal) {
+                gl.uniform2fv(this.uniforms.uTextureSize, uTextureSizeVal);
+            };
+
+            Texture2DShader.prototype.uCameraOffset = function (gl, uCameraOffsetVal) {
+                gl.uniform2fv(this.uniforms.uCameraOffset, uCameraOffsetVal);
+            };
+
+            Texture2DShader.prototype.aXYUV = function (gl, aXYUVVal) {
+                gl.bindBuffer(gl.ARRAY_BUFFER, aXYUVVal.buffer);
+                gl.vertexAttribPointer(this.attributes.aXYUV, aXYUVVal.itemSize, gl.FLOAT, false, 0, 0);
+            };
+
+            Texture2DShader.prototype.aAlpha = function (gl, aAlphaVal) {
+                gl.bindBuffer(gl.ARRAY_BUFFER, aAlphaVal.buffer);
+                gl.vertexAttribPointer(this.attributes.aAlpha, aAlphaVal.itemSize, gl.FLOAT, false, 0, 0);
+            };
+
+            /**
+            *
+            * @method use
+            * @param gl {WebGLRenderingContext}
+            * @param shaderProrgram {WebGLProgram}
+            * @public
+            */
+            Texture2DShader.prototype.use = function (gl) {
+                gl.useProgram(this.shaderProgram);
 
                 //attributes
                 this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+                gl.enableVertexAttribArray(this.attributes.aXYUV);
                 this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
+                gl.enableVertexAttribArray(this.attributes.aAlpha);
 
                 //uniforms
                 this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
@@ -22936,11 +22789,15 @@ var Kiwi;
                 this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
                 this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
             };
-            return TextureAtlasShader;
-        })(Kiwi.Shaders.ShaderPair);
-        Shaders.TextureAtlasShader = TextureAtlasShader;
-    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
-    var Shaders = Kiwi.Shaders;
+
+            Texture2DShader.prototype.draw = function (gl, numElements) {
+                gl.drawElements(gl.TRIANGLES, numElements, gl.UNSIGNED_SHORT, 0);
+            };
+            return Texture2DShader;
+        })(Kiwi.Renderers.GLShaderPair);
+        Renderers.Texture2DShader = Texture2DShader;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
 /**
 * Kiwi - System
@@ -23499,7 +23356,7 @@ var Kiwi;
                 this.worker = !!window['Worker'];
 
                 if ('ontouchstart' in document.documentElement || window.navigator.msPointerEnabled) {
-                    //this.touch = true;
+                    this.touch = true;
                 }
             };
 
@@ -27637,7 +27494,6 @@ var Kiwi;
 /// <reference path="geom/Rectangle.ts" />
 /// <reference path="geom/Transform.ts" />
 /// <reference path="geom/Vector2.ts" />
-/// <reference path="geom/Random.ts" />
 /// <reference path="hud/HUDDisplay.ts" />
 /// <reference path="hud/HUDManager.ts" />
 /// <reference path="hud/HUDWidget.ts" />
@@ -27669,16 +27525,15 @@ var Kiwi;
 /// <reference path="input/Finger.ts" />
 /// <reference path="plugins/Plugins.ts" />
 /// <reference path="render/CanvasRenderer.ts" />
-/// <reference path="render/GLRenderManager.ts" />
-/// <reference path="render/GLShaderManager.ts" />
+/// <reference path="render/GLRenderer.ts" />
+/// <reference path="render/GLShaderPair.ts" />
 /// <reference path="render/GLTextureWrapper.ts" />
 /// <reference path="render/GLTextureManager.ts" />
 /// <reference path="render/GLArrayBuffer.ts" />
 /// <reference path="render/GLElementArrayBuffer.ts" />
 /// <reference path="render/renderers/Renderer.ts" />
-/// <reference path="render/renderers/TextureAtlasRenderer.ts" />
-/// <reference path="render/shaders/ShaderPair.ts" />
-/// <reference path="render/shaders/TextureAtlasShader.ts" />
+/// <reference path="render/renderers/Texture2DRenderer.ts" />
+/// <reference path="render/shaders/Texture2DShader.ts" />
 /// <reference path="system/Bootstrap.ts" />
 /// <reference path="system/Browser.ts" />
 /// <reference path="system/Device.ts" />
