@@ -1,9 +1,11 @@
+
 /**
-*  
-* @module Kiwi
-* @submodule Renderers
 * 
-*/
+* 
+* @module Kiwi
+* @submodule Renderers 
+* @main Renderers
+*/ 
 
 module Kiwi.Renderers {
 
