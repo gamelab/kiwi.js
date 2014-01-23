@@ -379,6 +379,7 @@ module Kiwi.Files {
 
             if (this._fileList.length === 0)
             {
+
                 var tempFile: Kiwi.Files.File = this._fileList.shift();
 
                 tempFile.getFileDetails((file) => this.addToBytesTotal(file));

@@ -27,8 +27,10 @@ module Kiwi.GameObjects.Tilemap {
             this.tilemap = tilemap;
             this.index = index;
             this.cellIndex = cellIndex;
-
+        
         }
+
+        public allowCollisions: number = Kiwi.Components.ArcadePhysics.NONE;
 
         /**
         * The properties associated with this type of tile. 

@@ -23,7 +23,7 @@ module Kiwi.GameObjects.Tilemap {
     */
     export class TileMap {
  
-        constructor(state: Kiwi.State, tileMapDataKey?: string, atlas?: Kiwi.Textures.TextureAtlas, startingCell:number=0) {
+        constructor(state: Kiwi.State, tileMapData?: any, atlas?: Kiwi.Textures.TextureAtlas, startingCell:number=0) {
 
             this.tileTypes = [];
             this.createTileType(-1);
@@ -32,9 +32,9 @@ module Kiwi.GameObjects.Tilemap {
             this.state = state;
             this.game = state.game;
 
-            if (tileMapDataKey !== undefined && atlas !== undefined) {
-                this.createFromFileStore(tileMapDataKey, atlas, startingCell);
-            } else if (tileMapDataKey !== undefined || atlas !== undefined) {
+            if (tileMapData !== undefined && atlas !== undefined) {
+                this.createFromFileStore(tileMapData, atlas, startingCell);
+            } else if (tileMapData !== undefined || atlas !== undefined) {
                 console.log('You must pass BOTH the TileMapDataKey and TextureAtlas inorder to create a TileMap from the File Store.');
             }
 
@@ -152,23 +152,34 @@ module Kiwi.GameObjects.Tilemap {
         * New TileTypes will automatically be created. The number is based on the Tileset parameter of the JSON. 
         * The cell used for new TileTypes will begin at 0 and increment each time a new TileType is created (and a cell exists). Otherwise new TileTypes will start will a cell of -1 (none).
         * @method createFromFileStore
-        * @param tileMapDataKey {String} The Data key for the JSON you would like to use.
+        * @param tileMapData {Any} This can either 
         * @param atlas {TextureAtlas} The texture atlas that you would like the tilemap layers to use.
         * @param [startingCell=0] {number} The number for the initial cell that the first TileType should use. If you pass -1 then no new TileTypes will be created.
         * @public
         */
-        public createFromFileStore(tileMapDataKey: string, atlas: Kiwi.Textures.TextureAtlas, startingCell:number=0) {
+        public createFromFileStore(tileMapData: any, atlas: Kiwi.Textures.TextureAtlas, startingCell:number=0) {
+
+            var json = null;
 
             //Does the JSON exist?
-            if (this.game.fileStore.exists(tileMapDataKey) == false) {
-                console.error('The Tilemap Data you passed does not exist in the FileStore.');
-                return;
+            switch (typeof tileMapData) {
+                case 'string':
+                    if (this.game.fileStore.exists(tileMapData) == false) {
+                        console.error('The JSON file you have told to use for a TileMap does not exist.');
+                        return false;
+                    }   
+
+                    var json = JSON.parse( this.game.fileStore.getFile(tileMapData).data );
+                    break;
+
+                case 'object':
+                    json = tileMapData;
+                    break;
+
+                default:
+                    console.error('The type of TileMapData passed could not be idenified. Please either pass a name of JSON file to use OR an object to be used.');                    
             }
-
-            //Parse the JSON
-            var json = JSON.parse( this.game.fileStore.getFile(tileMapDataKey).data );
-
-
+             
             //Get the map information
             this.orientation = (json.orietation == undefined) ? "orthogonal" : json.orientation;
             this.tileWidth = (json.tilewidth == undefined) ? 32 : json.tilewidth;

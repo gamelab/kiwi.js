@@ -42,7 +42,23 @@ module Kiwi.GameObjects.Tilemap {
             this.width = w;
             this.height = h;
             this.cellIndex = null; //Cell Index doesn't matter for a TileMapLayer itself.
+
+            //Components...
+            this.box = this.components.add( new Kiwi.Components.Box(this, x, y, tw, th) );
+            this._physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.box));
+            this._physics.immovable = true;
+
+            this._last = new Kiwi.Geom.Point(this.transform.x, this.transform.y);
+            this._moved = new Kiwi.Geom.Point(0, 0);
         }
+
+        public box: Kiwi.Components.Box;
+
+        private _physics: Kiwi.Components.ArcadePhysics;
+
+        private _moved: Kiwi.Geom.Point;
+
+        private _last: Kiwi.Geom.Point;
 
         /**
         * The type of object that it is.
@@ -369,12 +385,78 @@ module Kiwi.GameObjects.Tilemap {
         }
 
         /**
+        *-----------------------
+        * Physics / Overlaping Methods
+        *-----------------------
+        */
+        public overlaps(entity: Kiwi.Entity): boolean {
+            //Update
+            return false;//todododo
+        }
+
+        public getOverlappingTiles(entity: Kiwi.Entity):any {
+
+            //Do they have a box?
+            if (entity.components.hasComponent("box") == false) {
+                return null;
+            }
+
+            //Get the box off them
+            var b:Kiwi.Geom.Rectangle = entity.components.getComponent('Box').worldHitbox;
+
+            //Is the person within the map's bounds?
+            if (b.left > this.transform.worldX + this.widthInPixels || b.right < this.transform.worldX || b.bottom < this.transform.worldY || b.top > this.transform.worldY) return null;
+
+            //Get starting location and now many tiles from there we will check. 
+            var x = Kiwi.Utils.GameMath.snapToFloor(b.x - this.transform.worldX, this.tileWidth) / this.tileWidth;
+            var y = Kiwi.Utils.GameMath.snapToFloor(b.y - this.transform.worldY, this.tileHeight) / this.tileHeight;
+            var w = Kiwi.Utils.GameMath.snapToCeil(b.width, this.tileWidth) / this.tileWidth;
+            var h = Kiwi.Utils.GameMath.snapToCeil(b.height, this.tileHeight) / this.tileHeight;
+
+            return this.getCollidableTiles(x, y, w, h);
+        }
+        
+        public getCollidableTiles(x: number= 0, y: number= 0, width: number= this.width, height: number = this.height):any {
+
+            var tiles = [];
+
+            //Loop through and get all of the collideable tiles
+            for (var j = y; j < y + height; j++) {
+                for (var i = x; i < x + width; i++) {
+
+                    var index = this.getIndexFromXY(i, j);
+                    if (index !== -1 && this.tilemap.tileTypes[index].allowCollisions !== -1) {
+
+                        tiles.push({
+                            index: index,
+                            x: i * this.tileWidth,
+                            y: j * this.tileHeight
+                        });
+
+                    }
+
+                }
+            }
+
+            return tiles;
+        }
+
+
+        /**
         * The update loop that is executed when this TileMapLayer is add to the Stage.
         * @method update
         * @public 
         */
         public update() {
             super.update();
+
+            //See how much we moved.
+            this._moved.x = this._last.x - this.transform.worldX;
+            this._moved.y = this._last.y - this.transform.worldY;
+
+            //Update the last coordinates
+            this._last.x = this.transform.worldX;
+            this._last.y = this.transform.worldY;
 
         }
         
@@ -423,8 +505,8 @@ module Kiwi.GameObjects.Tilemap {
             this._maxY = Math.min(Math.ceil(camera.height / this.tileHeight) + 1, this.height);
 
             // And now work out where in the tilemap the camera actually is
-            this._startX = Math.floor((-camera.transform.x - t.x) / this.tileWidth);
-            this._startY = Math.floor((-camera.transform.y - t.y) / this.tileHeight);
+            this._startX = Math.floor((-camera.transform.x - t.worldX) / this.tileWidth);
+            this._startY = Math.floor((-camera.transform.y - t.worldY) / this.tileHeight);
 
             // Boundaries check for the start 
             if (this._startX < 0) this._startX = 0;
