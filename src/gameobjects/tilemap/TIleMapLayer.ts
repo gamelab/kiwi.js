@@ -43,22 +43,21 @@ module Kiwi.GameObjects.Tilemap {
             this.height = h;
             this.cellIndex = null; //Cell Index doesn't matter for a TileMapLayer itself.
 
-            //Components...
-            this.box = this.components.add( new Kiwi.Components.Box(this, x, y, tw, th) );
-            this._physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.box));
-            this._physics.immovable = true;
-
-            this._last = new Kiwi.Geom.Point(this.transform.x, this.transform.y);
-            this._moved = new Kiwi.Geom.Point(0, 0);
+            this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, null));
+            this.physics.immovable = true;
         }
 
-        public box: Kiwi.Components.Box;
+        public physics: Kiwi.Components.ArcadePhysics;
 
-        private _physics: Kiwi.Components.ArcadePhysics;
-
-        private _moved: Kiwi.Geom.Point;
-
-        private _last: Kiwi.Geom.Point;
+        /**
+        * Returns the type of child that this is. 
+        * @type Number
+        * @return {Number} returns the type of child that the entity is
+        * @public
+        */
+        public childType(): number {
+            return Kiwi.TILE_LAYER;
+        }
 
         /**
         * The type of object that it is.
@@ -386,26 +385,32 @@ module Kiwi.GameObjects.Tilemap {
 
         /**
         *-----------------------
-        * Physics / Overlaping Methods
+        * Get Tiles By Collision Methods
         *-----------------------
         */
-        public overlaps(entity: Kiwi.Entity): boolean {
-            //Update
-            return false;//todododo
-        }
 
-        public getOverlappingTiles(entity: Kiwi.Entity):any {
+        /**
+        * Returns the tiles which overlap with a provided entities box component. 
+        * Only collidable tiles on ANY side will be returned unless you pass a particular side.
+        * 
+        * @method getOverlappingTiles
+        * @param entity {Entity} The entity you would like to check for the overlap.
+        * @param [collisionType=ANY] {Number} The particular type of collidable tiles which you would like to check for.
+        * @return {Object[]} Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object. 
+        * @public
+        */
+        public getOverlappingTiles(entity: Kiwi.Entity, collisionType: number= Kiwi.Components.ArcadePhysics.ANY): any {
 
             //Do they have a box?
-            if (entity.components.hasComponent("box") == false) {
-                return null;
-            }
+            if (entity.components.hasComponent("Box") == false)
+                return [];
 
             //Get the box off them
-            var b:Kiwi.Geom.Rectangle = entity.components.getComponent('Box').worldHitbox;
+            var b: Kiwi.Geom.Rectangle = entity.components.getComponent('Box').worldHitbox;
 
             //Is the person within the map's bounds?
-            if (b.left > this.transform.worldX + this.widthInPixels || b.right < this.transform.worldX || b.bottom < this.transform.worldY || b.top > this.transform.worldY) return null;
+            if (b.left > this.transform.worldX + this.widthInPixels || b.right < this.transform.worldX || b.bottom < this.transform.worldY || b.top > this.transform.worldY + this.heightInPixels)
+                return [];
 
             //Get starting location and now many tiles from there we will check. 
             var x = Kiwi.Utils.GameMath.snapToFloor(b.x - this.transform.worldX, this.tileWidth) / this.tileWidth;
@@ -413,25 +418,52 @@ module Kiwi.GameObjects.Tilemap {
             var w = Kiwi.Utils.GameMath.snapToCeil(b.width, this.tileWidth) / this.tileWidth;
             var h = Kiwi.Utils.GameMath.snapToCeil(b.height, this.tileHeight) / this.tileHeight;
 
-            return this.getCollidableTiles(x, y, w, h);
+            return this.getCollidableTiles(x, y, w + 1, h + 1, collisionType);
         }
-        
-        public getCollidableTiles(x: number= 0, y: number= 0, width: number= this.width, height: number = this.height):any {
+
+
+        /**
+        * Returns the tiles which can collide with other objects (on ANY side unless otherwise specified) within an area provided.
+        * By default the area is the whole tilemap. 
+        * @method getCollidableTiles
+        * @param [x=0] {Number} The x coordinate of the first tile to check.
+        * @param [y=0] {Number} The y coordinate of the first tile to check.
+        * @param [width=widthOfMap] {Number} The width from the x coordinate.
+        * @param [height=heightOfmap] {Number} The height from the y coordinate.
+        * @param [collisionType=ANY] {Number} The type of collidable tiles that should be return. By default ANY type of collidable tiles will be returned. 
+        * @return {Object[]} Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object. 
+        * @public
+        */
+        public getCollidableTiles(x: number= 0, y: number= 0, width: number= this.width, height: number = this.height, collisionType: number= Kiwi.Components.ArcadePhysics.ANY): any {
 
             var tiles = [];
 
-            //Loop through and get all of the collideable tiles
+            //Make sure its within the map.
+            if (x + width > this.width) width = this.width - x;
+            if (y + height > this.height) height = this.height - y;
+
+            //Loop through and of the tiles.
             for (var j = y; j < y + height; j++) {
                 for (var i = x; i < x + width; i++) {
 
+                    //Get the tile index.
                     var index = this.getIndexFromXY(i, j);
-                    if (index !== -1 && this.tilemap.tileTypes[index].allowCollisions !== -1) {
+
+                    //Does that index exist? Should do but just in case.
+                    if (index === -1) continue;
+
+                    var type = this.tileData[index];
+
+                    //If the collision type matches the one passed. 
+                    if ((this.tilemap.tileTypes[type].allowCollisions & collisionType) !== Kiwi.Components.ArcadePhysics.NONE) {
 
                         tiles.push({
                             index: index,
+                            type: type,
                             x: i * this.tileWidth,
                             y: j * this.tileHeight
                         });
+
 
                     }
 
@@ -450,14 +482,7 @@ module Kiwi.GameObjects.Tilemap {
         public update() {
             super.update();
 
-            //See how much we moved.
-            this._moved.x = this._last.x - this.transform.worldX;
-            this._moved.y = this._last.y - this.transform.worldY;
-
-            //Update the last coordinates
-            this._last.x = this.transform.worldX;
-            this._last.y = this.transform.worldY;
-
+            this.physics.update();
         }
         
         /**

@@ -30,6 +30,14 @@ module Kiwi.GameObjects.Tilemap {
         
         }
 
+        /**
+        * The collision information for this type of tile. 
+        * It's values are the same as the Static properties inside of the ArcadePhysics Component. 
+        * @property allowCollisions
+        * @type number
+        * @default NONE
+        * @public
+        */
         public allowCollisions: number = Kiwi.Components.ArcadePhysics.NONE;
 
         /**

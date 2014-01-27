@@ -28,12 +28,12 @@ module Kiwi.Components {
     */
     export class ArcadePhysics extends Kiwi.Component {
 
-        constructor(entity:Kiwi.Entity, box: Kiwi.Components.Box) {
+        constructor(entity:Kiwi.Entity, box?: Kiwi.Components.Box) {
             super(entity,'ArcadePhysics');
-            
-            this._parent = entity;
+
+            this.parent = entity;
             this.box = box;
-            this.transform = this._parent.transform;
+            this.transform = this.owner.transform;
 
             this.last = new Kiwi.Geom.Point(this.transform.worldX, this.transform.worldY);
             this.mass = 1.0;
@@ -51,20 +51,12 @@ module Kiwi.Components {
             this.drag = new Kiwi.Geom.Point();
             this.maxVelocity = new Kiwi.Geom.Point(10000, 10000);
 
-            this.angle = 0;
             this.angularVelocity = 0;
             this.angularAcceleration = 0;
             this.angularDrag = 0;
             this.maxAngular = 10000;
         }
         
-        /**
-        * The Entity that this physics component belongs to.
-        * @property _parent
-        * @type Kiwi.Entity
-        */
-        private _parent: Entity;
-
         /**
         * The transform component.
         * @property transform
@@ -224,15 +216,6 @@ module Kiwi.Components {
         public maxVelocity: Kiwi.Geom.Point;
 
         /**
-        * Set the angle of a sprite to rotate it.
-        * WARNING: rotating sprites decreases rendering
-        * performance for this sprite by a factor of 10x!
-        * @property angle
-        * @type number
-        */
-        public angle: number;
-
-        /**
 		* This is how fast you want this sprite to spin.
 		* @property angularVelocity
         * @type number
@@ -377,20 +360,54 @@ module Kiwi.Components {
              return (this.allowCollisions & ArcadePhysics.ANY) > ArcadePhysics.NONE;
         }
 
-        ////////Static functions/////////
+
+        /**
+        * Sets up a callback function that will run when this object overlaps with another.
+        * 
+        * @method setCallback
+        * @param callbackFunction {function}
+        * @param callbackContext {any} 
+        */
+        public setCallback(callbackFunction, callbackContext) {
+            this._callbackFunction = callbackFunction;
+            this._callbackContext = callbackContext;
+        }
+
+        /**
+        * Returns the parent of this entity. Mainly used for executing callbacks.
+        * @property parent
+        * @type Kiwi.Entity
+        * @public
+        */
+        public parent: Kiwi.Entity;
+
+
+        /*
+        *----------------
+        * Static Functions
+        *----------------
+        */
+
+
+        /*
+        *----------------
+        * Collide Functions - Maps to Overlaps
+        *----------------
+        */
+        
 
         /**
         * A Static method to check to see if two objects collide or not. Returns a boolean indicating whether they overlaped or not.
         *
         * @method collide
         * @static
+        * @public
         * @param gameObject1 {Kiwi.GameObjects.Entity} The first game object.
         * @param gameObject2 {Kiwi.GameObjects.Entity} The second game object.
         * @param [seperate=true] {boolean} If the two gameobjects should seperated when they collide.
         * @return {boolean}
         */
         public static collide(gameObject1: Entity, gameObject2: Entity, seperate: boolean = true): boolean {
-
             return ArcadePhysics.overlaps(gameObject1, gameObject2, seperate);
         }
 
@@ -399,6 +416,7 @@ module Kiwi.Components {
         *
         * @method collideGroup
         * @static
+        * @public
         * @param gameObject {Kiwi.GameObjects.Entity} 
         * @param group {Any} This could be either an Array of GameObjects or a Group containing members. 
         * @param [seperate=true] {boolean} 
@@ -415,6 +433,7 @@ module Kiwi.Components {
         *
         * @method collideGroupGroup
         * @static
+        * @public
         * @param group1 {Any} This can either be an array or a Group.
         * @param group2 {Any} Also could either be an array or a Group.
         * @param [seperate=true] {boolean}
@@ -425,11 +444,20 @@ module Kiwi.Components {
             return ArcadePhysics.overlapsGroupGroup(group1, group2, seperate);
         }
 
+
+        /*
+        *-------------
+        * Overlap Static Method - Use's the Arcade Physics of one of the gameobjects passed.
+        *-------------
+        */
+
+
         /**
         * A Static method to that checks to see if two objects overlap. Returns a boolean indicating whether they did or not.
         *
         * @method overlaps
         * @static
+        * @public
         * @param gameObject1 {Kiwi.GameObjects.Entity} 
         * @param gameObject2 {Kiwi.GameObjects.Entity} 
         * @param [separateObjects=true] {boolean} 
@@ -437,13 +465,8 @@ module Kiwi.Components {
         */
         public static overlaps(gameObject1: Entity, gameObject2: Entity, separateObjects: boolean = true): boolean {
 
-            //Flixel uses quadtree here
-
-            //object vs object
             var obj1Physics: ArcadePhysics = gameObject1.components.getComponent("ArcadePhysics");
-
             return obj1Physics.overlaps(gameObject2, separateObjects);
-
         }
 
         /**
@@ -502,6 +525,7 @@ module Kiwi.Components {
         * @param group {Group} A group of objects you want to check overlaps.
         * @param [seperateObjects=true] {Boolean} If when a collision is found the objects should seperate out.
         * @return {Boolean} 
+        * @static
         */
         public static overlapsArrayGroup(array: Array<any>, group: Kiwi.Group, separateObjects: boolean = true) {
 
@@ -511,11 +535,12 @@ module Kiwi.Components {
             for (var i = 0; i < array.length; i++) {
                 if (typeof array[i].childType !== "undefined") {
 
-                    if (array[i].childType() === Kiwi.ENTITY) {
-                        if (ArcadePhysics.overlapsObjectGroup(<Kiwi.Entity>array[i], group, separateObjects))
-                            result = true;
-                    } else if (array[i].childType() === Kiwi.GROUP) {
+                    if (array[i].childType() === Kiwi.GROUP) {
                         if (ArcadePhysics.overlapsGroupGroup(<Kiwi.Group>array[i], group, separateObjects))
+                            result = true;
+
+                    } else {
+                        if (ArcadePhysics.overlapsObjectGroup(<Kiwi.Entity>array[i], group, separateObjects))
                             result = true;
                     }
 
@@ -525,13 +550,22 @@ module Kiwi.Components {
             return result;
         }
 
+
+        /*
+        *---------------
+        * Seperation Code
+        *---------------
+        */
+
+
         /**
-        * A static method for seperating two objects. Both objects need to have physics, position and size components in order for this to work.
+        * A static method for seperating two normal GameObjects. 
+        * Both objects need to have a ArcadePhysics and Box component in order to be separated successfully.
         * 
         * @method seperate
         * @static
-        * @param {Kiwi.Entity} object1
-        * @param {Kiwi.Entity} object2
+        * @param object1 {Entity} The first GameObject you would like to seperate.
+        * @param object2 {Entity} The second GameObject you would like to seperate. 
         * @return {boolean}
         * @public
         */
@@ -542,63 +576,72 @@ module Kiwi.Components {
             return separatedX || separatedY;
         }
 
+
         /**
-		* The X-axis component of the object separation process.
+		* Separates two GameObjects on the x-axis. This method is executed from the 'separate' method.
 		* 
         * @method seperateX
         * @static
-		* @param {Kiwi.Entity} object1
-		* @param {Kiwi.Entity} object2
+        * @public
+		* @param {Entity} object1
+		* @param {Entity} object2
 		* @return {boolean} Whether the objects in fact touched and were separated along the X axis.
 		*/
         public static separateX(object1, object2): boolean {
 
-            var phys1: ArcadePhysics = <ArcadePhysics>object1.components._components["ArcadePhysics"];
-            var phys2: ArcadePhysics = <ArcadePhysics>object2.components._components["ArcadePhysics"];
+            var phys1: ArcadePhysics = <ArcadePhysics>object1.components.getComponent("ArcadePhysics");
+            var phys2: ArcadePhysics = <ArcadePhysics>object2.components.getComponent("ArcadePhysics");
 
             //can't separate two immovable objects
-            var obj1immovable: boolean = phys1.immovable;
-            var obj2immovable: boolean = phys2.immovable;
-            if (obj1immovable && obj2immovable)
+            if (phys1.immovable && phys2.immovable)
                 return false;
 
             //First, get the two object deltas
             var overlap: number = 0;
-            var obj1delta: number = phys1.box.worldHitbox.x - phys1.last.x;
-            var obj2delta: number = phys2.box.worldHitbox.x - phys2.last.x;
+            var obj1delta: number = phys1.transform.worldX - phys1.last.x;
+            var obj2delta: number = phys2.transform.worldX - phys2.last.x;
             
-            if (obj1delta != obj2delta) { //perhaps remove this section.
+            if (obj1delta != obj2delta) { 
 
                 //Check if the X hulls actually overlap
                 var obj1deltaAbs: number = (obj1delta > 0) ? obj1delta : -obj1delta;
                 var obj2deltaAbs: number = (obj2delta > 0) ? obj2delta : -obj2delta;
                 
+                var box1 = phys1.box.worldHitbox;
+                var box2 = phys2.box.worldHitbox;
+
                 //where they were before
-                var obj1rect: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle(phys1.box.worldHitbox.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, phys1.box.worldHitbox.width + ((obj1delta > 0) ? obj1delta : -obj1delta), phys1.box.worldHitbox.height);
-                var obj2rect: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle(phys2.box.worldHitbox.x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, phys2.box.worldHitbox.width + ((obj2delta > 0) ? obj2delta : -obj2delta), phys2.box.worldHitbox.height);
+                var obj1rect: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle(box1.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, box1.width + ((obj1delta > 0) ? obj1delta : -obj1delta), box1.height);
+                var obj2rect: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle(box2.x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, box2.width + ((obj2delta > 0) ? obj2delta : -obj2delta), box2.height);
+
                 if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
                     var maxOverlap: number = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
 
                     //If they did overlap (and can), figure out by how much and flip the corresponding flags
                     if (obj1delta > obj2delta) {
-                        overlap = phys1.box.worldHitbox.x + phys1.box.worldHitbox.width - phys2.box.worldHitbox.x;
+
+                        overlap = box1.x + box1.width - box2.x;
                         if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(phys2.allowCollisions & ArcadePhysics.LEFT)) {
                             overlap = 0;
-                    } else {
+                        } else {
                             phys1.touching |= ArcadePhysics.RIGHT;
                             phys2.touching |= ArcadePhysics.LEFT;
                         }
+
                     }
                     else if (obj1delta < obj2delta) {
-                        overlap = phys1.box.worldHitbox.x - phys2.box.worldHitbox.width - phys2.box.worldHitbox.x;
+
+                        overlap = box1.x - box2.width - box2.x;
                         if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(phys2.allowCollisions & ArcadePhysics.RIGHT)) {
                             overlap = 0;
                         } else {
                             phys1.touching |= ArcadePhysics.LEFT;
                             phys2.touching |= ArcadePhysics.RIGHT;
                         }
+
                     }
                 }
+
             }
 
             //Then adjust their positions and velocities accordingly (if there was any overlap)
@@ -606,7 +649,7 @@ module Kiwi.Components {
                 var obj1v: number = phys1.velocity.x;
                 var obj2v: number = phys2.velocity.x;
                 
-                if (!obj1immovable && !obj2immovable) { //no beans...
+                if (!phys1.immovable && !phys2.immovable) { //no beans...
                     overlap *= 0.5;
                     phys1.transform.x = phys1.transform.x - overlap;
                     phys2.transform.x = phys2.transform.x + overlap;
@@ -620,11 +663,11 @@ module Kiwi.Components {
                     phys2.velocity.x = average + obj2velocity * phys2.elasticity;
 
                 }
-                else if (!obj1immovable) {
+                else if (!phys1.immovable) {
                     phys1.transform.x = phys1.transform.x - overlap;
                     phys1.velocity.x = obj2v - obj1v * phys1.elasticity;
                 }
-                else if (!obj2immovable) {
+                else if (!phys2.immovable) {
 
                     phys2.transform.x = phys2.transform.x + overlap;
                     phys2.velocity.x = obj1v - obj2v * phys2.elasticity;
@@ -635,63 +678,76 @@ module Kiwi.Components {
                 return false;
         }
 
+
         /**
-		* The Y-axis component of the object separation process.
+		* Separated two GameObject on the y-axis. This method is executed from the 'separate' method.
 		*
         * @method seperateY 
 		* @static
-        * @param {Kiwi.Entity} object1
-		* @param {Kiwi.Entity} object2
+        * @public
+        * @param object1 {Entity}
+		* @param object2 {Entity}
 		* @return {boolean} Whether the objects in fact touched and were separated along the Y axis.
         */
         public static separateY(object1, object2): boolean {
 
-            var phys1: ArcadePhysics = <ArcadePhysics>object1.components._components["ArcadePhysics"];
-            var phys2: ArcadePhysics = <ArcadePhysics>object2.components._components["ArcadePhysics"];
+            //Get the Arcade Physics Components
+            var phys1: ArcadePhysics = <ArcadePhysics>object1.components.getComponent("ArcadePhysics");
+            var phys2: ArcadePhysics = <ArcadePhysics>object2.components.getComponent("ArcadePhysics"); 
 
-            //can't separate two immovable objects
-            var obj1immovable: boolean = phys1.immovable;
-            var obj2immovable: boolean = phys2.immovable;
-            if (obj1immovable && obj2immovable)
+
+            //Can't separate two immovable objects
+            if (phys1.immovable && phys2.immovable)
                 return false;
 
-            //removed tilemaps
 
             //First, get the two object deltas
             var overlap: number = 0;
 
-            var obj1delta: number = phys1.box.worldHitbox.y - phys1.last.y;
 
-            var obj2delta: number = phys2.box.worldHitbox.y - phys2.last.y;
+            //Calculate the Delta
+            var obj1delta: number = phys1.transform.worldY - phys1.last.y;
+            var obj2delta: number = phys2.transform.worldY - phys2.last.y;
+
+
             if (obj1delta != obj2delta) {
-                //Check if the Y hulls actually overlap
                 var obj1deltaAbs: number = (obj1delta > 0) ? obj1delta : -obj1delta;
                 var obj2deltaAbs: number = (obj2delta > 0) ? obj2delta : -obj2delta;
 
-                var obj1rect: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle(phys1.box.worldHitbox.x, phys1.box.worldHitbox.y - ((obj1delta > 0) ? obj1delta : 0), phys1.box.worldHitbox.width, phys1.box.worldHitbox.height + obj1deltaAbs);
-                var obj2rect: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle(phys2.box.worldHitbox.x, phys2.box.worldHitbox.y - ((obj2delta > 0) ? obj2delta : 0), phys2.box.worldHitbox.width, phys2.box.worldHitbox.height + obj2deltaAbs);
+                var box1 = phys1.box.worldHitbox;
+                var box2 = phys2.box.worldHitbox;
+
+                var obj1rect: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle(box1.x, box1.y - ((obj1delta > 0) ? obj1delta : 0), box1.width, box1.height + obj1deltaAbs);
+                var obj2rect: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle(box2.x, box2.y - ((obj2delta > 0) ? obj2delta : 0), box2.width, box2.height + obj2deltaAbs);
+
                 if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
                     var maxOverlap: number = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
+
                     //If they did overlap (and can), figure out by how much and flip the corresponding flags
                     if (obj1delta > obj2delta) {
-                        overlap = phys1.box.worldHitbox.y + phys1.box.worldHitbox.height - phys2.box.worldHitbox.y;
+
+                        overlap = box1.y + box1.height - box2.y;
                         if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.DOWN) || !(phys2.allowCollisions & ArcadePhysics.UP)) {
                             overlap = 0;
                         } else {
                             phys1.touching |= ArcadePhysics.DOWN;
                             phys2.touching |= ArcadePhysics.UP;
                         }
+
                     }
                     else if (obj1delta < obj2delta) {
-                        overlap = phys1.box.worldHitbox.y - phys2.box.worldHitbox.height - phys2.box.worldHitbox.y;
+
+                        overlap = box1.y - box2.height - box2.y;
                         if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.UP) || !(phys2.allowCollisions & ArcadePhysics.DOWN)) {
                             overlap = 0;
                         } else {
                             phys1.touching |= ArcadePhysics.UP;
                             phys2.touching |= ArcadePhysics.DOWN;
                         }
+
                     }
                 }
+
             }
 
             //Then adjust their positions and velocities accordingly (if there was any overlap)
@@ -699,7 +755,7 @@ module Kiwi.Components {
                 var obj1v: number = phys1.velocity.y;
                 var obj2v: number = phys2.velocity.y;
 
-                if (!obj1immovable && !obj2immovable) {
+                if (!phys1.immovable && !phys2.immovable) {
                     overlap *= 0.5;
                     phys1.transform.y = phys1.transform.y - overlap;
                     phys2.transform.y = phys2.transform.y + overlap;
@@ -712,14 +768,14 @@ module Kiwi.Components {
                     phys1.velocity.y = average + obj1velocity * phys1.elasticity;
                     phys2.velocity.y = average + obj2velocity * phys2.elasticity;
                 }
-                else if (!obj1immovable) {
+                else if (!phys1.immovable) {
                     phys1.transform.y = phys1.transform.y - overlap;
                     phys1.velocity.y = obj2v - obj1v * phys1.elasticity;
                     //This is special case code that handles cases like horizontal moving platforms you can ride
                     if (object2.active && phys2.moves && (obj1delta > obj2delta))
                         phys1.transform.x = phys1.transform.worldX + object2.transform.worldX - phys2.last.x; 
                 }
-                else if (!obj2immovable) {
+                else if (!phys2.immovable) {
                     phys2.transform.y = phys2.transform.y + overlap;
                     phys2.velocity.y = obj1v - obj2v * phys2.elasticity;
                     //This is special case code that handles cases like horizontal moving platforms you can ride
@@ -733,6 +789,388 @@ module Kiwi.Components {
 
         }
 
+
+        /*
+        *---------------
+        * Seperation of Tiles Methods
+        *---------------
+        */
+
+
+        /**
+        * Separates a GameObject from Tiles with a TileMapLayer. 
+        * @method separateTiles
+        * @param object {Entity} The GameObject you are wanting to separate from a tile.
+        * @param layer {TileMapLayer} The TileMapLayer that the tiles belong on.
+        * @param tiles {Object[]} The tiles which are overlapping with the GameObject.
+        * @return {Boolean} If any separation occured.
+        * @public
+        * @static
+        */
+        public static separateTiles(object:Entity, layer:Kiwi.GameObjects.Tilemap.TileMapLayer, tiles):boolean {
+
+            //Physics Component Found?
+            if (object.components.hasComponent("ArcadePhysics") == false) return;
+
+            var sepX = this.separateTilesX(object, layer, tiles);
+            var sepY = this.separateTilesY(object, layer, tiles);
+
+            return  sepX || sepY;
+            
+        }
+
+
+        /**
+        * Separates a GameObjects from an Array of Tiles on the x-axis. 
+        * @method separateTilesX
+        * @param object {Entity} The GameObject you are wanting to separate from a tile.
+        * @param layer {TileMapLayer} The TileMapLayer that the tiles belong on.
+        * @param tiles {Object[]} The tiles which are overlapping with the GameObject.
+        * @return {Boolean} If any separation occured.
+        * @public
+        * @static
+        */
+        public static separateTilesX(object:Entity, layer:Kiwi.GameObjects.Tilemap.TileMapLayer, tiles):boolean {
+
+
+            var adjusted: boolean = false;
+            var phys1: ArcadePhysics = <ArcadePhysics>object.components.getComponent("ArcadePhysics");
+            var phys2: ArcadePhysics = <ArcadePhysics>layer.components.getComponent("ArcadePhysics");
+
+
+            //can't separate two immovable objects
+            if (phys1.immovable && phys2.immovable)
+                return false;
+
+
+            //First, get the two object deltas
+            var obj1delta: number = phys1.transform.worldX - phys1.last.x;
+            var obj2delta: number = phys2.transform.worldX - phys2.last.x;
+
+
+            if (obj1delta != obj2delta) { 
+
+
+                //Absolute Delta and Overlap
+                var obj1deltaAbs: number = (obj1delta > 0) ? obj1delta : -obj1delta;
+                var obj2deltaAbs: number = (obj2delta > 0) ? obj2delta : -obj2delta;
+                var maxOverlap: number = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
+
+
+                //Quick References
+                var box1 = phys1.box.worldHitbox;
+                var tileTypes = layer.tilemap.tileTypes;
+                var tData = layer.tileData;
+
+
+                //Box of the GameObject
+                var obj1rect: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle(box1.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, box1.width + ((obj1delta > 0) ? obj1delta : -obj1delta), box1.height);
+
+
+                //Loop through the tiles...
+                for (var i = 0; i < tiles.length; i++) {
+
+
+                    var overlap = 0;
+                    var tile = tiles[i];
+                    var x = phys2.transform.worldX + tile.x;
+                    var obj2rect: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle(x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y + tile.y, layer.tileWidth + ((obj2delta > 0) ? obj2delta : - obj2delta), layer.tileHeight);
+
+
+                    //Check to see if they overlap
+                    if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
+
+                        //If they did overlap (and can), figure out by how much and flip the corresponding flags
+                        if (obj1delta > obj2delta) {
+
+                            overlap = box1.x + box1.width - x;
+                            if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.LEFT)) {
+                                overlap = 0;
+                            } else {
+                                phys1.touching |= ArcadePhysics.RIGHT;
+                            }
+
+                        }
+                        else if (obj1delta < obj2delta) {
+
+                            overlap = box1.x - layer.tileWidth - x;
+                            if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.RIGHT)) {
+                                overlap = 0;
+                            } else {
+                                phys1.touching |= ArcadePhysics.LEFT;
+                            }
+                        }
+                    }
+
+
+                    //Then adjust their positions and velocities accordingly (if there was any overlap)
+                    if (overlap != 0) {
+                        var obj1v: number = phys1.velocity.x;
+                        var obj2v: number = phys2.velocity.x;
+
+                        phys1.transform.x = phys1.transform.x - overlap;
+                        phys1.velocity.x = obj2v - obj1v * phys1.elasticity;
+
+                        adjusted = true;
+                    }
+
+                } // Tiles Loop
+
+            } //Delta Conditional
+
+            return adjusted;
+        }
+
+
+        /**
+        * Separates a GameObjects from an Array of Tiles on the y-axis. 
+        * @method separateTilesY
+        * @param object {Entity} The GameObject you are wanting to separate from a tile.
+        * @param layer {TileMapLayer} The TileMapLayer that the tiles belong on.
+        * @param tiles {Object[]} The tiles which are overlapping with the GameObject.
+        * @return {Boolean} If any separation occured.
+        * @public
+        * @static
+        */
+        public static separateTilesY(object:Entity, layer, tiles):boolean {
+
+
+            var adjusted = false;
+            var phys1: ArcadePhysics = <ArcadePhysics>object.components.getComponent("ArcadePhysics");
+            var phys2: ArcadePhysics = <ArcadePhysics>layer.components.getComponent("ArcadePhysics");
+
+            //can't separate two immovable objects
+            if (phys1.immovable && phys2.immovable)
+                return false;
+
+
+            //First, get the two object deltas
+            var obj1delta: number = phys1.transform.worldY - phys1.last.y;
+            var obj2delta: number = phys2.transform.worldY - phys2.last.y;
+
+
+            if (obj1delta != obj2delta) {
+
+                //Absolute Delta and Max Overlap
+                var obj1deltaAbs: number = (obj1delta > 0) ? obj1delta : -obj1delta;
+                var obj2deltaAbs: number = (obj2delta > 0) ? obj2delta : -obj2delta;
+                var maxOverlap: number = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
+
+                
+                var box1 = phys1.box.worldHitbox;
+                var tileTypes = layer.tilemap.tileTypes;
+                var tData = layer.tileData;
+
+                var obj1rect: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle(box1.x, box1.y - ((obj1delta > 0) ? obj1delta : 0), box1.width, box1.height + obj1deltaAbs);
+
+                //Loop through the tiles...
+                for (var i = 0; i < tiles.length; i++) {
+
+
+                    var overlap: number = 0;
+                    var tile = tiles[i];
+                    var y = phys2.transform.worldY + tile.y;
+                    var obj2rect: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle(phys2.transform.worldX + tile.x, y - ((obj2delta > 0) ? obj2delta : 0), layer.tileWidth, layer.tileHeight + obj2deltaAbs);
+
+
+                    //Check if they overlap
+                    if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
+
+
+                        if (obj1delta > obj2delta) {
+
+                            overlap = box1.y + box1.height - y;
+                            if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.DOWN) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.UP)) {
+                                overlap = 0;
+                            } else {
+                                phys1.touching |= ArcadePhysics.DOWN;
+                            }
+                        }
+                        else if (obj1delta < obj2delta) {
+
+                            overlap = box1.y - layer.tileHeight - y;
+                            if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.UP) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.DOWN)) {
+                                overlap = 0;
+                            } else {
+                                phys1.touching |= ArcadePhysics.UP;
+                            }
+                        }
+                    }
+
+
+                    //Then adjust their positions and velocities accordingly (if there was any overlap)
+                    if (overlap != 0) {
+                        var obj1v: number = phys1.velocity.y;
+                        var obj2v: number = phys2.velocity.y;
+
+                        phys1.transform.y = phys1.transform.y - overlap;
+                        phys1.velocity.y = obj2v - obj1v * phys1.elasticity;
+
+                        //This is special case code that handles cases like horizontal moving platforms you can ride
+                        //if (this.parent.active && this.moves && (obj1delta > obj2delta))
+                        //phys1.transform.x = phys1.transform.worldX + object2.transform.worldX - phys2.last.x;
+
+                        adjusted = true;
+                    }
+
+
+                }
+
+
+            }
+
+            return adjusted;
+        }
+
+
+        /* 
+        *---------------
+        * Instance Functions
+        *---------------
+        */
+
+
+        /**
+        * A method to check to see if any Tiles with in this parent TileMapLayer overlaps with a GameObject passed.
+        * If seperateObjects is true it will seperate the two entities based on their bounding box.
+        * ONLY works if parent of the ArcadePhysics component which is calling this method is a TileMapLayer.
+        * Note: The GameObject passed must contain a box component and only if you want to separate the two objects must is ALSO contain an ArcadePhysics component.
+        *
+        * @method overlapsTile
+        * @param gameObject {Entity} The GameObject you would like to separate with this one.
+        * @param [separateObjects=false] {Boolean} If you want the GameObject to be separated from any tile it collides with.
+        * @param [collisionType=ANY] {Number} If you want the GameObject to only check for collisions from a particular side of tiles. ANY by default.
+        * @return {Boolean} If any gameobject overlapped.
+        * @public
+        */
+        public overlapsTiles(gameObject:Entity, separateObjects:boolean = false, collisionType:number = Kiwi.Components.ArcadePhysics.ANY):boolean {
+
+            //Are we a tilemaplayer?
+            if (this.parent.childType() !== Kiwi.TILE_LAYER) return; 
+
+            var tiles = (<Kiwi.GameObjects.Tilemap.TileMapLayer>this.parent).getOverlappingTiles(gameObject, collisionType);
+
+            if (tiles.length > 0) {
+                if (separateObjects) ArcadePhysics.separateTiles(gameObject, <Kiwi.GameObjects.Tilemap.TileMapLayer>this.parent, tiles);
+
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+
+        /**
+        * A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity.
+        * If seperateObjects is true it will seperate the two entities based on their bounding box.
+        * Note: The GameObject passed must contain a box component and only if you want to separate the two objects must is ALSO contain an ArcadePhysics component. 
+        * Also: Not to be used for separation from tiles.
+        * 
+        * @method overlaps
+        * @param gameObject {Entity}
+        * @param [seperateObjects=false] {boolean}
+        * @return {boolean}
+        */
+        public overlaps(gameObject: Entity, separateObjects: boolean = false): boolean {
+
+            if (gameObject.childType() == Kiwi.TILE_LAYER || this.parent.childType() == Kiwi.TILE_LAYER || gameObject.components.hasComponent('Box') == false) return;
+
+            var box: Kiwi.Components.Box = gameObject.components.getComponent('Box');
+
+            var result: boolean = (box.worldHitbox.x + box.worldHitbox.width > this.box.worldHitbox.x) && (box.worldHitbox.x < this.box.worldHitbox.x + this.box.worldHitbox.width) &&
+                (box.worldHitbox.y + box.worldHitbox.height > this.box.worldHitbox.y) && (box.worldHitbox.y < this.box.worldHitbox.y + this.box.worldHitbox.height);
+
+            if (result) {
+                if (separateObjects)
+                    ArcadePhysics.separate(<Kiwi.Entity>this.owner, gameObject);
+
+                if (this._callbackFunction !== null && this._callbackContext !== null) {
+                    this._callbackFunction.call(this._callbackContext, this.owner, gameObject);
+                }
+            }
+
+            return result;
+
+        }
+
+
+        /**
+        * A method to check to see if the parent of this physics component overlaps with another individual in a Kiwi Group.
+        * 
+        * @method overlapsGroup
+        * @param group {Group}
+        * @param [seperateObjects=false] {boolean} 
+        * @return { boolean }
+        */
+        public overlapsGroup(group: Kiwi.Group, separateObjects: boolean = false): boolean {
+
+            var results: boolean = false;
+
+            for (var i = 0; i < group.members.length; i++) {
+
+                if (group.members[i].childType() === Kiwi.GROUP) {
+                    //recursively check overlap
+                    this.overlapsGroup(<Kiwi.Group>group.members[i], separateObjects);
+
+                } else {
+                    //otherwise its an entity
+
+                    if (this.overlaps(<Kiwi.Entity>group.members[i], separateObjects)) {
+                        if (this._callbackContext !== null && this._callbackFunction !== null)
+                            this._callbackFunction.call(this._callbackContext, this.owner, group.members[i]);
+                        results = true;
+                    }
+
+                }
+            }
+
+            return results;
+        }
+
+
+        /**
+        * A method to check to see if the parent of this physics component overlaps with a Entity that is held in an array.
+        * @method overlapsArray
+        * @param array {Array} The array of GameObjects you want to check.
+        * @param [separateObjects=false] {boolean} If when the objects collide you want them to seperate outwards.
+        * @return {boolean} If a collision was detected or not.
+        */ 
+        public overlapsArray(array: Array<any>, separateObjects: boolean = false): boolean {
+            
+            var results: boolean = false;
+
+            for (var i = 0; i < array.length; i++) {
+
+                if (typeof array[i].childType !== "undefined") {
+
+                    if (array[i].childType() == Kiwi.GROUP) {
+
+                        this.overlapsGroup(<Kiwi.Group>array[i], separateObjects);
+                        
+                    } else {
+
+                        if (this.overlaps(<Kiwi.Entity>array[i], separateObjects)) {
+                            this._callbackFunction.call(this._callbackContext, this.owner, array[i]);
+                            results = true;
+                        }
+
+                    }
+
+                }
+
+            }
+            
+            return results;
+        }
+
+
+        /*
+        *-------------
+        * Motion Methods
+        *-------------
+        */
+
+
         /**
         * Computes the velocity based on the parameters passed.  
         * @method computeVelocity
@@ -743,8 +1181,8 @@ module Kiwi.Components {
         * @param [max=10000] {number}
         * @return {Number} The new velocity
         */
-        public static computeVelocity(velocity: number, acceleration: number = 0, drag: number = 0, max: number = 10000):number {
-            
+        public static computeVelocity(velocity: number, acceleration: number = 0, drag: number = 0, max: number = 10000): number {
+
             if (acceleration != 0)
                 velocity += acceleration * ArcadePhysics.updateInterval;
             else if (drag != 0) {
@@ -766,96 +1204,6 @@ module Kiwi.Components {
         }
 
 
-        ////////Instance Functions/////////
-
-        /**
-        * A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity. If seperateObjects is true it will seperate the two entities based on their bounding box.
-        * 
-        * @method overlaps
-        * @param gameObject {Kiwi.Entity}
-        * @param [seperateObjects=false] {boolean}
-        * @return {boolean}
-        */
-        public overlaps(gameObject: Entity, separateObjects: boolean = false): boolean {
-            
-            if (gameObject.components.hasComponent('Box') == false) return;
-
-            var objTransform: Kiwi.Geom.Transform = gameObject.transform;
-            var box: Kiwi.Components.Box = gameObject.components.getComponent('Box');
-
-            var result: boolean = (box.worldHitbox.x + box.worldHitbox.width > this.box.worldHitbox.x) && (box.worldHitbox.x < this.box.worldHitbox.x + this.box.worldHitbox.width) &&
-                (box.worldHitbox.y + box.worldHitbox.height > this.box.worldHitbox.y) && (box.worldHitbox.y < this.box.worldHitbox.y + this.box.worldHitbox.height);
-
-            if (result && separateObjects) {
-                ArcadePhysics.separate(this._parent, gameObject);
-            }
-
-            if (result && this._callbackFunction !== null && this._callbackContext !== null) {
-                this._callbackFunction.call(this._callbackContext, this._parent, gameObject);
-            }
-
-            return result;
-
-        }
-
-        /**
-        * A method to check to see if the parent of this physics component overlaps with another individual in a Kiwi Group.
-        * 
-        * @method overlapsGroup
-        * @param group {Kiwi.Group}
-        * @param [seperateObjects=false] {boolean} 
-        * @return { boolean }
-        */
-        public overlapsGroup(group: Kiwi.Group, separateObjects: boolean = false): boolean {
-
-            var results: boolean = false;
-
-            for (var i = 0; i < group.members.length; i++) {
-
-                if (group.members[i].childType() === Kiwi.GROUP) {
-                    //recursively check overlap
-                    this.overlapsGroup(<Kiwi.Group>group.members[i], separateObjects);
-
-                } else {
-                    //otherwise its an entity
-
-                    if (this.overlaps(<Kiwi.Entity>group.members[i], separateObjects)) {
-                        if (this._callbackContext !== null && this._callbackFunction !== null)
-                            this._callbackFunction.call(this._callbackContext, this._parent, group.members[i]);
-                        results = true;
-                    }
-
-                }
-            }
-
-            return results;
-        }
-
-        /**
-        * A method to check to see if the parent of this physics component overlaps with a Entity that is held in an array.
-        * @method overlapsArray
-        * @param array {Array} The array of GameObjects you want to check.
-        * @param [separateObjects=false] {boolean} If when the objects collide you want them to seperate outwards.
-        * @return {boolean} If a collision was detected or not.
-        */ 
-        public overlapsArray(array: Array<any>, separateObjects: boolean = false): boolean {
-            
-            var results: boolean = false;
-
-            for (var i = 0; i < array.length; i++) {
-
-                if (typeof array[i].childType !== "undefined" && array[i].childType() === Kiwi.ENTITY) {
-                    if (this.overlaps(<Kiwi.Entity>array[i], separateObjects)) {
-                        this._callbackFunction.call(this._callbackContext, this._parent, array[i]);
-                        results = true;
-                    }
-                }
-
-            }
-            
-            return results;
-        }
-
         /**
         * Updates the position of this object. Automatically called if the 'moves' parameter is true.  
         * @method updateMotion
@@ -869,7 +1217,7 @@ module Kiwi.Components {
             //Update the motion calculated from rotation.
             velocityDelta = (ArcadePhysics.computeVelocity(this.angularVelocity, this.angularAcceleration, this.angularDrag, this.maxAngular) - this.angularVelocity) / 2;
             this.angularVelocity += velocityDelta;
-            this.angle += this.angularVelocity * ArcadePhysics.updateInterval;
+            this.transform.rotation += this.angularVelocity * ArcadePhysics.updateInterval;
             this.angularVelocity += velocityDelta;
            
             //Update the motion on the x-axis.
@@ -888,27 +1236,6 @@ module Kiwi.Components {
         
         }
     
-        /**
-        * Sets up a callback function that will run when this object overlaps with another.
-        * 
-        * @method setCallback
-        * @param callbackFunction {function}
-        * @param callbackContext {any} 
-        */
-        public setCallback(callbackFunction, callbackContext) {
-            this._callbackFunction = callbackFunction;
-            this._callbackContext = callbackContext;
-        }
-
-        /**
-        * Returns the parent of this entity. Mainly used for executing callbacks.
-        * @method parent
-        * @return {Kiwi.Entity}
-        * @public
-        */
-        public parent() {
-            return this._parent;
-        }
 
         /**
         * The Update loop of the physics component
@@ -918,8 +1245,8 @@ module Kiwi.Components {
         public update() {
 
             //Flixel preupdate
-            this.last.x = this.box.worldHitbox.x;
-            this.last.y = this.box.worldHitbox.y;
+            this.last.x = this.transform.worldX;
+            this.last.y = this.transform.worldY;
 
             //Flixel postupdate
             if (this.moves)
@@ -931,6 +1258,7 @@ module Kiwi.Components {
 
         }
 
+
         /**
         * Removes all properties that refer to other objects or outside of this class in order to flag this object for garbage collection.
         * @method destroy
@@ -940,7 +1268,7 @@ module Kiwi.Components {
             super.destroy();
 
             delete this.transform;
-            delete this._parent;
+            delete this.owner;
             delete this._callbackContext;
             delete this._callbackFunction;
         }
