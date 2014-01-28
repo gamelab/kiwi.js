@@ -71,7 +71,7 @@ module Kiwi {
         public active: boolean = true;
 
         /**
-        * The state of this component. DEPRECATED so we can use signals instead, but left in case is needed elsewhere
+        * The state of this component. 
         * @property dirty
         * @type boolean
         * @default false

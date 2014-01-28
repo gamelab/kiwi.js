@@ -1743,7 +1743,7 @@ var Kiwi;
             */
             this.active = true;
             /**
-            * The state of this component. DEPRECATED so we can use signals instead, but left in case is needed elsewhere
+            * The state of this component.
             * @property dirty
             * @type boolean
             * @default false
@@ -6883,8 +6883,8 @@ var Kiwi;
         * @class ArcadePhysics
         * @constructor
         * @namespace Kiwi.Components
-        * @param entity {Entity}
-        * @param box {Box}
+        * @param entity {Entity} The entity that this ArcadePhysics should be used on.
+        * @param box {Box} The box component that holds the hitbox that should be used when resolving and calculating collisions.
         * @return {ArcadePhysics}
         * @extends Component
         *
@@ -6930,22 +6930,13 @@ var Kiwi;
                 this.acceleration = new Kiwi.Geom.Point();
                 this.drag = new Kiwi.Geom.Point();
                 this.maxVelocity = new Kiwi.Geom.Point(10000, 10000);
+                this.dirty = true;
 
                 this.angularVelocity = 0;
                 this.angularAcceleration = 0;
                 this.angularDrag = 0;
                 this.maxAngular = 10000;
             }
-            /**
-            * The type of object that this is.
-            * @method objType
-            * @return {string}
-            * @public
-            */
-            ArcadePhysics.prototype.objType = function () {
-                return "ArcadePhysics";
-            };
-
             /**
             * Returns a boolean indicating whether the or not the object is currently colliding on a particular side that is passed.
             * Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.
@@ -6959,12 +6950,13 @@ var Kiwi;
             };
 
             /**
-            * Whether the object collides or not.
+            * Whether the object should collide with other objects or not.
             * For more control over what directions the object will collide from, use collision constants (like LEFT, FLOOR, etc)
             * and set the value of allowCollisions directly.
             * @method solid
             * @param [value] {boolean} If left empty, this will then just toggle between ANY and NONE.
             * @return boolean
+            * @public
             */
             ArcadePhysics.prototype.solid = function (value) {
                 if (value !== undefined) {
@@ -6981,12 +6973,663 @@ var Kiwi;
             * Sets up a callback function that will run when this object overlaps with another.
             *
             * @method setCallback
-            * @param callbackFunction {function}
-            * @param callbackContext {any}
+            * @param callbackFunction {Function}
+            * @param callbackContext {Any}
+            * @public
             */
             ArcadePhysics.prototype.setCallback = function (callbackFunction, callbackContext) {
                 this._callbackFunction = callbackFunction;
                 this._callbackContext = callbackContext;
+            };
+
+            /*
+            *---------------
+            * Seperation Code
+            *---------------
+            */
+            /**
+            * A static method for seperating two normal GameObjects on both the X and Y Axis's.
+            * Both objects need to have both an ArcadePhysics Component and a Box component in order for the separate process to succeed.
+            * This method is not recommended to be directly used but instead use a 'collide/overlaps' method instead.
+            *
+            * @method seperate
+            * @static
+            * @param object1 {Entity} The first GameObject you would like to seperate.
+            * @param object2 {Entity} The second GameObject you would like to seperate from the first.
+            * @return {boolean}
+            * @public
+            */
+            ArcadePhysics.separate = function (object1, object2) {
+                var separatedX = this.separateX(object1, object2);
+                var separatedY = this.separateY(object1, object2);
+                return separatedX || separatedY;
+            };
+
+            /**
+            * Separates two passed GameObjects on the x-axis.
+            * Both objects need to have both an ArcadePhysics Component and a Box component in order for the separate process to succeed.
+            * This method is not recommended to be directly used but instead use a 'collide/overlaps' method instead.
+            *
+            * @method seperateX
+            * @param object1 {Entity} The first GameObject.
+            * @param object2 {Entity} The second GameObject.
+            * @return {boolean} Whether the objects in fact touched and were separated along the X axis.
+            * @static
+            * @public
+            */
+            ArcadePhysics.separateX = function (object1, object2) {
+                //Get the Physics Components.
+                var phys1 = object1.components.getComponent("ArcadePhysics");
+                var phys2 = object2.components.getComponent("ArcadePhysics");
+
+                //Can they even be sseparatated? two immovable objects
+                if (phys1.immovable && phys2.immovable)
+                    return false;
+
+                //First, get the two object deltas
+                var overlap = 0;
+                var obj1delta = phys1.transform.worldX - phys1.last.x;
+                var obj2delta = phys2.transform.worldX - phys2.last.x;
+
+                //Are they the same?
+                if (obj1delta == obj2delta)
+                    return false;
+
+                //Check if the X hulls actually overlap
+                var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
+                var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
+
+                //Get the world hitboxes.
+                var box1 = phys1.box.worldHitbox;
+                var box2 = phys2.box.worldHitbox;
+
+                //Where they are now using previous y axis's.
+                var obj1rect = new Kiwi.Geom.Rectangle(box1.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y + phys1.box.hitboxOffset.y, box1.width + ((obj1delta > 0) ? obj1delta : -obj1delta), box1.height);
+                var obj2rect = new Kiwi.Geom.Rectangle(box2.x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y + phys2.box.hitboxOffset.y, box2.width + ((obj2delta > 0) ? obj2delta : -obj2delta), box2.height);
+
+                //Could also use Kiwi.Geom.Intersect.rectangleToRectangle here...
+                if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
+                    var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
+
+                    if (obj1delta > obj2delta) {
+                        overlap = box1.x + box1.width - box2.x;
+                        if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(phys2.allowCollisions & ArcadePhysics.LEFT)) {
+                            overlap = 0;
+                        } else {
+                            phys1.touching |= ArcadePhysics.RIGHT;
+                            phys2.touching |= ArcadePhysics.LEFT;
+                        }
+                    } else {
+                        overlap = box1.x - box2.width - box2.x;
+                        if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(phys2.allowCollisions & ArcadePhysics.RIGHT)) {
+                            overlap = 0;
+                        } else {
+                            phys1.touching |= ArcadePhysics.LEFT;
+                            phys2.touching |= ArcadePhysics.RIGHT;
+                        }
+                    }
+                }
+
+                if (overlap != 0) {
+                    //Get the average velocity
+                    var obj1v = phys1.velocity.x;
+                    var obj2v = phys2.velocity.x;
+
+                    if (!phys1.immovable && !phys2.immovable) {
+                        overlap *= 0.5;
+                        phys1.transform.x = phys1.transform.x - overlap;
+                        phys2.transform.x = phys2.transform.x + overlap;
+
+                        var obj1velocity = Math.sqrt((obj2v * obj2v * phys2.mass) / phys1.mass) * ((obj2v > 0) ? 1 : -1);
+                        var obj2velocity = Math.sqrt((obj1v * obj1v * phys1.mass) / phys2.mass) * ((obj1v > 0) ? 1 : -1);
+                        var average = (obj1velocity + obj2velocity) * 0.5;
+                        obj1velocity -= average;
+                        obj2velocity -= average;
+                        phys1.velocity.x = average + obj1velocity * phys1.elasticity;
+                        phys2.velocity.x = average + obj2velocity * phys2.elasticity;
+                    } else if (!phys1.immovable) {
+                        phys1.transform.x = phys1.transform.x - overlap;
+                        phys1.velocity.x = obj2v - obj1v * phys1.elasticity;
+                    } else if (!phys2.immovable) {
+                        phys2.transform.x = phys2.transform.x + overlap;
+                        phys2.velocity.x = obj1v - obj2v * phys2.elasticity;
+                    }
+                    return true;
+                }
+
+                return false;
+            };
+
+            /**
+            * Separated two GameObject on the y-axis. This method is executed from the 'separate' method.
+            * Both objects need to have both an ArcadePhysics Component and a Box component in order for the separate process to succeed.
+            * This method is not recommended to be directly used but instead use a 'collide/overlaps' method instead.
+            *
+            * @method seperateY
+            * @param object1 {Entity} The first GameObject.
+            * @param object2 {Entity} The second GameObject.
+            * @return {boolean} Whether the objects in fact touched and were separated along the Y axis.
+            * @static
+            * @public
+            */
+            ArcadePhysics.separateY = function (object1, object2) {
+                //Get the Arcade Physics Components
+                var phys1 = object1.components.getComponent("ArcadePhysics");
+                var phys2 = object2.components.getComponent("ArcadePhysics");
+
+                //Can't separate two immovable objects
+                if (phys1.immovable && phys2.immovable)
+                    return false;
+
+                var overlap = 0;
+                var obj1delta = phys1.transform.worldY - phys1.last.y;
+                var obj2delta = phys2.transform.worldY - phys2.last.y;
+
+                //Do the deltas match?
+                if (obj1delta == obj2delta)
+                    return false;
+
+                //Absolute Deltas
+                var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
+                var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
+
+                //Hitboxes
+                var box1 = phys1.box.worldHitbox;
+                var box2 = phys2.box.worldHitbox;
+
+                //Rectangles
+                var obj1rect = new Kiwi.Geom.Rectangle(box1.x, box1.y - ((obj1delta > 0) ? obj1delta : 0), box1.width, box1.height + obj1deltaAbs);
+                var obj2rect = new Kiwi.Geom.Rectangle(box2.x, box2.y - ((obj2delta > 0) ? obj2delta : 0), box2.width, box2.height + obj2deltaAbs);
+
+                //Check for overlap
+                if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
+                    var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
+
+                    if (obj1delta > obj2delta) {
+                        overlap = box1.y + box1.height - box2.y;
+                        if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.DOWN) || !(phys2.allowCollisions & ArcadePhysics.UP)) {
+                            overlap = 0;
+                        } else {
+                            phys1.touching |= ArcadePhysics.DOWN;
+                            phys2.touching |= ArcadePhysics.UP;
+                        }
+                    } else {
+                        overlap = box1.y - box2.height - box2.y;
+                        if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.UP) || !(phys2.allowCollisions & ArcadePhysics.DOWN)) {
+                            overlap = 0;
+                        } else {
+                            phys1.touching |= ArcadePhysics.UP;
+                            phys2.touching |= ArcadePhysics.DOWN;
+                        }
+                    }
+
+                    //Then adjust their positions and velocities accordingly (if there was any overlap)
+                    if (overlap != 0) {
+                        var obj1v = phys1.velocity.y;
+                        var obj2v = phys2.velocity.y;
+
+                        if (!phys1.immovable && !phys2.immovable) {
+                            overlap *= 0.5;
+
+                            phys1.transform.y = phys1.transform.y - overlap;
+                            phys2.transform.y = phys2.transform.y + overlap;
+
+                            var obj1velocity = Math.sqrt((obj2v * obj2v * phys2.mass) / phys1.mass) * ((obj2v > 0) ? 1 : -1);
+                            var obj2velocity = Math.sqrt((obj1v * obj1v * phys1.mass) / phys2.mass) * ((obj1v > 0) ? 1 : -1);
+                            var average = (obj1velocity + obj2velocity) * 0.5;
+
+                            obj1velocity -= average;
+                            obj2velocity -= average;
+
+                            phys1.velocity.y = average + obj1velocity * phys1.elasticity;
+                            phys2.velocity.y = average + obj2velocity * phys2.elasticity;
+                        } else if (!phys1.immovable) {
+                            phys1.transform.y = phys1.transform.y - overlap;
+                            phys1.velocity.y = obj2v - obj1v * phys1.elasticity;
+
+                            //This is special case code that handles cases like horizontal moving platforms you can ride
+                            if (object2.active && phys2.moves && (obj1delta > obj2delta))
+                                phys1.transform.x = phys1.transform.worldX + object2.transform.worldX - phys2.last.x;
+                        } else if (!phys2.immovable) {
+                            phys2.transform.y = phys2.transform.y + overlap;
+                            phys2.velocity.y = obj1v - obj2v * phys2.elasticity;
+
+                            //This is special case code that handles cases like horizontal moving platforms you can ride
+                            if (object1.active && phys1.moves && (obj1delta < obj2delta))
+                                phys2.transform.x = phys2.transform.worldX + object1.transform.worldX - phys1.last.x;
+                        }
+
+                        return true;
+                    }
+                }
+
+                return false;
+            };
+
+            /*
+            *---------------
+            * Seperation of Tiles Methods
+            *---------------
+            */
+            /**
+            * Separates a GameObject from a series of passed Tiles that lie on a TileMapLayer.
+            * The gameobject needs to have a Box Component and an ArcadePhysics Component.
+            * This method is not recommended to be directly used but instead use the 'overlapsTiles' method instead.
+            *
+            * @method separateTiles
+            * @param object {Entity} The GameObject you are wanting to separate from a tile.
+            * @param layer {TileMapLayer} The TileMapLayer that the tiles belong on.
+            * @param tiles {Object[]}
+            * @return {Boolean} If any separation occured.
+            * @public
+            * @static
+            */
+            ArcadePhysics.separateTiles = function (object, layer, tiles) {
+                //Physics Component Found?
+                if (object.components.hasComponent("ArcadePhysics") == false)
+                    return false;
+
+                //Immovable?
+                if (object.components.getComponent("ArcadePhysics").immovable)
+                    return false;
+
+                var sepX = false;
+                var sepY = false;
+
+                for (var i = 0; i < tiles.length; i++) {
+                    var tile = tiles[i];
+
+                    if (!sepX)
+                        sepX = this.separateTilesX(object, layer, tile);
+                    if (!sepY)
+                        sepY = this.separateTilesY(object, layer, tile);
+                }
+
+                return sepX || sepY;
+            };
+
+            /**
+            * Separates a GameObjects from an Array of Tiles on the x-axis.
+            * @method separateTilesX
+            * @param object {Entity} The GameObject you are wanting to separate from a tile.
+            * @param layer {TileMapLayer} The TileMapLayer that the tiles belong on.
+            * @param tile {Object}.
+            * @return {Boolean} If any separation occured.
+            * @public
+            * @static
+            */
+            ArcadePhysics.separateTilesX = function (object, layer, tile) {
+                //Get Physics
+                var phys1 = object.components.getComponent("ArcadePhysics");
+                var phys2 = layer.components.getComponent("ArcadePhysics");
+
+                //First, get the two object deltas
+                var obj1delta = phys1.transform.worldX - phys1.last.x;
+                var obj2delta = phys2.transform.worldX - phys2.last.x;
+
+                //If they moved the same amount.
+                if (obj1delta == obj2delta)
+                    return false;
+
+                //Absolute Delta and Overlap
+                var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
+                var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
+                var overlap = 0;
+                var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
+
+                //Quick References
+                var box1 = phys1.box.worldHitbox;
+                var tileTypes = layer.tilemap.tileTypes;
+                var tData = layer.tileData;
+
+                //Box of the GameObject
+                var x = phys2.transform.worldX + tile.x;
+                var obj1rect = new Kiwi.Geom.Rectangle(box1.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y + phys1.box.hitboxOffset.y, box1.width + ((obj1delta > 0) ? obj1delta : -obj1delta), box1.height);
+                var obj2rect = new Kiwi.Geom.Rectangle(x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y + tile.y, layer.tileWidth + ((obj2delta > 0) ? obj2delta : -obj2delta), layer.tileHeight);
+
+                //Check to see if they overlap
+                if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
+                    //Which way the delta is going
+                    if (obj1delta > obj2delta) {
+                        overlap = box1.x + box1.width - x;
+                        if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.LEFT)) {
+                            overlap = 0;
+                        } else {
+                            phys1.touching |= ArcadePhysics.RIGHT;
+                        }
+                    } else {
+                        overlap = box1.x - layer.tileWidth - x;
+                        if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.RIGHT)) {
+                            overlap = 0;
+                        } else {
+                            phys1.touching |= ArcadePhysics.LEFT;
+                        }
+                    }
+
+                    //Resolve the Collision
+                    if (overlap != 0) {
+                        var obj1v = phys1.velocity.x;
+                        var obj2v = phys2.velocity.x;
+
+                        phys1.transform.x = phys1.transform.x - overlap;
+                        phys1.velocity.x = obj2v - obj1v * phys1.elasticity;
+
+                        return true;
+                    }
+                }
+
+                return false;
+            };
+
+            /**
+            * Separates a GameObjects from an Array of Tiles on the y-axis.
+            * @method separateTilesY
+            * @param object {Entity} The GameObject you are wanting to separate from a tile.
+            * @param layer {TileMapLayer} The TileMapLayer that the tiles belong on.
+            * @param tiles {Object[]} The tiles which are overlapping with the GameObject.
+            * @return {Boolean} If any separation occured.
+            * @public
+            * @static
+            */
+            ArcadePhysics.separateTilesY = function (object, layer, tile) {
+                //Get the physics.
+                var phys1 = object.components.getComponent("ArcadePhysics");
+                var phys2 = layer.components.getComponent("ArcadePhysics");
+
+                //First, get the two object deltas
+                var obj1delta = phys1.transform.worldY - phys1.last.y;
+                var obj2delta = phys2.transform.worldY - phys2.last.y;
+
+                //Have they moved the same amount?
+                if (obj1delta == obj2delta)
+                    return false;
+
+                //Absolute Delta and Max Overlap
+                var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
+                var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
+                var overlap = 0;
+                var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
+
+                var box1 = phys1.box.worldHitbox;
+                var tileTypes = layer.tilemap.tileTypes;
+                var tData = layer.tileData;
+                var y = layer.transform.worldY + tile.y;
+
+                //Rectangles
+                var obj1rect = new Kiwi.Geom.Rectangle(box1.x, box1.y - ((obj1delta > 0) ? obj1delta : 0), box1.width, box1.height + obj1deltaAbs);
+                var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.worldX + tile.x, y - ((obj2delta > 0) ? obj2delta : 0), layer.tileWidth, layer.tileHeight + obj2deltaAbs);
+
+                //Check if they overlap
+                if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
+                    if (obj1delta > obj2delta) {
+                        overlap = box1.y + box1.height - y;
+                        if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.DOWN) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.UP)) {
+                            overlap = 0;
+                        } else {
+                            phys1.touching |= ArcadePhysics.DOWN;
+                        }
+                    } else {
+                        overlap = box1.y - layer.tileHeight - y;
+                        if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.UP) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.DOWN)) {
+                            overlap = 0;
+                        } else {
+                            phys1.touching |= ArcadePhysics.UP;
+                        }
+                    }
+
+                    //Resolve the Collision
+                    if (overlap != 0) {
+                        var obj1v = phys1.velocity.y;
+                        var obj2v = phys2.velocity.y;
+
+                        phys1.transform.y = phys1.transform.y - overlap;
+                        phys1.velocity.y = obj2v - obj1v * phys1.elasticity;
+
+                        return true;
+                    }
+                }
+
+                return false;
+            };
+
+            /*
+            *---------------
+            * Instance Functions
+            *---------------
+            */
+            /**
+            * A method to check to see if any Tiles with in this parent TileMapLayer overlaps with a GameObject passed.
+            * If seperateObjects is true it will seperate the two entities based on their bounding box.
+            * ONLY works if parent of the ArcadePhysics component which is calling this method is a TileMapLayer.
+            * Note: The GameObject passed must contain a box component and only if you want to separate the two objects must is ALSO contain an ArcadePhysics component.
+            *
+            * @method overlapsTile
+            * @param gameObject {Entity} The GameObject you would like to separate with this one.
+            * @param [separateObjects=false] {Boolean} If you want the GameObject to be separated from any tile it collides with.
+            * @param [collisionType=ANY] {Number} If you want the GameObject to only check for collisions from a particular side of tiles. ANY by default.
+            * @return {Boolean} If any gameobject overlapped.
+            * @public
+            */
+            ArcadePhysics.prototype.overlapsTiles = function (gameObject, separateObjects, collisionType) {
+                if (typeof separateObjects === "undefined") { separateObjects = false; }
+                if (typeof collisionType === "undefined") { collisionType = Kiwi.Components.ArcadePhysics.ANY; }
+                //Are we a tilemaplayer?
+                if (this.parent.childType() !== Kiwi.TILE_LAYER)
+                    return;
+
+                var tiles = this.parent.getOverlappingTiles(gameObject, collisionType);
+
+                if (tiles.length > 0) {
+                    if (separateObjects)
+                        ArcadePhysics.separateTiles(gameObject, this.parent, tiles);
+
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            /**
+            * A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity.
+            * If seperateObjects is true it will seperate the two entities based on their bounding box.
+            * Note: The GameObject passed must contain a box component and only if you want to separate the two objects must is ALSO contain an ArcadePhysics component.
+            * Also: Not to be used for separation from tiles.
+            *
+            * @method overlaps
+            * @param gameObject {Entity}
+            * @param [seperateObjects=false] {boolean}
+            * @return {boolean}
+            * @public
+            */
+            ArcadePhysics.prototype.overlaps = function (gameObject, separateObjects) {
+                if (typeof separateObjects === "undefined") { separateObjects = false; }
+                if (gameObject.childType() == Kiwi.TILE_LAYER || this.parent.childType() == Kiwi.TILE_LAYER || gameObject.components.hasComponent('Box') == false)
+                    return;
+
+                var box = gameObject.components.getComponent('Box');
+
+                var result = (box.worldHitbox.x + box.worldHitbox.width > this.box.worldHitbox.x) && (box.worldHitbox.x < this.box.worldHitbox.x + this.box.worldHitbox.width) && (box.worldHitbox.y + box.worldHitbox.height > this.box.worldHitbox.y) && (box.worldHitbox.y < this.box.worldHitbox.y + this.box.worldHitbox.height);
+
+                if (result) {
+                    if (separateObjects)
+                        ArcadePhysics.separate(this.owner, gameObject);
+
+                    if (this._callbackFunction !== null && this._callbackContext !== null) {
+                        this._callbackFunction.call(this._callbackContext, this.owner, gameObject);
+                    }
+                }
+
+                return result;
+            };
+
+            /**
+            * A method to check to see if the parent of this physics component overlaps with another individual in a Kiwi Group.
+            *
+            * @method overlapsGroup
+            * @param group {Group}
+            * @param [seperateObjects=false] {boolean}
+            * @return { boolean }
+            * @public
+            */
+            ArcadePhysics.prototype.overlapsGroup = function (group, separateObjects) {
+                if (typeof separateObjects === "undefined") { separateObjects = false; }
+                var results = false;
+
+                for (var i = 0; i < group.members.length; i++) {
+                    if (group.members[i].childType() === Kiwi.GROUP) {
+                        //recursively check overlap
+                        this.overlapsGroup(group.members[i], separateObjects);
+                    } else {
+                        //otherwise its an entity
+                        if (this.overlaps(group.members[i], separateObjects)) {
+                            if (this._callbackContext !== null && this._callbackFunction !== null)
+                                this._callbackFunction.call(this._callbackContext, this.owner, group.members[i]);
+                            results = true;
+                        }
+                    }
+                }
+
+                return results;
+            };
+
+            /**
+            * A method to check to see if the parent of this physics component overlaps with a Entity that is held in an array.
+            * @method overlapsArray
+            * @param array {Array} The array of GameObjects you want to check.
+            * @param [separateObjects=false] {boolean} If when the objects collide you want them to seperate outwards.
+            * @return {boolean} If a collision was detected or not.
+            * @public
+            */
+            ArcadePhysics.prototype.overlapsArray = function (array, separateObjects) {
+                if (typeof separateObjects === "undefined") { separateObjects = false; }
+                var results = false;
+
+                for (var i = 0; i < array.length; i++) {
+                    if (typeof array[i].childType !== "undefined") {
+                        if (array[i].childType() == Kiwi.GROUP) {
+                            this.overlapsGroup(array[i], separateObjects);
+                        } else {
+                            if (this.overlaps(array[i], separateObjects)) {
+                                this._callbackFunction.call(this._callbackContext, this.owner, array[i]);
+                                results = true;
+                            }
+                        }
+                    }
+                }
+
+                return results;
+            };
+
+            /*
+            *-------------
+            * Motion Methods
+            *-------------
+            */
+            /**
+            * Computes the velocity based on the parameters passed.
+            * @method computeVelocity
+            * @static
+            * @param velocity {number}
+            * @param [acceleration=0] {number}
+            * @param [drag=0] {number}
+            * @param [max=10000] {number}
+            * @return {Number} The new velocity
+            * @public
+            */
+            ArcadePhysics.computeVelocity = function (velocity, acceleration, drag, max) {
+                if (typeof acceleration === "undefined") { acceleration = 0; }
+                if (typeof drag === "undefined") { drag = 0; }
+                if (typeof max === "undefined") { max = 10000; }
+                if (acceleration != 0)
+                    velocity += acceleration * ArcadePhysics.updateInterval;
+                else if (drag != 0) {
+                    drag = drag * ArcadePhysics.updateInterval;
+                    if (velocity - drag > 0)
+                        velocity = velocity - drag;
+                    else if (velocity + drag < 0)
+                        velocity += drag;
+                    else
+                        velocity = 0;
+                }
+                if ((velocity != 0) && (max != 10000)) {
+                    if (velocity > max)
+                        velocity = max;
+                    else if (velocity < -max)
+                        velocity = -max;
+                }
+                return velocity;
+            };
+
+            /**
+            * Updates the position of this object. Automatically called if the 'moves' parameter is true.
+            * @method updateMotion
+            * @public
+            */
+            ArcadePhysics.prototype.updateMotion = function () {
+                var delta;
+                var velocityDelta;
+
+                //Update the motion calculated from rotation.
+                velocityDelta = (ArcadePhysics.computeVelocity(this.angularVelocity, this.angularAcceleration, this.angularDrag, this.maxAngular) - this.angularVelocity) / 2;
+                this.angularVelocity += velocityDelta;
+                this.transform.rotation += this.angularVelocity * ArcadePhysics.updateInterval;
+                this.angularVelocity += velocityDelta;
+
+                //Update the motion on the x-axis.
+                velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.x, this.acceleration.x, this.drag.x, this.maxVelocity.x) - this.velocity.x) / 2;
+                this.velocity.x += velocityDelta;
+                delta = this.velocity.x * ArcadePhysics.updateInterval;
+                this.velocity.x += velocityDelta;
+                this.transform.x = this.transform.x + delta;
+
+                //Update the motion on the y-axis.
+                velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.y, this.acceleration.y, this.drag.y, this.maxVelocity.y) - this.velocity.y) / 2;
+                this.velocity.y += velocityDelta;
+                delta = this.velocity.y * ArcadePhysics.updateInterval;
+                this.velocity.y += velocityDelta;
+                this.transform.y = this.transform.y + delta;
+            };
+
+            /**
+            * The Update loop of the physics component
+            * @method update
+            * @public
+            */
+            ArcadePhysics.prototype.update = function () {
+                //Flixel preupdate
+                this.last.x = this.transform.worldX;
+                this.last.y = this.transform.worldY;
+
+                //Flixel postupdate
+                if (this.moves)
+                    this.updateMotion();
+
+                this.wasTouching = this.touching;
+                this.touching = ArcadePhysics.NONE;
+            };
+
+            /**
+            * Removes all properties that refer to other objects or outside of this class in order to flag this object for garbage collection.
+            * @method destroy
+            * @public
+            */
+            ArcadePhysics.prototype.destroy = function () {
+                _super.prototype.destroy.call(this);
+
+                delete this.transform;
+                delete this.owner;
+                delete this._callbackContext;
+                delete this._callbackFunction;
+            };
+
+            /**
+            * The type of object that this is.
+            * @method objType
+            * @return {string}
+            * @public
+            */
+            ArcadePhysics.prototype.objType = function () {
+                return "ArcadePhysics";
             };
 
             /*
@@ -7147,627 +7790,6 @@ var Kiwi;
                 return result;
             };
 
-            /*
-            *---------------
-            * Seperation Code
-            *---------------
-            */
-            /**
-            * A static method for seperating two normal GameObjects.
-            * Both objects need to have a ArcadePhysics and Box component in order to be separated successfully.
-            *
-            * @method seperate
-            * @static
-            * @param object1 {Entity} The first GameObject you would like to seperate.
-            * @param object2 {Entity} The second GameObject you would like to seperate.
-            * @return {boolean}
-            * @public
-            */
-            ArcadePhysics.separate = function (object1, object2) {
-                var separatedX = this.separateX(object1, object2);
-                var separatedY = this.separateY(object1, object2);
-                return separatedX || separatedY;
-            };
-
-            /**
-            * Separates two GameObjects on the x-axis. This method is executed from the 'separate' method.
-            *
-            * @method seperateX
-            * @static
-            * @public
-            * @param {Entity} object1
-            * @param {Entity} object2
-            * @return {boolean} Whether the objects in fact touched and were separated along the X axis.
-            */
-            ArcadePhysics.separateX = function (object1, object2) {
-                var phys1 = object1.components.getComponent("ArcadePhysics");
-                var phys2 = object2.components.getComponent("ArcadePhysics");
-
-                //can't separate two immovable objects
-                if (phys1.immovable && phys2.immovable)
-                    return false;
-
-                //First, get the two object deltas
-                var overlap = 0;
-                var obj1delta = phys1.transform.worldX - phys1.last.x;
-                var obj2delta = phys2.transform.worldX - phys2.last.x;
-
-                if (obj1delta != obj2delta) {
-                    //Check if the X hulls actually overlap
-                    var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
-                    var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
-
-                    var box1 = phys1.box.worldHitbox;
-                    var box2 = phys2.box.worldHitbox;
-
-                    //where they were before
-                    var obj1rect = new Kiwi.Geom.Rectangle(box1.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, box1.width + ((obj1delta > 0) ? obj1delta : -obj1delta), box1.height);
-                    var obj2rect = new Kiwi.Geom.Rectangle(box2.x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, box2.width + ((obj2delta > 0) ? obj2delta : -obj2delta), box2.height);
-
-                    if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
-                        var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
-
-                        //If they did overlap (and can), figure out by how much and flip the corresponding flags
-                        if (obj1delta > obj2delta) {
-                            overlap = box1.x + box1.width - box2.x;
-                            if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(phys2.allowCollisions & ArcadePhysics.LEFT)) {
-                                overlap = 0;
-                            } else {
-                                phys1.touching |= ArcadePhysics.RIGHT;
-                                phys2.touching |= ArcadePhysics.LEFT;
-                            }
-                        } else if (obj1delta < obj2delta) {
-                            overlap = box1.x - box2.width - box2.x;
-                            if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(phys2.allowCollisions & ArcadePhysics.RIGHT)) {
-                                overlap = 0;
-                            } else {
-                                phys1.touching |= ArcadePhysics.LEFT;
-                                phys2.touching |= ArcadePhysics.RIGHT;
-                            }
-                        }
-                    }
-                }
-
-                //Then adjust their positions and velocities accordingly (if there was any overlap)
-                if (overlap != 0) {
-                    var obj1v = phys1.velocity.x;
-                    var obj2v = phys2.velocity.x;
-
-                    if (!phys1.immovable && !phys2.immovable) {
-                        overlap *= 0.5;
-                        phys1.transform.x = phys1.transform.x - overlap;
-                        phys2.transform.x = phys2.transform.x + overlap;
-
-                        var obj1velocity = Math.sqrt((obj2v * obj2v * phys2.mass) / phys1.mass) * ((obj2v > 0) ? 1 : -1);
-                        var obj2velocity = Math.sqrt((obj1v * obj1v * phys1.mass) / phys2.mass) * ((obj1v > 0) ? 1 : -1);
-                        var average = (obj1velocity + obj2velocity) * 0.5;
-                        obj1velocity -= average;
-                        obj2velocity -= average;
-                        phys1.velocity.x = average + obj1velocity * phys1.elasticity;
-                        phys2.velocity.x = average + obj2velocity * phys2.elasticity;
-                    } else if (!phys1.immovable) {
-                        phys1.transform.x = phys1.transform.x - overlap;
-                        phys1.velocity.x = obj2v - obj1v * phys1.elasticity;
-                    } else if (!phys2.immovable) {
-                        phys2.transform.x = phys2.transform.x + overlap;
-                        phys2.velocity.x = obj1v - obj2v * phys2.elasticity;
-                    }
-                    return true;
-                } else
-                    return false;
-            };
-
-            /**
-            * Separated two GameObject on the y-axis. This method is executed from the 'separate' method.
-            *
-            * @method seperateY
-            * @static
-            * @public
-            * @param object1 {Entity}
-            * @param object2 {Entity}
-            * @return {boolean} Whether the objects in fact touched and were separated along the Y axis.
-            */
-            ArcadePhysics.separateY = function (object1, object2) {
-                //Get the Arcade Physics Components
-                var phys1 = object1.components.getComponent("ArcadePhysics");
-                var phys2 = object2.components.getComponent("ArcadePhysics");
-
-                //Can't separate two immovable objects
-                if (phys1.immovable && phys2.immovable)
-                    return false;
-
-                //First, get the two object deltas
-                var overlap = 0;
-
-                //Calculate the Delta
-                var obj1delta = phys1.transform.worldY - phys1.last.y;
-                var obj2delta = phys2.transform.worldY - phys2.last.y;
-
-                if (obj1delta != obj2delta) {
-                    var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
-                    var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
-
-                    var box1 = phys1.box.worldHitbox;
-                    var box2 = phys2.box.worldHitbox;
-
-                    var obj1rect = new Kiwi.Geom.Rectangle(box1.x, box1.y - ((obj1delta > 0) ? obj1delta : 0), box1.width, box1.height + obj1deltaAbs);
-                    var obj2rect = new Kiwi.Geom.Rectangle(box2.x, box2.y - ((obj2delta > 0) ? obj2delta : 0), box2.width, box2.height + obj2deltaAbs);
-
-                    if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
-                        var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
-
-                        //If they did overlap (and can), figure out by how much and flip the corresponding flags
-                        if (obj1delta > obj2delta) {
-                            overlap = box1.y + box1.height - box2.y;
-                            if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.DOWN) || !(phys2.allowCollisions & ArcadePhysics.UP)) {
-                                overlap = 0;
-                            } else {
-                                phys1.touching |= ArcadePhysics.DOWN;
-                                phys2.touching |= ArcadePhysics.UP;
-                            }
-                        } else if (obj1delta < obj2delta) {
-                            overlap = box1.y - box2.height - box2.y;
-                            if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.UP) || !(phys2.allowCollisions & ArcadePhysics.DOWN)) {
-                                overlap = 0;
-                            } else {
-                                phys1.touching |= ArcadePhysics.UP;
-                                phys2.touching |= ArcadePhysics.DOWN;
-                            }
-                        }
-                    }
-                }
-
-                //Then adjust their positions and velocities accordingly (if there was any overlap)
-                if (overlap != 0) {
-                    var obj1v = phys1.velocity.y;
-                    var obj2v = phys2.velocity.y;
-
-                    if (!phys1.immovable && !phys2.immovable) {
-                        overlap *= 0.5;
-                        phys1.transform.y = phys1.transform.y - overlap;
-                        phys2.transform.y = phys2.transform.y + overlap;
-
-                        var obj1velocity = Math.sqrt((obj2v * obj2v * phys2.mass) / phys1.mass) * ((obj2v > 0) ? 1 : -1);
-                        var obj2velocity = Math.sqrt((obj1v * obj1v * phys1.mass) / phys2.mass) * ((obj1v > 0) ? 1 : -1);
-                        var average = (obj1velocity + obj2velocity) * 0.5;
-                        obj1velocity -= average;
-                        obj2velocity -= average;
-                        phys1.velocity.y = average + obj1velocity * phys1.elasticity;
-                        phys2.velocity.y = average + obj2velocity * phys2.elasticity;
-                    } else if (!phys1.immovable) {
-                        phys1.transform.y = phys1.transform.y - overlap;
-                        phys1.velocity.y = obj2v - obj1v * phys1.elasticity;
-
-                        //This is special case code that handles cases like horizontal moving platforms you can ride
-                        if (object2.active && phys2.moves && (obj1delta > obj2delta))
-                            phys1.transform.x = phys1.transform.worldX + object2.transform.worldX - phys2.last.x;
-                    } else if (!phys2.immovable) {
-                        phys2.transform.y = phys2.transform.y + overlap;
-                        phys2.velocity.y = obj1v - obj2v * phys2.elasticity;
-
-                        //This is special case code that handles cases like horizontal moving platforms you can ride
-                        if (object1.active && phys1.moves && (obj1delta < obj2delta))
-                            phys2.transform.x = phys2.transform.worldX + object1.transform.worldX - phys1.last.x;
-                    }
-                    return true;
-                } else
-                    return false;
-            };
-
-            /*
-            *---------------
-            * Seperation of Tiles Methods
-            *---------------
-            */
-            /**
-            * Separates a GameObject from Tiles with a TileMapLayer.
-            * @method separateTiles
-            * @param object {Entity} The GameObject you are wanting to separate from a tile.
-            * @param layer {TileMapLayer} The TileMapLayer that the tiles belong on.
-            * @param tiles {Object[]} The tiles which are overlapping with the GameObject.
-            * @return {Boolean} If any separation occured.
-            * @public
-            * @static
-            */
-            ArcadePhysics.separateTiles = function (object, layer, tiles) {
-                //Physics Component Found?
-                if (object.components.hasComponent("ArcadePhysics") == false)
-                    return;
-
-                for (var i = 0; i < tiles.length; i++) {
-                    var tile = tiles[i];
-                    var sepX = this.separateTilesX(object, layer, tile);
-                    var sepY = this.separateTilesY(object, layer, tile);
-                }
-
-                return sepX || sepY;
-            };
-
-            /**
-            * Separates a GameObjects from an Array of Tiles on the x-axis.
-            * @method separateTilesX
-            * @param object {Entity} The GameObject you are wanting to separate from a tile.
-            * @param layer {TileMapLayer} The TileMapLayer that the tiles belong on.
-            * @param tiles {Object[]} The tiles which are overlapping with the GameObject.
-            * @return {Boolean} If any separation occured.
-            * @public
-            * @static
-            */
-            ArcadePhysics.separateTilesX = function (object, layer, tiles) {
-                var adjusted = false;
-                var phys1 = object.components.getComponent("ArcadePhysics");
-                var phys2 = layer.components.getComponent("ArcadePhysics");
-
-                //can't separate two immovable objects
-                if (phys1.immovable && phys2.immovable)
-                    return false;
-
-                //First, get the two object deltas
-                var obj1delta = phys1.transform.worldX - phys1.last.x;
-                var obj2delta = phys2.transform.worldX - phys2.last.x;
-
-                if (obj1delta != obj2delta) {
-                    //Absolute Delta and Overlap
-                    var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
-                    var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
-                    var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
-
-                    //Quick References
-                    var box1 = phys1.box.worldHitbox;
-                    var tileTypes = layer.tilemap.tileTypes;
-                    var tData = layer.tileData;
-
-                    //Box of the GameObject
-                    var obj1rect = new Kiwi.Geom.Rectangle(box1.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y + phys1.box.hitboxOffset.y, box1.width + ((obj1delta > 0) ? obj1delta : -obj1delta), box1.height);
-
-                    //Loop through the tiles...
-                    // for (var i = 0; i < tiles.length; i++) {
-                    var overlap = 0;
-                    var tile = tiles;
-                    var x = phys2.transform.worldX + tile.x;
-                    var obj2rect = new Kiwi.Geom.Rectangle(x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y + tile.y, layer.tileWidth + ((obj2delta > 0) ? obj2delta : -obj2delta), layer.tileHeight);
-
-                    //Check to see if they overlap
-                    if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
-                        //If they did overlap (and can), figure out by how much and flip the corresponding flags
-                        if (obj1delta > obj2delta) {
-                            overlap = box1.x + box1.width - x;
-                            if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.LEFT)) {
-                                overlap = 0;
-                            } else {
-                                phys1.touching |= ArcadePhysics.RIGHT;
-                            }
-                        } else if (obj1delta < obj2delta) {
-                            overlap = box1.x - layer.tileWidth - x;
-                            if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.RIGHT)) {
-                                overlap = 0;
-                            } else {
-                                phys1.touching |= ArcadePhysics.LEFT;
-                            }
-                        }
-                    }
-
-                    //Then adjust their positions and velocities accordingly (if there was any overlap)
-                    if (overlap != 0) {
-                        var obj1v = phys1.velocity.x;
-                        var obj2v = phys2.velocity.x;
-
-                        phys1.transform.x = phys1.transform.x - overlap;
-                        phys1.velocity.x = obj2v - obj1v * phys1.elasticity;
-
-                        adjusted = true;
-                    }
-                    // } // Tiles Loop
-                }
-
-                return adjusted;
-            };
-
-            /**
-            * Separates a GameObjects from an Array of Tiles on the y-axis.
-            * @method separateTilesY
-            * @param object {Entity} The GameObject you are wanting to separate from a tile.
-            * @param layer {TileMapLayer} The TileMapLayer that the tiles belong on.
-            * @param tiles {Object[]} The tiles which are overlapping with the GameObject.
-            * @return {Boolean} If any separation occured.
-            * @public
-            * @static
-            */
-            ArcadePhysics.separateTilesY = function (object, layer, tiles) {
-                var adjusted = false;
-                var phys1 = object.components.getComponent("ArcadePhysics");
-                var phys2 = layer.components.getComponent("ArcadePhysics");
-
-                //can't separate two immovable objects
-                if (phys1.immovable && phys2.immovable)
-                    return false;
-
-                //First, get the two object deltas
-                var obj1delta = phys1.transform.worldY - phys1.last.y;
-                var obj2delta = phys2.transform.worldY - phys2.last.y;
-
-                if (obj1delta != obj2delta) {
-                    //Absolute Delta and Max Overlap
-                    var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
-                    var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
-                    var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
-
-                    var box1 = phys1.box.worldHitbox;
-                    var tileTypes = layer.tilemap.tileTypes;
-                    var tData = layer.tileData;
-
-                    var obj1rect = new Kiwi.Geom.Rectangle(box1.x, box1.y - ((obj1delta > 0) ? obj1delta : 0), box1.width, box1.height + obj1deltaAbs);
-
-                    //Loop through the tiles...
-                    //  for (var i = 0; i < tiles.length; i++) {
-                    var overlap = 0;
-                    var tile = tiles;
-                    var y = phys2.transform.worldY + tile.y;
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.worldX + tile.x, y - ((obj2delta > 0) ? obj2delta : 0), layer.tileWidth, layer.tileHeight + obj2deltaAbs);
-
-                    //Check if they overlap
-                    if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
-                        if (obj1delta > obj2delta) {
-                            overlap = box1.y + box1.height - y;
-                            if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.DOWN) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.UP)) {
-                                overlap = 0;
-                            } else {
-                                phys1.touching |= ArcadePhysics.DOWN;
-                            }
-                        } else if (obj1delta < obj2delta) {
-                            overlap = box1.y - layer.tileHeight - y;
-                            if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.UP) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.DOWN)) {
-                                overlap = 0;
-                            } else {
-                                phys1.touching |= ArcadePhysics.UP;
-                            }
-                        }
-                    }
-
-                    //Then adjust their positions and velocities accordingly (if there was any overlap)
-                    if (overlap != 0) {
-                        var obj1v = phys1.velocity.y;
-                        var obj2v = phys2.velocity.y;
-
-                        phys1.transform.y = phys1.transform.y - overlap;
-                        phys1.velocity.y = obj2v - obj1v * phys1.elasticity;
-
-                        //This is special case code that handles cases like horizontal moving platforms you can ride
-                        //if (this.parent.active && this.moves && (obj1delta > obj2delta))
-                        //phys1.transform.x = phys1.transform.worldX + object2.transform.worldX - phys2.last.x;
-                        adjusted = true;
-                    }
-                    //  }
-                }
-
-                return adjusted;
-            };
-
-            /*
-            *---------------
-            * Instance Functions
-            *---------------
-            */
-            /**
-            * A method to check to see if any Tiles with in this parent TileMapLayer overlaps with a GameObject passed.
-            * If seperateObjects is true it will seperate the two entities based on their bounding box.
-            * ONLY works if parent of the ArcadePhysics component which is calling this method is a TileMapLayer.
-            * Note: The GameObject passed must contain a box component and only if you want to separate the two objects must is ALSO contain an ArcadePhysics component.
-            *
-            * @method overlapsTile
-            * @param gameObject {Entity} The GameObject you would like to separate with this one.
-            * @param [separateObjects=false] {Boolean} If you want the GameObject to be separated from any tile it collides with.
-            * @param [collisionType=ANY] {Number} If you want the GameObject to only check for collisions from a particular side of tiles. ANY by default.
-            * @return {Boolean} If any gameobject overlapped.
-            * @public
-            */
-            ArcadePhysics.prototype.overlapsTiles = function (gameObject, separateObjects, collisionType) {
-                if (typeof separateObjects === "undefined") { separateObjects = false; }
-                if (typeof collisionType === "undefined") { collisionType = Kiwi.Components.ArcadePhysics.ANY; }
-                //Are we a tilemaplayer?
-                if (this.parent.childType() !== Kiwi.TILE_LAYER)
-                    return;
-
-                var tiles = this.parent.getOverlappingTiles(gameObject, collisionType);
-
-                if (tiles.length > 0) {
-                    if (separateObjects)
-                        ArcadePhysics.separateTiles(gameObject, this.parent, tiles);
-
-                    return true;
-                } else {
-                    return false;
-                }
-            };
-
-            /**
-            * A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity.
-            * If seperateObjects is true it will seperate the two entities based on their bounding box.
-            * Note: The GameObject passed must contain a box component and only if you want to separate the two objects must is ALSO contain an ArcadePhysics component.
-            * Also: Not to be used for separation from tiles.
-            *
-            * @method overlaps
-            * @param gameObject {Entity}
-            * @param [seperateObjects=false] {boolean}
-            * @return {boolean}
-            */
-            ArcadePhysics.prototype.overlaps = function (gameObject, separateObjects) {
-                if (typeof separateObjects === "undefined") { separateObjects = false; }
-                if (gameObject.childType() == Kiwi.TILE_LAYER || this.parent.childType() == Kiwi.TILE_LAYER || gameObject.components.hasComponent('Box') == false)
-                    return;
-
-                var box = gameObject.components.getComponent('Box');
-
-                var result = (box.worldHitbox.x + box.worldHitbox.width > this.box.worldHitbox.x) && (box.worldHitbox.x < this.box.worldHitbox.x + this.box.worldHitbox.width) && (box.worldHitbox.y + box.worldHitbox.height > this.box.worldHitbox.y) && (box.worldHitbox.y < this.box.worldHitbox.y + this.box.worldHitbox.height);
-
-                if (result) {
-                    if (separateObjects)
-                        ArcadePhysics.separate(this.owner, gameObject);
-
-                    if (this._callbackFunction !== null && this._callbackContext !== null) {
-                        this._callbackFunction.call(this._callbackContext, this.owner, gameObject);
-                    }
-                }
-
-                return result;
-            };
-
-            /**
-            * A method to check to see if the parent of this physics component overlaps with another individual in a Kiwi Group.
-            *
-            * @method overlapsGroup
-            * @param group {Group}
-            * @param [seperateObjects=false] {boolean}
-            * @return { boolean }
-            */
-            ArcadePhysics.prototype.overlapsGroup = function (group, separateObjects) {
-                if (typeof separateObjects === "undefined") { separateObjects = false; }
-                var results = false;
-
-                for (var i = 0; i < group.members.length; i++) {
-                    if (group.members[i].childType() === Kiwi.GROUP) {
-                        //recursively check overlap
-                        this.overlapsGroup(group.members[i], separateObjects);
-                    } else {
-                        //otherwise its an entity
-                        if (this.overlaps(group.members[i], separateObjects)) {
-                            if (this._callbackContext !== null && this._callbackFunction !== null)
-                                this._callbackFunction.call(this._callbackContext, this.owner, group.members[i]);
-                            results = true;
-                        }
-                    }
-                }
-
-                return results;
-            };
-
-            /**
-            * A method to check to see if the parent of this physics component overlaps with a Entity that is held in an array.
-            * @method overlapsArray
-            * @param array {Array} The array of GameObjects you want to check.
-            * @param [separateObjects=false] {boolean} If when the objects collide you want them to seperate outwards.
-            * @return {boolean} If a collision was detected or not.
-            */
-            ArcadePhysics.prototype.overlapsArray = function (array, separateObjects) {
-                if (typeof separateObjects === "undefined") { separateObjects = false; }
-                var results = false;
-
-                for (var i = 0; i < array.length; i++) {
-                    if (typeof array[i].childType !== "undefined") {
-                        if (array[i].childType() == Kiwi.GROUP) {
-                            this.overlapsGroup(array[i], separateObjects);
-                        } else {
-                            if (this.overlaps(array[i], separateObjects)) {
-                                this._callbackFunction.call(this._callbackContext, this.owner, array[i]);
-                                results = true;
-                            }
-                        }
-                    }
-                }
-
-                return results;
-            };
-
-            /*
-            *-------------
-            * Motion Methods
-            *-------------
-            */
-            /**
-            * Computes the velocity based on the parameters passed.
-            * @method computeVelocity
-            * @static
-            * @param velocity {number}
-            * @param [acceleration=0] {number}
-            * @param [drag=0] {number}
-            * @param [max=10000] {number}
-            * @return {Number} The new velocity
-            */
-            ArcadePhysics.computeVelocity = function (velocity, acceleration, drag, max) {
-                if (typeof acceleration === "undefined") { acceleration = 0; }
-                if (typeof drag === "undefined") { drag = 0; }
-                if (typeof max === "undefined") { max = 10000; }
-                if (acceleration != 0)
-                    velocity += acceleration * ArcadePhysics.updateInterval;
-                else if (drag != 0) {
-                    drag = drag * ArcadePhysics.updateInterval;
-                    if (velocity - drag > 0)
-                        velocity = velocity - drag;
-                    else if (velocity + drag < 0)
-                        velocity += drag;
-                    else
-                        velocity = 0;
-                }
-                if ((velocity != 0) && (max != 10000)) {
-                    if (velocity > max)
-                        velocity = max;
-                    else if (velocity < -max)
-                        velocity = -max;
-                }
-                return velocity;
-            };
-
-            /**
-            * Updates the position of this object. Automatically called if the 'moves' parameter is true.
-            * @method updateMotion
-            * @public
-            */
-            ArcadePhysics.prototype.updateMotion = function () {
-                var delta;
-                var velocityDelta;
-
-                //Update the motion calculated from rotation.
-                velocityDelta = (ArcadePhysics.computeVelocity(this.angularVelocity, this.angularAcceleration, this.angularDrag, this.maxAngular) - this.angularVelocity) / 2;
-                this.angularVelocity += velocityDelta;
-                this.transform.rotation += this.angularVelocity * ArcadePhysics.updateInterval;
-                this.angularVelocity += velocityDelta;
-
-                //Update the motion on the x-axis.
-                velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.x, this.acceleration.x, this.drag.x, this.maxVelocity.x) - this.velocity.x) / 2;
-                this.velocity.x += velocityDelta;
-                delta = this.velocity.x * ArcadePhysics.updateInterval;
-                this.velocity.x += velocityDelta;
-                this.transform.x = this.transform.x + delta;
-
-                //Update the motion on the y-axis.
-                velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.y, this.acceleration.y, this.drag.y, this.maxVelocity.y) - this.velocity.y) / 2;
-                this.velocity.y += velocityDelta;
-                delta = this.velocity.y * ArcadePhysics.updateInterval;
-                this.velocity.y += velocityDelta;
-                this.transform.y = this.transform.y + delta;
-            };
-
-            /**
-            * The Update loop of the physics component
-            * @method update
-            * @public
-            */
-            ArcadePhysics.prototype.update = function () {
-                //Flixel preupdate
-                this.last.x = this.transform.worldX;
-                this.last.y = this.transform.worldY;
-
-                //Flixel postupdate
-                if (this.moves)
-                    this.updateMotion();
-
-                this.wasTouching = this.touching;
-                this.touching = ArcadePhysics.NONE;
-            };
-
-            /**
-            * Removes all properties that refer to other objects or outside of this class in order to flag this object for garbage collection.
-            * @method destroy
-            * @public
-            */
-            ArcadePhysics.prototype.destroy = function () {
-                _super.prototype.destroy.call(this);
-
-                delete this.transform;
-                delete this.owner;
-                delete this._callbackContext;
-                delete this._callbackFunction;
-            };
             ArcadePhysics.updateInterval = 1 / 10;
 
             ArcadePhysics.LEFT = 0x0001;
