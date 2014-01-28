@@ -408,7 +408,7 @@ module Kiwi.GameObjects.Tilemap {
             //Get the box off them
             var b: Kiwi.Geom.Rectangle = entity.components.getComponent('Box').worldHitbox;
 
-            //Is the person within the map's bounds?
+            //Is the person within the map's bounds?    
             if (b.left > this.transform.worldX + this.widthInPixels || b.right < this.transform.worldX || b.bottom < this.transform.worldY || b.top > this.transform.worldY + this.heightInPixels)
                 return [];
 
@@ -439,6 +439,11 @@ module Kiwi.GameObjects.Tilemap {
             var tiles = [];
 
             //Make sure its within the map.
+            if (x > this.width || y > this.height) return; 
+
+            if (x < 0) x = 0;
+            if (y < 0) y = 0;
+
             if (x + width > this.width) width = this.width - x;
             if (y + height > this.height) height = this.height - y;
 

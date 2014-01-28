@@ -6913,7 +6913,7 @@ var Kiwi;
 
                 this.parent = entity;
                 this.box = box;
-                this.transform = this.owner.transform;
+                this.transform = this.parent.transform;
 
                 this.last = new Kiwi.Geom.Point(this.transform.worldX, this.transform.worldY);
                 this.mass = 1.0;
@@ -7374,8 +7374,11 @@ var Kiwi;
                 if (object.components.hasComponent("ArcadePhysics") == false)
                     return;
 
-                var sepX = this.separateTilesX(object, layer, tiles);
-                var sepY = this.separateTilesY(object, layer, tiles);
+                for (var i = 0; i < tiles.length; i++) {
+                    var tile = tiles[i];
+                    var sepX = this.separateTilesX(object, layer, tile);
+                    var sepY = this.separateTilesY(object, layer, tile);
+                }
 
                 return sepX || sepY;
             };
@@ -7415,45 +7418,46 @@ var Kiwi;
                     var tData = layer.tileData;
 
                     //Box of the GameObject
-                    var obj1rect = new Kiwi.Geom.Rectangle(box1.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, box1.width + ((obj1delta > 0) ? obj1delta : -obj1delta), box1.height);
+                    var obj1rect = new Kiwi.Geom.Rectangle(box1.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y + phys1.box.hitboxOffset.y, box1.width + ((obj1delta > 0) ? obj1delta : -obj1delta), box1.height);
 
-                    for (var i = 0; i < tiles.length; i++) {
-                        var overlap = 0;
-                        var tile = tiles[i];
-                        var x = phys2.transform.worldX + tile.x;
-                        var obj2rect = new Kiwi.Geom.Rectangle(x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y + tile.y, layer.tileWidth + ((obj2delta > 0) ? obj2delta : -obj2delta), layer.tileHeight);
+                    //Loop through the tiles...
+                    // for (var i = 0; i < tiles.length; i++) {
+                    var overlap = 0;
+                    var tile = tiles;
+                    var x = phys2.transform.worldX + tile.x;
+                    var obj2rect = new Kiwi.Geom.Rectangle(x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y + tile.y, layer.tileWidth + ((obj2delta > 0) ? obj2delta : -obj2delta), layer.tileHeight);
 
-                        //Check to see if they overlap
-                        if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
-                            //If they did overlap (and can), figure out by how much and flip the corresponding flags
-                            if (obj1delta > obj2delta) {
-                                overlap = box1.x + box1.width - x;
-                                if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.LEFT)) {
-                                    overlap = 0;
-                                } else {
-                                    phys1.touching |= ArcadePhysics.RIGHT;
-                                }
-                            } else if (obj1delta < obj2delta) {
-                                overlap = box1.x - layer.tileWidth - x;
-                                if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.RIGHT)) {
-                                    overlap = 0;
-                                } else {
-                                    phys1.touching |= ArcadePhysics.LEFT;
-                                }
+                    //Check to see if they overlap
+                    if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
+                        //If they did overlap (and can), figure out by how much and flip the corresponding flags
+                        if (obj1delta > obj2delta) {
+                            overlap = box1.x + box1.width - x;
+                            if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.LEFT)) {
+                                overlap = 0;
+                            } else {
+                                phys1.touching |= ArcadePhysics.RIGHT;
+                            }
+                        } else if (obj1delta < obj2delta) {
+                            overlap = box1.x - layer.tileWidth - x;
+                            if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.RIGHT)) {
+                                overlap = 0;
+                            } else {
+                                phys1.touching |= ArcadePhysics.LEFT;
                             }
                         }
-
-                        //Then adjust their positions and velocities accordingly (if there was any overlap)
-                        if (overlap != 0) {
-                            var obj1v = phys1.velocity.x;
-                            var obj2v = phys2.velocity.x;
-
-                            phys1.transform.x = phys1.transform.x - overlap;
-                            phys1.velocity.x = obj2v - obj1v * phys1.elasticity;
-
-                            adjusted = true;
-                        }
                     }
+
+                    //Then adjust their positions and velocities accordingly (if there was any overlap)
+                    if (overlap != 0) {
+                        var obj1v = phys1.velocity.x;
+                        var obj2v = phys2.velocity.x;
+
+                        phys1.transform.x = phys1.transform.x - overlap;
+                        phys1.velocity.x = obj2v - obj1v * phys1.elasticity;
+
+                        adjusted = true;
+                    }
+                    // } // Tiles Loop
                 }
 
                 return adjusted;
@@ -7494,45 +7498,46 @@ var Kiwi;
 
                     var obj1rect = new Kiwi.Geom.Rectangle(box1.x, box1.y - ((obj1delta > 0) ? obj1delta : 0), box1.width, box1.height + obj1deltaAbs);
 
-                    for (var i = 0; i < tiles.length; i++) {
-                        var overlap = 0;
-                        var tile = tiles[i];
-                        var y = phys2.transform.worldY + tile.y;
-                        var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.worldX + tile.x, y - ((obj2delta > 0) ? obj2delta : 0), layer.tileWidth, layer.tileHeight + obj2deltaAbs);
+                    //Loop through the tiles...
+                    //  for (var i = 0; i < tiles.length; i++) {
+                    var overlap = 0;
+                    var tile = tiles;
+                    var y = phys2.transform.worldY + tile.y;
+                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.worldX + tile.x, y - ((obj2delta > 0) ? obj2delta : 0), layer.tileWidth, layer.tileHeight + obj2deltaAbs);
 
-                        //Check if they overlap
-                        if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
-                            if (obj1delta > obj2delta) {
-                                overlap = box1.y + box1.height - y;
-                                if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.DOWN) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.UP)) {
-                                    overlap = 0;
-                                } else {
-                                    phys1.touching |= ArcadePhysics.DOWN;
-                                }
-                            } else if (obj1delta < obj2delta) {
-                                overlap = box1.y - layer.tileHeight - y;
-                                if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.UP) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.DOWN)) {
-                                    overlap = 0;
-                                } else {
-                                    phys1.touching |= ArcadePhysics.UP;
-                                }
+                    //Check if they overlap
+                    if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
+                        if (obj1delta > obj2delta) {
+                            overlap = box1.y + box1.height - y;
+                            if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.DOWN) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.UP)) {
+                                overlap = 0;
+                            } else {
+                                phys1.touching |= ArcadePhysics.DOWN;
+                            }
+                        } else if (obj1delta < obj2delta) {
+                            overlap = box1.y - layer.tileHeight - y;
+                            if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.UP) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.DOWN)) {
+                                overlap = 0;
+                            } else {
+                                phys1.touching |= ArcadePhysics.UP;
                             }
                         }
-
-                        //Then adjust their positions and velocities accordingly (if there was any overlap)
-                        if (overlap != 0) {
-                            var obj1v = phys1.velocity.y;
-                            var obj2v = phys2.velocity.y;
-
-                            phys1.transform.y = phys1.transform.y - overlap;
-                            phys1.velocity.y = obj2v - obj1v * phys1.elasticity;
-
-                            //This is special case code that handles cases like horizontal moving platforms you can ride
-                            //if (this.parent.active && this.moves && (obj1delta > obj2delta))
-                            //phys1.transform.x = phys1.transform.worldX + object2.transform.worldX - phys2.last.x;
-                            adjusted = true;
-                        }
                     }
+
+                    //Then adjust their positions and velocities accordingly (if there was any overlap)
+                    if (overlap != 0) {
+                        var obj1v = phys1.velocity.y;
+                        var obj2v = phys2.velocity.y;
+
+                        phys1.transform.y = phys1.transform.y - overlap;
+                        phys1.velocity.y = obj2v - obj1v * phys1.elasticity;
+
+                        //This is special case code that handles cases like horizontal moving platforms you can ride
+                        //if (this.parent.active && this.moves && (obj1delta > obj2delta))
+                        //phys1.transform.x = phys1.transform.worldX + object2.transform.worldX - phys2.last.x;
+                        adjusted = true;
+                    }
+                    //  }
                 }
 
                 return adjusted;
@@ -11675,6 +11680,14 @@ var Kiwi;
                     var tiles = [];
 
                     //Make sure its within the map.
+                    if (x > this.width || y > this.height)
+                        return;
+
+                    if (x < 0)
+                        x = 0;
+                    if (y < 0)
+                        y = 0;
+
                     if (x + width > this.width)
                         width = this.width - x;
                     if (y + height > this.height)

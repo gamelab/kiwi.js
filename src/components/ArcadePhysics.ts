@@ -33,7 +33,7 @@ module Kiwi.Components {
 
             this.parent = entity;
             this.box = box;
-            this.transform = this.owner.transform;
+            this.transform = this.parent.transform;
 
             this.last = new Kiwi.Geom.Point(this.transform.worldX, this.transform.worldY);
             this.mass = 1.0;
@@ -812,9 +812,12 @@ module Kiwi.Components {
             //Physics Component Found?
             if (object.components.hasComponent("ArcadePhysics") == false) return;
 
-            var sepX = this.separateTilesX(object, layer, tiles);
-            var sepY = this.separateTilesY(object, layer, tiles);
-
+            for (var i = 0; i < tiles.length; i++) {
+                var tile = tiles[i];
+                var sepX = this.separateTilesX(object, layer, tile);
+                var sepY = this.separateTilesY(object, layer, tile);
+            }
+            
             return  sepX || sepY;
             
         }
@@ -864,17 +867,17 @@ module Kiwi.Components {
 
 
                 //Box of the GameObject
-                var obj1rect: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle(box1.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, box1.width + ((obj1delta > 0) ? obj1delta : -obj1delta), box1.height);
+                var obj1rect: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle(box1.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y + phys1.box.hitboxOffset.y, box1.width + ((obj1delta > 0) ? obj1delta : -obj1delta), box1.height);
 
 
                 //Loop through the tiles...
-                for (var i = 0; i < tiles.length; i++) {
+               // for (var i = 0; i < tiles.length; i++) {
 
 
                     var overlap = 0;
-                    var tile = tiles[i];
+                    var tile = tiles;
                     var x = phys2.transform.worldX + tile.x;
-                    var obj2rect: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle(x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y + tile.y, layer.tileWidth + ((obj2delta > 0) ? obj2delta : - obj2delta), layer.tileHeight);
+                    var obj2rect: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle(x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y + tile.y, layer.tileWidth + ((obj2delta > 0) ? obj2delta : -obj2delta), layer.tileHeight);
 
 
                     //Check to see if they overlap
@@ -914,7 +917,7 @@ module Kiwi.Components {
                         adjusted = true;
                     }
 
-                } // Tiles Loop
+               // } // Tiles Loop
 
             } //Delta Conditional
 
@@ -964,11 +967,11 @@ module Kiwi.Components {
                 var obj1rect: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle(box1.x, box1.y - ((obj1delta > 0) ? obj1delta : 0), box1.width, box1.height + obj1deltaAbs);
 
                 //Loop through the tiles...
-                for (var i = 0; i < tiles.length; i++) {
+              //  for (var i = 0; i < tiles.length; i++) {
 
 
                     var overlap: number = 0;
-                    var tile = tiles[i];
+                    var tile = tiles;
                     var y = phys2.transform.worldY + tile.y;
                     var obj2rect: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle(phys2.transform.worldX + tile.x, y - ((obj2delta > 0) ? obj2delta : 0), layer.tileWidth, layer.tileHeight + obj2deltaAbs);
 
@@ -1014,7 +1017,7 @@ module Kiwi.Components {
                     }
 
 
-                }
+              //  }
 
 
             }
