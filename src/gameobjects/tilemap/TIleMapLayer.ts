@@ -47,6 +47,13 @@ module Kiwi.GameObjects.Tilemap {
             this.physics.immovable = true;
         }
 
+        /*
+        * The physics component contained on the Tilemap. Use for basic collisions between People and Tiles.
+        * Note: That tilemap layers a immovable and collisions with tiles are set on the individual TileTypes that are contained on the TileMap. 
+        * @property physics
+        * @type ArcadePhysics
+        * @public
+        */
         public physics: Kiwi.Components.ArcadePhysics;
 
         /**
@@ -209,7 +216,7 @@ module Kiwi.GameObjects.Tilemap {
         }
 
         /**
-        * Returns the TileType for a tile that is at a particular coordinate passed. 
+        * Returns the TileType for a tile that is at a particular set of coordinates passed. 
         * If no tile is found the null is returned instead.
         * Coordinates passed are in tiles.
         * @method getTileFromXY
@@ -220,6 +227,45 @@ module Kiwi.GameObjects.Tilemap {
         */
         public getTileFromXY(x: number, y: number): TileType {
             var t = this.getIndexFromXY(x, y);
+            return (t !== -1) ? this.tilemap.tileTypes[ this._data[t] ] : null;
+        }
+
+        /**
+        * Returns the index of the tile based on the x and y pixel coordinates that are passed. 
+        * If no tile is a the coordinates given then -1 is returned instead.
+        * Coordinates are in pixels not tiles and use the world coordinates of the tilemap.
+        * @method getIndexFromCoords
+        * @param x {Number} The x coordinate of the Tile you would like to retrieve. 
+        * @param y {Number} The y coordinate of the Tile you would like to retrieve.
+        * @return {Number} Either the index of the tile retrieved or -1 if none was found.
+        * @public
+        */
+        public getIndexFromCoords(x: number, y: number): number {
+
+            //Not with the bounds?
+            if (x > this.transform.worldX + this.widthInPixels || y > this.transform.worldY + this.heightInPixels || x < this.transform.worldX || y < this.transform.worldY)
+                return -1;
+
+            //Is so get the tile
+            var tx = Kiwi.Utils.GameMath.snapToFloor(x - this.transform.worldX, this.tileWidth) / this.tileWidth;
+            var ty = Kiwi.Utils.GameMath.snapToFloor(y - this.transform.worldY, this.tileHeight) / this.tileHeight;
+
+            return this.getIndexFromXY(tx, ty);
+
+        }
+        
+        /**
+        * Returns the TileType for a tile that is at a particular coordinate passed. 
+        * If no tile is found the null is returned instead.
+        * Coordinates passed are in pixels and use the world coordinates of the tilemap.
+        * @method getTileFromXY
+        * @param x {Number}
+        * @param y {Number}
+        * @return {Number} The tile
+        * @public
+        */
+        public getTileFromCoords(x: number, y: number): TileType {
+            var t = this.getIndexFromCoords(x, y);
             return (t !== -1) ? this.tilemap.tileTypes[ this._data[t] ] : null;
         }
 
@@ -326,7 +372,7 @@ module Kiwi.GameObjects.Tilemap {
                 for (var i = x; i < x + width; i++) {
 
                     var tile = this.getIndexFromXY(i, j);
-                    if (tile !== -1) this._data[tile] = type;
+                    if (tile !== -1) this._data[tile ] = type;
 
                 }
             }

@@ -61,6 +61,8 @@
     <Content Include="Dummy\DummyScript.js">
       <DependentUpon>DummyScript.ts</DependentUpon>
     </Content>
+    <None Include="Tilemaps\Programmatically.ts" />
+    <None Include="Tilemaps\ChangingTileData.ts" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

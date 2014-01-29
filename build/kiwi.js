@@ -11464,7 +11464,7 @@ var Kiwi;
                 };
 
                 /**
-                * Returns the TileType for a tile that is at a particular coordinate passed.
+                * Returns the TileType for a tile that is at a particular set of coordinates passed.
                 * If no tile is found the null is returned instead.
                 * Coordinates passed are in tiles.
                 * @method getTileFromXY
@@ -11475,6 +11475,43 @@ var Kiwi;
                 */
                 TileMapLayer.prototype.getTileFromXY = function (x, y) {
                     var t = this.getIndexFromXY(x, y);
+                    return (t !== -1) ? this.tilemap.tileTypes[this._data[t]] : null;
+                };
+
+                /**
+                * Returns the index of the tile based on the x and y pixel coordinates that are passed.
+                * If no tile is a the coordinates given then -1 is returned instead.
+                * Coordinates are in pixels not tiles.
+                * @method getIndexFromCoords
+                * @param x {Number} The x coordinate of the Tile you would like to retrieve.
+                * @param y {Number} The y coordinate of the Tile you would like to retrieve.
+                * @return {Number} Either the index of the tile retrieved or -1 if none was found.
+                * @public
+                */
+                TileMapLayer.prototype.getIndexFromCoords = function (x, y) {
+                    //Not with the bounds?
+                    if (x > this.transform.worldX + this.widthInPixels || y > this.transform.worldY + this.heightInPixels || x < this.transform.worldX || y < this.transform.worldY)
+                        return -1;
+
+                    //Is so get the tile
+                    var tx = Kiwi.Utils.GameMath.snapToFloor(x - this.transform.worldX, this.tileWidth) / this.tileWidth;
+                    var ty = Kiwi.Utils.GameMath.snapToFloor(y - this.transform.worldY, this.tileHeight) / this.tileHeight;
+
+                    return this.getIndexFromXY(tx, ty);
+                };
+
+                /**
+                * Returns the TileType for a tile that is at a particular coordinate passed.
+                * If no tile is found the null is returned instead.
+                * Coordinates passed are in pixels.
+                * @method getTileFromXY
+                * @param x {Number}
+                * @param y {Number}
+                * @return {Number} The tile
+                * @public
+                */
+                TileMapLayer.prototype.getTileFromCoords = function (x, y) {
+                    var t = this.getIndexFromCoords(x, y);
                     return (t !== -1) ? this.tilemap.tileTypes[this._data[t]] : null;
                 };
 
