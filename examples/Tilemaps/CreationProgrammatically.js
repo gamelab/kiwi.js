@@ -74,6 +74,7 @@ Programmatically.create = function () {
 
     //Add the layer to the state.
     this.addChild( this.tilemap.layers[0] );
+    
 
 }
 

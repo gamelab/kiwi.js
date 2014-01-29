@@ -26,7 +26,7 @@
     <None Include="Tweening\Chaining.ts" />
     <None Include="Transform\Alpha.ts" />
     <None Include="Input\General.ts" />
-    <None Include="Tilemaps\Generation.ts" />
+    <None Include="Tilemaps\CreationViaJSON.ts" />
     <None Include="Audio\FiringOfRockets.ts" />
     <None Include="Hud\SpotTheNinja.ts" />
     <None Include="Hud\Platformer.ts" />
@@ -36,7 +36,7 @@
     <None Include="Timer\Repeating.ts" />
     <None Include="Timer\SetNumber.ts" />
     <None Include="Introduction\Textarea.ts" />
-    <None Include="Tilemaps\Paralax.ts" />
+    <None Include="Tilemaps\ParalaxLayers.ts" />
     <None Include="Transform\GroupTransform.ts" />
     <None Include="Tweening\CreateTween.ts" />
     <None Include="Tweening\Looping.ts" />
@@ -61,8 +61,11 @@
     <Content Include="Dummy\DummyScript.js">
       <DependentUpon>DummyScript.ts</DependentUpon>
     </Content>
-    <None Include="Tilemaps\Programmatically.ts" />
-    <None Include="Tilemaps\ChangingTileData.ts" />
+    <None Include="Tilemaps\CreationProgrammatically.ts" />
+    <None Include="Tilemaps\TileDataModification.ts" />
+    <None Include="Tilemaps\FillingAnArea.ts" />
+    <None Include="Tilemaps\RandomArea.ts" />
+    <None Include="Tilemaps\SwappingTiles.ts" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

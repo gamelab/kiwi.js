@@ -33,6 +33,11 @@ module Kiwi.GameObjects.Tilemap {
         constructor(tilemap: Kiwi.GameObjects.Tilemap.TileMap, name: string, atlas: Kiwi.Textures.TextureAtlas, data: number[], tw: number, th: number, x: number= 0, y: number= 0, w:number=0, h:number=0) {
             super(tilemap.state, x, y);
 
+            //Request the Shared Texture Atlas renderer.
+            if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
+                this.glRenderer = this.game.renderer.requestSharedRenderer("TextureAtlasRenderer");
+            }
+
             this.name = name;
             this.atlas = atlas;
             this.tilemap = tilemap;
@@ -624,5 +629,76 @@ module Kiwi.GameObjects.Tilemap {
             ctx.restore();
             return true;
         }
+
+        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params: any = null) {
+
+            //Setup
+            var alphaItems:Array<number> = [];
+            var xyuvItems:Array<number> = [];
+
+
+            //Create the point objects.
+            var pt1 = new Kiwi.Geom.Point();
+            var pt2 = new Kiwi.Geom.Point();
+            var pt3 = new Kiwi.Geom.Point();
+            var pt4 = new Kiwi.Geom.Point();
+
+
+            //Transform/Matrix
+            var t: Kiwi.Geom.Transform = this.transform;
+            var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix(); 
+
+
+            //Loop through the tiles.
+            for (var y = 0; y < this.height; y++) {
+                for (var x = 0; x < this.width; x++) {
+                    
+
+                    //Get the tile type
+                    var tiletype = this.getTileFromXY(x, y);
+
+
+                    //Skip tiletypes that don't use a cellIndex.
+                    if (tiletype.cellIndex == -1) continue;
+
+
+                    //Get the cell index
+                    var cell = this.atlas.cells[tiletype.cellIndex];
+                    var tx = x * this.tileWidth;
+                    var ty = y * this.tileHeight;
+
+
+                    //Set up the points
+                    pt1.setTo(tx - t.rotPointX, ty - t.rotPointY);
+                    pt2.setTo(tx + cell.w - t.rotPointX, ty - t.rotPointY);
+                    pt3.setTo(tx + cell.w - t.rotPointX, ty + cell.h - t.rotPointY);
+                    pt4.setTo(tx - t.rotPointX, ty + cell.h - t.rotPointY);
+
+
+                    //Add on the matrix to the points
+                    pt1 = m.transformPoint(pt1);
+                    pt2 = m.transformPoint(pt2);
+                    pt3 = m.transformPoint(pt3);
+                    pt4 = m.transformPoint(pt4);
+
+
+                    //Append to the xyuv array
+                    xyuvItems.push(
+                        pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y,                   //Top Left Point
+                        pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y,          //Top Right Point
+                        pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, //Bottom Right Point
+                        pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h           //Bottom Left Point
+                        );
+                    
+
+                    //Add four items to the alpha buffer
+                    alphaItems.push(this.alpha, this.alpha, this.alpha, this.alpha);
+                }
+            }
+               
+            //Concat points to the Renderer.
+            (<Kiwi.Renderers.TextureAtlasRenderer>this.glRenderer).concatBatch(xyuvItems, alphaItems);
+        }
+
     }
 }

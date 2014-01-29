@@ -11397,6 +11397,11 @@ var Kiwi;
                     */
                     this.properties = {};
 
+                    //Request the Shared Texture Atlas renderer.
+                    if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
+                        this.glRenderer = this.game.renderer.requestSharedRenderer("TextureAtlasRenderer");
+                    }
+
                     this.name = name;
                     this.atlas = atlas;
                     this.tilemap = tilemap;
@@ -11535,7 +11540,7 @@ var Kiwi;
                 /**
                 * Returns the index of the tile based on the x and y pixel coordinates that are passed.
                 * If no tile is a the coordinates given then -1 is returned instead.
-                * Coordinates are in pixels not tiles.
+                * Coordinates are in pixels not tiles and use the world coordinates of the tilemap.
                 * @method getIndexFromCoords
                 * @param x {Number} The x coordinate of the Tile you would like to retrieve.
                 * @param y {Number} The y coordinate of the Tile you would like to retrieve.
@@ -11557,7 +11562,7 @@ var Kiwi;
                 /**
                 * Returns the TileType for a tile that is at a particular coordinate passed.
                 * If no tile is found the null is returned instead.
-                * Coordinates passed are in pixels.
+                * Coordinates passed are in pixels and use the world coordinates of the tilemap.
                 * @method getTileFromXY
                 * @param x {Number}
                 * @param y {Number}
@@ -11907,6 +11912,59 @@ var Kiwi;
 
                     ctx.restore();
                     return true;
+                };
+
+                TileMapLayer.prototype.renderGL = function (gl, camera, params) {
+                    if (typeof params === "undefined") { params = null; }
+                    //Setup
+                    var alphaItems = [];
+                    var xyuvItems = [];
+
+                    //Create the point objects.
+                    var pt1 = new Kiwi.Geom.Point();
+                    var pt2 = new Kiwi.Geom.Point();
+                    var pt3 = new Kiwi.Geom.Point();
+                    var pt4 = new Kiwi.Geom.Point();
+
+                    //Transform/Matrix
+                    var t = this.transform;
+                    var m = t.getConcatenatedMatrix();
+
+                    for (var y = 0; y < this.height; y++) {
+                        for (var x = 0; x < this.width; x++) {
+                            //Get the tile type
+                            var tiletype = this.getTileFromXY(x, y);
+
+                            //Skip tiletypes that don't use a cellIndex.
+                            if (tiletype.cellIndex == -1)
+                                continue;
+
+                            //Get the cell index
+                            var cell = this.atlas.cells[tiletype.cellIndex];
+                            var tx = x * this.tileWidth;
+                            var ty = y * this.tileHeight;
+
+                            //Set up the points
+                            pt1.setTo(tx - t.rotPointX, ty - t.rotPointY);
+                            pt2.setTo(tx + cell.w - t.rotPointX, ty - t.rotPointY);
+                            pt3.setTo(tx + cell.w - t.rotPointX, ty + cell.h - t.rotPointY);
+                            pt4.setTo(tx - t.rotPointX, ty + cell.h - t.rotPointY);
+
+                            //Add on the matrix to the points
+                            pt1 = m.transformPoint(pt1);
+                            pt2 = m.transformPoint(pt2);
+                            pt3 = m.transformPoint(pt3);
+                            pt4 = m.transformPoint(pt4);
+
+                            //Append to the xyuv array
+                            xyuvItems.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
+
+                            //Add four items to the alpha buffer
+                            alphaItems.push(this.alpha, this.alpha, this.alpha, this.alpha);
+                        }
+                    }
+
+                    this.glRenderer.concatBatch(xyuvItems, alphaItems);
                 };
                 return TileMapLayer;
             })(Kiwi.Entity);
@@ -22229,13 +22287,18 @@ var Kiwi;
 (function (Kiwi) {
     /**
     *
+    *
     * @module Kiwi
     * @submodule Renderers
-    *
+    * @main Renderers
     */
     (function (Renderers) {
         /**
         * Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  https://github.com/toji/gl-matrix
+        * Directly manages renderer objects, including factory methods for their creation.
+        * Creates manager objects for shaders and textures.
+        * Manages gl state at game initialisation, at state start and end, and per frame.
+        * Runs the recursive scene graph rendering sequence every frame.
         * @class GLRenderManager
         * @extends IRenderer
         * @constructor
@@ -22253,7 +22316,7 @@ var Kiwi;
                 */
                 this._entityCount = 0;
                 /**
-                * Tally of number ofdraw calls per frame
+                * Tally of number of draw calls per frame
                 * @property numDrawCalls
                 * @type number
                 * @default 0
@@ -22262,19 +22325,33 @@ var Kiwi;
                 this.numDrawCalls = 0;
                 /**
                 * Maximum allowable sprites to render per frame
+                * Note:Not currently used  - candidate for deletion
                 * @property _maxItems
                 * @type number
                 * @default 1000
                 * @private
                 */
-                this._maxItems = 2000;
+                this._maxItems = 1000;
                 /**
-                * The most recently bound texture atlas used for sprite rendering
+                * The most recently bound texture atlas.
                 * @property _currentTextureAtlas
                 * @type TextureAtlas
                 * @private
                 */
                 this._currentTextureAtlas = null;
+                /**
+                * An array of renderers. Shared renderers are used for batch rendering. Multiple gameobjects can use the same renderer
+                * instance and add rendering info to a batch rather than rendering individually.
+                * This means only one draw call is necessary to render a number of objects. The most common use of this is standard 2d sprite rendering,
+                * and the TextureAtlasRenderer is added by default as a shared renderer. Sprites, StaticImages and Tilemaps (core gameobjects) can all use the
+                * same renderer/shader combination and be drawn as part of the same batch.
+                * Custom gameobjects can also choose to use a shared renderer, fo example in the case that a custom gameobject's rendering requirements matched the TextureAtlasRenderer
+                * capabilities.
+                *
+                * @property _sharedRenderers
+                * @type Array
+                * @private
+                */
                 this._sharedRenderers = {};
                 this._game = game;
                 if (typeof mat4 === "undefined") {
@@ -22299,9 +22376,18 @@ var Kiwi;
             * @public
             */
             GLRenderManager.prototype.objType = function () {
-                return "GLRenderer";
+                return "GLRenderManager";
             };
 
+            /**
+            * Adds a renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object.
+            * If a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.
+            * @method addSharedRenderer
+            * @param {String} rendererID
+            * @param {Object} params
+            * @return {Boolean} success
+            * @public
+            */
             GLRenderManager.prototype.addSharedRenderer = function (rendererID, params) {
                 if (typeof params === "undefined") { params = null; }
                 //does renderer exist?
@@ -22315,17 +22401,14 @@ var Kiwi;
                 return false;
             };
 
-            GLRenderManager.prototype.requestRendererInstance = function (rendererID, params) {
-                if (typeof params === "undefined") { params = null; }
-                if (rendererID in Kiwi.Renderers) {
-                    var renderer = new Kiwi.Renderers[rendererID](this._game.stage.gl, this._shaderManager, params);
-                    return renderer;
-                } else {
-                    console.log("No renderer with id " + rendererID + " exists");
-                }
-                return null;
-            };
-
+            /**
+            * Requests a shared renderer. A game object that wants to use a shared renderer uses this method to obtain a reference to the shared renderer instance.
+            * @method addSharedRenderer
+            * @param {String} rendererID
+            * @param {Object} params
+            * @return {Kiwi.Renderers.Renderer} A shared renderer or null if none found.
+            * @public
+            */
             GLRenderManager.prototype.requestSharedRenderer = function (rendererID, params) {
                 if (typeof params === "undefined") { params = null; }
                 var renderer = this._sharedRenderers[rendererID];
@@ -22344,7 +22427,32 @@ var Kiwi;
             };
 
             /**
-            * Performs initialisation required for single game instance - happens once
+            * Requests a new renderer instance. This factory method is the only way gameobjects should instantiate their own renderer.
+            * The rendererID is a string that must match a renderer property of the Kiwi.Renderers object.
+            * If a match is found then a renderer is instantiated and returned. Gameobjects which have rendering requirements that do not suit
+            * batch rendering use this technique.
+            * @method requestRendererInstance
+            * @param {String} rendererID The name of the requested renderer
+            * @param {Object} params
+            * @return {Kiwi.Renderers.Renderer} A renderer or null if none found.
+            * @public
+            */
+            GLRenderManager.prototype.requestRendererInstance = function (rendererID, params) {
+                if (typeof params === "undefined") { params = null; }
+                if (rendererID in Kiwi.Renderers) {
+                    var renderer = new Kiwi.Renderers[rendererID](this._game.stage.gl, this._shaderManager, params);
+                    return renderer;
+                } else {
+                    console.log("No renderer with id " + rendererID + " exists");
+                }
+                return null;
+            };
+
+            /**
+            * Performs initialisation required for single game instance - happens once, at bootup
+            * Sets global GL state.
+            * Initialises managers for shaders and textures.
+            * Instantiates the default shared renderer (TextureAtlasRenderer)
             * @method _init
             * @private
             */
@@ -22358,7 +22466,7 @@ var Kiwi;
 
                 this._cameraOffset = new Float32Array([0, 0]);
 
-                //set default state
+                //set default gl state
                 gl.enable(gl.BLEND);
                 gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
@@ -22383,7 +22491,8 @@ var Kiwi;
             };
 
             /**
-            * Performs initialisation required when switching to a different state
+            * Performs initialisation required when switching to a different state. Called when a state has been switched to.
+            * The textureManager is told to rebuild its cache of textures from the states textuer library.
             * @method initState
             * @public
             */
@@ -22393,7 +22502,7 @@ var Kiwi;
             };
 
             /**
-            * Performs cleanup required before switching to a different state
+            * Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.
             * @method initState
             * @param state {Kiwi.State}
             * @public
@@ -22404,7 +22513,10 @@ var Kiwi;
             };
 
             /**
-            * Manages rendering of the scene graph - performs per frame setup
+            * Manages rendering of the scene graph - called once per frame.
+            * Sets up per frame gl uniforms such as the view matrix and camera offset.
+            * Clears the current renderer ready for a new batch.
+            * Initiates recursive render of scene graph starting at the root.
             * @method render
             * @param camera {Camera}
             * @public
@@ -22470,10 +22582,18 @@ var Kiwi;
                 }
             };
 
+            /**
+            * Processes a single entity for rendering. Ensures that GL state is set up for the entity rendering requirements
+            * @method _processEntity
+            * is the entity's required renderer active and using the correct shader? If not then flush and re-enable renderer
+            * this is to allow the same renderer to use different shaders on different objects - renderer can be configured on a per object basis
+            * this needs thorough testing - also the text property lookups may need refactoring
+            * @param gl {WebGLRenderingContext}
+            * @param entity {Entity}
+            * @param camera {Camera}
+            * @private
+            */
             GLRenderManager.prototype._processEntity = function (gl, entity, camera) {
-                //is the entity's required renderer active and using the correct shader? If not then flush and re-enable renderer
-                //this is to allow the same renderer to use different shaders on different objects - renderer can be configured on a per object basis
-                //this needs thorough testing - also the text property lookups may need refactoring
                 if (entity.glRenderer !== this._currentRenderer || entity.glRenderer["shaderPair"] !== this._shaderManager.currentShader) {
                     this._flushBatch(gl);
                     this._switchRenderer(gl, entity);
@@ -22494,6 +22614,12 @@ var Kiwi;
                 this._entityCount++;
             };
 
+            /**
+            * Draws the current batch and clears the renderer ready for another batch.
+            * @method _flushBatch
+            * @param gl {WebGLRenderingContext}
+            * @private
+            */
             GLRenderManager.prototype._flushBatch = function (gl) {
                 this._currentRenderer.draw(gl);
                 this.numDrawCalls++;
@@ -22501,17 +22627,26 @@ var Kiwi;
                 this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
             };
 
+            /**
+            * Switch renderer to the one needed by the entity that needs rendering
+            * @method _switchRenderer
+            * @param gl {WebGLRenderingContext}
+            * @param entity {Entity}
+            * @private
+            */
             GLRenderManager.prototype._switchRenderer = function (gl, entity) {
-                //console.log("switching program");
                 this._currentRenderer.disable(gl);
                 this._currentRenderer = entity.glRenderer;
-
-                // if (!this._currentRenderer.loaded) {    // could be done at instantiation time?
-                //     this._currentRenderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
-                // }
                 this._currentRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
             };
 
+            /**
+            * Switch texture to the one needed by the entity that needs rendering
+            * @method _switchTexture
+            * @param gl {WebGLRenderingContext}
+            * @param entity {Entity}
+            * @private
+            */
             GLRenderManager.prototype._switchTexture = function (gl, entity) {
                 this._currentTextureAtlas = entity.atlas;
                 this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
@@ -22523,14 +22658,56 @@ var Kiwi;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
+/**
+* GLSL ES Shaders are used for WebGL rendering.
+* ShaderPair objects encapsulate GLSL ES vertex and fragment shader programs.
+*   ShaderPairs contain the GLSL code, provide an interface to uniforms and attributes, and have the ability to link and compile the shaders.
+* The ShaderManager keeps track of each ShaderPair, and controls which one is bound for use at any particular time.
+*   Only the ShaderManager can create ShaderPairs. When a renderer (see note on renderes below) requests a ShaderPair the ShaderManager will either
+*       1) Return a reference to an already instantiated ShaderPair, and set the GL state to use the shader program or
+*       2) Return a reference to a new ShaderPair, which will be linked and compiled and bound for use.
+*   All ShaderPairs must be housed as properties of the Kiwi.Shaders object.
+*
+* Kiwi.Renderer objects use a ShaderPair to draw.
+*   They must request a ShaderPair from the ShaderManager.
+*   Many renderers may use the same ShaderPair.
+*   Some renderers may at different times use multiple ShaderPairs (only one is possible at any given time)
+*
+* @module Kiwi
+* @submodule Shaders
+* @main Shaders
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (Shaders) {
+        /**
+        * Manages all WebGL Shaders. Maintains a list of ShaderPairs
+        *
+        * Provides an interface for using a specific ShaderPair, adding new ShaderPairs, and requesting a reference to a ShaderPair instance.
+        * Renderes use shaderPairs to draw. Multiple renderers may use the same compiled shader program.
+        * This Manager ensures only one compiled instance of each program is created
+        * @class ShaderManager
+        * @extends IRenderer
+        * @constructor
+        * @return {GLRenderer}
+        */
         var ShaderManager = (function () {
             function ShaderManager() {
+                /**
+                * An object containing a set of properties each of which references a ShaderPair.
+                * @property _shaderPairs
+                * @type Object
+                * @private
+                */
                 this._shaderPairs = {};
             }
             Object.defineProperty(ShaderManager.prototype, "currentShader", {
+                /**
+                * The shader program that is currently set to be used useing gl.useProgram.
+                * @property currentShader
+                * @type Array
+                * @private
+                */
                 get: function () {
                     return this._currentShader;
                 },
@@ -22538,10 +22715,29 @@ var Kiwi;
                 configurable: true
             });
 
+            /**
+            * Sets up a default shaderPair.
+            * @method init
+            * @param {WebGLRenderingContext} gl
+            * @param {String} defaultShaderID
+            * @public
+            */
             ShaderManager.prototype.init = function (gl, defaultShaderID) {
                 this._currentShader = this.requestShader(gl, defaultShaderID);
             };
 
+            /**
+            * Provides a reference to a ShaderPair. If the requested ShaderPair exists as a property on the _shaderPairs object it will be returned if already loaded,
+            * otherwise it will be loaded, then returned.
+            * If the request is not on the list, the Kiwi.Shaders object will  be checked for a property name that matches shaderID and a new ShaderPair
+            * will be instantiated, loaded, and set for use.
+            
+            * @method init
+            * @param {WebGLRenderingContext} gl
+            * @param {String} shaderID
+            * @return {ShaderPair} a ShaderPair instance - null on fail
+            * @public
+            */
             ShaderManager.prototype.requestShader = function (gl, shaderID) {
                 var shader;
 
@@ -22556,7 +22752,7 @@ var Kiwi;
                 } else {
                     //not in list, does it exist?
                     if (this.shaderExists) {
-                        shader = this.addShader(gl, shaderID);
+                        shader = this._addShader(gl, shaderID);
                         this._loadShader(gl, shader);
                         this._useShader(gl, shader);
                         return shader;
@@ -22569,19 +22765,49 @@ var Kiwi;
                 return null;
             };
 
+            /**
+            * Tests to see if a ShaderPair property named ShaderID exists on Kiwi.Shaders. Can be used to test for the availability of specific shaders (for fallback)
+            * @method shaderExists
+            * @param {WebGLRenderingContext} gl
+            * @param {String} shaderID
+            * @return {Boolean} success
+            * @public
+            */
             ShaderManager.prototype.shaderExists = function (gl, shaderID) {
                 return shaderID in Kiwi.Shaders;
             };
 
-            ShaderManager.prototype.addShader = function (gl, shaderID) {
+            /**
+            * Creates a new instance of a ShaderPair and adds a reference to the _shaderPairs object
+            * @method _addShader
+            * @param {WebGLRenderingContext} gl
+            * @param {String} shaderID
+            * @return {ShaderPair}
+            * @private
+            */
+            ShaderManager.prototype._addShader = function (gl, shaderID) {
                 this._shaderPairs[shaderID] = new Kiwi.Shaders[shaderID]();
                 return this._shaderPairs[shaderID];
             };
 
+            /**
+            * Tells a ShaderPair to load (compile and link)
+            * @method _loadShader
+            * @param {WebGLRenderingContext} gl
+            * @param {ShaderPair} shader
+            * @private
+            */
             ShaderManager.prototype._loadShader = function (gl, shader) {
                 shader.init(gl);
             };
 
+            /**
+            * Changes gl state so that the shaderProgram contined in a ShaderPir is bound for use
+            * @method _useShader
+            * @param {WebGLRenderingContext} gl
+            * @param {ShaderPair} shader
+            * @private
+            */
             ShaderManager.prototype._useShader = function (gl, shader) {
                 if (shader !== this._currentShader) {
                     this._currentShader = shader;
@@ -22704,9 +22930,10 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 /**
 *
+*
 * @module Kiwi
 * @submodule Renderers
-*
+* @main Renderers
 */
 var Kiwi;
 (function (Kiwi) {
