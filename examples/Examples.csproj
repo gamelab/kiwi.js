@@ -57,6 +57,7 @@
     <None Include="Introduction\StateIntroduction.ts" />
     <None Include="Introduction\StaticImage.ts" />
     <Content Include="cocoon.php" />
+    <None Include="ArcadePhysics\TilemapPlatformer.ts" />
     <TypeScriptCompile Include="Dummy\DummyScript.ts" />
     <Content Include="Dummy\DummyScript.js">
       <DependentUpon>DummyScript.ts</DependentUpon>

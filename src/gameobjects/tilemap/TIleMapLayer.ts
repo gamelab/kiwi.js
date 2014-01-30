@@ -649,6 +649,8 @@ module Kiwi.GameObjects.Tilemap {
             var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix(); 
 
 
+            //Find which ones we need to render? Currently just clipped at a shader process...
+
             //Loop through the tiles.
             for (var y = 0; y < this.height; y++) {
                 for (var x = 0; x < this.width; x++) {

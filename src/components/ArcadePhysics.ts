@@ -50,7 +50,6 @@ module Kiwi.Components {
             this.acceleration = new Kiwi.Geom.Point();
             this.drag = new Kiwi.Geom.Point();
             this.maxVelocity = new Kiwi.Geom.Point(10000, 10000);
-            this.dirty = true;
 
             this.angularVelocity = 0;
             this.angularAcceleration = 0;
