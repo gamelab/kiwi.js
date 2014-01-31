@@ -115,7 +115,8 @@ module Kiwi {
         public data;
 
         /**
-        * [REQUIRES DESCRIPTION]
+        * Is executed when this state is about to be switched too. Just before the preload method. 
+        * ONLY occurs on games targetting browsers.
         * @method boot
         * @public
         */
@@ -129,8 +130,28 @@ module Kiwi {
             this.data = this.dataLibrary.data;
                 
         }
+
+        /**
+        * Currently unused.
+        * @method setType
+        * @param {Number} value
+        * @public
+        */
+        public setType(value: number) {
+
+            if (this.config.isInitialised === false) {
+                this.config.type = value;
+            }
+
+        }
+        
          
-        //  Default methods that should be over-ridden
+        /*
+        *--------------
+        * Methods that should be Over-Ridden
+        *--------------
+        */
+
 
         /**
         * Gets executed when the state has been initalised and gets switched to for the first time.
@@ -142,7 +163,7 @@ module Kiwi {
         public init(...paramsArr: any[]) { }
 
         /**
-        * This method is where you would load of all the assets that are requried for this state/in the game.
+        * This method is where you would load of all the assets that are requried for this state or in the entire game.
         * @method preload
         * @public
         */
@@ -169,6 +190,7 @@ module Kiwi {
         /**
         * The game loop that gets executed while the game is loading.
         * @method loadUpdate
+        * @public
         */
         public loadUpdate() {
         
@@ -201,7 +223,7 @@ module Kiwi {
         }
 
         /**
-        * The update loop that is executed every frame while the game is 'playing'. When overriding make sure you include a super call to.
+        * The update loop that is executed every frame while the game is 'playing'. When overriding make sure you include a super call too.
         * @method update
         * @public
         */
@@ -217,6 +239,7 @@ module Kiwi {
                 
                 }
                 
+                //Does the child need to be destroyed?
                 if (this.members[i].exists === false) {
                     this.members[i].destroy( true );
                 }
@@ -241,22 +264,23 @@ module Kiwi {
         * @method postRender
         * @public
         */
-        public postRender() {}
+        public postRender() { }
 
         /**
-        * [DESCRIPTION REQUIRED]
-        * @method setType
-        * @param {Number} value
+        * Called just before this State is going to be Shut Down and another one is going to be switched too. 
+        * @method shutDown
+        * @public
         */
-        public setType(value: number) {
+        public shutDown() { }
 
-            if (this.config.isInitialised === false)
-            {
-                this.config.type = value;
-            }
-
-        }
          
+        /*
+        *--------------
+        * Loading Methods
+        *--------------
+        */
+
+
         /**
         * Adds a new image file that is be loaded when the state gets up to the loading all of the assets.
         *
@@ -344,7 +368,13 @@ module Kiwi {
           
         }
 
-        //garbage collection stuff
+
+        /*
+        *----------------
+        * Garbage Collection stuff
+        *----------------
+        */
+
 
         /**
         * Contains a reference to all of the IChilds that have ever been created for this state. 
@@ -422,9 +452,9 @@ module Kiwi {
                 }
                 this._trackingList = [];
                 
-                //destroy all of the members
+                // Destroy all of the members
                 for (var i = 0; i < this.members.length; i++) {
-                    this._destroyChildren(this.members[i]);     //shouldnt need this as they should already be dead
+                    this._destroyChildren(this.members[i]);     //Shouldnt need this as they should already be dead
                     delete this.members[i];
                 }
                 this.members = [];    

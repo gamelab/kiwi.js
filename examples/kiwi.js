@@ -2576,7 +2576,7 @@ var Kiwi;
     * @constructor
     * @param [domParent=''] {String} The ID of a DOM element that the game should use as its 'container'. If you are targeting Cocoon then you don't need to worry about this and can leave it blank.
     * @param [name='KiwiGame'] {String} The name of the game that is being created.
-    * @param [state=null] {Any} The state to load initially. This can either be the name of a state, or the state object itself.
+    * @param [state=null] {Any} The state to load initially. This can either be the name of a state, but preferably this would be the state object itself.
     * @param [options] {Object} Any special options for the game. E.g. Is DEBUG_ON or DEBUG_OFF, RENDERER_CANVAS or RENDERER_WEBGL, TARGET_BROWSER or TARGET_COCOON
     * @return {Game}
     *
@@ -4188,7 +4188,8 @@ var Kiwi;
         };
 
         /**
-        * [REQUIRES DESCRIPTION]
+        * Is executed when this state is about to be switched too. Just before the preload method.
+        * ONLY occurs on games targetting browsers.
         * @method boot
         * @public
         */
@@ -4201,7 +4202,23 @@ var Kiwi;
             this.data = this.dataLibrary.data;
         };
 
-        //  Default methods that should be over-ridden
+        /**
+        * Currently unused.
+        * @method setType
+        * @param {Number} value
+        * @public
+        */
+        State.prototype.setType = function (value) {
+            if (this.config.isInitialised === false) {
+                this.config.type = value;
+            }
+        };
+
+        /*
+        *--------------
+        * Methods that should be Over-Ridden
+        *--------------
+        */
         /**
         * Gets executed when the state has been initalised and gets switched to for the first time.
         * This method only ever gets called once and it is before the preload method.
@@ -4217,7 +4234,7 @@ var Kiwi;
         };
 
         /**
-        * This method is where you would load of all the assets that are requried for this state/in the game.
+        * This method is where you would load of all the assets that are requried for this state or in the entire game.
         * @method preload
         * @public
         */
@@ -4247,6 +4264,7 @@ var Kiwi;
         /**
         * The game loop that gets executed while the game is loading.
         * @method loadUpdate
+        * @public
         */
         State.prototype.loadUpdate = function () {
             for (var i = 0; i < this.members.length; i++) {
@@ -4279,7 +4297,7 @@ var Kiwi;
         };
 
         /**
-        * The update loop that is executed every frame while the game is 'playing'. When overriding make sure you include a super call to.
+        * The update loop that is executed every frame while the game is 'playing'. When overriding make sure you include a super call too.
         * @method update
         * @public
         */
@@ -4292,6 +4310,7 @@ var Kiwi;
                     this.members[i].update();
                 }
 
+                //Does the child need to be destroyed?
                 if (this.members[i].exists === false) {
                     this.members[i].destroy(true);
                 }
@@ -4317,16 +4336,18 @@ var Kiwi;
         };
 
         /**
-        * [DESCRIPTION REQUIRED]
-        * @method setType
-        * @param {Number} value
+        * Called just before this State is going to be Shut Down and another one is going to be switched too.
+        * @method shutDown
+        * @public
         */
-        State.prototype.setType = function (value) {
-            if (this.config.isInitialised === false) {
-                this.config.type = value;
-            }
+        State.prototype.shutDown = function () {
         };
 
+        /*
+        *--------------
+        * Loading Methods
+        *--------------
+        */
         /**
         * Adds a new image file that is be loaded when the state gets up to the loading all of the assets.
         *
@@ -4478,7 +4499,7 @@ var Kiwi;
                 this._trackingList = [];
 
                 for (var i = 0; i < this.members.length; i++) {
-                    this._destroyChildren(this.members[i]); //shouldnt need this as they should already be dead
+                    this._destroyChildren(this.members[i]); //Shouldnt need this as they should already be dead
                     delete this.members[i];
                 }
                 this.members = [];
@@ -6971,7 +6992,6 @@ var Kiwi;
                 this.acceleration = new Kiwi.Geom.Point();
                 this.drag = new Kiwi.Geom.Point();
                 this.maxVelocity = new Kiwi.Geom.Point(10000, 10000);
-                this.dirty = true;
 
                 this.angularVelocity = 0;
                 this.angularAcceleration = 0;
@@ -9691,7 +9711,8 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     /**
-    * [WHOLE THING REQUIRES DESCRIPTION]
+    * A lightweight object that contains values relating to the configuration of a State in a Kiwi Game.
+    *
     * @class StateConfig
     * @namespace Kiwi
     * @constructor
@@ -9710,7 +9731,7 @@ var Kiwi;
             */
             this.name = '';
             /**
-            *
+            * Currently unused.
             * @property isPersistent
             * @type boolean
             * @default false
@@ -9718,7 +9739,8 @@ var Kiwi;
             */
             this.isPersistent = false;
             /**
-            *
+            * If this State has been created (the create method has been executed).
+            * Essentually has the same meaning as 'isReady'.
             * @property isCreated
             * @type boolean
             * @default false
@@ -9726,7 +9748,8 @@ var Kiwi;
             */
             this.isCreated = false;
             /**
-            *
+            * If the State has been initialised already (so the Boot and Init methods have been executed already).
+            * A State only get Initialised once which is when it switched to for this first time.
             * @property isInitialised
             * @type boolean
             * @default false
@@ -9734,7 +9757,8 @@ var Kiwi;
             */
             this.isInitialised = false;
             /**
-            *
+            * If the State that this config is on is 'ready' to be used (e.g. all the assets have been loaded and libraries complied)
+            * or if it isn't and so it is still at the 'loading' stage.
             * @property isReady
             * @type boolean
             * @default false
@@ -9742,15 +9766,7 @@ var Kiwi;
             */
             this.isReady = false;
             /**
-            *
-            * @property hasInit
-            * @type boolean
-            * @default false
-            * @public
-            */
-            this.hasInit = false;
-            /**
-            *
+            * If the State that this config is on contains a Preloader Method.
             * @property hasPreloader
             * @type boolean
             * @default false
@@ -9758,87 +9774,7 @@ var Kiwi;
             */
             this.hasPreloader = false;
             /**
-            *
-            * @property hasLoadProgress
-            * @type boolean
-            * @default false
-            * @public
-            */
-            this.hasLoadProgress = false;
-            /**
-            *
-            * @property hasLoadComplete
-            * @type boolean
-            * @default false
-            * @public
-            */
-            this.hasLoadComplete = false;
-            /**
-            *
-            * @property hasLoadUpdate
-            * @type boolean
-            * @default false
-            * @public
-            */
-            this.hasLoadUpdate = false;
-            /**
-            *
-            * @property hasCreate
-            * @type boolean
-            * @default false
-            * @public
-            */
-            this.hasCreate = false;
-            /**
-            *
-            * @property hasOnEnter
-            * @type boolean
-            * @default false
-            * @public
-            */
-            this.hasOnEnter = false;
-            /**
-            *
-            * @property hasUpdate
-            * @type boolean
-            * @default false
-            * @public
-            */
-            this.hasUpdate = false;
-            /**
-            *
-            * @property hasRender
-            * @type boolean
-            * @default false
-            * @public
-            */
-            this.hasRender = false;
-            /**
-            *
-            * @property hasOnExit
-            * @type boolean
-            * @default false
-            * @public
-            */
-            this.hasOnExit = false;
-            /**
-            *
-            * @property hasShutDown
-            * @type boolean
-            * @default false
-            * @public
-            */
-            this.hasShutDown = false;
-            /**
-            *
-            * @property hasDestroy
-            * @type boolean
-            * @default false
-            * @public
-            */
-            this.hasDestroy = false;
-            /**
-            *
+            * The number of times the State that this config belongs to has been active/used.
             * @property runCount
             * @type Number
             * @default 0
@@ -9846,7 +9782,7 @@ var Kiwi;
             */
             this.runCount = 0;
             /**
-            *
+            * The type of state this is. Currently Unused.
             * @property type
             * @type Number
             * @default 0
@@ -9856,72 +9792,33 @@ var Kiwi;
             this._state = parent;
             this.name = name;
 
-            this.populate();
+            //If it has a preload method.
+            //*cough* of course it does.
+            if (typeof this._state['preload'] === 'function') {
+                this.hasPreloader = true;
+            }
         }
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         StateConfig.prototype.objType = function () {
             return "StateConfig";
         };
 
         /**
+        * Resets the properties contained on this StateConfig object.
+        * This is executed when a State is about to be destroyed as so reset's it to be switched to again.
+        * @method
         *
-        * @method populate
-        * @public
         */
-        StateConfig.prototype.populate = function () {
-            if (typeof this._state['init'] === 'function') {
-                this.hasInit = true;
-            }
-
-            if (typeof this._state['preload'] === 'function') {
-                this.hasPreloader = true;
-            }
-
-            if (typeof this._state['loadProgress'] === 'function') {
-                this.hasLoadProgress = true;
-            }
-
-            if (typeof this._state['loadComplete'] === 'function') {
-                this.hasLoadComplete = true;
-            }
-
-            if (typeof this._state['loadUpdate'] === 'function') {
-                this.hasLoadUpdate = true;
-            }
-
-            if (typeof this._state['create'] === 'function') {
-                this.hasCreate = true;
-            }
-
-            if (typeof this._state['onEnter'] === 'function') {
-                this.hasOnEnter = true;
-            }
-
-            if (typeof this._state['update'] === 'function') {
-                this.hasUpdate = true;
-            }
-
-            if (typeof this._state['render'] === 'function') {
-                this.hasRender = true;
-            }
-
-            if (typeof this._state['onExit'] === 'function') {
-                this.hasOnExit = true;
-            }
-
-            if (typeof this._state['shutdown'] === 'function') {
-                this.hasShutDown = true;
-            }
-
-            if (typeof this._state['destroy'] === 'function') {
-                this.hasDestroy = true;
-            }
-
-            if (this.hasInit === false && this.hasCreate === false) {
-                //  If there are no init or create functions, then we consider the state already initialised
-                this.isInitialised = true;
-                this.isCreated = true;
-                this.isReady = true;
-            }
+        StateConfig.prototype.reset = function () {
+            this.isReady = false;
+            this.isCreated = false;
+            this.createParams = [];
+            this.initParams = [];
         };
         return StateConfig;
     })();
@@ -9947,7 +9844,7 @@ var Kiwi;
     var StateManager = (function () {
         function StateManager(game) {
             /**
-            * The current State
+            * The current State that the game is at.
             * @property current
             * @type State
             * @default null
@@ -10023,7 +9920,7 @@ var Kiwi;
             if (typeof switchTo === "undefined") { switchTo = false; }
             var tempState;
 
-            //  Is it a Prototype?
+            //What type is the state that was passed.
             if (typeof state === 'function') {
                 tempState = new state();
             } else if (typeof state === 'string') {
@@ -10032,17 +9929,27 @@ var Kiwi;
                 tempState = state;
             }
 
-            //Does it already exist?
+            //Does a state with that name already exist?
             if (tempState.config.name && this.checkKeyExists(tempState.config.name) === true) {
+                if (this._game.debug)
+                    console.error('Could not add "' + tempState.config.name + '" as a State with that name already exists.');
+
                 return false;
             }
 
             tempState.game = this._game;
 
+            //Is it a valid state?
             if (this.checkValidState(tempState) === false) {
+                if (this._game.debug)
+                    console.error(tempState.config.name + ' isn\'t a valid state. Make sure you are using the Kiwi.State class!');
+
                 return false;
             } else {
                 this._states.push(tempState);
+
+                if (this._game.debug)
+                    console.log(tempState.config.name + ' was successfully added.');
 
                 if (switchTo === true) {
                     this.setCurrentState(tempState.config.name);
@@ -10054,27 +9961,16 @@ var Kiwi;
 
         /**
         * Is executed once the DOM has finished loading.
+        * This is an INTERNAL Kiwi method.
         * @method boot
         * @public
         */
         StateManager.prototype.boot = function () {
-            if (this.current !== null) {
-                this.current.boot();
-            }
-
-            if (this.current !== null && this.current.config.isInitialised === false) {
-                if (this.current.config.hasInit === true) {
-                    this.current.init();
-                }
-
-                this.current.config.isInitialised = true;
-
-                this.checkPreload();
-            }
         };
 
         /**
-        * Switches to the name (key) of the state that you pass. Does not work if the state you are switching to is already the current state OR if that state does not exist yet.
+        * Switches to the name (key) of the state that you pass.
+        * Does not work if the state you are switching to is already the current state OR if that state does not exist yet.
         * @method setCurrentState
         * @param {String} key
         * @return {boolean}
@@ -10096,44 +9992,29 @@ var Kiwi;
         * @private
         */
         StateManager.prototype.bootNewState = function () {
-            // First check if we have a current state or not. Destroy the previous state
+            // Destroy the current if there is one.
             if (this.current !== null) {
-                //  Yes, so notify it that it's about to be shut down
-                //  If there is a shutdown function then we call it, passing it a callback.
-                //  The State is then responsible for hitting the callback when it is ready.
-                //  TODO: Transition support - both state updates need to be called at the same time.
-                this._game.input.reset();
-                this.current.destroy();
+                this.current.shutDown();
+
+                this._game.input.reset(); //Reset the input component
+                this.current.destroy(true); //Destroy ALL IChildren ever created on that state.
+                this._game.fileStore.removeStateFiles(this.current); //Clear the fileStore of not global files.
+                this.current.config.reset(); //Reset the config
             }
 
+            //Set the current state, reset the key
             this.current = this.getState(this._newStateKey);
-
-            //  Do we need to init it?
-            if (this._game.stage.domReady === true) {
-                if (this.current.config.isInitialised === false) {
-                    this.current.boot();
-
-                    if (this.current.config.hasInit === true) {
-                        if (this.current.config.initParams) {
-                            this.current.init.apply(this.current, this.current.config.initParams);
-                        } else {
-                            this.current.init.call(this.current);
-                        }
-                    }
-
-                    this.current.config.isInitialised = true;
-                }
-
-                this.checkPreload();
-            }
-
             this._newStateKey = null;
+
+            //Initalise the state and execute the preload method?
+            this.checkInit();
+            this.checkPreload();
         };
 
         /**
-        *  Swaps the current state.
-        *  If the state has already been loaded (via addState) then you can just pass the key.
-        *  Otherwise you can pass the state object as well and it will load it then swap to it.
+        * Swaps the current state.
+        * If the state has already been loaded (via addState) then you can just pass the key.
+        * Otherwise you can pass the state object as well and it will load it then swap to it.
         *
         * @method switchState
         * @param key {String} The name/key of the state you would like to switch to.
@@ -10149,29 +10030,28 @@ var Kiwi;
             if (typeof createParams === "undefined") { createParams = null; }
             //  If we have a current state that isn't yet ready (preload hasn't finished) then abort now
             if (this.current !== null && this.current.config.isReady === false) {
+                if (this._game.debug)
+                    console.error('Cannot change to a new state till the current state has finished loading!');
+
                 return false;
             }
 
-            //  if state key already exists let's try swapping to it, even if the state was passed
+            // If state key doesn't exist then lets add it.
             if (this.checkKeyExists(key) === false && state !== null) {
-                //  Does the state already exist?
                 if (this.addState(state, false) === false) {
-                    //  Error adding the state
                     return false;
                 }
             }
 
-            //  Store the parameters (if any)
+            // Store the parameters (if any)
             if (initParams !== null || createParams !== null) {
                 var newState = this.getState(key);
-
                 newState.config.initParams = [];
+                newState.config.createParams = [];
 
                 for (var initParameter in initParams) {
                     newState.config.initParams.push(initParams[initParameter]);
                 }
-
-                newState.config.createParams = [];
 
                 for (var createParameter in createParams) {
                     newState.config.createParams.push(createParams[createParameter]);
@@ -10198,6 +10078,11 @@ var Kiwi;
             return null;
         };
 
+        /*
+        *----------------
+        * Check Methods
+        *----------------
+        */
         /**
         * Checks to see if the state that is being switched to needs to load some files or not.
         * If it does it loads the file, if it does not it runs the create method.
@@ -10218,18 +10103,53 @@ var Kiwi;
                 this.current.preload();
                 this._game.loader.startLoad();
             } else {
-                //  No preloader, but does have a create function
-                if (this.current.config.hasCreate === true && this.current.config.isCreated === false) {
-                    this.current.config.isCreated = true;
+                this.current.config.isReady = true;
+                this.callCreate();
+            }
+        };
 
-                    if (this.current.config.createParams) {
-                        this.current.create.apply(this.current, this.current.config.createParams);
-                    } else {
-                        this.current.create.call(this.current);
-                    }
+        /**
+        * Checks to see if the state being switched to contains a create method.
+        * If it does then it calls the create method.
+        * @method callCreate
+        * @private
+        */
+        StateManager.prototype.callCreate = function () {
+            if (this._game.debug)
+                console.log("Calling State:Create");
+
+            //Execute the create with params if there are some there.
+            if (this.current.config.createParams) {
+                this.current.create.apply(this.current, this.current.config.createParams);
+                //Otherwise just execute the method.
+            } else {
+                this.current.create.call(this.current);
+            }
+
+            this.current.config.runCount++;
+            this.current.config.isCreated = true;
+        };
+
+        /**
+        * Checks to see if the state has a init method and then executes that method if it is found.
+        * @method checkInit
+        * @private
+        */
+        StateManager.prototype.checkInit = function () {
+            //Has the state already been initialised?
+            if (this.current.config.isInitialised === false) {
+                //Boot the state.
+                this.current.boot();
+
+                //Execute the Init method with params
+                if (this.current.config.initParams) {
+                    this.current.init.apply(this.current, this.current.config.initParams);
+                    //Execute the Init method with out params
+                } else {
+                    this.current.init.call(this.current);
                 }
 
-                this.current.config.isReady = true;
+                this.current.config.isInitialised = true;
             }
         };
 
@@ -10242,9 +10162,7 @@ var Kiwi;
         * @private
         */
         StateManager.prototype.onLoadProgress = function (percent, bytesLoaded, file) {
-            if (this.current.config.hasLoadProgress === true) {
-                this.current.loadProgress(percent, bytesLoaded, file);
-            }
+            this.current.loadProgress(percent, bytesLoaded, file);
         };
 
         /**
@@ -10253,31 +10171,20 @@ var Kiwi;
         * @private
         */
         StateManager.prototype.onLoadComplete = function () {
-            if (this.current.config.hasLoadComplete === true) {
-                this.current.loadComplete();
-            }
+            this.current.loadComplete();
 
             if (this._game.debug) {
                 console.log("Rebuilding Libraries");
             }
+
+            //Rebuild the Libraries again to have access the new files that were loaded.
             this.rebuildLibraries();
             if (this._game.renderOption = Kiwi.RENDERER_WEBGL) {
                 this._game.renderer.initState(this.current);
             }
 
             this.current.config.isReady = true;
-
-            if (this.current.config.hasCreate === true) {
-                this.current.config.isCreated = true;
-                if (this._game.debug) {
-                    console.log("Calling State:Create");
-                }
-                if (this.current.config.createParams) {
-                    this.current.create.apply(this.current, this.current.config.createParams);
-                } else {
-                    this.current.create.call(this.current);
-                }
-            }
+            this.callCreate();
         };
 
         /**
@@ -10298,6 +10205,7 @@ var Kiwi;
         */
         StateManager.prototype.update = function () {
             if (this.current !== null) {
+                //Is the state ready?
                 if (this.current.config.isReady === true) {
                     this.current.preUpdate();
                     this.current.update();
@@ -10307,13 +10215,14 @@ var Kiwi;
                 }
             }
 
+            //Do we need to switch states?
             if (this._newStateKey !== null) {
                 this.bootNewState();
             }
         };
 
         /**
-        * postRender - called after all of the Layers have been rendered
+        * PostRender - Called after all of the rendering has been executed in a frame.
         * @method postRender
         * @public
         */
@@ -11964,6 +11873,7 @@ var Kiwi;
                         }
                     }
 
+                    //Concat points to the Renderer.
                     this.glRenderer.concatBatch(xyuvItems, alphaItems);
                 };
                 return TileMapLayer;

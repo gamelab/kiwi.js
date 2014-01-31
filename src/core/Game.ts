@@ -14,7 +14,7 @@ module Kiwi {
     * @constructor
     * @param [domParent=''] {String} The ID of a DOM element that the game should use as its 'container'. If you are targeting Cocoon then you don't need to worry about this and can leave it blank.
     * @param [name='KiwiGame'] {String} The name of the game that is being created. 
-    * @param [state=null] {Any} The state to load initially. This can either be the name of a state, or the state object itself.
+    * @param [state=null] {Any} The state to load initially. This can either be the name of a state, but preferably this would be the state object itself.
     * @param [options] {Object} Any special options for the game. E.g. Is DEBUG_ON or DEBUG_OFF, RENDERER_CANVAS or RENDERER_WEBGL, TARGET_BROWSER or TARGET_COCOON
     * @return {Game}
     * 
@@ -117,11 +117,7 @@ module Kiwi {
             
             //  If we have a state then pass it to the StateManager
             if (state !== null) {
-                if (this.states.addState(state, true) === false) {
-                    throw Error("Invalid State passed to Kiwi.Game");
-                } else {
-                    console.log('"' + state.name + '" State successfully added.');
-                }
+                this.states.addState(state, true);
             } else {
                 console.log('Default State not passed.');
             }
