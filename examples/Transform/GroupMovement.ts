@@ -4,10 +4,10 @@
 * This script is a demonstration of how you can apply transforms to a group and how it affects the gameobjects inside of it.  
 **/
 
-class GroupTransform extends Kiwi.State {
+class GroupMovement extends Kiwi.State {
 
     constructor() {
-        super('GroupTransform');
+        super('GroupMovement');
     }
 
     preload() {
@@ -83,4 +83,4 @@ class GroupTransform extends Kiwi.State {
 */
 if (typeof gameOptions == "undefined") var gameOptions  = {};
 
-var game = new Kiwi.Game('game', 'KiwiExample', GroupTransform, gameOptions );
+var game = new Kiwi.Game('game', 'KiwiExample', GroupMovement, gameOptions );

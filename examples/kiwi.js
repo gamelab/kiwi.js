@@ -2804,11 +2804,7 @@ var Kiwi;
 
             //  If we have a state then pass it to the StateManager
             if (state !== null) {
-                if (this.states.addState(state, true) === false) {
-                    throw Error("Invalid State passed to Kiwi.Game");
-                } else {
-                    console.log('"' + state.name + '" State successfully added.');
-                }
+                this.states.addState(state, true);
             } else {
                 console.log('Default State not passed.');
             }
@@ -7504,7 +7500,7 @@ var Kiwi;
             */
             ArcadePhysics.prototype.overlaps = function (gameObject, separateObjects) {
                 if (typeof separateObjects === "undefined") { separateObjects = false; }
-                if (gameObject.childType() == Kiwi.TILE_LAYER || this.parent.childType() == Kiwi.TILE_LAYER || gameObject.components.hasComponent('Box') == false)
+                if (gameObject.components.hasComponent('Box') == false)
                     return;
 
                 var box = gameObject.components.getComponent('Box');
@@ -9932,7 +9928,7 @@ var Kiwi;
             //Does a state with that name already exist?
             if (tempState.config.name && this.checkKeyExists(tempState.config.name) === true) {
                 if (this._game.debug)
-                    console.error('Could not add "' + tempState.config.name + '" as a State with that name already exists.');
+                    console.error('Could not add ' + tempState.config.name + ' as a State with that name already exists.');
 
                 return false;
             }
@@ -9999,7 +9995,7 @@ var Kiwi;
                 this._game.input.reset(); //Reset the input component
                 this.current.destroy(true); //Destroy ALL IChildren ever created on that state.
                 this._game.fileStore.removeStateFiles(this.current); //Clear the fileStore of not global files.
-                this.current.config.reset(); //Reset the config
+                this.current.config.reset(); //Reset the config setting
             }
 
             //Set the current state, reset the key

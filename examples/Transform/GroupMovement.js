@@ -1,19 +1,20 @@
 /**
 * This script is a demonstration of how you can apply transforms to a group and how it affects the gameobjects inside of it.
 **/
-var GroupTransform = new Kiwi.State('GroupTransform');
+var GroupMovement = new Kiwi.State('GroupMovement');
 
-GroupTransform.init = function() {    
+GroupMovement.init = function() {    
     this.numSnakes = 30;
     this.game.stage.resize(800, 250);
     this.direction = 'right';
 }
 
-GroupTransform.preload = function () {
+GroupMovement.preload = function () {
+    this.game.stage.resize(800, 250);
     this.addSpriteSheet('snake', 'assets/spritesheets/snake.png', 150, 117);
 }
 
-GroupTransform.create = function () {
+GroupMovement.create = function () {
     //to see information about animations look at the animation component section
     this.textures.snake.sequences.push(new Kiwi.Animations.Sequence('slither', [1, 2, 3, 4, 5, 6], 0.1, true));
 
@@ -28,7 +29,7 @@ GroupTransform.create = function () {
     }
 }
 
-GroupTransform.update = function () {
+GroupMovement.update = function () {
     Kiwi.State.prototype.update.call(this);
 
     if (this.direction == 'right') {
@@ -61,4 +62,4 @@ GroupTransform.update = function () {
 */
 if(typeof  gameOptions == "undefined")  gameOptions = {};
 
-var game = new Kiwi.Game('game', 'KiwiExample', GroupTransform,  gameOptions);
+var game = new Kiwi.Game('game', 'KiwiExample', GroupMovement,  gameOptions);

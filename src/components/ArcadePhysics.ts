@@ -840,7 +840,7 @@ module Kiwi.Components {
         public overlapsTiles(gameObject:Entity, separateObjects:boolean = false, collisionType:number = Kiwi.Components.ArcadePhysics.ANY):boolean {
 
             //Are we a tilemaplayer?
-            if (this.parent.childType() !== Kiwi.TILE_LAYER) return; 
+            if (this.parent.childType() !== Kiwi.TILE_LAYER) return false; 
 
             var tiles = (<Kiwi.GameObjects.Tilemap.TileMapLayer>this.parent).getOverlappingTiles(gameObject, collisionType);
 
@@ -868,7 +868,7 @@ module Kiwi.Components {
         */
         public overlaps(gameObject: Entity, separateObjects: boolean = false): boolean {
 
-            if (gameObject.childType() == Kiwi.TILE_LAYER || this.parent.childType() == Kiwi.TILE_LAYER || gameObject.components.hasComponent('Box') == false) return;
+            if (gameObject.components.hasComponent('Box') == false) return;
 
             var box: Kiwi.Components.Box = gameObject.components.getComponent('Box');
 
