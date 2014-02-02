@@ -7472,7 +7472,7 @@ var Kiwi;
                 if (typeof collisionType === "undefined") { collisionType = Kiwi.Components.ArcadePhysics.ANY; }
                 //Are we a tilemaplayer?
                 if (this.parent.childType() !== Kiwi.TILE_LAYER)
-                    return;
+                    return false;
 
                 var tiles = this.parent.getOverlappingTiles(gameObject, collisionType);
 
