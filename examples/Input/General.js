@@ -32,6 +32,7 @@ General.create = function () {
 * Parameter two - y coordinate of click.
 **/
 General.showNinja = function (x, y) {
+
     //create the ninja. Enable the input component by passing true.
     var ninja = new Kiwi.GameObjects.Sprite(this, this.textures.ninja, x, y, true);
     this.addChild(ninja);

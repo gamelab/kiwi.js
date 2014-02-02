@@ -37,7 +37,7 @@
     <None Include="Timer\SetNumber.ts" />
     <None Include="Introduction\Textarea.ts" />
     <None Include="Tilemaps\ParalaxLayers.ts" />
-    <None Include="Transform\GroupTransform.ts" />
+    <None Include="Transform\GroupMovement.ts" />
     <None Include="Tweening\CreateTween.ts" />
     <None Include="Tweening\Looping.ts" />
     <None Include="Tweening\EasingMethods.ts" />
@@ -67,6 +67,7 @@
     <None Include="Tilemaps\FillingAnArea.ts" />
     <None Include="Tilemaps\RandomArea.ts" />
     <None Include="Tilemaps\SwappingTiles.ts" />
+    <None Include="Transform\GroupRotation.ts" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

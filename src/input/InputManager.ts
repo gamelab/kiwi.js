@@ -92,6 +92,7 @@ module Kiwi.Input {
         */
         private _pointers: Kiwi.Input.Pointer[];
 
+
         /**
         * Returns all of the pointers that can be used on the Input Manager. This is READ only.
         * @property pointer
@@ -109,7 +110,7 @@ module Kiwi.Input {
         */
         public boot() {
             this._pointers = [];
-            
+
             this.mouse = new Kiwi.Input.Mouse(this.game);
             this.mouse.boot();
 
@@ -135,7 +136,7 @@ module Kiwi.Input {
             this.onDown = new Kiwi.Signal();
             this.onUp = new Kiwi.Signal();
         }
-        
+
         /**
         * A private method that gets dispatched when either the mouse or touch manager dispatches a down event
         * @method _onDownEvent

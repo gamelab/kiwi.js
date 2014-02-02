@@ -196,6 +196,25 @@ module Kiwi {
         public onResize: Kiwi.Signal;
 
         /**
+        * Calculates and returns the amount that the container has been scale buy.  
+        * Mainly used for re-calculating input coordinates. 
+        * Note: For COCOONJS this returns 1 since COCOONJS translates the points itself.
+        * This property is READ ONLY.
+        * @property scale
+        * @type Number
+        * @default 1
+        * @public
+        */
+        private _scale: number = 1;
+
+        public get scale(): number {
+            if (this._game.deviceTargetOption == TARGET_COCOON) return 1;
+
+            this._scale = this._game.stage.width / this._game.stage.container.clientWidth;
+            return this._scale;
+        }
+
+        /**
 		* A point which determines the offset of this Stage
         * @property offset
         * @type Point

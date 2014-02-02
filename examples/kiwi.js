@@ -5040,6 +5040,17 @@ var Kiwi;
     var Stage = (function () {
         function Stage(game, name) {
             /**
+            * Calculates and returns the amount that the container has been scale buy.
+            * Mainly used for re-calculating input coordinates.
+            * Note: For COCOONJS this returns 1 since COCOONJS translates the points itself.
+            * This property is READ ONLY.
+            * @property scale
+            * @type Number
+            * @default 1
+            * @public
+            */
+            this._scale = 1;
+            /**
             * A point which determines the offset of this Stage
             * @property offset
             * @type Point
@@ -5172,6 +5183,18 @@ var Kiwi;
             */
             get: function () {
                 return this._height;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Stage.prototype, "scale", {
+            get: function () {
+                if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON)
+                    return 1;
+
+                this._scale = this._game.stage.width / this._game.stage.container.clientWidth;
+                return this._scale;
             },
             enumerable: true,
             configurable: true
@@ -7472,7 +7495,7 @@ var Kiwi;
                 if (typeof collisionType === "undefined") { collisionType = Kiwi.Components.ArcadePhysics.ANY; }
                 //Are we a tilemaplayer?
                 if (this.parent.childType() !== Kiwi.TILE_LAYER)
-                    return;
+                    return false;
 
                 var tiles = this.parent.getOverlappingTiles(gameObject, collisionType);
 
@@ -21820,8 +21843,8 @@ var Kiwi;
                 this.screenX = event.screenX;
                 this.screenY = event.screenY;
 
-                this.x = this.pageX - this.game.stage.offset.x;
-                this.y = this.pageY - this.game.stage.offset.y;
+                this.x = (this.pageX - this.game.stage.offset.x) * this.game.stage.scale;
+                this.y = (this.pageY - this.game.stage.offset.y) * this.game.stage.scale;
 
                 this.point.setTo(this.x, this.y);
                 this.circle.x = this.x;
