@@ -109,6 +109,7 @@ module Kiwi.Renderers {
         }
 
         public refreshTexture(gl: WebGLRenderingContext) {
+            
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
         }
 

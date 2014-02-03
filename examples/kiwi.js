@@ -10519,6 +10519,10 @@ var Kiwi;
                 */
                 this._tempDirty = true;
 
+                if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
+                    this.glRenderer = this.game.renderer.requestSharedRenderer("TextureAtlasRenderer");
+                }
+
                 this._text = text;
                 this._fontWeight = weight;
                 this._fontSize = size;
@@ -10530,6 +10534,14 @@ var Kiwi;
                 this.optimize = optimize;
 
                 this._tempDirty = true;
+
+                this._canvas = document.createElement('canvas');
+                this._canvas.width = 256;
+                this._canvas.height = 256;
+                this._ctx = this._canvas.getContext('2d');
+                this.atlas = new Kiwi.Textures.SingleImage(this.game.rnd.uuid(), this._canvas);
+                this.state.textureLibrary.add(this.atlas);
+                this.atlas.dirty = true;
             }
             /**
             * Returns the type of object that this is
@@ -10590,6 +10602,7 @@ var Kiwi;
                 set: function (val) {
                     this._fontWeight = val;
                     this._tempDirty = true;
+                    this.atlas.dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -10662,25 +10675,23 @@ var Kiwi;
             * @private
             */
             Textfield.prototype._renderText = function () {
-                //create the canvas
-                this._tempCanvas = document.createElement('canvas');
-                var ctxTemp = this._tempCanvas.getContext('2d');
-
                 //get/set the width
-                ctxTemp.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
-                var _measurements = ctxTemp.measureText(this._text);
-                this._tempCanvas.width = _measurements.width;
-                this._tempCanvas.height = this._fontSize * 1.3; //for the characters that fall below the baseline. Should find better implementation.
+                this._ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
+
+                //var _measurements: TextMetrics = this._ctx.measureText(this._text);   //when you measure the text for some reason it resets the values?!
+                this._canvas.width = 256; //_measurements.width;
+                this._canvas.height = 256; //this._fontSize * 1.3; //for the characters that fall below the baseline. Should find better implementation.
 
                 //reapply the styles....cause it unapplies after a measurement...?!?
-                ctxTemp.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
-                ctxTemp.fillStyle = this._fontColor;
-                ctxTemp.textBaseline = this._baseline;
+                this._ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
+                this._ctx.fillStyle = this._fontColor;
+                this._ctx.textBaseline = this._baseline;
 
                 //add text
-                ctxTemp.fillText(this._text, 0, 0);
+                this._ctx.fillText(this._text, 0, 0);
 
                 this._tempDirty = false;
+                this.atlas.dirty = true;
             };
 
             /**
@@ -10713,10 +10724,10 @@ var Kiwi;
                                 x = 0;
                                 break;
                             case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                                x = this._tempCanvas.width / 2;
+                                x = this._canvas.width / 2;
                                 break;
                             case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
-                                x = this._tempCanvas.width;
+                                x = this._canvas.width;
                                 break;
                         }
                         t.x -= x; //add the alignment to the transformation
@@ -10724,7 +10735,7 @@ var Kiwi;
                         var m = t.getConcatenatedMatrix();
                         ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
 
-                        ctx.drawImage(this._tempCanvas, 0, 0, this._tempCanvas.width, this._tempCanvas.height, -t.rotPointX, -t.rotPointY, this._tempCanvas.width, this._tempCanvas.height);
+                        ctx.drawImage(this._canvas, 0, 0, this._canvas.width, this._canvas.height, -t.rotPointX, -t.rotPointY, this._canvas.width, this._canvas.height);
 
                         t.x += x; //remove it again.
                     } else {
@@ -10741,6 +10752,13 @@ var Kiwi;
 
                     ctx.restore();
                 }
+            };
+            Textfield.prototype.renderGL = function (gl, camera, params) {
+                if (typeof params === "undefined") { params = null; }
+                //does the text need re-rendering
+                if (this._tempDirty)
+                    this._renderText();
+                this.glRenderer.addToBatch(gl, this, camera);
             };
             Textfield.TEXT_ALIGN_CENTER = 'center';
 
@@ -22519,8 +22537,11 @@ var Kiwi;
                     this._switchTexture(gl, entity);
                 }
 
+                // is the texture in need of reuplaoding? This would be the case if it is a dynamic texture such as a text field
                 if (entity.atlas.dirty) {
                     entity.atlas.glTextureWrapper.refreshTexture(gl);
+                    this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
+                    entity.atlas.dirty = false;
                 }
 
                 //assert: texture requirements are met
@@ -24373,6 +24394,12 @@ var Kiwi;
         */
         var TextureAtlas = (function () {
             function TextureAtlas(name, type, cells, image, sequences) {
+                /**
+                * Indicates that the image data has changed, and needs to be reuplaoded to the gpu in webGL mode.
+                * @property dirty
+                * @type boolean
+                * @public
+                */
                 this.dirty = false;
                 /**
                 * The cell that is to be render at the start.
@@ -24510,7 +24537,12 @@ var Kiwi;
                 }
             };
 
-            //power of 2?
+            /**
+            * Adds a texture atlas to the library.
+            * @method add
+            * @param atlas {TextureAtlas}
+            * @public
+            */
             TextureLibrary.prototype.add = function (atlas) {
                 this.textures[atlas.name] = atlas;
                 if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {

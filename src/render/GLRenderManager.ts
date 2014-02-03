@@ -421,6 +421,7 @@ module Kiwi.Renderers {
             // is the texture in need of reuplaoding? This would be the case if it is a dynamic texture such as a text field
             if (entity.atlas.dirty) {
                 entity.atlas.glTextureWrapper.refreshTexture(gl);
+                this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
                 entity.atlas.dirty = false;    
             }
 

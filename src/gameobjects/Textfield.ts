@@ -31,6 +31,10 @@ module Kiwi.GameObjects {
 
             super(state, x,y);
 
+            if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
+                this.glRenderer = this.game.renderer.requestSharedRenderer("TextureAtlasRenderer");
+            }
+
             this._text = text;
             this._fontWeight = weight;
             this._fontSize = size;
@@ -42,6 +46,15 @@ module Kiwi.GameObjects {
             this.optimize = optimize;
             
             this._tempDirty = true;
+
+            this._canvas = document.createElement('canvas');
+            this._canvas.width = 256;
+            this._canvas.height = 256;
+            this._ctx = this._canvas.getContext('2d');
+            this.atlas = new Kiwi.Textures.SingleImage(this.game.rnd.uuid(), this._canvas);
+            this.state.textureLibrary.add(this.atlas);
+            this.atlas.dirty = true;
+
         }
 
         /**
@@ -62,6 +75,8 @@ module Kiwi.GameObjects {
         */
         private _text: string;
         
+
+
         /**
         * The weight of the font.
         * @property _fontWeight
@@ -124,6 +139,7 @@ module Kiwi.GameObjects {
         public set text(value: string) {
             this._text = value;
             this._tempDirty = true;
+      
         } 
         public get text(): string {
             return this._text;
@@ -138,6 +154,7 @@ module Kiwi.GameObjects {
         public set color(val: string) {
             this._fontColor = val;
             this._tempDirty = true;
+   
         } 
         public get color(): string {
             return this._fontColor;
@@ -152,6 +169,7 @@ module Kiwi.GameObjects {
         public set fontWeight(val: string) {
             this._fontWeight = val;
             this._tempDirty = true;
+            this.atlas.dirty = true;
         }
         public get fontWeight(): string {
             return this._fontWeight;
@@ -166,6 +184,7 @@ module Kiwi.GameObjects {
         public set fontSize(val: number) {
             this._fontSize = val;
             this._tempDirty = true;
+          
         } 
         public get fontSize(): number {
             return this._fontSize;
@@ -180,6 +199,7 @@ module Kiwi.GameObjects {
         public set fontFamily(val: string) {
             this._fontFamily = val;
             this._tempDirty = true;
+      
         } 
         public get fontFamily(): string {
             return this._fontFamily;
@@ -223,6 +243,7 @@ module Kiwi.GameObjects {
         public set textAlign(val: string) {
             this._textAlign = val;
             this._tempDirty = true;
+            
         }
         
         /**
@@ -240,7 +261,9 @@ module Kiwi.GameObjects {
         * @type HTMLCanvasElement.
         * @private
         */
-        private _tempCanvas: HTMLCanvasElement;
+        private _canvas: HTMLCanvasElement;
+
+        private _ctx: CanvasRenderingContext2D;
 
         /**
         * If the temporary canvas is dirty and needs to be re-rendered. Only used when the text field rendering is being optimised.
@@ -266,26 +289,25 @@ module Kiwi.GameObjects {
         */
         private _renderText() {
             
-            //create the canvas
-            this._tempCanvas = document.createElement('canvas');
-            var ctxTemp: CanvasRenderingContext2D = this._tempCanvas.getContext('2d');
-
+           
             //get/set the width
-            ctxTemp.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
-            var _measurements: TextMetrics = ctxTemp.measureText(this._text);   //when you measure the text for some reason it resets the values?! 
-            this._tempCanvas.width = _measurements.width;  
-            this._tempCanvas.height = this._fontSize * 1.3; //for the characters that fall below the baseline. Should find better implementation.
+            this._ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
+            //var _measurements: TextMetrics = this._ctx.measureText(this._text);   //when you measure the text for some reason it resets the values?! 
+            this._canvas.width = 256;//_measurements.width;  
+            this._canvas.height =256;//this._fontSize * 1.3; //for the characters that fall below the baseline. Should find better implementation.
 
+           
             
             //reapply the styles....cause it unapplies after a measurement...?!?
-            ctxTemp.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
-            ctxTemp.fillStyle = this._fontColor;
-            ctxTemp.textBaseline = this._baseline;
+            this._ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
+            this._ctx.fillStyle = this._fontColor;
+            this._ctx.textBaseline = this._baseline;
 
             //add text
-            ctxTemp.fillText(this._text, 0, 0);
+            this._ctx.fillText(this._text, 0, 0);
 
             this._tempDirty = false;
+            this.atlas.dirty = true;
         }
         
         /**
@@ -320,10 +342,10 @@ module Kiwi.GameObjects {
                             x = 0;
                             break;
                         case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                            x = this._tempCanvas.width / 2;
+                            x = this._canvas.width / 2;
                             break;
                         case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
-                            x = this._tempCanvas.width;
+                            x = this._canvas.width;
                             break;
                     }
                     t.x -= x; //add the alignment to the transformation
@@ -331,7 +353,7 @@ module Kiwi.GameObjects {
                     var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
                     ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
                     
-                    ctx.drawImage(this._tempCanvas, 0, 0, this._tempCanvas.width, this._tempCanvas.height, -t.rotPointX, -t.rotPointY, this._tempCanvas.width, this._tempCanvas.height);
+                    ctx.drawImage(this._canvas, 0, 0, this._canvas.width, this._canvas.height, -t.rotPointX, -t.rotPointY, this._canvas.width, this._canvas.height);
                     
                     t.x += x; //remove it again.
 
@@ -353,7 +375,11 @@ module Kiwi.GameObjects {
             }
             
         }
-
+        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params: any = null) {
+            //does the text need re-rendering
+            if (this._tempDirty) this._renderText();
+            (<Kiwi.Renderers.TextureAtlasRenderer>this.glRenderer).addToBatch(gl, this, camera);
+        }
     }
 
 }
