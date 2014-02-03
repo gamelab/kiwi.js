@@ -69,7 +69,9 @@
     <None Include="Tilemaps\SwappingTiles.ts" />
     <None Include="Transform\GroupRotation.ts" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Misc\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="index.php" />
   </ItemGroup>

@@ -63,13 +63,33 @@ module Kiwi.Textures {
             }
         }
 
+       
+
+        /**
+        * Adds a texture atlas to the library.
+        * @method add
+        * @param atlas {TextureAtlas}
+        * @public
+        */
+        public add(atlas: TextureAtlas) {
+            this.textures[atlas.name] = atlas;
+            if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
+                if (this._base2Sizes.indexOf(atlas.image.width) == -1 || this._base2Sizes.indexOf(atlas.image.height) == -1) {
+                    console.log("warning:image is not of base2 size and may not render correctly");
+                }
+                var renderManager = <Kiwi.Renderers.GLRenderManager>this._game.renderer;
+                renderManager.addTexture(this._game.stage.gl, atlas);
+            }
+        }
+
+
         /**
         * Adds a new image file to the texture library.
-        * @method add
+        * @method addFromFile
         * @param imageFile {File}
         * @public
         */
-        public add(imageFile: Kiwi.Files.File) {
+        public addFromFile(imageFile: Kiwi.Files.File) {
 
             if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
                 imageFile = this._rebuildImage(imageFile);
@@ -237,7 +257,7 @@ module Kiwi.Textures {
                 var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
                 if (file.isTexture) {
                     if (this._game.debug) { console.log("Adding Texture: " + file.fileName) };
-                    state.textureLibrary.add(file);
+                    state.textureLibrary.addFromFile(file);
                 }
             }
 
