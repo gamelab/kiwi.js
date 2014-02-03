@@ -7472,7 +7472,7 @@ var Kiwi;
                 if (typeof collisionType === "undefined") { collisionType = Kiwi.Components.ArcadePhysics.ANY; }
                 //Are we a tilemaplayer?
                 if (this.parent.childType() !== Kiwi.TILE_LAYER)
-                    return;
+                    return false;
 
                 var tiles = this.parent.getOverlappingTiles(gameObject, collisionType);
 
@@ -11754,6 +11754,46 @@ var Kiwi;
                 };
 
                 /**
+                * Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen.
+                * All coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).
+                * @method _calculateBoundaries
+                * @param camera {Camera}
+                * @param matrix {Matrix}
+                * @private
+                */
+                TileMapLayer.prototype._calculateBoundaries = function (camera, matrix) {
+                    // Translation Stuff
+                    var sx = 1 / this.scaleX;
+                    var sy = 1 / this.scaleY;
+
+                    // Work out how many tiles we can fit into our camera and round it up for the edges
+                    this._maxX = Math.min(Math.ceil(camera.width / this.tileWidth) + 1, this.width) * sx;
+                    this._maxY = Math.min(Math.ceil(camera.height / this.tileHeight) + 1, this.height) * sy;
+
+                    // And now work out where in the tilemap the camera actually is
+                    this._startX = Math.floor((-camera.transform.x - this.transform.worldX) / this.tileWidth * sx);
+                    this._startY = Math.floor((-camera.transform.y - this.transform.worldY) / this.tileHeight * sy);
+
+                    // Boundaries check for the start
+                    if (this._startX < 0)
+                        this._startX = 0;
+                    if (this._startY < 0)
+                        this._startY = 0;
+
+                    // Check for the Maximum
+                    if (this._maxX > this.width)
+                        this._maxX = this.width;
+                    if (this._maxY > this.height)
+                        this._maxY = this.height;
+
+                    // Width/Height
+                    if (this._startX + this._maxX > this.width)
+                        this._maxX = this.width - this._startX;
+                    if (this._startY + this._maxY > this.height)
+                        this._maxY = this.height - this._startY;
+                };
+
+                /**
                 * The render loop which is used when using the Canvas renderer.
                 * @method render
                 * @param camera {Camera}
@@ -11780,30 +11820,7 @@ var Kiwi;
 
                     ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - camera.transform.rotPointX, m.ty + t.rotPointY - camera.transform.rotPointY);
 
-                    // Work out how many tiles we can fit into our camera and round it up for the edges
-                    this._maxX = Math.min(Math.ceil(camera.width / this.tileWidth) + 1, this.width);
-                    this._maxY = Math.min(Math.ceil(camera.height / this.tileHeight) + 1, this.height);
-
-                    // And now work out where in the tilemap the camera actually is
-                    this._startX = Math.floor((-camera.transform.x - t.worldX) / this.tileWidth);
-                    this._startY = Math.floor((-camera.transform.y - t.worldY) / this.tileHeight);
-
-                    // Boundaries check for the start
-                    if (this._startX < 0)
-                        this._startX = 0;
-                    if (this._startY < 0)
-                        this._startY = 0;
-
-                    // Check for the Maximum
-                    if (this._maxX > this.width)
-                        this._maxX = this.width;
-                    if (this._maxY > this.height)
-                        this._maxY = this.height;
-
-                    if (this._startX + this._maxX > this.width)
-                        this._maxX = this.width - this._startX;
-                    if (this._startY + this._maxY > this.height)
-                        this._maxY = this.height - this._startY;
+                    this._calculateBoundaries(camera, m);
 
                     for (var y = this._startY; y < this._startY + this._maxY; y++) {
                         for (var x = this._startX; x < this._startX + this._maxX; x++) {
@@ -11835,17 +11852,20 @@ var Kiwi;
                     var t = this.transform;
                     var m = t.getConcatenatedMatrix();
 
-                    for (var y = 0; y < this.height; y++) {
-                        for (var x = 0; x < this.width; x++) {
+                    //Find which ones we need to render? Currently just clipped at a shader process...
+                    this._calculateBoundaries(camera, m);
+
+                    for (var y = this._startY; y < this._startY + this._maxY; y++) {
+                        for (var x = this._startX; x < this._startX + this._maxX; x++) {
                             //Get the tile type
-                            var tiletype = this.getTileFromXY(x, y);
+                            this._temptype = this.getTileFromXY(x, y);
 
                             //Skip tiletypes that don't use a cellIndex.
-                            if (tiletype.cellIndex == -1)
+                            if (this._temptype.cellIndex == -1)
                                 continue;
 
                             //Get the cell index
-                            var cell = this.atlas.cells[tiletype.cellIndex];
+                            var cell = this.atlas.cells[this._temptype.cellIndex];
                             var tx = x * this.tileWidth;
                             var ty = y * this.tileHeight;
 
