@@ -426,16 +426,18 @@ module Kiwi {
         * @public
         */
         public resize(width: number, height: number) {
-            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.container.style.height = String(height + 'px');
-                this.container.style.width = String(width + 'px');
-            }
 
             this.canvas.height = height;
             this.canvas.width = width;
             this._height = height;
             this._width = width;
-            this._scale = this._width / this.container.clientWidth;
+
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.container.style.height = String(height + 'px');
+                this.container.style.width = String(width + 'px');
+                this._scale = this._width / this.container.clientWidth;
+            }
+
             this.onResize.dispatch(this._width, this._height);
         }
 

@@ -5319,16 +5319,17 @@ var Kiwi;
         * @public
         */
         Stage.prototype.resize = function (width, height) {
-            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.container.style.height = String(height + 'px');
-                this.container.style.width = String(width + 'px');
-            }
-
             this.canvas.height = height;
             this.canvas.width = width;
             this._height = height;
             this._width = width;
-            this._scale = this._width / this.container.clientWidth;
+
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.container.style.height = String(height + 'px');
+                this.container.style.width = String(width + 'px');
+                this._scale = this._width / this.container.clientWidth;
+            }
+
             this.onResize.dispatch(this._width, this._height);
         };
 
@@ -10014,6 +10015,9 @@ var Kiwi;
             if (this.current !== null && this.current.config.name === key || this.checkKeyExists(key) === false) {
                 return false;
             }
+
+            if (this._game.debug)
+                console.log('Switching to ' + key + ' State.');
 
             this._newStateKey = key;
             return true;
@@ -24563,13 +24567,6 @@ var Kiwi;
         */
         var TextureLibrary = (function () {
             function TextureLibrary(game) {
-                /**
-                * An array containing all of the base2 sizes that we support. This could be changed to a static property at some point.
-                * @property _base2Sizes
-                * @type number[]
-                * @private
-                */
-                this._base2Sizes = [2, 4, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096];
                 this._game = game;
                 this.textures = new Object();
             }
@@ -24602,9 +24599,10 @@ var Kiwi;
             */
             TextureLibrary.prototype.add = function (atlas) {
                 this.textures[atlas.name] = atlas;
+
                 if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
-                    if (this._base2Sizes.indexOf(atlas.image.width) == -1 || this._base2Sizes.indexOf(atlas.image.height) == -1) {
-                        console.log("warning:image is not of base2 size and may not render correctly");
+                    if (Kiwi.Utils.Common.base2Sizes.indexOf(atlas.image.width) == -1 || Kiwi.Utils.Common.base2Sizes.indexOf(atlas.image.height) == -1) {
+                        console.log("Warning:Image is not of base2 size and may not render correctly.");
                     }
                     var renderManager = this._game.renderer;
                     renderManager.addTexture(this._game.stage.gl, atlas);
@@ -24638,42 +24636,18 @@ var Kiwi;
             };
 
             /**
-            * Is used to resize images into base2 dimenisons. Used for webgl rendering and optimisation.
+            * Used to rebuild a Texture from the FileStore into a base2 size if it doesn't have it already.
             * @method _rebuildImage
             * @param imageFile {File} The image file that is to be rebuilt.
             * @return {File} The new image file.
             * @private
             */
             TextureLibrary.prototype._rebuildImage = function (imageFile) {
-                var width = imageFile.data.width;
-                var height = imageFile.data.height;
+                //Check to see if it is base 2
+                var newImg = Kiwi.Utils.Common.convertToBase2(imageFile.data);
 
-                if (this._base2Sizes.indexOf(width) == -1) {
-                    var i = 0;
-                    while (width > this._base2Sizes[i])
-                        i++;
-                    width = this._base2Sizes[i];
-                }
-
-                if (this._base2Sizes.indexOf(height) == -1) {
-                    var i = 0;
-                    while (height > this._base2Sizes[i])
-                        i++;
-                    height = this._base2Sizes[i];
-                }
-
-                if (imageFile.data.width !== width || imageFile.data.height !== height) {
-                    this._canvas.width = width;
-                    this._canvas.height = height;
-                    this._canvas.getContext("2d").drawImage(imageFile.data, 0, 0);
-
-                    var image = new Image(width, height);
-
-                    //CocoonJS needs the width/height set as the ImageObject doesn't accept the parameters...
-                    image.width = width;
-                    image.height = height;
-                    image.src = this._canvas.toDataURL("image/png");
-
+                //Was it resized? We can check to see if the width/height has changed.
+                if (imageFile.data.width !== newImg.width || imageFile.data.height !== newImg.height) {
                     if (imageFile.dataType === Kiwi.Files.File.SPRITE_SHEET) {
                         //If no rows were passed then calculate them now.
                         if (!imageFile.metadata.rows)
@@ -24684,19 +24658,11 @@ var Kiwi;
                             imageFile.metadata.cols = imageFile.data.width / imageFile.metadata.frameWidth;
                     }
 
+                    if (this._game.debug)
+                        console.log(imageFile.fileName + ' has been rebuilt to be base2.');
+
                     //Assign the new image to the data
-                    imageFile.data = image;
-
-                    //CocoonJS Warning...
-                    if (Kiwi.TARGET_COCOON == this._game.deviceTargetOption) {
-                        console.log('Warning! "' + imageFile.key + '" was resized to have base-2 dimensions, but in CocoonJS this can remove the alpha channel!' + "\n" + 'Make sure the images have base-2 dimensions before loading and using WEBGL.');
-                    }
-
-                    //Flag the items we just generated for garbage collection
-                    delete image;
-
-                    delete width;
-                    delete height;
+                    imageFile.data = newImg;
                 }
 
                 return imageFile;
@@ -24761,7 +24727,6 @@ var Kiwi;
                     console.log("Rebuilding Texture Library");
                 }
 
-                this._canvas = document.createElement('canvas');
                 var fileStoreKeys = fileStore.keys;
                 for (var i = 0; i < fileStoreKeys.length; i++) {
                     var file = this._game.fileStore.getFile(fileStoreKeys[i]);
@@ -24773,8 +24738,6 @@ var Kiwi;
                         state.textureLibrary.addFromFile(file);
                     }
                 }
-
-                this._canvas = null;
             };
             return TextureLibrary;
         })();
@@ -26621,6 +26584,52 @@ var Kiwi;
 
                 return array;
             };
+
+            /**
+            * A method that checks to see if an Image or Canvas that is passed has base2 proportions.
+            * If it doesn't the image is created on a Canvas and that Canvas is returned.
+            * Used mainly when creating TextureAtlases for WebGL.
+            * @method convertToBase2
+            * @param imageFile {HTMLImageElement/HTMLCanvasElement} The image or canvas element that is to be converted into a base2size.
+            * @return {HTMLImageElement/HTMLCanvasElement} The image that was passed (if it was already at base2 dimensions) or a new canvas element if it wasn't.
+            * @static
+            * @public
+            */
+            Common.convertToBase2 = function (image) {
+                //Get the width/height
+                var width = image.width;
+                var height = image.height;
+
+                //Check to see if the width is base2
+                if (this.base2Sizes.indexOf(width) == -1) {
+                    var i = 0;
+                    while (width > this.base2Sizes[i])
+                        i++;
+                    width = this.base2Sizes[i];
+                }
+
+                //Check to see if the height is base2
+                if (this.base2Sizes.indexOf(height) == -1) {
+                    var i = 0;
+                    while (height > this.base2Sizes[i])
+                        i++;
+                    height = this.base2Sizes[i];
+                }
+
+                //If either of them did not have a base2 size then create a canvas and create a new canvas.
+                if (image.width !== width || image.height !== height) {
+                    //Is it already a canvas?
+                    var canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    canvas.getContext("2d").drawImage(image, 0, 0);
+
+                    return canvas;
+                }
+
+                return image;
+            };
+            Common.base2Sizes = [2, 4, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096];
             return Common;
         })();
         Utils.Common = Common;

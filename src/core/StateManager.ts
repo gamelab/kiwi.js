@@ -195,7 +195,10 @@ module Kiwi {
             if (this.current !== null && this.current.config.name === key || this.checkKeyExists(key) === false) {
                 return false;
             }
-            
+
+            if (this._game.debug)
+                console.log('Switching to ' + key + ' State.'); 
+
             this._newStateKey = key;
             return true;
         }
