@@ -22,12 +22,11 @@ module Kiwi.GameObjects {
     * @param [size=32] {Number} The size of the text in pixels.
     * @param [weight='normal'] {String} The weight of the text.
     * @param [fontFamily='sans-serif'] {String} The font family that is to be used when rendering.
-    * @param [optimize=true] {Boolean} If Kiwi should optimise the rendering of the text. Disabled by default if targetting CocoonJS.
     * @return {Textfield} This Game Object.
     */
     export class Textfield extends Kiwi.Entity {
 
-        constructor(state: Kiwi.State, text: string, x: number = 0, y: number = 0, color: string = '#000000', size: number = 32, weight: string = 'normal', fontFamily: string = 'sans-serif', optimize:boolean = true) {
+        constructor(state: Kiwi.State, text: string, x: number = 0, y: number = 0, color: string = '#000000', size: number = 32, weight: string = 'normal', fontFamily: string = 'sans-serif') {
 
             super(state, x,y);
 
@@ -43,14 +42,15 @@ module Kiwi.GameObjects {
             this._textAlign = 'left';
             this._baseline = 'top';
             
-            this.optimize = optimize;
-            
             this._tempDirty = true;
 
+            //Create the canvas
             this._canvas = document.createElement('canvas');
-            this._canvas.width = 256;
-            this._canvas.height = 256;
+            this._canvas.width = 2;
+            this._canvas.height = 2;
             this._ctx = this._canvas.getContext('2d');
+
+            //Add it to the TextureLibrary
             this.atlas = new Kiwi.Textures.SingleImage(this.game.rnd.uuid(), this._canvas);
             this.state.textureLibrary.add(this.atlas);
             this.atlas.dirty = true;
@@ -75,8 +75,6 @@ module Kiwi.GameObjects {
         */
         private _text: string;
         
-
-
         /**
         * The weight of the font.
         * @property _fontWeight
@@ -169,7 +167,6 @@ module Kiwi.GameObjects {
         public set fontWeight(val: string) {
             this._fontWeight = val;
             this._tempDirty = true;
-            this.atlas.dirty = true;
         }
         public get fontWeight(): string {
             return this._fontWeight;
@@ -243,7 +240,6 @@ module Kiwi.GameObjects {
         public set textAlign(val: string) {
             this._textAlign = val;
             this._tempDirty = true;
-            
         }
         
         /**
@@ -256,13 +252,19 @@ module Kiwi.GameObjects {
         }
 
         /**
-        * A temporary property that we use to render the actual text to and then get the information from.
-        * @property _tempCanvas
+        * The canvas element which the text is rendered onto. 
+        * @property _canvas
         * @type HTMLCanvasElement.
         * @private
         */
         private _canvas: HTMLCanvasElement;
 
+        /**
+        * The context for the canvas element. Used whilst rendering text.
+        * @property _ctx
+        * @type CanvasRenderingContext2D
+        * @private
+        */
         private _ctx: CanvasRenderingContext2D;
 
         /**
@@ -273,16 +275,8 @@ module Kiwi.GameObjects {
         private _tempDirty: boolean = true;
 
         /**
-        * If rendering process for the text should be optimised or not. Note: That this does not work in Cocoon and thus disabled.
-        * The optimization process involves rendering the text to an off-screen canvas, that canvas is then saved as a HTMLImageElement which is rendered instead.
-        * @property optimize
-        * @type boolean
-        */
-        public optimize: boolean;
-
-        /**
-        * This method is used to render the text to a off-screen canvas, which is then saved as a HTMLImageElement. 
-        * This is so that the canvas doesn't render it every frame as it can be costly.
+        * This method is used to render the text to an offscreen-canvas which is held in a TextureAtlas (which is generated upon the instanitation of this class). 
+        * This is so that the canvas doesn't render it every frame as it can be costly and so that it can be used in WebGL with the TextureAtlasRenderer.
         *
         * @method _renderText
         * @private
@@ -290,22 +284,45 @@ module Kiwi.GameObjects {
         private _renderText() {
             
            
-            //get/set the width
+            //Get/Set the width
             this._ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
-            //var _measurements: TextMetrics = this._ctx.measureText(this._text);   //when you measure the text for some reason it resets the values?! 
-            this._canvas.width = 256;//_measurements.width;  
-            this._canvas.height =256;//this._fontSize * 1.3; //for the characters that fall below the baseline. Should find better implementation.
 
-           
+
+            //Get the size of the text.
+            var _measurements: TextMetrics = this._ctx.measureText(this._text);   //when you measure the text for some reason it resets the values?! 
+            var width = _measurements.width;
+            var height = this._fontSize * 1.3; //Need to find a better way to calc
+
+
+            //Is the width base2?
+            if (Kiwi.Utils.Common.base2Sizes.indexOf(width) == -1) {
+                var i = 0;
+                while (width > Kiwi.Utils.Common.base2Sizes[i]) i++;
+                width = Kiwi.Utils.Common.base2Sizes[i];
+            } 
+
+            //Is the height base2?
+            if (Kiwi.Utils.Common.base2Sizes.indexOf(height) == -1) {
+                var i = 0;
+                while (height > Kiwi.Utils.Common.base2Sizes[i]) i++;
+                height = Kiwi.Utils.Common.base2Sizes[i];
+            }
             
-            //reapply the styles....cause it unapplies after a measurement...?!?
+            //Apply the width/height
+            this._canvas.width = width;  
+            this._canvas.height = height;
+
+            
+            //Reapply the styles....cause it unapplies after a measurement...?!?
             this._ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
             this._ctx.fillStyle = this._fontColor;
             this._ctx.textBaseline = this._baseline;
 
-            //add text
+            //Draw the text.
             this._ctx.fillText(this._text, 0, 0);
 
+            //Update the cell and dirty/undirtyfiy
+            this.atlas.cells[0] = { x: 0, y: 0, w: this._canvas.width, h: this._canvas.height };
             this._tempDirty = false;
             this.atlas.dirty = true;
         }
@@ -329,56 +346,92 @@ module Kiwi.GameObjects {
                     ctx.globalAlpha = this.alpha;
                 }
 
-                //if they are using the optmised method.
-                if (this.optimize) {
+                //Does the text need re-rendering
+                if (this._tempDirty) this._renderText();
 
-                    //does the text need re-rendering
-                    if (this._tempDirty) this._renderText();
-
-                    //align the text
-                    var x = 0;
-                    switch (this._textAlign) {
-                        case Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT:
-                            x = 0;
-                            break;
-                        case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                            x = this._canvas.width / 2;
-                            break;
-                        case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
-                            x = this._canvas.width;
-                            break;
-                    }
-                    t.x -= x; //add the alignment to the transformation
-                    
-                    var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
-                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
-                    
-                    ctx.drawImage(this._canvas, 0, 0, this._canvas.width, this._canvas.height, -t.rotPointX, -t.rotPointY, this._canvas.width, this._canvas.height);
-                    
-                    t.x += x; //remove it again.
-
-                } else { //If they are not using the optmised technique.
-                    
-                    ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
-                    ctx.textAlign = this._textAlign;
-                    ctx.fillStyle = this._fontColor;
-                    ctx.textBaseline = this._baseline;
-                    
-                    var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
-                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
-
-                    ctx.fillText(this._text, 0, 0);
+                //Align the text
+                var x = 0;
+                switch (this._textAlign) {
+                    case Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT:
+                        x = 0;
+                        break;
+                    case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
+                        x = this._canvas.width / 2;
+                        break;
+                    case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
+                        x = this._canvas.width;
+                        break;
                 }
+                
+                //Draw the Image
+                var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
+                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx - x + t.rotPointX, m.ty + t.rotPointY);
+                ctx.drawImage(this._canvas, 0, 0, this._canvas.width, this._canvas.height, -t.rotPointX, -t.rotPointY, this._canvas.width, this._canvas.height);
+                
 
                 ctx.restore();
                 
             }
             
         }
+
+
         public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params: any = null) {
-            //does the text need re-rendering
+            
+            //Does the text need re-rendering
             if (this._tempDirty) this._renderText();
-            (<Kiwi.Renderers.TextureAtlasRenderer>this.glRenderer).addToBatch(gl, this, camera);
+
+
+            //Set-up the xyuv and alpha
+            var xyuvItems = [];
+            var alphaItems = [];
+
+
+            //Transform/Matrix
+            var t: Kiwi.Geom.Transform = this.transform;
+            var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
+
+            //See where the text should be.
+            var x = 0;
+            switch (this._textAlign) {
+                case Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT:
+                    x = 0;
+                    break;
+                case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
+                    x = -(this._canvas.width / 2);
+                    break;
+                case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
+                    x = -(this._canvas.width);
+                    break;
+            }
+
+
+            //Create the Point Objects.
+            var pt1 = new Kiwi.Geom.Point(x - t.rotPointX, 0 - t.rotPointY);
+            var pt2 = new Kiwi.Geom.Point(this._canvas.width + x - t.rotPointX , 0 - t.rotPointY);
+            var pt3 = new Kiwi.Geom.Point(this._canvas.width + x - t.rotPointX , this._canvas.height - t.rotPointY);
+            var pt4 = new Kiwi.Geom.Point(x - t.rotPointX, this._canvas.height - t.rotPointY);
+
+
+            //Add on the matrix to the points
+            pt1 = m.transformPoint(pt1);
+            pt2 = m.transformPoint(pt2);
+            pt3 = m.transformPoint(pt3);
+            pt4 = m.transformPoint(pt4);
+
+
+            //Append to the xyuv and alpha arrays 
+            xyuvItems.push(
+                pt1.x + t.rotPointX, pt1.y + t.rotPointY, 0, 0,                                             //Top Left Point
+                pt2.x + t.rotPointX, pt2.y + t.rotPointY, this._canvas.width, 0,                            //Top Right Point
+                pt3.x + t.rotPointX, pt3.y + t.rotPointY, this._canvas.width, this._canvas.height,          //Bottom Right Point
+                pt4.x + t.rotPointX, pt4.y + t.rotPointY, 0, this._canvas.height                            //Bottom Left Point
+                );
+            alphaItems.push(this.alpha, this.alpha, this.alpha, this.alpha);
+
+
+            //Add to the batch!
+            (<Kiwi.Renderers.TextureAtlasRenderer>this.glRenderer).concatBatch(xyuvItems, alphaItems);
         }
     }
 

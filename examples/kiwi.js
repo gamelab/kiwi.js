@@ -10539,19 +10539,17 @@ var Kiwi;
         * @param [size=32] {Number} The size of the text in pixels.
         * @param [weight='normal'] {String} The weight of the text.
         * @param [fontFamily='sans-serif'] {String} The font family that is to be used when rendering.
-        * @param [optimize=true] {Boolean} If Kiwi should optimise the rendering of the text. Disabled by default if targetting CocoonJS.
         * @return {Textfield} This Game Object.
         */
         var Textfield = (function (_super) {
             __extends(Textfield, _super);
-            function Textfield(state, text, x, y, color, size, weight, fontFamily, optimize) {
+            function Textfield(state, text, x, y, color, size, weight, fontFamily) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
                 if (typeof color === "undefined") { color = '#000000'; }
                 if (typeof size === "undefined") { size = 32; }
                 if (typeof weight === "undefined") { weight = 'normal'; }
                 if (typeof fontFamily === "undefined") { fontFamily = 'sans-serif'; }
-                if (typeof optimize === "undefined") { optimize = true; }
                 _super.call(this, state, x, y);
                 /**
                 * If the temporary canvas is dirty and needs to be re-rendered. Only used when the text field rendering is being optimised.
@@ -10572,13 +10570,11 @@ var Kiwi;
                 this._textAlign = 'left';
                 this._baseline = 'top';
 
-                this.optimize = optimize;
-
                 this._tempDirty = true;
 
                 this._canvas = document.createElement('canvas');
-                this._canvas.width = 256;
-                this._canvas.height = 256;
+                this._canvas.width = 2;
+                this._canvas.height = 2;
                 this._ctx = this._canvas.getContext('2d');
                 this.atlas = new Kiwi.Textures.SingleImage(this.game.rnd.uuid(), this._canvas);
                 this.state.textureLibrary.add(this.atlas);
@@ -10709,28 +10705,51 @@ var Kiwi;
             });
 
             /**
-            * This method is used to render the text to a off-screen canvas, which is then saved as a HTMLImageElement.
+            * This method is used to render the text to an offscreen-canvas which is held in a TextureAtlas (which is generated upon the instanitation of this class).
             * This is so that the canvas doesn't render it every frame as it can be costly.
             *
             * @method _renderText
             * @private
             */
             Textfield.prototype._renderText = function () {
-                //get/set the width
+                //Get/Set the width
                 this._ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
 
-                //var _measurements: TextMetrics = this._ctx.measureText(this._text);   //when you measure the text for some reason it resets the values?!
-                this._canvas.width = 256; //_measurements.width;
-                this._canvas.height = 256; //this._fontSize * 1.3; //for the characters that fall below the baseline. Should find better implementation.
+                //Get the size of the text.
+                var _measurements = this._ctx.measureText(this._text);
+                var width = _measurements.width;
+                var height = this._fontSize * 1.3;
 
-                //reapply the styles....cause it unapplies after a measurement...?!?
+                //Is the width base2?
+                if (Kiwi.Utils.Common.base2Sizes.indexOf(width) == -1) {
+                    var i = 0;
+                    while (width > Kiwi.Utils.Common.base2Sizes[i])
+                        i++;
+                    width = Kiwi.Utils.Common.base2Sizes[i];
+                }
+
+                //Is the height base2?
+                if (Kiwi.Utils.Common.base2Sizes.indexOf(height) == -1) {
+                    var i = 0;
+                    while (height > Kiwi.Utils.Common.base2Sizes[i])
+                        i++;
+                    height = Kiwi.Utils.Common.base2Sizes[i];
+                }
+
+                //Apply the width/height
+                this._canvas.width = width;
+                this._canvas.height = height;
+
+                //Reapply the styles....cause it unapplies after a measurement...?!?
                 this._ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
                 this._ctx.fillStyle = this._fontColor;
                 this._ctx.textBaseline = this._baseline;
 
-                //add text
+                //Draw the text.
                 this._ctx.fillText(this._text, 0, 0);
 
+                //Update the cell and dirty/undirtyfiy
+                this.atlas.cells[0] = { x: 0, y: 0, w: this._canvas.width, h: this._canvas.height };
                 this._tempDirty = false;
                 this.atlas.dirty = true;
             };
@@ -10752,54 +10771,81 @@ var Kiwi;
                         ctx.globalAlpha = this.alpha;
                     }
 
-                    //if they are using the optmised method.
-                    if (this.optimize) {
-                        //does the text need re-rendering
-                        if (this._tempDirty)
-                            this._renderText();
+                    //Does the text need re-rendering
+                    if (this._tempDirty)
+                        this._renderText();
 
-                        //align the text
-                        var x = 0;
-                        switch (this._textAlign) {
-                            case Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT:
-                                x = 0;
-                                break;
-                            case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                                x = this._canvas.width / 2;
-                                break;
-                            case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
-                                x = this._canvas.width;
-                                break;
-                        }
-                        t.x -= x; //add the alignment to the transformation
-
-                        var m = t.getConcatenatedMatrix();
-                        ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
-
-                        ctx.drawImage(this._canvas, 0, 0, this._canvas.width, this._canvas.height, -t.rotPointX, -t.rotPointY, this._canvas.width, this._canvas.height);
-
-                        t.x += x; //remove it again.
-                    } else {
-                        ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
-                        ctx.textAlign = this._textAlign;
-                        ctx.fillStyle = this._fontColor;
-                        ctx.textBaseline = this._baseline;
-
-                        var m = t.getConcatenatedMatrix();
-                        ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
-
-                        ctx.fillText(this._text, 0, 0);
+                    //Align the text
+                    var x = 0;
+                    switch (this._textAlign) {
+                        case Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT:
+                            x = 0;
+                            break;
+                        case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
+                            x = this._canvas.width / 2;
+                            break;
+                        case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
+                            x = this._canvas.width;
+                            break;
                     }
 
+                    //t.x -= x; //Add the alignment to the transformation
+                    var m = t.getConcatenatedMatrix();
+                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx - x + t.rotPointX, m.ty + t.rotPointY);
+
+                    ctx.drawImage(this._canvas, 0, 0, this._canvas.width, this._canvas.height, 0, 0, this._canvas.width, this._canvas.height);
+
+                    //t.x += x; //Remove it again.
                     ctx.restore();
                 }
             };
+
             Textfield.prototype.renderGL = function (gl, camera, params) {
                 if (typeof params === "undefined") { params = null; }
-                //does the text need re-rendering
+                //Does the text need re-rendering
                 if (this._tempDirty)
                     this._renderText();
-                this.glRenderer.addToBatch(gl, this, camera);
+
+                //Set-up the xyuv and alpha
+                var xyuvItems = [];
+                var alphaItems = [];
+
+                //Transform/Matrix
+                var t = this.transform;
+                var m = t.getConcatenatedMatrix();
+
+                //See where the text should be.
+                var x = 0;
+                switch (this._textAlign) {
+                    case Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT:
+                        x = 0;
+                        break;
+                    case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
+                        x = -(this._canvas.width / 2);
+                        break;
+                    case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
+                        x = -(this._canvas.width);
+                        break;
+                }
+
+                //Create the Point Objects.
+                var pt1 = new Kiwi.Geom.Point(x - t.rotPointX, 0 - t.rotPointY);
+                var pt2 = new Kiwi.Geom.Point(this._canvas.width + x - t.rotPointX, 0 - t.rotPointY);
+                var pt3 = new Kiwi.Geom.Point(this._canvas.width + x - t.rotPointX, this._canvas.height - t.rotPointY);
+                var pt4 = new Kiwi.Geom.Point(x - t.rotPointX, this._canvas.height - t.rotPointY);
+
+                //Add on the matrix to the points
+                pt1 = m.transformPoint(pt1);
+                pt2 = m.transformPoint(pt2);
+                pt3 = m.transformPoint(pt3);
+                pt4 = m.transformPoint(pt4);
+
+                //Append to the xyuv and alpha arrays
+                xyuvItems.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, 0, 0, pt2.x + t.rotPointX, pt2.y + t.rotPointY, this._canvas.width, 0, pt3.x + t.rotPointX, pt3.y + t.rotPointY, this._canvas.width, this._canvas.height, pt4.x + t.rotPointX, pt4.y + t.rotPointY, 0, this._canvas.height);
+                alphaItems.push(this.alpha, this.alpha, this.alpha, this.alpha);
+
+                //Add to the batch!
+                this.glRenderer.concatBatch(xyuvItems, alphaItems);
             };
             Textfield.TEXT_ALIGN_CENTER = 'center';
 
