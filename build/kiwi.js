@@ -10216,7 +10216,7 @@ var Kiwi;
 
             //Rebuild the Libraries again to have access the new files that were loaded.
             this.rebuildLibraries();
-            if (this._game.renderOption = Kiwi.RENDERER_WEBGL) {
+            if (this._game.renderOption == Kiwi.RENDERER_WEBGL) {
                 this._game.renderer.initState(this.current);
             }
 
@@ -10572,10 +10572,13 @@ var Kiwi;
 
                 this._tempDirty = true;
 
+                //Create the canvas
                 this._canvas = document.createElement('canvas');
                 this._canvas.width = 2;
                 this._canvas.height = 2;
                 this._ctx = this._canvas.getContext('2d');
+
+                //Add it to the TextureLibrary
                 this.atlas = new Kiwi.Textures.SingleImage(this.game.rnd.uuid(), this._canvas);
                 this.state.textureLibrary.add(this.atlas);
                 this.atlas.dirty = true;
@@ -10639,7 +10642,6 @@ var Kiwi;
                 set: function (val) {
                     this._fontWeight = val;
                     this._tempDirty = true;
-                    this.atlas.dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -10706,7 +10708,7 @@ var Kiwi;
 
             /**
             * This method is used to render the text to an offscreen-canvas which is held in a TextureAtlas (which is generated upon the instanitation of this class).
-            * This is so that the canvas doesn't render it every frame as it can be costly.
+            * This is so that the canvas doesn't render it every frame as it can be costly and so that it can be used in WebGL with the TextureAtlasRenderer.
             *
             * @method _renderText
             * @private
@@ -10789,13 +10791,11 @@ var Kiwi;
                             break;
                     }
 
-                    //t.x -= x; //Add the alignment to the transformation
+                    //Draw the Image
                     var m = t.getConcatenatedMatrix();
                     ctx.setTransform(m.a, m.b, m.c, m.d, m.tx - x + t.rotPointX, m.ty + t.rotPointY);
+                    ctx.drawImage(this._canvas, 0, 0, this._canvas.width, this._canvas.height, -t.rotPointX, -t.rotPointY, this._canvas.width, this._canvas.height);
 
-                    ctx.drawImage(this._canvas, 0, 0, this._canvas.width, this._canvas.height, 0, 0, this._canvas.width, this._canvas.height);
-
-                    //t.x += x; //Remove it again.
                     ctx.restore();
                 }
             };

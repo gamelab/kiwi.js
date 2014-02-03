@@ -425,7 +425,7 @@ module Kiwi {
 
             //Rebuild the Libraries again to have access the new files that were loaded.
             this.rebuildLibraries();
-            if (this._game.renderOption = Kiwi.RENDERER_WEBGL) {
+            if (this._game.renderOption == Kiwi.RENDERER_WEBGL) {
                 this._game.renderer.initState(this.current);
             }
             
