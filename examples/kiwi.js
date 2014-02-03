@@ -5107,7 +5107,7 @@ var Kiwi;
                     this.container.style.opacity = String(Kiwi.Utils.GameMath.clamp(value, 1, 0));
                 }
 
-                //doesnt work in cocoon
+                // Doesnt work in cocoon
                 this._alpha = value;
             },
             enumerable: true,
@@ -5190,10 +5190,6 @@ var Kiwi;
 
         Object.defineProperty(Stage.prototype, "scale", {
             get: function () {
-                if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON)
-                    return 1;
-
-                this._scale = this._game.stage.width / this._game.stage.container.clientWidth;
                 return this._scale;
             },
             enumerable: true,
@@ -5243,21 +5239,38 @@ var Kiwi;
         * @public
         */
         Stage.prototype.boot = function (dom) {
+            var _this = this;
             this.domReady = true;
-
             this.container = dom.container;
+
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.offset = this._game.browser.getOffsetPoint(this.container);
                 this._x = this.offset.x;
                 this._y = this.offset.y;
                 this._width = this.container.clientWidth;
                 this._height = this.container.clientHeight;
+
+                window.addEventListener("resize", function (event) {
+                    return _this._windowResized(event);
+                }, true);
             }
 
             this._createCompositeCanvas();
             if (this._game.debugOption === Kiwi.DEBUG_ON) {
                 //this._createDebugCanvas();
             }
+        };
+
+        /**
+        * Method that is fired when the window is resized.
+        * Used to calculate the new offset and see what the scale of the stage currently is.
+        * @method _windowResized
+        * @param event {UIEvent}
+        * @private
+        */
+        Stage.prototype._windowResized = function (event) {
+            this.offset = this._game.browser.getOffsetPoint(this.container);
+            this._scale = this._width / this.container.clientWidth;
         };
 
         /**
@@ -5315,6 +5328,7 @@ var Kiwi;
             this.canvas.width = width;
             this._height = height;
             this._width = width;
+            this._scale = this._width / this.container.clientWidth;
             this.onResize.dispatch(this._width, this._height);
         };
 
@@ -11875,7 +11889,7 @@ var Kiwi;
                     var t = this.transform;
                     var m = t.getConcatenatedMatrix();
 
-                    //Find which ones we need to render? Currently just clipped at a shader process...
+                    //Find which ones we need to render. Needs to be updated for Rotation.
                     this._calculateBoundaries(camera, m);
 
                     for (var y = this._startY; y < this._startY + this._maxY; y++) {
