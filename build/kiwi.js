@@ -22285,6 +22285,10 @@ var Kiwi;
                 return "GLRenderManager";
             };
 
+            GLRenderManager.prototype.addTexture = function (gl, atlas) {
+                this._textureManager.uploadTexture(gl, atlas);
+            };
+
             /**
             * Adds a renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object.
             * If a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.
@@ -22513,6 +22517,10 @@ var Kiwi;
                 if (entity.atlas !== this._currentTextureAtlas) {
                     this._flushBatch(gl);
                     this._switchTexture(gl, entity);
+                }
+
+                if (entity.atlas.dirty) {
+                    entity.atlas.glTextureWrapper.refreshTexture(gl);
                 }
 
                 //assert: texture requirements are met
@@ -22818,6 +22826,10 @@ var Kiwi;
                 return success;
             };
 
+            GLTextureWrapper.prototype.refreshTexture = function (gl) {
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
+            };
+
             GLTextureWrapper.prototype.deleteTexture = function (gl) {
                 console.log("Attempting to delete texture: " + this.textureAtlas.name);
                 gl.bindTexture(gl.TEXTURE_2D, this.texture);
@@ -22940,22 +22952,26 @@ var Kiwi;
                 console.log("...recreated wrapper cache");
 
                 for (var tex in textureLibrary.textures) {
-                    //create a glTexture
-                    var glTextureWrapper = new Kiwi.Renderers.GLTextureWrapper(gl, textureLibrary.textures[tex]);
-
-                    //store a refence to it
-                    this._addTextureToCache(glTextureWrapper);
-
-                    //create reference on atlas to avoid lookups when switching
-                    textureLibrary.textures[tex].glTextureWrapper = glTextureWrapper;
-
-                    //only upload it if it fits
-                    if (!this._uploadTexture(gl, glTextureWrapper)) {
-                        console.log("...skipped uploading texture due to allocated texture memory exceeded");
-                    }
+                    this.uploadTexture(gl, textureLibrary.textures[tex]);
                 }
                 console.log("...texture Library uploaded. Using KB: " + this._usedTextureMem / 1024);
                 console.log("...using " + this._usedTextureMem / this.maxTextureMem + " of KB " + this.maxTextureMem / 1024);
+            };
+
+            GLTextureManager.prototype.uploadTexture = function (gl, textureAtlas) {
+                //create a glTexture
+                var glTextureWrapper = new Kiwi.Renderers.GLTextureWrapper(gl, textureAtlas);
+
+                //store a refence to it
+                this._addTextureToCache(glTextureWrapper);
+
+                //create reference on atlas to avoid lookups when switching
+                textureAtlas.glTextureWrapper = glTextureWrapper;
+
+                //only upload it if it fits
+                if (!this._uploadTexture(gl, glTextureWrapper)) {
+                    console.log("...skipped uploading texture due to allocated texture memory exceeded");
+                }
             };
 
             /**
@@ -24350,13 +24366,14 @@ var Kiwi;
         * @param name {string} Name of the texture atlas. This is usually defined by the developer when loading the assets.
         * @param type {number} The type of texture atlas that this is. There are currently only three types.
         * @param cells {any} The cells that are within this image..
-        * @param image {HTMLImageElement} The image that the texture atlas is using.
+        * @param image {HTMLImageElement/HTMLCanvasElement} The image that the texture atlas is using.
         * @param [sequences] {Sequence[]} Any sequences of cells for this texture atlas. Used for animation.
         * @return {TextureAtlas}
         *
         */
         var TextureAtlas = (function () {
             function TextureAtlas(name, type, cells, image, sequences) {
+                this.dirty = false;
                 /**
                 * The cell that is to be render at the start.
                 * @property cellIndex
@@ -24493,13 +24510,25 @@ var Kiwi;
                 }
             };
 
+            //power of 2?
+            TextureLibrary.prototype.add = function (atlas) {
+                this.textures[atlas.name] = atlas;
+                if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
+                    if (this._base2Sizes.indexOf(atlas.image.width) == -1 || this._base2Sizes.indexOf(atlas.image.height) == -1) {
+                        console.log("warning:image is not of base2 size and may not render correctly");
+                    }
+                    var renderManager = this._game.renderer;
+                    renderManager.addTexture(this._game.stage.gl, atlas);
+                }
+            };
+
             /**
             * Adds a new image file to the texture library.
-            * @method add
+            * @method addFromFile
             * @param imageFile {File}
             * @public
             */
-            TextureLibrary.prototype.add = function (imageFile) {
+            TextureLibrary.prototype.addFromFile = function (imageFile) {
                 if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
                     imageFile = this._rebuildImage(imageFile);
                 }
@@ -24652,7 +24681,7 @@ var Kiwi;
                             console.log("Adding Texture: " + file.fileName);
                         }
                         ;
-                        state.textureLibrary.add(file);
+                        state.textureLibrary.addFromFile(file);
                     }
                 }
 
@@ -24681,7 +24710,7 @@ var Kiwi;
         * @namespace Kiwi.Textures
         * @constructor
         * @param name {string} The name of the spritesheet.
-        * @param texture {HTMLImageElement} The image that is being used for the spritesheet.
+        * @param texture {HTMLImageElement/HTMLCanvasElement} The image that is being used for the spritesheet.
         * @param cellWidth {number} The width of a single cell.
         * @param cellHeight {number} The height of a single cell.
         * @param [numCells] {number} The number of cells in total.
@@ -24816,7 +24845,7 @@ var Kiwi;
         * @namespace Kiwi.Textures
         * @constructor
         * @param name {string} The name of the single image
-        * @param image {HTMLImageElement} the image that is being used.
+        * @param image {HTMLImageElement/HTMLCanvasElement} the image that is being used.
         * @param [width] {number} the width of the image
         * @param [height] {number} the height of the image
         * @param [offsetX] {number} the offset of the image on the x axis. Useful if the image has a border that you don't want to show.

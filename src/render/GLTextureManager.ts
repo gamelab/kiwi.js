@@ -142,23 +142,27 @@ module Kiwi.Renderers {
             console.log("...recreated wrapper cache");
             
             for (var tex in textureLibrary.textures) {
-                //create a glTexture
-                var glTextureWrapper = new GLTextureWrapper(gl, textureLibrary.textures[tex]);
-                //store a refence to it
-                this._addTextureToCache(glTextureWrapper);
-                //create reference on atlas to avoid lookups when switching
-                textureLibrary.textures[tex].glTextureWrapper = glTextureWrapper;
-
-                //only upload it if it fits
-                if (!this._uploadTexture(gl, glTextureWrapper)) {
-                    console.log("...skipped uploading texture due to allocated texture memory exceeded");
-                }
+                this.uploadTexture(gl, textureLibrary.textures[tex]);
 
             }
             console.log("...texture Library uploaded. Using KB: " + this._usedTextureMem / 1024);
             console.log("...using " + this._usedTextureMem / this.maxTextureMem + " of KB " + this.maxTextureMem / 1024);
         }
-        
+
+
+        public uploadTexture(gl: WebGLRenderingContext, textureAtlas: Kiwi.Textures.TextureAtlas) {
+            //create a glTexture
+            var glTextureWrapper = new GLTextureWrapper(gl, textureAtlas );
+            //store a refence to it
+            this._addTextureToCache(glTextureWrapper);
+            //create reference on atlas to avoid lookups when switching
+            textureAtlas.glTextureWrapper = glTextureWrapper;
+
+            //only upload it if it fits
+            if (!this._uploadTexture(gl, glTextureWrapper)) {
+                console.log("...skipped uploading texture due to allocated texture memory exceeded");
+            }
+        }
 
         /**
         * Removes all textures from video memory and clears the wrapper cache

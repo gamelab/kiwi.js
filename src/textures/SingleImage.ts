@@ -15,7 +15,7 @@ module Kiwi.Textures  {
     * @namespace Kiwi.Textures
     * @constructor
     * @param name {string} The name of the single image
-    * @param image {HTMLImageElement} the image that is being used.
+    * @param image {HTMLImageElement/HTMLCanvasElement} the image that is being used.
     * @param [width] {number} the width of the image
     * @param [height] {number} the height of the image
     * @param [offsetX] {number} the offset of the image on the x axis. Useful if the image has a border that you don't want to show.
@@ -24,7 +24,7 @@ module Kiwi.Textures  {
     */
     export class SingleImage extends TextureAtlas {
          
-        constructor(name: string, image: HTMLImageElement, width?: number, height?: number, offsetX?: number, offsetY?: number) {
+        constructor(name: string, image, width?: number, height?: number, offsetX?: number, offsetY?: number) {
             this.width = width || image.width;
             this.height = height || image.height;
             this.offsetX = offsetX || 0;

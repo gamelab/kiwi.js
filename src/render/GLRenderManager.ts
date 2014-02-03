@@ -155,6 +155,10 @@ module Kiwi.Renderers {
         private _currentTextureAtlas: Kiwi.Textures.TextureAtlas = null;
         
 
+        public addTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas) {
+            this._textureManager.uploadTexture(gl, atlas);
+        }
+
         /**
         * An array of renderers. Shared renderers are used for batch rendering. Multiple gameobjects can use the same renderer
         * instance and add rendering info to a batch rather than rendering individually. 
@@ -171,15 +175,17 @@ module Kiwi.Renderers {
         private _sharedRenderers: any = {};
 
         /**
-	    * Adds a renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. 
+        * Adds a renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. 
         * If a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.
-	    * @method addSharedRenderer
+        * @method addSharedRenderer
         * @param {String} rendererID
         * @param {Object} params
         * @return {Boolean} success
         * @public
-	    */
-        
+        */
+
+     
+
         public addSharedRenderer(rendererID:string,params:any = null):boolean {
             //does renderer exist?
             if (Kiwi.Renderers[rendererID]) {
@@ -410,6 +416,12 @@ module Kiwi.Renderers {
             if (entity.atlas !== this._currentTextureAtlas) {
                 this._flushBatch(gl);
                 this._switchTexture(gl, entity);
+            }
+
+            // is the texture in need of reuplaoding? This would be the case if it is a dynamic texture such as a text field
+            if (entity.atlas.dirty) {
+                entity.atlas.glTextureWrapper.refreshTexture(gl);
+                entity.atlas.dirty = false;    
             }
 
             //assert: texture requirements are met
