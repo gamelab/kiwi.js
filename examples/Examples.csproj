@@ -68,7 +68,9 @@
     <None Include="Tilemaps\RandomArea.ts" />
     <None Include="Tilemaps\SwappingTiles.ts" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Misc\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="index.php" />
   </ItemGroup>

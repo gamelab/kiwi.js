@@ -10519,6 +10519,10 @@ var Kiwi;
                 */
                 this._tempDirty = true;
 
+                if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
+                    this.glRenderer = this.game.renderer.requestSharedRenderer("TextureAtlasRenderer");
+                }
+
                 this._text = text;
                 this._fontWeight = weight;
                 this._fontSize = size;
@@ -10530,6 +10534,14 @@ var Kiwi;
                 this.optimize = optimize;
 
                 this._tempDirty = true;
+
+                this._canvas = document.createElement('canvas');
+                this._canvas.width = 256;
+                this._canvas.height = 256;
+                this._ctx = this._canvas.getContext('2d');
+                this.atlas = new Kiwi.Textures.SingleImage(this.game.rnd.uuid(), this._canvas);
+                this.state.textureLibrary.add(this.atlas);
+                this.atlas.dirty = true;
             }
             /**
             * Returns the type of object that this is
@@ -10590,6 +10602,7 @@ var Kiwi;
                 set: function (val) {
                     this._fontWeight = val;
                     this._tempDirty = true;
+                    this.atlas.dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -10662,25 +10675,23 @@ var Kiwi;
             * @private
             */
             Textfield.prototype._renderText = function () {
-                //create the canvas
-                this._tempCanvas = document.createElement('canvas');
-                var ctxTemp = this._tempCanvas.getContext('2d');
-
                 //get/set the width
-                ctxTemp.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
-                var _measurements = ctxTemp.measureText(this._text);
-                this._tempCanvas.width = _measurements.width;
-                this._tempCanvas.height = this._fontSize * 1.3; //for the characters that fall below the baseline. Should find better implementation.
+                this._ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
+
+                //var _measurements: TextMetrics = this._ctx.measureText(this._text);   //when you measure the text for some reason it resets the values?!
+                this._canvas.width = 256; //_measurements.width;
+                this._canvas.height = 256; //this._fontSize * 1.3; //for the characters that fall below the baseline. Should find better implementation.
 
                 //reapply the styles....cause it unapplies after a measurement...?!?
-                ctxTemp.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
-                ctxTemp.fillStyle = this._fontColor;
-                ctxTemp.textBaseline = this._baseline;
+                this._ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
+                this._ctx.fillStyle = this._fontColor;
+                this._ctx.textBaseline = this._baseline;
 
                 //add text
-                ctxTemp.fillText(this._text, 0, 0);
+                this._ctx.fillText(this._text, 0, 0);
 
                 this._tempDirty = false;
+                this.atlas.dirty = true;
             };
 
             /**
@@ -10713,10 +10724,10 @@ var Kiwi;
                                 x = 0;
                                 break;
                             case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                                x = this._tempCanvas.width / 2;
+                                x = this._canvas.width / 2;
                                 break;
                             case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
-                                x = this._tempCanvas.width;
+                                x = this._canvas.width;
                                 break;
                         }
                         t.x -= x; //add the alignment to the transformation
@@ -10724,7 +10735,7 @@ var Kiwi;
                         var m = t.getConcatenatedMatrix();
                         ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
 
-                        ctx.drawImage(this._tempCanvas, 0, 0, this._tempCanvas.width, this._tempCanvas.height, -t.rotPointX, -t.rotPointY, this._tempCanvas.width, this._tempCanvas.height);
+                        ctx.drawImage(this._canvas, 0, 0, this._canvas.width, this._canvas.height, -t.rotPointX, -t.rotPointY, this._canvas.width, this._canvas.height);
 
                         t.x += x; //remove it again.
                     } else {
@@ -10741,6 +10752,13 @@ var Kiwi;
 
                     ctx.restore();
                 }
+            };
+            Textfield.prototype.renderGL = function (gl, camera, params) {
+                if (typeof params === "undefined") { params = null; }
+                //does the text need re-rendering
+                if (this._tempDirty)
+                    this._renderText();
+                this.glRenderer.addToBatch(gl, this, camera);
             };
             Textfield.TEXT_ALIGN_CENTER = 'center';
 
@@ -22285,6 +22303,10 @@ var Kiwi;
                 return "GLRenderManager";
             };
 
+            GLRenderManager.prototype.addTexture = function (gl, atlas) {
+                this._textureManager.uploadTexture(gl, atlas);
+            };
+
             /**
             * Adds a renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object.
             * If a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.
@@ -22513,6 +22535,13 @@ var Kiwi;
                 if (entity.atlas !== this._currentTextureAtlas) {
                     this._flushBatch(gl);
                     this._switchTexture(gl, entity);
+                }
+
+                // is the texture in need of reuplaoding? This would be the case if it is a dynamic texture such as a text field
+                if (entity.atlas.dirty) {
+                    entity.atlas.glTextureWrapper.refreshTexture(gl);
+                    this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
+                    entity.atlas.dirty = false;
                 }
 
                 //assert: texture requirements are met
@@ -22818,6 +22847,10 @@ var Kiwi;
                 return success;
             };
 
+            GLTextureWrapper.prototype.refreshTexture = function (gl) {
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
+            };
+
             GLTextureWrapper.prototype.deleteTexture = function (gl) {
                 console.log("Attempting to delete texture: " + this.textureAtlas.name);
                 gl.bindTexture(gl.TEXTURE_2D, this.texture);
@@ -22940,22 +22973,26 @@ var Kiwi;
                 console.log("...recreated wrapper cache");
 
                 for (var tex in textureLibrary.textures) {
-                    //create a glTexture
-                    var glTextureWrapper = new Kiwi.Renderers.GLTextureWrapper(gl, textureLibrary.textures[tex]);
-
-                    //store a refence to it
-                    this._addTextureToCache(glTextureWrapper);
-
-                    //create reference on atlas to avoid lookups when switching
-                    textureLibrary.textures[tex].glTextureWrapper = glTextureWrapper;
-
-                    //only upload it if it fits
-                    if (!this._uploadTexture(gl, glTextureWrapper)) {
-                        console.log("...skipped uploading texture due to allocated texture memory exceeded");
-                    }
+                    this.uploadTexture(gl, textureLibrary.textures[tex]);
                 }
                 console.log("...texture Library uploaded. Using KB: " + this._usedTextureMem / 1024);
                 console.log("...using " + this._usedTextureMem / this.maxTextureMem + " of KB " + this.maxTextureMem / 1024);
+            };
+
+            GLTextureManager.prototype.uploadTexture = function (gl, textureAtlas) {
+                //create a glTexture
+                var glTextureWrapper = new Kiwi.Renderers.GLTextureWrapper(gl, textureAtlas);
+
+                //store a refence to it
+                this._addTextureToCache(glTextureWrapper);
+
+                //create reference on atlas to avoid lookups when switching
+                textureAtlas.glTextureWrapper = glTextureWrapper;
+
+                //only upload it if it fits
+                if (!this._uploadTexture(gl, glTextureWrapper)) {
+                    console.log("...skipped uploading texture due to allocated texture memory exceeded");
+                }
             };
 
             /**
@@ -24350,13 +24387,20 @@ var Kiwi;
         * @param name {string} Name of the texture atlas. This is usually defined by the developer when loading the assets.
         * @param type {number} The type of texture atlas that this is. There are currently only three types.
         * @param cells {any} The cells that are within this image..
-        * @param image {HTMLImageElement} The image that the texture atlas is using.
+        * @param image {HTMLImageElement/HTMLCanvasElement} The image that the texture atlas is using.
         * @param [sequences] {Sequence[]} Any sequences of cells for this texture atlas. Used for animation.
         * @return {TextureAtlas}
         *
         */
         var TextureAtlas = (function () {
             function TextureAtlas(name, type, cells, image, sequences) {
+                /**
+                * Indicates that the image data has changed, and needs to be reuplaoded to the gpu in webGL mode.
+                * @property dirty
+                * @type boolean
+                * @public
+                */
+                this.dirty = false;
                 /**
                 * The cell that is to be render at the start.
                 * @property cellIndex
@@ -24494,12 +24538,29 @@ var Kiwi;
             };
 
             /**
-            * Adds a new image file to the texture library.
+            * Adds a texture atlas to the library.
             * @method add
+            * @param atlas {TextureAtlas}
+            * @public
+            */
+            TextureLibrary.prototype.add = function (atlas) {
+                this.textures[atlas.name] = atlas;
+                if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
+                    if (this._base2Sizes.indexOf(atlas.image.width) == -1 || this._base2Sizes.indexOf(atlas.image.height) == -1) {
+                        console.log("warning:image is not of base2 size and may not render correctly");
+                    }
+                    var renderManager = this._game.renderer;
+                    renderManager.addTexture(this._game.stage.gl, atlas);
+                }
+            };
+
+            /**
+            * Adds a new image file to the texture library.
+            * @method addFromFile
             * @param imageFile {File}
             * @public
             */
-            TextureLibrary.prototype.add = function (imageFile) {
+            TextureLibrary.prototype.addFromFile = function (imageFile) {
                 if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
                     imageFile = this._rebuildImage(imageFile);
                 }
@@ -24652,7 +24713,7 @@ var Kiwi;
                             console.log("Adding Texture: " + file.fileName);
                         }
                         ;
-                        state.textureLibrary.add(file);
+                        state.textureLibrary.addFromFile(file);
                     }
                 }
 
@@ -24681,7 +24742,7 @@ var Kiwi;
         * @namespace Kiwi.Textures
         * @constructor
         * @param name {string} The name of the spritesheet.
-        * @param texture {HTMLImageElement} The image that is being used for the spritesheet.
+        * @param texture {HTMLImageElement/HTMLCanvasElement} The image that is being used for the spritesheet.
         * @param cellWidth {number} The width of a single cell.
         * @param cellHeight {number} The height of a single cell.
         * @param [numCells] {number} The number of cells in total.
@@ -24816,7 +24877,7 @@ var Kiwi;
         * @namespace Kiwi.Textures
         * @constructor
         * @param name {string} The name of the single image
-        * @param image {HTMLImageElement} the image that is being used.
+        * @param image {HTMLImageElement/HTMLCanvasElement} the image that is being used.
         * @param [width] {number} the width of the image
         * @param [height] {number} the height of the image
         * @param [offsetX] {number} the offset of the image on the x axis. Useful if the image has a border that you don't want to show.
