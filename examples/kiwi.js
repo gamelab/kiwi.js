@@ -11975,10 +11975,10 @@ var Kiwi;
                             var ty = y * this.tileHeight;
 
                             //Set up the points
-                            pt1.setTo(tx - t.rotPointX, ty - t.rotPointY);
-                            pt2.setTo(tx + cell.w - t.rotPointX, ty - t.rotPointY);
-                            pt3.setTo(tx + cell.w - t.rotPointX, ty + cell.h - t.rotPointY);
-                            pt4.setTo(tx - t.rotPointX, ty + cell.h - t.rotPointY);
+                            pt1.setTo(tx - t.rotPointX, ty - t.rotPointY - (cell.h - this.tileHeight));
+                            pt2.setTo(tx + cell.w - t.rotPointX, ty - t.rotPointY - (cell.h - this.tileHeight));
+                            pt3.setTo(tx + cell.w - t.rotPointX, ty + cell.h - t.rotPointY - (cell.h - this.tileHeight));
+                            pt4.setTo(tx - t.rotPointX, ty + cell.h - t.rotPointY - (cell.h - this.tileHeight));
 
                             //Add on the matrix to the points
                             pt1 = m.transformPoint(pt1);
