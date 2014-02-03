@@ -547,11 +547,85 @@ module Kiwi.GameObjects.Tilemap {
         *-----------------------
         */
 
+        /**
+        * Used whilst rendering to calculate the number of tiles to be rendered on the X axis.
+        * Is updated each frame, via the _calculateBoundaries method.
+        * @property _maxX
+        * @type number
+        * @private
+        */
         private _maxX: number;
+        
+        /**
+        * Used whilst rendering to calculate the number of tiles to be rendered on the Y axis.
+        * Is updated each frame, via the _calculateBoundaries method.
+        * @property _maxY
+        * @type number
+        * @private
+        */
         private _maxY: number;
+
+        /**
+        * Used whilst rendering to calculate which is the first tile to be rendered on the X axis.
+        * Is updated each frame, via the _calculateBoundaries method.
+        * @property _startX
+        * @type number
+        * @private
+        */
         private _startX: number;
+
+        /**
+        * Used whilst rendering to calculate which is the first tile to be rendered on the Y axis.
+        * Is updated each frame, via the _calculateBoundaries method.
+        * @property _startY
+        * @type number
+        * @private
+        */
         private _startY: number;
+
+        /**
+        * Temporary property that holds the tileType of the current tile being rendered.
+        * @property _temptype
+        * @type TileType
+        * @private
+        */
         private _temptype: TileType;
+
+        /**
+        * Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen. 
+        * All coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).
+        * @method _calculateBoundaries
+        * @param camera {Camera}
+        * @param matrix {Matrix} 
+        * @private
+        */
+        private _calculateBoundaries(camera: Kiwi.Camera, matrix: Kiwi.Geom.Matrix) {
+
+            // Translation Stuff
+            var sx = 1 / this.scaleX;
+            var sy = 1 / this.scaleY;
+
+            // Work out how many tiles we can fit into our camera and round it up for the edges
+            this._maxX = Math.min(Math.ceil(camera.width / this.tileWidth) + 1, this.width) * sx;
+            this._maxY = Math.min(Math.ceil(camera.height / this.tileHeight) + 1, this.height) * sy;
+
+            // And now work out where in the tilemap the camera actually is
+            this._startX = Math.floor((-camera.transform.x - this.transform.worldX) / this.tileWidth * sx);
+            this._startY = Math.floor((-camera.transform.y - this.transform.worldY) / this.tileHeight * sy);
+
+            // Boundaries check for the start 
+            if (this._startX < 0) this._startX = 0;
+            if (this._startY < 0) this._startY = 0;
+
+            // Check for the Maximum
+            if (this._maxX > this.width) this._maxX = this.width;
+            if (this._maxY > this.height) this._maxY = this.height;
+
+            // Width/Height
+            if (this._startX + this._maxX > this.width) this._maxX = this.width - this._startX;
+            if (this._startY + this._maxY > this.height) this._maxY = this.height - this._startY;
+
+        }
 
         /** 
         * The render loop which is used when using the Canvas renderer.
@@ -580,25 +654,8 @@ module Kiwi.GameObjects.Tilemap {
             var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
 
             ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - camera.transform.rotPointX, m.ty + t.rotPointY - camera.transform.rotPointY);
-            
-            // Work out how many tiles we can fit into our camera and round it up for the edges
-            this._maxX = Math.min(Math.ceil(camera.width / this.tileWidth) + 1, this.width);
-            this._maxY = Math.min(Math.ceil(camera.height / this.tileHeight) + 1, this.height);
 
-            // And now work out where in the tilemap the camera actually is
-            this._startX = Math.floor((-camera.transform.x - t.worldX) / this.tileWidth);
-            this._startY = Math.floor((-camera.transform.y - t.worldY) / this.tileHeight);
-
-            // Boundaries check for the start 
-            if (this._startX < 0) this._startX = 0;
-            if (this._startY < 0) this._startY = 0;
-
-            // Check for the Maximum
-            if (this._maxX > this.width) this._maxX = this.width;
-            if (this._maxY > this.height) this._maxY = this.height;
-
-            if (this._startX + this._maxX > this.width) this._maxX = this.width - this._startX;
-            if (this._startY + this._maxY > this.height) this._maxY = this.height - this._startY;
+            this._calculateBoundaries(camera, m);
             
             for (var y = this._startY; y < this._startY + this._maxY; y++) {
                 for (var x = this._startX; x < this._startX + this._maxX; x++) {
@@ -636,36 +693,35 @@ module Kiwi.GameObjects.Tilemap {
             var alphaItems:Array<number> = [];
             var xyuvItems:Array<number> = [];
 
-
             //Create the point objects.
             var pt1 = new Kiwi.Geom.Point();
             var pt2 = new Kiwi.Geom.Point();
             var pt3 = new Kiwi.Geom.Point();
             var pt4 = new Kiwi.Geom.Point();
 
-
             //Transform/Matrix
             var t: Kiwi.Geom.Transform = this.transform;
             var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix(); 
 
 
-            //Find which ones we need to render? Currently just clipped at a shader process...
+            //Find which ones we need to render. Needs to be updated for Rotation.
+            this._calculateBoundaries(camera, m);
 
             //Loop through the tiles.
-            for (var y = 0; y < this.height; y++) {
-                for (var x = 0; x < this.width; x++) {
+            for (var y = this._startY; y < this._startY + this._maxY; y++) {
+                for (var x = this._startX; x < this._startX + this._maxX; x++) {
                     
 
                     //Get the tile type
-                    var tiletype = this.getTileFromXY(x, y);
+                    this._temptype = this.getTileFromXY(x, y);
 
 
                     //Skip tiletypes that don't use a cellIndex.
-                    if (tiletype.cellIndex == -1) continue;
+                    if (this._temptype.cellIndex == -1) continue;
 
 
                     //Get the cell index
-                    var cell = this.atlas.cells[tiletype.cellIndex];
+                    var cell = this.atlas.cells[this._temptype.cellIndex];
                     var tx = x * this.tileWidth;
                     var ty = y * this.tileHeight;
 
