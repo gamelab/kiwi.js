@@ -83,7 +83,7 @@ module Kiwi.Renderers {
        * @default 1000
        * @private
        */
-        private _maxItems: number = 2000;
+        private _maxItems: number = 1000;
 
 
 

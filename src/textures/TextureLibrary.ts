@@ -92,7 +92,7 @@ module Kiwi.Textures {
         */
         public addFromFile(imageFile: Kiwi.Files.File) {
 
-            if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
+            if (this._game.renderOption === Kiwi.RENDERER_WEBGL && this._game.deviceTargetOption != Kiwi.TARGET_COCOON) {
                 imageFile = this._rebuildImage(imageFile);
             }
 

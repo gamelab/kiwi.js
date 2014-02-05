@@ -23460,7 +23460,7 @@ var Kiwi;
                 * @default 1000
                 * @private
                 */
-                this._maxItems = 2000;
+                this._maxItems = 1000;
 
                 //create buffers
                 //dynamic
@@ -24662,7 +24662,7 @@ var Kiwi;
             * @public
             */
             TextureLibrary.prototype.addFromFile = function (imageFile) {
-                if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
+                if (this._game.renderOption === Kiwi.RENDERER_WEBGL && this._game.deviceTargetOption != Kiwi.TARGET_COCOON) {
                     imageFile = this._rebuildImage(imageFile);
                 }
 
