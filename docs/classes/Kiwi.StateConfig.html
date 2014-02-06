@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -362,7 +364,7 @@
 
 
 <div class="box intro">
-    <p>[WHOLE THING REQUIRES DESCRIPTION]</p>
+    <p>A lightweight object that contains values relating to the configuration of a State in a Kiwi Game.</p>
 
 </div>
 
@@ -522,7 +524,14 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method public">
-                                <a href="#method_populate">populate</a>
+                                <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_"></a>
 
                                 
                                 
@@ -546,56 +555,7 @@
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_hasCreate">hasCreate</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_hasDestroy">hasDestroy</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_hasInit">hasInit</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_hasLoadComplete">hasLoadComplete</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_hasLoadProgress">hasLoadProgress</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_hasLoadUpdate">hasLoadUpdate</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_hasOnEnter">hasOnEnter</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_hasOnExit">hasOnExit</a>
+                                <a href="#property_createParams">createParams</a>
 
                                 
                                 
@@ -603,34 +563,6 @@
                         
                             <li class="index-item property public">
                                 <a href="#property_hasPreloader">hasPreloader</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_hasRender">hasRender</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_hasShutDown">hasShutDown</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_hasUpdate">hasUpdate</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_initParams">initParams</a>
 
                                 
                                 
@@ -706,13 +638,17 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_populate" class="method item public">
-    <h3 class="name"><code>populate</code></h3>
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
 
     
         <span class="paren">()</span>
     
 
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
     
 
     
@@ -740,7 +676,7 @@
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l228"><code>src\core\StateConfig.ts:228</code></a>
+        <a href="../files/src_core_StateConfig.ts.html#l34"><code>src\core\StateConfig.ts:34</code></a>
         
         </p>
 
@@ -751,7 +687,76 @@
     </div>
 
     <div class="description">
+        <p>The type of object that this is.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_" class="method item">
+    <h3 class="name"><code></code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
         
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_StateConfig.ts.html#l142"><code>src\core\StateConfig.ts:142</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Resets the properties contained on this StateConfig object. 
+This is executed when a State is about to be destroyed as so reset&#39;s it to be switched to again.</p>
+
     </div>
 
     
@@ -795,7 +800,7 @@
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l34"><code>src\core\StateConfig.ts:34</code></a>
+        <a href="../files/src_core_StateConfig.ts.html#l44"><code>src\core\StateConfig.ts:44</code></a>
         
         </p>
 
@@ -805,7 +810,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The state this StateConfig belongs to.</p>
+
     </div>
 
     
@@ -816,9 +822,9 @@
 </div>
 
                 
-                    <div id="property_hasCreate" class="property item public">
-    <h3 class="name"><code>hasCreate</code></h3>
-    <span class="type">Boolean</span>
+                    <div id="property_createParams" class="property item public">
+    <h3 class="name"><code>createParams</code></h3>
+    <span class="type">Array</span>
 
     
 
@@ -841,7 +847,7 @@
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l131"><code>src\core\StateConfig.ts:131</code></a>
+        <a href="../files/src_core_StateConfig.ts.html#l134"><code>src\core\StateConfig.ts:134</code></a>
         
         </p>
 
@@ -851,347 +857,10 @@
     </div>
 
     <div class="description">
-        
+        <p>Stores any parameters that are to be passed to the create method when the State that this config is on is switched to.</p>
+
     </div>
 
-    
-        <p><strong>Default:</strong> false</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_hasDestroy" class="property item public">
-    <h3 class="name"><code>hasDestroy</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_StateConfig.ts.html#l185"><code>src\core\StateConfig.ts:185</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_hasInit" class="property item public">
-    <h3 class="name"><code>hasInit</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_StateConfig.ts.html#l86"><code>src\core\StateConfig.ts:86</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_hasLoadComplete" class="property item public">
-    <h3 class="name"><code>hasLoadComplete</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_StateConfig.ts.html#l113"><code>src\core\StateConfig.ts:113</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_hasLoadProgress" class="property item public">
-    <h3 class="name"><code>hasLoadProgress</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_StateConfig.ts.html#l104"><code>src\core\StateConfig.ts:104</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_hasLoadUpdate" class="property item public">
-    <h3 class="name"><code>hasLoadUpdate</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_StateConfig.ts.html#l122"><code>src\core\StateConfig.ts:122</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_hasOnEnter" class="property item public">
-    <h3 class="name"><code>hasOnEnter</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_StateConfig.ts.html#l140"><code>src\core\StateConfig.ts:140</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_hasOnExit" class="property item public">
-    <h3 class="name"><code>hasOnExit</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_StateConfig.ts.html#l167"><code>src\core\StateConfig.ts:167</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
     
 
     
@@ -1225,7 +894,7 @@
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l95"><code>src\core\StateConfig.ts:95</code></a>
+        <a href="../files/src_core_StateConfig.ts.html#l99"><code>src\core\StateConfig.ts:99</code></a>
         
         </p>
 
@@ -1235,151 +904,8 @@
     </div>
 
     <div class="description">
-        
-    </div>
+        <p>If the State that this config is on contains a Preloader Method.</p>
 
-    
-        <p><strong>Default:</strong> false</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_hasRender" class="property item public">
-    <h3 class="name"><code>hasRender</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_StateConfig.ts.html#l158"><code>src\core\StateConfig.ts:158</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_hasShutDown" class="property item public">
-    <h3 class="name"><code>hasShutDown</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_StateConfig.ts.html#l176"><code>src\core\StateConfig.ts:176</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_hasUpdate" class="property item public">
-    <h3 class="name"><code>hasUpdate</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_StateConfig.ts.html#l149"><code>src\core\StateConfig.ts:149</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
     </div>
 
     
@@ -1417,7 +943,7 @@
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l220"><code>src\core\StateConfig.ts:220</code></a>
+        <a href="../files/src_core_StateConfig.ts.html#l126"><code>src\core\StateConfig.ts:126</code></a>
         
         </p>
 
@@ -1427,54 +953,7 @@
     </div>
 
     <div class="description">
-        <p>Stores any parameters passed to the create method</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_initParams" class="property item public">
-    <h3 class="name"><code>initParams</code></h3>
-    <span class="type">Array</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_StateConfig.ts.html#l212"><code>src\core\StateConfig.ts:212</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Stores any parameters passed to the init method</p>
+        <p>Stores any parameters that are to be passed to the init method when the State that this config is on is switched to.</p>
 
     </div>
 
@@ -1511,7 +990,7 @@
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l59"><code>src\core\StateConfig.ts:59</code></a>
+        <a href="../files/src_core_StateConfig.ts.html#l69"><code>src\core\StateConfig.ts:69</code></a>
         
         </p>
 
@@ -1521,7 +1000,9 @@
     </div>
 
     <div class="description">
-        
+        <p>If this State has been created (the create method has been executed). 
+Essentually has the same meaning as &#39;isReady&#39;.</p>
+
     </div>
 
     
@@ -1559,7 +1040,7 @@
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l68"><code>src\core\StateConfig.ts:68</code></a>
+        <a href="../files/src_core_StateConfig.ts.html#l79"><code>src\core\StateConfig.ts:79</code></a>
         
         </p>
 
@@ -1569,7 +1050,9 @@
     </div>
 
     <div class="description">
-        
+        <p>If the State has been initialised already (so the Boot and Init methods have been executed already). 
+A State only get Initialised once which is when it switched to for this first time.</p>
+
     </div>
 
     
@@ -1607,7 +1090,7 @@
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l50"><code>src\core\StateConfig.ts:50</code></a>
+        <a href="../files/src_core_StateConfig.ts.html#l60"><code>src\core\StateConfig.ts:60</code></a>
         
         </p>
 
@@ -1617,7 +1100,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Currently unused.</p>
+
     </div>
 
     
@@ -1655,7 +1139,7 @@
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l77"><code>src\core\StateConfig.ts:77</code></a>
+        <a href="../files/src_core_StateConfig.ts.html#l89"><code>src\core\StateConfig.ts:89</code></a>
         
         </p>
 
@@ -1665,7 +1149,9 @@
     </div>
 
     <div class="description">
-        
+        <p>If the State that this config is on is &#39;ready&#39; to be used (e.g. all the assets have been loaded and libraries complied)
+or if it isn&#39;t and so it is still at the &#39;loading&#39; stage.</p>
+
     </div>
 
     
@@ -1703,7 +1189,7 @@
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l42"><code>src\core\StateConfig.ts:42</code></a>
+        <a href="../files/src_core_StateConfig.ts.html#l52"><code>src\core\StateConfig.ts:52</code></a>
         
         </p>
 
@@ -1750,7 +1236,7 @@
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l194"><code>src\core\StateConfig.ts:194</code></a>
+        <a href="../files/src_core_StateConfig.ts.html#l108"><code>src\core\StateConfig.ts:108</code></a>
         
         </p>
 
@@ -1760,7 +1246,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The number of times the State that this config belongs to has been active/used.</p>
+
     </div>
 
     
@@ -1798,7 +1285,7 @@
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l203"><code>src\core\StateConfig.ts:203</code></a>
+        <a href="../files/src_core_StateConfig.ts.html#l117"><code>src\core\StateConfig.ts:117</code></a>
         
         </p>
 
@@ -1808,7 +1295,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The type of state this is. Currently Unused.</p>
+
     </div>
 
     

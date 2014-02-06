@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -358,7 +360,7 @@ module Kiwi {
     * @constructor
     * @param [domParent=&#x27;&#x27;] {String} The ID of a DOM element that the game should use as its &#x27;container&#x27;. If you are targeting Cocoon then you don&#x27;t need to worry about this and can leave it blank.
     * @param [name=&#x27;KiwiGame&#x27;] {String} The name of the game that is being created. 
-    * @param [state=null] {Any} The state to load initially. This can either be the name of a state, or the state object itself.
+    * @param [state=null] {Any} The state to load initially. This can either be the name of a state, but preferably this would be the state object itself.
     * @param [options] {Object} Any special options for the game. E.g. Is DEBUG_ON or DEBUG_OFF, RENDERER_CANVAS or RENDERER_WEBGL, TARGET_BROWSER or TARGET_COCOON
     * @return {Game}
     * 
@@ -446,7 +448,7 @@ module Kiwi {
             if (this._renderOption === Kiwi.RENDERER_CANVAS) {
                 this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
             } else {
-                this.renderer = new Kiwi.Renderers.GLRenderer(this);
+                this.renderer = new Kiwi.Renderers.GLRenderManager(this);
             }
            
             this.cameras = new Kiwi.CameraManager(this);
@@ -461,11 +463,7 @@ module Kiwi {
             
             //  If we have a state then pass it to the StateManager
             if (state !== null) {
-                if (this.states.addState(state, true) === false) {
-                    throw Error(&quot;Invalid State passed to Kiwi.Game&quot;);
-                } else {
-                    console.log(&#x27;&quot;&#x27; + state.name + &#x27;&quot; State successfully added.&#x27;);
-                }
+                this.states.addState(state, true);
             } else {
                 console.log(&#x27;Default State not passed.&#x27;);
             }

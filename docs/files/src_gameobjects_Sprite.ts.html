@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -379,6 +381,9 @@ module Kiwi.GameObjects {
                 return;
             } 
 
+            if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
+                this.glRenderer = this.game.renderer.requestSharedRenderer(&quot;TextureAtlasRenderer&quot;);
+            }
 
             this.atlas = atlas;
             this.name = this.atlas.name;
@@ -481,7 +486,7 @@ module Kiwi.GameObjects {
             super.render(camera);
             
             //if it is would even be visible.
-            if (this.alpha &gt; 0 &amp;&amp; this.visibility) {
+            if (this.alpha &gt; 0 &amp;&amp; this.visible) {
                 
                 var ctx: CanvasRenderingContext2D = this.game.stage.ctx;
                 ctx.save();
@@ -509,8 +514,8 @@ module Kiwi.GameObjects {
         
         }
 
-        public renderGL(gl: WebGLRenderingContext, renderer:Kiwi.Renderers.Renderer,camera: Kiwi.Camera, params: any = null) {
-            (&lt;Kiwi.Renderers.Texture2DRenderer&gt;renderer).addToBatch(gl, this, camera);
+        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params: any = null) {
+            (&lt;Kiwi.Renderers.TextureAtlasRenderer&gt;this.glRenderer).addToBatch(gl, this, camera);
         }
 
     }

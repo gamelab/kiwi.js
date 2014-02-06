@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -342,25 +344,22 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-interface IRenderer {
-    init(gl: WebGLRenderingContext, params: any);
-    clear(gl: WebGLRenderingContext, params: any);
-    draw(gl: WebGLRenderingContext, params: any);
-    updateStageResolution(gl: WebGLRenderingContext,res: Float32Array);
-}
 
 
 module Kiwi.Renderers {
 
 
-    export class Renderer  {
+    export class Renderer {
 
 
-        constructor() {
-           
+        constructor(gl: WebGLRenderingContext,shaderManager:Kiwi.Shaders.ShaderManager) {
+            this.shaderManager = shaderManager;
+            this.loaded = true;
+       
         }
 
-       
+        public static RENDERER_ID: string = &quot;Renderer&quot;;
+        
         /**
         * GL-Matrix.js provided 4x4 matrix used for matrix uniform
         * @property mvMatrix
@@ -370,28 +369,39 @@ module Kiwi.Renderers {
         public mvMatrix: Float32Array;
 
 
+        public loaded: boolean = false;
+
+        public shaderManager: Kiwi.Shaders.ShaderManager;
+
         /**
+
         * The stage resolution in pixels
         * @property _stageResolution
         * @type Float32Array
         * @public
         */
-        
 
-        public stageResolution: Float32Array;
+        //public init(gl: WebGLRenderingContext, params: any = null) {
+        //    this.loaded = true;
+        //}
 
+        public enable(gl: WebGLRenderingContext, params: any = null) {
+            
+        }
 
-        /**
-      * Shader pair for standard 2d sprite rendering
-      * @property _texture2DShaderPair
-      * @type GLShaders
-      * @private
-      */
-        public shaderPair: Texture2DShader;
+        public disable(gl: WebGLRenderingContext) {
 
-        public cameraOffset: Float32Array;
+        }
 
-       
+        public clear(gl: WebGLRenderingContext, params: any) {
+        }
+        public draw(gl: WebGLRenderingContext) {
+        }
+
+        public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array) {
+        }
+        public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array) {
+        }
 
     }
 

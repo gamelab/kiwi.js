@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -536,6 +538,13 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                                 
                             </li>
                         
+                            <li class="index-item method private">
+                                <a href="#method__windowResized">_windowResized</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public">
                                 <a href="#method_boot">boot</a>
 
@@ -747,6 +756,13 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                             </li>
                         
                             <li class="index-item property public">
+                                <a href="#property_scale">scale</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
                                 <a href="#property_width">width</a>
 
                                 
@@ -815,7 +831,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l349"><code>src\core\Stage.ts:349</code></a>
+        <a href="../files/src_core_Stage.ts.html#l378"><code>src\core\Stage.ts:378</code></a>
         
         </p>
 
@@ -872,7 +888,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l413"><code>src\core\Stage.ts:413</code></a>
+        <a href="../files/src_core_Stage.ts.html#l444"><code>src\core\Stage.ts:444</code></a>
         
         </p>
 
@@ -887,6 +903,97 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__windowResized" class="method item private">
+    <h3 class="name"><code>_windowResized</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>event</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Stage.ts.html#l366"><code>src\core\Stage.ts:366</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Method that is fired when the window is resized. 
+Used to calculate the new offset and see what the scale of the stage currently is.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">event</code>
+                        <span class="type">UIEvent</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -939,7 +1046,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l324"><code>src\core\Stage.ts:324</code></a>
+        <a href="../files/src_core_Stage.ts.html#l339"><code>src\core\Stage.ts:339</code></a>
         
         </p>
 
@@ -1029,7 +1136,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l437"><code>src\core\Stage.ts:437</code></a>
+        <a href="../files/src_core_Stage.ts.html#l468"><code>src\core\Stage.ts:468</code></a>
         
         </p>
 
@@ -1115,7 +1222,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l45"><code>src\core\Stage.ts:45</code></a>
+        <a href="../files/src_core_Stage.ts.html#l44"><code>src\core\Stage.ts:44</code></a>
         
         </p>
 
@@ -1200,7 +1307,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l392"><code>src\core\Stage.ts:392</code></a>
+        <a href="../files/src_core_Stage.ts.html#l421"><code>src\core\Stage.ts:421</code></a>
         
         </p>
 
@@ -1297,7 +1404,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l450"><code>src\core\Stage.ts:450</code></a>
+        <a href="../files/src_core_Stage.ts.html#l481"><code>src\core\Stage.ts:481</code></a>
         
         </p>
 
@@ -1353,7 +1460,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l74"><code>src\core\Stage.ts:74</code></a>
+        <a href="../files/src_core_Stage.ts.html#l73"><code>src\core\Stage.ts:73</code></a>
         
         </p>
 
@@ -1400,7 +1507,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l230"><code>src\core\Stage.ts:230</code></a>
+        <a href="../files/src_core_Stage.ts.html#l245"><code>src\core\Stage.ts:245</code></a>
         
         </p>
 
@@ -1449,7 +1556,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l206"><code>src\core\Stage.ts:206</code></a>
+        <a href="../files/src_core_Stage.ts.html#l221"><code>src\core\Stage.ts:221</code></a>
         
         </p>
 
@@ -1496,7 +1603,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l171"><code>src\core\Stage.ts:171</code></a>
+        <a href="../files/src_core_Stage.ts.html#l170"><code>src\core\Stage.ts:170</code></a>
         
         </p>
 
@@ -1543,7 +1650,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l257"><code>src\core\Stage.ts:257</code></a>
+        <a href="../files/src_core_Stage.ts.html#l272"><code>src\core\Stage.ts:272</code></a>
         
         </p>
 
@@ -1590,7 +1697,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l152"><code>src\core\Stage.ts:152</code></a>
+        <a href="../files/src_core_Stage.ts.html#l151"><code>src\core\Stage.ts:151</code></a>
         
         </p>
 
@@ -1637,7 +1744,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l100"><code>src\core\Stage.ts:100</code></a>
+        <a href="../files/src_core_Stage.ts.html#l99"><code>src\core\Stage.ts:99</code></a>
         
         </p>
 
@@ -1684,7 +1791,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l126"><code>src\core\Stage.ts:126</code></a>
+        <a href="../files/src_core_Stage.ts.html#l125"><code>src\core\Stage.ts:125</code></a>
         
         </p>
 
@@ -1731,7 +1838,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l82"><code>src\core\Stage.ts:82</code></a>
+        <a href="../files/src_core_Stage.ts.html#l81"><code>src\core\Stage.ts:81</code></a>
         
         </p>
 
@@ -1778,7 +1885,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l292"><code>src\core\Stage.ts:292</code></a>
+        <a href="../files/src_core_Stage.ts.html#l307"><code>src\core\Stage.ts:307</code></a>
         
         </p>
 
@@ -1825,7 +1932,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l239"><code>src\core\Stage.ts:239</code></a>
+        <a href="../files/src_core_Stage.ts.html#l280"><code>src\core\Stage.ts:280</code></a>
         
         </p>
 
@@ -1835,7 +1942,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
     </div>
 
     <div class="description">
-        <p>Get the background color of the stage. This returns a hex style color string such as &quot;#ffffff&quot;</p>
+        <p>Get the normalized background color of the stage. returns a object with rgba values between 0 and 1.</p>
 
     </div>
 
@@ -1872,7 +1979,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l265"><code>src\core\Stage.ts:265</code></a>
+        <a href="../files/src_core_Stage.ts.html#l254"><code>src\core\Stage.ts:254</code></a>
         
         </p>
 
@@ -1882,7 +1989,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
     </div>
 
     <div class="description">
-        <p>Get the normalized background color of the stage. returns a object with rgba values between 0 and 1.</p>
+        <p>Get the background color of the stage. This returns a hex style color string such as &quot;#ffffff&quot;</p>
 
     </div>
 
@@ -1919,7 +2026,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l316"><code>src\core\Stage.ts:316</code></a>
+        <a href="../files/src_core_Stage.ts.html#l331"><code>src\core\Stage.ts:331</code></a>
         
         </p>
 
@@ -1966,7 +2073,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l284"><code>src\core\Stage.ts:284</code></a>
+        <a href="../files/src_core_Stage.ts.html#l299"><code>src\core\Stage.ts:299</code></a>
         
         </p>
 
@@ -2013,7 +2120,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l308"><code>src\core\Stage.ts:308</code></a>
+        <a href="../files/src_core_Stage.ts.html#l323"><code>src\core\Stage.ts:323</code></a>
         
         </p>
 
@@ -2060,7 +2167,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l300"><code>src\core\Stage.ts:300</code></a>
+        <a href="../files/src_core_Stage.ts.html#l315"><code>src\core\Stage.ts:315</code></a>
         
         </p>
 
@@ -2109,7 +2216,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l64"><code>src\core\Stage.ts:64</code></a>
+        <a href="../files/src_core_Stage.ts.html#l63"><code>src\core\Stage.ts:63</code></a>
         
         </p>
 
@@ -2158,7 +2265,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l55"><code>src\core\Stage.ts:55</code></a>
+        <a href="../files/src_core_Stage.ts.html#l54"><code>src\core\Stage.ts:54</code></a>
         
         </p>
 
@@ -2205,7 +2312,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l222"><code>src\core\Stage.ts:222</code></a>
+        <a href="../files/src_core_Stage.ts.html#l237"><code>src\core\Stage.ts:237</code></a>
         
         </p>
 
@@ -2252,7 +2359,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l276"><code>src\core\Stage.ts:276</code></a>
+        <a href="../files/src_core_Stage.ts.html#l291"><code>src\core\Stage.ts:291</code></a>
         
         </p>
 
@@ -2299,7 +2406,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l179"><code>src\core\Stage.ts:179</code></a>
+        <a href="../files/src_core_Stage.ts.html#l178"><code>src\core\Stage.ts:178</code></a>
         
         </p>
 
@@ -2346,7 +2453,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l214"><code>src\core\Stage.ts:214</code></a>
+        <a href="../files/src_core_Stage.ts.html#l229"><code>src\core\Stage.ts:229</code></a>
         
         </p>
 
@@ -2393,7 +2500,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l198"><code>src\core\Stage.ts:198</code></a>
+        <a href="../files/src_core_Stage.ts.html#l213"><code>src\core\Stage.ts:213</code></a>
         
         </p>
 
@@ -2407,6 +2514,57 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_scale" class="property item public">
+    <h3 class="name"><code>scale</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Stage.ts.html#l197"><code>src\core\Stage.ts:197</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Calculates and returns the amount that the container has been scale buy.<br>Mainly used for re-calculating input coordinates. 
+Note: For COCOONJS this returns 1 since COCOONJS translates the points itself.
+This property is READ ONLY.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 1</p>
     
 
     
@@ -2440,7 +2598,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l160"><code>src\core\Stage.ts:160</code></a>
+        <a href="../files/src_core_Stage.ts.html#l159"><code>src\core\Stage.ts:159</code></a>
         
         </p>
 
@@ -2487,7 +2645,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l108"><code>src\core\Stage.ts:108</code></a>
+        <a href="../files/src_core_Stage.ts.html#l107"><code>src\core\Stage.ts:107</code></a>
         
         </p>
 
@@ -2534,7 +2692,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l134"><code>src\core\Stage.ts:134</code></a>
+        <a href="../files/src_core_Stage.ts.html#l133"><code>src\core\Stage.ts:133</code></a>
         
         </p>
 

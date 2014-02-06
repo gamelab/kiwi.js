@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -386,8 +388,7 @@ module Kiwi {
             
         }
 
-        public requiredRenderers: string[] = [&quot;Texture2DRenderer&quot;];
-        public renderer: Kiwi.Renderers.Renderer;
+        public glRenderer: Kiwi.Renderers.Renderer;
 
 
         /**
@@ -564,10 +565,10 @@ module Kiwi {
         * @default true
         * @public
         */
-        public set visibility(value: boolean) {
+        public set visible(value: boolean) {
             this._visible = value;
         }
-        public get visibility(): boolean {
+        public get visible(): boolean {
             return this._visible;
         }
         
@@ -812,7 +813,7 @@ module Kiwi {
         }
 
         
-        public renderGL(gl: WebGLRenderingContext, renderer: Kiwi.Renderers.Renderer, camera: Kiwi.Camera, params: any = null) {
+        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params: any = null) {
         
         }
 

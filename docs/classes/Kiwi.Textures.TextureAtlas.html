@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -511,7 +513,7 @@
                 <li class="param">
                     
                         <code class="param-name">image</code>
-                        <span class="type">HTMLImageElement</span>
+                        <span class="type">HTMLImageElement/HTMLCanvasElement</span>
                     
 
                     
@@ -629,6 +631,13 @@
                         
                             <li class="index-item property public">
                                 <a href="#property_cells">cells</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_dirty">dirty</a>
 
                                 
                                 
@@ -813,7 +822,7 @@
             
         
         
-        <a href="../files/src_textures_TextureAtlas.ts.html#l138"><code>src\textures\TextureAtlas.ts:138</code></a>
+        <a href="../files/src_textures_TextureAtlas.ts.html#l147"><code>src\textures\TextureAtlas.ts:147</code></a>
         
         </p>
 
@@ -892,7 +901,7 @@
             
         
         
-        <a href="../files/src_textures_TextureAtlas.ts.html#l85"><code>src\textures\TextureAtlas.ts:85</code></a>
+        <a href="../files/src_textures_TextureAtlas.ts.html#l94"><code>src\textures\TextureAtlas.ts:94</code></a>
         
         </p>
 
@@ -939,7 +948,7 @@
             
         
         
-        <a href="../files/src_textures_TextureAtlas.ts.html#l76"><code>src\textures\TextureAtlas.ts:76</code></a>
+        <a href="../files/src_textures_TextureAtlas.ts.html#l85"><code>src\textures\TextureAtlas.ts:85</code></a>
         
         </p>
 
@@ -988,7 +997,7 @@
             
         
         
-        <a href="../files/src_textures_TextureAtlas.ts.html#l60"><code>src\textures\TextureAtlas.ts:60</code></a>
+        <a href="../files/src_textures_TextureAtlas.ts.html#l69"><code>src\textures\TextureAtlas.ts:69</code></a>
         
         </p>
 
@@ -1010,9 +1019,9 @@
 </div>
 
                 
-                    <div id="property_image" class="property item public">
-    <h3 class="name"><code>image</code></h3>
-    <span class="type">HTMLImageElement</span>
+                    <div id="property_dirty" class="property item public">
+    <h3 class="name"><code>dirty</code></h3>
+    <span class="type">Boolean</span>
 
     
 
@@ -1035,7 +1044,7 @@
             
         
         
-        <a href="../files/src_textures_TextureAtlas.ts.html#l52"><code>src\textures\TextureAtlas.ts:52</code></a>
+        <a href="../files/src_textures_TextureAtlas.ts.html#l53"><code>src\textures\TextureAtlas.ts:53</code></a>
         
         </p>
 
@@ -1045,7 +1054,54 @@
     </div>
 
     <div class="description">
-        <p>The image that this texture atlas is holding.</p>
+        <p>Indicates that the image data has changed, and needs to be reuplaoded to the gpu in webGL mode.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_image" class="property item public">
+    <h3 class="name"><code>image</code></h3>
+    <span class="type">HTMLImageElement/HTMLCanvasElement</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_textures_TextureAtlas.ts.html#l61"><code>src\textures\TextureAtlas.ts:61</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The image that this texture atlas is holding. Can be an HTMLImageElement or a HTMLCanvasElement</p>
 
     </div>
 
@@ -1129,7 +1185,7 @@
             
         
         
-        <a href="../files/src_textures_TextureAtlas.ts.html#l68"><code>src\textures\TextureAtlas.ts:68</code></a>
+        <a href="../files/src_textures_TextureAtlas.ts.html#l77"><code>src\textures\TextureAtlas.ts:77</code></a>
         
         </p>
 
@@ -1180,7 +1236,7 @@
             
         
         
-        <a href="../files/src_textures_TextureAtlas.ts.html#l93"><code>src\textures\TextureAtlas.ts:93</code></a>
+        <a href="../files/src_textures_TextureAtlas.ts.html#l102"><code>src\textures\TextureAtlas.ts:102</code></a>
         
         </p>
 
@@ -1233,7 +1289,7 @@
             
         
         
-        <a href="../files/src_textures_TextureAtlas.ts.html#l104"><code>src\textures\TextureAtlas.ts:104</code></a>
+        <a href="../files/src_textures_TextureAtlas.ts.html#l113"><code>src\textures\TextureAtlas.ts:113</code></a>
         
         </p>
 
@@ -1286,7 +1342,7 @@
             
         
         
-        <a href="../files/src_textures_TextureAtlas.ts.html#l115"><code>src\textures\TextureAtlas.ts:115</code></a>
+        <a href="../files/src_textures_TextureAtlas.ts.html#l124"><code>src\textures\TextureAtlas.ts:124</code></a>
         
         </p>
 

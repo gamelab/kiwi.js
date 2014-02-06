@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -379,25 +381,25 @@
             
                 <li class="arg">
                     
-                        <code>x1</code>
+                        <code>[x1</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>y1</code>
+                        <code>[y1</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>x2</code>
+                        <code>[x2</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>y2</code>
+                        <code>[y2</code>
                     
                 </li>
             
@@ -407,7 +409,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.Ray.html" class="crosslink">Kiwi.Geom.Ray</a></span>
+            <span class="type">Ray</span>
         </span>
     
 
@@ -456,14 +458,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">x1</code>
+                        <code class="param-name">[x1</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>x1</p>
+                        <p>= 0]  x1</p>
 
                     </div>
 
@@ -472,14 +474,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">y1</code>
+                        <code class="param-name">[y1</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>y1</p>
+                        <p>= 0]  y1</p>
 
                     </div>
 
@@ -488,14 +490,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">x2</code>
+                        <code class="param-name">[x2</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>x2</p>
+                        <p>= 0]  x2</p>
 
                     </div>
 
@@ -504,14 +506,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">y2</code>
+                        <code class="param-name">[y2</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>y2</p>
+                        <p>= 0]  y2</p>
 
                     </div>
 
@@ -529,7 +531,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Ray.html" class="crosslink">Kiwi.Geom.Ray</a></span>:
+                        <span class="type">Ray</span>:
                     
                     <p>This Object</p>
 
@@ -749,7 +751,9 @@
     </div>
 
     <div class="description">
-        
+        <p>Makes a copy of this Ray either as a new Ray object or,
+makes a passed Ray a copy of this one.</p>
+
     </div>
 
     
@@ -844,7 +848,7 @@
             
         
         
-        <a href="../files/src_geom_Ray.ts.html#l84"><code>src\geom\Ray.ts:84</code></a>
+        <a href="../files/src_geom_Ray.ts.html#l85"><code>src\geom\Ray.ts:85</code></a>
         
         </p>
 
@@ -855,7 +859,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Makes this Ray the same as a passed Ray.</p>
+
     </div>
 
     
@@ -949,7 +954,7 @@
             
         
         
-        <a href="../files/src_geom_Ray.ts.html#l97"><code>src\geom\Ray.ts:97</code></a>
+        <a href="../files/src_geom_Ray.ts.html#l98"><code>src\geom\Ray.ts:98</code></a>
         
         </p>
 
@@ -960,7 +965,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Makes a passed Ray the same as this Ray object.</p>
+
     </div>
 
     
@@ -1058,7 +1064,7 @@
             
         
         
-        <a href="../files/src_geom_Ray.ts.html#l168"><code>src\geom\Ray.ts:168</code></a>
+        <a href="../files/src_geom_Ray.ts.html#l169"><code>src\geom\Ray.ts:169</code></a>
         
         </p>
 
@@ -1069,7 +1075,7 @@
     </div>
 
     <div class="description">
-        <p>Check if a the ray passes through a point.</p>
+        <p>Check if the Ray passes through a point.</p>
 
     </div>
 
@@ -1270,7 +1276,7 @@
             
         
         
-        <a href="../files/src_geom_Ray.ts.html#l110"><code>src\geom\Ray.ts:110</code></a>
+        <a href="../files/src_geom_Ray.ts.html#l111"><code>src\geom\Ray.ts:111</code></a>
         
         </p>
 
@@ -1281,7 +1287,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Sets the origin and the direction of this Ray.</p>
+
     </div>
 
     
@@ -1476,7 +1483,7 @@
             
         
         
-        <a href="../files/src_geom_Ray.ts.html#l131"><code>src\geom\Ray.ts:131</code></a>
+        <a href="../files/src_geom_Ray.ts.html#l132"><code>src\geom\Ray.ts:132</code></a>
         
         </p>
 
@@ -1523,7 +1530,7 @@
             
         
         
-        <a href="../files/src_geom_Ray.ts.html#l143"><code>src\geom\Ray.ts:143</code></a>
+        <a href="../files/src_geom_Ray.ts.html#l144"><code>src\geom\Ray.ts:144</code></a>
         
         </p>
 
@@ -1758,7 +1765,7 @@
             
         
         
-        <a href="../files/src_geom_Ray.ts.html#l155"><code>src\geom\Ray.ts:155</code></a>
+        <a href="../files/src_geom_Ray.ts.html#l156"><code>src\geom\Ray.ts:156</code></a>
         
         </p>
 

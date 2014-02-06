@@ -1,7 +1,7 @@
 YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
-        "GLRenderer",
+        "GLRenderManager",
         "GLShaders",
         "GLTexture",
         "GLTextureManager",
@@ -40,7 +40,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "Kiwi.GameObjects.Sprite",
         "Kiwi.GameObjects.StaticImage",
         "Kiwi.GameObjects.Textfield",
-        "Kiwi.GameObjects.Tilemap.Tile",
         "Kiwi.GameObjects.Tilemap.TileMap",
         "Kiwi.GameObjects.Tilemap.TileMapLayer",
         "Kiwi.GameObjects.Tilemap.TileType",
@@ -110,7 +109,8 @@ YUI.add("yuidoc-meta", function(Y) {
         "Kiwi.Utils.Common",
         "Kiwi.Utils.GameMath",
         "Kiwi.Utils.RandomDataGenerator",
-        "Kiwi.Utils.RequestAnimationFrame"
+        "Kiwi.Utils.RequestAnimationFrame",
+        "ShaderManager"
     ],
     "modules": [
         "Animations",
@@ -124,6 +124,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Input",
         "Kiwi",
         "Renderers",
+        "Shaders",
         "Sound",
         "System",
         "Textures",
@@ -190,6 +191,11 @@ YUI.add("yuidoc-meta", function(Y) {
             "description": "Contains the classes which are related to the rendering of GameObjects."
         },
         {
+            "displayName": "Shaders",
+            "name": "Shaders",
+            "description": "GLSL ES Shaders are used for WebGL rendering.\nShaderPair objects encapsulate GLSL ES vertex and fragment shader programs. \n  ShaderPairs contain the GLSL code, provide an interface to uniforms and attributes, and have the ability to link and compile the shaders.\nThe ShaderManager keeps track of each ShaderPair, and controls which one is bound for use at any particular time.\n  Only the ShaderManager can create ShaderPairs. When a renderer (see note on renderes below) requests a ShaderPair the ShaderManager will either\n      1) Return a reference to an already instantiated ShaderPair, and set the GL state to use the shader program or\n      2) Return a reference to a new ShaderPair, which will be linked and compiled and bound for use.\n  All ShaderPairs must be housed as properties of the Kiwi.Shaders object. \n\nKiwi.Renderer objects use a ShaderPair to draw.\n  They must request a ShaderPair from the ShaderManager.\n  Many renderers may use the same ShaderPair.\n  Some renderers may at different times use multiple ShaderPairs (only one is possible at any given time)"
+        },
+        {
             "displayName": "Sound",
             "name": "Sound",
             "description": "The namespace that holds all of the assets and functionality when dealing with Audio."
@@ -207,7 +213,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Tilemap",
             "name": "Tilemap",
-            "description": "An area of the GameObjects section which deals specifically with the use of TileMap or items related with TileMaps."
+            "description": "Is GameObject that contains the information held for a single Layer of Tiles, along with methods to handle the rendering of those Tiles. \nA TileMapLayer should not be directly created, but instead should be created through a TileMap object instead."
         },
         {
             "displayName": "Time",

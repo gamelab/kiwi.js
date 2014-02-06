@@ -10747,6 +10747,10 @@ var Kiwi;
                 this._ctx.fillStyle = this._fontColor;
                 this._ctx.textBaseline = this._baseline;
 
+                this.img = new Image();
+                this.img = this._canvas.toDataURL();
+                this.atlas.image = this.img;
+
                 //Draw the text.
                 this._ctx.fillText(this._text, 0, 0);
 

@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -350,18 +352,19 @@
 
 module Kiwi.Geom {
 
-     /**
-     * A Circle object is an area defined by its position, as indicated by its center point (x,y) and diameter.
-     *	
-     * @class Circle
-     * @namespace Kiwi.Geom
-     * @constructor
-     * @param x {Number} The x coordinate of the center of the circle.
-     * @param y {Number} The y coordinate of the center of the circle.
-     * @param diameter {number} The diameter of the circle.
-     * @return {Circle} This circle object
-     *
-     */
+    /**
+    * A Circle object is an area defined by its position, 
+    * as indicated by its center point (x,y) and diameter.
+    *	
+    * @class Circle
+    * @namespace Kiwi.Geom
+    * @constructor
+    * @param [x = 0] {Number} The x coordinate of the center of the circle.
+    * @param [y = 0] {Number} The y coordinate of the center of the circle.
+    * @param [diameter = 0] {number} The diameter of the circle.
+    * @return {Circle} This circle object
+    *
+    */
     export class Circle {
         
         constructor (x: number = 0, y: number = 0, diameter: number = 0) {
@@ -420,7 +423,6 @@ module Kiwi.Geom {
         * The diameter of the circle. The largest distance between any two points on the circle. The same as the radius * 2.
         * @property diameter
         * @type number
-        * @default 0
         * @public
 	    */
         public set diameter(value: number) {

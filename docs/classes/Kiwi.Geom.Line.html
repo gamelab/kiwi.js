@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -363,7 +365,9 @@
 
 
 <div class="box intro">
-    <p>A line object is an infinte line through space. The two sets of x/y coordinates define the Line Segment.</p>
+    <p>A Kiwi Line object has two meanings depending on the situation you need. 
+Either an infinte line through space (this is the normal meaning of a Line) 
+OR it can be a Line Segment which just exists between the TWO points you specify.</p>
 
 </div>
 
@@ -407,7 +411,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+            <span class="type">Line</span>
         </span>
     
 
@@ -529,7 +533,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>:
+                        <span class="type">Line</span>:
                     
                     <p>This Object</p>
 
@@ -780,7 +784,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l72"><code>src\geom\Line.ts:72</code></a>
+        <a href="../files/src_geom_Line.ts.html#l74"><code>src\geom\Line.ts:74</code></a>
         
         </p>
 
@@ -791,7 +795,9 @@
     </div>
 
     <div class="description">
-        <p>Return a clone of the line.</p>
+        <p>Makes a clone of this Line. 
+The clone will either be a new Line Object, 
+Otherwise you can pass a existing Line Object that you want to be a clone of this one.</p>
 
     </div>
 
@@ -887,7 +893,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l85"><code>src\geom\Line.ts:85</code></a>
+        <a href="../files/src_geom_Line.ts.html#l89"><code>src\geom\Line.ts:89</code></a>
         
         </p>
 
@@ -898,7 +904,7 @@
     </div>
 
     <div class="description">
-        <p>Copy the line from another existing line.</p>
+        <p>Make this Line a copy of another passed Line.</p>
 
     </div>
 
@@ -994,7 +1000,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l98"><code>src\geom\Line.ts:98</code></a>
+        <a href="../files/src_geom_Line.ts.html#l102"><code>src\geom\Line.ts:102</code></a>
         
         </p>
 
@@ -1005,7 +1011,7 @@
     </div>
 
     <div class="description">
-        <p>Copy the line to another existing line.</p>
+        <p>Make another passed Line a copy of this one.</p>
 
     </div>
 
@@ -1101,7 +1107,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l144"><code>src\geom\Line.ts:144</code></a>
+        <a href="../files/src_geom_Line.ts.html#l148"><code>src\geom\Line.ts:148</code></a>
         
         </p>
 
@@ -1178,7 +1184,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">Any</span>
+            <span class="type">IntersectResult</span>
         </span>
     
 
@@ -1207,7 +1213,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l253"><code>src\geom\Line.ts:253</code></a>
+        <a href="../files/src_geom_Line.ts.html#l257"><code>src\geom\Line.ts:257</code></a>
         
         </p>
 
@@ -1218,7 +1224,8 @@
     </div>
 
     <div class="description">
-        <p>[REQUIRES DESCRIPTION]</p>
+        <p>Check to see if this Line object intersects at any point with a passed Line.
+Note: Both are treated as extending infinately through space.</p>
 
     </div>
 
@@ -1231,13 +1238,13 @@
                 <li class="param">
                     
                         <code class="param-name">line</code>
-                        <span class="type">Any</span>
+                        <span class="type">Line</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>line</p>
+                        <p>The line you want to check for a Intersection with.</p>
 
                     </div>
 
@@ -1255,8 +1262,10 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Any</span>:
+                        <span class="type">IntersectResult</span>:
                     
+                    <p>The Intersect Result containing the collision information.</p>
+
                 
             </div>
         </div>
@@ -1320,7 +1329,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l206"><code>src\geom\Line.ts:206</code></a>
+        <a href="../files/src_geom_Line.ts.html#l210"><code>src\geom\Line.ts:210</code></a>
         
         </p>
 
@@ -1447,7 +1456,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l227"><code>src\geom\Line.ts:227</code></a>
+        <a href="../files/src_geom_Line.ts.html#l231"><code>src\geom\Line.ts:231</code></a>
         
         </p>
 
@@ -1558,7 +1567,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l30"><code>src\geom\Line.ts:30</code></a>
+        <a href="../files/src_geom_Line.ts.html#l32"><code>src\geom\Line.ts:32</code></a>
         
         </p>
 
@@ -1655,7 +1664,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l264"><code>src\geom\Line.ts:264</code></a>
+        <a href="../files/src_geom_Line.ts.html#l269"><code>src\geom\Line.ts:269</code></a>
         
         </p>
 
@@ -1781,7 +1790,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+            <span class="type">Line</span>
         </span>
     
 
@@ -1810,7 +1819,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l111"><code>src\geom\Line.ts:111</code></a>
+        <a href="../files/src_geom_Line.ts.html#l115"><code>src\geom\Line.ts:115</code></a>
         
         </p>
 
@@ -1821,7 +1830,7 @@
     </div>
 
     <div class="description">
-        <p>Set all components on the line.</p>
+        <p>Used to set all components on the line.</p>
 
     </div>
 
@@ -1840,7 +1849,7 @@
                     
 
                     <div class="param-description">
-                        <p>= 0] x1 x component of first point.</p>
+                        <p>= 0] X component of first point.</p>
 
                     </div>
 
@@ -1856,7 +1865,7 @@
                     
 
                     <div class="param-description">
-                        <p>= 0] y1 y component of first point.</p>
+                        <p>= 0] Y component of first point.</p>
 
                     </div>
 
@@ -1872,7 +1881,7 @@
                     
 
                     <div class="param-description">
-                        <p>= 0] x2 x component of second point.</p>
+                        <p>= 0] X component of second point.</p>
 
                     </div>
 
@@ -1888,7 +1897,7 @@
                     
 
                     <div class="param-description">
-                        <p>= 0] y2 y component of second point.</p>
+                        <p>= 0] Y component of second point.</p>
 
                     </div>
 
@@ -1906,7 +1915,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>:
+                        <span class="type">Line</span>:
                     
                 
             </div>
@@ -1955,7 +1964,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l302"><code>src\geom\Line.ts:302</code></a>
+        <a href="../files/src_geom_Line.ts.html#l307"><code>src\geom\Line.ts:307</code></a>
         
         </p>
 
@@ -2021,7 +2030,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l159"><code>src\geom\Line.ts:159</code></a>
+        <a href="../files/src_geom_Line.ts.html#l163"><code>src\geom\Line.ts:163</code></a>
         
         </p>
 
@@ -2068,7 +2077,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l132"><code>src\geom\Line.ts:132</code></a>
+        <a href="../files/src_geom_Line.ts.html#l136"><code>src\geom\Line.ts:136</code></a>
         
         </p>
 
@@ -2078,7 +2087,7 @@
     </div>
 
     <div class="description">
-        <p>Get the length of the line as a line segment.</p>
+        <p>Get the length of the Line as a Line Segment.</p>
 
     </div>
 
@@ -2115,7 +2124,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l182"><code>src\geom\Line.ts:182</code></a>
+        <a href="../files/src_geom_Line.ts.html#l186"><code>src\geom\Line.ts:186</code></a>
         
         </p>
 
@@ -2162,7 +2171,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l170"><code>src\geom\Line.ts:170</code></a>
+        <a href="../files/src_geom_Line.ts.html#l174"><code>src\geom\Line.ts:174</code></a>
         
         </p>
 
@@ -2209,7 +2218,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l40"><code>src\geom\Line.ts:40</code></a>
+        <a href="../files/src_geom_Line.ts.html#l42"><code>src\geom\Line.ts:42</code></a>
         
         </p>
 
@@ -2219,7 +2228,7 @@
     </div>
 
     <div class="description">
-        <p>x component of first point.</p>
+        <p>X position of first point in your line.</p>
 
     </div>
 
@@ -2256,7 +2265,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l56"><code>src\geom\Line.ts:56</code></a>
+        <a href="../files/src_geom_Line.ts.html#l58"><code>src\geom\Line.ts:58</code></a>
         
         </p>
 
@@ -2303,7 +2312,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l48"><code>src\geom\Line.ts:48</code></a>
+        <a href="../files/src_geom_Line.ts.html#l50"><code>src\geom\Line.ts:50</code></a>
         
         </p>
 
@@ -2313,7 +2322,7 @@
     </div>
 
     <div class="description">
-        <p>y component of first point.</p>
+        <p>Y position of first point in your line.</p>
 
     </div>
 
@@ -2350,7 +2359,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l64"><code>src\geom\Line.ts:64</code></a>
+        <a href="../files/src_geom_Line.ts.html#l66"><code>src\geom\Line.ts:66</code></a>
         
         </p>
 
@@ -2395,7 +2404,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l194"><code>src\geom\Line.ts:194</code></a>
+        <a href="../files/src_geom_Line.ts.html#l198"><code>src\geom\Line.ts:198</code></a>
         
         </p>
 

@@ -214,8 +214,7 @@ declare module Kiwi {
 declare module Kiwi {
     class Entity implements Kiwi.IChild {
         constructor(state: Kiwi.State, x: number, y: number);
-        public requiredRenderers: string[];
-        public renderer: Kiwi.Renderers.Renderer;
+        public glRenderer: Kiwi.Renderers.Renderer;
         public transform: Kiwi.Geom.Transform;
         private _parent;
         public parent : Kiwi.Group;
@@ -230,7 +229,7 @@ declare module Kiwi {
         private _alpha;
         public alpha : number;
         private _visible;
-        public visibility : boolean;
+        public visible : boolean;
         public width: number;
         public height: number;
         public atlas: Kiwi.Textures.TextureAtlas;
@@ -255,7 +254,7 @@ declare module Kiwi {
         public objType(): string;
         public update(): void;
         public render(camera: Kiwi.Camera): void;
-        public renderGL(gl: WebGLRenderingContext, renderer: Kiwi.Renderers.Renderer, camera: Kiwi.Camera, params?: any): void;
+        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
         public destroy(immediate?: boolean): void;
     }
 }
@@ -390,6 +389,7 @@ declare module Kiwi {
         public audio: any;
         public data: any;
         public boot(): void;
+        public setType(value: number): void;
         public init(...paramsArr: any[]): void;
         public preload(): void;
         public loadProgress(percent: number, bytesLoaded: number, file: Kiwi.Files.File): void;
@@ -400,7 +400,7 @@ declare module Kiwi {
         public update(): void;
         public postUpdate(): void;
         public postRender(): void;
-        public setType(value: number): void;
+        public shutDown(): void;
         public addImage(key: string, url: string, storeAsGlobal?: boolean, width?: number, height?: number, offsetX?: number, offsetY?: number): void;
         public addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, storeAsGlobal?: boolean, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number): void;
         public addTextureAtlas(key: string, imageURL: string, jsonID?: string, jsonURL?: string, storeAsGlobal?: boolean): void;
@@ -502,6 +502,8 @@ declare module Kiwi {
         private _height;
         public height : number;
         public onResize: Kiwi.Signal;
+        private _scale;
+        public scale : number;
         public offset: Kiwi.Geom.Point;
         private _game;
         public name: string;
@@ -517,6 +519,7 @@ declare module Kiwi {
         public dctx: CanvasRenderingContext2D;
         public container: HTMLDivElement;
         public boot(dom: Kiwi.System.Bootstrap): void;
+        private _windowResized(event);
         private _createCompositeCanvas();
         public resize(width: number, height: number): void;
         private _createDebugCanvas();
@@ -661,11 +664,54 @@ declare module Kiwi.Components {
 }
 declare module Kiwi.Components {
     class ArcadePhysics extends Kiwi.Component {
-        constructor(entity: Kiwi.Entity, box: Components.Box);
-        private _parent;
+        constructor(entity: Kiwi.Entity, box?: Components.Box);
         public transform: Kiwi.Geom.Transform;
         public box: Components.Box;
+        public immovable: boolean;
+        public velocity: Kiwi.Geom.Point;
+        public mass: number;
+        public elasticity: number;
+        public acceleration: Kiwi.Geom.Point;
+        public drag: Kiwi.Geom.Point;
+        public maxVelocity: Kiwi.Geom.Point;
+        public angularVelocity: number;
+        public angularAcceleration: number;
+        public angularDrag: number;
+        public maxAngular: number;
+        public moves: boolean;
+        public touching: number;
+        public wasTouching: number;
+        public allowCollisions: number;
+        public last: Kiwi.Geom.Point;
+        private _solid;
+        private _callbackFunction;
+        private _callbackContext;
+        public isTouching(value: number): boolean;
+        public solid(value?: boolean): boolean;
+        public setCallback(callbackFunction: any, callbackContext: any): void;
+        public parent: Kiwi.Entity;
+        static separate(object1: Kiwi.Entity, object2: Kiwi.Entity): boolean;
+        static separateX(object1: Kiwi.Entity, object2: Kiwi.Entity): boolean;
+        static separateY(object1: Kiwi.Entity, object2: Kiwi.Entity): boolean;
+        static separateTiles(object: Kiwi.Entity, layer: Kiwi.GameObjects.Tilemap.TileMapLayer, tiles: any): boolean;
+        static separateTilesX(object: Kiwi.Entity, layer: Kiwi.GameObjects.Tilemap.TileMapLayer, tile: any): boolean;
+        static separateTilesY(object: Kiwi.Entity, layer: any, tile: any): boolean;
+        public overlapsTiles(gameObject: Kiwi.Entity, separateObjects?: boolean, collisionType?: number): boolean;
+        public overlaps(gameObject: Kiwi.Entity, separateObjects?: boolean): boolean;
+        public overlapsGroup(group: Kiwi.Group, separateObjects?: boolean): boolean;
+        public overlapsArray(array: any[], separateObjects?: boolean): boolean;
+        static computeVelocity(velocity: number, acceleration?: number, drag?: number, max?: number): number;
+        public updateMotion(): void;
+        public update(): void;
+        public destroy(): void;
         public objType(): string;
+        static collide(gameObject1: Kiwi.Entity, gameObject2: Kiwi.Entity, seperate?: boolean): boolean;
+        static collideGroup(gameObject: Kiwi.Entity, group: Kiwi.Group, seperate?: boolean): boolean;
+        static collideGroupGroup(group1: Kiwi.Group, group2: Kiwi.Group, seperate?: boolean): boolean;
+        static overlaps(gameObject1: Kiwi.Entity, gameObject2: Kiwi.Entity, separateObjects?: boolean): boolean;
+        static overlapsObjectGroup(gameObject: Kiwi.Entity, group: Kiwi.Group, separateObjects?: boolean): boolean;
+        static overlapsGroupGroup(group1: Kiwi.Group, group2: Kiwi.Group, separateObjects?: boolean): boolean;
+        static overlapsArrayGroup(array: any[], group: Kiwi.Group, separateObjects?: boolean): boolean;
         static updateInterval: number;
         static LEFT: number;
         static RIGHT: number;
@@ -677,47 +723,6 @@ declare module Kiwi.Components {
         static WALL: number;
         static ANY: number;
         static OVERLAP_BIAS: number;
-        public immovable: boolean;
-        public velocity: Kiwi.Geom.Point;
-        public mass: number;
-        public elasticity: number;
-        public acceleration: Kiwi.Geom.Point;
-        public drag: Kiwi.Geom.Point;
-        public maxVelocity: Kiwi.Geom.Point;
-        public angle: number;
-        public angularVelocity: number;
-        public angularAcceleration: number;
-        public angularDrag: number;
-        public maxAngular: number;
-        public moves: boolean;
-        public seperate: boolean;
-        public touching: number;
-        public wasTouching: number;
-        public allowCollisions: number;
-        public last: Kiwi.Geom.Point;
-        private _solid;
-        private _callbackFunction;
-        private _callbackContext;
-        public solid(value?: boolean): boolean;
-        static collide(gameObject1: Kiwi.Entity, gameObject2: Kiwi.Entity, seperate?: boolean): boolean;
-        static collideGroup(gameObject: Kiwi.Entity, group: Kiwi.Group, seperate?: boolean): boolean;
-        static collideGroupGroup(group1: Kiwi.Group, group2: Kiwi.Group, seperate?: boolean): boolean;
-        static overlaps(gameObject1: Kiwi.Entity, gameObject2: Kiwi.Entity, separateObjects?: boolean): boolean;
-        static overlapsObjectGroup(gameObject: Kiwi.Entity, group: Kiwi.Group, separateObjects?: boolean): boolean;
-        static overlapsGroupGroup(group1: Kiwi.Group, group2: Kiwi.Group, separateObjects?: boolean): boolean;
-        static overlapsArrayGroup(array: any[], group: Kiwi.Group, separateObjects?: boolean): boolean;
-        static separate(object1: Kiwi.Entity, object2: Kiwi.Entity): boolean;
-        static separateX(object1: any, object2: any): boolean;
-        static separateY(object1: any, object2: any): boolean;
-        static computeVelocity(velocity: number, acceleration?: number, drag?: number, max?: number): number;
-        public overlaps(gameObject: Kiwi.Entity, separateObjects?: boolean): boolean;
-        public overlapsGroup(group: Kiwi.Group, separateObjects?: boolean): boolean;
-        public overlapsArray(array: any[], separateObjects?: boolean): boolean;
-        public updateMotion(): void;
-        public setCallback(callbackFunction: any, callbackContext: any): void;
-        public parent(): Kiwi.Entity;
-        public update(): void;
-        public destroy(): void;
     }
 }
 declare module Kiwi.Files {
@@ -801,29 +806,18 @@ declare module Kiwi.Files {
         public fileExtension: string;
         public fileURL: string;
         public fileSize: number;
-        public status: number;
-        public statusText: string;
         public ETag: string;
         public lastModified: string;
-        public bytesLoaded: number;
-        public bytesTotal: number;
-        public readyState: number;
-        public timeOutDelay: number;
-        public hasTimedOut: boolean;
-        public timedOut: number;
         public timeStarted: number;
         public timeFinished: number;
         public duration: number;
         public hasError: boolean;
         public success: boolean;
-        public attemptCounter: number;
-        public maxLoadAttempts: number;
         public error: any;
         public onCompleteCallback: any;
         public onProgressCallback: any;
         public lastProgress: number;
         public percentLoaded: number;
-        public buffer: any;
         public data: any;
         public metadata: any;
         public isTexture : boolean;
@@ -838,6 +832,17 @@ declare module Kiwi.Files {
         private tagLoaderProgressThrough(event);
         private tagLoaderAudioLocked();
         private tagLoaderOnLoad(event);
+        public status: number;
+        public statusText: string;
+        public bytesLoaded: number;
+        public bytesTotal: number;
+        public readyState: number;
+        public timeOutDelay: number;
+        public hasTimedOut: boolean;
+        public timedOut: number;
+        public attemptCounter: number;
+        public maxLoadAttempts: number;
+        public buffer: any;
         private xhrLoader();
         private xhrOnReadyStateChange(event);
         private xhrOnLoadStart(event);
@@ -846,14 +851,17 @@ declare module Kiwi.Files {
         private xhrOnTimeout(event);
         private xhrOnProgress(event);
         private xhrOnLoad(event);
+        private processFile();
         private createBlob();
         private revoke();
         private parseComplete();
+        public maxHeadLoadAttempts: number;
         public getFileDetails(callback?: any, maxLoadAttempts?: number, timeout?: number): void;
-        private sendXHRHeadRequest();
+        private sendXHRHeadRequest(timeout);
         private xhrHeadOnTimeout(event);
         private xhrHeadOnError(event);
         private getXHRResponseHeaders(event);
+        private completeXHRHeadRequest(outcome);
         public toString(): string;
     }
 }
@@ -886,23 +894,12 @@ declare module Kiwi {
         public isCreated: boolean;
         public isInitialised: boolean;
         public isReady: boolean;
-        public hasInit: boolean;
         public hasPreloader: boolean;
-        public hasLoadProgress: boolean;
-        public hasLoadComplete: boolean;
-        public hasLoadUpdate: boolean;
-        public hasCreate: boolean;
-        public hasOnEnter: boolean;
-        public hasUpdate: boolean;
-        public hasRender: boolean;
-        public hasOnExit: boolean;
-        public hasShutDown: boolean;
-        public hasDestroy: boolean;
         public runCount: number;
         public type: number;
         public initParams: any;
         public createParams: any;
-        public populate(): void;
+        public reset(): void;
     }
 }
 declare module Kiwi {
@@ -922,6 +919,8 @@ declare module Kiwi {
         public switchState(key: string, state?: any, initParams?: any, createParams?: any): boolean;
         private getState(key);
         private checkPreload();
+        private callCreate();
+        private checkInit();
         private onLoadProgress(percent, bytesLoaded, file);
         private onLoadComplete();
         public rebuildLibraries(): void;
@@ -939,7 +938,7 @@ declare module Kiwi.GameObjects {
         public input: Kiwi.Components.Input;
         public update(): void;
         public render(camera: Kiwi.Camera): void;
-        public renderGL(gl: WebGLRenderingContext, renderer: Kiwi.Renderers.Renderer, camera: Kiwi.Camera, params?: any): void;
+        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
     }
 }
 declare module Kiwi.GameObjects {
@@ -948,11 +947,12 @@ declare module Kiwi.GameObjects {
         public objType(): string;
         public box: Kiwi.Components.Box;
         public render(camera: Kiwi.Camera): void;
+        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
     }
 }
 declare module Kiwi.GameObjects {
     class Textfield extends Kiwi.Entity {
-        constructor(state: Kiwi.State, text: string, x?: number, y?: number, color?: string, size?: number, weight?: string, fontFamily?: string, optimize?: boolean);
+        constructor(state: Kiwi.State, text: string, x?: number, y?: number, color?: string, size?: number, weight?: string, fontFamily?: string);
         public objType(): string;
         private _text;
         private _fontWeight;
@@ -970,127 +970,97 @@ declare module Kiwi.GameObjects {
         static TEXT_ALIGN_RIGHT: string;
         static TEXT_ALIGN_LEFT: string;
         public textAlign : string;
-        private _tempCanvas;
+        private _canvas;
+        private _ctx;
         private _tempDirty;
-        public optimize: boolean;
+        public img: any;
         private _renderText();
         public render(camera: Kiwi.Camera): void;
-    }
-}
-declare module Kiwi.GameObjects {
-    class TestObject extends Kiwi.Entity {
-        constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x?: number, y?: number, enableInput?: boolean);
-        public objType(): string;
-        private _isAnimated;
-        public animation: Kiwi.Components.AnimationManager;
-        public box: Kiwi.Components.Box;
-        public input: Kiwi.Components.Input;
-        public update(): void;
-        public render(camera: Kiwi.Camera): void;
-        public renderGL(gl: WebGLRenderingContext, renderer: Kiwi.Renderers.Renderer, camera: Kiwi.Camera, params?: any): void;
-    }
-}
-declare module Kiwi.GameObjects.Tilemap {
-    class Tile extends Kiwi.Entity {
-        constructor(state: Kiwi.State, tileLayer: Tilemap.TileMapLayer, tileType: Tilemap.TileType, width: number, height: number, x: number, y: number);
-        public objType(): string;
-        public tileUpdate(tileType: Tilemap.TileType): void;
-        public tileLayer: Tilemap.TileMapLayer;
-        public tileType: Tilemap.TileType;
-        public physics: Kiwi.Components.ArcadePhysics;
-        public box: Kiwi.Components.Box;
-        public width: number;
-        public height: number;
-        public tx: number;
-        public ty: number;
+        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
     }
 }
 declare module Kiwi.GameObjects.Tilemap {
     class TileType {
-        constructor(game: Kiwi.Game, tilemap: Tilemap.TileMap, cellIndex: number, index: number);
-        private _game;
-        public name: string;
-        public mass: number;
-        public immovable: boolean;
+        constructor(tilemap: Tilemap.TileMap, index: number, cellIndex?: number);
         public allowCollisions: number;
-        public seperate: boolean;
+        public properties: any;
         public tilemap: Tilemap.TileMap;
         public index: number;
         public cellIndex: number;
-        public destroy(): void;
+        public objType(): string;
     }
 }
 declare module Kiwi.GameObjects.Tilemap {
-    class TileMap extends Kiwi.Entity {
-        constructor(state: Kiwi.State);
-        public createFromData(tileMapData: any, atlas: Kiwi.Textures.SpriteSheet, format: number): void;
-        public createFromFileStore(tileMapDataKey: string, atlas: Kiwi.Textures.SpriteSheet, format: number): void;
-        public objType(): string;
-        private _tileMapDataKey;
-        private _atlas;
-        static FORMAT_CSV: number;
-        static FORMAT_TILED_JSON: number;
-        public tiles: Tilemap.TileType[];
+    class TileMap {
+        constructor(state: Kiwi.State, tileMapData?: any, atlas?: Kiwi.Textures.TextureAtlas, startingCell?: number);
+        public orientation: string;
+        public tileTypes: Tilemap.TileType[];
         public layers: Tilemap.TileMapLayer[];
-        public currentLayer: Tilemap.TileMapLayer;
-        public mapFormat: number;
-        private _collisionCallback;
-        private _collisionCallbackContext;
-        public render(camera: Kiwi.Camera): void;
-        private parseTiledJSON(data);
-        private generateTiles();
+        public state: Kiwi.State;
+        public game: Kiwi.Game;
+        public tileWidth: number;
+        public tileHeight: number;
+        public width: number;
+        public height: number;
         public widthInPixels : number;
-        public heightInPixels(): number;
-        public getTileTypeByIndex(value: number): Tilemap.TileType;
-        public getTile(x: number, y: number, layer?: number): Tilemap.Tile;
-        public getTilesByType(index: number, layer?: number): Tilemap.Tile[];
-        public getTileFromXY(x: number, y: number, layer?: number): Tilemap.Tile;
-        public getTileOverlaps(object: Kiwi.Entity): any[];
-        public putTile(x: number, y: number, index: number, layer?: number): void;
-        public setCollisionCallback(callback: any, context: any): void;
-        public setCollisionRange(start: number, end: number, collision?: number, seperate?: boolean): void;
-        public setCollisionByIndex(index: number, collision?: number, seperate?: boolean): void;
-        public collideSingle(object: Kiwi.Entity): boolean;
-        public collideGroup(group: Kiwi.Group): void;
-        public destroy(immediate?: boolean): void;
+        public heightInPixels : number;
+        public properties: any;
+        public createFromFileStore(tileMapData: any, atlas: Kiwi.Textures.TextureAtlas, startingCell?: number): boolean;
+        private _generateTypesFromTileset(tilesetData, atlas, startingCell);
+        public setTo(tileWidth: number, tileHeight: number, width: number, height: number): void;
+        public createTileType(cell?: number): Tilemap.TileType;
+        public createTileTypes(cells: number[]): Tilemap.TileType[];
+        public createTileTypesByRange(cellStart: number, range: number): Tilemap.TileType[];
+        public setCell(type: number, cell: number): void;
+        public setCellsByRange(typeStart: number, cellStart: number, range: number): void;
+        public createNewLayer(name: string, atlas: Kiwi.Textures.TextureAtlas, data?: number[], w?: number, h?: number, x?: number, y?: number, tw?: number, th?: number): Tilemap.TileMapLayer;
+        public createNewObjectLayer(): void;
+        public createNewImageLayer(): void;
+        public getLayerByName(name: string): Tilemap.TileMapLayer;
+        public getLayer(num: number): Tilemap.TileMapLayer;
+        public objType(): string;
     }
 }
 declare module Kiwi.GameObjects.Tilemap {
     class TileMapLayer extends Kiwi.Entity {
-        constructor(state: Kiwi.State, parent: Tilemap.TileMap, atlas: Kiwi.Textures.SpriteSheet, name: string, tileWidth: number, tileHeight: number);
-        public tileParent: Tilemap.TileMap;
-        private _atlas;
-        private _startX;
-        private _startY;
-        private _maxX;
-        private _maxY;
-        private _columnData;
-        private _tempTileBlock;
-        private _tempTileX;
-        private _tempTileY;
-        private _tempTileW;
-        private _tempTileH;
-        public name: string;
-        public mapData: any;
+        constructor(tilemap: Tilemap.TileMap, name: string, atlas: Kiwi.Textures.TextureAtlas, data: number[], tw: number, th: number, x?: number, y?: number, w?: number, h?: number);
+        public physics: Kiwi.Components.ArcadePhysics;
+        public childType(): number;
+        public objType(): string;
+        public tilemap: Tilemap.TileMap;
+        public properties: any;
+        public width: number;
+        public height: number;
         public tileWidth: number;
         public tileHeight: number;
-        public widthInTiles: number;
-        public heightInTiles: number;
-        public widthInPixels: number;
-        public heightInPixels: number;
-        public putTile(x: number, y: number, tileType: Tilemap.TileType): void;
-        public fillTiles(index: number, x?: number, y?: number, width?: number, height?: number): void;
-        public randomiseTiles(tiles: number[], x?: number, y?: number, width?: number, height?: number): void;
-        public swapTiles(indexA: number, indexB: number, x?: number, y?: number, width?: number, height?: number): void;
-        public replaceTiles(indexA: number, indexB: number, x?: number, y?: number, width?: number, height?: number): void;
-        public getTileFromXY(x: number, y: number): Tilemap.Tile;
-        public getTilesByIndex(index: number): Tilemap.Tile[];
-        private getTempBlock(x, y, width, height, collisionOnly?);
-        public getTileOverlaps(object: Kiwi.Entity): any[];
-        public getTileIndex(x: number, y: number): number;
-        public getTile(x: number, y: number): Tilemap.Tile;
-        public addRow(row: any[]): void;
+        public atlas: Kiwi.Textures.TextureAtlas;
+        public widthInPixels : number;
+        public heightInPixels : number;
+        private _data;
+        public countTiles(type?: number): number;
+        public tileData : number[];
+        public getIndexFromXY(x: number, y: number): number;
+        public getTileFromXY(x: number, y: number): Tilemap.TileType;
+        public getIndexFromCoords(x: number, y: number): number;
+        public getTileFromCoords(x: number, y: number): Tilemap.TileType;
+        public getIndexesByType(type: number): number[];
+        public setTile(x: number, y: number, tileType: number): boolean;
+        public setTileByIndex(index: number, tileType: number): void;
+        public randomizeTiles(types?: number[], x?: number, y?: number, width?: number, height?: number): void;
+        public fill(type: number, x?: number, y?: number, width?: number, height?: number): void;
+        public replaceTiles(typeA: number, typeB: number, x?: number, y?: number, width?: number, height?: number): void;
+        public swapTiles(typeA: number, typeB: number, x?: number, y?: number, width?: number, height?: number): void;
+        public getOverlappingTiles(entity: Kiwi.Entity, collisionType?: number): any;
+        public getCollidableTiles(x?: number, y?: number, width?: number, height?: number, collisionType?: number): any;
+        public update(): void;
+        private _maxX;
+        private _maxY;
+        private _startX;
+        private _startY;
+        private _temptype;
+        private _calculateBoundaries(camera, matrix);
         public render(camera: Kiwi.Camera): boolean;
+        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
     }
 }
 declare module Kiwi.Geom {
@@ -1167,14 +1137,14 @@ declare module Kiwi.Geom {
         static lineToLine(line1: Geom.Line, line2: Geom.Line, output?: Geom.IntersectResult): Geom.IntersectResult;
         static lineToLineSegment(line1: Geom.Line, seg: Geom.Line, output?: Geom.IntersectResult): Geom.IntersectResult;
         static lineToRawSegment(line: Geom.Line, x1: number, y1: number, x2: number, y2: number, output?: Geom.IntersectResult): Geom.IntersectResult;
-        static lineToRay(line1: Geom.Line, ray: Geom.Line, output?: Geom.IntersectResult): Geom.IntersectResult;
+        static lineToRay(line1: Geom.Line, ray: Geom.Ray, output?: Geom.IntersectResult): Geom.IntersectResult;
         static lineToCircle(line: Geom.Line, circle: Geom.Circle, output?: Geom.IntersectResult): Geom.IntersectResult;
-        static lineToRectangle(line: Geom.Line, rect: Geom.Rectangle, output?: Geom.IntersectResult): Geom.IntersectResult;
+        static lineToRectangle(line: any, rect: Geom.Rectangle, output?: Geom.IntersectResult): Geom.IntersectResult;
         static lineSegmentToLineSegment(line1: Geom.Line, line2: Geom.Line, output?: Geom.IntersectResult): Geom.IntersectResult;
-        static lineSegmentToRay(line1: Geom.Line, ray: Geom.Line, output?: Geom.IntersectResult): Geom.IntersectResult;
+        static lineSegmentToRay(line1: Geom.Line, ray: Geom.Ray, output?: Geom.IntersectResult): Geom.IntersectResult;
         static lineSegmentToCircle(seg: Geom.Line, circle: Geom.Circle, output?: Geom.IntersectResult): Geom.IntersectResult;
         static lineSegmentToRectangle(seg: Geom.Line, rect: Geom.Rectangle, output?: Geom.IntersectResult): Geom.IntersectResult;
-        static rayToRectangle(ray: Geom.Line, rect: Geom.Rectangle, output?: Geom.IntersectResult): Geom.IntersectResult;
+        static rayToRectangle(ray: Geom.Ray, rect: Geom.Rectangle, output?: Geom.IntersectResult): Geom.IntersectResult;
         static rayToLineSegment(rayx1: any, rayy1: any, rayx2: any, rayy2: any, linex1: any, liney1: any, linex2: any, liney2: any, output?: Geom.IntersectResult): Geom.IntersectResult;
         static circleToCircle(circle1: Geom.Circle, circle2: Geom.Circle, output?: Geom.IntersectResult): Geom.IntersectResult;
         static circleToRectangle(circle: Geom.Circle, rect: Geom.Rectangle, output?: Geom.IntersectResult): Geom.IntersectResult;
@@ -1218,7 +1188,7 @@ declare module Kiwi.Geom {
         public yIntercept : number;
         public isPointOnLine(x: number, y: number): boolean;
         public isPointOnLineSegment(x: number, y: number): boolean;
-        public intersectLineLine(line: any): any;
+        public intersectLineLine(line: any): Geom.IntersectResult;
         public perp(x: number, y: number, output?: Line): Line;
         public toString(): string;
     }
@@ -1401,6 +1371,14 @@ declare module Kiwi.Geom {
         public copyTo(target: Vector2): Vector2;
         public setTo(x: number, y: number): Vector2;
         public toString(): string;
+    }
+}
+declare module Kiwi.Geom {
+    class Random {
+        static randomPointCirclePerimeter(): Geom.Point;
+        static randomPointCircle(): Geom.Point;
+        static randomPointSquare(): Geom.Point;
+        static randomPointSquarePerimeter(): Geom.Point;
     }
 }
 declare module Kiwi.HUD {
@@ -2123,6 +2101,8 @@ interface IRenderManager {
     initState(state: Kiwi.State): any;
     endState(state: Kiwi.State): any;
     numDrawCalls: number;
+    requestRendererInstance(rendererID: string, params?: any): any;
+    requestSharedRenderer(rendererID: string, params?: any): any;
 }
 declare module Kiwi.Renderers {
     class CanvasRenderer implements IRenderManager {
@@ -2132,6 +2112,8 @@ declare module Kiwi.Renderers {
         private _game;
         private _currentCamera;
         public _recurse(child: Kiwi.IChild): void;
+        public requestRendererInstance(rendererID: string, params?: any): Renderers.Renderer;
+        public requestSharedRenderer(rendererID: string, params?: any): Renderers.Renderer;
         public initState(state: Kiwi.State): void;
         public endState(state: Kiwi.State): void;
         public numDrawCalls: number;
@@ -2140,12 +2122,13 @@ declare module Kiwi.Renderers {
 }
 declare var mat2d: any, mat3: any, vec2: any, vec3: any, mat4: any;
 declare module Kiwi.Renderers {
-    class GLRenderer implements IRenderManager {
+    class GLRenderManager implements IRenderManager {
         constructor(game: Kiwi.Game);
         public boot(): void;
         public objType(): string;
         private _game;
         private _textureManager;
+        private _shaderManager;
         private _stageResolution;
         private _currentRenderer;
         private _cameraOffset;
@@ -2154,13 +2137,34 @@ declare module Kiwi.Renderers {
         private _maxItems;
         public mvMatrix: Float32Array;
         private _currentTextureAtlas;
-        private _renderers;
-        public addRenderer(rendererID: string): boolean;
+        public addTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas): void;
+        private _sharedRenderers;
+        public addSharedRenderer(rendererID: string, params?: any): boolean;
+        public requestSharedRenderer(rendererID: string, params?: any): Renderers.Renderer;
+        public requestRendererInstance(rendererID: string, params?: any): Renderers.Renderer;
         private _init();
         public initState(state: Kiwi.State): void;
         public endState(state: Kiwi.State): void;
         public render(camera: Kiwi.Camera): void;
         private _recurse(gl, child, camera);
+        private _processEntity(gl, entity, camera);
+        private _flushBatch(gl);
+        private _switchRenderer(gl, entity);
+        private _switchTexture(gl, entity);
+    }
+}
+declare module Kiwi.Shaders {
+    class ShaderManager {
+        constructor();
+        private _shaderPairs;
+        public currentShader : Shaders.ShaderPair;
+        private _currentShader;
+        public init(gl: WebGLRenderingContext, defaultShaderID: string): void;
+        public requestShader(gl: WebGLRenderingContext, shaderID: string): Shaders.ShaderPair;
+        public shaderExists(gl: WebGLRenderingContext, shaderID: string): boolean;
+        private _addShader(gl, shaderID);
+        private _loadShader(gl, shader);
+        private _useShader(gl, shader);
     }
 }
 declare module Kiwi.Renderers {
@@ -2177,6 +2181,7 @@ declare module Kiwi.Renderers {
         public image: HTMLImageElement;
         public createTexture(gl: WebGLRenderingContext): boolean;
         public uploadTexture(gl: WebGLRenderingContext): boolean;
+        public refreshTexture(gl: WebGLRenderingContext): void;
         public deleteTexture(gl: WebGLRenderingContext): boolean;
     }
 }
@@ -2195,6 +2200,7 @@ declare module Kiwi.Renderers {
         private _deleteTexture(gl, idx);
         private _uploadTexture(gl, glTextureWrapper);
         public uploadTextureLibrary(gl: WebGLRenderingContext, textureLibrary: Kiwi.Textures.TextureLibrary): void;
+        public uploadTexture(gl: WebGLRenderingContext, textureAtlas: Kiwi.Textures.TextureAtlas): void;
         public clearTextures(gl: WebGLRenderingContext): void;
         public useTexture(gl: WebGLRenderingContext, glTextureWrapper: Renderers.GLTextureWrapper): boolean;
         private _freeSpace(gl, numBytesToRemove);
@@ -2235,27 +2241,28 @@ declare module Kiwi.Renderers {
 }
 declare module Kiwi.Renderers {
     class Renderer {
-        constructor();
+        constructor(gl: WebGLRenderingContext, shaderManager: Kiwi.Shaders.ShaderManager);
         static RENDERER_ID: string;
         public mvMatrix: Float32Array;
-        public stageResolution: Float32Array;
-        public textureSize: Float32Array;
-        public cameraOffset: Float32Array;
-        public init(gl: WebGLRenderingContext, params: any): void;
+        public loaded: boolean;
+        public shaderManager: Kiwi.Shaders.ShaderManager;
+        public enable(gl: WebGLRenderingContext, params?: any): void;
+        public disable(gl: WebGLRenderingContext): void;
         public clear(gl: WebGLRenderingContext, params: any): void;
-        public draw(gl: WebGLRenderingContext, params: any): void;
+        public draw(gl: WebGLRenderingContext): void;
         public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array): void;
         public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array): void;
     }
 }
 declare module Kiwi.Renderers {
-    class Texture2DRenderer extends Renderers.Renderer {
-        constructor();
+    class TextureAtlasRenderer extends Renderers.Renderer {
+        constructor(gl: WebGLRenderingContext, shaderManager: Kiwi.Shaders.ShaderManager, params?: any);
         static RENDERER_ID: string;
-        public init(gl: WebGLRenderingContext, params: any): void;
-        public shaderPair: Renderers.Texture2DShader;
+        public enable(gl: WebGLRenderingContext, params?: any): void;
+        public disable(gl: WebGLRenderingContext): void;
+        public shaderPair: Kiwi.Shaders.TextureAtlasShader;
         public clear(gl: WebGLRenderingContext, params: any): void;
-        public draw(gl: WebGLRenderingContext, params: any): void;
+        public draw(gl: WebGLRenderingContext): void;
         private _maxItems;
         public xyuvBuffer: Renderers.GLArrayBuffer;
         public indexBuffer: Renderers.GLElementArrayBuffer;
@@ -2264,75 +2271,32 @@ declare module Kiwi.Renderers {
         public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array): void;
         public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array): void;
         public addToBatch(gl: WebGLRenderingContext, entity: Kiwi.Entity, camera: Kiwi.Camera): void;
+        public concatBatch(xyuvItems: number[], alphaItems: number[]): void;
     }
 }
-declare module Kiwi.Renderers {
-    class TestRenderer extends Renderers.Renderer {
-        constructor();
-        static RENDERER_ID: string;
-        public init(gl: WebGLRenderingContext, params: any): void;
-        public shaderPair: Renderers.Texture2DShader;
-        public clear(gl: WebGLRenderingContext, params: any): void;
-        public draw(gl: WebGLRenderingContext, params: any): void;
-        private _maxItems;
-        public xyuvBuffer: Renderers.GLArrayBuffer;
-        public indexBuffer: Renderers.GLElementArrayBuffer;
-        public alphaBuffer: Renderers.GLArrayBuffer;
-        private _generateIndices(numQuads);
-        public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array): void;
-        public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array): void;
-        public addToBatch(gl: WebGLRenderingContext, entity: Kiwi.Entity, camera: Kiwi.Camera): void;
-    }
-}
-declare module Kiwi.Renderers {
+declare module Kiwi.Shaders {
     class ShaderPair {
         constructor();
+        static RENDERER_ID: string;
         public init(gl: WebGLRenderingContext): void;
-        public ready: boolean;
+        public loaded: boolean;
         public vertShader: WebGLShader;
         public fragShader: WebGLShader;
         public shaderProgram: WebGLProgram;
         public attach(gl: WebGLRenderingContext, vertShader: WebGLShader, fragShader: WebGLShader): WebGLProgram;
         public compile(gl: WebGLRenderingContext, src: string, shaderType: number): WebGLShader;
-        public use(gl: WebGLRenderingContext): void;
         public fragSource: any[];
         public vertSource: any[];
     }
 }
-declare module Kiwi.Renderers {
-    class Texture2DShader extends Renderers.ShaderPair {
+declare module Kiwi.Shaders {
+    class TextureAtlasShader extends Shaders.ShaderPair {
         constructor();
-        public fragSource: string[];
-        public vertSource: string[];
+        public init(gl: WebGLRenderingContext): void;
         public attributes: any;
         public uniforms: any;
-        public uMVMatrix(gl: WebGLRenderingContext, uMVMatrixVal: Float32Array): void;
-        public uSampler(gl: WebGLRenderingContext, uSamplerVal: number): void;
-        public uResolution(gl: WebGLRenderingContext, uResolutionVal: Float32Array): void;
-        public uTextureSize(gl: WebGLRenderingContext, uTextureSizeVal: Float32Array): void;
-        public uCameraOffset(gl: WebGLRenderingContext, uCameraOffsetVal: Float32Array): void;
-        public aXYUV(gl: WebGLRenderingContext, aXYUVVal: Renderers.GLArrayBuffer): void;
-        public aAlpha(gl: WebGLRenderingContext, aAlphaVal: Renderers.GLArrayBuffer): void;
-        public use(gl: WebGLRenderingContext): void;
-        public draw(gl: WebGLRenderingContext, numElements: number): void;
-    }
-}
-declare module Kiwi.Renderers {
-    class TestShader extends Renderers.ShaderPair {
-        constructor();
         public fragSource: string[];
         public vertSource: string[];
-        public attributes: any;
-        public uniforms: any;
-        public uMVMatrix(gl: WebGLRenderingContext, uMVMatrixVal: Float32Array): void;
-        public uSampler(gl: WebGLRenderingContext, uSamplerVal: number): void;
-        public uResolution(gl: WebGLRenderingContext, uResolutionVal: Float32Array): void;
-        public uTextureSize(gl: WebGLRenderingContext, uTextureSizeVal: Float32Array): void;
-        public uCameraOffset(gl: WebGLRenderingContext, uCameraOffsetVal: Float32Array): void;
-        public aXYUV(gl: WebGLRenderingContext, aXYUVVal: Renderers.GLArrayBuffer): void;
-        public aAlpha(gl: WebGLRenderingContext, aAlphaVal: Renderers.GLArrayBuffer): void;
-        public use(gl: WebGLRenderingContext): void;
-        public draw(gl: WebGLRenderingContext, numElements: number): void;
     }
 }
 declare module Kiwi.System {
@@ -2409,10 +2373,11 @@ declare module Kiwi.System {
 }
 declare module Kiwi.Textures {
     class TextureAtlas {
-        constructor(name: string, type: number, cells: any, image: HTMLImageElement, sequences?: Kiwi.Animations.Sequence[]);
+        constructor(name: string, type: number, cells: any, image: any, sequences?: Kiwi.Animations.Sequence[]);
         public objType(): string;
         public name: string;
-        public image: HTMLImageElement;
+        public dirty: boolean;
+        public image: any;
         public cells: any;
         public sequences: Kiwi.Animations.Sequence[];
         public cellIndex: number;
@@ -2432,19 +2397,18 @@ declare module Kiwi.Textures {
         private _game;
         public textures: any;
         public clear(): void;
-        public add(imageFile: Kiwi.Files.File): void;
-        private _base2Sizes;
+        public add(atlas: Textures.TextureAtlas): void;
+        public addFromFile(imageFile: Kiwi.Files.File): void;
         private _rebuildImage(imageFile);
         private _buildTextureAtlas(imageFile);
         private _buildSpriteSheet(imageFile);
         private _buildImage(imageFile);
-        private _canvas;
         public rebuild(fileStore: Kiwi.Files.FileStore, state: Kiwi.State): void;
     }
 }
 declare module Kiwi.Textures {
     class SpriteSheet extends Textures.TextureAtlas {
-        constructor(name: string, texture: HTMLImageElement, cellWidth: number, cellHeight: number, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number);
+        constructor(name: string, texture: any, cellWidth: number, cellHeight: number, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number);
         public objType(): string;
         private cellWidth;
         private cellHeight;
@@ -2462,7 +2426,7 @@ declare module Kiwi.Textures {
 }
 declare module Kiwi.Textures {
     class SingleImage extends Textures.TextureAtlas {
-        constructor(name: string, image: HTMLImageElement, width?: number, height?: number, offsetX?: number, offsetY?: number);
+        constructor(name: string, image: any, width?: number, height?: number, offsetX?: number, offsetY?: number);
         public objType(): string;
         private width;
         private height;
@@ -2631,6 +2595,8 @@ declare module Kiwi.Utils {
         static reverseCompareFunction(compareFunction: any): (a: any, b: any) => number;
         static compareToEquals(compareFunction: any): (a: any, b: any) => boolean;
         static shuffleArray(array: any): any;
+        static base2Sizes: number[];
+        static convertToBase2(image: any): any;
     }
 }
 declare module Kiwi.Utils {

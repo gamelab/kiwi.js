@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -379,25 +381,25 @@
             
                 <li class="arg">
                     
-                        <code>x</code>
+                        <code>[x</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>y</code>
+                        <code>[y</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>width</code>
+                        <code>[width</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>height</code>
+                        <code>[height</code>
                     
                 </li>
             
@@ -456,14 +458,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">x</code>
+                        <code class="param-name">[x</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>x The x coordinate of the top-left corner of the rectangle.</p>
+                        <p>= 0]  The x coordinate of the top-left corner of the rectangle.</p>
 
                     </div>
 
@@ -472,14 +474,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">y</code>
+                        <code class="param-name">[y</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>y The y coordinate of the top-left corner of the rectangle.</p>
+                        <p>= 0]  The y coordinate of the top-left corner of the rectangle.</p>
 
                     </div>
 
@@ -488,14 +490,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">width</code>
+                        <code class="param-name">[width</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>width The width of the rectangle in pixels.</p>
+                        <p>= 0]  width The width of the rectangle in pixels.</p>
 
                     </div>
 
@@ -504,14 +506,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">height</code>
+                        <code class="param-name">[height</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>height The height of the rectangle in pixels.</p>
+                        <p>= 0]  height The height of the rectangle in pixels.</p>
 
                     </div>
 
@@ -675,6 +677,13 @@
                         
                             <li class="index-item method public">
                                 <a href="#method_overlap">overlap</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_scale">scale</a>
 
                                 
                                 
@@ -2581,6 +2590,154 @@
 </div>
 
                 
+                    <div id="method_scale" class="method item public">
+    <h3 class="name"><code>scale</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>x</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>y</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>translation</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Rectangle</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l625"><code>src\geom\Rectangle.ts:625</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>[DESCRIPTION REQUIRED]</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">y</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">translation</code>
+                        <span class="type">Point</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Rectangle</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_setEmpty" class="method item">
     <h3 class="name"><code>setEmpty</code></h3>
 
@@ -2729,7 +2886,7 @@
     </div>
 
     <div class="description">
-        <p>Sets the members of Rectangle to the specified values.</p>
+        <p>Sets the properties of Rectangle to the specified values.</p>
 
     </div>
 

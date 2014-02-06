@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -389,10 +391,10 @@
 /// &lt;reference path=&quot;gameobjects/Sprite.ts&quot; /&gt;
 /// &lt;reference path=&quot;gameobjects/StaticImage.ts&quot; /&gt;
 /// &lt;reference path=&quot;gameobjects/Textfield.ts&quot; /&gt;
-/// &lt;reference path=&quot;gameobjects/tilemap/Tile.ts&quot; /&gt;
 /// &lt;reference path=&quot;gameobjects/tilemap/TileType.ts&quot; /&gt;
 /// &lt;reference path=&quot;gameobjects/tilemap/TileMap.ts&quot; /&gt;
 /// &lt;reference path=&quot;gameobjects/tilemap/TileMapLayer.ts&quot; /&gt;
+
 
 /// &lt;reference path=&quot;geom/AABB.ts&quot; /&gt;
 /// &lt;reference path=&quot;geom/Circle.ts&quot; /&gt;
@@ -405,6 +407,7 @@
 /// &lt;reference path=&quot;geom/Rectangle.ts&quot; /&gt;
 /// &lt;reference path=&quot;geom/Transform.ts&quot; /&gt;
 /// &lt;reference path=&quot;geom/Vector2.ts&quot; /&gt;
+/// &lt;reference path=&quot;geom/Random.ts&quot; /&gt;
 
 /// &lt;reference path=&quot;hud/HUDDisplay.ts&quot; /&gt;
 /// &lt;reference path=&quot;hud/HUDManager.ts&quot; /&gt;
@@ -442,15 +445,18 @@
 /// &lt;reference path=&quot;plugins/Plugins.ts&quot; /&gt;
 
 /// &lt;reference path=&quot;render/CanvasRenderer.ts&quot; /&gt;
-/// &lt;reference path=&quot;render/GLRenderer.ts&quot; /&gt;
-/// &lt;reference path=&quot;render/GLShaderPair.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/GLRenderManager.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/GLShaderManager.ts&quot; /&gt;
+
 /// &lt;reference path=&quot;render/GLTextureWrapper.ts&quot; /&gt;
 /// &lt;reference path=&quot;render/GLTextureManager.ts&quot; /&gt;
 /// &lt;reference path=&quot;render/GLArrayBuffer.ts&quot; /&gt;
 /// &lt;reference path=&quot;render/GLElementArrayBuffer.ts&quot; /&gt;
 /// &lt;reference path=&quot;render/renderers/Renderer.ts&quot; /&gt;
-/// &lt;reference path=&quot;render/renderers/Texture2DRenderer.ts&quot; /&gt;
-/// &lt;reference path=&quot;render/shaders/Texture2DShader.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/renderers/TextureAtlasRenderer.ts&quot; /&gt;
+
+/// &lt;reference path=&quot;render/shaders/ShaderPair.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/shaders/TextureAtlasShader.ts&quot; /&gt;
 
 /// &lt;reference path=&quot;system/Bootstrap.ts&quot; /&gt;
 /// &lt;reference path=&quot;system/Browser.ts&quot; /&gt;
@@ -490,7 +496,7 @@ module Kiwi {
     * @default &#x27;1.0&#x27;
     * @public
     */
-    export var VERSION: string = &quot;0.5.3&quot;;
+    export var VERSION: string = &quot;0.6&quot;;
     
     //DIFFERENT RENDERER STATIC VARIABLES
     /**

@@ -274,6 +274,8 @@ module Kiwi.GameObjects {
         */
         private _tempDirty: boolean = true;
 
+        public img;
+
         /**
         * This method is used to render the text to an offscreen-canvas which is held in a TextureAtlas (which is generated upon the instanitation of this class). 
         * This is so that the canvas doesn't render it every frame as it can be costly and so that it can be used in WebGL with the TextureAtlasRenderer.
@@ -318,8 +320,14 @@ module Kiwi.GameObjects {
             this._ctx.fillStyle = this._fontColor;
             this._ctx.textBaseline = this._baseline;
 
+            this.img = new Image();
+            this.img = this._canvas.toDataURL();
+            this.atlas.image = this.img;
+
             //Draw the text.
             this._ctx.fillText(this._text, 0, 0);
+
+            
 
             //Update the cell and dirty/undirtyfiy
             this.atlas.cells[0] = { x: 0, y: 0, w: this._canvas.width, h: this._canvas.height };

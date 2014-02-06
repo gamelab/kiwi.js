@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -523,6 +525,20 @@
                             </li>
                         
                             <li class="index-item method private">
+                                <a href="#method_callCreate">callCreate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_checkInit">checkInit</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
                                 <a href="#method_checkKeyExists">checkKeyExists</a>
 
                                 
@@ -712,7 +728,7 @@
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l112"><code>src\core\StateManager.ts:112</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l111"><code>src\core\StateManager.ts:111</code></a>
         
         </p>
 
@@ -826,7 +842,7 @@ Returns true if added successfully, otherwise false (can happen if State is alre
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l170"><code>src\core\StateManager.ts:170</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l173"><code>src\core\StateManager.ts:173</code></a>
         
         </p>
 
@@ -837,7 +853,8 @@ Returns true if added successfully, otherwise false (can happen if State is alre
     </div>
 
     <div class="description">
-        <p>Is executed once the DOM has finished loading.</p>
+        <p>Is executed once the DOM has finished loading.
+This is an INTERNAL Kiwi method.</p>
 
     </div>
 
@@ -883,7 +900,7 @@ Returns true if added successfully, otherwise false (can happen if State is alre
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l214"><code>src\core\StateManager.ts:214</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l206"><code>src\core\StateManager.ts:206</code></a>
         
         </p>
 
@@ -895,6 +912,121 @@ Returns true if added successfully, otherwise false (can happen if State is alre
 
     <div class="description">
         <p>Actually switches to a state that is stored in the &#39;newStateKey&#39; property. This method is executed after the update loops have been executed to help prevent developer errors.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_callCreate" class="method item private">
+    <h3 class="name"><code>callCreate</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_StateManager.ts.html#l347"><code>src\core\StateManager.ts:347</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Checks to see if the state being switched to contains a create method.
+If it does then it calls the create method.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_checkInit" class="method item private">
+    <h3 class="name"><code>checkInit</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_StateManager.ts.html#l371"><code>src\core\StateManager.ts:371</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Checks to see if the state has a init method and then executes that method if it is found.</p>
 
     </div>
 
@@ -1046,7 +1178,7 @@ Returns true if added successfully, otherwise false (can happen if State is alre
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l338"><code>src\core\StateManager.ts:338</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l319"><code>src\core\StateManager.ts:319</code></a>
         
         </p>
 
@@ -1224,7 +1356,7 @@ If it does it loads the file, if it does not it runs the create method.</p>
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l317"><code>src\core\StateManager.ts:317</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l290"><code>src\core\StateManager.ts:290</code></a>
         
         </p>
 
@@ -1389,7 +1521,7 @@ If it does it loads the file, if it does not it runs the create method.</p>
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l395"><code>src\core\StateManager.ts:395</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l413"><code>src\core\StateManager.ts:413</code></a>
         
         </p>
 
@@ -1468,7 +1600,7 @@ If it does it loads the file, if it does not it runs the create method.</p>
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l378"><code>src\core\StateManager.ts:378</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l399"><code>src\core\StateManager.ts:399</code></a>
         
         </p>
 
@@ -1578,7 +1710,7 @@ If it does it loads the file, if it does not it runs the create method.</p>
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l475"><code>src\core\StateManager.ts:475</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l479"><code>src\core\StateManager.ts:479</code></a>
         
         </p>
 
@@ -1589,7 +1721,7 @@ If it does it loads the file, if it does not it runs the create method.</p>
     </div>
 
     <div class="description">
-        <p>postRender - called after all of the Layers have been rendered</p>
+        <p>PostRender - Called after all of the rendering has been executed in a frame.</p>
 
     </div>
 
@@ -1635,7 +1767,7 @@ If it does it loads the file, if it does not it runs the create method.</p>
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l435"><code>src\core\StateManager.ts:435</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l437"><code>src\core\StateManager.ts:437</code></a>
         
         </p>
 
@@ -1706,7 +1838,7 @@ If it does it loads the file, if it does not it runs the create method.</p>
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l196"><code>src\core\StateManager.ts:196</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l184"><code>src\core\StateManager.ts:184</code></a>
         
         </p>
 
@@ -1717,7 +1849,8 @@ If it does it loads the file, if it does not it runs the create method.</p>
     </div>
 
     <div class="description">
-        <p>Switches to the name (key) of the state that you pass. Does not work if the state you are switching to is already the current state OR if that state does not exist yet.</p>
+        <p>Switches to the name (key) of the state that you pass. 
+Does not work if the state you are switching to is already the current state OR if that state does not exist yet.</p>
 
     </div>
 
@@ -1830,7 +1963,7 @@ If it does it loads the file, if it does not it runs the create method.</p>
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l263"><code>src\core\StateManager.ts:263</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l237"><code>src\core\StateManager.ts:237</code></a>
         
         </p>
 
@@ -1976,7 +2109,7 @@ Otherwise you can pass the state object as well and it will load it then swap to
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l448"><code>src\core\StateManager.ts:448</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l450"><code>src\core\StateManager.ts:450</code></a>
         
         </p>
 
@@ -2183,7 +2316,7 @@ Otherwise you can pass the state object as well and it will load it then swap to
     </div>
 
     <div class="description">
-        <p>The current State</p>
+        <p>The current State that the game is at.</p>
 
     </div>
 

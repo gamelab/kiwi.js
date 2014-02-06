@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -351,7 +353,8 @@
 module Kiwi {
 
     /**
-    * [WHOLE THING REQUIRES DESCRIPTION]
+    * A lightweight object that contains values relating to the configuration of a State in a Kiwi Game.
+    *
     * @class StateConfig
     * @namespace Kiwi
     * @constructor
@@ -367,16 +370,25 @@ module Kiwi {
             this._state = parent;
             this.name = name;
 
-            this.populate();
-
+            //If it has a preload method.
+            //*cough* of course it does.
+            if (typeof this._state[&#x27;preload&#x27;] === &#x27;function&#x27;) {
+                this.hasPreloader = true;
+            }
         }
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return &quot;StateConfig&quot;;
         }
 
         /**
-        * 
+        * The state this StateConfig belongs to.
         * @property _state
         * @type State
         * @private
@@ -392,7 +404,7 @@ module Kiwi {
         public name: string = &#x27;&#x27;;
 
         /**
-        * 
+        * Currently unused.
         * @property isPersistent
         * @type boolean
         * @default false
@@ -401,7 +413,8 @@ module Kiwi {
         public isPersistent: boolean = false;
 
         /**
-        * 
+        * If this State has been created (the create method has been executed). 
+        * Essentually has the same meaning as &#x27;isReady&#x27;.
         * @property isCreated
         * @type boolean
         * @default false
@@ -410,7 +423,8 @@ module Kiwi {
         public isCreated: boolean = false;
 
         /**
-        * 
+        * If the State has been initialised already (so the Boot and Init methods have been executed already). 
+        * A State only get Initialised once which is when it switched to for this first time.
         * @property isInitialised
         * @type boolean
         * @default false
@@ -419,7 +433,8 @@ module Kiwi {
         public isInitialised: boolean = false;
 
         /**
-        * 
+        * If the State that this config is on is &#x27;ready&#x27; to be used (e.g. all the assets have been loaded and libraries complied)
+        * or if it isn&#x27;t and so it is still at the &#x27;loading&#x27; stage.
         * @property isReady
         * @type boolean
         * @default false
@@ -428,16 +443,7 @@ module Kiwi {
         public isReady: boolean = false;
 
         /**
-        * 
-        * @property hasInit
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasInit: boolean = false;
-
-        /**
-        * 
+        * If the State that this config is on contains a Preloader Method.
         * @property hasPreloader
         * @type boolean
         * @default false
@@ -446,97 +452,7 @@ module Kiwi {
         public hasPreloader: boolean = false;
 
         /**
-        * 
-        * @property hasLoadProgress
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasLoadProgress: boolean = false;
-
-        /**
-        * 
-        * @property hasLoadComplete
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasLoadComplete: boolean = false;
-
-        /**
-        * 
-        * @property hasLoadUpdate
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasLoadUpdate: boolean = false;
-
-        /**
-        * 
-        * @property hasCreate
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasCreate: boolean = false;
-
-        /**
-        * 
-        * @property hasOnEnter
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasOnEnter: boolean = false;
-
-        /**
-        * 
-        * @property hasUpdate
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasUpdate: boolean = false;
-
-        /**
-        * 
-        * @property hasRender
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasRender: boolean = false;
-
-        /**
-        * 
-        * @property hasOnExit
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasOnExit: boolean = false;
-
-        /**
-        * 
-        * @property hasShutDown
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasShutDown: boolean = false;
-
-        /**
-        * 
-        * @property hasDestroy
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasDestroy: boolean = false;
-
-        /**
-        * 
+        * The number of times the State that this config belongs to has been active/used.
         * @property runCount
         * @type Number
         * @default 0
@@ -545,7 +461,7 @@ module Kiwi {
         public runCount: number = 0;
 
         /**
-        * 
+        * The type of state this is. Currently Unused.
         * @property type
         * @type Number
         * @default 0
@@ -554,95 +470,33 @@ module Kiwi {
         public type: number = 0;
 
         /**
-        * Stores any parameters passed to the init method
+        * Stores any parameters that are to be passed to the init method when the State that this config is on is switched to.
         * @property initParams
-        * @type array
+        * @type Array
         * @public
         */
         public initParams;
 
         /**
-        * Stores any parameters passed to the create method
-        * @property initParams
-        * @type array
+        * Stores any parameters that are to be passed to the create method when the State that this config is on is switched to.
+        * @property createParams
+        * @type Array
         * @public
         */
         public createParams;
 
         /**
-        *
-        * @method populate
-        * @public
+        * Resets the properties contained on this StateConfig object. 
+        * This is executed when a State is about to be destroyed as so reset&#x27;s it to be switched to again.
+        * @method 
+        * 
         */
-        public populate() {
+        public reset() {
 
-            if (typeof this._state[&#x27;init&#x27;] === &#x27;function&#x27;)
-            {
-                this.hasInit = true;
-            }
-
-            if (typeof this._state[&#x27;preload&#x27;] === &#x27;function&#x27;)
-            {
-                this.hasPreloader = true;
-            }
-
-            if (typeof this._state[&#x27;loadProgress&#x27;] === &#x27;function&#x27;)
-            {
-                this.hasLoadProgress = true;
-            }
-
-            if (typeof this._state[&#x27;loadComplete&#x27;] === &#x27;function&#x27;)
-            {
-                this.hasLoadComplete = true;
-            }
-
-            if (typeof this._state[&#x27;loadUpdate&#x27;] === &#x27;function&#x27;)
-            {
-                this.hasLoadUpdate = true;
-            }
-
-            if (typeof this._state[&#x27;create&#x27;] === &#x27;function&#x27;)
-            {
-                this.hasCreate = true;
-            }
-
-            if (typeof this._state[&#x27;onEnter&#x27;] === &#x27;function&#x27;)
-            {
-                this.hasOnEnter = true;
-            }
-
-            if (typeof this._state[&#x27;update&#x27;] === &#x27;function&#x27;)
-            {
-                this.hasUpdate = true;
-            }
-
-            if (typeof this._state[&#x27;render&#x27;] === &#x27;function&#x27;)
-            {
-                this.hasRender = true;
-            }
-
-            if (typeof this._state[&#x27;onExit&#x27;] === &#x27;function&#x27;)
-            {
-                this.hasOnExit = true;
-            }
-
-            if (typeof this._state[&#x27;shutdown&#x27;] === &#x27;function&#x27;)
-            {
-                this.hasShutDown = true;
-            }
-
-            if (typeof this._state[&#x27;destroy&#x27;] === &#x27;function&#x27;)
-            {
-                this.hasDestroy = true;
-            }
-
-            if (this.hasInit === false &amp;&amp; this.hasCreate === false)
-            {
-                //  If there are no init or create functions, then we consider the state already initialised
-                this.isInitialised = true;
-                this.isCreated = true;
-                this.isReady = true;
-            }
+            this.isReady = false;
+            this.isCreated = false;
+            this.createParams = [];
+            this.initParams = [];
 
         }
 
