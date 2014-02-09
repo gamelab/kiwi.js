@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -572,6 +574,62 @@ module Kiwi.Utils {
 
             return array;
 
+        }
+
+        /**
+        * An array containing all of the base2sizes that are allowed.
+        * This is used when creating a new TextureAtlas/or resizing a Image to be rendered in WebGL.
+        * @property base2Sizes
+        * @type number[]
+        * @public
+        * @static
+        */
+        public static base2Sizes: number[] = [2, 4, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096];
+
+        /**
+        * A method that checks to see if an Image or Canvas that is passed has base2 proportions. 
+        * If it doesn&#x27;t the image is created on a Canvas and that Canvas is returned.
+        * Used mainly when creating TextureAtlases for WebGL. 
+        * @method convertToBase2
+        * @param imageFile {HTMLImageElement/HTMLCanvasElement} The image or canvas element that is to be converted into a base2size. 
+        * @return {HTMLImageElement/HTMLCanvasElement} The image that was passed (if it was already at base2 dimensions) or a new canvas element if it wasn&#x27;t.
+        * @static
+        * @public
+        */
+        public static convertToBase2(image: any): any {
+            
+            //Get the width/height
+            var width = image.width;
+            var height = image.height
+
+            //Check to see if the width is base2
+            if (this.base2Sizes.indexOf(width) == -1) {
+                var i = 0;
+                while (width &gt; this.base2Sizes[i]) i++;
+                width = this.base2Sizes[i];
+            }
+
+            //Check to see if the height is base2
+            if (this.base2Sizes.indexOf(height) == -1) {
+                var i = 0;
+                while (height &gt; this.base2Sizes[i]) i++;
+                height = this.base2Sizes[i];
+            }
+
+
+            //If either of them did not have a base2 size then create a canvas and create a new canvas.
+            if (image.width !== width || image.height !== height) {
+
+                //Is it already a canvas?
+                var canvas = document.createElement(&#x27;canvas&#x27;);
+                canvas.width = width;
+                canvas.height = height;
+                canvas.getContext(&quot;2d&quot;).drawImage(image, 0, 0);
+
+                return canvas;
+            }
+
+            return image;
         }
 
     }

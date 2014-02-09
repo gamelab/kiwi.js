@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -342,12 +344,14 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+
 /**
-*  
-* @module Kiwi
-* @submodule Renderers
 * 
-*/
+* 
+* @module Kiwi
+* @submodule Renderers 
+* @main Renderers
+*/ 
 
 module Kiwi.Renderers {
 
@@ -484,23 +488,27 @@ module Kiwi.Renderers {
             console.log(&quot;...recreated wrapper cache&quot;);
             
             for (var tex in textureLibrary.textures) {
-                //create a glTexture
-                var glTextureWrapper = new GLTextureWrapper(gl, textureLibrary.textures[tex]);
-                //store a refence to it
-                this._addTextureToCache(glTextureWrapper);
-                //create reference on atlas to avoid lookups when switching
-                textureLibrary.textures[tex].glTextureWrapper = glTextureWrapper;
-
-                //only upload it if it fits
-                if (!this._uploadTexture(gl, glTextureWrapper)) {
-                    console.log(&quot;...skipped uploading texture due to allocated texture memory exceeded&quot;);
-                }
+                this.uploadTexture(gl, textureLibrary.textures[tex]);
 
             }
             console.log(&quot;...texture Library uploaded. Using KB: &quot; + this._usedTextureMem / 1024);
             console.log(&quot;...using &quot; + this._usedTextureMem / this.maxTextureMem + &quot; of KB &quot; + this.maxTextureMem / 1024);
         }
-        
+
+
+        public uploadTexture(gl: WebGLRenderingContext, textureAtlas: Kiwi.Textures.TextureAtlas) {
+            //create a glTexture
+            var glTextureWrapper = new GLTextureWrapper(gl, textureAtlas );
+            //store a refence to it
+            this._addTextureToCache(glTextureWrapper);
+            //create reference on atlas to avoid lookups when switching
+            textureAtlas.glTextureWrapper = glTextureWrapper;
+
+            //only upload it if it fits
+            if (!this._uploadTexture(gl, glTextureWrapper)) {
+                console.log(&quot;...skipped uploading texture due to allocated texture memory exceeded&quot;);
+            }
+        }
 
         /**
         * Removes all textures from video memory and clears the wrapper cache
@@ -530,7 +538,7 @@ module Kiwi.Renderers {
         * @return boolean
         * @public
         */
-        public useTexture(gl:WebGLRenderingContext,glTextureWrapper: GLTextureWrapper,textureSizeUniform):boolean {
+        public useTexture(gl:WebGLRenderingContext,glTextureWrapper: GLTextureWrapper):boolean {
             
             if (!glTextureWrapper.created || !glTextureWrapper.uploaded) {
                 if(!this._uploadTexture(gl, glTextureWrapper)) {
@@ -544,7 +552,7 @@ module Kiwi.Renderers {
             if (glTextureWrapper.created &amp;&amp; glTextureWrapper.uploaded) {
                 
                 gl.bindTexture(gl.TEXTURE_2D, glTextureWrapper.texture);
-                gl.uniform2fv(textureSizeUniform, new Float32Array([glTextureWrapper.image.width, glTextureWrapper.image.height]));
+                //gl.uniform2fv(textureSizeUniform, new Float32Array([glTextureWrapper.image.width, glTextureWrapper.image.height]));
                 return true;
 
             }

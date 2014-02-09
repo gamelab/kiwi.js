@@ -29,6 +29,10 @@
     <Content Include="file\File.ts" />
     <Content Include="file\FileStore.ts" />
     <Content Include="file\Loader.ts" />
+    <TypeScriptCompile Include="geom\Random.ts" />
+    <Content Include="geom\Random.js">
+      <DependentUpon>Random.ts</DependentUpon>
+    </Content>
     <Content Include="gl-matrix-min.js" />
     <Content Include="hud\components\Time.ts" />
     <Content Include="input\MouseCursor.ts" />
@@ -39,14 +43,14 @@
     </Content>
     <Content Include="render\GLArrayBuffer.ts" />
     <Content Include="render\GLElementArrayBuffer.ts" />
-    <Content Include="render\GLProgramManager.ts" />
-    <Content Include="render\GLRenderer.ts" />
-    <Content Include="render\GLShaderPair.ts" />
+    <Content Include="render\GLRenderManager.ts" />
+    <Content Include="render\GLShaderManager.ts" />
+    <Content Include="render\shaders\ShaderPair.ts" />
     <Content Include="render\GLTextureWrapper.ts" />
     <Content Include="render\GLTextureManager.ts" />
     <Content Include="render\renderers\Renderer.ts" />
-    <Content Include="render\renderers\Texture2DRenderer.ts" />
-    <Content Include="render\shaders\Texture2DShader.ts" />
+    <Content Include="render\renderers\TextureAtlasRenderer.ts" />
+    <Content Include="render\shaders\TextureAtlasShader.ts" />
     <Content Include="WebGL.d.ts" />
     <Content Include="sound\AudioLibrary.ts" />
     <Content Include="textures\TextureAtlas.ts" />
@@ -81,7 +85,6 @@
     <Content Include="gameobjects\Sprite.ts" />
     <Content Include="geom\AABB.ts" />
     <Content Include="gameobjects\Textfield.ts" />
-    <Content Include="gameobjects\tilemap\Tile.ts" />
     <Content Include="gameobjects\tilemap\TileType.ts" />
     <Content Include="gameobjects\tilemap\TileMap.ts" />
     <Content Include="gameobjects\tilemap\TileMapLayer.ts" />
@@ -181,7 +184,7 @@
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
     <IntermediateOutputPath>C:\Users\Benj\AppData\Local\Temp\vs2B63.tmp\Debug\</IntermediateOutputPath>
-    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vsBD6.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vs8C9E.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
@@ -189,11 +192,10 @@
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
     <IntermediateOutputPath>C:\Users\Benj\AppData\Local\Temp\vs2B63.tmp\Release\</IntermediateOutputPath>
-    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vsBD6.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vs8C9E.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(ProjectDir)\..\build\kiwi.js $(ProjectDir)\..\examples\
-</PostBuildEvent>
+    <PostBuildEvent>copy $(ProjectDir)\..\build\kiwi.js $(ProjectDir)\..\examples\</PostBuildEvent>
   </PropertyGroup>
 </Project>

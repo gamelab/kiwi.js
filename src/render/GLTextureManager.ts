@@ -1,9 +1,11 @@
+
 /**
-*  
-* @module Kiwi
-* @submodule Renderers
 * 
-*/
+* 
+* @module Kiwi
+* @submodule Renderers 
+* @main Renderers
+*/ 
 
 module Kiwi.Renderers {
 
@@ -140,23 +142,27 @@ module Kiwi.Renderers {
             console.log("...recreated wrapper cache");
             
             for (var tex in textureLibrary.textures) {
-                //create a glTexture
-                var glTextureWrapper = new GLTextureWrapper(gl, textureLibrary.textures[tex]);
-                //store a refence to it
-                this._addTextureToCache(glTextureWrapper);
-                //create reference on atlas to avoid lookups when switching
-                textureLibrary.textures[tex].glTextureWrapper = glTextureWrapper;
-
-                //only upload it if it fits
-                if (!this._uploadTexture(gl, glTextureWrapper)) {
-                    console.log("...skipped uploading texture due to allocated texture memory exceeded");
-                }
+                this.uploadTexture(gl, textureLibrary.textures[tex]);
 
             }
             console.log("...texture Library uploaded. Using KB: " + this._usedTextureMem / 1024);
             console.log("...using " + this._usedTextureMem / this.maxTextureMem + " of KB " + this.maxTextureMem / 1024);
         }
-        
+
+
+        public uploadTexture(gl: WebGLRenderingContext, textureAtlas: Kiwi.Textures.TextureAtlas) {
+            //create a glTexture
+            var glTextureWrapper = new GLTextureWrapper(gl, textureAtlas );
+            //store a refence to it
+            this._addTextureToCache(glTextureWrapper);
+            //create reference on atlas to avoid lookups when switching
+            textureAtlas.glTextureWrapper = glTextureWrapper;
+
+            //only upload it if it fits
+            if (!this._uploadTexture(gl, glTextureWrapper)) {
+                console.log("...skipped uploading texture due to allocated texture memory exceeded");
+            }
+        }
 
         /**
         * Removes all textures from video memory and clears the wrapper cache
@@ -186,7 +192,7 @@ module Kiwi.Renderers {
         * @return boolean
         * @public
         */
-        public useTexture(gl:WebGLRenderingContext,glTextureWrapper: GLTextureWrapper,textureSizeUniform):boolean {
+        public useTexture(gl:WebGLRenderingContext,glTextureWrapper: GLTextureWrapper):boolean {
             
             if (!glTextureWrapper.created || !glTextureWrapper.uploaded) {
                 if(!this._uploadTexture(gl, glTextureWrapper)) {
@@ -200,7 +206,7 @@ module Kiwi.Renderers {
             if (glTextureWrapper.created && glTextureWrapper.uploaded) {
                 
                 gl.bindTexture(gl.TEXTURE_2D, glTextureWrapper.texture);
-                gl.uniform2fv(textureSizeUniform, new Float32Array([glTextureWrapper.image.width, glTextureWrapper.image.height]));
+                //gl.uniform2fv(textureSizeUniform, new Float32Array([glTextureWrapper.image.width, glTextureWrapper.image.height]));
                 return true;
 
             }

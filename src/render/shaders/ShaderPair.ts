@@ -4,7 +4,10 @@
 * @submodule Renderers
 * 
 */
-module Kiwi.Renderers {
+
+
+
+module Kiwi.Shaders {
     
     /**
     *
@@ -13,29 +16,23 @@ module Kiwi.Renderers {
     * @param gl {WebGLRenderingContext}
     * @return {GLShaders}
     */
-    export class GLShaderPair {
+    export class ShaderPair {
 
         constructor() {
       
             
         }
 
-        public init(gl: WebGLRenderingContext) {
-            this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
-            this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
-            this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
-            this.use(gl);
-            this.ready = true;
-        }
-        
+        public static RENDERER_ID: string = "ShaderPair";
 
-        /**
-        *
-        * @property ready
-        * @type boolean
-        * @public
-        */
-        public ready: boolean = false;
+        public init(gl: WebGLRenderingContext) {
+                this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
+                this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
+                this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
+                this.loaded = true;
+        }
+
+        public loaded: boolean = false;
         
         /**
         *
@@ -98,24 +95,6 @@ module Kiwi.Renderers {
             return shader;
         }
 
-        /**
-        *
-        * @property texture2DProg
-        * @type Object
-        * @public
-        */
-        public descriptor: any;
-
-        /**
-        *
-        * @method use
-        * @param gl {WebGLRenderingContext}
-        * @param shaderProrgram {WebGLProgram}
-        * @public
-        */
-        public use(gl: WebGLRenderingContext) {
-           
-        }
 
         /**
         *

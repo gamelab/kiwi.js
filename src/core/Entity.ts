@@ -42,8 +42,7 @@ module Kiwi {
             
         }
 
-        public requiredRenderers: string[] = ["Texture2DRenderer"];
-        public renderer: Kiwi.Renderers.Renderer;
+        public glRenderer: Kiwi.Renderers.Renderer;
 
 
         /**
@@ -220,10 +219,10 @@ module Kiwi {
         * @default true
         * @public
         */
-        public set visibility(value: boolean) {
+        public set visible(value: boolean) {
             this._visible = value;
         }
-        public get visibility(): boolean {
+        public get visible(): boolean {
             return this._visible;
         }
         
@@ -468,7 +467,7 @@ module Kiwi {
         }
 
         
-        public renderGL(gl: WebGLRenderingContext, renderer: Kiwi.Renderers.Renderer, camera: Kiwi.Camera, params: any = null) {
+        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params: any = null) {
         
         }
 

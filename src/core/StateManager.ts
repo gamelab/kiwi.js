@@ -53,7 +53,7 @@ module Kiwi {
         private _states: Kiwi.State[];
 
         /**
-        * The current State
+        * The current State that the game is at.
         * @property current
         * @type State
         * @default null
@@ -100,8 +100,7 @@ module Kiwi {
         */
         private checkValidState(state: Kiwi.State): boolean {
 
-            if (!state['game'] || !state['config'])
-            {
+            if (!state['game'] || !state['config']) {
                 return false;
             }
 
@@ -124,40 +123,44 @@ module Kiwi {
 
             var tempState;
 
-            //  Is it a Prototype?
-            if (typeof state === 'function')
-            {
+            //What type is the state that was passed.
+            if (typeof state === 'function') {
                 tempState = new state();
-            }
-            else if (typeof state === 'string')
-            {
+
+            } else if (typeof state === 'string') {
                 tempState = window[state];  
-            }
-            else
-            {
+
+            } else {
                 tempState = state;
             }
 
-            //Does it already exist?
-            if (tempState.config.name && this.checkKeyExists(tempState.config.name) === true)
-            {
+            //Does a state with that name already exist?
+            if (tempState.config.name && this.checkKeyExists(tempState.config.name) === true) {
+
+                if (this._game.debug)
+                    console.error('Could not add ' + tempState.config.name + ' as a State with that name already exists.');
+
                 return false;
             }
 
             tempState.game = this._game;
-           
+            
+            //Is it a valid state?
+            if (this.checkValidState(tempState) === false) {
 
-            if (this.checkValidState(tempState) === false)
-            {
+                if (this._game.debug)
+                    console.error(tempState.config.name + ' isn\'t a valid state. Make sure you are using the Kiwi.State class!');
+
                 return false;
-            }
-            else
-            {
+
+            } else {
 
                 this._states.push(tempState);
 
-                if (switchTo === true)
-                {
+                if (this._game.debug)
+                    console.log(tempState.config.name + ' was successfully added.');
+
+                if (switchTo === true) {
                     this.setCurrentState(tempState.config.name);
                 }
 
@@ -169,32 +172,18 @@ module Kiwi {
 
         /**
         * Is executed once the DOM has finished loading.
+        * This is an INTERNAL Kiwi method. 
         * @method boot
         * @public
         */
-        boot() {
+        boot() {                                         
 
-            if (this.current !== null)
-            {
-                this.current.boot();
-            }
-
-            if (this.current !== null && this.current.config.isInitialised === false)
-            {
-                if (this.current.config.hasInit === true)
-                {
-                    this.current.init();
-                }
-
-                this.current.config.isInitialised = true;
-    
-                this.checkPreload();
-            }
 
         }
 
         /**
-        * Switches to the name (key) of the state that you pass. Does not work if the state you are switching to is already the current state OR if that state does not exist yet.
+        * Switches to the name (key) of the state that you pass. 
+        * Does not work if the state you are switching to is already the current state OR if that state does not exist yet.
         * @method setCurrentState
         * @param {String} key
         * @return {boolean}
@@ -206,7 +195,10 @@ module Kiwi {
             if (this.current !== null && this.current.config.name === key || this.checkKeyExists(key) === false) {
                 return false;
             }
-            
+
+            if (this._game.debug)
+                console.log('Switching to ' + key + ' State.'); 
+
             this._newStateKey = key;
             return true;
         }
@@ -218,52 +210,34 @@ module Kiwi {
         */
         private bootNewState() {
             
-            // First check if we have a current state or not. Destroy the previous state
+            // Destroy the current if there is one.
             if (this.current !== null) {
-                //  Yes, so notify it that it's about to be shut down
-                //  If there is a shutdown function then we call it, passing it a callback.
-                //  The State is then responsible for hitting the callback when it is ready.
-                //  TODO: Transition support - both state updates need to be called at the same time.
-                this._game.input.reset();
-                this.current.destroy();
+
+                this.current.shutDown();
+
                 
+                this._game.input.reset();   //Reset the input component
+                this.current.destroy(true); //Destroy ALL IChildren ever created on that state.
+                this._game.fileStore.removeStateFiles(this.current); //Clear the fileStore of not global files.
+                this.current.config.reset(); //Reset the config setting
             } 
 
+
+            //Set the current state, reset the key
             this.current = this.getState(this._newStateKey);
-
-            //  Do we need to init it?
-            if (this._game.stage.domReady === true)
-            {
-                if (this.current.config.isInitialised === false)
-                {
-                    this.current.boot();
-
-                    if (this.current.config.hasInit === true)
-                    {
-                        if (this.current.config.initParams)
-                        {
-                            this.current.init.apply(this.current, this.current.config.initParams);
-                        }
-                        else
-                        {
-                            this.current.init.call(this.current);
-                        }
-                    }
-
-                    this.current.config.isInitialised = true;
-                }
-
-                this.checkPreload();
-
-            }
-            
             this._newStateKey = null;
+
+
+            //Initalise the state and execute the preload method?
+            this.checkInit();
+            this.checkPreload();
+
         }
 
         /**
-        *  Swaps the current state.
-        *  If the state has already been loaded (via addState) then you can just pass the key.
-        *  Otherwise you can pass the state object as well and it will load it then swap to it.
+        * Swaps the current state.
+        * If the state has already been loaded (via addState) then you can just pass the key.
+        * Otherwise you can pass the state object as well and it will load it then swap to it.
         *
         * @method switchState
         * @param key {String} The name/key of the state you would like to switch to.
@@ -277,34 +251,33 @@ module Kiwi {
 
             //  If we have a current state that isn't yet ready (preload hasn't finished) then abort now
             if (this.current !== null && this.current.config.isReady === false) {
+
+                if(this._game.debug)
+                    console.error('Cannot change to a new state till the current state has finished loading!');
+
                 return false;
             }
 
-            //  if state key already exists let's try swapping to it, even if the state was passed
+            // If state key doesn't exist then lets add it.
             if (this.checkKeyExists(key) === false && state !== null) {
-                //  Does the state already exist?
+
                 if (this.addState(state, false) === false) {
-                    //  Error adding the state
                     return false;
                 }
             }
 
-            //  Store the parameters (if any)
-            if (initParams !== null || createParams !== null)
-            {
+            // Store the parameters (if any)
+            if (initParams !== null || createParams !== null) {
+
                 var newState = this.getState(key);
-
                 newState.config.initParams = [];
+                newState.config.createParams = [];
 
-                for (var initParameter in initParams)
-                {
+                for (var initParameter in initParams) {
                     newState.config.initParams.push(initParams[initParameter]);
                 }
 
-                newState.config.createParams = [];
-
-                for (var createParameter in createParams)
-                {
+                for (var createParameter in createParams) {
                     newState.config.createParams.push(createParams[createParameter]);
                 }
 
@@ -335,6 +308,14 @@ module Kiwi {
 
         }
 
+
+        /*
+        *----------------
+        * Check Methods 
+        *----------------
+        */
+
+
         /**
         * Checks to see if the state that is being switched to needs to load some files or not.
         * If it does it loads the file, if it does not it runs the create method.
@@ -346,31 +327,71 @@ module Kiwi {
             //Rebuild the Libraries before the preload is executed
             this.rebuildLibraries();
 
-            if (this.current.config.hasPreloader === true)
+            
+            if (this.current.config.hasPreloader === true) //Perhaps it will. Just maybe.
             {
-                this._game.loader.init((percent, bytes, file) => this.onLoadProgress(percent, bytes, file), () => this.onLoadComplete());
+                this._game.loader.init( (percent, bytes, file) => this.onLoadProgress(percent, bytes, file), () => this.onLoadComplete());
                 this.current.preload();
                 this._game.loader.startLoad();
             }
             else
             {
-                //  No preloader, but does have a create function
-                if (this.current.config.hasCreate === true && this.current.config.isCreated === false)
-                {
-                    this.current.config.isCreated = true;
 
-                    if (this.current.config.createParams)
-                    {
-                        this.current.create.apply(this.current, this.current.config.createParams);
-                    }
-                    else
-                    {
-                        this.current.create.call(this.current);
-                    }
-                }
-                
                 this.current.config.isReady = true;
+                this.callCreate();
 
+            }
+
+        }
+
+        /**
+        * Checks to see if the state being switched to contains a create method.
+        * If it does then it calls the create method.
+        * @method callCreate
+        * @private
+        */
+        private callCreate() {
+
+            if (this._game.debug)
+                console.log("Calling State:Create");
+
+            //Execute the create with params if there are some there.
+            if (this.current.config.createParams) {
+                this.current.create.apply(this.current, this.current.config.createParams);
+
+            //Otherwise just execute the method.
+            } else {
+                this.current.create.call(this.current);
+            }
+
+            this.current.config.runCount++;
+            this.current.config.isCreated = true;
+        }
+
+        /**
+        * Checks to see if the state has a init method and then executes that method if it is found.
+        * @method checkInit
+        * @private
+        */
+        private checkInit() {
+            
+            //Has the state already been initialised?
+            if (this.current.config.isInitialised === false) {
+
+                //Boot the state.
+                this.current.boot();
+
+                //Execute the Init method with params
+                if (this.current.config.initParams) {
+                    this.current.init.apply(this.current, this.current.config.initParams);
+
+                //Execute the Init method with out params
+                } else {
+                    this.current.init.call(this.current);
+                }
+
+                
+                this.current.config.isInitialised = true;
             }
 
         }
@@ -385,11 +406,8 @@ module Kiwi {
         */
         private onLoadProgress(percent: number, bytesLoaded: number, file: Kiwi.Files.File) {
 
-            if (this.current.config.hasLoadProgress === true)
-            {
-                this.current.loadProgress(percent, bytesLoaded, file);
-            }
-
+            this.current.loadProgress(percent, bytesLoaded, file);
+            
         }
 
         /**
@@ -399,36 +417,20 @@ module Kiwi {
         */
         private onLoadComplete() {
 
-            if (this.current.config.hasLoadComplete === true)
-            {
-                this.current.loadComplete();
-            }
-
+            this.current.loadComplete();
+            
             if (this._game.debug) {
                 console.log("Rebuilding Libraries");
             }
+
+            //Rebuild the Libraries again to have access the new files that were loaded.
             this.rebuildLibraries();
-            if (this._game.renderOption = Kiwi.RENDERER_WEBGL) {
+            if (this._game.renderOption == Kiwi.RENDERER_WEBGL) {
                 this._game.renderer.initState(this.current);
             }
             
             this.current.config.isReady = true;
-
-            if (this.current.config.hasCreate === true)
-            {
-                this.current.config.isCreated = true;
-                if (this._game.debug) {
-                    console.log("Calling State:Create");
-                }
-                if (this.current.config.createParams)
-                {
-                    this.current.create.apply(this.current, this.current.config.createParams);
-                }
-                else
-                {
-                    this.current.create.call(this.current);
-                }
-            }
+            this.callCreate();
 
         }
 
@@ -454,6 +456,7 @@ module Kiwi {
 
             if (this.current !== null)
             {
+                //Is the state ready?
                 if (this.current.config.isReady === true)
                 {
                     this.current.preUpdate();
@@ -466,6 +469,7 @@ module Kiwi {
                 }
             }
 
+            //Do we need to switch states?
             if (this._newStateKey !== null) {
                 this.bootNewState();
             }
@@ -473,7 +477,7 @@ module Kiwi {
         }
 
         /**
-        * postRender - called after all of the Layers have been rendered
+        * PostRender - Called after all of the rendering has been executed in a frame.
         * @method postRender
         * @public
         */

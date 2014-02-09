@@ -56,7 +56,6 @@ var Player = function(state, atlas, x, y) {
 Kiwi.extend(Player, Kiwi.GameObjects.Sprite);
 
 Player.prototype.update = function () {
-    console.log('update');
     if (Kiwi.DEVICE.touch == false) {
         if (this.game.input.keyboard.isDown(Kiwi.Input.Keycodes.A) || this.game.input.keyboard.isDown(Kiwi.Input.Keycodes.LEFT)) {
             this.x -= 3;

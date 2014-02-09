@@ -8,82 +8,46 @@
 module Kiwi.GameObjects.Tilemap {
 
     /**
-    * Defines a particular type of tile that is used on a TileMap. A TileType object should never be directly instantiated by a developer, but instead referenced through the TileMap that it belongs to. A new TileType is created for each cell that exists on the SpriteSheet that is parse when creating a TileMap. Note: There is always a TileType (at index of -1) generated which you can use when no tile will be placed in that spot.
+    * Define's the properties of a single Type of Tile for a TileMap. This class should not be directly instanted, 
+    * but instead when wanting to create new TileType's you should use the 'createdTileType' methods on a TileMap object.
     * 
     * @class TileType
     * @namespace Kiwi.GameObjects.Tilemap
     * @constructor
-    * @param game {Game} The game that this type of tile belongs to.
-    * @param tilemap {TileMap} The TileMap that this type of tile is on.
-    * @param index {number} The unique index that this tile has associated with it.
-    * @param width {number} The width of this tile. Only used for collision detection.
-    * @param height {number} The height of this tile. Only used for collision detection.
-    * @return {TileType}
-    * 
+    * @param tilemap {TileMap} The TileMap that this TileType is a part of.
+    * @param index {Number} The index of this TileType, which Tiles use when wanting to use this TileType.
+    * @param cellIndex {Number} The cell number to use when rendering this Type of Tile.
+    * @return {TileType} This TileType
+    * @public
     */
     export class TileType {
  
-        constructor(game: Game, tilemap: Kiwi.GameObjects.Tilemap.TileMap, cellIndex:number, index: number) {
+        constructor(tilemap: Kiwi.GameObjects.Tilemap.TileMap, index: number, cellIndex: number = -1) {
 
-            this._game = game;
             this.tilemap = tilemap;
             this.index = index;
             this.cellIndex = cellIndex;
-
-            this.allowCollisions = Kiwi.Components.ArcadePhysics.NONE;
-            this.seperate = false;
-            this.immovable = true;
+        
         }
 
         /**
-        * The game that this tiletype belongs to.
-        * @property _game
-        * @type Game
-        * @private 
-        */
-        private _game: Kiwi.Game;
-
-        /**
-        *  You can give this Tile a friendly name to help with debugging. Never used internally.
-        * @property name
-        * @type string
-        * @public
-        */
-        public name: string;
-
-        /**
-        * The mass of the tile. Intended to be used in future with ArcadePhysics. Currently not used.
-        * @property mass
-        * @type number
-        * @default 1.0
-        * @public
-        */
-        public mass: number = 1.0;
-        
-        /**
-        * If this tile type is immovable or not.
-        * @property immovable
-        * @type boolean
-        * @default true
-        * @public
-        */
-        public immovable: boolean;
-
-        /**
-        * Which side/s at which objects can collide with this type of tile.
+        * The collision information for this type of tile. 
+        * It's values are the same as the Static properties inside of the ArcadePhysics Component. 
         * @property allowCollisions
         * @type number
+        * @default NONE
         * @public
         */
-        public allowCollisions: number;
-        
+        public allowCollisions: number = Kiwi.Components.ArcadePhysics.NONE;
+
         /**
-        * If when a object collides with this type of tile, they should both seperate.
-        * @property seperate
-        * @type boolean
+        * The properties associated with this type of tile. 
+        * These are set when loading a JSON file that had properties associated with a TileType. 
+        * @property properties
+        * @type Object
         * @public
         */
-        public seperate: boolean;
+        public properties: any = {};
 
         /**
         * A reference to the tilemap this tile object belongs to.
@@ -95,23 +59,30 @@ module Kiwi.GameObjects.Tilemap {
 
         /**
         * The index of this tile type in the core map data.
-        * For example, if your map only has 16 different types of tiles in it, this will be one of those tiles and thus a number between 0 and 15.
+        * For example, if your map only has 16 different types of tiles in it, this will be one of those tiles and thus a number between 1 and 16.
         * @property index
         * @type number
         * @public
         */
         public index: number;
 
+        /**
+        * A number relating to the cell that should be when rendering a Tile that uses this TileType.
+        * A cellIndex of -1 means this type of tile will not be rendered.
+        * @property cellIndex
+        * @type number
+        * @public
+        */
         public cellIndex: number;
 
         /**
-        * Clean up memory by destroying the references to other objects that this class maintains.
-        * @method destroy
+        * The type of object that it is.
+        * @method objType
+        * @return {String}
         * @public
         */
-        public destroy() {
-            delete this.tilemap;
-            delete this._game;
+        public objType() {
+            return "TileType";
         }
 
     }

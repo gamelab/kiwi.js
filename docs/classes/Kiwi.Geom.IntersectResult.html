@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -363,10 +365,68 @@
 
 
 <div class="box intro">
-    <p>A light result object to hold the results of an intersection</p>
+    <p>A Lightweight object to hold the results of an Intersection. 
+Used in combination with the STATIC methods on the Intersect class.</p>
 
 </div>
 
+
+    <div class="constructor">
+        <h2>Constructor</h2>
+        <div id="method_Kiwi.Geom.IntersectResult" class="method item">
+    <h3 class="name"><code>Kiwi.Geom.IntersectResult</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_IntersectResult.ts.html#l9"><code>src\geom\IntersectResult.ts:9</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+    </div>
 
 
 <div id="classdocs" class="tabview">
@@ -532,7 +592,7 @@
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l18"><code>src\geom\IntersectResult.ts:18</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l19"><code>src\geom\IntersectResult.ts:19</code></a>
         
         </p>
 
@@ -588,25 +648,25 @@
             
                 <li class="arg">
                     
-                        <code class="optional">[x2]</code>
+                        <code class="optional">[x2=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code class="optional">[y2]</code>
+                        <code class="optional">[y2=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code class="optional">[width]</code>
+                        <code class="optional">[width=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code class="optional">[height]</code>
+                        <code class="optional">[height=0]</code>
                     
                 </li>
             
@@ -639,7 +699,7 @@
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l83"><code>src\geom\IntersectResult.ts:83</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l98"><code>src\geom\IntersectResult.ts:98</code></a>
         
         </p>
 
@@ -650,7 +710,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Sets the coordinates of the points based on the parameters passed.</p>
+
     </div>
 
     
@@ -691,7 +752,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name optional">[x2]</code>
+                        <code class="param-name optional">[x2=0]</code>
                         <span class="type">Number</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
@@ -707,7 +768,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name optional">[y2]</code>
+                        <code class="param-name optional">[y2=0]</code>
                         <span class="type">Number</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
@@ -723,7 +784,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name optional">[width]</code>
+                        <code class="param-name optional">[width=0]</code>
                         <span class="type">Number</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
@@ -739,7 +800,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name optional">[height]</code>
+                        <code class="param-name optional">[height=0]</code>
                         <span class="type">Number</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
@@ -794,7 +855,7 @@
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l77"><code>src\geom\IntersectResult.ts:77</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l91"><code>src\geom\IntersectResult.ts:91</code></a>
         
         </p>
 
@@ -804,7 +865,8 @@
     </div>
 
     <div class="description">
-        
+        <p>[CURRENTLY NOT IN USE]</p>
+
     </div>
 
     
@@ -838,7 +900,7 @@
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l28"><code>src\geom\IntersectResult.ts:28</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l29"><code>src\geom\IntersectResult.ts:29</code></a>
         
         </p>
 
@@ -848,10 +910,13 @@
     </div>
 
     <div class="description">
-        <p>[REQUIRES DESCRIPTION]</p>
+        <p>Holds the result of an Intersection between two geometric items.
+TRUE means an Intersection did occur and FALSE means not.</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> false</p>
     
 
     
@@ -883,7 +948,7 @@
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l71"><code>src\geom\IntersectResult.ts:71</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l84"><code>src\geom\IntersectResult.ts:84</code></a>
         
         </p>
 
@@ -893,7 +958,8 @@
     </div>
 
     <div class="description">
-        
+        <p>[CURRENTLY NOT IN USE]</p>
+
     </div>
 
     
@@ -927,7 +993,7 @@
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l35"><code>src\geom\IntersectResult.ts:35</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l38"><code>src\geom\IntersectResult.ts:38</code></a>
         
         </p>
 
@@ -937,7 +1003,10 @@
     </div>
 
     <div class="description">
-        
+        <p>Holds the x coordinate of the point in which the Intersection occured.
+Note: This is only set in the case the TWO geometric items are either Lines or Rays (Line like in function)
+and a Intersection occured.</p>
+
     </div>
 
     
@@ -971,7 +1040,7 @@
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l47"><code>src\geom\IntersectResult.ts:47</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l56"><code>src\geom\IntersectResult.ts:56</code></a>
         
         </p>
 
@@ -981,7 +1050,8 @@
     </div>
 
     <div class="description">
-        
+        <p>[CURRENTLY NOT IN USE]</p>
+
     </div>
 
     
@@ -1015,7 +1085,7 @@
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l59"><code>src\geom\IntersectResult.ts:59</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l70"><code>src\geom\IntersectResult.ts:70</code></a>
         
         </p>
 
@@ -1025,7 +1095,8 @@
     </div>
 
     <div class="description">
-        
+        <p>[CURRENTLY NOT IN USE]</p>
+
     </div>
 
     
@@ -1059,7 +1130,7 @@
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l41"><code>src\geom\IntersectResult.ts:41</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l47"><code>src\geom\IntersectResult.ts:47</code></a>
         
         </p>
 
@@ -1069,7 +1140,10 @@
     </div>
 
     <div class="description">
-        
+        <p>Holds the y coordinate of the point in which the Intersection occured.
+Note: This is only set in the case the TWO geometric items are either Lines or Rays (Line like in function)
+and a Intersection occured.</p>
+
     </div>
 
     
@@ -1103,7 +1177,7 @@
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l53"><code>src\geom\IntersectResult.ts:53</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l63"><code>src\geom\IntersectResult.ts:63</code></a>
         
         </p>
 
@@ -1113,7 +1187,8 @@
     </div>
 
     <div class="description">
-        
+        <p>[CURRENTLY NOT IN USE]</p>
+
     </div>
 
     
@@ -1147,7 +1222,7 @@
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l65"><code>src\geom\IntersectResult.ts:65</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l77"><code>src\geom\IntersectResult.ts:77</code></a>
         
         </p>
 
@@ -1157,7 +1232,8 @@
     </div>
 
     <div class="description">
-        
+        <p>[CURRENTLY NOT IN USE]</p>
+
     </div>
 
     

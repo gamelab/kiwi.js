@@ -7,7 +7,8 @@
 module Kiwi {
 
     /**
-    * [WHOLE THING REQUIRES DESCRIPTION]
+    * A lightweight object that contains values relating to the configuration of a State in a Kiwi Game.
+    *
     * @class StateConfig
     * @namespace Kiwi
     * @constructor
@@ -23,16 +24,25 @@ module Kiwi {
             this._state = parent;
             this.name = name;
 
-            this.populate();
-
+            //If it has a preload method.
+            //*cough* of course it does.
+            if (typeof this._state['preload'] === 'function') {
+                this.hasPreloader = true;
+            }
         }
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "StateConfig";
         }
 
         /**
-        * 
+        * The state this StateConfig belongs to.
         * @property _state
         * @type State
         * @private
@@ -48,7 +58,7 @@ module Kiwi {
         public name: string = '';
 
         /**
-        * 
+        * Currently unused.
         * @property isPersistent
         * @type boolean
         * @default false
@@ -57,7 +67,8 @@ module Kiwi {
         public isPersistent: boolean = false;
 
         /**
-        * 
+        * If this State has been created (the create method has been executed). 
+        * Essentually has the same meaning as 'isReady'.
         * @property isCreated
         * @type boolean
         * @default false
@@ -66,7 +77,8 @@ module Kiwi {
         public isCreated: boolean = false;
 
         /**
-        * 
+        * If the State has been initialised already (so the Boot and Init methods have been executed already). 
+        * A State only get Initialised once which is when it switched to for this first time.
         * @property isInitialised
         * @type boolean
         * @default false
@@ -75,7 +87,8 @@ module Kiwi {
         public isInitialised: boolean = false;
 
         /**
-        * 
+        * If the State that this config is on is 'ready' to be used (e.g. all the assets have been loaded and libraries complied)
+        * or if it isn't and so it is still at the 'loading' stage.
         * @property isReady
         * @type boolean
         * @default false
@@ -84,16 +97,7 @@ module Kiwi {
         public isReady: boolean = false;
 
         /**
-        * 
-        * @property hasInit
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasInit: boolean = false;
-
-        /**
-        * 
+        * If the State that this config is on contains a Preloader Method.
         * @property hasPreloader
         * @type boolean
         * @default false
@@ -102,97 +106,7 @@ module Kiwi {
         public hasPreloader: boolean = false;
 
         /**
-        * 
-        * @property hasLoadProgress
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasLoadProgress: boolean = false;
-
-        /**
-        * 
-        * @property hasLoadComplete
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasLoadComplete: boolean = false;
-
-        /**
-        * 
-        * @property hasLoadUpdate
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasLoadUpdate: boolean = false;
-
-        /**
-        * 
-        * @property hasCreate
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasCreate: boolean = false;
-
-        /**
-        * 
-        * @property hasOnEnter
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasOnEnter: boolean = false;
-
-        /**
-        * 
-        * @property hasUpdate
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasUpdate: boolean = false;
-
-        /**
-        * 
-        * @property hasRender
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasRender: boolean = false;
-
-        /**
-        * 
-        * @property hasOnExit
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasOnExit: boolean = false;
-
-        /**
-        * 
-        * @property hasShutDown
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasShutDown: boolean = false;
-
-        /**
-        * 
-        * @property hasDestroy
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasDestroy: boolean = false;
-
-        /**
-        * 
+        * The number of times the State that this config belongs to has been active/used.
         * @property runCount
         * @type Number
         * @default 0
@@ -201,7 +115,7 @@ module Kiwi {
         public runCount: number = 0;
 
         /**
-        * 
+        * The type of state this is. Currently Unused.
         * @property type
         * @type Number
         * @default 0
@@ -210,95 +124,33 @@ module Kiwi {
         public type: number = 0;
 
         /**
-        * Stores any parameters passed to the init method
+        * Stores any parameters that are to be passed to the init method when the State that this config is on is switched to.
         * @property initParams
-        * @type array
+        * @type Array
         * @public
         */
         public initParams;
 
         /**
-        * Stores any parameters passed to the create method
-        * @property initParams
-        * @type array
+        * Stores any parameters that are to be passed to the create method when the State that this config is on is switched to.
+        * @property createParams
+        * @type Array
         * @public
         */
         public createParams;
 
         /**
-        *
-        * @method populate
-        * @public
+        * Resets the properties contained on this StateConfig object. 
+        * This is executed when a State is about to be destroyed as so reset's it to be switched to again.
+        * @method 
+        * 
         */
-        public populate() {
+        public reset() {
 
-            if (typeof this._state['init'] === 'function')
-            {
-                this.hasInit = true;
-            }
-
-            if (typeof this._state['preload'] === 'function')
-            {
-                this.hasPreloader = true;
-            }
-
-            if (typeof this._state['loadProgress'] === 'function')
-            {
-                this.hasLoadProgress = true;
-            }
-
-            if (typeof this._state['loadComplete'] === 'function')
-            {
-                this.hasLoadComplete = true;
-            }
-
-            if (typeof this._state['loadUpdate'] === 'function')
-            {
-                this.hasLoadUpdate = true;
-            }
-
-            if (typeof this._state['create'] === 'function')
-            {
-                this.hasCreate = true;
-            }
-
-            if (typeof this._state['onEnter'] === 'function')
-            {
-                this.hasOnEnter = true;
-            }
-
-            if (typeof this._state['update'] === 'function')
-            {
-                this.hasUpdate = true;
-            }
-
-            if (typeof this._state['render'] === 'function')
-            {
-                this.hasRender = true;
-            }
-
-            if (typeof this._state['onExit'] === 'function')
-            {
-                this.hasOnExit = true;
-            }
-
-            if (typeof this._state['shutdown'] === 'function')
-            {
-                this.hasShutDown = true;
-            }
-
-            if (typeof this._state['destroy'] === 'function')
-            {
-                this.hasDestroy = true;
-            }
-
-            if (this.hasInit === false && this.hasCreate === false)
-            {
-                //  If there are no init or create functions, then we consider the state already initialised
-                this.isInitialised = true;
-                this.isCreated = true;
-                this.isReady = true;
-            }
+            this.isReady = false;
+            this.isCreated = false;
+            this.createParams = [];
+            this.initParams = [];
 
         }
 

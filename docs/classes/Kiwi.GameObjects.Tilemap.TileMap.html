@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -343,14 +345,10 @@
     
 
     
-        <div class="extends">
-            Extends Entity
-        </div>
-    
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l11"><code>src\gameobjects\tilemap\TileMap.ts:11</code></a>
+            Defined in: <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l10"><code>src\gameobjects\tilemap\TileMap.ts:10</code></a>
         </div>
     
 
@@ -367,7 +365,9 @@
 
 
 <div class="box intro">
-    <p>A GameObject that can be used when wanting to generate and use TileMaps in a game and the job of it is to handle the creation and management of TileMapLayers/Tiles on the whole map. Each TileMap (once created) will contain at least one TileMapLayer, which will hold the information about the map generated, but more TileMapLayers can be generated on a single TileMap.</p>
+    <p>A TileMap handles the creation of TileMapLayers and the TileTypes that they use.
+Since a TileMap isn&#39;t a Entity itself you cannot add it to the Stage inorder to render that it manages, 
+Instead you have to add each layer lies within it. This way you can have other GameObjects behind/in-front of layers.</p>
 
 </div>
 
@@ -384,6 +384,24 @@
                 <li class="arg">
                     
                         <code>state</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[tileMapDataKey]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[atlas]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[startingCell=0]</code>
                     
                 </li>
             
@@ -420,7 +438,7 @@
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l11"><code>src\gameobjects\tilemap\TileMap.ts:11</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l10"><code>src\gameobjects\tilemap\TileMap.ts:10</code></a>
         
         </p>
 
@@ -450,6 +468,57 @@
 
                     <div class="param-description">
                         <p>The state that this Tilemap is on.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[tileMapDataKey]</code>
+                        <span class="type">String</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The Data key for the JSON you would like to use.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[atlas]</code>
+                        <span class="type">TextureAtlas</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The texture atlas that you would like the tilemap layers to use.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[startingCell=0]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The number for the initial cell that the first TileType should use. See &#39;createFromFileStore&#39; for more information.</p>
 
                     </div>
 
@@ -502,24 +571,10 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods extends">
+                    <ul class="index-list methods">
                         
-                            <li class="index-item method public">
-                                <a href="#method_collideGroup">collideGroup</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_collideSingle">collideSingle</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_createFromData">createFromData</a>
+                            <li class="index-item method private">
+                                <a href="#method__generateTypesFromTileset">_generateTypesFromTileset</a>
 
                                 
                                 
@@ -533,49 +588,56 @@
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_destroy">destroy</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_generateTiles">generateTiles</a>
+                                <a href="#method_createNewLayer">createNewLayer</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_getTile">getTile</a>
+                                <a href="#method_createNewObjectLayer">createNewObjectLayer</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_getTileFromWorldXY">getTileFromWorldXY</a>
+                                <a href="#method_createNewObjectLayer">createNewObjectLayer</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_getTileOverlaps">getTileOverlaps</a>
+                                <a href="#method_createTileType">createTileType</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_getTilesByType">getTilesByType</a>
+                                <a href="#method_createTileTypes">createTileTypes</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_createTileTypesByRange">createTileTypesByRange</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_getTileTypeByIndex">getTileTypeByIndex</a>
+                                <a href="#method_getLayer">getLayer</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_getLayerByName">getLayerByName</a>
 
                                 
                                 
@@ -588,43 +650,22 @@
                                 
                             </li>
                         
-                            <li class="index-item method private">
-                                <a href="#method_parseTiledJSON">parseTiledJSON</a>
+                            <li class="index-item method public">
+                                <a href="#method_setCell">setCell</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_putTile">putTile</a>
+                                <a href="#method_setCellsByRange">setCellsByRange</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_render">render</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_setCollisionCallback">setCollisionCallback</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_setCollisionIndex">setCollisionIndex</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_setCollisionRange">setCollisionRange</a>
+                                <a href="#method_setTo">setTo</a>
 
                                 
                                 
@@ -638,57 +679,18 @@
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties extends">
+                    <ul class="index-list properties">
                         
-                            <li class="index-item property private">
-                                <a href="#property__atlas">_atlas</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__collisionCallback">_collisionCallback</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__collisionCallbackContext">_collisionCallbackContext</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__tileMapDataKey">_tileMapDataKey</a>
+                            <li class="index-item property public">
+                                <a href="#property_game">game</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_currentLayer">currentLayer</a>
+                                <a href="#property_height">height</a>
 
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_FORMAT_CSV">FORMAT_CSV</a>
-
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_FORMAT_TILED_JSON">FORMAT_TILED_JSON</a>
-
-                                
-                                    <span class="flag static">static</span>
                                 
                                 
                             </li>
@@ -708,14 +710,49 @@
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_mapFormat">mapFormat</a>
+                                <a href="#property_orientation">orientation</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_tiles">tiles</a>
+                                <a href="#property_properties">properties</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_state">state</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_tileHeight">tileHeight</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_tileType">tileType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_tileWidth">tileWidth</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_width">width</a>
 
                                 
                                 
@@ -742,8 +779,8 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_collideGroup" class="method item public">
-    <h3 class="name"><code>collideGroup</code></h3>
+                    <div id="method__generateTypesFromTileset" class="method item private">
+    <h3 class="name"><code>_generateTypesFromTileset</code></h3>
 
     
         <div class="args">
@@ -751,203 +788,7 @@
             
                 <li class="arg">
                     
-                        <code>group</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l488"><code>src\gameobjects\tilemap\TileMap.ts:488</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Tests to see if a group of entities are colliding with any tiles.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">group</code>
-                        <span class="type">Group</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_collideSingle" class="method item public">
-    <h3 class="name"><code>collideSingle</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>object</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l458"><code>src\gameobjects\tilemap\TileMap.ts:458</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Checks to see if a single object is colliding with any colliable tiles.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">object</code>
-                        <span class="type">Entity</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_createFromData" class="method item public">
-    <h3 class="name"><code>createFromData</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>tileMapData</code>
+                        <code>tilesetData</code>
                     
                 </li>
             
@@ -959,385 +800,7 @@
             
                 <li class="arg">
                     
-                        <code>game</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>format</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l27"><code>src\gameobjects\tilemap\TileMap.ts:27</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Creates a tile map from some data you already have.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">tileMapData</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The map information.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">atlas</code>
-                        <span class="type">SpriteSheet</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The image that is being used.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">game</code>
-                        <span class="type">Game</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The game that this tilemap belongs to.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">format</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The format that this information was saved as.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_createFromFileStore" class="method item public">
-    <h3 class="name"><code>createFromFileStore</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>tileMapDataKey</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>atlas</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>format</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l55"><code>src\gameobjects\tilemap\TileMap.ts:55</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Creates the tilemap from the file store. This tilemap is based on a data file and texture atlas that is in the main fileStore.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">tileMapDataKey</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The key of the data file.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">atlas</code>
-                        <span class="type">SpriteSheet</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The texture atlas that is to be used.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">format</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The format that the data was saved in.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_destroy" class="method item public">
-    <h3 class="name"><code>destroy</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code class="optional">[immediate=false]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l503"><code>src\gameobjects\tilemap\TileMap.ts:503</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Destroys everything.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[immediate=false]</code>
-                        <span class="type">Boolean</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>If the tilemap should be removed right away or if it should be removed next time the update loop executes?</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_generateTiles" class="method item private">
-    <h3 class="name"><code>generateTiles</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>layer</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>qty</code>
+                        <code>startingCell</code>
                     
                 </li>
             
@@ -1372,7 +835,7 @@
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l252"><code>src\gameobjects\tilemap\TileMap.ts:252</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l237"><code>src\gameobjects\tilemap\TileMap.ts:237</code></a>
         
         </p>
 
@@ -1383,7 +846,8 @@
     </div>
 
     <div class="description">
-        <p>Generates the new TileTypes and add them to the tiles array based upon the SpriteSheet that is parsed.</p>
+        <p>Generates new TileTypes based upon the Tileset information that lies inside the Tiled JSON.
+This is an INTERNAL method, which is used when the createFromFileStore method is executed.</p>
 
     </div>
 
@@ -1395,14 +859,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">layer</code>
-                        <span class="type">TileMapLayer</span>
+                        <code class="param-name">tilesetData</code>
+                        <span class="type">Any</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The TileMapLayer that these TileTypes are based on.</p>
+                        <p>The tileset part of the JSON.</p>
 
                     </div>
 
@@ -1411,14 +875,30 @@
             
                 <li class="param">
                     
-                        <code class="param-name">qty</code>
+                        <code class="param-name">atlas</code>
+                        <span class="type">TextureAtlas</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The Texture atlas which contains the cells that the new TileTypes will use.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">startingCell</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>THe number of TileTypes to create.</p>
+                        <p>The first cell number that would be used.</p>
 
                     </div>
 
@@ -1435,8 +915,8 @@
 </div>
 
                 
-                    <div id="method_getTile" class="method item public">
-    <h3 class="name"><code>getTile</code></h3>
+                    <div id="method_createFromFileStore" class="method item public">
+    <h3 class="name"><code>createFromFileStore</code></h3>
 
     
         <div class="args">
@@ -1444,19 +924,19 @@
             
                 <li class="arg">
                     
-                        <code>x</code>
+                        <code>tileMapData</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>y</code>
+                        <code>atlas</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code class="optional">[layer]</code>
+                        <code class="optional">[startingCell=0]</code>
                     
                 </li>
             
@@ -1464,10 +944,6 @@
         </div>
     
 
-    
-        <span class="returns-inline">
-            <span class="type">Tile</span>
-        </span>
     
 
     
@@ -1495,7 +971,7 @@
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l309"><code>src\gameobjects\tilemap\TileMap.ts:309</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l149"><code>src\gameobjects\tilemap\TileMap.ts:149</code></a>
         
         </p>
 
@@ -1506,7 +982,10 @@
     </div>
 
     <div class="description">
-        <p>Gets a single tile either off the tile layer passed otherwise off the currentLayer if no layer is specified.</p>
+        <p>Creates new tilemap layers from a JSON file that you pass (has to be in the Tiled Format).
+The texture atlas you pass is that one that eeach TileMapLayer found in the JSON will use, You can change the TextureAtlas afterwards.
+New TileTypes will automatically be created. The number is based on the Tileset parameter of the JSON. 
+The cell used for new TileTypes will begin at 0 and increment each time a new TileType is created (and a cell exists). Otherwise new TileTypes will start will a cell of -1 (none).</p>
 
     </div>
 
@@ -1518,14 +997,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">x</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">tileMapData</code>
+                        <span class="type">Any</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The x coordinate of the tile you would like to get.</p>
+                        <p>This can either</p>
 
                     </div>
 
@@ -1534,14 +1013,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">y</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">atlas</code>
+                        <span class="type">TextureAtlas</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The y cooridnate of the tile you would like to get.</p>
+                        <p>The texture atlas that you would like the tilemap layers to use.</p>
 
                     </div>
 
@@ -1550,7 +1029,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name optional">[layer]</code>
+                        <code class="param-name optional">[startingCell=0]</code>
                         <span class="type">Number</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
@@ -1558,7 +1037,7 @@
                     
 
                     <div class="param-description">
-                        <p>The layer that you want to get the tile on. If not passed then it uses the current layer.</p>
+                        <p>The number for the initial cell that the first TileType should use. If you pass -1 then no new TileTypes will be created.</p>
 
                     </div>
 
@@ -1570,25 +1049,13 @@
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Tile</span>:
-                    
-                
-            </div>
-        </div>
-    
 
     
 </div>
 
                 
-                    <div id="method_getTileFromWorldXY" class="method item public">
-    <h3 class="name"><code>getTileFromWorldXY</code></h3>
+                    <div id="method_createNewLayer" class="method item public">
+    <h3 class="name"><code>createNewLayer</code></h3>
 
     
         <div class="args">
@@ -1596,19 +1063,55 @@
             
                 <li class="arg">
                     
-                        <code>x</code>
+                        <code>name</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>y</code>
+                        <code>atlas</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>layer</code>
+                        <code>data</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[w=this.width]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[h=this.height]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[x=0]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[y=0]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[tw=this.tileWidth]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[th=this.tileHeight]</code>
                     
                 </li>
             
@@ -1618,7 +1121,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">Tile</span>
+            <span class="type">TileMapLayer</span>
         </span>
     
 
@@ -1647,7 +1150,7 @@
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l348"><code>src\gameobjects\tilemap\TileMap.ts:348</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l394"><code>src\gameobjects\tilemap\TileMap.ts:394</code></a>
         
         </p>
 
@@ -1658,8 +1161,10 @@
     </div>
 
     <div class="description">
-        <p>Gets a tile based on the passed X and Y. 
-Caution! If the tilemap has moved make sure you put that into account.</p>
+        <p>Creates a new TileMapLayer with the details that are provided. 
+If no width/height/tileWidth/tileHeight parameters are passed then the values will be what this TileMap has.
+If no &#39;data&#39; is provided then the map will be automatically filled with empty Types of Tiles.
+Returns the new TileMapLayer that was created.</p>
 
     </div>
 
@@ -1671,14 +1176,15 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">x</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>Name of the TileMap.</p>
+
                     </div>
 
                     
@@ -1686,14 +1192,15 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">y</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">atlas</code>
+                        <span class="type">TextureAtlas</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>The TextureAtlas that this layer should use.</p>
+
                     </div>
 
                     
@@ -1701,14 +1208,117 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">layer</code>
+                        <code class="param-name">data</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>The tile information.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[w=this.width]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The width of the whole tile map. In Tiles.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[h=this.height]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The height of the whole tile map. In Tiles.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[x=0]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The position of the tilemap on the x axis. In pixels.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[y=0]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The position of the tilemap on the y axis. In pixels.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[tw=this.tileWidth]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The width of a single tile.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[th=this.tileHeight]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The height of a single tile.</p>
+
                     </div>
 
                     
@@ -1725,8 +1335,10 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">Tile</span>:
+                        <span class="type">TileMapLayer</span>:
                     
+                    <p>The TileMapLayer that was created.</p>
+
                 
             </div>
         </div>
@@ -1736,27 +1348,13 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
 </div>
 
                 
-                    <div id="method_getTileOverlaps" class="method item public">
-    <h3 class="name"><code>getTileOverlaps</code></h3>
+                    <div id="method_createNewObjectLayer" class="method item public">
+    <h3 class="name"><code>createNewObjectLayer</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>object</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
-    
-        <span class="returns-inline">
-            <span class="type">Array</span>
-        </span>
     
 
     
@@ -1784,7 +1382,7 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l368"><code>src\gameobjects\tilemap\TileMap.ts:368</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l434"><code>src\gameobjects\tilemap\TileMap.ts:434</code></a>
         
         </p>
 
@@ -1795,80 +1393,25 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
     </div>
 
     <div class="description">
-        <p>Checks to see if an entity overlaps with any colliable tiles on the current layer. Returns the tiles that it overlaps with.</p>
+        <p>Eventually will create a new object layer. Currently does nothing.</p>
 
     </div>
 
     
-        <div class="params">
-            <h4>Parameters:</h4>
 
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">object</code>
-                        <span class="type">Entity</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Array</span>:
-                    
-                
-            </div>
-        </div>
     
 
     
 </div>
 
                 
-                    <div id="method_getTilesByType" class="method item public">
-    <h3 class="name"><code>getTilesByType</code></h3>
+                    <div id="method_createNewObjectLayer" class="method item public">
+    <h3 class="name"><code>createNewObjectLayer</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>index</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>layer</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
-    
-        <span class="returns-inline">
-            <span class="type">Tile</span>
-        </span>
     
 
     
@@ -1896,7 +1439,7 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l329"><code>src\gameobjects\tilemap\TileMap.ts:329</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l444"><code>src\gameobjects\tilemap\TileMap.ts:444</code></a>
         
         </p>
 
@@ -1907,72 +1450,20 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
     </div>
 
     <div class="description">
-        <p>Gets an array of tiles based on a TileType index.</p>
+        <p>Eventually will create a new image layer. Currently does nothing.</p>
 
     </div>
 
     
-        <div class="params">
-            <h4>Parameters:</h4>
 
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">index</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The index of the TileType you would like to get.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">layer</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The layer that you would like to get them on. If not passed then this is based on the current layer.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Tile</span>:
-                    
-                
-            </div>
-        </div>
     
 
     
 </div>
 
                 
-                    <div id="method_getTileTypeByIndex" class="method item public">
-    <h3 class="name"><code>getTileTypeByIndex</code></h3>
+                    <div id="method_createTileType" class="method item public">
+    <h3 class="name"><code>createTileType</code></h3>
 
     
         <div class="args">
@@ -1980,7 +1471,7 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
                 <li class="arg">
                     
-                        <code>value</code>
+                        <code class="optional">[cell=-1]</code>
                     
                 </li>
             
@@ -2019,7 +1510,7 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l292"><code>src\gameobjects\tilemap\TileMap.ts:292</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l305"><code>src\gameobjects\tilemap\TileMap.ts:305</code></a>
         
         </p>
 
@@ -2030,7 +1521,7 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
     </div>
 
     <div class="description">
-        <p>Gets a tiletype by a index provided.</p>
+        <p>Generates a single new TileType. Returns the TileType that was generated.</p>
 
     </div>
 
@@ -2042,14 +1533,15 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">value</code>
+                        <code class="param-name optional">[cell=-1]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The index of the tile type you are getting</p>
+                        <p>The cell that is to be used. Default is -1 (which means none)</p>
 
                     </div>
 
@@ -2069,6 +1561,463 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
                     
                         <span class="type">TileType</span>:
                     
+                    <p>The TileType generated.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_createTileTypes" class="method item public">
+    <h3 class="name"><code>createTileTypes</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>cells</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">TileTypes</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l319"><code>src\gameobjects\tilemap\TileMap.ts:319</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Creates a new TileType for each cell that you pass.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">cells</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The cells that you want a new TileType created for.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">TileTypes</span>:
+                    
+                    <p>The TileTypes generated.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_createTileTypesByRange" class="method item">
+    <h3 class="name"><code>createTileTypesByRange</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>cellStart</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>range</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">TileTypes</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l336"><code>src\gameobjects\tilemap\TileMap.ts:336</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Used to create a number of TileTypes based starting cell number and how many you want from there.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">cellStart</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The starting number of the cell.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">range</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>How many cells (from the starting cell) should be created.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">TileTypes</span>:
+                    
+                    <p>The TileTypes generated.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getLayer" class="method item public">
+    <h3 class="name"><code>getLayer</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>num</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">TileMapLayer</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l476"><code>src\gameobjects\tilemap\TileMap.ts:476</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns the la</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">num</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Number of the Layer you would like to get.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">TileMapLayer</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getLayerByName" class="method item public">
+    <h3 class="name"><code>getLayerByName</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>name</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">TileMapLayer</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l459"><code>src\gameobjects\tilemap\TileMap.ts:459</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Get a layer by the name that it was given upon creation.
+Returns null if no layer with that name was found.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Name of the layer you would like to select.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">TileMapLayer</span>:
+                    
+                    <p>Either the layer with the name passed, or null if no Layer with that name was found.</p>
+
                 
             </div>
         </div>
@@ -2116,7 +2065,7 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l92"><code>src\gameobjects\tilemap\TileMap.ts:92</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l488"><code>src\gameobjects\tilemap\TileMap.ts:488</code></a>
         
         </p>
 
@@ -2151,8 +2100,8 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
 </div>
 
                 
-                    <div id="method_parseTiledJSON" class="method item private">
-    <h3 class="name"><code>parseTiledJSON</code></h3>
+                    <div id="method_setCell" class="method item public">
+    <h3 class="name"><code>setCell</code></h3>
 
     
         <div class="args">
@@ -2160,116 +2109,13 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
                 <li class="arg">
                     
-                        <code>data</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l203"><code>src\gameobjects\tilemap\TileMap.ts:203</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Creates the tilemap based of some json data that gets parsed.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">data</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The JSON data to create the map based off.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_putTile" class="method item public">
-    <h3 class="name"><code>putTile</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>x</code>
+                        <code>type</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>y</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>index</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>layer</code>
+                        <code>cell</code>
                     
                 </li>
             
@@ -2304,7 +2150,7 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l382"><code>src\gameobjects\tilemap\TileMap.ts:382</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l360"><code>src\gameobjects\tilemap\TileMap.ts:360</code></a>
         
         </p>
 
@@ -2315,7 +2161,7 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
     </div>
 
     <div class="description">
-        <p>Adds/Reassign&#39;s a tile on the point in the map you specify.</p>
+        <p>Changes a single cellIndex that a TileType is to use when it is rendered.</p>
 
     </div>
 
@@ -2327,14 +2173,15 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">x</code>
+                        <code class="param-name">type</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>The number of the TileType that is to change.</p>
+
                     </div>
 
                     
@@ -2342,44 +2189,15 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">y</code>
+                        <code class="param-name">cell</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                         
-                    </div>
+                        <p>The new cellIndex it should have.</p>
 
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">index</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">layer</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
                     </div>
 
                     
@@ -2395,8 +2213,8 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
 </div>
 
                 
-                    <div id="method_render" class="method item public">
-    <h3 class="name"><code>render</code></h3>
+                    <div id="method_setCellsByRange" class="method item public">
+    <h3 class="name"><code>setCellsByRange</code></h3>
 
     
         <div class="args">
@@ -2404,7 +2222,19 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
                 <li class="arg">
                     
-                        <code>camera</code>
+                        <code>typeStart</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>cellStart</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>range</code>
                     
                 </li>
             
@@ -2439,7 +2269,7 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l189"><code>src\gameobjects\tilemap\TileMap.ts:189</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l371"><code>src\gameobjects\tilemap\TileMap.ts:371</code></a>
         
         </p>
 
@@ -2450,7 +2280,7 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
     </div>
 
     <div class="description">
-        <p>The render loop.</p>
+        <p>Changes a range of cellIndexs for Tiles the same range of TileTypes.</p>
 
     </div>
 
@@ -2462,14 +2292,47 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">camera</code>
-                        <span class="type">Camera</span>
+                        <code class="param-name">typeStart</code>
+                        <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>The starting TileType that is to be modified.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">cellStart</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The starting cellIndex that the first TileType should have.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">range</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>How many times it should run.</p>
+
                     </div>
 
                     
@@ -2485,8 +2348,8 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
 </div>
 
                 
-                    <div id="method_setCollisionCallback" class="method item public">
-    <h3 class="name"><code>setCollisionCallback</code></h3>
+                    <div id="method_setTo" class="method item public">
+    <h3 class="name"><code>setTo</code></h3>
 
     
         <div class="args">
@@ -2494,13 +2357,25 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
                 <li class="arg">
                     
-                        <code>Callback</code>
+                        <code>tileWidth</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>Callback</code>
+                        <code>tileHeight</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>width</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>height</code>
                     
                 </li>
             
@@ -2535,7 +2410,7 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l404"><code>src\gameobjects\tilemap\TileMap.ts:404</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l283"><code>src\gameobjects\tilemap\TileMap.ts:283</code></a>
         
         </p>
 
@@ -2546,7 +2421,7 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
     </div>
 
     <div class="description">
-        <p>Set the callback to be called when the tilemap collides.</p>
+        <p>Method to set the default TileMap properties. Useful when wanting to create tilemaps programmatically.</p>
 
     </div>
 
@@ -2558,133 +2433,15 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">Callback</code>
-                        <span class="type">Function</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>function</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">Callback</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>will be called with this context</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_setCollisionIndex" class="method item public">
-    <h3 class="name"><code>setCollisionIndex</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>index</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[collision=ArcadePhysics.ANY]</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[seperate=true]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l437"><code>src\gameobjects\tilemap\TileMap.ts:437</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Sets the collision of a single tiletype by the index.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">index</code>
+                        <code class="param-name">tileWidth</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>The width of a single tile.</p>
+
                     </div>
 
                     
@@ -2692,139 +2449,15 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
                 <li class="param">
                     
-                        <code class="param-name optional">[collision=ArcadePhysics.ANY]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[seperate=true]</code>
-                        <span class="type">Boolean</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_setCollisionRange" class="method item public">
-    <h3 class="name"><code>setCollisionRange</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>start</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>end</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[collision=ArcadePhysics.ANY]</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[seperate=true]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l419"><code>src\gameobjects\tilemap\TileMap.ts:419</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Sets the collision of a range of tiletypes.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">start</code>
+                        <code class="param-name">tileHeight</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>The height of a single tile.</p>
+
                     </div>
 
                     
@@ -2832,14 +2465,15 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">end</code>
+                        <code class="param-name">width</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>The width of the whole map.</p>
+
                     </div>
 
                     
@@ -2847,31 +2481,15 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
                 <li class="param">
                     
-                        <code class="param-name optional">[collision=ArcadePhysics.ANY]</code>
+                        <code class="param-name">height</code>
                         <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                         
-                    </div>
+                        <p>The height of the whole map.</p>
 
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[seperate=true]</code>
-                        <span class="type">Boolean</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
                     </div>
 
                     
@@ -2895,14 +2513,61 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property__atlas" class="property item private">
-    <h3 class="name"><code>_atlas</code></h3>
-    <span class="type">SpriteSheet</span>
+                    <div id="property_game" class="property item public">
+    <h3 class="name"><code>game</code></h3>
+    <span class="type">Game</span>
 
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l75"><code>src\gameobjects\tilemap\TileMap.ts:75</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The game that this TileMap is a part of.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_height" class="property item public">
+    <h3 class="name"><code>height</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2930,304 +2595,13 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
     </div>
 
     <div class="description">
-        <p>The SpriteSheet that this tilemap is using for the tiles.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__collisionCallback" class="property item private">
-    <h3 class="name"><code>_collisionCallback</code></h3>
-    <span class="type">Function</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l171"><code>src\gameobjects\tilemap\TileMap.ts:171</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Tilemap collision callback method.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> null</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__collisionCallbackContext" class="property item private">
-    <h3 class="name"><code>_collisionCallbackContext</code></h3>
-    <span class="type">Any</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l180"><code>src\gameobjects\tilemap\TileMap.ts:180</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Context for the collision callback.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> null</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__tileMapDataKey" class="property item private">
-    <h3 class="name"><code>_tileMapDataKey</code></h3>
-    <span class="type">String</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l102"><code>src\gameobjects\tilemap\TileMap.ts:102</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The tilemap data information.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_currentLayer" class="property item public">
-    <h3 class="name"><code>currentLayer</code></h3>
-    <span class="type">TileMapLayer</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l155"><code>src\gameobjects\tilemap\TileMap.ts:155</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A reference to the current TileMapLayer that is being used.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_FORMAT_CSV" class="property item">
-    <h3 class="name"><code>FORMAT_CSV</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-        <span class="flag final">final</span>
-    
-
-    
-        <span class="flag static">static</span>
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l119"><code>src\gameobjects\tilemap\TileMap.ts:119</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A STATIC property containing the number associated with CSV format.</p>
+        <p>The default height of all TileMapLayers when they are created. 
+This value is in Tiles.</p>
 
     </div>
 
     
         <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_FORMAT_TILED_JSON" class="property item">
-    <h3 class="name"><code>FORMAT_TILED_JSON</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-        <span class="flag final">final</span>
-    
-
-    
-        <span class="flag static">static</span>
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l129"><code>src\gameobjects\tilemap\TileMap.ts:129</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A STATIC property containing the number associated with the JSON format.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 1</p>
     
 
     
@@ -3261,7 +2635,7 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l282"><code>src\gameobjects\tilemap\TileMap.ts:282</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l131"><code>src\gameobjects\tilemap\TileMap.ts:131</code></a>
         
         </p>
 
@@ -3271,7 +2645,7 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
     </div>
 
     <div class="description">
-        <p>Gets the current TileMapLayers height in pixels.</p>
+        <p>The height of the tilemap in pixels. This value is READ ONLY.</p>
 
     </div>
 
@@ -3308,7 +2682,7 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l147"><code>src\gameobjects\tilemap\TileMap.ts:147</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l59"><code>src\gameobjects\tilemap\TileMap.ts:59</code></a>
         
         </p>
 
@@ -3318,7 +2692,7 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
     </div>
 
     <div class="description">
-        <p>An array holding all of the tile map layers that exist on this tilemap.</p>
+        <p>A list of all of the TileMapLayers that exist on thie TileMap.</p>
 
     </div>
 
@@ -3330,8 +2704,149 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
 </div>
 
                 
-                    <div id="property_mapFormat" class="property item public">
-    <h3 class="name"><code>mapFormat</code></h3>
+                    <div id="property_orientation" class="property item public">
+    <h3 class="name"><code>orientation</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l43"><code>src\gameobjects\tilemap\TileMap.ts:43</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The orientation of the tilemap. Currently this has not effect on the map.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_properties" class="property item public">
+    <h3 class="name"><code>properties</code></h3>
+    <span class="type">Object</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l141"><code>src\gameobjects\tilemap\TileMap.ts:141</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Any properties that were found in the JSON during creation.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_state" class="property item public">
+    <h3 class="name"><code>state</code></h3>
+    <span class="type">State</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l67"><code>src\gameobjects\tilemap\TileMap.ts:67</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The state that this TileMap exists on.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_tileHeight" class="property item public">
+    <h3 class="name"><code>tileHeight</code></h3>
     <span class="type">Number</span>
 
     
@@ -3355,7 +2870,7 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l163"><code>src\gameobjects\tilemap\TileMap.ts:163</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l92"><code>src\gameobjects\tilemap\TileMap.ts:92</code></a>
         
         </p>
 
@@ -3365,10 +2880,12 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
     </div>
 
     <div class="description">
-        <p>The format that the tilemap was loaded with.</p>
+        <p>The default height of a single tile that a TileMapLayer is told to have upon its creation.</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -3377,8 +2894,8 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
 </div>
 
                 
-                    <div id="property_tiles" class="property item public">
-    <h3 class="name"><code>tiles</code></h3>
+                    <div id="property_tileType" class="property item public">
+    <h3 class="name"><code>tileType</code></h3>
     <span class="type">TileType</span>
 
     
@@ -3402,7 +2919,7 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l139"><code>src\gameobjects\tilemap\TileMap.ts:139</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l51"><code>src\gameobjects\tilemap\TileMap.ts:51</code></a>
         
         </p>
 
@@ -3412,10 +2929,109 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
     </div>
 
     <div class="description">
-        <p>Contains an array of all of the tile types that are avaiable.</p>
+        <p>Is an Array containing all of the TileTypes that are available on the TileMap.</p>
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_tileWidth" class="property item public">
+    <h3 class="name"><code>tileWidth</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l83"><code>src\gameobjects\tilemap\TileMap.ts:83</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The default width of a single tile that a TileMapLayer is told to have upon its creation.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_width" class="property item public">
+    <h3 class="name"><code>width</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l101"><code>src\gameobjects\tilemap\TileMap.ts:101</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The default width of all TileMapLayers when they are created. 
+This value is in Tiles.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -3449,7 +3065,7 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l272"><code>src\gameobjects\tilemap\TileMap.ts:272</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l121"><code>src\gameobjects\tilemap\TileMap.ts:121</code></a>
         
         </p>
 
@@ -3459,7 +3075,7 @@ Caution! If the tilemap has moved make sure you put that into account.</p>
     </div>
 
     <div class="description">
-        <p>Gets the current TileMapLayer&#39;s width in pixels.</p>
+        <p>The width of the tilemap in pixels. This value is READ ONLY.</p>
 
     </div>
 

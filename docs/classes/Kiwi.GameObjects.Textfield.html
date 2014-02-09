@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -426,12 +428,6 @@
                 <li class="arg">
                     
                         <code class="optional">[fontFamily=&#x27;sans-serif&#x27;]</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[optimize=true]</code>
                     
                 </li>
             
@@ -622,23 +618,6 @@
                     
                 </li>
             
-                <li class="param">
-                    
-                        <code class="param-name optional">[optimize=true]</code>
-                        <span class="type">Boolean</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>If Kiwi should optimise the rendering of the text. Disabled by default if targetting CocoonJS.</p>
-
-                    </div>
-
-                    
-                </li>
-            
             </ul>
         </div>
     
@@ -728,6 +707,20 @@
                             </li>
                         
                             <li class="index-item property private">
+                                <a href="#property__canvas">_canvas</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__ctx">_ctx</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
                                 <a href="#property__fontColor">_fontColor</a>
 
                                 
@@ -750,13 +743,6 @@
                         
                             <li class="index-item property private">
                                 <a href="#property__fontWeight">_fontWeight</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__tempCanvas">_tempCanvas</a>
 
                                 
                                 
@@ -806,13 +792,6 @@
                         
                             <li class="index-item property public">
                                 <a href="#property_fontWeight">fontWeight</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_optimize">optimize</a>
 
                                 
                                 
@@ -900,7 +879,7 @@
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l260"><code>src\gameobjects\Textfield.ts:260</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l279"><code>src\gameobjects\Textfield.ts:279</code></a>
         
         </p>
 
@@ -911,8 +890,8 @@
     </div>
 
     <div class="description">
-        <p>This method is used to render the text to a off-screen canvas, which is then saved as a HTMLImageElement. 
-This is so that the canvas doesn&#39;t render it every frame as it can be costly.</p>
+        <p>This method is used to render the text to an offscreen-canvas which is held in a TextureAtlas (which is generated upon the instanitation of this class). 
+This is so that the canvas doesn&#39;t render it every frame as it can be costly and so that it can be used in WebGL with the TextureAtlasRenderer.</p>
 
     </div>
 
@@ -962,7 +941,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l47"><code>src\gameobjects\Textfield.ts:47</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l60"><code>src\gameobjects\Textfield.ts:60</code></a>
         
         </p>
 
@@ -1041,7 +1020,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l291"><code>src\gameobjects\Textfield.ts:291</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l338"><code>src\gameobjects\Textfield.ts:338</code></a>
         
         </p>
 
@@ -1120,7 +1099,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l110"><code>src\gameobjects\Textfield.ts:110</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l123"><code>src\gameobjects\Textfield.ts:123</code></a>
         
         </p>
 
@@ -1131,6 +1110,100 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
 
     <div class="description">
         <p>The baseline of the text to be rendered.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__canvas" class="property item private">
+    <h3 class="name"><code>_canvas</code></h3>
+    <span class="type">HTMLCanvasElement.</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l254"><code>src\gameobjects\Textfield.ts:254</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The canvas element which the text is rendered onto.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__ctx" class="property item private">
+    <h3 class="name"><code>_ctx</code></h3>
+    <span class="type">CanvasRenderingContext2D</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l262"><code>src\gameobjects\Textfield.ts:262</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The context for the canvas element. Used whilst rendering text.</p>
 
     </div>
 
@@ -1167,7 +1240,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l83"><code>src\gameobjects\Textfield.ts:83</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l96"><code>src\gameobjects\Textfield.ts:96</code></a>
         
         </p>
 
@@ -1216,7 +1289,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l92"><code>src\gameobjects\Textfield.ts:92</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l105"><code>src\gameobjects\Textfield.ts:105</code></a>
         
         </p>
 
@@ -1265,7 +1338,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l74"><code>src\gameobjects\Textfield.ts:74</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l87"><code>src\gameobjects\Textfield.ts:87</code></a>
         
         </p>
 
@@ -1314,7 +1387,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l65"><code>src\gameobjects\Textfield.ts:65</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l78"><code>src\gameobjects\Textfield.ts:78</code></a>
         
         </p>
 
@@ -1330,53 +1403,6 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
 
     
         <p><strong>Default:</strong> &#x27;normal&#x27;</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__tempCanvas" class="property item private">
-    <h3 class="name"><code>_tempCanvas</code></h3>
-    <span class="type">HTMLCanvasElement.</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_gameobjects_Textfield.ts.html#l237"><code>src\gameobjects\Textfield.ts:237</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A temporary property that we use to render the actual text to and then get the information from.</p>
-
-    </div>
-
     
 
     
@@ -1408,7 +1434,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l245"><code>src\gameobjects\Textfield.ts:245</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l270"><code>src\gameobjects\Textfield.ts:270</code></a>
         
         </p>
 
@@ -1455,7 +1481,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l57"><code>src\gameobjects\Textfield.ts:57</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l70"><code>src\gameobjects\Textfield.ts:70</code></a>
         
         </p>
 
@@ -1502,7 +1528,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l101"><code>src\gameobjects\Textfield.ts:101</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l114"><code>src\gameobjects\Textfield.ts:114</code></a>
         
         </p>
 
@@ -1551,7 +1577,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l132"><code>src\gameobjects\Textfield.ts:132</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l146"><code>src\gameobjects\Textfield.ts:146</code></a>
         
         </p>
 
@@ -1598,7 +1624,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l174"><code>src\gameobjects\Textfield.ts:174</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l190"><code>src\gameobjects\Textfield.ts:190</code></a>
         
         </p>
 
@@ -1645,7 +1671,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l160"><code>src\gameobjects\Textfield.ts:160</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l175"><code>src\gameobjects\Textfield.ts:175</code></a>
         
         </p>
 
@@ -1692,7 +1718,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l146"><code>src\gameobjects\Textfield.ts:146</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l161"><code>src\gameobjects\Textfield.ts:161</code></a>
         
         </p>
 
@@ -1703,52 +1729,6 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
 
     <div class="description">
         <p>The weight of the font.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_optimize" class="property item">
-    <h3 class="name"><code>optimize</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_gameobjects_Textfield.ts.html#l252"><code>src\gameobjects\Textfield.ts:252</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>If rendering process for the text should be optimised or not. Note: That this does not work in Cocoon and thus disabled.
-The optimization process involves rendering the text to an off-screen canvas, that canvas is then saved as a HTMLImageElement which is rendered instead.</p>
 
     </div>
 
@@ -1785,7 +1765,7 @@ The optimization process involves rendering the text to an off-screen canvas, th
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l118"><code>src\gameobjects\Textfield.ts:118</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l131"><code>src\gameobjects\Textfield.ts:131</code></a>
         
         </p>
 
@@ -1836,7 +1816,7 @@ The optimization process involves rendering the text to an off-screen canvas, th
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l188"><code>src\gameobjects\Textfield.ts:188</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l205"><code>src\gameobjects\Textfield.ts:205</code></a>
         
         </p>
 
@@ -1887,7 +1867,7 @@ The optimization process involves rendering the text to an off-screen canvas, th
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l208"><code>src\gameobjects\Textfield.ts:208</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l225"><code>src\gameobjects\Textfield.ts:225</code></a>
         
         </p>
 
@@ -1938,7 +1918,7 @@ The optimization process involves rendering the text to an off-screen canvas, th
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l198"><code>src\gameobjects\Textfield.ts:198</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l215"><code>src\gameobjects\Textfield.ts:215</code></a>
         
         </p>
 

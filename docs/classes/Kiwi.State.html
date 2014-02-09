@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -606,7 +608,7 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_loadUpdate">loadUpdate</a>
 
                                 
@@ -655,8 +657,15 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_setType">setType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_shutDown">shutDown</a>
 
                                 
                                 
@@ -800,7 +809,7 @@
             
         
         
-        <a href="../files/src_core_State.ts.html#l433"><code>src\core\State.ts:433</code></a>
+        <a href="../files/src_core_State.ts.html#l465"><code>src\core\State.ts:465</code></a>
         
         </p>
 
@@ -900,7 +909,7 @@
             
         
         
-        <a href="../files/src_core_State.ts.html#l333"><code>src\core\State.ts:333</code></a>
+        <a href="../files/src_core_State.ts.html#l357"><code>src\core\State.ts:357</code></a>
         
         </p>
 
@@ -1060,7 +1069,7 @@
             
         
         
-        <a href="../files/src_core_State.ts.html#l260"><code>src\core\State.ts:260</code></a>
+        <a href="../files/src_core_State.ts.html#l284"><code>src\core\State.ts:284</code></a>
         
         </p>
 
@@ -1264,7 +1273,7 @@
             
         
         
-        <a href="../files/src_core_State.ts.html#l319"><code>src\core\State.ts:319</code></a>
+        <a href="../files/src_core_State.ts.html#l343"><code>src\core\State.ts:343</code></a>
         
         </p>
 
@@ -1454,7 +1463,7 @@
             
         
         
-        <a href="../files/src_core_State.ts.html#l277"><code>src\core\State.ts:277</code></a>
+        <a href="../files/src_core_State.ts.html#l301"><code>src\core\State.ts:301</code></a>
         
         </p>
 
@@ -1753,7 +1762,7 @@
             
         
         
-        <a href="../files/src_core_State.ts.html#l302"><code>src\core\State.ts:302</code></a>
+        <a href="../files/src_core_State.ts.html#l326"><code>src\core\State.ts:326</code></a>
         
         </p>
 
@@ -1911,7 +1920,7 @@
             
         
         
-        <a href="../files/src_core_State.ts.html#l358"><code>src\core\State.ts:358</code></a>
+        <a href="../files/src_core_State.ts.html#l388"><code>src\core\State.ts:388</code></a>
         
         </p>
 
@@ -2002,7 +2011,8 @@
     </div>
 
     <div class="description">
-        <p>[REQUIRES DESCRIPTION]</p>
+        <p>Is executed when this state is about to be switched too. Just before the preload method. 
+ONLY occurs on games targetting browsers.</p>
 
     </div>
 
@@ -2131,7 +2141,7 @@
             
         
         
-        <a href="../files/src_core_State.ts.html#l184"><code>src\core\State.ts:184</code></a>
+        <a href="../files/src_core_State.ts.html#l206"><code>src\core\State.ts:206</code></a>
         
         </p>
 
@@ -2224,7 +2234,7 @@
             
         
         
-        <a href="../files/src_core_State.ts.html#l408"><code>src\core\State.ts:408</code></a>
+        <a href="../files/src_core_State.ts.html#l438"><code>src\core\State.ts:438</code></a>
         
         </p>
 
@@ -2310,7 +2320,7 @@
             
         
         
-        <a href="../files/src_core_State.ts.html#l386"><code>src\core\State.ts:386</code></a>
+        <a href="../files/src_core_State.ts.html#l416"><code>src\core\State.ts:416</code></a>
         
         </p>
 
@@ -2390,7 +2400,7 @@ Returns the number of IChilds removed.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l135"><code>src\core\State.ts:135</code></a>
+        <a href="../files/src_core_State.ts.html#l156"><code>src\core\State.ts:156</code></a>
         
         </p>
 
@@ -2473,7 +2483,7 @@ This method only ever gets called once and it is before the preload method.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l162"><code>src\core\State.ts:162</code></a>
+        <a href="../files/src_core_State.ts.html#l183"><code>src\core\State.ts:183</code></a>
         
         </p>
 
@@ -2552,7 +2562,7 @@ This method only ever gets called once and it is before the preload method.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l151"><code>src\core\State.ts:151</code></a>
+        <a href="../files/src_core_State.ts.html#l172"><code>src\core\State.ts:172</code></a>
         
         </p>
 
@@ -2629,7 +2639,7 @@ This can be used to create a &#39;progress&#39; bar for each file.</p>
 </div>
 
                 
-                    <div id="method_loadUpdate" class="method item">
+                    <div id="method_loadUpdate" class="method item public">
     <h3 class="name"><code>loadUpdate</code></h3>
 
     
@@ -2640,6 +2650,8 @@ This can be used to create a &#39;progress&#39; bar for each file.</p>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2661,7 +2673,7 @@ This can be used to create a &#39;progress&#39; bar for each file.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l169"><code>src\core\State.ts:169</code></a>
+        <a href="../files/src_core_State.ts.html#l190"><code>src\core\State.ts:190</code></a>
         
         </p>
 
@@ -2791,7 +2803,7 @@ This can be used to create a &#39;progress&#39; bar for each file.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l239"><code>src\core\State.ts:239</code></a>
+        <a href="../files/src_core_State.ts.html#l262"><code>src\core\State.ts:262</code></a>
         
         </p>
 
@@ -2848,7 +2860,7 @@ This can be used to create a &#39;progress&#39; bar for each file.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l227"><code>src\core\State.ts:227</code></a>
+        <a href="../files/src_core_State.ts.html#l250"><code>src\core\State.ts:250</code></a>
         
         </p>
 
@@ -2906,7 +2918,7 @@ When overriding make sure you include a super call at the end of the method.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l144"><code>src\core\State.ts:144</code></a>
+        <a href="../files/src_core_State.ts.html#l165"><code>src\core\State.ts:165</code></a>
         
         </p>
 
@@ -2917,7 +2929,7 @@ When overriding make sure you include a super call at the end of the method.</p>
     </div>
 
     <div class="description">
-        <p>This method is where you would load of all the assets that are requried for this state/in the game.</p>
+        <p>This method is where you would load of all the assets that are requried for this state or in the entire game.</p>
 
     </div>
 
@@ -2963,7 +2975,7 @@ When overriding make sure you include a super call at the end of the method.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l192"><code>src\core\State.ts:192</code></a>
+        <a href="../files/src_core_State.ts.html#l214"><code>src\core\State.ts:214</code></a>
         
         </p>
 
@@ -3030,7 +3042,7 @@ When overriding make sure you include a super call at the end of the method.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l371"><code>src\core\State.ts:371</code></a>
+        <a href="../files/src_core_State.ts.html#l401"><code>src\core\State.ts:401</code></a>
         
         </p>
 
@@ -3077,7 +3089,7 @@ This is an INTERNAL Kiwi method and DEVS shouldn&#39;t really need to worry abou
 </div>
 
                 
-                    <div id="method_setType" class="method item">
+                    <div id="method_setType" class="method item public">
     <h3 class="name"><code>setType</code></h3>
 
     
@@ -3099,6 +3111,8 @@ This is an INTERNAL Kiwi method and DEVS shouldn&#39;t really need to worry abou
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -3119,7 +3133,7 @@ This is an INTERNAL Kiwi method and DEVS shouldn&#39;t really need to worry abou
             
         
         
-        <a href="../files/src_core_State.ts.html#l246"><code>src\core\State.ts:246</code></a>
+        <a href="../files/src_core_State.ts.html#l134"><code>src\core\State.ts:134</code></a>
         
         </p>
 
@@ -3130,7 +3144,7 @@ This is an INTERNAL Kiwi method and DEVS shouldn&#39;t really need to worry abou
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Currently unused.</p>
 
     </div>
 
@@ -3157,6 +3171,63 @@ This is an INTERNAL Kiwi method and DEVS shouldn&#39;t really need to worry abou
             
             </ul>
         </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_shutDown" class="method item public">
+    <h3 class="name"><code>shutDown</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_State.ts.html#l269"><code>src\core\State.ts:269</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Called just before this State is going to be Shut Down and another one is going to be switched too.</p>
+
+    </div>
+
     
 
     
@@ -3199,7 +3270,7 @@ This is an INTERNAL Kiwi method and DEVS shouldn&#39;t really need to worry abou
             
         
         
-        <a href="../files/src_core_State.ts.html#l203"><code>src\core\State.ts:203</code></a>
+        <a href="../files/src_core_State.ts.html#l225"><code>src\core\State.ts:225</code></a>
         
         </p>
 
@@ -3210,7 +3281,7 @@ This is an INTERNAL Kiwi method and DEVS shouldn&#39;t really need to worry abou
     </div>
 
     <div class="description">
-        <p>The update loop that is executed every frame while the game is &#39;playing&#39;. When overriding make sure you include a super call to.</p>
+        <p>The update loop that is executed every frame while the game is &#39;playing&#39;. When overriding make sure you include a super call too.</p>
 
     </div>
 
@@ -3634,7 +3705,7 @@ E.g. If you loaded a image and named it &#39;flower&#39;, once everything has lo
             
         
         
-        <a href="../files/src_core_State.ts.html#l349"><code>src\core\State.ts:349</code></a>
+        <a href="../files/src_core_State.ts.html#l379"><code>src\core\State.ts:379</code></a>
         
         </p>
 

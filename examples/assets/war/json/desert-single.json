@@ -1,0 +1,39 @@
+{ "height":6,
+ "layers":[
+        {
+         "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 18, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 34, 0, 0, 0, 36, 36, 0, 0, 36, 36, 0, 0, 34, 0, 0, 21, 0, 18, 19, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 24, 0, 25, 0, 0, 0, 26, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 28, 0, 25, 0, 0, 0, 26, 27, 27, 27, 27],
+         "height":6,
+         "name":"Desert",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":17,
+         "x":0,
+         "y":0
+        }],
+ "orientation":"orthogonal",
+ "properties":
+    {
+
+    },
+ "tileheight":48,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "image":"..\/tiles\/tile-spritesheet.png",
+         "imageheight":432,
+         "imagewidth":192,
+         "margin":0,
+         "name":"Desert",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "tileheight":48,
+         "tilewidth":48
+        }],
+ "tilewidth":48,
+ "version":1,
+ "width":17
+}

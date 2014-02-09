@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -373,7 +375,6 @@ module Kiwi {
             this.domReady = false;
              
             //  Properties
-
             this._alpha = 1;
             
             this._x = 0;
@@ -436,7 +437,7 @@ module Kiwi {
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.container.style.opacity = String(Kiwi.Utils.GameMath.clamp(value, 1, 0));
             }
-            //doesnt work in cocoon
+            // Doesnt work in cocoon
 
             this._alpha = value;
         }
@@ -538,6 +539,22 @@ module Kiwi {
         * @public
         */
         public onResize: Kiwi.Signal;
+
+        /**
+        * Calculates and returns the amount that the container has been scale buy.  
+        * Mainly used for re-calculating input coordinates. 
+        * Note: For COCOONJS this returns 1 since COCOONJS translates the points itself.
+        * This property is READ ONLY.
+        * @property scale
+        * @type Number
+        * @default 1
+        * @public
+        */
+        private _scale: number = 1;
+
+        public get scale(): number {
+            return this._scale;
+        }
 
         /**
 		* A point which determines the offset of this Stage
@@ -674,20 +691,34 @@ module Kiwi {
         public boot(dom: Kiwi.System.Bootstrap) {
              
             this.domReady = true;
-
             this.container = dom.container;
+
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.offset = this._game.browser.getOffsetPoint(this.container);
                 this._x = this.offset.x;
                 this._y = this.offset.y;
                 this._width = this.container.clientWidth;
-                this._height =this.container.clientHeight;
+                this._height = this.container.clientHeight;
+
+                window.addEventListener(&quot;resize&quot;, (event: UIEvent) =&gt; this._windowResized(event), true);
             }
             
             this._createCompositeCanvas();
             if (this._game.debugOption === DEBUG_ON) {
                 //this._createDebugCanvas();
             }
+        }
+
+        /**
+        * Method that is fired when the window is resized. 
+        * Used to calculate the new offset and see what the scale of the stage currently is.
+        * @method _windowResized
+        * @param event {UIEvent}
+        * @private
+        */
+        private _windowResized(event: UIEvent) {
+            this.offset = this._game.browser.getOffsetPoint(this.container);
+            this._scale = this._width / this.container.clientWidth;
         }
 
         /**
@@ -740,17 +771,19 @@ module Kiwi {
         * @param height {number} new stage height
         * @public
         */
-
         public resize(width: number, height: number) {
-            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.container.style.height = String(height + &#x27;px&#x27;);
-                this.container.style.width = String(width + &#x27;px&#x27;);
-            }
 
             this.canvas.height = height;
             this.canvas.width = width;
             this._height = height;
             this._width = width;
+
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.container.style.height = String(height + &#x27;px&#x27;);
+                this.container.style.width = String(width + &#x27;px&#x27;);
+                this._scale = this._width / this.container.clientWidth;
+            }
+
             this.onResize.dispatch(this._width, this._height);
         }
 

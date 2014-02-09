@@ -14,16 +14,18 @@ if(isset($_GET['f'])) {
 
 <?php  if(file_exists($filepath)) { ?>
 
-    <script>
+    <script src="assets/webpage/js/ECMA262-5.js"></script>
+    <script src="assets/webpage/js/gl-matrix-min.js"></script>
+    <script src="kiwi.js"></script>
+    <script type="text/javascript">
+
         var gameOptions = {
             debug: <?php echo $debug ?>,
             deviceTarget: Kiwi.TARGET_COCOON, 
             renderer: <?php echo $renderer ?> 
-        }
+        };
+
     </script>   
-    <script src="assets/webpage/js/ECMA262-5.js"></script>
-    <script src="assets/webpage/js/gl-matrix-min.js"></script>
-    <script src="kiwi.js"></script>
     <script src="<?php echo $filepath?>"></script>
 
 <?php } else { ?>

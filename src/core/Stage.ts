@@ -29,7 +29,6 @@ module Kiwi {
             this.domReady = false;
              
             //  Properties
-
             this._alpha = 1;
             
             this._x = 0;
@@ -92,7 +91,7 @@ module Kiwi {
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.container.style.opacity = String(Kiwi.Utils.GameMath.clamp(value, 1, 0));
             }
-            //doesnt work in cocoon
+            // Doesnt work in cocoon
 
             this._alpha = value;
         }
@@ -194,6 +193,22 @@ module Kiwi {
         * @public
         */
         public onResize: Kiwi.Signal;
+
+        /**
+        * Calculates and returns the amount that the container has been scale buy.  
+        * Mainly used for re-calculating input coordinates. 
+        * Note: For COCOONJS this returns 1 since COCOONJS translates the points itself.
+        * This property is READ ONLY.
+        * @property scale
+        * @type Number
+        * @default 1
+        * @public
+        */
+        private _scale: number = 1;
+
+        public get scale(): number {
+            return this._scale;
+        }
 
         /**
 		* A point which determines the offset of this Stage
@@ -330,20 +345,34 @@ module Kiwi {
         public boot(dom: Kiwi.System.Bootstrap) {
              
             this.domReady = true;
-
             this.container = dom.container;
+
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.offset = this._game.browser.getOffsetPoint(this.container);
                 this._x = this.offset.x;
                 this._y = this.offset.y;
                 this._width = this.container.clientWidth;
-                this._height =this.container.clientHeight;
+                this._height = this.container.clientHeight;
+
+                window.addEventListener("resize", (event: UIEvent) => this._windowResized(event), true);
             }
             
             this._createCompositeCanvas();
             if (this._game.debugOption === DEBUG_ON) {
                 //this._createDebugCanvas();
             }
+        }
+
+        /**
+        * Method that is fired when the window is resized. 
+        * Used to calculate the new offset and see what the scale of the stage currently is.
+        * @method _windowResized
+        * @param event {UIEvent}
+        * @private
+        */
+        private _windowResized(event: UIEvent) {
+            this.offset = this._game.browser.getOffsetPoint(this.container);
+            this._scale = this._width / this.container.clientWidth;
         }
 
         /**
@@ -396,17 +425,19 @@ module Kiwi {
         * @param height {number} new stage height
         * @public
         */
-
         public resize(width: number, height: number) {
-            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.container.style.height = String(height + 'px');
-                this.container.style.width = String(width + 'px');
-            }
 
             this.canvas.height = height;
             this.canvas.width = width;
             this._height = height;
             this._width = width;
+
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.container.style.height = String(height + 'px');
+                this.container.style.width = String(width + 'px');
+                this._scale = this._width / this.container.clientWidth;
+            }
+
             this.onResize.dispatch(this._width, this._height);
         }
 

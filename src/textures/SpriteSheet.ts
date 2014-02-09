@@ -15,7 +15,7 @@ module Kiwi.Textures  {
     * @namespace Kiwi.Textures
     * @constructor
     * @param name {string} The name of the spritesheet.
-    * @param texture {HTMLImageElement} The image that is being used for the spritesheet.
+    * @param texture {HTMLImageElement/HTMLCanvasElement} The image that is being used for the spritesheet.
     * @param cellWidth {number} The width of a single cell.
     * @param cellHeight {number} The height of a single cell.
     * @param [numCells] {number} The number of cells in total. 
@@ -29,7 +29,7 @@ module Kiwi.Textures  {
     */
     export class SpriteSheet extends TextureAtlas {
          
-        constructor(name: string, texture:HTMLImageElement, cellWidth: number, cellHeight: number, numCells?:number,rows?:number,cols?:number,sheetOffsetX?: number, sheetOffsetY?:number,cellOffsetX?:number,cellOffsetY?:number) {
+        constructor(name: string, texture, cellWidth: number, cellHeight: number, numCells?:number,rows?:number,cols?:number,sheetOffsetX?: number, sheetOffsetY?:number,cellOffsetX?:number,cellOffsetY?:number) {
             
             this.cellWidth = cellWidth;
             this.cellHeight = cellHeight;

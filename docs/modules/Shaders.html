@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\render\GLShaderPair.ts - Kiwi.js</title>
+    <title>Shaders - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -338,150 +340,61 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\render\GLShaderPair.ts</h1>
-
-<div class="file">
-    <pre class="code prettyprint linenums">
-/**
-*  
-* @module Kiwi
-* @submodule Renderers
-* 
-*/
-module Kiwi.Renderers {
+                        <h1>Shaders Module</h1>
+<div class="box clearfix meta">
     
-    /**
-    *
-    * @class GLShaders
-    * @constructor
-    * @param gl {WebGLRenderingContext}
-    * @return {GLShaders}
-    */
-    export class GLShaderPair {
 
-        constructor() {
-      
+    
+
+    
+        <div class="foundat">
+            Defined in: <a href="../files/src_render_GLShaderManager.ts.html#l24"><code>src\render\GLShaderManager.ts:24</code></a>
+        </div>
+    
+
+    
+</div>
+
+
+
+<div class="box intro">
+    <p>GLSL ES Shaders are used for WebGL rendering.
+ShaderPair objects encapsulate GLSL ES vertex and fragment shader programs. 
+  ShaderPairs contain the GLSL code, provide an interface to uniforms and attributes, and have the ability to link and compile the shaders.
+The ShaderManager keeps track of each ShaderPair, and controls which one is bound for use at any particular time.
+  Only the ShaderManager can create ShaderPairs. When a renderer (see note on renderes below) requests a ShaderPair the ShaderManager will either
+      1) Return a reference to an already instantiated ShaderPair, and set the GL state to use the shader program or
+      2) Return a reference to a new ShaderPair, which will be linked and compiled and bound for use.
+  All ShaderPairs must be housed as properties of the Kiwi.Shaders object. </p>
+<p>Kiwi.Renderer objects use a ShaderPair to draw.
+  They must request a ShaderPair from the ShaderManager.
+  Many renderers may use the same ShaderPair.
+  Some renderers may at different times use multiple ShaderPairs (only one is possible at any given time)</p>
+
+</div>
+
+
+
+<div class="yui3-g">
+    <div class="yui3-u-1-2">
+        
+            <p>This module provides the following classes:</p>
+
+            <ul class="module-classes">
             
-        }
-
-        public init(gl: WebGLRenderingContext) {
-            this.vertShader = this.compile(gl, this.vertSource.join(&quot;\n&quot;), gl.VERTEX_SHADER);
-            this.fragShader = this.compile(gl, this.fragSource.join(&quot;\n&quot;), gl.FRAGMENT_SHADER);
-            this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
-            this.use(gl);
-            this.ready = true;
-        }
+                <li class="module-class">
+                    <a href="../classes/ShaderManager.html">
+                        ShaderManager
+                    </a>
+                </li>
+            
+            </ul>
         
+    </div>
 
-        /**
-        *
-        * @property ready
-        * @type boolean
-        * @public
-        */
-        public ready: boolean = false;
+    <div class="yui3-u-1-2">
         
-        /**
-        *
-        * @property vertShader
-        * @type WebGLShader
-        * @public
-        */
-        public vertShader: WebGLShader;
-        
-        /**
-        *
-        * @property fragShader
-        * @type WebGLShader
-        * @public
-        */
-        public fragShader: WebGLShader;
-        
-        /**
-        *
-        * @property shaderProgram
-        * @type WebGLProgram
-        * @public
-        */
-        public shaderProgram: WebGLProgram;
-        
-        /**
-        *
-        * @method attach
-        * @param gl {WebGLRenderingContext}
-        * @param vertShader {WebGLShader}
-        * @param fragShader {WebGLShader}
-        * @return {WebGLProgram}
-        * @public
-        */
-        public attach(gl: WebGLRenderingContext, vertShader: WebGLShader, fragShader: WebGLShader): WebGLProgram {
-            var shaderProgram: WebGLProgram = gl.createProgram();
-            gl.attachShader(shaderProgram, fragShader);
-            gl.attachShader(shaderProgram, vertShader);
-            gl.linkProgram(shaderProgram);
-            return shaderProgram;
-        }
-        
-        /**
-        *
-        * @method compile
-        * @param gl {WebGLRenderingContext}
-        * @param src {string}
-        * @param shaderType {number}
-        * @return {WebGLShader}
-        * @public
-        */
-        public compile(gl: WebGLRenderingContext, src: string, shaderType: number): WebGLShader {
-            var shader: WebGLShader = gl.createShader(shaderType);
-            gl.shaderSource(shader, src);
-            gl.compileShader(shader);
-
-            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-                return null;
-            }
-            return shader;
-        }
-
-        /**
-        *
-        * @property texture2DProg
-        * @type Object
-        * @public
-        */
-        public descriptor: any;
-
-        /**
-        *
-        * @method use
-        * @param gl {WebGLRenderingContext}
-        * @param shaderProrgram {WebGLProgram}
-        * @public
-        */
-        public use(gl: WebGLRenderingContext) {
-           
-        }
-
-        /**
-        *
-        * @property texture2DFrag
-        * @type Array
-        * @public
-        */
-        public fragSource: Array&lt;any&gt;;
-
-        /**
-        *
-        * @property texture2DVert
-        * @type Array
-        * @public
-        */
-        public vertSource: Array&lt;any&gt;;
-
-    }
-
-
-}
-    </pre>
+    </div>
 </div>
 
                     </div>

@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -459,7 +461,8 @@ module Kiwi {
         public data;
 
         /**
-        * [REQUIRES DESCRIPTION]
+        * Is executed when this state is about to be switched too. Just before the preload method. 
+        * ONLY occurs on games targetting browsers.
         * @method boot
         * @public
         */
@@ -473,8 +476,28 @@ module Kiwi {
             this.data = this.dataLibrary.data;
                 
         }
+
+        /**
+        * Currently unused.
+        * @method setType
+        * @param {Number} value
+        * @public
+        */
+        public setType(value: number) {
+
+            if (this.config.isInitialised === false) {
+                this.config.type = value;
+            }
+
+        }
+        
          
-        //  Default methods that should be over-ridden
+        /*
+        *--------------
+        * Methods that should be Over-Ridden
+        *--------------
+        */
+
 
         /**
         * Gets executed when the state has been initalised and gets switched to for the first time.
@@ -486,7 +509,7 @@ module Kiwi {
         public init(...paramsArr: any[]) { }
 
         /**
-        * This method is where you would load of all the assets that are requried for this state/in the game.
+        * This method is where you would load of all the assets that are requried for this state or in the entire game.
         * @method preload
         * @public
         */
@@ -513,6 +536,7 @@ module Kiwi {
         /**
         * The game loop that gets executed while the game is loading.
         * @method loadUpdate
+        * @public
         */
         public loadUpdate() {
         
@@ -545,7 +569,7 @@ module Kiwi {
         }
 
         /**
-        * The update loop that is executed every frame while the game is &#x27;playing&#x27;. When overriding make sure you include a super call to.
+        * The update loop that is executed every frame while the game is &#x27;playing&#x27;. When overriding make sure you include a super call too.
         * @method update
         * @public
         */
@@ -561,6 +585,7 @@ module Kiwi {
                 
                 }
                 
+                //Does the child need to be destroyed?
                 if (this.members[i].exists === false) {
                     this.members[i].destroy( true );
                 }
@@ -585,22 +610,23 @@ module Kiwi {
         * @method postRender
         * @public
         */
-        public postRender() {}
+        public postRender() { }
 
         /**
-        * [DESCRIPTION REQUIRED]
-        * @method setType
-        * @param {Number} value
+        * Called just before this State is going to be Shut Down and another one is going to be switched too. 
+        * @method shutDown
+        * @public
         */
-        public setType(value: number) {
+        public shutDown() { }
 
-            if (this.config.isInitialised === false)
-            {
-                this.config.type = value;
-            }
-
-        }
          
+        /*
+        *--------------
+        * Loading Methods
+        *--------------
+        */
+
+
         /**
         * Adds a new image file that is be loaded when the state gets up to the loading all of the assets.
         *
@@ -688,7 +714,13 @@ module Kiwi {
           
         }
 
-        //garbage collection stuff
+
+        /*
+        *----------------
+        * Garbage Collection stuff
+        *----------------
+        */
+
 
         /**
         * Contains a reference to all of the IChilds that have ever been created for this state. 
@@ -760,13 +792,15 @@ module Kiwi {
             if (deleteAll == true) {
                 //destroy all of the tracking list
                 for (var i = 0; i &lt; this._trackingList.length; i++) {
-                    this._trackingList[i].destroy( true );
+
+                    //If the item is a group then we don&#x27;t want it to destory it&#x27;s children, as this method will do that eventually anyway.
+                    this._trackingList[i].destroy( true , false ); 
                 }
                 this._trackingList = [];
                 
-                //destroy all of the members
+                // Destroy all of the members
                 for (var i = 0; i &lt; this.members.length; i++) {
-                    this._destroyChildren(this.members[i]);     //shouldnt need this as they should already be dead
+                    this._destroyChildren(this.members[i]);     //Shouldnt need this as they should already be dead
                     delete this.members[i];
                 }
                 this.members = [];    

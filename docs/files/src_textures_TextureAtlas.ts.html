@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -360,14 +362,14 @@ module Kiwi.Textures {
     * @param name {string} Name of the texture atlas. This is usually defined by the developer when loading the assets.
     * @param type {number} The type of texture atlas that this is. There are currently only three types.
     * @param cells {any} The cells that are within this image..
-    * @param image {HTMLImageElement} The image that the texture atlas is using.
+    * @param image {HTMLImageElement/HTMLCanvasElement} The image that the texture atlas is using.
     * @param [sequences] {Sequence[]} Any sequences of cells for this texture atlas. Used for animation.
     * @return {TextureAtlas}
     *
     */
     export class TextureAtlas {
          
-        constructor(name: string, type:number, cells, image: HTMLImageElement, sequences?: Kiwi.Animations.Sequence[]) {
+        constructor(name: string, type:number, cells, image, sequences?: Kiwi.Animations.Sequence[]) {
             this.name = name;
             this.cells = cells || new Array();
             this.sequences = sequences || new Array();
@@ -392,14 +394,23 @@ module Kiwi.Textures {
         * @public
         */
         public name: string;
-        
+
+
         /**
-        * The image that this texture atlas is holding.
-        * @property image
-        * @type HTMLImageElement
+        * Indicates that the image data has changed, and needs to be reuplaoded to the gpu in webGL mode.
+        * @property dirty
+        * @type boolean
         * @public
         */
-        public image: HTMLImageElement;
+        public dirty: boolean = false;
+        
+        /**
+        * The image that this texture atlas is holding. Can be an HTMLImageElement or a HTMLCanvasElement
+        * @property image
+        * @type HTMLImageElement/HTMLCanvasElement
+        * @public
+        */
+        public image;
         
         /**
         * The cells for this image.

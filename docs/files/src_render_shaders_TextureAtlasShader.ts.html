@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\render\renderers\Texture2DRenderer.ts - Kiwi.js</title>
+    <title>src\render\shaders\TextureAtlasShader.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -338,170 +340,105 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\render\renderers\Texture2DRenderer.ts</h1>
+                        <h1 class="file-heading">File: src\render\shaders\TextureAtlasShader.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
+    /**
+    *
+    * @class GLShaders
+    * @constructor
+    * @param gl {WebGLRenderingContext}
+    * @return {GLShaders}
+    */
 
-/**
-*  
-* @module Kiwi
-* @submodule Renderers
-* 
-*/
+module Kiwi.Shaders {
 
-module Kiwi.Renderers {
-
-
-    export class Texture2DRenderer extends Renderer implements IRenderer {
-
+    export class TextureAtlasShader extends ShaderPair {
 
         constructor() {
             super();
         }
 
-        public init(gl: WebGLRenderingContext, params: any) {
-            //create buffers
-            //dynamic
-            this.xyuvBuffer = new GLArrayBuffer(gl, 4);
-            this.alphaBuffer = new GLArrayBuffer(gl, 1);
+        public init(gl: WebGLRenderingContext) {
+            super.init(gl);
 
-            //static
-            this.indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
-            
-            //use shaders
-            this.shaderPair = new Texture2DShader();
-            this.shaderPair.init(gl);
-            this.shaderPair.use(gl);
-            this.shaderPair.aXYUV(gl, this.xyuvBuffer);
-            this.shaderPair.aAlpha(gl, this.alphaBuffer);
-
-            //Texture
-            gl.activeTexture(gl.TEXTURE0);
-            this.shaderPair.uSampler(gl, 0);
-
-            //stage res
-            this.updateStageResolution(gl, params.stageResolution);
-
+            //attributes
+            this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, &quot;aXYUV&quot;);
+            this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, &quot;aAlpha&quot;);
            
+            //uniforms
 
-
+            this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, &quot;uMVMatrix&quot;);
+            this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, &quot;uResolution&quot;);
+            this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, &quot;uSampler&quot;);
+            this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, &quot;uTextureSize&quot;);
+            this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, &quot;uCameraOffset&quot;);
+           
         }
 
+        public attributes: any = {
+            aXYUV: null,
+            aAlpha: null,
 
-       
-        public clear(gl: WebGLRenderingContext,params:any) {
-            this.xyuvBuffer.clear();
-            this.alphaBuffer.clear();
-            this.shaderPair.uMVMatrix(gl, params.mvMatrix);
-            this.shaderPair.uCameraOffset(gl, new Float32Array(params.uCameraOffset));
-        
-        }
+        };
 
-        public draw(gl: WebGLRenderingContext, params: any) {
-            this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
-            this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
-            this.shaderPair.draw(gl, params.entityCount * 6);
-        }
-
-        /**
-       * Maximum allowable sprites to render per frame
-       * @property _maxItems
-       * @type number
-       * @default 1000
-       * @private
-       */
-        private _maxItems: number = 2000;
-
-       
-
-        /**
-       * Storage for the xy (position) and uv(texture) coordinates that are generated each frame
-       * @property _xyuvBuffer
-       * @type GLArrayBuffer
-       * @private
-       */
-        public xyuvBuffer: GLArrayBuffer;
-
-        /**
-        * Storage for the polygon indices, pre generated to a length based on max items
-        * @property _indexBuffer
-        * @type GLElementArrayBuffer
-        * @private 
-        */
-        public indexBuffer: GLElementArrayBuffer;
-
-        /**
-        * Storage for alpha values for each vertex on a sprite
-        * @property _alphaBuffer
-        * @type GLArrayBuffer
-        * @private
-        */
-        public alphaBuffer: GLArrayBuffer;
-
-
-        /**
-      * Create prebaked indices for drawing quads 
-      * @method _generateIndices
-      * @param numQuads {number}
-      * @return number[]
-      * @private
-      */
-        private _generateIndices(numQuads: number): number[] {
-            
-            var quads: number[] = new Array();
-            for (var i = 0; i &lt; numQuads; i++) {
-                quads.push(i * 4 + 0, i * 4 + 1, i * 4 + 2, i * 4 + 0, i * 4 + 2, i * 4 + 3);
-            }
-            return quads;
-
-        }
-
-
-        public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array) {
-            this.stageResolution = res;
-            this.shaderPair.uResolution(gl, res);
+        public uniforms: any = {
+            uMVMatrix: null,
+            uSampler: null,
+            uResolution: null,
+            uTextureSize: null,
+            uCameraOffset: null
         }
 
         /**
-        * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
-        * @method _collateVertexAttributeArrays
-        * @param gl {WebGLRenderingContext}
-        * @param entity {Entity}
-        * @param camera {Camera}
+        *
+        * @property texture2DFrag
+        * @type Array
         * @public
         */
-        public addToBatch(gl: WebGLRenderingContext, entity: Entity, camera: Kiwi.Camera) {
-            var t: Kiwi.Geom.Transform = entity.transform;
-            var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
-            var ct: Kiwi.Geom.Transform = camera.transform;
-            var cm: Kiwi.Geom.Matrix = ct.getConcatenatedMatrix();
+        public fragSource: Array&lt;string&gt; = [
+            &quot;precision mediump float;&quot;,
+            &quot;varying vec2 vTextureCoord;&quot;,
+            &quot;varying float vAlpha;&quot;,
+            &quot;uniform sampler2D uSampler;&quot;,
+            &quot;void main(void) {&quot;,
+            &quot;gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));&quot;,
+            &quot;gl_FragColor.a *= vAlpha;&quot;,
+            &quot;}&quot;
+        ];
 
-            var cell = entity.atlas.cells[entity.cellIndex];
 
-            var pt1: Kiwi.Geom.Point = new Kiwi.Geom.Point(0 - t.rotPointX, 0 - t.rotPointY);
-            var pt2: Kiwi.Geom.Point = new Kiwi.Geom.Point(cell.w - t.rotPointX, 0 - t.rotPointY);
-            var pt3: Kiwi.Geom.Point = new Kiwi.Geom.Point(cell.w - t.rotPointX, cell.h - t.rotPointY);
-            var pt4: Kiwi.Geom.Point = new Kiwi.Geom.Point(0 - t.rotPointX, cell.h - t.rotPointY);
+        /**
+        *
+        * @property texture2DVert
+        * @type Array
+        * @public
+        */
+        public vertSource: Array&lt;string&gt; = [
+            &quot;attribute vec4 aXYUV;&quot;,
+            &quot;attribute float aAlpha;&quot;,
+            &quot;uniform mat4 uMVMatrix;&quot;,
+            &quot;uniform vec2 uResolution;&quot;,
+            &quot;uniform vec2 uTextureSize;&quot;,
+            &quot;uniform vec2 uCameraOffset;&quot;,
+            &quot;varying vec2 vTextureCoord;&quot;,
+            &quot;varying float vAlpha;&quot;,
+            &quot;void main(void) {&quot;,
+            &quot;vec4 transpos = vec4(aXYUV.xy - uCameraOffset,0,1); &quot;,
+            &quot;transpos =  uMVMatrix * transpos;&quot;,
 
-            pt1 = m.transformPoint(pt1);
-            pt2 = m.transformPoint(pt2);
-            pt3 = m.transformPoint(pt3);
-            pt4 = m.transformPoint(pt4);
+            &quot;vec2 clipSpace = ((transpos.xy / uResolution) * 2.0) - 1.0;&quot;,
+            &quot;gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);&quot;,
+            &quot;vTextureCoord = aXYUV.zw / uTextureSize;&quot;,
+            &quot;vAlpha = aAlpha;&quot;,
+            &quot;}&quot;
+        ];
 
-           
-
-            this.xyuvBuffer.items.push(
-                pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y,
-                pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y,
-                pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h,
-                pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h
-                );
-            this.alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
 
         }
+
     }
-}
 
     </pre>
 </div>

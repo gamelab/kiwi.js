@@ -63,15 +63,36 @@ module Kiwi.Textures {
             }
         }
 
+       
+
+        /**
+        * Adds a texture atlas to the library.
+        * @method add
+        * @param atlas {TextureAtlas}
+        * @public
+        */
+        public add(atlas: TextureAtlas) {
+            this.textures[atlas.name] = atlas;
+
+            if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
+                if (Kiwi.Utils.Common.base2Sizes.indexOf(atlas.image.width) == -1 || Kiwi.Utils.Common.base2Sizes.indexOf(atlas.image.height) == -1) {
+                    console.log("Warning:Image is not of base2 size and may not render correctly.");
+                }
+                var renderManager = <Kiwi.Renderers.GLRenderManager>this._game.renderer;
+                renderManager.addTexture(this._game.stage.gl, atlas);
+            }
+        }
+
+
         /**
         * Adds a new image file to the texture library.
-        * @method add
+        * @method addFromFile
         * @param imageFile {File}
         * @public
         */
-        public add(imageFile: Kiwi.Files.File) {
+        public addFromFile(imageFile: Kiwi.Files.File) {
 
-            if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
+            if (this._game.renderOption === Kiwi.RENDERER_WEBGL && this._game.deviceTargetOption != Kiwi.TARGET_COCOON) {
                 imageFile = this._rebuildImage(imageFile);
             }
 
@@ -93,76 +114,39 @@ module Kiwi.Textures {
         }
 
         /**
-        * An array containing all of the base2 sizes that we support. This could be changed to a static property at some point.
-        * @property _base2Sizes
-        * @type number[]
-        * @private
-        */
-        private _base2Sizes: number[] = [2, 4, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096];
-
-        /**
-        * Is used to resize images into base2 dimenisons. Used for webgl rendering and optimisation.
+        * Used to rebuild a Texture from the FileStore into a base2 size if it doesn't have it already.
         * @method _rebuildImage
         * @param imageFile {File} The image file that is to be rebuilt.
         * @return {File} The new image file.
         * @private
         */
         private _rebuildImage(imageFile: Kiwi.Files.File): Kiwi.Files.File {
-            
-            var width = imageFile.data.width;
-            var height = imageFile.data.height
 
-            if (this._base2Sizes.indexOf(width) == -1) {
-                var i = 0;
-                while (width > this._base2Sizes[i]) i++;
-                width = this._base2Sizes[i];
-            }
 
-            if (this._base2Sizes.indexOf(height) == -1) {
-                var i = 0;
-                while (height > this._base2Sizes[i]) i++;
-                height = this._base2Sizes[i];
-            }
+            //Check to see if it is base 2
+            var newImg = Kiwi.Utils.Common.convertToBase2(imageFile.data);
 
-            if (imageFile.data.width !== width || imageFile.data.height !== height) {
 
-             
-                this._canvas.width = width;
-                this._canvas.height = height;
-                this._canvas.getContext("2d").drawImage(imageFile.data, 0, 0);
-                
-                
-                var image = new Image(width, height);
-                //CocoonJS needs the width/height set as the ImageObject doesn't accept the parameters...
-                image.width = width;
-                image.height = height;
-                image.src = this._canvas.toDataURL("image/png");
+            //Was it resized? We can check to see if the width/height has changed.
+            if (imageFile.data.width !== newImg.width || imageFile.data.height !== newImg.height) {
 
                 if (imageFile.dataType === Kiwi.Files.File.SPRITE_SHEET) {
                     //If no rows were passed then calculate them now.
                     if (!imageFile.metadata.rows)
                         imageFile.metadata.rows = imageFile.data.height / imageFile.metadata.frameHeight;
 
+
                     //If no columns were passed then calculate them again.
                     if (!imageFile.metadata.cols)
                         imageFile.metadata.cols = imageFile.data.width / imageFile.metadata.frameWidth;
                 
-
                 }
+
+                if(this._game.debug) 
+                    console.log(imageFile.fileName + ' has been rebuilt to be base2.');
 
                 //Assign the new image to the data
-                imageFile.data = image;
-
-                //CocoonJS Warning...
-                if (Kiwi.TARGET_COCOON == this._game.deviceTargetOption) {
-                    console.log('Warning! "' + imageFile.key + '" was resized to have base-2 dimensions, but in CocoonJS this can remove the alpha channel!'+"\n"+'Make sure the images have base-2 dimensions before loading and using WEBGL.'); 
-                }
-
-                //Flag the items we just generated for garbage collection
-                delete image;
-                
-                delete width;
-                delete height;
+                imageFile.data = newImg;
             }
 
             return imageFile;
@@ -216,8 +200,6 @@ module Kiwi.Textures {
             return new Kiwi.Textures.SingleImage(imageFile.key,imageFile.data,m.width, m.height, m.offsetX, m.offsetY);
         }
 
-        private _canvas: HTMLCanvasElement;
-
         /**
          * Rebuild the library from a fileStore. Clears the library and repopulates it.
          * @method rebuild
@@ -231,17 +213,15 @@ module Kiwi.Textures {
                 console.log("Rebuilding Texture Library");
             }
             
-            this._canvas = <HTMLCanvasElement> document.createElement('canvas');
             var fileStoreKeys = fileStore.keys;
             for (var i = 0; i < fileStoreKeys.length; i++) {
                 var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
                 if (file.isTexture) {
                     if (this._game.debug) { console.log("Adding Texture: " + file.fileName) };
-                    state.textureLibrary.add(file);
+                    state.textureLibrary.addFromFile(file);
                 }
             }
 
-            this._canvas = null;
         }
     }
 

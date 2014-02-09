@@ -35,6 +35,9 @@ module Kiwi.GameObjects {
                 return;
             } 
 
+            if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
+                this.glRenderer = this.game.renderer.requestSharedRenderer("TextureAtlasRenderer");
+            }
 
             this.atlas = atlas;
             this.name = this.atlas.name;
@@ -137,7 +140,7 @@ module Kiwi.GameObjects {
             super.render(camera);
             
             //if it is would even be visible.
-            if (this.alpha > 0 && this.visibility) {
+            if (this.alpha > 0 && this.visible) {
                 
                 var ctx: CanvasRenderingContext2D = this.game.stage.ctx;
                 ctx.save();
@@ -165,8 +168,8 @@ module Kiwi.GameObjects {
         
         }
 
-        public renderGL(gl: WebGLRenderingContext, renderer:Kiwi.Renderers.Renderer,camera: Kiwi.Camera, params: any = null) {
-            (<Kiwi.Renderers.Texture2DRenderer>renderer).addToBatch(gl, this, camera);
+        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params: any = null) {
+            (<Kiwi.Renderers.TextureAtlasRenderer>this.glRenderer).addToBatch(gl, this, camera);
         }
 
     }

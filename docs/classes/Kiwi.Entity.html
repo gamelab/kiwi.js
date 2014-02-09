@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -888,7 +890,7 @@ Every entity requires that you pass to it the state that it belongs too, that wa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l475"><code>src\core\Entity.ts:475</code></a>
+        <a href="../files/src_core_Entity.ts.html#l474"><code>src\core\Entity.ts:474</code></a>
         
         </p>
 
@@ -974,7 +976,7 @@ Every entity requires that you pass to it the state that it belongs too, that wa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l440"><code>src\core\Entity.ts:440</code></a>
+        <a href="../files/src_core_Entity.ts.html#l439"><code>src\core\Entity.ts:439</code></a>
         
         </p>
 
@@ -1055,7 +1057,7 @@ Every entity requires that you pass to it the state that it belongs too, that wa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l459"><code>src\core\Entity.ts:459</code></a>
+        <a href="../files/src_core_Entity.ts.html#l458"><code>src\core\Entity.ts:458</code></a>
         
         </p>
 
@@ -1136,7 +1138,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l450"><code>src\core\Entity.ts:450</code></a>
+        <a href="../files/src_core_Entity.ts.html#l449"><code>src\core\Entity.ts:449</code></a>
         
         </p>
 
@@ -1192,7 +1194,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l328"><code>src\core\Entity.ts:328</code></a>
+        <a href="../files/src_core_Entity.ts.html#l327"><code>src\core\Entity.ts:327</code></a>
         
         </p>
 
@@ -1241,7 +1243,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l183"><code>src\core\Entity.ts:183</code></a>
+        <a href="../files/src_core_Entity.ts.html#l182"><code>src\core\Entity.ts:182</code></a>
         
         </p>
 
@@ -1288,7 +1290,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l396"><code>src\core\Entity.ts:396</code></a>
+        <a href="../files/src_core_Entity.ts.html#l395"><code>src\core\Entity.ts:395</code></a>
         
         </p>
 
@@ -1335,7 +1337,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l307"><code>src\core\Entity.ts:307</code></a>
+        <a href="../files/src_core_Entity.ts.html#l306"><code>src\core\Entity.ts:306</code></a>
         
         </p>
 
@@ -1382,7 +1384,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l57"><code>src\core\Entity.ts:57</code></a>
+        <a href="../files/src_core_Entity.ts.html#l56"><code>src\core\Entity.ts:56</code></a>
         
         </p>
 
@@ -1429,7 +1431,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l207"><code>src\core\Entity.ts:207</code></a>
+        <a href="../files/src_core_Entity.ts.html#l206"><code>src\core\Entity.ts:206</code></a>
         
         </p>
 
@@ -1478,7 +1480,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l351"><code>src\core\Entity.ts:351</code></a>
+        <a href="../files/src_core_Entity.ts.html#l350"><code>src\core\Entity.ts:350</code></a>
         
         </p>
 
@@ -1527,7 +1529,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l337"><code>src\core\Entity.ts:337</code></a>
+        <a href="../files/src_core_Entity.ts.html#l336"><code>src\core\Entity.ts:336</code></a>
         
         </p>
 
@@ -1575,7 +1577,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l191"><code>src\core\Entity.ts:191</code></a>
+        <a href="../files/src_core_Entity.ts.html#l190"><code>src\core\Entity.ts:190</code></a>
         
         </p>
 
@@ -1622,7 +1624,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l248"><code>src\core\Entity.ts:248</code></a>
+        <a href="../files/src_core_Entity.ts.html#l247"><code>src\core\Entity.ts:247</code></a>
         
         </p>
 
@@ -1669,7 +1671,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l256"><code>src\core\Entity.ts:256</code></a>
+        <a href="../files/src_core_Entity.ts.html#l255"><code>src\core\Entity.ts:255</code></a>
         
         </p>
 
@@ -1719,7 +1721,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l404"><code>src\core\Entity.ts:404</code></a>
+        <a href="../files/src_core_Entity.ts.html#l403"><code>src\core\Entity.ts:403</code></a>
         
         </p>
 
@@ -1766,7 +1768,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l266"><code>src\core\Entity.ts:266</code></a>
+        <a href="../files/src_core_Entity.ts.html#l265"><code>src\core\Entity.ts:265</code></a>
         
         </p>
 
@@ -1813,7 +1815,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l425"><code>src\core\Entity.ts:425</code></a>
+        <a href="../files/src_core_Entity.ts.html#l424"><code>src\core\Entity.ts:424</code></a>
         
         </p>
 
@@ -1860,7 +1862,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l417"><code>src\core\Entity.ts:417</code></a>
+        <a href="../files/src_core_Entity.ts.html#l416"><code>src\core\Entity.ts:416</code></a>
         
         </p>
 
@@ -1907,7 +1909,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l374"><code>src\core\Entity.ts:374</code></a>
+        <a href="../files/src_core_Entity.ts.html#l373"><code>src\core\Entity.ts:373</code></a>
         
         </p>
 
@@ -1954,7 +1956,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l315"><code>src\core\Entity.ts:315</code></a>
+        <a href="../files/src_core_Entity.ts.html#l314"><code>src\core\Entity.ts:314</code></a>
         
         </p>
 
@@ -2001,7 +2003,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l274"><code>src\core\Entity.ts:274</code></a>
+        <a href="../files/src_core_Entity.ts.html#l273"><code>src\core\Entity.ts:273</code></a>
         
         </p>
 
@@ -2048,7 +2050,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l239"><code>src\core\Entity.ts:239</code></a>
+        <a href="../files/src_core_Entity.ts.html#l238"><code>src\core\Entity.ts:238</code></a>
         
         </p>
 
@@ -2097,7 +2099,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l290"><code>src\core\Entity.ts:290</code></a>
+        <a href="../files/src_core_Entity.ts.html#l289"><code>src\core\Entity.ts:289</code></a>
         
         </p>
 
@@ -2144,7 +2146,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l382"><code>src\core\Entity.ts:382</code></a>
+        <a href="../files/src_core_Entity.ts.html#l381"><code>src\core\Entity.ts:381</code></a>
         
         </p>
 
@@ -2192,7 +2194,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l298"><code>src\core\Entity.ts:298</code></a>
+        <a href="../files/src_core_Entity.ts.html#l297"><code>src\core\Entity.ts:297</code></a>
         
         </p>
 
@@ -2241,7 +2243,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l65"><code>src\core\Entity.ts:65</code></a>
+        <a href="../files/src_core_Entity.ts.html#l64"><code>src\core\Entity.ts:64</code></a>
         
         </p>
 
@@ -2307,7 +2309,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l134"><code>src\core\Entity.ts:134</code></a>
+        <a href="../files/src_core_Entity.ts.html#l133"><code>src\core\Entity.ts:133</code></a>
         
         </p>
 
@@ -2354,7 +2356,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l147"><code>src\core\Entity.ts:147</code></a>
+        <a href="../files/src_core_Entity.ts.html#l146"><code>src\core\Entity.ts:146</code></a>
         
         </p>
 
@@ -2401,7 +2403,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l160"><code>src\core\Entity.ts:160</code></a>
+        <a href="../files/src_core_Entity.ts.html#l159"><code>src\core\Entity.ts:159</code></a>
         
         </p>
 
@@ -2448,7 +2450,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l107"><code>src\core\Entity.ts:107</code></a>
+        <a href="../files/src_core_Entity.ts.html#l106"><code>src\core\Entity.ts:106</code></a>
         
         </p>
 
@@ -2495,7 +2497,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l120"><code>src\core\Entity.ts:120</code></a>
+        <a href="../files/src_core_Entity.ts.html#l119"><code>src\core\Entity.ts:119</code></a>
         
         </p>
 
@@ -2542,7 +2544,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l282"><code>src\core\Entity.ts:282</code></a>
+        <a href="../files/src_core_Entity.ts.html#l281"><code>src\core\Entity.ts:281</code></a>
         
         </p>
 
@@ -2589,7 +2591,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l49"><code>src\core\Entity.ts:49</code></a>
+        <a href="../files/src_core_Entity.ts.html#l48"><code>src\core\Entity.ts:48</code></a>
         
         </p>
 
@@ -2636,7 +2638,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l216"><code>src\core\Entity.ts:216</code></a>
+        <a href="../files/src_core_Entity.ts.html#l215"><code>src\core\Entity.ts:215</code></a>
         
         </p>
 
@@ -2685,7 +2687,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l230"><code>src\core\Entity.ts:230</code></a>
+        <a href="../files/src_core_Entity.ts.html#l229"><code>src\core\Entity.ts:229</code></a>
         
         </p>
 
@@ -2734,7 +2736,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l360"><code>src\core\Entity.ts:360</code></a>
+        <a href="../files/src_core_Entity.ts.html#l359"><code>src\core\Entity.ts:359</code></a>
         
         </p>
 
@@ -2783,7 +2785,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l80"><code>src\core\Entity.ts:80</code></a>
+        <a href="../files/src_core_Entity.ts.html#l79"><code>src\core\Entity.ts:79</code></a>
         
         </p>
 
@@ -2830,7 +2832,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l93"><code>src\core\Entity.ts:93</code></a>
+        <a href="../files/src_core_Entity.ts.html#l92"><code>src\core\Entity.ts:92</code></a>
         
         </p>
 

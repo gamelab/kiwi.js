@@ -9,6 +9,8 @@ interface IRenderManager {
     initState(state: Kiwi.State);
     endState(state: Kiwi.State);
     numDrawCalls: number;
+    requestRendererInstance(rendererID: string,params?: any);
+    requestSharedRenderer(rendererID: string, params?: any);
 }
 
 /**
@@ -94,7 +96,16 @@ module Kiwi.Renderers {
             }
 
         }
-        
+
+        //for gl compatibility - refactor me
+        public requestRendererInstance(rendererID: string, params: any = null): Kiwi.Renderers.Renderer {
+            return null;
+        }
+
+        public requestSharedRenderer(rendererID: string, params: any = null): Kiwi.Renderers.Renderer {
+            return null;
+        }
+
         public initState(state:Kiwi.State) {
 
         }

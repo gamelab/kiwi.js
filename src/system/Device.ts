@@ -403,7 +403,7 @@ module Kiwi.System {
 
             if ('ontouchstart' in document.documentElement || window.navigator.msPointerEnabled)
             {
-                //this.touch = true;
+                this.touch = true;
             }
 
         }

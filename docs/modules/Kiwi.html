@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -346,7 +348,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_Kiwi.ts.html#l285"><code>src\Kiwi.ts:285</code></a>
+            Defined in: <a href="../files/src_Kiwi.ts.html#l289"><code>src\Kiwi.ts:289</code></a>
         </div>
     
 
@@ -371,8 +373,8 @@ The top level namespace in which all core classes and modules are defined.</p>
             <ul class="module-classes">
             
                 <li class="module-class">
-                    <a href="../classes/GLRenderer.html">
-                        GLRenderer
+                    <a href="../classes/GLRenderManager.html">
+                        GLRenderManager
                     </a>
                 </li>
             
@@ -856,6 +858,12 @@ The top level namespace in which all core classes and modules are defined.</p>
                     </a>
                 </li>
             
+                <li class="module-class">
+                    <a href="../classes/ShaderManager.html">
+                        ShaderManager
+                    </a>
+                </li>
+            
             </ul>
         
     </div>
@@ -913,6 +921,28 @@ The top level namespace in which all core classes and modules are defined.</p>
 
                     <div class="module-submodule-description">
                         Contains the classes which are related to the rendering of GameObjects.
+                    </div>
+                </li>
+            
+                <li class="module-submodule">
+                    <a href="../modules/Shaders.html">
+                        Shaders
+                    </a>
+
+                    <div class="module-submodule-description">
+                        GLSL ES Shaders are used for WebGL rendering.
+ShaderPair objects encapsulate GLSL ES vertex and fragment shader programs. 
+  ShaderPairs contain the GLSL code, provide an interface to uniforms and attributes, and have the ability to link and compile the shaders.
+The ShaderManager keeps track of each ShaderPair, and controls which one is bound for use at any particular time.
+  Only the ShaderManager can create ShaderPairs. When a renderer (see note on renderes below) requests a ShaderPair the ShaderManager will either
+      1) Return a reference to an already instantiated ShaderPair, and set the GL state to use the shader program or
+      2) Return a reference to a new ShaderPair, which will be linked and compiled and bound for use.
+  All ShaderPairs must be housed as properties of the Kiwi.Shaders object. 
+
+Kiwi.Renderer objects use a ShaderPair to draw.
+  They must request a ShaderPair from the ShaderManager.
+  Many renderers may use the same ShaderPair.
+  Some renderers may at different times use multiple ShaderPairs (only one is possible at any given time)
                     </div>
                 </li>
             

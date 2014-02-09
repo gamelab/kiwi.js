@@ -305,8 +305,8 @@ module Kiwi.Input {
             this.screenX = event.screenX;
             this.screenY = event.screenY;
 
-            this.x = this.pageX - this.game.stage.offset.x;
-            this.y = this.pageY - this.game.stage.offset.y;
+            this.x = (this.pageX - this.game.stage.offset.x) * this.game.stage.scale;
+            this.y = (this.pageY - this.game.stage.offset.y) * this.game.stage.scale;
 
             this.point.setTo(this.x, this.y);
             this.circle.x = this.x;

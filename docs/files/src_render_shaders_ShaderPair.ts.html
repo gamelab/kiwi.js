@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\render\shaders\Texture2DShader.ts - Kiwi.js</title>
+    <title>src\render\shaders\ShaderPair.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -338,10 +340,21 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\render\shaders\Texture2DShader.ts</h1>
+                        <h1 class="file-heading">File: src\render\shaders\ShaderPair.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
+/**
+*  
+* @module Kiwi
+* @submodule Renderers
+* 
+*/
+
+
+
+module Kiwi.Shaders {
+    
     /**
     *
     * @class GLShaders
@@ -349,16 +362,85 @@
     * @param gl {WebGLRenderingContext}
     * @return {GLShaders}
     */
-
-    module Kiwi.Renderers {
-
-    export class Texture2DShader extends GLShaderPair {
+    export class ShaderPair {
 
         constructor() {
-            super();
+      
             
-          
         }
+
+        public static RENDERER_ID: string = &quot;ShaderPair&quot;;
+
+        public init(gl: WebGLRenderingContext) {
+                this.vertShader = this.compile(gl, this.vertSource.join(&quot;\n&quot;), gl.VERTEX_SHADER);
+                this.fragShader = this.compile(gl, this.fragSource.join(&quot;\n&quot;), gl.FRAGMENT_SHADER);
+                this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
+                this.loaded = true;
+        }
+
+        public loaded: boolean = false;
+        
+        /**
+        *
+        * @property vertShader
+        * @type WebGLShader
+        * @public
+        */
+        public vertShader: WebGLShader;
+        
+        /**
+        *
+        * @property fragShader
+        * @type WebGLShader
+        * @public
+        */
+        public fragShader: WebGLShader;
+        
+        /**
+        *
+        * @property shaderProgram
+        * @type WebGLProgram
+        * @public
+        */
+        public shaderProgram: WebGLProgram;
+        
+        /**
+        *
+        * @method attach
+        * @param gl {WebGLRenderingContext}
+        * @param vertShader {WebGLShader}
+        * @param fragShader {WebGLShader}
+        * @return {WebGLProgram}
+        * @public
+        */
+        public attach(gl: WebGLRenderingContext, vertShader: WebGLShader, fragShader: WebGLShader): WebGLProgram {
+            var shaderProgram: WebGLProgram = gl.createProgram();
+            gl.attachShader(shaderProgram, fragShader);
+            gl.attachShader(shaderProgram, vertShader);
+            gl.linkProgram(shaderProgram);
+            return shaderProgram;
+        }
+        
+        /**
+        *
+        * @method compile
+        * @param gl {WebGLRenderingContext}
+        * @param src {string}
+        * @param shaderType {number}
+        * @return {WebGLShader}
+        * @public
+        */
+        public compile(gl: WebGLRenderingContext, src: string, shaderType: number): WebGLShader {
+            var shader: WebGLShader = gl.createShader(shaderType);
+            gl.shaderSource(shader, src);
+            gl.compileShader(shader);
+
+            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                return null;
+            }
+            return shader;
+        }
+
 
         /**
         *
@@ -366,17 +448,7 @@
         * @type Array
         * @public
         */
-        public fragSource: Array&lt;string&gt; = [
-            &quot;precision mediump float;&quot;,
-            &quot;varying vec2 vTextureCoord;&quot;,
-            &quot;varying float vAlpha;&quot;,
-            &quot;uniform sampler2D uSampler;&quot;,
-            &quot;void main(void) {&quot;,
-            &quot;gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));&quot;,
-            &quot;gl_FragColor.a *= vAlpha;&quot;,
-            &quot;}&quot;
-        ];
-
+        public fragSource: Array&lt;any&gt;;
 
         /**
         *
@@ -384,116 +456,12 @@
         * @type Array
         * @public
         */
-        public vertSource: Array&lt;string&gt; = [
-            &quot;attribute vec4 aXYUV;&quot;,
-            &quot;attribute float aAlpha;&quot;,
-            &quot;uniform mat4 uMVMatrix;&quot;,
-            &quot;uniform vec2 uResolution;&quot;,
-            &quot;uniform vec2 uTextureSize;&quot;,
-            &quot;uniform vec2 uCameraOffset;&quot;,
-            &quot;varying vec2 vTextureCoord;&quot;,
-            &quot;varying float vAlpha;&quot;,
-            &quot;void main(void) {&quot;,
-            &quot;vec4 transpos = vec4(aXYUV.xy - uCameraOffset,0,1); &quot;,
-            &quot;transpos =  uMVMatrix * transpos;&quot;,
+        public vertSource: Array&lt;any&gt;;
 
-            &quot;vec2 clipSpace = ((transpos.xy / uResolution) * 2.0) - 1.0;&quot;,
-            &quot;gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);&quot;,
-            &quot;vTextureCoord = aXYUV.zw / uTextureSize;&quot;,
-            &quot;vAlpha = aAlpha;&quot;,
-            &quot;}&quot;
-        ];
+    }
 
-
-
-        public attributes: any = {
-            aXYUV: null,
-            aAlpha: null,
-           
-        };
-
-        public uniforms: any = {
-            uMVMatrix: null,
-            uSampler: null,
-            uResolution: null,
-            uTextureSize: null,
-            uCameraOffset: null
-        }
-
-
-
-
-        public uMVMatrix(gl: WebGLRenderingContext,uMVMatrixVal:Float32Array) {
-            gl.uniformMatrix4fv(this.uniforms.uMVMatrix, false,uMVMatrixVal);
-        }
-
-        public uSampler(gl: WebGLRenderingContext, uSamplerVal: number) {
-            gl.uniform1i(this.uniforms.samplerUniform, uSamplerVal);
-        }
-
-        public uResolution(gl: WebGLRenderingContext, uResolutionVal: Float32Array) {
-            gl.uniform2fv(this.uniforms.uResolution, uResolutionVal);
-        }
-
-        public uTextureSize(gl: WebGLRenderingContext, uTextureSizeVal: Float32Array) {
-            gl.uniform2fv(this.uniforms.uTextureSize, uTextureSizeVal);
-        }
-
-        public uCameraOffset(gl: WebGLRenderingContext, uCameraOffsetVal: Float32Array) {
-            gl.uniform2fv(this.uniforms.uCameraOffset, uCameraOffsetVal);
-        }
-
-        public aXYUV(gl: WebGLRenderingContext, aXYUVVal: GLArrayBuffer) {
-            gl.bindBuffer(gl.ARRAY_BUFFER, aXYUVVal.buffer);
-            gl.vertexAttribPointer(this.attributes.aXYUV, aXYUVVal.itemSize, gl.FLOAT, false, 0, 0);
-        }
-
-        public aAlpha(gl: WebGLRenderingContext, aAlphaVal: GLArrayBuffer) {
-            gl.bindBuffer(gl.ARRAY_BUFFER, aAlphaVal.buffer);
-            gl.vertexAttribPointer(this.attributes.aAlpha, aAlphaVal.itemSize, gl.FLOAT, false, 0, 0);
-        }
-
-
-
-
-        /**
-        *
-        * @method use
-        * @param gl {WebGLRenderingContext}
-        * @param shaderProrgram {WebGLProgram}
-        * @public
-        */
-        public use(gl: WebGLRenderingContext) {
-            
-            gl.useProgram(this.shaderProgram);
-            
-            //attributes
-            this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, &quot;aXYUV&quot;);
-            gl.enableVertexAttribArray(this.attributes.aXYUV);
-            this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, &quot;aAlpha&quot;);
-            gl.enableVertexAttribArray(this.attributes.aAlpha);
-            
-            //uniforms
-
-            this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, &quot;uMVMatrix&quot;);
-            this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, &quot;uResolution&quot;);
-            this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, &quot;uSampler&quot;);
-            this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, &quot;uTextureSize&quot;);
-            this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, &quot;uCameraOffset&quot;);
-
-        }
-
-        public draw(gl: WebGLRenderingContext, numElements: number) {
-            gl.drawElements(gl.TRIANGLES, numElements, gl.UNSIGNED_SHORT, 0);
-        }
-
-
-
-        }
 
 }
-
-       
     </pre>
 </div>
 

@@ -1,4 +1,4 @@
-Release Notes 0.5.3
+Release Notes 0.6.0
 
 Kiwi.js (BETA)
 =====
@@ -6,52 +6,61 @@ Kiwi.js (BETA)
 ###HTML5 game library written in TypeScript/Javascript
 -----------------------------------------------------------------
 
-version 0.5.3
+version 0.6.0
 
 ###Release notes for this version
 
-####New Features
-None
+####New Features and major updates
+* Tilemap system has been totally revmped (see below)
+* The four core gameobjects (Sprite, staticImage, Tilemap and Textfield) now all render in both 2d canvas and WebGL.
+* WebGL rendering system has been greatly expanded, allowing the easy addition custom renderers and shaders when writing plugins.
+ Examples are forthcoming.
     
-####Bug Fixes and changes
+####Bug Fixes
+- Fixed bug that would stop Kiwi from working on Safari on the iPad 2. 
+- Reimplement Kiwi.DEVICE.touch. Was previously commented out.
+- Fixed issue where destroying groups would generate an error when switching states.
+- Fixed the 'cocoon.php' Previously was generating a js error and so the settings were not being taken into affect.
 
-- Audio Bug Fix - Audio Tag's should no longer be 'unmuted' regardless of the Audio Managers muted state upon instantiation.
-
-- Groups Bug Fix - Parents are now set when using 'addChildBefore' and 'addChildAfter' methods. This was producing errors/making the game crash when objects were destroyed. 
-
-- Arcade Physics Update - Seperation code now calculating based off a hitbox.
-
-- Nice Error Messages - Sprite/Static Images now produce 'none' game breaking (and nicer) error messages when a TextureAtlas passes doesn't exist. Previous would 'kill' the game. 
-
-- Creating a game with a State - You can now create a game without passing a state. Previously the game would crash due to the Camera Manager Render method. Where now only executed if there is a current state. 
-
-- Box Component Updates 
-     - Now you can now get the hitbox offsets. 
-     - There are 'two' new read only rectangles.
-          - worldHitbox - a transformed hitbox using 'world' coordinates instead of local ones.
-          - worldBounds - a normal hitbox using 'world' coordinates instead of local ones. 
-     
-- Input/Arcade Physics - Due to the Box Component updates the input/arcade physics have been updated to use world coordinates accordingly.
-
-- API Documentation - namespace attribute added to classes/modules so that yuidocs compilation is now smarter and classes with the same class name but different namespaces don't override one another.
-
-- WebGL
-    - WebGL is under intensive development at the moment. A large part of the GL rendering has been refactored. Refactoring is still underway to allow multiple renderer types, using any number of shaders, for custom game objects such tilemaps, particles, bitmap text etc. Currently only Sprites are supported. 
-    - Major change to texture management, including dynamic texture memory management (important for mobile and low spec devices)
-    - Many optimisations.
-    - Many small changes.
-    - Many bugfixes.
-    - Tested successfully via cocoon on Android devices, Ipad2, Ipad3
-    - Commenting is in an inconsistent state due to mid-refactor of some areas.
-    
-
+####Changes (no impact on pre-existing API)
+- Entity now has a rendererGL property and a renderGL method that can be overriden by WebGL compatible gameobjects.
+- The list of Base2 sizes are now stored as a Static property on the Kiwi.Utils.Common.
+- A method for resizing a Image/Canvas to be Base2 is now on the Kiwi.Utils.Common.
+- Textfields now always use the 'optimised' version and the 'unoptimised' version has been removed.
+- Pointers (Mouse/Touch Input)
+    - Now takes the scale of stage into consideration. Thus making inputs more accurate when smaller/enlarged.
+- Stage
+    - Now contains a 'scale' property, which keeps track of how much the 'stage' has been scaled down due to CSS. In Cocoon this is always at 1 for now. 
+    - The offset of the stage and scale is now re-calculated when the browser is resized. 
+- Kiwi.Files Object 
+    - File class on Kiwi has be refactored. 
+    - The XHR loading method now times-out after 4000 milliseconds, previously was 2000. 
+    - You can tell the XHR to not timeout by setting the delay to null.
+- Arcade Physics
+   - New method 'isTouching' has been added. Used just like the flixel 'touching' equivalent. 
+   - Now can affect rotation/angle of attached GameObjects.
+   - Can now resolve collisions vs tiles in a TileMapLayer using the 'overlapsTiles' method.
+- States
+   - Code has been refactored. 
+   - Redundant checks and conditions removed.
+   - StateConfig now keeps track of how many times a State has been switched to/used. 
+   - Now have a 'shutDown' method which developers override. Is called just before a state is destroyed.
+   - Nicer messages appear throughout the state process.  
+- Example Folder.
+   - New examples for ArcadePhysics have been added.
+   - A few new examples for Groups have been added.
+   - A list of TileMap examples have been implemented. 
 
 
 ####Changes to API pre-exisiting API in this release
-- none
+- Previous property 'visibility' on Entities has been renamed to visible.
+- New Tilemap system has been implemented.
+   - You can now use TextureAtlases when creating Tilemaps.
+   - JSON format used when creating a Tilemap is the same as Tiled. 
+   - See the examples and docs for more documentation. 
 
-
-
+###Known Issues
+The WebGL/Cocoon combination is not currently stable and some visual errors may occur. This is due to internal coocoon issues and we're working with Ludei to improve stability.
 
 -------------------------------------------------------------------
 
@@ -131,4 +140,4 @@ Ben Harding
 Richard Davey  
 Ross Kettle  
 
-Kiwi.js also uses code from a number of open source projects. Effort has been made to clearly identify authors in the code comments. If you notice and missing or incorrect attribution please let us know.	
+Kiwi.js also uses code from a number of open source projects. Effort has been made to clearly identify authors in the code comments. If you notice and missing or incorrect attribution please let us know.    

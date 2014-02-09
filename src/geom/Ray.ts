@@ -12,11 +12,11 @@ module Kiwi.Geom {
     * @class Ray
     * @namespace Kiwi.Geom
     * @constructor
-    * @param x1 {Number} x1
-    * @param y1 {Number} y1
-    * @param x2 {Number} x2
-    * @param y2 {Number} y2
-    * @return {Kiwi.Geom.Ray} This Object
+    * @param [x1 = 0] {Number} x1
+    * @param [y1 = 0] {Number} y1
+    * @param [x2 = 0] {Number} x2
+    * @param [y2 = 0] {Number} y2
+    * @return {Ray} This Object
     *
     */
     export class Ray {
@@ -69,7 +69,8 @@ module Kiwi.Geom {
         public y2: number = 0;
 
         /**
-        * 
+        * Makes a copy of this Ray either as a new Ray object or,
+        * makes a passed Ray a copy of this one. 
         * @method clone
         * @param [output = Ray] {Ray} 
         * @return {Ray}
@@ -82,7 +83,7 @@ module Kiwi.Geom {
         }
 
         /**
-        * 
+        * Makes this Ray the same as a passed Ray.
         * @method copyFrom
         * @param source {Ray} 
         * @return {Ray}
@@ -95,7 +96,7 @@ module Kiwi.Geom {
         }
 
         /**
-        * 
+        * Makes a passed Ray the same as this Ray object. 
         * @method copyTo
         * @param target {Ray} 
         * @return {Ray}
@@ -108,7 +109,7 @@ module Kiwi.Geom {
         }
 
         /**
-        * 
+        * Sets the origin and the direction of this Ray.
         * @method setTo
         * @param x1{Number} 
         * @param y1{Number} 
@@ -153,7 +154,7 @@ module Kiwi.Geom {
         }
 
         /**
-        * 
+        *
         * @method yIntercept
         * @property yIntercept
         * @return {Number}
@@ -166,7 +167,7 @@ module Kiwi.Geom {
         }
 
         /**
-        * Check if a the ray passes through a point.
+        * Check if the Ray passes through a point.
         * @method isPointOnRay
         * @param {Number} x
         * @param {Number} y
@@ -179,7 +180,6 @@ module Kiwi.Geom {
                     return true
                 }
 
-              //  return true;
             }
             
             return false;

@@ -45,10 +45,10 @@
 /// <reference path="gameobjects/Sprite.ts" />
 /// <reference path="gameobjects/StaticImage.ts" />
 /// <reference path="gameobjects/Textfield.ts" />
-/// <reference path="gameobjects/tilemap/Tile.ts" />
 /// <reference path="gameobjects/tilemap/TileType.ts" />
 /// <reference path="gameobjects/tilemap/TileMap.ts" />
 /// <reference path="gameobjects/tilemap/TileMapLayer.ts" />
+
 
 /// <reference path="geom/AABB.ts" />
 /// <reference path="geom/Circle.ts" />
@@ -61,6 +61,7 @@
 /// <reference path="geom/Rectangle.ts" />
 /// <reference path="geom/Transform.ts" />
 /// <reference path="geom/Vector2.ts" />
+/// <reference path="geom/Random.ts" />
 
 /// <reference path="hud/HUDDisplay.ts" />
 /// <reference path="hud/HUDManager.ts" />
@@ -98,15 +99,18 @@
 /// <reference path="plugins/Plugins.ts" />
 
 /// <reference path="render/CanvasRenderer.ts" />
-/// <reference path="render/GLRenderer.ts" />
-/// <reference path="render/GLShaderPair.ts" />
+/// <reference path="render/GLRenderManager.ts" />
+/// <reference path="render/GLShaderManager.ts" />
+
 /// <reference path="render/GLTextureWrapper.ts" />
 /// <reference path="render/GLTextureManager.ts" />
 /// <reference path="render/GLArrayBuffer.ts" />
 /// <reference path="render/GLElementArrayBuffer.ts" />
 /// <reference path="render/renderers/Renderer.ts" />
-/// <reference path="render/renderers/Texture2DRenderer.ts" />
-/// <reference path="render/shaders/Texture2DShader.ts" />
+/// <reference path="render/renderers/TextureAtlasRenderer.ts" />
+
+/// <reference path="render/shaders/ShaderPair.ts" />
+/// <reference path="render/shaders/TextureAtlasShader.ts" />
 
 /// <reference path="system/Bootstrap.ts" />
 /// <reference path="system/Browser.ts" />
@@ -146,7 +150,7 @@ module Kiwi {
     * @default '1.0'
     * @public
     */
-    export var VERSION: string = "0.5.3";
+    export var VERSION: string = "0.6";
     
     //DIFFERENT RENDERER STATIC VARIABLES
     /**

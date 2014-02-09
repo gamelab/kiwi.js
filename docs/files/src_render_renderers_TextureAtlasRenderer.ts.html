@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\gameobjects\tilemap\Tile.ts - Kiwi.js</title>
+    <title>src\render\renderers\TextureAtlasRenderer.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -41,7 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
             
                 <li><a href="../classes/GLShaders.html">GLShaders</a></li>
             
@@ -118,8 +118,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Tilemap.Tile.html">Kiwi.GameObjects.Tilemap.Tile</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -261,6 +259,8 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
+                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -286,6 +286,8 @@
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
             
                 <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -338,142 +340,195 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\gameobjects\tilemap\Tile.ts</h1>
+                        <h1 class="file-heading">File: src\render\renderers\TextureAtlasRenderer.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
+
 /**
-* 
-* @module GameObjects
-* @submodule Tilemap
+*  
+* @module Kiwi
+* @submodule Renderers
 * 
 */
 
-module Kiwi.GameObjects.Tilemap {
+module Kiwi.Renderers {
 
-    /**
-    * A single Tile that exists on the mapData property inside of a TileMapLayer. A Tile should never be directly created by a user but instead reference through its TileMapLayer which would have created it. Each Tile has an ArcadePhysics component that can be used for collision detection.
-    * 
-    * @class Tile
-    * @namespace Kiwi.GameObjects.Tilemap
-    * @extends Entity
-    * @constructor
-    * @param state {State} The state that this Tile is on.
-    * @param tileLayer {TileMapLayer} The TileMapLayer that this Tile is a part of.
-    * @param tileTypes {TileType} The type of tile that this is.
-    * @param width {number} The width of this tile.
-    * @param height {number} The height of this tile.
-    * @param x {number} The tiles x coordinate.
-    * @param y {number} The tiles y coordinate.
-    * @return {Tile} 
-    *
-    */
-    export class Tile extends Kiwi.Entity {
+
+    export class TextureAtlasRenderer extends Renderer {
+
+
+        constructor(gl: WebGLRenderingContext, shaderManager: Kiwi.Shaders.ShaderManager, params: any = null) {
+            super(gl, shaderManager);
+            //create buffers
+            //dynamic
+            this.xyuvBuffer = new GLArrayBuffer(gl, 4);
+            this.alphaBuffer = new GLArrayBuffer(gl, 1);
+
+            //6 verts per quad
+            this.indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
+
+            //use shaders
+            this.shaderPair = &lt;Kiwi.Shaders.TextureAtlasShader&gt;this.shaderManager.requestShader(gl, &quot;TextureAtlasShader&quot;);
+        }
+
+        
+
+        public static RENDERER_ID: string = &quot;TextureAtlasRenderer&quot;;
+
+       
+
+        public enable(gl: WebGLRenderingContext, params: any = null) {
+            //gl.useProgram(this.shaderPair.shaderProgram);
+            this.shaderPair = &lt;Kiwi.Shaders.TextureAtlasShader&gt;this.shaderManager.requestShader(gl, &quot;TextureAtlasShader&quot;);
+            gl.enableVertexAttribArray(this.shaderPair.attributes.aXYUV);
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.xyuvBuffer.buffer);
+            gl.vertexAttribPointer(this.shaderPair.attributes.aXYUV, this.xyuvBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+            gl.enableVertexAttribArray(this.shaderPair.attributes.aAlpha);
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.alphaBuffer.buffer);
+            gl.vertexAttribPointer(this.shaderPair.attributes.aAlpha, this.alphaBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+            //Texture
+            gl.activeTexture(gl.TEXTURE0);
+            gl.uniform1i(this.shaderPair.uniforms.samplerUniform, 0);
+
+            //Other uniforms
+            gl.uniform2fv(this.shaderPair.uniforms.uResolution, params.stageResolution);
+            gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset, params.cameraOffset);
+            gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix, false, params.mvMatrix);
+        }
+
+        public disable(gl: WebGLRenderingContext) {
+            gl.disableVertexAttribArray(this.shaderPair.attributes.aXYUV);
+            gl.disableVertexAttribArray(this.shaderPair.attributes.aAlpha);
+        }
+
+        public shaderPair: Kiwi.Shaders.TextureAtlasShader;
+
+        public clear(gl: WebGLRenderingContext, params: any) {
+            this.xyuvBuffer.clear();
+            this.alphaBuffer.clear();
+            gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix, false, params.mvMatrix);
+            gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset, new Float32Array(params.uCameraOffset));
+
+        }
+
+        public draw(gl: WebGLRenderingContext) {
+            this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
+            this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
+            //4 components per attributes, 6 verts per quad - used to work out how many elements to draw
+            gl.drawElements(gl.TRIANGLES, (this.alphaBuffer.items.length / 4) * 6, gl.UNSIGNED_SHORT, 0);
+        }
+
+        /**
+       * Maximum allowable sprites to render per frame
+       * @property _maxItems
+       * @type number
+       * @default 1000
+       * @private
+       */
+        private _maxItems: number = 1000;
+
+
+
+        /**
+       * Storage for the xy (position) and uv(texture) coordinates that are generated each frame
+       * @property _xyuvBuffer
+       * @type GLArrayBuffer
+       * @private
+       */
+        public xyuvBuffer: GLArrayBuffer;
+
+        /**
+        * Storage for the polygon indices, pre generated to a length based on max items
+        * @property _indexBuffer
+        * @type GLElementArrayBuffer
+        * @private 
+        */
+        public indexBuffer: GLElementArrayBuffer;
+
+        /**
+        * Storage for alpha values for each vertex on a sprite
+        * @property _alphaBuffer
+        * @type GLArrayBuffer
+        * @private
+        */
+        public alphaBuffer: GLArrayBuffer;
+
+
+        /**
+      * Create prebaked indices for drawing quads 
+      * @method _generateIndices
+      * @param numQuads {number}
+      * @return number[]
+      * @private
+      */
+        private _generateIndices(numQuads: number): number[] {
+
+            var quads: number[] = new Array();
+            for (var i = 0; i &lt; numQuads; i++) {
+                quads.push(i * 4 + 0, i * 4 + 1, i * 4 + 2, i * 4 + 0, i * 4 + 2, i * 4 + 3);
+            }
+            return quads;
+
+        }
+
+
+        public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array) {
+
+            //this.shaderPair.uResolution(gl, res);
+            gl.uniform2fv(this.shaderPair.uniforms.uResolution, res);
+        }
+
+        public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array) {
+            //this.shaderPair.uTextureSize(gl, size);
+            gl.uniform2fv(this.shaderPair.uniforms.uTextureSize, size);
+        }
+
+        /**
+        * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
+        * @method _collateVertexAttributeArrays
+        * @param gl {WebGLRenderingContext}
+        * @param entity {Entity}
+        * @param camera {Camera}
+        * @public
+        */
+        public addToBatch(gl: WebGLRenderingContext, entity: Entity, camera: Kiwi.Camera) {
+            var t: Kiwi.Geom.Transform = entity.transform;
+            var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
          
-        constructor(state:Kiwi.State, tileLayer: Kiwi.GameObjects.Tilemap.TileMapLayer, tileType: Kiwi.GameObjects.Tilemap.TileType, width: number, height: number, x: number, y: number) {
-            super(state,x,y);
+            var cell = entity.atlas.cells[entity.cellIndex];
 
-            this.width = width;
-            this.height = height;
-            this.tileLayer = tileLayer;
+            var pt1: Kiwi.Geom.Point = new Kiwi.Geom.Point(0 - t.rotPointX, 0 - t.rotPointY);
+            var pt2: Kiwi.Geom.Point = new Kiwi.Geom.Point(cell.w - t.rotPointX, 0 - t.rotPointY);
+            var pt3: Kiwi.Geom.Point = new Kiwi.Geom.Point(cell.w - t.rotPointX, cell.h - t.rotPointY);
+            var pt4: Kiwi.Geom.Point = new Kiwi.Geom.Point(0 - t.rotPointX, cell.h - t.rotPointY);
 
-            this.box = this.components.add(new Kiwi.Components.Box(this, this.x, this.y, this.width, this.height));
-            this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.box));
+            pt1 = m.transformPoint(pt1);
+            pt2 = m.transformPoint(pt2);
+            pt3 = m.transformPoint(pt3);
+            pt4 = m.transformPoint(pt4);
 
-            this.tileUpdate(tileType);
+            this.xyuvBuffer.items.push(
+                pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y,
+                pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y,
+                pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h,
+                pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h
+                );
+            this.alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
+
         }
 
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType() {
-            return &quot;Tile&quot;;
+        public concatBatch(xyuvItems: Array&lt;number&gt;, alphaItems: Array&lt;number&gt;) {
+            this.xyuvBuffer.items = this.xyuvBuffer.items.concat(xyuvItems);
+            this.alphaBuffer.items = this.alphaBuffer.items.concat(alphaItems);
+
         }
-
-        /**
-        * This method handles the updating of the type of tile this tile is. Internal use by Kiwi only.
-        * 
-        * @method tileUpdate
-        * @param {TileType} tileType
-        * @public
-        */
-        public tileUpdate(tileType: Kiwi.GameObjects.Tilemap.TileType) {
-            this.tileType = tileType;
-            this.physics.allowCollisions = this.tileType.allowCollisions;
-            this.physics.immovable = this.tileType.immovable;
-                
-        }
-
-        /**
-        * What tile map layer it is currently on.
-        * @property tileLayer
-        * @type TileMapLayer
-        * @public
-        */
-        public tileLayer: Kiwi.GameObjects.Tilemap.TileMapLayer;
-
-        /**
-        * Reference to the type of tile that this tile is.
-        * @property tileType
-        * @type TileType
-        * @public
-        */
-        public tileType: Kiwi.GameObjects.Tilemap.TileType;
-
-        /**
-        * The physics component that is used of collision detection.
-        * @property physics
-        * @type ArcadePhysics
-        * @public
-        */
-        public physics: Kiwi.Components.ArcadePhysics;
-        
-        /**
-        * The box component containing the bounding box of this object.
-        * @property box
-        * @type Box
-        * @public
-        */
-        public box: Kiwi.Components.Box;
-
-        /**
-        * The width of this tile.
-        * @property width
-        * @type number
-        * @public
-        */
-        public width: number;
-
-        /**
-        * The height of this tile.
-        * @property height
-        * @type number
-        * @public
-        */
-        public height: number;
-
-        /**
-        * Position in the mapData object on the x axis in the TileMap that this tile is.
-        * @property tx
-        * @type number
-        * @public
-        */ 
-        public tx: number;
-        
-        /**
-        * Position in the mapData object on the y axis in the TileMap that this tile is.
-        * @property ty
-        * @type number
-        * @public
-        */ 
-        public ty: number;
-
     }
-
 }
+
     </pre>
 </div>
 
