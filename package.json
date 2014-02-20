@@ -24,6 +24,7 @@
         "typescript": "0.9.5",
         "grunt-ts" : "latest",
         "grunt-contrib-yuidoc": "0.4.x",
-        "grunt-contrib-copy":  "0.4.x"
+        "grunt-contrib-copy":  "0.4.x",
+        "grunt-contrib-jshint": "~0.8.0"
     }
 }

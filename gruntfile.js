@@ -44,6 +44,14 @@ module.exports = function(grunt) {
         }
     },
  
+    jshint: {
+        options: {
+            jshintrc: ".jshintrc"
+        },
+        all: ['build/kiwi.js']
+    },
+
+
     copy: {
             doclogo: {
 		 src: 'docstyles/logo.png',
@@ -67,10 +75,11 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-copy');
 
-  
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   
   
   grunt.registerTask("default", ["ts:build","uglify:build"]);
+  grunt.registerTask("lint", ["jshint:all"]);
   grunt.registerTask("full", ["ts:build","uglify:build","yuidoc:compile","copy:doclogo","copy:docstyles"]);
   grunt.registerTask("docs", ["yuidoc:compile","copy:doclogo","copy:docstyles"]);
   
