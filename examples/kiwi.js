@@ -8114,7 +8114,9 @@ var Kiwi;
             };
 
             /**
-            * Creates a new File to store a audio piece and adds it to the loading queue.
+            * Creates a new File to store a audio piece
+            * BUT before adding it to the loading queue firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device.
+            *
             * @method addAudio
             * @param key {String} The key for the audio file.
             * @param url {String} The url of the audio to load.
@@ -8123,7 +8125,34 @@ var Kiwi;
             */
             Loader.prototype.addAudio = function (key, url, storeAsGlobal) {
                 if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, key, true, storeAsGlobal));
+                var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, key, true, storeAsGlobal);
+                var support = false;
+
+                switch (file.fileExtension) {
+                    case 'mp3':
+                        support = Kiwi.DEVICE.mp3;
+                        break;
+
+                    case 'ogg':
+                    case 'oga':
+                        support = Kiwi.DEVICE.ogg;
+                        break;
+
+                    case 'm4a':
+                        support = Kiwi.DEVICE.m4a;
+                        break;
+
+                    case 'wav':
+                    case 'wave':
+                        support = Kiwi.DEVICE.wav;
+                        break;
+                }
+
+                //if (support) {
+                this._fileList.push(file);
+                // } else {
+                //    console.error('Audio Format not supported on this Device/Browser.');
+                // }
             };
 
             /**
@@ -11338,7 +11367,7 @@ var Kiwi;
                 };
 
                 /**
-                * Returns the la
+                * Returns the layer with the number associated with it in the layers array.
                 * @method getLayer
                 * @param num {Number} Number of the Layer you would like to get.
                 * @return {TileMapLayer}
@@ -18944,8 +18973,10 @@ var Kiwi;
                 this._loop = loop;
                 this.key = key;
 
-                if (this._game.audio.noAudio || this._game.fileStore.exists(this.key) === false)
+                if (this._game.audio.noAudio || this._game.fileStore.exists(this.key) === false) {
+                    console.log('Could not play Audio. Either the browser doesn\'t support audio or the Audio file was not found on the filestore');
                     return;
+                }
 
                 if (this._usingWebAudio) {
                     this._setAudio();
@@ -28538,7 +28569,7 @@ var Kiwi;
     * @default '1.0'
     * @public
     */
-    Kiwi.VERSION = "0.5.3";
+    Kiwi.VERSION = "0.6";
 
     //DIFFERENT RENDERER STATIC VARIABLES
     /**

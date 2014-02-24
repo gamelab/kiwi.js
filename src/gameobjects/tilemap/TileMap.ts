@@ -474,7 +474,7 @@ module Kiwi.GameObjects.Tilemap {
         }
         
         /**
-        * Returns the la
+        * Returns the layer with the number associated with it in the layers array.
         * @method getLayer
         * @param num {Number} Number of the Layer you would like to get.
         * @return {TileMapLayer}

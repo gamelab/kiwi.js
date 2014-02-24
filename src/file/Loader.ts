@@ -262,7 +262,9 @@ module Kiwi.Files {
         }
 
         /**
-        * Creates a new File to store a audio piece and adds it to the loading queue.
+        * Creates a new File to store a audio piece 
+        * BUT before adding it to the loading queue firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device.
+        *
         * @method addAudio
         * @param key {String} The key for the audio file.
         * @param url {String} The url of the audio to load.
@@ -271,8 +273,38 @@ module Kiwi.Files {
         */
         public addAudio(key: string, url: string, storeAsGlobal: boolean = true) {
 
-            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, key, true, storeAsGlobal));
-           
+            var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, key, true, storeAsGlobal);
+            var support = false;
+
+            switch (file.fileExtension) {
+
+                case 'mp3':
+                    support = Kiwi.DEVICE.mp3;
+                    break;
+
+                case 'ogg':
+                case 'oga':
+                    support = Kiwi.DEVICE.ogg;
+                    break;
+
+                case 'm4a':    
+                    support = Kiwi.DEVICE.m4a;
+                    break;
+
+                case 'wav':
+                case 'wave':
+                    support = Kiwi.DEVICE.wav;
+                    break;
+
+            }
+
+            if (support) {
+                this._fileList.push(file);
+
+            } else {
+                console.error('Audio Format not supported on this Device/Browser.');
+
+            }
         }
 
         /**

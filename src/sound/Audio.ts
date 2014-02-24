@@ -40,7 +40,10 @@ module Kiwi.Sound {
             this._loop = loop;
             this.key = key;
 
-            if (this._game.audio.noAudio || this._game.fileStore.exists(this.key) === false) return;
+            if (this._game.audio.noAudio || this._game.fileStore.exists(this.key) === false) {
+                console.log('Could not play Audio. Either the browser doesn\'t support audio or the Audio file was not found on the filestore');
+                return;
+            }
 
             if (this._usingWebAudio) {
                 this._setAudio();
