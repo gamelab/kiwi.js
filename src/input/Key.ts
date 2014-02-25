@@ -34,6 +34,17 @@ module Kiwi.Input {
         }
 
         /**
+        * If the default action for this Key should be prevented or not. 
+        * For example. If your game use's the spacebar you would want its default action (which is to make the website scrolldown) prevented, 
+        * So you can set this to true.
+        * @property preventDefault
+        * @type Boolean
+        * @default false
+        * @public
+        */
+        public preventDefault: boolean = false;
+
+        /**
         * The game that this key belongs to.
         * @property game
         * @type Game
@@ -167,6 +178,9 @@ module Kiwi.Input {
         public update(event: KeyboardEvent) {
 
             this.keyCode = event.keyCode;
+
+            //Are we needing to prevent the default action?
+            if (this.preventDefault) event.preventDefault();
 
             if (event.type === 'keydown') {
                 this.altKey = event.altKey;

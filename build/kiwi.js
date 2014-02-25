@@ -20041,6 +20041,16 @@ var Kiwi;
         var Key = (function () {
             function Key(manager, keycode, event) {
                 /**
+                * If the default action for this Key should be prevented or not.
+                * For example. If your game use's the spacebar you would want its default action (which is to make the website scrolldown) prevented,
+                * So you can set this to true.
+                * @property preventDefault
+                * @type Boolean
+                * @default false
+                * @public
+                */
+                this.preventDefault = false;
+                /**
                 * Indicated whether or not the key is currently down.
                 * @property isDown
                 * @type boolean
@@ -20152,6 +20162,10 @@ var Kiwi;
             */
             Key.prototype.update = function (event) {
                 this.keyCode = event.keyCode;
+
+                //Are we needing to prevent the default action?
+                if (this.preventDefault)
+                    event.preventDefault();
 
                 if (event.type === 'keydown') {
                     this.altKey = event.altKey;
@@ -20394,14 +20408,21 @@ var Kiwi;
 
             /**
             * Creates a new Key object for a keycode that is specified.
-            * Not strictly needed (as one will be created once an event occurs on that keycode) but can be good for setting the game up.
+            * Not strictly needed (as one will be created once an event occurs on that keycode) but can be good for setting the game up
+            * and choosing whether to prevent that keys any default action.
             * @method addKey
             * @param keycode {Number} The keycode of the key that you want to add.
+            * @param [preventDefault=false] {Boolean} If the default action for that key should be prevented or not when an event fires.
             * @return {Key}
             * @public
             */
-            Keyboard.prototype.addKey = function (keycode) {
-                return this._keys[keycode] = new Kiwi.Input.Key(this, keycode);
+            Keyboard.prototype.addKey = function (keycode, preventDefault) {
+                if (typeof preventDefault === "undefined") { preventDefault = false; }
+                var key = new Kiwi.Input.Key(this, keycode);
+                key.preventDefault = preventDefault;
+
+                return this._keys[keycode] = key;
+                ;
             };
 
             /**

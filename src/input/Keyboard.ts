@@ -201,15 +201,20 @@ module Kiwi.Input {
 
         /** 
         * Creates a new Key object for a keycode that is specified.
-        * Not strictly needed (as one will be created once an event occurs on that keycode) but can be good for setting the game up.
+        * Not strictly needed (as one will be created once an event occurs on that keycode) but can be good for setting the game up
+        * and choosing whether to prevent that keys any default action.
         * @method addKey
         * @param keycode {Number} The keycode of the key that you want to add. 
+        * @param [preventDefault=false] {Boolean} If the default action for that key should be prevented or not when an event fires.
         * @return {Key}
         * @public
         */
-        public addKey(keycode: number): Key {
+        public addKey(keycode: number, preventDefault:boolean = false): Key {
 
-            return this._keys[keycode] = new Kiwi.Input.Key(this, keycode);
+            var key = new Kiwi.Input.Key(this, keycode);
+            key.preventDefault = preventDefault;
+
+            return this._keys[keycode] = key;;
 
         }
 
