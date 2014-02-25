@@ -20089,14 +20089,6 @@ var Kiwi;
                 */
                 this.timeDown = 0;
                 /**
-                * [CURRENTLY NOT IMPLEMENTED] The duration (in milliseconds) that the key has been down for.
-                * @property duration
-                * @type Number
-                * @default 0
-                * @public
-                */
-                this.duration = 0;
-                /**
                 * The time at which the key was released.
                 * @property timeUp
                 * @type Number
@@ -20105,7 +20097,8 @@ var Kiwi;
                 */
                 this.timeUp = 0;
                 /**
-                * If the key was already down when the down event fired again, this indicates the number of times the event has fired.
+                * If this key is being 'held' down, this property will indicate the amount of times the 'onkeydown' event has fired.
+                * This is reset each time the key is pressed.
                 * @property repeats
                 * @type Number
                 * @default 0
@@ -20113,6 +20106,7 @@ var Kiwi;
                 */
                 this.repeats = 0;
                 this._manager = manager;
+                this.game = this._manager.game;
                 this.keyCode = keycode;
 
                 if (event) {
@@ -20129,6 +20123,27 @@ var Kiwi;
                 return "Key";
             };
 
+            Object.defineProperty(Key.prototype, "duration", {
+                /**
+                * The duration (in milliseconds) that the key has been down for.
+                * This is property is READ ONLY.
+                * @property duration
+                * @type Number
+                * @default 0
+                * @public
+                */
+                get: function () {
+                    //If the key is down when the dev is getting the duration, then update the duration.
+                    if (this.isDown) {
+                        this.timeDown = this.game.time.now();
+                    }
+
+                    return (this.timeDown < this.timeUp) ? 0 : this.timeDown - this.timeUp;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             /**
             * The 'update' method fires when an event occur's. Updates the keys properties
             * @method update
@@ -20144,18 +20159,19 @@ var Kiwi;
                     this.shiftKey = event.shiftKey;
 
                     if (this.isDown === true) {
-                        //  Key was already held down, this must be a repeat rate based event
+                        // Key was already held down, this must be a repeat rate based event
                         this.repeats++;
+                        this.timeDown = this.game.time.now();
                     } else {
                         this.isDown = true;
                         this.isUp = false;
-                        this.timeDown = event.timeStamp;
-                        this.duration = 0;
+                        this.timeDown = this.game.time.now();
+                        this.repeats = 0;
                     }
                 } else if (event.type === 'keyup') {
                     this.isDown = false;
                     this.isUp = true;
-                    this.timeUp = event.timeStamp;
+                    this.timeUp = this.game.time.now();
                 }
             };
 
@@ -20168,7 +20184,7 @@ var Kiwi;
             */
             Key.prototype.justPressed = function (duration) {
                 if (typeof duration === "undefined") { duration = this._manager.justPressedRate; }
-                if (this.isDown === true && (this.timeDown + duration) < this._manager.game.time.now()) {
+                if (this.isDown === true && (this.timeDown + duration) > this.game.time.now()) {
                     return true;
                 } else {
                     return false;
@@ -20184,7 +20200,7 @@ var Kiwi;
             */
             Key.prototype.justReleased = function (duration) {
                 if (typeof duration === "undefined") { duration = this._manager.justReleasedRate; }
-                if (this.isUp === true && (this.timeUp + duration) < this._manager.game.time.now()) {
+                if (this.isUp === true && (this.timeUp + duration) > this.game.time.now()) {
                     return true;
                 } else {
                     return false;
@@ -20201,7 +20217,7 @@ var Kiwi;
                 this.isUp = true;
                 this.timeUp = 0;
                 this.timeDown = 0;
-                this.duration = 0;
+                this.repeats = 0;
                 this.altKey = false;
                 this.shiftKey = false;
                 this.ctrlKey = false;
@@ -20290,6 +20306,7 @@ var Kiwi;
             Keyboard.prototype.boot = function () {
                 this.onKeyUp = new Kiwi.Signal;
                 this.onKeyDown = new Kiwi.Signal;
+                this.onKeyDownOnce = new Kiwi.Signal;
                 this.start();
             };
 
@@ -20299,7 +20316,6 @@ var Kiwi;
             * @public
             */
             Keyboard.prototype.update = function () {
-                //  Loop through all 'down' keys and update the timers on those still pressed
             };
 
             /**
@@ -20351,9 +20367,12 @@ var Kiwi;
                 if (this._keys[event.keyCode]) {
                     this._keys[event.keyCode].update(event);
                 } else {
-                    //  TODO - This could create loads of objects we could safely ignore (one for each key)
                     this._keys[event.keyCode] = new Kiwi.Input.Key(this, event.keyCode, event);
                 }
+
+                if (this._keys[event.keyCode].repeats == 0)
+                    this.onKeyDownOnce.dispatch(event.keyCode, this._keys[event.keyCode]);
+
                 this.onKeyDown.dispatch(event.keyCode, this._keys[event.keyCode]);
             };
 
@@ -20368,7 +20387,6 @@ var Kiwi;
                 if (this._keys[event.keyCode]) {
                     this._keys[event.keyCode].update(event);
                 } else {
-                    //  TODO - This could create loads of objects we could safely ignore (one for each key)
                     this._keys[event.keyCode] = new Kiwi.Input.Key(this, event.keyCode, event);
                 }
                 this.onKeyUp.dispatch(event.keyCode, this._keys[event.keyCode]);
@@ -20376,7 +20394,7 @@ var Kiwi;
 
             /**
             * Creates a new Key object for a keycode that is specified.
-            * Not strictly needed (as one will be created once an event occurs on that keycode) by can be good for setting the game up.
+            * Not strictly needed (as one will be created once an event occurs on that keycode) but can be good for setting the game up.
             * @method addKey
             * @param keycode {Number} The keycode of the key that you want to add.
             * @return {Key}
@@ -20387,29 +20405,39 @@ var Kiwi;
             };
 
             /**
-            * [NOT CURRENTLY IMPLEMENTED] Returns a boolean indicating if a key was just pressed or not.
+            * Returns a boolean indicating if a key (that you pass via a keycode) was just pressed or not.
             * @method justPressed
-            * @param key {Any} - The key that you would like to check against.
-            * @param [duration] {Number} - The duration at which determines if a key was 'just' pressed or not. If not specified defaults to the justPressedRate
+            * @param keycode {Number} The keycode of the key that you would like to check against.
+            * @param [duration=this.justPressedRate] {Number} The duration at which determines if a key was 'just' pressed or not. If not specified defaults to the justPressedRate
             * @public
             */
-            Keyboard.prototype.justPressed = function (key, duration) {
+            Keyboard.prototype.justPressed = function (keycode, duration) {
                 if (typeof duration === "undefined") { duration = this.justPressedRate; }
+                if (this._keys[keycode]) {
+                    return this._keys[keycode].justPressed(duration);
+                }
+
+                return false;
             };
 
             /**
-            * [NOT CURRENTLY IMPLEMENTED] Returns a boolean indicating if a key was just released or not.
+            * Returns a boolean indicating if a key (that you pass via a keycode) was just released or not.
             * @method justReleased
-            * @param key {Any} - The key that you would like to check against.
-            * @param [duration] {Number} - The duration at which determines if a key was 'just' released or not. If not specified defaults to the justReleasedRate
+            * @param keycode {Number} The keycode of the key that you would like to check against.
+            * @param [duration=this.justReleasedRate] {Number} The duration at which determines if a key was 'just' released or not. If not specified defaults to the justReleasedRate
             * @public
             */
-            Keyboard.prototype.justReleased = function (key, duration) {
+            Keyboard.prototype.justReleased = function (keycode, duration) {
                 if (typeof duration === "undefined") { duration = this.justReleasedRate; }
+                if (this._keys[keycode]) {
+                    return this._keys[keycode].justReleased(duration);
+                }
+
+                return false;
             };
 
             /**
-            * Returns a boolean indicating whether a key is down or not.
+            * Returns a boolean indicating whether a key (that you pass via its keycode) is down or not.
             * @method isDown
             * @param keycode {Number} The keycode of the key that you are checking.
             * @return {boolean}
@@ -20424,7 +20452,7 @@ var Kiwi;
             };
 
             /**
-            * Returns a boolean indicating whether a key is up or not.
+            * Returns a boolean indicating whether a key (that you pass via its keycode) is up or not.
             * @method isUp
             * @param keycode {Number} The keycode of the key that you are checking.
             * @return {boolean}
