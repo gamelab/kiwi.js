@@ -293,23 +293,8 @@ module Kiwi.GameObjects {
             //Get the size of the text.
             var _measurements: TextMetrics = this._ctx.measureText(this._text);   //when you measure the text for some reason it resets the values?! 
             var width = _measurements.width;
-            var height = this._fontSize * 1.3; //Need to find a better way to calc
+            var height = this._fontSize * 1.3; //Need to find a better way to calculate
 
-
-            //Is the width base2?
-            if (Kiwi.Utils.Common.base2Sizes.indexOf(width) == -1) {
-                var i = 0;
-                while (width > Kiwi.Utils.Common.base2Sizes[i]) i++;
-                width = Kiwi.Utils.Common.base2Sizes[i];
-            } 
-
-            //Is the height base2?
-            if (Kiwi.Utils.Common.base2Sizes.indexOf(height) == -1) {
-                var i = 0;
-                while (height > Kiwi.Utils.Common.base2Sizes[i]) i++;
-                height = Kiwi.Utils.Common.base2Sizes[i];
-            }
-            
             //Apply the width/height
             this._canvas.width = width;  
             this._canvas.height = height;

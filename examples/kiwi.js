@@ -8148,11 +8148,11 @@ var Kiwi;
                         break;
                 }
 
-                //if (support) {
-                this._fileList.push(file);
-                // } else {
-                //    console.error('Audio Format not supported on this Device/Browser.');
-                // }
+                if (support) {
+                    this._fileList.push(file);
+                } else {
+                    console.error('Audio Format not supported on this Device/Browser.');
+                }
             };
 
             /**
@@ -10750,22 +10750,6 @@ var Kiwi;
                 var _measurements = this._ctx.measureText(this._text);
                 var width = _measurements.width;
                 var height = this._fontSize * 1.3;
-
-                //Is the width base2?
-                if (Kiwi.Utils.Common.base2Sizes.indexOf(width) == -1) {
-                    var i = 0;
-                    while (width > Kiwi.Utils.Common.base2Sizes[i])
-                        i++;
-                    width = Kiwi.Utils.Common.base2Sizes[i];
-                }
-
-                //Is the height base2?
-                if (Kiwi.Utils.Common.base2Sizes.indexOf(height) == -1) {
-                    var i = 0;
-                    while (height > Kiwi.Utils.Common.base2Sizes[i])
-                        i++;
-                    height = Kiwi.Utils.Common.base2Sizes[i];
-                }
 
                 //Apply the width/height
                 this._canvas.width = width;
@@ -22978,6 +22962,8 @@ var Kiwi;
                     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
                     gl.bindTexture(gl.TEXTURE_2D, null);
 
                     //check gl error here
@@ -24682,9 +24668,6 @@ var Kiwi;
                 this.textures[atlas.name] = atlas;
 
                 if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
-                    if (Kiwi.Utils.Common.base2Sizes.indexOf(atlas.image.width) == -1 || Kiwi.Utils.Common.base2Sizes.indexOf(atlas.image.height) == -1) {
-                        console.log("Warning:Image is not of base2 size and may not render correctly.");
-                    }
                     var renderManager = this._game.renderer;
                     renderManager.addTexture(this._game.stage.gl, atlas);
                 }
@@ -24697,10 +24680,6 @@ var Kiwi;
             * @public
             */
             TextureLibrary.prototype.addFromFile = function (imageFile) {
-                if (this._game.renderOption === Kiwi.RENDERER_WEBGL && this._game.deviceTargetOption != Kiwi.TARGET_COCOON) {
-                    imageFile = this._rebuildImage(imageFile);
-                }
-
                 switch (imageFile.dataType) {
                     case Kiwi.Files.File.SPRITE_SHEET:
                         this.textures[imageFile.key] = this._buildSpriteSheet(imageFile);
@@ -24714,39 +24693,6 @@ var Kiwi;
                     default:
                         break;
                 }
-            };
-
-            /**
-            * Used to rebuild a Texture from the FileStore into a base2 size if it doesn't have it already.
-            * @method _rebuildImage
-            * @param imageFile {File} The image file that is to be rebuilt.
-            * @return {File} The new image file.
-            * @private
-            */
-            TextureLibrary.prototype._rebuildImage = function (imageFile) {
-                //Check to see if it is base 2
-                var newImg = Kiwi.Utils.Common.convertToBase2(imageFile.data);
-
-                //Was it resized? We can check to see if the width/height has changed.
-                if (imageFile.data.width !== newImg.width || imageFile.data.height !== newImg.height) {
-                    if (imageFile.dataType === Kiwi.Files.File.SPRITE_SHEET) {
-                        //If no rows were passed then calculate them now.
-                        if (!imageFile.metadata.rows)
-                            imageFile.metadata.rows = imageFile.data.height / imageFile.metadata.frameHeight;
-
-                        //If no columns were passed then calculate them again.
-                        if (!imageFile.metadata.cols)
-                            imageFile.metadata.cols = imageFile.data.width / imageFile.metadata.frameWidth;
-                    }
-
-                    if (this._game.debug)
-                        console.log(imageFile.fileName + ' has been rebuilt to be base2.');
-
-                    //Assign the new image to the data
-                    imageFile.data = newImg;
-                }
-
-                return imageFile;
             };
 
             /**
