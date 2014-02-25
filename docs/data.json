@@ -445,24 +445,24 @@
                 "Kiwi.Files": 1
             }
         },
-        "src\\gameobjects\\tilemap\\TIleMapLayer.ts": {
-            "name": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+        "src\\gameobjects\\tilemap\\TileMap.ts": {
+            "name": "src\\gameobjects\\tilemap\\TileMap.ts",
             "modules": {
                 "Tilemap": 1
             },
             "classes": {
-                "Kiwi.GameObjects.Tilemap.TileMapLayer": 1
+                "Kiwi.GameObjects.Tilemap.TileMap": 1
             },
             "fors": {},
             "namespaces": {
                 "Kiwi.GameObjects.Tilemap": 1
             }
         },
-        "src\\gameobjects\\tilemap\\TileMap.ts": {
-            "name": "src\\gameobjects\\tilemap\\TileMap.ts",
+        "src\\gameobjects\\tilemap\\TileMapLayer.ts": {
+            "name": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
             "modules": {},
             "classes": {
-                "Kiwi.GameObjects.Tilemap.TileMap": 1
+                "Kiwi.GameObjects.Tilemap.TileMapLayer": 1
             },
             "fors": {},
             "namespaces": {
@@ -1515,8 +1515,8 @@
                 "Tilemap": 1
             },
             "classes": {
-                "Kiwi.GameObjects.Tilemap.TileMapLayer": 1,
                 "Kiwi.GameObjects.Tilemap.TileMap": 1,
+                "Kiwi.GameObjects.Tilemap.TileMapLayer": 1,
                 "Kiwi.GameObjects.Tilemap.TileType": 1,
                 "Kiwi.GameObjects.Sprite": 1,
                 "Kiwi.GameObjects.StaticImage": 1,
@@ -1538,8 +1538,8 @@
             "name": "Tilemap",
             "submodules": {},
             "classes": {
-                "Kiwi.GameObjects.Tilemap.TileMapLayer": 1,
                 "Kiwi.GameObjects.Tilemap.TileMap": 1,
+                "Kiwi.GameObjects.Tilemap.TileMapLayer": 1,
                 "Kiwi.GameObjects.Tilemap.TileType": 1
             },
             "fors": {},
@@ -1553,7 +1553,7 @@
             "line": 10,
             "tag": "main",
             "itemtype": "main",
-            "description": "Is GameObject that contains the information held for a single Layer of Tiles, along with methods to handle the rendering of those Tiles. \nA TileMapLayer should not be directly created, but instead should be created through a TileMap object instead."
+            "description": "A TileMap handles the creation of TileMapLayers and the TileTypes that they use.\nSince a TileMap isn't a Entity itself you cannot add it to the Stage inorder to render that it manages, \nInstead you have to add each layer lies within it. This way you can have other GameObjects behind/in-front of layers."
         },
         "Geom": {
             "name": "Geom",
@@ -2959,6 +2959,52 @@
                 "type": "Loader"
             }
         },
+        "Kiwi.GameObjects.Tilemap.TileMap": {
+            "name": "Kiwi.GameObjects.Tilemap.TileMap",
+            "shortname": "Kiwi.GameObjects.Tilemap.TileMap",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap",
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 10,
+            "description": "A TileMap handles the creation of TileMapLayers and the TileTypes that they use.\nSince a TileMap isn't a Entity itself you cannot add it to the Stage inorder to render that it manages, \nInstead you have to add each layer lies within it. This way you can have other GameObjects behind/in-front of layers.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "state",
+                    "description": "The state that this Tilemap is on.",
+                    "type": "State"
+                },
+                {
+                    "name": "tileMapDataKey",
+                    "description": "The Data key for the JSON you would like to use.",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "atlas",
+                    "description": "The texture atlas that you would like the tilemap layers to use.",
+                    "type": "TextureAtlas",
+                    "optional": true
+                },
+                {
+                    "name": "startingCell",
+                    "description": "The number for the initial cell that the first TileType should use. See 'createFromFileStore' for more information.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "TileMap"
+            }
+        },
         "Kiwi.GameObjects.Tilemap.TileMapLayer": {
             "name": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "shortname": "Kiwi.GameObjects.Tilemap.TileMapLayer",
@@ -2970,7 +3016,7 @@
             "module": "GameObjects",
             "submodule": "Tilemap",
             "namespace": "Kiwi.GameObjects.Tilemap",
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
             "line": 11,
             "description": "Is GameObject that contains the information held for a single Layer of Tiles, along with methods to handle the rendering of those Tiles. \nA TileMapLayer should not be directly created, but instead should be created through a TileMap object instead.",
             "extends": "Entity",
@@ -3038,52 +3084,6 @@
             "return": {
                 "description": "",
                 "type": "TileMapLayer"
-            }
-        },
-        "Kiwi.GameObjects.Tilemap.TileMap": {
-            "name": "Kiwi.GameObjects.Tilemap.TileMap",
-            "shortname": "Kiwi.GameObjects.Tilemap.TileMap",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap",
-            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
-            "line": 10,
-            "description": "A TileMap handles the creation of TileMapLayers and the TileTypes that they use.\nSince a TileMap isn't a Entity itself you cannot add it to the Stage inorder to render that it manages, \nInstead you have to add each layer lies within it. This way you can have other GameObjects behind/in-front of layers.",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "state",
-                    "description": "The state that this Tilemap is on.",
-                    "type": "State"
-                },
-                {
-                    "name": "tileMapDataKey",
-                    "description": "The Data key for the JSON you would like to use.",
-                    "type": "String",
-                    "optional": true
-                },
-                {
-                    "name": "atlas",
-                    "description": "The texture atlas that you would like the tilemap layers to use.",
-                    "type": "TextureAtlas",
-                    "optional": true
-                },
-                {
-                    "name": "startingCell",
-                    "description": "The number for the initial cell that the first TileType should use. See 'createFromFileStore' for more information.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "TileMap"
             }
         },
         "Kiwi.GameObjects.Tilemap.TileType": {
@@ -18781,869 +18781,6 @@
             "namespace": "Kiwi.Files"
         },
         {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 64,
-            "description": "Returns the type of child that this is.",
-            "type": "Number",
-            "return": {
-                "description": "returns the type of child that the entity is",
-                "type": "Number"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 74,
-            "description": "The type of object that it is.",
-            "itemtype": "method",
-            "name": "objType",
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 84,
-            "description": "The tilemap that this TileMapLayer is a part of.",
-            "itemtype": "property",
-            "name": "tilemap",
-            "type": "TileMap",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 92,
-            "description": "Properties about that this TileMapLayer has when it was created from a JSON file.",
-            "itemtype": "property",
-            "name": "properties",
-            "type": "Object",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 100,
-            "description": "The width of this TileMap in tiles.",
-            "itemtype": "property",
-            "name": "width",
-            "type": "Number",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 108,
-            "description": "The height of this TileMap in tiles.",
-            "itemtype": "property",
-            "name": "height",
-            "type": "Number",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 116,
-            "description": "The width of a single tile.",
-            "itemtype": "property",
-            "name": "tileWidth",
-            "type": "Number",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 124,
-            "description": "The height of a single tile.",
-            "itemtype": "property",
-            "name": "tileHeight",
-            "type": "Number",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 132,
-            "description": "The texture atlas that should be used when rendering.",
-            "itemtype": "property",
-            "name": "atlas",
-            "type": "TextureAtlas",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 140,
-            "description": "The width of the layer in pixels. This property is READ ONLY.",
-            "itemtype": "property",
-            "name": "widthInPixels",
-            "type": "number",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 150,
-            "description": "The height of the layer in pixels. This property is READ ONLY.",
-            "itemtype": "property",
-            "name": "heightInPixels",
-            "type": "number",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 160,
-            "description": "A list containing all the types of tiles found on this TileMapLayer.",
-            "itemtype": "property",
-            "name": "_data",
-            "type": "number[]",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 168,
-            "description": "Returns the total number of tiles. Either for a particular type if passed, otherwise of any type if not passed.",
-            "itemtype": "method",
-            "name": "countTiles",
-            "params": [
-                {
-                    "name": "type",
-                    "description": "The type of tile you want to count.",
-                    "type": "Number",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "The number of tiles on this layer.",
-                "type": "Number"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 188,
-            "description": "-----------------------\n Getting Tiles\n-----------------------",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 195,
-            "description": "A list containing all of the types of tiles found on this TileMapLayer. This is READ ONLY.",
-            "itemtype": "property",
-            "name": "tileData",
-            "type": "number[]",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 205,
-            "description": "Returns the index of the tile based on the x and y coordinates of the tile passed. \nIf no tile is a the coordinates given then -1 is returned instead.\nCoordinates are in tiles not pixels.",
-            "itemtype": "method",
-            "name": "getIndexFromXY",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "The x coordinate of the Tile you would like to retrieve.",
-                    "type": "Number"
-                },
-                {
-                    "name": "y",
-                    "description": "The y coordinate of the Tile you would like to retrieve.",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "Either the index of the tile retrieved or -1 if none was found.",
-                "type": "Number"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 223,
-            "description": "Returns the TileType for a tile that is at a particular set of coordinates passed. \nIf no tile is found the null is returned instead.\nCoordinates passed are in tiles.",
-            "itemtype": "method",
-            "name": "getTileFromXY",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "y",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "The tile",
-                "type": "Number"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 238,
-            "description": "Returns the index of the tile based on the x and y pixel coordinates that are passed. \nIf no tile is a the coordinates given then -1 is returned instead.\nCoordinates are in pixels not tiles and use the world coordinates of the tilemap.",
-            "itemtype": "method",
-            "name": "getIndexFromCoords",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "The x coordinate of the Tile you would like to retrieve.",
-                    "type": "Number"
-                },
-                {
-                    "name": "y",
-                    "description": "The y coordinate of the Tile you would like to retrieve.",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "Either the index of the tile retrieved or -1 if none was found.",
-                "type": "Number"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 262,
-            "description": "Returns the TileType for a tile that is at a particular coordinate passed. \nIf no tile is found the null is returned instead.\nCoordinates passed are in pixels and use the world coordinates of the tilemap.",
-            "itemtype": "method",
-            "name": "getTileFromXY",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "y",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "The tile",
-                "type": "Number"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 277,
-            "description": "Returns the indexes of every tile of a type you pass.",
-            "itemtype": "method",
-            "name": "getIndexsByType",
-            "params": [
-                {
-                    "name": "type",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Number[]"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 293,
-            "description": "-----------------------\n Tiles Manipulation\n-----------------------",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 299,
-            "description": "Sets the tile to be used at the coordinates provided. \nCan be used to override a tile that may already exist at the location.",
-            "itemtype": "method",
-            "name": "setTile",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "The coordinate of the tile on the x axis.",
-                    "type": "Number"
-                },
-                {
-                    "name": "y",
-                    "description": "The coordinate of the tile on the y axis.",
-                    "type": "Number"
-                },
-                {
-                    "name": "tileType",
-                    "description": "The type of tile that should be now used.",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "If a tile was changed or not.",
-                "type": "Boolean"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 320,
-            "description": "Sets the tile to be used at the index provided.\nCan be used to override a tile that may already exist at the location.",
-            "itemtype": "method",
-            "name": "setTileByIndex",
-            "params": [
-                {
-                    "name": "index",
-                    "description": "The index of the tile that you want to change.",
-                    "type": "Number"
-                },
-                {
-                    "name": "tileType",
-                    "description": "The new tile type to be used at that position.",
-                    "type": "Number"
-                }
-            ],
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 332,
-            "description": "Randomizes the types of tiles used in an area of the layer. You can choose which types of tiles to use, and the area.\nDefault tile types used are everyone avaiable.",
-            "itemtype": "method",
-            "name": "randomizeTiles",
-            "params": [
-                {
-                    "name": "types",
-                    "description": "A list of TileTypes that can be used. Default is every tiletype on the TileMap.",
-                    "type": "Number[]",
-                    "optional": true
-                },
-                {
-                    "name": "x",
-                    "description": "The starting tile on the x axis to fill.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "y",
-                    "description": "The starting tile on the y axis to fill.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "width",
-                    "description": "How far across you want to go.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "this.width"
-                },
-                {
-                    "name": "height",
-                    "description": "How far down you want to go.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "this.height"
-                }
-            ],
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 364,
-            "description": "Makes all of the tiles in the area specified a single type that is passed.",
-            "itemtype": "method",
-            "name": "fill",
-            "params": [
-                {
-                    "name": "type",
-                    "description": "The type of tile you want to fill in the area with.",
-                    "type": "Number"
-                },
-                {
-                    "name": "x",
-                    "description": "The starting tile on the x axis to fill.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "y",
-                    "description": "The starting tile on the y axis to fill.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "width",
-                    "description": "How far across you want to go.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "this.width"
-                },
-                {
-                    "name": "height",
-                    "description": "How far down you want to go.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "this.height"
-                }
-            ],
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 387,
-            "description": "Replaces all tiles of typeA to typeB in the area specified. If no area is specified then it is on the whole layer.",
-            "itemtype": "method",
-            "name": "replaceTiles",
-            "params": [
-                {
-                    "name": "typeA",
-                    "description": "The type of tile you want to be replaced.",
-                    "type": "Number"
-                },
-                {
-                    "name": "typeB",
-                    "description": "The type of tile you want to be used instead.",
-                    "type": "Number"
-                },
-                {
-                    "name": "x",
-                    "description": "The starting tile on the x axis to fill.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "y",
-                    "description": "The starting tile on the y axis to fill.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "width",
-                    "description": "How far across you want to go.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "this.width"
-                },
-                {
-                    "name": "height",
-                    "description": "How far down you want to go.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "this.height"
-                }
-            ],
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 411,
-            "description": "Swaps all the tiles that are typeA -> typeB and typeB -> typeA inside the area specified. If no area is specified then it is on the whole layer.",
-            "itemtype": "method",
-            "name": "swapTiles",
-            "params": [
-                {
-                    "name": "typeA",
-                    "description": "The type of tile you want to be replaced with typeB.",
-                    "type": "Number"
-                },
-                {
-                    "name": "typeB",
-                    "description": "The type of tile you want to be replaced with typeA.",
-                    "type": "Number"
-                },
-                {
-                    "name": "x",
-                    "description": "The starting tile on the x axis to fill.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "y",
-                    "description": "The starting tile on the y axis to fill.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "width",
-                    "description": "How far across you want to go.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "this.width"
-                },
-                {
-                    "name": "height",
-                    "description": "How far down you want to go.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "this.height"
-                }
-            ],
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 437,
-            "description": "-----------------------\n Get Tiles By Collision Methods\n-----------------------",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 443,
-            "description": "Returns the tiles which overlap with a provided entities box component. \nOnly collidable tiles on ANY side will be returned unless you pass a particular side.",
-            "itemtype": "method",
-            "name": "getOverlappingTiles",
-            "params": [
-                {
-                    "name": "entity",
-                    "description": "The entity you would like to check for the overlap.",
-                    "type": "Entity"
-                },
-                {
-                    "name": "collisionType",
-                    "description": "The particular type of collidable tiles which you would like to check for.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "ANY"
-                }
-            ],
-            "return": {
-                "description": "Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.",
-                "type": "Object[]"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 476,
-            "description": "Returns the tiles which can collide with other objects (on ANY side unless otherwise specified) within an area provided.\nBy default the area is the whole tilemap.",
-            "itemtype": "method",
-            "name": "getCollidableTiles",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "The x coordinate of the first tile to check.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "y",
-                    "description": "The y coordinate of the first tile to check.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "width",
-                    "description": "The width from the x coordinate.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "widthOfMap"
-                },
-                {
-                    "name": "height",
-                    "description": "The height from the y coordinate.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "heightOfmap"
-                },
-                {
-                    "name": "collisionType",
-                    "description": "The type of collidable tiles that should be return. By default ANY type of collidable tiles will be returned.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "ANY"
-                }
-            ],
-            "return": {
-                "description": "Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.",
-                "type": "Object[]"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 533,
-            "description": "The update loop that is executed when this TileMapLayer is add to the Stage.",
-            "itemtype": "method",
-            "name": "update",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 544,
-            "description": "-----------------------\n Temp Properties used During Rendering\n-----------------------",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 550,
-            "description": "Used whilst rendering to calculate the number of tiles to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
-            "itemtype": "property",
-            "name": "_maxX",
-            "type": "number",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 559,
-            "description": "Used whilst rendering to calculate the number of tiles to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
-            "itemtype": "property",
-            "name": "_maxY",
-            "type": "number",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 568,
-            "description": "Used whilst rendering to calculate which is the first tile to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
-            "itemtype": "property",
-            "name": "_startX",
-            "type": "number",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 577,
-            "description": "Used whilst rendering to calculate which is the first tile to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
-            "itemtype": "property",
-            "name": "_startY",
-            "type": "number",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 586,
-            "description": "Temporary property that holds the tileType of the current tile being rendered.",
-            "itemtype": "property",
-            "name": "_temptype",
-            "type": "TileType",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 594,
-            "description": "Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen. \nAll coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).",
-            "itemtype": "method",
-            "name": "_calculateBoundaries",
-            "params": [
-                {
-                    "name": "camera",
-                    "description": "",
-                    "type": "Camera"
-                },
-                {
-                    "name": "matrix",
-                    "description": "",
-                    "type": "Matrix"
-                }
-            ],
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
-            "line": 630,
-            "description": "The render loop which is used when using the Canvas renderer.",
-            "itemtype": "method",
-            "name": "render",
-            "params": [
-                {
-                    "name": "camera",
-                    "description": "",
-                    "type": "Camera"
-                }
-            ],
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
             "file": "src\\gameobjects\\tilemap\\TileMap.ts",
             "line": 43,
             "description": "The orientation of the tilemap. Currently this has not effect on the map.",
@@ -20209,7 +19346,7 @@
         {
             "file": "src\\gameobjects\\tilemap\\TileMap.ts",
             "line": 476,
-            "description": "Returns the la",
+            "description": "Returns the layer with the number associated with it in the layers array.",
             "itemtype": "method",
             "name": "getLayer",
             "params": [
@@ -20243,6 +19380,869 @@
             "access": "public",
             "tagname": "",
             "class": "Kiwi.GameObjects.Tilemap.TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 64,
+            "description": "Returns the type of child that this is.",
+            "type": "Number",
+            "return": {
+                "description": "returns the type of child that the entity is",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 74,
+            "description": "The type of object that it is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 84,
+            "description": "The tilemap that this TileMapLayer is a part of.",
+            "itemtype": "property",
+            "name": "tilemap",
+            "type": "TileMap",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 92,
+            "description": "Properties about that this TileMapLayer has when it was created from a JSON file.",
+            "itemtype": "property",
+            "name": "properties",
+            "type": "Object",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 100,
+            "description": "The width of this TileMap in tiles.",
+            "itemtype": "property",
+            "name": "width",
+            "type": "Number",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 108,
+            "description": "The height of this TileMap in tiles.",
+            "itemtype": "property",
+            "name": "height",
+            "type": "Number",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 116,
+            "description": "The width of a single tile.",
+            "itemtype": "property",
+            "name": "tileWidth",
+            "type": "Number",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 124,
+            "description": "The height of a single tile.",
+            "itemtype": "property",
+            "name": "tileHeight",
+            "type": "Number",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 132,
+            "description": "The texture atlas that should be used when rendering.",
+            "itemtype": "property",
+            "name": "atlas",
+            "type": "TextureAtlas",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 140,
+            "description": "The width of the layer in pixels. This property is READ ONLY.",
+            "itemtype": "property",
+            "name": "widthInPixels",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 150,
+            "description": "The height of the layer in pixels. This property is READ ONLY.",
+            "itemtype": "property",
+            "name": "heightInPixels",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 160,
+            "description": "A list containing all the types of tiles found on this TileMapLayer.",
+            "itemtype": "property",
+            "name": "_data",
+            "type": "number[]",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 168,
+            "description": "Returns the total number of tiles. Either for a particular type if passed, otherwise of any type if not passed.",
+            "itemtype": "method",
+            "name": "countTiles",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "The type of tile you want to count.",
+                    "type": "Number",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "The number of tiles on this layer.",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 188,
+            "description": "-----------------------\n Getting Tiles\n-----------------------",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 195,
+            "description": "A list containing all of the types of tiles found on this TileMapLayer. This is READ ONLY.",
+            "itemtype": "property",
+            "name": "tileData",
+            "type": "number[]",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 205,
+            "description": "Returns the index of the tile based on the x and y coordinates of the tile passed. \nIf no tile is a the coordinates given then -1 is returned instead.\nCoordinates are in tiles not pixels.",
+            "itemtype": "method",
+            "name": "getIndexFromXY",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The x coordinate of the Tile you would like to retrieve.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "The y coordinate of the Tile you would like to retrieve.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "Either the index of the tile retrieved or -1 if none was found.",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 223,
+            "description": "Returns the TileType for a tile that is at a particular set of coordinates passed. \nIf no tile is found the null is returned instead.\nCoordinates passed are in tiles.",
+            "itemtype": "method",
+            "name": "getTileFromXY",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "The tile",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 238,
+            "description": "Returns the index of the tile based on the x and y pixel coordinates that are passed. \nIf no tile is a the coordinates given then -1 is returned instead.\nCoordinates are in pixels not tiles and use the world coordinates of the tilemap.",
+            "itemtype": "method",
+            "name": "getIndexFromCoords",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The x coordinate of the Tile you would like to retrieve.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "The y coordinate of the Tile you would like to retrieve.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "Either the index of the tile retrieved or -1 if none was found.",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 262,
+            "description": "Returns the TileType for a tile that is at a particular coordinate passed. \nIf no tile is found the null is returned instead.\nCoordinates passed are in pixels and use the world coordinates of the tilemap.",
+            "itemtype": "method",
+            "name": "getTileFromXY",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "The tile",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 277,
+            "description": "Returns the indexes of every tile of a type you pass.",
+            "itemtype": "method",
+            "name": "getIndexsByType",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number[]"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 293,
+            "description": "-----------------------\n Tiles Manipulation\n-----------------------",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 299,
+            "description": "Sets the tile to be used at the coordinates provided. \nCan be used to override a tile that may already exist at the location.",
+            "itemtype": "method",
+            "name": "setTile",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The coordinate of the tile on the x axis.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "The coordinate of the tile on the y axis.",
+                    "type": "Number"
+                },
+                {
+                    "name": "tileType",
+                    "description": "The type of tile that should be now used.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "If a tile was changed or not.",
+                "type": "Boolean"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 320,
+            "description": "Sets the tile to be used at the index provided.\nCan be used to override a tile that may already exist at the location.",
+            "itemtype": "method",
+            "name": "setTileByIndex",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "The index of the tile that you want to change.",
+                    "type": "Number"
+                },
+                {
+                    "name": "tileType",
+                    "description": "The new tile type to be used at that position.",
+                    "type": "Number"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 332,
+            "description": "Randomizes the types of tiles used in an area of the layer. You can choose which types of tiles to use, and the area.\nDefault tile types used are everyone avaiable.",
+            "itemtype": "method",
+            "name": "randomizeTiles",
+            "params": [
+                {
+                    "name": "types",
+                    "description": "A list of TileTypes that can be used. Default is every tiletype on the TileMap.",
+                    "type": "Number[]",
+                    "optional": true
+                },
+                {
+                    "name": "x",
+                    "description": "The starting tile on the x axis to fill.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "y",
+                    "description": "The starting tile on the y axis to fill.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "width",
+                    "description": "How far across you want to go.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "this.width"
+                },
+                {
+                    "name": "height",
+                    "description": "How far down you want to go.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "this.height"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 364,
+            "description": "Makes all of the tiles in the area specified a single type that is passed.",
+            "itemtype": "method",
+            "name": "fill",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "The type of tile you want to fill in the area with.",
+                    "type": "Number"
+                },
+                {
+                    "name": "x",
+                    "description": "The starting tile on the x axis to fill.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "y",
+                    "description": "The starting tile on the y axis to fill.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "width",
+                    "description": "How far across you want to go.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "this.width"
+                },
+                {
+                    "name": "height",
+                    "description": "How far down you want to go.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "this.height"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 387,
+            "description": "Replaces all tiles of typeA to typeB in the area specified. If no area is specified then it is on the whole layer.",
+            "itemtype": "method",
+            "name": "replaceTiles",
+            "params": [
+                {
+                    "name": "typeA",
+                    "description": "The type of tile you want to be replaced.",
+                    "type": "Number"
+                },
+                {
+                    "name": "typeB",
+                    "description": "The type of tile you want to be used instead.",
+                    "type": "Number"
+                },
+                {
+                    "name": "x",
+                    "description": "The starting tile on the x axis to fill.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "y",
+                    "description": "The starting tile on the y axis to fill.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "width",
+                    "description": "How far across you want to go.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "this.width"
+                },
+                {
+                    "name": "height",
+                    "description": "How far down you want to go.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "this.height"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 411,
+            "description": "Swaps all the tiles that are typeA -> typeB and typeB -> typeA inside the area specified. If no area is specified then it is on the whole layer.",
+            "itemtype": "method",
+            "name": "swapTiles",
+            "params": [
+                {
+                    "name": "typeA",
+                    "description": "The type of tile you want to be replaced with typeB.",
+                    "type": "Number"
+                },
+                {
+                    "name": "typeB",
+                    "description": "The type of tile you want to be replaced with typeA.",
+                    "type": "Number"
+                },
+                {
+                    "name": "x",
+                    "description": "The starting tile on the x axis to fill.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "y",
+                    "description": "The starting tile on the y axis to fill.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "width",
+                    "description": "How far across you want to go.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "this.width"
+                },
+                {
+                    "name": "height",
+                    "description": "How far down you want to go.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "this.height"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 437,
+            "description": "-----------------------\n Get Tiles By Collision Methods\n-----------------------",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 443,
+            "description": "Returns the tiles which overlap with a provided entities box component. \nOnly collidable tiles on ANY side will be returned unless you pass a particular side.",
+            "itemtype": "method",
+            "name": "getOverlappingTiles",
+            "params": [
+                {
+                    "name": "entity",
+                    "description": "The entity you would like to check for the overlap.",
+                    "type": "Entity"
+                },
+                {
+                    "name": "collisionType",
+                    "description": "The particular type of collidable tiles which you would like to check for.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "ANY"
+                }
+            ],
+            "return": {
+                "description": "Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.",
+                "type": "Object[]"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 476,
+            "description": "Returns the tiles which can collide with other objects (on ANY side unless otherwise specified) within an area provided.\nBy default the area is the whole tilemap.",
+            "itemtype": "method",
+            "name": "getCollidableTiles",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The x coordinate of the first tile to check.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "y",
+                    "description": "The y coordinate of the first tile to check.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "width",
+                    "description": "The width from the x coordinate.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "widthOfMap"
+                },
+                {
+                    "name": "height",
+                    "description": "The height from the y coordinate.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "heightOfmap"
+                },
+                {
+                    "name": "collisionType",
+                    "description": "The type of collidable tiles that should be return. By default ANY type of collidable tiles will be returned.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "ANY"
+                }
+            ],
+            "return": {
+                "description": "Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.",
+                "type": "Object[]"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 533,
+            "description": "The update loop that is executed when this TileMapLayer is add to the Stage.",
+            "itemtype": "method",
+            "name": "update",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 544,
+            "description": "-----------------------\n Temp Properties used During Rendering\n-----------------------",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 550,
+            "description": "Used whilst rendering to calculate the number of tiles to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
+            "itemtype": "property",
+            "name": "_maxX",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 559,
+            "description": "Used whilst rendering to calculate the number of tiles to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
+            "itemtype": "property",
+            "name": "_maxY",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 568,
+            "description": "Used whilst rendering to calculate which is the first tile to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
+            "itemtype": "property",
+            "name": "_startX",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 577,
+            "description": "Used whilst rendering to calculate which is the first tile to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
+            "itemtype": "property",
+            "name": "_startY",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 586,
+            "description": "Temporary property that holds the tileType of the current tile being rendered.",
+            "itemtype": "property",
+            "name": "_temptype",
+            "type": "TileType",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 594,
+            "description": "Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen. \nAll coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).",
+            "itemtype": "method",
+            "name": "_calculateBoundaries",
+            "params": [
+                {
+                    "name": "camera",
+                    "description": "",
+                    "type": "Camera"
+                },
+                {
+                    "name": "matrix",
+                    "description": "",
+                    "type": "Matrix"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "line": 630,
+            "description": "The render loop which is used when using the Canvas renderer.",
+            "itemtype": "method",
+            "name": "render",
+            "params": [
+                {
+                    "name": "camera",
+                    "description": "",
+                    "type": "Camera"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
             "submodule": "Tilemap",
             "namespace": "Kiwi.GameObjects.Tilemap"
@@ -43642,26 +43642,6 @@
             "line": " src\\core\\SignalBinding.ts:30"
         },
         {
-            "message": "Missing item type\nReturns the type of child that this is.",
-            "line": " src\\gameobjects\\tilemap\\TIleMapLayer.ts:64"
-        },
-        {
-            "message": "Missing item type\n-----------------------\n Getting Tiles\n-----------------------",
-            "line": " src\\gameobjects\\tilemap\\TIleMapLayer.ts:188"
-        },
-        {
-            "message": "Missing item type\n-----------------------\n Tiles Manipulation\n-----------------------",
-            "line": " src\\gameobjects\\tilemap\\TIleMapLayer.ts:293"
-        },
-        {
-            "message": "Missing item type\n-----------------------\n Get Tiles By Collision Methods\n-----------------------",
-            "line": " src\\gameobjects\\tilemap\\TIleMapLayer.ts:437"
-        },
-        {
-            "message": "Missing item type\n-----------------------\n Temp Properties used During Rendering\n-----------------------",
-            "line": " src\\gameobjects\\tilemap\\TIleMapLayer.ts:544"
-        },
-        {
             "message": "Missing item type\n-----------------------\n Creation of Tile Types\n-----------------------",
             "line": " src\\gameobjects\\tilemap\\TileMap.ts:299"
         },
@@ -43676,6 +43656,26 @@
         {
             "message": "Missing item type\n-----------------------\n TileMapLayer Management Functions\n-----------------------",
             "line": " src\\gameobjects\\tilemap\\TileMap.ts:453"
+        },
+        {
+            "message": "Missing item type\nReturns the type of child that this is.",
+            "line": " src\\gameobjects\\tilemap\\TileMapLayer.ts:64"
+        },
+        {
+            "message": "Missing item type\n-----------------------\n Getting Tiles\n-----------------------",
+            "line": " src\\gameobjects\\tilemap\\TileMapLayer.ts:188"
+        },
+        {
+            "message": "Missing item type\n-----------------------\n Tiles Manipulation\n-----------------------",
+            "line": " src\\gameobjects\\tilemap\\TileMapLayer.ts:293"
+        },
+        {
+            "message": "Missing item type\n-----------------------\n Get Tiles By Collision Methods\n-----------------------",
+            "line": " src\\gameobjects\\tilemap\\TileMapLayer.ts:437"
+        },
+        {
+            "message": "Missing item type\n-----------------------\n Temp Properties used During Rendering\n-----------------------",
+            "line": " src\\gameobjects\\tilemap\\TileMapLayer.ts:544"
         },
         {
             "message": "Missing item type\nChanges the alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.",

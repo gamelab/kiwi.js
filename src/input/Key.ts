@@ -24,6 +24,7 @@ module Kiwi.Input {
         constructor (manager: Kiwi.Input.Keyboard, keycode: number, event?: KeyboardEvent) {
 
             this._manager = manager;
+            this.game = this._manager.game;
             this.keyCode = keycode;
 
             if (event) {
@@ -31,7 +32,15 @@ module Kiwi.Input {
             }
 
         }
-        
+
+        /**
+        * The game that this key belongs to.
+        * @property game
+        * @type Game
+        * @public
+        */
+        public game: Kiwi.Game;
+
         /**
         * The type of object that this is.
         * @method objType
@@ -113,13 +122,22 @@ module Kiwi.Input {
         public timeDown: number = 0;
 
         /** 
-        * [CURRENTLY NOT IMPLEMENTED] The duration (in milliseconds) that the key has been down for.
+        * The duration (in milliseconds) that the key has been down for.
+        * This is property is READ ONLY.
         * @property duration
         * @type Number
         * @default 0
         * @public
         */
-        public duration: number = 0;
+        public get duration(): number {
+
+            //If the key is down when the dev is getting the duration, then update the duration.
+            if (this.isDown) {
+                this.timeDown = this.game.time.now();
+            }
+
+            return (this.timeDown < this.timeUp) ? 0 : this.timeDown - this.timeUp;
+        }
 
         /** 
         * The time at which the key was released. 
@@ -131,7 +149,8 @@ module Kiwi.Input {
         public timeUp: number = 0;
 
         /** 
-        * If the key was already down when the down event fired again, this indicates the number of times the event has fired. 
+        * If this key is being 'held' down, this property will indicate the amount of times the 'onkeydown' event has fired.
+        * This is reset each time the key is pressed.
         * @property repeats
         * @type Number
         * @default 0
@@ -155,18 +174,21 @@ module Kiwi.Input {
                 this.shiftKey = event.shiftKey;
 
                 if (this.isDown === true) {
-                    //  Key was already held down, this must be a repeat rate based event
+                    // Key was already held down, this must be a repeat rate based event
                     this.repeats++;
+                    this.timeDown = this.game.time.now();
                 } else {
                     this.isDown = true;
                     this.isUp = false;
-                    this.timeDown = event.timeStamp;
-                    this.duration = 0;
+                    this.timeDown = this.game.time.now();
+                    this.repeats = 0;
                 }
+
             } else if (event.type === 'keyup') {
                 this.isDown = false;
                 this.isUp = true;
-                this.timeUp = event.timeStamp;
+                this.timeUp = this.game.time.now();
+
             }
 
         }
@@ -180,7 +202,7 @@ module Kiwi.Input {
         */
         public justPressed(duration: number = this._manager.justPressedRate): boolean {
 
-            if (this.isDown === true && (this.timeDown + duration) < this._manager.game.time.now()) {
+            if (this.isDown === true && (this.timeDown + duration) > this.game.time.now()) {
                 return true;
             } else {
                 return false;
@@ -197,7 +219,7 @@ module Kiwi.Input {
         */
         public justReleased(duration: number = this._manager.justReleasedRate): boolean {
 
-            if (this.isUp === true && (this.timeUp + duration) < this._manager.game.time.now()) {
+            if (this.isUp === true && (this.timeUp + duration) > this.game.time.now()) {
                 return true;
             }
             else
@@ -217,7 +239,7 @@ module Kiwi.Input {
             this.isUp = true;
             this.timeUp = 0;
             this.timeDown = 0;
-            this.duration = 0;
+            this.repeats = 0;
             this.altKey = false;
             this.shiftKey = false;
             this.ctrlKey = false;

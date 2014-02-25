@@ -87,6 +87,7 @@ module Kiwi.Input {
         public boot() {
             this.onKeyUp = new Kiwi.Signal;
             this.onKeyDown = new Kiwi.Signal;
+            this.onKeyDownOnce = new Kiwi.Signal;
             this.start();
         }
 
@@ -96,7 +97,7 @@ module Kiwi.Input {
         * @public
         */
         public update() {
-            //  Loop through all 'down' keys and update the timers on those still pressed
+
         }
         
         /**
@@ -108,12 +109,26 @@ module Kiwi.Input {
         public onKeyUp: Kiwi.Signal;
         
         /**
-        * A Signal that dispatches events when a key is pressed/is now down.
-        * @property onKeyUp
+        * A Signal that dispatches events when a key is pressed/is down.
+        * This mimics the natural 'keydown' event listener, so it will keep dispatching events if the user holds the key down. 
+        * Note: This fires after the 'onKeyDownOnce' signal.
+        *
+        * @property onKeyDown
         * @type Signal
         * @public
         */
         public onKeyDown: Kiwi.Signal;
+
+        /**
+        * A Signal that dispatches events when a key is pressed/is down initially. 
+        * This event only fires the first time that the key is pressed, so it won't dispatch events if the user is holding the key down.
+        * Note: This fires before the 'onKeyDown' signal;
+        *
+        * @property onKeyDownOnce
+        * @type Signal
+        * @public
+        */
+        public onKeyDownOnce: Kiwi.Signal;
 
         /** 
         * Adds the event listeners to the browser to listen for key events.
@@ -154,10 +169,14 @@ module Kiwi.Input {
 
             if (this._keys[event.keyCode]) {
                 this._keys[event.keyCode].update(event);
+
             } else {
-                //  TODO - This could create loads of objects we could safely ignore (one for each key)
                 this._keys[event.keyCode] = new Kiwi.Input.Key(this, event.keyCode, event);
+
             }
+
+            if (this._keys[event.keyCode].repeats == 0) this.onKeyDownOnce.dispatch(event.keyCode, this._keys[event.keyCode]);
+
             this.onKeyDown.dispatch(event.keyCode, this._keys[event.keyCode]);
         }
 
@@ -172,18 +191,19 @@ module Kiwi.Input {
 
             if (this._keys[event.keyCode]) {
                 this._keys[event.keyCode].update(event);
+
             } else {
-                //  TODO - This could create loads of objects we could safely ignore (one for each key)
                 this._keys[event.keyCode] = new Kiwi.Input.Key(this, event.keyCode, event);
+
             }
             this.onKeyUp.dispatch(event.keyCode, this._keys[event.keyCode]);
         }
 
         /** 
         * Creates a new Key object for a keycode that is specified.
-        * Not strictly needed (as one will be created once an event occurs on that keycode) by can be good for setting the game up.
+        * Not strictly needed (as one will be created once an event occurs on that keycode) but can be good for setting the game up.
         * @method addKey
-        * @param keycode {Number} The keycode of the key that you want to add.
+        * @param keycode {Number} The keycode of the key that you want to add. 
         * @return {Key}
         * @public
         */
@@ -194,30 +214,40 @@ module Kiwi.Input {
         }
 
         /** 
-        * [NOT CURRENTLY IMPLEMENTED] Returns a boolean indicating if a key was just pressed or not. 
+        * Returns a boolean indicating if a key (that you pass via a keycode) was just pressed or not. 
         * @method justPressed
-        * @param key {Any} - The key that you would like to check against.
-        * @param [duration] {Number} - The duration at which determines if a key was 'just' pressed or not. If not specified defaults to the justPressedRate
+        * @param keycode {Number} The keycode of the key that you would like to check against.
+        * @param [duration=this.justPressedRate] {Number} The duration at which determines if a key was 'just' pressed or not. If not specified defaults to the justPressedRate
         * @public
         */
-        public justPressed(key, duration:number=this.justPressedRate) {
+        public justPressed(keycode, duration:number=this.justPressedRate):boolean {
 
+            if (this._keys[keycode]) {
+                return this._keys[keycode].justPressed(duration);
+            } 
+
+            return false;
         }
 
         
         /** 
-        * [NOT CURRENTLY IMPLEMENTED] Returns a boolean indicating if a key was just released or not. 
+        * Returns a boolean indicating if a key (that you pass via a keycode) was just released or not. 
         * @method justReleased
-        * @param key {Any} - The key that you would like to check against.
-        * @param [duration] {Number} - The duration at which determines if a key was 'just' released or not. If not specified defaults to the justReleasedRate
+        * @param keycode {Number} The keycode of the key that you would like to check against.
+        * @param [duration=this.justReleasedRate] {Number} The duration at which determines if a key was 'just' released or not. If not specified defaults to the justReleasedRate
         * @public
         */
-        public justReleased(key, duration:number=this.justReleasedRate) {
+        public justReleased(keycode, duration:number=this.justReleasedRate):boolean {
 
+            if (this._keys[keycode]) {
+                return this._keys[keycode].justReleased(duration);
+            }
+
+            return false;
         }
 
         /** 
-        * Returns a boolean indicating whether a key is down or not.
+        * Returns a boolean indicating whether a key (that you pass via its keycode) is down or not.
         * @method isDown
         * @param keycode {Number} The keycode of the key that you are checking.
         * @return {boolean}
@@ -234,7 +264,7 @@ module Kiwi.Input {
         }
 
         /** 
-        * Returns a boolean indicating whether a key is up or not.
+        * Returns a boolean indicating whether a key (that you pass via its keycode) is up or not.
         * @method isUp
         * @param keycode {Number} The keycode of the key that you are checking.
         * @return {boolean}
