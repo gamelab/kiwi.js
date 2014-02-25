@@ -71,6 +71,11 @@ module Kiwi.Sound {
                     this._setAudio();
 
                     if (this.ready) {
+
+                        //Work around for audio duration cocoon bug. 
+                        //First time received is 0 but second time has a value.
+                        if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) console.log('Audio Object in CocoonJS created. Log is a workaround to make the duration on the audio tag work.');
+
                         this.totalDuration = this._sound.duration;
                         this._sound.volume = this.volume * this._game.audio.volume;
 
