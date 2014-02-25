@@ -274,7 +274,6 @@ module Kiwi.GameObjects {
         */
         private _tempDirty: boolean = true;
 
-        public img;
 
         /**
         * This method is used to render the text to an offscreen-canvas which is held in a TextureAtlas (which is generated upon the instanitation of this class). 
@@ -304,10 +303,6 @@ module Kiwi.GameObjects {
             this._ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
             this._ctx.fillStyle = this._fontColor;
             this._ctx.textBaseline = this._baseline;
-
-            this.img = new Image();
-            this.img = this._canvas.toDataURL();
-            this.atlas.image = this.img;
 
             //Draw the text.
             this._ctx.fillText(this._text, 0, 0);
