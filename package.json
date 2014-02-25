@@ -25,6 +25,6 @@
         "grunt-ts" : "latest",
         "grunt-contrib-yuidoc": "0.4.x",
         "grunt-contrib-copy":  "0.4.x",
-        "grunt-contrib-jshint": "~0.8.0"
+        "grunt-tslint": "~0.4.1"
     }
 }
