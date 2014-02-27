@@ -18956,11 +18956,14 @@ var Kiwi;
                 this._loop = loop;
                 this.key = key;
 
+                //If audio isn't supported OR the file does not exist
                 if (this._game.audio.noAudio || this._game.fileStore.exists(this.key) === false) {
-                    console.log('Could not play Audio. Either the browser doesn\'t support audio or the Audio file was not found on the filestore');
+                    if (this._game.debugOption)
+                        console.log('Could not play Audio. Either the browser doesn\'t support audio or the Audio file was not found on the filestore');
                     return;
                 }
 
+                //Setup the Web AUDIO API Sound
                 if (this._usingWebAudio) {
                     this._setAudio();
 
@@ -18981,20 +18984,16 @@ var Kiwi;
                         this.gainNode.gain.value = this.volume * this._game.audio.volume; //this may need to change.....
                         this.gainNode.connect(this.masterGainNode);
                     }
+                    //Set-up the Audio Tag Sound
                 } else if (this._usingAudioTag) {
                     if (this._playable === true) {
                         this._setAudio();
 
                         if (this.ready) {
-                            //Work around for audio duration cocoon bug.
-                            //First time received is 0 but second time has a value.
-                            if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON)
-                                console.log('Audio Object in CocoonJS created. Log is a workaround to make the duration on the audio tag work.');
-
                             this.totalDuration = this._sound.duration;
                             this._sound.volume = this.volume * this._game.audio.volume;
 
-                            if (isNaN(this.totalDuration))
+                            if (isNaN(this.totalDuration) || this.totalDuration == 0)
                                 this._pending = true;
                         }
                     }
@@ -19370,13 +19369,17 @@ var Kiwi;
 
                 //Is the audio ready to be played and was waiting?
                 if (this._playable && this._pending) {
+                    //Is it the using the Web Audio API (can tell otherwise the audio would not be decoding otherwise) and it is now ready to be played?
                     if (this._decoded === true || this._file.data && this._file.data.decoded) {
                         this._pending = false;
                         this.play();
-                    } else if (this._usingAudioTag && !isNaN(this._sound.duration)) {
+                        //If we are using Audio tags and the audio is pending then that must be because we are waiting for the audio to load.
+                        // Also the work around for CocoonJS
+                    } else if (this._usingAudioTag && !isNaN(this._sound.duration) || this._game.deviceTargetOption == Kiwi.TARGET_COCOON && this._sound.duration !== 0) {
                         this.totalDuration = this._sound.duration;
                         this._markers['default'].duration = this.totalDuration;
-                        this._pending = false; //again shouldn't need once audio tag loader works.
+                        this._pending = false; //Again shouldn't need once audio tag loader works.
+                        console.log('Sound Found!');
 
                         if (this.isPlaying && this._currentMarker == 'default')
                             this.duration = this.totalDuration;
