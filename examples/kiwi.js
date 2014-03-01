@@ -2732,6 +2732,11 @@ var Kiwi;
                 console.log('Debug option not specified. Turned ON by default.');
             }
 
+            if (options.bootCallback !== 'undefined') {
+                console.log("boot callback provided");
+                this.bootCallbackOption = options.bootCallback;
+            }
+
             //Which device are they targetting
             if (options.deviceTarget !== 'undefined' && typeof options.deviceTarget === 'number') {
                 switch (options.deviceTarget) {
@@ -2956,6 +2961,10 @@ var Kiwi;
                 return _this.loop();
             });
             this.raf.start();
+            if (this.bootCallbackOption) {
+                console.log("invoked boot callback");
+                this.bootCallbackOption();
+            }
         };
 
         /**
@@ -22388,6 +22397,7 @@ var Kiwi;
                 * @private
                 */
                 this._sharedRenderers = {};
+                this._filtersEnabled = true;
                 this._game = game;
                 if (typeof mat4 === "undefined") {
                     throw "ERROR: gl-matrix.js is missing - you need to include this javascript to use webgl - https://github.com/toji/gl-matrix";
@@ -22401,6 +22411,7 @@ var Kiwi;
             GLRenderManager.prototype.boot = function () {
                 this._textureManager = new Kiwi.Renderers.GLTextureManager();
                 this._shaderManager = new Kiwi.Shaders.ShaderManager();
+                this.filters = new Kiwi.Filters.GLFilterManager(this._game, this._shaderManager);
                 this._init();
             };
 
@@ -22487,6 +22498,18 @@ var Kiwi;
                 return null;
             };
 
+            Object.defineProperty(GLRenderManager.prototype, "filtersEnabled", {
+                get: function () {
+                    return this._filtersEnabled;
+                },
+                set: function (val) {
+                    this._filtersEnabled = val;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
             /**
             * Performs initialisation required for single game instance - happens once, at bootup
             * Sets global GL state.
@@ -22525,8 +22548,13 @@ var Kiwi;
                 this._game.stage.onResize.add(function (width, height) {
                     this._stageResolution = new Float32Array([width, height]);
                     this._currentRenderer.updateStageResolution(gl, this._stageResolution);
+                    this.filters.updateFilterResolution(gl, width, height);
                     gl.viewport(0, 0, width, height);
                 }, this);
+
+                if (this.filtersEnabled && !this.filters.isEmpty) {
+                    this.filters.enableFrameBuffers(gl);
+                }
             };
 
             /**
@@ -22570,7 +22598,7 @@ var Kiwi;
 
                 //clear stage
                 var col = this._game.stage.normalizedColor;
-                gl.clearColor(col.r, col.g, col.b, col.a);
+                gl.clearColor(col.a, col.b, col.g, col.a);
                 gl.clear(gl.COLOR_BUFFER_BIT);
 
                 //set cam matrix uniform
@@ -22586,6 +22614,8 @@ var Kiwi;
                 ]);
                 this._cameraOffset = new Float32Array([ct.rotPointX, ct.rotPointY]);
 
+                gl.useProgram(this._currentRenderer.shaderPair.shaderProgram);
+
                 //clear current renderer ready for a batch
                 this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
 
@@ -22598,6 +22628,12 @@ var Kiwi;
                 //draw anything left over
                 this._currentRenderer.draw(gl);
                 this.numDrawCalls++;
+
+                if (this._filtersEnabled && !this.filters.isEmpty) {
+                    this.filters.applyFilters(gl);
+                    gl.useProgram(this._shaderManager.currentShader.shaderProgram);
+                    gl.bindTexture(gl.TEXTURE_2D, this._currentTextureAtlas.glTextureWrapper.texture);
+                }
             };
 
             /**
@@ -22784,7 +22820,8 @@ var Kiwi;
             * @return {ShaderPair} a ShaderPair instance - null on fail
             * @public
             */
-            ShaderManager.prototype.requestShader = function (gl, shaderID) {
+            ShaderManager.prototype.requestShader = function (gl, shaderID, use) {
+                if (typeof use === "undefined") { use = true; }
                 var shader;
 
                 //in list already?
@@ -22793,14 +22830,16 @@ var Kiwi;
                     if (!shader.loaded) {
                         this._loadShader(gl, shader);
                     }
-                    this._useShader(gl, shader);
+                    if (use)
+                        this._useShader(gl, shader);
                     return shader;
                 } else {
                     //not in list, does it exist?
                     if (this.shaderExists) {
                         shader = this._addShader(gl, shaderID);
                         this._loadShader(gl, shader);
-                        this._useShader(gl, shader);
+                        if (use)
+                            this._useShader(gl, shader);
                         return shader;
                     } else {
                         console.log("Shader " + shaderID + " does not exist");
@@ -22945,6 +22984,9 @@ var Kiwi;
                     gl.bindTexture(gl.TEXTURE_2D, this.texture);
                     gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
                     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
                     gl.bindTexture(gl.TEXTURE_2D, null);
@@ -23491,12 +23533,12 @@ var Kiwi;
 
                 //Texture
                 gl.activeTexture(gl.TEXTURE0);
-                gl.uniform1i(this.shaderPair.uniforms.samplerUniform, 0);
+                gl.uniform1i(this.shaderPair.uniforms.uSampler.location, 0);
 
                 //Other uniforms
-                gl.uniform2fv(this.shaderPair.uniforms.uResolution, params.stageResolution);
-                gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset, params.cameraOffset);
-                gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix, false, params.mvMatrix);
+                gl.uniform2fv(this.shaderPair.uniforms.uResolution.location, params.stageResolution);
+                gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset.location, params.cameraOffset);
+                gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix.location, false, params.mvMatrix);
             };
 
             TextureAtlasRenderer.prototype.disable = function (gl) {
@@ -23507,17 +23549,27 @@ var Kiwi;
             TextureAtlasRenderer.prototype.clear = function (gl, params) {
                 this.xyuvBuffer.clear();
                 this.alphaBuffer.clear();
-                gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix, false, params.mvMatrix);
-                gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset, new Float32Array(params.uCameraOffset));
+                gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix.location, false, params.mvMatrix);
+                gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset.location, new Float32Array(params.uCameraOffset));
             };
 
             TextureAtlasRenderer.prototype.draw = function (gl) {
+                //if (this.xyuvBuffer.numItems > 0) {
                 this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
                 this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
+                gl.enableVertexAttribArray(this.shaderPair.attributes.aXYUV);
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.xyuvBuffer.buffer);
+                gl.vertexAttribPointer(this.shaderPair.attributes.aXYUV, this.xyuvBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+                gl.enableVertexAttribArray(this.shaderPair.attributes.aAlpha);
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.alphaBuffer.buffer);
+                gl.vertexAttribPointer(this.shaderPair.attributes.aAlpha, this.alphaBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
 
                 //4 components per attributes, 6 verts per quad - used to work out how many elements to draw
                 gl.drawElements(gl.TRIANGLES, (this.alphaBuffer.items.length / 4) * 6, gl.UNSIGNED_SHORT, 0);
+                //}
             };
 
             /**
@@ -23537,12 +23589,12 @@ var Kiwi;
 
             TextureAtlasRenderer.prototype.updateStageResolution = function (gl, res) {
                 //this.shaderPair.uResolution(gl, res);
-                gl.uniform2fv(this.shaderPair.uniforms.uResolution, res);
+                gl.uniform2fv(this.shaderPair.uniforms.uResolution.location, res);
             };
 
             TextureAtlasRenderer.prototype.updateTextureSize = function (gl, size) {
                 //this.shaderPair.uTextureSize(gl, size);
-                gl.uniform2fv(this.shaderPair.uniforms.uTextureSize, size);
+                gl.uniform2fv(this.shaderPair.uniforms.uTextureSize.location, size);
             };
 
             /**
@@ -23647,6 +23699,35 @@ var Kiwi;
                 }
                 return shader;
             };
+
+            ShaderPair.prototype.setParam = function (uniformName, value) {
+                this.uniforms[uniformName].value = value;
+                this.uniforms[uniformName].dirty = true;
+            };
+
+            ShaderPair.prototype.applyUniforms = function (gl) {
+                for (var u in this.uniforms) {
+                    this.applyUniform(gl, u);
+                }
+            };
+
+            ShaderPair.prototype.applyUniform = function (gl, name) {
+                var u = this.uniforms[name];
+                if (this.uniforms[name].dirty) {
+                    console.log(name);
+                    gl["uniform" + u.type](u.location, u.value);
+                    this.uniforms[name].dirty = false;
+                }
+            };
+
+            ShaderPair.prototype.initUniforms = function (gl) {
+                for (var uniformName in this.uniforms) {
+                    var uniform = this.uniforms[uniformName];
+                    uniform.location = gl.getUniformLocation(this.shaderProgram, uniformName);
+                    uniform.dirty = true;
+                    uniform.value = null;
+                }
+            };
             ShaderPair.RENDERER_ID = "ShaderPair";
             return ShaderPair;
         })();
@@ -23673,11 +23754,21 @@ var Kiwi;
                     aAlpha: null
                 };
                 this.uniforms = {
-                    uMVMatrix: null,
-                    uSampler: null,
-                    uResolution: null,
-                    uTextureSize: null,
-                    uCameraOffset: null
+                    uMVMatrix: {
+                        type: "mat4"
+                    },
+                    uResolution: {
+                        type: "2fv"
+                    },
+                    uTextureSize: {
+                        type: "2fv"
+                    },
+                    uCameraOffset: {
+                        type: "2fv"
+                    },
+                    uSampler: {
+                        type: "1i"
+                    }
                 };
                 /**
                 *
@@ -23728,17 +23819,2176 @@ var Kiwi;
                 this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
 
                 //uniforms
-                this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
+                /*this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
                 this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, "uResolution");
                 this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, "uSampler");
                 this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
                 this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
+                */
+                this.initUniforms(gl);
             };
             return TextureAtlasShader;
         })(Kiwi.Shaders.ShaderPair);
         Shaders.TextureAtlasShader = TextureAtlasShader;
     })(Kiwi.Shaders || (Kiwi.Shaders = {}));
     var Shaders = Kiwi.Shaders;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Filters) {
+        var GLFilterManager = (function () {
+            function GLFilterManager(game, shaderManager) {
+                this._enabled = true;
+                this._game = game;
+                this.filters = new Array();
+                this._filterRenderer = new Kiwi.Filters.GLFilterRenderer(game.stage, shaderManager);
+                this._shaderManager = shaderManager;
+            }
+            Object.defineProperty(GLFilterManager.prototype, "enabled", {
+                get: function () {
+                    return this._enabled;
+                },
+                set: function (value) {
+                    this._enabled = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(GLFilterManager.prototype, "isEmpty", {
+                get: function () {
+                    return (this.filters.length === 0) ? true : false;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            GLFilterManager.prototype.updateFilterResolution = function (gl, width, height, number) {
+                this._filterRenderer.updateFramebuffers(gl, width, height);
+            };
+
+            GLFilterManager.prototype.clearFilters = function () {
+                this.filters = new Array();
+            };
+
+            GLFilterManager.prototype.addFilter = function (filterType, params) {
+                if (typeof params === "undefined") { params = null; }
+                var filter = this._createFilter(filterType, params);
+                if (filter !== null) {
+                    this.filters.push(filter);
+                    return filter;
+                }
+                return null;
+            };
+
+            GLFilterManager.prototype.addFilterAt = function (filterType, index, params) {
+                if (typeof params === "undefined") { params = null; }
+                var filter = this._createFilter(filterType, params);
+                if (filter !== null) {
+                    this.filters.splice(index, 0, filter);
+                    return filter;
+                }
+                return null;
+            };
+
+            GLFilterManager.prototype.swapFilters = function (filter0, filter1) {
+                if (this.filters.indexOf(filter0) !== -1 && this.filters.indexOf(filter1) !== -1) {
+                    var tempFilter = filter0;
+                    filter0 = filter1;
+                    filter1 = tempFilter;
+                }
+            };
+
+            GLFilterManager.prototype.moveToIndex = function (filter, to) {
+                var from = this.filters.indexOf(filter);
+                if (from === -1)
+                    return;
+                this.filters.splice(to, 0, this.filters.splice(from, 1)[0]);
+            };
+
+            GLFilterManager.prototype.removeFilterAt = function (index) {
+                this.filters.splice(index, 1);
+            };
+
+            GLFilterManager.prototype._createFilter = function (filterType, params) {
+                if (typeof params === "undefined") { params = null; }
+                params = params || {};
+                params.resolution = [this._game.stage.width, this._game.stage.height];
+
+                if (filterType) {
+                    return new filterType(this._game.stage.gl, this._shaderManager, params);
+                }
+                return null;
+            };
+
+            GLFilterManager.prototype.enableFrameBuffers = function (gl) {
+                this._filterRenderer.enableFrameBuffers(gl);
+            };
+
+            GLFilterManager.prototype.applyFilters = function (gl) {
+                this._filterRenderer.applyFilters(gl, this.filters);
+            };
+            return GLFilterManager;
+        })();
+        Filters.GLFilterManager = GLFilterManager;
+    })(Kiwi.Filters || (Kiwi.Filters = {}));
+    var Filters = Kiwi.Filters;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Filters) {
+        var GLFilterRenderer = (function () {
+            function GLFilterRenderer(stage, shaderManager) {
+                this.TARGET_DRAW_BUFFER = 0;
+                this.TARGET_FRAME_BUFFER_1 = 1;
+                this.TARGET_FRAME_BUFFER_2 = 2;
+                this.TARGET_TEXTURE_1 = 1;
+                this.TARGET_TEXTURE_2 = 2;
+                this._stage = stage;
+                this._createVertexBuffer(stage.gl);
+                this._createFrameBuffersAndTextures(stage.gl, stage.width, stage.height);
+            }
+            GLFilterRenderer.prototype._createVertexBuffer = function (gl) {
+                this._vertBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, 4, [
+                    -1, 1, 0, 1,
+                    1, 1, 1, 1,
+                    -1, -1, 0, 0,
+                    -1, -1, 0, 0,
+                    1, 1, 1, 1,
+                    1, -1, 1, 0
+                ]);
+                gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+            };
+
+            GLFilterRenderer.prototype._createFrameBuffersAndTextures = function (gl, width, height) {
+                this._framebuffer1 = gl.createFramebuffer();
+                gl.bindFramebuffer(gl.FRAMEBUFFER, this._framebuffer1);
+                this._framebufferTexture1 = gl.createTexture();
+                gl.activeTexture(gl.TEXTURE0);
+                gl.bindTexture(gl.TEXTURE_2D, this._framebufferTexture1);
+
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+                gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this._framebufferTexture1, 0);
+
+                this._framebuffer2 = gl.createFramebuffer();
+                gl.bindFramebuffer(gl.FRAMEBUFFER, this._framebuffer2);
+                this._framebufferTexture2 = gl.createTexture();
+                gl.bindTexture(gl.TEXTURE_2D, this._framebufferTexture2);
+
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+                gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this._framebufferTexture2, 0);
+                gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+            };
+
+            GLFilterRenderer.prototype._deleteFrameBuffersAndTextures = function (gl) {
+                gl.deleteFramebuffer(this._framebuffer1);
+                gl.deleteFramebuffer(this._framebuffer2);
+                gl.deleteTexture(this._framebufferTexture1);
+                gl.deleteTexture(this._framebufferTexture2);
+            };
+
+            GLFilterRenderer.prototype.enableFrameBuffers = function (gl) {
+                gl.bindFramebuffer(gl.FRAMEBUFFER, this._framebuffer1);
+            };
+
+            GLFilterRenderer.prototype.updateFramebuffers = function (gl, width, height) {
+                this._deleteFrameBuffersAndTextures(gl);
+                this._createFrameBuffersAndTextures(gl, width, height);
+            };
+
+            GLFilterRenderer.prototype._renderSequence = function (gl, sequence) {
+                for (var i = 0; i < sequence.length; i++) {
+                    var item = sequence[i];
+
+                    switch (item.frameBufferTarget) {
+                        case this.TARGET_FRAME_BUFFER_1:
+                            gl.bindFramebuffer(gl.FRAMEBUFFER, this._framebuffer1);
+                            break;
+                        case this.TARGET_FRAME_BUFFER_2:
+                            gl.bindFramebuffer(gl.FRAMEBUFFER, this._framebuffer2);
+                            break;
+                        case this.TARGET_DRAW_BUFFER:
+                            gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+                            break;
+                    }
+
+                    if (item.textureTarget === this.TARGET_TEXTURE_1) {
+                        gl.bindTexture(gl.TEXTURE_2D, this._framebufferTexture2);
+                    } else {
+                        gl.bindTexture(gl.TEXTURE_2D, this._framebufferTexture1);
+                    }
+
+                    gl.useProgram(item.shaderPair.shaderProgram);
+
+                    //set uniforms
+                    item.shaderPair.applyUniforms(gl);
+
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this._vertBuffer.buffer);
+                    gl.vertexAttribPointer(item.shaderPair.attributes.aXYUV, this._vertBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+                    gl.drawArrays(gl.TRIANGLES, 0, 6);
+                }
+
+                this.enableFrameBuffers(gl);
+            };
+
+            GLFilterRenderer.prototype.applyFilters = function (gl, filters) {
+                var sequence = [];
+
+                var frameBufferTarget = this.TARGET_FRAME_BUFFER_2;
+                var textureTarget = this.TARGET_TEXTURE_2;
+
+                for (var i = 0; i < filters.length; i++) {
+                    if (filters[i].enabled) {
+                        if (filters[i].dirty) {
+                            filters[i].setParams(gl);
+                        }
+                        for (var j = 0; j < filters[i].passes.length; j++) {
+                            sequence.push({
+                                shaderPair: filters[i].passes[j],
+                                frameBufferTarget: frameBufferTarget,
+                                textureTarget: textureTarget
+                            });
+                            frameBufferTarget++;
+                            textureTarget++;
+                            if (textureTarget === 3)
+                                textureTarget = 1;
+                            if (frameBufferTarget === 3)
+                                frameBufferTarget = 1;
+                        }
+                    }
+                }
+
+                if (sequence.length > 0) {
+                    //set last
+                    sequence[sequence.length - 1].frameBufferTarget = this.TARGET_DRAW_BUFFER;
+                    this._renderSequence(gl, sequence);
+                }
+            };
+            return GLFilterRenderer;
+        })();
+        Filters.GLFilterRenderer = GLFilterRenderer;
+    })(Kiwi.Filters || (Kiwi.Filters = {}));
+    var Filters = Kiwi.Filters;
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @class GLShaders
+* @constructor
+* @param gl {WebGLRenderingContext}
+* @return {GLShaders}
+*/
+var Kiwi;
+(function (Kiwi) {
+    (function (Shaders) {
+        var GrayScaleShader = (function (_super) {
+            __extends(GrayScaleShader, _super);
+            function GrayScaleShader() {
+                _super.call(this);
+                this.attributes = {
+                    aXYUV: null
+                };
+                this.uniforms = {
+                    uSampler: {
+                        type: "1i"
+                    },
+                    uLevel: {
+                        type: "1f"
+                    }
+                };
+                /**
+                *
+                * @property texture2DFrag
+                * @type Array
+                * @public
+                */
+                this.fragSource = [
+                    "precision mediump float;",
+                    "uniform sampler2D uSampler;",
+                    "varying vec2 vTextureCoord;",
+                    "uniform float uLevel;",
+                    "void main(void) {",
+                    "gl_FragColor = texture2D(uSampler, vTextureCoord);",
+                    "gl_FragColor.rgb =  vec3( mix( vec3( dot( gl_FragColor.rgb, vec3( 0.2125, 0.7154, 0.0721 ) ) ),gl_FragColor.rgb, uLevel ));",
+                    "}"];
+                /**
+                *
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
+                this.vertSource = [
+                    "attribute vec4 aXYUV;",
+                    "varying vec2 vTextureCoord;",
+                    "void main(void) {",
+                    "gl_Position = vec4(aXYUV.xy,0,1);",
+                    "vTextureCoord = aXYUV.zw;",
+                    "}"
+                ];
+            }
+            GrayScaleShader.prototype.init = function (gl) {
+                _super.prototype.init.call(this, gl);
+
+                //attributes
+                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+
+                //uniforms
+                this.initUniforms(gl);
+            };
+            return GrayScaleShader;
+        })(Kiwi.Shaders.ShaderPair);
+        Shaders.GrayScaleShader = GrayScaleShader;
+    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
+    var Shaders = Kiwi.Shaders;
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @class GLShaders
+* @constructor
+* @param gl {WebGLRenderingContext}
+* @return {GLShaders}
+*/
+var Kiwi;
+(function (Kiwi) {
+    (function (Shaders) {
+        var BlurShaderX = (function (_super) {
+            __extends(BlurShaderX, _super);
+            function BlurShaderX() {
+                _super.call(this);
+                this.attributes = {
+                    aXYUV: null
+                };
+                this.uniforms = {
+                    uSampler: {
+                        type: "1i"
+                    },
+                    uBlur: {
+                        type: "1f"
+                    }
+                };
+                /**
+                *
+                * @property texture2DFrag
+                * @type Array
+                * @public
+                */
+                this.fragSource = [
+                    'precision mediump float;',
+                    'varying vec2 vTextureCoord;',
+                    'uniform float uBlur;',
+                    'uniform sampler2D uSampler;',
+                    'void main(void) {',
+                    '   vec4 sum = vec4(0.0);',
+                    '   sum += texture2D(uSampler, vec2(vTextureCoord.x - 4.0*uBlur, vTextureCoord.y)) * 0.05;',
+                    '   sum += texture2D(uSampler, vec2(vTextureCoord.x - 3.0*uBlur, vTextureCoord.y)) * 0.09;',
+                    '   sum += texture2D(uSampler, vec2(vTextureCoord.x - 2.0*uBlur, vTextureCoord.y)) * 0.12;',
+                    '   sum += texture2D(uSampler, vec2(vTextureCoord.x - uBlur, vTextureCoord.y)) * 0.15;',
+                    '   sum += texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y)) * 0.16;',
+                    '   sum += texture2D(uSampler, vec2(vTextureCoord.x + uBlur, vTextureCoord.y)) * 0.15;',
+                    '   sum += texture2D(uSampler, vec2(vTextureCoord.x + 2.0*uBlur, vTextureCoord.y)) * 0.12;',
+                    '   sum += texture2D(uSampler, vec2(vTextureCoord.x + 3.0*uBlur, vTextureCoord.y)) * 0.09;',
+                    '   sum += texture2D(uSampler, vec2(vTextureCoord.x + 4.0*uBlur, vTextureCoord.y)) * 0.05;',
+                    '   gl_FragColor = sum;',
+                    '}'
+                ];
+                /**
+                *
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
+                this.vertSource = [
+                    "attribute vec4 aXYUV;",
+                    "varying vec2 vTextureCoord;",
+                    "void main(void) {",
+                    "gl_Position = vec4(aXYUV.xy,0,1);",
+                    "vTextureCoord = aXYUV.zw;",
+                    "}"
+                ];
+            }
+            BlurShaderX.prototype.init = function (gl) {
+                _super.prototype.init.call(this, gl);
+
+                //attributes
+                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+
+                //uniforms
+                this.initUniforms(gl);
+            };
+            return BlurShaderX;
+        })(Kiwi.Shaders.ShaderPair);
+        Shaders.BlurShaderX = BlurShaderX;
+    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
+    var Shaders = Kiwi.Shaders;
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @class GLShaders
+* @constructor
+* @param gl {WebGLRenderingContext}
+* @return {GLShaders}
+*/
+var Kiwi;
+(function (Kiwi) {
+    (function (Shaders) {
+        var BlurShaderY = (function (_super) {
+            __extends(BlurShaderY, _super);
+            function BlurShaderY() {
+                _super.call(this);
+                this.attributes = {
+                    aXYUV: null
+                };
+                this.uniforms = {
+                    uSampler: {
+                        type: "1i"
+                    },
+                    uBlur: {
+                        type: "1f"
+                    }
+                };
+                /**
+                *
+                * @property texture2DFrag
+                * @type Array
+                * @public
+                */
+                this.fragSource = [
+                    'precision mediump float;',
+                    'varying vec2 vTextureCoord;',
+                    'uniform float uBlur;',
+                    'uniform sampler2D uSampler;',
+                    'void main(void) {',
+                    '   vec4 sum = vec4(0.0);',
+                    '   sum += texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y - 4.0*uBlur)) * 0.05;',
+                    '   sum += texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y - 3.0*uBlur)) * 0.09;',
+                    '   sum += texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y - 2.0*uBlur)) * 0.12;',
+                    '   sum += texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y - uBlur)) * 0.15;',
+                    '   sum += texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y)) * 0.16;',
+                    '   sum += texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y + uBlur)) * 0.15;',
+                    '   sum += texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y + 2.0*uBlur)) * 0.12;',
+                    '   sum += texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y + 3.0*uBlur)) * 0.09;',
+                    '   sum += texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y + 4.0*uBlur)) * 0.05;',
+                    '   gl_FragColor = sum;',
+                    '}'
+                ];
+                /**
+                *
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
+                this.vertSource = [
+                    "attribute vec4 aXYUV;",
+                    "varying vec2 vTextureCoord;",
+                    "void main(void) {",
+                    "gl_Position = vec4(aXYUV.xy,0,1);",
+                    "vTextureCoord = aXYUV.zw;",
+                    "}"
+                ];
+            }
+            BlurShaderY.prototype.init = function (gl) {
+                _super.prototype.init.call(this, gl);
+
+                //attributes
+                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+
+                //uniforms
+                this.initUniforms(gl);
+            };
+            return BlurShaderY;
+        })(Kiwi.Shaders.ShaderPair);
+        Shaders.BlurShaderY = BlurShaderY;
+    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
+    var Shaders = Kiwi.Shaders;
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @class GLShaders
+* @constructor
+* @param gl {WebGLRenderingContext}
+* @return {GLShaders}
+*/
+var Kiwi;
+(function (Kiwi) {
+    (function (Shaders) {
+        var PixelateShader = (function (_super) {
+            __extends(PixelateShader, _super);
+            function PixelateShader() {
+                _super.call(this);
+                this.attributes = {
+                    aXYUV: null
+                };
+                this.uniforms = {
+                    uSampler: {
+                        type: "1i"
+                    },
+                    uResolution: {
+                        type: "2fv"
+                    },
+                    uPixelSize: {
+                        type: "2fv"
+                    }
+                };
+                /**
+                *
+                * @property texture2DFrag
+                * @type Array
+                * @public
+                */
+                this.fragSource = [
+                    "precision mediump float;",
+                    "uniform sampler2D uSampler;",
+                    "uniform vec2 uResolution;",
+                    "uniform vec2 uPixelSize;",
+                    "varying vec2 vTextureCoord;",
+                    "void main(void) {",
+                    "float dx = uPixelSize.x *(1.0 / uResolution.x);",
+                    "float dy = uPixelSize.y *(1.0 / uResolution.y);",
+                    "vec2 coord = vec2(dx * floor(vTextureCoord.x / dx), dy * floor(vTextureCoord.y / dy));",
+                    "vec3 col = texture2D(uSampler, coord).rgb;",
+                    "gl_FragColor = vec4(col, 1.0);",
+                    "}"
+                ];
+                /**
+                *
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
+                this.vertSource = [
+                    "attribute vec4 aXYUV;",
+                    "varying vec2 vTextureCoord;",
+                    "void main(void) {",
+                    "gl_Position = vec4(aXYUV.xy,0,1);",
+                    "vTextureCoord = aXYUV.zw;",
+                    "}"
+                ];
+            }
+            PixelateShader.prototype.init = function (gl) {
+                _super.prototype.init.call(this, gl);
+
+                //attributes
+                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+
+                //uniforms
+                this.initUniforms(gl);
+            };
+            return PixelateShader;
+        })(Kiwi.Shaders.ShaderPair);
+        Shaders.PixelateShader = PixelateShader;
+    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
+    var Shaders = Kiwi.Shaders;
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @class GLShaders
+* @constructor
+* @param gl {WebGLRenderingContext}
+* @return {GLShaders}
+*/
+var Kiwi;
+(function (Kiwi) {
+    (function (Shaders) {
+        var PosterizeShader = (function (_super) {
+            __extends(PosterizeShader, _super);
+            function PosterizeShader() {
+                _super.call(this);
+                this.attributes = {
+                    aXYUV: null
+                };
+                this.uniforms = {
+                    uSampler: {
+                        type: "1i"
+                    },
+                    uGamma: {
+                        type: "1f"
+                    },
+                    uNumColors: {
+                        type: "1f"
+                    }
+                };
+                /**
+                *
+                * @property texture2DFrag
+                * @type Array
+                * @public
+                */
+                this.fragSource = [
+                    "precision mediump float;",
+                    "uniform sampler2D uSampler;",
+                    "uniform float uGamma;",
+                    "uniform float uNumColors;",
+                    "varying vec2 vTextureCoord;",
+                    "uniform float uLevel;",
+                    "void main(void) {",
+                    "vec3 col = texture2D(uSampler, vTextureCoord).rgb;",
+                    "col = pow(col, vec3(uGamma, uGamma, uGamma));",
+                    "col = col * uNumColors;",
+                    "col = floor(col);",
+                    "col = col / uNumColors;",
+                    "col = pow(col, vec3(1.0 / uGamma));",
+                    "gl_FragColor = vec4(col, 1.0);",
+                    "}"];
+                /**
+                *
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
+                this.vertSource = [
+                    "attribute vec4 aXYUV;",
+                    "varying vec2 vTextureCoord;",
+                    "void main(void) {",
+                    "gl_Position = vec4(aXYUV.xy,0,1);",
+                    "vTextureCoord = aXYUV.zw;",
+                    "}"
+                ];
+            }
+            PosterizeShader.prototype.init = function (gl) {
+                _super.prototype.init.call(this, gl);
+
+                //attributes
+                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+
+                //uniforms
+                this.initUniforms(gl);
+            };
+            return PosterizeShader;
+        })(Kiwi.Shaders.ShaderPair);
+        Shaders.PosterizeShader = PosterizeShader;
+    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
+    var Shaders = Kiwi.Shaders;
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @class GLShaders
+* @constructor
+* @param gl {WebGLRenderingContext}
+* @return {GLShaders}
+*/
+var Kiwi;
+(function (Kiwi) {
+    (function (Shaders) {
+        var SwirlShader = (function (_super) {
+            __extends(SwirlShader, _super);
+            function SwirlShader() {
+                _super.call(this);
+                this.attributes = {
+                    aXYUV: null
+                };
+                this.uniforms = {
+                    uSampler: {
+                        type: "1i"
+                    },
+                    uResolution: {
+                        type: "2fv"
+                    },
+                    uXYRA: {
+                        type: "4fv"
+                    }
+                };
+                /**
+                *
+                * @property texture2DFrag
+                * @type Array
+                * @public
+                */
+                this.fragSource = [
+                    "precision mediump float;",
+                    "uniform sampler2D uSampler;",
+                    "uniform vec2 uResolution;",
+                    "uniform vec4 uXYRA;",
+                    "varying vec2 vTextureCoord;",
+                    "void main(void) {",
+                    "vec2 coord = vTextureCoord * uResolution;",
+                    "vec2 center = uXYRA.xy;",
+                    "float radius = uXYRA.z;",
+                    "float angle = uXYRA.w;",
+                    "coord -= center;",
+                    "float dist = length(coord);",
+                    "if(dist < radius) {",
+                    "float percent = (radius - dist) / radius;",
+                    "float theta = percent * percent * angle * 8.0;",
+                    "float s = sin(theta);",
+                    "float c = cos(theta);",
+                    "coord = vec2(dot(coord, vec2(c, -s)), dot(coord, vec2(s, c)));",
+                    "}",
+                    "coord += center;",
+                    "gl_FragColor = vec4(texture2D(uSampler, coord / uResolution).rgb,1.0);",
+                    "}"
+                ];
+                /**
+                *
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
+                this.vertSource = [
+                    "attribute vec4 aXYUV;",
+                    "varying vec2 vTextureCoord;",
+                    "void main(void) {",
+                    "gl_Position = vec4(aXYUV.xy,0,1);",
+                    "vTextureCoord = aXYUV.zw;",
+                    "}"
+                ];
+            }
+            SwirlShader.prototype.init = function (gl) {
+                _super.prototype.init.call(this, gl);
+
+                //attributes
+                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+
+                //uniforms
+                this.initUniforms(gl);
+            };
+            return SwirlShader;
+        })(Kiwi.Shaders.ShaderPair);
+        Shaders.SwirlShader = SwirlShader;
+    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
+    var Shaders = Kiwi.Shaders;
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @class GLShaders
+* @constructor
+* @param gl {WebGLRenderingContext}
+* @return {GLShaders}
+*/
+var Kiwi;
+(function (Kiwi) {
+    (function (Shaders) {
+        var DotscreenShader = (function (_super) {
+            __extends(DotscreenShader, _super);
+            function DotscreenShader() {
+                _super.call(this);
+                this.attributes = {
+                    aXYUV: null
+                };
+                this.uniforms = {
+                    uSampler: {
+                        type: "1i"
+                    },
+                    uResolution: {
+                        type: "2fv"
+                    },
+                    uXYAS: {
+                        type: "4fv"
+                    }
+                };
+                /**
+                *
+                * @property texture2DFrag
+                * @type Array
+                * @public
+                */
+                this.fragSource = [
+                    "precision mediump float;",
+                    "uniform sampler2D uSampler;",
+                    "uniform vec2 uResolution;",
+                    "uniform vec4 uXYAS;",
+                    "varying vec2 vTextureCoord;",
+                    "float pattern() {",
+                    "   vec2 center = uXYAS.xy;",
+                    "   float angle = uXYAS.z;",
+                    "   float scale = uXYAS.q;",
+                    "   float s = sin(angle), c = cos(angle);",
+                    "   vec2 tex = vTextureCoord * uResolution - center;",
+                    "   vec2 point = vec2(c * tex.x - s * tex.y, s * tex.x + c * tex.y) * scale;",
+                    "   return (sin(point.x) * sin(point.y)) * 4.0;",
+                    "}",
+                    "void main() {",
+                    "    vec4 color = texture2D(uSampler, vTextureCoord);",
+                    "    float average = (color.r + color.g + color.b) / 3.0;",
+                    "    gl_FragColor = vec4(vec3(average * 10.0 - 5.0 + pattern()), color.a);",
+                    "}"
+                ];
+                /**
+                *
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
+                this.vertSource = [
+                    "attribute vec4 aXYUV;",
+                    "varying vec2 vTextureCoord;",
+                    "void main(void) {",
+                    "gl_Position = vec4(aXYUV.xy,0,1);",
+                    "vTextureCoord = aXYUV.zw;",
+                    "}"
+                ];
+            }
+            DotscreenShader.prototype.init = function (gl) {
+                _super.prototype.init.call(this, gl);
+
+                //attributes
+                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+
+                //uniforms
+                this.initUniforms(gl);
+            };
+            return DotscreenShader;
+        })(Kiwi.Shaders.ShaderPair);
+        Shaders.DotscreenShader = DotscreenShader;
+    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
+    var Shaders = Kiwi.Shaders;
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @class GLShaders
+* @constructor
+* @param gl {WebGLRenderingContext}
+* @return {GLShaders}
+*/
+var Kiwi;
+(function (Kiwi) {
+    (function (Shaders) {
+        var HalftoneShader = (function (_super) {
+            __extends(HalftoneShader, _super);
+            function HalftoneShader() {
+                _super.call(this);
+                this.attributes = {
+                    aXYUV: null
+                };
+                this.uniforms = {
+                    uSampler: {
+                        type: "1i"
+                    },
+                    uResolution: {
+                        type: "2fv"
+                    },
+                    uXYAS: {
+                        type: "4fv"
+                    }
+                };
+                /**
+                *
+                * @property texture2DFrag
+                * @type Array
+                * @public
+                */
+                this.fragSource = [
+                    "precision mediump float;",
+                    "uniform sampler2D uSampler;",
+                    "uniform vec2 uResolution;",
+                    "uniform vec4 uXYAS;",
+                    "varying vec2 vTextureCoord;",
+                    "float pattern(float angle) {",
+                    "   vec2 center = uXYAS.xy;",
+                    "   float scale = uXYAS.q;",
+                    "   float s = sin(angle), c = cos(angle);",
+                    "   vec2 tex = vTextureCoord * uResolution - center;",
+                    "   vec2 point = vec2(c * tex.x - s * tex.y, s * tex.x + c * tex.y) * scale;",
+                    "   return (sin(point.x) * sin(point.y)) * 4.0;",
+                    "}",
+                    "void main() {",
+                    "   vec4 color = texture2D(uSampler, vTextureCoord);",
+                    "   float angle = uXYAS.z;",
+                    "   vec3 cmy = 1.0 - color.rgb;",
+                    "   float k = min(cmy.x, min(cmy.y, cmy.z));",
+                    "   cmy = (cmy - k) / (1.0 - k);",
+                    "   cmy = clamp(cmy * 10.0 - 3.0 + vec3(pattern(angle + 0.26179), pattern(angle + 1.30899), pattern(angle)), 0.0, 1.0);",
+                    "   k = clamp(k * 10.0 - 5.0 + pattern(angle + 0.78539), 0.0, 1.0);",
+                    "   gl_FragColor = vec4(1.0 - cmy - k, color.a);",
+                    "}"
+                ];
+                /**
+                *
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
+                this.vertSource = [
+                    "attribute vec4 aXYUV;",
+                    "varying vec2 vTextureCoord;",
+                    "void main(void) {",
+                    "gl_Position = vec4(aXYUV.xy,0,1);",
+                    "vTextureCoord = aXYUV.zw;",
+                    "}"
+                ];
+            }
+            HalftoneShader.prototype.init = function (gl) {
+                _super.prototype.init.call(this, gl);
+
+                //attributes
+                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+
+                //uniforms
+                this.initUniforms(gl);
+            };
+            return HalftoneShader;
+        })(Kiwi.Shaders.ShaderPair);
+        Shaders.HalftoneShader = HalftoneShader;
+    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
+    var Shaders = Kiwi.Shaders;
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @class GLShaders
+* @constructor
+* @param gl {WebGLRenderingContext}
+* @return {GLShaders}
+*/
+var Kiwi;
+(function (Kiwi) {
+    (function (Shaders) {
+        var HueSaturationShader = (function (_super) {
+            __extends(HueSaturationShader, _super);
+            function HueSaturationShader() {
+                _super.call(this);
+                this.attributes = {
+                    aXYUV: null
+                };
+                this.uniforms = {
+                    uSampler: {
+                        type: "1i"
+                    },
+                    uHue: {
+                        type: "1f"
+                    },
+                    uSaturation: {
+                        type: "1f"
+                    }
+                };
+                /**
+                *
+                * @property texture2DFrag
+                * @type Array
+                * @public
+                */
+                this.fragSource = [
+                    "precision mediump float;",
+                    "uniform sampler2D uSampler;",
+                    "uniform float uHue;",
+                    "uniform float uSaturation;",
+                    "varying vec2 vTextureCoord;",
+                    "void main(void) {",
+                    "   vec4 color = texture2D(uSampler, vTextureCoord);",
+                    "   float angle = uHue * 3.14159265;",
+                    "   float s = sin(angle), c = cos(angle);",
+                    "   vec3 weights = (vec3(2.0 * c, -sqrt(3.0) * s - c, sqrt(3.0) * s - c) + 1.0) / 3.0;",
+                    "   float len = length(color.rgb);",
+                    "   color.rgb = vec3(dot(color.rgb, weights.xyz),dot(color.rgb, weights.zxy),dot(color.rgb, weights.yzx));",
+                    "   float average = (color.r + color.g + color.b) / 3.0;",
+                    "   if (uSaturation > 0.0) {",
+                    "      color.rgb += (average - color.rgb) * (1.0 - 1.0 / (1.001 - uSaturation));",
+                    "   } else {",
+                    "      color.rgb += (average - color.rgb) * (-uSaturation);",
+                    "   }",
+                    "   gl_FragColor = color;",
+                    "}"];
+                /**
+                *
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
+                this.vertSource = [
+                    "attribute vec4 aXYUV;",
+                    "varying vec2 vTextureCoord;",
+                    "void main(void) {",
+                    "gl_Position = vec4(aXYUV.xy,0,1);",
+                    "vTextureCoord = aXYUV.zw;",
+                    "}"
+                ];
+            }
+            HueSaturationShader.prototype.init = function (gl) {
+                _super.prototype.init.call(this, gl);
+
+                //attributes
+                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+
+                //uniforms
+                this.initUniforms(gl);
+            };
+            return HueSaturationShader;
+        })(Kiwi.Shaders.ShaderPair);
+        Shaders.HueSaturationShader = HueSaturationShader;
+    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
+    var Shaders = Kiwi.Shaders;
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @class GLShaders
+* @constructor
+* @param gl {WebGLRenderingContext}
+* @return {GLShaders}
+*/
+var Kiwi;
+(function (Kiwi) {
+    (function (Shaders) {
+        var BrightnessContrastShader = (function (_super) {
+            __extends(BrightnessContrastShader, _super);
+            function BrightnessContrastShader() {
+                _super.call(this);
+                this.attributes = {
+                    aXYUV: null
+                };
+                this.uniforms = {
+                    uSampler: {
+                        type: "1i"
+                    },
+                    uBrightness: {
+                        type: "1f"
+                    },
+                    uContrast: {
+                        type: "1f"
+                    }
+                };
+                /**
+                *
+                * @property texture2DFrag
+                * @type Array
+                * @public
+                */
+                this.fragSource = [
+                    "precision mediump float;",
+                    "uniform sampler2D uSampler;",
+                    "uniform float uBrightness;",
+                    "uniform float uContrast;",
+                    "varying vec2 vTextureCoord;",
+                    "void main(void) {",
+                    "   vec4 color = texture2D(uSampler, vTextureCoord);",
+                    "   color.rgb += uBrightness;",
+                    "   if (uContrast > 0.0) {",
+                    "       color.rgb = (color.rgb - 0.5) / (1.0 - uContrast) + 0.5;",
+                    "   } else {",
+                    "   color.rgb = (color.rgb - 0.5) * (1.0 + uContrast) + 0.5;",
+                    "   }",
+                    "   gl_FragColor = color;",
+                    "}"];
+                /**
+                *
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
+                this.vertSource = [
+                    "attribute vec4 aXYUV;",
+                    "varying vec2 vTextureCoord;",
+                    "void main(void) {",
+                    "gl_Position = vec4(aXYUV.xy,0,1);",
+                    "vTextureCoord = aXYUV.zw;",
+                    "}"
+                ];
+            }
+            BrightnessContrastShader.prototype.init = function (gl) {
+                _super.prototype.init.call(this, gl);
+
+                //attributes
+                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+
+                //uniforms
+                this.initUniforms(gl);
+            };
+            return BrightnessContrastShader;
+        })(Kiwi.Shaders.ShaderPair);
+        Shaders.BrightnessContrastShader = BrightnessContrastShader;
+    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
+    var Shaders = Kiwi.Shaders;
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @class GLShaders
+* @constructor
+* @param gl {WebGLRenderingContext}
+* @return {GLShaders}
+*/
+var Kiwi;
+(function (Kiwi) {
+    (function (Shaders) {
+        var InkShader = (function (_super) {
+            __extends(InkShader, _super);
+            function InkShader() {
+                _super.call(this);
+                this.attributes = {
+                    aXYUV: null
+                };
+                this.uniforms = {
+                    uSampler: {
+                        type: "1i"
+                    },
+                    uLevel: {
+                        type: "1f"
+                    }
+                };
+                /**
+                *
+                * @property texture2DFrag
+                * @type Array
+                * @public
+                */
+                this.fragSource = [
+                    "precision mediump float;",
+                    "uniform sampler2D uSampler;",
+                    "varying vec2 vTextureCoord;",
+                    "uniform float uLevel;",
+                    "void main(void) {",
+                    "gl_FragColor = texture2D(uSampler, vTextureCoord);",
+                    "gl_FragColor.rgb =  vec3( mix( vec3( dot( gl_FragColor.rgb, vec3( 0.2125, 0.7154, 0.0721 ) ) ),gl_FragColor.rgb, uLevel ));",
+                    "}"];
+                /**
+                *
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
+                this.vertSource = [
+                    "attribute vec4 aXYUV;",
+                    "varying vec2 vTextureCoord;",
+                    "void main(void) {",
+                    "gl_Position = vec4(aXYUV.xy,0,1);",
+                    "vTextureCoord = aXYUV.zw;",
+                    "}"
+                ];
+            }
+            InkShader.prototype.init = function (gl) {
+                _super.prototype.init.call(this, gl);
+
+                //attributes
+                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+
+                //uniforms
+                this.initUniforms(gl);
+            };
+            return InkShader;
+        })(Kiwi.Shaders.ShaderPair);
+        Shaders.InkShader = InkShader;
+    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
+    var Shaders = Kiwi.Shaders;
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @class GLShaders
+* @constructor
+* @param gl {WebGLRenderingContext}
+* @return {GLShaders}
+*/
+var Kiwi;
+(function (Kiwi) {
+    (function (Shaders) {
+        var SepiaShader = (function (_super) {
+            __extends(SepiaShader, _super);
+            function SepiaShader() {
+                _super.call(this);
+                this.attributes = {
+                    aXYUV: null
+                };
+                this.uniforms = {
+                    uSampler: {
+                        type: "1i"
+                    },
+                    uLevel: {
+                        type: "1f"
+                    }
+                };
+                /**
+                *
+                * @property texture2DFrag
+                * @type Array
+                * @public
+                */
+                this.fragSource = [
+                    "precision mediump float;",
+                    "uniform sampler2D uSampler;",
+                    "varying vec2 vTextureCoord;",
+                    "uniform float uLevel;",
+                    "void main(void) {",
+                    "   vec4 color = texture2D(uSampler, vTextureCoord);",
+                    "   float r = color.r;",
+                    "   float g = color.g;",
+                    "   float b = color.b;",
+                    "   color.r = min(1.0, (r * (1.0 - (0.607 * uLevel))) + (g * (0.769 * uLevel)) + (b * (0.189 * uLevel)));",
+                    "   color.g = min(1.0, (r * 0.349 * uLevel) + (g * (1.0 - (0.314 * uLevel))) + (b * 0.168 * uLevel));",
+                    "   color.b = min(1.0, (r * 0.272 * uLevel) + (g * 0.534 * uLevel) + (b * (1.0 - (0.869 * uLevel))));",
+                    "   gl_FragColor = color;",
+                    "}"];
+                /**
+                *
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
+                this.vertSource = [
+                    "attribute vec4 aXYUV;",
+                    "varying vec2 vTextureCoord;",
+                    "void main(void) {",
+                    "gl_Position = vec4(aXYUV.xy,0,1);",
+                    "vTextureCoord = aXYUV.zw;",
+                    "}"
+                ];
+            }
+            SepiaShader.prototype.init = function (gl) {
+                _super.prototype.init.call(this, gl);
+
+                //attributes
+                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+
+                //uniforms
+                this.initUniforms(gl);
+            };
+            return SepiaShader;
+        })(Kiwi.Shaders.ShaderPair);
+        Shaders.SepiaShader = SepiaShader;
+    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
+    var Shaders = Kiwi.Shaders;
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @class GLShaders
+* @constructor
+* @param gl {WebGLRenderingContext}
+* @return {GLShaders}
+*/
+var Kiwi;
+(function (Kiwi) {
+    (function (Shaders) {
+        var VignetteShader = (function (_super) {
+            __extends(VignetteShader, _super);
+            function VignetteShader() {
+                _super.call(this);
+                this.attributes = {
+                    aXYUV: null
+                };
+                this.uniforms = {
+                    uSampler: {
+                        type: "1i"
+                    },
+                    uSize: {
+                        type: "1f"
+                    },
+                    uAmount: {
+                        type: "1f"
+                    }
+                };
+                /**
+                *
+                * @property texture2DFrag
+                * @type Array
+                * @public
+                */
+                this.fragSource = [
+                    "precision mediump float;",
+                    "uniform sampler2D uSampler;",
+                    "uniform float uSize;",
+                    "uniform float uAmount;",
+                    "varying vec2 vTextureCoord;",
+                    "void main(void) {",
+                    "   vec4 color = texture2D(uSampler, vTextureCoord);",
+                    "   float dist = distance(vTextureCoord, vec2(0.5, 0.5));",
+                    "   color.rgb *= smoothstep(0.8, uSize * 0.799, dist * (uAmount + uSize));",
+                    "   gl_FragColor = color;",
+                    "}"];
+                /**
+                *
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
+                this.vertSource = [
+                    "attribute vec4 aXYUV;",
+                    "varying vec2 vTextureCoord;",
+                    "void main(void) {",
+                    "gl_Position = vec4(aXYUV.xy,0,1);",
+                    "vTextureCoord = aXYUV.zw;",
+                    "}"
+                ];
+            }
+            VignetteShader.prototype.init = function (gl) {
+                _super.prototype.init.call(this, gl);
+
+                //attributes
+                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+
+                //uniforms
+                this.initUniforms(gl);
+            };
+            return VignetteShader;
+        })(Kiwi.Shaders.ShaderPair);
+        Shaders.VignetteShader = VignetteShader;
+    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
+    var Shaders = Kiwi.Shaders;
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @class GLShaders
+* @constructor
+* @param gl {WebGLRenderingContext}
+* @return {GLShaders}
+*/
+var Kiwi;
+(function (Kiwi) {
+    (function (Shaders) {
+        var ZoomBlurShader = (function (_super) {
+            __extends(ZoomBlurShader, _super);
+            function ZoomBlurShader() {
+                _super.call(this);
+                this.attributes = {
+                    aXYUV: null
+                };
+                this.uniforms = {
+                    uSampler: {
+                        type: "1i"
+                    },
+                    uResolution: {
+                        type: "2fv"
+                    },
+                    uCenter: {
+                        type: "2fv"
+                    },
+                    uStrength: {
+                        type: "1f"
+                    }
+                };
+                /**
+                *
+                * @property texture2DFrag
+                * @type Array
+                * @public
+                */
+                this.fragSource = [
+                    "precision mediump float;",
+                    "uniform sampler2D uSampler;",
+                    "uniform vec2 uResolution;",
+                    "uniform vec2 uCenter;",
+                    "uniform float uStrength;",
+                    "varying vec2 vTextureCoord;",
+                    "float random(vec3 scale, float seed) {",
+                    "    return fract(sin(dot(gl_FragCoord.xyz + seed, scale)) * 43758.5453 + seed);",
+                    "}",
+                    "void main() {",
+                    " gl_FragColor = texture2D(uSampler, vTextureCoord);",
+                    "   vec4 color = vec4(0.0);",
+                    "   float total = 0.0;",
+                    "   vec2 toCenter = uCenter - vTextureCoord * uResolution;",
+                    "   float offset = random(vec3(12.9898, 78.233, 151.7182), 0.0);",
+                    "   for (float t = 0.0; t <= 40.0; t++) {",
+                    "       float percent = (t + offset) / 40.0;",
+                    "       float weight = 4.0 * (percent - percent * percent);",
+                    "       vec4 sample = texture2D(uSampler, vTextureCoord + toCenter * percent * uStrength / uResolution);",
+                    "       sample.rgb *= sample.a;",
+                    "       color += sample * weight;",
+                    "       total += weight;",
+                    "   }",
+                    "   gl_FragColor = color / total;",
+                    "   gl_FragColor.rgb /= gl_FragColor.a + 0.00001;",
+                    "}"
+                ];
+                /**
+                *
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
+                this.vertSource = [
+                    "attribute vec4 aXYUV;",
+                    "varying vec2 vTextureCoord;",
+                    "void main(void) {",
+                    "gl_Position = vec4(aXYUV.xy,0,1);",
+                    "vTextureCoord = aXYUV.zw;",
+                    "}"
+                ];
+            }
+            ZoomBlurShader.prototype.init = function (gl) {
+                _super.prototype.init.call(this, gl);
+
+                //attributes
+                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+
+                //uniforms
+                this.initUniforms(gl);
+            };
+            return ZoomBlurShader;
+        })(Kiwi.Shaders.ShaderPair);
+        Shaders.ZoomBlurShader = ZoomBlurShader;
+    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
+    var Shaders = Kiwi.Shaders;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Filters) {
+        var Filter = (function () {
+            function Filter() {
+                this.enabled = true;
+                this.name = "Filter";
+                this.dirty = true;
+                this.passes = new Array();
+            }
+            Filter.prototype.setParams = function (gl) {
+            };
+
+            Filter.prototype.setProperty = function (prop, value, index) {
+                if (index) {
+                    this[prop][index] = value;
+                } else {
+                    this[prop] = value;
+                }
+                this.dirty = true;
+            };
+            return Filter;
+        })();
+        Filters.Filter = Filter;
+    })(Kiwi.Filters || (Kiwi.Filters = {}));
+    var Filters = Kiwi.Filters;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Filters) {
+        var GrayScaleFilter = (function (_super) {
+            __extends(GrayScaleFilter, _super);
+            function GrayScaleFilter(gl, shaderManager, params) {
+                _super.call(this);
+                this._level = .5;
+
+                this.passes.push(shaderManager.requestShader(gl, "GrayScaleShader", false));
+
+                if (params) {
+                    this._level = params.level || this._level;
+                }
+            }
+            Object.defineProperty(GrayScaleFilter.prototype, "level", {
+                get: function () {
+                    return this._level;
+                },
+                set: function (value) {
+                    this._level = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            GrayScaleFilter.prototype.setParams = function (gl) {
+                if (this.dirty) {
+                    this.passes[0].setParam("uLevel", this.level);
+                }
+                this.dirty = false;
+            };
+            return GrayScaleFilter;
+        })(Kiwi.Filters.Filter);
+        Filters.GrayScaleFilter = GrayScaleFilter;
+    })(Kiwi.Filters || (Kiwi.Filters = {}));
+    var Filters = Kiwi.Filters;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Filters) {
+        var BlurFilter = (function (_super) {
+            __extends(BlurFilter, _super);
+            function BlurFilter(gl, shaderManager, params) {
+                if (typeof params === "undefined") { params = null; }
+                _super.call(this);
+                this._blurX = 0;
+                this._blurY = 1 / 256;
+                this.passes.push(shaderManager.requestShader(gl, "BlurShaderX", false));
+                this.passes.push(shaderManager.requestShader(gl, "BlurShaderY", false));
+
+                this._blurX = params.blurX || this._blurX;
+                this._blurY = params.blurY || this._blurY;
+            }
+            Object.defineProperty(BlurFilter.prototype, "blurX", {
+                get: function () {
+                    return this._blurX;
+                },
+                set: function (value) {
+                    this._blurX = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(BlurFilter.prototype, "blurY", {
+                get: function () {
+                    return this._blurY;
+                },
+                set: function (value) {
+                    this._blurY = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            BlurFilter.prototype.setParams = function (gl) {
+                if (this.dirty) {
+                    this.passes[0].setParam("uBlur", this.blurX);
+                    this.passes[1].setParam("uBlur", this.blurY);
+                }
+                this.dirty = false;
+            };
+            return BlurFilter;
+        })(Kiwi.Filters.Filter);
+        Filters.BlurFilter = BlurFilter;
+    })(Kiwi.Filters || (Kiwi.Filters = {}));
+    var Filters = Kiwi.Filters;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Filters) {
+        var PixelateFilter = (function (_super) {
+            __extends(PixelateFilter, _super);
+            function PixelateFilter(gl, shaderManager, params) {
+                _super.call(this);
+                this._pixelSize = [10, 10];
+                this.passes.push(shaderManager.requestShader(gl, "PixelateShader", false));
+                this._pixelSize = params.pixelSize || this._pixelSize;
+                this._resolution = params.resolution;
+            }
+            Object.defineProperty(PixelateFilter.prototype, "pixelSize", {
+                get: function () {
+                    return this._pixelSize;
+                },
+                set: function (value) {
+                    this._pixelSize = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(PixelateFilter.prototype, "resolution", {
+                get: function () {
+                    return this._resolution;
+                },
+                set: function (value) {
+                    this._resolution = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            PixelateFilter.prototype.setParams = function (gl) {
+                if (this.dirty) {
+                    this.passes[0].setParam("uPixelSize", new Float32Array(this.pixelSize));
+                    this.passes[0].setParam("uResolution", new Float32Array(this.resolution));
+                }
+                this.dirty = false;
+            };
+            return PixelateFilter;
+        })(Kiwi.Filters.Filter);
+        Filters.PixelateFilter = PixelateFilter;
+    })(Kiwi.Filters || (Kiwi.Filters = {}));
+    var Filters = Kiwi.Filters;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Filters) {
+        var PosterizeFilter = (function (_super) {
+            __extends(PosterizeFilter, _super);
+            function PosterizeFilter(gl, shaderManager, params) {
+                _super.call(this);
+                this._gamma = .6;
+                this._numColors = 8;
+
+                this.passes.push(shaderManager.requestShader(gl, "PosterizeShader", false));
+
+                if (params) {
+                    this._gamma = params.gamma || this._gamma;
+                    this._numColors = params.numColors || this._numColors;
+                }
+            }
+            Object.defineProperty(PosterizeFilter.prototype, "gamma", {
+                get: function () {
+                    return this._gamma;
+                },
+                set: function (value) {
+                    this._gamma = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(PosterizeFilter.prototype, "numColors", {
+                get: function () {
+                    return this._numColors;
+                },
+                set: function (value) {
+                    this._numColors = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            PosterizeFilter.prototype.setParams = function (gl) {
+                if (this.dirty) {
+                    this.passes[0].setParam("uGamma", this.gamma);
+                    this.passes[0].setParam("uNumColors", this.numColors);
+                }
+                this.dirty = false;
+            };
+            return PosterizeFilter;
+        })(Kiwi.Filters.Filter);
+        Filters.PosterizeFilter = PosterizeFilter;
+    })(Kiwi.Filters || (Kiwi.Filters = {}));
+    var Filters = Kiwi.Filters;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Filters) {
+        var SwirlFilter = (function (_super) {
+            __extends(SwirlFilter, _super);
+            function SwirlFilter(gl, shaderManager, params) {
+                _super.call(this);
+                this._radius = 200;
+                this._angle = 0.8;
+                this.passes.push(shaderManager.requestShader(gl, "SwirlShader", false));
+                this._center = params.center || [params.resolution[0] / 2, params.resolution[1] / 2];
+                this._radius = params.radius || this._radius;
+                this._angle = params.angle || this._angle;
+                this._resolution = params.resolution;
+            }
+            Object.defineProperty(SwirlFilter.prototype, "center", {
+                get: function () {
+                    return this._center;
+                },
+                set: function (value) {
+                    this._center = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(SwirlFilter.prototype, "radius", {
+                get: function () {
+                    return this._radius;
+                },
+                set: function (value) {
+                    this._radius = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(SwirlFilter.prototype, "angle", {
+                get: function () {
+                    return this._angle;
+                },
+                set: function (value) {
+                    this._angle = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(SwirlFilter.prototype, "resolution", {
+                get: function () {
+                    return this._resolution;
+                },
+                set: function (value) {
+                    this._resolution = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            SwirlFilter.prototype.setParams = function (gl) {
+                if (this.dirty) {
+                    this.passes[0].setParam("uXYRA", new Float32Array([this.center[0], this.center[1], this.radius, this.angle]));
+                    this.passes[0].setParam("uResolution", new Float32Array(this.resolution));
+                }
+                this.dirty = false;
+            };
+            return SwirlFilter;
+        })(Kiwi.Filters.Filter);
+        Filters.SwirlFilter = SwirlFilter;
+    })(Kiwi.Filters || (Kiwi.Filters = {}));
+    var Filters = Kiwi.Filters;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Filters) {
+        var DotscreenFilter = (function (_super) {
+            __extends(DotscreenFilter, _super);
+            function DotscreenFilter(gl, shaderManager, params) {
+                _super.call(this);
+                this._angle = 0;
+                this._scale = 0.8;
+                this.passes.push(shaderManager.requestShader(gl, "DotscreenShader", false));
+                this._center = params.center || [params.resolution[0] / 2, params.resolution[1] / 2];
+                this._angle = params.angle || this._angle;
+                this._scale = params.scale || this._scale;
+                this._resolution = params.resolution;
+            }
+            Object.defineProperty(DotscreenFilter.prototype, "center", {
+                get: function () {
+                    return this._center;
+                },
+                set: function (value) {
+                    this._center = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(DotscreenFilter.prototype, "angle", {
+                get: function () {
+                    return this._angle;
+                },
+                set: function (value) {
+                    this._angle = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(DotscreenFilter.prototype, "scale", {
+                get: function () {
+                    return this._scale;
+                },
+                set: function (value) {
+                    this._scale = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(DotscreenFilter.prototype, "resolution", {
+                get: function () {
+                    return this._resolution;
+                },
+                set: function (value) {
+                    this._resolution = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            DotscreenFilter.prototype.setParams = function (gl) {
+                if (this.dirty) {
+                    this.passes[0].setParam("uXYAS", new Float32Array([this.center[0], this.center[1], this.angle, this.scale]));
+                    this.passes[0].setParam("uResolution", new Float32Array(this.resolution));
+                }
+                this.dirty = false;
+            };
+            return DotscreenFilter;
+        })(Kiwi.Filters.Filter);
+        Filters.DotscreenFilter = DotscreenFilter;
+    })(Kiwi.Filters || (Kiwi.Filters = {}));
+    var Filters = Kiwi.Filters;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Filters) {
+        var HalftoneFilter = (function (_super) {
+            __extends(HalftoneFilter, _super);
+            function HalftoneFilter(gl, shaderManager, params) {
+                _super.call(this);
+                this._angle = 0;
+                this._scale = 0.98;
+                this.passes.push(shaderManager.requestShader(gl, "HalftoneShader", false));
+                this._center = params.center || [params.resolution[0] / 2, params.resolution[1] / 2];
+                this._angle = params.angle || this._angle;
+                this._scale = params.scale || this._scale;
+                this._resolution = params.resolution;
+            }
+            Object.defineProperty(HalftoneFilter.prototype, "center", {
+                get: function () {
+                    return this._center;
+                },
+                set: function (value) {
+                    this._center = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(HalftoneFilter.prototype, "angle", {
+                get: function () {
+                    return this._angle;
+                },
+                set: function (value) {
+                    this._angle = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(HalftoneFilter.prototype, "scale", {
+                get: function () {
+                    return this._scale;
+                },
+                set: function (value) {
+                    this._scale = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(HalftoneFilter.prototype, "resolution", {
+                get: function () {
+                    return this._resolution;
+                },
+                set: function (value) {
+                    this._resolution = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            HalftoneFilter.prototype.setParams = function (gl) {
+                if (this.dirty) {
+                    this.passes[0].setParam("uXYAS", new Float32Array([this.center[0], this.center[1], this.angle, this.scale]));
+                    this.passes[0].setParam("uResolution", new Float32Array(this.resolution));
+                }
+                this.dirty = false;
+            };
+            return HalftoneFilter;
+        })(Kiwi.Filters.Filter);
+        Filters.HalftoneFilter = HalftoneFilter;
+    })(Kiwi.Filters || (Kiwi.Filters = {}));
+    var Filters = Kiwi.Filters;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Filters) {
+        var HueSaturationFilter = (function (_super) {
+            __extends(HueSaturationFilter, _super);
+            function HueSaturationFilter(gl, shaderManager, params) {
+                _super.call(this);
+                this._hue = .5;
+                this._saturation = .5;
+                this.passes.push(shaderManager.requestShader(gl, "HueSaturationShader", false));
+                this._hue = params.hue || this._hue;
+                this._saturation = params.saturation || this._saturation;
+            }
+            Object.defineProperty(HueSaturationFilter.prototype, "hue", {
+                get: function () {
+                    return this._hue;
+                },
+                set: function (value) {
+                    this._hue = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(HueSaturationFilter.prototype, "saturation", {
+                get: function () {
+                    return this._saturation;
+                },
+                set: function (value) {
+                    this._saturation = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            HueSaturationFilter.prototype.setParams = function (gl) {
+                if (this.dirty) {
+                    this.passes[0].setParam("uHue", this.hue);
+                    this.passes[0].setParam("uSaturation", this.saturation);
+                }
+                this.dirty = false;
+            };
+            return HueSaturationFilter;
+        })(Kiwi.Filters.Filter);
+        Filters.HueSaturationFilter = HueSaturationFilter;
+    })(Kiwi.Filters || (Kiwi.Filters = {}));
+    var Filters = Kiwi.Filters;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Filters) {
+        var BrightnessContrastFilter = (function (_super) {
+            __extends(BrightnessContrastFilter, _super);
+            function BrightnessContrastFilter(gl, shaderManager, params) {
+                _super.call(this);
+                this._brightness = .5;
+                this._contrast = .5;
+                this.passes.push(shaderManager.requestShader(gl, "BrightnessContrastShader", false));
+                this._brightness = params.brightness || this._brightness;
+                this._contrast = params.contrast || this._contrast;
+            }
+            Object.defineProperty(BrightnessContrastFilter.prototype, "brightness", {
+                get: function () {
+                    return this._brightness;
+                },
+                set: function (value) {
+                    this._brightness = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(BrightnessContrastFilter.prototype, "contrast", {
+                get: function () {
+                    return this._contrast;
+                },
+                set: function (value) {
+                    this._contrast = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            BrightnessContrastFilter.prototype.setParams = function (gl) {
+                if (this.dirty) {
+                    this.passes[0].setParam("uBrightness", this.brightness);
+                    this.passes[0].setParam("uContrast", this.contrast);
+                }
+                this.dirty = false;
+            };
+            return BrightnessContrastFilter;
+        })(Kiwi.Filters.Filter);
+        Filters.BrightnessContrastFilter = BrightnessContrastFilter;
+    })(Kiwi.Filters || (Kiwi.Filters = {}));
+    var Filters = Kiwi.Filters;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Filters) {
+        var InkFilter = (function (_super) {
+            __extends(InkFilter, _super);
+            function InkFilter(gl, shaderManager, params) {
+                _super.call(this);
+                this._angle = 0;
+                this._scale = 0.98;
+                this.passes.push(shaderManager.requestShader(gl, "InkShader", false));
+                this._center = params.center || [params.resolution[0] / 2, params.resolution[1] / 2];
+                this._angle = params.angle || this._angle;
+                this._scale = params.scale || this._scale;
+                this._resolution = params.resolution;
+            }
+            Object.defineProperty(InkFilter.prototype, "center", {
+                get: function () {
+                    return this._center;
+                },
+                set: function (value) {
+                    this._center = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(InkFilter.prototype, "angle", {
+                get: function () {
+                    return this._angle;
+                },
+                set: function (value) {
+                    this._angle = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(InkFilter.prototype, "scale", {
+                get: function () {
+                    return this._scale;
+                },
+                set: function (value) {
+                    this._scale = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(InkFilter.prototype, "resolution", {
+                get: function () {
+                    return this._resolution;
+                },
+                set: function (value) {
+                    this._resolution = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            InkFilter.prototype.setParams = function (gl) {
+                if (this.dirty) {
+                    this.passes[0].setParam("uXYAS", new Float32Array([this.center[0], this.center[1], this.angle, this.scale]));
+                    this.passes[0].setParam("uResolution", new Float32Array(this.resolution));
+                }
+                this.dirty = false;
+            };
+            return InkFilter;
+        })(Kiwi.Filters.Filter);
+        Filters.InkFilter = InkFilter;
+    })(Kiwi.Filters || (Kiwi.Filters = {}));
+    var Filters = Kiwi.Filters;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Filters) {
+        var SepiaFilter = (function (_super) {
+            __extends(SepiaFilter, _super);
+            function SepiaFilter(gl, shaderManager, params) {
+                _super.call(this);
+                this._level = .5;
+                this.passes.push(shaderManager.requestShader(gl, "SepiaShader", false));
+                this._level = params.level || this._level;
+            }
+            Object.defineProperty(SepiaFilter.prototype, "level", {
+                get: function () {
+                    return this._level;
+                },
+                set: function (value) {
+                    this._level = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            SepiaFilter.prototype.setParams = function (gl) {
+                if (this.dirty) {
+                    this.passes[0].setParam("uLevel", this.level);
+                }
+                this.dirty = false;
+            };
+            return SepiaFilter;
+        })(Kiwi.Filters.Filter);
+        Filters.SepiaFilter = SepiaFilter;
+    })(Kiwi.Filters || (Kiwi.Filters = {}));
+    var Filters = Kiwi.Filters;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Filters) {
+        var VignetteFilter = (function (_super) {
+            __extends(VignetteFilter, _super);
+            function VignetteFilter(gl, shaderManager, params) {
+                _super.call(this);
+                this._size = 0.5;
+                this._amount = 0.5;
+                this.passes.push(shaderManager.requestShader(gl, "VignetteShader", false));
+
+                this._size = params.size || this._size;
+                this._amount = params.amount || this._amount;
+            }
+            Object.defineProperty(VignetteFilter.prototype, "size", {
+                get: function () {
+                    return this._size;
+                },
+                set: function (value) {
+                    this._size = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(VignetteFilter.prototype, "amount", {
+                get: function () {
+                    return this._amount;
+                },
+                set: function (value) {
+                    this._amount = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            VignetteFilter.prototype.setParams = function (gl) {
+                if (this.dirty) {
+                    this.passes[0].setParam("uSize", this.size);
+                    this.passes[0].setParam("uAmount", this.amount);
+                }
+                this.dirty = false;
+            };
+            return VignetteFilter;
+        })(Kiwi.Filters.Filter);
+        Filters.VignetteFilter = VignetteFilter;
+    })(Kiwi.Filters || (Kiwi.Filters = {}));
+    var Filters = Kiwi.Filters;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Filters) {
+        var ZoomBlurFilter = (function (_super) {
+            __extends(ZoomBlurFilter, _super);
+            function ZoomBlurFilter(gl, shaderManager, params) {
+                _super.call(this);
+                this._strength = .5;
+
+                this.passes.push(shaderManager.requestShader(gl, "ZoomBlurShader", false));
+                this._center = params.center || [params.resolution[0] / 2, params.resolution[1] / 2];
+                this._strength = params.strength || this._strength;
+                this._resolution = params.resolution;
+            }
+            Object.defineProperty(ZoomBlurFilter.prototype, "center", {
+                get: function () {
+                    return this._center;
+                },
+                set: function (value) {
+                    this._center = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(ZoomBlurFilter.prototype, "resolution", {
+                get: function () {
+                    return this._resolution;
+                },
+                set: function (value) {
+                    this._resolution = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(ZoomBlurFilter.prototype, "strength", {
+                get: function () {
+                    return this._strength;
+                },
+                set: function (value) {
+                    this._strength = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            ZoomBlurFilter.prototype.setParams = function (gl) {
+                if (this.dirty) {
+                    this.passes[0].setParam("uCenter", new Float32Array([this.center[0], this.center[1]]));
+                    this.passes[0].setParam("uStrength", this.strength);
+                    this.passes[0].setParam("uResolution", new Float32Array(this.resolution));
+                }
+                this.dirty = false;
+            };
+            return ZoomBlurFilter;
+        })(Kiwi.Filters.Filter);
+        Filters.ZoomBlurFilter = ZoomBlurFilter;
+    })(Kiwi.Filters || (Kiwi.Filters = {}));
+    var Filters = Kiwi.Filters;
 })(Kiwi || (Kiwi = {}));
 /**
 * Kiwi - System
@@ -28505,6 +30755,40 @@ var Kiwi;
 /// <reference path="render/renderers/TextureAtlasRenderer.ts" />
 /// <reference path="render/shaders/ShaderPair.ts" />
 /// <reference path="render/shaders/TextureAtlasShader.ts" />
+/// <reference path="render/filters/GLFilterManager.ts" />
+/// <reference path="render/filters/GLFilterRenderer.ts" />
+/// <reference path="render/shaders/ShaderPair.ts" />
+/// <reference path="render/shaders/TextureAtlasShader.ts" />
+/// <reference path="render/shaders/filters/GrayScaleShader.ts" />
+/// <reference path="render/shaders/filters/BlurShaderX.ts" />
+/// <reference path="render/shaders/filters/BlurShaderY.ts" />
+/// <reference path="render/shaders/filters/PixelateShader.ts" />
+/// <reference path="render/shaders/filters/PosterizeShader.ts" />
+/// <reference path="render/shaders/filters/SwirlShader.ts" />
+/// <reference path="render/shaders/filters/DotscreenShader.ts" />
+/// <reference path="render/shaders/filters/HalftoneShader.ts" />
+/// <reference path="render/shaders/filters/HexPixelationShader.ts" />
+/// <reference path="render/shaders/filters/HueSaturationShader.ts" />
+/// <reference path="render/shaders/filters/BrightnessContrastShader.ts" />
+/// <reference path="render/shaders/filters/InkShader.ts" />
+/// <reference path="render/shaders/filters/SepiaShader.ts" />
+/// <reference path="render/shaders/filters/VignetteShader.ts" />
+/// <reference path="render/shaders/filters/ZoomBlurShader.ts" />
+/// <reference path="render/filters/Filter.ts" />
+/// <reference path="render/filters/GrayScaleFilter.ts" />
+/// <reference path="render/filters/BlurFilter.ts" />
+/// <reference path="render/filters/PixelateFilter.ts" />
+/// <reference path="render/filters/PosterizeFilter.ts" />
+/// <reference path="render/filters/SwirlFilter.ts" />
+/// <reference path="render/filters/DotscreenFilter.ts" />
+/// <reference path="render/filters/HalftoneFilter.ts" />
+/// <reference path="render/filters/HexPixelationFilter.ts" />
+/// <reference path="render/filters/HueSaturationFilter.ts" />
+/// <reference path="render/filters/BrightnessContrastFilter.ts" />
+/// <reference path="render/filters/InkFilter.ts" />
+/// <reference path="render/filters/SepiaFilter.ts" />
+/// <reference path="render/filters/VignetteFilter.ts" />
+/// <reference path="render/filters/ZoomBlurFilter.ts" />
 /// <reference path="system/Bootstrap.ts" />
 /// <reference path="system/Browser.ts" />
 /// <reference path="system/Device.ts" />
@@ -28538,7 +30822,7 @@ var Kiwi;
     * @default '1.0'
     * @public
     */
-    Kiwi.VERSION = "0.5.3";
+    Kiwi.VERSION = "0.6";
 
     //DIFFERENT RENDERER STATIC VARIABLES
     /**

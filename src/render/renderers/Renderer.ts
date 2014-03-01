@@ -57,6 +57,8 @@ module Kiwi.Renderers {
         public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array) {
         }
 
+        public shaderPair: Kiwi.Shaders.ShaderPair;
+
     }
 
 }

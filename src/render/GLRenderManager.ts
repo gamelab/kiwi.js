@@ -44,6 +44,7 @@ module Kiwi.Renderers {
         public boot() {
             this._textureManager = new GLTextureManager();
             this._shaderManager = new Kiwi.Shaders.ShaderManager();
+            this.filters = new Kiwi.Filters.GLFilterManager(this._game, this._shaderManager);
             this._init();
             
         }
@@ -82,7 +83,9 @@ module Kiwi.Renderers {
         */
        
         private _shaderManager: Kiwi.Shaders.ShaderManager;
-    
+
+        public filters: Kiwi.Filters.GLFilterManager;
+
         /**
         * The stage resolution in pixels
         * @property _stageResolution
@@ -247,7 +250,17 @@ module Kiwi.Renderers {
             }
             return null; //fail
         } 
-      
+
+        public get filtersEnabled(): boolean {
+            return this._filtersEnabled;
+        }
+
+        public set filtersEnabled(val: boolean) {
+            this._filtersEnabled = val;
+        }
+
+        private _filtersEnabled: boolean = true;
+        
         /**
         * Performs initialisation required for single game instance - happens once, at bootup
         * Sets global GL state.
@@ -266,6 +279,7 @@ module Kiwi.Renderers {
 
             this._cameraOffset = new Float32Array([0,0]);
 
+            
             //set default gl state
             gl.enable(gl.BLEND);
             gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
@@ -286,8 +300,13 @@ module Kiwi.Renderers {
             this._game.stage.onResize.add(function (width, height) {
                 this._stageResolution = new Float32Array([width, height]);
                 this._currentRenderer.updateStageResolution(gl, this._stageResolution);
+                this.filters.updateFilterResolution(gl,width, height);
                 gl.viewport(0, 0, width,height);
             },this);
+
+            if (this.filtersEnabled && !this.filters.isEmpty) {
+                this.filters.enableFrameBuffers(gl);
+            }
 
        }
 
@@ -336,7 +355,7 @@ module Kiwi.Renderers {
                
             //clear stage 
             var col = this._game.stage.normalizedColor;
-            gl.clearColor(col.r, col.g, col.b, col.a);
+            gl.clearColor(col.a, col.b, col.g, col.a);
             gl.clear(gl.COLOR_BUFFER_BIT);
             
             //set cam matrix uniform
@@ -352,8 +371,12 @@ module Kiwi.Renderers {
             ]);
             this._cameraOffset = new Float32Array([ct.rotPointX, ct.rotPointY]);
             
+            gl.useProgram(this._currentRenderer.shaderPair.shaderProgram);
+
+
             //clear current renderer ready for a batch
             this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+
             
             //render the scene graph starting at the root
             var root: IChild[] = this._game.states.current.members;
@@ -364,6 +387,12 @@ module Kiwi.Renderers {
             //draw anything left over
             this._currentRenderer.draw(gl);
             this.numDrawCalls++;
+
+            if (this._filtersEnabled && !this.filters.isEmpty) {
+                this.filters.applyFilters(gl);
+                gl.useProgram(this._shaderManager.currentShader.shaderProgram);
+                gl.bindTexture(gl.TEXTURE_2D, this._currentTextureAtlas.glTextureWrapper.texture);
+            }
         }
 
         /**

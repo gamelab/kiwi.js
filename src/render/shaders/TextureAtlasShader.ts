@@ -1,10 +1,10 @@
-    /**
-    *
-    * @class GLShaders
-    * @constructor
-    * @param gl {WebGLRenderingContext}
-    * @return {GLShaders}
-    */
+/**
+*
+* @class GLShaders
+* @constructor
+* @param gl {WebGLRenderingContext}
+* @return {GLShaders}
+*/
 
 module Kiwi.Shaders {
 
@@ -20,15 +20,16 @@ module Kiwi.Shaders {
             //attributes
             this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
             this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
-           
+
             //uniforms
 
-            this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
+            /*this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
             this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, "uResolution");
             this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, "uSampler");
             this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
             this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
-           
+           */
+            this.initUniforms(gl);
         }
 
         public attributes: any = {
@@ -38,12 +39,23 @@ module Kiwi.Shaders {
         };
 
         public uniforms: any = {
-            uMVMatrix: null,
-            uSampler: null,
-            uResolution: null,
-            uTextureSize: null,
-            uCameraOffset: null
+            uMVMatrix: {
+                type: "mat4",
+            },
+            uResolution: {
+                type: "2fv",
+            },
+            uTextureSize: {
+                type: "2fv",
+            },
+            uCameraOffset: {
+                type: "2fv",
+            },
+            uSampler: {
+                type: "1i",
+            }
         }
+
 
         /**
         *
@@ -90,6 +102,6 @@ module Kiwi.Shaders {
         ];
 
 
-        }
-
     }
+
+}

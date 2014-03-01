@@ -26,14 +26,15 @@ module Kiwi.Renderers {
             this.shaderPair = <Kiwi.Shaders.TextureAtlasShader>this.shaderManager.requestShader(gl, "TextureAtlasShader");
         }
 
-        
+
 
         public static RENDERER_ID: string = "TextureAtlasRenderer";
 
-       
+
 
         public enable(gl: WebGLRenderingContext, params: any = null) {
             //gl.useProgram(this.shaderPair.shaderProgram);
+
             this.shaderPair = <Kiwi.Shaders.TextureAtlasShader>this.shaderManager.requestShader(gl, "TextureAtlasShader");
             gl.enableVertexAttribArray(this.shaderPair.attributes.aXYUV);
             gl.bindBuffer(gl.ARRAY_BUFFER, this.xyuvBuffer.buffer);
@@ -45,12 +46,12 @@ module Kiwi.Renderers {
 
             //Texture
             gl.activeTexture(gl.TEXTURE0);
-            gl.uniform1i(this.shaderPair.uniforms.samplerUniform, 0);
+            gl.uniform1i(this.shaderPair.uniforms.uSampler.location, 0);
 
             //Other uniforms
-            gl.uniform2fv(this.shaderPair.uniforms.uResolution, params.stageResolution);
-            gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset, params.cameraOffset);
-            gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix, false, params.mvMatrix);
+            gl.uniform2fv(this.shaderPair.uniforms.uResolution.location, params.stageResolution);
+            gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset.location, params.cameraOffset);
+            gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix.location, false, params.mvMatrix);
         }
 
         public disable(gl: WebGLRenderingContext) {
@@ -63,17 +64,28 @@ module Kiwi.Renderers {
         public clear(gl: WebGLRenderingContext, params: any) {
             this.xyuvBuffer.clear();
             this.alphaBuffer.clear();
-            gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix, false, params.mvMatrix);
-            gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset, new Float32Array(params.uCameraOffset));
+            gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix.location, false, params.mvMatrix);
+            gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset.location, new Float32Array(params.uCameraOffset));
 
         }
 
         public draw(gl: WebGLRenderingContext) {
-            this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
-            this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
-            //4 components per attributes, 6 verts per quad - used to work out how many elements to draw
-            gl.drawElements(gl.TRIANGLES, (this.alphaBuffer.items.length / 4) * 6, gl.UNSIGNED_SHORT, 0);
+            //if (this.xyuvBuffer.numItems > 0) {
+                this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
+                this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
+                gl.enableVertexAttribArray(this.shaderPair.attributes.aXYUV);
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.xyuvBuffer.buffer);
+                gl.vertexAttribPointer(this.shaderPair.attributes.aXYUV, this.xyuvBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+                gl.enableVertexAttribArray(this.shaderPair.attributes.aAlpha);
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.alphaBuffer.buffer);
+                gl.vertexAttribPointer(this.shaderPair.attributes.aAlpha, this.alphaBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
+                //4 components per attributes, 6 verts per quad - used to work out how many elements to draw
+                gl.drawElements(gl.TRIANGLES, (this.alphaBuffer.items.length / 4) * 6, gl.UNSIGNED_SHORT, 0);
+            //}
         }
 
         /**
@@ -133,12 +145,12 @@ module Kiwi.Renderers {
         public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array) {
 
             //this.shaderPair.uResolution(gl, res);
-            gl.uniform2fv(this.shaderPair.uniforms.uResolution, res);
+            gl.uniform2fv(this.shaderPair.uniforms.uResolution.location, res);
         }
 
         public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array) {
             //this.shaderPair.uTextureSize(gl, size);
-            gl.uniform2fv(this.shaderPair.uniforms.uTextureSize, size);
+            gl.uniform2fv(this.shaderPair.uniforms.uTextureSize.location, size);
         }
 
         /**
@@ -152,7 +164,7 @@ module Kiwi.Renderers {
         public addToBatch(gl: WebGLRenderingContext, entity: Entity, camera: Kiwi.Camera) {
             var t: Kiwi.Geom.Transform = entity.transform;
             var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
-         
+
             var cell = entity.atlas.cells[entity.cellIndex];
 
             var pt1: Kiwi.Geom.Point = new Kiwi.Geom.Point(0 - t.rotPointX, 0 - t.rotPointY);
