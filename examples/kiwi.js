@@ -8117,17 +8117,20 @@ var Kiwi;
             };
 
             /**
-            * Creates a new File to store a audio piece
-            * BUT before adding it to the loading queue firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device.
+            * Creates a new File to store a audio piece.
+            * This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.
+            * You can override this behaviour and tell the audio data to load even if not supported by setting the 'onlyIfSupported' boolean to false.
             *
             * @method addAudio
             * @param key {String} The key for the audio file.
             * @param url {String} The url of the audio to load.
             * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
+            * @param [onlyIfSupported=true] {Boolean} If the audio file should only be loaded if Kiwi detects that the audio file could be played. Set this to fa
             * @public
             */
-            Loader.prototype.addAudio = function (key, url, storeAsGlobal) {
+            Loader.prototype.addAudio = function (key, url, storeAsGlobal, onlyIfSupported) {
                 if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+                if (typeof onlyIfSupported === "undefined") { onlyIfSupported = true; }
                 var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, key, true, storeAsGlobal);
                 var support = false;
 
@@ -8151,7 +8154,7 @@ var Kiwi;
                         break;
                 }
 
-                if (support) {
+                if (support == true || onlyIfSupported == false) {
                     this._fileList.push(file);
                 } else {
                     console.error('Audio Format not supported on this Device/Browser.');
@@ -19378,8 +19381,7 @@ var Kiwi;
                     } else if (this._usingAudioTag && !isNaN(this._sound.duration) || this._game.deviceTargetOption == Kiwi.TARGET_COCOON && this._sound.duration !== 0) {
                         this.totalDuration = this._sound.duration;
                         this._markers['default'].duration = this.totalDuration;
-                        this._pending = false; //Again shouldn't need once audio tag loader works.
-                        console.log('Sound Found!');
+                        this._pending = false; //again shouldn't need once audio tag loader works.
 
                         if (this.isPlaying && this._currentMarker == 'default')
                             this.duration = this.totalDuration;
