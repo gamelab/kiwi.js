@@ -25214,6 +25214,80 @@ var Kiwi;
     })(Kiwi.Shaders || (Kiwi.Shaders = {}));
     var Shaders = Kiwi.Shaders;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @class GLShaders
+* @constructor
+* @param gl {WebGLRenderingContext}
+* @return {GLShaders}
+*/
+var Kiwi;
+(function (Kiwi) {
+    (function (Shaders) {
+        var VibranceShader = (function (_super) {
+            __extends(VibranceShader, _super);
+            function VibranceShader() {
+                _super.call(this);
+                this.attributes = {
+                    aXYUV: null
+                };
+                this.uniforms = {
+                    uSampler: {
+                        type: "1i"
+                    },
+                    uLevel: {
+                        type: "1f"
+                    }
+                };
+                /**
+                *
+                * @property texture2DFrag
+                * @type Array
+                * @public
+                */
+                this.fragSource = [
+                    "precision mediump float;",
+                    "uniform sampler2D uSampler;",
+                    "varying vec2 vTextureCoord;",
+                    "uniform float uLevel;",
+                    "void main() {",
+                    "   vec4 color = texture2D(uSampler, vTextureCoord);",
+                    "   float average = (color.r + color.g + color.b) / 3.0;",
+                    "   float mx = max(color.r, max(color.g, color.b));",
+                    "   float amt = (mx - average) * (-uLevel * 3.0);",
+                    "   color.rgb = mix(color.rgb, vec3(mx), amt);",
+                    "   gl_FragColor = color;",
+                    "}"];
+                /**
+                *
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
+                this.vertSource = [
+                    "attribute vec4 aXYUV;",
+                    "varying vec2 vTextureCoord;",
+                    "void main(void) {",
+                    "gl_Position = vec4(aXYUV.xy,0,1);",
+                    "vTextureCoord = aXYUV.zw;",
+                    "}"
+                ];
+            }
+            VibranceShader.prototype.init = function (gl) {
+                _super.prototype.init.call(this, gl);
+
+                //attributes
+                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+
+                //uniforms
+                this.initUniforms(gl);
+            };
+            return VibranceShader;
+        })(Kiwi.Shaders.ShaderPair);
+        Shaders.VibranceShader = VibranceShader;
+    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
+    var Shaders = Kiwi.Shaders;
+})(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
     (function (Filters) {
@@ -25987,6 +26061,45 @@ var Kiwi;
             return ZoomBlurFilter;
         })(Kiwi.Filters.Filter);
         Filters.ZoomBlurFilter = ZoomBlurFilter;
+    })(Kiwi.Filters || (Kiwi.Filters = {}));
+    var Filters = Kiwi.Filters;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Filters) {
+        var VibranceFilter = (function (_super) {
+            __extends(VibranceFilter, _super);
+            function VibranceFilter(gl, shaderManager, params) {
+                _super.call(this);
+                this._level = 1;
+
+                this.passes.push(shaderManager.requestShader(gl, "VibranceShader", false));
+
+                if (params) {
+                    this._level = params.level || this._level;
+                }
+            }
+            Object.defineProperty(VibranceFilter.prototype, "level", {
+                get: function () {
+                    return this._level;
+                },
+                set: function (value) {
+                    this._level = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            VibranceFilter.prototype.setParams = function (gl) {
+                if (this.dirty) {
+                    this.passes[0].setParam("uLevel", this.level);
+                }
+                this.dirty = false;
+            };
+            return VibranceFilter;
+        })(Kiwi.Filters.Filter);
+        Filters.VibranceFilter = VibranceFilter;
     })(Kiwi.Filters || (Kiwi.Filters = {}));
     var Filters = Kiwi.Filters;
 })(Kiwi || (Kiwi = {}));
@@ -30774,6 +30887,7 @@ var Kiwi;
 /// <reference path="render/shaders/filters/SepiaShader.ts" />
 /// <reference path="render/shaders/filters/VignetteShader.ts" />
 /// <reference path="render/shaders/filters/ZoomBlurShader.ts" />
+/// <reference path="render/shaders/filters/VibranceShader.ts" />
 /// <reference path="render/filters/Filter.ts" />
 /// <reference path="render/filters/GrayScaleFilter.ts" />
 /// <reference path="render/filters/BlurFilter.ts" />
@@ -30789,6 +30903,7 @@ var Kiwi;
 /// <reference path="render/filters/SepiaFilter.ts" />
 /// <reference path="render/filters/VignetteFilter.ts" />
 /// <reference path="render/filters/ZoomBlurFilter.ts" />
+/// <reference path="render/filters/VibranceFilter.ts" />
 /// <reference path="system/Bootstrap.ts" />
 /// <reference path="system/Browser.ts" />
 /// <reference path="system/Device.ts" />

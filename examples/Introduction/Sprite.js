@@ -31,7 +31,7 @@ Sprite.create = function () {
     //var d = this.game.renderer.filters.addFilter(Kiwi.Filters.DotscreenFilter);
     //d.enabled = false;
     //v.enabled = false;
-    this.game.renderer.filters.addFilter(Kiwi.Filters.ZoomBlurFilter{scale);
+    this.game.renderer.filters.addFilter(Kiwi.Filters.VibranceFilter,{level:0});
 }
 
 function callback() {

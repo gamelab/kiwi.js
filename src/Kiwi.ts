@@ -133,7 +133,7 @@
 /// <reference path="render/shaders/filters/SepiaShader.ts" />
 /// <reference path="render/shaders/filters/VignetteShader.ts" />
 /// <reference path="render/shaders/filters/ZoomBlurShader.ts" />
-
+/// <reference path="render/shaders/filters/VibranceShader.ts" />
 
 /// <reference path="render/filters/Filter.ts" />
 /// <reference path="render/filters/GrayScaleFilter.ts" />
@@ -150,6 +150,7 @@
 /// <reference path="render/filters/SepiaFilter.ts" />
 /// <reference path="render/filters/VignetteFilter.ts" />
 /// <reference path="render/filters/ZoomBlurFilter.ts" />
+/// <reference path="render/filters/VibranceFilter.ts" />
 
 /// <reference path="system/Bootstrap.ts" />
 /// <reference path="system/Browser.ts" />

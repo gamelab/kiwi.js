@@ -19,13 +19,13 @@ module Kiwi.Shaders {
     export class ShaderPair {
 
         constructor() {
-
-
+          
         }
 
         public static RENDERER_ID: string = "ShaderPair";
 
         public init(gl: WebGLRenderingContext) {
+         
             this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
             this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
             this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
