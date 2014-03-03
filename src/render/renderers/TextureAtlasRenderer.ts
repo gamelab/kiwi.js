@@ -69,6 +69,14 @@ module Kiwi.Renderers {
         }
 
         public draw(gl: WebGLRenderingContext) {
+            gl.enableVertexAttribArray(this.shaderPair.attributes.aXYUV);
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.xyuvBuffer.buffer);
+            gl.vertexAttribPointer(this.shaderPair.attributes.aXYUV, this.xyuvBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+            gl.enableVertexAttribArray(this.shaderPair.attributes.aAlpha);
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.alphaBuffer.buffer);
+            gl.vertexAttribPointer(this.shaderPair.attributes.aAlpha, this.alphaBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
             this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
             this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
