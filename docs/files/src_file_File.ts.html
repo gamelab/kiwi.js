@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.5.2</em>
+            <em>API Docs for: 0.6</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -401,10 +401,13 @@ module Kiwi.Files {
             }
 
             if (this.dataType === Kiwi.Files.File.AUDIO) {
+                
                 if (this._game.audio.usingAudioTag === true) {
                     this._useTagLoader = true;
+
                 } else { //just dont use the tag loader...just dont....
                     this._useTagLoader = false;
+
                 }
             }
 
@@ -913,7 +916,7 @@ module Kiwi.Files {
             return false;
         }
 
-        
+
         /*
         *-----------------
         * General Loading

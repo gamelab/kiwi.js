@@ -2,7 +2,7 @@
     "project": {
         "name": "Kiwi.js",
         "description": "Kiwi.js is a Javascript/Typescript library for creating HTML5 games.",
-        "version": "0.5.2",
+        "version": "0.6",
         "url": "http://kiwijs.org/"
     },
     "files": {
@@ -445,24 +445,24 @@
                 "Kiwi.Files": 1
             }
         },
-        "src\\gameobjects\\tilemap\\TileMap.ts": {
-            "name": "src\\gameobjects\\tilemap\\TileMap.ts",
+        "src\\gameobjects\\tilemap\\TIleMapLayer.ts": {
+            "name": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
             "modules": {
                 "Tilemap": 1
             },
             "classes": {
-                "Kiwi.GameObjects.Tilemap.TileMap": 1
+                "Kiwi.GameObjects.Tilemap.TileMapLayer": 1
             },
             "fors": {},
             "namespaces": {
                 "Kiwi.GameObjects.Tilemap": 1
             }
         },
-        "src\\gameobjects\\tilemap\\TileMapLayer.ts": {
-            "name": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+        "src\\gameobjects\\tilemap\\TileMap.ts": {
+            "name": "src\\gameobjects\\tilemap\\TileMap.ts",
             "modules": {},
             "classes": {
-                "Kiwi.GameObjects.Tilemap.TileMapLayer": 1
+                "Kiwi.GameObjects.Tilemap.TileMap": 1
             },
             "fors": {},
             "namespaces": {
@@ -1515,8 +1515,8 @@
                 "Tilemap": 1
             },
             "classes": {
-                "Kiwi.GameObjects.Tilemap.TileMap": 1,
                 "Kiwi.GameObjects.Tilemap.TileMapLayer": 1,
+                "Kiwi.GameObjects.Tilemap.TileMap": 1,
                 "Kiwi.GameObjects.Tilemap.TileType": 1,
                 "Kiwi.GameObjects.Sprite": 1,
                 "Kiwi.GameObjects.StaticImage": 1,
@@ -1538,8 +1538,8 @@
             "name": "Tilemap",
             "submodules": {},
             "classes": {
-                "Kiwi.GameObjects.Tilemap.TileMap": 1,
                 "Kiwi.GameObjects.Tilemap.TileMapLayer": 1,
+                "Kiwi.GameObjects.Tilemap.TileMap": 1,
                 "Kiwi.GameObjects.Tilemap.TileType": 1
             },
             "fors": {},
@@ -1553,7 +1553,7 @@
             "line": 10,
             "tag": "main",
             "itemtype": "main",
-            "description": "A TileMap handles the creation of TileMapLayers and the TileTypes that they use.\nSince a TileMap isn't a Entity itself you cannot add it to the Stage inorder to render that it manages, \nInstead you have to add each layer lies within it. This way you can have other GameObjects behind/in-front of layers."
+            "description": "Is GameObject that contains the information held for a single Layer of Tiles, along with methods to handle the rendering of those Tiles. \nA TileMapLayer should not be directly created, but instead should be created through a TileMap object instead."
         },
         "Geom": {
             "name": "Geom",
@@ -2959,52 +2959,6 @@
                 "type": "Loader"
             }
         },
-        "Kiwi.GameObjects.Tilemap.TileMap": {
-            "name": "Kiwi.GameObjects.Tilemap.TileMap",
-            "shortname": "Kiwi.GameObjects.Tilemap.TileMap",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap",
-            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
-            "line": 10,
-            "description": "A TileMap handles the creation of TileMapLayers and the TileTypes that they use.\nSince a TileMap isn't a Entity itself you cannot add it to the Stage inorder to render that it manages, \nInstead you have to add each layer lies within it. This way you can have other GameObjects behind/in-front of layers.",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "state",
-                    "description": "The state that this Tilemap is on.",
-                    "type": "State"
-                },
-                {
-                    "name": "tileMapDataKey",
-                    "description": "The Data key for the JSON you would like to use.",
-                    "type": "String",
-                    "optional": true
-                },
-                {
-                    "name": "atlas",
-                    "description": "The texture atlas that you would like the tilemap layers to use.",
-                    "type": "TextureAtlas",
-                    "optional": true
-                },
-                {
-                    "name": "startingCell",
-                    "description": "The number for the initial cell that the first TileType should use. See 'createFromFileStore' for more information.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "TileMap"
-            }
-        },
         "Kiwi.GameObjects.Tilemap.TileMapLayer": {
             "name": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "shortname": "Kiwi.GameObjects.Tilemap.TileMapLayer",
@@ -3016,7 +2970,7 @@
             "module": "GameObjects",
             "submodule": "Tilemap",
             "namespace": "Kiwi.GameObjects.Tilemap",
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
             "line": 11,
             "description": "Is GameObject that contains the information held for a single Layer of Tiles, along with methods to handle the rendering of those Tiles. \nA TileMapLayer should not be directly created, but instead should be created through a TileMap object instead.",
             "extends": "Entity",
@@ -3084,6 +3038,52 @@
             "return": {
                 "description": "",
                 "type": "TileMapLayer"
+            }
+        },
+        "Kiwi.GameObjects.Tilemap.TileMap": {
+            "name": "Kiwi.GameObjects.Tilemap.TileMap",
+            "shortname": "Kiwi.GameObjects.Tilemap.TileMap",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap",
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 10,
+            "description": "A TileMap handles the creation of TileMapLayers and the TileTypes that they use.\nSince a TileMap isn't a Entity itself you cannot add it to the Stage inorder to render that it manages, \nInstead you have to add each layer lies within it. This way you can have other GameObjects behind/in-front of layers.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "state",
+                    "description": "The state that this Tilemap is on.",
+                    "type": "State"
+                },
+                {
+                    "name": "tileMapDataKey",
+                    "description": "The Data key for the JSON you would like to use.",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "atlas",
+                    "description": "The texture atlas that you would like the tilemap layers to use.",
+                    "type": "TextureAtlas",
+                    "optional": true
+                },
+                {
+                    "name": "startingCell",
+                    "description": "The number for the initial cell that the first TileType should use. See 'createFromFileStore' for more information.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "TileMap"
             }
         },
         "Kiwi.GameObjects.Tilemap.TileType": {
@@ -6704,7 +6704,7 @@
         },
         {
             "file": "src\\animations\\tweens\\Tween.ts",
-            "line": 214,
+            "line": 215,
             "description": "The context that the onCompleteCallback should have when called.",
             "itemtype": "property",
             "name": "_onCompleteContext",
@@ -6719,7 +6719,7 @@
         },
         {
             "file": "src\\animations\\tweens\\Tween.ts",
-            "line": 223,
+            "line": 224,
             "description": "An indication of whether or not this tween is currently running.",
             "itemtype": "property",
             "name": "isRunning.",
@@ -6734,7 +6734,7 @@
         },
         {
             "file": "src\\animations\\tweens\\Tween.ts",
-            "line": 232,
+            "line": 233,
             "description": "Sets up the various properties that define this tween.\nThe ending position/properties for this tween, how long the tween should go for, easing method to use and if should start right way.",
             "itemtype": "method",
             "name": "to",
@@ -6779,7 +6779,7 @@
         },
         {
             "file": "src\\animations\\tweens\\Tween.ts",
-            "line": 264,
+            "line": 265,
             "description": "Gets the initial values for the properties that it is to animate and starts the tween process.",
             "itemtype": "method",
             "name": "start",
@@ -6792,7 +6792,7 @@
         },
         {
             "file": "src\\animations\\tweens\\Tween.ts",
-            "line": 321,
+            "line": 324,
             "description": "Stops the Tween from running and removes it from the manager.",
             "itemtype": "method",
             "name": "stop",
@@ -6805,7 +6805,7 @@
         },
         {
             "file": "src\\animations\\tweens\\Tween.ts",
-            "line": 339,
+            "line": 342,
             "description": "Sets the game and the manager of this tween.",
             "itemtype": "method",
             "name": "setParent",
@@ -6825,7 +6825,7 @@
         },
         {
             "file": "src\\animations\\tweens\\Tween.ts",
-            "line": 352,
+            "line": 355,
             "description": "Sets the amount of delay that the tween is to have before it starts playing.",
             "itemtype": "method",
             "name": "delay",
@@ -6849,7 +6849,7 @@
         },
         {
             "file": "src\\animations\\tweens\\Tween.ts",
-            "line": 366,
+            "line": 369,
             "description": "Sets the easing method that is to be used when animating this tween.",
             "itemtype": "method",
             "name": "easing",
@@ -6873,7 +6873,7 @@
         },
         {
             "file": "src\\animations\\tweens\\Tween.ts",
-            "line": 380,
+            "line": 383,
             "description": "[REQUIRES DESCRIPTION]",
             "itemtype": "method",
             "name": "interpolation",
@@ -6897,7 +6897,7 @@
         },
         {
             "file": "src\\animations\\tweens\\Tween.ts",
-            "line": 395,
+            "line": 398,
             "description": "Adds another tween that should start playing once tween has completed.",
             "itemtype": "method",
             "name": "chain",
@@ -6921,7 +6921,7 @@
         },
         {
             "file": "src\\animations\\tweens\\Tween.ts",
-            "line": 409,
+            "line": 412,
             "description": "Adds a function that is to be executed when the tween start playing.",
             "itemtype": "method",
             "name": "onStart",
@@ -6950,7 +6950,7 @@
         },
         {
             "file": "src\\animations\\tweens\\Tween.ts",
-            "line": 425,
+            "line": 428,
             "description": "Adds a function that is to be executed when this tween updates while it is playing.",
             "itemtype": "method",
             "name": "onUpdate",
@@ -6975,7 +6975,7 @@
         },
         {
             "file": "src\\animations\\tweens\\Tween.ts",
-            "line": 440,
+            "line": 443,
             "description": "Defines a method that is to be called when this tween is finished.",
             "itemtype": "method",
             "name": "onComplete",
@@ -7000,7 +7000,7 @@
         },
         {
             "file": "src\\animations\\tweens\\Tween.ts",
-            "line": 456,
+            "line": 459,
             "description": "The update loop is executed every frame whilst the tween is running.",
             "itemtype": "method",
             "name": "update",
@@ -16340,7 +16340,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 92,
+            "line": 95,
             "description": "Returns the type of this object",
             "itemtype": "method",
             "name": "objType",
@@ -16357,7 +16357,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 103,
+            "line": 106,
             "description": "The state that added the entity - or null if it was added as global",
             "itemtype": "property",
             "name": "ownerState",
@@ -16371,7 +16371,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 112,
+            "line": 115,
             "description": "Any tags that are on this file. This can be used to grab files/objects on the whole game that have these particular tag.",
             "itemtype": "property",
             "name": "_tags",
@@ -16386,7 +16386,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 122,
+            "line": 125,
             "description": "Adds a new tag to this file.",
             "itemtype": "method",
             "name": "addTag",
@@ -16406,7 +16406,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 135,
+            "line": 138,
             "description": "Removes a tag from this file.",
             "itemtype": "method",
             "name": "removeTag",
@@ -16426,7 +16426,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 149,
+            "line": 152,
             "description": "Checks to see if a tag that is passed exists on this file and returns a boolean that is used as a indication of the results. True means that the tag exists on this file.",
             "itemtype": "method",
             "name": "hasTag",
@@ -16450,7 +16450,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 165,
+            "line": 168,
             "description": "A STATIC property that has the number associated with the IMAGE Datatype.",
             "itemtype": "property",
             "name": "IMAGE",
@@ -16467,7 +16467,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 177,
+            "line": 180,
             "description": "A STATIC property that has the number associated with the SPRITE_SHEET Datatype.",
             "itemtype": "property",
             "name": "SPRITE_SHEET",
@@ -16484,7 +16484,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 189,
+            "line": 192,
             "description": "A STATIC property that has the number associated with the TEXTURE_ATLAS Datatype.",
             "itemtype": "property",
             "name": "TEXTUREATLAS",
@@ -16501,7 +16501,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 201,
+            "line": 204,
             "description": "A STATIC property that has the number associated with the AUDIO Datatype.",
             "itemtype": "property",
             "name": "AUDIO",
@@ -16518,7 +16518,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 213,
+            "line": 216,
             "description": "A STATIC property that has the number associated with the JSON Datatype.",
             "itemtype": "property",
             "name": "JSON",
@@ -16535,7 +16535,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 225,
+            "line": 228,
             "description": "A STATIC property that has the number associated with the XML Datatype.",
             "itemtype": "property",
             "name": "XML",
@@ -16552,7 +16552,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 237,
+            "line": 240,
             "description": "A STATIC property that has the number associated with the BINARY_DATA Datatype.",
             "itemtype": "property",
             "name": "BINARY_DATA",
@@ -16569,7 +16569,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 249,
+            "line": 252,
             "description": "A STATIC property that has the number associated with the TEXT_DATA Datatype.",
             "itemtype": "property",
             "name": "TEXT_DATA",
@@ -16586,7 +16586,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 261,
+            "line": 264,
             "description": "The game that this file belongs to.",
             "itemtype": "property",
             "name": "_game",
@@ -16600,7 +16600,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 270,
+            "line": 273,
             "description": "The XMLHttpRequest object. This only has a value if the xhr method of load is being used, otherwise this is null.",
             "itemtype": "property",
             "name": "_xhr",
@@ -16614,7 +16614,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 279,
+            "line": 282,
             "description": "The file store that this file is a part of.",
             "itemtype": "property",
             "name": "_fileStore",
@@ -16628,7 +16628,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 288,
+            "line": 291,
             "description": "Used to determine if this file should be saved to the file store or not.",
             "itemtype": "property",
             "name": "_saveToFileStore",
@@ -16643,7 +16643,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 298,
+            "line": 301,
             "description": "If when loading the file in we have loaded the file in using a tag loader (older browsers) or we are using the an XHR loader + array buffer.\nBy default we use the tag loader and only used the second method if the browser supports it.",
             "itemtype": "property",
             "name": "_useTagLoader",
@@ -16658,7 +16658,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 309,
+            "line": 312,
             "description": "Holds the type of data that is being loaded. This should be used with the STATIC properties that hold the various datatypes that can be loaded.",
             "itemtype": "property",
             "name": "dataType",
@@ -16672,7 +16672,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 318,
+            "line": 321,
             "description": "The 'key' is the user defined name and the users way of accessing this file once loaded.",
             "itemtype": "property",
             "name": "key",
@@ -16686,7 +16686,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 327,
+            "line": 330,
             "description": "The name of the file being loaded.",
             "itemtype": "property",
             "name": "fileName",
@@ -16700,7 +16700,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 336,
+            "line": 339,
             "description": "The location of where the file is placed without the file itself (So without the files name).\nExample: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'",
             "itemtype": "property",
             "name": "filePath",
@@ -16714,7 +16714,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 346,
+            "line": 349,
             "description": "The type of file that is being loaded.\nIs only ever given a value when used with the XHR method of loading OR if you use 'getFileDetails' before hand.\nThe value is based off of the 'Content-Type' of the XHR's response header returns.",
             "itemtype": "property",
             "name": "fileType",
@@ -16728,7 +16728,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 357,
+            "line": 360,
             "description": "The extension of the file that is being loaded.\nThis is based upon what the file path that the developer (you) specify.",
             "itemtype": "property",
             "name": "fileExtension",
@@ -16742,7 +16742,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 367,
+            "line": 370,
             "description": "The full filepath including the file itself.",
             "itemtype": "property",
             "name": "fileURL",
@@ -16756,7 +16756,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 376,
+            "line": 379,
             "description": "The size of the file that was/is being loaded. \nOnly has a value when the file was loaded by the XHR method OR you request the file information before hand using 'getFileDetails'.",
             "itemtype": "property",
             "name": "fileSize",
@@ -16771,7 +16771,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 387,
+            "line": 390,
             "description": "The Entity Tag that is assigned to the file. O\nOnly has a value when either using the XHR loader OR when requesting the file details.",
             "itemtype": "property",
             "name": "ETag",
@@ -16785,7 +16785,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 397,
+            "line": 400,
             "description": "The last date/time that this file was last modified. \nOnly has a value when using the XHR method of loading OR when requesting the file details.",
             "itemtype": "property",
             "name": "lastModified",
@@ -16800,7 +16800,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 408,
+            "line": 411,
             "description": "The time at which the loading started. Only has a value when the XHR method of loading is in use.",
             "itemtype": "property",
             "name": "timeStarted",
@@ -16815,7 +16815,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 418,
+            "line": 421,
             "description": "The time at which the load finished. Only has a value if loading the file was successful and when the XHR method of loading is in use.",
             "itemtype": "property",
             "name": "timeFinished",
@@ -16830,7 +16830,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 428,
+            "line": 431,
             "description": "The duration or how long it took to load the file. In milliseconds.",
             "itemtype": "property",
             "name": "duration",
@@ -16845,7 +16845,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 438,
+            "line": 441,
             "description": "If the loading of the file failed or encountered an error.",
             "itemtype": "property",
             "name": "hasError",
@@ -16860,7 +16860,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 448,
+            "line": 451,
             "description": "If the loading was a success or not.",
             "itemtype": "property",
             "name": "success",
@@ -16874,7 +16874,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 457,
+            "line": 460,
             "description": "Holds the error (if there was one) when loading the file.",
             "itemtype": "property",
             "name": "error",
@@ -16888,7 +16888,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 466,
+            "line": 469,
             "description": "A method that is to be executed when this file has finished loading.",
             "itemtype": "property",
             "name": "onCompleteCallback",
@@ -16903,7 +16903,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 476,
+            "line": 479,
             "description": "A method that is to be executed while this file is loading.",
             "itemtype": "property",
             "name": "onProgressCallback",
@@ -16918,7 +16918,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 486,
+            "line": 489,
             "description": "The time at which progress in loading the file was last occurred.",
             "itemtype": "property",
             "name": "lastProgress",
@@ -16932,7 +16932,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 495,
+            "line": 498,
             "description": "The amount of percent loaded the file is. This is out of 100.",
             "itemtype": "property",
             "name": "percentLoaded",
@@ -16946,7 +16946,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 504,
+            "line": 507,
             "description": "The particular piece of data that the developer wanted loaded. This is in a format that is based upon the datatype passed.",
             "itemtype": "property",
             "name": "data",
@@ -16958,7 +16958,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 512,
+            "line": 515,
             "description": "A dictionary, stores any information relating to this file.\nIs useful when loading images that are to be used as a spritesheet or texture atlas.",
             "itemtype": "property",
             "name": "data",
@@ -16972,7 +16972,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 529,
+            "line": 532,
             "description": "An indication of if this file is texture. This is READ ONLY.",
             "itemtype": "property",
             "name": "isTexture",
@@ -16986,7 +16986,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 543,
+            "line": 546,
             "description": "An indication of if this file is a piece of audio. This is READ ONLY.",
             "itemtype": "property",
             "name": "isAudio",
@@ -17000,7 +17000,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 557,
+            "line": 560,
             "description": "An indication of if this file is data. This is READ ONLY.",
             "itemtype": "property",
             "name": "isData",
@@ -17014,7 +17014,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 578,
+            "line": 581,
             "description": "Starts the loading process for this file.",
             "itemtype": "method",
             "name": "load",
@@ -17062,7 +17062,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 620,
+            "line": 623,
             "description": "Is executed when this file starts loading. \nGets the time and initalised properties that are used across both loading methods.",
             "itemtype": "method",
             "name": "start",
@@ -17075,7 +17075,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 636,
+            "line": 639,
             "description": "Is executed when this file stops loading. Used across all loading methods.",
             "itemtype": "method",
             "name": "stop",
@@ -17088,7 +17088,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 655,
+            "line": 658,
             "description": "Handles the loading of the file when using the tag loader method. \nOnly supports the IMAGES and AUDIO files.",
             "itemtype": "method",
             "name": "tagLoader",
@@ -17101,7 +17101,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 704,
+            "line": 707,
             "description": "Is executed when the tag loader changes its ready state.",
             "itemtype": "method",
             "name": "tagLoaderOnReadyStateChange",
@@ -17121,7 +17121,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 714,
+            "line": 717,
             "description": "Is executed when the tag loader encounters a error that stops it from loading.",
             "itemtype": "method",
             "name": "tagLoaderOnError",
@@ -17141,7 +17141,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 732,
+            "line": 735,
             "description": "Is executed when an audio file can play the whole way through with stopping to load.",
             "itemtype": "method",
             "name": "tagLoaderProgressThrough",
@@ -17161,7 +17161,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 759,
+            "line": 762,
             "description": "Is executed when iOS (or another device) is being used and the audio is 'locked'.\n'Fakes' the loading and tells the rest of the game to carry on.",
             "itemtype": "method",
             "name": "tagLoaderIOSLoad",
@@ -17174,7 +17174,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 771,
+            "line": 774,
             "description": "Is executed when the file has successfully loaded.",
             "itemtype": "method",
             "name": "tagLoaderOnLoad",
@@ -17194,7 +17194,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 805,
+            "line": 808,
             "description": "The status of this file that is being loaded. \nOnly used/has a value when the file was/is being loaded by the XHR method.",
             "itemtype": "property",
             "name": "status",
@@ -17209,7 +17209,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 816,
+            "line": 819,
             "description": "The status piece of text that the XHR returns.",
             "itemtype": "property",
             "name": "statusText",
@@ -17224,7 +17224,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 826,
+            "line": 829,
             "description": "The number of bytes that have currently been loaded. \nThis can used to create progress bars but only has a value when using the XHR method of loading.",
             "itemtype": "property",
             "name": "bytesLoaded",
@@ -17239,7 +17239,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 837,
+            "line": 840,
             "description": "The total number of bytes that the file consists off.\nOnly has a value when using the XHR method of loading.",
             "itemtype": "property",
             "name": "bytesTotal",
@@ -17254,7 +17254,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 848,
+            "line": 851,
             "description": "The ready state of the XHR loader whilst loading.",
             "itemtype": "property",
             "name": "readyState",
@@ -17269,7 +17269,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 858,
+            "line": 861,
             "description": "The default number of milliseconds that the XHR should wait before timing out.\nSet this to NULL if you want it to not timeout.",
             "itemtype": "property",
             "name": "timeOutDelay",
@@ -17284,7 +17284,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 869,
+            "line": 872,
             "description": "If this file has timeout when it was loading.",
             "itemtype": "property",
             "name": "hasTimedOut",
@@ -17299,7 +17299,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 879,
+            "line": 882,
             "description": "If the file timed out or not.",
             "itemtype": "property",
             "name": "timedOut",
@@ -17314,7 +17314,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 889,
+            "line": 892,
             "description": "The number of attempts at loading there have currently been at loading the file.\nThis is only used with XHR methods of loading.",
             "itemtype": "property",
             "name": "attemptCounter",
@@ -17328,7 +17328,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 899,
+            "line": 902,
             "description": "The maximum attempts at loading the file that there is allowed.\nOnly used with XHR methods of loading.",
             "itemtype": "property",
             "name": "maxLoadAttempts",
@@ -17343,7 +17343,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 910,
+            "line": 913,
             "description": "The response that is given by the XHR loader when loading is complete.",
             "itemtype": "property",
             "name": "buffer",
@@ -17357,7 +17357,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 919,
+            "line": 922,
             "description": "Sets up a XHR loader based on the properties of this file.",
             "itemtype": "method",
             "name": "xhrLoader",
@@ -17370,7 +17370,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 948,
+            "line": 951,
             "description": "Is executed when the XHR loader has changed its ready state.",
             "itemtype": "method",
             "name": "xhrOnReadyStateChange",
@@ -17390,7 +17390,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 965,
+            "line": 968,
             "description": "Is executed when the XHR loader starts to load the file.",
             "itemtype": "method",
             "name": "xhrOnLoadStart",
@@ -17410,7 +17410,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 979,
+            "line": 982,
             "description": "Runs when the XHR loader aborts the load for some reason.",
             "itemtype": "method",
             "name": "xhrOnAbort",
@@ -17430,7 +17430,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 993,
+            "line": 996,
             "description": "Runs when the XHR loader encounters a error.",
             "itemtype": "method",
             "name": "xhrOnError",
@@ -17450,7 +17450,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1007,
+            "line": 1010,
             "description": "Is executed when the xhr",
             "itemtype": "method",
             "name": "xhrOnTimeout",
@@ -17470,7 +17470,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1023,
+            "line": 1026,
             "description": "Is execute whilst loading of the file is occuring. Updates the number of bytes that have been loaded and percentage loaded.",
             "itemtype": "method",
             "name": "xhrOnProgress",
@@ -17490,7 +17490,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1043,
+            "line": 1046,
             "description": "Once the file has finished downloading (or pulled from the browser cache) this onload event fires.",
             "itemtype": "method",
             "name": "xhrOnLoad",
@@ -17510,7 +17510,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1108,
+            "line": 1111,
             "description": "Handles the processing of the files information when it was loaded via the xhr + arraybuffer method. \nIs only executed when the loading was a success\n           this._xhr.onload = (event) => this.xhrOnLoad(event);.",
             "itemtype": "method",
             "name": "processFile",
@@ -17523,7 +17523,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1181,
+            "line": 1184,
             "description": "Creates a new Binary Large Object for the data that was loaded through the XHR.",
             "itemtype": "method",
             "name": "createBlob",
@@ -17536,7 +17536,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1233,
+            "line": 1236,
             "description": "Revokes the object url that was added to the window when creating the image. \nAlso tells the File that the loading is now complete.",
             "itemtype": "method",
             "name": "revoke",
@@ -17549,7 +17549,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1255,
+            "line": 1258,
             "description": "Executed when this file has completed loading (this could be due to it failing or succeeding).",
             "itemtype": "method",
             "name": "parseComplete",
@@ -17562,7 +17562,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1282,
+            "line": 1285,
             "description": "The maximum number of load attempts when requesting the file details that will be preformed.",
             "itemtype": "property",
             "name": "maxHeadLoadAttempts",
@@ -17577,7 +17577,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1292,
+            "line": 1295,
             "description": "Attempts to make the file send a XHR HEAD request to get information about the file that is going to be downloaded.\nThis is particularly useful when you are wanting to check how large a file is before loading all of the content.",
             "itemtype": "method",
             "name": "getFileDetails",
@@ -17613,7 +17613,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1313,
+            "line": 1316,
             "description": "Sends a XHR request for the HEAD information of this file. \nUseful as it can will contain the information about the file before loading the actual file.",
             "itemtype": "method",
             "name": "sendXHRHeadRequest",
@@ -17633,7 +17633,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1333,
+            "line": 1336,
             "description": "Is executed when the XHR head request timed out.",
             "itemtype": "method",
             "name": "xhrHeadOnTimeout",
@@ -17653,7 +17653,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1349,
+            "line": 1352,
             "description": "Is executed when this XHR head request has a error.",
             "itemtype": "method",
             "name": "xhrHeadOnError",
@@ -17673,7 +17673,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1365,
+            "line": 1368,
             "description": "Process the response headers received.",
             "itemtype": "method",
             "name": "getResponseHeaders",
@@ -17693,7 +17693,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1393,
+            "line": 1396,
             "description": "Used to finialise the XHR Head Request (used with get File Details). \nWhen passed an outcome this method will see if it can 'try again' otherwise it will just finish the attempt.",
             "itemtype": "method",
             "name": "completeXHRHeadRequest",
@@ -17713,7 +17713,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1417,
+            "line": 1420,
             "description": "Returns a string representation of this object.",
             "itemtype": "method",
             "name": "toString",
@@ -18448,7 +18448,7 @@
         {
             "file": "src\\file\\Loader.ts",
             "line": 264,
-            "description": "Creates a new File to store a audio piece and adds it to the loading queue.",
+            "description": "Creates a new File to store a audio piece. \nThis method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.\nYou can override this behaviour and tell the audio data to load even if not supported by setting the 'onlyIfSupported' boolean to false.",
             "itemtype": "method",
             "name": "addAudio",
             "params": [
@@ -18468,6 +18468,13 @@
                     "type": "Boolean",
                     "optional": true,
                     "optdefault": "true"
+                },
+                {
+                    "name": "onlyIfSupported",
+                    "description": "If the audio file should only be loaded if Kiwi detects that the audio file could be played. Set this to fa",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
                 }
             ],
             "access": "public",
@@ -18479,7 +18486,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 278,
+            "line": 312,
             "description": "Creates a new File to store JSON and adds it to the loading queue.",
             "itemtype": "method",
             "name": "addJSON",
@@ -18511,7 +18518,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 292,
+            "line": 326,
             "description": "Creates a new File to store XML and adds it to the loading queue.",
             "itemtype": "method",
             "name": "addXML",
@@ -18543,7 +18550,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 306,
+            "line": 340,
             "description": "Creates a new File for a Binary file and adds it to the loading queue.",
             "itemtype": "method",
             "name": "addBinaryFile",
@@ -18575,7 +18582,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 320,
+            "line": 354,
             "description": "Creates a new File to store a text file and adds it to the loading queue.",
             "itemtype": "method",
             "name": "addTextFile",
@@ -18607,7 +18614,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 334,
+            "line": 368,
             "description": "Loops through all of the files that need to be loaded and start the load event on them.",
             "itemtype": "method",
             "name": "startLoad",
@@ -18620,7 +18627,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 373,
+            "line": 407,
             "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "getNextFileSize",
@@ -18633,7 +18640,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 394,
+            "line": 428,
             "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "addToBytesTotal",
@@ -18653,7 +18660,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 410,
+            "line": 444,
             "description": "Starts the loading of the next file in the list.",
             "itemtype": "method",
             "name": "nextFile",
@@ -18666,7 +18673,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 425,
+            "line": 459,
             "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "fileLoadProgress",
@@ -18686,7 +18693,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 446,
+            "line": 480,
             "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "fileLoadComplete",
@@ -18706,7 +18713,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 497,
+            "line": 531,
             "description": "Returns the total number of bytes that have been loaded so far.",
             "itemtype": "method",
             "name": "getBytesLoaded",
@@ -18723,7 +18730,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 509,
+            "line": 543,
             "description": "Returns a percentage of the amount that has been loaded so far.",
             "itemtype": "method",
             "name": "getPercentLoaded",
@@ -18740,7 +18747,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 528,
+            "line": 562,
             "description": "If true (and xhr/blob is available) the loader will get the bytes total of each file in the queue to give a much more accurate progress report during load\n         If false the loader will use the file number as the progress value, i.e. if there are 4 files in the queue progress will get called 4 times (25, 50, 75, 100)",
             "itemtype": "method",
             "name": "calculateBytes",
@@ -18765,7 +18772,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 547,
+            "line": 581,
             "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "complete",
@@ -18779,6 +18786,869 @@
             "module": "Kiwi",
             "submodule": "Files",
             "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 64,
+            "description": "Returns the type of child that this is.",
+            "type": "Number",
+            "return": {
+                "description": "returns the type of child that the entity is",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 74,
+            "description": "The type of object that it is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 84,
+            "description": "The tilemap that this TileMapLayer is a part of.",
+            "itemtype": "property",
+            "name": "tilemap",
+            "type": "TileMap",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 92,
+            "description": "Properties about that this TileMapLayer has when it was created from a JSON file.",
+            "itemtype": "property",
+            "name": "properties",
+            "type": "Object",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 100,
+            "description": "The width of this TileMap in tiles.",
+            "itemtype": "property",
+            "name": "width",
+            "type": "Number",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 108,
+            "description": "The height of this TileMap in tiles.",
+            "itemtype": "property",
+            "name": "height",
+            "type": "Number",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 116,
+            "description": "The width of a single tile.",
+            "itemtype": "property",
+            "name": "tileWidth",
+            "type": "Number",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 124,
+            "description": "The height of a single tile.",
+            "itemtype": "property",
+            "name": "tileHeight",
+            "type": "Number",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 132,
+            "description": "The texture atlas that should be used when rendering.",
+            "itemtype": "property",
+            "name": "atlas",
+            "type": "TextureAtlas",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 140,
+            "description": "The width of the layer in pixels. This property is READ ONLY.",
+            "itemtype": "property",
+            "name": "widthInPixels",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 150,
+            "description": "The height of the layer in pixels. This property is READ ONLY.",
+            "itemtype": "property",
+            "name": "heightInPixels",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 160,
+            "description": "A list containing all the types of tiles found on this TileMapLayer.",
+            "itemtype": "property",
+            "name": "_data",
+            "type": "number[]",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 168,
+            "description": "Returns the total number of tiles. Either for a particular type if passed, otherwise of any type if not passed.",
+            "itemtype": "method",
+            "name": "countTiles",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "The type of tile you want to count.",
+                    "type": "Number",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "The number of tiles on this layer.",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 188,
+            "description": "-----------------------\n Getting Tiles\n-----------------------",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 195,
+            "description": "A list containing all of the types of tiles found on this TileMapLayer. This is READ ONLY.",
+            "itemtype": "property",
+            "name": "tileData",
+            "type": "number[]",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 205,
+            "description": "Returns the index of the tile based on the x and y coordinates of the tile passed. \nIf no tile is a the coordinates given then -1 is returned instead.\nCoordinates are in tiles not pixels.",
+            "itemtype": "method",
+            "name": "getIndexFromXY",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The x coordinate of the Tile you would like to retrieve.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "The y coordinate of the Tile you would like to retrieve.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "Either the index of the tile retrieved or -1 if none was found.",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 223,
+            "description": "Returns the TileType for a tile that is at a particular set of coordinates passed. \nIf no tile is found the null is returned instead.\nCoordinates passed are in tiles.",
+            "itemtype": "method",
+            "name": "getTileFromXY",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "The tile",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 238,
+            "description": "Returns the index of the tile based on the x and y pixel coordinates that are passed. \nIf no tile is a the coordinates given then -1 is returned instead.\nCoordinates are in pixels not tiles and use the world coordinates of the tilemap.",
+            "itemtype": "method",
+            "name": "getIndexFromCoords",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The x coordinate of the Tile you would like to retrieve.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "The y coordinate of the Tile you would like to retrieve.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "Either the index of the tile retrieved or -1 if none was found.",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 262,
+            "description": "Returns the TileType for a tile that is at a particular coordinate passed. \nIf no tile is found the null is returned instead.\nCoordinates passed are in pixels and use the world coordinates of the tilemap.",
+            "itemtype": "method",
+            "name": "getTileFromXY",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "The tile",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 277,
+            "description": "Returns the indexes of every tile of a type you pass.",
+            "itemtype": "method",
+            "name": "getIndexsByType",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number[]"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 293,
+            "description": "-----------------------\n Tiles Manipulation\n-----------------------",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 299,
+            "description": "Sets the tile to be used at the coordinates provided. \nCan be used to override a tile that may already exist at the location.",
+            "itemtype": "method",
+            "name": "setTile",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The coordinate of the tile on the x axis.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "The coordinate of the tile on the y axis.",
+                    "type": "Number"
+                },
+                {
+                    "name": "tileType",
+                    "description": "The type of tile that should be now used.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "If a tile was changed or not.",
+                "type": "Boolean"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 320,
+            "description": "Sets the tile to be used at the index provided.\nCan be used to override a tile that may already exist at the location.",
+            "itemtype": "method",
+            "name": "setTileByIndex",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "The index of the tile that you want to change.",
+                    "type": "Number"
+                },
+                {
+                    "name": "tileType",
+                    "description": "The new tile type to be used at that position.",
+                    "type": "Number"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 332,
+            "description": "Randomizes the types of tiles used in an area of the layer. You can choose which types of tiles to use, and the area.\nDefault tile types used are everyone avaiable.",
+            "itemtype": "method",
+            "name": "randomizeTiles",
+            "params": [
+                {
+                    "name": "types",
+                    "description": "A list of TileTypes that can be used. Default is every tiletype on the TileMap.",
+                    "type": "Number[]",
+                    "optional": true
+                },
+                {
+                    "name": "x",
+                    "description": "The starting tile on the x axis to fill.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "y",
+                    "description": "The starting tile on the y axis to fill.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "width",
+                    "description": "How far across you want to go.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "this.width"
+                },
+                {
+                    "name": "height",
+                    "description": "How far down you want to go.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "this.height"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 364,
+            "description": "Makes all of the tiles in the area specified a single type that is passed.",
+            "itemtype": "method",
+            "name": "fill",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "The type of tile you want to fill in the area with.",
+                    "type": "Number"
+                },
+                {
+                    "name": "x",
+                    "description": "The starting tile on the x axis to fill.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "y",
+                    "description": "The starting tile on the y axis to fill.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "width",
+                    "description": "How far across you want to go.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "this.width"
+                },
+                {
+                    "name": "height",
+                    "description": "How far down you want to go.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "this.height"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 387,
+            "description": "Replaces all tiles of typeA to typeB in the area specified. If no area is specified then it is on the whole layer.",
+            "itemtype": "method",
+            "name": "replaceTiles",
+            "params": [
+                {
+                    "name": "typeA",
+                    "description": "The type of tile you want to be replaced.",
+                    "type": "Number"
+                },
+                {
+                    "name": "typeB",
+                    "description": "The type of tile you want to be used instead.",
+                    "type": "Number"
+                },
+                {
+                    "name": "x",
+                    "description": "The starting tile on the x axis to fill.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "y",
+                    "description": "The starting tile on the y axis to fill.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "width",
+                    "description": "How far across you want to go.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "this.width"
+                },
+                {
+                    "name": "height",
+                    "description": "How far down you want to go.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "this.height"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 411,
+            "description": "Swaps all the tiles that are typeA -> typeB and typeB -> typeA inside the area specified. If no area is specified then it is on the whole layer.",
+            "itemtype": "method",
+            "name": "swapTiles",
+            "params": [
+                {
+                    "name": "typeA",
+                    "description": "The type of tile you want to be replaced with typeB.",
+                    "type": "Number"
+                },
+                {
+                    "name": "typeB",
+                    "description": "The type of tile you want to be replaced with typeA.",
+                    "type": "Number"
+                },
+                {
+                    "name": "x",
+                    "description": "The starting tile on the x axis to fill.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "y",
+                    "description": "The starting tile on the y axis to fill.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "width",
+                    "description": "How far across you want to go.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "this.width"
+                },
+                {
+                    "name": "height",
+                    "description": "How far down you want to go.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "this.height"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 437,
+            "description": "-----------------------\n Get Tiles By Collision Methods\n-----------------------",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 443,
+            "description": "Returns the tiles which overlap with a provided entities box component. \nOnly collidable tiles on ANY side will be returned unless you pass a particular side.",
+            "itemtype": "method",
+            "name": "getOverlappingTiles",
+            "params": [
+                {
+                    "name": "entity",
+                    "description": "The entity you would like to check for the overlap.",
+                    "type": "Entity"
+                },
+                {
+                    "name": "collisionType",
+                    "description": "The particular type of collidable tiles which you would like to check for.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "ANY"
+                }
+            ],
+            "return": {
+                "description": "Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.",
+                "type": "Object[]"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 476,
+            "description": "Returns the tiles which can collide with other objects (on ANY side unless otherwise specified) within an area provided.\nBy default the area is the whole tilemap.",
+            "itemtype": "method",
+            "name": "getCollidableTiles",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The x coordinate of the first tile to check.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "y",
+                    "description": "The y coordinate of the first tile to check.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "width",
+                    "description": "The width from the x coordinate.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "widthOfMap"
+                },
+                {
+                    "name": "height",
+                    "description": "The height from the y coordinate.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "heightOfmap"
+                },
+                {
+                    "name": "collisionType",
+                    "description": "The type of collidable tiles that should be return. By default ANY type of collidable tiles will be returned.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "ANY"
+                }
+            ],
+            "return": {
+                "description": "Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.",
+                "type": "Object[]"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 533,
+            "description": "The update loop that is executed when this TileMapLayer is add to the Stage.",
+            "itemtype": "method",
+            "name": "update",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 544,
+            "description": "-----------------------\n Temp Properties used During Rendering\n-----------------------",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 550,
+            "description": "Used whilst rendering to calculate the number of tiles to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
+            "itemtype": "property",
+            "name": "_maxX",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 559,
+            "description": "Used whilst rendering to calculate the number of tiles to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
+            "itemtype": "property",
+            "name": "_maxY",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 568,
+            "description": "Used whilst rendering to calculate which is the first tile to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
+            "itemtype": "property",
+            "name": "_startX",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 577,
+            "description": "Used whilst rendering to calculate which is the first tile to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
+            "itemtype": "property",
+            "name": "_startY",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 586,
+            "description": "Temporary property that holds the tileType of the current tile being rendered.",
+            "itemtype": "property",
+            "name": "_temptype",
+            "type": "TileType",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 594,
+            "description": "Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen. \nAll coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).",
+            "itemtype": "method",
+            "name": "_calculateBoundaries",
+            "params": [
+                {
+                    "name": "camera",
+                    "description": "",
+                    "type": "Camera"
+                },
+                {
+                    "name": "matrix",
+                    "description": "",
+                    "type": "Matrix"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 630,
+            "description": "The render loop which is used when using the Canvas renderer.",
+            "itemtype": "method",
+            "name": "render",
+            "params": [
+                {
+                    "name": "camera",
+                    "description": "",
+                    "type": "Camera"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
         },
         {
             "file": "src\\gameobjects\\tilemap\\TileMap.ts",
@@ -19385,869 +20255,6 @@
             "namespace": "Kiwi.GameObjects.Tilemap"
         },
         {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 64,
-            "description": "Returns the type of child that this is.",
-            "type": "Number",
-            "return": {
-                "description": "returns the type of child that the entity is",
-                "type": "Number"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 74,
-            "description": "The type of object that it is.",
-            "itemtype": "method",
-            "name": "objType",
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 84,
-            "description": "The tilemap that this TileMapLayer is a part of.",
-            "itemtype": "property",
-            "name": "tilemap",
-            "type": "TileMap",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 92,
-            "description": "Properties about that this TileMapLayer has when it was created from a JSON file.",
-            "itemtype": "property",
-            "name": "properties",
-            "type": "Object",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 100,
-            "description": "The width of this TileMap in tiles.",
-            "itemtype": "property",
-            "name": "width",
-            "type": "Number",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 108,
-            "description": "The height of this TileMap in tiles.",
-            "itemtype": "property",
-            "name": "height",
-            "type": "Number",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 116,
-            "description": "The width of a single tile.",
-            "itemtype": "property",
-            "name": "tileWidth",
-            "type": "Number",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 124,
-            "description": "The height of a single tile.",
-            "itemtype": "property",
-            "name": "tileHeight",
-            "type": "Number",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 132,
-            "description": "The texture atlas that should be used when rendering.",
-            "itemtype": "property",
-            "name": "atlas",
-            "type": "TextureAtlas",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 140,
-            "description": "The width of the layer in pixels. This property is READ ONLY.",
-            "itemtype": "property",
-            "name": "widthInPixels",
-            "type": "number",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 150,
-            "description": "The height of the layer in pixels. This property is READ ONLY.",
-            "itemtype": "property",
-            "name": "heightInPixels",
-            "type": "number",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 160,
-            "description": "A list containing all the types of tiles found on this TileMapLayer.",
-            "itemtype": "property",
-            "name": "_data",
-            "type": "number[]",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 168,
-            "description": "Returns the total number of tiles. Either for a particular type if passed, otherwise of any type if not passed.",
-            "itemtype": "method",
-            "name": "countTiles",
-            "params": [
-                {
-                    "name": "type",
-                    "description": "The type of tile you want to count.",
-                    "type": "Number",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "The number of tiles on this layer.",
-                "type": "Number"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 188,
-            "description": "-----------------------\n Getting Tiles\n-----------------------",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 195,
-            "description": "A list containing all of the types of tiles found on this TileMapLayer. This is READ ONLY.",
-            "itemtype": "property",
-            "name": "tileData",
-            "type": "number[]",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 205,
-            "description": "Returns the index of the tile based on the x and y coordinates of the tile passed. \nIf no tile is a the coordinates given then -1 is returned instead.\nCoordinates are in tiles not pixels.",
-            "itemtype": "method",
-            "name": "getIndexFromXY",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "The x coordinate of the Tile you would like to retrieve.",
-                    "type": "Number"
-                },
-                {
-                    "name": "y",
-                    "description": "The y coordinate of the Tile you would like to retrieve.",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "Either the index of the tile retrieved or -1 if none was found.",
-                "type": "Number"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 223,
-            "description": "Returns the TileType for a tile that is at a particular set of coordinates passed. \nIf no tile is found the null is returned instead.\nCoordinates passed are in tiles.",
-            "itemtype": "method",
-            "name": "getTileFromXY",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "y",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "The tile",
-                "type": "Number"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 238,
-            "description": "Returns the index of the tile based on the x and y pixel coordinates that are passed. \nIf no tile is a the coordinates given then -1 is returned instead.\nCoordinates are in pixels not tiles and use the world coordinates of the tilemap.",
-            "itemtype": "method",
-            "name": "getIndexFromCoords",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "The x coordinate of the Tile you would like to retrieve.",
-                    "type": "Number"
-                },
-                {
-                    "name": "y",
-                    "description": "The y coordinate of the Tile you would like to retrieve.",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "Either the index of the tile retrieved or -1 if none was found.",
-                "type": "Number"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 262,
-            "description": "Returns the TileType for a tile that is at a particular coordinate passed. \nIf no tile is found the null is returned instead.\nCoordinates passed are in pixels and use the world coordinates of the tilemap.",
-            "itemtype": "method",
-            "name": "getTileFromXY",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "y",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "The tile",
-                "type": "Number"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 277,
-            "description": "Returns the indexes of every tile of a type you pass.",
-            "itemtype": "method",
-            "name": "getIndexsByType",
-            "params": [
-                {
-                    "name": "type",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Number[]"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 293,
-            "description": "-----------------------\n Tiles Manipulation\n-----------------------",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 299,
-            "description": "Sets the tile to be used at the coordinates provided. \nCan be used to override a tile that may already exist at the location.",
-            "itemtype": "method",
-            "name": "setTile",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "The coordinate of the tile on the x axis.",
-                    "type": "Number"
-                },
-                {
-                    "name": "y",
-                    "description": "The coordinate of the tile on the y axis.",
-                    "type": "Number"
-                },
-                {
-                    "name": "tileType",
-                    "description": "The type of tile that should be now used.",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "If a tile was changed or not.",
-                "type": "Boolean"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 320,
-            "description": "Sets the tile to be used at the index provided.\nCan be used to override a tile that may already exist at the location.",
-            "itemtype": "method",
-            "name": "setTileByIndex",
-            "params": [
-                {
-                    "name": "index",
-                    "description": "The index of the tile that you want to change.",
-                    "type": "Number"
-                },
-                {
-                    "name": "tileType",
-                    "description": "The new tile type to be used at that position.",
-                    "type": "Number"
-                }
-            ],
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 332,
-            "description": "Randomizes the types of tiles used in an area of the layer. You can choose which types of tiles to use, and the area.\nDefault tile types used are everyone avaiable.",
-            "itemtype": "method",
-            "name": "randomizeTiles",
-            "params": [
-                {
-                    "name": "types",
-                    "description": "A list of TileTypes that can be used. Default is every tiletype on the TileMap.",
-                    "type": "Number[]",
-                    "optional": true
-                },
-                {
-                    "name": "x",
-                    "description": "The starting tile on the x axis to fill.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "y",
-                    "description": "The starting tile on the y axis to fill.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "width",
-                    "description": "How far across you want to go.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "this.width"
-                },
-                {
-                    "name": "height",
-                    "description": "How far down you want to go.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "this.height"
-                }
-            ],
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 364,
-            "description": "Makes all of the tiles in the area specified a single type that is passed.",
-            "itemtype": "method",
-            "name": "fill",
-            "params": [
-                {
-                    "name": "type",
-                    "description": "The type of tile you want to fill in the area with.",
-                    "type": "Number"
-                },
-                {
-                    "name": "x",
-                    "description": "The starting tile on the x axis to fill.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "y",
-                    "description": "The starting tile on the y axis to fill.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "width",
-                    "description": "How far across you want to go.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "this.width"
-                },
-                {
-                    "name": "height",
-                    "description": "How far down you want to go.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "this.height"
-                }
-            ],
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 387,
-            "description": "Replaces all tiles of typeA to typeB in the area specified. If no area is specified then it is on the whole layer.",
-            "itemtype": "method",
-            "name": "replaceTiles",
-            "params": [
-                {
-                    "name": "typeA",
-                    "description": "The type of tile you want to be replaced.",
-                    "type": "Number"
-                },
-                {
-                    "name": "typeB",
-                    "description": "The type of tile you want to be used instead.",
-                    "type": "Number"
-                },
-                {
-                    "name": "x",
-                    "description": "The starting tile on the x axis to fill.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "y",
-                    "description": "The starting tile on the y axis to fill.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "width",
-                    "description": "How far across you want to go.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "this.width"
-                },
-                {
-                    "name": "height",
-                    "description": "How far down you want to go.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "this.height"
-                }
-            ],
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 411,
-            "description": "Swaps all the tiles that are typeA -> typeB and typeB -> typeA inside the area specified. If no area is specified then it is on the whole layer.",
-            "itemtype": "method",
-            "name": "swapTiles",
-            "params": [
-                {
-                    "name": "typeA",
-                    "description": "The type of tile you want to be replaced with typeB.",
-                    "type": "Number"
-                },
-                {
-                    "name": "typeB",
-                    "description": "The type of tile you want to be replaced with typeA.",
-                    "type": "Number"
-                },
-                {
-                    "name": "x",
-                    "description": "The starting tile on the x axis to fill.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "y",
-                    "description": "The starting tile on the y axis to fill.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "width",
-                    "description": "How far across you want to go.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "this.width"
-                },
-                {
-                    "name": "height",
-                    "description": "How far down you want to go.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "this.height"
-                }
-            ],
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 437,
-            "description": "-----------------------\n Get Tiles By Collision Methods\n-----------------------",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 443,
-            "description": "Returns the tiles which overlap with a provided entities box component. \nOnly collidable tiles on ANY side will be returned unless you pass a particular side.",
-            "itemtype": "method",
-            "name": "getOverlappingTiles",
-            "params": [
-                {
-                    "name": "entity",
-                    "description": "The entity you would like to check for the overlap.",
-                    "type": "Entity"
-                },
-                {
-                    "name": "collisionType",
-                    "description": "The particular type of collidable tiles which you would like to check for.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "ANY"
-                }
-            ],
-            "return": {
-                "description": "Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.",
-                "type": "Object[]"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 476,
-            "description": "Returns the tiles which can collide with other objects (on ANY side unless otherwise specified) within an area provided.\nBy default the area is the whole tilemap.",
-            "itemtype": "method",
-            "name": "getCollidableTiles",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "The x coordinate of the first tile to check.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "y",
-                    "description": "The y coordinate of the first tile to check.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "width",
-                    "description": "The width from the x coordinate.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "widthOfMap"
-                },
-                {
-                    "name": "height",
-                    "description": "The height from the y coordinate.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "heightOfmap"
-                },
-                {
-                    "name": "collisionType",
-                    "description": "The type of collidable tiles that should be return. By default ANY type of collidable tiles will be returned.",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "ANY"
-                }
-            ],
-            "return": {
-                "description": "Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.",
-                "type": "Object[]"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 533,
-            "description": "The update loop that is executed when this TileMapLayer is add to the Stage.",
-            "itemtype": "method",
-            "name": "update",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 544,
-            "description": "-----------------------\n Temp Properties used During Rendering\n-----------------------",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 550,
-            "description": "Used whilst rendering to calculate the number of tiles to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
-            "itemtype": "property",
-            "name": "_maxX",
-            "type": "number",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 559,
-            "description": "Used whilst rendering to calculate the number of tiles to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
-            "itemtype": "property",
-            "name": "_maxY",
-            "type": "number",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 568,
-            "description": "Used whilst rendering to calculate which is the first tile to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
-            "itemtype": "property",
-            "name": "_startX",
-            "type": "number",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 577,
-            "description": "Used whilst rendering to calculate which is the first tile to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
-            "itemtype": "property",
-            "name": "_startY",
-            "type": "number",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 586,
-            "description": "Temporary property that holds the tileType of the current tile being rendered.",
-            "itemtype": "property",
-            "name": "_temptype",
-            "type": "TileType",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 594,
-            "description": "Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen. \nAll coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).",
-            "itemtype": "method",
-            "name": "_calculateBoundaries",
-            "params": [
-                {
-                    "name": "camera",
-                    "description": "",
-                    "type": "Camera"
-                },
-                {
-                    "name": "matrix",
-                    "description": "",
-                    "type": "Matrix"
-                }
-            ],
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 630,
-            "description": "The render loop which is used when using the Canvas renderer.",
-            "itemtype": "method",
-            "name": "render",
-            "params": [
-                {
-                    "name": "camera",
-                    "description": "",
-                    "type": "Camera"
-                }
-            ],
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
             "file": "src\\gameobjects\\tilemap\\TileType.ts",
             "line": 33,
             "description": "The collision information for this type of tile. \nIt's values are the same as the Static properties inside of the ArcadePhysics Component.",
@@ -20796,7 +20803,7 @@
         },
         {
             "file": "src\\gameobjects\\Textfield.ts",
-            "line": 279,
+            "line": 278,
             "description": "This method is used to render the text to an offscreen-canvas which is held in a TextureAtlas (which is generated upon the instanitation of this class). \nThis is so that the canvas doesn't render it every frame as it can be costly and so that it can be used in WebGL with the TextureAtlasRenderer.",
             "itemtype": "method",
             "name": "_renderText",
@@ -20809,7 +20816,7 @@
         },
         {
             "file": "src\\gameobjects\\Textfield.ts",
-            "line": 338,
+            "line": 334,
             "description": "Called by the Layer to which this Game Object is attached",
             "itemtype": "method",
             "name": "render",
@@ -29696,7 +29703,36 @@
         },
         {
             "file": "src\\input\\Key.ts",
-            "line": 35,
+            "line": 36,
+            "description": "If the default action for this Key should be prevented or not. \nFor example. If your game use's the spacebar you would want its default action (which is to make the website scrolldown) prevented, \nSo you can set this to true.",
+            "itemtype": "property",
+            "name": "preventDefault",
+            "type": "Boolean",
+            "default": "false",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Input.Key",
+            "module": "Kiwi",
+            "submodule": "Input",
+            "namespace": "Kiwi.Input"
+        },
+        {
+            "file": "src\\input\\Key.ts",
+            "line": 47,
+            "description": "The game that this key belongs to.",
+            "itemtype": "property",
+            "name": "game",
+            "type": "Game",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Input.Key",
+            "module": "Kiwi",
+            "submodule": "Input",
+            "namespace": "Kiwi.Input"
+        },
+        {
+            "file": "src\\input\\Key.ts",
+            "line": 55,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -29713,7 +29749,7 @@
         },
         {
             "file": "src\\input\\Key.ts",
-            "line": 45,
+            "line": 65,
             "description": "The keyboard manager that this key belongs to.",
             "itemtype": "property",
             "name": "_manager",
@@ -29727,7 +29763,7 @@
         },
         {
             "file": "src\\input\\Key.ts",
-            "line": 53,
+            "line": 73,
             "description": "The keycode that this key is.",
             "itemtype": "property",
             "name": "keyCode",
@@ -29741,7 +29777,7 @@
         },
         {
             "file": "src\\input\\Key.ts",
-            "line": 61,
+            "line": 81,
             "description": "Indicated whether or not the key is currently down.",
             "itemtype": "property",
             "name": "isDown",
@@ -29756,7 +29792,7 @@
         },
         {
             "file": "src\\input\\Key.ts",
-            "line": 70,
+            "line": 90,
             "description": "Indicates whether or not the key is currently up.",
             "itemtype": "property",
             "name": "isUp",
@@ -29771,7 +29807,7 @@
         },
         {
             "file": "src\\input\\Key.ts",
-            "line": 79,
+            "line": 99,
             "description": "If the alt key was held at the time of the event happening.",
             "itemtype": "property",
             "name": "altKey",
@@ -29786,7 +29822,7 @@
         },
         {
             "file": "src\\input\\Key.ts",
-            "line": 88,
+            "line": 108,
             "description": "If the ctrl key was held at the time of the event happening.",
             "itemtype": "property",
             "name": "ctrlKey",
@@ -29801,7 +29837,7 @@
         },
         {
             "file": "src\\input\\Key.ts",
-            "line": 97,
+            "line": 117,
             "description": "If the shift key was held at the time of the event happening.",
             "itemtype": "property",
             "name": "shiftKey",
@@ -29816,7 +29852,7 @@
         },
         {
             "file": "src\\input\\Key.ts",
-            "line": 106,
+            "line": 126,
             "description": "The time that the key was pressed initially.",
             "itemtype": "property",
             "name": "timeDown",
@@ -29831,8 +29867,8 @@
         },
         {
             "file": "src\\input\\Key.ts",
-            "line": 115,
-            "description": "[CURRENTLY NOT IMPLEMENTED] The duration (in milliseconds) that the key has been down for.",
+            "line": 135,
+            "description": "The duration (in milliseconds) that the key has been down for.\nThis is property is READ ONLY.",
             "itemtype": "property",
             "name": "duration",
             "type": "Number",
@@ -29846,7 +29882,7 @@
         },
         {
             "file": "src\\input\\Key.ts",
-            "line": 124,
+            "line": 153,
             "description": "The time at which the key was released.",
             "itemtype": "property",
             "name": "timeUp",
@@ -29861,8 +29897,8 @@
         },
         {
             "file": "src\\input\\Key.ts",
-            "line": 133,
-            "description": "If the key was already down when the down event fired again, this indicates the number of times the event has fired.",
+            "line": 162,
+            "description": "If this key is being 'held' down, this property will indicate the amount of times the 'onkeydown' event has fired.\nThis is reset each time the key is pressed.",
             "itemtype": "property",
             "name": "repeats",
             "type": "Number",
@@ -29876,7 +29912,7 @@
         },
         {
             "file": "src\\input\\Key.ts",
-            "line": 142,
+            "line": 172,
             "description": "The 'update' method fires when an event occur's. Updates the keys properties",
             "itemtype": "method",
             "name": "update",
@@ -29896,7 +29932,7 @@
         },
         {
             "file": "src\\input\\Key.ts",
-            "line": 174,
+            "line": 210,
             "description": "Returns a boolean indicating whether or not this key was just pressed.",
             "itemtype": "method",
             "name": "justPressed",
@@ -29921,7 +29957,7 @@
         },
         {
             "file": "src\\input\\Key.ts",
-            "line": 191,
+            "line": 227,
             "description": "Returns a boolean indicating whether or not this key was just released.",
             "itemtype": "method",
             "name": "justReleased",
@@ -29946,7 +29982,7 @@
         },
         {
             "file": "src\\input\\Key.ts",
-            "line": 210,
+            "line": 246,
             "description": "Resets all of the properties on the Key to their default values.",
             "itemtype": "method",
             "name": "reset",
@@ -30061,7 +30097,7 @@
         },
         {
             "file": "src\\input\\Keyboard.ts",
-            "line": 93,
+            "line": 94,
             "description": "The update loop that is executed every frame.",
             "itemtype": "method",
             "name": "update",
@@ -30074,7 +30110,7 @@
         },
         {
             "file": "src\\input\\Keyboard.ts",
-            "line": 102,
+            "line": 103,
             "description": "A Signal that dispatches events when a key is released/is now up.",
             "itemtype": "property",
             "name": "onKeyUp",
@@ -30088,10 +30124,10 @@
         },
         {
             "file": "src\\input\\Keyboard.ts",
-            "line": 110,
-            "description": "A Signal that dispatches events when a key is pressed/is now down.",
+            "line": 111,
+            "description": "A Signal that dispatches events when a key is pressed/is down.\nThis mimics the natural 'keydown' event listener, so it will keep dispatching events if the user holds the key down. \nNote: This fires after the 'onKeyDownOnce' signal.",
             "itemtype": "property",
-            "name": "onKeyUp",
+            "name": "onKeyDown",
             "type": "Signal",
             "access": "public",
             "tagname": "",
@@ -30102,7 +30138,21 @@
         },
         {
             "file": "src\\input\\Keyboard.ts",
-            "line": 118,
+            "line": 122,
+            "description": "A Signal that dispatches events when a key is pressed/is down initially. \nThis event only fires the first time that the key is pressed, so it won't dispatch events if the user is holding the key down.\nNote: This fires before the 'onKeyDown' signal;",
+            "itemtype": "property",
+            "name": "onKeyDownOnce",
+            "type": "Signal",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Input.Keyboard",
+            "module": "Kiwi",
+            "submodule": "Input",
+            "namespace": "Kiwi.Input"
+        },
+        {
+            "file": "src\\input\\Keyboard.ts",
+            "line": 133,
             "description": "Adds the event listeners to the browser to listen for key events.",
             "itemtype": "method",
             "name": "start",
@@ -30115,7 +30165,7 @@
         },
         {
             "file": "src\\input\\Keyboard.ts",
-            "line": 132,
+            "line": 147,
             "description": "Removes the event listeners and so effectively 'stops' all keyboard events.",
             "itemtype": "method",
             "name": "stop",
@@ -30128,7 +30178,7 @@
         },
         {
             "file": "src\\input\\Keyboard.ts",
-            "line": 146,
+            "line": 161,
             "description": "Is executed when a key is pressed/is down. This then either creates a new Key (if one does not currently exist) for that keycode, \nor it updates the key that was pressed (if one does exist).",
             "itemtype": "method",
             "name": "onKeyDown",
@@ -30148,7 +30198,7 @@
         },
         {
             "file": "src\\input\\Keyboard.ts",
-            "line": 164,
+            "line": 183,
             "description": "Is executed when a key is release/is now up. This then either creates a new Key (if one does not currently exist) for that keycode, \nor it updates the key that was released (if one does exist).",
             "itemtype": "method",
             "name": "onKeyUp",
@@ -30168,8 +30218,8 @@
         },
         {
             "file": "src\\input\\Keyboard.ts",
-            "line": 182,
-            "description": "Creates a new Key object for a keycode that is specified.\nNot strictly needed (as one will be created once an event occurs on that keycode) by can be good for setting the game up.",
+            "line": 202,
+            "description": "Creates a new Key object for a keycode that is specified.\nNot strictly needed (as one will be created once an event occurs on that keycode) but can be good for setting the game up\nand choosing whether to prevent that keys any default action.",
             "itemtype": "method",
             "name": "addKey",
             "params": [
@@ -30177,6 +30227,13 @@
                     "name": "keycode",
                     "description": "The keycode of the key that you want to add.",
                     "type": "Number"
+                },
+                {
+                    "name": "preventDefault",
+                    "description": "If the default action for that key should be prevented or not when an event fires.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "false"
                 }
             ],
             "return": {
@@ -30192,21 +30249,22 @@
         },
         {
             "file": "src\\input\\Keyboard.ts",
-            "line": 196,
-            "description": "[NOT CURRENTLY IMPLEMENTED] Returns a boolean indicating if a key was just pressed or not.",
+            "line": 221,
+            "description": "Returns a boolean indicating if a key (that you pass via a keycode) was just pressed or not.",
             "itemtype": "method",
             "name": "justPressed",
             "params": [
                 {
-                    "name": "key",
-                    "description": "- The key that you would like to check against.",
-                    "type": "Any"
+                    "name": "keycode",
+                    "description": "The keycode of the key that you would like to check against.",
+                    "type": "Number"
                 },
                 {
                     "name": "duration",
-                    "description": "- The duration at which determines if a key was 'just' pressed or not. If not specified defaults to the justPressedRate",
+                    "description": "The duration at which determines if a key was 'just' pressed or not. If not specified defaults to the justPressedRate",
                     "type": "Number",
-                    "optional": true
+                    "optional": true,
+                    "optdefault": "this.justPressedRate"
                 }
             ],
             "access": "public",
@@ -30218,21 +30276,22 @@
         },
         {
             "file": "src\\input\\Keyboard.ts",
-            "line": 208,
-            "description": "[NOT CURRENTLY IMPLEMENTED] Returns a boolean indicating if a key was just released or not.",
+            "line": 238,
+            "description": "Returns a boolean indicating if a key (that you pass via a keycode) was just released or not.",
             "itemtype": "method",
             "name": "justReleased",
             "params": [
                 {
-                    "name": "key",
-                    "description": "- The key that you would like to check against.",
-                    "type": "Any"
+                    "name": "keycode",
+                    "description": "The keycode of the key that you would like to check against.",
+                    "type": "Number"
                 },
                 {
                     "name": "duration",
-                    "description": "- The duration at which determines if a key was 'just' released or not. If not specified defaults to the justReleasedRate",
+                    "description": "The duration at which determines if a key was 'just' released or not. If not specified defaults to the justReleasedRate",
                     "type": "Number",
-                    "optional": true
+                    "optional": true,
+                    "optdefault": "this.justReleasedRate"
                 }
             ],
             "access": "public",
@@ -30244,8 +30303,8 @@
         },
         {
             "file": "src\\input\\Keyboard.ts",
-            "line": 219,
-            "description": "Returns a boolean indicating whether a key is down or not.",
+            "line": 254,
+            "description": "Returns a boolean indicating whether a key (that you pass via its keycode) is down or not.",
             "itemtype": "method",
             "name": "isDown",
             "params": [
@@ -30268,8 +30327,8 @@
         },
         {
             "file": "src\\input\\Keyboard.ts",
-            "line": 236,
-            "description": "Returns a boolean indicating whether a key is up or not.",
+            "line": 271,
+            "description": "Returns a boolean indicating whether a key (that you pass via its keycode) is up or not.",
             "itemtype": "method",
             "name": "isUp",
             "params": [
@@ -30292,7 +30351,7 @@
         },
         {
             "file": "src\\input\\Keyboard.ts",
-            "line": 253,
+            "line": 288,
             "description": "Executes the reset method on every Key that currently exists.",
             "itemtype": "method",
             "name": "reset",
@@ -33577,7 +33636,7 @@
         },
         {
             "file": "src\\render\\renderers\\TextureAtlasRenderer.ts",
-            "line": 79,
+            "line": 87,
             "description": "Maximum allowable sprites to render per frame",
             "itemtype": "property",
             "name": "_maxItems",
@@ -33591,7 +33650,7 @@
         },
         {
             "file": "src\\render\\renderers\\TextureAtlasRenderer.ts",
-            "line": 90,
+            "line": 98,
             "description": "Storage for the xy (position) and uv(texture) coordinates that are generated each frame",
             "itemtype": "property",
             "name": "_xyuvBuffer",
@@ -33604,7 +33663,7 @@
         },
         {
             "file": "src\\render\\renderers\\TextureAtlasRenderer.ts",
-            "line": 98,
+            "line": 106,
             "description": "Storage for the polygon indices, pre generated to a length based on max items",
             "itemtype": "property",
             "name": "_indexBuffer",
@@ -33617,7 +33676,7 @@
         },
         {
             "file": "src\\render\\renderers\\TextureAtlasRenderer.ts",
-            "line": 106,
+            "line": 114,
             "description": "Storage for alpha values for each vertex on a sprite",
             "itemtype": "property",
             "name": "_alphaBuffer",
@@ -33630,7 +33689,7 @@
         },
         {
             "file": "src\\render\\renderers\\TextureAtlasRenderer.ts",
-            "line": 115,
+            "line": 123,
             "description": "Create prebaked indices for drawing quads",
             "itemtype": "method",
             "name": "_generateIndices",
@@ -33652,7 +33711,7 @@
         },
         {
             "file": "src\\render\\renderers\\TextureAtlasRenderer.ts",
-            "line": 144,
+            "line": 152,
             "description": "Collates all xy and uv coordinates into a buffer ready for upload to viceo memory",
             "itemtype": "method",
             "name": "_collateVertexAttributeArrays",
@@ -35102,7 +35161,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 93,
+            "line": 101,
             "description": "A unique ID that this audio gets assigned by the audio manager it belongs to when it is created.",
             "itemtype": "property",
             "name": "id",
@@ -35114,7 +35173,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 100,
+            "line": 108,
             "description": "A flag that indicates whether the sound is ready to be played or not. If not then this indicates that we are awaiting a user event.",
             "itemtype": "property",
             "name": "_playable",
@@ -35128,7 +35187,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 108,
+            "line": 116,
             "itemtype": "property",
             "name": "playable",
             "type": "boolean",
@@ -35141,7 +35200,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 132,
+            "line": 140,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -35158,7 +35217,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 142,
+            "line": 150,
             "description": "The game that this sound belongs to.",
             "itemtype": "property",
             "name": "_game",
@@ -35172,7 +35231,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 150,
+            "line": 158,
             "description": "Web Audio API ONLY - A reference to the audio context that the game's audio manager has.",
             "itemtype": "property",
             "name": "context",
@@ -35186,7 +35245,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 158,
+            "line": 166,
             "description": "Web Audio API ONLY - A reference to the master gain node on the audio manager.",
             "itemtype": "property",
             "name": "masterGainNode",
@@ -35200,7 +35259,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 166,
+            "line": 174,
             "description": "Web Audio API ONLY - This sounds local gainNode that it uses.",
             "itemtype": "property",
             "name": "gainNode",
@@ -35214,7 +35273,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 174,
+            "line": 182,
             "description": "A boolean indicating whether or not that audio tags are being used to generate sounds.",
             "itemtype": "property",
             "name": "_usingAudioTag",
@@ -35228,7 +35287,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 182,
+            "line": 190,
             "description": "A boolean indicating whether or not the webAuduio api is being used.",
             "itemtype": "property",
             "name": "_usingWebAudio",
@@ -35242,7 +35301,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 190,
+            "line": 198,
             "description": "A private indicator of whether this audio is currently muted or not.",
             "itemtype": "property",
             "name": "_muted",
@@ -35257,7 +35316,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 199,
+            "line": 207,
             "description": "A number between 0 and 1 representing the current volume of this audio piece.",
             "itemtype": "property",
             "name": "_volume",
@@ -35272,7 +35331,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 208,
+            "line": 216,
             "description": "A boolean indicating whether this piece of audio should loop or not.",
             "itemtype": "property",
             "name": "_loop",
@@ -35286,7 +35345,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 216,
+            "line": 224,
             "description": "The key that was used to get the audio from the AudioLibrary.",
             "itemtype": "property",
             "name": "key",
@@ -35300,7 +35359,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 224,
+            "line": 232,
             "description": "The property containing the file information about the audio.",
             "itemtype": "property",
             "name": "_file",
@@ -35314,7 +35373,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 232,
+            "line": 240,
             "description": "This is the piece of audio that either method will use to play audio. E.g.\nIn the case of the Web Audio API this is the sound buffer source, in which the audio plays from. \nIn the case of Audio Tags this is the Audio Tag itself.",
             "itemtype": "property",
             "name": "_sound",
@@ -35328,7 +35387,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 242,
+            "line": 250,
             "description": "A boolean that controls/knows if the audio is ready to be played or not.\nThis is just an indicator of if the file has been retrieved successfully from the file store or not.",
             "itemtype": "property",
             "name": "ready",
@@ -35342,7 +35401,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 251,
+            "line": 259,
             "description": "The total duration of the audio in seconds.",
             "itemtype": "property",
             "name": "totalDuration",
@@ -35356,7 +35415,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 259,
+            "line": 267,
             "description": "The current duration of the section of audio that is being played. In milliseconds.",
             "itemtype": "property",
             "name": "duration",
@@ -35370,7 +35429,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 267,
+            "line": 275,
             "description": "Web Audio API ONLY - The audio buffer that is to be used when playing audio segments.",
             "itemtype": "property",
             "name": "_buffer",
@@ -35384,7 +35443,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 275,
+            "line": 283,
             "description": "Web Audio API ONLY - A boolean to indicate if the audio has been decoded or not yet. If not you will need to run the decode() method.",
             "itemtype": "property",
             "name": "_decoded",
@@ -35399,7 +35458,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 284,
+            "line": 292,
             "description": "A private property that holds the volume before the sound was muted. Used so that when unmuted the sound will resume at its old spot.",
             "itemtype": "property",
             "name": "_muteVolume",
@@ -35413,7 +35472,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 292,
+            "line": 300,
             "description": "Indicates whether or not the sound is currently playing.",
             "itemtype": "property",
             "name": "isPlaying",
@@ -35428,7 +35487,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 301,
+            "line": 309,
             "description": "A indicator of if the sound is currently paused.",
             "itemtype": "property",
             "name": "paused",
@@ -35443,7 +35502,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 310,
+            "line": 318,
             "description": "If the sound needs to be played but is waiting on something.",
             "itemtype": "property",
             "name": "_pending",
@@ -35457,7 +35516,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 318,
+            "line": 326,
             "description": "When the audio started playing. In milliseconds",
             "itemtype": "property",
             "name": "_startTime",
@@ -35471,7 +35530,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 326,
+            "line": 334,
             "description": "When the audio is playing, this is the current time we are at with it playing. In milliseconds",
             "itemtype": "property",
             "name": "_currentTime",
@@ -35485,7 +35544,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 334,
+            "line": 342,
             "description": "The time at which the audio should stop playing. In milliseconds. This is assuming that the audio is not on loop.",
             "itemtype": "property",
             "name": "_stopTime",
@@ -35499,7 +35558,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 342,
+            "line": 350,
             "description": "An array of all of the markers that are on this piece of audio.",
             "itemtype": "property",
             "name": "_markers",
@@ -35513,7 +35572,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 350,
+            "line": 358,
             "description": "The current marker that is being used.",
             "itemtype": "property",
             "name": "_currentMarker",
@@ -35528,7 +35587,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 359,
+            "line": 367,
             "description": "A Kiwi Signal that dispatches a event when the audio starts playing.",
             "itemtype": "property",
             "name": "onPlay",
@@ -35542,7 +35601,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 367,
+            "line": 375,
             "description": "A Kiwi Signal that dispatches a event when the audio stops playing.",
             "itemtype": "property",
             "name": "onStop",
@@ -35556,7 +35615,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 375,
+            "line": 383,
             "description": "A Kiwi Signal that dispatches a event when the audio gets paused.",
             "itemtype": "property",
             "name": "onPause",
@@ -35570,7 +35629,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 383,
+            "line": 391,
             "description": "A Kiwi Signal that dispatches a event when the audio resumes.",
             "itemtype": "property",
             "name": "onResume",
@@ -35584,7 +35643,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 391,
+            "line": 399,
             "description": "A Kiwi Signal that dispatches a event when the audio finishes and starts again, due to it looping.",
             "itemtype": "property",
             "name": "onLoop",
@@ -35598,7 +35657,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 399,
+            "line": 407,
             "description": "A Kiwi Signal that dispatches a event when the audio gets muted.",
             "itemtype": "property",
             "name": "onMute",
@@ -35612,7 +35671,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 407,
+            "line": 415,
             "description": "Retrieves the audio data from the file store.",
             "itemtype": "method",
             "name": "_setAudio",
@@ -35625,7 +35684,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 434,
+            "line": 442,
             "description": "Decodes the audio data to make it playable. By default the audio should already have been decoded when it was loaded.",
             "itemtype": "method",
             "name": "_decode",
@@ -35638,7 +35697,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 459,
+            "line": 467,
             "description": "Used to control the current volume for this sound.",
             "itemtype": "property",
             "name": "volume",
@@ -35652,7 +35711,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 494,
+            "line": 502,
             "description": "Allows you to mute the sound.",
             "itemtype": "property",
             "name": "mute",
@@ -35666,7 +35725,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 523,
+            "line": 531,
             "description": "Adds a new marker to the audio which will then allow for that section of audio to be played.",
             "itemtype": "method",
             "name": "addMarker",
@@ -35703,7 +35762,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 537,
+            "line": 545,
             "description": "Removes a currently existing marker from this audio.",
             "itemtype": "method",
             "name": "removeMarker",
@@ -35723,7 +35782,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 555,
+            "line": 563,
             "description": "Plays the current sound/audio from the start.",
             "itemtype": "method",
             "name": "play",
@@ -35751,7 +35810,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 639,
+            "line": 647,
             "description": "Stop the sound from playing.",
             "itemtype": "method",
             "name": "stop",
@@ -35764,7 +35823,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 668,
+            "line": 676,
             "description": "Pauses the sound so that you can resume it from at point to paused it at.",
             "itemtype": "method",
             "name": "pause",
@@ -35777,7 +35836,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 682,
+            "line": 690,
             "description": "Plays the sound from when you paused the sound.",
             "itemtype": "method",
             "name": "resume",
@@ -35790,7 +35849,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 718,
+            "line": 726,
             "description": "The update loop that gets executed every frame.",
             "itemtype": "method",
             "name": "update",
@@ -35803,7 +35862,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 781,
+            "line": 793,
             "description": "This method handles the destruction of all of the properties when this audio is not longer needed. \nYou call this method when you want this method to be removed on the next garbage collection cycle.",
             "itemtype": "method",
             "name": "destroy",
@@ -43567,7 +43626,7 @@
         },
         {
             "message": "param name missing: {Camera}",
-            "line": " src\\gameobjects\\Textfield.ts:338"
+            "line": " src\\gameobjects\\Textfield.ts:334"
         },
         {
             "message": "replacing incorrect tag: propery with property",
@@ -43642,6 +43701,26 @@
             "line": " src\\core\\SignalBinding.ts:30"
         },
         {
+            "message": "Missing item type\nReturns the type of child that this is.",
+            "line": " src\\gameobjects\\tilemap\\TIleMapLayer.ts:64"
+        },
+        {
+            "message": "Missing item type\n-----------------------\n Getting Tiles\n-----------------------",
+            "line": " src\\gameobjects\\tilemap\\TIleMapLayer.ts:188"
+        },
+        {
+            "message": "Missing item type\n-----------------------\n Tiles Manipulation\n-----------------------",
+            "line": " src\\gameobjects\\tilemap\\TIleMapLayer.ts:293"
+        },
+        {
+            "message": "Missing item type\n-----------------------\n Get Tiles By Collision Methods\n-----------------------",
+            "line": " src\\gameobjects\\tilemap\\TIleMapLayer.ts:437"
+        },
+        {
+            "message": "Missing item type\n-----------------------\n Temp Properties used During Rendering\n-----------------------",
+            "line": " src\\gameobjects\\tilemap\\TIleMapLayer.ts:544"
+        },
+        {
             "message": "Missing item type\n-----------------------\n Creation of Tile Types\n-----------------------",
             "line": " src\\gameobjects\\tilemap\\TileMap.ts:299"
         },
@@ -43656,26 +43735,6 @@
         {
             "message": "Missing item type\n-----------------------\n TileMapLayer Management Functions\n-----------------------",
             "line": " src\\gameobjects\\tilemap\\TileMap.ts:453"
-        },
-        {
-            "message": "Missing item type\nReturns the type of child that this is.",
-            "line": " src\\gameobjects\\tilemap\\TileMapLayer.ts:64"
-        },
-        {
-            "message": "Missing item type\n-----------------------\n Getting Tiles\n-----------------------",
-            "line": " src\\gameobjects\\tilemap\\TileMapLayer.ts:188"
-        },
-        {
-            "message": "Missing item type\n-----------------------\n Tiles Manipulation\n-----------------------",
-            "line": " src\\gameobjects\\tilemap\\TileMapLayer.ts:293"
-        },
-        {
-            "message": "Missing item type\n-----------------------\n Get Tiles By Collision Methods\n-----------------------",
-            "line": " src\\gameobjects\\tilemap\\TileMapLayer.ts:437"
-        },
-        {
-            "message": "Missing item type\n-----------------------\n Temp Properties used During Rendering\n-----------------------",
-            "line": " src\\gameobjects\\tilemap\\TileMapLayer.ts:544"
         },
         {
             "message": "Missing item type\nChanges the alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.",

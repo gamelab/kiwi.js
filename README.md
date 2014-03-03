@@ -1,4 +1,4 @@
-Release Notes 0.6.0
+Release Notes 0.6.1
 
 Kiwi.js (BETA)
 =====
@@ -6,58 +6,25 @@ Kiwi.js (BETA)
 ###HTML5 game library written in TypeScript/Javascript
 -----------------------------------------------------------------
 
-version 0.6.0
+version 0.6.1
 
 ###Release notes for this version
 
-####New Features and major updates
-* Tilemap system has been totally revmped (see below)
-* The four core gameobjects (Sprite, staticImage, Tilemap and Textfield) now all render in both 2d canvas and WebGL.
-* WebGL rendering system has been greatly expanded, allowing the easy addition custom renderers and shaders when writing plugins.
- Examples are forthcoming.
+
     
-####Bug Fixes
-- Fixed bug that would stop Kiwi from working on Safari on the iPad 2. 
-- Reimplement Kiwi.DEVICE.touch. Was previously commented out.
-- Fixed issue where destroying groups would generate an error when switching states.
-- Fixed the 'cocoon.php' Previously was generating a js error and so the settings were not being taken into affect.
+####Bug Fixes and changes
+- Audio that cannot be decoded/isn't supported by the browser are no longer loaded by default. Done so that games no longer crash when an audio piece could not load.  
+- TextField GameObject no longer generates a image of the text when rendering.
+- Keys
+	- Duration property has been implemented. Returns the number of milliseconds a key has been held down for. 
+	- Repeat property has been implemented. Contains the number of times the 'onkeydown' event has fired for that Key. Is reset with each subsequent release/press.
+	- JustReleased/JustPressed methods have been implemented. 
+	- New property 'preventDefault' added. This boolean tells the key whether to 'prevent' any default functionality for that key or not when it is pressed/released. 
+- Keyboard
+	- A new signal named 'onKeyDownOnce' has been added. This signal only dispatches a single event with each key-press, which is the first time a key has been pressed but not any subsequent events if the key is held.
+	- JustPressed/JustReleased methods have been implemented.
+	- New parameter (preventDefault) added to 'addKey' method. See the new property 'preventDefault' for more information. 
 
-####Changes (no impact on pre-existing API)
-- Entity now has a rendererGL property and a renderGL method that can be overriden by WebGL compatible gameobjects.
-- The list of Base2 sizes are now stored as a Static property on the Kiwi.Utils.Common.
-- A method for resizing a Image/Canvas to be Base2 is now on the Kiwi.Utils.Common.
-- Textfields now always use the 'optimised' version and the 'unoptimised' version has been removed.
-- Pointers (Mouse/Touch Input)
-    - Now takes the scale of stage into consideration. Thus making inputs more accurate when smaller/enlarged.
-- Stage
-    - Now contains a 'scale' property, which keeps track of how much the 'stage' has been scaled down due to CSS. In Cocoon this is always at 1 for now. 
-    - The offset of the stage and scale is now re-calculated when the browser is resized. 
-- Kiwi.Files Object 
-    - File class on Kiwi has be refactored. 
-    - The XHR loading method now times-out after 4000 milliseconds, previously was 2000. 
-    - You can tell the XHR to not timeout by setting the delay to null.
-- Arcade Physics
-   - New method 'isTouching' has been added. Used just like the flixel 'touching' equivalent. 
-   - Now can affect rotation/angle of attached GameObjects.
-   - Can now resolve collisions vs tiles in a TileMapLayer using the 'overlapsTiles' method.
-- States
-   - Code has been refactored. 
-   - Redundant checks and conditions removed.
-   - StateConfig now keeps track of how many times a State has been switched to/used. 
-   - Now have a 'shutDown' method which developers override. Is called just before a state is destroyed.
-   - Nicer messages appear throughout the state process.  
-- Example Folder.
-   - New examples for ArcadePhysics have been added.
-   - A few new examples for Groups have been added.
-   - A list of TileMap examples have been implemented. 
-
-
-####Changes to API pre-exisiting API in this release
-- Previous property 'visibility' on Entities has been renamed to visible.
-- New Tilemap system has been implemented.
-   - You can now use TextureAtlases when creating Tilemaps.
-   - JSON format used when creating a Tilemap is the same as Tiled. 
-   - See the examples and docs for more documentation. 
 
 ###Known Issues
 The WebGL/Cocoon combination is not currently stable and some visual errors may occur. This is due to internal coocoon issues and we're working with Ludei to improve stability.

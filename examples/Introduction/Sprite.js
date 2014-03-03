@@ -9,8 +9,7 @@
 var Sprite = new Kiwi.State('Sprite');
 
 Sprite.preload = function () {
-    //this.game.stage.resize(800, 250);
-    this.game.stage.color = "ff0000"
+    this.game.stage.resize(800, 250);
     // Load out saloon background and ninja
     this.addImage('pirate', 'assets/static/pirate.png');
 }
@@ -26,7 +25,7 @@ Sprite.create = function () {
     *
     * Note: Don't worry if you have told a sprite that you don't want to use the input. It can always be created later.
     **/
-    this.pirate = new Kiwi.GameObjects.Sprite(this, this.textures.pirate, 0, 0);
+    this.pirate = new Kiwi.GameObjects.Sprite(this, this.textures.pirate, 300, 30);
     this.addChild(this.pirate);
 }
 
