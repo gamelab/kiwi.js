@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.5.2</em>
+            <em>API Docs for: 0.6</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -640,7 +640,14 @@
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_onKeyUp">onKeyUp</a>
+                                <a href="#property_onKeyDown">onKeyDown</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_onKeyDownOnce">onKeyDownOnce</a>
 
                                 
                                 
@@ -680,6 +687,12 @@
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code class="optional">[preventDefault=false]</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
@@ -715,7 +728,7 @@
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l182"><code>src\input\Keyboard.ts:182</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l202"><code>src\input\Keyboard.ts:202</code></a>
         
         </p>
 
@@ -727,7 +740,8 @@
 
     <div class="description">
         <p>Creates a new Key object for a keycode that is specified.
-Not strictly needed (as one will be created once an event occurs on that keycode) by can be good for setting the game up.</p>
+Not strictly needed (as one will be created once an event occurs on that keycode) but can be good for setting the game up
+and choosing whether to prevent that keys any default action.</p>
 
     </div>
 
@@ -747,6 +761,23 @@ Not strictly needed (as one will be created once an event occurs on that keycode
 
                     <div class="param-description">
                         <p>The keycode of the key that you want to add.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[preventDefault=false]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If the default action for that key should be prevented or not when an event fires.</p>
 
                     </div>
 
@@ -880,7 +911,7 @@ Not strictly needed (as one will be created once an event occurs on that keycode
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l219"><code>src\input\Keyboard.ts:219</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l254"><code>src\input\Keyboard.ts:254</code></a>
         
         </p>
 
@@ -891,7 +922,7 @@ Not strictly needed (as one will be created once an event occurs on that keycode
     </div>
 
     <div class="description">
-        <p>Returns a boolean indicating whether a key is down or not.</p>
+        <p>Returns a boolean indicating whether a key (that you pass via its keycode) is down or not.</p>
 
     </div>
 
@@ -987,7 +1018,7 @@ Not strictly needed (as one will be created once an event occurs on that keycode
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l236"><code>src\input\Keyboard.ts:236</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l271"><code>src\input\Keyboard.ts:271</code></a>
         
         </p>
 
@@ -998,7 +1029,7 @@ Not strictly needed (as one will be created once an event occurs on that keycode
     </div>
 
     <div class="description">
-        <p>Returns a boolean indicating whether a key is up or not.</p>
+        <p>Returns a boolean indicating whether a key (that you pass via its keycode) is up or not.</p>
 
     </div>
 
@@ -1055,13 +1086,13 @@ Not strictly needed (as one will be created once an event occurs on that keycode
             
                 <li class="arg">
                     
-                        <code>key</code>
+                        <code>keycode</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code class="optional">[duration]</code>
+                        <code class="optional">[duration=this.justPressedRate]</code>
                     
                 </li>
             
@@ -1096,7 +1127,7 @@ Not strictly needed (as one will be created once an event occurs on that keycode
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l196"><code>src\input\Keyboard.ts:196</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l221"><code>src\input\Keyboard.ts:221</code></a>
         
         </p>
 
@@ -1107,7 +1138,7 @@ Not strictly needed (as one will be created once an event occurs on that keycode
     </div>
 
     <div class="description">
-        <p>[NOT CURRENTLY IMPLEMENTED] Returns a boolean indicating if a key was just pressed or not.</p>
+        <p>Returns a boolean indicating if a key (that you pass via a keycode) was just pressed or not.</p>
 
     </div>
 
@@ -1119,16 +1150,14 @@ Not strictly needed (as one will be created once an event occurs on that keycode
             
                 <li class="param">
                     
-                        <code class="param-name">key</code>
-                        <span class="type">Any</span>
+                        <code class="param-name">keycode</code>
+                        <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The key that you would like to check against.</li>
-</ul>
+                        <p>The keycode of the key that you would like to check against.</p>
 
                     </div>
 
@@ -1137,7 +1166,7 @@ Not strictly needed (as one will be created once an event occurs on that keycode
             
                 <li class="param">
                     
-                        <code class="param-name optional">[duration]</code>
+                        <code class="param-name optional">[duration=this.justPressedRate]</code>
                         <span class="type">Number</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
@@ -1145,9 +1174,7 @@ Not strictly needed (as one will be created once an event occurs on that keycode
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The duration at which determines if a key was &#39;just&#39; pressed or not. If not specified defaults to the justPressedRate</li>
-</ul>
+                        <p>The duration at which determines if a key was &#39;just&#39; pressed or not. If not specified defaults to the justPressedRate</p>
 
                     </div>
 
@@ -1173,13 +1200,13 @@ Not strictly needed (as one will be created once an event occurs on that keycode
             
                 <li class="arg">
                     
-                        <code>key</code>
+                        <code>keycode</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code class="optional">[duration]</code>
+                        <code class="optional">[duration=this.justReleasedRate]</code>
                     
                 </li>
             
@@ -1214,7 +1241,7 @@ Not strictly needed (as one will be created once an event occurs on that keycode
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l208"><code>src\input\Keyboard.ts:208</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l238"><code>src\input\Keyboard.ts:238</code></a>
         
         </p>
 
@@ -1225,7 +1252,7 @@ Not strictly needed (as one will be created once an event occurs on that keycode
     </div>
 
     <div class="description">
-        <p>[NOT CURRENTLY IMPLEMENTED] Returns a boolean indicating if a key was just released or not.</p>
+        <p>Returns a boolean indicating if a key (that you pass via a keycode) was just released or not.</p>
 
     </div>
 
@@ -1237,16 +1264,14 @@ Not strictly needed (as one will be created once an event occurs on that keycode
             
                 <li class="param">
                     
-                        <code class="param-name">key</code>
-                        <span class="type">Any</span>
+                        <code class="param-name">keycode</code>
+                        <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The key that you would like to check against.</li>
-</ul>
+                        <p>The keycode of the key that you would like to check against.</p>
 
                     </div>
 
@@ -1255,7 +1280,7 @@ Not strictly needed (as one will be created once an event occurs on that keycode
             
                 <li class="param">
                     
-                        <code class="param-name optional">[duration]</code>
+                        <code class="param-name optional">[duration=this.justReleasedRate]</code>
                         <span class="type">Number</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
@@ -1263,9 +1288,7 @@ Not strictly needed (as one will be created once an event occurs on that keycode
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The duration at which determines if a key was &#39;just&#39; released or not. If not specified defaults to the justReleasedRate</li>
-</ul>
+                        <p>The duration at which determines if a key was &#39;just&#39; released or not. If not specified defaults to the justReleasedRate</p>
 
                     </div>
 
@@ -1399,7 +1422,7 @@ Not strictly needed (as one will be created once an event occurs on that keycode
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l146"><code>src\input\Keyboard.ts:146</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l161"><code>src\input\Keyboard.ts:161</code></a>
         
         </p>
 
@@ -1490,7 +1513,7 @@ or it updates the key that was pressed (if one does exist).</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l164"><code>src\input\Keyboard.ts:164</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l183"><code>src\input\Keyboard.ts:183</code></a>
         
         </p>
 
@@ -1571,7 +1594,7 @@ or it updates the key that was released (if one does exist).</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l253"><code>src\input\Keyboard.ts:253</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l288"><code>src\input\Keyboard.ts:288</code></a>
         
         </p>
 
@@ -1628,7 +1651,7 @@ or it updates the key that was released (if one does exist).</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l118"><code>src\input\Keyboard.ts:118</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l133"><code>src\input\Keyboard.ts:133</code></a>
         
         </p>
 
@@ -1685,7 +1708,7 @@ or it updates the key that was released (if one does exist).</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l132"><code>src\input\Keyboard.ts:132</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l147"><code>src\input\Keyboard.ts:147</code></a>
         
         </p>
 
@@ -1742,7 +1765,7 @@ or it updates the key that was released (if one does exist).</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l93"><code>src\input\Keyboard.ts:93</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l94"><code>src\input\Keyboard.ts:94</code></a>
         
         </p>
 
@@ -2012,8 +2035,8 @@ or it updates the key that was released (if one does exist).</p>
 </div>
 
                 
-                    <div id="property_onKeyUp" class="property item public">
-    <h3 class="name"><code>onKeyUp</code></h3>
+                    <div id="property_onKeyDown" class="property item public">
+    <h3 class="name"><code>onKeyDown</code></h3>
     <span class="type">Signal</span>
 
     
@@ -2037,7 +2060,7 @@ or it updates the key that was released (if one does exist).</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l102"><code>src\input\Keyboard.ts:102</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l111"><code>src\input\Keyboard.ts:111</code></a>
         
         </p>
 
@@ -2047,7 +2070,58 @@ or it updates the key that was released (if one does exist).</p>
     </div>
 
     <div class="description">
-        <p>A Signal that dispatches events when a key is released/is now up.</p>
+        <p>A Signal that dispatches events when a key is pressed/is down.
+This mimics the natural &#39;keydown&#39; event listener, so it will keep dispatching events if the user holds the key down. 
+Note: This fires after the &#39;onKeyDownOnce&#39; signal.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_onKeyDownOnce" class="property item public">
+    <h3 class="name"><code>onKeyDownOnce</code></h3>
+    <span class="type">Signal</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keyboard.ts.html#l122"><code>src\input\Keyboard.ts:122</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Signal that dispatches events when a key is pressed/is down initially. 
+This event only fires the first time that the key is pressed, so it won&#39;t dispatch events if the user is holding the key down.
+Note: This fires before the &#39;onKeyDown&#39; signal;</p>
 
     </div>
 
@@ -2084,7 +2158,7 @@ or it updates the key that was released (if one does exist).</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l110"><code>src\input\Keyboard.ts:110</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l103"><code>src\input\Keyboard.ts:103</code></a>
         
         </p>
 
@@ -2094,7 +2168,7 @@ or it updates the key that was released (if one does exist).</p>
     </div>
 
     <div class="description">
-        <p>A Signal that dispatches events when a key is pressed/is now down.</p>
+        <p>A Signal that dispatches events when a key is released/is now up.</p>
 
     </div>
 

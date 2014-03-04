@@ -204,6 +204,7 @@ module Kiwi.Animations {
 
         /*
         * A boolean indicating whether or not the _onCompleteCallback has been called.
+        * Is reset each time you tell the tween to start.
         * @property _onCompleteCalled
         * @type boolean
         * @default false
@@ -277,7 +278,9 @@ module Kiwi.Animations {
 
 	        this._manager.add(this);
 
-	        this._onStartCallbackFired = false;
+            this._onStartCallbackFired = false;
+
+            this._onCompleteCalled = false;
 
 	        this._startTime = this._game.time.now() + this._delayTime;
 

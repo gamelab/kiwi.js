@@ -139,10 +139,10 @@ module Kiwi.Textures {
                     //If no columns were passed then calculate them again.
                     if (!imageFile.metadata.cols)
                         imageFile.metadata.cols = imageFile.data.width / imageFile.metadata.frameWidth;
-                
+
                 }
 
-                if(this._game.debug) 
+                if (this._game.debug)
                     console.log(imageFile.fileName + ' has been rebuilt to be base2.');
 
                 //Assign the new image to the data

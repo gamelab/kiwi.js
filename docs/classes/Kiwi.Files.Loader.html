@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.5.2</em>
+            <em>API Docs for: 0.6</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -798,6 +798,12 @@
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code class="optional">[onlyIfSupported=true]</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
@@ -840,7 +846,9 @@
     </div>
 
     <div class="description">
-        <p>Creates a new File to store a audio piece and adds it to the loading queue.</p>
+        <p>Creates a new File to store a audio piece. 
+This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.
+You can override this behaviour and tell the audio data to load even if not supported by setting the &#39;onlyIfSupported&#39; boolean to false.</p>
 
     </div>
 
@@ -893,6 +901,23 @@
 
                     <div class="param-description">
                         <p>If the file should be stored globally.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[onlyIfSupported=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If the audio file should only be loaded if Kiwi detects that the audio file could be played. Set this to fa</p>
 
                     </div>
 
@@ -965,7 +990,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l306"><code>src\file\Loader.ts:306</code></a>
+        <a href="../files/src_file_Loader.ts.html#l340"><code>src\file\Loader.ts:340</code></a>
         
         </p>
 
@@ -1329,7 +1354,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l278"><code>src\file\Loader.ts:278</code></a>
+        <a href="../files/src_file_Loader.ts.html#l312"><code>src\file\Loader.ts:312</code></a>
         
         </p>
 
@@ -1805,7 +1830,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l320"><code>src\file\Loader.ts:320</code></a>
+        <a href="../files/src_file_Loader.ts.html#l354"><code>src\file\Loader.ts:354</code></a>
         
         </p>
 
@@ -2109,7 +2134,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l394"><code>src\file\Loader.ts:394</code></a>
+        <a href="../files/src_file_Loader.ts.html#l428"><code>src\file\Loader.ts:428</code></a>
         
         </p>
 
@@ -2211,7 +2236,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l292"><code>src\file\Loader.ts:292</code></a>
+        <a href="../files/src_file_Loader.ts.html#l326"><code>src\file\Loader.ts:326</code></a>
         
         </p>
 
@@ -2396,7 +2421,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l528"><code>src\file\Loader.ts:528</code></a>
+        <a href="../files/src_file_Loader.ts.html#l562"><code>src\file\Loader.ts:562</code></a>
         
         </p>
 
@@ -2494,7 +2519,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l547"><code>src\file\Loader.ts:547</code></a>
+        <a href="../files/src_file_Loader.ts.html#l581"><code>src\file\Loader.ts:581</code></a>
         
         </p>
 
@@ -2573,7 +2598,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l446"><code>src\file\Loader.ts:446</code></a>
+        <a href="../files/src_file_Loader.ts.html#l480"><code>src\file\Loader.ts:480</code></a>
         
         </p>
 
@@ -2663,7 +2688,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l425"><code>src\file\Loader.ts:425</code></a>
+        <a href="../files/src_file_Loader.ts.html#l459"><code>src\file\Loader.ts:459</code></a>
         
         </p>
 
@@ -2747,7 +2772,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l497"><code>src\file\Loader.ts:497</code></a>
+        <a href="../files/src_file_Loader.ts.html#l531"><code>src\file\Loader.ts:531</code></a>
         
         </p>
 
@@ -2816,7 +2841,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l373"><code>src\file\Loader.ts:373</code></a>
+        <a href="../files/src_file_Loader.ts.html#l407"><code>src\file\Loader.ts:407</code></a>
         
         </p>
 
@@ -2877,7 +2902,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l509"><code>src\file\Loader.ts:509</code></a>
+        <a href="../files/src_file_Loader.ts.html#l543"><code>src\file\Loader.ts:543</code></a>
         
         </p>
 
@@ -3083,7 +3108,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l410"><code>src\file\Loader.ts:410</code></a>
+        <a href="../files/src_file_Loader.ts.html#l444"><code>src\file\Loader.ts:444</code></a>
         
         </p>
 
@@ -3213,7 +3238,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l334"><code>src\file\Loader.ts:334</code></a>
+        <a href="../files/src_file_Loader.ts.html#l368"><code>src\file\Loader.ts:368</code></a>
         
         </p>
 

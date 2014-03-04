@@ -748,7 +748,7 @@ declare module Kiwi.Files {
         public addImage(key: string, url: string, width?: number, height?: number, offsetX?: number, offsetY?: number, storeAsGlobal?: boolean): void;
         public addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number, storeAsGlobal?: boolean): void;
         public addTextureAtlas(key: string, imageURL: string, jsonID: string, jsonURL: string, storeAsGlobal?: boolean): void;
-        public addAudio(key: string, url: string, storeAsGlobal?: boolean): void;
+        public addAudio(key: string, url: string, storeAsGlobal?: boolean, onlyIfSupported?: boolean): void;
         public addJSON(key: string, url: string, storeAsGlobal?: boolean): void;
         public addXML(key: string, url: string, storeAsGlobal?: boolean): void;
         public addBinaryFile(key: string, url: string, storeAsGlobal?: boolean): void;
@@ -973,7 +973,6 @@ declare module Kiwi.GameObjects {
         private _canvas;
         private _ctx;
         private _tempDirty;
-        public img: any;
         private _renderText();
         public render(camera: Kiwi.Camera): void;
         public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
@@ -1782,6 +1781,8 @@ declare module Kiwi.Animations {
 declare module Kiwi.Input {
     class Key {
         constructor(manager: Input.Keyboard, keycode: number, event?: KeyboardEvent);
+        public preventDefault: boolean;
+        public game: Kiwi.Game;
         public objType(): string;
         private _manager;
         public keyCode: number;
@@ -1791,7 +1792,7 @@ declare module Kiwi.Input {
         public ctrlKey: boolean;
         public shiftKey: boolean;
         public timeDown: number;
-        public duration: number;
+        public duration : number;
         public timeUp: number;
         public repeats: number;
         public update(event: KeyboardEvent): void;
@@ -1813,13 +1814,14 @@ declare module Kiwi.Input {
         public update(): void;
         public onKeyUp: Kiwi.Signal;
         public onKeyDown: Kiwi.Signal;
+        public onKeyDownOnce: Kiwi.Signal;
         public start(): void;
         public stop(): void;
         private _keyPressed(event);
         private _keyReleased(event);
-        public addKey(keycode: number): Input.Key;
-        public justPressed(key: any, duration?: number): void;
-        public justReleased(key: any, duration?: number): void;
+        public addKey(keycode: number, preventDefault?: boolean): Input.Key;
+        public justPressed(keycode: any, duration?: number): boolean;
+        public justReleased(keycode: any, duration?: number): boolean;
         public isDown(keycode: number): boolean;
         public isUp(keycode: number): boolean;
         public reset(): void;

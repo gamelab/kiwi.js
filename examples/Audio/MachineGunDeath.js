@@ -56,6 +56,7 @@ MachineGunDeath.pew = function () {
     this.addChild(b);
     this.bullets.push(b);
     this.bang.play('default', true);
+
 }
 
 MachineGunDeath.spawn = function () {

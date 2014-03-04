@@ -553,6 +553,8 @@ var Kiwi;
 
                 this._onStartCallbackFired = false;
 
+                this._onCompleteCalled = false;
+
                 this._startTime = this._game.time.now() + this._delayTime;
 
                 for (var property in this._valuesEnd) {
@@ -4428,9 +4430,37 @@ var Kiwi;
                 this._fileList.push(imageFile, jsonFile);
             };
 
-            Loader.prototype.addAudio = function (key, url, storeAsGlobal) {
+            Loader.prototype.addAudio = function (key, url, storeAsGlobal, onlyIfSupported) {
                 if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, key, true, storeAsGlobal));
+                if (typeof onlyIfSupported === "undefined") { onlyIfSupported = true; }
+                var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, key, true, storeAsGlobal);
+                var support = false;
+
+                switch (file.fileExtension) {
+                    case 'mp3':
+                        support = Kiwi.DEVICE.mp3;
+                        break;
+
+                    case 'ogg':
+                    case 'oga':
+                        support = Kiwi.DEVICE.ogg;
+                        break;
+
+                    case 'm4a':
+                        support = Kiwi.DEVICE.m4a;
+                        break;
+
+                    case 'wav':
+                    case 'wave':
+                        support = Kiwi.DEVICE.wav;
+                        break;
+                }
+
+                if (support == true || onlyIfSupported == false) {
+                    this._fileList.push(file);
+                } else {
+                    console.error('Audio Format not supported on this Device/Browser.');
+                }
             };
 
             Loader.prototype.addJSON = function (key, url, storeAsGlobal) {
@@ -5886,10 +5916,6 @@ var Kiwi;
                 this._ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
                 this._ctx.fillStyle = this._fontColor;
                 this._ctx.textBaseline = this._baseline;
-
-                this.img = new Image();
-                this.img = this._canvas.toDataURL();
-                this.atlas.image = this.img;
 
                 this._ctx.fillText(this._text, 0, 0);
 
@@ -10356,8 +10382,11 @@ var Kiwi;
                 this._loop = loop;
                 this.key = key;
 
-                if (this._game.audio.noAudio || this._game.fileStore.exists(this.key) === false)
+                if (this._game.audio.noAudio || this._game.fileStore.exists(this.key) === false) {
+                    if (this._game.debugOption)
+                        console.log('Could not play Audio. Either the browser doesn\'t support audio or the Audio file was not found on the filestore');
                     return;
+                }
 
                 if (this._usingWebAudio) {
                     this._setAudio();
@@ -10385,7 +10414,7 @@ var Kiwi;
                             this.totalDuration = this._sound.duration;
                             this._sound.volume = this.volume * this._game.audio.volume;
 
-                            if (isNaN(this.totalDuration))
+                            if (isNaN(this.totalDuration) || this.totalDuration == 0)
                                 this._pending = true;
                         }
                     }
@@ -10669,7 +10698,7 @@ var Kiwi;
                     if (this._decoded === true || this._file.data && this._file.data.decoded) {
                         this._pending = false;
                         this.play();
-                    } else if (this._usingAudioTag && !isNaN(this._sound.duration)) {
+                    } else if (this._usingAudioTag && !isNaN(this._sound.duration) || this._game.deviceTargetOption == Kiwi.TARGET_COCOON && this._sound.duration !== 0) {
                         this.totalDuration = this._sound.duration;
                         this._markers['default'].duration = this.totalDuration;
                         this._pending = false;
@@ -11075,16 +11104,17 @@ var Kiwi;
     (function (Input) {
         var Key = (function () {
             function Key(manager, keycode, event) {
+                this.preventDefault = false;
                 this.isDown = false;
                 this.isUp = true;
                 this.altKey = false;
                 this.ctrlKey = false;
                 this.shiftKey = false;
                 this.timeDown = 0;
-                this.duration = 0;
                 this.timeUp = 0;
                 this.repeats = 0;
                 this._manager = manager;
+                this.game = this._manager.game;
                 this.keyCode = keycode;
 
                 if (event) {
@@ -11095,8 +11125,23 @@ var Kiwi;
                 return "Key";
             };
 
+            Object.defineProperty(Key.prototype, "duration", {
+                get: function () {
+                    if (this.isDown) {
+                        this.timeDown = this.game.time.now();
+                    }
+
+                    return (this.timeDown < this.timeUp) ? 0 : this.timeDown - this.timeUp;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             Key.prototype.update = function (event) {
                 this.keyCode = event.keyCode;
+
+                if (this.preventDefault)
+                    event.preventDefault();
 
                 if (event.type === 'keydown') {
                     this.altKey = event.altKey;
@@ -11105,22 +11150,23 @@ var Kiwi;
 
                     if (this.isDown === true) {
                         this.repeats++;
+                        this.timeDown = this.game.time.now();
                     } else {
                         this.isDown = true;
                         this.isUp = false;
-                        this.timeDown = event.timeStamp;
-                        this.duration = 0;
+                        this.timeDown = this.game.time.now();
+                        this.repeats = 0;
                     }
                 } else if (event.type === 'keyup') {
                     this.isDown = false;
                     this.isUp = true;
-                    this.timeUp = event.timeStamp;
+                    this.timeUp = this.game.time.now();
                 }
             };
 
             Key.prototype.justPressed = function (duration) {
                 if (typeof duration === "undefined") { duration = this._manager.justPressedRate; }
-                if (this.isDown === true && (this.timeDown + duration) < this._manager.game.time.now()) {
+                if (this.isDown === true && (this.timeDown + duration) > this.game.time.now()) {
                     return true;
                 } else {
                     return false;
@@ -11129,7 +11175,7 @@ var Kiwi;
 
             Key.prototype.justReleased = function (duration) {
                 if (typeof duration === "undefined") { duration = this._manager.justReleasedRate; }
-                if (this.isUp === true && (this.timeUp + duration) < this._manager.game.time.now()) {
+                if (this.isUp === true && (this.timeUp + duration) > this.game.time.now()) {
                     return true;
                 } else {
                     return false;
@@ -11141,7 +11187,7 @@ var Kiwi;
                 this.isUp = true;
                 this.timeUp = 0;
                 this.timeDown = 0;
-                this.duration = 0;
+                this.repeats = 0;
                 this.altKey = false;
                 this.shiftKey = false;
                 this.ctrlKey = false;
@@ -11177,6 +11223,7 @@ var Kiwi;
             Keyboard.prototype.boot = function () {
                 this.onKeyUp = new Kiwi.Signal;
                 this.onKeyDown = new Kiwi.Signal;
+                this.onKeyDownOnce = new Kiwi.Signal;
                 this.start();
             };
 
@@ -11213,6 +11260,10 @@ var Kiwi;
                 } else {
                     this._keys[event.keyCode] = new Kiwi.Input.Key(this, event.keyCode, event);
                 }
+
+                if (this._keys[event.keyCode].repeats == 0)
+                    this.onKeyDownOnce.dispatch(event.keyCode, this._keys[event.keyCode]);
+
                 this.onKeyDown.dispatch(event.keyCode, this._keys[event.keyCode]);
             };
 
@@ -11225,16 +11276,31 @@ var Kiwi;
                 this.onKeyUp.dispatch(event.keyCode, this._keys[event.keyCode]);
             };
 
-            Keyboard.prototype.addKey = function (keycode) {
-                return this._keys[keycode] = new Kiwi.Input.Key(this, keycode);
+            Keyboard.prototype.addKey = function (keycode, preventDefault) {
+                if (typeof preventDefault === "undefined") { preventDefault = false; }
+                var key = new Kiwi.Input.Key(this, keycode);
+                key.preventDefault = preventDefault;
+
+                return this._keys[keycode] = key;
+                ;
             };
 
-            Keyboard.prototype.justPressed = function (key, duration) {
+            Keyboard.prototype.justPressed = function (keycode, duration) {
                 if (typeof duration === "undefined") { duration = this.justPressedRate; }
+                if (this._keys[keycode]) {
+                    return this._keys[keycode].justPressed(duration);
+                }
+
+                return false;
             };
 
-            Keyboard.prototype.justReleased = function (key, duration) {
+            Keyboard.prototype.justReleased = function (keycode, duration) {
                 if (typeof duration === "undefined") { duration = this.justReleasedRate; }
+                if (this._keys[keycode]) {
+                    return this._keys[keycode].justReleased(duration);
+                }
+
+                return false;
             };
 
             Keyboard.prototype.isDown = function (keycode) {
@@ -12718,6 +12784,8 @@ var Kiwi;
                     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
                     gl.bindTexture(gl.TEXTURE_2D, null);
 
                     this._uploaded = true;
@@ -13082,6 +13150,14 @@ var Kiwi;
             };
 
             TextureAtlasRenderer.prototype.draw = function (gl) {
+                gl.enableVertexAttribArray(this.shaderPair.attributes.aXYUV);
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.xyuvBuffer.buffer);
+                gl.vertexAttribPointer(this.shaderPair.attributes.aXYUV, this.xyuvBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+                gl.enableVertexAttribArray(this.shaderPair.attributes.aAlpha);
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.alphaBuffer.buffer);
+                gl.vertexAttribPointer(this.shaderPair.attributes.aAlpha, this.alphaBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
                 this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
                 this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
@@ -15535,7 +15611,7 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    Kiwi.VERSION = "0.6";
+    Kiwi.VERSION = "0.6.1";
 
     Kiwi.RENDERER_CANVAS = 0;
 

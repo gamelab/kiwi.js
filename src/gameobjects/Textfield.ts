@@ -274,7 +274,6 @@ module Kiwi.GameObjects {
         */
         private _tempDirty: boolean = true;
 
-        public img;
 
         /**
         * This method is used to render the text to an offscreen-canvas which is held in a TextureAtlas (which is generated upon the instanitation of this class). 
@@ -293,7 +292,7 @@ module Kiwi.GameObjects {
             //Get the size of the text.
             var _measurements: TextMetrics = this._ctx.measureText(this._text);   //when you measure the text for some reason it resets the values?! 
             var width = _measurements.width;
-            var height = this._fontSize * 1.3; //Need to find a better way to calc
+            var height = this._fontSize * 1.3; //Need to find a better way to calculate
 
 
             //Is the width base2?
@@ -301,7 +300,7 @@ module Kiwi.GameObjects {
                 var i = 0;
                 while (width > Kiwi.Utils.Common.base2Sizes[i]) i++;
                 width = Kiwi.Utils.Common.base2Sizes[i];
-            } 
+            }
 
             //Is the height base2?
             if (Kiwi.Utils.Common.base2Sizes.indexOf(height) == -1) {
@@ -310,6 +309,7 @@ module Kiwi.GameObjects {
                 height = Kiwi.Utils.Common.base2Sizes[i];
             }
             
+
             //Apply the width/height
             this._canvas.width = width;  
             this._canvas.height = height;
@@ -319,10 +319,6 @@ module Kiwi.GameObjects {
             this._ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
             this._ctx.fillStyle = this._fontColor;
             this._ctx.textBaseline = this._baseline;
-
-            this.img = new Image();
-            this.img = this._canvas.toDataURL();
-            this.atlas.image = this.img;
 
             //Draw the text.
             this._ctx.fillText(this._text, 0, 0);

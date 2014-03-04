@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.5.2</em>
+            <em>API Docs for: 0.6</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -608,17 +608,51 @@ module Kiwi.Files {
         }
 
         /**
-        * Creates a new File to store a audio piece and adds it to the loading queue.
+        * Creates a new File to store a audio piece. 
+        * This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.
+        * You can override this behaviour and tell the audio data to load even if not supported by setting the &#x27;onlyIfSupported&#x27; boolean to false.
+        *
         * @method addAudio
         * @param key {String} The key for the audio file.
         * @param url {String} The url of the audio to load.
         * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
+        * @param [onlyIfSupported=true] {Boolean} If the audio file should only be loaded if Kiwi detects that the audio file could be played. Set this to fa
         * @public
         */
-        public addAudio(key: string, url: string, storeAsGlobal: boolean = true) {
+        public addAudio(key: string, url: string, storeAsGlobal: boolean = true, onlyIfSupported: boolean = true) {
 
-            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, key, true, storeAsGlobal));
-           
+            var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, key, true, storeAsGlobal);
+            var support = false;
+
+            switch (file.fileExtension) {
+
+                case &#x27;mp3&#x27;:
+                    support = Kiwi.DEVICE.mp3;
+                    break;
+
+                case &#x27;ogg&#x27;:
+                case &#x27;oga&#x27;:
+                    support = Kiwi.DEVICE.ogg;
+                    break;
+
+                case &#x27;m4a&#x27;:    
+                    support = Kiwi.DEVICE.m4a;
+                    break;
+
+                case &#x27;wav&#x27;:
+                case &#x27;wave&#x27;:
+                    support = Kiwi.DEVICE.wav;
+                    break;
+
+            }
+
+            if (support == true || onlyIfSupported == false) {
+                this._fileList.push(file);
+
+            } else {
+                console.error(&#x27;Audio Format not supported on this Device/Browser.&#x27;);
+
+            }
         }
 
         /**

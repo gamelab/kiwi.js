@@ -55,10 +55,13 @@ module Kiwi.Files {
             }
 
             if (this.dataType === Kiwi.Files.File.AUDIO) {
+                
                 if (this._game.audio.usingAudioTag === true) {
                     this._useTagLoader = true;
+
                 } else { //just dont use the tag loader...just dont....
                     this._useTagLoader = false;
+
                 }
             }
 
@@ -567,7 +570,7 @@ module Kiwi.Files {
             return false;
         }
 
-        
+
         /*
         *-----------------
         * General Loading
