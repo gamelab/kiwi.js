@@ -140,6 +140,14 @@ module Kiwi.Textures {
                     if (!imageFile.metadata.cols)
                         imageFile.metadata.cols = imageFile.data.width / imageFile.metadata.frameWidth;
 
+                } else if (imageFile.dataType === Kiwi.Files.File.IMAGE) {
+
+                    if (!imageFile.metadata.width)
+                        imageFile.metadata.width = imageFile.data.width;
+
+                    if (!imageFile.metadata.height)
+                        imageFile.metadata.height = imageFile.data.height;
+
                 }
 
                 if (this._game.debug)
