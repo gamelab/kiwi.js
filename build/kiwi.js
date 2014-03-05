@@ -1,4 +1,46 @@
-﻿/**
+﻿var Kiwi;
+(function (Kiwi) {
+    // Module
+    (function (Geom) {
+        // Class
+        var Random = (function () {
+            function Random() {
+            }
+            Random.randomPointCirclePerimeter = function () {
+                var t = Math.random() * Math.PI * 2;
+                return new Kiwi.Geom.Point(Math.cos(t), Math.sin(t));
+            };
+
+            Random.randomPointCircle = function () {
+                var t = Math.random() * Math.PI * 2;
+                var u = Math.random() + Math.random();
+                var r = (u > 1) ? 2 - u : u;
+                return new Kiwi.Geom.Point(r * Math.cos(t), r * Math.sin(t));
+            };
+
+            Random.randomPointSquare = function () {
+                return new Kiwi.Geom.Point(Math.random() - 0.5, Math.random() - 0.5);
+            };
+
+            Random.randomPointSquarePerimeter = function () {
+                var t = Math.random() * 4;
+
+                if (t < 1)
+                    return new Kiwi.Geom.Point(t - 0.5, -0.5);
+                if (t < 2)
+                    return new Kiwi.Geom.Point(0.5, t - 1.5);
+                if (t < 3)
+                    return new Kiwi.Geom.Point(t - 2.5, 0.5);
+
+                return new Kiwi.Geom.Point(-0.5, t - 3.5);
+            };
+            return Random;
+        })();
+        Geom.Random = Random;
+    })(Kiwi.Geom || (Kiwi.Geom = {}));
+    var Geom = Kiwi.Geom;
+})(Kiwi || (Kiwi = {}));
+/**
 * Contains various methods that can be used when you are wanting to ease a Tween.
 *
 * @module Tweens
@@ -3735,7 +3777,6 @@ var Kiwi;
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].exists === true) {
                     return this.members[i];
-                    break;
                 }
             }
 
@@ -3752,7 +3793,6 @@ var Kiwi;
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].exists === false) {
                     return this.members[i];
-                    break;
                 }
             }
 
@@ -11092,12 +11132,10 @@ var Kiwi;
 
                             case "objectgroup":
                                 this.createNewObjectLayer();
-                                continue;
                                 break;
 
                             case "imagelayer":
                                 this.createNewImageLayer();
-                                continue;
                                 break;
                         }
                     }
@@ -16017,48 +16055,6 @@ var Kiwi;
     })(Kiwi.Geom || (Kiwi.Geom = {}));
     var Geom = Kiwi.Geom;
 })(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    // Module
-    (function (Geom) {
-        // Class
-        var Random = (function () {
-            function Random() {
-            }
-            Random.randomPointCirclePerimeter = function () {
-                var t = Math.random() * Math.PI * 2;
-                return new Kiwi.Geom.Point(Math.cos(t), Math.sin(t));
-            };
-
-            Random.randomPointCircle = function () {
-                var t = Math.random() * Math.PI * 2;
-                var u = Math.random() + Math.random();
-                var r = (u > 1) ? 2 - u : u;
-                return new Kiwi.Geom.Point(r * Math.cos(t), r * Math.sin(t));
-            };
-
-            Random.randomPointSquare = function () {
-                return new Kiwi.Geom.Point(Math.random() - 0.5, Math.random() - 0.5);
-            };
-
-            Random.randomPointSquarePerimeter = function () {
-                var t = Math.random() * 4;
-
-                if (t < 1)
-                    return new Kiwi.Geom.Point(t - 0.5, -0.5);
-                if (t < 2)
-                    return new Kiwi.Geom.Point(0.5, t - 1.5);
-                if (t < 3)
-                    return new Kiwi.Geom.Point(t - 2.5, 0.5);
-
-                return new Kiwi.Geom.Point(-0.5, t - 3.5);
-            };
-            return Random;
-        })();
-        Geom.Random = Random;
-    })(Kiwi.Geom || (Kiwi.Geom = {}));
-    var Geom = Kiwi.Geom;
-})(Kiwi || (Kiwi = {}));
 /**
 *
 * @module Kiwi
@@ -20451,7 +20447,6 @@ var Kiwi;
                 key.preventDefault = preventDefault;
 
                 return this._keys[keycode] = key;
-                ;
             };
 
             /**

@@ -27,7 +27,7 @@
     "no-trailing-comma": false,
     "no-trailing-whitespace": false,
     "no-unused-variable": false,
-    "no-unreachable": false,
+    "no-unreachable": true,
     "no-use-before-declare": false,
     "one-line": [false,
         "check-open-brace",

@@ -3777,7 +3777,6 @@ var Kiwi;
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].exists === true) {
                     return this.members[i];
-                    break;
                 }
             }
 
@@ -3794,7 +3793,6 @@ var Kiwi;
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].exists === false) {
                     return this.members[i];
-                    break;
                 }
             }
 
@@ -11134,12 +11132,10 @@ var Kiwi;
 
                             case "objectgroup":
                                 this.createNewObjectLayer();
-                                continue;
                                 break;
 
                             case "imagelayer":
                                 this.createNewImageLayer();
-                                continue;
                                 break;
                         }
                     }
@@ -20451,7 +20447,6 @@ var Kiwi;
                 key.preventDefault = preventDefault;
 
                 return this._keys[keycode] = key;
-                ;
             };
 
             /**
@@ -28637,7 +28632,7 @@ var Kiwi;
     * @default '1.0'
     * @public
     */
-    Kiwi.VERSION = "0.6";
+    Kiwi.VERSION = "0.6.1";
 
     //DIFFERENT RENDERER STATIC VARIABLES
     /**

@@ -815,7 +815,6 @@ module Kiwi {
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].exists === true) {
                     return this.members[i];
-                    break;
                 }
             }
 
@@ -833,7 +832,6 @@ module Kiwi {
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].exists === false) {
                     return this.members[i];
-                    break;
                 }
             }
 

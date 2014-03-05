@@ -214,7 +214,7 @@ module Kiwi.Input {
             var key = new Kiwi.Input.Key(this, keycode);
             key.preventDefault = preventDefault;
 
-            return this._keys[keycode] = key;;
+            return this._keys[keycode] = key;
 
         }
 
