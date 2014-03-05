@@ -39,3 +39,4 @@ _ReSharper*/
 !/examples/*/.js
 /node_modules
 /GLTests
+tscommand.tmp.txt
