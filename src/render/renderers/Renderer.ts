@@ -15,13 +15,8 @@ module Kiwi.Renderers {
 
         public static RENDERER_ID: string = "Renderer";
         
-        /**
-        * GL-Matrix.js provided 4x4 matrix used for matrix uniform
-        * @property mvMatrix
-        * @type Float32Array
-        * @public
-        */
-        public mvMatrix: Float32Array;
+        
+        public camMatrix: Float32Array;
 
 
         public loaded: boolean = false;

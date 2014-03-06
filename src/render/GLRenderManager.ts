@@ -140,13 +140,7 @@ module Kiwi.Renderers {
         private _maxItems: number = 1000;
          
         
-        /**
-        * GL-Matrix.js provided 4x4 matrix used for matrix uniform
-        * @property mvMatrix
-        * @type Float32Array
-        * @public
-        */
-        public mvMatrix: Float32Array;
+        public camMatrix: Float32Array;
         
         
         /**
@@ -284,17 +278,9 @@ module Kiwi.Renderers {
             gl.enable(gl.BLEND);
             gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-            //create Model View Matrix
-            this.mvMatrix = mat4.create();
-            mat2d.identity(this.mvMatrix);
-
             //shader manager
             this._shaderManager.init(gl, "TextureAtlasShader");
 
-            //initialise default renderer
-            //this.requestSharedRenderer("TextureAtlasRenderer");
-            //this._sharedRenderers.TextureAtlasRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
-            //this._currentRenderer = this._sharedRenderers.TextureAtlasRenderer;
              
             //stage res needs update on stage resize
             this._game.stage.onResize.add(function (width, height) {
@@ -367,38 +353,22 @@ module Kiwi.Renderers {
             var ct: Kiwi.Geom.Transform = camera.transform;
 
             //**Optimise me          
-            this.mvMatrix = new Float32Array([
-                cm.a, cm.b, 0, 0,
-                cm.c, cm.d, 0, 0,
-                0, 0, 1, 0,
-                ct.rotPointX - cm.tx, ct.rotPointY - cm.ty, 0, 1
+            this.camMatrix = new Float32Array([
+                cm.a, cm.b, 0, 
+                cm.c, cm.d, 0, 
+                ct.rotPointX - cm.tx, ct.rotPointY - cm.ty, 1
             ]);
             this._cameraOffset = new Float32Array([ct.rotPointX, ct.rotPointY]);
-            
-            //gl.useProgram(this._currentRenderer.shaderPair.shaderProgram);
-
-
-            //clear current renderer ready for a batch
-            //this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
-
+          
             this.collateRenderSequence();
             this.collateBatches();
             this.renderBatches(gl, camera);
-            //render the scene graph starting at the root
-          /*  var root: IChild[] = this._game.states.current.members;
-            for (var i = 0; i < root.length; i++) {
-                this._recurse(gl, root[i], camera);
-            }
-            
-            //draw anything left over
-            this._currentRenderer.draw(gl);
-            this.numDrawCalls++;
-
+          
             if (this._filtersEnabled && !this.filters.isEmpty) {
                 this.filters.applyFilters(gl);
                 gl.useProgram(this._shaderManager.currentShader.shaderProgram);
                 gl.bindTexture(gl.TEXTURE_2D, this._currentTextureAtlas.glTextureWrapper.texture);
-            }*/
+            }
         }
 
         private _sequence: any[];
@@ -476,7 +446,7 @@ module Kiwi.Renderers {
 
         public renderBatch(gl: WebGLRenderingContext, batch: any, camera) {
             this.setupGLState(gl, batch[0].entity);
-            this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+            this._currentRenderer.clear(gl, { camMatrix: this.camMatrix, uCameraOffset: this._cameraOffset });
             for (var i = 0; i < batch.length; i++) {
                 batch[i].entity.renderGL(gl, camera);
             }
@@ -571,7 +541,7 @@ module Kiwi.Renderers {
             this._currentRenderer.draw(gl);
             this.numDrawCalls++;
             this._entityCount = 0;
-            this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+            this._currentRenderer.clear(gl, { camMatrix: this.camMatrix, uCameraOffset: this._cameraOffset });
         }
 
         /**
@@ -584,7 +554,7 @@ module Kiwi.Renderers {
         private _switchRenderer(gl: WebGLRenderingContext, entity: Entity) {
             if (this._currentRenderer) this._currentRenderer.disable(gl);
             this._currentRenderer = entity.glRenderer;
-            this._currentRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset,textureAtlas:this._currentTextureAtlas });
+            this._currentRenderer.enable(gl, { camMatrix: this.camMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset,textureAtlas:this._currentTextureAtlas });
         }
         
         /**

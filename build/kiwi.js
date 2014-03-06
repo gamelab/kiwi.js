@@ -22539,17 +22539,9 @@ var Kiwi;
                 gl.enable(gl.BLEND);
                 gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-                //create Model View Matrix
-                this.mvMatrix = mat4.create();
-                mat2d.identity(this.mvMatrix);
-
                 //shader manager
                 this._shaderManager.init(gl, "TextureAtlasShader");
 
-                //initialise default renderer
-                //this.requestSharedRenderer("TextureAtlasRenderer");
-                //this._sharedRenderers.TextureAtlasRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
-                //this._currentRenderer = this._sharedRenderers.TextureAtlasRenderer;
                 //stage res needs update on stage resize
                 this._game.stage.onResize.add(function (width, height) {
                     this._stageResolution = new Float32Array([width, height]);
@@ -22618,35 +22610,22 @@ var Kiwi;
                 var ct = camera.transform;
 
                 //**Optimise me
-                this.mvMatrix = new Float32Array([
-                    cm.a, cm.b, 0, 0,
-                    cm.c, cm.d, 0, 0,
-                    0, 0, 1, 0,
-                    ct.rotPointX - cm.tx, ct.rotPointY - cm.ty, 0, 1
+                this.camMatrix = new Float32Array([
+                    cm.a, cm.b, 0,
+                    cm.c, cm.d, 0,
+                    ct.rotPointX - cm.tx, ct.rotPointY - cm.ty, 1
                 ]);
                 this._cameraOffset = new Float32Array([ct.rotPointX, ct.rotPointY]);
 
-                //gl.useProgram(this._currentRenderer.shaderPair.shaderProgram);
-                //clear current renderer ready for a batch
-                //this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
                 this.collateRenderSequence();
                 this.collateBatches();
                 this.renderBatches(gl, camera);
-                //render the scene graph starting at the root
-                /*  var root: IChild[] = this._game.states.current.members;
-                for (var i = 0; i < root.length; i++) {
-                this._recurse(gl, root[i], camera);
-                }
-                
-                //draw anything left over
-                this._currentRenderer.draw(gl);
-                this.numDrawCalls++;
-                
+
                 if (this._filtersEnabled && !this.filters.isEmpty) {
-                this.filters.applyFilters(gl);
-                gl.useProgram(this._shaderManager.currentShader.shaderProgram);
-                gl.bindTexture(gl.TEXTURE_2D, this._currentTextureAtlas.glTextureWrapper.texture);
-                }*/
+                    this.filters.applyFilters(gl);
+                    gl.useProgram(this._shaderManager.currentShader.shaderProgram);
+                    gl.bindTexture(gl.TEXTURE_2D, this._currentTextureAtlas.glTextureWrapper.texture);
+                }
             };
 
             GLRenderManager.prototype.collateRenderSequence = function () {
@@ -22717,7 +22696,7 @@ var Kiwi;
 
             GLRenderManager.prototype.renderBatch = function (gl, batch, camera) {
                 this.setupGLState(gl, batch[0].entity);
-                this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+                this._currentRenderer.clear(gl, { camMatrix: this.camMatrix, uCameraOffset: this._cameraOffset });
                 for (var i = 0; i < batch.length; i++) {
                     batch[i].entity.renderGL(gl, camera);
                 }
@@ -22806,7 +22785,7 @@ var Kiwi;
                 this._currentRenderer.draw(gl);
                 this.numDrawCalls++;
                 this._entityCount = 0;
-                this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+                this._currentRenderer.clear(gl, { camMatrix: this.camMatrix, uCameraOffset: this._cameraOffset });
             };
 
             /**
@@ -22820,7 +22799,7 @@ var Kiwi;
                 if (this._currentRenderer)
                     this._currentRenderer.disable(gl);
                 this._currentRenderer = entity.glRenderer;
-                this._currentRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset, textureAtlas: this._currentTextureAtlas });
+                this._currentRenderer.enable(gl, { camMatrix: this.camMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset, textureAtlas: this._currentTextureAtlas });
             };
 
             /**
@@ -23658,7 +23637,7 @@ var Kiwi;
                 //Other uniforms
                 gl.uniform2fv(this.shaderPair.uniforms.uResolution.location, params.stageResolution);
                 gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset.location, params.cameraOffset);
-                gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix.location, false, params.mvMatrix);
+                gl.uniformMatrix3fv(this.shaderPair.uniforms.uCamMatrix.location, false, params.camMatrix);
 
                 this.updateTextureSize(gl, new Float32Array([params.textureAtlas.glTextureWrapper.image.width, params.textureAtlas.glTextureWrapper.image.height]));
             };
@@ -23671,7 +23650,7 @@ var Kiwi;
             TextureAtlasRenderer.prototype.clear = function (gl, params) {
                 this.xyuvBuffer.clear();
                 this.alphaBuffer.clear();
-                gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix.location, false, params.mvMatrix);
+                gl.uniformMatrix3fv(this.shaderPair.uniforms.uCamMatrix.location, false, params.camMatrix);
                 gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset.location, new Float32Array(params.uCameraOffset));
             };
 
@@ -23876,8 +23855,8 @@ var Kiwi;
                     aAlpha: null
                 };
                 this.uniforms = {
-                    uMVMatrix: {
-                        type: "mat4"
+                    uCamMatrix: {
+                        type: "mat3"
                     },
                     uResolution: {
                         type: "2fv"
@@ -23917,15 +23896,15 @@ var Kiwi;
                 this.vertSource = [
                     "attribute vec4 aXYUV;",
                     "attribute float aAlpha;",
-                    "uniform mat4 uMVMatrix;",
+                    "uniform mat3 uCamMatrix;",
                     "uniform vec2 uResolution;",
                     "uniform vec2 uTextureSize;",
                     "uniform vec2 uCameraOffset;",
                     "varying vec2 vTextureCoord;",
                     "varying float vAlpha;",
                     "void main(void) {",
-                    "vec4 transpos = vec4(aXYUV.xy - uCameraOffset,0,1); ",
-                    "transpos =  uMVMatrix * transpos;",
+                    "vec3 transpos = vec3(aXYUV.xy - uCameraOffset,1); ",
+                    "transpos =  uCamMatrix * transpos;",
                     "vec2 clipSpace = ((transpos.xy / uResolution) * 2.0) - 1.0;",
                     "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
                     "vTextureCoord = aXYUV.zw / uTextureSize;",
@@ -23940,13 +23919,6 @@ var Kiwi;
                 this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
                 this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
 
-                //uniforms
-                /*this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
-                this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, "uResolution");
-                this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, "uSampler");
-                this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
-                this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
-                */
                 this.initUniforms(gl);
             };
             return TextureAtlasShader;
