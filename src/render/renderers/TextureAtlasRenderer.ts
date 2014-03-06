@@ -13,7 +13,7 @@ module Kiwi.Renderers {
 
 
         constructor(gl: WebGLRenderingContext, shaderManager: Kiwi.Shaders.ShaderManager, params: any = null) {
-            super(gl, shaderManager);
+            super(gl, shaderManager,true);
             //create buffers
             //dynamic
             this.xyuvBuffer = new GLArrayBuffer(gl, 4);
@@ -52,6 +52,8 @@ module Kiwi.Renderers {
             gl.uniform2fv(this.shaderPair.uniforms.uResolution.location, params.stageResolution);
             gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset.location, params.cameraOffset);
             gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix.location, false, params.mvMatrix);
+
+            this.updateTextureSize(gl, new Float32Array([params.textureAtlas.glTextureWrapper.image.width, params.textureAtlas.glTextureWrapper.image.height]));
         }
 
         public disable(gl: WebGLRenderingContext) {

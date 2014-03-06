@@ -100,7 +100,7 @@ module Kiwi.Renderers {
         * @type Kiwi.Renderers.Renderer
         * @private
         */
-        private _currentRenderer: Renderer;
+        private _currentRenderer: Renderer = null;
         
         /**
         * Camera offset in pixels from top left.
@@ -292,14 +292,14 @@ module Kiwi.Renderers {
             this._shaderManager.init(gl, "TextureAtlasShader");
 
             //initialise default renderer
-            this.requestSharedRenderer("TextureAtlasRenderer");
-            this._sharedRenderers.TextureAtlasRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
-            this._currentRenderer = this._sharedRenderers.TextureAtlasRenderer;
+            //this.requestSharedRenderer("TextureAtlasRenderer");
+            //this._sharedRenderers.TextureAtlasRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
+            //this._currentRenderer = this._sharedRenderers.TextureAtlasRenderer;
              
             //stage res needs update on stage resize
             this._game.stage.onResize.add(function (width, height) {
                 this._stageResolution = new Float32Array([width, height]);
-                this._currentRenderer.updateStageResolution(gl, this._stageResolution);
+                if (this.currentRenderer) this._currentRenderer.updateStageResolution(gl, this._stageResolution);
                 this.filters.updateFilterResolution(gl,width, height);
                 gl.viewport(0, 0, width,height);
             },this);
@@ -345,7 +345,11 @@ module Kiwi.Renderers {
         * @public
         */
         public render(camera: Kiwi.Camera) {
-            
+            if (this._game.states.current.members.length == 0) {
+                console.log("nothing to render");
+                return;
+            }
+                     
             var gl: WebGLRenderingContext = this._game.stage.gl;
                                        
             //reset stats
@@ -371,15 +375,17 @@ module Kiwi.Renderers {
             ]);
             this._cameraOffset = new Float32Array([ct.rotPointX, ct.rotPointY]);
             
-            gl.useProgram(this._currentRenderer.shaderPair.shaderProgram);
+            //gl.useProgram(this._currentRenderer.shaderPair.shaderProgram);
 
 
             //clear current renderer ready for a batch
-            this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+            //this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
 
-            
+            this.collateRenderSequence();
+            this.collateBatches();
+            this.renderBatches(gl, camera);
             //render the scene graph starting at the root
-            var root: IChild[] = this._game.states.current.members;
+          /*  var root: IChild[] = this._game.states.current.members;
             for (var i = 0; i < root.length; i++) {
                 this._recurse(gl, root[i], camera);
             }
@@ -392,7 +398,101 @@ module Kiwi.Renderers {
                 this.filters.applyFilters(gl);
                 gl.useProgram(this._shaderManager.currentShader.shaderProgram);
                 gl.bindTexture(gl.TEXTURE_2D, this._currentTextureAtlas.glTextureWrapper.texture);
+            }*/
+        }
+
+        private _sequence: any[];
+        private _batches: any[];
+
+        public collateRenderSequence() {
+            //console.log("collateRenderSequence");
+            this._sequence = [];
+            var root: IChild = this._game.states.current;
+            // root is always group
+            this.collateChild(root);
+           // console.log(this._sequence);
+        }
+
+        public collateChild(child:IChild) {
+            if (child.childType() === Kiwi.GROUP) {
+                for (var i = 0; i < (<Kiwi.Group>child).members.length; i++) {
+                    this.collateChild( (<Kiwi.Group>child).members[i]);
+                }
+            } else {
+                var entity: Entity = <Entity>child;
+                this._sequence.push({
+                    entity: entity,
+                    renderer: entity.glRenderer,
+                    shader: entity.glRenderer.shaderPair,
+                    isBatchRenderer: entity.glRenderer.isBatchRenderer,
+                    texture: entity.atlas
+                });
             }
+        }
+
+        //a batch 
+        public collateBatches() {
+            var currentRenderer: Renderer = null;
+            var currentShader: Shaders.ShaderPair = null;
+            var currentTexture: Textures.TextureAtlas = null;
+
+            this._batches = [];
+            var batchIndex:number;
+
+            for (var i = 0; i < this._sequence.length; i++) {
+              /*  console.log(!this._sequence[i].isBatchRenderer,
+                    this._sequence[i].renderer !== currentRenderer,
+                    this._sequence[i].shader !== currentShader,
+                    this._sequence[i].texture !== currentTexture);
+        */
+                if (!this._sequence[i].isBatchRenderer ||
+                    this._sequence[i].renderer !== currentRenderer ||
+                    this._sequence[i].shader !== currentShader ||
+                    this._sequence[i].texture !== currentTexture) {
+                    //create a new batch
+                    var batchIndex = this._batches.push(new Array()) - 1;
+                    currentRenderer = this._sequence[i].renderer; 
+                    currentShader = this._sequence[i].shader;
+                    currentTexture = this._sequence[i].texture;
+
+                } 
+                this._batches[batchIndex].push(this._sequence[i]);
+            }
+        }
+
+        public renderBatches(gl: WebGLRenderingContext, camera) {
+            
+            for (var i = 0; i < this._batches.length; i++) {
+                var batch = this._batches[i];
+                //if first is batch then they all are
+                if (batch[0].isBatchRenderer) {
+                    this.renderBatch(gl, batch, camera);
+                } else {
+                    this.renderEntity(gl,batch[0].entity,camera);
+                }
+
+            }
+        }
+
+        public renderBatch(gl: WebGLRenderingContext, batch: any, camera) {
+            this.setupGLState(gl, batch[0].entity);
+            this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+            for (var i = 0; i < batch.length; i++) {
+                batch[i].entity.renderGL(gl, camera);
+            }
+            this._currentRenderer.draw(gl);
+        }
+
+        public renderEntity(gl: WebGLRenderingContext, entity: any, camera) {
+            this.setupGLState(gl, entity);
+            entity.renderGL(gl, camera);
+        }
+
+        public setupGLState(gl:WebGLRenderingContext,entity) {
+           
+            if (entity.atlas !== this._currentTextureAtlas) this._switchTexture(gl, entity);
+            if (entity.glRenderer !== this._currentRenderer) this._switchRenderer(gl, entity);
+            
         }
 
         /**
@@ -429,8 +529,7 @@ module Kiwi.Renderers {
         */
 
         private _processEntity(gl: WebGLRenderingContext, entity: Entity, camera: Kiwi.Camera) {
-
-           
+      
             if (entity.glRenderer !== this._currentRenderer || entity.glRenderer["shaderPair"] !== this._shaderManager.currentShader) {
                 this._flushBatch(gl);
                 this._switchRenderer(gl, entity);
@@ -483,9 +582,9 @@ module Kiwi.Renderers {
         * @private
         */
         private _switchRenderer(gl: WebGLRenderingContext, entity: Entity) {
-            this._currentRenderer.disable(gl);
+            if (this._currentRenderer) this._currentRenderer.disable(gl);
             this._currentRenderer = entity.glRenderer;
-            this._currentRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
+            this._currentRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset,textureAtlas:this._currentTextureAtlas });
         }
         
         /**
@@ -497,8 +596,16 @@ module Kiwi.Renderers {
         */
         private _switchTexture(gl: WebGLRenderingContext, entity: Entity) {
             this._currentTextureAtlas = entity.atlas;
+            if (this._currentRenderer) this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
+            this._textureManager.useTexture(gl, entity.atlas.glTextureWrapper);
+
+            /*
+            if (entity.atlas.dirty) {
+                entity.atlas.glTextureWrapper.refreshTexture(gl);
+                entity.atlas.dirty = false;
+            }
             this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
-            this._textureManager.useTexture(gl,  entity.atlas.glTextureWrapper);
+             */
                
         }
         

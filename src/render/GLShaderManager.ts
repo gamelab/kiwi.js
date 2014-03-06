@@ -158,8 +158,8 @@ module Kiwi.Shaders {
         private _useShader(gl: WebGLRenderingContext, shader: ShaderPair) {
             if (shader !== this._currentShader) {
                 this._currentShader = shader;
-                gl.useProgram(shader.shaderProgram);
             }
+            gl.useProgram(shader.shaderProgram);
         }
 
 

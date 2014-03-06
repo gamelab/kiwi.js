@@ -6,8 +6,9 @@ module Kiwi.Renderers {
     export class Renderer {
 
 
-        constructor(gl: WebGLRenderingContext,shaderManager:Kiwi.Shaders.ShaderManager) {
+        constructor(gl: WebGLRenderingContext,shaderManager:Kiwi.Shaders.ShaderManager,isBatchRenderer:boolean = false) {
             this.shaderManager = shaderManager;
+            this._isBatchRenderer = isBatchRenderer;
             this.loaded = true;
        
         }
@@ -58,6 +59,11 @@ module Kiwi.Renderers {
         }
 
         public shaderPair: Kiwi.Shaders.ShaderPair;
+
+        private _isBatchRenderer: boolean = false;
+        public get isBatchRenderer(): boolean {
+            return this._isBatchRenderer;
+        }
 
     }
 
