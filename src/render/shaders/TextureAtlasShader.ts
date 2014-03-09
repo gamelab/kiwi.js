@@ -80,13 +80,10 @@ module Kiwi.Shaders {
             "varying vec2 vTextureCoord;",
             "varying float vAlpha;",
             "void main(void) {",
-            "vec3 transpos = vec3(aXYUV.xy,1); ",
-            "transpos =  uCamMatrix * transpos;",
-
-            "vec2 clipSpace = ((transpos.xy / uResolution) * 2.0) - 1.0;",
-            "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
-            "vTextureCoord = aXYUV.zw / uTextureSize;",
-            "vAlpha = aAlpha;",
+            "   vec2 pos = (uCamMatrix * vec3(aXYUV.xy,1)).xy; ",
+            "   gl_Position = vec4((pos / uResolution * 2.0 - 1.0) * vec2(1, -1), 0, 1);",
+            "   vTextureCoord = aXYUV.zw / uTextureSize;",
+            "   vAlpha = aAlpha;",
             "}"
         ];
 

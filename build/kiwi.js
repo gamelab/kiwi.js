@@ -1,46 +1,4 @@
-﻿var Kiwi;
-(function (Kiwi) {
-    // Module
-    (function (Geom) {
-        // Class
-        var Random = (function () {
-            function Random() {
-            }
-            Random.randomPointCirclePerimeter = function () {
-                var t = Math.random() * Math.PI * 2;
-                return new Kiwi.Geom.Point(Math.cos(t), Math.sin(t));
-            };
-
-            Random.randomPointCircle = function () {
-                var t = Math.random() * Math.PI * 2;
-                var u = Math.random() + Math.random();
-                var r = (u > 1) ? 2 - u : u;
-                return new Kiwi.Geom.Point(r * Math.cos(t), r * Math.sin(t));
-            };
-
-            Random.randomPointSquare = function () {
-                return new Kiwi.Geom.Point(Math.random() - 0.5, Math.random() - 0.5);
-            };
-
-            Random.randomPointSquarePerimeter = function () {
-                var t = Math.random() * 4;
-
-                if (t < 1)
-                    return new Kiwi.Geom.Point(t - 0.5, -0.5);
-                if (t < 2)
-                    return new Kiwi.Geom.Point(0.5, t - 1.5);
-                if (t < 3)
-                    return new Kiwi.Geom.Point(t - 2.5, 0.5);
-
-                return new Kiwi.Geom.Point(-0.5, t - 3.5);
-            };
-            return Random;
-        })();
-        Geom.Random = Random;
-    })(Kiwi.Geom || (Kiwi.Geom = {}));
-    var Geom = Kiwi.Geom;
-})(Kiwi || (Kiwi = {}));
-/**
+﻿/**
 * Contains various methods that can be used when you are wanting to ease a Tween.
 *
 * @module Tweens
@@ -23774,12 +23732,10 @@ var Kiwi;
                     "varying vec2 vTextureCoord;",
                     "varying float vAlpha;",
                     "void main(void) {",
-                    "vec3 transpos = vec3(aXYUV.xy,1); ",
-                    "transpos =  uCamMatrix * transpos;",
-                    "vec2 clipSpace = ((transpos.xy / uResolution) * 2.0) - 1.0;",
-                    "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
-                    "vTextureCoord = aXYUV.zw / uTextureSize;",
-                    "vAlpha = aAlpha;",
+                    "   vec2 pos = (uCamMatrix * vec3(aXYUV.xy,1)).xy; ",
+                    "   gl_Position = vec4((pos / uResolution * 2.0 - 1.0) * vec2(1, -1), 0, 1);",
+                    "   vTextureCoord = aXYUV.zw / uTextureSize;",
+                    "   vAlpha = aAlpha;",
                     "}"
                 ];
             }
@@ -30791,7 +30747,6 @@ var Kiwi;
 /// <reference path="geom/Rectangle.ts" />
 /// <reference path="geom/Transform.ts" />
 /// <reference path="geom/Vector2.ts" />
-/// <reference path="geom/Random.ts" />
 /// <reference path="hud/HUDDisplay.ts" />
 /// <reference path="hud/HUDManager.ts" />
 /// <reference path="hud/HUDWidget.ts" />
