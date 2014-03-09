@@ -41,9 +41,6 @@ module Kiwi.Shaders {
             uTextureSize: {
                 type: "2fv",
             },
-            uCameraOffset: {
-                type: "2fv",
-            },
             uSampler: {
                 type: "1i",
             }
@@ -80,11 +77,10 @@ module Kiwi.Shaders {
             "uniform mat3 uCamMatrix;",
             "uniform vec2 uResolution;",
             "uniform vec2 uTextureSize;",
-            "uniform vec2 uCameraOffset;",
             "varying vec2 vTextureCoord;",
             "varying float vAlpha;",
             "void main(void) {",
-            "vec3 transpos = vec3(aXYUV.xy - uCameraOffset,1); ",
+            "vec3 transpos = vec3(aXYUV.xy,1); ",
             "transpos =  uCamMatrix * transpos;",
 
             "vec2 clipSpace = ((transpos.xy / uResolution) * 2.0) - 1.0;",

@@ -103,14 +103,6 @@ module Kiwi.Renderers {
         private _currentRenderer: Renderer = null;
         
         /**
-        * Camera offset in pixels from top left.
-        * @property _cameraOffset
-        * @type Float32Array
-        * @private
-        */
-        private _cameraOffset: Float32Array;
-     
-        /**
         * Tally of number of entities rendered per frame 
         * @property _entityCount
         * @type number
@@ -118,7 +110,6 @@ module Kiwi.Renderers {
         * @private
         */
         private _entityCount: number = 0;
-
 
          /**
         * Tally of number of draw calls per frame
@@ -180,8 +171,6 @@ module Kiwi.Renderers {
         * @return {Boolean} success
         * @public
         */
-
-     
 
         public addSharedRenderer(rendererID:string,params:any = null):boolean {
             //does renderer exist?
@@ -270,18 +259,17 @@ module Kiwi.Renderers {
             //init stage and viewport
             this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
             gl.viewport(0, 0, this._game.stage.width, this._game.stage.height);
-
-            this._cameraOffset = new Float32Array([0,0]);
-
-            
+                        
             //set default gl state
             gl.enable(gl.BLEND);
             gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
             //shader manager
             this._shaderManager.init(gl, "TextureAtlasShader");
-
-             
+            
+            //camera matrix
+            this.camMatrix = mat3.create();
+            
             //stage res needs update on stage resize
             this._game.stage.onResize.add(function (width, height) {
                 this._stageResolution = new Float32Array([width, height]);
@@ -305,7 +293,6 @@ module Kiwi.Renderers {
         */
 
         public initState(state: Kiwi.State) {
-            console.log("initialising WebGL on State");
             this._textureManager.uploadTextureLibrary(this._game.stage.gl, state.textureLibrary);
         }
 
@@ -352,15 +339,18 @@ module Kiwi.Renderers {
             var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
             var ct: Kiwi.Geom.Transform = camera.transform;
 
-           
-            //**Optimise me          
-            this.camMatrix = new Float32Array([
-                cm.a, cm.b, 0, 
-                cm.c, cm.d, 0, 
-                ct.rotPointX - cm.tx, ct.rotPointY - cm.ty, 1
-            ]);
-            this._cameraOffset = new Float32Array([ct.rotPointX, ct.rotPointY]);
-          
+            var rotOffset = vec2.create();
+            var scale = vec2.create();
+            vec2.set(scale, ct.scaleX, ct.scaleY);
+            vec2.set(rotOffset, ct.rotPointX - cm.tx, ct.rotPointY - cm.ty);
+
+            mat3.identity(this.camMatrix);
+            mat3.translate(this.camMatrix, this.camMatrix, rotOffset);
+            mat3.rotate(this.camMatrix, this.camMatrix, ct.rotation);
+            vec2.negate(rotOffset, rotOffset);
+            mat3.translate(this.camMatrix, this.camMatrix, rotOffset);
+            mat3.scale(this.camMatrix, this.camMatrix, scale);
+            
             this.collateRenderSequence();
             this.collateBatches();
             this.renderBatches(gl, camera);
@@ -376,12 +366,9 @@ module Kiwi.Renderers {
         private _batches: any[];
 
         public collateRenderSequence() {
-            //console.log("collateRenderSequence");
             this._sequence = [];
             var root: IChild = this._game.states.current;
-            // root is always group
             this.collateChild(root);
-           // console.log(this._sequence);
         }
 
         public collateChild(child:IChild) {
@@ -401,7 +388,6 @@ module Kiwi.Renderers {
             }
         }
 
-        //a batch 
         public collateBatches() {
             var currentRenderer: Renderer = null;
             var currentShader: Shaders.ShaderPair = null;
@@ -411,11 +397,6 @@ module Kiwi.Renderers {
             var batchIndex:number;
 
             for (var i = 0; i < this._sequence.length; i++) {
-              /*  console.log(!this._sequence[i].isBatchRenderer,
-                    this._sequence[i].renderer !== currentRenderer,
-                    this._sequence[i].shader !== currentShader,
-                    this._sequence[i].texture !== currentTexture);
-        */
                 if (!this._sequence[i].isBatchRenderer ||
                     this._sequence[i].renderer !== currentRenderer ||
                     this._sequence[i].shader !== currentShader ||
@@ -447,7 +428,7 @@ module Kiwi.Renderers {
 
         public renderBatch(gl: WebGLRenderingContext, batch: any, camera) {
             this.setupGLState(gl, batch[0].entity);
-            this._currentRenderer.clear(gl, { camMatrix: this.camMatrix, uCameraOffset: this._cameraOffset });
+            this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
             for (var i = 0; i < batch.length; i++) {
                 batch[i].entity.renderGL(gl, camera);
             }
@@ -460,91 +441,10 @@ module Kiwi.Renderers {
         }
 
         public setupGLState(gl:WebGLRenderingContext,entity) {
-           
             if (entity.atlas !== this._currentTextureAtlas) this._switchTexture(gl, entity);
             if (entity.glRenderer !== this._currentRenderer) this._switchRenderer(gl, entity);
-            
         }
-
-        /**
-        * Recursively renders scene graph tree
-        * @method _recurse
-        * @param gl {WebGLRenderingContext}
-        * @param child {IChild}
-        * @param camera {Camera}
-        * @private
-        */
-        private _recurse(gl: WebGLRenderingContext, child: IChild, camera: Kiwi.Camera) {
-            if (!child.willRender) return;
-          
-            if (child.childType() === Kiwi.GROUP) {
-                for (var i = 0; i < (<Kiwi.Group>child).members.length; i++) {
-                    this._recurse(gl,(<Kiwi.Group>child).members[i],camera);
-                }
-            } else {
-                this._processEntity(gl, <Entity>child, camera);
-            }
-        
-        }
-
-         /**
-        * Processes a single entity for rendering. Ensures that GL state is set up for the entity rendering requirements
-        * @method _processEntity
-        * is the entity's required renderer active and using the correct shader? If not then flush and re-enable renderer
-        * this is to allow the same renderer to use different shaders on different objects - renderer can be configured on a per object basis
-        * this needs thorough testing - also the text property lookups may need refactoring
-        * @param gl {WebGLRenderingContext}
-        * @param entity {Entity}
-        * @param camera {Camera}
-        * @private
-        */
-
-        private _processEntity(gl: WebGLRenderingContext, entity: Entity, camera: Kiwi.Camera) {
-      
-            if (entity.glRenderer !== this._currentRenderer || entity.glRenderer["shaderPair"] !== this._shaderManager.currentShader) {
-                this._flushBatch(gl);
-                this._switchRenderer(gl, entity);
-                //force texture switch
-                this._switchTexture(gl, entity);
-               
-            }
-
-            //assert: required renderer is now active
-
-            //are the entity's texture requirements met?
-            if (entity.atlas !== this._currentTextureAtlas) {
-                this._flushBatch(gl);
-                this._switchTexture(gl, entity);
-            }
-
-            // is the texture in need of reuplaoding? This would be the case if it is a dynamic texture such as a text field
-            if (entity.atlas.dirty) {
-                entity.atlas.glTextureWrapper.refreshTexture(gl);
-                this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
-                entity.atlas.dirty = false;    
-            }
-
-            //assert: texture requirements are met
-
-            entity.renderGL(gl, camera);
-            this._entityCount++;
-        
-        }
-
-
-        /**
-        * Draws the current batch and clears the renderer ready for another batch.
-        * @method _flushBatch
-        * @param gl {WebGLRenderingContext}
-        * @private
-        */
-        private _flushBatch(gl: WebGLRenderingContext) {
-            this._currentRenderer.draw(gl);
-            this.numDrawCalls++;
-            this._entityCount = 0;
-            this._currentRenderer.clear(gl, { camMatrix: this.camMatrix, uCameraOffset: this._cameraOffset });
-        }
-
+              
         /**
         * Switch renderer to the one needed by the entity that needs rendering
         * @method _switchRenderer
@@ -555,7 +455,7 @@ module Kiwi.Renderers {
         private _switchRenderer(gl: WebGLRenderingContext, entity: Entity) {
             if (this._currentRenderer) this._currentRenderer.disable(gl);
             this._currentRenderer = entity.glRenderer;
-            this._currentRenderer.enable(gl, { camMatrix: this.camMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset,textureAtlas:this._currentTextureAtlas });
+            this._currentRenderer.enable(gl, { camMatrix: this.camMatrix, stageResolution: this._stageResolution,textureAtlas:this._currentTextureAtlas });
         }
         
         /**
@@ -570,13 +470,6 @@ module Kiwi.Renderers {
             if (this._currentRenderer) this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
             this._textureManager.useTexture(gl, entity.atlas.glTextureWrapper);
 
-            /*
-            if (entity.atlas.dirty) {
-                entity.atlas.glTextureWrapper.refreshTexture(gl);
-                entity.atlas.dirty = false;
-            }
-            this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
-             */
                
         }
         

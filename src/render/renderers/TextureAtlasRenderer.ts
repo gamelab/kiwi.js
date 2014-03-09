@@ -40,7 +40,6 @@ module Kiwi.Renderers {
 
             //Other uniforms
             gl.uniform2fv(this.shaderPair.uniforms.uResolution.location, params.stageResolution);
-            gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset.location, params.cameraOffset);
             gl.uniformMatrix3fv(this.shaderPair.uniforms.uCamMatrix.location, false, params.camMatrix);
 
             this.updateTextureSize(gl, new Float32Array([params.textureAtlas.glTextureWrapper.image.width, params.textureAtlas.glTextureWrapper.image.height]));
@@ -54,7 +53,6 @@ module Kiwi.Renderers {
         public clear(gl: WebGLRenderingContext, params: any) {
             this._vertexBuffer.clear();
             gl.uniformMatrix3fv(this.shaderPair.uniforms.uCamMatrix.location, false, params.camMatrix);
-            gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset.location, new Float32Array(params.uCameraOffset));
         }
 
         public draw(gl: WebGLRenderingContext) {
@@ -85,9 +83,7 @@ module Kiwi.Renderers {
                 quads.push(i * 4 + 0, i * 4 + 1, i * 4 + 2, i * 4 + 0, i * 4 + 2, i * 4 + 3);
             }
             return quads;
-
         }
-
 
         public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array) {
             gl.uniform2fv(this.shaderPair.uniforms.uResolution.location, res);
