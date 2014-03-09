@@ -253,7 +253,7 @@ module Kiwi.Renderers {
             this._filtersEnabled = val;
         }
 
-        private _filtersEnabled: boolean = true;
+        private _filtersEnabled: boolean = false;
         
         /**
         * Performs initialisation required for single game instance - happens once, at bootup
@@ -352,6 +352,7 @@ module Kiwi.Renderers {
             var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
             var ct: Kiwi.Geom.Transform = camera.transform;
 
+           
             //**Optimise me          
             this.camMatrix = new Float32Array([
                 cm.a, cm.b, 0, 

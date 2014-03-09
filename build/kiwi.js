@@ -10820,8 +10820,7 @@ var Kiwi;
                     this._renderText();
 
                 //Set-up the xyuv and alpha
-                var xyuvItems = [];
-                var alphaItems = [];
+                var vertexItems = [];
 
                 //Transform/Matrix
                 var t = this.transform;
@@ -10854,11 +10853,10 @@ var Kiwi;
                 pt4 = m.transformPoint(pt4);
 
                 //Append to the xyuv and alpha arrays
-                xyuvItems.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, 0, 0, pt2.x + t.rotPointX, pt2.y + t.rotPointY, this._canvas.width, 0, pt3.x + t.rotPointX, pt3.y + t.rotPointY, this._canvas.width, this._canvas.height, pt4.x + t.rotPointX, pt4.y + t.rotPointY, 0, this._canvas.height);
-                alphaItems.push(this.alpha, this.alpha, this.alpha, this.alpha);
+                vertexItems.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, 0, 0, this.alpha, pt2.x + t.rotPointX, pt2.y + t.rotPointY, this._canvas.width, 0, this.alpha, pt3.x + t.rotPointX, pt3.y + t.rotPointY, this._canvas.width, this._canvas.height, this.alpha, pt4.x + t.rotPointX, pt4.y + t.rotPointY, 0, this._canvas.height, this.alpha);
 
                 //Add to the batch!
-                this.glRenderer.concatBatch(xyuvItems, alphaItems);
+                this.glRenderer.concatBatch(vertexItems);
             };
             Textfield.TEXT_ALIGN_CENTER = 'center';
 
@@ -11957,8 +11955,7 @@ var Kiwi;
                 TileMapLayer.prototype.renderGL = function (gl, camera, params) {
                     if (typeof params === "undefined") { params = null; }
                     //Setup
-                    var alphaItems = [];
-                    var xyuvItems = [];
+                    var vertexItems = [];
 
                     //Create the point objects.
                     var pt1 = new Kiwi.Geom.Point();
@@ -12000,15 +11997,12 @@ var Kiwi;
                             pt4 = m.transformPoint(pt4);
 
                             //Append to the xyuv array
-                            xyuvItems.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
-
-                            //Add four items to the alpha buffer
-                            alphaItems.push(this.alpha, this.alpha, this.alpha, this.alpha);
+                            vertexItems.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, this.alpha, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, this.alpha, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, this.alpha, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h, this.alpha);
                         }
                     }
 
                     //Concat points to the Renderer.
-                    this.glRenderer.concatBatch(xyuvItems, alphaItems);
+                    this.glRenderer.concatBatch(vertexItems);
                 };
                 return TileMapLayer;
             })(Kiwi.Entity);
@@ -22404,7 +22398,7 @@ var Kiwi;
                 * @private
                 */
                 this._sharedRenderers = {};
-                this._filtersEnabled = true;
+                this._filtersEnabled = false;
                 this._game = game;
                 if (typeof mat4 === "undefined") {
                     throw "ERROR: gl-matrix.js is missing - you need to include this javascript to use webgl - https://github.com/toji/gl-matrix";
@@ -23598,40 +23592,20 @@ var Kiwi;
             function TextureAtlasRenderer(gl, shaderManager, params) {
                 if (typeof params === "undefined") { params = null; }
                 _super.call(this, gl, shaderManager, true);
-                /**
-                * Maximum allowable sprites to render per frame
-                * @property _maxItems
-                * @type number
-                * @default 1000
-                * @private
-                */
                 this._maxItems = 1000;
 
-                //create buffers
-                //dynamic
-                this.xyuvBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, 4);
-                this.alphaBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, 1);
+                this._vertexBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, 5);
 
                 //6 verts per quad
-                this.indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
+                this._indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
-                //use shaders
                 this.shaderPair = this.shaderManager.requestShader(gl, "TextureAtlasShader");
             }
             TextureAtlasRenderer.prototype.enable = function (gl, params) {
                 if (typeof params === "undefined") { params = null; }
-                //gl.useProgram(this.shaderPair.shaderProgram);
                 this.shaderPair = this.shaderManager.requestShader(gl, "TextureAtlasShader");
-                gl.enableVertexAttribArray(this.shaderPair.attributes.aXYUV);
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.xyuvBuffer.buffer);
-                gl.vertexAttribPointer(this.shaderPair.attributes.aXYUV, this.xyuvBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                gl.enableVertexAttribArray(this.shaderPair.attributes.aAlpha);
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.alphaBuffer.buffer);
-                gl.vertexAttribPointer(this.shaderPair.attributes.aAlpha, this.alphaBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
                 //Texture
-                gl.activeTexture(gl.TEXTURE0);
                 gl.uniform1i(this.shaderPair.uniforms.uSampler.location, 0);
 
                 //Other uniforms
@@ -23648,29 +23622,22 @@ var Kiwi;
             };
 
             TextureAtlasRenderer.prototype.clear = function (gl, params) {
-                this.xyuvBuffer.clear();
-                this.alphaBuffer.clear();
+                this._vertexBuffer.clear();
                 gl.uniformMatrix3fv(this.shaderPair.uniforms.uCamMatrix.location, false, params.camMatrix);
                 gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset.location, new Float32Array(params.uCameraOffset));
             };
 
             TextureAtlasRenderer.prototype.draw = function (gl) {
-                //if (this.xyuvBuffer.numItems > 0) {
-                this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
-                this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
+                this._vertexBuffer.uploadBuffer(gl, this._vertexBuffer.items);
+
                 gl.enableVertexAttribArray(this.shaderPair.attributes.aXYUV);
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.xyuvBuffer.buffer);
-                gl.vertexAttribPointer(this.shaderPair.attributes.aXYUV, this.xyuvBuffer.itemSize, gl.FLOAT, false, 0, 0);
+                gl.vertexAttribPointer(this.shaderPair.attributes.aXYUV, 4, gl.FLOAT, false, 20, 0);
 
                 gl.enableVertexAttribArray(this.shaderPair.attributes.aAlpha);
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.alphaBuffer.buffer);
-                gl.vertexAttribPointer(this.shaderPair.attributes.aAlpha, this.alphaBuffer.itemSize, gl.FLOAT, false, 0, 0);
+                gl.vertexAttribPointer(this.shaderPair.attributes.aAlpha, 1, gl.FLOAT, false, 20, 16);
 
-                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
-
-                //4 components per attributes, 6 verts per quad - used to work out how many elements to draw
-                gl.drawElements(gl.TRIANGLES, (this.alphaBuffer.items.length / 4) * 6, gl.UNSIGNED_SHORT, 0);
-                //}
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this._indexBuffer.buffer);
+                gl.drawElements(gl.TRIANGLES, (this._vertexBuffer.items.length / 20) * 6, gl.UNSIGNED_SHORT, 0);
             };
 
             /**
@@ -23689,12 +23656,10 @@ var Kiwi;
             };
 
             TextureAtlasRenderer.prototype.updateStageResolution = function (gl, res) {
-                //this.shaderPair.uResolution(gl, res);
                 gl.uniform2fv(this.shaderPair.uniforms.uResolution.location, res);
             };
 
             TextureAtlasRenderer.prototype.updateTextureSize = function (gl, size) {
-                //this.shaderPair.uTextureSize(gl, size);
                 gl.uniform2fv(this.shaderPair.uniforms.uTextureSize.location, size);
             };
 
@@ -23722,13 +23687,11 @@ var Kiwi;
                 pt3 = m.transformPoint(pt3);
                 pt4 = m.transformPoint(pt4);
 
-                this.xyuvBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
-                this.alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
+                this._vertexBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, entity.alpha, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, entity.alpha, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, entity.alpha, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h, entity.alpha);
             };
 
-            TextureAtlasRenderer.prototype.concatBatch = function (xyuvItems, alphaItems) {
-                this.xyuvBuffer.items = this.xyuvBuffer.items.concat(xyuvItems);
-                this.alphaBuffer.items = this.alphaBuffer.items.concat(alphaItems);
+            TextureAtlasRenderer.prototype.concatBatch = function (vertexItems) {
+                this._vertexBuffer.items = this._vertexBuffer.items.concat(vertexItems);
             };
             TextureAtlasRenderer.RENDERER_ID = "TextureAtlasRenderer";
             return TextureAtlasRenderer;
