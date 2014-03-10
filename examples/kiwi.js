@@ -22881,15 +22881,10 @@ var Kiwi;
                 if (typeof upload === "undefined") { upload = false; }
                 this._created = false;
                 this._uploaded = false;
-                console.log("Creating texture: " + atlas.name);
-
                 this.textureAtlas = atlas;
                 this.image = atlas.image;
                 this._numBytes = this.image.width * this.image.height * 4;
-                console.log("...texture requires kb: " + this._numBytes / 1024);
-
                 this.createTexture(gl);
-
                 if (upload)
                     this.uploadTexture(gl);
             }
@@ -22920,13 +22915,11 @@ var Kiwi;
             //force : if true then other textures will be removed until there is room.
             GLTextureWrapper.prototype.createTexture = function (gl) {
                 this.texture = gl.createTexture();
-                console.log("...texture created successfully");
                 this._created = true;
                 return true;
             };
 
             GLTextureWrapper.prototype.uploadTexture = function (gl) {
-                console.log("Attempting to upload texture: " + this.textureAtlas.name);
                 var success = false;
                 if (!this.created) {
                     this.createTexture(gl);
@@ -22936,7 +22929,7 @@ var Kiwi;
                     console.log("...not uploading:the image is already uploaded");
                 } else {
                     gl.bindTexture(gl.TEXTURE_2D, this.texture);
-                    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+                    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
                     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
@@ -22948,7 +22941,6 @@ var Kiwi;
                     //check gl error here
                     this._uploaded = true;
                     success = true;
-                    console.log("...texture uploaded successfully");
                 }
 
                 return success;
@@ -22959,13 +22951,10 @@ var Kiwi;
             };
 
             GLTextureWrapper.prototype.deleteTexture = function (gl) {
-                console.log("Attempting to delete texture: " + this.textureAtlas.name);
                 gl.bindTexture(gl.TEXTURE_2D, this.texture);
                 gl.deleteTexture(this.texture);
                 this._uploaded = false;
                 this._created = false;
-                console.log("...texture deleted successfully");
-                console.log("...freed kb: " + this.numBytes / 1024);
                 return true;
             };
             return GLTextureWrapper;
@@ -23040,8 +23029,6 @@ var Kiwi;
             GLTextureManager.prototype._deleteTexture = function (gl, idx) {
                 this._textureWrapperCache[idx].deleteTexture(gl);
                 this._usedTextureMem -= this._textureWrapperCache[idx].numBytes;
-                console.log("...removed KB: " + this._textureWrapperCache[idx].numBytes / 1024);
-                console.log("...now using KB: " + this._usedTextureMem / 1024);
                 this._numTexturesUsed--;
             };
 
@@ -23058,9 +23045,7 @@ var Kiwi;
                 if (glTextureWrapper.numBytes + this._usedTextureMem <= this.maxTextureMem) {
                     glTextureWrapper.uploadTexture(gl);
                     this._usedTextureMem += glTextureWrapper.numBytes;
-                    console.log("Total uploaded KB: " + this._usedTextureMem / 1024);
                     this._numTexturesUsed++;
-                    console.log("Total textures uploaded: " + this._numTexturesUsed);
 
                     return true;
                 }
@@ -23075,15 +23060,10 @@ var Kiwi;
             * @public
             */
             GLTextureManager.prototype.uploadTextureLibrary = function (gl, textureLibrary) {
-                console.log("Attempting to upload TextureLibrary");
                 this._textureWrapperCache = new Array();
-                console.log("...recreated wrapper cache");
-
                 for (var tex in textureLibrary.textures) {
                     this.uploadTexture(gl, textureLibrary.textures[tex]);
                 }
-                console.log("...texture Library uploaded. Using KB: " + this._usedTextureMem / 1024);
-                console.log("...using " + this._usedTextureMem / this.maxTextureMem + " of KB " + this.maxTextureMem / 1024);
             };
 
             GLTextureManager.prototype.uploadTexture = function (gl, textureAtlas) {
@@ -23109,7 +23089,6 @@ var Kiwi;
             * @public
             */
             GLTextureManager.prototype.clearTextures = function (gl) {
-                console.log("Attempting to clear Textures");
                 for (var i = 0; i < this._textureWrapperCache.length; i++) {
                     //delete it from g mem
                     this._textureWrapperCache[i].deleteTexture(gl);
