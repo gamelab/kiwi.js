@@ -1,0 +1,25 @@
+{
+  "name": "Kiwi.js",
+  "version": "0.5.3",
+  "homepage": "git://github.com:gamelab/kiwi.js.git",
+  "authors": [
+    "GameLab"
+  ],
+  "description": "Kiwi.js is a Javascript/Typescript library for creating HTML5 games.",
+  "main": "build/kiwi.min.js",
+  "keywords": [
+    "game",
+    "library",
+    "html5",
+    "typescript",
+    "javascript"
+  ],
+  "license": "GPL",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
