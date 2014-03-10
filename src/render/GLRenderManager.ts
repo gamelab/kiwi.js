@@ -332,7 +332,7 @@ module Kiwi.Renderers {
                
             //clear stage 
             var col = this._game.stage.normalizedColor;
-            gl.clearColor(col.a, col.b, col.g, col.a);
+            gl.clearColor(col.r, col.b, col.g, col.a);
             gl.clear(gl.COLOR_BUFFER_BIT);
             
             //set cam matrix uniform
