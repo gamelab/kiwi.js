@@ -1,46 +1,4 @@
-﻿var Kiwi;
-(function (Kiwi) {
-    // Module
-    (function (Geom) {
-        // Class
-        var Random = (function () {
-            function Random() {
-            }
-            Random.randomPointCirclePerimeter = function () {
-                var t = Math.random() * Math.PI * 2;
-                return new Kiwi.Geom.Point(Math.cos(t), Math.sin(t));
-            };
-
-            Random.randomPointCircle = function () {
-                var t = Math.random() * Math.PI * 2;
-                var u = Math.random() + Math.random();
-                var r = (u > 1) ? 2 - u : u;
-                return new Kiwi.Geom.Point(r * Math.cos(t), r * Math.sin(t));
-            };
-
-            Random.randomPointSquare = function () {
-                return new Kiwi.Geom.Point(Math.random() - 0.5, Math.random() - 0.5);
-            };
-
-            Random.randomPointSquarePerimeter = function () {
-                var t = Math.random() * 4;
-
-                if (t < 1)
-                    return new Kiwi.Geom.Point(t - 0.5, -0.5);
-                if (t < 2)
-                    return new Kiwi.Geom.Point(0.5, t - 1.5);
-                if (t < 3)
-                    return new Kiwi.Geom.Point(t - 2.5, 0.5);
-
-                return new Kiwi.Geom.Point(-0.5, t - 3.5);
-            };
-            return Random;
-        })();
-        Geom.Random = Random;
-    })(Kiwi.Geom || (Kiwi.Geom = {}));
-    var Geom = Kiwi.Geom;
-})(Kiwi || (Kiwi = {}));
-/**
+﻿/**
 * Contains various methods that can be used when you are wanting to ease a Tween.
 *
 * @module Tweens
@@ -2735,6 +2693,11 @@ var Kiwi;
                 console.log('Debug option not specified. Turned ON by default.');
             }
 
+            if (options.bootCallback !== 'undefined') {
+                console.log("boot callback provided");
+                this.bootCallbackOption = options.bootCallback;
+            }
+
             //Which device are they targetting
             if (options.deviceTarget !== 'undefined' && typeof options.deviceTarget === 'number') {
                 switch (options.deviceTarget) {
@@ -2959,6 +2922,10 @@ var Kiwi;
                 return _this.loop();
             });
             this.raf.start();
+            if (this.bootCallbackOption) {
+                console.log("invoked boot callback");
+                this.bootCallbackOption();
+            }
         };
 
         /**
@@ -4181,7 +4148,7 @@ var Kiwi;
         * @public
         */
         State.prototype.childType = function () {
-            return Kiwi.STATE;
+            return Kiwi.GROUP;
         };
 
         /**
@@ -10840,8 +10807,7 @@ var Kiwi;
                     this._renderText();
 
                 //Set-up the xyuv and alpha
-                var xyuvItems = [];
-                var alphaItems = [];
+                var vertexItems = [];
 
                 //Transform/Matrix
                 var t = this.transform;
@@ -10874,11 +10840,10 @@ var Kiwi;
                 pt4 = m.transformPoint(pt4);
 
                 //Append to the xyuv and alpha arrays
-                xyuvItems.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, 0, 0, pt2.x + t.rotPointX, pt2.y + t.rotPointY, this._canvas.width, 0, pt3.x + t.rotPointX, pt3.y + t.rotPointY, this._canvas.width, this._canvas.height, pt4.x + t.rotPointX, pt4.y + t.rotPointY, 0, this._canvas.height);
-                alphaItems.push(this.alpha, this.alpha, this.alpha, this.alpha);
+                vertexItems.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, 0, 0, this.alpha, pt2.x + t.rotPointX, pt2.y + t.rotPointY, this._canvas.width, 0, this.alpha, pt3.x + t.rotPointX, pt3.y + t.rotPointY, this._canvas.width, this._canvas.height, this.alpha, pt4.x + t.rotPointX, pt4.y + t.rotPointY, 0, this._canvas.height, this.alpha);
 
                 //Add to the batch!
-                this.glRenderer.concatBatch(xyuvItems, alphaItems);
+                this.glRenderer.concatBatch(vertexItems);
             };
             Textfield.TEXT_ALIGN_CENTER = 'center';
 
@@ -11975,8 +11940,7 @@ var Kiwi;
                 TileMapLayer.prototype.renderGL = function (gl, camera, params) {
                     if (typeof params === "undefined") { params = null; }
                     //Setup
-                    var alphaItems = [];
-                    var xyuvItems = [];
+                    var vertexItems = [];
 
                     //Create the point objects.
                     var pt1 = new Kiwi.Geom.Point();
@@ -12018,15 +11982,12 @@ var Kiwi;
                             pt4 = m.transformPoint(pt4);
 
                             //Append to the xyuv array
-                            xyuvItems.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
-
-                            //Add four items to the alpha buffer
-                            alphaItems.push(this.alpha, this.alpha, this.alpha, this.alpha);
+                            vertexItems.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, this.alpha, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, this.alpha, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, this.alpha, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h, this.alpha);
                         }
                     }
 
                     //Concat points to the Renderer.
-                    this.glRenderer.concatBatch(xyuvItems, alphaItems);
+                    this.glRenderer.concatBatch(vertexItems);
                 };
                 return TileMapLayer;
             })(Kiwi.Entity);
@@ -22427,6 +22388,13 @@ var Kiwi;
         var GLRenderManager = (function () {
             function GLRenderManager(game) {
                 /**
+                * The renderer object that is in use during a rendering batch.
+                * @property _currentRenderer
+                * @type Kiwi.Renderers.Renderer
+                * @private
+                */
+                this._currentRenderer = null;
+                /**
                 * Tally of number of entities rendered per frame
                 * @property _entityCount
                 * @type number
@@ -22485,6 +22453,8 @@ var Kiwi;
             GLRenderManager.prototype.boot = function () {
                 this._textureManager = new Kiwi.Renderers.GLTextureManager();
                 this._shaderManager = new Kiwi.Shaders.ShaderManager();
+
+                //this.filters = new Kiwi.Filters.GLFilterManager(this._game, this._shaderManager);
                 this._init();
             };
 
@@ -22571,6 +22541,17 @@ var Kiwi;
                 return null;
             };
 
+            /*
+            public get filtersEnabled(): boolean {
+            return this._filtersEnabled;
+            }
+            
+            public set filtersEnabled(val: boolean) {
+            this._filtersEnabled = val;
+            }
+            
+            private _filtersEnabled: boolean = false;
+            
             /**
             * Performs initialisation required for single game instance - happens once, at bootup
             * Sets global GL state.
@@ -22587,30 +22568,28 @@ var Kiwi;
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
                 gl.viewport(0, 0, this._game.stage.width, this._game.stage.height);
 
-                this._cameraOffset = new Float32Array([0, 0]);
-
                 //set default gl state
                 gl.enable(gl.BLEND);
                 gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-                //create Model View Matrix
-                this.mvMatrix = mat4.create();
-                mat2d.identity(this.mvMatrix);
-
                 //shader manager
                 this._shaderManager.init(gl, "TextureAtlasShader");
 
-                //initialise default renderer
-                this.requestSharedRenderer("TextureAtlasRenderer");
-                this._sharedRenderers.TextureAtlasRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
-                this._currentRenderer = this._sharedRenderers.TextureAtlasRenderer;
+                //camera matrix
+                this.camMatrix = mat3.create();
 
                 //stage res needs update on stage resize
                 this._game.stage.onResize.add(function (width, height) {
                     this._stageResolution = new Float32Array([width, height]);
-                    this._currentRenderer.updateStageResolution(gl, this._stageResolution);
+                    if (this.currentRenderer)
+                        this._currentRenderer.updateStageResolution(gl, this._stageResolution);
+
+                    //this.filters.updateFilterResolution(gl,width, height);
                     gl.viewport(0, 0, width, height);
                 }, this);
+                /* if (this.filtersEnabled && !this.filters.isEmpty) {
+                this.filters.enableFrameBuffers(gl);
+                }*/
             };
 
             /**
@@ -22620,7 +22599,6 @@ var Kiwi;
             * @public
             */
             GLRenderManager.prototype.initState = function (state) {
-                console.log("initialising WebGL on State");
                 this._textureManager.uploadTextureLibrary(this._game.stage.gl, state.textureLibrary);
             };
 
@@ -22645,6 +22623,11 @@ var Kiwi;
             * @public
             */
             GLRenderManager.prototype.render = function (camera) {
+                if (this._game.states.current.members.length == 0) {
+                    console.log("nothing to render");
+                    return;
+                }
+
                 var gl = this._game.stage.gl;
 
                 //reset stats
@@ -22654,107 +22637,110 @@ var Kiwi;
 
                 //clear stage
                 var col = this._game.stage.normalizedColor;
-                gl.clearColor(col.r, col.g, col.b, col.a);
+                gl.clearColor(col.r, col.b, col.g, col.a);
                 gl.clear(gl.COLOR_BUFFER_BIT);
 
                 //set cam matrix uniform
                 var cm = camera.transform.getConcatenatedMatrix();
                 var ct = camera.transform;
 
-                //**Optimise me
-                this.mvMatrix = new Float32Array([
-                    cm.a, cm.b, 0, 0,
-                    cm.c, cm.d, 0, 0,
-                    0, 0, 1, 0,
-                    ct.rotPointX - cm.tx, ct.rotPointY - cm.ty, 0, 1
-                ]);
-                this._cameraOffset = new Float32Array([ct.rotPointX, ct.rotPointY]);
+                var rotOffset = vec2.create();
+                var scale = vec2.create();
+                vec2.set(scale, ct.scaleX, ct.scaleY);
+                vec2.set(rotOffset, ct.rotPointX - cm.tx, ct.rotPointY - cm.ty);
 
-                //clear current renderer ready for a batch
-                this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+                mat3.identity(this.camMatrix);
+                mat3.translate(this.camMatrix, this.camMatrix, rotOffset);
+                mat3.rotate(this.camMatrix, this.camMatrix, ct.rotation);
+                vec2.negate(rotOffset, rotOffset);
+                mat3.translate(this.camMatrix, this.camMatrix, rotOffset);
+                mat3.scale(this.camMatrix, this.camMatrix, scale);
 
-                //render the scene graph starting at the root
-                var root = this._game.states.current.members;
-                for (var i = 0; i < root.length; i++) {
-                    this._recurse(gl, root[i], camera);
-                }
-
-                //draw anything left over
-                this._currentRenderer.draw(gl);
-                this.numDrawCalls++;
+                this.collateRenderSequence();
+                this.collateBatches();
+                this.renderBatches(gl, camera);
+                /*if (this._filtersEnabled && !this.filters.isEmpty) {
+                this.filters.applyFilters(gl);
+                gl.useProgram(this._shaderManager.currentShader.shaderProgram);
+                gl.bindTexture(gl.TEXTURE_2D, this._currentTextureAtlas.glTextureWrapper.texture);
+                }*/
             };
 
-            /**
-            * Recursively renders scene graph tree
-            * @method _recurse
-            * @param gl {WebGLRenderingContext}
-            * @param child {IChild}
-            * @param camera {Camera}
-            * @private
-            */
-            GLRenderManager.prototype._recurse = function (gl, child, camera) {
-                if (!child.willRender)
-                    return;
+            GLRenderManager.prototype.collateRenderSequence = function () {
+                this._sequence = [];
+                var root = this._game.states.current;
+                this.collateChild(root);
+            };
 
+            GLRenderManager.prototype.collateChild = function (child) {
                 if (child.childType() === Kiwi.GROUP) {
                     for (var i = 0; i < child.members.length; i++) {
-                        this._recurse(gl, child.members[i], camera);
+                        this.collateChild(child.members[i]);
                     }
                 } else {
-                    this._processEntity(gl, child, camera);
+                    var entity = child;
+                    this._sequence.push({
+                        entity: entity,
+                        renderer: entity.glRenderer,
+                        shader: entity.glRenderer.shaderPair,
+                        isBatchRenderer: entity.glRenderer.isBatchRenderer,
+                        texture: entity.atlas
+                    });
                 }
             };
 
-            /**
-            * Processes a single entity for rendering. Ensures that GL state is set up for the entity rendering requirements
-            * @method _processEntity
-            * is the entity's required renderer active and using the correct shader? If not then flush and re-enable renderer
-            * this is to allow the same renderer to use different shaders on different objects - renderer can be configured on a per object basis
-            * this needs thorough testing - also the text property lookups may need refactoring
-            * @param gl {WebGLRenderingContext}
-            * @param entity {Entity}
-            * @param camera {Camera}
-            * @private
-            */
-            GLRenderManager.prototype._processEntity = function (gl, entity, camera) {
-                if (entity.glRenderer !== this._currentRenderer || entity.glRenderer["shaderPair"] !== this._shaderManager.currentShader) {
-                    this._flushBatch(gl);
-                    this._switchRenderer(gl, entity);
+            GLRenderManager.prototype.collateBatches = function () {
+                var currentRenderer = null;
+                var currentShader = null;
+                var currentTexture = null;
 
-                    //force texture switch
-                    this._switchTexture(gl, entity);
+                this._batches = [];
+                var batchIndex;
+
+                for (var i = 0; i < this._sequence.length; i++) {
+                    if (!this._sequence[i].isBatchRenderer || this._sequence[i].renderer !== currentRenderer || this._sequence[i].shader !== currentShader || this._sequence[i].texture !== currentTexture) {
+                        //create a new batch
+                        var batchIndex = this._batches.push(new Array()) - 1;
+                        currentRenderer = this._sequence[i].renderer;
+                        currentShader = this._sequence[i].shader;
+                        currentTexture = this._sequence[i].texture;
+                    }
+                    this._batches[batchIndex].push(this._sequence[i]);
                 }
-
-                //assert: required renderer is now active
-                //are the entity's texture requirements met?
-                if (entity.atlas !== this._currentTextureAtlas) {
-                    this._flushBatch(gl);
-                    this._switchTexture(gl, entity);
-                }
-
-                // is the texture in need of reuplaoding? This would be the case if it is a dynamic texture such as a text field
-                if (entity.atlas.dirty) {
-                    entity.atlas.glTextureWrapper.refreshTexture(gl);
-                    this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
-                    entity.atlas.dirty = false;
-                }
-
-                //assert: texture requirements are met
-                entity.renderGL(gl, camera);
-                this._entityCount++;
             };
 
-            /**
-            * Draws the current batch and clears the renderer ready for another batch.
-            * @method _flushBatch
-            * @param gl {WebGLRenderingContext}
-            * @private
-            */
-            GLRenderManager.prototype._flushBatch = function (gl) {
+            GLRenderManager.prototype.renderBatches = function (gl, camera) {
+                for (var i = 0; i < this._batches.length; i++) {
+                    var batch = this._batches[i];
+
+                    //if first is batch then they all are
+                    if (batch[0].isBatchRenderer) {
+                        this.renderBatch(gl, batch, camera);
+                    } else {
+                        this.renderEntity(gl, batch[0].entity, camera);
+                    }
+                }
+            };
+
+            GLRenderManager.prototype.renderBatch = function (gl, batch, camera) {
+                this.setupGLState(gl, batch[0].entity);
+                this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
+                for (var i = 0; i < batch.length; i++) {
+                    batch[i].entity.renderGL(gl, camera);
+                }
                 this._currentRenderer.draw(gl);
-                this.numDrawCalls++;
-                this._entityCount = 0;
-                this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+            };
+
+            GLRenderManager.prototype.renderEntity = function (gl, entity, camera) {
+                this.setupGLState(gl, entity);
+                entity.renderGL(gl, camera);
+            };
+
+            GLRenderManager.prototype.setupGLState = function (gl, entity) {
+                if (entity.atlas !== this._currentTextureAtlas)
+                    this._switchTexture(gl, entity);
+                if (entity.glRenderer !== this._currentRenderer)
+                    this._switchRenderer(gl, entity);
             };
 
             /**
@@ -22765,9 +22751,10 @@ var Kiwi;
             * @private
             */
             GLRenderManager.prototype._switchRenderer = function (gl, entity) {
-                this._currentRenderer.disable(gl);
+                if (this._currentRenderer)
+                    this._currentRenderer.disable(gl);
                 this._currentRenderer = entity.glRenderer;
-                this._currentRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
+                this._currentRenderer.enable(gl, { camMatrix: this.camMatrix, stageResolution: this._stageResolution, textureAtlas: this._currentTextureAtlas });
             };
 
             /**
@@ -22779,7 +22766,8 @@ var Kiwi;
             */
             GLRenderManager.prototype._switchTexture = function (gl, entity) {
                 this._currentTextureAtlas = entity.atlas;
-                this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
+                if (this._currentRenderer)
+                    this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
                 this._textureManager.useTexture(gl, entity.atlas.glTextureWrapper);
             };
             return GLRenderManager;
@@ -22868,7 +22856,8 @@ var Kiwi;
             * @return {ShaderPair} a ShaderPair instance - null on fail
             * @public
             */
-            ShaderManager.prototype.requestShader = function (gl, shaderID) {
+            ShaderManager.prototype.requestShader = function (gl, shaderID, use) {
+                if (typeof use === "undefined") { use = true; }
                 var shader;
 
                 //in list already?
@@ -22877,14 +22866,16 @@ var Kiwi;
                     if (!shader.loaded) {
                         this._loadShader(gl, shader);
                     }
-                    this._useShader(gl, shader);
+                    if (use)
+                        this._useShader(gl, shader);
                     return shader;
                 } else {
                     //not in list, does it exist?
                     if (this.shaderExists) {
                         shader = this._addShader(gl, shaderID);
                         this._loadShader(gl, shader);
-                        this._useShader(gl, shader);
+                        if (use)
+                            this._useShader(gl, shader);
                         return shader;
                     } else {
                         console.log("Shader " + shaderID + " does not exist");
@@ -22941,8 +22932,8 @@ var Kiwi;
             ShaderManager.prototype._useShader = function (gl, shader) {
                 if (shader !== this._currentShader) {
                     this._currentShader = shader;
-                    gl.useProgram(shader.shaderProgram);
                 }
+                gl.useProgram(shader.shaderProgram);
             };
             return ShaderManager;
         })();
@@ -22972,15 +22963,10 @@ var Kiwi;
                 if (typeof upload === "undefined") { upload = false; }
                 this._created = false;
                 this._uploaded = false;
-                console.log("Creating texture: " + atlas.name);
-
                 this.textureAtlas = atlas;
                 this.image = atlas.image;
                 this._numBytes = this.image.width * this.image.height * 4;
-                console.log("...texture requires kb: " + this._numBytes / 1024);
-
                 this.createTexture(gl);
-
                 if (upload)
                     this.uploadTexture(gl);
             }
@@ -23011,13 +22997,11 @@ var Kiwi;
             //force : if true then other textures will be removed until there is room.
             GLTextureWrapper.prototype.createTexture = function (gl) {
                 this.texture = gl.createTexture();
-                console.log("...texture created successfully");
                 this._created = true;
                 return true;
             };
 
             GLTextureWrapper.prototype.uploadTexture = function (gl) {
-                console.log("Attempting to upload texture: " + this.textureAtlas.name);
                 var success = false;
                 if (!this.created) {
                     this.createTexture(gl);
@@ -23027,8 +23011,11 @@ var Kiwi;
                     console.log("...not uploading:the image is already uploaded");
                 } else {
                     gl.bindTexture(gl.TEXTURE_2D, this.texture);
-                    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+                    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
                     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
@@ -23038,7 +23025,6 @@ var Kiwi;
                     //check gl error here
                     this._uploaded = true;
                     success = true;
-                    console.log("...texture uploaded successfully");
                 }
 
                 return success;
@@ -23049,13 +23035,10 @@ var Kiwi;
             };
 
             GLTextureWrapper.prototype.deleteTexture = function (gl) {
-                console.log("Attempting to delete texture: " + this.textureAtlas.name);
                 gl.bindTexture(gl.TEXTURE_2D, this.texture);
                 gl.deleteTexture(this.texture);
                 this._uploaded = false;
                 this._created = false;
-                console.log("...texture deleted successfully");
-                console.log("...freed kb: " + this.numBytes / 1024);
                 return true;
             };
             return GLTextureWrapper;
@@ -23130,8 +23113,6 @@ var Kiwi;
             GLTextureManager.prototype._deleteTexture = function (gl, idx) {
                 this._textureWrapperCache[idx].deleteTexture(gl);
                 this._usedTextureMem -= this._textureWrapperCache[idx].numBytes;
-                console.log("...removed KB: " + this._textureWrapperCache[idx].numBytes / 1024);
-                console.log("...now using KB: " + this._usedTextureMem / 1024);
                 this._numTexturesUsed--;
             };
 
@@ -23148,9 +23129,7 @@ var Kiwi;
                 if (glTextureWrapper.numBytes + this._usedTextureMem <= this.maxTextureMem) {
                     glTextureWrapper.uploadTexture(gl);
                     this._usedTextureMem += glTextureWrapper.numBytes;
-                    console.log("Total uploaded KB: " + this._usedTextureMem / 1024);
                     this._numTexturesUsed++;
-                    console.log("Total textures uploaded: " + this._numTexturesUsed);
 
                     return true;
                 }
@@ -23165,15 +23144,10 @@ var Kiwi;
             * @public
             */
             GLTextureManager.prototype.uploadTextureLibrary = function (gl, textureLibrary) {
-                console.log("Attempting to upload TextureLibrary");
                 this._textureWrapperCache = new Array();
-                console.log("...recreated wrapper cache");
-
                 for (var tex in textureLibrary.textures) {
                     this.uploadTexture(gl, textureLibrary.textures[tex]);
                 }
-                console.log("...texture Library uploaded. Using KB: " + this._usedTextureMem / 1024);
-                console.log("...using " + this._usedTextureMem / this.maxTextureMem + " of KB " + this.maxTextureMem / 1024);
             };
 
             GLTextureManager.prototype.uploadTexture = function (gl, textureAtlas) {
@@ -23199,7 +23173,6 @@ var Kiwi;
             * @public
             */
             GLTextureManager.prototype.clearTextures = function (gl) {
-                console.log("Attempting to clear Textures");
                 for (var i = 0; i < this._textureWrapperCache.length; i++) {
                     //delete it from g mem
                     this._textureWrapperCache[i].deleteTexture(gl);
@@ -23491,9 +23464,12 @@ var Kiwi;
 (function (Kiwi) {
     (function (Renderers) {
         var Renderer = (function () {
-            function Renderer(gl, shaderManager) {
+            function Renderer(gl, shaderManager, isBatchRenderer) {
+                if (typeof isBatchRenderer === "undefined") { isBatchRenderer = false; }
                 this.loaded = false;
+                this._isBatchRenderer = false;
                 this.shaderManager = shaderManager;
+                this._isBatchRenderer = isBatchRenderer;
                 this.loaded = true;
             }
             /**
@@ -23522,6 +23498,14 @@ var Kiwi;
             };
             Renderer.prototype.updateTextureSize = function (gl, size) {
             };
+
+            Object.defineProperty(Renderer.prototype, "isBatchRenderer", {
+                get: function () {
+                    return this._isBatchRenderer;
+                },
+                enumerable: true,
+                configurable: true
+            });
             Renderer.RENDERER_ID = "Renderer";
             return Renderer;
         })();
@@ -23542,47 +23526,28 @@ var Kiwi;
             __extends(TextureAtlasRenderer, _super);
             function TextureAtlasRenderer(gl, shaderManager, params) {
                 if (typeof params === "undefined") { params = null; }
-                _super.call(this, gl, shaderManager);
-                /**
-                * Maximum allowable sprites to render per frame
-                * @property _maxItems
-                * @type number
-                * @default 1000
-                * @private
-                */
+                _super.call(this, gl, shaderManager, true);
                 this._maxItems = 1000;
 
-                //create buffers
-                //dynamic
-                this.xyuvBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, 4);
-                this.alphaBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, 1);
+                this._vertexBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, 5);
 
                 //6 verts per quad
-                this.indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
+                this._indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
-                //use shaders
                 this.shaderPair = this.shaderManager.requestShader(gl, "TextureAtlasShader");
             }
             TextureAtlasRenderer.prototype.enable = function (gl, params) {
                 if (typeof params === "undefined") { params = null; }
-                //gl.useProgram(this.shaderPair.shaderProgram);
                 this.shaderPair = this.shaderManager.requestShader(gl, "TextureAtlasShader");
-                gl.enableVertexAttribArray(this.shaderPair.attributes.aXYUV);
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.xyuvBuffer.buffer);
-                gl.vertexAttribPointer(this.shaderPair.attributes.aXYUV, this.xyuvBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                gl.enableVertexAttribArray(this.shaderPair.attributes.aAlpha);
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.alphaBuffer.buffer);
-                gl.vertexAttribPointer(this.shaderPair.attributes.aAlpha, this.alphaBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
                 //Texture
-                gl.activeTexture(gl.TEXTURE0);
-                gl.uniform1i(this.shaderPair.uniforms.samplerUniform, 0);
+                gl.uniform1i(this.shaderPair.uniforms.uSampler.location, 0);
 
                 //Other uniforms
-                gl.uniform2fv(this.shaderPair.uniforms.uResolution, params.stageResolution);
-                gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset, params.cameraOffset);
-                gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix, false, params.mvMatrix);
+                gl.uniform2fv(this.shaderPair.uniforms.uResolution.location, params.stageResolution);
+                gl.uniformMatrix3fv(this.shaderPair.uniforms.uCamMatrix.location, false, params.camMatrix);
+
+                this.updateTextureSize(gl, new Float32Array([params.textureAtlas.glTextureWrapper.image.width, params.textureAtlas.glTextureWrapper.image.height]));
             };
 
             TextureAtlasRenderer.prototype.disable = function (gl) {
@@ -23591,27 +23556,21 @@ var Kiwi;
             };
 
             TextureAtlasRenderer.prototype.clear = function (gl, params) {
-                this.xyuvBuffer.clear();
-                this.alphaBuffer.clear();
-                gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix, false, params.mvMatrix);
-                gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset, new Float32Array(params.uCameraOffset));
+                this._vertexBuffer.clear();
+                gl.uniformMatrix3fv(this.shaderPair.uniforms.uCamMatrix.location, false, params.camMatrix);
             };
 
             TextureAtlasRenderer.prototype.draw = function (gl) {
+                this._vertexBuffer.uploadBuffer(gl, this._vertexBuffer.items);
+
                 gl.enableVertexAttribArray(this.shaderPair.attributes.aXYUV);
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.xyuvBuffer.buffer);
-                gl.vertexAttribPointer(this.shaderPair.attributes.aXYUV, this.xyuvBuffer.itemSize, gl.FLOAT, false, 0, 0);
+                gl.vertexAttribPointer(this.shaderPair.attributes.aXYUV, 4, gl.FLOAT, false, 20, 0);
 
                 gl.enableVertexAttribArray(this.shaderPair.attributes.aAlpha);
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.alphaBuffer.buffer);
-                gl.vertexAttribPointer(this.shaderPair.attributes.aAlpha, this.alphaBuffer.itemSize, gl.FLOAT, false, 0, 0);
+                gl.vertexAttribPointer(this.shaderPair.attributes.aAlpha, 1, gl.FLOAT, false, 20, 16);
 
-                this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
-                this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
-                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
-
-                //4 components per attributes, 6 verts per quad - used to work out how many elements to draw
-                gl.drawElements(gl.TRIANGLES, (this.alphaBuffer.items.length / 4) * 6, gl.UNSIGNED_SHORT, 0);
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this._indexBuffer.buffer);
+                gl.drawElements(gl.TRIANGLES, (this._vertexBuffer.items.length / 20) * 6, gl.UNSIGNED_SHORT, 0);
             };
 
             /**
@@ -23630,13 +23589,11 @@ var Kiwi;
             };
 
             TextureAtlasRenderer.prototype.updateStageResolution = function (gl, res) {
-                //this.shaderPair.uResolution(gl, res);
-                gl.uniform2fv(this.shaderPair.uniforms.uResolution, res);
+                gl.uniform2fv(this.shaderPair.uniforms.uResolution.location, res);
             };
 
             TextureAtlasRenderer.prototype.updateTextureSize = function (gl, size) {
-                //this.shaderPair.uTextureSize(gl, size);
-                gl.uniform2fv(this.shaderPair.uniforms.uTextureSize, size);
+                gl.uniform2fv(this.shaderPair.uniforms.uTextureSize.location, size);
             };
 
             /**
@@ -23663,13 +23620,11 @@ var Kiwi;
                 pt3 = m.transformPoint(pt3);
                 pt4 = m.transformPoint(pt4);
 
-                this.xyuvBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
-                this.alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
+                this._vertexBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, entity.alpha, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, entity.alpha, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, entity.alpha, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h, entity.alpha);
             };
 
-            TextureAtlasRenderer.prototype.concatBatch = function (xyuvItems, alphaItems) {
-                this.xyuvBuffer.items = this.xyuvBuffer.items.concat(xyuvItems);
-                this.alphaBuffer.items = this.alphaBuffer.items.concat(alphaItems);
+            TextureAtlasRenderer.prototype.concatBatch = function (vertexItems) {
+                this._vertexBuffer.items = this._vertexBuffer.items.concat(vertexItems);
             };
             TextureAtlasRenderer.RENDERER_ID = "TextureAtlasRenderer";
             return TextureAtlasRenderer;
@@ -23741,6 +23696,35 @@ var Kiwi;
                 }
                 return shader;
             };
+
+            ShaderPair.prototype.setParam = function (uniformName, value) {
+                this.uniforms[uniformName].value = value;
+                this.uniforms[uniformName].dirty = true;
+            };
+
+            ShaderPair.prototype.applyUniforms = function (gl) {
+                for (var u in this.uniforms) {
+                    this.applyUniform(gl, u);
+                }
+            };
+
+            ShaderPair.prototype.applyUniform = function (gl, name) {
+                var u = this.uniforms[name];
+                if (this.uniforms[name].dirty) {
+                    console.log(name);
+                    gl["uniform" + u.type](u.location, u.value);
+                    this.uniforms[name].dirty = false;
+                }
+            };
+
+            ShaderPair.prototype.initUniforms = function (gl) {
+                for (var uniformName in this.uniforms) {
+                    var uniform = this.uniforms[uniformName];
+                    uniform.location = gl.getUniformLocation(this.shaderProgram, uniformName);
+                    uniform.dirty = true;
+                    uniform.value = null;
+                }
+            };
             ShaderPair.RENDERER_ID = "ShaderPair";
             return ShaderPair;
         })();
@@ -23767,11 +23751,18 @@ var Kiwi;
                     aAlpha: null
                 };
                 this.uniforms = {
-                    uMVMatrix: null,
-                    uSampler: null,
-                    uResolution: null,
-                    uTextureSize: null,
-                    uCameraOffset: null
+                    uCamMatrix: {
+                        type: "mat3"
+                    },
+                    uResolution: {
+                        type: "2fv"
+                    },
+                    uTextureSize: {
+                        type: "2fv"
+                    },
+                    uSampler: {
+                        type: "1i"
+                    }
                 };
                 /**
                 *
@@ -23798,19 +23789,16 @@ var Kiwi;
                 this.vertSource = [
                     "attribute vec4 aXYUV;",
                     "attribute float aAlpha;",
-                    "uniform mat4 uMVMatrix;",
+                    "uniform mat3 uCamMatrix;",
                     "uniform vec2 uResolution;",
                     "uniform vec2 uTextureSize;",
-                    "uniform vec2 uCameraOffset;",
                     "varying vec2 vTextureCoord;",
                     "varying float vAlpha;",
                     "void main(void) {",
-                    "vec4 transpos = vec4(aXYUV.xy - uCameraOffset,0,1); ",
-                    "transpos =  uMVMatrix * transpos;",
-                    "vec2 clipSpace = ((transpos.xy / uResolution) * 2.0) - 1.0;",
-                    "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
-                    "vTextureCoord = aXYUV.zw / uTextureSize;",
-                    "vAlpha = aAlpha;",
+                    "   vec2 pos = (uCamMatrix * vec3(aXYUV.xy,1)).xy; ",
+                    "   gl_Position = vec4((pos / uResolution * 2.0 - 1.0) * vec2(1, -1), 0, 1);",
+                    "   vTextureCoord = aXYUV.zw / uTextureSize;",
+                    "   vAlpha = aAlpha;",
                     "}"
                 ];
             }
@@ -23821,12 +23809,7 @@ var Kiwi;
                 this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
                 this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
 
-                //uniforms
-                this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
-                this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, "uResolution");
-                this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, "uSampler");
-                this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
-                this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
+                this.initUniforms(gl);
             };
             return TextureAtlasShader;
         })(Kiwi.Shaders.ShaderPair);
@@ -28563,7 +28546,6 @@ var Kiwi;
 /// <reference path="geom/Rectangle.ts" />
 /// <reference path="geom/Transform.ts" />
 /// <reference path="geom/Vector2.ts" />
-/// <reference path="geom/Random.ts" />
 /// <reference path="hud/HUDDisplay.ts" />
 /// <reference path="hud/HUDManager.ts" />
 /// <reference path="hud/HUDWidget.ts" />
@@ -28603,6 +28585,8 @@ var Kiwi;
 /// <reference path="render/GLElementArrayBuffer.ts" />
 /// <reference path="render/renderers/Renderer.ts" />
 /// <reference path="render/renderers/TextureAtlasRenderer.ts" />
+/// <reference path="render/shaders/ShaderPair.ts" />
+/// <reference path="render/shaders/TextureAtlasShader.ts" />
 /// <reference path="render/shaders/ShaderPair.ts" />
 /// <reference path="render/shaders/TextureAtlasShader.ts" />
 /// <reference path="system/Bootstrap.ts" />

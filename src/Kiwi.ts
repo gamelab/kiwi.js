@@ -111,45 +111,12 @@
 /// <reference path="render/shaders/ShaderPair.ts" />
 /// <reference path="render/shaders/TextureAtlasShader.ts" />
 
-/// <reference path="render/filters/GLFilterManager.ts" />
-/// <reference path="render/filters/GLFilterRenderer.ts" />
+
 
 
 /// <reference path="render/shaders/ShaderPair.ts" />
 /// <reference path="render/shaders/TextureAtlasShader.ts" />
-/// <reference path="render/shaders/filters/GrayScaleShader.ts" />
-/// <reference path="render/shaders/filters/BlurShaderX.ts" />
-/// <reference path="render/shaders/filters/BlurShaderY.ts" />
-/// <reference path="render/shaders/filters/PixelateShader.ts" />
-/// <reference path="render/shaders/filters/PosterizeShader.ts" />
-/// <reference path="render/shaders/filters/SwirlShader.ts" />
-/// <reference path="render/shaders/filters/DotscreenShader.ts" />
-/// <reference path="render/shaders/filters/HalftoneShader.ts" />
-/// <reference path="render/shaders/filters/HexPixelationShader.ts" />
-/// <reference path="render/shaders/filters/HueSaturationShader.ts" />
-/// <reference path="render/shaders/filters/BrightnessContrastShader.ts" />
-/// <reference path="render/shaders/filters/InkShader.ts" />
-/// <reference path="render/shaders/filters/SepiaShader.ts" />
-/// <reference path="render/shaders/filters/VignetteShader.ts" />
-/// <reference path="render/shaders/filters/ZoomBlurShader.ts" />
-/// <reference path="render/shaders/filters/VibranceShader.ts" />
 
-/// <reference path="render/filters/Filter.ts" />
-/// <reference path="render/filters/GrayScaleFilter.ts" />
-/// <reference path="render/filters/BlurFilter.ts" />
-/// <reference path="render/filters/PixelateFilter.ts" />
-/// <reference path="render/filters/PosterizeFilter.ts" />
-/// <reference path="render/filters/SwirlFilter.ts" />
-/// <reference path="render/filters/DotscreenFilter.ts" />
-/// <reference path="render/filters/HalftoneFilter.ts" />
-/// <reference path="render/filters/HexPixelationFilter.ts" />
-/// <reference path="render/filters/HueSaturationFilter.ts" />
-/// <reference path="render/filters/BrightnessContrastFilter.ts" />
-/// <reference path="render/filters/InkFilter.ts" />
-/// <reference path="render/filters/SepiaFilter.ts" />
-/// <reference path="render/filters/VignetteFilter.ts" />
-/// <reference path="render/filters/ZoomBlurFilter.ts" />
-/// <reference path="render/filters/VibranceFilter.ts" />
 
 /// <reference path="system/Bootstrap.ts" />
 /// <reference path="system/Browser.ts" />

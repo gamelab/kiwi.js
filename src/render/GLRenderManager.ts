@@ -44,7 +44,7 @@ module Kiwi.Renderers {
         public boot() {
             this._textureManager = new GLTextureManager();
             this._shaderManager = new Kiwi.Shaders.ShaderManager();
-            this.filters = new Kiwi.Filters.GLFilterManager(this._game, this._shaderManager);
+            //this.filters = new Kiwi.Filters.GLFilterManager(this._game, this._shaderManager);
             this._init();
             
         }
@@ -84,7 +84,7 @@ module Kiwi.Renderers {
        
         private _shaderManager: Kiwi.Shaders.ShaderManager;
 
-        public filters: Kiwi.Filters.GLFilterManager;
+        //public filters: Kiwi.Filters.GLFilterManager;
 
         /**
         * The stage resolution in pixels
@@ -234,6 +234,7 @@ module Kiwi.Renderers {
             return null; //fail
         } 
 
+        /*
         public get filtersEnabled(): boolean {
             return this._filtersEnabled;
         }
@@ -274,13 +275,13 @@ module Kiwi.Renderers {
             this._game.stage.onResize.add(function (width, height) {
                 this._stageResolution = new Float32Array([width, height]);
                 if (this.currentRenderer) this._currentRenderer.updateStageResolution(gl, this._stageResolution);
-                this.filters.updateFilterResolution(gl,width, height);
+                //this.filters.updateFilterResolution(gl,width, height);
                 gl.viewport(0, 0, width,height);
             },this);
 
-            if (this.filtersEnabled && !this.filters.isEmpty) {
+           /* if (this.filtersEnabled && !this.filters.isEmpty) {
                 this.filters.enableFrameBuffers(gl);
-            }
+            }*/
 
        }
 
@@ -355,11 +356,11 @@ module Kiwi.Renderers {
             this.collateBatches();
             this.renderBatches(gl, camera);
           
-            if (this._filtersEnabled && !this.filters.isEmpty) {
+            /*if (this._filtersEnabled && !this.filters.isEmpty) {
                 this.filters.applyFilters(gl);
                 gl.useProgram(this._shaderManager.currentShader.shaderProgram);
                 gl.bindTexture(gl.TEXTURE_2D, this._currentTextureAtlas.glTextureWrapper.texture);
-            }
+            }*/
         }
 
         private _sequence: any[];
