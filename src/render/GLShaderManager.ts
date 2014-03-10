@@ -84,7 +84,7 @@ module Kiwi.Shaders {
         * @return {ShaderPair} a ShaderPair instance - null on fail
         * @public
 	    */
-        public requestShader(gl: WebGLRenderingContext,shaderID: string):ShaderPair {
+        public requestShader(gl: WebGLRenderingContext,shaderID: string,use:boolean = true):ShaderPair {
 
             var shader: ShaderPair;
             //in list already?
@@ -93,14 +93,16 @@ module Kiwi.Shaders {
                 if (!shader.loaded) {
                     this._loadShader(gl, shader);
                 }
-                this._useShader(gl, shader);
+                if(use)
+                    this._useShader(gl, shader);
                 return shader;
             } else {
                 //not in list, does it exist?
                 if (this.shaderExists) {
                     shader = this._addShader(gl, shaderID);
                     this._loadShader(gl, shader);
-                    this._useShader(gl, shader);
+                    if(use)
+                        this._useShader(gl, shader);
                     return shader;
                 } else {
                     console.log("Shader " + shaderID + " does not exist");
@@ -156,8 +158,8 @@ module Kiwi.Shaders {
         private _useShader(gl: WebGLRenderingContext, shader: ShaderPair) {
             if (shader !== this._currentShader) {
                 this._currentShader = shader;
-                gl.useProgram(shader.shaderProgram);
             }
+            gl.useProgram(shader.shaderProgram);
         }
 
 

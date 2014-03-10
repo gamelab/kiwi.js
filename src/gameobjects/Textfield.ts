@@ -387,8 +387,8 @@ module Kiwi.GameObjects {
 
 
             //Set-up the xyuv and alpha
-            var xyuvItems = [];
-            var alphaItems = [];
+            var vertexItems = [];
+            
 
 
             //Transform/Matrix
@@ -425,17 +425,17 @@ module Kiwi.GameObjects {
 
 
             //Append to the xyuv and alpha arrays 
-            xyuvItems.push(
-                pt1.x + t.rotPointX, pt1.y + t.rotPointY, 0, 0,                                             //Top Left Point
-                pt2.x + t.rotPointX, pt2.y + t.rotPointY, this._canvas.width, 0,                            //Top Right Point
-                pt3.x + t.rotPointX, pt3.y + t.rotPointY, this._canvas.width, this._canvas.height,          //Bottom Right Point
-                pt4.x + t.rotPointX, pt4.y + t.rotPointY, 0, this._canvas.height                            //Bottom Left Point
+            vertexItems.push(
+                pt1.x + t.rotPointX, pt1.y + t.rotPointY, 0, 0, this.alpha,                                             //Top Left Point
+                pt2.x + t.rotPointX, pt2.y + t.rotPointY, this._canvas.width, 0, this.alpha,                            //Top Right Point
+                pt3.x + t.rotPointX, pt3.y + t.rotPointY, this._canvas.width, this._canvas.height, this.alpha,          //Bottom Right Point
+                pt4.x + t.rotPointX, pt4.y + t.rotPointY, 0, this._canvas.height, this.alpha                            //Bottom Left Point
                 );
-            alphaItems.push(this.alpha, this.alpha, this.alpha, this.alpha);
+            
 
 
             //Add to the batch!
-            (<Kiwi.Renderers.TextureAtlasRenderer>this.glRenderer).concatBatch(xyuvItems, alphaItems);
+            (<Kiwi.Renderers.TextureAtlasRenderer>this.glRenderer).concatBatch(vertexItems);
         }
     }
 

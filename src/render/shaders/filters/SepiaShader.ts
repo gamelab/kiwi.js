@@ -8,7 +8,7 @@
 
 module Kiwi.Shaders {
 
-    export class TextureAtlasShader extends ShaderPair {
+    export class SepiaShader extends ShaderPair {
 
         constructor() {
             super();
@@ -19,30 +19,23 @@ module Kiwi.Shaders {
 
             //attributes
             this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
-            this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
 
-            
+            //uniforms
+
             this.initUniforms(gl);
         }
 
         public attributes: any = {
             aXYUV: null,
-            aAlpha: null,
 
         };
 
         public uniforms: any = {
-            uCamMatrix: {
-                type: "mat3",
-            },
-            uResolution: {
-                type: "2fv",
-            },
-            uTextureSize: {
-                type: "2fv",
-            },
             uSampler: {
                 type: "1i",
+            },
+            uLevel: {
+                type: "1f",
             }
         }
 
@@ -54,16 +47,21 @@ module Kiwi.Shaders {
         * @public
         */
         public fragSource: Array<string> = [
-            "precision mediump float;",
-            "varying vec2 vTextureCoord;",
-            "varying float vAlpha;",
-            "uniform sampler2D uSampler;",
-            "void main(void) {",
-            "gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));",
-            "gl_FragColor.a *= vAlpha;",
-            "}"
-        ];
 
+            "precision mediump float;",
+            "uniform sampler2D uSampler;",
+            "varying vec2 vTextureCoord;",
+            "uniform float uLevel;",
+            "void main(void) {",
+            "   vec4 color = texture2D(uSampler, vTextureCoord);",
+            "   float r = color.r;",
+            "   float g = color.g;",
+            "   float b = color.b;",
+            "   color.r = min(1.0, (r * (1.0 - (0.607 * uLevel))) + (g * (0.769 * uLevel)) + (b * (0.189 * uLevel)));",
+            "   color.g = min(1.0, (r * 0.349 * uLevel) + (g * (1.0 - (0.314 * uLevel))) + (b * 0.168 * uLevel));",
+            "   color.b = min(1.0, (r * 0.272 * uLevel) + (g * 0.534 * uLevel) + (b * (1.0 - (0.869 * uLevel))));",
+            "   gl_FragColor = color;",
+            "}"];
 
         /**
         *
@@ -73,17 +71,10 @@ module Kiwi.Shaders {
         */
         public vertSource: Array<string> = [
             "attribute vec4 aXYUV;",
-            "attribute float aAlpha;",
-            "uniform mat3 uCamMatrix;",
-            "uniform vec2 uResolution;",
-            "uniform vec2 uTextureSize;",
             "varying vec2 vTextureCoord;",
-            "varying float vAlpha;",
             "void main(void) {",
-            "   vec2 pos = (uCamMatrix * vec3(aXYUV.xy,1)).xy; ",
-            "   gl_Position = vec4((pos / uResolution * 2.0 - 1.0) * vec2(1, -1), 0, 1);",
-            "   vTextureCoord = aXYUV.zw / uTextureSize;",
-            "   vAlpha = aAlpha;",
+            "gl_Position = vec4(aXYUV.xy,0,1);",
+            "vTextureCoord = aXYUV.zw;",
             "}"
         ];
 

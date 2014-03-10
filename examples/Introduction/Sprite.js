@@ -27,9 +27,16 @@ Sprite.create = function () {
     **/
     this.pirate = new Kiwi.GameObjects.Sprite(this, this.textures.pirate, 300, 30);
     this.addChild(this.pirate);
+    //var v = this.game.renderer.filters.addFilter(Kiwi.Filters.VignetteFilter);
+    //var d = this.game.renderer.filters.addFilter(Kiwi.Filters.DotscreenFilter);
+    //d.enabled = false;
+    //v.enabled = false;
+    this.game.renderer.filters.addFilter(Kiwi.Filters.VibranceFilter,{level:0});
 }
 
-
+function callback() {
+    console.log("callback");
+}
 //Create's a new Kiwi.Game.
 /*
 * Param One - DOMID - String - ID of a DOMElement that the game will reside in.
@@ -37,6 +44,10 @@ Sprite.create = function () {
 * Param Three - State - Object - The state that is to be loaded by default.
 * Param Four - Options - Object - Optional options that the game will use whilst playing. Currently this is used to to choose the renderer/debugmode/device to target
 */
-if(typeof  gameOptions == "undefined")  gameOptions = {};
+if (typeof gameOptions == "undefined") {
+    gameOptions = {};
+} else {
+    gameOptions.bootCallback = callback
+}
+var game = new Kiwi.Game('game', 'KiwiExample', Sprite, gameOptions);
 
-var game = new Kiwi.Game('game', 'KiwiExample', Sprite,  gameOptions);

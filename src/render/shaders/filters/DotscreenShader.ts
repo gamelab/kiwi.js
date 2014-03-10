@@ -8,10 +8,11 @@
 
 module Kiwi.Shaders {
 
-    export class TextureAtlasShader extends ShaderPair {
+    export class DotscreenShader extends ShaderPair {
 
         constructor() {
             super();
+
         }
 
         public init(gl: WebGLRenderingContext) {
@@ -19,30 +20,26 @@ module Kiwi.Shaders {
 
             //attributes
             this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
-            this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
 
-            
+            //uniforms
+
             this.initUniforms(gl);
         }
 
         public attributes: any = {
             aXYUV: null,
-            aAlpha: null,
 
         };
 
         public uniforms: any = {
-            uCamMatrix: {
-                type: "mat3",
+            uSampler: {
+                type: "1i",
             },
             uResolution: {
                 type: "2fv",
             },
-            uTextureSize: {
-                type: "2fv",
-            },
-            uSampler: {
-                type: "1i",
+            uXYAS: {
+                type: "4fv",
             }
         }
 
@@ -54,16 +51,30 @@ module Kiwi.Shaders {
         * @public
         */
         public fragSource: Array<string> = [
-            "precision mediump float;",
-            "varying vec2 vTextureCoord;",
-            "varying float vAlpha;",
-            "uniform sampler2D uSampler;",
-            "void main(void) {",
-            "gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));",
-            "gl_FragColor.a *= vAlpha;",
-            "}"
-        ];
 
+            "precision mediump float;",
+            "uniform sampler2D uSampler;",
+            "uniform vec2 uResolution;",
+            "uniform vec4 uXYAS;",
+            "varying vec2 vTextureCoord;",
+
+            "float pattern() {",
+            "   vec2 center = uXYAS.xy;",
+            "   float angle = uXYAS.z;",
+            "   float scale = uXYAS.q;",
+            "   float s = sin(angle), c = cos(angle);",
+            "   vec2 tex = vTextureCoord * uResolution - center;",
+            "   vec2 point = vec2(c * tex.x - s * tex.y, s * tex.x + c * tex.y) * scale;",
+            "   return (sin(point.x) * sin(point.y)) * 4.0;",
+            "}",
+             "void main() {",
+            "    vec4 color = texture2D(uSampler, vTextureCoord);",
+            "    float average = (color.r + color.g + color.b) / 3.0;",
+            "    gl_FragColor = vec4(vec3(average * 10.0 - 5.0 + pattern()), color.a);",
+            "}",
+
+   
+        ];
 
         /**
         *
@@ -73,17 +84,10 @@ module Kiwi.Shaders {
         */
         public vertSource: Array<string> = [
             "attribute vec4 aXYUV;",
-            "attribute float aAlpha;",
-            "uniform mat3 uCamMatrix;",
-            "uniform vec2 uResolution;",
-            "uniform vec2 uTextureSize;",
             "varying vec2 vTextureCoord;",
-            "varying float vAlpha;",
             "void main(void) {",
-            "   vec2 pos = (uCamMatrix * vec3(aXYUV.xy,1)).xy; ",
-            "   gl_Position = vec4((pos / uResolution * 2.0 - 1.0) * vec2(1, -1), 0, 1);",
-            "   vTextureCoord = aXYUV.zw / uTextureSize;",
-            "   vAlpha = aAlpha;",
+            "gl_Position = vec4(aXYUV.xy,0,1);",
+            "vTextureCoord = aXYUV.zw;",
             "}"
         ];
 

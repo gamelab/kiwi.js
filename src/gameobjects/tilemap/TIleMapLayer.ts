@@ -690,9 +690,8 @@ module Kiwi.GameObjects.Tilemap {
         public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params: any = null) {
 
             //Setup
-            var alphaItems:Array<number> = [];
-            var xyuvItems:Array<number> = [];
-
+            var vertexItems = [];
+            
             //Create the point objects.
             var pt1 = new Kiwi.Geom.Point();
             var pt2 = new Kiwi.Geom.Point();
@@ -719,7 +718,7 @@ module Kiwi.GameObjects.Tilemap {
                     //Skip tiletypes that don't use a cellIndex.
                     if (this._temptype.cellIndex == -1) continue;
 
-
+                    
                     //Get the cell index
                     var cell = this.atlas.cells[this._temptype.cellIndex];
                     var tx = x * this.tileWidth;
@@ -741,21 +740,20 @@ module Kiwi.GameObjects.Tilemap {
 
 
                     //Append to the xyuv array
-                    xyuvItems.push(
-                        pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y,                   //Top Left Point
-                        pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y,          //Top Right Point
-                        pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, //Bottom Right Point
-                        pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h           //Bottom Left Point
+                    vertexItems.push(
+                        pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, this.alpha,                   //Top Left Point
+                        pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, this.alpha,          //Top Right Point
+                        pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, this.alpha, //Bottom Right Point
+                        pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h, this.alpha           //Bottom Left Point
                         );
                     
 
-                    //Add four items to the alpha buffer
-                    alphaItems.push(this.alpha, this.alpha, this.alpha, this.alpha);
+                    
                 }
             }
                
             //Concat points to the Renderer.
-            (<Kiwi.Renderers.TextureAtlasRenderer>this.glRenderer).concatBatch(xyuvItems, alphaItems);
+            (<Kiwi.Renderers.TextureAtlasRenderer>this.glRenderer).concatBatch(vertexItems);
         }
 
     }

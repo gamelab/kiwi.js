@@ -29,10 +29,6 @@
     <Content Include="file\File.ts" />
     <Content Include="file\FileStore.ts" />
     <Content Include="file\Loader.ts" />
-    <TypeScriptCompile Include="geom\Random.ts" />
-    <Content Include="geom\Random.js">
-      <DependentUpon>Random.ts</DependentUpon>
-    </Content>
     <Content Include="gl-matrix-min.js" />
     <Content Include="hud\components\Time.ts" />
     <Content Include="input\MouseCursor.ts" />
@@ -41,10 +37,44 @@
     <Content Include="plugins\Plugins.js">
       <DependentUpon>Plugins.ts</DependentUpon>
     </Content>
+    <Content Include="render\filters\BlurFilter.ts" />
+    <Content Include="render\filters\BrightnessContrastFilter.ts" />
+    <Content Include="render\filters\DotscreenFilter.ts" />
+    <Content Include="render\filters\Filter.ts" />
+    <Content Include="render\filters\GLFilterManager.ts" />
+    <Content Include="render\filters\GLFilterRenderer.ts" />
+    <Content Include="render\filters\GrayScaleFilter.ts" />
+    <Content Include="render\filters\HalftoneFilter.ts" />
+    <Content Include="render\filters\HexPixelationFilter.ts" />
+    <Content Include="render\filters\HueSaturationFilter.ts" />
+    <Content Include="render\filters\InkFilter.ts" />
+    <Content Include="render\filters\PixelateFilter.ts" />
+    <Content Include="render\filters\PosterizeFilter.ts" />
+    <Content Include="render\filters\SepiaFilter.ts" />
+    <Content Include="render\filters\SwirlFilter.ts" />
+    <Content Include="render\filters\VibranceFilter.ts" />
+    <Content Include="render\filters\VignetteFilter.ts" />
+    <Content Include="render\filters\ZoomBlurFilter.ts" />
     <Content Include="render\GLArrayBuffer.ts" />
     <Content Include="render\GLElementArrayBuffer.ts" />
     <Content Include="render\GLRenderManager.ts" />
     <Content Include="render\GLShaderManager.ts" />
+    <Content Include="render\shaders\filters\BlurShaderX.ts" />
+    <Content Include="render\shaders\filters\BlurShaderY.ts" />
+    <Content Include="render\shaders\filters\BrightnessContrastShader.ts" />
+    <Content Include="render\shaders\filters\DotscreenShader.ts" />
+    <Content Include="render\shaders\filters\GrayScaleShader.ts" />
+    <Content Include="render\shaders\filters\HalftoneShader.ts" />
+    <Content Include="render\shaders\filters\HexPixelationShader.ts" />
+    <Content Include="render\shaders\filters\HueSaturationShader.ts" />
+    <Content Include="render\shaders\filters\InkShader.ts" />
+    <Content Include="render\shaders\filters\PixelateShader.ts" />
+    <Content Include="render\shaders\filters\PosterizeShader.ts" />
+    <Content Include="render\shaders\filters\SepiaShader.ts" />
+    <Content Include="render\shaders\filters\SwirlShader.ts" />
+    <Content Include="render\shaders\filters\VibranceShader.ts" />
+    <Content Include="render\shaders\filters\VignetteShader.ts" />
+    <Content Include="render\shaders\filters\ZoomBlurShader.ts" />
     <Content Include="render\shaders\ShaderPair.ts" />
     <Content Include="render\GLTextureWrapper.ts" />
     <Content Include="render\GLTextureManager.ts" />
@@ -196,6 +226,7 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(ProjectDir)\..\build\kiwi.js $(ProjectDir)\..\examples\</PostBuildEvent>
+    <PostBuildEvent>copy $(ProjectDir)\..\build\kiwi.js $(ProjectDir)\..\examples\
+copy $(ProjectDir)\..\build\kiwi.js C:\code\kiwiplugins\GLParticles\examples\js\</PostBuildEvent>
   </PropertyGroup>
 </Project>
