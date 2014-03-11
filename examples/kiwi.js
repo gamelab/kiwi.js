@@ -28622,7 +28622,7 @@ var Kiwi;
     * @default '1.0'
     * @public
     */
-    Kiwi.VERSION = "0.6.1";
+    Kiwi.VERSION = "0.7.0";
 
     //DIFFERENT RENDERER STATIC VARIABLES
     /**

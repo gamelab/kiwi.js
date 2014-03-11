@@ -44,6 +44,18 @@ module.exports = function(grunt) {
         }
     },
 
+    concat: {
+          build: {
+            src:['build/kiwi.js','src/gl-matrix-min.js'],
+            dest: 'build/kiwi.js'
+          },
+          buildmin: {
+            src:['build/kiwi.min.js','src/gl-matrix-min.js'],
+            dest: 'build/kiwi.min.js'
+          }
+          
+    },
+
     tslint: {
       options: {
         configuration: grunt.file.readJSON("tslint.json")
@@ -79,8 +91,10 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-tslint'); 
   
-  grunt.registerTask("default", ["ts:build", "tslint", "uglify:build"]);
-  grunt.registerTask("full", ["ts:build","uglify:build","yuidoc:compile","copy:doclogo","copy:docstyles"]);
-  grunt.registerTask("docs", ["yuidoc:compile","copy:doclogo","copy:docstyles"]);
+  grunt.loadNpmTasks('grunt-contrib-concat');
 
+  grunt.registerTask("default", ["ts:build", "tslint","concat:build","uglify:build"]);
+  grunt.registerTask("full", ["ts:build","concat:build","uglify:build","yuidoc:compile","copy:doclogo","copy:docstyles"]);
+  grunt.registerTask("docs", ["yuidoc:compile","copy:doclogo","copy:docstyles"]);
+  grunt.registerTask("join", ["concat:build"]);
 };

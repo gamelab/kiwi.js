@@ -1732,6 +1732,7 @@ declare module Kiwi {
         * @public
         */
         public renderOption : number;
+        public bootCallbackOption: Function;
         /**
         * The type of device that you are targeting. This is either set to COCOON or BROWSER
         * @property _deviceTargetOption
@@ -9789,14 +9790,6 @@ declare module Kiwi.Geom {
         public toString(): string;
     }
 }
-declare module Kiwi.Geom {
-    class Random {
-        static randomPointCirclePerimeter(): Geom.Point;
-        static randomPointCircle(): Geom.Point;
-        static randomPointSquare(): Geom.Point;
-        static randomPointSquarePerimeter(): Geom.Point;
-    }
-}
 /**
 *
 * @module Kiwi
@@ -14856,13 +14849,6 @@ declare module Kiwi.Renderers {
         */
         private _currentRenderer;
         /**
-        * Camera offset in pixels from top left.
-        * @property _cameraOffset
-        * @type Float32Array
-        * @private
-        */
-        private _cameraOffset;
-        /**
         * Tally of number of entities rendered per frame
         * @property _entityCount
         * @type number
@@ -14887,13 +14873,7 @@ declare module Kiwi.Renderers {
         * @private
         */
         private _maxItems;
-        /**
-        * GL-Matrix.js provided 4x4 matrix used for matrix uniform
-        * @property mvMatrix
-        * @type Float32Array
-        * @public
-        */
-        public mvMatrix: Float32Array;
+        public camMatrix: Float32Array;
         /**
         * The most recently bound texture atlas.
         * @property _currentTextureAtlas
@@ -14947,14 +14927,6 @@ declare module Kiwi.Renderers {
         * @public
         */
         public requestRendererInstance(rendererID: string, params?: any): Renderers.Renderer;
-        /**
-        * Performs initialisation required for single game instance - happens once, at bootup
-        * Sets global GL state.
-        * Initialises managers for shaders and textures.
-        * Instantiates the default shared renderer (TextureAtlasRenderer)
-        * @method _init
-        * @private
-        */
         private _init();
         /**
         * Performs initialisation required when switching to a different state. Called when a state has been switched to.
@@ -14980,34 +14952,15 @@ declare module Kiwi.Renderers {
         * @public
         */
         public render(camera: Kiwi.Camera): void;
-        /**
-        * Recursively renders scene graph tree
-        * @method _recurse
-        * @param gl {WebGLRenderingContext}
-        * @param child {IChild}
-        * @param camera {Camera}
-        * @private
-        */
-        private _recurse(gl, child, camera);
-        /**
-        * Processes a single entity for rendering. Ensures that GL state is set up for the entity rendering requirements
-        * @method _processEntity
-        * is the entity's required renderer active and using the correct shader? If not then flush and re-enable renderer
-        * this is to allow the same renderer to use different shaders on different objects - renderer can be configured on a per object basis
-        * this needs thorough testing - also the text property lookups may need refactoring
-        * @param gl {WebGLRenderingContext}
-        * @param entity {Entity}
-        * @param camera {Camera}
-        * @private
-        */
-        private _processEntity(gl, entity, camera);
-        /**
-        * Draws the current batch and clears the renderer ready for another batch.
-        * @method _flushBatch
-        * @param gl {WebGLRenderingContext}
-        * @private
-        */
-        private _flushBatch(gl);
+        private _sequence;
+        private _batches;
+        public collateRenderSequence(): void;
+        public collateChild(child: Kiwi.IChild): void;
+        public collateBatches(): void;
+        public renderBatches(gl: WebGLRenderingContext, camera: any): void;
+        public renderBatch(gl: WebGLRenderingContext, batch: any, camera: any): void;
+        public renderEntity(gl: WebGLRenderingContext, entity: any, camera: any): void;
+        public setupGLState(gl: WebGLRenderingContext, entity: any): void;
         /**
         * Switch renderer to the one needed by the entity that needs rendering
         * @method _switchRenderer
@@ -15094,7 +15047,7 @@ declare module Kiwi.Shaders {
         * @return {ShaderPair} a ShaderPair instance - null on fail
         * @public
         */
-        public requestShader(gl: WebGLRenderingContext, shaderID: string): Shaders.ShaderPair;
+        public requestShader(gl: WebGLRenderingContext, shaderID: string, use?: boolean): Shaders.ShaderPair;
         /**
         * Tests to see if a ShaderPair property named ShaderID exists on Kiwi.Shaders. Can be used to test for the availability of specific shaders (for fallback)
         * @method shaderExists
@@ -15481,15 +15434,9 @@ declare module Kiwi.Renderers {
 }
 declare module Kiwi.Renderers {
     class Renderer {
-        constructor(gl: WebGLRenderingContext, shaderManager: Kiwi.Shaders.ShaderManager);
+        constructor(gl: WebGLRenderingContext, shaderManager: Kiwi.Shaders.ShaderManager, isBatchRenderer?: boolean);
         static RENDERER_ID: string;
-        /**
-        * GL-Matrix.js provided 4x4 matrix used for matrix uniform
-        * @property mvMatrix
-        * @type Float32Array
-        * @public
-        */
-        public mvMatrix: Float32Array;
+        public camMatrix: Float32Array;
         public loaded: boolean;
         public shaderManager: Kiwi.Shaders.ShaderManager;
         public enable(gl: WebGLRenderingContext, params?: any): void;
@@ -15498,6 +15445,9 @@ declare module Kiwi.Renderers {
         public draw(gl: WebGLRenderingContext): void;
         public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array): void;
         public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array): void;
+        public shaderPair: Kiwi.Shaders.ShaderPair;
+        private _isBatchRenderer;
+        public isBatchRenderer : boolean;
     }
 }
 /**
@@ -15510,40 +15460,14 @@ declare module Kiwi.Renderers {
     class TextureAtlasRenderer extends Renderers.Renderer {
         constructor(gl: WebGLRenderingContext, shaderManager: Kiwi.Shaders.ShaderManager, params?: any);
         static RENDERER_ID: string;
+        public shaderPair: Kiwi.Shaders.TextureAtlasShader;
+        private _maxItems;
+        private _vertexBuffer;
+        private _indexBuffer;
         public enable(gl: WebGLRenderingContext, params?: any): void;
         public disable(gl: WebGLRenderingContext): void;
-        public shaderPair: Kiwi.Shaders.TextureAtlasShader;
         public clear(gl: WebGLRenderingContext, params: any): void;
         public draw(gl: WebGLRenderingContext): void;
-        /**
-        * Maximum allowable sprites to render per frame
-        * @property _maxItems
-        * @type number
-        * @default 1000
-        * @private
-        */
-        private _maxItems;
-        /**
-        * Storage for the xy (position) and uv(texture) coordinates that are generated each frame
-        * @property _xyuvBuffer
-        * @type GLArrayBuffer
-        * @private
-        */
-        public xyuvBuffer: Renderers.GLArrayBuffer;
-        /**
-        * Storage for the polygon indices, pre generated to a length based on max items
-        * @property _indexBuffer
-        * @type GLElementArrayBuffer
-        * @private
-        */
-        public indexBuffer: Renderers.GLElementArrayBuffer;
-        /**
-        * Storage for alpha values for each vertex on a sprite
-        * @property _alphaBuffer
-        * @type GLArrayBuffer
-        * @private
-        */
-        public alphaBuffer: Renderers.GLArrayBuffer;
         /**
         * Create prebaked indices for drawing quads
         * @method _generateIndices
@@ -15563,7 +15487,7 @@ declare module Kiwi.Renderers {
         * @public
         */
         public addToBatch(gl: WebGLRenderingContext, entity: Kiwi.Entity, camera: Kiwi.Camera): void;
-        public concatBatch(xyuvItems: number[], alphaItems: number[]): void;
+        public concatBatch(vertexItems: number[]): void;
     }
 }
 /**
@@ -15626,6 +15550,8 @@ declare module Kiwi.Shaders {
         * @public
         */
         public compile(gl: WebGLRenderingContext, src: string, shaderType: number): WebGLShader;
+        public uniforms: any;
+        public attributes: any;
         /**
         *
         * @property texture2DFrag
@@ -15640,6 +15566,10 @@ declare module Kiwi.Shaders {
         * @public
         */
         public vertSource: any[];
+        public setParam(uniformName: string, value: any): void;
+        public applyUniforms(gl: WebGLRenderingContext): void;
+        public applyUniform(gl: WebGLRenderingContext, name: string): void;
+        public initUniforms(gl: WebGLRenderingContext): void;
     }
 }
 /**
