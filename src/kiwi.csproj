@@ -33,10 +33,6 @@
     <Content Include="hud\components\Time.ts" />
     <Content Include="input\MouseCursor.ts" />
     <Content Include="input\Pointer.ts" />
-    <TypeScriptCompile Include="plugins\Plugins.ts" />
-    <Content Include="plugins\Plugins.js">
-      <DependentUpon>Plugins.ts</DependentUpon>
-    </Content>
     <Content Include="render\filters\BlurFilter.ts" />
     <Content Include="render\filters\BrightnessContrastFilter.ts" />
     <Content Include="render\filters\DotscreenFilter.ts" />
