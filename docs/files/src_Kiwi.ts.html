@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6</em>
+            <em>API Docs for: 0.6.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -344,7 +344,52 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-/// &lt;reference path=&quot;WebGL.d.ts&quot;/&gt;
+/// &lt;reference path=&quot;core/Game.ts&quot; /&gt;
+/// &lt;reference path=&quot;core/Stage.ts&quot; /&gt;
+/// &lt;reference path=&quot;core/ComponentManager.ts&quot; /&gt;
+/// &lt;reference path=&quot;core/PluginManager.ts&quot; /&gt;
+/// &lt;reference path=&quot;core/CameraManager.ts&quot; /&gt;
+/// &lt;reference path=&quot;core/StateConfig.ts&quot; /&gt;
+/// &lt;reference path=&quot;core/StateManager.ts&quot; /&gt;
+
+/// &lt;reference path=&quot;core/IChild.ts&quot; /&gt;
+/// &lt;reference path=&quot;core/Entity.ts&quot; /&gt;
+/// &lt;reference path=&quot;core/Component.ts&quot; /&gt;
+/// &lt;reference path=&quot;core/Group.ts&quot; /&gt;
+
+/// &lt;reference path=&quot;core/State.ts&quot; /&gt; //must be initialised AFTER group - typescript issue #599
+/// &lt;reference path=&quot;core/Camera.ts&quot; /&gt;
+/// &lt;reference path=&quot;core/Signal.ts&quot; /&gt;
+/// &lt;reference path=&quot;core/SignalBinding.ts&quot; /&gt;
+
+/// &lt;reference path=&quot;gameobjects/Sprite.ts&quot; /&gt;
+/// &lt;reference path=&quot;gameobjects/StaticImage.ts&quot; /&gt;
+/// &lt;reference path=&quot;gameobjects/Textfield.ts&quot; /&gt;
+/// &lt;reference path=&quot;gameobjects/tilemap/TileType.ts&quot; /&gt;
+/// &lt;reference path=&quot;gameobjects/tilemap/TileMap.ts&quot; /&gt;
+/// &lt;reference path=&quot;gameobjects/tilemap/TileMapLayer.ts&quot; /&gt;
+
+/// &lt;reference path=&quot;components/AnimationManager.ts&quot; /&gt;
+/// &lt;reference path=&quot;components/Box.ts&quot; /&gt;
+/// &lt;reference path=&quot;components/Input.ts&quot; /&gt;
+/// &lt;reference path=&quot;components/Sound.ts&quot; /&gt;
+/// &lt;reference path=&quot;components/ArcadePhysics.ts&quot; /&gt;
+
+/// &lt;reference path=&quot;file/Loader.ts&quot; /&gt;
+/// &lt;reference path=&quot;file/DataLibrary.ts&quot; /&gt;
+/// &lt;reference path=&quot;file/File.ts&quot; /&gt;
+/// &lt;reference path=&quot;file/FileStore.ts&quot; /&gt;
+
+/// &lt;reference path=&quot;system/Bootstrap.ts&quot; /&gt;
+/// &lt;reference path=&quot;system/Browser.ts&quot; /&gt;
+/// &lt;reference path=&quot;system/Device.ts&quot; /&gt;
+
+/// &lt;reference path=&quot;textures/TextureAtlas.ts&quot; /&gt;
+/// &lt;reference path=&quot;textures/TextureLibrary.ts&quot; /&gt;
+/// &lt;reference path=&quot;textures/SpriteSheet.ts&quot; /&gt;
+/// &lt;reference path=&quot;textures/SingleImage.ts&quot; /&gt;
+
+
 
 /// &lt;reference path=&quot;animations/tweens/easing/Back.ts&quot; /&gt;
 /// &lt;reference path=&quot;animations/tweens/easing/Bounce.ts&quot; /&gt;
@@ -360,41 +405,31 @@
 /// &lt;reference path=&quot;animations/tweens/TweenManager.ts&quot; /&gt;
 /// &lt;reference path=&quot;animations/tweens/Tween.ts&quot; /&gt;
 
-/// &lt;reference path=&quot;core/Camera.ts&quot; /&gt;
-/// &lt;reference path=&quot;core/CameraManager.ts&quot; /&gt;
-/// &lt;reference path=&quot;core/Component.ts&quot; /&gt;
-/// &lt;reference path=&quot;core/ComponentManager.ts&quot; /&gt;
-/// &lt;reference path=&quot;core/Entity.ts&quot; /&gt;
-/// &lt;reference path=&quot;core/Game.ts&quot; /&gt;
-/// &lt;reference path=&quot;core/Group.ts&quot; /&gt;
-/// &lt;reference path=&quot;core/PluginManager.ts&quot; /&gt;
-/// &lt;reference path=&quot;core/State.ts&quot; /&gt; //must be initialised AFTER group - typescript issue #599
-/// &lt;reference path=&quot;core/IChild.ts&quot; /&gt;
-/// &lt;reference path=&quot;core/Signal.ts&quot; /&gt;
-/// &lt;reference path=&quot;core/SignalBinding.ts&quot; /&gt;
-/// &lt;reference path=&quot;core/Stage.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/CanvasRenderer.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/GLRenderManager.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/GLShaderManager.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/GLTextureWrapper.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/GLTextureManager.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/GLArrayBuffer.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/GLElementArrayBuffer.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/renderers/Renderer.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/renderers/TextureAtlasRenderer.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/shaders/ShaderPair.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/shaders/TextureAtlasShader.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/shaders/ShaderPair.ts&quot; /&gt;
 
-/// &lt;reference path=&quot;components/AnimationManager.ts&quot; /&gt;
-/// &lt;reference path=&quot;components/Box.ts&quot; /&gt;
-/// &lt;reference path=&quot;components/Input.ts&quot; /&gt;
-/// &lt;reference path=&quot;components/Sound.ts&quot; /&gt;
-/// &lt;reference path=&quot;components/ArcadePhysics.ts&quot; /&gt;
+/// &lt;reference path=&quot;animations/Animation.ts&quot; /&gt;
+/// &lt;reference path=&quot;animations/Sequence.ts&quot; /&gt;
 
-/// &lt;reference path=&quot;file/Loader.ts&quot; /&gt;
-/// &lt;reference path=&quot;file/DataLibrary.ts&quot; /&gt;
-/// &lt;reference path=&quot;file/File.ts&quot; /&gt;
-/// &lt;reference path=&quot;file/FileStore.ts&quot; /&gt;
- 
-/// &lt;reference path=&quot;core/StateConfig.ts&quot; /&gt;
-/// &lt;reference path=&quot;core/StateManager.ts&quot; /&gt;
-
-/// &lt;reference path=&quot;gameobjects/Sprite.ts&quot; /&gt;
-/// &lt;reference path=&quot;gameobjects/StaticImage.ts&quot; /&gt;
-/// &lt;reference path=&quot;gameobjects/Textfield.ts&quot; /&gt;
-/// &lt;reference path=&quot;gameobjects/tilemap/TileType.ts&quot; /&gt;
-/// &lt;reference path=&quot;gameobjects/tilemap/TileMap.ts&quot; /&gt;
-/// &lt;reference path=&quot;gameobjects/tilemap/TileMapLayer.ts&quot; /&gt;
-
+/// &lt;reference path=&quot;input/Key.ts&quot; /&gt;
+/// &lt;reference path=&quot;input/Keyboard.ts&quot; /&gt;
+/// &lt;reference path=&quot;input/Keycodes.ts&quot; /&gt;
+/// &lt;reference path=&quot;input/InputManager.ts&quot; /&gt;
+/// &lt;reference path=&quot;input/Mouse.ts&quot; /&gt;
+/// &lt;reference path=&quot;input/Touch.ts&quot; /&gt;
+/// &lt;reference path=&quot;input/Pointer.ts&quot; /&gt;
+/// &lt;reference path=&quot;input/MouseCursor.ts&quot; /&gt;
+/// &lt;reference path=&quot;input/Finger.ts&quot; /&gt;
 
 /// &lt;reference path=&quot;geom/AABB.ts&quot; /&gt;
 /// &lt;reference path=&quot;geom/Circle.ts&quot; /&gt;
@@ -407,7 +442,6 @@
 /// &lt;reference path=&quot;geom/Rectangle.ts&quot; /&gt;
 /// &lt;reference path=&quot;geom/Transform.ts&quot; /&gt;
 /// &lt;reference path=&quot;geom/Vector2.ts&quot; /&gt;
-/// &lt;reference path=&quot;geom/Random.ts&quot; /&gt;
 
 /// &lt;reference path=&quot;hud/HUDDisplay.ts&quot; /&gt;
 /// &lt;reference path=&quot;hud/HUDManager.ts&quot; /&gt;
@@ -429,44 +463,6 @@
 /// &lt;reference path=&quot;sound/Audio.ts&quot; /&gt;
 /// &lt;reference path=&quot;sound/AudioLibrary.ts&quot; /&gt;
 
-/// &lt;reference path=&quot;animations/Animation.ts&quot; /&gt;
-/// &lt;reference path=&quot;animations/Sequence.ts&quot; /&gt;
-
-/// &lt;reference path=&quot;input/Key.ts&quot; /&gt;
-/// &lt;reference path=&quot;input/Keyboard.ts&quot; /&gt;
-/// &lt;reference path=&quot;input/Keycodes.ts&quot; /&gt;
-/// &lt;reference path=&quot;input/InputManager.ts&quot; /&gt;
-/// &lt;reference path=&quot;input/Mouse.ts&quot; /&gt;
-/// &lt;reference path=&quot;input/Touch.ts&quot; /&gt;
-/// &lt;reference path=&quot;input/Pointer.ts&quot; /&gt;
-/// &lt;reference path=&quot;input/MouseCursor.ts&quot; /&gt;
-/// &lt;reference path=&quot;input/Finger.ts&quot; /&gt;
-
-/// &lt;reference path=&quot;plugins/Plugins.ts&quot; /&gt;
-
-/// &lt;reference path=&quot;render/CanvasRenderer.ts&quot; /&gt;
-/// &lt;reference path=&quot;render/GLRenderManager.ts&quot; /&gt;
-/// &lt;reference path=&quot;render/GLShaderManager.ts&quot; /&gt;
-
-/// &lt;reference path=&quot;render/GLTextureWrapper.ts&quot; /&gt;
-/// &lt;reference path=&quot;render/GLTextureManager.ts&quot; /&gt;
-/// &lt;reference path=&quot;render/GLArrayBuffer.ts&quot; /&gt;
-/// &lt;reference path=&quot;render/GLElementArrayBuffer.ts&quot; /&gt;
-/// &lt;reference path=&quot;render/renderers/Renderer.ts&quot; /&gt;
-/// &lt;reference path=&quot;render/renderers/TextureAtlasRenderer.ts&quot; /&gt;
-
-/// &lt;reference path=&quot;render/shaders/ShaderPair.ts&quot; /&gt;
-/// &lt;reference path=&quot;render/shaders/TextureAtlasShader.ts&quot; /&gt;
-
-/// &lt;reference path=&quot;system/Bootstrap.ts&quot; /&gt;
-/// &lt;reference path=&quot;system/Browser.ts&quot; /&gt;
-/// &lt;reference path=&quot;system/Device.ts&quot; /&gt;
-
-/// &lt;reference path=&quot;textures/TextureAtlas.ts&quot; /&gt;
-/// &lt;reference path=&quot;textures/TextureLibrary.ts&quot; /&gt;
-/// &lt;reference path=&quot;textures/SpriteSheet.ts&quot; /&gt;
-/// &lt;reference path=&quot;textures/SingleImage.ts&quot; /&gt;
-
 /// &lt;reference path=&quot;time/Clock.ts&quot; /&gt;
 /// &lt;reference path=&quot;time/ClockManager.ts&quot; /&gt;
 /// &lt;reference path=&quot;time/MasterClock.ts&quot; /&gt;
@@ -478,6 +474,8 @@
 /// &lt;reference path=&quot;utils/GameMath.ts&quot; /&gt;
 /// &lt;reference path=&quot;utils/RandomDataGenerator.ts&quot; /&gt;
 /// &lt;reference path=&quot;utils/RequestAnimationFrame.ts&quot; /&gt;
+
+/// &lt;reference path=&quot;WebGL.d.ts&quot;/&gt;
 
 /**
 * Module - Kiwi (Core)
@@ -496,7 +494,7 @@ module Kiwi {
     * @default &#x27;1.0&#x27;
     * @public
     */
-    export var VERSION: string = &quot;0.6.1&quot;;
+    export var VERSION: string = &quot;0.7.0&quot;;
     
     //DIFFERENT RENDERER STATIC VARIABLES
     /**

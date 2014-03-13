@@ -43,15 +43,37 @@ module.exports = function(grunt) {
             }
         }
     },
- 
+
+    concat: {
+          build: {
+            src:['build/kiwi.js','src/gl-matrix-min.js'],
+            dest: 'build/kiwi.js'
+          },
+          buildmin: {
+            src:['build/kiwi.min.js','src/gl-matrix-min.js'],
+            dest: 'build/kiwi.min.js'
+          }
+          
+    },
+
+    tslint: {
+      options: {
+        configuration: grunt.file.readJSON("tslint.json")
+      },
+      files: {
+        src: ["./src/**/*.ts"],
+      }
+    },
+
     copy: {
-            doclogo: {
-		 src: 'docstyles/logo.png',
-    		dest: 'docs/assets/css/logo.png'
+        doclogo: {
+		    src: 'docstyles/logo.png',
+        dest: 'docs/assets/css/logo.png'
 	  },
-   	    docstyles: {
-		 src: 'docstyles/main.css',
-    		dest: 'docs/assets/css/main.css'
+   	    
+    docstyles: {
+      src: 'docstyles/main.css',
+    	dest: 'docs/assets/css/main.css'
 	  }
 
     }
@@ -67,13 +89,12 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-copy');
 
+  grunt.loadNpmTasks('grunt-tslint'); 
   
-  
-  
-  grunt.registerTask("default", ["ts:build","uglify:build"]);
-  grunt.registerTask("full", ["ts:build","uglify:build","yuidoc:compile","copy:doclogo","copy:docstyles"]);
-  grunt.registerTask("docs", ["yuidoc:compile","copy:doclogo","copy:docstyles"]);
-  
-  
+  grunt.loadNpmTasks('grunt-contrib-concat');
 
+  grunt.registerTask("default", ["ts:build", "tslint","concat:build","uglify:build"]);
+  grunt.registerTask("full", ["ts:build","concat:build","uglify:build","yuidoc:compile","copy:doclogo","copy:docstyles"]);
+  grunt.registerTask("docs", ["yuidoc:compile","copy:doclogo","copy:docstyles"]);
+  grunt.registerTask("join", ["concat:build"]);
 };

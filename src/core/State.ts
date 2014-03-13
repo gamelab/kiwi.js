@@ -44,7 +44,7 @@ module Kiwi {
         * @public
         */
         public childType() {
-            return Kiwi.STATE;
+            return Kiwi.GROUP;
         }
 
         /**

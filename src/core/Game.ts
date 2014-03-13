@@ -24,7 +24,7 @@ module Kiwi {
         constructor (domParent: string = '', name: string = 'KiwiGame', state: any = null, options:any={}) {
             
             console.log(name + ' is being created.');
-
+      
             //Have they specified debugging
             if (options.debug !== 'undefined' && typeof options.debug === 'number') {
                 switch (options.debug) {
@@ -44,6 +44,11 @@ module Kiwi {
             } else {
                 this._debugOption = Kiwi.DEBUG_ON;
                 console.log('Debug option not specified. Turned ON by default.');
+            }
+
+            if (options.bootCallback !== 'undefined') {
+                console.log("boot callback provided");
+                this.bootCallbackOption = options.bootCallback;
             }
 
             //Which device are they targetting
@@ -158,6 +163,8 @@ module Kiwi {
         public get renderOption(): number {
             return this._renderOption;
         }
+
+        public bootCallbackOption: Function;
 
         /**
         * The type of device that you are targeting. This is either set to COCOON or BROWSER
@@ -440,7 +447,10 @@ module Kiwi {
             
             this.raf = new Kiwi.Utils.RequestAnimationFrame(() => this.loop());
             this.raf.start();
-            
+            if (this.bootCallbackOption) {
+                console.log("invoked boot callback");
+                this.bootCallbackOption();
+            }
         }
         
         /**

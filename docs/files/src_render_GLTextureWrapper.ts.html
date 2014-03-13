@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6</em>
+            <em>API Docs for: 0.6.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -366,21 +366,12 @@ module Kiwi.Renderers {
     export class GLTextureWrapper {
 
         constructor(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas,upload:boolean = false) {
-            console.log(&quot;Creating texture: &quot; + atlas.name);
-           
-
-            
             this.textureAtlas = atlas;
             this.image = atlas.image;
             this._numBytes = this.image.width * this.image.height * 4;
-            console.log(&quot;...texture requires kb: &quot; + this._numBytes / 1024); 
-
-
             this.createTexture(gl);
-
             if (upload) this.uploadTexture(gl);
-           
-    
+       
         }
 
      
@@ -423,13 +414,11 @@ module Kiwi.Renderers {
 
         public createTexture(gl: WebGLRenderingContext): boolean {
             this.texture = gl.createTexture();
-            console.log(&quot;...texture created successfully&quot;);
             this._created = true;
             return true;
         }
 
         public uploadTexture(gl: WebGLRenderingContext):boolean {
-            console.log(&quot;Attempting to upload texture: &quot; + this.textureAtlas.name);
             var success: boolean = false;
             if (!this.created) {
                 this.createTexture(gl);
@@ -439,8 +428,11 @@ module Kiwi.Renderers {
                 console.log(&quot;...not uploading:the image is already uploaded&quot;); 
             } else {
                 gl.bindTexture(gl.TEXTURE_2D, this.texture);
-                gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+                gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
                 gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+            
                 gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
                 gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
                 gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
@@ -449,8 +441,6 @@ module Kiwi.Renderers {
                 //check gl error here
                 this._uploaded = true;
                 success = true;
-                console.log(&quot;...texture uploaded successfully&quot;); 
-            
             }
 
             return success;
@@ -462,13 +452,10 @@ module Kiwi.Renderers {
         }
 
         public deleteTexture(gl: WebGLRenderingContext) :boolean{
-            console.log(&quot;Attempting to delete texture: &quot; + this.textureAtlas.name);
             gl.bindTexture(gl.TEXTURE_2D, this.texture);
             gl.deleteTexture(this.texture);
             this._uploaded = false;
             this._created = false;
-            console.log(&quot;...texture deleted successfully&quot;);
-            console.log(&quot;...freed kb: &quot; + this.numBytes / 1024);
             return true;
         }
 

@@ -220,12 +220,10 @@ module Kiwi.GameObjects.Tilemap {
 
                     case "objectgroup":
                         this.createNewObjectLayer();
-                        continue;
                         break;
 
                     case "imagelayer":
                         this.createNewImageLayer();
-                        continue;
                         break;
                 }
 

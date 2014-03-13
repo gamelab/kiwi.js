@@ -101,8 +101,6 @@ module Kiwi.Renderers {
             
             this._textureWrapperCache[idx].deleteTexture(gl);
             this._usedTextureMem -= this._textureWrapperCache[idx].numBytes;
-            console.log("...removed KB: " + this._textureWrapperCache[idx].numBytes / 1024);
-            console.log("...now using KB: " + this._usedTextureMem / 1024);
             this._numTexturesUsed--;
         }
 
@@ -119,9 +117,7 @@ module Kiwi.Renderers {
             if (glTextureWrapper.numBytes + this._usedTextureMem <= this.maxTextureMem) {
                 glTextureWrapper.uploadTexture(gl);
                 this._usedTextureMem += glTextureWrapper.numBytes;
-                console.log("Total uploaded KB: " + this._usedTextureMem / 1024);
                 this._numTexturesUsed++;
-                 console.log("Total textures uploaded: " + this._numTexturesUsed);
                 
                 return true;
             }
@@ -137,16 +133,11 @@ module Kiwi.Renderers {
         * @public
         */
         public uploadTextureLibrary(gl: WebGLRenderingContext, textureLibrary: Kiwi.Textures.TextureLibrary) {
-            console.log("Attempting to upload TextureLibrary");
             this._textureWrapperCache = new Array();
-            console.log("...recreated wrapper cache");
-            
             for (var tex in textureLibrary.textures) {
                 this.uploadTexture(gl, textureLibrary.textures[tex]);
 
             }
-            console.log("...texture Library uploaded. Using KB: " + this._usedTextureMem / 1024);
-            console.log("...using " + this._usedTextureMem / this.maxTextureMem + " of KB " + this.maxTextureMem / 1024);
         }
 
 
@@ -171,7 +162,6 @@ module Kiwi.Renderers {
         * @public
         */
         public clearTextures(gl: WebGLRenderingContext) {
-            console.log("Attempting to clear Textures");
             for (var i = 0; i < this._textureWrapperCache.length; i++) {
                 //delete it from g mem
                 this._textureWrapperCache[i].deleteTexture(gl);

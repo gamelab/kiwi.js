@@ -8,7 +8,7 @@
 
 
 module Kiwi.Shaders {
-    
+
     /**
     *
     * @class GLShaders
@@ -19,21 +19,21 @@ module Kiwi.Shaders {
     export class ShaderPair {
 
         constructor() {
-      
-            
+          
         }
 
         public static RENDERER_ID: string = "ShaderPair";
 
         public init(gl: WebGLRenderingContext) {
-                this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
-                this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
-                this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
-                this.loaded = true;
+         
+            this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
+            this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
+            this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
+            this.loaded = true;
         }
 
         public loaded: boolean = false;
-        
+
         /**
         *
         * @property vertShader
@@ -41,7 +41,7 @@ module Kiwi.Shaders {
         * @public
         */
         public vertShader: WebGLShader;
-        
+
         /**
         *
         * @property fragShader
@@ -49,7 +49,7 @@ module Kiwi.Shaders {
         * @public
         */
         public fragShader: WebGLShader;
-        
+
         /**
         *
         * @property shaderProgram
@@ -57,7 +57,7 @@ module Kiwi.Shaders {
         * @public
         */
         public shaderProgram: WebGLProgram;
-        
+
         /**
         *
         * @method attach
@@ -74,7 +74,7 @@ module Kiwi.Shaders {
             gl.linkProgram(shaderProgram);
             return shaderProgram;
         }
-        
+
         /**
         *
         * @method compile
@@ -95,6 +95,9 @@ module Kiwi.Shaders {
             return shader;
         }
 
+        public uniforms: any;
+        public attributes: any;
+
 
         /**
         *
@@ -111,6 +114,36 @@ module Kiwi.Shaders {
         * @public
         */
         public vertSource: Array<any>;
+
+        public setParam(uniformName: string, value: any) {
+            this.uniforms[uniformName].value = value;
+            this.uniforms[uniformName].dirty = true;
+        }
+
+        public applyUniforms(gl: WebGLRenderingContext) {
+            for (var u in this.uniforms) {
+                this.applyUniform(gl, u);
+            }
+        }
+
+        public applyUniform(gl: WebGLRenderingContext, name: string) {
+            var u = this.uniforms[name]
+            if (this.uniforms[name].dirty) {
+                console.log(name);
+                gl["uniform" + u.type](u.location, u.value);
+                this.uniforms[name].dirty = false;
+            }
+        }
+
+        public initUniforms(gl: WebGLRenderingContext) {
+            for (var uniformName in this.uniforms) {
+                var uniform = this.uniforms[uniformName];
+                uniform.location = gl.getUniformLocation(this.shaderProgram, uniformName);
+                uniform.dirty = true;
+                uniform.value = null;
+
+            }
+        }
 
     }
 

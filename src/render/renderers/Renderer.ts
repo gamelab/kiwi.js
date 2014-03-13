@@ -6,21 +6,17 @@ module Kiwi.Renderers {
     export class Renderer {
 
 
-        constructor(gl: WebGLRenderingContext,shaderManager:Kiwi.Shaders.ShaderManager) {
+        constructor(gl: WebGLRenderingContext,shaderManager:Kiwi.Shaders.ShaderManager,isBatchRenderer:boolean = false) {
             this.shaderManager = shaderManager;
+            this._isBatchRenderer = isBatchRenderer;
             this.loaded = true;
        
         }
 
         public static RENDERER_ID: string = "Renderer";
         
-        /**
-        * GL-Matrix.js provided 4x4 matrix used for matrix uniform
-        * @property mvMatrix
-        * @type Float32Array
-        * @public
-        */
-        public mvMatrix: Float32Array;
+        
+        public camMatrix: Float32Array;
 
 
         public loaded: boolean = false;
@@ -55,6 +51,13 @@ module Kiwi.Renderers {
         public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array) {
         }
         public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array) {
+        }
+
+        public shaderPair: Kiwi.Shaders.ShaderPair;
+
+        private _isBatchRenderer: boolean = false;
+        public get isBatchRenderer(): boolean {
+            return this._isBatchRenderer;
         }
 
     }

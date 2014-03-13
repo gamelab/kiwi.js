@@ -18,7 +18,8 @@ TilemapPlatformer.preload = function () {
 }
 
 TilemapPlatformer.create = function () {
-
+    this.game.renderer.filters.addFilter(Kiwi.Filters.BlurFilter);
+    
         //Create the Tilemap. We don't pass in the json or the atlas at this stage since we aren't creating it using a JSON file
         this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this);
 
