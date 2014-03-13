@@ -1,1230 +1,523 @@
 /// <reference path="../src/WebGL.d.ts" />
 /**
-* Contains various methods that can be used when you are wanting to ease a Tween.
-*
-* @module Tweens
-* @submodule Easing
-* @main Easing
-*/
-declare module Kiwi.Animations.Tweens.Easing {
-    /**
-    *
-    * @class Back
-    * @namespace Kiwi.Animations.Tweens.Easing
-    *
-    */
-    class Back {
-        /**
-        * The type of object this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        *
-        * @method In
-        * @param k {Any}
-        * @return {Number}
-        * @static
-        * @public
-        */
-        static In(k: any): number;
-        /**
-        *
-        * @method Out
-        * @param {Any} k
-        * @return {Number}
-        * @static
-        * @public
-        */
-        static Out(k: any): number;
-        /**
-        *
-        * @method InOut
-        * @param k {Any}
-        * @return {Number}
-        * @static
-        * @public
-        */
-        static InOut(k: any): number;
-    }
-}
-/**
-*
-* @module Tweens
-* @submodule Easing
-*
-*/
-declare module Kiwi.Animations.Tweens.Easing {
-    /**
-    *
-    * @class Bounce
-    * @namespace Kiwi.Animations.Tweens.Easing
-    *
-    */
-    class Bounce {
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        *
-        * @method In
-        * @param k {Any}
-        * @return {Number}
-        * @static
-        * @public
-        */
-        static In(k: any): number;
-        /**
-        *
-        * @method Out
-        * @param k {Any}
-        * @return {Number}
-        * @static
-        * @public
-        */
-        static Out(k: any): number;
-        /**
-        *
-        * @method InOut
-        * @param {Any} k
-        * @return {Number}
-        * @static
-        * @public
-        */
-        static InOut(k: any): number;
-    }
-}
-/**
-*
-* @module Tweens
-* @submodule Easing
-*
-*/
-declare module Kiwi.Animations.Tweens.Easing {
-    /**
-    *
-    *
-    * @class Circular
-    * @namespace Kiwi.Animations.Tweens.Easing
-    *
-    */
-    class Circular {
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        *
-        * @method In
-        * @param k {Any}
-        * @return {Number}
-        * @static
-        */
-        static In(k: any): number;
-        /**
-        *
-        * @method Out
-        * @param k {Any}
-        * @return {Number}
-        * @static
-        */
-        static Out(k: any): number;
-        /**
-        *
-        * @method InOut
-        * @param k {Any}
-        * @return {Number}
-        * @static
-        */
-        static InOut(k: any): number;
-    }
-}
-/**
-*
-* @module Tweens
-* @submodule Easing
-*
-*/
-declare module Kiwi.Animations.Tweens.Easing {
-    /**
-    *
-    * @class Cubic
-    * @namespace Kiwi.Animations.Tweens.Easing
-    *
-    */
-    class Cubic {
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        *
-        * @method In
-        * @param k {Any}
-        * @return {Number}
-        * @static
-        * @public
-        */
-        static In(k: any): number;
-        /**
-        *
-        * @method Out
-        * @param k {Any}
-        * @return {Number}
-        * @static
-        * @public
-        */
-        static Out(k: any): number;
-        /**
-        *
-        * @method InOut
-        * @param k {Any}
-        * @static
-        * @public
-        */
-        static InOut(k: any): number;
-    }
-}
-/**
-*
-* @module Tweens
-* @submodule Easing
-*
-*/
-declare module Kiwi.Animations.Tweens.Easing {
-    /**
-    *
-    *
-    * @class Elastic
-    * @namespace Kiwi.Animations.Tweens.Easing
-    *
-    */
-    class Elastic {
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        *
-        * @method In
-        * @param k {Any}
-        * @return {Number}
-        * @static
-        * @public
-        */
-        static In(k: any): number;
-        /**
-        *
-        * @method Out
-        * @param {Any} k
-        * @static
-        * @public
-        */
-        static Out(k: any): number;
-        /**
-        *
-        * @method InOut
-        * @param k {Any}
-        * @static
-        * @public
-        */
-        static InOut(k: any): number;
-    }
-}
-/**
-*
-* @module Tweens
-* @submodule Easing
-*
-*/
-declare module Kiwi.Animations.Tweens.Easing {
-    /**
-    *
-    *
-    * @class Exponential
-    * @namespace Kiwi.Animations.Tweens.Easing
-    *
-    */
-    class Exponential {
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        *
-        * @method In
-        * @param k {Any}
-        * @return {String}
-        * @static
-        * @public
-        */
-        static In(k: any): number;
-        /**
-        *
-        * @method Out
-        * @param k {Any}
-        * @return {String}
-        * @static
-        * @public
-        */
-        static Out(k: any): number;
-        /**
-        *
-        * @method InOut
-        * @param k {Any}
-        * @return {String}
-        * @static
-        * @public
-        */
-        static InOut(k: any): number;
-    }
-}
-/**
-*
-* @module Tweens
-* @submodule Easing
-*
-*/
-declare module Kiwi.Animations.Tweens.Easing {
-    /**
-    *
-    * @class Linear
-    * @namespace Kiwi.Animations.Tweens.Easing
-    *
-    */
-    class Linear {
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        *
-        * @method None
-        * @param {Any} k
-        * @return {Number}
-        * @static
-        */
-        static None(k: any): any;
-    }
-}
-/**
-*
-* @module Tweens
-* @submodule Easing
-*
-*/
-declare module Kiwi.Animations.Tweens.Easing {
-    /**
-    *
-    *
-    * @class Quadratic
-    * @namespace Kiwi.Animations.Tweens.Easing
-    *
-    */
-    class Quadratic {
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        *
-        * @method In
-        * @param k {Any}
-        * @return {Number}
-        * @static
-        * @public
-        */
-        static In(k: any): number;
-        /**
-        *
-        * @method Out
-        * @param k {Any}
-        * @return {Number}
-        * @static
-        * @public
-        */
-        static Out(k: any): number;
-        /**
-        *
-        * @method InOut
-        * @param k {Any}
-        * @return {Number}
-        * @static
-        * @public
-        */
-        static InOut(k: any): number;
-    }
-}
-/**
-*
-* @module Tweens
-* @submodule Easing
-*
-*/
-declare module Kiwi.Animations.Tweens.Easing {
-    /**
-    *
-    * @class Quartic
-    * @namespace Kiwi.Animations.Tweens.Easing
-    *
-    */
-    class Quartic {
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        *
-        * @method In
-        * @param k {Any}
-        * @return {String}
-        * @static
-        * @public
-        */
-        static In(k: any): number;
-        /**
-        *
-        * @method Out
-        * @param k {Any}
-        * @return {String}
-        * @static
-        * @public
-        */
-        static Out(k: any): number;
-        /**
-        *
-        * @method InOut
-        * @param k {Any}
-        * @return {String}
-        * @static
-        * @public
-        */
-        static InOut(k: any): number;
-    }
-}
-/**
-*
-* @module Tweens
-* @submodule Easing
-*
-*/
-declare module Kiwi.Animations.Tweens.Easing {
-    /**
-    *
-    * @class Quintic
-    * @namespace Kiwi.Animations.Tweens.Easing
-    *
-    */
-    class Quintic {
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        *
-        * @method In
-        * @param k {Any}
-        * @return {Number}
-        * @static
-        * @public
-        */
-        static In(k: any): number;
-        /**
-        *
-        * @method Out
-        * @param k {Any}
-        * @return {Number}
-        * @static
-        * @public
-        */
-        static Out(k: any): number;
-        /**
-        *
-        * @method InOut
-        * @param k {Any}
-        * @return {Number}
-        * @static
-        * @public
-        */
-        static InOut(k: any): number;
-    }
-}
-/**
-*
-* @module Tweens
-* @submodule Easing
-*
-*/
-declare module Kiwi.Animations.Tweens.Easing {
-    /**
-    *
-    * @class Sinusoidal
-    * @namespace Kiwi.Animations.Tweens.Easing
-    *
-    */
-    class Sinusoidal {
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        *
-        * @method In
-        * @param k {Any}
-        * @return {Number}
-        * @static
-        * @public
-        */
-        static In(k: any): number;
-        /**
-        *
-        * @method Out
-        * @param k {Any}
-        * @return {Number}
-        * @static
-        * @public
-        */
-        static Out(k: any): number;
-        /**
-        *
-        * @method InOut
-        * @param {Any} k
-        * @return {Number}
-        * @static
-        * @public
-        */
-        static InOut(k: any): number;
-    }
-}
-/**
-* The section of Kiwi which holds the scripts that manage Tween's in Kiwi. The scripts in this section are based on Tween.js by sole and have been converted to TypeScript and integrated into Kiwi. https://github.com/sole/tween.js
-*
-* @module Animations
-* @submodule Tweens
-* @main Tweens
-*/
-declare module Kiwi.Animations.Tweens {
-    /**
-    * The TweenManager is automatically created on every game. This class is responsible for the creation and management of tweens for the game.
-    *
-    * Based on tween.js by sole. Converted to TypeScript and integrated into Kiwi.
-    * https://github.com/sole/tween.js
-    *
-    * @class TweenManager
-    * @namespace Kiwi.Animations.Tweens
-    * @constructor
-    * @param game {Game}
-    * @return {TweenManager}
-    *
-    * @author     sole / http://soledadpenades.com
-    * @author     mrdoob / http://mrdoob.com
-    * @author     Robert Eisele / http://www.xarg.org
-    * @author     Philippe / http://philippe.elsass.me
-    * @author     Robert Penner / http://www.robertpenner.com/easing_terms_of_use.html
-    * @author     Paul Lewis / http://www.aerotwist.com/
-    * @author     lechecacharro
-    * @author     Josh Faul / http://jocafa.com/
-    * @author     egraether / http://egraether.com/
-    *
-    */
-    class TweenManager {
-        constructor(game: Kiwi.Game);
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        * The game that this manager belongs to.
-        * @property _game
-        * @type Game
-        * @private
-        */
-        private _game;
-        /**
-        * An array of all of the tweens on the manager.
-        * @property _tweens
-        * @type Tween[]
-        * @private
-        */
-        private _tweens;
-        /**
-        * Returns all of tweens that are on the manager.
-        * @method getAll
-        * @return Tween[]
-        * @public
-        */
-        public getAll(): Animations.Tween[];
-        /**
-        * Removes all of the tweens on the manager.
-        * @method removeAll
-        * @public
-        */
-        public removeAll(): void;
-        /**
-        * Creates a new Tween.
-        * @method create
-        * @param object {Any} The object that this tween is to apply.
-        * @return {Tween} The tween that was created.
-        * @public
-        */
-        public create(object: any): Animations.Tween;
-        /**
-        * Adds a tween to the manager.
-        * @method add
-        * @param tween {Tween} The tween that you want to add to the manager.
-        * @return {Tween}
-        * @public
-        */
-        public add(tween: Animations.Tween): Animations.Tween;
-        /**
-        * Removes a tween from this manager.
-        * @method remove
-        * @param tween {Tween} The tween that you would like to remove.
-        * @return {Tween}
-        * @public
-        */
-        public remove(tween: Animations.Tween): void;
-        /**
-        * The update loop.
-        * @method update
-        * @public
-        */
-        public update(): boolean;
-    }
-}
-/**
-*
-* @module Animations
-* @submodule Tweens
-*
-*/
-declare module Kiwi.Animations {
-    /**
-    * Manages the tweening of properties/values on a single object. A Tween is the animation of a number between an initially value to and final value (that you specify).
-    * Note: When using a Tween you need to make sure that the Tween has been added to a TweenManager. You can either do this by creating the Tween via the Manager or alternatively using the 'add' method on the TweenManager. Otherwise the tween will not work.
-    *
-    * Based on tween.js by sole. Converted to TypeScript and integrated into Kiwi.
-    * https://github.com/sole/tween.js
-    *
-    * @class Tween
-    * @constructor
-    * @namespace Kiwi.Animations
-    * @param object {Any} The object that this tween is taking affect on.
-    * @param game {Game} The game that this tween is for.
-    * @return {Tween} This tween.
-    *
-    * @author     sole / http://soledadpenades.com
-    * @author     mrdoob / http://mrdoob.com
-    * @author     Robert Eisele / http://www.xarg.org
-    * @author     Philippe / http://philippe.elsass.me
-    * @author     Robert Penner / http://www.robertpenner.com/easing_terms_of_use.html
-    * @author     Paul Lewis / http://www.aerotwist.com/
-    * @author     lechecacharro
-    * @author     Josh Faul / http://jocafa.com/
-    * @author     egraether / http://egraether.com/
-    *
-    */
-    class Tween {
-        constructor(object: any, game?: Kiwi.Game);
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        * The game that this tween belongs to.
-        * @property _game
-        * @type Game
-        * @private
-        */
-        private _game;
-        /**
-        * The manager that this tween belongs to.
-        * @property _manager
-        * @type Manager
-        * @private
-        */
-        private _manager;
-        /**
-        * The object that this tween is affecting.
-        * @property _object
-        * @type Any
-        * @private
-        */
-        private _object;
-        /**
-        * The starting values of the properties that the tween is animating.
-        * @property _valuesStart
-        * @type Object
-        * @private
-        */
-        private _valuesStart;
-        /**
-        * The end values of the properties that the tween is animating.
-        * @property _valuesEnd
-        * @type Object
-        * @private
-        */
-        private _valuesEnd;
-        /**
-        * The duration of the tween, in milliseconds.
-        * @property _duration
-        * @type Number
-        * @private
-        */
-        private _duration;
-        /**
-        * The amount of time to delay the tween by. In Milliseconds.
-        * @property _delayTime
-        * @type Number
-        * @private
-        */
-        private _delayTime;
-        /**
-        * The time at which the tween started.
-        * @property _startTime
-        * @type Number
-        * @private
-        */
-        private _startTime;
-        /**
-        * The easing function that is to be used while tweening.
-        * @property _easingFunction
-        * @type Function
-        * @default Kiwi.Tweens.Easing.Linear.None
-        * @private
-        */
-        private _easingFunction;
-        /**
-        * [NEEDS DESCRIPTION]
-        * @property _interpolationFunction
-        * @type Function
-        * @default Kiwi.Utils.Interpolation.Linear
-        * @private
-        */
-        private _interpolationFunction;
-        /**
-        * An array containing all of the tweens that are to be played when this one finishes.
-        * @property _chainedTweens
-        * @type Tween[]
-        * @private
-        */
-        private _chainedTweens;
-        /**
-        * The method that is to be called when the tween starts playing.
-        * @property _onStartCallback
-        * @type Function
-        * @default null
-        * @private
-        */
-        private _onStartCallback;
-        /**
-        * The context that the _onStartCallback method is to be called in.
-        * @property _onStartContext
-        * @type Any
-        * @default null
-        * @private
-        */
-        private _onStartContext;
-        /**
-        * A boolean indicating if the starting callback has been called or not.
-        * @property _onStartCallbackFired
-        * @type boolean
-        * @default false
-        * @private
-        */
-        private _onStartCallbackFired;
-        /**
-        * A callback method that will be called each time the tween updates.
-        * @property _onUpdateCallback
-        * @type Function
-        * @default null
-        * @private
-        */
-        private _onUpdateCallback;
-        /**
-        * The context that the update callback has when called.
-        * @property _onUpdateContext
-        * @type any
-        * @default null
-        * @private
-        */
-        private _onUpdateContext;
-        /**
-        * A method to be called when the tween finish's tweening.
-        * @property _onCompleteCallback
-        * @type function
-        * @default null
-        * @private
-        */
-        private _onCompleteCallback;
-        private _onCompleteCalled;
-        /**
-        * The context that the onCompleteCallback should have when called.
-        * @property _onCompleteContext
-        * @type any
-        * @default null
-        * @private
-        */
-        private _onCompleteContext;
-        /**
-        * An indication of whether or not this tween is currently running.
-        * @property isRunning.
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public isRunning: boolean;
-        /**
-        * Sets up the various properties that define this tween.
-        * The ending position/properties for this tween, how long the tween should go for, easing method to use and if should start right way.
-        *
-        * @method to
-        * @param properties {Object} The ending location of the properties that you want to tween.
-        * @param [duration=1000] {Number} The duration of the tween.
-        * @param [ease=null] {Any} The easing method to be used. If not specifed then this will default to LINEAR.
-        * @param [autoStart=false] {boolean} If the tween should start right away.
-        * @return {Tween}
-        * @public
-        */
-        public to(properties: any, duration?: number, ease?: any, autoStart?: boolean): Tween;
-        /**
-        * Gets the initial values for the properties that it is to animate and starts the tween process.
-        * @method start
-        * @public
-        */
-        public start(): Tween;
-        /**
-        * Stops the Tween from running and removes it from the manager.
-        * @method stop
-        * @public
-        */
-        public stop(): Tween;
-        /**
-        * Sets the game and the manager of this tween.
-        * @method setParent
-        * @param {Game} value
-        * @public
-        */
-        public setParent(value: Kiwi.Game): void;
-        /**
-        * Sets the amount of delay that the tween is to have before it starts playing.
-        * @method delay
-        * @param amount {Number} The amount of time to delay the tween by.
-        * @return {Tween}
-        * @public
-        */
-        public delay(amount: number): Tween;
-        /**
-        * Sets the easing method that is to be used when animating this tween.
-        * @method easing
-        * @param easing {Function} The easing function to use.
-        * @return {Tween}
-        * @public
-        */
-        public easing(easing: any): Tween;
-        /**
-        * [REQUIRES DESCRIPTION]
-        * @method interpolation
-        * @param {Any} interpolation
-        * @return {Tween}
-        * @public
-        */
-        public interpolation(interpolation: any): Tween;
-        /**
-        * Adds another tween that should start playing once tween has completed.
-        * @method chain
-        * @param tween {Tween}
-        * @return {Tween}
-        * @public
-        */
-        public chain(tween: Tween): Tween;
-        /**
-        * Adds a function that is to be executed when the tween start playing.
-        * @method onStart
-        * @param callback {Function} The function that is to be executed on tween start.
-        * @param context {any} The context that function is to have when called.
-        * @return {Tween}
-        * @public
-        */
-        public onStart(callback: any, context: any): Tween;
-        /**
-        * Adds a function that is to be executed when this tween updates while it is playing.
-        * @method onUpdate
-        * @param callback {Function} The method that is to be executed.
-        * @param context {Any} The context the method is to have when called.
-        * @public
-        */
-        public onUpdate(callback: any, context: any): Tween;
-        /**
-        * Defines a method that is to be called when this tween is finished.
-        * @method onComplete
-        * @param callback {Function} The method that is to be executed.
-        * @param context {Any} The context the method is to have when called.
-        * @public
-        */
-        public onComplete(callback: any, context: any): Tween;
-        /**
-        * The update loop is executed every frame whilst the tween is running.
-        * @method update
-        * @param time {Number}
-        * @public
-        */
-        public update(time: any): boolean;
-    }
-}
-/**
 *
 * @module Kiwi
 *
 */
 declare module Kiwi {
     /**
-    * A Camera is used to render a particular section of the game world on the stage. Each Camera has a coordinates which are held in the transform property, and a width/height. Note: This class should never be directly instantiated but instead should be made through a CameraManager's 'create' method.
+    * The base class that is used when you are wanting to create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF which is used for the game loop.
     *
-    * @class Camera
+    * @class Game
     * @namespace Kiwi
     * @constructor
-    * @param game {Game} The game that this camera belongs to.
-    * @param id {Number} A unique ID for this camera
-    * @param name {String} The name this camera goes by
-    * @param x {Number} The x coordinate of the camera
-    * @param y {Number} The y coordinate of the camera
-    * @param width {Number} The width of the camera
-    * @param height {Number} The cameras height
-    * @return {Camera}
+    * @param [domParent=''] {String} The ID of a DOM element that the game should use as its 'container'. If you are targeting Cocoon then you don't need to worry about this and can leave it blank.
+    * @param [name='KiwiGame'] {String} The name of the game that is being created.
+    * @param [state=null] {Any} The state to load initially. This can either be the name of a state, but preferably this would be the state object itself.
+    * @param [options] {Object} Any special options for the game. E.g. Is DEBUG_ON or DEBUG_OFF, RENDERER_CANVAS or RENDERER_WEBGL, TARGET_BROWSER or TARGET_COCOON
+    * @return {Game}
     *
     */
-    class Camera {
-        constructor(game: Kiwi.Game, id: number, name: string, x: number, y: number, width: number, height: number);
+    class Game {
+        constructor(domParent?: string, name?: string, state?: any, options?: any);
         /**
-        * The width of this camara.
-        * @property width
-        * @type Number
-        * @public
-        */
-        public width: number;
-        /**
-        * The height of this camera.
-        * @property height
-        * @type Number
-        * @public
-        */
-        public height: number;
-        /**
-        * The type of Object this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        * If true then the camera will be resized to fit the stage when the stage is resized
-        * @property fitToStage
-        * @type boolean
-        * @default true
-        * @public
-        */
-        public fitToStage: boolean;
-        /**
-        * The Transform controls the location of this Game Object within the game world. Also controls the cameras scale and rotation.
-        * @property transform
-        * @type Transform
-        * @public
-        */
-        public transform: Kiwi.Geom.Transform;
-        /**
-        * Updates the width/height of this camera. Is used when the stage resizes.
-        * @method _updatedStageSize
-        * @param width {Number} The new width of the camera.
-        * @param height {Number} The new height of the camera.
+        * The render mode of the game. This will be either set to CANVAS or WEBGL.
+        * @property _renderOption
+        * @type number
         * @private
         */
-        private _updatedStageSize(width, height);
+        private _renderOption;
         /**
-        * The game this Group belongs to
-        * @property game
-        * @type Game
-        * @public
-        */
-        public _game: Kiwi.Game;
-        /**
-        * A unique identifier for this Layer within the game used internally by the framework. See the name property for a friendly version.
-        * @property id
+        * Returns the render mode of the game. This is READ ONLY and is decided once the game gets initialised.
+        * @property renderOption
         * @type number
         * @public
         */
+        public renderOption : number;
+        public bootCallbackOption: Function;
+        /**
+        * The type of device that you are targeting. This is either set to COCOON or BROWSER
+        * @property _deviceTargetOption
+        * @type number
+        * @private
+        */
+        private _deviceTargetOption;
+        /**
+        * Returns the device target option for the game. This is READ ONLY and is decided once the game gets initialised.
+        * @property deviceTargetOption
+        * @type number
+        * @public
+        */
+        public deviceTargetOption : number;
+        /**
+        * If when rendering, the game should render a new CANVAS which is above everything. This new canvas is for debugging purposes only.
+        * This gets set to either DEBUG_ON or DEBUG_OFF
+        * @property _debugOption
+        * @type number
+        * @private
+        */
+        private _debugOption;
+        /**
+        * Returns the debug option. This is READ ONLY and is decided once the game gets initialised.
+        * @property debugOption
+        * @type number
+        * @public
+        */
+        public debugOption : number;
+        /**
+        * Returns true if debug option is set to Kiwi.DEBUG_ON
+        * @property debug
+        * @type boolean
+        * @public
+        */
+        public debug : boolean;
+        /**
+        * Holds the renderer that is being used. This is detiremended based of the _renderMode
+        * @property renderer
+        * @type IRenderManager
+        * @public
+        */
+        public renderer: IRenderManager;
+        /**
+        * Holds the hud manager.
+        * @property huds
+        * @type HUDManager
+        * @public
+        */
+        public huds: Kiwi.HUD.HUDManager;
+        /**
+        * The type of object that the game is.
+        * @method objType
+        * @return {String} The type of object
+        * @public
+        */
+        public objType(): string;
+        /**
+        * [REQUIRES DESCRIPTION]
+        * @property _dom
+        * @type Bootstrap
+        * @private
+        */
+        private _startup;
         public id: number;
         /**
-        * A name for this Camera. This is not checked for uniqueness within the Game, but is very useful for debugging.
-        * @property name
-        * @type string
+        * The audio manager that handles all of the audio in game. Inside you can globally mute the audio, create new sounds, e.t.c.
+        * @property audio
+        * @type AudioManager
         * @public
         */
-        public name: string;
+        public audio: Kiwi.Sound.AudioManager;
         /**
-        * Actually controls whether this Camera is rendered
-        * @property _visible
-        * @type boolean
+        * Used to get the coordinates of any DOM element on the game.
+        * @property browser
+        * @type Browser
+        * @public
+        */
+        public browser: Kiwi.System.Browser;
+        /**
+        * The global file store for this game. This handles the storage and access of information loaded, as well as tags that maybe set for them individual files.
+        * @property fileStore
+        * @type FileStore
+        * @public
+        */
+        public fileStore: Kiwi.Files.FileStore;
+        /**
+        * Handles any user input with the game. These could via the users keyboard, mouse or touch events.
+        * @property input
+        * @type InputManager
+        * @public
+        */
+        public input: Kiwi.Input.InputManager;
+        /**
+        * Manages the cameras the are on the stage. Single default Camera only in this version.
+        * @property cameras
+        * @type CameraManager
+        * @public
+        */
+        public cameras: Kiwi.CameraManager;
+        /**
+        * Manages plugins registration and initialisation for the game instance.
+        * @property pluginManager
+        * @type PluginManager
+        * @public
+        */
+        public pluginManager: Kiwi.PluginManager;
+        /**
+        * Loads files from outside sources and checks to see that they have loaded correctly or not.
+        * @property loader
+        * @type Loader
+        * @public
+        */
+        public loader: Kiwi.Files.Loader;
+        /**
+        * The Request Animation Frame that is being used for the update and render loops.
+        * @property raf
+        * @type RequestAnimationFrame
+        * @public
+        */
+        public raf: Kiwi.Utils.RequestAnimationFrame;
+        /**
+        * The ONLY stage that is being used for this game.
+        * @property stage
+        * @type Stage
+        * @public
+        */
+        public stage: Kiwi.Stage;
+        /**
+        * Manages all of the states that exist for this game. Via the manager you can create new states, switch states and do various other tasks.
+        * @property states
+        * @type StateManager
+        * @public
+        */
+        public states: Kiwi.StateManager;
+        /**
+        * Holds a reference to the clocks that are being used and has a MASTER clock that is being used for the game.
+        * @property time
+        * @type ClockManager
+        * @public
+        */
+        public time: Kiwi.Time.ClockManager;
+        /**
+        * The tween manager holds a reference to all of the tweens that are created and currently being used.
+        * @property tweens
+        * @type TweenManager
+        * @public
+        */
+        public tweens: Kiwi.Animations.Tweens.TweenManager;
+        /**
+        * A Random Data Generator. This is useful for create unique ids and random information.
+        * @property rnd
+        * @type RandomDataGenerator
+        * @public
+        */
+        public rnd: Kiwi.Utils.RandomDataGenerator;
+        /**
+        * The framerate at which the game will update at.
+        * @property _framerate
+        * @type Number
+        * @default 60
+        * @public
+        */
+        private _frameRate;
+        /**
+        * The interval between frames.
+        * @property _interval
+        * @type Number
+        * @default 1000/60
         * @private
         */
-        private _visible;
+        private _interval;
         /**
-        * Controls whether this Camera is rendered.
-        * @property visible
-        * @type boolean
-        * @public
-        */
-        public visible : boolean;
-        /**
-        * A flag that indicates whether this camera needs to be rendered again at the next update loop, or if it nothing has changed so it doesn't.
-        * @property _dirty
-        * @type boolean
+        * The current interval between frames.
+        * @property _delta
+        * @type number
         * @private
         */
-        private _dirty;
+        private _delta;
         /**
-        * A value used by components to control if the camera needs re-rendering.
-        * @property dirty
-        * @type boolean
+        * The last time the game was updated
+        * @property _lastTime
+        * @type number
+        * @private
+        */
+        private _lastTime;
+        /**
+        * The current frameRate that the update/render loops are running at. Note that this may not be an  accurate representation.
+        * @property frameRate
+        * @return string
         * @public
         */
-        public dirty : boolean;
+        public frameRate : number;
         /**
-        * The update loop that is executed every frame.
-        * @method update
-        * @public
+        * The start method gets executed when the game is ready to be booted, and handles the start-up of the managers.
+        * Once the managers have started up the start loop will then begin to create the game loop.
+        * @method start
+        * @private
         */
-        public update(): void;
+        private start();
         /**
-        * The render loop that is executed whilst the game is playing.
-        * @method render
-        * @public
+        * The loop that the whole game is using.
+        * @method loop
+        * @private
         */
-        public render(): void;
+        private loop();
     }
 }
 /**
 *
 * @module Kiwi
 *
-*/
+*/ 
 declare module Kiwi {
     /**
-    * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager. More Cameras can always be created by used of the create method of a CameraManager.
+    * Each game contains a single Stage which controls the creation of the elements required for a Kiwi game to work.
+    * Such as the Canvas and the rendering contexts, as well as the width/height of the game and the position it should be on the screen.
     *
-    * @class CameraManager
+    * @class Stage
     * @namespace Kiwi
     * @constructor
-    * @param {Game} game
-    * @return {CameraManager}
+    * @param game {Kiwi.Game}
+    * @param name {String}
+    * @return {Stage} Kiwi.Stage
+    *
     */
-    class CameraManager {
-        constructor(game: Kiwi.Game);
+    class Stage {
+        constructor(game: Kiwi.Game, name: string);
         /**
-        * Returns the type of this object
+        * Returns the type of this object.
         * @method objType
-        * @return {String} The type of this object
+        * @return string
         * @public
         */
         public objType(): string;
         /**
-        * The game this object belongs to
+        * The default width of the stage.
+        * @property DEFAULT_WIDTH
+        * @type number
+        * @public
+        * @static
+        */
+        static DEFAULT_WIDTH: number;
+        /**
+        * The default height of the stage.
+        * @property DEFAULT_HEIGHT
+        * @type number
+        * @public
+        * @static
+        */
+        static DEFAULT_HEIGHT: number;
+        /**
+        * The alpha of the stage.
+        * @property _alpha
+        * @type number
+        * @private
+        */
+        private _alpha;
+        /**
+        * Get the current alpha of the stage. 0 = invisible, 1 = fully visible.
+        * @property alpha
+        * @type number
+        * @public
+        */
+        public alpha : number;
+        /**
+        * The X coordinate of the stage.
+        * @property _x
+        * @type number
+        * @private
+        */
+        private _x;
+        /**
+        * The X coordinate of the stage. This number should be the same as the stages left property.
+        * @property x
+        * @type number
+        * @public
+        */
+        public x : number;
+        /**
+        * The Y coordinate of the stage.
+        * @property _y
+        * @type number
+        * @private
+        */
+        private _y;
+        /**
+        * Get the Y coordinate of the stage. This number should be the same as the stages top property.
+        * @property y
+        * @type number
+        * @public
+        */
+        public y : number;
+        /**
+        * The width of the stage.
+        * @property _width
+        * @type number
+        * @private
+        */
+        private _width;
+        /**
+        * The width of the stage.
+        * @property width
+        * @type number
+        * @public
+        * @readonly
+        */
+        public width : number;
+        /**
+        * The height of the stage
+        * @property _height
+        * @type number
+        * @private
+        */
+        private _height;
+        /**
+        * The height of the stage
+        * @property height
+        * @type number
+        * @public
+        * @readonly
+        */
+        public height : number;
+        public onResize: Kiwi.Signal;
+        /**
+        * Calculates and returns the amount that the container has been scale buy.
+        * Mainly used for re-calculating input coordinates.
+        * Note: For COCOONJS this returns 1 since COCOONJS translates the points itself.
+        * This property is READ ONLY.
+        * @property scale
+        * @type Number
+        * @default 1
+        * @public
+        */
+        private _scale;
+        public scale : number;
+        /**
+        * A point which determines the offset of this Stage
+        * @property offset
+        * @type Point
+        * @public
+        */
+        public offset: Kiwi.Geom.Point;
+        /**
+        * The game this Stage belongs to
         * @property _game
         * @type Game
         * @private
         */
         private _game;
         /**
-        * A collection of cameras
-        * @property _cameras
-        * @type Camara[]
-        * @private
-        */
-        private _cameras;
-        /**
-        * The id which will be used when next creating a camera
-        * @property _nextCameraID
-        * @type Number
-        * @private
-        */
-        private _nextCameraID;
-        /**
-        * The default camera that is on this manager.
-        * @property defaultCamera
-        * @type Camara
-        * @public
-        */
-        public defaultCamera: Kiwi.Camera;
-        /**
-        * Initializes the CameraManager, creates a new camera and assigns it to the defaultCamera
-        * @method boot
-        * @public
-        */
-        public boot(): void;
-        /**
-        * Creates a new Camera and adds it to the collection of cameras.
-        * @param {String} name. The name of the new camera.
-        * @param {Number} x. The x position of the new camera.
-        * @param {Number} y. The y position of the new camera.
-        * @param {Number} width. The width of the new camera.
-        * @param {Number} height. The height of the new camera.
-        * @return {Camera} The new camera object.
-        * @public
-        */
-        public create(name: string, x: number, y: number, width: number, height: number): Kiwi.Camera;
-        /**
-        * Removes the given camera, if it is present in the camera managers camera collection.
-        * @method remove
-        * @param camera {Camera}
-        * @return {boolean} True if the camera was removed, false otherwise.
-        * @public
-        */
-        public remove(camera: Kiwi.Camera): boolean;
-        /**
-        * Calls update on all the cameras.
-        * @method update
-        * @public
-        */
-        public update(): boolean;
-        /**
-        * Calls the render method on all the cameras
-        * @method render
-        * @public
-        */
-        public render(): boolean;
-        /**
-        * Removes all cameras in the camera Manager except the default camera. Does nothing if in multi camera mode.
-        * @method removeAll - note should not remove default
-        * @public
-        */
-        public removeAll(): void;
-    }
-}
-/**
-*
-* @module Kiwi
-*
-*/
-declare module Kiwi {
-    /**
-    * The base class that all components extend from and thus contains all of the common functionality that is required of every Component.
-    *
-    * @class Component
-    * @namespace Kiwi
-    * @constructor
-    * @param owner {IChild} The IChild that this component belongs to.
-    * @param componentName {String} The name of this component.
-    * @return {Component}
-    */ 
-    class Component {
-        constructor(owner: Kiwi.IChild, name: string);
-        /**
-        * Returns the type of this object
-        * @method objType
-        * @return {String} The type of this object
-        * @public
-        */
-        public objType(): string;
-        /**
-        * The IChild that owns this entity
-        * @property owner
-        * @type IChild
-        * @public
-        */
-        public owner: Kiwi.IChild;
-        /**
-        * The game this Component belongs to
-        * @property game
-        * @type Game
-        * @public
-        */
-        public game: Kiwi.Game;
-        /**
-        * The name of this component.
+        * The title of your stage
         * @property name
         * @type string
         * @public
         */
         public name: string;
         /**
-        * An active Component is one that has its update method called by its parent.
-        * @property active
+        * Whether or not this Stage is DOM ready.
+        * @property domReady
         * @type boolean
-        * @default true
         * @public
         */
-        public active: boolean;
+        public domReady: boolean;
         /**
-        * The state of this component.
-        * @property dirty
-        * @type boolean
-        * @default false
+        * The background color of the stage. This must be a valid 6 character hex color string such as "ffffff".
+        * @property _color
+        * @type string
+        * @default '#ffffff'
         * @public
         */
-        public dirty: boolean;
+        public _color: string;
         /**
-        * Components can preUpdate, that is update before the parent updates. This is to be overriden by subclasses.
-        * @method preUpdate
+        * Get the background color of the stage. This returns a hex style color string such as "#ffffff"
+        * @property color
+        * @type string
         * @public
         */
-        public preUpdate(): void;
+        public color : string;
         /**
-        * If the component is being added to a State rather than a Game Object then over-ride its update method to perform required tasks.
-        * @method update
+        * Stores the normalized background color of the stage as a RGBA values between 0 and 1.
+        * @property _normalizedColor
+        * @type object
         * @public
         */
-        public update(): void;
+        private _normalizedColor;
         /**
-        * Components can postUpdate, that is run an update after the parent has updated. This is to be overriden by subclasses.
-        * @method postUpdate
+        * Get the normalized background color of the stage. returns a object with rgba values between 0 and 1.
+        * @property color
+        * @type string
         * @public
         */
-        public postUpdate(): void;
+        public normalizedColor : any;
         /**
-        * Destroys this component and all of the properties that exist on it.
-        * @method destroy
+        * The webgl rendering context.
+        * @property gl
+        * @type WebGLRenderingContext
         * @public
         */
-        public destroy(): void;
+        public gl: WebGLRenderingContext;
+        /**
+        * The canvas rendering context.
+        * @property ctx
+        * @type CanvasRenderingContext2D
+        * @public
+        */
+        public ctx: CanvasRenderingContext2D;
+        /**
+        * The canvas element that is being rendered on.
+        * @property canvas
+        * @type HTMLCanvasElement
+        * @public
+        */
+        public canvas: HTMLCanvasElement;
+        /**
+        * The debugging canvas.
+        * @property debugCanvas
+        * @type HTMLCanvasElement
+        * @public
+        */
+        public debugCanvas: HTMLCanvasElement;
+        /**
+        * The debug canvas rendering context.
+        * @property dctx
+        * @type CanvasRenderingContext2D
+        * @public
+        */
+        public dctx: CanvasRenderingContext2D;
+        /**
+        * The parent div in which the layers and input live
+        * @property container
+        * @type HTMLDivElement
+        * @public
+        */
+        public container: HTMLDivElement;
+        /**
+        * Is executed when the DOM has loaded and the game is just starting.
+        * @method boot
+        * @param {HTMLElement} dom
+        * @public
+        */
+        public boot(dom: Kiwi.System.Bootstrap): void;
+        /**
+        * Method that is fired when the window is resized.
+        * Used to calculate the new offset and see what the scale of the stage currently is.
+        * @method _windowResized
+        * @param event {UIEvent}
+        * @private
+        */
+        private _windowResized(event);
+        /**
+        * [DESCRIPTION REQUIRED]
+        * @method _createComponsiteCanvas
+        * @private
+        */
+        private _createCompositeCanvas();
+        /**
+        * Set the stage width and height
+        * @method resize
+        * @param width {number} new stage width
+        * @param height {number} new stage height
+        * @public
+        */
+        public resize(width: number, height: number): void;
+        /**
+        * [DESCRIPTION REQUIRED]
+        * @method _createDebugCanvas
+        * @private
+        */
+        private _createDebugCanvas();
+        /**
+        * [DESCRIPTION REQUIRED]
+        * @method clearDebugCanvas
+        * @param [color='rgba(255,0,0,0.2)'] {string} debug color
+        * @public
+        */
+        public clearDebugCanvas(color?: string): void;
+        /**
+        * [DESCRIPTION REQUIRED]
+        * @method toggleDebugCanvas
+        * @public
+        */
+        public toggleDebugCanvas(): void;
     }
 }
 /**
@@ -1376,6 +669,547 @@ declare module Kiwi {
         * @public
         */
         public postRender(): void;
+    }
+}
+/**
+*
+* @module Kiwi
+*
+*/
+declare module Kiwi {
+    /**
+    *
+    * @class PluginManager
+    * @namespace Kiwi
+    * @constructor
+    * @param game {Game} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
+    * @param plugins {string[]} The entities position on the x axis.
+    * @return {PluginManager} This PluginManager.
+    *
+    */
+    class PluginManager {
+        constructor(game: Kiwi.Game, plugins: string[]);
+        /**
+        * An array of plugins which have been included in the webpage and registered successfully.
+        * @property _availablePlugins
+        * @type Array
+        * @static
+        * @private
+        */
+        private static _availablePlugins;
+        /**
+        * An array of objects represetning all available plugins, each containing the name and version number of an available plugin
+        * @property getAvailablePlugins
+        * @type Array
+        * @static
+        * @private
+        */
+        static availablePlugins : any;
+        /**
+        * Registers a plugin object as available. Any game instance can choose to use the plugin.
+        * Plugins need only be registered once per webpage. If registered a second time it will be ignored.
+        * Two plugins with the same names cannot be reigstered simultaneously, even if different versions.
+        * @method register
+        * @param {object} plugin
+        * @public
+        * @static
+        */
+        static register(plugin: any): void;
+        /**
+        * Identifies the object as a PluginManager.
+        * @property objType
+        * @type string
+        * @public
+        */ 
+        public objType : string;
+        /**
+        * A reference to the game instance that owns the PluginManager.
+        * @property objType
+        * @type Kiwi.Game
+        * @private
+        */
+        private _game;
+        /**
+        * An array of plugin names which the game instance has been configured to use. Each name must match the constructor function for the plugin.
+        * @property _plugins
+        * @type string[]
+        * @private
+        */
+        private _plugins;
+        /**
+        * An array of objects that contain a boot function, each of which will be called when PluginManager.boot is invoked.
+        * @property _bootObjects
+        * @type Array
+        * @private
+        */
+        private _bootObjects;
+        /**
+        * Builds a list of valid plugins used by the game instance. Each plugin name that is supplied in the Kiwi.Game constructor configuration object
+        * is checked against the Kiwi.Plugins namespace to ensure that a property of the same name exists.
+        * This will ignore plugin that are registered but not used by the game instance.
+        * @method validatePlugins
+        * @public
+        */
+        public validatePlugins(): void;
+        /**
+        * Returns true if a plugin identified by the supplied pluginName is registered.
+        * @method pluginIsRegistered
+        * @param {string} pluginName
+        * @public
+        */
+        public pluginIsRegistered(pluginName: string): boolean;
+        /**
+        * Called after all other core objects and services created by the Kiwi.Game constructor are created.
+        * Attempts to find a "create" function on each plugin and calls it if it exists.
+        * The create function may return an object on which a boot function exists - to be called during boot process.
+        * @method _createPlugins
+        * @private
+        */
+        private _createPlugins();
+        /**
+        * Calls the boot functions on any objects that plugins used by the game instance have designated during creation.
+        * @method boot
+        * @public
+        */
+        public boot(): void;
+        public update(): void;
+    }
+}
+/**
+*
+* @module Kiwi
+*
+*/
+declare module Kiwi {
+    /**
+    * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager. More Cameras can always be created by used of the create method of a CameraManager.
+    *
+    * @class CameraManager
+    * @namespace Kiwi
+    * @constructor
+    * @param {Game} game
+    * @return {CameraManager}
+    */
+    class CameraManager {
+        constructor(game: Kiwi.Game);
+        /**
+        * Returns the type of this object
+        * @method objType
+        * @return {String} The type of this object
+        * @public
+        */
+        public objType(): string;
+        /**
+        * The game this object belongs to
+        * @property _game
+        * @type Game
+        * @private
+        */
+        private _game;
+        /**
+        * A collection of cameras
+        * @property _cameras
+        * @type Camara[]
+        * @private
+        */
+        private _cameras;
+        /**
+        * The id which will be used when next creating a camera
+        * @property _nextCameraID
+        * @type Number
+        * @private
+        */
+        private _nextCameraID;
+        /**
+        * The default camera that is on this manager.
+        * @property defaultCamera
+        * @type Camara
+        * @public
+        */
+        public defaultCamera: Kiwi.Camera;
+        /**
+        * Initializes the CameraManager, creates a new camera and assigns it to the defaultCamera
+        * @method boot
+        * @public
+        */
+        public boot(): void;
+        /**
+        * Creates a new Camera and adds it to the collection of cameras.
+        * @param {String} name. The name of the new camera.
+        * @param {Number} x. The x position of the new camera.
+        * @param {Number} y. The y position of the new camera.
+        * @param {Number} width. The width of the new camera.
+        * @param {Number} height. The height of the new camera.
+        * @return {Camera} The new camera object.
+        * @public
+        */
+        public create(name: string, x: number, y: number, width: number, height: number): Kiwi.Camera;
+        /**
+        * Removes the given camera, if it is present in the camera managers camera collection.
+        * @method remove
+        * @param camera {Camera}
+        * @return {boolean} True if the camera was removed, false otherwise.
+        * @public
+        */
+        public remove(camera: Kiwi.Camera): boolean;
+        /**
+        * Calls update on all the cameras.
+        * @method update
+        * @public
+        */
+        public update(): boolean;
+        /**
+        * Calls the render method on all the cameras
+        * @method render
+        * @public
+        */
+        public render(): boolean;
+        /**
+        * Removes all cameras in the camera Manager except the default camera. Does nothing if in multi camera mode.
+        * @method removeAll - note should not remove default
+        * @public
+        */
+        public removeAll(): void;
+    }
+}
+/**
+*
+* @module Kiwi
+*
+*/ 
+declare module Kiwi {
+    /**
+    * A lightweight object that contains values relating to the configuration of a State in a Kiwi Game.
+    *
+    * @class StateConfig
+    * @namespace Kiwi
+    * @constructor
+    * @param {State} parent
+    * @param {String} name
+    * @return {StateConfig} This Object
+    *
+    */ 
+    class StateConfig {
+        constructor(parent: Kiwi.State, name: string);
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+        /**
+        * The state this StateConfig belongs to.
+        * @property _state
+        * @type State
+        * @private
+        */
+        private _state;
+        /**
+        * The name of the State, must be unique within your game.
+        * @property name
+        * @type String
+        * @public
+        */
+        public name: string;
+        /**
+        * Currently unused.
+        * @property isPersistent
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public isPersistent: boolean;
+        /**
+        * If this State has been created (the create method has been executed).
+        * Essentually has the same meaning as 'isReady'.
+        * @property isCreated
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public isCreated: boolean;
+        /**
+        * If the State has been initialised already (so the Boot and Init methods have been executed already).
+        * A State only get Initialised once which is when it switched to for this first time.
+        * @property isInitialised
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public isInitialised: boolean;
+        /**
+        * If the State that this config is on is 'ready' to be used (e.g. all the assets have been loaded and libraries complied)
+        * or if it isn't and so it is still at the 'loading' stage.
+        * @property isReady
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public isReady: boolean;
+        /**
+        * If the State that this config is on contains a Preloader Method.
+        * @property hasPreloader
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public hasPreloader: boolean;
+        /**
+        * The number of times the State that this config belongs to has been active/used.
+        * @property runCount
+        * @type Number
+        * @default 0
+        * @public
+        */
+        public runCount: number;
+        /**
+        * The type of state this is. Currently Unused.
+        * @property type
+        * @type Number
+        * @default 0
+        * @public
+        */
+        public type: number;
+        /**
+        * Stores any parameters that are to be passed to the init method when the State that this config is on is switched to.
+        * @property initParams
+        * @type Array
+        * @public
+        */
+        public initParams: any;
+        /**
+        * Stores any parameters that are to be passed to the create method when the State that this config is on is switched to.
+        * @property createParams
+        * @type Array
+        * @public
+        */
+        public createParams: any;
+        /**
+        * Resets the properties contained on this StateConfig object.
+        * This is executed when a State is about to be destroyed as so reset's it to be switched to again.
+        * @method
+        *
+        */
+        public reset(): void;
+    }
+}
+/**
+* Module - Kiwi (Core)
+* @module Kiwi
+*
+*/ 
+declare module Kiwi {
+    /**
+    * The state manager handles the starting, parsing, looping and swapping of game states. Thus there is only ever one state manager per game.
+    *
+    * @class StateManager
+    * @namespace Kiwi
+    * @constructor
+    * @param game {Game} The game that this statemanager belongs to.
+    * @return {StateMananger} This Object
+    *
+    */
+    class StateManager {
+        constructor(game: Kiwi.Game);
+        /**
+        * The type of object this is.
+        * @method objType
+        * @return string
+        * @public
+        */
+        public objType(): string;
+        /**
+        * The game that this manager belongs to.
+        * @property _game
+        * @type Game
+        * @private
+        */
+        private _game;
+        /**
+        * An array of all of the states that are contained within this manager.
+        * @property _states
+        * @type State[]
+        * @private
+        */
+        private _states;
+        /**
+        * The current State that the game is at.
+        * @property current
+        * @type State
+        * @default null
+        * @public
+        */
+        public current: Kiwi.State;
+        /**
+        * The name of the new state that is to be switched to.
+        * @property _newStateKey
+        * @type string
+        * @defualt null
+        * @private
+        */
+        private _newStateKey;
+        /**
+        * Checks to see if a key exists. Internal use only.
+        * @method checkKeyExists
+        * @param key {String}
+        * @return {boolean}
+        * @private
+        */
+        private checkKeyExists(key);
+        /**
+        * Checks to see if the state passed is valid or not.
+        * @method checkValidState
+        * @param {State} state
+        * @return {boolean}
+        * @private
+        */
+        private checkValidState(state);
+        /**
+        * Adds the given State to the StateManager.
+        * The State must have a unique key set on it, or it will fail to be added to the manager.
+        * Returns true if added successfully, otherwise false (can happen if State is already in the StateManager)
+        *
+        * @method addState
+        * @param state {Any} The Kiwi.State instance to add.
+        * @param [switchTo=false] {boolean} If set to true automatically switch to the given state after adding it
+        * @return {boolean} true if the State was added successfully, otherwise false
+        * @public
+        */
+        public addState(state: any, switchTo?: boolean): boolean;
+        /**
+        * Is executed once the DOM has finished loading.
+        * This is an INTERNAL Kiwi method.
+        * @method boot
+        * @public
+        */
+        public boot(): void;
+        /**
+        * Switches to the name (key) of the state that you pass.
+        * Does not work if the state you are switching to is already the current state OR if that state does not exist yet.
+        * @method setCurrentState
+        * @param {String} key
+        * @return {boolean}
+        * @private
+        */
+        private setCurrentState(key);
+        /**
+        * Actually switches to a state that is stored in the 'newStateKey' property. This method is executed after the update loops have been executed to help prevent developer errors.
+        * @method bootNewState
+        * @private
+        */
+        private bootNewState();
+        /**
+        * Swaps the current state.
+        * If the state has already been loaded (via addState) then you can just pass the key.
+        * Otherwise you can pass the state object as well and it will load it then swap to it.
+        *
+        * @method switchState
+        * @param key {String} The name/key of the state you would like to switch to.
+        * @param [state=null] {Any} The state that you want to switch to. This is only used to create the state if it doesn't exist already.
+        * @param [initParams=null] {Object} Any parameters that you would like to pass to the init method of that new state.
+        * @param [createParams=null] {Object} Any parameters that you would like to pass to the create method of that new state.
+        * @return {boolean}
+        * @public
+        */
+        public switchState(key: string, state?: any, initParams?: any, createParams?: any): boolean;
+        /**
+        * Gets a state by the key that is passed.
+        * @method getState
+        * @param {String} key
+        * @return {State}
+        * @private
+        */
+        private getState(key);
+        /**
+        * Checks to see if the state that is being switched to needs to load some files or not.
+        * If it does it loads the file, if it does not it runs the create method.
+        * @method checkPreload
+        * @private
+        */
+        private checkPreload();
+        /**
+        * Checks to see if the state being switched to contains a create method.
+        * If it does then it calls the create method.
+        * @method callCreate
+        * @private
+        */
+        private callCreate();
+        /**
+        * Checks to see if the state has a init method and then executes that method if it is found.
+        * @method checkInit
+        * @private
+        */
+        private checkInit();
+        /**
+        * Is execute whilst files are being loaded by the state.
+        * @method onLoadProgress
+        * @param {Number} percent
+        * @param {Number} bytesLoaded
+        * @param {File} file
+        * @private
+        */
+        private onLoadProgress(percent, bytesLoaded, file);
+        /**
+        * Executed when the preloading has completed. Then executes the loadComplete and create methods of the new state.
+        * @method onLoadComplete
+        * @private
+        */
+        private onLoadComplete();
+        /**
+        * Rebuilds the texture, audio and data libraries that are on the current state. Thus updating what files the user has access to.
+        * @method rebuildLibraries
+        * @private
+        */
+        public rebuildLibraries(): void;
+        /**
+        * The update loop that is accessable on the state manager.
+        * @method update
+        * @public
+        */
+        public update(): void;
+        /**
+        * PostRender - Called after all of the rendering has been executed in a frame.
+        * @method postRender
+        * @public
+        */
+        public postRender(): void;
+    }
+}
+/**
+*
+* @module Kiwi
+*
+*/
+declare module Kiwi {
+    /**
+    * A IChild is an Interface (defined as a class as the documentation does not support Interfaces just yet),
+    * which outlines the methods/properties that objects which are intended to be added as a child of a Stage or Group must have in order to work.
+    *
+    * @class IChild
+    * @namespace Kiwi
+    */
+    interface IChild {
+        render(camera: Kiwi.Camera): any;
+        update(): any;
+        childType(): number;
+        id: string;
+        name: string;
+        game: Kiwi.Game;
+        state: Kiwi.State;
+        components: Kiwi.ComponentManager;
+        dirty: boolean;
+        active: boolean;
+        exists: boolean;
+        willRender: boolean;
+        parent: Kiwi.Group;
+        transform: Kiwi.Geom.Transform;
+        x: number;
+        y: number;
+        rotation: number;
+        scaleX: number;
+        scaleY: number;
+        destroy(...params: any[]): any;
     }
 }
 /**
@@ -1704,241 +1538,85 @@ declare module Kiwi {
 */
 declare module Kiwi {
     /**
-    * The base class that is used when you are wanting to create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF which is used for the game loop.
+    * The base class that all components extend from and thus contains all of the common functionality that is required of every Component.
     *
-    * @class Game
+    * @class Component
     * @namespace Kiwi
     * @constructor
-    * @param [domParent=''] {String} The ID of a DOM element that the game should use as its 'container'. If you are targeting Cocoon then you don't need to worry about this and can leave it blank.
-    * @param [name='KiwiGame'] {String} The name of the game that is being created.
-    * @param [state=null] {Any} The state to load initially. This can either be the name of a state, but preferably this would be the state object itself.
-    * @param [options] {Object} Any special options for the game. E.g. Is DEBUG_ON or DEBUG_OFF, RENDERER_CANVAS or RENDERER_WEBGL, TARGET_BROWSER or TARGET_COCOON
-    * @return {Game}
-    *
-    */
-    class Game {
-        constructor(domParent?: string, name?: string, state?: any, options?: any);
+    * @param owner {IChild} The IChild that this component belongs to.
+    * @param componentName {String} The name of this component.
+    * @return {Component}
+    */ 
+    class Component {
+        constructor(owner: Kiwi.IChild, name: string);
         /**
-        * The render mode of the game. This will be either set to CANVAS or WEBGL.
-        * @property _renderOption
-        * @type number
-        * @private
-        */
-        private _renderOption;
-        /**
-        * Returns the render mode of the game. This is READ ONLY and is decided once the game gets initialised.
-        * @property renderOption
-        * @type number
-        * @public
-        */
-        public renderOption : number;
-        public bootCallbackOption: Function;
-        /**
-        * The type of device that you are targeting. This is either set to COCOON or BROWSER
-        * @property _deviceTargetOption
-        * @type number
-        * @private
-        */
-        private _deviceTargetOption;
-        /**
-        * Returns the device target option for the game. This is READ ONLY and is decided once the game gets initialised.
-        * @property deviceTargetOption
-        * @type number
-        * @public
-        */
-        public deviceTargetOption : number;
-        /**
-        * If when rendering, the game should render a new CANVAS which is above everything. This new canvas is for debugging purposes only.
-        * This gets set to either DEBUG_ON or DEBUG_OFF
-        * @property _debugOption
-        * @type number
-        * @private
-        */
-        private _debugOption;
-        /**
-        * Returns the debug option. This is READ ONLY and is decided once the game gets initialised.
-        * @property debugOption
-        * @type number
-        * @public
-        */
-        public debugOption : number;
-        /**
-        * Returns true if debug option is set to Kiwi.DEBUG_ON
-        * @property debug
-        * @type boolean
-        * @public
-        */
-        public debug : boolean;
-        /**
-        * Holds the renderer that is being used. This is detiremended based of the _renderMode
-        * @property renderer
-        * @type IRenderManager
-        * @public
-        */
-        public renderer: IRenderManager;
-        /**
-        * Holds the hud manager.
-        * @property huds
-        * @type HUDManager
-        * @public
-        */
-        public huds: Kiwi.HUD.HUDManager;
-        /**
-        * The type of object that the game is.
+        * Returns the type of this object
         * @method objType
-        * @return {String} The type of object
+        * @return {String} The type of this object
         * @public
         */
         public objType(): string;
         /**
-        * [REQUIRES DESCRIPTION]
-        * @property _dom
-        * @type Bootstrap
-        * @private
-        */
-        private _startup;
-        public id: number;
-        /**
-        * The audio manager that handles all of the audio in game. Inside you can globally mute the audio, create new sounds, e.t.c.
-        * @property audio
-        * @type AudioManager
+        * The IChild that owns this entity
+        * @property owner
+        * @type IChild
         * @public
         */
-        public audio: Kiwi.Sound.AudioManager;
+        public owner: Kiwi.IChild;
         /**
-        * Used to get the coordinates of any DOM element on the game.
-        * @property browser
-        * @type Browser
+        * The game this Component belongs to
+        * @property game
+        * @type Game
         * @public
         */
-        public browser: Kiwi.System.Browser;
+        public game: Kiwi.Game;
         /**
-        * The global file store for this game. This handles the storage and access of information loaded, as well as tags that maybe set for them individual files.
-        * @property fileStore
-        * @type FileStore
+        * The name of this component.
+        * @property name
+        * @type string
         * @public
         */
-        public fileStore: Kiwi.Files.FileStore;
+        public name: string;
         /**
-        * Handles any user input with the game. These could via the users keyboard, mouse or touch events.
-        * @property input
-        * @type InputManager
+        * An active Component is one that has its update method called by its parent.
+        * @property active
+        * @type boolean
+        * @default true
         * @public
         */
-        public input: Kiwi.Input.InputManager;
+        public active: boolean;
         /**
-        * Manages the cameras the are on the stage. Single default Camera only in this version.
-        * @property cameras
-        * @type CameraManager
+        * The state of this component.
+        * @property dirty
+        * @type boolean
+        * @default false
         * @public
         */
-        public cameras: Kiwi.CameraManager;
+        public dirty: boolean;
         /**
-        * Manages plugins registration and initialisation for the game instance.
-        * @property pluginManager
-        * @type PluginManager
+        * Components can preUpdate, that is update before the parent updates. This is to be overriden by subclasses.
+        * @method preUpdate
         * @public
         */
-        public pluginManager: Kiwi.PluginManager;
+        public preUpdate(): void;
         /**
-        * Loads files from outside sources and checks to see that they have loaded correctly or not.
-        * @property loader
-        * @type Loader
+        * If the component is being added to a State rather than a Game Object then over-ride its update method to perform required tasks.
+        * @method update
         * @public
         */
-        public loader: Kiwi.Files.Loader;
+        public update(): void;
         /**
-        * The Request Animation Frame that is being used for the update and render loops.
-        * @property raf
-        * @type RequestAnimationFrame
+        * Components can postUpdate, that is run an update after the parent has updated. This is to be overriden by subclasses.
+        * @method postUpdate
         * @public
         */
-        public raf: Kiwi.Utils.RequestAnimationFrame;
+        public postUpdate(): void;
         /**
-        * The ONLY stage that is being used for this game.
-        * @property stage
-        * @type Stage
+        * Destroys this component and all of the properties that exist on it.
+        * @method destroy
         * @public
         */
-        public stage: Kiwi.Stage;
-        /**
-        * Manages all of the states that exist for this game. Via the manager you can create new states, switch states and do various other tasks.
-        * @property states
-        * @type StateManager
-        * @public
-        */
-        public states: Kiwi.StateManager;
-        /**
-        * Holds a reference to the clocks that are being used and has a MASTER clock that is being used for the game.
-        * @property time
-        * @type ClockManager
-        * @public
-        */
-        public time: Kiwi.Time.ClockManager;
-        /**
-        * The tween manager holds a reference to all of the tweens that are created and currently being used.
-        * @property tweens
-        * @type TweenManager
-        * @public
-        */
-        public tweens: Kiwi.Animations.Tweens.TweenManager;
-        /**
-        * A Random Data Generator. This is useful for create unique ids and random information.
-        * @property rnd
-        * @type RandomDataGenerator
-        * @public
-        */
-        public rnd: Kiwi.Utils.RandomDataGenerator;
-        /**
-        * The framerate at which the game will update at.
-        * @property _framerate
-        * @type Number
-        * @default 60
-        * @public
-        */
-        private _frameRate;
-        /**
-        * The interval between frames.
-        * @property _interval
-        * @type Number
-        * @default 1000/60
-        * @private
-        */
-        private _interval;
-        /**
-        * The current interval between frames.
-        * @property _delta
-        * @type number
-        * @private
-        */
-        private _delta;
-        /**
-        * The last time the game was updated
-        * @property _lastTime
-        * @type number
-        * @private
-        */
-        private _lastTime;
-        /**
-        * The current frameRate that the update/render loops are running at. Note that this may not be an  accurate representation.
-        * @property frameRate
-        * @return string
-        * @public
-        */
-        public frameRate : number;
-        /**
-        * The start method gets executed when the game is ready to be booted, and handles the start-up of the managers.
-        * Once the managers have started up the start loop will then begin to create the game loop.
-        * @method start
-        * @private
-        */
-        private start();
-        /**
-        * The loop that the whole game is using.
-        * @method loop
-        * @private
-        */
-        private loop();
+        public destroy(): void;
     }
 }
 /**
@@ -2393,110 +2071,6 @@ declare module Kiwi {
 *
 * @module Kiwi
 *
-*/
-declare module Kiwi {
-    /**
-    *
-    * @class PluginManager
-    * @namespace Kiwi
-    * @constructor
-    * @param game {Game} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
-    * @param plugins {string[]} The entities position on the x axis.
-    * @return {PluginManager} This PluginManager.
-    *
-    */
-    class PluginManager {
-        constructor(game: Kiwi.Game, plugins: string[]);
-        /**
-        * An array of plugins which have been included in the webpage and registered successfully.
-        * @property _availablePlugins
-        * @type Array
-        * @static
-        * @private
-        */
-        private static _availablePlugins;
-        /**
-        * An array of objects represetning all available plugins, each containing the name and version number of an available plugin
-        * @property getAvailablePlugins
-        * @type Array
-        * @static
-        * @private
-        */
-        static availablePlugins : any;
-        /**
-        * Registers a plugin object as available. Any game instance can choose to use the plugin.
-        * Plugins need only be registered once per webpage. If registered a second time it will be ignored.
-        * Two plugins with the same names cannot be reigstered simultaneously, even if different versions.
-        * @method register
-        * @param {object} plugin
-        * @public
-        * @static
-        */
-        static register(plugin: any): void;
-        /**
-        * Identifies the object as a PluginManager.
-        * @property objType
-        * @type string
-        * @public
-        */ 
-        public objType : string;
-        /**
-        * A reference to the game instance that owns the PluginManager.
-        * @property objType
-        * @type Kiwi.Game
-        * @private
-        */
-        private _game;
-        /**
-        * An array of plugin names which the game instance has been configured to use. Each name must match the constructor function for the plugin.
-        * @property _plugins
-        * @type string[]
-        * @private
-        */
-        private _plugins;
-        /**
-        * An array of objects that contain a boot function, each of which will be called when PluginManager.boot is invoked.
-        * @property _bootObjects
-        * @type Array
-        * @private
-        */
-        private _bootObjects;
-        /**
-        * Builds a list of valid plugins used by the game instance. Each plugin name that is supplied in the Kiwi.Game constructor configuration object
-        * is checked against the Kiwi.Plugins namespace to ensure that a property of the same name exists.
-        * This will ignore plugin that are registered but not used by the game instance.
-        * @method validatePlugins
-        * @public
-        */
-        public validatePlugins(): void;
-        /**
-        * Returns true if a plugin identified by the supplied pluginName is registered.
-        * @method pluginIsRegistered
-        * @param {string} pluginName
-        * @public
-        */
-        public pluginIsRegistered(pluginName: string): boolean;
-        /**
-        * Called after all other core objects and services created by the Kiwi.Game constructor are created.
-        * Attempts to find a "create" function on each plugin and calls it if it exists.
-        * The create function may return an object on which a boot function exists - to be called during boot process.
-        * @method _createPlugins
-        * @private
-        */
-        private _createPlugins();
-        /**
-        * Calls the boot functions on any objects that plugins used by the game instance have designated during creation.
-        * @method boot
-        * @public
-        */
-        public boot(): void;
-        public update(): void;
-    }
-}
-/**
-*
-* @module Kiwi
-*
 */ 
 declare module Kiwi {
     /**
@@ -2790,33 +2364,128 @@ declare module Kiwi {
 */
 declare module Kiwi {
     /**
-    * A IChild is an Interface (defined as a class as the documentation does not support Interfaces just yet),
-    * which outlines the methods/properties that objects which are intended to be added as a child of a Stage or Group must have in order to work.
+    * A Camera is used to render a particular section of the game world on the stage. Each Camera has a coordinates which are held in the transform property, and a width/height. Note: This class should never be directly instantiated but instead should be made through a CameraManager's 'create' method.
     *
-    * @class IChild
+    * @class Camera
     * @namespace Kiwi
+    * @constructor
+    * @param game {Game} The game that this camera belongs to.
+    * @param id {Number} A unique ID for this camera
+    * @param name {String} The name this camera goes by
+    * @param x {Number} The x coordinate of the camera
+    * @param y {Number} The y coordinate of the camera
+    * @param width {Number} The width of the camera
+    * @param height {Number} The cameras height
+    * @return {Camera}
+    *
     */
-    interface IChild {
-        render(camera: Kiwi.Camera): any;
-        update(): any;
-        childType(): number;
-        id: string;
-        name: string;
-        game: Kiwi.Game;
-        state: Kiwi.State;
-        components: Kiwi.ComponentManager;
-        dirty: boolean;
-        active: boolean;
-        exists: boolean;
-        willRender: boolean;
-        parent: Kiwi.Group;
-        transform: Kiwi.Geom.Transform;
-        x: number;
-        y: number;
-        rotation: number;
-        scaleX: number;
-        scaleY: number;
-        destroy(...params: any[]): any;
+    class Camera {
+        constructor(game: Kiwi.Game, id: number, name: string, x: number, y: number, width: number, height: number);
+        /**
+        * The width of this camara.
+        * @property width
+        * @type Number
+        * @public
+        */
+        public width: number;
+        /**
+        * The height of this camera.
+        * @property height
+        * @type Number
+        * @public
+        */
+        public height: number;
+        /**
+        * The type of Object this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+        /**
+        * If true then the camera will be resized to fit the stage when the stage is resized
+        * @property fitToStage
+        * @type boolean
+        * @default true
+        * @public
+        */
+        public fitToStage: boolean;
+        /**
+        * The Transform controls the location of this Game Object within the game world. Also controls the cameras scale and rotation.
+        * @property transform
+        * @type Transform
+        * @public
+        */
+        public transform: Kiwi.Geom.Transform;
+        /**
+        * Updates the width/height of this camera. Is used when the stage resizes.
+        * @method _updatedStageSize
+        * @param width {Number} The new width of the camera.
+        * @param height {Number} The new height of the camera.
+        * @private
+        */
+        private _updatedStageSize(width, height);
+        /**
+        * The game this Group belongs to
+        * @property game
+        * @type Game
+        * @public
+        */
+        public _game: Kiwi.Game;
+        /**
+        * A unique identifier for this Layer within the game used internally by the framework. See the name property for a friendly version.
+        * @property id
+        * @type number
+        * @public
+        */
+        public id: number;
+        /**
+        * A name for this Camera. This is not checked for uniqueness within the Game, but is very useful for debugging.
+        * @property name
+        * @type string
+        * @public
+        */
+        public name: string;
+        /**
+        * Actually controls whether this Camera is rendered
+        * @property _visible
+        * @type boolean
+        * @private
+        */
+        private _visible;
+        /**
+        * Controls whether this Camera is rendered.
+        * @property visible
+        * @type boolean
+        * @public
+        */
+        public visible : boolean;
+        /**
+        * A flag that indicates whether this camera needs to be rendered again at the next update loop, or if it nothing has changed so it doesn't.
+        * @property _dirty
+        * @type boolean
+        * @private
+        */
+        private _dirty;
+        /**
+        * A value used by components to control if the camera needs re-rendering.
+        * @property dirty
+        * @type boolean
+        * @public
+        */
+        public dirty : boolean;
+        /**
+        * The update loop that is executed every frame.
+        * @method update
+        * @public
+        */
+        public update(): void;
+        /**
+        * The render loop that is executed whilst the game is playing.
+        * @method render
+        * @public
+        */
+        public render(): void;
     }
 }
 /**
@@ -3160,280 +2829,1014 @@ declare module Kiwi {
     }
 }
 /**
+* The GameObject namespace holds classes which are designed to be added to a State (either directly, or as an ancestor of a Group) and are the Objects that are used when wanting to render anything visual onto the current State. Each GameObject is a representation of a particular item in a game and as such has information that corresponds to that item (like where they are in the 'GameWorld', the scale of the GameObject, who their parent is, e.t.c). For Example: If you wanted to have a massive background image then you can use the StaticImage GameObject, as that is a relatively light-weight object). Or if you had Player with an Animation, which user's could interactive with, then you would use a Sprite, which is more robust.
 *
 * @module Kiwi
-*
+* @submodule GameObjects
+* @main GameObjects
 */ 
-declare module Kiwi {
+declare module Kiwi.GameObjects {
     /**
-    * Each game contains a single Stage which controls the creation of the elements required for a Kiwi game to work.
-    * Such as the Canvas and the rendering contexts, as well as the width/height of the game and the position it should be on the screen.
+    * A Sprite is a general purpose GameObject that contains majority of the functionality that is needed/would be wanted and as such should be used only when you are wanting a GameObject with a lot of interaction. When creating a Sprite you pass to it as TextureAtlas (for the image you want to render), now if that Texture Atlas isn't a SINGLE_IMAGE then the Sprite will have an AnimationManager Component to handle any SpriteSheet animations you need.
     *
-    * @class Stage
-    * @namespace Kiwi
+    * @class Sprite
+    * @namespace Kiwi.GameObjects
+    * @extends Entity
     * @constructor
-    * @param game {Kiwi.Game}
-    * @param name {String}
-    * @return {Stage} Kiwi.Stage
-    *
+    * @param state {State} The state that this sprite belongs to
+    * @param atlas {TextureAtlas} The texture you want to apply to this entity
+    * @param [x=0] {Number} The sprites initial coordinates on the x axis.
+    * @param [y=0] {Number} The sprites initial coordinates on the y axis.
+    * @param [enableInput=false] {boolean} If the input component should be enabled or not.
+    * @return {Sprite}
     */
-    class Stage {
-        constructor(game: Kiwi.Game, name: string);
+    class Sprite extends Kiwi.Entity {
+        constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x?: number, y?: number, enableInput?: boolean);
         /**
-        * Returns the type of this object.
+        * Returns the type of object that this is.
         * @method objType
-        * @return string
+        * @return {string}
         * @public
         */
         public objType(): string;
         /**
-        * The default width of the stage.
-        * @property DEFAULT_WIDTH
-        * @type number
-        * @public
-        * @static
-        */
-        static DEFAULT_WIDTH: number;
-        /**
-        * The default height of the stage.
-        * @property DEFAULT_HEIGHT
-        * @type number
-        * @public
-        * @static
-        */
-        static DEFAULT_HEIGHT: number;
-        /**
-        * The alpha of the stage.
-        * @property _alpha
-        * @type number
-        * @private
-        */
-        private _alpha;
-        /**
-        * Get the current alpha of the stage. 0 = invisible, 1 = fully visible.
-        * @property alpha
-        * @type number
-        * @public
-        */
-        public alpha : number;
-        /**
-        * The X coordinate of the stage.
-        * @property _x
-        * @type number
-        * @private
-        */
-        private _x;
-        /**
-        * The X coordinate of the stage. This number should be the same as the stages left property.
-        * @property x
-        * @type number
-        * @public
-        */
-        public x : number;
-        /**
-        * The Y coordinate of the stage.
-        * @property _y
-        * @type number
-        * @private
-        */
-        private _y;
-        /**
-        * Get the Y coordinate of the stage. This number should be the same as the stages top property.
-        * @property y
-        * @type number
-        * @public
-        */
-        public y : number;
-        /**
-        * The width of the stage.
-        * @property _width
-        * @type number
-        * @private
-        */
-        private _width;
-        /**
-        * The width of the stage.
-        * @property width
-        * @type number
-        * @public
-        * @readonly
-        */
-        public width : number;
-        /**
-        * The height of the stage
-        * @property _height
-        * @type number
-        * @private
-        */
-        private _height;
-        /**
-        * The height of the stage
-        * @property height
-        * @type number
-        * @public
-        * @readonly
-        */
-        public height : number;
-        public onResize: Kiwi.Signal;
-        /**
-        * Calculates and returns the amount that the container has been scale buy.
-        * Mainly used for re-calculating input coordinates.
-        * Note: For COCOONJS this returns 1 since COCOONJS translates the points itself.
-        * This property is READ ONLY.
-        * @property scale
-        * @type Number
-        * @default 1
-        * @public
-        */
-        private _scale;
-        public scale : number;
-        /**
-        * A point which determines the offset of this Stage
-        * @property offset
-        * @type Point
-        * @public
-        */
-        public offset: Kiwi.Geom.Point;
-        /**
-        * The game this Stage belongs to
-        * @property _game
-        * @type Game
-        * @private
-        */
-        private _game;
-        /**
-        * The title of your stage
-        * @property name
-        * @type string
-        * @public
-        */
-        public name: string;
-        /**
-        * Whether or not this Stage is DOM ready.
-        * @property domReady
+        * Indicates whether or not this sprite is animated or not.
+        * This sprite will not be animated if the texture used is a SINGLE_IMAGE.
+        * @property _isAnimated
         * @type boolean
+        * @private
+        */
+        private _isAnimated;
+        /**
+        * The animation component that allows you to create a animation with spritesheets/texture atlas's.
+        * Note: If the atlas that was added is of type Kiwi.Textures.TextureAtlas.SINGLE_IMAGE then no animation component will be created.
+        * @property animation
+        * @type AnimationManager
         * @public
         */
-        public domReady: boolean;
+        public animation: Kiwi.Components.AnimationManager;
         /**
-        * The background color of the stage. This must be a valid 6 character hex color string such as "ffffff".
-        * @property _color
+        * The box component that controls the bounding box around this Game Object
+        * @property bounds
+        * @type Bounds
+        * @public
+        */
+        public box: Kiwi.Components.Box;
+        /**
+        * The Input component controls the user interaction with this Game Object
+        * @property input
+        * @type Input
+        * @public
+        */
+        public input: Kiwi.Components.Input;
+        /**
+        * Called by parent when its update loop gets executed.
+        * @method update
+        * @public
+        */
+        public update(): void;
+        /**
+        * Called by the Layer to which this Game Object is attached
+        * @method render
+        * @param {Camera} camera
+        * @public
+        */
+        public render(camera: Kiwi.Camera): void;
+        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
+    }
+}
+/**
+*
+* @module Kiwi
+* @submodule GameObjects
+*
+*/ 
+declare module Kiwi.GameObjects {
+    /**
+    * A light weight game object for displaying static images that would have little or no interaction with other GameObjects. An Example of this would be a background image. Note: Since a StaticImage is lightweight it doesn't have any AnimationManager to handle the switching of cells (If you were using a SpriteSheet/TextureAtlas). In order to switch cells you can change the value of the cellIndex property.
+    *
+    * @class StaticImage
+    * @namespace Kiwi.GameObjects
+    * @extends Entity
+    * @constructor
+    * @param state {State} The state that this static image belongs to
+    * @param atlas {TextureAtlas} The texture atlas to use as the image.
+    * @param [x=0] {Number} Its coordinates on the x axis
+    * @param [y=0] {Number} The coordinates on the y axis
+    * @return {StaticImage}
+    */
+    class StaticImage extends Kiwi.Entity {
+        constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x?: number, y?: number);
+        /**
+        * Returns the type of object that this is.
+        * @method objType
+        * @return {string}
+        * @public
+        */
+        public objType(): string;
+        /**
+        * The Bounds component that controls the bounding box around this Game Object
+        * @property bounds
+        * @type Bounds
+        * @public
+        */
+        public box: Kiwi.Components.Box;
+        /**
+        * Called by the Layer to which this Game Object is attached
+        * @method render
+        * @param {Camara} camera
+        * @public
+        */
+        public render(camera: Kiwi.Camera): void;
+        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
+    }
+}
+/**
+* Kiwi - GameObjects
+* @module Kiwi
+* @submodule GameObjects
+*
+*/ 
+declare module Kiwi.GameObjects {
+    /**
+    * Textfield is a GameObject that is used when you are wanting to render text onto the current State. The Textfield is not designed to have any interaction with other GameObjects and as such it does not have many (if any) components or even a width/height.
+    *
+    * @class Textfield
+    * @namespace Kiwi.GameObjects
+    * @extends Entity
+    * @constructor
+    * @param state {State} The state that this Textfield belongs to
+    * @param text {String} The text that is contained within this textfield.
+    * @param [x=0] {Number} The new x coordinate from the Position component
+    * @param [y=0] {Number} The new y coordinate from the Position component
+    * @param [color='#000000'] {String} The color of the text.
+    * @param [size=32] {Number} The size of the text in pixels.
+    * @param [weight='normal'] {String} The weight of the text.
+    * @param [fontFamily='sans-serif'] {String} The font family that is to be used when rendering.
+    * @return {Textfield} This Game Object.
+    */
+    class Textfield extends Kiwi.Entity {
+        constructor(state: Kiwi.State, text: string, x?: number, y?: number, color?: string, size?: number, weight?: string, fontFamily?: string);
+        /**
+        * Returns the type of object that this is
+        * @method objType
+        * @return {string}
+        * @public
+        */
+        public objType(): string;
+        /**
+        * The text that is to be rendered.
+        * @property _text
         * @type string
-        * @default '#ffffff'
+        * @private
+        */
+        private _text;
+        /**
+        * The weight of the font.
+        * @property _fontWeight
+        * @type string
+        * @default 'normal'
+        * @private
+        */
+        private _fontWeight;
+        /**
+        * The size of the font.
+        * @property _fontSize
+        * @type number
+        * @default 32
+        * @private
+        */
+        private _fontSize;
+        /**
+        * The color of the text.
+        * @property _fontColor
+        * @type string
+        * @default '#000000'
+        * @private
+        */
+        private _fontColor;
+        /**
+        * The font family that is to be rendered.
+        * @property _fontFamily
+        * @type string
+        * @default 'sans-serif'
+        * @private
+        */
+        private _fontFamily;
+        /**
+        * The alignment of the text. This can either be 'left', 'right' or 'center'
+        * @property _textAlign
+        * @type string
+        * @default 'center'
+        * @private
+        */
+        private _textAlign;
+        /**
+        * The baseline of the text to be rendered.
+        * @property _baseline
+        * @type string
+        * @private
+        */
+        private _baseline;
+        /**
+        * The text that you would like to appear in this textfield.
+        * @property text
+        * @type string
         * @public
         */
-        public _color: string;
+        public text : string;
         /**
-        * Get the background color of the stage. This returns a hex style color string such as "#ffffff"
+        * The color of the font that is contained in this textfield.
         * @property color
         * @type string
         * @public
         */
         public color : string;
         /**
-        * Stores the normalized background color of the stage as a RGBA values between 0 and 1.
-        * @property _normalizedColor
-        * @type object
-        * @public
-        */
-        private _normalizedColor;
-        /**
-        * Get the normalized background color of the stage. returns a object with rgba values between 0 and 1.
-        * @property color
+        * The weight of the font.
+        * @property fontWeight
         * @type string
         * @public
         */
-        public normalizedColor : any;
+        public fontWeight : string;
         /**
-        * The webgl rendering context.
-        * @property gl
-        * @type WebGLRenderingContext
+        * The size on font when being displayed onscreen.
+        * @property fontSize
+        * @type number
         * @public
         */
-        public gl: WebGLRenderingContext;
+        public fontSize : number;
         /**
-        * The canvas rendering context.
-        * @property ctx
+        * The font family that is being used to render the text.
+        * @property fontFamily
+        * @type string
+        * @public
+        */
+        public fontFamily : string;
+        /**
+        * A static property that contains the string to center align the text.
+        * @property TEXT_ALIGN_CENTER
+        * @type string
+        * @static
+        * @final
+        * @public
+        */
+        static TEXT_ALIGN_CENTER: string;
+        /**
+        * A static property that contains the string to right align the text.
+        * @property TEXT_ALIGN_RIGHT
+        * @type string
+        * @static
+        * @final
+        * @public
+        */
+        static TEXT_ALIGN_RIGHT: string;
+        /**
+        * A static property that contains the string to left align the text.
+        * @property TEXT_ALIGN_LEFT
+        * @type string
+        * @static
+        * @final
+        * @public
+        */
+        static TEXT_ALIGN_LEFT: string;
+        /**
+        * Returns a string containing the text alignment for this textfield.
+        * @type string
+        * @public
+        */
+        /**
+        * Changes the alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.
+        * @type string
+        * @public
+        */
+        public textAlign : string;
+        /**
+        * The canvas element which the text is rendered onto.
+        * @property _canvas
+        * @type HTMLCanvasElement.
+        * @private
+        */
+        private _canvas;
+        /**
+        * The context for the canvas element. Used whilst rendering text.
+        * @property _ctx
         * @type CanvasRenderingContext2D
-        * @public
-        */
-        public ctx: CanvasRenderingContext2D;
-        /**
-        * The canvas element that is being rendered on.
-        * @property canvas
-        * @type HTMLCanvasElement
-        * @public
-        */
-        public canvas: HTMLCanvasElement;
-        /**
-        * The debugging canvas.
-        * @property debugCanvas
-        * @type HTMLCanvasElement
-        * @public
-        */
-        public debugCanvas: HTMLCanvasElement;
-        /**
-        * The debug canvas rendering context.
-        * @property dctx
-        * @type CanvasRenderingContext2D
-        * @public
-        */
-        public dctx: CanvasRenderingContext2D;
-        /**
-        * The parent div in which the layers and input live
-        * @property container
-        * @type HTMLDivElement
-        * @public
-        */
-        public container: HTMLDivElement;
-        /**
-        * Is executed when the DOM has loaded and the game is just starting.
-        * @method boot
-        * @param {HTMLElement} dom
-        * @public
-        */
-        public boot(dom: Kiwi.System.Bootstrap): void;
-        /**
-        * Method that is fired when the window is resized.
-        * Used to calculate the new offset and see what the scale of the stage currently is.
-        * @method _windowResized
-        * @param event {UIEvent}
         * @private
         */
-        private _windowResized(event);
+        private _ctx;
         /**
-        * [DESCRIPTION REQUIRED]
-        * @method _createComponsiteCanvas
+        * If the temporary canvas is dirty and needs to be re-rendered. Only used when the text field rendering is being optimised.
+        * @property _tempDirty
+        * @type boolean
+        */
+        private _tempDirty;
+        /**
+        * This method is used to render the text to an offscreen-canvas which is held in a TextureAtlas (which is generated upon the instanitation of this class).
+        * This is so that the canvas doesn't render it every frame as it can be costly and so that it can be used in WebGL with the TextureAtlasRenderer.
+        *
+        * @method _renderText
         * @private
         */
-        private _createCompositeCanvas();
+        private _renderText();
         /**
-        * Set the stage width and height
-        * @method resize
-        * @param width {number} new stage width
-        * @param height {number} new stage height
+        * Called by the Layer to which this Game Object is attached
+        * @method render
+        * @param {Camera}
         * @public
         */
-        public resize(width: number, height: number): void;
+        public render(camera: Kiwi.Camera): void;
+        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
+    }
+}
+/**
+*
+* @module GameObjects
+* @submodule Tilemap
+*
+*/
+declare module Kiwi.GameObjects.Tilemap {
+    /**
+    * Define's the properties of a single Type of Tile for a TileMap. This class should not be directly instanted,
+    * but instead when wanting to create new TileType's you should use the 'createdTileType' methods on a TileMap object.
+    *
+    * @class TileType
+    * @namespace Kiwi.GameObjects.Tilemap
+    * @constructor
+    * @param tilemap {TileMap} The TileMap that this TileType is a part of.
+    * @param index {Number} The index of this TileType, which Tiles use when wanting to use this TileType.
+    * @param cellIndex {Number} The cell number to use when rendering this Type of Tile.
+    * @return {TileType} This TileType
+    * @public
+    */
+    class TileType {
+        constructor(tilemap: Tilemap.TileMap, index: number, cellIndex?: number);
         /**
-        * [DESCRIPTION REQUIRED]
-        * @method _createDebugCanvas
+        * The collision information for this type of tile.
+        * It's values are the same as the Static properties inside of the ArcadePhysics Component.
+        * @property allowCollisions
+        * @type number
+        * @default NONE
+        * @public
+        */
+        public allowCollisions: number;
+        /**
+        * The properties associated with this type of tile.
+        * These are set when loading a JSON file that had properties associated with a TileType.
+        * @property properties
+        * @type Object
+        * @public
+        */
+        public properties: any;
+        /**
+        * A reference to the tilemap this tile object belongs to.
+        * @property tilemap
+        * @type TileMap
+        * @public
+        */
+        public tilemap: Tilemap.TileMap;
+        /**
+        * The index of this tile type in the core map data.
+        * For example, if your map only has 16 different types of tiles in it, this will be one of those tiles and thus a number between 1 and 16.
+        * @property index
+        * @type number
+        * @public
+        */
+        public index: number;
+        /**
+        * A number relating to the cell that should be when rendering a Tile that uses this TileType.
+        * A cellIndex of -1 means this type of tile will not be rendered.
+        * @property cellIndex
+        * @type number
+        * @public
+        */
+        public cellIndex: number;
+        /**
+        * The type of object that it is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+    }
+}
+/**
+*
+* @module GameObjects
+* @submodule Tilemap
+* @main Tilemap
+*/
+declare module Kiwi.GameObjects.Tilemap {
+    /**
+    * A TileMap handles the creation of TileMapLayers and the TileTypes that they use.
+    * Since a TileMap isn't a Entity itself you cannot add it to the Stage inorder to render that it manages,
+    * Instead you have to add each layer lies within it. This way you can have other GameObjects behind/in-front of layers.
+    *
+    * @class TileMap
+    * @namespace Kiwi.GameObjects.Tilemap
+    * @constructor
+    * @param state {State} The state that this Tilemap is on.
+    * @param [tileMapDataKey] {String} The Data key for the JSON you would like to use.
+    * @param [atlas] {TextureAtlas} The texture atlas that you would like the tilemap layers to use.
+    * @param [startingCell=0] {number} The number for the initial cell that the first TileType should use. See 'createFromFileStore' for more information.
+    * @return {TileMap}
+    */
+    class TileMap {
+        constructor(state: Kiwi.State, tileMapData?: any, atlas?: Kiwi.Textures.TextureAtlas, startingCell?: number);
+        /**
+        * The orientation of the tilemap. Currently this has not effect on the map.
+        * @property orientation
+        * @type String
+        * @public
+        */
+        public orientation: string;
+        /**
+        * Is an Array containing all of the TileTypes that are available on the TileMap.
+        * @property tileType
+        * @type TileType[]
+        * @public
+        */
+        public tileTypes: Tilemap.TileType[];
+        /**
+        * A list of all of the TileMapLayers that exist on thie TileMap.
+        * @property layers
+        * @type TileMapLayer
+        * @public
+        */
+        public layers: Tilemap.TileMapLayer[];
+        /**
+        * The state that this TileMap exists on.
+        * @property state
+        * @type State
+        * @public
+        */
+        public state: Kiwi.State;
+        /**
+        * The game that this TileMap is a part of.
+        * @property game
+        * @type Game
+        * @public
+        */
+        public game: Kiwi.Game;
+        /**
+        * The default width of a single tile that a TileMapLayer is told to have upon its creation.
+        * @property tileWidth
+        * @type Number
+        * @default 0
+        * @public
+        */
+        public tileWidth: number;
+        /**
+        * The default height of a single tile that a TileMapLayer is told to have upon its creation.
+        * @property tileHeight
+        * @type Number
+        * @default 0
+        * @public
+        */
+        public tileHeight: number;
+        /**
+        * The default width of all TileMapLayers when they are created.
+        * This value is in Tiles.
+        * @property width
+        * @type Number
+        * @default 0
+        * @public
+        */
+        public width: number;
+        /**
+        * The default height of all TileMapLayers when they are created.
+        * This value is in Tiles.
+        * @property height
+        * @type Number
+        * @default 0
+        * @public
+        */
+        public height: number;
+        /**
+        * The width of the tilemap in pixels. This value is READ ONLY.
+        * @property widthInPixels
+        * @type Number
+        * @public
+        */
+        public widthInPixels : number;
+        /**
+        * The height of the tilemap in pixels. This value is READ ONLY.
+        * @property heightInPixels
+        * @type Number
+        * @public
+        */
+        public heightInPixels : number;
+        /**
+        * Any properties that were found in the JSON during creation.
+        * @property properties
+        * @type Object
+        * @public
+        */
+        public properties: any;
+        /**
+        * Creates new tilemap layers from a JSON file that you pass (has to be in the Tiled Format).
+        * The texture atlas you pass is that one that eeach TileMapLayer found in the JSON will use, You can change the TextureAtlas afterwards.
+        * New TileTypes will automatically be created. The number is based on the Tileset parameter of the JSON.
+        * The cell used for new TileTypes will begin at 0 and increment each time a new TileType is created (and a cell exists). Otherwise new TileTypes will start will a cell of -1 (none).
+        * @method createFromFileStore
+        * @param tileMapData {Any} This can either
+        * @param atlas {TextureAtlas} The texture atlas that you would like the tilemap layers to use.
+        * @param [startingCell=0] {number} The number for the initial cell that the first TileType should use. If you pass -1 then no new TileTypes will be created.
+        * @public
+        */
+        public createFromFileStore(tileMapData: any, atlas: Kiwi.Textures.TextureAtlas, startingCell?: number): boolean;
+        /**
+        * Generates new TileTypes based upon the Tileset information that lies inside the Tiled JSON.
+        * This is an INTERNAL method, which is used when the createFromFileStore method is executed.
+        * @method _generateTypesFromTileset
+        * @param tilesetData {Any[]} The tileset part of the JSON.
+        * @param atlas {TextureAtlas} The Texture atlas which contains the cells that the new TileTypes will use.
+        * @param startingCell {Number} The first cell number that would be used.
         * @private
         */
-        private _createDebugCanvas();
+        private _generateTypesFromTileset(tilesetData, atlas, startingCell);
         /**
-        * [DESCRIPTION REQUIRED]
-        * @method clearDebugCanvas
-        * @param [color='rgba(255,0,0,0.2)'] {string} debug color
+        * Method to set the default TileMap properties. Useful when wanting to create tilemaps programmatically.
+        * @method setTo
+        * @param tileWidth {Number} The width of a single tile.
+        * @param tileHeight {Number} The height of a single tile.
+        * @param width {Number} The width of the whole map.
+        * @param height {Number} The height of the whole map.
         * @public
         */
-        public clearDebugCanvas(color?: string): void;
+        public setTo(tileWidth: number, tileHeight: number, width: number, height: number): void;
         /**
-        * [DESCRIPTION REQUIRED]
-        * @method toggleDebugCanvas
+        *-----------------------
+        * Creation of Tile Types
+        *-----------------------
+        **/
+        /**
+        * Generates a single new TileType. Returns the TileType that was generated.
+        * @method createTileType
+        * @param [cell=-1] {Number} The cell that is to be used. Default is -1 (which means none)
+        * @return {TileType} The TileType generated.
         * @public
         */
-        public toggleDebugCanvas(): void;
+        public createTileType(cell?: number): Tilemap.TileType;
+        /**
+        * Creates a new TileType for each cell that you pass.
+        * @method createTileTypes
+        * @param cells {Number[]} The cells that you want a new TileType created for.
+        * @return {TileTypes[]} The TileTypes generated.
+        * @public
+        */
+        public createTileTypes(cells: number[]): Tilemap.TileType[];
+        /**
+        * Used to create a number of TileTypes based starting cell number and how many you want from there.
+        * @method createTileTypesByRange
+        * @param cellStart {Number} The starting number of the cell.
+        * @param range {Number} How many cells (from the starting cell) should be created.
+        * @return {TileTypes[]} The TileTypes generated.
+        */
+        public createTileTypesByRange(cellStart: number, range: number): Tilemap.TileType[];
+        /**
+        *-----------------------
+        * Cell Modifications
+        *-----------------------
+        **/
+        /**
+        * Changes a single cellIndex that a TileType is to use when it is rendered.
+        * @method setCell
+        * @param type {number} The number of the TileType that is to change.
+        * @param cell {number} The new cellIndex it should have.
+        * @public
+        */
+        public setCell(type: number, cell: number): void;
+        /**
+        * Changes a range of cellIndexs for Tiles the same range of TileTypes.
+        * @method setCellsByRange
+        * @param typeStart {number} The starting TileType that is to be modified.
+        * @param cellStart {number} The starting cellIndex that the first TileType should have.
+        * @param range {number} How many times it should run.
+        * @public
+        */
+        public setCellsByRange(typeStart: number, cellStart: number, range: number): void;
+        /**
+        *-----------------------
+        * Creation of Tilemap Layers
+        *-----------------------
+        **/
+        /**
+        * Creates a new TileMapLayer with the details that are provided.
+        * If no width/height/tileWidth/tileHeight parameters are passed then the values will be what this TileMap has.
+        * If no 'data' is provided then the map will be automatically filled with empty Types of Tiles.
+        * Returns the new TileMapLayer that was created.
+        * @method createNewLayer
+        * @param name {String} Name of the TileMap.
+        * @param atlas {TextureAtlas} The TextureAtlas that this layer should use.
+        * @param data {Number[]} The tile information.
+        * @param [w=this.width] {Number} The width of the whole tile map. In Tiles.
+        * @param [h=this.height] {Number} The height of the whole tile map. In Tiles.
+        * @param [x=0] {Number} The position of the tilemap on the x axis. In pixels.
+        * @param [y=0] {Number} The position of the tilemap on the y axis. In pixels.
+        * @param [tw=this.tileWidth] {Number} The width of a single tile.
+        * @param [th=this.tileHeight] {Number} The height of a single tile.
+        * @return {TileMapLayer} The TileMapLayer that was created.
+        * @public
+        */
+        public createNewLayer(name: string, atlas: Kiwi.Textures.TextureAtlas, data?: number[], w?: number, h?: number, x?: number, y?: number, tw?: number, th?: number): Tilemap.TileMapLayer;
+        /**
+        * Eventually will create a new object layer. Currently does nothing.
+        * @method createNewObjectLayer
+        * @public
+        */
+        public createNewObjectLayer(): void;
+        /**
+        * Eventually will create a new image layer. Currently does nothing.
+        * @method createNewObjectLayer
+        * @public
+        */
+        public createNewImageLayer(): void;
+        /**
+        *-----------------------
+        * TileMapLayer Management Functions
+        *-----------------------
+        **/
+        /**
+        * Get a layer by the name that it was given upon creation.
+        * Returns null if no layer with that name was found.
+        * @method getLayerByName
+        * @param name {String} Name of the layer you would like to select.
+        * @return {TileMapLayer} Either the layer with the name passed, or null if no Layer with that name was found.
+        * @public
+        */
+        public getLayerByName(name: string): Tilemap.TileMapLayer;
+        /**
+        * Returns the layer with the number associated with it in the layers array.
+        * @method getLayer
+        * @param num {Number} Number of the Layer you would like to get.
+        * @return {TileMapLayer}
+        * @public
+        */
+        public getLayer(num: number): Tilemap.TileMapLayer;
+        /**
+        * The type of object that it is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+    }
+}
+/**
+*
+* @module GameObjects
+* @submodule Tilemap
+*
+*/
+declare module Kiwi.GameObjects.Tilemap {
+    /**
+    * Is GameObject that contains the information held for a single Layer of Tiles, along with methods to handle the rendering of those Tiles.
+    * A TileMapLayer should not be directly created, but instead should be created through a TileMap object instead.
+    *
+    * @class TileMapLayer
+    * @extends Entity
+    * @namespace Kiwi.GameObjects.Tilemap
+    * @constructor
+    * @param tilemap {TileMap} The TileMap that this layer belongs to.
+    * @param name {String} The name of this TileMapLayer.
+    * @param atlas {TextureAtlas} The texture atlas that should be used when rendering this TileMapLayer onscreen.
+    * @param data {Number[]} The information about the tiles.
+    * @param tw {Number} The width of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
+    * @param th {Number} The height of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
+    * @param [x=0] {Number} The x coordinate of the tilemap in pixels.
+    * @param [y=0] {Number} The y coordinate of the tilemap in pixels.
+    * @param [w=0] {Number} The width of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
+    * @param [h=0] {Number} The height of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
+    * @return {TileMapLayer}
+    */
+    class TileMapLayer extends Kiwi.Entity {
+        constructor(tilemap: Tilemap.TileMap, name: string, atlas: Kiwi.Textures.TextureAtlas, data: number[], tw: number, th: number, x?: number, y?: number, w?: number, h?: number);
+        public physics: Kiwi.Components.ArcadePhysics;
+        /**
+        * Returns the type of child that this is.
+        * @type Number
+        * @return {Number} returns the type of child that the entity is
+        * @public
+        */
+        public childType(): number;
+        /**
+        * The type of object that it is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+        /**
+        * The tilemap that this TileMapLayer is a part of.
+        * @property tilemap
+        * @type TileMap
+        * @public
+        */
+        public tilemap: Tilemap.TileMap;
+        /**
+        * Properties about that this TileMapLayer has when it was created from a JSON file.
+        * @property properties
+        * @type Object
+        * @public
+        */
+        public properties: any;
+        /**
+        * The width of this TileMap in tiles.
+        * @property width
+        * @type Number
+        * @public
+        */
+        public width: number;
+        /**
+        * The height of this TileMap in tiles.
+        * @property height
+        * @type Number
+        * @public
+        */
+        public height: number;
+        /**
+        * The width of a single tile.
+        * @property tileWidth
+        * @type Number
+        * @public
+        */
+        public tileWidth: number;
+        /**
+        * The height of a single tile.
+        * @property tileHeight
+        * @type Number
+        * @public
+        */
+        public tileHeight: number;
+        /**
+        * The texture atlas that should be used when rendering.
+        * @property atlas
+        * @type TextureAtlas
+        * @public
+        */
+        public atlas: Kiwi.Textures.TextureAtlas;
+        /**
+        * The width of the layer in pixels. This property is READ ONLY.
+        * @property widthInPixels
+        * @type number
+        * @public
+        */
+        public widthInPixels : number;
+        /**
+        * The height of the layer in pixels. This property is READ ONLY.
+        * @property heightInPixels
+        * @type number
+        * @public
+        */
+        public heightInPixels : number;
+        /**
+        * A list containing all the types of tiles found on this TileMapLayer.
+        * @property _data
+        * @type number[]
+        * @private
+        */
+        private _data;
+        /**
+        * Returns the total number of tiles. Either for a particular type if passed, otherwise of any type if not passed.
+        * @method countTiles
+        * @param [type] {Number} The type of tile you want to count.
+        * @return {Number} The number of tiles on this layer.
+        * @public
+        */
+        public countTiles(type?: number): number;
+        /**
+        *-----------------------
+        * Getting Tiles
+        *-----------------------
+        */
+        /**
+        * A list containing all of the types of tiles found on this TileMapLayer. This is READ ONLY.
+        * @property tileData
+        * @type number[]
+        * @public
+        */
+        public tileData : number[];
+        /**
+        * Returns the index of the tile based on the x and y coordinates of the tile passed.
+        * If no tile is a the coordinates given then -1 is returned instead.
+        * Coordinates are in tiles not pixels.
+        * @method getIndexFromXY
+        * @param x {Number} The x coordinate of the Tile you would like to retrieve.
+        * @param y {Number} The y coordinate of the Tile you would like to retrieve.
+        * @return {Number} Either the index of the tile retrieved or -1 if none was found.
+        * @public
+        */
+        public getIndexFromXY(x: number, y: number): number;
+        /**
+        * Returns the TileType for a tile that is at a particular set of coordinates passed.
+        * If no tile is found the null is returned instead.
+        * Coordinates passed are in tiles.
+        * @method getTileFromXY
+        * @param x {Number}
+        * @param y {Number}
+        * @return {Number} The tile
+        * @public
+        */
+        public getTileFromXY(x: number, y: number): Tilemap.TileType;
+        /**
+        * Returns the index of the tile based on the x and y pixel coordinates that are passed.
+        * If no tile is a the coordinates given then -1 is returned instead.
+        * Coordinates are in pixels not tiles and use the world coordinates of the tilemap.
+        * @method getIndexFromCoords
+        * @param x {Number} The x coordinate of the Tile you would like to retrieve.
+        * @param y {Number} The y coordinate of the Tile you would like to retrieve.
+        * @return {Number} Either the index of the tile retrieved or -1 if none was found.
+        * @public
+        */
+        public getIndexFromCoords(x: number, y: number): number;
+        /**
+        * Returns the TileType for a tile that is at a particular coordinate passed.
+        * If no tile is found the null is returned instead.
+        * Coordinates passed are in pixels and use the world coordinates of the tilemap.
+        * @method getTileFromXY
+        * @param x {Number}
+        * @param y {Number}
+        * @return {Number} The tile
+        * @public
+        */
+        public getTileFromCoords(x: number, y: number): Tilemap.TileType;
+        /**
+        * Returns the indexes of every tile of a type you pass.
+        * @method getIndexsByType
+        * @param type {Number}
+        * @return {Number[]}
+        * @public
+        */
+        public getIndexesByType(type: number): number[];
+        /**
+        *-----------------------
+        * Tiles Manipulation
+        *-----------------------
+        */
+        /**
+        * Sets the tile to be used at the coordinates provided.
+        * Can be used to override a tile that may already exist at the location.
+        * @method setTile
+        * @param x {number} The coordinate of the tile on the x axis.
+        * @param y {number} The coordinate of the tile on the y axis.
+        * @param tileType {number} The type of tile that should be now used.
+        * @return {boolean} If a tile was changed or not.
+        * @public
+        */
+        public setTile(x: number, y: number, tileType: number): boolean;
+        /**
+        * Sets the tile to be used at the index provided.
+        * Can be used to override a tile that may already exist at the location.
+        * @method setTileByIndex
+        * @param index {number} The index of the tile that you want to change.
+        * @param tileType {number} The new tile type to be used at that position.
+        * @public
+        */
+        public setTileByIndex(index: number, tileType: number): void;
+        /**
+        * Randomizes the types of tiles used in an area of the layer. You can choose which types of tiles to use, and the area.
+        * Default tile types used are everyone avaiable.
+        * @method randomizeTiles
+        * @param [types] {number[]} A list of TileTypes that can be used. Default is every tiletype on the TileMap.
+        * @param [x=0] {number} The starting tile on the x axis to fill.
+        * @param [y=0] {number} The starting tile on the y axis to fill.
+        * @param [width=this.width] {number} How far across you want to go.
+        * @param [height=this.height] {number} How far down you want to go.
+        * @public
+        */
+        public randomizeTiles(types?: number[], x?: number, y?: number, width?: number, height?: number): void;
+        /**
+        * Makes all of the tiles in the area specified a single type that is passed.
+        * @method fill
+        * @param type {number} The type of tile you want to fill in the area with.
+        * @param [x=0] {number} The starting tile on the x axis to fill.
+        * @param [y=0] {number} The starting tile on the y axis to fill.
+        * @param [width=this.width] {number} How far across you want to go.
+        * @param [height=this.height] {number} How far down you want to go.
+        * @public
+        */
+        public fill(type: number, x?: number, y?: number, width?: number, height?: number): void;
+        /**
+        * Replaces all tiles of typeA to typeB in the area specified. If no area is specified then it is on the whole layer.
+        * @method replaceTiles
+        * @param typeA {number} The type of tile you want to be replaced.
+        * @param typeB {number} The type of tile you want to be used instead.
+        * @param [x=0] {number} The starting tile on the x axis to fill.
+        * @param [y=0] {number} The starting tile on the y axis to fill.
+        * @param [width=this.width] {number} How far across you want to go.
+        * @param [height=this.height] {number} How far down you want to go.
+        * @public
+        */
+        public replaceTiles(typeA: number, typeB: number, x?: number, y?: number, width?: number, height?: number): void;
+        /**
+        * Swaps all the tiles that are typeA -> typeB and typeB -> typeA inside the area specified. If no area is specified then it is on the whole layer.
+        * @method swapTiles
+        * @param typeA {number} The type of tile you want to be replaced with typeB.
+        * @param typeB {number} The type of tile you want to be replaced with typeA.
+        * @param [x=0] {number} The starting tile on the x axis to fill.
+        * @param [y=0] {number} The starting tile on the y axis to fill.
+        * @param [width=this.width] {number} How far across you want to go.
+        * @param [height=this.height] {number} How far down you want to go.
+        * @public
+        */
+        public swapTiles(typeA: number, typeB: number, x?: number, y?: number, width?: number, height?: number): void;
+        /**
+        *-----------------------
+        * Get Tiles By Collision Methods
+        *-----------------------
+        */
+        /**
+        * Returns the tiles which overlap with a provided entities box component.
+        * Only collidable tiles on ANY side will be returned unless you pass a particular side.
+        *
+        * @method getOverlappingTiles
+        * @param entity {Entity} The entity you would like to check for the overlap.
+        * @param [collisionType=ANY] {Number} The particular type of collidable tiles which you would like to check for.
+        * @return {Object[]} Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.
+        * @public
+        */
+        public getOverlappingTiles(entity: Kiwi.Entity, collisionType?: number): any;
+        /**
+        * Returns the tiles which can collide with other objects (on ANY side unless otherwise specified) within an area provided.
+        * By default the area is the whole tilemap.
+        * @method getCollidableTiles
+        * @param [x=0] {Number} The x coordinate of the first tile to check.
+        * @param [y=0] {Number} The y coordinate of the first tile to check.
+        * @param [width=widthOfMap] {Number} The width from the x coordinate.
+        * @param [height=heightOfmap] {Number} The height from the y coordinate.
+        * @param [collisionType=ANY] {Number} The type of collidable tiles that should be return. By default ANY type of collidable tiles will be returned.
+        * @return {Object[]} Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.
+        * @public
+        */
+        public getCollidableTiles(x?: number, y?: number, width?: number, height?: number, collisionType?: number): any;
+        /**
+        * The update loop that is executed when this TileMapLayer is add to the Stage.
+        * @method update
+        * @public
+        */
+        public update(): void;
+        /**
+        *-----------------------
+        * Temp Properties used During Rendering
+        *-----------------------
+        */
+        /**
+        * Used whilst rendering to calculate the number of tiles to be rendered on the X axis.
+        * Is updated each frame, via the _calculateBoundaries method.
+        * @property _maxX
+        * @type number
+        * @private
+        */
+        private _maxX;
+        /**
+        * Used whilst rendering to calculate the number of tiles to be rendered on the Y axis.
+        * Is updated each frame, via the _calculateBoundaries method.
+        * @property _maxY
+        * @type number
+        * @private
+        */
+        private _maxY;
+        /**
+        * Used whilst rendering to calculate which is the first tile to be rendered on the X axis.
+        * Is updated each frame, via the _calculateBoundaries method.
+        * @property _startX
+        * @type number
+        * @private
+        */
+        private _startX;
+        /**
+        * Used whilst rendering to calculate which is the first tile to be rendered on the Y axis.
+        * Is updated each frame, via the _calculateBoundaries method.
+        * @property _startY
+        * @type number
+        * @private
+        */
+        private _startY;
+        /**
+        * Temporary property that holds the tileType of the current tile being rendered.
+        * @property _temptype
+        * @type TileType
+        * @private
+        */
+        private _temptype;
+        /**
+        * Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen.
+        * All coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).
+        * @method _calculateBoundaries
+        * @param camera {Camera}
+        * @param matrix {Matrix}
+        * @private
+        */
+        private _calculateBoundaries(camera, matrix);
+        /**
+        * The render loop which is used when using the Canvas renderer.
+        * @method render
+        * @param camera {Camera}
+        * @public
+        */
+        public render(camera: Kiwi.Camera): boolean;
+        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
     }
 }
 /**
@@ -6152,24 +6555,62 @@ declare module Kiwi.Files {
     }
 }
 /**
-*
+* Kiwi - System
 * @module Kiwi
-*
-*/ 
-declare module Kiwi {
+* @submodule System
+* @main System
+*/
+declare module Kiwi.System {
     /**
-    * A lightweight object that contains values relating to the configuration of a State in a Kiwi Game.
+    * DOM Boot and Ready functions (based on those used by jQuery)
     *
-    * @class StateConfig
-    * @namespace Kiwi
-    * @constructor
-    * @param {State} parent
-    * @param {String} name
-    * @return {StateConfig} This Object
+    * @class Bootstrap
+    * @namespace Kiwi.System
     *
-    */ 
-    class StateConfig {
-        constructor(parent: Kiwi.State, name: string);
+    */
+    class Bootstrap {
+        /**
+        *
+        * @property _callback
+        * @type Any
+        * @private
+        */
+        private _callback;
+        /**
+        *
+        * @property _domParent
+        * @type String
+        * @private
+        */
+        private _domParent;
+        /**
+        *
+        * @property _createContainer
+        * @type boolean
+        * @private
+        */
+        private _createContainer;
+        /**
+        *
+        * @property isReady
+        * @type boolean
+        * @public
+        */
+        public isReady: boolean;
+        /**
+        * The parent div in which the layers and input live
+        * @property container
+        * @type HTMLDivElement
+        * @public
+        */
+        public container: HTMLDivElement;
+        /**
+        * This div sits on-top of all layers and captures user input
+        * @property input
+        * @type HTMLDivElement
+        * @public
+        */
+        public input: HTMLDivElement;
         /**
         * The type of object that this is.
         * @method objType
@@ -6178,123 +6619,1389 @@ declare module Kiwi {
         */
         public objType(): string;
         /**
-        * The state this StateConfig belongs to.
-        * @property _state
-        * @type State
+        * Called at the start of the game to check to see if the DOM is ready before we do anything requiring it
+        * @method boot
+        * @param {String} domParent
+        * @param {Any} [callback=null]
+        * @param {boolean} [createContainer=true]
+        * @public
+        */
+        public boot(domParent: string, callback?: any, createContainer?: boolean): void;
+        /**
+        * If the DOM is ready it fires our callback, otherwise sets a short timeout to try again
+        * @method ready
+        * @public
+        */
+        public ready(): void;
+        /**
+        *
+        * @method _setupContainer
+        * @param {String} id
         * @private
         */
-        private _state;
+        private _setupContainer(id?);
+    }
+}
+/**
+* Kiwi - System
+* @module Kiwi
+* @submodule System
+*
+*/
+declare module Kiwi.System {
+    /**
+    * Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser
+    * Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js
+    *
+    * @class Browser
+    * @constructor
+    * @namespace Kiwi.System
+    * @param {Game} game
+    * @return {StateMananger} This Object
+    *
+    */
+    class Browser {
+        constructor(game: Kiwi.Game);
         /**
-        * The name of the State, must be unique within your game.
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+        /**
+        *
+        * @property _game
+        * @type Game
+        * @private
+        */
+        private _game;
+        /**
+        * The DOM is ready, so if we have a current state pending we can init it now
+        * @method boot
+        */
+        public boot(): void;
+        /**
+        *
+        * @method getOffsetPoint
+        * @param {Any} element
+        * @param {Point} output
+        * @return {Point}
+        * @public
+        */
+        public getOffsetPoint(element: any, output?: Kiwi.Geom.Point): Kiwi.Geom.Point;
+    }
+}
+/**
+* Kiwi - System
+* @module Kiwi
+* @submodule System
+*/ 
+declare module Kiwi.System {
+    /**
+    * Detects device support capabilities. Using some elements from System.js by MrDoob and Modernizr
+    * https://github.com/Modernizr/Modernizr/blob/master/feature-detects/audio.js
+    *
+    * @class Device
+    * @constructor
+    * @namespace Kiwi.System
+    *
+    * @author mrdoob
+    * @author Modernizr team
+    *
+    */
+    class Device {
+        constructor();
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+        /**
+        *
+        * @property iOS
+        * @type boolean
+        * @public
+        */
+        public iOS: boolean;
+        /**
+        *
+        * @property android
+        * @type boolean
+        * @public
+        */
+        public android: boolean;
+        /**
+        *
+        * @property chromeOS
+        * @type boolean
+        * @public
+        */
+        public chromeOS: boolean;
+        /**
+        *
+        * @property linux
+        * @type boolean
+        * @public
+        */
+        public linux: boolean;
+        /**
+        *
+        * @property maxOS
+        * @type boolean
+        * @public
+        */
+        public macOS: boolean;
+        /**
+        *
+        * @property windows
+        * @type boolean
+        * @public
+        */
+        public windows: boolean;
+        /**
+        *
+        * @property canvas
+        * @type boolean
+        * @public
+        */
+        public canvas: boolean;
+        /**
+        *
+        * @property file
+        * @type boolean
+        * @public
+        */
+        public file: boolean;
+        /**
+        *
+        * @property fileSystem
+        * @type boolean
+        * @public
+        */
+        public fileSystem: boolean;
+        /**
+        *
+        * @property localStorage
+        * @type boolean
+        * @public
+        */
+        public localStorage: boolean;
+        /**
+        *
+        * @property webGL
+        * @type boolean
+        * @public
+        */
+        public webGL: boolean;
+        /**
+        *
+        * @property worker
+        * @type boolean
+        * @public
+        */
+        public worker: boolean;
+        /**
+        *
+        * @property blob
+        * @type boolean
+        * @public
+        */
+        public blob: boolean;
+        /**
+        *
+        * @property touch
+        * @type boolean
+        * @public
+        */
+        public touch: boolean;
+        /**
+        *
+        * @property css3D
+        * @type boolean
+        * @public
+        */
+        public css3D: boolean;
+        /**
+        *
+        * @property arora
+        * @type boolean
+        * @public
+        */
+        public arora: boolean;
+        /**
+        *
+        * @property chrome
+        * @type boolean
+        * @public
+        */
+        public chrome: boolean;
+        /**
+        *
+        * @property epiphany
+        * @type boolean
+        * @public
+        */
+        public epiphany: boolean;
+        /**
+        *
+        * @property firefox
+        * @type boolean
+        * @public
+        */
+        public firefox: boolean;
+        /**
+        *
+        * @property ie
+        * @type boolean
+        * @public
+        */
+        public ie: boolean;
+        /**
+        *
+        * @property ieVersion
+        * @type Number
+        * @public
+        */
+        public ieVersion: number;
+        /**
+        *
+        * @property mobileSafari
+        * @type boolean
+        * @public
+        */
+        public mobileSafari: boolean;
+        /**
+        *
+        * @property midori
+        * @type boolean
+        * @public
+        */
+        public midori: boolean;
+        /**
+        *
+        * @property opera
+        * @type boolean
+        * @public
+        */
+        public opera: boolean;
+        /**
+        *
+        * @property safari
+        * @type boolean
+        * @public
+        */
+        public safari: boolean;
+        /**
+        *
+        * @property webApp
+        * @type boolean
+        * @public
+        */
+        public webApp: boolean;
+        /**
+        *
+        * @property audioData
+        * @type boolean
+        * @public
+        */
+        public audioData: boolean;
+        /**
+        *
+        * @property webaudio
+        * @type boolean
+        * @public
+        */
+        public webaudio: boolean;
+        /**
+        *
+        * @property ogg
+        * @type boolean
+        * @public
+        */
+        public ogg: boolean;
+        /**
+        *
+        * @property mp3
+        * @type boolean
+        * @public
+        */
+        public mp3: boolean;
+        /**
+        *
+        * @property wav
+        * @type boolean
+        * @public
+        */
+        public wav: boolean;
+        /**
+        *
+        * @property m4a
+        * @type boolean
+        * @public
+        */
+        public m4a: boolean;
+        /**
+        *
+        * @property iPhone
+        * @type boolean
+        * @public
+        */
+        public iPhone: boolean;
+        /**
+        *
+        * @property iPhone4
+        * @type boolean
+        * @public
+        */
+        public iPhone4: boolean;
+        /**
+        *
+        * @property iPad
+        * @type boolean
+        * @public
+        */
+        public iPad: boolean;
+        /**
+        *
+        * @property pixelRatio
+        * @type Number
+        * @public
+        */
+        public pixelRatio: number;
+        /**
+        *
+        * @method _checkOS
+        * @private
+        */
+        private _checkOS();
+        /**
+        *
+        * @method _checkFeatures
+        * @private
+        */
+        private _checkFeatures();
+        /**
+        *
+        * @method _checkBrowser
+        * @private
+        */
+        private _checkBrowser();
+        /**
+        *
+        * @method _checkAudio
+        * @private
+        */
+        private _checkAudio();
+        /**
+        *
+        * @method _checkDevice
+        * @private
+        */
+        private _checkDevice();
+        /**
+        *
+        * @method _checkCSS3D
+        * @private
+        */
+        private _checkCSS3D();
+        /**
+        *
+        * @method getAll
+        * @return {String}
+        * @public
+        */
+        public getAll(): string;
+    }
+}
+/**
+*
+* @module Kiwi
+* @submodule Textures
+*
+*/ 
+declare module Kiwi.Textures {
+    /**
+    * A TextureAtlas is the base class that is created for each image that is loaded in through Kiwi. Each TextureAtlas contains a name (the same as the key that the user chose when loading the image in),the HTMLImageElement that it is for and a number of cells.
+    *
+    * @class TextureAtlas
+    * @namespace Kiwi.Textures
+    * @constructor
+    * @param name {string} Name of the texture atlas. This is usually defined by the developer when loading the assets.
+    * @param type {number} The type of texture atlas that this is. There are currently only three types.
+    * @param cells {any} The cells that are within this image..
+    * @param image {HTMLImageElement/HTMLCanvasElement} The image that the texture atlas is using.
+    * @param [sequences] {Sequence[]} Any sequences of cells for this texture atlas. Used for animation.
+    * @return {TextureAtlas}
+    *
+    */
+    class TextureAtlas {
+        constructor(name: string, type: number, cells: any, image: any, sequences?: Kiwi.Animations.Sequence[]);
+        /**
+        * The type of object that this texture atlas is.
+        * @method objType
+        * @return string
+        * @public
+        */
+        public objType(): string;
+        /**
+        * The name of this texture atlas
         * @property name
-        * @type String
+        * @type string
         * @public
         */
         public name: string;
         /**
-        * Currently unused.
-        * @property isPersistent
+        * Indicates that the image data has changed, and needs to be reuplaoded to the gpu in webGL mode.
+        * @property dirty
         * @type boolean
-        * @default false
         * @public
         */
-        public isPersistent: boolean;
+        public dirty: boolean;
         /**
-        * If this State has been created (the create method has been executed).
-        * Essentually has the same meaning as 'isReady'.
-        * @property isCreated
-        * @type boolean
-        * @default false
+        * The image that this texture atlas is holding. Can be an HTMLImageElement or a HTMLCanvasElement
+        * @property image
+        * @type HTMLImageElement/HTMLCanvasElement
         * @public
         */
-        public isCreated: boolean;
+        public image: any;
         /**
-        * If the State has been initialised already (so the Boot and Init methods have been executed already).
-        * A State only get Initialised once which is when it switched to for this first time.
-        * @property isInitialised
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public isInitialised: boolean;
-        /**
-        * If the State that this config is on is 'ready' to be used (e.g. all the assets have been loaded and libraries complied)
-        * or if it isn't and so it is still at the 'loading' stage.
-        * @property isReady
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public isReady: boolean;
-        /**
-        * If the State that this config is on contains a Preloader Method.
-        * @property hasPreloader
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public hasPreloader: boolean;
-        /**
-        * The number of times the State that this config belongs to has been active/used.
-        * @property runCount
-        * @type Number
-        * @default 0
-        * @public
-        */
-        public runCount: number;
-        /**
-        * The type of state this is. Currently Unused.
-        * @property type
-        * @type Number
-        * @default 0
-        * @public
-        */
-        public type: number;
-        /**
-        * Stores any parameters that are to be passed to the init method when the State that this config is on is switched to.
-        * @property initParams
+        * The cells for this image.
+        * @property cells
         * @type Array
         * @public
         */
-        public initParams: any;
+        public cells: any;
         /**
-        * Stores any parameters that are to be passed to the create method when the State that this config is on is switched to.
-        * @property createParams
-        * @type Array
+        * Sequences that are for this texture.
+        * @property sequences
+        * @type Sequence
         * @public
         */
-        public createParams: any;
+        public sequences: Kiwi.Animations.Sequence[];
         /**
-        * Resets the properties contained on this StateConfig object.
-        * This is executed when a State is about to be destroyed as so reset's it to be switched to again.
-        * @method
+        * The cell that is to be render at the start.
+        * @property cellIndex
+        * @type number
+        * @default 0
+        * @public
+        */
+        public cellIndex: number;
+        /**
+        * The type of texture atlas that this is. This only ever is given a value when the object is instantated.
+        * @property _type
+        * @type number
+        * @private
+        */
+        private _type;
+        /**
+        * The number that defines a single image type of texture atlas
+        * @property SINGLE_IMAGE
+        * @static
+        * @default 0
+        * @type number
+        * @final
+        * @public
+        */
+        static SINGLE_IMAGE: number;
+        /**
+        * The number that defines a spritesheet type of texture atlas
+        * @property SPRITE_SHEET
+        * @static
+        * @default 1
+        * @type number
+        * @final
+        * @public
+        */
+        static SPRITE_SHEET: number;
+        /**
+        * The number that defines a normal texture atlas
+        * @property TEXTURE_ATLAS
+        * @static
+        * @default 2
+        * @type number
+        * @final
+        * @public
+        */
+        static TEXTURE_ATLAS: number;
+        /**
+        * Will return to you this type of texture atlas. This is READ ONLY.
+        * @type number
+        * @public
+        */
+        public type : number;
+        public glTextureWrapper: Kiwi.Renderers.GLTextureWrapper;
+        /**
+        * Will populate this texture atlas with information based on a JSON file that was passed.
         *
+        * @method readJSON
+        * @param {any} atlasJSON
+        * @public
         */
-        public reset(): void;
+        public readJSON(atlasJSON: any): void;
     }
 }
 /**
-* Module - Kiwi (Core)
+* Contains Objects that are used when dealing specifically with Textures/Images. Majority of these classes are for Internal Kiwi use.
+*
 * @module Kiwi
+* @submodule Textures
+* @main Textures
 *
 */ 
-declare module Kiwi {
+declare module Kiwi.Textures {
     /**
-    * The state manager handles the starting, parsing, looping and swapping of game states. Thus there is only ever one state manager per game.
+    * Holds a reference to all of the image files (jpg, png, e.t.c) that are accessible on the State this TextureLibrary is on.
     *
-    * @class StateManager
-    * @namespace Kiwi
+    * @class TextureLibrary
+    * @namespace Kiwi.Textures
     * @constructor
-    * @param game {Game} The game that this statemanager belongs to.
-    * @return {StateMananger} This Object
+    * @param game {Game} The game that this texture library belongs to.
+    * @return {TextureLibrary}
     *
     */
-    class StateManager {
+    class TextureLibrary {
         constructor(game: Kiwi.Game);
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {string}
+        * @public
+        */
+        public objType(): string;
+        /**
+        * The game that this texture library is on.
+        * @property _game
+        * @type Game
+        * @private
+        */
+        private _game;
+        /**
+        * Contains all of the textures that are available.
+        * @property textures
+        * @public
+        */
+        public textures: any;
+        /**
+        * Resets the texture library.
+        * @method clear
+        * @public
+        */
+        public clear(): void;
+        /**
+        * Adds a texture atlas to the library.
+        * @method add
+        * @param atlas {TextureAtlas}
+        * @public
+        */
+        public add(atlas: Textures.TextureAtlas): void;
+        /**
+        * Adds a new image file to the texture library.
+        * @method addFromFile
+        * @param imageFile {File}
+        * @public
+        */
+        public addFromFile(imageFile: Kiwi.Files.File): void;
+        /**
+        * Used to rebuild a Texture from the FileStore into a base2 size if it doesn't have it already.
+        * @method _rebuildImage
+        * @param imageFile {File} The image file that is to be rebuilt.
+        * @return {File} The new image file.
+        * @private
+        */
+        private _rebuildImage(imageFile);
+        /**
+        * Used to build a new texture atlas based on the image file provided. Internal use only.
+        * @method _buildTextureAtlas
+        * @param imageFile {File} The image file that is to be used.
+        * @return {TextureAtlas} The new texture atlas that is created.
+        * @private
+        */
+        private _buildTextureAtlas(imageFile);
+        /**
+        * Builds a spritesheet atlas from the an image file that is provided.
+        * @method _buildSpriteSheet
+        * @param imageFile {File} The image file that is to be used.
+        * @return {SpriteSheet} The SpriteSheet that was just created.
+        * @private
+        */
+        private _buildSpriteSheet(imageFile);
+        /**
+        * Builds a single image atlas from a image file that is provided.
+        * @method _buildImage
+        * @param imageFile {File} The image file that is to be used.
+        * @return {SingleImage} The SingleImage that was created.
+        * @private
+        */
+        private _buildImage(imageFile);
+        /**
+        * Rebuild the library from a fileStore. Clears the library and repopulates it.
+        * @method rebuild
+        * @param {Kiwi.Files.FileStore} fileStore
+        * @param {Kiwi.State} state
+        * @public
+        */
+        public rebuild(fileStore: Kiwi.Files.FileStore, state: Kiwi.State): void;
+    }
+}
+/**
+*
+* @module Kiwi
+* @submodule Textures
+*
+*/ 
+declare module Kiwi.Textures {
+    /**
+    * A special type of TextureAtlas that is created when loading in images that are design to be SpriteSheets. A SpriteSheet will generally contain multiple cells and can also contain sequences which are then automatically added as Animations when this texture is used on a Sprite.
+    *
+    * @class SpriteSheet
+    * @extends TextureAtlas
+    * @namespace Kiwi.Textures
+    * @constructor
+    * @param name {string} The name of the spritesheet.
+    * @param texture {HTMLImageElement/HTMLCanvasElement} The image that is being used for the spritesheet.
+    * @param cellWidth {number} The width of a single cell.
+    * @param cellHeight {number} The height of a single cell.
+    * @param [numCells] {number} The number of cells in total.
+    * @param [rows] {number} The number of cells that make up a row.
+    * @param [cols] {number} The number of cells that make up a column.
+    * @param [sheetOffsetX] {number} The offset of the whole sheet on the x axis. Useful if the image has a border you don't want to show.
+    * @param [sheetOffsetY] {number} The offset of the whole sheet on the y axis. Useful if the image has a border you don't want to show.
+    * @param [cellOffsetX] {number} An offset between cells on the x axis. Useful if there is a border between cells which is not to be shown.
+    * @param [cellOffsetY] {number} An offset between cells on the y axis. Useful if there is a border between cells which is not to be shown.
+    * @return {SpriteSheet}
+    */
+    class SpriteSheet extends Textures.TextureAtlas {
+        constructor(name: string, texture: any, cellWidth: number, cellHeight: number, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number);
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return string
+        * @public
+        */
+        public objType(): string;
+        /**
+        * The width of a single cell.
+        * @property cellWidth
+        * @type number
+        * @private
+        */
+        private cellWidth;
+        /**
+        * The height of a single cell.
+        * @property cellHeight
+        * @type number
+        * @private
+        */
+        private cellHeight;
+        /**
+        * The number of cells that are on this spritesheet
+        * @property numCells
+        * @type number
+        * @private
+        */
+        private numCells;
+        /**
+        * The number of rows for the spritesheet
+        * @property rows
+        * @type number
+        * @private
+        */
+        private _rows;
+        /**
+        * Get the number of rows.
+        * @type number
+        * @public
+        */
+        public rows : number;
+        /**
+        * The number of columns that are on this spritesheet
+        * @property cols
+        * @type number
+        * @private
+        */
+        private _cols;
+        /**
+        * Get the number of columns.
+        * @type number
+        * @public
+        */
+        public cols : number;
+        /**
+        * How much the whole spritesheet should be offset by on the X axis.
+        * @property sheetOffsetX
+        * @type number
+        * @private
+        */
+        private sheetOffsetX;
+        /**
+        * How much the whole spritesheet should be offset by on the Y axis.
+        * @property sheetOffsetY
+        * @type number
+        * @private
+        */
+        private sheetOffsetY;
+        /**
+        * How much each cell should be offset by on the X axis.
+        * @property cellOffsetX
+        * @type number
+        * @private
+        */
+        private cellOffsetX;
+        /**
+        * How much each cell should be offset by on the Y axis.
+        * @property cellOffsetY
+        * @type number
+        * @private
+        */
+        private cellOffsetY;
+        /**
+        * Generates the atlas cells based on the information that was provided.
+        *
+        * @method generateAtlasCells
+        * @return {Array}
+        * @public
+        */
+        public generateAtlasCells(): any[];
+    }
+}
+/**
+*
+* @module Kiwi
+* @submodule Textures
+*
+*/ 
+declare module Kiwi.Textures {
+    /**
+    * A special type of TextureAtlas that is used when the user has loaded a single image. This type of TextureAtlas contains only one cell which is generally the whole width/height of the image and starts at the coordinates 0/0. A SingleImage has a space to store sequences but this will not be used.
+    *
+    * @class SingleImage
+    * @extends TextureAtlas
+    * @namespace Kiwi.Textures
+    * @constructor
+    * @param name {string} The name of the single image
+    * @param image {HTMLImageElement/HTMLCanvasElement} the image that is being used.
+    * @param [width] {number} the width of the image
+    * @param [height] {number} the height of the image
+    * @param [offsetX] {number} the offset of the image on the x axis. Useful if the image has a border that you don't want to show.
+    * @param [offsetY] {number} the offset of the image of the y axis. Useful if the image has a border that you don't want to show.
+    * @return {SingleImage}
+    */
+    class SingleImage extends Textures.TextureAtlas {
+        constructor(name: string, image: any, width?: number, height?: number, offsetX?: number, offsetY?: number);
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return string
+        * @public
+        */
+        public objType(): string;
+        /**
+        * The width of the image.
+        * @property width
+        * @type number
+        * @private
+        */
+        private width;
+        /**
+        * The height of the image.
+        * @property height
+        * @type number
+        * @private
+        */
+        private height;
+        /**
+        * The offset for the image on the X axis.
+        * @property offsetX
+        * @type number
+        * @private
+        */
+        private offsetX;
+        /**
+        * The offset for the image o nthe Y axis.
+        * @property offsetY
+        * @type number
+        * @private
+        */
+        private offsetY;
+        /**
+        * This method generates the single image cell based off the information that was passed during instantion.
+        * @method generateAtlasCells
+        * @returns{ Array }
+        * @public
+        */
+        public generateAtlasCells(): any[];
+    }
+}
+/**
+* Contains various methods that can be used when you are wanting to ease a Tween.
+*
+* @module Tweens
+* @submodule Easing
+* @main Easing
+*/
+declare module Kiwi.Animations.Tweens.Easing {
+    /**
+    *
+    * @class Back
+    * @namespace Kiwi.Animations.Tweens.Easing
+    *
+    */
+    class Back {
         /**
         * The type of object this is.
         * @method objType
-        * @return string
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+        /**
+        *
+        * @method In
+        * @param k {Any}
+        * @return {Number}
+        * @static
+        * @public
+        */
+        static In(k: any): number;
+        /**
+        *
+        * @method Out
+        * @param {Any} k
+        * @return {Number}
+        * @static
+        * @public
+        */
+        static Out(k: any): number;
+        /**
+        *
+        * @method InOut
+        * @param k {Any}
+        * @return {Number}
+        * @static
+        * @public
+        */
+        static InOut(k: any): number;
+    }
+}
+/**
+*
+* @module Tweens
+* @submodule Easing
+*
+*/
+declare module Kiwi.Animations.Tweens.Easing {
+    /**
+    *
+    * @class Bounce
+    * @namespace Kiwi.Animations.Tweens.Easing
+    *
+    */
+    class Bounce {
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+        /**
+        *
+        * @method In
+        * @param k {Any}
+        * @return {Number}
+        * @static
+        * @public
+        */
+        static In(k: any): number;
+        /**
+        *
+        * @method Out
+        * @param k {Any}
+        * @return {Number}
+        * @static
+        * @public
+        */
+        static Out(k: any): number;
+        /**
+        *
+        * @method InOut
+        * @param {Any} k
+        * @return {Number}
+        * @static
+        * @public
+        */
+        static InOut(k: any): number;
+    }
+}
+/**
+*
+* @module Tweens
+* @submodule Easing
+*
+*/
+declare module Kiwi.Animations.Tweens.Easing {
+    /**
+    *
+    *
+    * @class Circular
+    * @namespace Kiwi.Animations.Tweens.Easing
+    *
+    */
+    class Circular {
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+        /**
+        *
+        * @method In
+        * @param k {Any}
+        * @return {Number}
+        * @static
+        */
+        static In(k: any): number;
+        /**
+        *
+        * @method Out
+        * @param k {Any}
+        * @return {Number}
+        * @static
+        */
+        static Out(k: any): number;
+        /**
+        *
+        * @method InOut
+        * @param k {Any}
+        * @return {Number}
+        * @static
+        */
+        static InOut(k: any): number;
+    }
+}
+/**
+*
+* @module Tweens
+* @submodule Easing
+*
+*/
+declare module Kiwi.Animations.Tweens.Easing {
+    /**
+    *
+    * @class Cubic
+    * @namespace Kiwi.Animations.Tweens.Easing
+    *
+    */
+    class Cubic {
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+        /**
+        *
+        * @method In
+        * @param k {Any}
+        * @return {Number}
+        * @static
+        * @public
+        */
+        static In(k: any): number;
+        /**
+        *
+        * @method Out
+        * @param k {Any}
+        * @return {Number}
+        * @static
+        * @public
+        */
+        static Out(k: any): number;
+        /**
+        *
+        * @method InOut
+        * @param k {Any}
+        * @static
+        * @public
+        */
+        static InOut(k: any): number;
+    }
+}
+/**
+*
+* @module Tweens
+* @submodule Easing
+*
+*/
+declare module Kiwi.Animations.Tweens.Easing {
+    /**
+    *
+    *
+    * @class Elastic
+    * @namespace Kiwi.Animations.Tweens.Easing
+    *
+    */
+    class Elastic {
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+        /**
+        *
+        * @method In
+        * @param k {Any}
+        * @return {Number}
+        * @static
+        * @public
+        */
+        static In(k: any): number;
+        /**
+        *
+        * @method Out
+        * @param {Any} k
+        * @static
+        * @public
+        */
+        static Out(k: any): number;
+        /**
+        *
+        * @method InOut
+        * @param k {Any}
+        * @static
+        * @public
+        */
+        static InOut(k: any): number;
+    }
+}
+/**
+*
+* @module Tweens
+* @submodule Easing
+*
+*/
+declare module Kiwi.Animations.Tweens.Easing {
+    /**
+    *
+    *
+    * @class Exponential
+    * @namespace Kiwi.Animations.Tweens.Easing
+    *
+    */
+    class Exponential {
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+        /**
+        *
+        * @method In
+        * @param k {Any}
+        * @return {String}
+        * @static
+        * @public
+        */
+        static In(k: any): number;
+        /**
+        *
+        * @method Out
+        * @param k {Any}
+        * @return {String}
+        * @static
+        * @public
+        */
+        static Out(k: any): number;
+        /**
+        *
+        * @method InOut
+        * @param k {Any}
+        * @return {String}
+        * @static
+        * @public
+        */
+        static InOut(k: any): number;
+    }
+}
+/**
+*
+* @module Tweens
+* @submodule Easing
+*
+*/
+declare module Kiwi.Animations.Tweens.Easing {
+    /**
+    *
+    * @class Linear
+    * @namespace Kiwi.Animations.Tweens.Easing
+    *
+    */
+    class Linear {
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+        /**
+        *
+        * @method None
+        * @param {Any} k
+        * @return {Number}
+        * @static
+        */
+        static None(k: any): any;
+    }
+}
+/**
+*
+* @module Tweens
+* @submodule Easing
+*
+*/
+declare module Kiwi.Animations.Tweens.Easing {
+    /**
+    *
+    *
+    * @class Quadratic
+    * @namespace Kiwi.Animations.Tweens.Easing
+    *
+    */
+    class Quadratic {
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+        /**
+        *
+        * @method In
+        * @param k {Any}
+        * @return {Number}
+        * @static
+        * @public
+        */
+        static In(k: any): number;
+        /**
+        *
+        * @method Out
+        * @param k {Any}
+        * @return {Number}
+        * @static
+        * @public
+        */
+        static Out(k: any): number;
+        /**
+        *
+        * @method InOut
+        * @param k {Any}
+        * @return {Number}
+        * @static
+        * @public
+        */
+        static InOut(k: any): number;
+    }
+}
+/**
+*
+* @module Tweens
+* @submodule Easing
+*
+*/
+declare module Kiwi.Animations.Tweens.Easing {
+    /**
+    *
+    * @class Quartic
+    * @namespace Kiwi.Animations.Tweens.Easing
+    *
+    */
+    class Quartic {
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+        /**
+        *
+        * @method In
+        * @param k {Any}
+        * @return {String}
+        * @static
+        * @public
+        */
+        static In(k: any): number;
+        /**
+        *
+        * @method Out
+        * @param k {Any}
+        * @return {String}
+        * @static
+        * @public
+        */
+        static Out(k: any): number;
+        /**
+        *
+        * @method InOut
+        * @param k {Any}
+        * @return {String}
+        * @static
+        * @public
+        */
+        static InOut(k: any): number;
+    }
+}
+/**
+*
+* @module Tweens
+* @submodule Easing
+*
+*/
+declare module Kiwi.Animations.Tweens.Easing {
+    /**
+    *
+    * @class Quintic
+    * @namespace Kiwi.Animations.Tweens.Easing
+    *
+    */
+    class Quintic {
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+        /**
+        *
+        * @method In
+        * @param k {Any}
+        * @return {Number}
+        * @static
+        * @public
+        */
+        static In(k: any): number;
+        /**
+        *
+        * @method Out
+        * @param k {Any}
+        * @return {Number}
+        * @static
+        * @public
+        */
+        static Out(k: any): number;
+        /**
+        *
+        * @method InOut
+        * @param k {Any}
+        * @return {Number}
+        * @static
+        * @public
+        */
+        static InOut(k: any): number;
+    }
+}
+/**
+*
+* @module Tweens
+* @submodule Easing
+*
+*/
+declare module Kiwi.Animations.Tweens.Easing {
+    /**
+    *
+    * @class Sinusoidal
+    * @namespace Kiwi.Animations.Tweens.Easing
+    *
+    */
+    class Sinusoidal {
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+        /**
+        *
+        * @method In
+        * @param k {Any}
+        * @return {Number}
+        * @static
+        * @public
+        */
+        static In(k: any): number;
+        /**
+        *
+        * @method Out
+        * @param k {Any}
+        * @return {Number}
+        * @static
+        * @public
+        */
+        static Out(k: any): number;
+        /**
+        *
+        * @method InOut
+        * @param {Any} k
+        * @return {Number}
+        * @static
+        * @public
+        */
+        static InOut(k: any): number;
+    }
+}
+/**
+* The section of Kiwi which holds the scripts that manage Tween's in Kiwi. The scripts in this section are based on Tween.js by sole and have been converted to TypeScript and integrated into Kiwi. https://github.com/sole/tween.js
+*
+* @module Animations
+* @submodule Tweens
+* @main Tweens
+*/
+declare module Kiwi.Animations.Tweens {
+    /**
+    * The TweenManager is automatically created on every game. This class is responsible for the creation and management of tweens for the game.
+    *
+    * Based on tween.js by sole. Converted to TypeScript and integrated into Kiwi.
+    * https://github.com/sole/tween.js
+    *
+    * @class TweenManager
+    * @namespace Kiwi.Animations.Tweens
+    * @constructor
+    * @param game {Game}
+    * @return {TweenManager}
+    *
+    * @author     sole / http://soledadpenades.com
+    * @author     mrdoob / http://mrdoob.com
+    * @author     Robert Eisele / http://www.xarg.org
+    * @author     Philippe / http://philippe.elsass.me
+    * @author     Robert Penner / http://www.robertpenner.com/easing_terms_of_use.html
+    * @author     Paul Lewis / http://www.aerotwist.com/
+    * @author     lechecacharro
+    * @author     Josh Faul / http://jocafa.com/
+    * @author     egraether / http://egraether.com/
+    *
+    */
+    class TweenManager {
+        constructor(game: Kiwi.Game);
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
         * @public
         */
         public objType(): string;
@@ -6306,1164 +8013,3834 @@ declare module Kiwi {
         */
         private _game;
         /**
-        * An array of all of the states that are contained within this manager.
-        * @property _states
-        * @type State[]
+        * An array of all of the tweens on the manager.
+        * @property _tweens
+        * @type Tween[]
         * @private
         */
-        private _states;
+        private _tweens;
         /**
-        * The current State that the game is at.
-        * @property current
-        * @type State
-        * @default null
+        * Returns all of tweens that are on the manager.
+        * @method getAll
+        * @return Tween[]
         * @public
         */
-        public current: Kiwi.State;
+        public getAll(): Animations.Tween[];
         /**
-        * The name of the new state that is to be switched to.
-        * @property _newStateKey
-        * @type string
-        * @defualt null
-        * @private
-        */
-        private _newStateKey;
-        /**
-        * Checks to see if a key exists. Internal use only.
-        * @method checkKeyExists
-        * @param key {String}
-        * @return {boolean}
-        * @private
-        */
-        private checkKeyExists(key);
-        /**
-        * Checks to see if the state passed is valid or not.
-        * @method checkValidState
-        * @param {State} state
-        * @return {boolean}
-        * @private
-        */
-        private checkValidState(state);
-        /**
-        * Adds the given State to the StateManager.
-        * The State must have a unique key set on it, or it will fail to be added to the manager.
-        * Returns true if added successfully, otherwise false (can happen if State is already in the StateManager)
-        *
-        * @method addState
-        * @param state {Any} The Kiwi.State instance to add.
-        * @param [switchTo=false] {boolean} If set to true automatically switch to the given state after adding it
-        * @return {boolean} true if the State was added successfully, otherwise false
+        * Removes all of the tweens on the manager.
+        * @method removeAll
         * @public
         */
-        public addState(state: any, switchTo?: boolean): boolean;
+        public removeAll(): void;
         /**
-        * Is executed once the DOM has finished loading.
-        * This is an INTERNAL Kiwi method.
-        * @method boot
+        * Creates a new Tween.
+        * @method create
+        * @param object {Any} The object that this tween is to apply.
+        * @return {Tween} The tween that was created.
         * @public
         */
-        public boot(): void;
+        public create(object: any): Animations.Tween;
         /**
-        * Switches to the name (key) of the state that you pass.
-        * Does not work if the state you are switching to is already the current state OR if that state does not exist yet.
-        * @method setCurrentState
-        * @param {String} key
-        * @return {boolean}
-        * @private
-        */
-        private setCurrentState(key);
-        /**
-        * Actually switches to a state that is stored in the 'newStateKey' property. This method is executed after the update loops have been executed to help prevent developer errors.
-        * @method bootNewState
-        * @private
-        */
-        private bootNewState();
-        /**
-        * Swaps the current state.
-        * If the state has already been loaded (via addState) then you can just pass the key.
-        * Otherwise you can pass the state object as well and it will load it then swap to it.
-        *
-        * @method switchState
-        * @param key {String} The name/key of the state you would like to switch to.
-        * @param [state=null] {Any} The state that you want to switch to. This is only used to create the state if it doesn't exist already.
-        * @param [initParams=null] {Object} Any parameters that you would like to pass to the init method of that new state.
-        * @param [createParams=null] {Object} Any parameters that you would like to pass to the create method of that new state.
-        * @return {boolean}
+        * Adds a tween to the manager.
+        * @method add
+        * @param tween {Tween} The tween that you want to add to the manager.
+        * @return {Tween}
         * @public
         */
-        public switchState(key: string, state?: any, initParams?: any, createParams?: any): boolean;
+        public add(tween: Animations.Tween): Animations.Tween;
         /**
-        * Gets a state by the key that is passed.
-        * @method getState
-        * @param {String} key
-        * @return {State}
-        * @private
+        * Removes a tween from this manager.
+        * @method remove
+        * @param tween {Tween} The tween that you would like to remove.
+        * @return {Tween}
+        * @public
         */
-        private getState(key);
+        public remove(tween: Animations.Tween): void;
         /**
-        * Checks to see if the state that is being switched to needs to load some files or not.
-        * If it does it loads the file, if it does not it runs the create method.
-        * @method checkPreload
-        * @private
-        */
-        private checkPreload();
-        /**
-        * Checks to see if the state being switched to contains a create method.
-        * If it does then it calls the create method.
-        * @method callCreate
-        * @private
-        */
-        private callCreate();
-        /**
-        * Checks to see if the state has a init method and then executes that method if it is found.
-        * @method checkInit
-        * @private
-        */
-        private checkInit();
-        /**
-        * Is execute whilst files are being loaded by the state.
-        * @method onLoadProgress
-        * @param {Number} percent
-        * @param {Number} bytesLoaded
-        * @param {File} file
-        * @private
-        */
-        private onLoadProgress(percent, bytesLoaded, file);
-        /**
-        * Executed when the preloading has completed. Then executes the loadComplete and create methods of the new state.
-        * @method onLoadComplete
-        * @private
-        */
-        private onLoadComplete();
-        /**
-        * Rebuilds the texture, audio and data libraries that are on the current state. Thus updating what files the user has access to.
-        * @method rebuildLibraries
-        * @private
-        */
-        public rebuildLibraries(): void;
-        /**
-        * The update loop that is accessable on the state manager.
+        * The update loop.
         * @method update
         * @public
         */
-        public update(): void;
-        /**
-        * PostRender - Called after all of the rendering has been executed in a frame.
-        * @method postRender
-        * @public
-        */
-        public postRender(): void;
-    }
-}
-/**
-* The GameObject namespace holds classes which are designed to be added to a State (either directly, or as an ancestor of a Group) and are the Objects that are used when wanting to render anything visual onto the current State. Each GameObject is a representation of a particular item in a game and as such has information that corresponds to that item (like where they are in the 'GameWorld', the scale of the GameObject, who their parent is, e.t.c). For Example: If you wanted to have a massive background image then you can use the StaticImage GameObject, as that is a relatively light-weight object). Or if you had Player with an Animation, which user's could interactive with, then you would use a Sprite, which is more robust.
-*
-* @module Kiwi
-* @submodule GameObjects
-* @main GameObjects
-*/ 
-declare module Kiwi.GameObjects {
-    /**
-    * A Sprite is a general purpose GameObject that contains majority of the functionality that is needed/would be wanted and as such should be used only when you are wanting a GameObject with a lot of interaction. When creating a Sprite you pass to it as TextureAtlas (for the image you want to render), now if that Texture Atlas isn't a SINGLE_IMAGE then the Sprite will have an AnimationManager Component to handle any SpriteSheet animations you need.
-    *
-    * @class Sprite
-    * @namespace Kiwi.GameObjects
-    * @extends Entity
-    * @constructor
-    * @param state {State} The state that this sprite belongs to
-    * @param atlas {TextureAtlas} The texture you want to apply to this entity
-    * @param [x=0] {Number} The sprites initial coordinates on the x axis.
-    * @param [y=0] {Number} The sprites initial coordinates on the y axis.
-    * @param [enableInput=false] {boolean} If the input component should be enabled or not.
-    * @return {Sprite}
-    */
-    class Sprite extends Kiwi.Entity {
-        constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x?: number, y?: number, enableInput?: boolean);
-        /**
-        * Returns the type of object that this is.
-        * @method objType
-        * @return {string}
-        * @public
-        */
-        public objType(): string;
-        /**
-        * Indicates whether or not this sprite is animated or not.
-        * This sprite will not be animated if the texture used is a SINGLE_IMAGE.
-        * @property _isAnimated
-        * @type boolean
-        * @private
-        */
-        private _isAnimated;
-        /**
-        * The animation component that allows you to create a animation with spritesheets/texture atlas's.
-        * Note: If the atlas that was added is of type Kiwi.Textures.TextureAtlas.SINGLE_IMAGE then no animation component will be created.
-        * @property animation
-        * @type AnimationManager
-        * @public
-        */
-        public animation: Kiwi.Components.AnimationManager;
-        /**
-        * The box component that controls the bounding box around this Game Object
-        * @property bounds
-        * @type Bounds
-        * @public
-        */
-        public box: Kiwi.Components.Box;
-        /**
-        * The Input component controls the user interaction with this Game Object
-        * @property input
-        * @type Input
-        * @public
-        */
-        public input: Kiwi.Components.Input;
-        /**
-        * Called by parent when its update loop gets executed.
-        * @method update
-        * @public
-        */
-        public update(): void;
-        /**
-        * Called by the Layer to which this Game Object is attached
-        * @method render
-        * @param {Camera} camera
-        * @public
-        */
-        public render(camera: Kiwi.Camera): void;
-        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
+        public update(): boolean;
     }
 }
 /**
 *
-* @module Kiwi
-* @submodule GameObjects
-*
-*/ 
-declare module Kiwi.GameObjects {
-    /**
-    * A light weight game object for displaying static images that would have little or no interaction with other GameObjects. An Example of this would be a background image. Note: Since a StaticImage is lightweight it doesn't have any AnimationManager to handle the switching of cells (If you were using a SpriteSheet/TextureAtlas). In order to switch cells you can change the value of the cellIndex property.
-    *
-    * @class StaticImage
-    * @namespace Kiwi.GameObjects
-    * @extends Entity
-    * @constructor
-    * @param state {State} The state that this static image belongs to
-    * @param atlas {TextureAtlas} The texture atlas to use as the image.
-    * @param [x=0] {Number} Its coordinates on the x axis
-    * @param [y=0] {Number} The coordinates on the y axis
-    * @return {StaticImage}
-    */
-    class StaticImage extends Kiwi.Entity {
-        constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x?: number, y?: number);
-        /**
-        * Returns the type of object that this is.
-        * @method objType
-        * @return {string}
-        * @public
-        */
-        public objType(): string;
-        /**
-        * The Bounds component that controls the bounding box around this Game Object
-        * @property bounds
-        * @type Bounds
-        * @public
-        */
-        public box: Kiwi.Components.Box;
-        /**
-        * Called by the Layer to which this Game Object is attached
-        * @method render
-        * @param {Camara} camera
-        * @public
-        */
-        public render(camera: Kiwi.Camera): void;
-        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
-    }
-}
-/**
-* Kiwi - GameObjects
-* @module Kiwi
-* @submodule GameObjects
-*
-*/ 
-declare module Kiwi.GameObjects {
-    /**
-    * Textfield is a GameObject that is used when you are wanting to render text onto the current State. The Textfield is not designed to have any interaction with other GameObjects and as such it does not have many (if any) components or even a width/height.
-    *
-    * @class Textfield
-    * @namespace Kiwi.GameObjects
-    * @extends Entity
-    * @constructor
-    * @param state {State} The state that this Textfield belongs to
-    * @param text {String} The text that is contained within this textfield.
-    * @param [x=0] {Number} The new x coordinate from the Position component
-    * @param [y=0] {Number} The new y coordinate from the Position component
-    * @param [color='#000000'] {String} The color of the text.
-    * @param [size=32] {Number} The size of the text in pixels.
-    * @param [weight='normal'] {String} The weight of the text.
-    * @param [fontFamily='sans-serif'] {String} The font family that is to be used when rendering.
-    * @return {Textfield} This Game Object.
-    */
-    class Textfield extends Kiwi.Entity {
-        constructor(state: Kiwi.State, text: string, x?: number, y?: number, color?: string, size?: number, weight?: string, fontFamily?: string);
-        /**
-        * Returns the type of object that this is
-        * @method objType
-        * @return {string}
-        * @public
-        */
-        public objType(): string;
-        /**
-        * The text that is to be rendered.
-        * @property _text
-        * @type string
-        * @private
-        */
-        private _text;
-        /**
-        * The weight of the font.
-        * @property _fontWeight
-        * @type string
-        * @default 'normal'
-        * @private
-        */
-        private _fontWeight;
-        /**
-        * The size of the font.
-        * @property _fontSize
-        * @type number
-        * @default 32
-        * @private
-        */
-        private _fontSize;
-        /**
-        * The color of the text.
-        * @property _fontColor
-        * @type string
-        * @default '#000000'
-        * @private
-        */
-        private _fontColor;
-        /**
-        * The font family that is to be rendered.
-        * @property _fontFamily
-        * @type string
-        * @default 'sans-serif'
-        * @private
-        */
-        private _fontFamily;
-        /**
-        * The alignment of the text. This can either be 'left', 'right' or 'center'
-        * @property _textAlign
-        * @type string
-        * @default 'center'
-        * @private
-        */
-        private _textAlign;
-        /**
-        * The baseline of the text to be rendered.
-        * @property _baseline
-        * @type string
-        * @private
-        */
-        private _baseline;
-        /**
-        * The text that you would like to appear in this textfield.
-        * @property text
-        * @type string
-        * @public
-        */
-        public text : string;
-        /**
-        * The color of the font that is contained in this textfield.
-        * @property color
-        * @type string
-        * @public
-        */
-        public color : string;
-        /**
-        * The weight of the font.
-        * @property fontWeight
-        * @type string
-        * @public
-        */
-        public fontWeight : string;
-        /**
-        * The size on font when being displayed onscreen.
-        * @property fontSize
-        * @type number
-        * @public
-        */
-        public fontSize : number;
-        /**
-        * The font family that is being used to render the text.
-        * @property fontFamily
-        * @type string
-        * @public
-        */
-        public fontFamily : string;
-        /**
-        * A static property that contains the string to center align the text.
-        * @property TEXT_ALIGN_CENTER
-        * @type string
-        * @static
-        * @final
-        * @public
-        */
-        static TEXT_ALIGN_CENTER: string;
-        /**
-        * A static property that contains the string to right align the text.
-        * @property TEXT_ALIGN_RIGHT
-        * @type string
-        * @static
-        * @final
-        * @public
-        */
-        static TEXT_ALIGN_RIGHT: string;
-        /**
-        * A static property that contains the string to left align the text.
-        * @property TEXT_ALIGN_LEFT
-        * @type string
-        * @static
-        * @final
-        * @public
-        */
-        static TEXT_ALIGN_LEFT: string;
-        /**
-        * Returns a string containing the text alignment for this textfield.
-        * @type string
-        * @public
-        */
-        /**
-        * Changes the alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.
-        * @type string
-        * @public
-        */
-        public textAlign : string;
-        /**
-        * The canvas element which the text is rendered onto.
-        * @property _canvas
-        * @type HTMLCanvasElement.
-        * @private
-        */
-        private _canvas;
-        /**
-        * The context for the canvas element. Used whilst rendering text.
-        * @property _ctx
-        * @type CanvasRenderingContext2D
-        * @private
-        */
-        private _ctx;
-        /**
-        * If the temporary canvas is dirty and needs to be re-rendered. Only used when the text field rendering is being optimised.
-        * @property _tempDirty
-        * @type boolean
-        */
-        private _tempDirty;
-        /**
-        * This method is used to render the text to an offscreen-canvas which is held in a TextureAtlas (which is generated upon the instanitation of this class).
-        * This is so that the canvas doesn't render it every frame as it can be costly and so that it can be used in WebGL with the TextureAtlasRenderer.
-        *
-        * @method _renderText
-        * @private
-        */
-        private _renderText();
-        /**
-        * Called by the Layer to which this Game Object is attached
-        * @method render
-        * @param {Camera}
-        * @public
-        */
-        public render(camera: Kiwi.Camera): void;
-        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
-    }
-}
-/**
-*
-* @module GameObjects
-* @submodule Tilemap
+* @module Animations
+* @submodule Tweens
 *
 */
-declare module Kiwi.GameObjects.Tilemap {
+declare module Kiwi.Animations {
     /**
-    * Define's the properties of a single Type of Tile for a TileMap. This class should not be directly instanted,
-    * but instead when wanting to create new TileType's you should use the 'createdTileType' methods on a TileMap object.
+    * Manages the tweening of properties/values on a single object. A Tween is the animation of a number between an initially value to and final value (that you specify).
+    * Note: When using a Tween you need to make sure that the Tween has been added to a TweenManager. You can either do this by creating the Tween via the Manager or alternatively using the 'add' method on the TweenManager. Otherwise the tween will not work.
     *
-    * @class TileType
-    * @namespace Kiwi.GameObjects.Tilemap
+    * Based on tween.js by sole. Converted to TypeScript and integrated into Kiwi.
+    * https://github.com/sole/tween.js
+    *
+    * @class Tween
     * @constructor
-    * @param tilemap {TileMap} The TileMap that this TileType is a part of.
-    * @param index {Number} The index of this TileType, which Tiles use when wanting to use this TileType.
-    * @param cellIndex {Number} The cell number to use when rendering this Type of Tile.
-    * @return {TileType} This TileType
-    * @public
+    * @namespace Kiwi.Animations
+    * @param object {Any} The object that this tween is taking affect on.
+    * @param game {Game} The game that this tween is for.
+    * @return {Tween} This tween.
+    *
+    * @author     sole / http://soledadpenades.com
+    * @author     mrdoob / http://mrdoob.com
+    * @author     Robert Eisele / http://www.xarg.org
+    * @author     Philippe / http://philippe.elsass.me
+    * @author     Robert Penner / http://www.robertpenner.com/easing_terms_of_use.html
+    * @author     Paul Lewis / http://www.aerotwist.com/
+    * @author     lechecacharro
+    * @author     Josh Faul / http://jocafa.com/
+    * @author     egraether / http://egraether.com/
+    *
     */
-    class TileType {
-        constructor(tilemap: Tilemap.TileMap, index: number, cellIndex?: number);
+    class Tween {
+        constructor(object: any, game?: Kiwi.Game);
         /**
-        * The collision information for this type of tile.
-        * It's values are the same as the Static properties inside of the ArcadePhysics Component.
-        * @property allowCollisions
-        * @type number
-        * @default NONE
-        * @public
-        */
-        public allowCollisions: number;
-        /**
-        * The properties associated with this type of tile.
-        * These are set when loading a JSON file that had properties associated with a TileType.
-        * @property properties
-        * @type Object
-        * @public
-        */
-        public properties: any;
-        /**
-        * A reference to the tilemap this tile object belongs to.
-        * @property tilemap
-        * @type TileMap
-        * @public
-        */
-        public tilemap: Tilemap.TileMap;
-        /**
-        * The index of this tile type in the core map data.
-        * For example, if your map only has 16 different types of tiles in it, this will be one of those tiles and thus a number between 1 and 16.
-        * @property index
-        * @type number
-        * @public
-        */
-        public index: number;
-        /**
-        * A number relating to the cell that should be when rendering a Tile that uses this TileType.
-        * A cellIndex of -1 means this type of tile will not be rendered.
-        * @property cellIndex
-        * @type number
-        * @public
-        */
-        public cellIndex: number;
-        /**
-        * The type of object that it is.
+        * The type of object that this is.
         * @method objType
         * @return {String}
         * @public
         */
         public objType(): string;
+        /**
+        * The game that this tween belongs to.
+        * @property _game
+        * @type Game
+        * @private
+        */
+        private _game;
+        /**
+        * The manager that this tween belongs to.
+        * @property _manager
+        * @type Manager
+        * @private
+        */
+        private _manager;
+        /**
+        * The object that this tween is affecting.
+        * @property _object
+        * @type Any
+        * @private
+        */
+        private _object;
+        /**
+        * The starting values of the properties that the tween is animating.
+        * @property _valuesStart
+        * @type Object
+        * @private
+        */
+        private _valuesStart;
+        /**
+        * The end values of the properties that the tween is animating.
+        * @property _valuesEnd
+        * @type Object
+        * @private
+        */
+        private _valuesEnd;
+        /**
+        * The duration of the tween, in milliseconds.
+        * @property _duration
+        * @type Number
+        * @private
+        */
+        private _duration;
+        /**
+        * The amount of time to delay the tween by. In Milliseconds.
+        * @property _delayTime
+        * @type Number
+        * @private
+        */
+        private _delayTime;
+        /**
+        * The time at which the tween started.
+        * @property _startTime
+        * @type Number
+        * @private
+        */
+        private _startTime;
+        /**
+        * The easing function that is to be used while tweening.
+        * @property _easingFunction
+        * @type Function
+        * @default Kiwi.Tweens.Easing.Linear.None
+        * @private
+        */
+        private _easingFunction;
+        /**
+        * [NEEDS DESCRIPTION]
+        * @property _interpolationFunction
+        * @type Function
+        * @default Kiwi.Utils.Interpolation.Linear
+        * @private
+        */
+        private _interpolationFunction;
+        /**
+        * An array containing all of the tweens that are to be played when this one finishes.
+        * @property _chainedTweens
+        * @type Tween[]
+        * @private
+        */
+        private _chainedTweens;
+        /**
+        * The method that is to be called when the tween starts playing.
+        * @property _onStartCallback
+        * @type Function
+        * @default null
+        * @private
+        */
+        private _onStartCallback;
+        /**
+        * The context that the _onStartCallback method is to be called in.
+        * @property _onStartContext
+        * @type Any
+        * @default null
+        * @private
+        */
+        private _onStartContext;
+        /**
+        * A boolean indicating if the starting callback has been called or not.
+        * @property _onStartCallbackFired
+        * @type boolean
+        * @default false
+        * @private
+        */
+        private _onStartCallbackFired;
+        /**
+        * A callback method that will be called each time the tween updates.
+        * @property _onUpdateCallback
+        * @type Function
+        * @default null
+        * @private
+        */
+        private _onUpdateCallback;
+        /**
+        * The context that the update callback has when called.
+        * @property _onUpdateContext
+        * @type any
+        * @default null
+        * @private
+        */
+        private _onUpdateContext;
+        /**
+        * A method to be called when the tween finish's tweening.
+        * @property _onCompleteCallback
+        * @type function
+        * @default null
+        * @private
+        */
+        private _onCompleteCallback;
+        private _onCompleteCalled;
+        /**
+        * The context that the onCompleteCallback should have when called.
+        * @property _onCompleteContext
+        * @type any
+        * @default null
+        * @private
+        */
+        private _onCompleteContext;
+        /**
+        * An indication of whether or not this tween is currently running.
+        * @property isRunning.
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public isRunning: boolean;
+        /**
+        * Sets up the various properties that define this tween.
+        * The ending position/properties for this tween, how long the tween should go for, easing method to use and if should start right way.
+        *
+        * @method to
+        * @param properties {Object} The ending location of the properties that you want to tween.
+        * @param [duration=1000] {Number} The duration of the tween.
+        * @param [ease=null] {Any} The easing method to be used. If not specifed then this will default to LINEAR.
+        * @param [autoStart=false] {boolean} If the tween should start right away.
+        * @return {Tween}
+        * @public
+        */
+        public to(properties: any, duration?: number, ease?: any, autoStart?: boolean): Tween;
+        /**
+        * Gets the initial values for the properties that it is to animate and starts the tween process.
+        * @method start
+        * @public
+        */
+        public start(): Tween;
+        /**
+        * Stops the Tween from running and removes it from the manager.
+        * @method stop
+        * @public
+        */
+        public stop(): Tween;
+        /**
+        * Sets the game and the manager of this tween.
+        * @method setParent
+        * @param {Game} value
+        * @public
+        */
+        public setParent(value: Kiwi.Game): void;
+        /**
+        * Sets the amount of delay that the tween is to have before it starts playing.
+        * @method delay
+        * @param amount {Number} The amount of time to delay the tween by.
+        * @return {Tween}
+        * @public
+        */
+        public delay(amount: number): Tween;
+        /**
+        * Sets the easing method that is to be used when animating this tween.
+        * @method easing
+        * @param easing {Function} The easing function to use.
+        * @return {Tween}
+        * @public
+        */
+        public easing(easing: any): Tween;
+        /**
+        * [REQUIRES DESCRIPTION]
+        * @method interpolation
+        * @param {Any} interpolation
+        * @return {Tween}
+        * @public
+        */
+        public interpolation(interpolation: any): Tween;
+        /**
+        * Adds another tween that should start playing once tween has completed.
+        * @method chain
+        * @param tween {Tween}
+        * @return {Tween}
+        * @public
+        */
+        public chain(tween: Tween): Tween;
+        /**
+        * Adds a function that is to be executed when the tween start playing.
+        * @method onStart
+        * @param callback {Function} The function that is to be executed on tween start.
+        * @param context {any} The context that function is to have when called.
+        * @return {Tween}
+        * @public
+        */
+        public onStart(callback: any, context: any): Tween;
+        /**
+        * Adds a function that is to be executed when this tween updates while it is playing.
+        * @method onUpdate
+        * @param callback {Function} The method that is to be executed.
+        * @param context {Any} The context the method is to have when called.
+        * @public
+        */
+        public onUpdate(callback: any, context: any): Tween;
+        /**
+        * Defines a method that is to be called when this tween is finished.
+        * @method onComplete
+        * @param callback {Function} The method that is to be executed.
+        * @param context {Any} The context the method is to have when called.
+        * @public
+        */
+        public onComplete(callback: any, context: any): Tween;
+        /**
+        * The update loop is executed every frame whilst the tween is running.
+        * @method update
+        * @param time {Number}
+        * @public
+        */
+        public update(time: any): boolean;
+    }
+}
+/**
+* A IRenderer is an Interface (defined as a class as the documentation does not support Interfaces just yet),
+* which outlines the methods/properties that are required any Renderer.
+* @class IRenderer
+*/
+interface IRenderManager {
+    render(camera: Kiwi.Camera): any;
+    boot(): any;
+    initState(state: Kiwi.State): any;
+    endState(state: Kiwi.State): any;
+    numDrawCalls: number;
+    requestRendererInstance(rendererID: string, params?: any): any;
+    requestSharedRenderer(rendererID: string, params?: any): any;
+}
+/**
+* Contains the classes which are related to the rendering of GameObjects.
+*
+* @module Kiwi
+* @submodule Renderers
+* @main
+*/ 
+declare module Kiwi.Renderers {
+    /**
+    *
+    * @class CanvasRenderer
+    * @extends IRenderer
+    * @constructor
+    * @namespace Kiwi.Renderers
+    * @param game {Game} The game that this canvas renderer belongs to.
+    * @return {CanvasRenderer}
+    *
+    */
+    class CanvasRenderer implements IRenderManager {
+        constructor(game: Kiwi.Game);
+        /**
+        * The boot method is executed when all of the DOM elements that are needed to play the game are ready.
+        * @method boot
+        * @public
+        */
+        public boot(): void;
+        /**
+        * Returns the type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+        /**
+        * The game that this object belongs to.
+        * @property _game
+        * @type Game
+        * @private
+        */
+        private _game;
+        /**
+        * The camera that is currently being used to render upon.
+        * @property _currentCamera
+        * @type Camera
+        * @private
+        */
+        private _currentCamera;
+        /**
+        * This method recursively goes through a State's members and runs the render method of each member that is a Entity.
+        * If it is a Group then this method recursively goes through that Groups members the process that happened to the State's members happens to the Group's members.
+        *
+        * @method _recurse
+        * @param child {IChild} The child that is being checked.
+        * @private
+        */
+        public _recurse(child: Kiwi.IChild): void;
+        public requestRendererInstance(rendererID: string, params?: any): Renderers.Renderer;
+        public requestSharedRenderer(rendererID: string, params?: any): Renderers.Renderer;
+        public initState(state: Kiwi.State): void;
+        public endState(state: Kiwi.State): void;
+        public numDrawCalls: number;
+        /**
+        * Renders all of the Elements that are on a particular camera.
+        * @method render
+        * @param camera {Camera}
+        * @public
+        */
+        public render(camera: Kiwi.Camera): void;
+    }
+}
+declare var mat2d: any, mat3: any, vec2: any, vec3: any, mat4: any;
+/**
+*
+*
+* @module Kiwi
+* @submodule Renderers
+* @main Renderers
+*/ 
+declare module Kiwi.Renderers {
+    /**
+    * Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  https://github.com/toji/gl-matrix
+    * Directly manages renderer objects, including factory methods for their creation.
+    * Creates manager objects for shaders and textures.
+    * Manages gl state at game initialisation, at state start and end, and per frame.
+    * Runs the recursive scene graph rendering sequence every frame.
+    * @class GLRenderManager
+    * @extends IRenderer
+    * @constructor
+    * @param game {Game} The game that this renderer belongs to.
+    * @return {GLRenderer}
+    */
+    class GLRenderManager implements IRenderManager {
+        constructor(game: Kiwi.Game);
+        /**
+        * Initialises all WebGL rendering services
+        * @method boot
+        * @public
+        */
+        public boot(): void;
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+        /**
+        * The game that this renderer is used with.
+        * @property _game
+        * @type Game
+        * @private
+        */
+        private _game;
+        /**
+        * The texture manager object used to allocate GL Textures.
+        * @property _textureManager
+        * @type GLTextureManager
+        * @private
+        */
+        private _textureManager;
+        /**
+        * The shader manager object used to allocate GL Shaders.
+        * @property _shaderManager
+        * @type GLShaderManager
+        * @private
+        */
+        private _shaderManager;
+        /**
+        * The stage resolution in pixels
+        * @property _stageResolution
+        * @type Float32Array
+        * @private
+        */
+        private _stageResolution;
+        /**
+        * The renderer object that is in use during a rendering batch.
+        * @property _currentRenderer
+        * @type Kiwi.Renderers.Renderer
+        * @private
+        */
+        private _currentRenderer;
+        /**
+        * Tally of number of entities rendered per frame
+        * @property _entityCount
+        * @type number
+        * @default 0
+        * @private
+        */
+        private _entityCount;
+        /**
+        * Tally of number of draw calls per frame
+        * @property numDrawCalls
+        * @type number
+        * @default 0
+        * @public
+        */
+        public numDrawCalls: number;
+        /**
+        * Maximum allowable sprites to render per frame
+        * Note:Not currently used  - candidate for deletion
+        * @property _maxItems
+        * @type number
+        * @default 1000
+        * @private
+        */
+        private _maxItems;
+        public camMatrix: Float32Array;
+        /**
+        * The most recently bound texture atlas.
+        * @property _currentTextureAtlas
+        * @type TextureAtlas
+        * @private
+        */
+        private _currentTextureAtlas;
+        public addTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas): void;
+        /**
+        * An array of renderers. Shared renderers are used for batch rendering. Multiple gameobjects can use the same renderer
+        * instance and add rendering info to a batch rather than rendering individually.
+        * This means only one draw call is necessary to render a number of objects. The most common use of this is standard 2d sprite rendering,
+        * and the TextureAtlasRenderer is added by default as a shared renderer. Sprites, StaticImages and Tilemaps (core gameobjects) can all use the
+        * same renderer/shader combination and be drawn as part of the same batch.
+        * Custom gameobjects can also choose to use a shared renderer, fo example in the case that a custom gameobject's rendering requirements matched the TextureAtlasRenderer
+        * capabilities.
+        *
+        * @property _sharedRenderers
+        * @type Array
+        * @private
+        */
+        private _sharedRenderers;
+        /**
+        * Adds a renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object.
+        * If a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.
+        * @method addSharedRenderer
+        * @param {String} rendererID
+        * @param {Object} params
+        * @return {Boolean} success
+        * @public
+        */
+        public addSharedRenderer(rendererID: string, params?: any): boolean;
+        /**
+        * Requests a shared renderer. A game object that wants to use a shared renderer uses this method to obtain a reference to the shared renderer instance.
+        * @method addSharedRenderer
+        * @param {String} rendererID
+        * @param {Object} params
+        * @return {Kiwi.Renderers.Renderer} A shared renderer or null if none found.
+        * @public
+        */
+        public requestSharedRenderer(rendererID: string, params?: any): Renderers.Renderer;
+        /**
+        * Requests a new renderer instance. This factory method is the only way gameobjects should instantiate their own renderer.
+        * The rendererID is a string that must match a renderer property of the Kiwi.Renderers object.
+        * If a match is found then a renderer is instantiated and returned. Gameobjects which have rendering requirements that do not suit
+        * batch rendering use this technique.
+        * @method requestRendererInstance
+        * @param {String} rendererID The name of the requested renderer
+        * @param {Object} params
+        * @return {Kiwi.Renderers.Renderer} A renderer or null if none found.
+        * @public
+        */
+        public requestRendererInstance(rendererID: string, params?: any): Renderers.Renderer;
+        private _init();
+        /**
+        * Performs initialisation required when switching to a different state. Called when a state has been switched to.
+        * The textureManager is told to rebuild its cache of textures from the states textuer library.
+        * @method initState
+        * @public
+        */
+        public initState(state: Kiwi.State): void;
+        /**
+        * Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.
+        * @method initState
+        * @param state {Kiwi.State}
+        * @public
+        */
+        public endState(state: Kiwi.State): void;
+        /**
+        * Manages rendering of the scene graph - called once per frame.
+        * Sets up per frame gl uniforms such as the view matrix and camera offset.
+        * Clears the current renderer ready for a new batch.
+        * Initiates recursive render of scene graph starting at the root.
+        * @method render
+        * @param camera {Camera}
+        * @public
+        */
+        public render(camera: Kiwi.Camera): void;
+        private _sequence;
+        private _batches;
+        public collateRenderSequence(): void;
+        public collateChild(child: Kiwi.IChild): void;
+        public collateBatches(): void;
+        public renderBatches(gl: WebGLRenderingContext, camera: any): void;
+        public renderBatch(gl: WebGLRenderingContext, batch: any, camera: any): void;
+        public renderEntity(gl: WebGLRenderingContext, entity: any, camera: any): void;
+        public setupGLState(gl: WebGLRenderingContext, entity: any): void;
+        /**
+        * Switch renderer to the one needed by the entity that needs rendering
+        * @method _switchRenderer
+        * @param gl {WebGLRenderingContext}
+        * @param entity {Entity}
+        * @private
+        */
+        private _switchRenderer(gl, entity);
+        /**
+        * Switch texture to the one needed by the entity that needs rendering
+        * @method _switchTexture
+        * @param gl {WebGLRenderingContext}
+        * @param entity {Entity}
+        * @private
+        */
+        private _switchTexture(gl, entity);
+    }
+}
+/**
+* GLSL ES Shaders are used for WebGL rendering.
+* ShaderPair objects encapsulate GLSL ES vertex and fragment shader programs.
+*   ShaderPairs contain the GLSL code, provide an interface to uniforms and attributes, and have the ability to link and compile the shaders.
+* The ShaderManager keeps track of each ShaderPair, and controls which one is bound for use at any particular time.
+*   Only the ShaderManager can create ShaderPairs. When a renderer (see note on renderes below) requests a ShaderPair the ShaderManager will either
+*       1) Return a reference to an already instantiated ShaderPair, and set the GL state to use the shader program or
+*       2) Return a reference to a new ShaderPair, which will be linked and compiled and bound for use.
+*   All ShaderPairs must be housed as properties of the Kiwi.Shaders object.
+*
+* Kiwi.Renderer objects use a ShaderPair to draw.
+*   They must request a ShaderPair from the ShaderManager.
+*   Many renderers may use the same ShaderPair.
+*   Some renderers may at different times use multiple ShaderPairs (only one is possible at any given time)
+*
+* @module Kiwi
+* @submodule Shaders
+* @main Shaders
+*/ 
+declare module Kiwi.Shaders {
+    /**
+    * Manages all WebGL Shaders. Maintains a list of ShaderPairs
+    *
+    * Provides an interface for using a specific ShaderPair, adding new ShaderPairs, and requesting a reference to a ShaderPair instance.
+    * Renderes use shaderPairs to draw. Multiple renderers may use the same compiled shader program.
+    * This Manager ensures only one compiled instance of each program is created
+    * @class ShaderManager
+    * @extends IRenderer
+    * @constructor
+    * @return {GLRenderer}
+    */
+    class ShaderManager {
+        constructor();
+        /**
+        * An object containing a set of properties each of which references a ShaderPair.
+        * @property _shaderPairs
+        * @type Object
+        * @private
+        */
+        private _shaderPairs;
+        /**
+        * The shader program that is currently set to be used useing gl.useProgram.
+        * @property currentShader
+        * @type Array
+        * @private
+        */
+        public currentShader : Shaders.ShaderPair;
+        private _currentShader;
+        /**
+        * Sets up a default shaderPair.
+        * @method init
+        * @param {WebGLRenderingContext} gl
+        * @param {String} defaultShaderID
+        * @public
+        */
+        public init(gl: WebGLRenderingContext, defaultShaderID: string): void;
+        /**
+        * Provides a reference to a ShaderPair. If the requested ShaderPair exists as a property on the _shaderPairs object it will be returned if already loaded,
+        * otherwise it will be loaded, then returned.
+        * If the request is not on the list, the Kiwi.Shaders object will  be checked for a property name that matches shaderID and a new ShaderPair
+        * will be instantiated, loaded, and set for use.
+        
+        * @method init
+        * @param {WebGLRenderingContext} gl
+        * @param {String} shaderID
+        * @return {ShaderPair} a ShaderPair instance - null on fail
+        * @public
+        */
+        public requestShader(gl: WebGLRenderingContext, shaderID: string, use?: boolean): Shaders.ShaderPair;
+        /**
+        * Tests to see if a ShaderPair property named ShaderID exists on Kiwi.Shaders. Can be used to test for the availability of specific shaders (for fallback)
+        * @method shaderExists
+        * @param {WebGLRenderingContext} gl
+        * @param {String} shaderID
+        * @return {Boolean} success
+        * @public
+        */
+        public shaderExists(gl: WebGLRenderingContext, shaderID: string): boolean;
+        /**
+        * Creates a new instance of a ShaderPair and adds a reference to the _shaderPairs object
+        * @method _addShader
+        * @param {WebGLRenderingContext} gl
+        * @param {String} shaderID
+        * @return {ShaderPair}
+        * @private
+        */
+        private _addShader(gl, shaderID);
+        /**
+        * Tells a ShaderPair to load (compile and link)
+        * @method _loadShader
+        * @param {WebGLRenderingContext} gl
+        * @param {ShaderPair} shader
+        * @private
+        */
+        private _loadShader(gl, shader);
+        /**
+        * Changes gl state so that the shaderProgram contined in a ShaderPir is bound for use
+        * @method _useShader
+        * @param {WebGLRenderingContext} gl
+        * @param {ShaderPair} shader
+        * @private
+        */
+        private _useShader(gl, shader);
     }
 }
 /**
 *
-* @module GameObjects
-* @submodule Tilemap
-* @main Tilemap
+* @module Kiwi
+* @submodule Renderers
+*
 */
-declare module Kiwi.GameObjects.Tilemap {
+declare module Kiwi.Renderers {
     /**
-    * A TileMap handles the creation of TileMapLayers and the TileTypes that they use.
-    * Since a TileMap isn't a Entity itself you cannot add it to the Stage inorder to render that it manages,
-    * Instead you have to add each layer lies within it. This way you can have other GameObjects behind/in-front of layers.
     *
-    * @class TileMap
-    * @namespace Kiwi.GameObjects.Tilemap
+    * @class GLTexture
     * @constructor
-    * @param state {State} The state that this Tilemap is on.
-    * @param [tileMapDataKey] {String} The Data key for the JSON you would like to use.
-    * @param [atlas] {TextureAtlas} The texture atlas that you would like the tilemap layers to use.
-    * @param [startingCell=0] {number} The number for the initial cell that the first TileType should use. See 'createFromFileStore' for more information.
-    * @return {TileMap}
+    * @param gl {WebGLRenderingContext}
+    * @param [_image] {HTMLImageElement}
+    * @return {GLTexture}
     */
-    class TileMap {
-        constructor(state: Kiwi.State, tileMapData?: any, atlas?: Kiwi.Textures.TextureAtlas, startingCell?: number);
+    class GLTextureWrapper {
+        constructor(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas, upload?: boolean);
+        public textureAtlas: Kiwi.Textures.TextureAtlas;
+        private _numBytes;
+        public numBytes : number;
+        private _created;
+        public created : boolean;
+        private _uploaded;
+        public uploaded : boolean;
         /**
-        * The orientation of the tilemap. Currently this has not effect on the map.
-        * @property orientation
-        * @type String
+        *
+        * @property texture
+        * @type WebGLTexture
         * @public
         */
-        public orientation: string;
+        public texture: WebGLTexture;
         /**
-        * Is an Array containing all of the TileTypes that are available on the TileMap.
-        * @property tileType
-        * @type TileType[]
+        *
+        * @property image
+        * @type HTMLImageElement
         * @public
         */
-        public tileTypes: Tilemap.TileType[];
+        public image: HTMLImageElement;
+        public createTexture(gl: WebGLRenderingContext): boolean;
+        public uploadTexture(gl: WebGLRenderingContext): boolean;
+        public refreshTexture(gl: WebGLRenderingContext): void;
+        public deleteTexture(gl: WebGLRenderingContext): boolean;
+    }
+}
+/**
+*
+*
+* @module Kiwi
+* @submodule Renderers
+* @main Renderers
+*/ 
+declare module Kiwi.Renderers {
+    /**
+    * Manages GL Texture objects, including creation, uploading, destruction and memory management
+    * @class GLTextureManager
+    * @constructor
+    * @return {GLTextureManager}
+    */
+    class GLTextureManager {
+        constructor();
         /**
-        * A list of all of the TileMapLayers that exist on thie TileMap.
-        * @property layers
-        * @type TileMapLayer
+        * The default maximum amount of texture memory to use before swapping textures
+        * @property DEFAULT_MAX_TEX_MEM_MB
+        * @type number
+        * @public
+        * @static
+        */
+        static DEFAULT_MAX_TEX_MEM_MB: number;
+        /**
+        * The maximum amount of texture memory to use before swapping textures, initialised from DEFAULT_MAX_TEX_MEM_MB
+        * @property maxTextureMem
+        * @type number
         * @public
         */
-        public layers: Tilemap.TileMapLayer[];
+        public maxTextureMem: number;
         /**
-        * The state that this TileMap exists on.
-        * @property state
-        * @type State
+        * The amount of texture memory currently uplaoded
+        * @property usedTextureMem
+        * @type number
         * @public
         */
-        public state: Kiwi.State;
+        private _usedTextureMem;
+        public usedTextureMem : number;
         /**
-        * The game that this TileMap is a part of.
+        * The number of textures currently uplaoded
+        * @property usedTextureMem
+        * @type number
+        * @public
+        */
+        private _numTexturesUsed;
+        public numTexturesUsed : number;
+        /**
+        * The number of textures uploads in the last frame
+        * @property numTextureWrites
+        * @type number
+        * @public
+        */
+        public numTextureWrites: number;
+        /**
+        * An array of references to all texture wrappers
+        * @property _textureWrapperCache
+        * @type GLTextureWrapper[]
+        * @private
+        */
+        private _textureWrapperCache;
+        /**
+        * Adds a texture wrapper to the cache
+        * @method _addTextureToCache
+        * @param glTexture {GLTextureWrapper}
+        * @private
+        */
+        private _addTextureToCache(glTexture);
+        /**
+        * Deletes a texture from memory and removes the wrapper from the cache
+        * @method _deleteTexture
+        * @param gl {WebGLRenderingContext}
+        * @param idx {number}
+        * @private
+        */
+        private _deleteTexture(gl, idx);
+        /**
+        * Uploads a texture to video memory
+        * @method _uploadTexture
+        * @param gl {WebGLRenderingContext}
+        * @param glTextureWrapper {GLTextureWrapper}
+        * @return boolean
+        * @private
+        */
+        private _uploadTexture(gl, glTextureWrapper);
+        /**
+        * Uploads a texture library to video memory
+        * @method uploadTextureLibrary
+        * @param gl {WebGLRenderingContext}
+        * @param textureLibrary {Kiwi.Textures.TextureLibrary}
+        * @public
+        */
+        public uploadTextureLibrary(gl: WebGLRenderingContext, textureLibrary: Kiwi.Textures.TextureLibrary): void;
+        public uploadTexture(gl: WebGLRenderingContext, textureAtlas: Kiwi.Textures.TextureAtlas): void;
+        /**
+        * Removes all textures from video memory and clears the wrapper cache
+        * @method clearTextures
+        * @param gl {WebGLRenderingContext}
+        * @public
+        */
+        public clearTextures(gl: WebGLRenderingContext): void;
+        /**
+        * Binds the texture ready for use, uploads it if it isn't already
+        * @method useTexture
+        * @param gl {WebGLRenderingContext}
+        * @param glTextureWrapper {GLTextureWrappery}
+        * @param textureSizeUniform {number}
+        * @return boolean
+        * @public
+        */
+        public useTexture(gl: WebGLRenderingContext, glTextureWrapper: Renderers.GLTextureWrapper): boolean;
+        /**
+        * Attemps to free space for to uplaod a texture.
+        * 1: Try and find texture that is same size to remove
+        * 2: Find next smallest to remove (not yet implemented)
+        * 3: Sequentially remove until there is room (not yet implemented)
+        * @method _freeSpace
+        * @param gl {WebGLRenderingContext}
+        * @param numBytesToRemove {number}
+        * @return boolean
+        * @public
+        */
+        private _freeSpace(gl, numBytesToRemove);
+    }
+}
+/**
+*
+* @module Kiwi
+* @submodule Renderers
+*
+*/
+declare module Kiwi.Renderers {
+    /**
+    *
+    * @class GLArrayBuffer
+    * @constructor
+    * @namespace Kiwi.Renderers
+    * @param gl {WebGLRenderingContext}
+    * @param [_itemSize] {number}
+    * @param [items] {number[]}
+    * @param [init=true] {boolean}
+    * @return {GLArrayBuffer}
+    */
+    class GLArrayBuffer {
+        constructor(gl: WebGLRenderingContext, _itemSize?: number, items?: number[], upload?: boolean);
+        private _created;
+        public created : boolean;
+        private _uploaded;
+        public uploaded : boolean;
+        /**
+        *
+        * @property items
+        * @type number[]
+        * @public
+        */
+        public items: number[];
+        /**
+        *
+        * @property buffer
+        * @type WebGLBuffer
+        * @public
+        */
+        public buffer: WebGLBuffer;
+        /**
+        *
+        * @property itemSize
+        * @type number
+        * @public
+        */
+        public itemSize: number;
+        /**
+        *
+        * @property numItems
+        * @type number
+        * @public
+        */
+        public numItems: number;
+        /**
+        *
+        * @method clear
+        * @public
+        */
+        public clear(): void;
+        /**
+        *
+        * @method init
+        * @param gl {WebGLRenderingCotext}
+        * @return {WebGLBuffer}
+        * @public
+        */
+        public createBuffer(gl: WebGLRenderingContext): boolean;
+        public uploadBuffer(gl: WebGLRenderingContext, items: number[]): boolean;
+        public deleteBuffer(gl: WebGLRenderingContext): boolean;
+        /**
+        *
+        * @property squareVertices
+        * @type number[]
+        * @static
+        * @default [0, 0, 100, 0, 100, 100, 0, 100]
+        * @public
+        */
+        static squareVertices: number[];
+        /**
+        *
+        * @property squareUVx
+        * @type number[]
+        * @static
+        * @default [0, 0, .1, 0, .1, .1, 0, .1]
+        * @public
+        */
+        static squareUVs: number[];
+        /**
+        *
+        * @property squareCols
+        * @type number[]
+        * @static
+        * @default [1, 1, 1, 1]
+        * @public
+        */
+        static squareCols: number[];
+    }
+}
+/**
+*
+* @module Kiwi
+* @submodule Renderers
+*
+*/
+declare module Kiwi.Renderers {
+    /**
+    *
+    * @class GLElementArrayBuffer
+    * @constructor
+    * @namespace Kiwi.Renderers
+    * @param gl {WebGLRenderingContent}
+    * @param [_itemSize] {number}
+    * @param [_indices] {number[]}
+    * @param [init=true] {boolean}
+    * @return {GLElementArrayBuffer}
+    */
+    class GLElementArrayBuffer {
+        constructor(gl: WebGLRenderingContext, _itemSize?: number, _indices?: number[], init?: boolean);
+        /**
+        *
+        * @property indices
+        * @type number[]
+        * @public
+        */
+        public indices: number[];
+        /**
+        *
+        * @property buffer
+        * @type WebGLBuffer
+        * @public
+        */
+        public buffer: WebGLBuffer;
+        /**
+        *
+        * @property itemSize
+        * @type number
+        * @public
+        */
+        public itemSize: number;
+        /**
+        *
+        * @property numItems
+        * @type number
+        * @public
+        */
+        public numItems: number;
+        /**
+        *
+        * @method clear
+        * @public
+        */
+        public clear(): void;
+        /**
+        *
+        * @method init
+        * @param gl {WebGLRenderingContext}
+        * @return {WebGLBuffer}
+        * @public
+        */
+        public init(gl: WebGLRenderingContext): WebGLBuffer;
+        /**
+        *
+        * @method refresh
+        * @param gl {WebGLRenderingContext}
+        * @param indices {number[]}
+        * @return {WebGLBuffer}
+        * @public
+        */
+        public refresh(gl: WebGLRenderingContext, indices: number[]): WebGLBuffer;
+        /**
+        *
+        * @property square
+        * @static
+        * @type number[]
+        * @default [0,1,2,0,2,3]
+        * @public
+        */
+        static square: number[];
+    }
+}
+declare module Kiwi.Renderers {
+    class Renderer {
+        constructor(gl: WebGLRenderingContext, shaderManager: Kiwi.Shaders.ShaderManager, isBatchRenderer?: boolean);
+        static RENDERER_ID: string;
+        public camMatrix: Float32Array;
+        public loaded: boolean;
+        public shaderManager: Kiwi.Shaders.ShaderManager;
+        public enable(gl: WebGLRenderingContext, params?: any): void;
+        public disable(gl: WebGLRenderingContext): void;
+        public clear(gl: WebGLRenderingContext, params: any): void;
+        public draw(gl: WebGLRenderingContext): void;
+        public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array): void;
+        public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array): void;
+        public shaderPair: Kiwi.Shaders.ShaderPair;
+        private _isBatchRenderer;
+        public isBatchRenderer : boolean;
+    }
+}
+/**
+*
+* @module Kiwi
+* @submodule Renderers
+*
+*/
+declare module Kiwi.Renderers {
+    class TextureAtlasRenderer extends Renderers.Renderer {
+        constructor(gl: WebGLRenderingContext, shaderManager: Kiwi.Shaders.ShaderManager, params?: any);
+        static RENDERER_ID: string;
+        public shaderPair: Kiwi.Shaders.TextureAtlasShader;
+        private _maxItems;
+        private _vertexBuffer;
+        private _indexBuffer;
+        public enable(gl: WebGLRenderingContext, params?: any): void;
+        public disable(gl: WebGLRenderingContext): void;
+        public clear(gl: WebGLRenderingContext, params: any): void;
+        public draw(gl: WebGLRenderingContext): void;
+        /**
+        * Create prebaked indices for drawing quads
+        * @method _generateIndices
+        * @param numQuads {number}
+        * @return number[]
+        * @private
+        */
+        private _generateIndices(numQuads);
+        public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array): void;
+        public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array): void;
+        /**
+        * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
+        * @method _collateVertexAttributeArrays
+        * @param gl {WebGLRenderingContext}
+        * @param entity {Entity}
+        * @param camera {Camera}
+        * @public
+        */
+        public addToBatch(gl: WebGLRenderingContext, entity: Kiwi.Entity, camera: Kiwi.Camera): void;
+        public concatBatch(vertexItems: number[]): void;
+    }
+}
+/**
+*
+* @module Kiwi
+* @submodule Renderers
+*
+*/
+declare module Kiwi.Shaders {
+    /**
+    *
+    * @class GLShaders
+    * @constructor
+    * @param gl {WebGLRenderingContext}
+    * @return {GLShaders}
+    */
+    class ShaderPair {
+        constructor();
+        static RENDERER_ID: string;
+        public init(gl: WebGLRenderingContext): void;
+        public loaded: boolean;
+        /**
+        *
+        * @property vertShader
+        * @type WebGLShader
+        * @public
+        */
+        public vertShader: WebGLShader;
+        /**
+        *
+        * @property fragShader
+        * @type WebGLShader
+        * @public
+        */
+        public fragShader: WebGLShader;
+        /**
+        *
+        * @property shaderProgram
+        * @type WebGLProgram
+        * @public
+        */
+        public shaderProgram: WebGLProgram;
+        /**
+        *
+        * @method attach
+        * @param gl {WebGLRenderingContext}
+        * @param vertShader {WebGLShader}
+        * @param fragShader {WebGLShader}
+        * @return {WebGLProgram}
+        * @public
+        */
+        public attach(gl: WebGLRenderingContext, vertShader: WebGLShader, fragShader: WebGLShader): WebGLProgram;
+        /**
+        *
+        * @method compile
+        * @param gl {WebGLRenderingContext}
+        * @param src {string}
+        * @param shaderType {number}
+        * @return {WebGLShader}
+        * @public
+        */
+        public compile(gl: WebGLRenderingContext, src: string, shaderType: number): WebGLShader;
+        public uniforms: any;
+        public attributes: any;
+        /**
+        *
+        * @property texture2DFrag
+        * @type Array
+        * @public
+        */
+        public fragSource: any[];
+        /**
+        *
+        * @property texture2DVert
+        * @type Array
+        * @public
+        */
+        public vertSource: any[];
+        public setParam(uniformName: string, value: any): void;
+        public applyUniforms(gl: WebGLRenderingContext): void;
+        public applyUniform(gl: WebGLRenderingContext, name: string): void;
+        public initUniforms(gl: WebGLRenderingContext): void;
+    }
+}
+/**
+*
+* @class GLShaders
+* @constructor
+* @param gl {WebGLRenderingContext}
+* @return {GLShaders}
+*/
+declare module Kiwi.Shaders {
+    class TextureAtlasShader extends Shaders.ShaderPair {
+        constructor();
+        public init(gl: WebGLRenderingContext): void;
+        public attributes: any;
+        public uniforms: any;
+        /**
+        *
+        * @property texture2DFrag
+        * @type Array
+        * @public
+        */
+        public fragSource: string[];
+        /**
+        *
+        * @property texture2DVert
+        * @type Array
+        * @public
+        */
+        public vertSource: string[];
+    }
+}
+/**
+* Is the namespace in which all code that is used to create/provide an animation of various sorts are stored. These could range from animations that change the cell of a SpriteSheet that is displayed every few seconds (Animation/Sequence), to animations that change a numeric value on a object over a period time (Tweens).
+*
+* @module Kiwi
+* @submodule Animations
+* @main Animations
+*/
+declare module Kiwi.Animations {
+    /**
+    * An Animation contains information about a single animation that is held on a AnimationManager.
+    * The information that is held is unique to this individual animation and will initially be the same as a Sequence,
+    * but if you do ever modify the information held in this Animation the corresponding Sequence will not be updated.
+    *
+    * @class Animation
+    * @namespace Kiwi.Animations
+    * @constructor
+    * @param name {string} The name of this anim.
+    * @param sequences {Sequences} The sequence that this anim will be using to animate.
+    * @param clock {Clock} A game clock that this anim will be using to keep record of the time between frames.
+    * @param parent {AnimationManager} The animation manager that this animation belongs to.
+    * @return {Anim}
+    *
+    */
+    class Animation {
+        constructor(name: string, sequence: Animations.Sequence, clock: Kiwi.Time.Clock, parent: Kiwi.Components.AnimationManager);
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+        /**
+        * The AnimationManager that this animation is a child of.
+        * @property _parent
+        * @type AnimationManager
+        * @private
+        */
+        private _parent;
+        /**
+        * The name of this animation.
+        * @property name
+        * @type string
+        * @public
+        */
+        public name: string;
+        /**
+        * The sequence on the texture atlas that this animation is based off.
+        * @property _sequence
+        * @type Sequence
+        * @private
+        */
+        private _sequence;
+        /**
+        * If this animation should loop or not.
+        * @property _loop
+        * @type boolean
+        * @private
+        */
+        private _loop;
+        /**
+        * If once the animation reaches the end, it should start again from the first cell in the sequence or not.
+        * @property loop
+        * @type boolean
+        * @public
+        */
+        public loop : boolean;
+        /**
+        * The current frame index that the animation is currently upto.
+        * Note: A frame index is the index of a particular cell in the Sequence.
+        * @property _frameIndex
+        * @type number
+        * @private
+        */
+        private _frameIndex;
+        /**
+        * The current frame index that the animation is currently upto.
+        * Note: A frame index is the index of a particular cell in the Sequence.
+        * @property frameIndex
+        * @type number
+        * @public
+        */
+        public frameIndex : number;
+        /**
+        * Returns the current cell that the animation is up to. This is READ ONLY.
+        * @property currentCell
+        * @type number
+        * @public
+        */
+        public currentCell : number;
+        /**
+        * How fast the transition is between cells. Perhaps change to frames per second to reflect actual game speed?
+        * @property _speed
+        * @type number
+        * @private
+        */
+        private _speed;
+        /**
+        * How long the each cell should stay on screen for. In seconds.
+        * @property speed
+        * @type number
+        * @public
+        */
+        public speed : number;
+        /**
+        * The clock that is to be used to calculate the animations.
+        * @property _clock
+        * @type Clock
+        * @private
+        */
+        private _clock;
+        /**
+        * The starting time of the animation from when it was played. Internal use only.
+        * @property _startTime
+        * @type number
+        * @private
+        */
+        private _startTime;
+        /**
+        * Indicates whether the animation is playing in reverse or not.
+        * @property _reverse
+        * @type boolean
+        * @private
+        */
+        private _reverse;
+        /**
+        * Whether the animation is to be played in reverse.
+        * @property reverse
+        * @type boolean
+        * @public
+        */
+        public reverse : boolean;
+        /**
+        * The time at which the animation should change to the next cell
+        * @property _tick
+        * @type number
+        * @private
+        */ 
+        private _tick;
+        /**
+        * If the animation is currently playing or not.
+        * @property _isPlaying
+        * @type boolean
+        * @default false
+        * @private
+        */
+        private _isPlaying;
+        /**
+        * If the animation is currently playing or not.
+        * @property isPlaying
+        * @type boolean
+        * @private
+        */
+        public isPlaying : boolean;
+        /**
+        * A Kiwi.Signal that dispatches an event when the animation has stopped playing.
+        * @property _onStop
+        * @type Signal
+        * @public
+        */
+        private _onStop;
+        public onStop : Kiwi.Signal;
+        /**
+        * A Kiwi.Signal that dispatches an event when the animation has started playing.
+        * @property _onPlay
+        * @type Kiwi.Signal
+        * @public
+        */
+        private _onPlay;
+        public onPlay : Kiwi.Signal;
+        /**
+        * A Kiwi.Signal that dispatches an event when the animation has updated/changed frameIndexs.
+        * @property _onUpdate
+        * @type Kiwi.Signal
+        * @public
+        */
+        private _onUpdate;
+        public onUpdate : Kiwi.Signal;
+        /**
+        * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.
+        * @property _onLoop
+        * @type Kiwi.Signal
+        * @public
+        */
+        private _onLoop;
+        public onLoop : Kiwi.Signal;
+        /**
+        * An Internal method used to start the animation.
+        * @method _start
+        * @param [index=null] {number} The index of the frame in the sequence that is to play. If left as null if just starts from where it left off.
+        * @private
+        */
+        private _start(index?);
+        /**
+        * Plays the animation.
+        * @method play
+        * @public
+        */
+        public play(): void;
+        /**
+        * Plays the animation at a particular frame
+        * @method playAt
+        * @param index {number} The index of the cell in the sequence that the animation is to start at.
+        * @public
+        */
+        public playAt(index: number): void;
+        /**
+        * Pauses the current animation.
+        * @method pause
+        * @public
+        */
+        public pause(): void;
+        /**
+        * Resumes the current animation after stopping.
+        * @method resume
+        * @public
+        */
+        public resume(): void;
+        /**
+        * Stops the current animation from playing.
+        * @method stop
+        * @public
+        */
+        public stop(): void;
+        /**
+        * Makes the animation go to the next frame. If the animation is at the end it goes back to the start.
+        * @method nextFrame
+        * @public
+        */
+        public nextFrame(): void;
+        /**
+        * Makes the animation go to the previous frame. If the animation is at the first frame it goes to the end.
+        * @method prevFrame
+        * @public
+        */
+        public prevFrame(): void;
+        /**
+        * The update loop. Returns a boolean indicating whether the animation has gone to a new frame or not.
+        * @method update
+        * @public
+        */
+        public update(): void;
+        /**
+        * An internal method used to check to see if frame passed is valid or not
+        * @method _validateFrame
+        * @param frame {number} The index of the frame that is to be validated.
+        * @private
+        */
+        private _validateFrame(frame);
+        /**
+        * Returns the number of frames that in the animation. Thus the animations 'length'. Note this is READ ONLY.
+        * @property length
+        * @type number
+        * @public
+        */
+        public length : number;
+        /**
+        * Destroys the anim and all of the properties that exist on it.
+        * @method destroy
+        * @public
+        */
+        public destroy(): void;
+    }
+}
+/**
+*
+* @module Kiwi
+* @submodule Animations
+*
+*/
+declare module Kiwi.Animations {
+    /**
+    * A Sequence is a series of cells that are held on a SpriteSheet/TextureAtlas.
+    * Sequences are generally used with the AnimationManager/Animation sections as a way to initially create Animations on GameObjects that use the same TextureAtlas.
+    *
+    * @class Sequence
+    * @namespace Kiwi.Animations
+    * @constructor
+    * @param name {String} The name of this sequence. This is not unique.
+    * @param cells {Number[]} The cells that are in this animation.
+    * @param [speed=0.1] {Number} The time an animation should spend on each frame.
+    * @param [loop=true] {boolean} If the sequence should play again if it was animating and the animation reaches the last frame.
+    * @return {Sequence}
+    *
+    */
+    class Sequence {
+        constructor(name: string, cells: number[], speed?: number, loop?: boolean);
+        /**
+        * The name of this sequence.
+        * @property name
+        * @type string
+        * @public
+        */
+        public name: string;
+        /**
+        * The cells that are in this animation.
+        * These are a reference to the cells that are contained in a texture atlas that this sequence should be a part of.
+        * @property cells
+        * @type number[]
+        * @public
+        */
+        public cells: number[];
+        /**
+        * The time an animation should spend on each cell.
+        * @property speed
+        * @type boolean
+        * @public
+        */
+        public speed: number;
+        /**
+        * If the sequence should play again if it was animating and the animation reaches the last frame.
+        * @property loop
+        * @type boolean
+        * @public
+        */
+        public loop: boolean;
+    }
+}
+/**
+*
+* @module Kiwi
+* @submodule Input
+*
+*/ 
+declare module Kiwi.Input {
+    /**
+    * A compact object that holds the most important details about a Keyboard Event response.
+    *
+    * @class Key
+    * @constructor
+    * @namespace Kiwi.Input
+    * @param manager {Keyboard} The keyboard manager that this key belongs to.
+    * @param keycode {Number} The keycode that this key is.
+    * @param [event] {KeyboardEvent} The keyboard event (if there was one) when this was created.
+    * @return {Key} This object.
+    *
+    */
+    class Key {
+        constructor(manager: Input.Keyboard, keycode: number, event?: KeyboardEvent);
+        /**
+        * If the default action for this Key should be prevented or not.
+        * For example. If your game use's the spacebar you would want its default action (which is to make the website scrolldown) prevented,
+        * So you can set this to true.
+        * @property preventDefault
+        * @type Boolean
+        * @default false
+        * @public
+        */
+        public preventDefault: boolean;
+        /**
+        * The game that this key belongs to.
         * @property game
         * @type Game
         * @public
         */
         public game: Kiwi.Game;
         /**
-        * The default width of a single tile that a TileMapLayer is told to have upon its creation.
-        * @property tileWidth
-        * @type Number
-        * @default 0
-        * @public
-        */
-        public tileWidth: number;
-        /**
-        * The default height of a single tile that a TileMapLayer is told to have upon its creation.
-        * @property tileHeight
-        * @type Number
-        * @default 0
-        * @public
-        */
-        public tileHeight: number;
-        /**
-        * The default width of all TileMapLayers when they are created.
-        * This value is in Tiles.
-        * @property width
-        * @type Number
-        * @default 0
-        * @public
-        */
-        public width: number;
-        /**
-        * The default height of all TileMapLayers when they are created.
-        * This value is in Tiles.
-        * @property height
-        * @type Number
-        * @default 0
-        * @public
-        */
-        public height: number;
-        /**
-        * The width of the tilemap in pixels. This value is READ ONLY.
-        * @property widthInPixels
-        * @type Number
-        * @public
-        */
-        public widthInPixels : number;
-        /**
-        * The height of the tilemap in pixels. This value is READ ONLY.
-        * @property heightInPixels
-        * @type Number
-        * @public
-        */
-        public heightInPixels : number;
-        /**
-        * Any properties that were found in the JSON during creation.
-        * @property properties
-        * @type Object
-        * @public
-        */
-        public properties: any;
-        /**
-        * Creates new tilemap layers from a JSON file that you pass (has to be in the Tiled Format).
-        * The texture atlas you pass is that one that eeach TileMapLayer found in the JSON will use, You can change the TextureAtlas afterwards.
-        * New TileTypes will automatically be created. The number is based on the Tileset parameter of the JSON.
-        * The cell used for new TileTypes will begin at 0 and increment each time a new TileType is created (and a cell exists). Otherwise new TileTypes will start will a cell of -1 (none).
-        * @method createFromFileStore
-        * @param tileMapData {Any} This can either
-        * @param atlas {TextureAtlas} The texture atlas that you would like the tilemap layers to use.
-        * @param [startingCell=0] {number} The number for the initial cell that the first TileType should use. If you pass -1 then no new TileTypes will be created.
-        * @public
-        */
-        public createFromFileStore(tileMapData: any, atlas: Kiwi.Textures.TextureAtlas, startingCell?: number): boolean;
-        /**
-        * Generates new TileTypes based upon the Tileset information that lies inside the Tiled JSON.
-        * This is an INTERNAL method, which is used when the createFromFileStore method is executed.
-        * @method _generateTypesFromTileset
-        * @param tilesetData {Any[]} The tileset part of the JSON.
-        * @param atlas {TextureAtlas} The Texture atlas which contains the cells that the new TileTypes will use.
-        * @param startingCell {Number} The first cell number that would be used.
-        * @private
-        */
-        private _generateTypesFromTileset(tilesetData, atlas, startingCell);
-        /**
-        * Method to set the default TileMap properties. Useful when wanting to create tilemaps programmatically.
-        * @method setTo
-        * @param tileWidth {Number} The width of a single tile.
-        * @param tileHeight {Number} The height of a single tile.
-        * @param width {Number} The width of the whole map.
-        * @param height {Number} The height of the whole map.
-        * @public
-        */
-        public setTo(tileWidth: number, tileHeight: number, width: number, height: number): void;
-        /**
-        *-----------------------
-        * Creation of Tile Types
-        *-----------------------
-        **/
-        /**
-        * Generates a single new TileType. Returns the TileType that was generated.
-        * @method createTileType
-        * @param [cell=-1] {Number} The cell that is to be used. Default is -1 (which means none)
-        * @return {TileType} The TileType generated.
-        * @public
-        */
-        public createTileType(cell?: number): Tilemap.TileType;
-        /**
-        * Creates a new TileType for each cell that you pass.
-        * @method createTileTypes
-        * @param cells {Number[]} The cells that you want a new TileType created for.
-        * @return {TileTypes[]} The TileTypes generated.
-        * @public
-        */
-        public createTileTypes(cells: number[]): Tilemap.TileType[];
-        /**
-        * Used to create a number of TileTypes based starting cell number and how many you want from there.
-        * @method createTileTypesByRange
-        * @param cellStart {Number} The starting number of the cell.
-        * @param range {Number} How many cells (from the starting cell) should be created.
-        * @return {TileTypes[]} The TileTypes generated.
-        */
-        public createTileTypesByRange(cellStart: number, range: number): Tilemap.TileType[];
-        /**
-        *-----------------------
-        * Cell Modifications
-        *-----------------------
-        **/
-        /**
-        * Changes a single cellIndex that a TileType is to use when it is rendered.
-        * @method setCell
-        * @param type {number} The number of the TileType that is to change.
-        * @param cell {number} The new cellIndex it should have.
-        * @public
-        */
-        public setCell(type: number, cell: number): void;
-        /**
-        * Changes a range of cellIndexs for Tiles the same range of TileTypes.
-        * @method setCellsByRange
-        * @param typeStart {number} The starting TileType that is to be modified.
-        * @param cellStart {number} The starting cellIndex that the first TileType should have.
-        * @param range {number} How many times it should run.
-        * @public
-        */
-        public setCellsByRange(typeStart: number, cellStart: number, range: number): void;
-        /**
-        *-----------------------
-        * Creation of Tilemap Layers
-        *-----------------------
-        **/
-        /**
-        * Creates a new TileMapLayer with the details that are provided.
-        * If no width/height/tileWidth/tileHeight parameters are passed then the values will be what this TileMap has.
-        * If no 'data' is provided then the map will be automatically filled with empty Types of Tiles.
-        * Returns the new TileMapLayer that was created.
-        * @method createNewLayer
-        * @param name {String} Name of the TileMap.
-        * @param atlas {TextureAtlas} The TextureAtlas that this layer should use.
-        * @param data {Number[]} The tile information.
-        * @param [w=this.width] {Number} The width of the whole tile map. In Tiles.
-        * @param [h=this.height] {Number} The height of the whole tile map. In Tiles.
-        * @param [x=0] {Number} The position of the tilemap on the x axis. In pixels.
-        * @param [y=0] {Number} The position of the tilemap on the y axis. In pixels.
-        * @param [tw=this.tileWidth] {Number} The width of a single tile.
-        * @param [th=this.tileHeight] {Number} The height of a single tile.
-        * @return {TileMapLayer} The TileMapLayer that was created.
-        * @public
-        */
-        public createNewLayer(name: string, atlas: Kiwi.Textures.TextureAtlas, data?: number[], w?: number, h?: number, x?: number, y?: number, tw?: number, th?: number): Tilemap.TileMapLayer;
-        /**
-        * Eventually will create a new object layer. Currently does nothing.
-        * @method createNewObjectLayer
-        * @public
-        */
-        public createNewObjectLayer(): void;
-        /**
-        * Eventually will create a new image layer. Currently does nothing.
-        * @method createNewObjectLayer
-        * @public
-        */
-        public createNewImageLayer(): void;
-        /**
-        *-----------------------
-        * TileMapLayer Management Functions
-        *-----------------------
-        **/
-        /**
-        * Get a layer by the name that it was given upon creation.
-        * Returns null if no layer with that name was found.
-        * @method getLayerByName
-        * @param name {String} Name of the layer you would like to select.
-        * @return {TileMapLayer} Either the layer with the name passed, or null if no Layer with that name was found.
-        * @public
-        */
-        public getLayerByName(name: string): Tilemap.TileMapLayer;
-        /**
-        * Returns the layer with the number associated with it in the layers array.
-        * @method getLayer
-        * @param num {Number} Number of the Layer you would like to get.
-        * @return {TileMapLayer}
-        * @public
-        */
-        public getLayer(num: number): Tilemap.TileMapLayer;
-        /**
-        * The type of object that it is.
+        * The type of object that this is.
         * @method objType
         * @return {String}
         * @public
         */
         public objType(): string;
+        /**
+        * The keyboard manager that this key belongs to.
+        * @property _manager
+        * @type Keyboard
+        * @private
+        */
+        private _manager;
+        /**
+        * The keycode that this key is.
+        * @property keyCode
+        * @type Number
+        * @public
+        */
+        public keyCode: number;
+        /**
+        * Indicated whether or not the key is currently down.
+        * @property isDown
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public isDown: boolean;
+        /**
+        * Indicates whether or not the key is currently up.
+        * @property isUp
+        * @type boolean
+        * @default true
+        * @public
+        */
+        public isUp: boolean;
+        /**
+        * If the alt key was held at the time of the event happening.
+        * @property altKey
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public altKey: boolean;
+        /**
+        * If the ctrl key was held at the time of the event happening.
+        * @property ctrlKey
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public ctrlKey: boolean;
+        /**
+        * If the shift key was held at the time of the event happening.
+        * @property shiftKey
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public shiftKey: boolean;
+        /**
+        * The time that the key was pressed initially.
+        * @property timeDown
+        * @type Number
+        * @default 0
+        * @public
+        */
+        public timeDown: number;
+        /**
+        * The duration (in milliseconds) that the key has been down for.
+        * This is property is READ ONLY.
+        * @property duration
+        * @type Number
+        * @default 0
+        * @public
+        */
+        public duration : number;
+        /**
+        * The time at which the key was released.
+        * @property timeUp
+        * @type Number
+        * @default 0
+        * @public
+        */
+        public timeUp: number;
+        /**
+        * If this key is being 'held' down, this property will indicate the amount of times the 'onkeydown' event has fired.
+        * This is reset each time the key is pressed.
+        * @property repeats
+        * @type Number
+        * @default 0
+        * @public
+        */
+        public repeats: number;
+        /**
+        * The 'update' method fires when an event occur's. Updates the keys properties
+        * @method update
+        * @param event {KeyboardEvent}
+        * @public
+        */
+        public update(event: KeyboardEvent): void;
+        /**
+        * Returns a boolean indicating whether or not this key was just pressed.
+        * @method justPressed
+        * @param [duration] {Number} The duration at which determines if a key was just pressed. Defaults to the managers just pressed rate.
+        * @return {boolean}
+        * @public
+        */
+        public justPressed(duration?: number): boolean;
+        /**
+        * Returns a boolean indicating whether or not this key was just released.
+        * @method justReleased
+        * @param [duration] {Number} The duration at which determines if a key was just released. Defaults to the managers just pressed rate.
+        * @return {boolean}
+        * @public
+        */
+        public justReleased(duration?: number): boolean;
+        /**
+        * Resets all of the properties on the Key to their default values.
+        * @method reset
+        * @public
+        */
+        public reset(): void;
     }
 }
 /**
 *
-* @module GameObjects
-* @submodule Tilemap
+* @module Kiwi
+* @submodule Input
 *
-*/
-declare module Kiwi.GameObjects.Tilemap {
+*/ 
+declare module Kiwi.Input {
     /**
-    * Is GameObject that contains the information held for a single Layer of Tiles, along with methods to handle the rendering of those Tiles.
-    * A TileMapLayer should not be directly created, but instead should be created through a TileMap object instead.
+    * Handles and Manages the dispatching of keyboard events. When the user press's a button a new Key object is created.
     *
-    * @class TileMapLayer
-    * @extends Entity
-    * @namespace Kiwi.GameObjects.Tilemap
+    * @class Keyboard
     * @constructor
-    * @param tilemap {TileMap} The TileMap that this layer belongs to.
-    * @param name {String} The name of this TileMapLayer.
-    * @param atlas {TextureAtlas} The texture atlas that should be used when rendering this TileMapLayer onscreen.
-    * @param data {Number[]} The information about the tiles.
-    * @param tw {Number} The width of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
-    * @param th {Number} The height of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
-    * @param [x=0] {Number} The x coordinate of the tilemap in pixels.
-    * @param [y=0] {Number} The y coordinate of the tilemap in pixels.
-    * @param [w=0] {Number} The width of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
-    * @param [h=0] {Number} The height of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
-    * @return {TileMapLayer}
+    * @namespace Kiwi.Input
+    * @param game {Game}
+    * @return {Keyboard} This object.
+    *
     */
-    class TileMapLayer extends Kiwi.Entity {
-        constructor(tilemap: Tilemap.TileMap, name: string, atlas: Kiwi.Textures.TextureAtlas, data: number[], tw: number, th: number, x?: number, y?: number, w?: number, h?: number);
-        public physics: Kiwi.Components.ArcadePhysics;
+    class Keyboard {
+        constructor(game: Kiwi.Game);
         /**
-        * Returns the type of child that this is.
-        * @type Number
-        * @return {Number} returns the type of child that the entity is
-        * @public
-        */
-        public childType(): number;
-        /**
-        * The type of object that it is.
+        * The type of object that this is.
         * @method objType
         * @return {String}
         * @public
         */
         public objType(): string;
         /**
-        * The tilemap that this TileMapLayer is a part of.
-        * @property tilemap
-        * @type TileMap
+        * The game that this Keyboard belongs to.
+        * @property game
+        * @type Game
         * @public
         */
-        public tilemap: Tilemap.TileMap;
+        public game: Kiwi.Game;
         /**
-        * Properties about that this TileMapLayer has when it was created from a JSON file.
-        * @property properties
-        * @type Object
-        * @public
-        */
-        public properties: any;
-        /**
-        * The width of this TileMap in tiles.
-        * @property width
-        * @type Number
-        * @public
-        */
-        public width: number;
-        /**
-        * The height of this TileMap in tiles.
-        * @property height
-        * @type Number
-        * @public
-        */
-        public height: number;
-        /**
-        * The width of a single tile.
-        * @property tileWidth
-        * @type Number
-        * @public
-        */
-        public tileWidth: number;
-        /**
-        * The height of a single tile.
-        * @property tileHeight
-        * @type Number
-        * @public
-        */
-        public tileHeight: number;
-        /**
-        * The texture atlas that should be used when rendering.
-        * @property atlas
-        * @type TextureAtlas
-        * @public
-        */
-        public atlas: Kiwi.Textures.TextureAtlas;
-        /**
-        * The width of the layer in pixels. This property is READ ONLY.
-        * @property widthInPixels
-        * @type number
-        * @public
-        */
-        public widthInPixels : number;
-        /**
-        * The height of the layer in pixels. This property is READ ONLY.
-        * @property heightInPixels
-        * @type number
-        * @public
-        */
-        public heightInPixels : number;
-        /**
-        * A list containing all the types of tiles found on this TileMapLayer.
-        * @property _data
-        * @type number[]
+        * Contains a reference to each Key object when they are either added to this Keyboard manager (by the developer), or when an event fires with that keycode.
+        * @property _keys
+        * @type Key[]
         * @private
         */
-        private _data;
+        private _keys;
         /**
-        * Returns the total number of tiles. Either for a particular type if passed, otherwise of any type if not passed.
-        * @method countTiles
-        * @param [type] {Number} The type of tile you want to count.
-        * @return {Number} The number of tiles on this layer.
+        * Returns all of the Key objects that currently exist. This is READ ONLY.
+        * @property keys
+        * @type Keys[]
         * @public
         */
-        public countTiles(type?: number): number;
+        public keys : Input.Key[];
         /**
-        *-----------------------
-        * Getting Tiles
-        *-----------------------
-        */
-        /**
-        * A list containing all of the types of tiles found on this TileMapLayer. This is READ ONLY.
-        * @property tileData
-        * @type number[]
+        * The time in milliseconds which determines if a key was just pressed or not.
+        * @property justPressedRate
+        * @type Number
+        * @default 200
         * @public
         */
-        public tileData : number[];
+        public justPressedRate: number;
         /**
-        * Returns the index of the tile based on the x and y coordinates of the tile passed.
-        * If no tile is a the coordinates given then -1 is returned instead.
-        * Coordinates are in tiles not pixels.
-        * @method getIndexFromXY
-        * @param x {Number} The x coordinate of the Tile you would like to retrieve.
-        * @param y {Number} The y coordinate of the Tile you would like to retrieve.
-        * @return {Number} Either the index of the tile retrieved or -1 if none was found.
+        * The time in milliseconds which determines if a key was just released or not.
+        * @property justReleasedRate
+        * @type Number
+        * @default 200
         * @public
         */
-        public getIndexFromXY(x: number, y: number): number;
+        public justReleasedRate: number;
         /**
-        * Returns the TileType for a tile that is at a particular set of coordinates passed.
-        * If no tile is found the null is returned instead.
-        * Coordinates passed are in tiles.
-        * @method getTileFromXY
-        * @param x {Number}
-        * @param y {Number}
-        * @return {Number} The tile
+        * Is executed when the DOMElements that are need to get the game going are loaded and thus the game can 'boot'
+        * @method boot
         * @public
         */
-        public getTileFromXY(x: number, y: number): Tilemap.TileType;
+        public boot(): void;
         /**
-        * Returns the index of the tile based on the x and y pixel coordinates that are passed.
-        * If no tile is a the coordinates given then -1 is returned instead.
-        * Coordinates are in pixels not tiles and use the world coordinates of the tilemap.
-        * @method getIndexFromCoords
-        * @param x {Number} The x coordinate of the Tile you would like to retrieve.
-        * @param y {Number} The y coordinate of the Tile you would like to retrieve.
-        * @return {Number} Either the index of the tile retrieved or -1 if none was found.
-        * @public
-        */
-        public getIndexFromCoords(x: number, y: number): number;
-        /**
-        * Returns the TileType for a tile that is at a particular coordinate passed.
-        * If no tile is found the null is returned instead.
-        * Coordinates passed are in pixels and use the world coordinates of the tilemap.
-        * @method getTileFromXY
-        * @param x {Number}
-        * @param y {Number}
-        * @return {Number} The tile
-        * @public
-        */
-        public getTileFromCoords(x: number, y: number): Tilemap.TileType;
-        /**
-        * Returns the indexes of every tile of a type you pass.
-        * @method getIndexsByType
-        * @param type {Number}
-        * @return {Number[]}
-        * @public
-        */
-        public getIndexesByType(type: number): number[];
-        /**
-        *-----------------------
-        * Tiles Manipulation
-        *-----------------------
-        */
-        /**
-        * Sets the tile to be used at the coordinates provided.
-        * Can be used to override a tile that may already exist at the location.
-        * @method setTile
-        * @param x {number} The coordinate of the tile on the x axis.
-        * @param y {number} The coordinate of the tile on the y axis.
-        * @param tileType {number} The type of tile that should be now used.
-        * @return {boolean} If a tile was changed or not.
-        * @public
-        */
-        public setTile(x: number, y: number, tileType: number): boolean;
-        /**
-        * Sets the tile to be used at the index provided.
-        * Can be used to override a tile that may already exist at the location.
-        * @method setTileByIndex
-        * @param index {number} The index of the tile that you want to change.
-        * @param tileType {number} The new tile type to be used at that position.
-        * @public
-        */
-        public setTileByIndex(index: number, tileType: number): void;
-        /**
-        * Randomizes the types of tiles used in an area of the layer. You can choose which types of tiles to use, and the area.
-        * Default tile types used are everyone avaiable.
-        * @method randomizeTiles
-        * @param [types] {number[]} A list of TileTypes that can be used. Default is every tiletype on the TileMap.
-        * @param [x=0] {number} The starting tile on the x axis to fill.
-        * @param [y=0] {number} The starting tile on the y axis to fill.
-        * @param [width=this.width] {number} How far across you want to go.
-        * @param [height=this.height] {number} How far down you want to go.
-        * @public
-        */
-        public randomizeTiles(types?: number[], x?: number, y?: number, width?: number, height?: number): void;
-        /**
-        * Makes all of the tiles in the area specified a single type that is passed.
-        * @method fill
-        * @param type {number} The type of tile you want to fill in the area with.
-        * @param [x=0] {number} The starting tile on the x axis to fill.
-        * @param [y=0] {number} The starting tile on the y axis to fill.
-        * @param [width=this.width] {number} How far across you want to go.
-        * @param [height=this.height] {number} How far down you want to go.
-        * @public
-        */
-        public fill(type: number, x?: number, y?: number, width?: number, height?: number): void;
-        /**
-        * Replaces all tiles of typeA to typeB in the area specified. If no area is specified then it is on the whole layer.
-        * @method replaceTiles
-        * @param typeA {number} The type of tile you want to be replaced.
-        * @param typeB {number} The type of tile you want to be used instead.
-        * @param [x=0] {number} The starting tile on the x axis to fill.
-        * @param [y=0] {number} The starting tile on the y axis to fill.
-        * @param [width=this.width] {number} How far across you want to go.
-        * @param [height=this.height] {number} How far down you want to go.
-        * @public
-        */
-        public replaceTiles(typeA: number, typeB: number, x?: number, y?: number, width?: number, height?: number): void;
-        /**
-        * Swaps all the tiles that are typeA -> typeB and typeB -> typeA inside the area specified. If no area is specified then it is on the whole layer.
-        * @method swapTiles
-        * @param typeA {number} The type of tile you want to be replaced with typeB.
-        * @param typeB {number} The type of tile you want to be replaced with typeA.
-        * @param [x=0] {number} The starting tile on the x axis to fill.
-        * @param [y=0] {number} The starting tile on the y axis to fill.
-        * @param [width=this.width] {number} How far across you want to go.
-        * @param [height=this.height] {number} How far down you want to go.
-        * @public
-        */
-        public swapTiles(typeA: number, typeB: number, x?: number, y?: number, width?: number, height?: number): void;
-        /**
-        *-----------------------
-        * Get Tiles By Collision Methods
-        *-----------------------
-        */
-        /**
-        * Returns the tiles which overlap with a provided entities box component.
-        * Only collidable tiles on ANY side will be returned unless you pass a particular side.
-        *
-        * @method getOverlappingTiles
-        * @param entity {Entity} The entity you would like to check for the overlap.
-        * @param [collisionType=ANY] {Number} The particular type of collidable tiles which you would like to check for.
-        * @return {Object[]} Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.
-        * @public
-        */
-        public getOverlappingTiles(entity: Kiwi.Entity, collisionType?: number): any;
-        /**
-        * Returns the tiles which can collide with other objects (on ANY side unless otherwise specified) within an area provided.
-        * By default the area is the whole tilemap.
-        * @method getCollidableTiles
-        * @param [x=0] {Number} The x coordinate of the first tile to check.
-        * @param [y=0] {Number} The y coordinate of the first tile to check.
-        * @param [width=widthOfMap] {Number} The width from the x coordinate.
-        * @param [height=heightOfmap] {Number} The height from the y coordinate.
-        * @param [collisionType=ANY] {Number} The type of collidable tiles that should be return. By default ANY type of collidable tiles will be returned.
-        * @return {Object[]} Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.
-        * @public
-        */
-        public getCollidableTiles(x?: number, y?: number, width?: number, height?: number, collisionType?: number): any;
-        /**
-        * The update loop that is executed when this TileMapLayer is add to the Stage.
+        * The update loop that is executed every frame.
         * @method update
         * @public
         */
         public update(): void;
         /**
-        *-----------------------
-        * Temp Properties used During Rendering
-        *-----------------------
-        */
-        /**
-        * Used whilst rendering to calculate the number of tiles to be rendered on the X axis.
-        * Is updated each frame, via the _calculateBoundaries method.
-        * @property _maxX
-        * @type number
-        * @private
-        */
-        private _maxX;
-        /**
-        * Used whilst rendering to calculate the number of tiles to be rendered on the Y axis.
-        * Is updated each frame, via the _calculateBoundaries method.
-        * @property _maxY
-        * @type number
-        * @private
-        */
-        private _maxY;
-        /**
-        * Used whilst rendering to calculate which is the first tile to be rendered on the X axis.
-        * Is updated each frame, via the _calculateBoundaries method.
-        * @property _startX
-        * @type number
-        * @private
-        */
-        private _startX;
-        /**
-        * Used whilst rendering to calculate which is the first tile to be rendered on the Y axis.
-        * Is updated each frame, via the _calculateBoundaries method.
-        * @property _startY
-        * @type number
-        * @private
-        */
-        private _startY;
-        /**
-        * Temporary property that holds the tileType of the current tile being rendered.
-        * @property _temptype
-        * @type TileType
-        * @private
-        */
-        private _temptype;
-        /**
-        * Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen.
-        * All coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).
-        * @method _calculateBoundaries
-        * @param camera {Camera}
-        * @param matrix {Matrix}
-        * @private
-        */
-        private _calculateBoundaries(camera, matrix);
-        /**
-        * The render loop which is used when using the Canvas renderer.
-        * @method render
-        * @param camera {Camera}
+        * A Signal that dispatches events when a key is released/is now up.
+        * @property onKeyUp
+        * @type Signal
         * @public
         */
-        public render(camera: Kiwi.Camera): boolean;
-        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
+        public onKeyUp: Kiwi.Signal;
+        /**
+        * A Signal that dispatches events when a key is pressed/is down.
+        * This mimics the natural 'keydown' event listener, so it will keep dispatching events if the user holds the key down.
+        * Note: This fires after the 'onKeyDownOnce' signal.
+        *
+        * @property onKeyDown
+        * @type Signal
+        * @public
+        */
+        public onKeyDown: Kiwi.Signal;
+        /**
+        * A Signal that dispatches events when a key is pressed/is down initially.
+        * This event only fires the first time that the key is pressed, so it won't dispatch events if the user is holding the key down.
+        * Note: This fires before the 'onKeyDown' signal;
+        *
+        * @property onKeyDownOnce
+        * @type Signal
+        * @public
+        */
+        public onKeyDownOnce: Kiwi.Signal;
+        /**
+        * Adds the event listeners to the browser to listen for key events.
+        * @method start
+        * @public
+        */
+        public start(): void;
+        /**
+        * Removes the event listeners and so effectively 'stops' all keyboard events.
+        * @method stop
+        * @public
+        */
+        public stop(): void;
+        /**
+        * Is executed when a key is pressed/is down. This then either creates a new Key (if one does not currently exist) for that keycode,
+        * or it updates the key that was pressed (if one does exist).
+        * @method onKeyDown
+        * @param {KeyboardEvent} event.
+        * @private
+        */
+        private _keyPressed(event);
+        /**
+        * Is executed when a key is release/is now up. This then either creates a new Key (if one does not currently exist) for that keycode,
+        * or it updates the key that was released (if one does exist).
+        * @method onKeyUp
+        * @param {KeyboardEvent} event.
+        * @private
+        */
+        private _keyReleased(event);
+        /**
+        * Creates a new Key object for a keycode that is specified.
+        * Not strictly needed (as one will be created once an event occurs on that keycode) but can be good for setting the game up
+        * and choosing whether to prevent that keys any default action.
+        * @method addKey
+        * @param keycode {Number} The keycode of the key that you want to add.
+        * @param [preventDefault=false] {Boolean} If the default action for that key should be prevented or not when an event fires.
+        * @return {Key}
+        * @public
+        */
+        public addKey(keycode: number, preventDefault?: boolean): Input.Key;
+        /**
+        * Returns a boolean indicating if a key (that you pass via a keycode) was just pressed or not.
+        * @method justPressed
+        * @param keycode {Number} The keycode of the key that you would like to check against.
+        * @param [duration=this.justPressedRate] {Number} The duration at which determines if a key was 'just' pressed or not. If not specified defaults to the justPressedRate
+        * @public
+        */
+        public justPressed(keycode: any, duration?: number): boolean;
+        /**
+        * Returns a boolean indicating if a key (that you pass via a keycode) was just released or not.
+        * @method justReleased
+        * @param keycode {Number} The keycode of the key that you would like to check against.
+        * @param [duration=this.justReleasedRate] {Number} The duration at which determines if a key was 'just' released or not. If not specified defaults to the justReleasedRate
+        * @public
+        */
+        public justReleased(keycode: any, duration?: number): boolean;
+        /**
+        * Returns a boolean indicating whether a key (that you pass via its keycode) is down or not.
+        * @method isDown
+        * @param keycode {Number} The keycode of the key that you are checking.
+        * @return {boolean}
+        * @public
+        */
+        public isDown(keycode: number): boolean;
+        /**
+        * Returns a boolean indicating whether a key (that you pass via its keycode) is up or not.
+        * @method isUp
+        * @param keycode {Number} The keycode of the key that you are checking.
+        * @return {boolean}
+        * @public
+        */
+        public isUp(keycode: number): boolean;
+        /**
+        * Executes the reset method on every Key that currently exists.
+        * @method reset
+        * @public
+        */
+        public reset(): void;
+    }
+}
+/**
+*
+* @module Kiwi
+* @submodule Input
+*
+*/ 
+declare module Kiwi.Input {
+    /**
+    * A Static class which has a property associated with all all of the character codes on a typical keyboard. While you don't need this class for your game to work, it is quite handy to use as it can speed up the development process.
+    *
+    * @class Keycodes
+    * @namespace Kiwi.Input
+    * @static
+    */
+    class Keycodes {
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {string}
+        * @public
+        */
+        public objType(): string;
+        /**
+        * A Static property that holds the keycode for the character A
+        * @property A
+        * @static
+        * @final
+        * @public
+        */
+        static A: number;
+        /**
+        * A Static property that holds the keycode for the character B
+        * @property B
+        * @static
+        * @final
+        * @public
+        */
+        static B: number;
+        /**
+        * A Static property that holds the keycode for the character C
+        * @property C
+        * @static
+        * @final
+        * @public
+        */
+        static C: number;
+        /**
+        * A Static property that holds the keycode for the character D
+        * @property D
+        * @static
+        * @final
+        * @public
+        */
+        static D: number;
+        /**
+        * A Static property that holds the keycode for the character E
+        * @property E
+        * @static
+        * @final
+        * @public
+        */
+        static E: number;
+        /**
+        * A Static property that holds the keycode for the character F
+        * @property F
+        * @static
+        * @final
+        * @public
+        */
+        static F: number;
+        /**
+        * A Static property that holds the keycode for the character G
+        * @property G
+        * @static
+        * @final
+        * @public
+        */
+        static G: number;
+        /**
+        * A Static property that holds the keycode for the character H
+        * @property H
+        * @static
+        * @final
+        * @public
+        */
+        static H: number;
+        /**
+        * A Static property that holds the keycode for the character I
+        * @property I
+        * @static
+        * @final
+        * @public
+        */
+        static I: number;
+        /**
+        * A Static property that holds the keycode for the character J
+        * @property J
+        * @static
+        * @final
+        * @public
+        */
+        static J: number;
+        /**
+        * A Static property that holds the keycode for the character K
+        * @property K
+        * @static
+        * @final
+        * @public
+        */
+        static K: number;
+        /**
+        * A Static property that holds the keycode for the character L
+        * @property L
+        * @static
+        * @final
+        * @public
+        */
+        static L: number;
+        /**
+        * A Static property that holds the keycode for the character M
+        * @property M
+        * @static
+        * @final
+        * @public
+        */
+        static M: number;
+        /**
+        * A Static property that holds the keycode for the character N
+        * @property N
+        * @static
+        * @final
+        * @public
+        */
+        static N: number;
+        /**
+        * A Static property that holds the keycode for the character O
+        * @property O
+        * @static
+        * @final
+        * @public
+        */
+        static O: number;
+        /**
+        * A Static property that holds the keycode for the character P
+        * @property P
+        * @static
+        * @final
+        * @public
+        */
+        static P: number;
+        /**
+        * A Static property that holds the keycode for the character Q
+        * @property Q
+        * @static
+        * @final
+        * @public
+        */
+        static Q: number;
+        /**
+        * A Static property that holds the keycode for the character R
+        * @property R
+        * @static
+        * @final
+        * @public
+        */
+        static R: number;
+        /**
+        * A Static property that holds the keycode for the character S
+        * @property S
+        * @static
+        * @final
+        * @public
+        */
+        static S: number;
+        /**
+        * A Static property that holds the keycode for the character T
+        * @property T
+        * @static
+        * @final
+        * @public
+        */
+        static T: number;
+        /**
+        * A Static property that holds the keycode for the character U
+        * @property U
+        * @static
+        * @final
+        * @public
+        */
+        static U: number;
+        /**
+        * A Static property that holds the keycode for the character V
+        * @property V
+        * @static
+        * @final
+        * @public
+        */
+        static V: number;
+        /**
+        * A Static property that holds the keycode for the character W
+        * @property W
+        * @static
+        * @final
+        * @public
+        */
+        static W: number;
+        /**
+        * A Static property that holds the keycode for the character X
+        * @property X
+        * @static
+        * @final
+        * @public
+        */
+        static X: number;
+        /**
+        * A Static property that holds the keycode for the character Y
+        * @property Y
+        * @static
+        * @final
+        * @public
+        */
+        static Y: number;
+        /**
+        * A Static property that holds the keycode for the character Z
+        * @property Z
+        * @static
+        * @final
+        * @public
+        */
+        static Z: number;
+        /**
+        * A Static property that holds the keycode for the character 0
+        * @property ZERO
+        * @static
+        * @final
+        * @public
+        */
+        static ZERO: number;
+        /**
+        * A Static property that holds the keycode for the character 1
+        * @property ONE
+        * @static
+        * @final
+        * @public
+        */
+        static ONE: number;
+        /**
+        * A Static property that holds the keycode for the character 2
+        * @property TWO
+        * @static
+        * @final
+        * @public
+        */
+        static TWO: number;
+        /**
+        * A Static property that holds the keycode for the character 3
+        * @property THREE
+        * @static
+        * @final
+        * @public
+        */
+        static THREE: number;
+        /**
+        * A Static property that holds the keycode for the character 4
+        * @property FOUR
+        * @static
+        * @final
+        * @public
+        */
+        static FOUR: number;
+        /**
+        * A Static property that holds the keycode for the character 5
+        * @property FIVE
+        * @static
+        * @final
+        * @public
+        */
+        static FIVE: number;
+        /**
+        * A Static property that holds the keycode for the character 6
+        * @property SIX
+        * @static
+        * @final
+        * @public
+        */
+        static SIX: number;
+        /**
+        * A Static property that holds the keycode for the character 7
+        * @property SEVEN
+        * @static
+        * @final
+        * @public
+        */
+        static SEVEN: number;
+        /**
+        * A Static property that holds the keycode for the character 8
+        * @property EIGHT
+        * @static
+        * @final
+        * @public
+        */
+        static EIGHT: number;
+        /**
+        * A Static property that holds the keycode for the character 9
+        * @property NINE
+        * @static
+        * @final
+        * @public
+        */
+        static NINE: number;
+        /**
+        * A Static property that holds the keycode for the character number pad 0
+        * @property NUMPAD_0
+        * @static
+        * @final
+        * @public
+        */
+        static NUMPAD_0: number;
+        /**
+        * A Static property that holds the keycode for the character number pad 1
+        * @property NUMPAD_1
+        * @static
+        * @final
+        * @public
+        */
+        static NUMPAD_1: number;
+        /**
+        * A Static property that holds the keycode for the character number pad 2
+        * @property NUMPAD_2
+        * @static
+        * @final
+        * @public
+        */
+        static NUMPAD_2: number;
+        /**
+        * A Static property that holds the keycode for the character number pad 3
+        * @property NUMPAD_3
+        * @static
+        * @final
+        * @public
+        */
+        static NUMPAD_3: number;
+        /**
+        * A Static property that holds the keycode for the character number pad 4
+        * @property NUMPAD_4
+        * @static
+        * @final
+        * @public
+        */
+        static NUMPAD_4: number;
+        /**
+        * A Static property that holds the keycode for the character number pad 5
+        * @property NUMPAD_5
+        * @static
+        * @final
+        * @public
+        */
+        static NUMPAD_5: number;
+        /**
+        * A Static property that holds the keycode for the character number pad 6
+        * @property NUMPAD_6
+        * @static
+        * @final
+        * @public
+        */
+        static NUMPAD_6: number;
+        /**
+        * A Static property that holds the keycode for the character number pad 7
+        * @property NUMPAD_7
+        * @static
+        * @final
+        * @public
+        */
+        static NUMPAD_7: number;
+        /**
+        * A Static property that holds the keycode for the character number pad 8
+        * @property NUMPAD_8
+        * @static
+        * @final
+        * @public
+        */
+        static NUMPAD_8: number;
+        /**
+        * A Static property that holds the keycode for the character number pad 9
+        * @property NUMPAD_9
+        * @static
+        * @final
+        * @public
+        */
+        static NUMPAD_9: number;
+        /**
+        * A Static property that holds the keycode for the character number pad *
+        * @property NUMPAD_MULTIPLY
+        * @static
+        * @final
+        * @public
+        */
+        static NUMPAD_MULTIPLY: number;
+        /**
+        * A Static property that holds the keycode for the character number pad +
+        * @property NUMPAD_ADD
+        * @static
+        * @final
+        * @public
+        */
+        static NUMPAD_ADD: number;
+        /**
+        * A Static property that holds the keycode for the character on the number pad enter
+        * @property NUMPAD_ENTER
+        * @static
+        * @final
+        * @public
+        */
+        static NUMPAD_ENTER: number;
+        /**
+        * A Static property that holds the keycode for the character number pad -
+        * @property NUMPAD_SUBTRACT
+        * @static
+        * @final
+        * @public
+        */
+        static NUMPAD_SUBTRACT: number;
+        /**
+        * A Static property that holds the keycode for the character number pad .
+        * @property NUMPAD_DECIMAL
+        * @static
+        * @final
+        * @public
+        */
+        static NUMPAD_DECIMAL: number;
+        /**
+        * A Static property that holds the keycode for the character /
+        * @property NUMPAD_DIVIDE
+        * @static
+        * @final
+        * @public
+        */
+        static NUMPAD_DIVIDE: number;
+        /**
+        * A Static property that holds the keycode for the character F1
+        * @property F1
+        * @static
+        * @final
+        * @public
+        */
+        static F1: number;
+        /**
+        * A Static property that holds the keycode for the character F2
+        * @property F2
+        * @static
+        * @final
+        * @public
+        */
+        static F2: number;
+        /**
+        * A Static property that holds the keycode for the character F3
+        * @property F3
+        * @static
+        * @final
+        * @public
+        */
+        static F3: number;
+        /**
+        * A Static property that holds the keycode for the character F4
+        * @property F4
+        * @static
+        * @final
+        * @public
+        */
+        static F4: number;
+        /**
+        * A Static property that holds the keycode for the character F5
+        * @property F5
+        * @static
+        * @final
+        * @public
+        */
+        static F5: number;
+        /**
+        * A Static property that holds the keycode for the character F6
+        * @property F6
+        * @static
+        * @final
+        * @public
+        */
+        static F6: number;
+        /**
+        * A Static property that holds the keycode for the character F7
+        * @property F7
+        * @static
+        * @final
+        * @public
+        */
+        static F7: number;
+        /**
+        * A Static property that holds the keycode for the character F8
+        * @property F8
+        * @static
+        * @final
+        * @public
+        */
+        static F8: number;
+        /**
+        * A Static property that holds the keycode for the character F9
+        * @property F9
+        * @static
+        * @final
+        * @public
+        */
+        static F9: number;
+        /**
+        * A Static property that holds the keycode for the character F10
+        * @property F10
+        * @static
+        * @final
+        * @public
+        */
+        static F10: number;
+        /**
+        * A Static property that holds the keycode for the character F11
+        * @property F11
+        * @static
+        * @final
+        * @public
+        */
+        static F11: number;
+        /**
+        * A Static property that holds the keycode for the character F12
+        * @property F12
+        * @static
+        * @final
+        * @public
+        */
+        static F12: number;
+        /**
+        * A Static property that holds the keycode for the character F13
+        * @property F13
+        * @static
+        * @final
+        * @public
+        */
+        static F13: number;
+        /**
+        * A Static property that holds the keycode for the character F14
+        * @property F14
+        * @static
+        * @final
+        * @public
+        */
+        static F14: number;
+        /**
+        * A Static property that holds the keycode for the character F15
+        * @property F15
+        * @static
+        * @final
+        * @public
+        */
+        static F15: number;
+        /**
+        * A Static property that holds the keycode for the character COLON
+        * @property COLON
+        * @static
+        * @final
+        * @public
+        */
+        static COLON: number;
+        /**
+        * A Static property that holds the keycode for the character =
+        * @property EQUALS
+        * @static
+        * @final
+        * @public
+        */
+        static EQUALS: number;
+        /**
+        * A Static property that holds the keycode for the character UNDERSCORE
+        * @property UNDERSCORE
+        * @static
+        * @final
+        * @public
+        */
+        static UNDERSCORE: number;
+        /**
+        * A Static property that holds the keycode for the character QUESTION_MARK
+        * @property QUESTION_MARK
+        * @static
+        * @final
+        * @public
+        */
+        static QUESTION_MARK: number;
+        /**
+        * A Static property that holds the keycode for the character TILDE
+        * @property TILDE
+        * @static
+        * @final
+        * @public
+        */
+        static TILDE: number;
+        /**
+        * A Static property that holds the keycode for the character OPEN_BRAKET
+        * @property OPEN_BRACKET
+        * @static
+        * @final
+        * @public
+        */
+        static OPEN_BRACKET: number;
+        /**
+        * A Static property that holds the keycode for the character BACKWARD_SLASH
+        * @property BACKWARD_SLASH
+        * @static
+        * @final
+        * @public
+        */
+        static BACKWARD_SLASH: number;
+        /**
+        * A Static property that holds the keycode for the character CLOSED_BRACKET
+        * @property CLOSED_BRACKET
+        * @static
+        * @final
+        * @public
+        */
+        static CLOSED_BRACKET: number;
+        /**
+        * A Static property that holds the keycode for the character QUOTES
+        * @property QUOTES
+        * @static
+        * @final
+        * @public
+        */
+        static QUOTES: number;
+        /**
+        * A Static property that holds the keycode for the character BACKSPACE
+        * @property BACKSPACE
+        * @static
+        * @final
+        * @public
+        */
+        static BACKSPACE: number;
+        /**
+        * A Static property that holds the keycode for the character TAB
+        * @property TAB
+        * @static
+        * @final
+        * @public
+        */
+        static TAB: number;
+        /**
+        * A Static property that holds the keycode for the character CLEAR
+        * @property CLEAR
+        * @static
+        * @final
+        * @public
+        */
+        static CLEAR: number;
+        /**
+        * A Static property that holds the keycode for the character ENTER
+        * @property ENTER
+        * @static
+        * @final
+        * @public
+        */
+        static ENTER: number;
+        /**
+        * A Static property that holds the keycode for the character SHIFT
+        * @property SHIFT
+        * @static
+        * @final
+        * @public
+        */
+        static SHIFT: number;
+        /**
+        * A Static property that holds the keycode for the character CONTROL
+        * @property CONTROL
+        * @static
+        * @final
+        * @public
+        */
+        static CONTROL: number;
+        /**
+        * A Static property that holds the keycode for the character ALT
+        * @property ALT
+        * @static
+        * @final
+        * @public
+        */
+        static ALT: number;
+        /**
+        * A Static property that holds the keycode for the character CAPS_LOCK
+        * @property CAPS_LOCK
+        * @static
+        * @final
+        * @public
+        */
+        static CAPS_LOCK: number;
+        /**
+        * A Static property that holds the keycode for the character ESC
+        * @property ESC
+        * @static
+        * @final
+        * @public
+        */
+        static ESC: number;
+        /**
+        * A Static property that holds the keycode for the character SPACEBAR
+        * @property SPACEBAR
+        * @static
+        * @final
+        * @public
+        */
+        static SPACEBAR: number;
+        /**
+        * A Static property that holds the keycode for the character PAGE_UP
+        * @property PAGE_UP
+        * @static
+        * @final
+        * @public
+        */
+        static PAGE_UP: number;
+        /**
+        * A Static property that holds the keycode for the character PAGE_DOWN
+        * @property PAGE_DOWN
+        * @static
+        * @final
+        * @public
+        */
+        static PAGE_DOWN: number;
+        /**
+        * A Static property that holds the keycode for the character END
+        * @property END
+        * @static
+        * @final
+        * @public
+        */
+        static END: number;
+        /**
+        * A Static property that holds the keycode for the character HOME
+        * @property HOME
+        * @static
+        * @final
+        * @public
+        */
+        static HOME: number;
+        /**
+        * A Static property that holds the keycode for the character LEFT
+        * @property LEFT
+        * @static
+        * @final
+        * @public
+        */
+        static LEFT: number;
+        /**
+        * A Static property that holds the keycode for the character UP
+        * @property UP
+        * @static
+        * @final
+        * @public
+        */
+        static UP: number;
+        /**
+        * A Static property that holds the keycode for the character RIGHT
+        * @property RIGHT
+        * @static
+        * @final
+        * @public
+        */
+        static RIGHT: number;
+        /**
+        * A Static property that holds the keycode for the character DOWN
+        * @property DOWN
+        * @static
+        * @final
+        * @public
+        */
+        static DOWN: number;
+        /**
+        * A Static property that holds the keycode for the character INSERT
+        * @property INSERT
+        * @static
+        * @final
+        * @public
+        */
+        static INSERT: number;
+        /**
+        * A Static property that holds the keycode for the character DELETE
+        * @property DELETE
+        * @static
+        * @final
+        * @public
+        */
+        static DELETE: number;
+        /**
+        * A Static property that holds the keycode for the character HELP
+        * @property HELP
+        * @static
+        * @final
+        * @public
+        */
+        static HELP: number;
+        /**
+        * A Static property that holds the keycode for the character NUM_LOCK
+        * @property NUM_LOCK
+        * @static
+        * @final
+        * @public
+        */
+        static NUM_LOCK: number;
+    }
+}
+/**
+* Section that contains the code related to handling user interaction with a game.
+*
+* @module Kiwi
+* @submodule Input
+* @main Input
+*/ 
+declare module Kiwi.Input {
+    /**
+    * Handles the initialization and management of the various ways a user can interact with the device/game, whether this is through a Keyboard and Mouse or by a Touch. Also contains some of the general callbacks that are 'global' between both Desktop and Mobile based devices.
+    *
+    * @class InputManager
+    * @constructor
+    * @namespace Kiwi.Input
+    * @param game {Game} The game that this object belongs to.
+    * @return {InputManager} This object.
+    *
+    */
+    class InputManager {
+        constructor(game: Kiwi.Game);
+        /**
+        * The type of object this is.
+        * @method objType
+        * @return String
+        * @public
+        */
+        public objType(): string;
+        /**
+        * A Signal that dispatches a event when any Pointer is pressed from the game.
+        * @property onDown
+        * @type Signal
+        * @public
+        */
+        public onDown: Kiwi.Signal;
+        /**
+        * A Signal that dispatches a event when any Pointer is released from the game.
+        * @property onUp
+        * @type Signal
+        * @public
+        */
+        public onUp: Kiwi.Signal;
+        /**
+        * The game that this manager belongs to.
+        * @property game
+        * @type Game
+        * @public
+        */
+        public game: Kiwi.Game;
+        /**
+        * A reference to the mouse manager.
+        * @property mouse
+        * @type Mouse
+        * @public
+        */
+        public mouse: Input.Mouse;
+        /**
+        * The keyboard manager
+        * @property keyboard
+        * @type Keyboard
+        * @public
+        */
+        public keyboard: Input.Keyboard;
+        /**
+        * The touch manager.
+        * @property touch
+        * @type Touch
+        * @public
+        */
+        public touch: Input.Touch;
+        /**
+        * An array containing all of the pointers that are active on the stage.
+        * @property _pointers
+        * @type Pointer[]
+        * @private
+        */
+        private _pointers;
+        /**
+        * Returns all of the pointers that can be used on the Input Manager. This is READ only.
+        * @property pointer
+        * @type Pointer[]
+        * @public
+        */
+        public pointers : Input.Pointer[];
+        /**
+        * This method is executed when the DOM has loaded and the manager is ready to load.
+        * @method boot
+        * @public
+        */
+        public boot(): void;
+        /**
+        * A private method that gets dispatched when either the mouse or touch manager dispatches a down event
+        * @method _onDownEvent
+        * @param x {Number} The x coordinate of the pointer
+        * @param y {Number} The y coordinate of the pointer
+        * @param timeDown {Number} The time that the pointer has been down for.
+        * @param timeUp {Number} The Time that the pointer has been up form
+        * @param duration {Number}
+        * @param pointer {Pointer} The pointer that was used.
+        * @private
+        */
+        private _onDownEvent(x, y, timeDown, timeUp, duration, pointer);
+        /**
+        * A private method that gets dispatched when either the mouse or touch manager dispatches a up event
+        * @method _onUpEvent
+        * @param x {Number} The x coordinate of the pointer
+        * @param y {Number} The y coordinate of the pointer
+        * @param timeDown {Number} The time that the pointer has been down for.
+        * @param timeUp {Number} The Time that the pointer has been up form
+        * @param duration {Number}
+        * @param pointer {Pointer} The pointer that was used.
+        * @private
+        */
+        private _onUpEvent(x, y, timeDown, timeUp, duration, pointer);
+        public onPressed : Kiwi.Signal;
+        /**
+        * An alias for the onRelease signal that goes straight to the onUp
+        * @property onReleased
+        * @type Signal
+        * @public
+        */
+        public onReleased : Kiwi.Signal;
+        /**
+        * The update loop that gets executed every frame.
+        * @method update
+        * @public
+        */
+        public update(): void;
+        /**
+        * Runs the reset method on the managers.
+        * @method reset
+        */
+        public reset(): void;
+        /**
+        * The position of the last pointer that was/is active on the stage.
+        * @property position
+        * @type Point
+        * @public
+        */
+        public position: Kiwi.Geom.Point;
+        /**
+        * If an input is currently down. Not an accurate representation, should use the individual managers.
+        * @property isDown
+        * @type boolean
+        * @public
+        */
+        public isDown: boolean;
+        /**
+        * Populated x coordinate based on the most recent click/touch event
+        * @property x
+        * @type Number
+        * @public
+        */
+        public x : number;
+        /**
+        * Populated y coordinate based on the most recent click/touch event
+        * @property y
+        * @type Number
+        * @public
+        */
+        public y : number;
+    }
+}
+/**
+*
+* @module Kiwi
+* @submodule Input
+*
+*/ 
+declare module Kiwi.Input {
+    /**
+    * Handles the dispatching/management of Mouse Events on a game. When this class is instantiated a MouseCursor object is also created (on this object) which holds the information that is unique to the mouse cursor, although majority of that information is still accessible inside this object.
+    *
+    * @class Mouse
+    * @constructor
+    * @namespace Kiwi.Input
+    * @param game {Game} The game that this mouse manager belongs to.
+    * @return {Mouse}
+    *
+    */
+    class Mouse {
+        constructor(game: Kiwi.Game);
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string;
+        /**
+        * The game that this mouse manager belongs to.
+        * @property _game
+        * @type Game
+        * @private
+        */
+        private _game;
+        /**
+        * The HTMLElement that is being used to apply the mouse events to.
+        * @property _domElement
+        * @type HTMLDivElement
+        * @private
+        */
+        private _domElement;
+        /**
+        * The numeric value for the LEFT button.
+        * @property LEFT_BUTTON
+        * @type Number
+        * @static
+        * @public
+        * @final
+        * @default 0
+        */
+        static LEFT_BUTTON: number;
+        /**
+        * The numeric value for the MIDDLE button.
+        * @property MIDDLE_BUTTON
+        * @type Number
+        * @static
+        * @public
+        * @final
+        * @default 1
+        */
+        static MIDDLE_BUTTON: number;
+        /**
+        * The numeric value for the RIGHT button.
+        * @property RIGHT_BUTTON
+        * @type Number
+        * @static
+        * @public
+        * @final
+        * @default 2
+        */
+        static RIGHT_BUTTON: number;
+        /**
+        * A Signal that dispatches events when the mouse is pressed down on the stage.
+        * @property onDown
+        * @type Kiwi.Signal
+        * @public
+        */
+        public onDown: Kiwi.Signal;
+        /**
+        * A Signal that dispatches events when the mouse is released from being down on the stage.
+        * @property onUp
+        * @type Kiwi.Signal
+        * @public
+        */
+        public onUp: Kiwi.Signal;
+        /**
+        * A Signal that dispatches events mouse wheel moves.
+        * @property mouseWheel
+        * @type Kiwi.Signal
+        * @public
+        */
+        public onWheel: Kiwi.Signal;
+        /**
+        * The MouseCursor that is on the stage. This contains the coordinates and information about the cursor.
+        * @property _cursor
+        * @type MouseCursor
+        * @private
+        */
+        private _cursor;
+        /**
+        * Returns the MouseCursor that is being used on the stage. This is READ ONLY.
+        * @property cursor
+        * @type MouseCursor
+        * @private
+        */
+        public cursor : Input.MouseCursor;
+        /**
+        * This method is executed when the DOM has finished loading and thus the MouseManager can start listening for events.
+        * @method boot
+        * @public
+        */
+        public boot(): void;
+        /**
+        * Indicates whether or not the cursor is currently down. This is READ ONLY.
+        * @property isDown
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public isDown : boolean;
+        /**
+        * Indicates whether or not the cursor is currently up. This is READ ONLY.
+        * @property isUp
+        * @type boolean
+        * @default true
+        * @public
+        */
+        public isUp : boolean;
+        /**
+        * Gets the duration in Milliseconds that the mouse cursor has either been up or down for.
+        * @property duration
+        * @type number
+        * @public
+        */
+        public duration : number;
+        /**
+        * Gets the x coordinate of the mouse cursor.
+        * @property x
+        * @type number
+        * @public
+        */
+        public x : number;
+        /**
+        * Gets the y coordinate of the mouse cursor.
+        * @property y
+        * @type number
+        * @public
+        */
+        public y : number;
+        /**
+        * Gets the wheelDeltaX coordinate of the mouse cursors wheel.
+        * @property wheelDeltaX
+        * @type number
+        * @public
+        */
+        public wheelDeltaX : number;
+        /**
+        * Gets the wheelDeltaY coordinate of the mouse cursors wheel.
+        * @property wheelDeltaY
+        * @type number
+        * @public
+        */
+        public wheelDeltaY : number;
+        /**
+        * Indicates if the ctrl key is down.
+        * @property ctrlKey
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public ctrlKey : boolean;
+        /**
+        * Indicates if the shift key is down.
+        * @property shiftKey
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public shiftKey : boolean;
+        /**
+        * Indicates if the alt key is down.
+        * @property altKey
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public altKey : boolean;
+        /**
+        * Returns a number indicating the button that was used. This can be used with the STATIC button properties.
+        * @property button
+        * @type number
+        * @public
+        */
+        public button : number;
+        /**
+        * The update loop for the cursor.
+        * @method update
+        * @public
+        */
+        public update(): void;
+        /**
+        * Start the mouse event listeners on the game. Automatically called by the boot.
+        * @method start
+        * @public
+        */
+        public start(): void;
+        /**
+        * Stops the mouse event listeners from working. Useful if you no longer want the mouse to 'work'/be listened to.
+        * @method stop
+        * @public
+        */
+        public stop(): void;
+        /**
+        * Method that gets fired when the mouse is pressed on the stage.
+        * @method onMouseDown
+        * @param {MouseEvent} event.
+        * @private
+        */
+        private onMouseDown(event);
+        /**
+        * Method that gets fired when the mouse moves anywhere on the stage.
+        * @method onMouseMove
+        * @param {MouseEvent} event.
+        * @private
+        */
+        private onMouseMove(event);
+        /**
+        * Method that gets fired when the mouse is released on the stage.
+        * @method onMouseUp
+        * @param {MouseEvent} event.
+        * @private
+        */
+        private onMouseUp(event);
+        /**
+        * Method that gets fired when the mousewheel is moved.
+        * @method onMouseWheel
+        * @param {MouseEvent} event.
+        * @private
+        */
+        private onMouseWheel(event);
+        /**
+        * Returns a boolean indicating if the mouse was 'justPressed' within a certain timeframe. The default timeframe is 200 milliseconds.
+        * @method justPressed
+        * @param [duration=200] {Number} The timeframe that it could have occured in.
+        * @return {boolean}
+        * @public
+        */
+        public justPressed(duration?: number): boolean;
+        /**
+        * Returns a boolean indicating if the mouse was 'justReleased' within a certain timeframe. The default timeframe is 200 milliseconds.
+        * @method justReleased
+        * @param [duration=200] {Number} The timeframe that it could have occured in..
+        * @return {boolean}
+        * @public
+        */
+        public justReleased(duration?: number): boolean;
+        /**
+        * Runs the Reset method on the MouseCursor.
+        * @method reset
+        * @public
+        */
+        public reset(): void;
+    }
+}
+/**
+*
+* @module Kiwi
+* @submodule Input
+*
+*/ 
+declare module Kiwi.Input {
+    /**
+    * Handles the dispatching and management of touch based events for the game. When the Touch manager is created TEN finger objects are created and used when the user interacts with the screen. Those finger are what you can use to create games that make the most out of multitouch events.
+    *
+    * @class Touch
+    * @constructor
+    * @namespace Kiwi.Input
+    * @param game {Game} the game that this touch manager belongs to.
+    * @return {Touch} This object.
+    *
+    */
+    class Touch {
+        constructor(game: Kiwi.Game);
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return String
+        * @public
+        */
+        public objType(): string;
+        /**
+        * The game that this touch manager belongs to.
+        * @property _game
+        * @type Game
+        * @private
+        **/
+        private _game;
+        /**
+        * The dom element that these touch events are to take place on. This is usally set to be the stage/game container.
+        * @property _domElement
+        * @type HTMLElement
+        * @default null
+        * @private
+        **/
+        private _domElement;
+        /**
+        * Contains a list of all of the fingers that are used for the touch events.
+        * @property _fingers
+        * @type Array
+        * @private
+        */
+        private _fingers;
+        /**
+        * Get the fingers that are being used.
+        * @type Finger[]
+        * @public
+        */
+        public fingers : Input.Finger[];
+        /**
+        * The first finger that is used for touch events.
+        * @property finger1
+        * @type Finger
+        * @public
+        */
+        public finger1: Input.Finger;
+        /**
+        * The second finger that is used for touch events.
+        * @property finger2
+        * @type Finger
+        * @public
+        */
+        public finger2: Input.Finger;
+        /**
+        * The third finger that is used for touch events.
+        * @property finger3
+        * @type Finger
+        * @public
+        */
+        public finger3: Input.Finger;
+        /**
+        * The fourth finger that is used for touch events.
+        * @property finger4
+        * @type Finger
+        * @public
+        */
+        public finger4: Input.Finger;
+        /**
+        * Finger number five that is used for touch events.
+        * @property finger5
+        * @type Finger
+        * @public
+        */
+        public finger5: Input.Finger;
+        /**
+        * Finger number six, that is used for touch events.
+        * @property finger6
+        * @type Finger
+        * @public
+        */
+        public finger6: Input.Finger;
+        /**
+        * The seventh finger used for touch events.
+        * @property finger7
+        * @type Finger
+        * @public
+        */
+        public finger7: Input.Finger;
+        /**
+        * Finger number eight
+        * @property finger8
+        * @type Finger
+        * @public
+        */
+        public finger8: Input.Finger;
+        /**
+        * The ninth finger that is used for touch events.
+        * @property finger9
+        * @type Finger
+        * @public
+        */
+        public finger9: Input.Finger;
+        /**
+        * The tenth finger that is used for touch events.
+        * @property finger10
+        * @type Finger
+        * @public
+        */
+        public finger10: Input.Finger;
+        /**
+        * The latest finger that was used for any task.
+        * @property latestFinger
+        * @type Finger
+        * @public
+        */
+        public latestFinger: Input.Finger;
+        /**
+        * A boolean that will roughly indicate if any finger is currently down.
+        * @property isDown
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public isDown: boolean;
+        /**
+        * If all the fingers are up.
+        * @property isUp
+        * @type boolean
+        * @default true
+        * @public
+        */
+        public isUp: boolean;
+        /**
+        * A Kiwi Signal that dispatches an event when a user presses down on the stage.
+        * @property touchDown
+        * @type Signal
+        * @public
+        */
+        public touchDown: Kiwi.Signal;
+        /**
+        * A Kiwi Signal that dispatches an event when a user releases a finger off of the stage.
+        * @property touchUp
+        * @type Signal
+        * @public
+        */
+        public touchUp: Kiwi.Signal;
+        /**
+        * A Kiwi Signal that dispatches an event when a touch event is cancelled for the some reason.
+        * @property touchCancel
+        * @tpye Signal
+        * @public
+        */
+        public touchCancel: Kiwi.Signal;
+        /**
+        * An internal Kiwi method that runs when the DOM is loaded and the touch manager can now 'boot' up.
+        * @method boot
+        * @public
+        */
+        public boot(): void;
+        /**
+        * Starts up the event listeners that are being used on the touch manager.
+        * @method start
+        * @public
+        */
+        public start(): void;
+        /**
+        * Prevent iOS bounce-back (doesn't work?)
+        * @method consumeTouchMove
+        * @param {Any} event
+        * @public
+        */
+        private consumeTouchMove(event);
+        /**
+        * Gets the position of the latest finger on the x axis.
+        * @type number
+        * @public
+        */
+        public x : number;
+        /**
+        * Gets the position of the latest finger on the y axis.
+        * @type number
+        * @public
+        */
+        public y : number;
+        /**
+        * The developer defined maximum number of touch events. By default this is set to 10 but this can be set to be lower.
+        * @property _maxTouchEvents
+        * @type number
+        * @default 10
+        * @private
+        */
+        private _maxPointers;
+        /**
+        * Gets the maximum number of points of contact that are allowed on the game stage at one point.
+        * @type number
+        * @public
+        */
+        /**
+        * Sets the maximum number of point of contact that are allowed on the game stage at one point.
+        * The maximum number of points that are allowed is 10, and the minimum is 0.
+        * @type number
+        * @public
+        */
+        public maximumPointers : number;
+        /**
+        * This method runs when the a touch start event is fired by the browser and then assigns the event to a pointer that is currently not active.
+        * @method onTouchStart
+        * @param {Any} event
+        * @private
+        */
+        private onTouchStart(event);
+        /**
+        * Doesn't appear to be supported by most browsers yet but if it was it would fire events when a touch is canceled.
+        * @method onTouchCancel
+        * @param {Any} event
+        * @private
+        */
+        private onTouchCancel(event);
+        /**
+        * Doesn't appear to be supported by most browsers yet. But if it was would fire events when touch events enter an element.
+        * @method onTouchEnter
+        * @param {Any} event
+        * @private
+        */
+        private onTouchEnter(event);
+        /**
+        * Doesn't appear to be supported by most browsers yet. Would fire events when a 'finger' leaves an element.
+        * Would be handly for when an finger 'leaves' the stage.
+        * @method onTouchLeave
+        * @param {Any} event
+        * @private
+        */
+        private onTouchLeave(event);
+        /**
+        * When a touch pointer moves. This method updates the appropriate pointer.
+        * @method onTouchMove
+        * @param {Any} event
+        * @private
+        */
+        private onTouchMove(event);
+        /**
+        * When a touch event gets released.
+        * @method onTouchEnd
+        * @param {Any} event
+        * @private
+        */
+        private onTouchEnd(event);
+        /**
+        * The update loop fro the touch manager.
+        * @method update
+        * @public
+        */
+        public update(): void;
+        /**
+        * This method removes all of the event listeners and thus 'stops' the touch manager.
+        * @method stop
+        * @public
+        */
+        public stop(): void;
+        /**
+        * Resets all of the fingers/pointers to their default states.
+        * @method reset
+        * @public
+        */
+        public reset(): void;
+    }
+}
+/**
+*
+* @module Kiwi
+* @submodule Input
+*
+*/ 
+declare module Kiwi.Input {
+    /**
+    * Is a generic class that holds the properties/methods that are common across various different methods of inputs from the user, mainly between Touch and Mouse based events. This abstract class and such it is suppose to be extended from for individual implementations.
+    *
+    * @class Pointer
+    * @constructor
+    * @namespace Kiwi.Input
+    * @param {Game} game
+    * @return Pointer
+    *
+    */
+    class Pointer {
+        constructor(game: Kiwi.Game);
+        /**
+        * The type of object this class is.
+        * @method objType
+        * @return {string}
+        * @public
+        */
+        public objType(): string;
+        /**
+        * The game that this pointer belongs to.
+        * @property _game
+        * @type Game
+        * @private
+        */
+        private _game;
+        /**
+        * Get the game that this pointer belongs to.
+        * @type Game
+        * @public
+        */
+        public game : Kiwi.Game;
+        /**
+        * The unique identifier for this pointer.
+        * @property _id
+        * @type number
+        * @private
+        */
+        public id: number;
+        /**
+        * The horizontal coordinate of point relative to the game element
+        * @property x
+        * @type Number
+        * @default -1
+        * @public
+        */
+        public x: number;
+        /**
+        * The vertical coordinate of point relative to the game element
+        * @property y
+        * @type Number
+        * @default -1
+        * @public
+        */
+        public y: number;
+        /**
+        * The horizontal coordinate of point relative to the viewport in pixels, excluding any scroll offset
+        * @property clientX
+        * @type Number
+        * @default -1
+        * @public
+        */
+        public clientX: number;
+        /**
+        * The vertical coordinate of point relative to the viewport in pixels, excluding any scroll offset
+        * @property clientY
+        * @type Number
+        * @default -1
+        * @public
+        */
+        public clientY: number;
+        /**
+        * The horizontal coordinate of point relative to the viewport in pixels, including any scroll offset
+        * @property pageX
+        * @type Number
+        * @default -1
+        * @public
+        */
+        public pageX: number;
+        /**
+        * The vertical coordinate of point relative to the viewport in pixels, including any scroll offset
+        * @property pageY
+        * @type Number
+        * @default -1
+        * @public
+        */
+        public pageY: number;
+        /**
+        * The horizontal coordinate of point relative to the screen in pixels
+        * @property screenX
+        * @type Number
+        * @default -1
+        * @public
+        */
+        public screenX: number;
+        /**
+        * The vertical coordinate of point relative to the screen in pixels
+        * @property screenY
+        * @type Number
+        * @default -1
+        * @public
+        */
+        public screenY: number;
+        /**
+        * The point that this pointer is at. Same c ordina es asX/Y properties.
+        * @property point
+        * @type Point
+        * @public
+        */
+        public point: Kiwi.Geom.Point;
+        /**
+        * A circle that is representative of the area this point covers.
+        * @property circle
+        * @type Circle
+        * @public
+        */
+        public circle: Kiwi.Geom.Circle;
+        /**
+        * Indicates if this pointer is currently down.
+        * @property isDown
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public isDown: boolean;
+        /**
+        * Indicates if this pointer is currently up.
+        * @property isUp
+        * @default true
+        * @type boolean
+        * @public
+        */
+        public isUp: boolean;
+        /**
+        * Indicates if this pointer is currently within the game.
+        * @property withinGame
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public withinGame: boolean;
+        /**
+        * Indicates if this pointer is active. Note a mouse is always 'active' where as a finger is only active when it is down.
+        * @property active
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public active: boolean;
+        /**
+        * Indicates the time that the pointer was pressed initially.
+        * @property timeDown
+        * @type number
+        * @default 0
+        * @public
+        */
+        public timeDown: number;
+        /**
+        * Indicates the time that the pointer was released initially.
+        * @property timeUp
+        * @type number
+        * @default 0
+        * @public
+        */
+        public timeUp: number;
+        /**
+        * The duration that the pointer has been down for in milliseconds.
+        * @property duration
+        * @type number
+        * @default 0
+        * @public
+        */
+        public duration: number;
+        /**
+        * The duration that the pointer has been down for in frames.
+        * @property frameDuration
+        * @type number
+        * @default 0
+        * @public
+        */
+        public frameDuration: number;
+        /**
+        * A time that is used to calculate if someone justPressed the pointer.
+        * @property justPressedRate
+        * @type number
+        * @defeault 200
+        * @public
+        */
+        public justPressedRate: number;
+        /**
+        * A time that is used to calculate if someone justReleased the pointer.
+        * @property justReleasedRate
+        * @type number
+        * @default 200
+        * @public
+        */
+        public justReleasedRate: number;
+        /**
+        * The points inital coordinates when pressed down.
+        * @property startPoint
+        * @type Point
+        * @public
+        */
+        public startPoint: Kiwi.Geom.Point;
+        /**
+        * The coordinates where the user released the pointer.
+        * @property endPoint
+        * @type Point
+        * @public
+        */
+        public endPoint: Kiwi.Geom.Point;
+        /**
+        * The method that gets executed when the pointer presses/initially goes down on the screen.
+        * From the event passed the coordinates are calculated.
+        * @method start
+        * @param {event} event
+        * @public
+        */
+        public start(event: any): void;
+        /**
+        * The stop method is to be called when the pointer gets released initially.
+        * @method stop
+        * @param {event} event
+        * @public
+        */
+        public stop(event: any): void;
+        /**
+        * Used to get the cooridnates of a pointer and inputs them to the correct properties.
+        * @method move
+        * @param {event} event
+        * @public
+        */
+        public move(event: any): void;
+        /**
+        * Indicates if the pointer was just pressed. This is based of the justPressedRate unless otherwise specifieds.
+        * @method justPressed
+        * @param {number} duration
+        * @return boolean
+        * @public
+        */
+        public justPressed(duration?: number): boolean;
+        /**
+        * Indicates if the pointer was just released. This is based of the justReleasedRate unless otherwise specified.
+        * @method justReleased
+        * @param {number} duration
+        * @return boolean
+        * @public
+        */
+        public justReleased(duration?: number): boolean;
+        /**
+        * Resets the pointer properties to the default ones. Assumes that the pointer is no longer down.
+        * @method reset
+        * @public
+        */
+        public reset(): void;
+        /**
+        * The update loop for the pointer. Used only if down to update the duration.
+        * @method update.
+        * @public
+        */
+        public update(): void;
+    }
+}
+/**
+*
+* @module Kiwi
+* @submodule Input
+*
+*/ 
+declare module Kiwi.Input {
+    /**
+    * Holds the information about a Mouse Cursor. Such as the position of the cursor, the mouse wheels delta, the button that was used, e.t.c. Note: A mouse cursor is always active.
+    *
+    * @class MouseCursor
+    * @namespace Kiwi.Input
+    * @extends Pointer
+    */
+    class MouseCursor extends Input.Pointer {
+        /**
+        * The type of object this class is.
+        * @method objType
+        * @return string
+        * @public
+        */
+        public objType(): string;
+        /**
+        * The offset of the mouse wheel on the X axis.
+        * @property wheelDeltaX
+        * @type number
+        * @default 0
+        * @public
+        */
+        public wheelDeltaX: number;
+        /**
+        * The offset of the mouse wheel on the Y axis.
+        * @property wheelDeltaY
+        * @type number
+        * @default 0
+        * @public
+        */
+        public wheelDeltaY: number;
+        /**
+        * If the ctrl key is down.
+        * @property ctrlKey
+        * @type boolean
+        * @public
+        */
+        public ctrlKey: boolean;
+        /**
+        * If the shift key is down.
+        * @property shiftKey
+        * @type boolean
+        * @public
+        */
+        public shiftKey: boolean;
+        /**
+        * If the alt key is down.
+        * @property altKey
+        * @type boolean
+        * @public
+        */
+        public altKey: boolean;
+        /**
+        * The button that got pressed. Eg. If the LEFT mouse button was pressed this number would be 0
+        * @property button
+        * @type number
+        * @public
+        */
+        public button: number;
+        /**
+        * Gets executed when the mouse cursor gets initally pressed.
+        * @method start
+        * @param {event} event
+        * @public
+        */
+        public start(event: any): void;
+        /**
+        * Gets executed when the mouse cursor gets initally released.
+        * @method stop
+        * @param {event} event
+        * @public
+        */
+        public stop(event: any): void;
+        /**
+        * When the mouse wheel event fires and the mouse's delta changes.
+        * @method wheel
+        * @param {event} event
+        * @public
+        */
+        public wheel(event: any): void;
+    }
+}
+/**
+*
+* @module Kiwi
+* @submodule Input
+*
+*/ 
+declare module Kiwi.Input {
+    /**
+    * Used with the Touch manager class, this object holds information about a single touch point/locaton (or you know a finger). By default a Finger has a diameter of 44 pixels (random average size of a finger) which can be used for collision/overlap detection. That value can be modified. Note: A Finger is only active whilst the user is 'pressing' down on stage.
+    *
+    * @class Finger
+    * @extends Pointer
+    * @namespace Kiwi.Input
+    * @constructor
+    * @param game {Game} The game that this finger belongs to.
+    * @return Finger
+    */
+    class Finger extends Input.Pointer {
+        constructor(game: Kiwi.Game);
+        /**
+        * The type of object this is.
+        * @method objType
+        * @return string
+        * @public
+        */
+        public objType(): string;
+        /**
+        * @method start
+        * @param {Any} event
+        * @public
+        */
+        public start(event: any): void;
+        /**
+        * @method stop
+        * @param event {Any}
+        * @public
+        */
+        public stop(event: any): void;
+        /**
+        * @method leave
+        * @param event {Any}
+        * @public
+        */
+        public leave(event: any): void;
+        /**
+        * @method reset
+        * @public
+        */
+        public reset(): void;
     }
 }
 /**
@@ -12103,4383 +16480,6 @@ declare module Kiwi.Sound {
         * @public
         */
         public add(audioFile: Kiwi.Files.File): void;
-    }
-}
-/**
-* Is the namespace in which all code that is used to create/provide an animation of various sorts are stored. These could range from animations that change the cell of a SpriteSheet that is displayed every few seconds (Animation/Sequence), to animations that change a numeric value on a object over a period time (Tweens).
-*
-* @module Kiwi
-* @submodule Animations
-* @main Animations
-*/
-declare module Kiwi.Animations {
-    /**
-    * An Animation contains information about a single animation that is held on a AnimationManager.
-    * The information that is held is unique to this individual animation and will initially be the same as a Sequence,
-    * but if you do ever modify the information held in this Animation the corresponding Sequence will not be updated.
-    *
-    * @class Animation
-    * @namespace Kiwi.Animations
-    * @constructor
-    * @param name {string} The name of this anim.
-    * @param sequences {Sequences} The sequence that this anim will be using to animate.
-    * @param clock {Clock} A game clock that this anim will be using to keep record of the time between frames.
-    * @param parent {AnimationManager} The animation manager that this animation belongs to.
-    * @return {Anim}
-    *
-    */
-    class Animation {
-        constructor(name: string, sequence: Animations.Sequence, clock: Kiwi.Time.Clock, parent: Kiwi.Components.AnimationManager);
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        * The AnimationManager that this animation is a child of.
-        * @property _parent
-        * @type AnimationManager
-        * @private
-        */
-        private _parent;
-        /**
-        * The name of this animation.
-        * @property name
-        * @type string
-        * @public
-        */
-        public name: string;
-        /**
-        * The sequence on the texture atlas that this animation is based off.
-        * @property _sequence
-        * @type Sequence
-        * @private
-        */
-        private _sequence;
-        /**
-        * If this animation should loop or not.
-        * @property _loop
-        * @type boolean
-        * @private
-        */
-        private _loop;
-        /**
-        * If once the animation reaches the end, it should start again from the first cell in the sequence or not.
-        * @property loop
-        * @type boolean
-        * @public
-        */
-        public loop : boolean;
-        /**
-        * The current frame index that the animation is currently upto.
-        * Note: A frame index is the index of a particular cell in the Sequence.
-        * @property _frameIndex
-        * @type number
-        * @private
-        */
-        private _frameIndex;
-        /**
-        * The current frame index that the animation is currently upto.
-        * Note: A frame index is the index of a particular cell in the Sequence.
-        * @property frameIndex
-        * @type number
-        * @public
-        */
-        public frameIndex : number;
-        /**
-        * Returns the current cell that the animation is up to. This is READ ONLY.
-        * @property currentCell
-        * @type number
-        * @public
-        */
-        public currentCell : number;
-        /**
-        * How fast the transition is between cells. Perhaps change to frames per second to reflect actual game speed?
-        * @property _speed
-        * @type number
-        * @private
-        */
-        private _speed;
-        /**
-        * How long the each cell should stay on screen for. In seconds.
-        * @property speed
-        * @type number
-        * @public
-        */
-        public speed : number;
-        /**
-        * The clock that is to be used to calculate the animations.
-        * @property _clock
-        * @type Clock
-        * @private
-        */
-        private _clock;
-        /**
-        * The starting time of the animation from when it was played. Internal use only.
-        * @property _startTime
-        * @type number
-        * @private
-        */
-        private _startTime;
-        /**
-        * Indicates whether the animation is playing in reverse or not.
-        * @property _reverse
-        * @type boolean
-        * @private
-        */
-        private _reverse;
-        /**
-        * Whether the animation is to be played in reverse.
-        * @property reverse
-        * @type boolean
-        * @public
-        */
-        public reverse : boolean;
-        /**
-        * The time at which the animation should change to the next cell
-        * @property _tick
-        * @type number
-        * @private
-        */ 
-        private _tick;
-        /**
-        * If the animation is currently playing or not.
-        * @property _isPlaying
-        * @type boolean
-        * @default false
-        * @private
-        */
-        private _isPlaying;
-        /**
-        * If the animation is currently playing or not.
-        * @property isPlaying
-        * @type boolean
-        * @private
-        */
-        public isPlaying : boolean;
-        /**
-        * A Kiwi.Signal that dispatches an event when the animation has stopped playing.
-        * @property _onStop
-        * @type Signal
-        * @public
-        */
-        private _onStop;
-        public onStop : Kiwi.Signal;
-        /**
-        * A Kiwi.Signal that dispatches an event when the animation has started playing.
-        * @property _onPlay
-        * @type Kiwi.Signal
-        * @public
-        */
-        private _onPlay;
-        public onPlay : Kiwi.Signal;
-        /**
-        * A Kiwi.Signal that dispatches an event when the animation has updated/changed frameIndexs.
-        * @property _onUpdate
-        * @type Kiwi.Signal
-        * @public
-        */
-        private _onUpdate;
-        public onUpdate : Kiwi.Signal;
-        /**
-        * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.
-        * @property _onLoop
-        * @type Kiwi.Signal
-        * @public
-        */
-        private _onLoop;
-        public onLoop : Kiwi.Signal;
-        /**
-        * An Internal method used to start the animation.
-        * @method _start
-        * @param [index=null] {number} The index of the frame in the sequence that is to play. If left as null if just starts from where it left off.
-        * @private
-        */
-        private _start(index?);
-        /**
-        * Plays the animation.
-        * @method play
-        * @public
-        */
-        public play(): void;
-        /**
-        * Plays the animation at a particular frame
-        * @method playAt
-        * @param index {number} The index of the cell in the sequence that the animation is to start at.
-        * @public
-        */
-        public playAt(index: number): void;
-        /**
-        * Pauses the current animation.
-        * @method pause
-        * @public
-        */
-        public pause(): void;
-        /**
-        * Resumes the current animation after stopping.
-        * @method resume
-        * @public
-        */
-        public resume(): void;
-        /**
-        * Stops the current animation from playing.
-        * @method stop
-        * @public
-        */
-        public stop(): void;
-        /**
-        * Makes the animation go to the next frame. If the animation is at the end it goes back to the start.
-        * @method nextFrame
-        * @public
-        */
-        public nextFrame(): void;
-        /**
-        * Makes the animation go to the previous frame. If the animation is at the first frame it goes to the end.
-        * @method prevFrame
-        * @public
-        */
-        public prevFrame(): void;
-        /**
-        * The update loop. Returns a boolean indicating whether the animation has gone to a new frame or not.
-        * @method update
-        * @public
-        */
-        public update(): void;
-        /**
-        * An internal method used to check to see if frame passed is valid or not
-        * @method _validateFrame
-        * @param frame {number} The index of the frame that is to be validated.
-        * @private
-        */
-        private _validateFrame(frame);
-        /**
-        * Returns the number of frames that in the animation. Thus the animations 'length'. Note this is READ ONLY.
-        * @property length
-        * @type number
-        * @public
-        */
-        public length : number;
-        /**
-        * Destroys the anim and all of the properties that exist on it.
-        * @method destroy
-        * @public
-        */
-        public destroy(): void;
-    }
-}
-/**
-*
-* @module Kiwi
-* @submodule Animations
-*
-*/
-declare module Kiwi.Animations {
-    /**
-    * A Sequence is a series of cells that are held on a SpriteSheet/TextureAtlas.
-    * Sequences are generally used with the AnimationManager/Animation sections as a way to initially create Animations on GameObjects that use the same TextureAtlas.
-    *
-    * @class Sequence
-    * @namespace Kiwi.Animations
-    * @constructor
-    * @param name {String} The name of this sequence. This is not unique.
-    * @param cells {Number[]} The cells that are in this animation.
-    * @param [speed=0.1] {Number} The time an animation should spend on each frame.
-    * @param [loop=true] {boolean} If the sequence should play again if it was animating and the animation reaches the last frame.
-    * @return {Sequence}
-    *
-    */
-    class Sequence {
-        constructor(name: string, cells: number[], speed?: number, loop?: boolean);
-        /**
-        * The name of this sequence.
-        * @property name
-        * @type string
-        * @public
-        */
-        public name: string;
-        /**
-        * The cells that are in this animation.
-        * These are a reference to the cells that are contained in a texture atlas that this sequence should be a part of.
-        * @property cells
-        * @type number[]
-        * @public
-        */
-        public cells: number[];
-        /**
-        * The time an animation should spend on each cell.
-        * @property speed
-        * @type boolean
-        * @public
-        */
-        public speed: number;
-        /**
-        * If the sequence should play again if it was animating and the animation reaches the last frame.
-        * @property loop
-        * @type boolean
-        * @public
-        */
-        public loop: boolean;
-    }
-}
-/**
-*
-* @module Kiwi
-* @submodule Input
-*
-*/ 
-declare module Kiwi.Input {
-    /**
-    * A compact object that holds the most important details about a Keyboard Event response.
-    *
-    * @class Key
-    * @constructor
-    * @namespace Kiwi.Input
-    * @param manager {Keyboard} The keyboard manager that this key belongs to.
-    * @param keycode {Number} The keycode that this key is.
-    * @param [event] {KeyboardEvent} The keyboard event (if there was one) when this was created.
-    * @return {Key} This object.
-    *
-    */
-    class Key {
-        constructor(manager: Input.Keyboard, keycode: number, event?: KeyboardEvent);
-        /**
-        * If the default action for this Key should be prevented or not.
-        * For example. If your game use's the spacebar you would want its default action (which is to make the website scrolldown) prevented,
-        * So you can set this to true.
-        * @property preventDefault
-        * @type Boolean
-        * @default false
-        * @public
-        */
-        public preventDefault: boolean;
-        /**
-        * The game that this key belongs to.
-        * @property game
-        * @type Game
-        * @public
-        */
-        public game: Kiwi.Game;
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        * The keyboard manager that this key belongs to.
-        * @property _manager
-        * @type Keyboard
-        * @private
-        */
-        private _manager;
-        /**
-        * The keycode that this key is.
-        * @property keyCode
-        * @type Number
-        * @public
-        */
-        public keyCode: number;
-        /**
-        * Indicated whether or not the key is currently down.
-        * @property isDown
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public isDown: boolean;
-        /**
-        * Indicates whether or not the key is currently up.
-        * @property isUp
-        * @type boolean
-        * @default true
-        * @public
-        */
-        public isUp: boolean;
-        /**
-        * If the alt key was held at the time of the event happening.
-        * @property altKey
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public altKey: boolean;
-        /**
-        * If the ctrl key was held at the time of the event happening.
-        * @property ctrlKey
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public ctrlKey: boolean;
-        /**
-        * If the shift key was held at the time of the event happening.
-        * @property shiftKey
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public shiftKey: boolean;
-        /**
-        * The time that the key was pressed initially.
-        * @property timeDown
-        * @type Number
-        * @default 0
-        * @public
-        */
-        public timeDown: number;
-        /**
-        * The duration (in milliseconds) that the key has been down for.
-        * This is property is READ ONLY.
-        * @property duration
-        * @type Number
-        * @default 0
-        * @public
-        */
-        public duration : number;
-        /**
-        * The time at which the key was released.
-        * @property timeUp
-        * @type Number
-        * @default 0
-        * @public
-        */
-        public timeUp: number;
-        /**
-        * If this key is being 'held' down, this property will indicate the amount of times the 'onkeydown' event has fired.
-        * This is reset each time the key is pressed.
-        * @property repeats
-        * @type Number
-        * @default 0
-        * @public
-        */
-        public repeats: number;
-        /**
-        * The 'update' method fires when an event occur's. Updates the keys properties
-        * @method update
-        * @param event {KeyboardEvent}
-        * @public
-        */
-        public update(event: KeyboardEvent): void;
-        /**
-        * Returns a boolean indicating whether or not this key was just pressed.
-        * @method justPressed
-        * @param [duration] {Number} The duration at which determines if a key was just pressed. Defaults to the managers just pressed rate.
-        * @return {boolean}
-        * @public
-        */
-        public justPressed(duration?: number): boolean;
-        /**
-        * Returns a boolean indicating whether or not this key was just released.
-        * @method justReleased
-        * @param [duration] {Number} The duration at which determines if a key was just released. Defaults to the managers just pressed rate.
-        * @return {boolean}
-        * @public
-        */
-        public justReleased(duration?: number): boolean;
-        /**
-        * Resets all of the properties on the Key to their default values.
-        * @method reset
-        * @public
-        */
-        public reset(): void;
-    }
-}
-/**
-*
-* @module Kiwi
-* @submodule Input
-*
-*/ 
-declare module Kiwi.Input {
-    /**
-    * Handles and Manages the dispatching of keyboard events. When the user press's a button a new Key object is created.
-    *
-    * @class Keyboard
-    * @constructor
-    * @namespace Kiwi.Input
-    * @param game {Game}
-    * @return {Keyboard} This object.
-    *
-    */
-    class Keyboard {
-        constructor(game: Kiwi.Game);
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        * The game that this Keyboard belongs to.
-        * @property game
-        * @type Game
-        * @public
-        */
-        public game: Kiwi.Game;
-        /**
-        * Contains a reference to each Key object when they are either added to this Keyboard manager (by the developer), or when an event fires with that keycode.
-        * @property _keys
-        * @type Key[]
-        * @private
-        */
-        private _keys;
-        /**
-        * Returns all of the Key objects that currently exist. This is READ ONLY.
-        * @property keys
-        * @type Keys[]
-        * @public
-        */
-        public keys : Input.Key[];
-        /**
-        * The time in milliseconds which determines if a key was just pressed or not.
-        * @property justPressedRate
-        * @type Number
-        * @default 200
-        * @public
-        */
-        public justPressedRate: number;
-        /**
-        * The time in milliseconds which determines if a key was just released or not.
-        * @property justReleasedRate
-        * @type Number
-        * @default 200
-        * @public
-        */
-        public justReleasedRate: number;
-        /**
-        * Is executed when the DOMElements that are need to get the game going are loaded and thus the game can 'boot'
-        * @method boot
-        * @public
-        */
-        public boot(): void;
-        /**
-        * The update loop that is executed every frame.
-        * @method update
-        * @public
-        */
-        public update(): void;
-        /**
-        * A Signal that dispatches events when a key is released/is now up.
-        * @property onKeyUp
-        * @type Signal
-        * @public
-        */
-        public onKeyUp: Kiwi.Signal;
-        /**
-        * A Signal that dispatches events when a key is pressed/is down.
-        * This mimics the natural 'keydown' event listener, so it will keep dispatching events if the user holds the key down.
-        * Note: This fires after the 'onKeyDownOnce' signal.
-        *
-        * @property onKeyDown
-        * @type Signal
-        * @public
-        */
-        public onKeyDown: Kiwi.Signal;
-        /**
-        * A Signal that dispatches events when a key is pressed/is down initially.
-        * This event only fires the first time that the key is pressed, so it won't dispatch events if the user is holding the key down.
-        * Note: This fires before the 'onKeyDown' signal;
-        *
-        * @property onKeyDownOnce
-        * @type Signal
-        * @public
-        */
-        public onKeyDownOnce: Kiwi.Signal;
-        /**
-        * Adds the event listeners to the browser to listen for key events.
-        * @method start
-        * @public
-        */
-        public start(): void;
-        /**
-        * Removes the event listeners and so effectively 'stops' all keyboard events.
-        * @method stop
-        * @public
-        */
-        public stop(): void;
-        /**
-        * Is executed when a key is pressed/is down. This then either creates a new Key (if one does not currently exist) for that keycode,
-        * or it updates the key that was pressed (if one does exist).
-        * @method onKeyDown
-        * @param {KeyboardEvent} event.
-        * @private
-        */
-        private _keyPressed(event);
-        /**
-        * Is executed when a key is release/is now up. This then either creates a new Key (if one does not currently exist) for that keycode,
-        * or it updates the key that was released (if one does exist).
-        * @method onKeyUp
-        * @param {KeyboardEvent} event.
-        * @private
-        */
-        private _keyReleased(event);
-        /**
-        * Creates a new Key object for a keycode that is specified.
-        * Not strictly needed (as one will be created once an event occurs on that keycode) but can be good for setting the game up
-        * and choosing whether to prevent that keys any default action.
-        * @method addKey
-        * @param keycode {Number} The keycode of the key that you want to add.
-        * @param [preventDefault=false] {Boolean} If the default action for that key should be prevented or not when an event fires.
-        * @return {Key}
-        * @public
-        */
-        public addKey(keycode: number, preventDefault?: boolean): Input.Key;
-        /**
-        * Returns a boolean indicating if a key (that you pass via a keycode) was just pressed or not.
-        * @method justPressed
-        * @param keycode {Number} The keycode of the key that you would like to check against.
-        * @param [duration=this.justPressedRate] {Number} The duration at which determines if a key was 'just' pressed or not. If not specified defaults to the justPressedRate
-        * @public
-        */
-        public justPressed(keycode: any, duration?: number): boolean;
-        /**
-        * Returns a boolean indicating if a key (that you pass via a keycode) was just released or not.
-        * @method justReleased
-        * @param keycode {Number} The keycode of the key that you would like to check against.
-        * @param [duration=this.justReleasedRate] {Number} The duration at which determines if a key was 'just' released or not. If not specified defaults to the justReleasedRate
-        * @public
-        */
-        public justReleased(keycode: any, duration?: number): boolean;
-        /**
-        * Returns a boolean indicating whether a key (that you pass via its keycode) is down or not.
-        * @method isDown
-        * @param keycode {Number} The keycode of the key that you are checking.
-        * @return {boolean}
-        * @public
-        */
-        public isDown(keycode: number): boolean;
-        /**
-        * Returns a boolean indicating whether a key (that you pass via its keycode) is up or not.
-        * @method isUp
-        * @param keycode {Number} The keycode of the key that you are checking.
-        * @return {boolean}
-        * @public
-        */
-        public isUp(keycode: number): boolean;
-        /**
-        * Executes the reset method on every Key that currently exists.
-        * @method reset
-        * @public
-        */
-        public reset(): void;
-    }
-}
-/**
-*
-* @module Kiwi
-* @submodule Input
-*
-*/ 
-declare module Kiwi.Input {
-    /**
-    * A Static class which has a property associated with all all of the character codes on a typical keyboard. While you don't need this class for your game to work, it is quite handy to use as it can speed up the development process.
-    *
-    * @class Keycodes
-    * @namespace Kiwi.Input
-    * @static
-    */
-    class Keycodes {
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {string}
-        * @public
-        */
-        public objType(): string;
-        /**
-        * A Static property that holds the keycode for the character A
-        * @property A
-        * @static
-        * @final
-        * @public
-        */
-        static A: number;
-        /**
-        * A Static property that holds the keycode for the character B
-        * @property B
-        * @static
-        * @final
-        * @public
-        */
-        static B: number;
-        /**
-        * A Static property that holds the keycode for the character C
-        * @property C
-        * @static
-        * @final
-        * @public
-        */
-        static C: number;
-        /**
-        * A Static property that holds the keycode for the character D
-        * @property D
-        * @static
-        * @final
-        * @public
-        */
-        static D: number;
-        /**
-        * A Static property that holds the keycode for the character E
-        * @property E
-        * @static
-        * @final
-        * @public
-        */
-        static E: number;
-        /**
-        * A Static property that holds the keycode for the character F
-        * @property F
-        * @static
-        * @final
-        * @public
-        */
-        static F: number;
-        /**
-        * A Static property that holds the keycode for the character G
-        * @property G
-        * @static
-        * @final
-        * @public
-        */
-        static G: number;
-        /**
-        * A Static property that holds the keycode for the character H
-        * @property H
-        * @static
-        * @final
-        * @public
-        */
-        static H: number;
-        /**
-        * A Static property that holds the keycode for the character I
-        * @property I
-        * @static
-        * @final
-        * @public
-        */
-        static I: number;
-        /**
-        * A Static property that holds the keycode for the character J
-        * @property J
-        * @static
-        * @final
-        * @public
-        */
-        static J: number;
-        /**
-        * A Static property that holds the keycode for the character K
-        * @property K
-        * @static
-        * @final
-        * @public
-        */
-        static K: number;
-        /**
-        * A Static property that holds the keycode for the character L
-        * @property L
-        * @static
-        * @final
-        * @public
-        */
-        static L: number;
-        /**
-        * A Static property that holds the keycode for the character M
-        * @property M
-        * @static
-        * @final
-        * @public
-        */
-        static M: number;
-        /**
-        * A Static property that holds the keycode for the character N
-        * @property N
-        * @static
-        * @final
-        * @public
-        */
-        static N: number;
-        /**
-        * A Static property that holds the keycode for the character O
-        * @property O
-        * @static
-        * @final
-        * @public
-        */
-        static O: number;
-        /**
-        * A Static property that holds the keycode for the character P
-        * @property P
-        * @static
-        * @final
-        * @public
-        */
-        static P: number;
-        /**
-        * A Static property that holds the keycode for the character Q
-        * @property Q
-        * @static
-        * @final
-        * @public
-        */
-        static Q: number;
-        /**
-        * A Static property that holds the keycode for the character R
-        * @property R
-        * @static
-        * @final
-        * @public
-        */
-        static R: number;
-        /**
-        * A Static property that holds the keycode for the character S
-        * @property S
-        * @static
-        * @final
-        * @public
-        */
-        static S: number;
-        /**
-        * A Static property that holds the keycode for the character T
-        * @property T
-        * @static
-        * @final
-        * @public
-        */
-        static T: number;
-        /**
-        * A Static property that holds the keycode for the character U
-        * @property U
-        * @static
-        * @final
-        * @public
-        */
-        static U: number;
-        /**
-        * A Static property that holds the keycode for the character V
-        * @property V
-        * @static
-        * @final
-        * @public
-        */
-        static V: number;
-        /**
-        * A Static property that holds the keycode for the character W
-        * @property W
-        * @static
-        * @final
-        * @public
-        */
-        static W: number;
-        /**
-        * A Static property that holds the keycode for the character X
-        * @property X
-        * @static
-        * @final
-        * @public
-        */
-        static X: number;
-        /**
-        * A Static property that holds the keycode for the character Y
-        * @property Y
-        * @static
-        * @final
-        * @public
-        */
-        static Y: number;
-        /**
-        * A Static property that holds the keycode for the character Z
-        * @property Z
-        * @static
-        * @final
-        * @public
-        */
-        static Z: number;
-        /**
-        * A Static property that holds the keycode for the character 0
-        * @property ZERO
-        * @static
-        * @final
-        * @public
-        */
-        static ZERO: number;
-        /**
-        * A Static property that holds the keycode for the character 1
-        * @property ONE
-        * @static
-        * @final
-        * @public
-        */
-        static ONE: number;
-        /**
-        * A Static property that holds the keycode for the character 2
-        * @property TWO
-        * @static
-        * @final
-        * @public
-        */
-        static TWO: number;
-        /**
-        * A Static property that holds the keycode for the character 3
-        * @property THREE
-        * @static
-        * @final
-        * @public
-        */
-        static THREE: number;
-        /**
-        * A Static property that holds the keycode for the character 4
-        * @property FOUR
-        * @static
-        * @final
-        * @public
-        */
-        static FOUR: number;
-        /**
-        * A Static property that holds the keycode for the character 5
-        * @property FIVE
-        * @static
-        * @final
-        * @public
-        */
-        static FIVE: number;
-        /**
-        * A Static property that holds the keycode for the character 6
-        * @property SIX
-        * @static
-        * @final
-        * @public
-        */
-        static SIX: number;
-        /**
-        * A Static property that holds the keycode for the character 7
-        * @property SEVEN
-        * @static
-        * @final
-        * @public
-        */
-        static SEVEN: number;
-        /**
-        * A Static property that holds the keycode for the character 8
-        * @property EIGHT
-        * @static
-        * @final
-        * @public
-        */
-        static EIGHT: number;
-        /**
-        * A Static property that holds the keycode for the character 9
-        * @property NINE
-        * @static
-        * @final
-        * @public
-        */
-        static NINE: number;
-        /**
-        * A Static property that holds the keycode for the character number pad 0
-        * @property NUMPAD_0
-        * @static
-        * @final
-        * @public
-        */
-        static NUMPAD_0: number;
-        /**
-        * A Static property that holds the keycode for the character number pad 1
-        * @property NUMPAD_1
-        * @static
-        * @final
-        * @public
-        */
-        static NUMPAD_1: number;
-        /**
-        * A Static property that holds the keycode for the character number pad 2
-        * @property NUMPAD_2
-        * @static
-        * @final
-        * @public
-        */
-        static NUMPAD_2: number;
-        /**
-        * A Static property that holds the keycode for the character number pad 3
-        * @property NUMPAD_3
-        * @static
-        * @final
-        * @public
-        */
-        static NUMPAD_3: number;
-        /**
-        * A Static property that holds the keycode for the character number pad 4
-        * @property NUMPAD_4
-        * @static
-        * @final
-        * @public
-        */
-        static NUMPAD_4: number;
-        /**
-        * A Static property that holds the keycode for the character number pad 5
-        * @property NUMPAD_5
-        * @static
-        * @final
-        * @public
-        */
-        static NUMPAD_5: number;
-        /**
-        * A Static property that holds the keycode for the character number pad 6
-        * @property NUMPAD_6
-        * @static
-        * @final
-        * @public
-        */
-        static NUMPAD_6: number;
-        /**
-        * A Static property that holds the keycode for the character number pad 7
-        * @property NUMPAD_7
-        * @static
-        * @final
-        * @public
-        */
-        static NUMPAD_7: number;
-        /**
-        * A Static property that holds the keycode for the character number pad 8
-        * @property NUMPAD_8
-        * @static
-        * @final
-        * @public
-        */
-        static NUMPAD_8: number;
-        /**
-        * A Static property that holds the keycode for the character number pad 9
-        * @property NUMPAD_9
-        * @static
-        * @final
-        * @public
-        */
-        static NUMPAD_9: number;
-        /**
-        * A Static property that holds the keycode for the character number pad *
-        * @property NUMPAD_MULTIPLY
-        * @static
-        * @final
-        * @public
-        */
-        static NUMPAD_MULTIPLY: number;
-        /**
-        * A Static property that holds the keycode for the character number pad +
-        * @property NUMPAD_ADD
-        * @static
-        * @final
-        * @public
-        */
-        static NUMPAD_ADD: number;
-        /**
-        * A Static property that holds the keycode for the character on the number pad enter
-        * @property NUMPAD_ENTER
-        * @static
-        * @final
-        * @public
-        */
-        static NUMPAD_ENTER: number;
-        /**
-        * A Static property that holds the keycode for the character number pad -
-        * @property NUMPAD_SUBTRACT
-        * @static
-        * @final
-        * @public
-        */
-        static NUMPAD_SUBTRACT: number;
-        /**
-        * A Static property that holds the keycode for the character number pad .
-        * @property NUMPAD_DECIMAL
-        * @static
-        * @final
-        * @public
-        */
-        static NUMPAD_DECIMAL: number;
-        /**
-        * A Static property that holds the keycode for the character /
-        * @property NUMPAD_DIVIDE
-        * @static
-        * @final
-        * @public
-        */
-        static NUMPAD_DIVIDE: number;
-        /**
-        * A Static property that holds the keycode for the character F1
-        * @property F1
-        * @static
-        * @final
-        * @public
-        */
-        static F1: number;
-        /**
-        * A Static property that holds the keycode for the character F2
-        * @property F2
-        * @static
-        * @final
-        * @public
-        */
-        static F2: number;
-        /**
-        * A Static property that holds the keycode for the character F3
-        * @property F3
-        * @static
-        * @final
-        * @public
-        */
-        static F3: number;
-        /**
-        * A Static property that holds the keycode for the character F4
-        * @property F4
-        * @static
-        * @final
-        * @public
-        */
-        static F4: number;
-        /**
-        * A Static property that holds the keycode for the character F5
-        * @property F5
-        * @static
-        * @final
-        * @public
-        */
-        static F5: number;
-        /**
-        * A Static property that holds the keycode for the character F6
-        * @property F6
-        * @static
-        * @final
-        * @public
-        */
-        static F6: number;
-        /**
-        * A Static property that holds the keycode for the character F7
-        * @property F7
-        * @static
-        * @final
-        * @public
-        */
-        static F7: number;
-        /**
-        * A Static property that holds the keycode for the character F8
-        * @property F8
-        * @static
-        * @final
-        * @public
-        */
-        static F8: number;
-        /**
-        * A Static property that holds the keycode for the character F9
-        * @property F9
-        * @static
-        * @final
-        * @public
-        */
-        static F9: number;
-        /**
-        * A Static property that holds the keycode for the character F10
-        * @property F10
-        * @static
-        * @final
-        * @public
-        */
-        static F10: number;
-        /**
-        * A Static property that holds the keycode for the character F11
-        * @property F11
-        * @static
-        * @final
-        * @public
-        */
-        static F11: number;
-        /**
-        * A Static property that holds the keycode for the character F12
-        * @property F12
-        * @static
-        * @final
-        * @public
-        */
-        static F12: number;
-        /**
-        * A Static property that holds the keycode for the character F13
-        * @property F13
-        * @static
-        * @final
-        * @public
-        */
-        static F13: number;
-        /**
-        * A Static property that holds the keycode for the character F14
-        * @property F14
-        * @static
-        * @final
-        * @public
-        */
-        static F14: number;
-        /**
-        * A Static property that holds the keycode for the character F15
-        * @property F15
-        * @static
-        * @final
-        * @public
-        */
-        static F15: number;
-        /**
-        * A Static property that holds the keycode for the character COLON
-        * @property COLON
-        * @static
-        * @final
-        * @public
-        */
-        static COLON: number;
-        /**
-        * A Static property that holds the keycode for the character =
-        * @property EQUALS
-        * @static
-        * @final
-        * @public
-        */
-        static EQUALS: number;
-        /**
-        * A Static property that holds the keycode for the character UNDERSCORE
-        * @property UNDERSCORE
-        * @static
-        * @final
-        * @public
-        */
-        static UNDERSCORE: number;
-        /**
-        * A Static property that holds the keycode for the character QUESTION_MARK
-        * @property QUESTION_MARK
-        * @static
-        * @final
-        * @public
-        */
-        static QUESTION_MARK: number;
-        /**
-        * A Static property that holds the keycode for the character TILDE
-        * @property TILDE
-        * @static
-        * @final
-        * @public
-        */
-        static TILDE: number;
-        /**
-        * A Static property that holds the keycode for the character OPEN_BRAKET
-        * @property OPEN_BRACKET
-        * @static
-        * @final
-        * @public
-        */
-        static OPEN_BRACKET: number;
-        /**
-        * A Static property that holds the keycode for the character BACKWARD_SLASH
-        * @property BACKWARD_SLASH
-        * @static
-        * @final
-        * @public
-        */
-        static BACKWARD_SLASH: number;
-        /**
-        * A Static property that holds the keycode for the character CLOSED_BRACKET
-        * @property CLOSED_BRACKET
-        * @static
-        * @final
-        * @public
-        */
-        static CLOSED_BRACKET: number;
-        /**
-        * A Static property that holds the keycode for the character QUOTES
-        * @property QUOTES
-        * @static
-        * @final
-        * @public
-        */
-        static QUOTES: number;
-        /**
-        * A Static property that holds the keycode for the character BACKSPACE
-        * @property BACKSPACE
-        * @static
-        * @final
-        * @public
-        */
-        static BACKSPACE: number;
-        /**
-        * A Static property that holds the keycode for the character TAB
-        * @property TAB
-        * @static
-        * @final
-        * @public
-        */
-        static TAB: number;
-        /**
-        * A Static property that holds the keycode for the character CLEAR
-        * @property CLEAR
-        * @static
-        * @final
-        * @public
-        */
-        static CLEAR: number;
-        /**
-        * A Static property that holds the keycode for the character ENTER
-        * @property ENTER
-        * @static
-        * @final
-        * @public
-        */
-        static ENTER: number;
-        /**
-        * A Static property that holds the keycode for the character SHIFT
-        * @property SHIFT
-        * @static
-        * @final
-        * @public
-        */
-        static SHIFT: number;
-        /**
-        * A Static property that holds the keycode for the character CONTROL
-        * @property CONTROL
-        * @static
-        * @final
-        * @public
-        */
-        static CONTROL: number;
-        /**
-        * A Static property that holds the keycode for the character ALT
-        * @property ALT
-        * @static
-        * @final
-        * @public
-        */
-        static ALT: number;
-        /**
-        * A Static property that holds the keycode for the character CAPS_LOCK
-        * @property CAPS_LOCK
-        * @static
-        * @final
-        * @public
-        */
-        static CAPS_LOCK: number;
-        /**
-        * A Static property that holds the keycode for the character ESC
-        * @property ESC
-        * @static
-        * @final
-        * @public
-        */
-        static ESC: number;
-        /**
-        * A Static property that holds the keycode for the character SPACEBAR
-        * @property SPACEBAR
-        * @static
-        * @final
-        * @public
-        */
-        static SPACEBAR: number;
-        /**
-        * A Static property that holds the keycode for the character PAGE_UP
-        * @property PAGE_UP
-        * @static
-        * @final
-        * @public
-        */
-        static PAGE_UP: number;
-        /**
-        * A Static property that holds the keycode for the character PAGE_DOWN
-        * @property PAGE_DOWN
-        * @static
-        * @final
-        * @public
-        */
-        static PAGE_DOWN: number;
-        /**
-        * A Static property that holds the keycode for the character END
-        * @property END
-        * @static
-        * @final
-        * @public
-        */
-        static END: number;
-        /**
-        * A Static property that holds the keycode for the character HOME
-        * @property HOME
-        * @static
-        * @final
-        * @public
-        */
-        static HOME: number;
-        /**
-        * A Static property that holds the keycode for the character LEFT
-        * @property LEFT
-        * @static
-        * @final
-        * @public
-        */
-        static LEFT: number;
-        /**
-        * A Static property that holds the keycode for the character UP
-        * @property UP
-        * @static
-        * @final
-        * @public
-        */
-        static UP: number;
-        /**
-        * A Static property that holds the keycode for the character RIGHT
-        * @property RIGHT
-        * @static
-        * @final
-        * @public
-        */
-        static RIGHT: number;
-        /**
-        * A Static property that holds the keycode for the character DOWN
-        * @property DOWN
-        * @static
-        * @final
-        * @public
-        */
-        static DOWN: number;
-        /**
-        * A Static property that holds the keycode for the character INSERT
-        * @property INSERT
-        * @static
-        * @final
-        * @public
-        */
-        static INSERT: number;
-        /**
-        * A Static property that holds the keycode for the character DELETE
-        * @property DELETE
-        * @static
-        * @final
-        * @public
-        */
-        static DELETE: number;
-        /**
-        * A Static property that holds the keycode for the character HELP
-        * @property HELP
-        * @static
-        * @final
-        * @public
-        */
-        static HELP: number;
-        /**
-        * A Static property that holds the keycode for the character NUM_LOCK
-        * @property NUM_LOCK
-        * @static
-        * @final
-        * @public
-        */
-        static NUM_LOCK: number;
-    }
-}
-/**
-* Section that contains the code related to handling user interaction with a game.
-*
-* @module Kiwi
-* @submodule Input
-* @main Input
-*/ 
-declare module Kiwi.Input {
-    /**
-    * Handles the initialization and management of the various ways a user can interact with the device/game, whether this is through a Keyboard and Mouse or by a Touch. Also contains some of the general callbacks that are 'global' between both Desktop and Mobile based devices.
-    *
-    * @class InputManager
-    * @constructor
-    * @namespace Kiwi.Input
-    * @param game {Game} The game that this object belongs to.
-    * @return {InputManager} This object.
-    *
-    */
-    class InputManager {
-        constructor(game: Kiwi.Game);
-        /**
-        * The type of object this is.
-        * @method objType
-        * @return String
-        * @public
-        */
-        public objType(): string;
-        /**
-        * A Signal that dispatches a event when any Pointer is pressed from the game.
-        * @property onDown
-        * @type Signal
-        * @public
-        */
-        public onDown: Kiwi.Signal;
-        /**
-        * A Signal that dispatches a event when any Pointer is released from the game.
-        * @property onUp
-        * @type Signal
-        * @public
-        */
-        public onUp: Kiwi.Signal;
-        /**
-        * The game that this manager belongs to.
-        * @property game
-        * @type Game
-        * @public
-        */
-        public game: Kiwi.Game;
-        /**
-        * A reference to the mouse manager.
-        * @property mouse
-        * @type Mouse
-        * @public
-        */
-        public mouse: Input.Mouse;
-        /**
-        * The keyboard manager
-        * @property keyboard
-        * @type Keyboard
-        * @public
-        */
-        public keyboard: Input.Keyboard;
-        /**
-        * The touch manager.
-        * @property touch
-        * @type Touch
-        * @public
-        */
-        public touch: Input.Touch;
-        /**
-        * An array containing all of the pointers that are active on the stage.
-        * @property _pointers
-        * @type Pointer[]
-        * @private
-        */
-        private _pointers;
-        /**
-        * Returns all of the pointers that can be used on the Input Manager. This is READ only.
-        * @property pointer
-        * @type Pointer[]
-        * @public
-        */
-        public pointers : Input.Pointer[];
-        /**
-        * This method is executed when the DOM has loaded and the manager is ready to load.
-        * @method boot
-        * @public
-        */
-        public boot(): void;
-        /**
-        * A private method that gets dispatched when either the mouse or touch manager dispatches a down event
-        * @method _onDownEvent
-        * @param x {Number} The x coordinate of the pointer
-        * @param y {Number} The y coordinate of the pointer
-        * @param timeDown {Number} The time that the pointer has been down for.
-        * @param timeUp {Number} The Time that the pointer has been up form
-        * @param duration {Number}
-        * @param pointer {Pointer} The pointer that was used.
-        * @private
-        */
-        private _onDownEvent(x, y, timeDown, timeUp, duration, pointer);
-        /**
-        * A private method that gets dispatched when either the mouse or touch manager dispatches a up event
-        * @method _onUpEvent
-        * @param x {Number} The x coordinate of the pointer
-        * @param y {Number} The y coordinate of the pointer
-        * @param timeDown {Number} The time that the pointer has been down for.
-        * @param timeUp {Number} The Time that the pointer has been up form
-        * @param duration {Number}
-        * @param pointer {Pointer} The pointer that was used.
-        * @private
-        */
-        private _onUpEvent(x, y, timeDown, timeUp, duration, pointer);
-        public onPressed : Kiwi.Signal;
-        /**
-        * An alias for the onRelease signal that goes straight to the onUp
-        * @property onReleased
-        * @type Signal
-        * @public
-        */
-        public onReleased : Kiwi.Signal;
-        /**
-        * The update loop that gets executed every frame.
-        * @method update
-        * @public
-        */
-        public update(): void;
-        /**
-        * Runs the reset method on the managers.
-        * @method reset
-        */
-        public reset(): void;
-        /**
-        * The position of the last pointer that was/is active on the stage.
-        * @property position
-        * @type Point
-        * @public
-        */
-        public position: Kiwi.Geom.Point;
-        /**
-        * If an input is currently down. Not an accurate representation, should use the individual managers.
-        * @property isDown
-        * @type boolean
-        * @public
-        */
-        public isDown: boolean;
-        /**
-        * Populated x coordinate based on the most recent click/touch event
-        * @property x
-        * @type Number
-        * @public
-        */
-        public x : number;
-        /**
-        * Populated y coordinate based on the most recent click/touch event
-        * @property y
-        * @type Number
-        * @public
-        */
-        public y : number;
-    }
-}
-/**
-*
-* @module Kiwi
-* @submodule Input
-*
-*/ 
-declare module Kiwi.Input {
-    /**
-    * Handles the dispatching/management of Mouse Events on a game. When this class is instantiated a MouseCursor object is also created (on this object) which holds the information that is unique to the mouse cursor, although majority of that information is still accessible inside this object.
-    *
-    * @class Mouse
-    * @constructor
-    * @namespace Kiwi.Input
-    * @param game {Game} The game that this mouse manager belongs to.
-    * @return {Mouse}
-    *
-    */
-    class Mouse {
-        constructor(game: Kiwi.Game);
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        * The game that this mouse manager belongs to.
-        * @property _game
-        * @type Game
-        * @private
-        */
-        private _game;
-        /**
-        * The HTMLElement that is being used to apply the mouse events to.
-        * @property _domElement
-        * @type HTMLDivElement
-        * @private
-        */
-        private _domElement;
-        /**
-        * The numeric value for the LEFT button.
-        * @property LEFT_BUTTON
-        * @type Number
-        * @static
-        * @public
-        * @final
-        * @default 0
-        */
-        static LEFT_BUTTON: number;
-        /**
-        * The numeric value for the MIDDLE button.
-        * @property MIDDLE_BUTTON
-        * @type Number
-        * @static
-        * @public
-        * @final
-        * @default 1
-        */
-        static MIDDLE_BUTTON: number;
-        /**
-        * The numeric value for the RIGHT button.
-        * @property RIGHT_BUTTON
-        * @type Number
-        * @static
-        * @public
-        * @final
-        * @default 2
-        */
-        static RIGHT_BUTTON: number;
-        /**
-        * A Signal that dispatches events when the mouse is pressed down on the stage.
-        * @property onDown
-        * @type Kiwi.Signal
-        * @public
-        */
-        public onDown: Kiwi.Signal;
-        /**
-        * A Signal that dispatches events when the mouse is released from being down on the stage.
-        * @property onUp
-        * @type Kiwi.Signal
-        * @public
-        */
-        public onUp: Kiwi.Signal;
-        /**
-        * A Signal that dispatches events mouse wheel moves.
-        * @property mouseWheel
-        * @type Kiwi.Signal
-        * @public
-        */
-        public onWheel: Kiwi.Signal;
-        /**
-        * The MouseCursor that is on the stage. This contains the coordinates and information about the cursor.
-        * @property _cursor
-        * @type MouseCursor
-        * @private
-        */
-        private _cursor;
-        /**
-        * Returns the MouseCursor that is being used on the stage. This is READ ONLY.
-        * @property cursor
-        * @type MouseCursor
-        * @private
-        */
-        public cursor : Input.MouseCursor;
-        /**
-        * This method is executed when the DOM has finished loading and thus the MouseManager can start listening for events.
-        * @method boot
-        * @public
-        */
-        public boot(): void;
-        /**
-        * Indicates whether or not the cursor is currently down. This is READ ONLY.
-        * @property isDown
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public isDown : boolean;
-        /**
-        * Indicates whether or not the cursor is currently up. This is READ ONLY.
-        * @property isUp
-        * @type boolean
-        * @default true
-        * @public
-        */
-        public isUp : boolean;
-        /**
-        * Gets the duration in Milliseconds that the mouse cursor has either been up or down for.
-        * @property duration
-        * @type number
-        * @public
-        */
-        public duration : number;
-        /**
-        * Gets the x coordinate of the mouse cursor.
-        * @property x
-        * @type number
-        * @public
-        */
-        public x : number;
-        /**
-        * Gets the y coordinate of the mouse cursor.
-        * @property y
-        * @type number
-        * @public
-        */
-        public y : number;
-        /**
-        * Gets the wheelDeltaX coordinate of the mouse cursors wheel.
-        * @property wheelDeltaX
-        * @type number
-        * @public
-        */
-        public wheelDeltaX : number;
-        /**
-        * Gets the wheelDeltaY coordinate of the mouse cursors wheel.
-        * @property wheelDeltaY
-        * @type number
-        * @public
-        */
-        public wheelDeltaY : number;
-        /**
-        * Indicates if the ctrl key is down.
-        * @property ctrlKey
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public ctrlKey : boolean;
-        /**
-        * Indicates if the shift key is down.
-        * @property shiftKey
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public shiftKey : boolean;
-        /**
-        * Indicates if the alt key is down.
-        * @property altKey
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public altKey : boolean;
-        /**
-        * Returns a number indicating the button that was used. This can be used with the STATIC button properties.
-        * @property button
-        * @type number
-        * @public
-        */
-        public button : number;
-        /**
-        * The update loop for the cursor.
-        * @method update
-        * @public
-        */
-        public update(): void;
-        /**
-        * Start the mouse event listeners on the game. Automatically called by the boot.
-        * @method start
-        * @public
-        */
-        public start(): void;
-        /**
-        * Stops the mouse event listeners from working. Useful if you no longer want the mouse to 'work'/be listened to.
-        * @method stop
-        * @public
-        */
-        public stop(): void;
-        /**
-        * Method that gets fired when the mouse is pressed on the stage.
-        * @method onMouseDown
-        * @param {MouseEvent} event.
-        * @private
-        */
-        private onMouseDown(event);
-        /**
-        * Method that gets fired when the mouse moves anywhere on the stage.
-        * @method onMouseMove
-        * @param {MouseEvent} event.
-        * @private
-        */
-        private onMouseMove(event);
-        /**
-        * Method that gets fired when the mouse is released on the stage.
-        * @method onMouseUp
-        * @param {MouseEvent} event.
-        * @private
-        */
-        private onMouseUp(event);
-        /**
-        * Method that gets fired when the mousewheel is moved.
-        * @method onMouseWheel
-        * @param {MouseEvent} event.
-        * @private
-        */
-        private onMouseWheel(event);
-        /**
-        * Returns a boolean indicating if the mouse was 'justPressed' within a certain timeframe. The default timeframe is 200 milliseconds.
-        * @method justPressed
-        * @param [duration=200] {Number} The timeframe that it could have occured in.
-        * @return {boolean}
-        * @public
-        */
-        public justPressed(duration?: number): boolean;
-        /**
-        * Returns a boolean indicating if the mouse was 'justReleased' within a certain timeframe. The default timeframe is 200 milliseconds.
-        * @method justReleased
-        * @param [duration=200] {Number} The timeframe that it could have occured in..
-        * @return {boolean}
-        * @public
-        */
-        public justReleased(duration?: number): boolean;
-        /**
-        * Runs the Reset method on the MouseCursor.
-        * @method reset
-        * @public
-        */
-        public reset(): void;
-    }
-}
-/**
-*
-* @module Kiwi
-* @submodule Input
-*
-*/ 
-declare module Kiwi.Input {
-    /**
-    * Handles the dispatching and management of touch based events for the game. When the Touch manager is created TEN finger objects are created and used when the user interacts with the screen. Those finger are what you can use to create games that make the most out of multitouch events.
-    *
-    * @class Touch
-    * @constructor
-    * @namespace Kiwi.Input
-    * @param game {Game} the game that this touch manager belongs to.
-    * @return {Touch} This object.
-    *
-    */
-    class Touch {
-        constructor(game: Kiwi.Game);
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return String
-        * @public
-        */
-        public objType(): string;
-        /**
-        * The game that this touch manager belongs to.
-        * @property _game
-        * @type Game
-        * @private
-        **/
-        private _game;
-        /**
-        * The dom element that these touch events are to take place on. This is usally set to be the stage/game container.
-        * @property _domElement
-        * @type HTMLElement
-        * @default null
-        * @private
-        **/
-        private _domElement;
-        /**
-        * Contains a list of all of the fingers that are used for the touch events.
-        * @property _fingers
-        * @type Array
-        * @private
-        */
-        private _fingers;
-        /**
-        * Get the fingers that are being used.
-        * @type Finger[]
-        * @public
-        */
-        public fingers : Input.Finger[];
-        /**
-        * The first finger that is used for touch events.
-        * @property finger1
-        * @type Finger
-        * @public
-        */
-        public finger1: Input.Finger;
-        /**
-        * The second finger that is used for touch events.
-        * @property finger2
-        * @type Finger
-        * @public
-        */
-        public finger2: Input.Finger;
-        /**
-        * The third finger that is used for touch events.
-        * @property finger3
-        * @type Finger
-        * @public
-        */
-        public finger3: Input.Finger;
-        /**
-        * The fourth finger that is used for touch events.
-        * @property finger4
-        * @type Finger
-        * @public
-        */
-        public finger4: Input.Finger;
-        /**
-        * Finger number five that is used for touch events.
-        * @property finger5
-        * @type Finger
-        * @public
-        */
-        public finger5: Input.Finger;
-        /**
-        * Finger number six, that is used for touch events.
-        * @property finger6
-        * @type Finger
-        * @public
-        */
-        public finger6: Input.Finger;
-        /**
-        * The seventh finger used for touch events.
-        * @property finger7
-        * @type Finger
-        * @public
-        */
-        public finger7: Input.Finger;
-        /**
-        * Finger number eight
-        * @property finger8
-        * @type Finger
-        * @public
-        */
-        public finger8: Input.Finger;
-        /**
-        * The ninth finger that is used for touch events.
-        * @property finger9
-        * @type Finger
-        * @public
-        */
-        public finger9: Input.Finger;
-        /**
-        * The tenth finger that is used for touch events.
-        * @property finger10
-        * @type Finger
-        * @public
-        */
-        public finger10: Input.Finger;
-        /**
-        * The latest finger that was used for any task.
-        * @property latestFinger
-        * @type Finger
-        * @public
-        */
-        public latestFinger: Input.Finger;
-        /**
-        * A boolean that will roughly indicate if any finger is currently down.
-        * @property isDown
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public isDown: boolean;
-        /**
-        * If all the fingers are up.
-        * @property isUp
-        * @type boolean
-        * @default true
-        * @public
-        */
-        public isUp: boolean;
-        /**
-        * A Kiwi Signal that dispatches an event when a user presses down on the stage.
-        * @property touchDown
-        * @type Signal
-        * @public
-        */
-        public touchDown: Kiwi.Signal;
-        /**
-        * A Kiwi Signal that dispatches an event when a user releases a finger off of the stage.
-        * @property touchUp
-        * @type Signal
-        * @public
-        */
-        public touchUp: Kiwi.Signal;
-        /**
-        * A Kiwi Signal that dispatches an event when a touch event is cancelled for the some reason.
-        * @property touchCancel
-        * @tpye Signal
-        * @public
-        */
-        public touchCancel: Kiwi.Signal;
-        /**
-        * An internal Kiwi method that runs when the DOM is loaded and the touch manager can now 'boot' up.
-        * @method boot
-        * @public
-        */
-        public boot(): void;
-        /**
-        * Starts up the event listeners that are being used on the touch manager.
-        * @method start
-        * @public
-        */
-        public start(): void;
-        /**
-        * Prevent iOS bounce-back (doesn't work?)
-        * @method consumeTouchMove
-        * @param {Any} event
-        * @public
-        */
-        private consumeTouchMove(event);
-        /**
-        * Gets the position of the latest finger on the x axis.
-        * @type number
-        * @public
-        */
-        public x : number;
-        /**
-        * Gets the position of the latest finger on the y axis.
-        * @type number
-        * @public
-        */
-        public y : number;
-        /**
-        * The developer defined maximum number of touch events. By default this is set to 10 but this can be set to be lower.
-        * @property _maxTouchEvents
-        * @type number
-        * @default 10
-        * @private
-        */
-        private _maxPointers;
-        /**
-        * Gets the maximum number of points of contact that are allowed on the game stage at one point.
-        * @type number
-        * @public
-        */
-        /**
-        * Sets the maximum number of point of contact that are allowed on the game stage at one point.
-        * The maximum number of points that are allowed is 10, and the minimum is 0.
-        * @type number
-        * @public
-        */
-        public maximumPointers : number;
-        /**
-        * This method runs when the a touch start event is fired by the browser and then assigns the event to a pointer that is currently not active.
-        * @method onTouchStart
-        * @param {Any} event
-        * @private
-        */
-        private onTouchStart(event);
-        /**
-        * Doesn't appear to be supported by most browsers yet but if it was it would fire events when a touch is canceled.
-        * @method onTouchCancel
-        * @param {Any} event
-        * @private
-        */
-        private onTouchCancel(event);
-        /**
-        * Doesn't appear to be supported by most browsers yet. But if it was would fire events when touch events enter an element.
-        * @method onTouchEnter
-        * @param {Any} event
-        * @private
-        */
-        private onTouchEnter(event);
-        /**
-        * Doesn't appear to be supported by most browsers yet. Would fire events when a 'finger' leaves an element.
-        * Would be handly for when an finger 'leaves' the stage.
-        * @method onTouchLeave
-        * @param {Any} event
-        * @private
-        */
-        private onTouchLeave(event);
-        /**
-        * When a touch pointer moves. This method updates the appropriate pointer.
-        * @method onTouchMove
-        * @param {Any} event
-        * @private
-        */
-        private onTouchMove(event);
-        /**
-        * When a touch event gets released.
-        * @method onTouchEnd
-        * @param {Any} event
-        * @private
-        */
-        private onTouchEnd(event);
-        /**
-        * The update loop fro the touch manager.
-        * @method update
-        * @public
-        */
-        public update(): void;
-        /**
-        * This method removes all of the event listeners and thus 'stops' the touch manager.
-        * @method stop
-        * @public
-        */
-        public stop(): void;
-        /**
-        * Resets all of the fingers/pointers to their default states.
-        * @method reset
-        * @public
-        */
-        public reset(): void;
-    }
-}
-/**
-*
-* @module Kiwi
-* @submodule Input
-*
-*/ 
-declare module Kiwi.Input {
-    /**
-    * Is a generic class that holds the properties/methods that are common across various different methods of inputs from the user, mainly between Touch and Mouse based events. This abstract class and such it is suppose to be extended from for individual implementations.
-    *
-    * @class Pointer
-    * @constructor
-    * @namespace Kiwi.Input
-    * @param {Game} game
-    * @return Pointer
-    *
-    */
-    class Pointer {
-        constructor(game: Kiwi.Game);
-        /**
-        * The type of object this class is.
-        * @method objType
-        * @return {string}
-        * @public
-        */
-        public objType(): string;
-        /**
-        * The game that this pointer belongs to.
-        * @property _game
-        * @type Game
-        * @private
-        */
-        private _game;
-        /**
-        * Get the game that this pointer belongs to.
-        * @type Game
-        * @public
-        */
-        public game : Kiwi.Game;
-        /**
-        * The unique identifier for this pointer.
-        * @property _id
-        * @type number
-        * @private
-        */
-        public id: number;
-        /**
-        * The horizontal coordinate of point relative to the game element
-        * @property x
-        * @type Number
-        * @default -1
-        * @public
-        */
-        public x: number;
-        /**
-        * The vertical coordinate of point relative to the game element
-        * @property y
-        * @type Number
-        * @default -1
-        * @public
-        */
-        public y: number;
-        /**
-        * The horizontal coordinate of point relative to the viewport in pixels, excluding any scroll offset
-        * @property clientX
-        * @type Number
-        * @default -1
-        * @public
-        */
-        public clientX: number;
-        /**
-        * The vertical coordinate of point relative to the viewport in pixels, excluding any scroll offset
-        * @property clientY
-        * @type Number
-        * @default -1
-        * @public
-        */
-        public clientY: number;
-        /**
-        * The horizontal coordinate of point relative to the viewport in pixels, including any scroll offset
-        * @property pageX
-        * @type Number
-        * @default -1
-        * @public
-        */
-        public pageX: number;
-        /**
-        * The vertical coordinate of point relative to the viewport in pixels, including any scroll offset
-        * @property pageY
-        * @type Number
-        * @default -1
-        * @public
-        */
-        public pageY: number;
-        /**
-        * The horizontal coordinate of point relative to the screen in pixels
-        * @property screenX
-        * @type Number
-        * @default -1
-        * @public
-        */
-        public screenX: number;
-        /**
-        * The vertical coordinate of point relative to the screen in pixels
-        * @property screenY
-        * @type Number
-        * @default -1
-        * @public
-        */
-        public screenY: number;
-        /**
-        * The point that this pointer is at. Same c ordina es asX/Y properties.
-        * @property point
-        * @type Point
-        * @public
-        */
-        public point: Kiwi.Geom.Point;
-        /**
-        * A circle that is representative of the area this point covers.
-        * @property circle
-        * @type Circle
-        * @public
-        */
-        public circle: Kiwi.Geom.Circle;
-        /**
-        * Indicates if this pointer is currently down.
-        * @property isDown
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public isDown: boolean;
-        /**
-        * Indicates if this pointer is currently up.
-        * @property isUp
-        * @default true
-        * @type boolean
-        * @public
-        */
-        public isUp: boolean;
-        /**
-        * Indicates if this pointer is currently within the game.
-        * @property withinGame
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public withinGame: boolean;
-        /**
-        * Indicates if this pointer is active. Note a mouse is always 'active' where as a finger is only active when it is down.
-        * @property active
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public active: boolean;
-        /**
-        * Indicates the time that the pointer was pressed initially.
-        * @property timeDown
-        * @type number
-        * @default 0
-        * @public
-        */
-        public timeDown: number;
-        /**
-        * Indicates the time that the pointer was released initially.
-        * @property timeUp
-        * @type number
-        * @default 0
-        * @public
-        */
-        public timeUp: number;
-        /**
-        * The duration that the pointer has been down for in milliseconds.
-        * @property duration
-        * @type number
-        * @default 0
-        * @public
-        */
-        public duration: number;
-        /**
-        * The duration that the pointer has been down for in frames.
-        * @property frameDuration
-        * @type number
-        * @default 0
-        * @public
-        */
-        public frameDuration: number;
-        /**
-        * A time that is used to calculate if someone justPressed the pointer.
-        * @property justPressedRate
-        * @type number
-        * @defeault 200
-        * @public
-        */
-        public justPressedRate: number;
-        /**
-        * A time that is used to calculate if someone justReleased the pointer.
-        * @property justReleasedRate
-        * @type number
-        * @default 200
-        * @public
-        */
-        public justReleasedRate: number;
-        /**
-        * The points inital coordinates when pressed down.
-        * @property startPoint
-        * @type Point
-        * @public
-        */
-        public startPoint: Kiwi.Geom.Point;
-        /**
-        * The coordinates where the user released the pointer.
-        * @property endPoint
-        * @type Point
-        * @public
-        */
-        public endPoint: Kiwi.Geom.Point;
-        /**
-        * The method that gets executed when the pointer presses/initially goes down on the screen.
-        * From the event passed the coordinates are calculated.
-        * @method start
-        * @param {event} event
-        * @public
-        */
-        public start(event: any): void;
-        /**
-        * The stop method is to be called when the pointer gets released initially.
-        * @method stop
-        * @param {event} event
-        * @public
-        */
-        public stop(event: any): void;
-        /**
-        * Used to get the cooridnates of a pointer and inputs them to the correct properties.
-        * @method move
-        * @param {event} event
-        * @public
-        */
-        public move(event: any): void;
-        /**
-        * Indicates if the pointer was just pressed. This is based of the justPressedRate unless otherwise specifieds.
-        * @method justPressed
-        * @param {number} duration
-        * @return boolean
-        * @public
-        */
-        public justPressed(duration?: number): boolean;
-        /**
-        * Indicates if the pointer was just released. This is based of the justReleasedRate unless otherwise specified.
-        * @method justReleased
-        * @param {number} duration
-        * @return boolean
-        * @public
-        */
-        public justReleased(duration?: number): boolean;
-        /**
-        * Resets the pointer properties to the default ones. Assumes that the pointer is no longer down.
-        * @method reset
-        * @public
-        */
-        public reset(): void;
-        /**
-        * The update loop for the pointer. Used only if down to update the duration.
-        * @method update.
-        * @public
-        */
-        public update(): void;
-    }
-}
-/**
-*
-* @module Kiwi
-* @submodule Input
-*
-*/ 
-declare module Kiwi.Input {
-    /**
-    * Holds the information about a Mouse Cursor. Such as the position of the cursor, the mouse wheels delta, the button that was used, e.t.c. Note: A mouse cursor is always active.
-    *
-    * @class MouseCursor
-    * @namespace Kiwi.Input
-    * @extends Pointer
-    */
-    class MouseCursor extends Input.Pointer {
-        /**
-        * The type of object this class is.
-        * @method objType
-        * @return string
-        * @public
-        */
-        public objType(): string;
-        /**
-        * The offset of the mouse wheel on the X axis.
-        * @property wheelDeltaX
-        * @type number
-        * @default 0
-        * @public
-        */
-        public wheelDeltaX: number;
-        /**
-        * The offset of the mouse wheel on the Y axis.
-        * @property wheelDeltaY
-        * @type number
-        * @default 0
-        * @public
-        */
-        public wheelDeltaY: number;
-        /**
-        * If the ctrl key is down.
-        * @property ctrlKey
-        * @type boolean
-        * @public
-        */
-        public ctrlKey: boolean;
-        /**
-        * If the shift key is down.
-        * @property shiftKey
-        * @type boolean
-        * @public
-        */
-        public shiftKey: boolean;
-        /**
-        * If the alt key is down.
-        * @property altKey
-        * @type boolean
-        * @public
-        */
-        public altKey: boolean;
-        /**
-        * The button that got pressed. Eg. If the LEFT mouse button was pressed this number would be 0
-        * @property button
-        * @type number
-        * @public
-        */
-        public button: number;
-        /**
-        * Gets executed when the mouse cursor gets initally pressed.
-        * @method start
-        * @param {event} event
-        * @public
-        */
-        public start(event: any): void;
-        /**
-        * Gets executed when the mouse cursor gets initally released.
-        * @method stop
-        * @param {event} event
-        * @public
-        */
-        public stop(event: any): void;
-        /**
-        * When the mouse wheel event fires and the mouse's delta changes.
-        * @method wheel
-        * @param {event} event
-        * @public
-        */
-        public wheel(event: any): void;
-    }
-}
-/**
-*
-* @module Kiwi
-* @submodule Input
-*
-*/ 
-declare module Kiwi.Input {
-    /**
-    * Used with the Touch manager class, this object holds information about a single touch point/locaton (or you know a finger). By default a Finger has a diameter of 44 pixels (random average size of a finger) which can be used for collision/overlap detection. That value can be modified. Note: A Finger is only active whilst the user is 'pressing' down on stage.
-    *
-    * @class Finger
-    * @extends Pointer
-    * @namespace Kiwi.Input
-    * @constructor
-    * @param game {Game} The game that this finger belongs to.
-    * @return Finger
-    */
-    class Finger extends Input.Pointer {
-        constructor(game: Kiwi.Game);
-        /**
-        * The type of object this is.
-        * @method objType
-        * @return string
-        * @public
-        */
-        public objType(): string;
-        /**
-        * @method start
-        * @param {Any} event
-        * @public
-        */
-        public start(event: any): void;
-        /**
-        * @method stop
-        * @param event {Any}
-        * @public
-        */
-        public stop(event: any): void;
-        /**
-        * @method leave
-        * @param event {Any}
-        * @public
-        */
-        public leave(event: any): void;
-        /**
-        * @method reset
-        * @public
-        */
-        public reset(): void;
-    }
-}
-/**
-* A IRenderer is an Interface (defined as a class as the documentation does not support Interfaces just yet),
-* which outlines the methods/properties that are required any Renderer.
-* @class IRenderer
-*/
-interface IRenderManager {
-    render(camera: Kiwi.Camera): any;
-    boot(): any;
-    initState(state: Kiwi.State): any;
-    endState(state: Kiwi.State): any;
-    numDrawCalls: number;
-    requestRendererInstance(rendererID: string, params?: any): any;
-    requestSharedRenderer(rendererID: string, params?: any): any;
-}
-/**
-* Contains the classes which are related to the rendering of GameObjects.
-*
-* @module Kiwi
-* @submodule Renderers
-* @main
-*/ 
-declare module Kiwi.Renderers {
-    /**
-    *
-    * @class CanvasRenderer
-    * @extends IRenderer
-    * @constructor
-    * @namespace Kiwi.Renderers
-    * @param game {Game} The game that this canvas renderer belongs to.
-    * @return {CanvasRenderer}
-    *
-    */
-    class CanvasRenderer implements IRenderManager {
-        constructor(game: Kiwi.Game);
-        /**
-        * The boot method is executed when all of the DOM elements that are needed to play the game are ready.
-        * @method boot
-        * @public
-        */
-        public boot(): void;
-        /**
-        * Returns the type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        * The game that this object belongs to.
-        * @property _game
-        * @type Game
-        * @private
-        */
-        private _game;
-        /**
-        * The camera that is currently being used to render upon.
-        * @property _currentCamera
-        * @type Camera
-        * @private
-        */
-        private _currentCamera;
-        /**
-        * This method recursively goes through a State's members and runs the render method of each member that is a Entity.
-        * If it is a Group then this method recursively goes through that Groups members the process that happened to the State's members happens to the Group's members.
-        *
-        * @method _recurse
-        * @param child {IChild} The child that is being checked.
-        * @private
-        */
-        public _recurse(child: Kiwi.IChild): void;
-        public requestRendererInstance(rendererID: string, params?: any): Renderers.Renderer;
-        public requestSharedRenderer(rendererID: string, params?: any): Renderers.Renderer;
-        public initState(state: Kiwi.State): void;
-        public endState(state: Kiwi.State): void;
-        public numDrawCalls: number;
-        /**
-        * Renders all of the Elements that are on a particular camera.
-        * @method render
-        * @param camera {Camera}
-        * @public
-        */
-        public render(camera: Kiwi.Camera): void;
-    }
-}
-declare var mat2d: any, mat3: any, vec2: any, vec3: any, mat4: any;
-/**
-*
-*
-* @module Kiwi
-* @submodule Renderers
-* @main Renderers
-*/ 
-declare module Kiwi.Renderers {
-    /**
-    * Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  https://github.com/toji/gl-matrix
-    * Directly manages renderer objects, including factory methods for their creation.
-    * Creates manager objects for shaders and textures.
-    * Manages gl state at game initialisation, at state start and end, and per frame.
-    * Runs the recursive scene graph rendering sequence every frame.
-    * @class GLRenderManager
-    * @extends IRenderer
-    * @constructor
-    * @param game {Game} The game that this renderer belongs to.
-    * @return {GLRenderer}
-    */
-    class GLRenderManager implements IRenderManager {
-        constructor(game: Kiwi.Game);
-        /**
-        * Initialises all WebGL rendering services
-        * @method boot
-        * @public
-        */
-        public boot(): void;
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        * The game that this renderer is used with.
-        * @property _game
-        * @type Game
-        * @private
-        */
-        private _game;
-        /**
-        * The texture manager object used to allocate GL Textures.
-        * @property _textureManager
-        * @type GLTextureManager
-        * @private
-        */
-        private _textureManager;
-        /**
-        * The shader manager object used to allocate GL Shaders.
-        * @property _shaderManager
-        * @type GLShaderManager
-        * @private
-        */
-        private _shaderManager;
-        /**
-        * The stage resolution in pixels
-        * @property _stageResolution
-        * @type Float32Array
-        * @private
-        */
-        private _stageResolution;
-        /**
-        * The renderer object that is in use during a rendering batch.
-        * @property _currentRenderer
-        * @type Kiwi.Renderers.Renderer
-        * @private
-        */
-        private _currentRenderer;
-        /**
-        * Tally of number of entities rendered per frame
-        * @property _entityCount
-        * @type number
-        * @default 0
-        * @private
-        */
-        private _entityCount;
-        /**
-        * Tally of number of draw calls per frame
-        * @property numDrawCalls
-        * @type number
-        * @default 0
-        * @public
-        */
-        public numDrawCalls: number;
-        /**
-        * Maximum allowable sprites to render per frame
-        * Note:Not currently used  - candidate for deletion
-        * @property _maxItems
-        * @type number
-        * @default 1000
-        * @private
-        */
-        private _maxItems;
-        public camMatrix: Float32Array;
-        /**
-        * The most recently bound texture atlas.
-        * @property _currentTextureAtlas
-        * @type TextureAtlas
-        * @private
-        */
-        private _currentTextureAtlas;
-        public addTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas): void;
-        /**
-        * An array of renderers. Shared renderers are used for batch rendering. Multiple gameobjects can use the same renderer
-        * instance and add rendering info to a batch rather than rendering individually.
-        * This means only one draw call is necessary to render a number of objects. The most common use of this is standard 2d sprite rendering,
-        * and the TextureAtlasRenderer is added by default as a shared renderer. Sprites, StaticImages and Tilemaps (core gameobjects) can all use the
-        * same renderer/shader combination and be drawn as part of the same batch.
-        * Custom gameobjects can also choose to use a shared renderer, fo example in the case that a custom gameobject's rendering requirements matched the TextureAtlasRenderer
-        * capabilities.
-        *
-        * @property _sharedRenderers
-        * @type Array
-        * @private
-        */
-        private _sharedRenderers;
-        /**
-        * Adds a renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object.
-        * If a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.
-        * @method addSharedRenderer
-        * @param {String} rendererID
-        * @param {Object} params
-        * @return {Boolean} success
-        * @public
-        */
-        public addSharedRenderer(rendererID: string, params?: any): boolean;
-        /**
-        * Requests a shared renderer. A game object that wants to use a shared renderer uses this method to obtain a reference to the shared renderer instance.
-        * @method addSharedRenderer
-        * @param {String} rendererID
-        * @param {Object} params
-        * @return {Kiwi.Renderers.Renderer} A shared renderer or null if none found.
-        * @public
-        */
-        public requestSharedRenderer(rendererID: string, params?: any): Renderers.Renderer;
-        /**
-        * Requests a new renderer instance. This factory method is the only way gameobjects should instantiate their own renderer.
-        * The rendererID is a string that must match a renderer property of the Kiwi.Renderers object.
-        * If a match is found then a renderer is instantiated and returned. Gameobjects which have rendering requirements that do not suit
-        * batch rendering use this technique.
-        * @method requestRendererInstance
-        * @param {String} rendererID The name of the requested renderer
-        * @param {Object} params
-        * @return {Kiwi.Renderers.Renderer} A renderer or null if none found.
-        * @public
-        */
-        public requestRendererInstance(rendererID: string, params?: any): Renderers.Renderer;
-        private _init();
-        /**
-        * Performs initialisation required when switching to a different state. Called when a state has been switched to.
-        * The textureManager is told to rebuild its cache of textures from the states textuer library.
-        * @method initState
-        * @public
-        */
-        public initState(state: Kiwi.State): void;
-        /**
-        * Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.
-        * @method initState
-        * @param state {Kiwi.State}
-        * @public
-        */
-        public endState(state: Kiwi.State): void;
-        /**
-        * Manages rendering of the scene graph - called once per frame.
-        * Sets up per frame gl uniforms such as the view matrix and camera offset.
-        * Clears the current renderer ready for a new batch.
-        * Initiates recursive render of scene graph starting at the root.
-        * @method render
-        * @param camera {Camera}
-        * @public
-        */
-        public render(camera: Kiwi.Camera): void;
-        private _sequence;
-        private _batches;
-        public collateRenderSequence(): void;
-        public collateChild(child: Kiwi.IChild): void;
-        public collateBatches(): void;
-        public renderBatches(gl: WebGLRenderingContext, camera: any): void;
-        public renderBatch(gl: WebGLRenderingContext, batch: any, camera: any): void;
-        public renderEntity(gl: WebGLRenderingContext, entity: any, camera: any): void;
-        public setupGLState(gl: WebGLRenderingContext, entity: any): void;
-        /**
-        * Switch renderer to the one needed by the entity that needs rendering
-        * @method _switchRenderer
-        * @param gl {WebGLRenderingContext}
-        * @param entity {Entity}
-        * @private
-        */
-        private _switchRenderer(gl, entity);
-        /**
-        * Switch texture to the one needed by the entity that needs rendering
-        * @method _switchTexture
-        * @param gl {WebGLRenderingContext}
-        * @param entity {Entity}
-        * @private
-        */
-        private _switchTexture(gl, entity);
-    }
-}
-/**
-* GLSL ES Shaders are used for WebGL rendering.
-* ShaderPair objects encapsulate GLSL ES vertex and fragment shader programs.
-*   ShaderPairs contain the GLSL code, provide an interface to uniforms and attributes, and have the ability to link and compile the shaders.
-* The ShaderManager keeps track of each ShaderPair, and controls which one is bound for use at any particular time.
-*   Only the ShaderManager can create ShaderPairs. When a renderer (see note on renderes below) requests a ShaderPair the ShaderManager will either
-*       1) Return a reference to an already instantiated ShaderPair, and set the GL state to use the shader program or
-*       2) Return a reference to a new ShaderPair, which will be linked and compiled and bound for use.
-*   All ShaderPairs must be housed as properties of the Kiwi.Shaders object.
-*
-* Kiwi.Renderer objects use a ShaderPair to draw.
-*   They must request a ShaderPair from the ShaderManager.
-*   Many renderers may use the same ShaderPair.
-*   Some renderers may at different times use multiple ShaderPairs (only one is possible at any given time)
-*
-* @module Kiwi
-* @submodule Shaders
-* @main Shaders
-*/ 
-declare module Kiwi.Shaders {
-    /**
-    * Manages all WebGL Shaders. Maintains a list of ShaderPairs
-    *
-    * Provides an interface for using a specific ShaderPair, adding new ShaderPairs, and requesting a reference to a ShaderPair instance.
-    * Renderes use shaderPairs to draw. Multiple renderers may use the same compiled shader program.
-    * This Manager ensures only one compiled instance of each program is created
-    * @class ShaderManager
-    * @extends IRenderer
-    * @constructor
-    * @return {GLRenderer}
-    */
-    class ShaderManager {
-        constructor();
-        /**
-        * An object containing a set of properties each of which references a ShaderPair.
-        * @property _shaderPairs
-        * @type Object
-        * @private
-        */
-        private _shaderPairs;
-        /**
-        * The shader program that is currently set to be used useing gl.useProgram.
-        * @property currentShader
-        * @type Array
-        * @private
-        */
-        public currentShader : Shaders.ShaderPair;
-        private _currentShader;
-        /**
-        * Sets up a default shaderPair.
-        * @method init
-        * @param {WebGLRenderingContext} gl
-        * @param {String} defaultShaderID
-        * @public
-        */
-        public init(gl: WebGLRenderingContext, defaultShaderID: string): void;
-        /**
-        * Provides a reference to a ShaderPair. If the requested ShaderPair exists as a property on the _shaderPairs object it will be returned if already loaded,
-        * otherwise it will be loaded, then returned.
-        * If the request is not on the list, the Kiwi.Shaders object will  be checked for a property name that matches shaderID and a new ShaderPair
-        * will be instantiated, loaded, and set for use.
-        
-        * @method init
-        * @param {WebGLRenderingContext} gl
-        * @param {String} shaderID
-        * @return {ShaderPair} a ShaderPair instance - null on fail
-        * @public
-        */
-        public requestShader(gl: WebGLRenderingContext, shaderID: string, use?: boolean): Shaders.ShaderPair;
-        /**
-        * Tests to see if a ShaderPair property named ShaderID exists on Kiwi.Shaders. Can be used to test for the availability of specific shaders (for fallback)
-        * @method shaderExists
-        * @param {WebGLRenderingContext} gl
-        * @param {String} shaderID
-        * @return {Boolean} success
-        * @public
-        */
-        public shaderExists(gl: WebGLRenderingContext, shaderID: string): boolean;
-        /**
-        * Creates a new instance of a ShaderPair and adds a reference to the _shaderPairs object
-        * @method _addShader
-        * @param {WebGLRenderingContext} gl
-        * @param {String} shaderID
-        * @return {ShaderPair}
-        * @private
-        */
-        private _addShader(gl, shaderID);
-        /**
-        * Tells a ShaderPair to load (compile and link)
-        * @method _loadShader
-        * @param {WebGLRenderingContext} gl
-        * @param {ShaderPair} shader
-        * @private
-        */
-        private _loadShader(gl, shader);
-        /**
-        * Changes gl state so that the shaderProgram contined in a ShaderPir is bound for use
-        * @method _useShader
-        * @param {WebGLRenderingContext} gl
-        * @param {ShaderPair} shader
-        * @private
-        */
-        private _useShader(gl, shader);
-    }
-}
-/**
-*
-* @module Kiwi
-* @submodule Renderers
-*
-*/
-declare module Kiwi.Renderers {
-    /**
-    *
-    * @class GLTexture
-    * @constructor
-    * @param gl {WebGLRenderingContext}
-    * @param [_image] {HTMLImageElement}
-    * @return {GLTexture}
-    */
-    class GLTextureWrapper {
-        constructor(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas, upload?: boolean);
-        public textureAtlas: Kiwi.Textures.TextureAtlas;
-        private _numBytes;
-        public numBytes : number;
-        private _created;
-        public created : boolean;
-        private _uploaded;
-        public uploaded : boolean;
-        /**
-        *
-        * @property texture
-        * @type WebGLTexture
-        * @public
-        */
-        public texture: WebGLTexture;
-        /**
-        *
-        * @property image
-        * @type HTMLImageElement
-        * @public
-        */
-        public image: HTMLImageElement;
-        public createTexture(gl: WebGLRenderingContext): boolean;
-        public uploadTexture(gl: WebGLRenderingContext): boolean;
-        public refreshTexture(gl: WebGLRenderingContext): void;
-        public deleteTexture(gl: WebGLRenderingContext): boolean;
-    }
-}
-/**
-*
-*
-* @module Kiwi
-* @submodule Renderers
-* @main Renderers
-*/ 
-declare module Kiwi.Renderers {
-    /**
-    * Manages GL Texture objects, including creation, uploading, destruction and memory management
-    * @class GLTextureManager
-    * @constructor
-    * @return {GLTextureManager}
-    */
-    class GLTextureManager {
-        constructor();
-        /**
-        * The default maximum amount of texture memory to use before swapping textures
-        * @property DEFAULT_MAX_TEX_MEM_MB
-        * @type number
-        * @public
-        * @static
-        */
-        static DEFAULT_MAX_TEX_MEM_MB: number;
-        /**
-        * The maximum amount of texture memory to use before swapping textures, initialised from DEFAULT_MAX_TEX_MEM_MB
-        * @property maxTextureMem
-        * @type number
-        * @public
-        */
-        public maxTextureMem: number;
-        /**
-        * The amount of texture memory currently uplaoded
-        * @property usedTextureMem
-        * @type number
-        * @public
-        */
-        private _usedTextureMem;
-        public usedTextureMem : number;
-        /**
-        * The number of textures currently uplaoded
-        * @property usedTextureMem
-        * @type number
-        * @public
-        */
-        private _numTexturesUsed;
-        public numTexturesUsed : number;
-        /**
-        * The number of textures uploads in the last frame
-        * @property numTextureWrites
-        * @type number
-        * @public
-        */
-        public numTextureWrites: number;
-        /**
-        * An array of references to all texture wrappers
-        * @property _textureWrapperCache
-        * @type GLTextureWrapper[]
-        * @private
-        */
-        private _textureWrapperCache;
-        /**
-        * Adds a texture wrapper to the cache
-        * @method _addTextureToCache
-        * @param glTexture {GLTextureWrapper}
-        * @private
-        */
-        private _addTextureToCache(glTexture);
-        /**
-        * Deletes a texture from memory and removes the wrapper from the cache
-        * @method _deleteTexture
-        * @param gl {WebGLRenderingContext}
-        * @param idx {number}
-        * @private
-        */
-        private _deleteTexture(gl, idx);
-        /**
-        * Uploads a texture to video memory
-        * @method _uploadTexture
-        * @param gl {WebGLRenderingContext}
-        * @param glTextureWrapper {GLTextureWrapper}
-        * @return boolean
-        * @private
-        */
-        private _uploadTexture(gl, glTextureWrapper);
-        /**
-        * Uploads a texture library to video memory
-        * @method uploadTextureLibrary
-        * @param gl {WebGLRenderingContext}
-        * @param textureLibrary {Kiwi.Textures.TextureLibrary}
-        * @public
-        */
-        public uploadTextureLibrary(gl: WebGLRenderingContext, textureLibrary: Kiwi.Textures.TextureLibrary): void;
-        public uploadTexture(gl: WebGLRenderingContext, textureAtlas: Kiwi.Textures.TextureAtlas): void;
-        /**
-        * Removes all textures from video memory and clears the wrapper cache
-        * @method clearTextures
-        * @param gl {WebGLRenderingContext}
-        * @public
-        */
-        public clearTextures(gl: WebGLRenderingContext): void;
-        /**
-        * Binds the texture ready for use, uploads it if it isn't already
-        * @method useTexture
-        * @param gl {WebGLRenderingContext}
-        * @param glTextureWrapper {GLTextureWrappery}
-        * @param textureSizeUniform {number}
-        * @return boolean
-        * @public
-        */
-        public useTexture(gl: WebGLRenderingContext, glTextureWrapper: Renderers.GLTextureWrapper): boolean;
-        /**
-        * Attemps to free space for to uplaod a texture.
-        * 1: Try and find texture that is same size to remove
-        * 2: Find next smallest to remove (not yet implemented)
-        * 3: Sequentially remove until there is room (not yet implemented)
-        * @method _freeSpace
-        * @param gl {WebGLRenderingContext}
-        * @param numBytesToRemove {number}
-        * @return boolean
-        * @public
-        */
-        private _freeSpace(gl, numBytesToRemove);
-    }
-}
-/**
-*
-* @module Kiwi
-* @submodule Renderers
-*
-*/
-declare module Kiwi.Renderers {
-    /**
-    *
-    * @class GLArrayBuffer
-    * @constructor
-    * @namespace Kiwi.Renderers
-    * @param gl {WebGLRenderingContext}
-    * @param [_itemSize] {number}
-    * @param [items] {number[]}
-    * @param [init=true] {boolean}
-    * @return {GLArrayBuffer}
-    */
-    class GLArrayBuffer {
-        constructor(gl: WebGLRenderingContext, _itemSize?: number, items?: number[], upload?: boolean);
-        private _created;
-        public created : boolean;
-        private _uploaded;
-        public uploaded : boolean;
-        /**
-        *
-        * @property items
-        * @type number[]
-        * @public
-        */
-        public items: number[];
-        /**
-        *
-        * @property buffer
-        * @type WebGLBuffer
-        * @public
-        */
-        public buffer: WebGLBuffer;
-        /**
-        *
-        * @property itemSize
-        * @type number
-        * @public
-        */
-        public itemSize: number;
-        /**
-        *
-        * @property numItems
-        * @type number
-        * @public
-        */
-        public numItems: number;
-        /**
-        *
-        * @method clear
-        * @public
-        */
-        public clear(): void;
-        /**
-        *
-        * @method init
-        * @param gl {WebGLRenderingCotext}
-        * @return {WebGLBuffer}
-        * @public
-        */
-        public createBuffer(gl: WebGLRenderingContext): boolean;
-        public uploadBuffer(gl: WebGLRenderingContext, items: number[]): boolean;
-        public deleteBuffer(gl: WebGLRenderingContext): boolean;
-        /**
-        *
-        * @property squareVertices
-        * @type number[]
-        * @static
-        * @default [0, 0, 100, 0, 100, 100, 0, 100]
-        * @public
-        */
-        static squareVertices: number[];
-        /**
-        *
-        * @property squareUVx
-        * @type number[]
-        * @static
-        * @default [0, 0, .1, 0, .1, .1, 0, .1]
-        * @public
-        */
-        static squareUVs: number[];
-        /**
-        *
-        * @property squareCols
-        * @type number[]
-        * @static
-        * @default [1, 1, 1, 1]
-        * @public
-        */
-        static squareCols: number[];
-    }
-}
-/**
-*
-* @module Kiwi
-* @submodule Renderers
-*
-*/
-declare module Kiwi.Renderers {
-    /**
-    *
-    * @class GLElementArrayBuffer
-    * @constructor
-    * @namespace Kiwi.Renderers
-    * @param gl {WebGLRenderingContent}
-    * @param [_itemSize] {number}
-    * @param [_indices] {number[]}
-    * @param [init=true] {boolean}
-    * @return {GLElementArrayBuffer}
-    */
-    class GLElementArrayBuffer {
-        constructor(gl: WebGLRenderingContext, _itemSize?: number, _indices?: number[], init?: boolean);
-        /**
-        *
-        * @property indices
-        * @type number[]
-        * @public
-        */
-        public indices: number[];
-        /**
-        *
-        * @property buffer
-        * @type WebGLBuffer
-        * @public
-        */
-        public buffer: WebGLBuffer;
-        /**
-        *
-        * @property itemSize
-        * @type number
-        * @public
-        */
-        public itemSize: number;
-        /**
-        *
-        * @property numItems
-        * @type number
-        * @public
-        */
-        public numItems: number;
-        /**
-        *
-        * @method clear
-        * @public
-        */
-        public clear(): void;
-        /**
-        *
-        * @method init
-        * @param gl {WebGLRenderingContext}
-        * @return {WebGLBuffer}
-        * @public
-        */
-        public init(gl: WebGLRenderingContext): WebGLBuffer;
-        /**
-        *
-        * @method refresh
-        * @param gl {WebGLRenderingContext}
-        * @param indices {number[]}
-        * @return {WebGLBuffer}
-        * @public
-        */
-        public refresh(gl: WebGLRenderingContext, indices: number[]): WebGLBuffer;
-        /**
-        *
-        * @property square
-        * @static
-        * @type number[]
-        * @default [0,1,2,0,2,3]
-        * @public
-        */
-        static square: number[];
-    }
-}
-declare module Kiwi.Renderers {
-    class Renderer {
-        constructor(gl: WebGLRenderingContext, shaderManager: Kiwi.Shaders.ShaderManager, isBatchRenderer?: boolean);
-        static RENDERER_ID: string;
-        public camMatrix: Float32Array;
-        public loaded: boolean;
-        public shaderManager: Kiwi.Shaders.ShaderManager;
-        public enable(gl: WebGLRenderingContext, params?: any): void;
-        public disable(gl: WebGLRenderingContext): void;
-        public clear(gl: WebGLRenderingContext, params: any): void;
-        public draw(gl: WebGLRenderingContext): void;
-        public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array): void;
-        public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array): void;
-        public shaderPair: Kiwi.Shaders.ShaderPair;
-        private _isBatchRenderer;
-        public isBatchRenderer : boolean;
-    }
-}
-/**
-*
-* @module Kiwi
-* @submodule Renderers
-*
-*/
-declare module Kiwi.Renderers {
-    class TextureAtlasRenderer extends Renderers.Renderer {
-        constructor(gl: WebGLRenderingContext, shaderManager: Kiwi.Shaders.ShaderManager, params?: any);
-        static RENDERER_ID: string;
-        public shaderPair: Kiwi.Shaders.TextureAtlasShader;
-        private _maxItems;
-        private _vertexBuffer;
-        private _indexBuffer;
-        public enable(gl: WebGLRenderingContext, params?: any): void;
-        public disable(gl: WebGLRenderingContext): void;
-        public clear(gl: WebGLRenderingContext, params: any): void;
-        public draw(gl: WebGLRenderingContext): void;
-        /**
-        * Create prebaked indices for drawing quads
-        * @method _generateIndices
-        * @param numQuads {number}
-        * @return number[]
-        * @private
-        */
-        private _generateIndices(numQuads);
-        public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array): void;
-        public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array): void;
-        /**
-        * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
-        * @method _collateVertexAttributeArrays
-        * @param gl {WebGLRenderingContext}
-        * @param entity {Entity}
-        * @param camera {Camera}
-        * @public
-        */
-        public addToBatch(gl: WebGLRenderingContext, entity: Kiwi.Entity, camera: Kiwi.Camera): void;
-        public concatBatch(vertexItems: number[]): void;
-    }
-}
-/**
-*
-* @module Kiwi
-* @submodule Renderers
-*
-*/
-declare module Kiwi.Shaders {
-    /**
-    *
-    * @class GLShaders
-    * @constructor
-    * @param gl {WebGLRenderingContext}
-    * @return {GLShaders}
-    */
-    class ShaderPair {
-        constructor();
-        static RENDERER_ID: string;
-        public init(gl: WebGLRenderingContext): void;
-        public loaded: boolean;
-        /**
-        *
-        * @property vertShader
-        * @type WebGLShader
-        * @public
-        */
-        public vertShader: WebGLShader;
-        /**
-        *
-        * @property fragShader
-        * @type WebGLShader
-        * @public
-        */
-        public fragShader: WebGLShader;
-        /**
-        *
-        * @property shaderProgram
-        * @type WebGLProgram
-        * @public
-        */
-        public shaderProgram: WebGLProgram;
-        /**
-        *
-        * @method attach
-        * @param gl {WebGLRenderingContext}
-        * @param vertShader {WebGLShader}
-        * @param fragShader {WebGLShader}
-        * @return {WebGLProgram}
-        * @public
-        */
-        public attach(gl: WebGLRenderingContext, vertShader: WebGLShader, fragShader: WebGLShader): WebGLProgram;
-        /**
-        *
-        * @method compile
-        * @param gl {WebGLRenderingContext}
-        * @param src {string}
-        * @param shaderType {number}
-        * @return {WebGLShader}
-        * @public
-        */
-        public compile(gl: WebGLRenderingContext, src: string, shaderType: number): WebGLShader;
-        public uniforms: any;
-        public attributes: any;
-        /**
-        *
-        * @property texture2DFrag
-        * @type Array
-        * @public
-        */
-        public fragSource: any[];
-        /**
-        *
-        * @property texture2DVert
-        * @type Array
-        * @public
-        */
-        public vertSource: any[];
-        public setParam(uniformName: string, value: any): void;
-        public applyUniforms(gl: WebGLRenderingContext): void;
-        public applyUniform(gl: WebGLRenderingContext, name: string): void;
-        public initUniforms(gl: WebGLRenderingContext): void;
-    }
-}
-/**
-*
-* @class GLShaders
-* @constructor
-* @param gl {WebGLRenderingContext}
-* @return {GLShaders}
-*/
-declare module Kiwi.Shaders {
-    class TextureAtlasShader extends Shaders.ShaderPair {
-        constructor();
-        public init(gl: WebGLRenderingContext): void;
-        public attributes: any;
-        public uniforms: any;
-        /**
-        *
-        * @property texture2DFrag
-        * @type Array
-        * @public
-        */
-        public fragSource: string[];
-        /**
-        *
-        * @property texture2DVert
-        * @type Array
-        * @public
-        */
-        public vertSource: string[];
-    }
-}
-/**
-* Kiwi - System
-* @module Kiwi
-* @submodule System
-* @main System
-*/
-declare module Kiwi.System {
-    /**
-    * DOM Boot and Ready functions (based on those used by jQuery)
-    *
-    * @class Bootstrap
-    * @namespace Kiwi.System
-    *
-    */
-    class Bootstrap {
-        /**
-        *
-        * @property _callback
-        * @type Any
-        * @private
-        */
-        private _callback;
-        /**
-        *
-        * @property _domParent
-        * @type String
-        * @private
-        */
-        private _domParent;
-        /**
-        *
-        * @property _createContainer
-        * @type boolean
-        * @private
-        */
-        private _createContainer;
-        /**
-        *
-        * @property isReady
-        * @type boolean
-        * @public
-        */
-        public isReady: boolean;
-        /**
-        * The parent div in which the layers and input live
-        * @property container
-        * @type HTMLDivElement
-        * @public
-        */
-        public container: HTMLDivElement;
-        /**
-        * This div sits on-top of all layers and captures user input
-        * @property input
-        * @type HTMLDivElement
-        * @public
-        */
-        public input: HTMLDivElement;
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        * Called at the start of the game to check to see if the DOM is ready before we do anything requiring it
-        * @method boot
-        * @param {String} domParent
-        * @param {Any} [callback=null]
-        * @param {boolean} [createContainer=true]
-        * @public
-        */
-        public boot(domParent: string, callback?: any, createContainer?: boolean): void;
-        /**
-        * If the DOM is ready it fires our callback, otherwise sets a short timeout to try again
-        * @method ready
-        * @public
-        */
-        public ready(): void;
-        /**
-        *
-        * @method _setupContainer
-        * @param {String} id
-        * @private
-        */
-        private _setupContainer(id?);
-    }
-}
-/**
-* Kiwi - System
-* @module Kiwi
-* @submodule System
-*
-*/
-declare module Kiwi.System {
-    /**
-    * Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser
-    * Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js
-    *
-    * @class Browser
-    * @constructor
-    * @namespace Kiwi.System
-    * @param {Game} game
-    * @return {StateMananger} This Object
-    *
-    */
-    class Browser {
-        constructor(game: Kiwi.Game);
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        *
-        * @property _game
-        * @type Game
-        * @private
-        */
-        private _game;
-        /**
-        * The DOM is ready, so if we have a current state pending we can init it now
-        * @method boot
-        */
-        public boot(): void;
-        /**
-        *
-        * @method getOffsetPoint
-        * @param {Any} element
-        * @param {Point} output
-        * @return {Point}
-        * @public
-        */
-        public getOffsetPoint(element: any, output?: Kiwi.Geom.Point): Kiwi.Geom.Point;
-    }
-}
-/**
-* Kiwi - System
-* @module Kiwi
-* @submodule System
-*/ 
-declare module Kiwi.System {
-    /**
-    * Detects device support capabilities. Using some elements from System.js by MrDoob and Modernizr
-    * https://github.com/Modernizr/Modernizr/blob/master/feature-detects/audio.js
-    *
-    * @class Device
-    * @constructor
-    * @namespace Kiwi.System
-    *
-    * @author mrdoob
-    * @author Modernizr team
-    *
-    */
-    class Device {
-        constructor();
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        *
-        * @property iOS
-        * @type boolean
-        * @public
-        */
-        public iOS: boolean;
-        /**
-        *
-        * @property android
-        * @type boolean
-        * @public
-        */
-        public android: boolean;
-        /**
-        *
-        * @property chromeOS
-        * @type boolean
-        * @public
-        */
-        public chromeOS: boolean;
-        /**
-        *
-        * @property linux
-        * @type boolean
-        * @public
-        */
-        public linux: boolean;
-        /**
-        *
-        * @property maxOS
-        * @type boolean
-        * @public
-        */
-        public macOS: boolean;
-        /**
-        *
-        * @property windows
-        * @type boolean
-        * @public
-        */
-        public windows: boolean;
-        /**
-        *
-        * @property canvas
-        * @type boolean
-        * @public
-        */
-        public canvas: boolean;
-        /**
-        *
-        * @property file
-        * @type boolean
-        * @public
-        */
-        public file: boolean;
-        /**
-        *
-        * @property fileSystem
-        * @type boolean
-        * @public
-        */
-        public fileSystem: boolean;
-        /**
-        *
-        * @property localStorage
-        * @type boolean
-        * @public
-        */
-        public localStorage: boolean;
-        /**
-        *
-        * @property webGL
-        * @type boolean
-        * @public
-        */
-        public webGL: boolean;
-        /**
-        *
-        * @property worker
-        * @type boolean
-        * @public
-        */
-        public worker: boolean;
-        /**
-        *
-        * @property blob
-        * @type boolean
-        * @public
-        */
-        public blob: boolean;
-        /**
-        *
-        * @property touch
-        * @type boolean
-        * @public
-        */
-        public touch: boolean;
-        /**
-        *
-        * @property css3D
-        * @type boolean
-        * @public
-        */
-        public css3D: boolean;
-        /**
-        *
-        * @property arora
-        * @type boolean
-        * @public
-        */
-        public arora: boolean;
-        /**
-        *
-        * @property chrome
-        * @type boolean
-        * @public
-        */
-        public chrome: boolean;
-        /**
-        *
-        * @property epiphany
-        * @type boolean
-        * @public
-        */
-        public epiphany: boolean;
-        /**
-        *
-        * @property firefox
-        * @type boolean
-        * @public
-        */
-        public firefox: boolean;
-        /**
-        *
-        * @property ie
-        * @type boolean
-        * @public
-        */
-        public ie: boolean;
-        /**
-        *
-        * @property ieVersion
-        * @type Number
-        * @public
-        */
-        public ieVersion: number;
-        /**
-        *
-        * @property mobileSafari
-        * @type boolean
-        * @public
-        */
-        public mobileSafari: boolean;
-        /**
-        *
-        * @property midori
-        * @type boolean
-        * @public
-        */
-        public midori: boolean;
-        /**
-        *
-        * @property opera
-        * @type boolean
-        * @public
-        */
-        public opera: boolean;
-        /**
-        *
-        * @property safari
-        * @type boolean
-        * @public
-        */
-        public safari: boolean;
-        /**
-        *
-        * @property webApp
-        * @type boolean
-        * @public
-        */
-        public webApp: boolean;
-        /**
-        *
-        * @property audioData
-        * @type boolean
-        * @public
-        */
-        public audioData: boolean;
-        /**
-        *
-        * @property webaudio
-        * @type boolean
-        * @public
-        */
-        public webaudio: boolean;
-        /**
-        *
-        * @property ogg
-        * @type boolean
-        * @public
-        */
-        public ogg: boolean;
-        /**
-        *
-        * @property mp3
-        * @type boolean
-        * @public
-        */
-        public mp3: boolean;
-        /**
-        *
-        * @property wav
-        * @type boolean
-        * @public
-        */
-        public wav: boolean;
-        /**
-        *
-        * @property m4a
-        * @type boolean
-        * @public
-        */
-        public m4a: boolean;
-        /**
-        *
-        * @property iPhone
-        * @type boolean
-        * @public
-        */
-        public iPhone: boolean;
-        /**
-        *
-        * @property iPhone4
-        * @type boolean
-        * @public
-        */
-        public iPhone4: boolean;
-        /**
-        *
-        * @property iPad
-        * @type boolean
-        * @public
-        */
-        public iPad: boolean;
-        /**
-        *
-        * @property pixelRatio
-        * @type Number
-        * @public
-        */
-        public pixelRatio: number;
-        /**
-        *
-        * @method _checkOS
-        * @private
-        */
-        private _checkOS();
-        /**
-        *
-        * @method _checkFeatures
-        * @private
-        */
-        private _checkFeatures();
-        /**
-        *
-        * @method _checkBrowser
-        * @private
-        */
-        private _checkBrowser();
-        /**
-        *
-        * @method _checkAudio
-        * @private
-        */
-        private _checkAudio();
-        /**
-        *
-        * @method _checkDevice
-        * @private
-        */
-        private _checkDevice();
-        /**
-        *
-        * @method _checkCSS3D
-        * @private
-        */
-        private _checkCSS3D();
-        /**
-        *
-        * @method getAll
-        * @return {String}
-        * @public
-        */
-        public getAll(): string;
-    }
-}
-/**
-*
-* @module Kiwi
-* @submodule Textures
-*
-*/ 
-declare module Kiwi.Textures {
-    /**
-    * A TextureAtlas is the base class that is created for each image that is loaded in through Kiwi. Each TextureAtlas contains a name (the same as the key that the user chose when loading the image in),the HTMLImageElement that it is for and a number of cells.
-    *
-    * @class TextureAtlas
-    * @namespace Kiwi.Textures
-    * @constructor
-    * @param name {string} Name of the texture atlas. This is usually defined by the developer when loading the assets.
-    * @param type {number} The type of texture atlas that this is. There are currently only three types.
-    * @param cells {any} The cells that are within this image..
-    * @param image {HTMLImageElement/HTMLCanvasElement} The image that the texture atlas is using.
-    * @param [sequences] {Sequence[]} Any sequences of cells for this texture atlas. Used for animation.
-    * @return {TextureAtlas}
-    *
-    */
-    class TextureAtlas {
-        constructor(name: string, type: number, cells: any, image: any, sequences?: Kiwi.Animations.Sequence[]);
-        /**
-        * The type of object that this texture atlas is.
-        * @method objType
-        * @return string
-        * @public
-        */
-        public objType(): string;
-        /**
-        * The name of this texture atlas
-        * @property name
-        * @type string
-        * @public
-        */
-        public name: string;
-        /**
-        * Indicates that the image data has changed, and needs to be reuplaoded to the gpu in webGL mode.
-        * @property dirty
-        * @type boolean
-        * @public
-        */
-        public dirty: boolean;
-        /**
-        * The image that this texture atlas is holding. Can be an HTMLImageElement or a HTMLCanvasElement
-        * @property image
-        * @type HTMLImageElement/HTMLCanvasElement
-        * @public
-        */
-        public image: any;
-        /**
-        * The cells for this image.
-        * @property cells
-        * @type Array
-        * @public
-        */
-        public cells: any;
-        /**
-        * Sequences that are for this texture.
-        * @property sequences
-        * @type Sequence
-        * @public
-        */
-        public sequences: Kiwi.Animations.Sequence[];
-        /**
-        * The cell that is to be render at the start.
-        * @property cellIndex
-        * @type number
-        * @default 0
-        * @public
-        */
-        public cellIndex: number;
-        /**
-        * The type of texture atlas that this is. This only ever is given a value when the object is instantated.
-        * @property _type
-        * @type number
-        * @private
-        */
-        private _type;
-        /**
-        * The number that defines a single image type of texture atlas
-        * @property SINGLE_IMAGE
-        * @static
-        * @default 0
-        * @type number
-        * @final
-        * @public
-        */
-        static SINGLE_IMAGE: number;
-        /**
-        * The number that defines a spritesheet type of texture atlas
-        * @property SPRITE_SHEET
-        * @static
-        * @default 1
-        * @type number
-        * @final
-        * @public
-        */
-        static SPRITE_SHEET: number;
-        /**
-        * The number that defines a normal texture atlas
-        * @property TEXTURE_ATLAS
-        * @static
-        * @default 2
-        * @type number
-        * @final
-        * @public
-        */
-        static TEXTURE_ATLAS: number;
-        /**
-        * Will return to you this type of texture atlas. This is READ ONLY.
-        * @type number
-        * @public
-        */
-        public type : number;
-        public glTextureWrapper: Kiwi.Renderers.GLTextureWrapper;
-        /**
-        * Will populate this texture atlas with information based on a JSON file that was passed.
-        *
-        * @method readJSON
-        * @param {any} atlasJSON
-        * @public
-        */
-        public readJSON(atlasJSON: any): void;
-    }
-}
-/**
-* Contains Objects that are used when dealing specifically with Textures/Images. Majority of these classes are for Internal Kiwi use.
-*
-* @module Kiwi
-* @submodule Textures
-* @main Textures
-*
-*/ 
-declare module Kiwi.Textures {
-    /**
-    * Holds a reference to all of the image files (jpg, png, e.t.c) that are accessible on the State this TextureLibrary is on.
-    *
-    * @class TextureLibrary
-    * @namespace Kiwi.Textures
-    * @constructor
-    * @param game {Game} The game that this texture library belongs to.
-    * @return {TextureLibrary}
-    *
-    */
-    class TextureLibrary {
-        constructor(game: Kiwi.Game);
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {string}
-        * @public
-        */
-        public objType(): string;
-        /**
-        * The game that this texture library is on.
-        * @property _game
-        * @type Game
-        * @private
-        */
-        private _game;
-        /**
-        * Contains all of the textures that are available.
-        * @property textures
-        * @public
-        */
-        public textures: any;
-        /**
-        * Resets the texture library.
-        * @method clear
-        * @public
-        */
-        public clear(): void;
-        /**
-        * Adds a texture atlas to the library.
-        * @method add
-        * @param atlas {TextureAtlas}
-        * @public
-        */
-        public add(atlas: Textures.TextureAtlas): void;
-        /**
-        * Adds a new image file to the texture library.
-        * @method addFromFile
-        * @param imageFile {File}
-        * @public
-        */
-        public addFromFile(imageFile: Kiwi.Files.File): void;
-        /**
-        * Used to rebuild a Texture from the FileStore into a base2 size if it doesn't have it already.
-        * @method _rebuildImage
-        * @param imageFile {File} The image file that is to be rebuilt.
-        * @return {File} The new image file.
-        * @private
-        */
-        private _rebuildImage(imageFile);
-        /**
-        * Used to build a new texture atlas based on the image file provided. Internal use only.
-        * @method _buildTextureAtlas
-        * @param imageFile {File} The image file that is to be used.
-        * @return {TextureAtlas} The new texture atlas that is created.
-        * @private
-        */
-        private _buildTextureAtlas(imageFile);
-        /**
-        * Builds a spritesheet atlas from the an image file that is provided.
-        * @method _buildSpriteSheet
-        * @param imageFile {File} The image file that is to be used.
-        * @return {SpriteSheet} The SpriteSheet that was just created.
-        * @private
-        */
-        private _buildSpriteSheet(imageFile);
-        /**
-        * Builds a single image atlas from a image file that is provided.
-        * @method _buildImage
-        * @param imageFile {File} The image file that is to be used.
-        * @return {SingleImage} The SingleImage that was created.
-        * @private
-        */
-        private _buildImage(imageFile);
-        /**
-        * Rebuild the library from a fileStore. Clears the library and repopulates it.
-        * @method rebuild
-        * @param {Kiwi.Files.FileStore} fileStore
-        * @param {Kiwi.State} state
-        * @public
-        */
-        public rebuild(fileStore: Kiwi.Files.FileStore, state: Kiwi.State): void;
-    }
-}
-/**
-*
-* @module Kiwi
-* @submodule Textures
-*
-*/ 
-declare module Kiwi.Textures {
-    /**
-    * A special type of TextureAtlas that is created when loading in images that are design to be SpriteSheets. A SpriteSheet will generally contain multiple cells and can also contain sequences which are then automatically added as Animations when this texture is used on a Sprite.
-    *
-    * @class SpriteSheet
-    * @extends TextureAtlas
-    * @namespace Kiwi.Textures
-    * @constructor
-    * @param name {string} The name of the spritesheet.
-    * @param texture {HTMLImageElement/HTMLCanvasElement} The image that is being used for the spritesheet.
-    * @param cellWidth {number} The width of a single cell.
-    * @param cellHeight {number} The height of a single cell.
-    * @param [numCells] {number} The number of cells in total.
-    * @param [rows] {number} The number of cells that make up a row.
-    * @param [cols] {number} The number of cells that make up a column.
-    * @param [sheetOffsetX] {number} The offset of the whole sheet on the x axis. Useful if the image has a border you don't want to show.
-    * @param [sheetOffsetY] {number} The offset of the whole sheet on the y axis. Useful if the image has a border you don't want to show.
-    * @param [cellOffsetX] {number} An offset between cells on the x axis. Useful if there is a border between cells which is not to be shown.
-    * @param [cellOffsetY] {number} An offset between cells on the y axis. Useful if there is a border between cells which is not to be shown.
-    * @return {SpriteSheet}
-    */
-    class SpriteSheet extends Textures.TextureAtlas {
-        constructor(name: string, texture: any, cellWidth: number, cellHeight: number, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number);
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return string
-        * @public
-        */
-        public objType(): string;
-        /**
-        * The width of a single cell.
-        * @property cellWidth
-        * @type number
-        * @private
-        */
-        private cellWidth;
-        /**
-        * The height of a single cell.
-        * @property cellHeight
-        * @type number
-        * @private
-        */
-        private cellHeight;
-        /**
-        * The number of cells that are on this spritesheet
-        * @property numCells
-        * @type number
-        * @private
-        */
-        private numCells;
-        /**
-        * The number of rows for the spritesheet
-        * @property rows
-        * @type number
-        * @private
-        */
-        private _rows;
-        /**
-        * Get the number of rows.
-        * @type number
-        * @public
-        */
-        public rows : number;
-        /**
-        * The number of columns that are on this spritesheet
-        * @property cols
-        * @type number
-        * @private
-        */
-        private _cols;
-        /**
-        * Get the number of columns.
-        * @type number
-        * @public
-        */
-        public cols : number;
-        /**
-        * How much the whole spritesheet should be offset by on the X axis.
-        * @property sheetOffsetX
-        * @type number
-        * @private
-        */
-        private sheetOffsetX;
-        /**
-        * How much the whole spritesheet should be offset by on the Y axis.
-        * @property sheetOffsetY
-        * @type number
-        * @private
-        */
-        private sheetOffsetY;
-        /**
-        * How much each cell should be offset by on the X axis.
-        * @property cellOffsetX
-        * @type number
-        * @private
-        */
-        private cellOffsetX;
-        /**
-        * How much each cell should be offset by on the Y axis.
-        * @property cellOffsetY
-        * @type number
-        * @private
-        */
-        private cellOffsetY;
-        /**
-        * Generates the atlas cells based on the information that was provided.
-        *
-        * @method generateAtlasCells
-        * @return {Array}
-        * @public
-        */
-        public generateAtlasCells(): any[];
-    }
-}
-/**
-*
-* @module Kiwi
-* @submodule Textures
-*
-*/ 
-declare module Kiwi.Textures {
-    /**
-    * A special type of TextureAtlas that is used when the user has loaded a single image. This type of TextureAtlas contains only one cell which is generally the whole width/height of the image and starts at the coordinates 0/0. A SingleImage has a space to store sequences but this will not be used.
-    *
-    * @class SingleImage
-    * @extends TextureAtlas
-    * @namespace Kiwi.Textures
-    * @constructor
-    * @param name {string} The name of the single image
-    * @param image {HTMLImageElement/HTMLCanvasElement} the image that is being used.
-    * @param [width] {number} the width of the image
-    * @param [height] {number} the height of the image
-    * @param [offsetX] {number} the offset of the image on the x axis. Useful if the image has a border that you don't want to show.
-    * @param [offsetY] {number} the offset of the image of the y axis. Useful if the image has a border that you don't want to show.
-    * @return {SingleImage}
-    */
-    class SingleImage extends Textures.TextureAtlas {
-        constructor(name: string, image: any, width?: number, height?: number, offsetX?: number, offsetY?: number);
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return string
-        * @public
-        */
-        public objType(): string;
-        /**
-        * The width of the image.
-        * @property width
-        * @type number
-        * @private
-        */
-        private width;
-        /**
-        * The height of the image.
-        * @property height
-        * @type number
-        * @private
-        */
-        private height;
-        /**
-        * The offset for the image on the X axis.
-        * @property offsetX
-        * @type number
-        * @private
-        */
-        private offsetX;
-        /**
-        * The offset for the image o nthe Y axis.
-        * @property offsetY
-        * @type number
-        * @private
-        */
-        private offsetY;
-        /**
-        * This method generates the single image cell based off the information that was passed during instantion.
-        * @method generateAtlasCells
-        * @returns{ Array }
-        * @public
-        */
-        public generateAtlasCells(): any[];
     }
 }
 /**

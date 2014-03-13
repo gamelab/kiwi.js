@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6</em>
+            <em>API Docs for: 0.6.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -344,13 +344,13 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-    /**
-    *
-    * @class GLShaders
-    * @constructor
-    * @param gl {WebGLRenderingContext}
-    * @return {GLShaders}
-    */
+/**
+*
+* @class GLShaders
+* @constructor
+* @param gl {WebGLRenderingContext}
+* @return {GLShaders}
+*/
 
 module Kiwi.Shaders {
 
@@ -366,15 +366,9 @@ module Kiwi.Shaders {
             //attributes
             this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, &quot;aXYUV&quot;);
             this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, &quot;aAlpha&quot;);
-           
-            //uniforms
 
-            this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, &quot;uMVMatrix&quot;);
-            this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, &quot;uResolution&quot;);
-            this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, &quot;uSampler&quot;);
-            this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, &quot;uTextureSize&quot;);
-            this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, &quot;uCameraOffset&quot;);
-           
+            
+            this.initUniforms(gl);
         }
 
         public attributes: any = {
@@ -384,12 +378,20 @@ module Kiwi.Shaders {
         };
 
         public uniforms: any = {
-            uMVMatrix: null,
-            uSampler: null,
-            uResolution: null,
-            uTextureSize: null,
-            uCameraOffset: null
+            uCamMatrix: {
+                type: &quot;mat3&quot;,
+            },
+            uResolution: {
+                type: &quot;2fv&quot;,
+            },
+            uTextureSize: {
+                type: &quot;2fv&quot;,
+            },
+            uSampler: {
+                type: &quot;1i&quot;,
+            }
         }
+
 
         /**
         *
@@ -418,27 +420,23 @@ module Kiwi.Shaders {
         public vertSource: Array&lt;string&gt; = [
             &quot;attribute vec4 aXYUV;&quot;,
             &quot;attribute float aAlpha;&quot;,
-            &quot;uniform mat4 uMVMatrix;&quot;,
+            &quot;uniform mat3 uCamMatrix;&quot;,
             &quot;uniform vec2 uResolution;&quot;,
             &quot;uniform vec2 uTextureSize;&quot;,
-            &quot;uniform vec2 uCameraOffset;&quot;,
             &quot;varying vec2 vTextureCoord;&quot;,
             &quot;varying float vAlpha;&quot;,
             &quot;void main(void) {&quot;,
-            &quot;vec4 transpos = vec4(aXYUV.xy - uCameraOffset,0,1); &quot;,
-            &quot;transpos =  uMVMatrix * transpos;&quot;,
-
-            &quot;vec2 clipSpace = ((transpos.xy / uResolution) * 2.0) - 1.0;&quot;,
-            &quot;gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);&quot;,
-            &quot;vTextureCoord = aXYUV.zw / uTextureSize;&quot;,
-            &quot;vAlpha = aAlpha;&quot;,
+            &quot;   vec2 pos = (uCamMatrix * vec3(aXYUV.xy,1)).xy; &quot;,
+            &quot;   gl_Position = vec4((pos / uResolution * 2.0 - 1.0) * vec2(1, -1), 0, 1);&quot;,
+            &quot;   vTextureCoord = aXYUV.zw / uTextureSize;&quot;,
+            &quot;   vAlpha = aAlpha;&quot;,
             &quot;}&quot;
         ];
 
 
-        }
-
     }
+
+}
 
     </pre>
 </div>

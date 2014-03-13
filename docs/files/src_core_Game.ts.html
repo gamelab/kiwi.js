@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6</em>
+            <em>API Docs for: 0.6.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -370,7 +370,7 @@ module Kiwi {
         constructor (domParent: string = &#x27;&#x27;, name: string = &#x27;KiwiGame&#x27;, state: any = null, options:any={}) {
             
             console.log(name + &#x27; is being created.&#x27;);
-
+      
             //Have they specified debugging
             if (options.debug !== &#x27;undefined&#x27; &amp;&amp; typeof options.debug === &#x27;number&#x27;) {
                 switch (options.debug) {
@@ -390,6 +390,11 @@ module Kiwi {
             } else {
                 this._debugOption = Kiwi.DEBUG_ON;
                 console.log(&#x27;Debug option not specified. Turned ON by default.&#x27;);
+            }
+
+            if (options.bootCallback !== &#x27;undefined&#x27;) {
+                console.log(&quot;boot callback provided&quot;);
+                this.bootCallbackOption = options.bootCallback;
             }
 
             //Which device are they targetting
@@ -504,6 +509,8 @@ module Kiwi {
         public get renderOption(): number {
             return this._renderOption;
         }
+
+        public bootCallbackOption: Function;
 
         /**
         * The type of device that you are targeting. This is either set to COCOON or BROWSER
@@ -786,7 +793,10 @@ module Kiwi {
             
             this.raf = new Kiwi.Utils.RequestAnimationFrame(() =&gt; this.loop());
             this.raf.start();
-            
+            if (this.bootCallbackOption) {
+                console.log(&quot;invoked boot callback&quot;);
+                this.bootCallbackOption();
+            }
         }
         
         /**
