@@ -441,7 +441,7 @@ module Kiwi.GameObjects.Tilemap {
         */
 
         /**
-        * Returns the tiles which overlap with a provided entities box component. 
+        * Returns the tiles which overlap with a provided entities hitbox component. 
         * Only collidable tiles on ANY side will be returned unless you pass a particular side.
         * 
         * @method getOverlappingTiles
@@ -463,13 +463,30 @@ module Kiwi.GameObjects.Tilemap {
             if (b.left > this.transform.worldX + this.widthInPixels || b.right < this.transform.worldX || b.bottom < this.transform.worldY || b.top > this.transform.worldY + this.heightInPixels)
                 return [];
 
+            var nx = b.x - this.transform.worldX;
+            var ny = b.y - this.transform.worldY;
+
             //Get starting location and now many tiles from there we will check. 
-            var x = Kiwi.Utils.GameMath.snapToFloor(b.x - this.transform.worldX, this.tileWidth) / this.tileWidth;
-            var y = Kiwi.Utils.GameMath.snapToFloor(b.y - this.transform.worldY, this.tileHeight) / this.tileHeight;
+            var x = Kiwi.Utils.GameMath.snapToFloor(nx, this.tileWidth) / this.tileWidth;
+            var y = Kiwi.Utils.GameMath.snapToFloor(ny, this.tileHeight) / this.tileHeight;
             var w = Kiwi.Utils.GameMath.snapToCeil(b.width, this.tileWidth) / this.tileWidth;
             var h = Kiwi.Utils.GameMath.snapToCeil(b.height, this.tileHeight) / this.tileHeight;
 
-            return this.getCollidableTiles(x, y, w + 1, h + 1, collisionType);
+            //Add one, because we want to include the very end tile.
+            var tiles = this.getCollidableTiles(x, y, w + 1, h + 1, collisionType);
+
+            //Loop through the tiles and make sure they are actually overlapping with the Entity.
+            for (var i = 0; i < tiles.length; i++) {
+                var t = tiles[i];
+
+                if (t.x > b.right || t.x + this.tileWidth < b.left || t.y > b.bottom || t.y + this.tileHeight < t.top) {
+                    tiles.splice(i, 1);
+                    i--;
+                } 
+            }
+
+            return tiles;
+
         }
 
 

@@ -5892,7 +5892,7 @@ var Kiwi;
                 *-----------------------
                 */
                 /**
-                * Returns the tiles which overlap with a provided entities box component.
+                * Returns the tiles which overlap with a provided entities hitbox component.
                 * Only collidable tiles on ANY side will be returned unless you pass a particular side.
                 *
                 * @method getOverlappingTiles
@@ -5914,13 +5914,28 @@ var Kiwi;
                     if (b.left > this.transform.worldX + this.widthInPixels || b.right < this.transform.worldX || b.bottom < this.transform.worldY || b.top > this.transform.worldY + this.heightInPixels)
                         return [];
 
+                    var nx = b.x - this.transform.worldX;
+                    var ny = b.y - this.transform.worldY;
+
                     //Get starting location and now many tiles from there we will check.
-                    var x = Kiwi.Utils.GameMath.snapToFloor(b.x - this.transform.worldX, this.tileWidth) / this.tileWidth;
-                    var y = Kiwi.Utils.GameMath.snapToFloor(b.y - this.transform.worldY, this.tileHeight) / this.tileHeight;
+                    var x = Kiwi.Utils.GameMath.snapToFloor(nx, this.tileWidth) / this.tileWidth;
+                    var y = Kiwi.Utils.GameMath.snapToFloor(ny, this.tileHeight) / this.tileHeight;
                     var w = Kiwi.Utils.GameMath.snapToCeil(b.width, this.tileWidth) / this.tileWidth;
                     var h = Kiwi.Utils.GameMath.snapToCeil(b.height, this.tileHeight) / this.tileHeight;
 
-                    return this.getCollidableTiles(x, y, w + 1, h + 1, collisionType);
+                    //Add one, because we want to include the very end tile.
+                    var tiles = this.getCollidableTiles(x, y, w + 1, h + 1, collisionType);
+
+                    for (var i = 0; i < tiles.length; i++) {
+                        var t = tiles[i];
+
+                        if (t.x > b.right || t.x + this.tileWidth < b.left || t.y > b.bottom || t.y + this.tileHeight < t.top) {
+                            tiles.splice(i, 1);
+                            i--;
+                        }
+                    }
+
+                    return tiles;
                 };
 
                 /**
@@ -8359,7 +8374,9 @@ var Kiwi;
                             this.overlapsGroup(array[i], separateObjects);
                         } else {
                             if (this.overlaps(array[i], separateObjects)) {
-                                this._callbackFunction.call(this._callbackContext, this.owner, array[i]);
+                                if (this._callbackFunction !== null && this._callbackContext !== null) {
+                                    this._callbackFunction.call(this._callbackContext, this.owner, array[i]);
+                                }
                                 results = true;
                             }
                         }

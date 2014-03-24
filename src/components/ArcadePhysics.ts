@@ -947,7 +947,9 @@ module Kiwi.Components {
                     } else {
 
                         if (this.overlaps(<Kiwi.Entity>array[i], separateObjects)) {
-                            this._callbackFunction.call(this._callbackContext, this.owner, array[i]);
+                            if (this._callbackFunction !== null && this._callbackContext !== null) {
+                                this._callbackFunction.call(this._callbackContext, this.owner, array[i]);
+                            }
                             results = true;
                         }
 
