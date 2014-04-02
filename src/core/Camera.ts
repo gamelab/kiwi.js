@@ -164,6 +164,23 @@ module Kiwi {
         }
 
         /**
+	    * Apply this cameras inverted matrix to a an object with x and y properties representing a point and return the transformed point.
+        * Useful for when calculating if coordinates with the mouse.
+        * @method transformPoint
+        * @param point {Point} 
+        * @return Point
+        * @public
+        */
+        public transformPoint(point: Kiwi.Geom.Point): Kiwi.Geom.Point {
+
+            var m = this.transform.getConcatenatedMatrix();
+            m.invert();
+
+            return m.transformPoint(point);
+
+        }
+
+        /**
         * The update loop that is executed every frame.
         * @method update
         * @public

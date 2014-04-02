@@ -3902,6 +3902,21 @@ var Kiwi;
         });
 
         /**
+        * Apply this cameras inverted matrix to a an object with x and y properties representing a point and return the transformed point.
+        * Useful for when calculating if coordinates with the mouse.
+        * @method transformPoint
+        * @param point {Point}
+        * @return Point
+        * @public
+        */
+        Camera.prototype.transformPoint = function (point) {
+            var m = this.transform.getConcatenatedMatrix();
+            m.invert();
+
+            return m.transformPoint(point);
+        };
+
+        /**
         * The update loop that is executed every frame.
         * @method update
         * @public
@@ -21137,12 +21152,12 @@ var Kiwi;
             }
             */
             /**
-            * [Requires Description]
+            * Apply this matrix to a an object with x and y properties representing a point and return the transformed point.
             * @method transformPoint
             * @param point {Point} point
             * @return {Point}
             * @public
-            **/
+            */
             Transform.prototype.transformPoint = function (point) {
                 var mat = this.getConcatenatedMatrix();
 

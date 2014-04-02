@@ -459,12 +459,12 @@ module Kiwi.Geom {
         */
 
         /** 
-	     * [Requires Description]
-	     * @method transformPoint
-         * @param point {Point} point
-         * @return {Point}
-         * @public
-	     **/
+	    * Apply this matrix to a an object with x and y properties representing a point and return the transformed point.
+	    * @method transformPoint
+        * @param point {Point} point
+        * @return {Point}
+        * @public
+	    */
         public transformPoint(point: Point): Point {
 
             var mat = this.getConcatenatedMatrix();
