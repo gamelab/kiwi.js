@@ -1,42 +1,37 @@
-Kiwi.JS
-=======
+Kiwi.JS 0.7
+============
 
-###HTML5 game library written in TypeScript/Javascript
------------------------------------------------------------------
+Kiwi.JS is the worlds easiest to use Open Source HTML5 game framework for making both mobile and desktop browser games. Our focus is blazingly fast WebGL and Canvas rendering. Our mission is to foster an open source community and democratize game creation!! 
 
-version 0.7
+- [Getting Started Tutorials](http://www.kiwijs.org/documentation/getting-started/)  
+- [Code Examples](http://www.kiwijs.org/examples/)  
+- [API Documentation](http://api.kiwijs.org/)  
+- [Contact](http://www.kiwijs.org/help/)  
 
-###Release notes for this version
+Visit our homepage [www.kiwijs.org](http://kiwijs.org) for more information about using Kiwi.JS to build your next game, on our site you'll find plenty of examples and tutorials to get you started.
     
-####Bug Fixes and changes
+##What's new in Kiwi.JS 0.7?
+
 - This release includes numerous WebGL rewrites, bug fixes and optimisations which greatly improve stability and extensibility.
-- Works with Cocoon/WebGL combination - tested on Ipad2 and Several Android devices
-- Streamlined sprite rendering shader.
+- Works with Cocoon/WebGL combination - tested on iPad2 and numerous Android devices
+- Streamlined sprite rendering shader
 - The build now includes gl-matrix.js (minified version) so there is no longer a need to include this manually
 - A typescript linter task has been added to the grunt file - thanks ellisonleao
 
--------------------------------------------------------------------
+##Welcome to Kiwi.JS!! 
 
-See [Kiwijs.org](http://kiwijs.org) for more information about using Kiwi.js to build games, including some getting started examples. Note: this release is a beta and is not intended as a preview only and not for building production games at this stage.
-
-[Getting Started Tutorials](http://www.kiwijs.org/documentation/getting-started/)  
-[Code Examples](http://www.kiwijs.org/examples/)  
-[API Documentation](http://api.kiwijs.org/)  
-[Contact](http://www.kiwijs.org/help/)  
-
-###Aim
-
-* An opensource TypeScript/Javascript library for game creation
+* An open source HTML5 game framework for game creation
 * Targeting native mobile apps as well as both desktop and mobile browsers
-* Future focused
 * WebGL and 2D Canvas rendering
-* Support for Cocoon.js as a native mobile app deployment solution 
+* Support for Cocoon.JS as a native mobile app deployment solution 
 
-###License
+##License
 
-* GPL 2
+* GPLv2
 
-###Features
+*Supporters of the MIT Licence rejoice! In coming weeks Kiwi.JS 1.0 will be released and available for download, we will make available versions of Kiwi.JS that are licended under the more permissive MIT Licence and the GPLv2 License.*
+
+##Features
 
 
 * State Management
@@ -57,7 +52,7 @@ See [Kiwijs.org](http://kiwijs.org) for more information about using Kiwi.js to 
 * File Management and loading
 * Clocks and Timers
 
-###Build
+##Build
 
 Kiwi.js is currently using Typescript 9.0.1
 Either - use Visual Studio/TS extension. There are csproj files for both the main project and also the examples.
@@ -67,15 +62,14 @@ The csproj and grunt compilation methods both output a single kiwi.js file in /b
 Grunt will also create a min.js version and also output a kiwi.d.ts definition file in /build as well
 
 
+##Contribution
 
-###Contribution
+We'd love you to get involved in making the Kiwi.JS library. If you'd like to contribute please get in touch, fork/clone the repo and have a dig around. Make pull requests on the dev branch.
 
-We'd love you to get involved in making the Kiwi.js library. If you'd like to contribute please get in touch, fork/clone the repo and have a dig around. Make pull requests on the dev branch.
-
-###Main Contributors
+##Core Contributors
 
 Ben Harding  
 Richard Davey  
 Ross Kettle  
 
-Kiwi.js also uses code from a number of open source projects. Effort has been made to clearly identify authors in the code comments. If you notice and missing or incorrect attribution please let us know.    
+Kiwi.JS also uses code from a number of open source projects. Effort has been made to clearly identify authors in the code comments. If you notice and missing or incorrect attribution please let us know.    
