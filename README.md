@@ -1,7 +1,5 @@
-Release Notes 0.7
-
-Kiwi.js
-=====
+Kiwi.JS
+=======
 
 ###HTML5 game library written in TypeScript/Javascript
 -----------------------------------------------------------------
