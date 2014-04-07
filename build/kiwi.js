@@ -629,7 +629,7 @@ var Kiwi;
                 var r = (bigint >> 16) & 255;
                 var g = (bigint >> 8) & 255;
                 var b = bigint & 255;
-                this._normalizedColor = { r: r, g: g, b: b, a: 1 };
+                this._normalizedColor = { r: r / 255, g: g / 255, b: b / 255, a: 1 };
             },
             enumerable: true,
             configurable: true
@@ -13644,7 +13644,7 @@ var Kiwi;
 
                 //clear stage
                 var col = this._game.stage.normalizedColor;
-                gl.clearColor(col.r, col.b, col.g, col.a);
+                gl.clearColor(col.r, col.g, col.b, col.a);
                 gl.clear(gl.COLOR_BUFFER_BIT);
 
                 //set cam matrix uniform

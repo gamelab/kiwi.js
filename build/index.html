@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Roguelike Blueprint</title>
+    
+    <!-- Library + plugins -->
+    <script src="kiwi.js"></script>
+	<script src="kiwipreloader.js"></script>
+	
+    <!-- In Game States -->
+    <script type="text/javascript" src="src/States/PlayState.js"></script>
+    <script type="text/javascript" src="src/States/IntroState.js"></script>
+    <script type="text/javascript" src="src/States/LoadingState.js"></script>
+    <script type="text/javascript" src="src/States/Preloader.js"></script>
+    
+    <!-- 
+    Core JavaScript Game File - Initalises the Game
+    Has to be included after ALL the other in-game states as this script will use them in-game.
+     -->
+    <script type="text/javascript" src="src/game.js"></script>
+</head>
+
+<body>
+
+    <div id="content"></div>
+
+</body>
+</html>

@@ -40,3 +40,4 @@ _ReSharper*/
 /node_modules
 /GLTests
 tscommand.tmp.txt
+.tscache/build/*
