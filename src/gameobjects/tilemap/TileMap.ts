@@ -169,7 +169,7 @@ module Kiwi.GameObjects.Tilemap {
                         return false;
                     }   
 
-                    var json = JSON.parse( this.game.fileStore.getFile(tileMapData).data );
+                    json = JSON.parse( this.game.fileStore.getFile(tileMapData).data );
                     break;
 
                 case 'object':
@@ -179,9 +179,9 @@ module Kiwi.GameObjects.Tilemap {
                 default:
                     console.error('The type of TileMapData passed could not be idenified. Please either pass a name of JSON file to use OR an object to be used.');                    
             }
-             
+
             //Get the map information
-            this.orientation = (json.orietation == undefined) ? "orthogonal" : json.orientation;
+            this.orientation = (json.orientation == undefined) ? "orthogonal" : json.orientation;
             this.tileWidth = (json.tilewidth == undefined) ? 32 : json.tilewidth;
             this.tileHeight = (json.tileheight == undefined) ? 32 : json.tileheight;
             this.width = json.width;
@@ -210,6 +210,7 @@ module Kiwi.GameObjects.Tilemap {
                         var h = (layerData.height !== undefined) ? layerData.height : this.height;
 
                         var layer = this.createNewLayer(layerData.name, atlas, layerData.data, w, h, layerData.x * this.tileWidth, layerData.y * this.tileHeight );
+                        layer.orientation = this.orientation;
                         
                         //Add the extra data...
                         layer.visible = (layerData.visible == undefined) ? true : layerData.visible;

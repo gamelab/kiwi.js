@@ -12,7 +12,7 @@ PlayState.create = function (params) {
 	//game.stage.resize(this.mapSize * this.tileSize + 140, this.mapSize * this.tileSize);
 
 	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this, 'level0', this.textures.tiles);
-	console.log(this.tilemap);
+	this.addChild(this.tilemap.layers[0]);
 	
 }
 

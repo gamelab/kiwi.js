@@ -185,6 +185,8 @@ module Kiwi.GameObjects.Tilemap {
         }
 
 
+        public orientation:string;
+
         /**
         *-----------------------
         * Getting Tiles
