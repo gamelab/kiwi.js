@@ -688,6 +688,13 @@ module Kiwi.GameObjects.Tilemap {
                         var offsetX = this._temptype.offset.x;
                         var offsetY = this._temptype.offset.y;
                         
+                        var w = this.tileWidth * (this.width*2-1);
+                        var h = this.tileHeight * this.height;
+                        // center map
+                        var shiftY = (this.game.stage.height - h) / 2;
+                        // we want <0,0>'s horizontal center point to be in the screen center, hence the -tileWidth/2.
+                        var shiftX = this.game.stage.width / 2 - this.tileWidth / 2;
+						
                         var drawX:number;
                         var drawY:number;
                         
@@ -698,8 +705,8 @@ module Kiwi.GameObjects.Tilemap {
                                 this.tileWidth/2, 
                                 this.tileHeight);
                             
-                            drawX = screenPos.x + this._temptype.offset.x;
-                            drawY = screenPos.y - (cell.h - this.tileHeight) + this._temptype.offset.y;
+                            drawX = screenPos.x + this._temptype.offset.x+ shiftX;
+                            drawY = screenPos.y - (cell.h - this.tileHeight) + this._temptype.offset.y + shiftY;
                         } else {
                             // 'normal' maps
                             drawX = x * this.tileWidth;
