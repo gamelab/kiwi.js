@@ -685,14 +685,35 @@ module Kiwi.GameObjects.Tilemap {
 
                         var cell = this.atlas.cells[this._temptype.cellIndex];
 
+                        var offsetX = this._temptype.offset.x;
+                        var offsetY = this._temptype.offset.y;
+                        
+                        var drawX:number;
+                        var drawY:number;
+                        
+                        if (this.orientation == "isometric") {
+                            // isometric maps
+                            var screenPos = this.chartToScreen( 
+                                { x:x , y:y }, 
+                                this.tileWidth/2, 
+                                this.tileHeight);
+                            
+                            drawX = screenPos.x + this._temptype.offset.x;
+                            drawY = screenPos.y - (cell.h - this.tileHeight) + this._temptype.offset.y;
+                        } else {
+                            // 'normal' maps
+                            drawX = x * this.tileWidth;
+                            drawY = y * this.tileHeight - (cell.h - this.tileHeight);
+                        }
+                        
                         ctx.drawImage(
                             this.atlas.image,
                             cell.x,
                             cell.y,
                             cell.w,
                             cell.h,
-                            x * this.tileWidth ,
-                            y * this.tileHeight - (cell.h - this.tileHeight),
+                            drawX,
+                            drawY,
                             cell.w,
                             cell.h
                             );

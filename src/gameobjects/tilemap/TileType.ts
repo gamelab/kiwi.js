@@ -52,7 +52,7 @@ module Kiwi.GameObjects.Tilemap {
         /**
          * the offset of this tile
          */ 
-        public offset: any;
+        public offset: any = {x:0, y:0};
         
         /**
         * A reference to the tilemap this tile object belongs to.
