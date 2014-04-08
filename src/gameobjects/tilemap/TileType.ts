@@ -50,6 +50,11 @@ module Kiwi.GameObjects.Tilemap {
         public properties: any = {};
 
         /**
+         * the offset of this tile
+         */ 
+        public offset: any;
+        
+        /**
         * A reference to the tilemap this tile object belongs to.
         * @property tilemap
         * @type TileMap

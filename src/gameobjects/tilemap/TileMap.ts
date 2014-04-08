@@ -256,23 +256,27 @@ module Kiwi.GameObjects.Tilemap {
                 var th = tileset.tileheight;
                 var iw = tileset.imagewidth - m;
                 var ih = tileset.imageheight - m;
-
+                
+                var offset = tileset.tileoffset;
+                
                 //Calculate how many tiles there are in this tileset and thus how many different tile type there can be.
                 for (var y = m; y < ih; y += th) {
                     for (var x = m; x < iw; x += tw) {
-
+    
                         //Does the cell exist? Then use that.
                         var cell = (atlas.cells[startingCell] == undefined) ? -1 : startingCell ;  
-                       
-                        this.createTileType(cell);
+                        
+                        var tileType = this.createTileType(cell);
+                        tileType.offset = offset;
+                        
                         startingCell++; //Increase the cell to use by one.
                     }
                 }
-
-
+                
                 //Add tile properties
                 for (var tp in tileset.tileproperties) {
-                    this.tileTypes[(parseInt(tileset.firstgid) + parseInt(tp))].properties = tileset.tileproperties[tp];
+                    var tileType = this.tileTypes[(parseInt(tileset.firstgid) + parseInt(tp))];
+                    tileType.properties = tileset.tileproperties[tp];
                 }
 
             }

@@ -630,6 +630,25 @@ module Kiwi.GameObjects.Tilemap {
         }
 
         /** 
+        * ChartToScreen maps a point in the game tile coordinates into screen pixel
+        * coordinates that indicate where the tile should be drawn.
+        */ 
+        public chartToScreen(chartPt:any, tileW:number, tileH:number):any {
+            return { x:chartPt.x * tileW - chartPt.y * tileW, 
+                y:chartPt.x * tileH / 2 + chartPt.y * tileH / 2 };
+        }
+        
+        /**
+         * ScreenToChart maps a point in screen coordinates into the game tile chart
+         * coordinates for the tile on which the screen point falls on.
+         */
+        public screenToChart(scrPt:any, tileW:number, tileH:number):any {
+            var column = Math.floor(scrPt.x / tileW);
+            var row = Math.floor((scrPt.y - column * (tileH / 2)) / tileH);
+            return { x:column + row, y:row };
+        }
+        
+        /** 
         * The render loop which is used when using the Canvas renderer.
         * @method render
         * @param camera {Camera}
