@@ -684,22 +684,23 @@ module Kiwi.GameObjects.Tilemap {
                     if ( (this._temptype = this.getTileFromXY(x, y)) && this._temptype.cellIndex !== -1 ) {
 
                         var cell = this.atlas.cells[this._temptype.cellIndex];
-
-                        var offsetX = this._temptype.offset.x;
-                        var offsetY = this._temptype.offset.y;
-                        
-                        var w = this.tileWidth * (this.width*2-1);
-                        var h = this.tileHeight * this.height;
-                        // center map
-                        var shiftY = (this.game.stage.height - h) / 2;
-                        // we want <0,0>'s horizontal center point to be in the screen center, hence the -tileWidth/2.
-                        var shiftX = this.game.stage.width / 2 - this.tileWidth / 2;
 						
                         var drawX:number;
                         var drawY:number;
                         
                         if (this.orientation == "isometric") {
                             // isometric maps
+							
+                            var offsetX = this._temptype.offset.x;
+                            var offsetY = this._temptype.offset.y;
+                            var w = this.tileWidth * (this.width*2-1);
+                            var h = this.tileHeight * this.height;
+							
+                            // center map
+                            var shiftY = (this.game.stage.height - h) / 2;
+                            // we want <0,0>'s horizontal center point to be in the screen center, hence the -tileWidth/2.
+                            var shiftX = this.game.stage.width / 2 - this.tileWidth / 2;
+
                             var screenPos = this.chartToScreen( 
                                 { x:x , y:y }, 
                                 this.tileWidth/2, 
