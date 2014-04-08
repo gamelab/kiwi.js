@@ -12,16 +12,7 @@
 * 3 - dimensions {Object} A Object containing the width/height that the game is to be. For example {width: 1024, height: 768}
 * 4 - subfolder {String} The folder that the loading graphics are located at. 
 */
-
-var noSplash = true;
-
-var LoadingState;
-if(noSplash) {
-	LoadingState = new Kiwi.State('LoadingState');
-} else {
-	LoadingState = new KiwiLoadingScreen('LoadingState', 'IntroState', {width: 780, height: 640}, 'assets/img/loading/');
-}
-
+var LoadingState = new KiwiLoadingScreen('LoadingState', 'IntroState', {width: 768, height: 600}, 'assets/img/loading/');
 /**
 * This preload method is responsible for preloading all your in game assets.
 * @method preload
@@ -29,14 +20,10 @@ if(noSplash) {
 */
 LoadingState.preload = function () {
 	KiwiLoadingScreen.prototype.preload.call(this);
-	this.addJSON('level0', 'assets/level0.json');
+	
+    this.addJSON('level0', 'assets/level0.json');
 	this.addSpriteSheet('tiles', 'assets/img/tiles.png', 64, 64);
 	this.addSpriteSheet('chars', 'assets/img/chars.png', 32, 32);
+};
 
-}
 
-if(noSplash) {
-	LoadingState.create = function () {
-		game.states.switchState("PlayState", PlayState, null, { });
-	}
-}
