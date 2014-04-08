@@ -24,6 +24,7 @@ Thumbs.db
 *.orig
 *.js
 /obj/debug/*
+/build/kiwi_src
 !log4javascript.js
 !gl-matrix-min.js
 !/docs/assets/*
