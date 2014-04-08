@@ -684,18 +684,18 @@ module Kiwi.GameObjects.Tilemap {
                     if ( (this._temptype = this.getTileFromXY(x, y)) && this._temptype.cellIndex !== -1 ) {
 
                         var cell = this.atlas.cells[this._temptype.cellIndex];
-						
+                        
                         var drawX:number;
                         var drawY:number;
                         
                         if (this.orientation == "isometric") {
                             // isometric maps
-							
+                            
                             var offsetX = this._temptype.offset.x;
                             var offsetY = this._temptype.offset.y;
                             var w = this.tileWidth * (this.width*2-1);
                             var h = this.tileHeight * this.height;
-							
+                            
                             // center map
                             var shiftY = (this.game.stage.height - h) / 2;
                             // we want <0,0>'s horizontal center point to be in the screen center, hence the -tileWidth/2.
@@ -771,9 +771,34 @@ module Kiwi.GameObjects.Tilemap {
                     
                     //Get the cell index
                     var cell = this.atlas.cells[this._temptype.cellIndex];
-                    var tx = x * this.tileWidth;
-                    var ty = y * this.tileHeight;
+                    
+                    var tx;
+                    var ty;
+                    if (this.orientation == "isometric") {
+                        // isometric maps
+                        
+                        var offsetX = this._temptype.offset.x;
+                        var offsetY = this._temptype.offset.y;
+                        var w = this.tileWidth * (this.width*2-1);
+                        var h = this.tileHeight * this.height;
+                        
+                        // center map
+                        var shiftY = (this.game.stage.height - h) / 2;
+                        // we want <0,0>'s horizontal center point to be in the screen center, hence the -tileWidth/2.
+                        var shiftX = this.game.stage.width / 2 - this.tileWidth / 2;
 
+                        var screenPos = this.chartToScreen( 
+                            { x:x , y:y }, 
+                            this.tileWidth/2, 
+                            this.tileHeight);
+                        
+                        tx = screenPos.x + this._temptype.offset.x+ shiftX;
+                        ty = screenPos.y + this._temptype.offset.y + shiftY;
+                    } else {
+                        // 'normal' maps
+                        tx = x * this.tileWidth;
+                        ty = y * this.tileHeight;
+                    }
 
                     //Set up the points
                     pt1.setTo(tx - t.rotPointX, ty - t.rotPointY - (cell.h - this.tileHeight));
