@@ -5039,6 +5039,10 @@ var Kiwi;
                     * @public
                     */
                     this.properties = {};
+                    /**
+                    * the offset of this tile
+                    */
+                    this.offset = { x: 0, y: 0 };
                     this.tilemap = tilemap;
                     this.index = index;
                     this.cellIndex = cellIndex;
@@ -5191,7 +5195,7 @@ var Kiwi;
                                 return false;
                             }
 
-                            var json = JSON.parse(this.game.fileStore.getFile(tileMapData).data);
+                            json = JSON.parse(this.game.fileStore.getFile(tileMapData).data);
                             break;
 
                         case 'object':
@@ -5203,7 +5207,7 @@ var Kiwi;
                     }
 
                     //Get the map information
-                    this.orientation = (json.orietation == undefined) ? "orthogonal" : json.orientation;
+                    this.orientation = (json.orientation == undefined) ? "orthogonal" : json.orientation;
                     this.tileWidth = (json.tilewidth == undefined) ? 32 : json.tilewidth;
                     this.tileHeight = (json.tileheight == undefined) ? 32 : json.tileheight;
                     this.width = json.width;
@@ -5226,6 +5230,7 @@ var Kiwi;
                                 var h = (layerData.height !== undefined) ? layerData.height : this.height;
 
                                 var layer = this.createNewLayer(layerData.name, atlas, layerData.data, w, h, layerData.x * this.tileWidth, layerData.y * this.tileHeight);
+                                layer.orientation = this.orientation;
 
                                 //Add the extra data...
                                 layer.visible = (layerData.visible == undefined) ? true : layerData.visible;
@@ -5267,18 +5272,23 @@ var Kiwi;
                         var iw = tileset.imagewidth - m;
                         var ih = tileset.imageheight - m;
 
+                        var offset = tileset.tileoffset;
+
                         for (var y = m; y < ih; y += th) {
                             for (var x = m; x < iw; x += tw) {
                                 //Does the cell exist? Then use that.
                                 var cell = (atlas.cells[startingCell] == undefined) ? -1 : startingCell;
 
-                                this.createTileType(cell);
+                                var tileType = this.createTileType(cell);
+                                tileType.offset = offset;
+
                                 startingCell++; //Increase the cell to use by one.
                             }
                         }
 
                         for (var tp in tileset.tileproperties) {
-                            this.tileTypes[(parseInt(tileset.firstgid) + parseInt(tp))].properties = tileset.tileproperties[tp];
+                            var tileType = this.tileTypes[(parseInt(tileset.firstgid) + parseInt(tp))];
+                            tileType.properties = tileset.tileproperties[tp];
                         }
                     }
                 };
@@ -6035,6 +6045,26 @@ var Kiwi;
                 };
 
                 /**
+                * ChartToScreen maps a point in the game tile coordinates into screen pixel
+                * coordinates that indicate where the tile should be drawn.
+                */
+                TileMapLayer.prototype.chartToScreen = function (chartPt, tileW, tileH) {
+                    return {
+                        x: chartPt.x * tileW - chartPt.y * tileW,
+                        y: chartPt.x * tileH / 2 + chartPt.y * tileH / 2 };
+                };
+
+                /**
+                * ScreenToChart maps a point in screen coordinates into the game tile chart
+                * coordinates for the tile on which the screen point falls on.
+                */
+                TileMapLayer.prototype.screenToChart = function (scrPt, tileW, tileH) {
+                    var column = Math.floor(scrPt.x / tileW);
+                    var row = Math.floor((scrPt.y - column * (tileH / 2)) / tileH);
+                    return { x: column + row, y: row };
+                };
+
+                /**
                 * The render loop which is used when using the Canvas renderer.
                 * @method render
                 * @param camera {Camera}
@@ -6068,7 +6098,33 @@ var Kiwi;
                             if ((this._temptype = this.getTileFromXY(x, y)) && this._temptype.cellIndex !== -1) {
                                 var cell = this.atlas.cells[this._temptype.cellIndex];
 
-                                ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, x * this.tileWidth, y * this.tileHeight - (cell.h - this.tileHeight), cell.w, cell.h);
+                                var drawX;
+                                var drawY;
+
+                                if (this.orientation == "isometric") {
+                                    // isometric maps
+                                    var offsetX = this._temptype.offset.x;
+                                    var offsetY = this._temptype.offset.y;
+                                    var w = this.tileWidth * (this.width * 2 - 1);
+                                    var h = this.tileHeight * this.height;
+
+                                    // center map
+                                    var shiftY = (this.game.stage.height - h) / 2;
+
+                                    // we want <0,0>'s horizontal center point to be in the screen center, hence the -tileWidth/2.
+                                    var shiftX = this.game.stage.width / 2 - this.tileWidth / 2;
+
+                                    var screenPos = this.chartToScreen({ x: x, y: y }, this.tileWidth / 2, this.tileHeight);
+
+                                    drawX = screenPos.x + this._temptype.offset.x + shiftX;
+                                    drawY = screenPos.y - (cell.h - this.tileHeight) + this._temptype.offset.y + shiftY;
+                                } else {
+                                    // 'normal' maps
+                                    drawX = x * this.tileWidth;
+                                    drawY = y * this.tileHeight - (cell.h - this.tileHeight);
+                                }
+
+                                ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, drawX, drawY, cell.w, cell.h);
                             }
                         }
                     }
@@ -6106,8 +6162,31 @@ var Kiwi;
 
                             //Get the cell index
                             var cell = this.atlas.cells[this._temptype.cellIndex];
-                            var tx = x * this.tileWidth;
-                            var ty = y * this.tileHeight;
+
+                            var tx;
+                            var ty;
+                            if (this.orientation == "isometric") {
+                                // isometric maps
+                                var offsetX = this._temptype.offset.x;
+                                var offsetY = this._temptype.offset.y;
+                                var w = this.tileWidth * (this.width * 2 - 1);
+                                var h = this.tileHeight * this.height;
+
+                                // center map
+                                var shiftY = (this.game.stage.height - h) / 2;
+
+                                // we want <0,0>'s horizontal center point to be in the screen center, hence the -tileWidth/2.
+                                var shiftX = this.game.stage.width / 2 - this.tileWidth / 2;
+
+                                var screenPos = this.chartToScreen({ x: x, y: y }, this.tileWidth / 2, this.tileHeight);
+
+                                tx = screenPos.x + this._temptype.offset.x + shiftX;
+                                ty = screenPos.y + this._temptype.offset.y + shiftY;
+                            } else {
+                                // 'normal' maps
+                                tx = x * this.tileWidth;
+                                ty = y * this.tileHeight;
+                            }
 
                             //Set up the points
                             pt1.setTo(tx - t.rotPointX, ty - t.rotPointY - (cell.h - this.tileHeight));
@@ -28813,6 +28892,7 @@ var Kiwi;
         d.prototype = new __();
     };
 })(Kiwi || (Kiwi = {}));
+//# sourceMappingURL=kiwi.js.map
 
 /**
  * @fileoverview gl-matrix - High performance matrix and vector operations
