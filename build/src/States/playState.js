@@ -13,6 +13,7 @@ PlayState.create = function (params) {
 
 	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this, 'level0', this.textures.tiles);
 	this.addChild(this.tilemap.layers[0]);
+	this.addChild(this.tilemap.layers[1]);
 	
 }
 
