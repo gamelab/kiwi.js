@@ -266,6 +266,7 @@ module Kiwi.Components {
         * When you switch to a particular animation then 
         * You can also force the animation to play or to stop by passing a boolean in. But if left as null, the animation will base it off what is currently happening.
         * So if the animation is currently 'playing' then once switched to the animation will play. If not currently playing it will switch to and stop.
+        * If the previous animation played is non-looping and has reached its final frame, it is no longer considered playing, and as such, switching to another animation will not play unless the argument to the play parameter is true.
         *
         * @method switchTo
         * @param val {string|number}
