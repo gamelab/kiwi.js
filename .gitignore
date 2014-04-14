@@ -24,6 +24,7 @@ Thumbs.db
 *.orig
 *.js
 /obj/debug/*
+/build/kiwi_src
 !log4javascript.js
 !gl-matrix-min.js
 !/docs/assets/*
@@ -36,7 +37,10 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 !gruntfile.js
 !/build/*.js
+!/build/src/*
+!/build/src/*/*.js
 !/examples/*/.js
 /node_modules
 /GLTests
 tscommand.tmp.txt
+.tscache/build/*

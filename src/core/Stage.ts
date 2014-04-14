@@ -266,7 +266,7 @@ module Kiwi {
             var r = (bigint >> 16) & 255;
             var g = (bigint >> 8) & 255;
             var b = bigint & 255;
-            this._normalizedColor = { r: r, g: g, b: b, a: 1 };
+            this._normalizedColor = { r: r / 255, g: g / 255, b: b / 255, a: 1 };
         }
 
         /**

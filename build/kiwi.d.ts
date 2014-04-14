@@ -3189,6 +3189,10 @@ declare module Kiwi.GameObjects.Tilemap {
         */
         public properties: any;
         /**
+        * the offset of this tile
+        */ 
+        public offset: any;
+        /**
         * A reference to the tilemap this tile object belongs to.
         * @property tilemap
         * @type TileMap
@@ -3605,6 +3609,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @public
         */
         public countTiles(type?: number): number;
+        public orientation: string;
         /**
         *-----------------------
         * Getting Tiles
@@ -3829,6 +3834,16 @@ declare module Kiwi.GameObjects.Tilemap {
         * @private
         */
         private _calculateBoundaries(camera, matrix);
+        /**
+        * ChartToScreen maps a point in the game tile coordinates into screen pixel
+        * coordinates that indicate where the tile should be drawn.
+        */ 
+        public chartToScreen(chartPt: any, tileW: number, tileH: number): any;
+        /**
+        * ScreenToChart maps a point in screen coordinates into the game tile chart
+        * coordinates for the tile on which the screen point falls on.
+        */
+        public screenToChart(scrPt: any, tileW: number, tileH: number): any;
         /**
         * The render loop which is used when using the Canvas renderer.
         * @method render
