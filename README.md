@@ -62,14 +62,18 @@ The csproj and grunt compilation methods both output a single kiwi.js file in /b
 Grunt will also create a min.js version and also output a kiwi.d.ts definition file in /build as well
 
 
-##Contribution
+##Contribute
 
-We'd love you to get involved in making the Kiwi.JS library. If you'd like to contribute please get in touch, fork/clone the repo and have a dig around. Make pull requests on the dev branch.
+We'd love you to get involved in making the Kiwi.JS game engine the best damn game framework in the world! If you'd like to contribute please get in touch, fork/clone the repo and have a dig around. Make pull requests on the dev branch.
+
+If you discover a bug or find yourself just wanting to jump on in and help make this blueprint even better please file an issue and get stuck in. We're a friendly bunch and hope people find themselves wanting to get involved. 
+
+https://github.com/gamelab/kiwi.js/issues/new
 
 ##Core Contributors
 
+Ross Kettle  
 Ben Harding  
 Richard Davey  
-Ross Kettle  
 
 Kiwi.JS also uses code from a number of open source projects. Effort has been made to clearly identify authors in the code comments. If you notice and missing or incorrect attribution please let us know.    
