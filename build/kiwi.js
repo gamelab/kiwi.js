@@ -225,7 +225,21 @@ var Kiwi;
             this.fileStore = new Kiwi.Files.FileStore(this);
             this.input = new Kiwi.Input.InputManager(this);
 
-            this.stage = new Kiwi.Stage(this, name);
+            // Width / Height
+            var width = Kiwi.Stage.DEFAULT_WIDTH;
+            var height = Kiwi.Stage.DEFAULT_HEIGHT;
+
+            if (options.width !== 'undefined' && typeof options.width === 'number') {
+                width = options.width;
+            }
+
+            if (options.height !== 'undefined' && typeof options.height === 'number') {
+                height = options.height;
+            }
+
+            console.log('Stage Dimensions: ' + width + 'x' + height);
+
+            this.stage = new Kiwi.Stage(this, name, width, height);
 
             if (this._renderOption === Kiwi.RENDERER_CANVAS) {
                 this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
@@ -455,7 +469,7 @@ var Kiwi;
     *
     */
     var Stage = (function () {
-        function Stage(game, name) {
+        function Stage(game, name, width, height) {
             /**
             * Calculates and returns the amount that the container has been scale buy.
             * Mainly used for re-calculating input coordinates.
@@ -493,8 +507,8 @@ var Kiwi;
             this._x = 0;
             this._y = 0;
 
-            this._width = Stage.DEFAULT_WIDTH;
-            this._height = Stage.DEFAULT_HEIGHT;
+            this._width = width;
+            this._height = height;
             this.color = 'ffffff';
 
             this.onResize = new Kiwi.Signal();
@@ -662,10 +676,13 @@ var Kiwi;
 
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.offset = this._game.browser.getOffsetPoint(this.container);
+
                 this._x = this.offset.x;
                 this._y = this.offset.y;
-                this._width = this.container.clientWidth;
-                this._height = this.container.clientHeight;
+
+                //Update the containers width/height to the initial value
+                this.container.style.height = String(this._height + 'px');
+                this.container.style.width = String(this._width + 'px');
 
                 window.addEventListener("resize", function (event) {
                     return _this._windowResized(event);
@@ -673,6 +690,7 @@ var Kiwi;
             }
 
             this._createCompositeCanvas();
+
             if (this._game.debugOption === Kiwi.DEBUG_ON) {
                 //this._createDebugCanvas();
             }
@@ -691,7 +709,7 @@ var Kiwi;
         };
 
         /**
-        * [DESCRIPTION REQUIRED]
+        * Handles the creation of the canvas that the game will use and retrieves the context for the renderer.
         * @method _createComponsiteCanvas
         * @private
         */
@@ -699,7 +717,7 @@ var Kiwi;
             //If we are using cocoon then create a accelerated screen canvas
             if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
                 this.canvas = document.createElement(navigator['isCocoonJS'] ? 'screencanvas' : 'canvas');
-                //otherwise default to normal canvas
+                //Otherwise default to normal canvas
             } else {
                 this.canvas = document.createElement("canvas");
             }
@@ -709,7 +727,7 @@ var Kiwi;
             this.canvas.width = this.width;
             this.canvas.height = this.height;
 
-            //get 2d or gl context - should add in error checking here
+            //Get 2D or GL Context - should add in error checking here
             if (this._game.renderOption === Kiwi.RENDERER_CANVAS) {
                 this.ctx = this.canvas.getContext("2d");
                 this.ctx.fillStyle = '#fff';
@@ -4948,7 +4966,9 @@ var Kiwi;
 
                     //Draw the Image
                     var m = t.getConcatenatedMatrix();
-                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx - x + t.rotPointX, m.ty + t.rotPointY);
+                    var ct = camera.transform;
+
+                    ctx.transform(m.a, m.b, m.c, m.d, (m.tx - x) + t.rotPointX - ct.rotPointX, m.ty + t.rotPointY - ct.rotPointY);
                     ctx.drawImage(this._canvas, 0, 0, this._canvas.width, this._canvas.height, -t.rotPointX, -t.rotPointY, this._canvas.width, this._canvas.height);
 
                     ctx.restore();
@@ -6456,6 +6476,7 @@ var Kiwi;
             * When you switch to a particular animation then
             * You can also force the animation to play or to stop by passing a boolean in. But if left as null, the animation will base it off what is currently happening.
             * So if the animation is currently 'playing' then once switched to the animation will play. If not currently playing it will switch to and stop.
+            * If the previous animation played is non-looping and has reached its final frame, it is no longer considered playing, and as such, switching to another animation will not play unless the argument to the play parameter is true.
             *
             * @method switchTo
             * @param val {string|number}
@@ -10771,8 +10792,11 @@ var Kiwi;
                     this.container.id = id;
                 }
 
+                //Set the containers width/height of the default values.
+                //If the user has change the constraints then the Stage will handle the update to the container.
                 this.container.style.width = Kiwi.Stage.DEFAULT_WIDTH + 'px';
                 this.container.style.height = Kiwi.Stage.DEFAULT_HEIGHT + 'px';
+
                 this.container.style.position = 'relative';
                 this.container.style.overflow = 'hidden';
             };
@@ -28924,7 +28948,6 @@ var Kiwi;
         d.prototype = new __();
     };
 })(Kiwi || (Kiwi = {}));
-//# sourceMappingURL=kiwi.js.map
 
 /**
  * @fileoverview gl-matrix - High performance matrix and vector operations

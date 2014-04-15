@@ -131,7 +131,7 @@ module Kiwi.System {
                     if (this._domParent === '')
                     {
                         this.container = <HTMLDivElement> document.createElement('div');
-                        this._setupContainer('KiwiGame' + Date.now().toString());
+                        this._setupContainer( 'KiwiGame' + Date.now().toString() );
                         document.body.appendChild(this.container);
                     }
                     else
@@ -168,13 +168,15 @@ module Kiwi.System {
         */
         private _setupContainer(id: string = '') {
 
-            if (id)
-            {
+            if (id) {
                 this.container.id = id;
             }
 
+            //Set the containers width/height of the default values.
+            //If the user has change the constraints then the Stage will handle the update to the container.
             this.container.style.width = Kiwi.Stage.DEFAULT_WIDTH + 'px';
             this.container.style.height = Kiwi.Stage.DEFAULT_HEIGHT + 'px';
+
             this.container.style.position = 'relative';
             this.container.style.overflow = 'hidden';
 

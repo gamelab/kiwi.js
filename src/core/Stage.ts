@@ -20,7 +20,7 @@ module Kiwi {
     */
     export class Stage {
          
-        constructor(game: Kiwi.Game, name: string) {
+        constructor(game: Kiwi.Game, name: string, width: number, height: number) {
 
             this._game = game;
 
@@ -34,8 +34,8 @@ module Kiwi {
             this._x = 0;
             this._y = 0;
 
-            this._width = Stage.DEFAULT_WIDTH;
-            this._height = Stage.DEFAULT_HEIGHT;
+            this._width = width;
+            this._height = height;
             this.color = 'ffffff';
 
             this.onResize = new Kiwi.Signal();
@@ -348,16 +348,22 @@ module Kiwi {
             this.container = dom.container;
 
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+
                 this.offset = this._game.browser.getOffsetPoint(this.container);
+
                 this._x = this.offset.x;
                 this._y = this.offset.y;
-                this._width = this.container.clientWidth;
-                this._height = this.container.clientHeight;
+
+                //Update the containers width/height to the initial value
+                this.container.style.height = String(this._height + 'px');
+                this.container.style.width = String(this._width + 'px');
 
                 window.addEventListener("resize", (event: UIEvent) => this._windowResized(event), true);
             }
+
             
             this._createCompositeCanvas();
+
             if (this._game.debugOption === DEBUG_ON) {
                 //this._createDebugCanvas();
             }
@@ -376,7 +382,7 @@ module Kiwi {
         }
 
         /**
-        * [DESCRIPTION REQUIRED]
+        * Handles the creation of the canvas that the game will use and retrieves the context for the renderer. 
         * @method _createComponsiteCanvas
         * @private
         */
@@ -386,7 +392,7 @@ module Kiwi {
             if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
                 this.canvas = <HTMLCanvasElement>document.createElement(navigator['isCocoonJS'] ? 'screencanvas' : 'canvas');
             
-            //otherwise default to normal canvas
+            //Otherwise default to normal canvas
             } else {
                 this.canvas = <HTMLCanvasElement>document.createElement("canvas");
             }
@@ -397,17 +403,19 @@ module Kiwi {
             this.canvas.height = this.height;
             
 
-            //get 2d or gl context - should add in error checking here
+            //Get 2D or GL Context - should add in error checking here
 
             if (this._game.renderOption === Kiwi.RENDERER_CANVAS) {
                 this.ctx = this.canvas.getContext("2d");
                 this.ctx.fillStyle = '#fff';
                 this.gl = null;
+
             } else if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
                 this.gl = this.canvas.getContext("webgl");
                 this.gl.clearColor(1, 1, .95, .7);
                 this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
                 this.ctx = null;
+
             } 
             
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
@@ -432,10 +440,12 @@ module Kiwi {
             this._height = height;
             this._width = width;
 
-            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER)
+            {
                 this.container.style.height = String(height + 'px');
                 this.container.style.width = String(width + 'px');
                 this._scale = this._width / this.container.clientWidth;
+
             }
 
             this.onResize.dispatch(this._width, this._height);

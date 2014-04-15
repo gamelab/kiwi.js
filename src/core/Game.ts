@@ -102,7 +102,21 @@ module Kiwi {
             this.fileStore = new Kiwi.Files.FileStore(this);
             this.input = new Kiwi.Input.InputManager(this);
 
-            this.stage = new Kiwi.Stage(this, name);
+            // Width / Height
+            var width = Stage.DEFAULT_WIDTH;
+            var height = Stage.DEFAULT_HEIGHT;
+
+            if (options.width !== 'undefined' && typeof options.width === 'number') {
+                width = options.width;
+            }
+
+            if (options.height !== 'undefined' && typeof options.height === 'number') {
+                height = options.height;
+            }
+
+            console.log('Stage Dimensions: ' + width + 'x' + height);
+
+            this.stage = new Kiwi.Stage(this, name, width, height);
             
             if (this._renderOption === Kiwi.RENDERER_CANVAS) {
                 this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
@@ -137,7 +151,7 @@ module Kiwi {
                     console.log('No DOM parent specified. Appending the game to the body.');
                 }
 
-                this._startup.boot(domParent, () => this.start());
+                this._startup.boot( domParent, () => this.start() );
             } else {
                 if (domParent !== '') console.log('Not Targetting a BROWSER. DOM Parent parameter ignored.');
                 
