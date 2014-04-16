@@ -5074,10 +5074,6 @@ var Kiwi;
                     * @public
                     */
                     this.properties = {};
-                    /**
-                    * the offset of this tile
-                    */
-                    this.offset = { x: 0, y: 0 };
                     this.tilemap = tilemap;
                     this.index = index;
                     this.cellIndex = cellIndex;
@@ -6167,26 +6163,6 @@ var Kiwi;
                 };
 
                 /**
-                * ChartToScreen maps a point in the game tile coordinates into screen pixel
-                * coordinates that indicate where the tile should be drawn.
-                */
-                TileMapLayer.prototype.chartToScreen = function (chartPt, tileW, tileH) {
-                    return {
-                        x: chartPt.x * tileW - chartPt.y * tileW,
-                        y: chartPt.x * tileH / 2 + chartPt.y * tileH / 2 };
-                };
-
-                /**
-                * ScreenToChart maps a point in screen coordinates into the game tile chart
-                * coordinates for the tile on which the screen point falls on.
-                */
-                TileMapLayer.prototype.screenToChart = function (scrPt, tileW, tileH) {
-                    var column = Math.floor(scrPt.x / tileW);
-                    var row = Math.floor((scrPt.y - column * (tileH / 2)) / tileH);
-                    return { x: column + row, y: row };
-                };
-
-                /**
                 * The render loop which is used when using the Canvas renderer.
                 * @method render
                 * @param camera {Camera}
@@ -6241,9 +6217,6 @@ var Kiwi;
                                     // 'Normal' maps
                                     drawX = x * this.tileWidth + this._temptype.offset.x;
                                     drawY = y * this.tileHeight - (cell.h - this.tileHeight) + this._temptype.offset.y;
-                                }
-
-                                ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, drawX, drawY, cell.w, cell.h);
                                 }
 
                                 ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, drawX, drawY, cell.w, cell.h);
