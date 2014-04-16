@@ -27,6 +27,7 @@ module Kiwi.GameObjects.Tilemap {
             this.tilemap = tilemap;
             this.index = index;
             this.cellIndex = cellIndex;
+            this.offset = new Kiwi.Geom.Point(0, 0);
         
         }
 
@@ -50,9 +51,14 @@ module Kiwi.GameObjects.Tilemap {
         public properties: any = {};
 
         /**
-         * the offset of this tile
-         */ 
-        public offset: any = {x:0, y:0};
+        * The offset of this tile for rendering purposes. 
+        * Does not affect regular collision detection.
+        * 
+        * @property offset
+        * @type Point
+        * @public
+        */ 
+        public offset: Kiwi.Geom.Point;
         
         /**
         * A reference to the tilemap this tile object belongs to.

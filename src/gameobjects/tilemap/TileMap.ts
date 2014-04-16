@@ -41,7 +41,9 @@ module Kiwi.GameObjects.Tilemap {
         }
 
         /**
-        * The orientation of the tilemap. Currently this has not effect on the map.
+        * The orientation of the tilemap. 
+        * Note: This value does not affect the individual layers. 
+        * 
         * @property orientation
         * @type String
         * @public
@@ -181,7 +183,7 @@ module Kiwi.GameObjects.Tilemap {
             }
 
             //Get the map information
-            this.orientation = (json.orientation == undefined) ? "orthogonal" : json.orientation;
+            this.orientation = (json.orientation == undefined) ? ORTHOGONAL : json.orientation;
             this.tileWidth = (json.tilewidth == undefined) ? 32 : json.tilewidth;
             this.tileHeight = (json.tileheight == undefined) ? 32 : json.tileheight;
             this.width = json.width;
@@ -256,8 +258,9 @@ module Kiwi.GameObjects.Tilemap {
                 var th = tileset.tileheight;
                 var iw = tileset.imagewidth - m;
                 var ih = tileset.imageheight - m;
-                
-                var offset = tileset.tileoffset;
+
+                //Drawing offsets
+                var offset = (tileset.tileoffset == undefined) ? { x: 0, y: 0 } : tileset.tileoffset;
                 
                 //Calculate how many tiles there are in this tileset and thus how many different tile type there can be.
                 for (var y = m; y < ih; y += th) {
@@ -267,7 +270,8 @@ module Kiwi.GameObjects.Tilemap {
                         var cell = (atlas.cells[startingCell] == undefined) ? -1 : startingCell ;  
                         
                         var tileType = this.createTileType(cell);
-                        tileType.offset = offset;
+                        tileType.offset.x = offset.x;
+                        tileType.offset.y = offset.y;
                         
                         startingCell++; //Increase the cell to use by one.
                     }
@@ -499,5 +503,9 @@ module Kiwi.GameObjects.Tilemap {
         }
 
     }
+
+    export var ISOMETRIC: string = "isometric";
+
+    export var ORTHOGONAL: string = "orthogonal";
 
 }
