@@ -30,6 +30,10 @@
  "tileheight":48,
  "tilesets":[
         {
+         "tileoffset": {
+            "x": 0,
+            "y": 0
+         },
          "firstgid":1,
          "image":"..\/tiles\/tile-spritesheet.png",
          "imageheight":432,
