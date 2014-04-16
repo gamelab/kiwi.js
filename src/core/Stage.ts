@@ -79,7 +79,9 @@ module Kiwi {
         private _alpha: number;
 
         /**
-        * Get the current alpha of the stage. 0 = invisible, 1 = fully visible.
+        * Sets the alpha of the container element. 0 = invisible, 1 = fully visible.
+        * Note: Because the alpha value is applied to the container, it will not work in CocoonJS.
+        *
         * @property alpha
         * @type number
         * @public
@@ -243,16 +245,20 @@ module Kiwi {
         public domReady: boolean;
 
         /**
-        * The background color of the stage. This must be a valid 6 character hex color string such as "ffffff". 
+        * The background color of the stage. 
+        * This must be a valid 6 character hex color string such as "ffffff". 
+        *
         * @property _color
         * @type string
-        * @default '#ffffff'
+        * @default 'ffffff'
         * @public
         */
         public _color: string;
         
         /**
-        * Get the background color of the stage. This returns a hex style color string such as "#ffffff" 
+        * Sets the background color of the stage via a hex value. 
+        * The hex colour code should not contain a hashtag '#'.
+        * 
         * @property color
         * @type string
         * @public
@@ -260,13 +266,33 @@ module Kiwi {
         public get color(): string {
             return this._color;
         }
+
         public set color(val: string) {
-            this._color = "#" + val;
+            this._color = val;
             var bigint = parseInt(val, 16);
+
             var r = (bigint >> 16) & 255;
             var g = (bigint >> 8) & 255;
             var b = bigint & 255;
+
+            //Converts the colour to normalized values.
             this._normalizedColor = { r: r / 255, g: g / 255, b: b / 255, a: 1 };
+        }
+
+        /**
+        * Allows the setting of the background color of the stage through component RGB colour values. 
+        * This property is an Object Literal with 'r', 'g', 'b' colour streams of values between 0 and 255. 
+        *
+        * @property rgbColor
+        * @type Object
+        * @public
+        */
+        public get rgbColor():any {
+            return { r: this._normalizedColor.r * 255, g: this._normalizedColor.g * 255, b: this._normalizedColor.b * 255 };
+        }
+
+        public set rgbColor(val: any) {
+            this.color = this.componentToHex(val.r) + this.componentToHex(val.g) + this.componentToHex(val.b);
         }
 
         /**
@@ -278,12 +304,12 @@ module Kiwi {
         private _normalizedColor: any;
         
         /**
-        * Get the normalized background color of the stage. returns a object with rgba values between 0 and 1.
-        * @property color
+        * Get the normalized background color of the stage. Returns a object with rgba values, each being between 0 and 1.
+        * This is READ ONLY.
+        * @property normalizedColor
         * @type string
         * @public
         */
-
         public get normalizedColor(): any {
            return this._normalizedColor;
         }
@@ -296,6 +322,7 @@ module Kiwi {
         */
         public gl: WebGLRenderingContext;
 
+
         /**
         * The canvas rendering context.
         * @property ctx
@@ -303,6 +330,7 @@ module Kiwi {
         * @public
         */
         public ctx: CanvasRenderingContext2D;
+
 
         /**
         * The canvas element that is being rendered on.
@@ -312,6 +340,7 @@ module Kiwi {
         */
         public canvas: HTMLCanvasElement;
         
+
         /**
         * The debugging canvas.
         * @property debugCanvas
@@ -319,6 +348,7 @@ module Kiwi {
         * @public
         */
         public debugCanvas: HTMLCanvasElement;
+
 
         /**
         * The debug canvas rendering context.
@@ -328,6 +358,7 @@ module Kiwi {
         */
         public dctx: CanvasRenderingContext2D;
 
+
         /**
         * The parent div in which the layers and input live
         * @property container
@@ -336,6 +367,7 @@ module Kiwi {
         */
         public container:HTMLDivElement = null;
          
+
         /**
         * Is executed when the DOM has loaded and the game is just starting. 
         * @method boot
@@ -365,9 +397,10 @@ module Kiwi {
             this._createCompositeCanvas();
 
             if (this._game.debugOption === DEBUG_ON) {
-                //this._createDebugCanvas();
+                //this.createDebugCanvas();
             }
         }
+
 
         /**
         * Method that is fired when the window is resized. 
@@ -381,8 +414,10 @@ module Kiwi {
             this._scale = this._width / this.container.clientWidth;
         }
 
+
         /**
         * Handles the creation of the canvas that the game will use and retrieves the context for the renderer. 
+        *
         * @method _createComponsiteCanvas
         * @private
         */
@@ -426,8 +461,10 @@ module Kiwi {
         
         }
         
+
         /**
-        * Set the stage width and height
+        * Set the stage width and height.
+        *
         * @method resize
         * @param width {number} new stage width
         * @param height {number} new stage height
@@ -451,15 +488,52 @@ module Kiwi {
             this.onResize.dispatch(this._width, this._height);
         }
 
+        
         /**
-        * [DESCRIPTION REQUIRED]
-        * @method _createDebugCanvas
+        * Sets the background color of the stage through component RGB colour values. 
+        * Each parameter pass is a number between 0 and 255. This method also returns a Object Literal with 'r', 'g', 'b' properties.
+        *
+        * @method setRGBColor
+        * @param r {Number} The red component. A value between 0 and 255.
+        * @param g {Number} The green component. A value between 0 and 255.
+        * @param B {Number} The blue component. A value between 0 and 255.
+        * @return {Object} A Object literal containing the r,g,b properties. 
+        * @public
+        */
+        public setRGBColor(r: number, g: number, b: number):any {
+            this.rgbColor = { r: r, g: g, b: b };
+            return this.rgbColor;
+        }
+
+
+        /**
+        * Converts a component colour value into its hex equivalent. Used when setting rgb colour values.
+        * 
+        * @method componentToHex
+        * @param c {Number} The components colour value. A number between 0 and 255.
+        * @return {string} The hex equivelent of that colour string. 
         * @private
         */
-        private _createDebugCanvas() {
+        private componentToHex(c: number): string {
+            var hex = c.toString(16);
+            return hex.length == 1 ? "0" + hex : hex;
+        }
+
+
+        /**
+        * Creates a debug canvas and adds it above the regular game canvas.
+        * The debug canvas is not created by default (even with debugging on) and rendering/clearing of the canvas is upto the developer. 
+        * The context for rendering can be access via the 'dctx' property and you can use the 'clearDebugCanvas' method to clear the canvas.
+        *
+        * @method createDebugCanvas
+        * @public
+        */
+        public createDebugCanvas() {
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-                //debug canvas not supported in cocoon, creating canvas and context anyway.
+                //Not supported in CocoonJS only because we cannot add it to the container (as a container does not exist) and position will be hard.
+                console.log('Debug canvas not supported in cocoon, creating canvas and context anyway');                
             } 
+
             this.debugCanvas = <HTMLCanvasElement>document.createElement("canvas");
             this.debugCanvas.id = this._game.id + "debugCanvas";
             this.debugCanvas.style.position = "absolute";
@@ -475,8 +549,11 @@ module Kiwi {
           
         }
         
+
         /**
-        * [DESCRIPTION REQUIRED]
+        * Clears the debug canvas and fills with either the color passed. 
+        * If not colour is passed then Red at 20% opacity is used.
+        * 
         * @method clearDebugCanvas
         * @param [color='rgba(255,0,0,0.2)'] {string} debug color
         * @public
@@ -484,12 +561,12 @@ module Kiwi {
         public clearDebugCanvas(color?:string) {
             this.dctx.fillStyle = color || "rgba(255,0,0,.2)";
             this.dctx.clearRect(0, 0, this.width, this.height);
-            this.dctx.fillRect(0, 0, this.width, this.height);
-            
+            this.dctx.fillRect(0, 0, this.width, this.height)
         }
 
+
         /**
-        * [DESCRIPTION REQUIRED]
+        * Toggles the visibility of the debug canvas.
         * @method toggleDebugCanvas
         * @public
         */
