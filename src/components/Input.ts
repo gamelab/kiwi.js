@@ -498,11 +498,11 @@ module Kiwi.Components {
             //If the entity is dragging.
             if (this.isDragging) { 
                 if (this._dragSnapToCenter === false) {
-                    this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._distance.x), this._dragDistance);
-                    this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._distance.y), this._dragDistance);
+                    this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.hitboxOffset.x - this._distance.x), this._dragDistance);
+                    this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.hitboxOffset.y - this._distance.y), this._dragDistance);
                 } else {
-                    this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.worldHitbox.width / 2), this._dragDistance);
-                    this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.worldHitbox.height / 2), this._dragDistance);
+                    this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.hitboxOffset.x - this._box.worldHitbox.width / 2), this._dragDistance);
+                    this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.hitboxOffset.y - this._box.worldHitbox.height / 2), this._dragDistance);
                 }
             }
         }

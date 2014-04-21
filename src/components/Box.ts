@@ -44,7 +44,7 @@ module Kiwi.Components {
             this._hitboxOffset = new Kiwi.Geom.Point();
 
             this.hitbox = new Kiwi.Geom.Rectangle(0, 0, width, height); 
-            this.devDefined = false;
+            this.autoUpdate = true;
         }
 
 
@@ -69,13 +69,16 @@ module Kiwi.Components {
 
 
         /**
-        * If the hitbox dimensions have been developer defined, and a such the hitbox should not updated to the cell hitboxes.
-        * @property devDefined
+        * Controls whether the hitbox should update automatically to match the hitbox of the current cell on the entity this Box component is attached to (default behaviour).
+        * Or if the hitbox shouldn't auto update 
+        * This property is automatically set to 'false' when you override the hitboxes width/height, but you can set this to true afterwards. 
+        * 
+        * @property autoUpdate
         * @type boolean
-        * @default false
+        * @default true
         * @private
         */
-        private devDefined: boolean = false;
+        public autoUpdate: boolean = true;
 
 
         /**
@@ -107,7 +110,7 @@ module Kiwi.Components {
         */
         public get hitboxOffset(): Kiwi.Geom.Point {
 
-            if (this.dirty && this.devDefined == false && this.entity.atlas !== null) {
+            if (this.dirty && this.autoUpdate == true && this.entity.atlas !== null) {
                 this._hitboxOffset.x = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x;
                 this._hitboxOffset.y = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y;
 
@@ -143,7 +146,7 @@ module Kiwi.Components {
 
 
                 //If the hitbox has not already been set, then update the width/height based upon the current cell that the entity has.
-                if (this.devDefined == false) {
+                if (this.autoUpdate == true) {
                     var atlas = this.entity.atlas;
 
                     if (atlas !== null) {
@@ -203,7 +206,7 @@ module Kiwi.Components {
             this._rawHitbox.x += this._rawBounds.x;
             this._rawHitbox.y += this._rawBounds.y;
 
-            this.devDefined = true;
+            this.autoUpdate = false;
 
         }
 
