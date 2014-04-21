@@ -233,7 +233,7 @@ module Kiwi {
         * @default 0 
         * @public
         */
-        public width: number = 0;   //if bounds are implemented then getters and setters here would be nice.
+        public width: number = 0;   //If bounds are implemented then getters and setters here would be nice.
         
         /**
         * The height of the entity in pixels.
@@ -250,7 +250,16 @@ module Kiwi {
         * @type TextureAtlas
         * @public
         */
-        public atlas: Kiwi.Textures.TextureAtlas;
+        public atlas: Kiwi.Textures.TextureAtlas = null;
+        
+        /**
+        * Holds the current cell that is being used by the entity.
+        * @property _cellIndex
+        * @type number
+        * @default 0
+        * @private
+        */
+        private _cellIndex: number = 0; 
         
         /**
         * Used as a reference to a single Cell in the atlas that is to be rendered. 
@@ -260,7 +269,24 @@ module Kiwi {
         * @default 0
         * @public
         */
-        public cellIndex: number = 0; 
+        public get cellIndex():number {
+            return this._cellIndex;
+        }
+
+        public set cellIndex(val: number) {
+            //If the entity has a texture atlas
+            if (this.atlas !== null) {
+                var cell = this.atlas.cells[val];
+
+                if (cell !== undefined) {
+                    //Update the width/height of the GameObject to be the same as the width/height
+                    this._cellIndex = val;
+                    this.width = cell.w;
+                    this.height = cell.h;
+
+                }
+            }
+        }
 
         /**
         * The Component Manager
@@ -447,7 +473,8 @@ module Kiwi {
         }
 
         /**
-        * This isn't called until the Entity has been added to a Group or a State
+        * This isn't called until the Entity has been added to a Group or a State.
+        * Note: If added to a Group, who is not 'active' (so the Groups update loop doesn't run) then each member will not execute either.
         * @method update
         * @public
         */
@@ -456,7 +483,7 @@ module Kiwi {
         }
 
         /**
-        * This isn't called until the Entity has been added to a layer.
+        * This isn't called until the Entity has been added to a Group/State which is active.
         * This functionality is handled by the sub classes. 
         * @method render
         * @param {Camera} camera
@@ -466,7 +493,11 @@ module Kiwi {
         
         }
 
-        
+        /**
+        * 
+        * 
+        * 
+        */
         public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params: any = null) {
         
         }

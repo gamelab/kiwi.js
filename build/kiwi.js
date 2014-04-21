@@ -845,7 +845,6 @@ var Kiwi;
             this.debugCanvas = document.createElement("canvas");
             this.debugCanvas.id = this._game.id + "debugCanvas";
             this.debugCanvas.style.position = "absolute";
-            this.debugCanvas.style.display = "none";
             this.debugCanvas.width = this.width;
             this.debugCanvas.height = this.height;
             this.dctx = this.debugCanvas.getContext("2d");
@@ -2050,14 +2049,20 @@ var Kiwi;
             */
             this.height = 0;
             /**
-            * Used as a reference to a single Cell in the atlas that is to be rendered.
-            * E.g. If you had a spritesheet with 3 frames/cells and you wanted the second frame to be displayed you would change this value to 1
-            * @property cellIndex
-            * @type number
-            * @default 0
+            * The texture atlas that is to be used on this entity.
+            * @property atlas
+            * @type TextureAtlas
             * @public
             */
-            this.cellIndex = 0;
+            this.atlas = null;
+            /**
+            * Holds the current cell that is being used by the entity.
+            * @property _cellIndex
+            * @type number
+            * @default 0
+            * @private
+            */
+            this._cellIndex = 0;
             /**
             * A name for this Entity. This is not checked for uniqueness within the Game, but is very useful for debugging
             * @property name
@@ -2278,6 +2283,36 @@ var Kiwi;
             configurable: true
         });
 
+        Object.defineProperty(Entity.prototype, "cellIndex", {
+            /**
+            * Used as a reference to a single Cell in the atlas that is to be rendered.
+            * E.g. If you had a spritesheet with 3 frames/cells and you wanted the second frame to be displayed you would change this value to 1
+            * @property cellIndex
+            * @type number
+            * @default 0
+            * @public
+            */
+            get: function () {
+                return this._cellIndex;
+            },
+            set: function (val) {
+                //If the entity has a texture atlas
+                if (this.atlas !== null) {
+                    var cell = this.atlas.cells[val];
+
+                    if (cell !== undefined) {
+                        //Update the width/height of the GameObject to be the same as the width/height
+                        this._cellIndex = val;
+                        this.width = cell.w;
+                        this.height = cell.h;
+                    }
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
         Object.defineProperty(Entity.prototype, "exists", {
             get: function () {
                 return this._exists;
@@ -2395,7 +2430,8 @@ var Kiwi;
         };
 
         /**
-        * This isn't called until the Entity has been added to a Group or a State
+        * This isn't called until the Entity has been added to a Group or a State.
+        * Note: If added to a Group, who is not 'active' (so the Groups update loop doesn't run) then each member will not execute either.
         * @method update
         * @public
         */
@@ -2403,7 +2439,7 @@ var Kiwi;
         };
 
         /**
-        * This isn't called until the Entity has been added to a layer.
+        * This isn't called until the Entity has been added to a Group/State which is active.
         * This functionality is handled by the sub classes.
         * @method render
         * @param {Camera} camera
@@ -2412,6 +2448,11 @@ var Kiwi;
         Entity.prototype.render = function (camera) {
         };
 
+        /**
+        *
+        *
+        *
+        */
         Entity.prototype.renderGL = function (gl, camera, params) {
             if (typeof params === "undefined") { params = null; }
         };
@@ -4563,8 +4604,8 @@ var Kiwi;
                 this.cellIndex = this.atlas.cellIndex;
 
                 //may need to add an optional other cell frame index here
-                this.width = atlas.cells[0].w;
-                this.height = atlas.cells[0].h;
+                this.width = atlas.cells[this.cellIndex].w;
+                this.height = atlas.cells[this.cellIndex].h;
                 this.transform.rotPointX = this.width / 2;
                 this.transform.rotPointY = this.height / 2;
 
@@ -4695,8 +4736,8 @@ var Kiwi;
                 //Set coordinates and texture
                 this.atlas = atlas;
                 this.cellIndex = this.atlas.cellIndex;
-                this.width = atlas.cells[0].w;
-                this.height = atlas.cells[0].h;
+                this.width = atlas.cells[this.cellIndex].w;
+                this.height = atlas.cells[this.cellIndex].h;
                 this.transform.rotPointX = this.width / 2;
                 this.transform.rotPointY = this.height / 2;
 
@@ -6767,11 +6808,13 @@ var Kiwi;
     (function (Components) {
         /**
         * The Box Component is used to handle the various 'bounds' that each GameObject has.
-        * There are FOUR different types of bounds (each one is a rectangle) on each box depending on what you are wanting:
+        * There are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) on each box depending on what you are wanting:
         * RawBounds: The bounding box of the GameObject before rotation.
         * RawHitbox: The hitbox of the GameObject before rotation. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.
         * Bounds: The bounding box of the GameObject after rotation.
         * Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.
+        * WorldBounds: The bounding box of the Entity using its world coordinates.
+        * WorldHitbox: The hitbox of the Entity using its world coordinates.
         *
         * @class Box
         * @extends Component
@@ -6792,6 +6835,14 @@ var Kiwi;
                 if (typeof width === "undefined") { width = 0; }
                 if (typeof height === "undefined") { height = 0; }
                 _super.call(this, parent, 'Box');
+                /**
+                * If the hitbox dimensions have been developer defined, and a such the hitbox should not updated to the cell hitboxes.
+                * @property devDefined
+                * @type boolean
+                * @default false
+                * @private
+                */
+                this.devDefined = false;
 
                 this.entity = parent;
                 this.dirty = true;
@@ -6803,6 +6854,7 @@ var Kiwi;
                 this._hitboxOffset = new Kiwi.Geom.Point();
 
                 this.hitbox = new Kiwi.Geom.Rectangle(0, 0, width, height);
+                this.devDefined = false;
             }
             /**
             * The type of object that this is.
@@ -6823,6 +6875,11 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
+                    if (this.dirty && this.devDefined == false && this.entity.atlas !== null) {
+                        this._hitboxOffset.x = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x;
+                        this._hitboxOffset.y = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y;
+                    }
+
                     return this._hitboxOffset;
                 },
                 enumerable: true,
@@ -6840,8 +6897,18 @@ var Kiwi;
                 */
                 get: function () {
                     if (this.dirty) {
-                        this._rawHitbox.x = this._rawBounds.x + this._hitboxOffset.x;
-                        this._rawHitbox.y = this._rawBounds.y + this._hitboxOffset.y;
+                        this._rawHitbox.x = this.rawBounds.x + this.hitboxOffset.x;
+                        this._rawHitbox.y = this.rawBounds.y + this.hitboxOffset.y;
+
+                        //If the hitbox has not already been set, then update the width/height based upon the current cell that the entity has.
+                        if (this.devDefined == false) {
+                            var atlas = this.entity.atlas;
+
+                            if (atlas !== null) {
+                                this._rawHitbox.width = atlas.cells[this.entity.cellIndex].hitboxes[0].w;
+                                this._rawHitbox.height = atlas.cells[this.entity.cellIndex].hitboxes[0].h;
+                            }
+                        }
                     }
 
                     return this._rawHitbox;
@@ -6865,6 +6932,7 @@ var Kiwi;
                     return this._transformedHitbox;
                 },
                 set: function (value) {
+                    //Use custom hitbox defined by user.
                     this._hitboxOffset.x = value.x;
                     this._hitboxOffset.y = value.y;
 
@@ -6872,6 +6940,8 @@ var Kiwi;
 
                     this._rawHitbox.x += this._rawBounds.x;
                     this._rawHitbox.y += this._rawBounds.y;
+
+                    this.devDefined = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -6976,7 +7046,7 @@ var Kiwi;
 
             Object.defineProperty(Box.prototype, "worldBounds", {
                 /**
-                * Returns the 'transformed' world bounds for this entity.
+                * Returns the 'transformed' bounds for this entity using the world coodinates.
                 * This is READ ONLY.
                 * @property worldBounds
                 * @type Rectangle
@@ -7044,7 +7114,7 @@ var Kiwi;
             };
 
             /**
-            * Draws the various bounds on a context that is passed. Useful for debugging.
+            * Draws the various bounds on a context that is passed. Useful for debugging and using in combination with the debug canvas.
             * @method draw
             * @param {CanvasRenderingContext2D} ctx
             * @public
@@ -7064,9 +7134,13 @@ var Kiwi;
                 ctx.strokeRect(this.rawHitbox.x, this.rawHitbox.y, this.rawHitbox.width, this.rawHitbox.height);
             };
 
-            /*
+            /**
             * [REQUIRES COMMENTING]
             * @method extents
+            * @param topLeftPoint {Point}
+            * @param topRightPoint {Point}
+            * @param bottomRightPoint {Point}
+            * @param bottomLeftPoint {Point}
             * @return Rectangle
             */
             Box.prototype.extents = function (topLeftPoint, topRightPoint, bottomRightPoint, bottomLeftPoint) {

@@ -41,8 +41,8 @@ module Kiwi.GameObjects {
             //Set coordinates and texture
             this.atlas = atlas;
             this.cellIndex = this.atlas.cellIndex;
-            this.width = atlas.cells[0].w;
-            this.height = atlas.cells[0].h;
+            this.width = atlas.cells[this.cellIndex].w;
+            this.height = atlas.cells[this.cellIndex].h;
             this.transform.rotPointX = this.width / 2;
             this.transform.rotPointY = this.height / 2;
             

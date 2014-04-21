@@ -9,11 +9,13 @@ module Kiwi.Components {
 
     /**
     * The Box Component is used to handle the various 'bounds' that each GameObject has. 
-    * There are FOUR different types of bounds (each one is a rectangle) on each box depending on what you are wanting:
+    * There are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) on each box depending on what you are wanting:
     * RawBounds: The bounding box of the GameObject before rotation.
     * RawHitbox: The hitbox of the GameObject before rotation. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.
     * Bounds: The bounding box of the GameObject after rotation.
     * Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.
+    * WorldBounds: The bounding box of the Entity using its world coordinates.
+    * WorldHitbox: The hitbox of the Entity using its world coordinates.
     *
     * @class Box
     * @extends Component
@@ -42,9 +44,8 @@ module Kiwi.Components {
             this._hitboxOffset = new Kiwi.Geom.Point();
 
             this.hitbox = new Kiwi.Geom.Rectangle(0, 0, width, height); 
-            
+            this.devDefined = false;
         }
-
 
 
         /**
@@ -54,7 +55,6 @@ module Kiwi.Components {
         * @public
         */
         public entity: Kiwi.Entity;
-
 
 
         /**
@@ -67,6 +67,15 @@ module Kiwi.Components {
             return "Box";
         }
 
+
+        /**
+        * If the hitbox dimensions have been developer defined, and a such the hitbox should not updated to the cell hitboxes.
+        * @property devDefined
+        * @type boolean
+        * @default false
+        * @private
+        */
+        private devDefined: boolean = false;
 
 
         /**
@@ -97,6 +106,13 @@ module Kiwi.Components {
         * @public
         */
         public get hitboxOffset(): Kiwi.Geom.Point {
+
+            if (this.dirty && this.devDefined == false && this.entity.atlas !== null) {
+                this._hitboxOffset.x = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x;
+                this._hitboxOffset.y = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y;
+
+            }
+
             return this._hitboxOffset;
         }
 
@@ -111,7 +127,6 @@ module Kiwi.Components {
         private _rawHitbox: Kiwi.Geom.Rectangle;
         
 
-
         /**
         * Returns the raw hitbox rectangle for the developer to use. 
         * 'Raw' means where it would be without rotation or scaling.
@@ -122,9 +137,22 @@ module Kiwi.Components {
         */
         public get rawHitbox(): Kiwi.Geom.Rectangle {
             if (this.dirty) {
-                this._rawHitbox.x = this._rawBounds.x + this._hitboxOffset.x;
-                this._rawHitbox.y = this._rawBounds.y + this._hitboxOffset.y;
-                
+
+                this._rawHitbox.x = this.rawBounds.x + this.hitboxOffset.x;
+                this._rawHitbox.y = this.rawBounds.y + this.hitboxOffset.y;
+
+
+                //If the hitbox has not already been set, then update the width/height based upon the current cell that the entity has.
+                if (this.devDefined == false) {
+                    var atlas = this.entity.atlas;
+
+                    if (atlas !== null) {
+                        this._rawHitbox.width = atlas.cells[this.entity.cellIndex].hitboxes[0].w;
+                        this._rawHitbox.height = atlas.cells[this.entity.cellIndex].hitboxes[0].h;
+
+                    }
+                }
+
             }
             
             return this._rawHitbox;
@@ -165,6 +193,8 @@ module Kiwi.Components {
         }
         public set hitbox(value: Kiwi.Geom.Rectangle) {
             
+            //Use custom hitbox defined by user.
+
             this._hitboxOffset.x = value.x;
             this._hitboxOffset.y = value.y;
 
@@ -172,7 +202,9 @@ module Kiwi.Components {
             
             this._rawHitbox.x += this._rawBounds.x;
             this._rawHitbox.y += this._rawBounds.y;
-        
+
+            this.devDefined = true;
+
         }
 
 
@@ -197,6 +229,8 @@ module Kiwi.Components {
 
         /**
         * The 'raw' bounds of entity. This is its bounds before rotation/scale.
+        * This for property is only for storage of the values and should be accessed via the getter 'rawBounds' so that it can update.
+        * 
         * @property _rawBounds
         * @type Rectangle
         * @private
@@ -314,7 +348,7 @@ module Kiwi.Components {
         }
 
         /**
-        * Returns the 'transformed' world bounds for this entity.
+        * Returns the 'transformed' bounds for this entity using the world coodinates.
         * This is READ ONLY.
         * @property worldBounds
         * @type Rectangle
@@ -391,7 +425,7 @@ module Kiwi.Components {
 
 
         /**
-        * Draws the various bounds on a context that is passed. Useful for debugging.
+        * Draws the various bounds on a context that is passed. Useful for debugging and using in combination with the debug canvas.
         * @method draw
         * @param {CanvasRenderingContext2D} ctx
         * @public
@@ -414,19 +448,22 @@ module Kiwi.Components {
 
 
 
-        /*
+        /** 
         * [REQUIRES COMMENTING]
         * @method extents
+        * @param topLeftPoint {Point} 
+        * @param topRightPoint {Point} 
+        * @param bottomRightPoint {Point} 
+        * @param bottomLeftPoint {Point} 
         * @return Rectangle
         */
-        public extents(topLeftPoint:Kiwi.Geom.Point,topRightPoint:Kiwi.Geom.Point,bottomRightPoint:Kiwi.Geom.Point,bottomLeftPoint:Kiwi.Geom.Point):Kiwi.Geom.Rectangle {
+        public extents(topLeftPoint:Kiwi.Geom.Point, topRightPoint:Kiwi.Geom.Point, bottomRightPoint:Kiwi.Geom.Point, bottomLeftPoint:Kiwi.Geom.Point):Kiwi.Geom.Rectangle {
             var left: number = Math.min(topLeftPoint.x, topRightPoint.x, bottomRightPoint.x, bottomLeftPoint.x);
             var right: number = Math.max(topLeftPoint.x, topRightPoint.x, bottomRightPoint.x, bottomLeftPoint.x);
             var top: number = Math.min(topLeftPoint.y, topRightPoint.y, bottomRightPoint.y, bottomLeftPoint.y);
             var bottom: number = Math.max(topLeftPoint.y, topRightPoint.y, bottomRightPoint.y, bottomLeftPoint.y);
 
             return new Kiwi.Geom.Rectangle(left, top, right - left, bottom - top);
-
 
         }
 

@@ -537,7 +537,6 @@ module Kiwi {
             this.debugCanvas = <HTMLCanvasElement>document.createElement("canvas");
             this.debugCanvas.id = this._game.id + "debugCanvas";
             this.debugCanvas.style.position = "absolute";
-            this.debugCanvas.style.display = "none";
             this.debugCanvas.width = this.width;
             this.debugCanvas.height = this.height;
             this.dctx = this.debugCanvas.getContext("2d");
