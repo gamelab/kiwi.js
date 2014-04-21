@@ -6836,13 +6836,16 @@ var Kiwi;
                 if (typeof height === "undefined") { height = 0; }
                 _super.call(this, parent, 'Box');
                 /**
-                * If the hitbox dimensions have been developer defined, and a such the hitbox should not updated to the cell hitboxes.
-                * @property devDefined
+                * Controls whether the hitbox should update automatically to match the hitbox of the current cell on the entity this Box component is attached to (default behaviour).
+                * Or if the hitbox shouldn't auto update
+                * This property is automatically set to 'false' when you override the hitboxes width/height, but you can set this to true afterwards.
+                *
+                * @property autoUpdate
                 * @type boolean
-                * @default false
+                * @default true
                 * @private
                 */
-                this.devDefined = false;
+                this.autoUpdate = true;
 
                 this.entity = parent;
                 this.dirty = true;
@@ -6854,7 +6857,7 @@ var Kiwi;
                 this._hitboxOffset = new Kiwi.Geom.Point();
 
                 this.hitbox = new Kiwi.Geom.Rectangle(0, 0, width, height);
-                this.devDefined = false;
+                this.autoUpdate = true;
             }
             /**
             * The type of object that this is.
@@ -6875,7 +6878,7 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.dirty && this.devDefined == false && this.entity.atlas !== null) {
+                    if (this.dirty && this.autoUpdate == true && this.entity.atlas !== null) {
                         this._hitboxOffset.x = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x;
                         this._hitboxOffset.y = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y;
                     }
@@ -6901,7 +6904,7 @@ var Kiwi;
                         this._rawHitbox.y = this.rawBounds.y + this.hitboxOffset.y;
 
                         //If the hitbox has not already been set, then update the width/height based upon the current cell that the entity has.
-                        if (this.devDefined == false) {
+                        if (this.autoUpdate == true) {
                             var atlas = this.entity.atlas;
 
                             if (atlas !== null) {
@@ -6941,7 +6944,7 @@ var Kiwi;
                     this._rawHitbox.x += this._rawBounds.x;
                     this._rawHitbox.y += this._rawBounds.y;
 
-                    this.devDefined = true;
+                    this.autoUpdate = false;
                 },
                 enumerable: true,
                 configurable: true
@@ -7592,11 +7595,11 @@ var Kiwi;
                 //If the entity is dragging.
                 if (this.isDragging) {
                     if (this._dragSnapToCenter === false) {
-                        this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._distance.x), this._dragDistance);
-                        this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._distance.y), this._dragDistance);
+                        this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.hitboxOffset.x - this._distance.x), this._dragDistance);
+                        this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.hitboxOffset.y - this._distance.y), this._dragDistance);
                     } else {
-                        this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.worldHitbox.width / 2), this._dragDistance);
-                        this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.worldHitbox.height / 2), this._dragDistance);
+                        this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.hitboxOffset.x - this._box.worldHitbox.width / 2), this._dragDistance);
+                        this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.hitboxOffset.y - this._box.worldHitbox.height / 2), this._dragDistance);
                     }
                 }
             };
