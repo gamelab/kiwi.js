@@ -342,15 +342,18 @@ module Kiwi.Renderers {
 
             var rotOffset = vec2.create();
             var scale = vec2.create();
-            vec2.set(scale, ct.scaleX, ct.scaleY);
-            vec2.set(rotOffset, ct.rotPointX - cm.tx, ct.rotPointY - cm.ty);
+            var translate = vec2.create();
 
+            vec2.set(scale, ct.scaleX, ct.scaleY);
+            vec2.set(rotOffset, ct.rotPointX + cm.tx, ct.rotPointY + cm.ty);
+            vec2.set(translate, cm.tx, cm.ty);
             mat3.identity(this.camMatrix);
             mat3.translate(this.camMatrix, this.camMatrix, rotOffset);
             mat3.rotate(this.camMatrix, this.camMatrix, ct.rotation);
+            mat3.translate(this.camMatrix, this.camMatrix, translate);
+            mat3.scale(this.camMatrix, this.camMatrix, scale);
             vec2.negate(rotOffset, rotOffset);
             mat3.translate(this.camMatrix, this.camMatrix, rotOffset);
-            mat3.scale(this.camMatrix, this.camMatrix, scale);
             
             this.collateRenderSequence();
             this.collateBatches();
