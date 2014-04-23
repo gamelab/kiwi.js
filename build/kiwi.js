@@ -1924,10 +1924,6 @@ var Kiwi;
 
             //Rebuild the Libraries again to have access the new files that were loaded.
             this.rebuildLibraries();
-            if (this._game.renderOption == Kiwi.RENDERER_WEBGL) {
-                this._game.renderer.initState(this.current);
-            }
-
             this.current.config.isReady = true;
             this.callCreate();
         };
@@ -1941,6 +1937,9 @@ var Kiwi;
             this.current.audioLibrary.rebuild(this._game.fileStore, this.current);
             this.current.dataLibrary.rebuild(this._game.fileStore, this.current);
             this.current.textureLibrary.rebuild(this._game.fileStore, this.current);
+            if (this._game.renderOption == Kiwi.RENDERER_WEBGL) {
+                this._game.renderer.initState(this.current);
+            }
         };
 
         /**
@@ -13774,7 +13773,7 @@ var Kiwi;
                 this._sharedRenderers = {};
                 this._game = game;
                 if (typeof mat4 === "undefined") {
-                    throw "ERROR: gl-matrix.js is missing - you need to include this javascript to use webgl - https://github.com/toji/gl-matrix";
+                    throw "ERROR: gl-matrix.js is missing";
                 }
             }
             /**

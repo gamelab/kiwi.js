@@ -32,7 +32,7 @@ module Kiwi.Renderers {
         constructor(game: Kiwi.Game) {
             this._game = game;
             if (typeof mat4 === "undefined") {
-                throw "ERROR: gl-matrix.js is missing - you need to include this javascript to use webgl - https://github.com/toji/gl-matrix";
+                throw "ERROR: gl-matrix.js is missing";
             }
         }
 
