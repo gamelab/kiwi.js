@@ -471,17 +471,6 @@ var Kiwi;
     var Stage = (function () {
         function Stage(game, name, width, height) {
             /**
-            * Calculates and returns the amount that the container has been scale buy.
-            * Mainly used for re-calculating input coordinates.
-            * Note: For COCOONJS this returns 1 since COCOONJS translates the points itself.
-            * This property is READ ONLY.
-            * @property scale
-            * @type Number
-            * @default 1
-            * @public
-            */
-            this._scale = 1;
-            /**
             * A point which determines the offset of this Stage
             * @property offset
             * @type Point
@@ -510,6 +499,8 @@ var Kiwi;
             this._width = width;
             this._height = height;
             this.color = 'ffffff';
+
+            this._scale = new Kiwi.Geom.Point(1, 1);
 
             this.onResize = new Kiwi.Signal();
         }
@@ -629,6 +620,36 @@ var Kiwi;
             configurable: true
         });
 
+        Object.defineProperty(Stage.prototype, "scaleX", {
+            /**
+            * Calculates and returns the amount that the container has been scale by on the X axis.
+            * @property scaleX
+            * @type Number
+            * @default 1
+            * @public
+            */
+            get: function () {
+                return this._scale.x;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Stage.prototype, "scaleY", {
+            /**
+            * Calculates and returns the amount that the container has been scale by on the Y axis.
+            * @property scaleY
+            * @type Number
+            * @default 1
+            * @public
+            */
+            get: function () {
+                return this._scale.y;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         Object.defineProperty(Stage.prototype, "color", {
             /**
             * Sets the background color of the stage via a hex value.
@@ -719,10 +740,6 @@ var Kiwi;
             }
 
             this._createCompositeCanvas();
-
-            if (this._game.debugOption === Kiwi.DEBUG_ON) {
-                //this.createDebugCanvas();
-            }
         };
 
         /**
@@ -734,7 +751,8 @@ var Kiwi;
         */
         Stage.prototype._windowResized = function (event) {
             this.offset = this._game.browser.getOffsetPoint(this.container);
-            this._scale = this._width / this.container.clientWidth;
+            this._scale.x = this._width / this.container.clientWidth;
+            this._scale.y = this._height / this.container.clientHeight;
         };
 
         /**
@@ -750,6 +768,8 @@ var Kiwi;
                 //Otherwise default to normal canvas
             } else {
                 this.canvas = document.createElement("canvas");
+                this.canvas.style.width = '100%';
+                this.canvas.style.height = '100%';
             }
 
             this.canvas.id = this._game.id + "compositeCanvas";
@@ -757,7 +777,7 @@ var Kiwi;
             this.canvas.width = this.width;
             this.canvas.height = this.height;
 
-            //Get 2D or GL Context - should add in error checking here
+            //Get 2D or GL Context - Should add in error checking here
             if (this._game.renderOption === Kiwi.RENDERER_CANVAS) {
                 this.ctx = this.canvas.getContext("2d");
                 this.ctx.fillStyle = '#fff';
@@ -793,7 +813,8 @@ var Kiwi;
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.container.style.height = String(height + 'px');
                 this.container.style.width = String(width + 'px');
-                this._scale = this._width / this.container.clientWidth;
+                this._scale.x = this._width / this.container.clientWidth;
+                this._scale.y = this._height / this.container.clientHeight;
             }
 
             this.onResize.dispatch(this._width, this._height);
@@ -17612,8 +17633,8 @@ var Kiwi;
                 this.screenX = event.screenX;
                 this.screenY = event.screenY;
 
-                this.x = (this.pageX - this.game.stage.offset.x) * this.game.stage.scale;
-                this.y = (this.pageY - this.game.stage.offset.y) * this.game.stage.scale;
+                this.x = (this.pageX - this.game.stage.offset.x) * this.game.stage.scaleX;
+                this.y = (this.pageY - this.game.stage.offset.y) * this.game.stage.scaleY;
 
                 this.point.setTo(this.x, this.y);
                 this.circle.x = this.x;

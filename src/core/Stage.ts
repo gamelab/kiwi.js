@@ -38,6 +38,8 @@ module Kiwi {
             this._height = height;
             this.color = 'ffffff';
 
+            this._scale = new Kiwi.Geom.Point(1, 1);
+
             this.onResize = new Kiwi.Signal();
         }
 
@@ -197,19 +199,41 @@ module Kiwi {
         public onResize: Kiwi.Signal;
 
         /**
-        * Calculates and returns the amount that the container has been scale buy.  
+        * Calculates and returns the amount that the container has been scale by.  
         * Mainly used for re-calculating input coordinates. 
         * Note: For COCOONJS this returns 1 since COCOONJS translates the points itself.
         * This property is READ ONLY.
         * @property scale
+        * @type Point
+        * @default 1
+        * @public
+        */
+        private _scale: Kiwi.Geom.Point;
+
+        public get scale(): Kiwi.Geom.Point {
+            return this._scale;
+        }
+
+        /**
+        * Calculates and returns the amount that the container has been scale by on the X axis.  
+        * @property scaleX
+        * @type Number
+        * @default 1 
+        * @public
+        */
+        public get scaleX(): number {
+            return this._scale.x;
+        }
+
+        /**
+        * Calculates and returns the amount that the container has been scale by on the Y axis.
+        * @property scaleY
         * @type Number
         * @default 1
         * @public
         */
-        private _scale: number = 1;
-
-        public get scale(): number {
-            return this._scale;
+        public get scaleY(): number {
+            return this._scale.y;
         }
 
         /**
@@ -396,9 +420,6 @@ module Kiwi {
             
             this._createCompositeCanvas();
 
-            if (this._game.debugOption === DEBUG_ON) {
-                //this.createDebugCanvas();
-            }
         }
 
 
@@ -411,7 +432,8 @@ module Kiwi {
         */
         private _windowResized(event: UIEvent) {
             this.offset = this._game.browser.getOffsetPoint(this.container);
-            this._scale = this._width / this.container.clientWidth;
+            this._scale.x = this._width / this.container.clientWidth;
+            this._scale.y = this._height / this.container.clientHeight;
         }
 
 
@@ -430,6 +452,9 @@ module Kiwi {
             //Otherwise default to normal canvas
             } else {
                 this.canvas = <HTMLCanvasElement>document.createElement("canvas");
+                this.canvas.style.width = '100%';
+                this.canvas.style.height = '100%';
+
             }
 
             this.canvas.id = this._game.id + "compositeCanvas";
@@ -438,7 +463,7 @@ module Kiwi {
             this.canvas.height = this.height;
             
 
-            //Get 2D or GL Context - should add in error checking here
+            //Get 2D or GL Context - Should add in error checking here
 
             if (this._game.renderOption === Kiwi.RENDERER_CANVAS) {
                 this.ctx = this.canvas.getContext("2d");
@@ -481,7 +506,8 @@ module Kiwi {
             {
                 this.container.style.height = String(height + 'px');
                 this.container.style.width = String(width + 'px');
-                this._scale = this._width / this.container.clientWidth;
+                this._scale.x = this._width / this.container.clientWidth;
+                this._scale.y = this._height / this.container.clientHeight;
 
             }
 
