@@ -20,7 +20,7 @@ module Kiwi {
     */
     export class Stage {
          
-        constructor(game: Kiwi.Game, name: string, width: number, height: number) {
+        constructor(game: Kiwi.Game, name: string, width: number, height: number,scaleType:number) {
 
             this._game = game;
 
@@ -39,6 +39,7 @@ module Kiwi {
             this.color = 'ffffff';
 
             this._scale = new Kiwi.Geom.Point(1, 1);
+            this._scaleType = scaleType;
 
             this.onResize = new Kiwi.Signal();
         }
@@ -70,6 +71,65 @@ module Kiwi {
         * @static
         */
         public static DEFAULT_HEIGHT: number = 600;
+
+
+        /**
+        * The default scaling method used on Kiwi Games. 
+        * This scaling method will set the containers width/height to static values.
+        * @property SCALE_NONE
+        * @type number
+        * @default 0 
+        * @public 
+        * @static
+        */
+        public static SCALE_NONE: number = 0;
+        
+        /**
+        * Scale Fit will scale the stages width to fit its parents width.
+        * The height is then calculated to maintain the aspect ratio of the width/height of the Stage.
+        * @property SCALE_FIT
+        * @type number
+        * @default 1 
+        * @public 
+        * @static
+        */
+        public static SCALE_FIT: number = 1;
+        
+        /**
+        * Stretch will make the stage scale to fit its parents width/height (by using max/min height of 100%).
+        * If the parent doesn't have a height set then the height will be the height of the stage. 
+        * @property SCALE_STRETCH
+        * @type number
+        * @default 2 
+        * @public 
+        * @static
+        */
+        public static SCALE_STRETCH: number = 2;
+        
+        /**
+        * Private property that holds the scaling method that should be applied to the container element. 
+        * @property _scaleType
+        * @type number
+        * @default SCALE_NONE
+        * @private
+        */
+        private _scaleType: number = Kiwi.Stage.SCALE_NONE;
+        
+        /**
+        * Holds type of scaling that should be applied the container element. 
+        * @property scaleType
+        * @type number
+        * @default SCALE_NONE
+        * @private
+        */
+        public set scaleType(val: number) {
+            this._scaleType = val;
+            this._resizeContainer();
+        }
+
+        public get scaleType():number {
+            return this._scaleType;
+        }
 
 
         /**
@@ -197,6 +257,7 @@ module Kiwi {
         * @public
         */
         public onResize: Kiwi.Signal;
+
 
         /**
         * Calculates and returns the amount that the container has been scale by.  
@@ -410,16 +471,17 @@ module Kiwi {
                 this._x = this.offset.x;
                 this._y = this.offset.y;
 
-                //Update the containers width/height to the initial value
-                this.container.style.height = String(this._height + 'px');
-                this.container.style.width = String(this._width + 'px');
-
+                this._windowResized(null);
                 window.addEventListener("resize", (event: UIEvent) => this._windowResized(event), true);
             }
 
             
             this._createCompositeCanvas();
 
+
+            if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                this._resizeContainer();
+            }
         }
 
 
@@ -434,6 +496,64 @@ module Kiwi {
             this.offset = this._game.browser.getOffsetPoint(this.container);
             this._scale.x = this._width / this.container.clientWidth;
             this._scale.y = this._height / this.container.clientHeight;
+            this._resizeContainer();
+        }
+
+        /**
+        * Handles the scaling/sizing based upon the scaleType property.
+        * @method _resizeContainer
+        * @private
+        */
+        private _resizeContainer() {
+
+            if (this._game.deviceTargetOption == Kiwi.TARGET_BROWSER) {
+
+                this.container.style.width = String(this._width + 'px');
+                this.container.style.height = String(this._height + 'px');
+
+                if (this._scaleType == Kiwi.Stage.SCALE_NONE) {
+                    this.container.style.maxWidth = '';
+                    this.container.style.minWidth = '';
+                    return;
+                }
+
+                //To Fit or STRETCH 
+                if (this._scaleType == Kiwi.Stage.SCALE_STRETCH || this._scaleType == Kiwi.Stage.SCALE_FIT) {
+                    this.container.style.minWidth = '100%';
+                    this.container.style.maxWidth = '100%';
+                }
+
+                //If scale stretched then scale the containers height to 100% of its parents.
+                if (this._scaleType == Kiwi.Stage.SCALE_STRETCH) {
+                    this.container.style.minHeight = '100%';
+                    this.container.style.maxHeight = '100%';
+                }
+
+                //If it is SCALE to FIT then scale the containers height in ratio with the containers width.
+                if (this._scaleType == Kiwi.Stage.SCALE_FIT) {
+                    this.container.style.height = String((this.container.clientWidth / this._width) * this._height) + 'px';
+                }
+
+            } 
+
+            if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
+
+                switch (this._scaleType) {
+                    case Kiwi.Stage.SCALE_FIT:
+                        this.canvas.style.cssText = 'idtkscale:ScaleAspectFit';
+                        break;
+
+                    case Kiwi.Stage.SCALE_STRETCH:
+                        this.canvas.style.cssText = 'idtkscale:ScaleToFill';
+                        break;
+
+                    case Kiwi.Stage.SCALE_NONE:
+                        this.canvas.style.cssText = '';
+                        break;
+                }
+
+            }
+
         }
 
 
@@ -504,11 +624,9 @@ module Kiwi {
 
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER)
             {
-                this.container.style.height = String(height + 'px');
-                this.container.style.width = String(width + 'px');
                 this._scale.x = this._width / this.container.clientWidth;
                 this._scale.y = this._height / this.container.clientHeight;
-
+                this._resizeContainer();
             }
 
             this.onResize.dispatch(this._width, this._height);

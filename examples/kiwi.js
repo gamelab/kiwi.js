@@ -239,7 +239,27 @@ var Kiwi;
 
             console.log('Stage Dimensions: ' + width + 'x' + height);
 
-            this.stage = new Kiwi.Stage(this, name, width, height);
+            if (options.scaleType !== 'undefined') {
+                switch (options.scaleType) {
+                    case Kiwi.Stage.SCALE_FIT:
+                        console.log('Stage scaling set to FIT.');
+                        break;
+                    case Kiwi.Stage.SCALE_STRETCH:
+                        console.log('Stage scaling set to STRETCH.');
+                        break;
+                    case Kiwi.Stage.SCALE_NONE:
+                        console.log('Stage scaling set to NONE.');
+                        break;
+                    default:
+                        console.log('Stage specified, but is not a valid option. Set to NONE.');
+                        options.scaleType = 0;
+                        break;
+                }
+            } else {
+                options.scaleType = 0;
+            }
+
+            this.stage = new Kiwi.Stage(this, name, width, height, options.scaleType);
 
             if (this._renderOption === Kiwi.RENDERER_CANVAS) {
                 this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
@@ -469,7 +489,15 @@ var Kiwi;
     *
     */
     var Stage = (function () {
-        function Stage(game, name, width, height) {
+        function Stage(game, name, width, height, scaleType) {
+            /**
+            * Private property that holds the scaling method that should be applied to the container element.
+            * @property _scaleType
+            * @type number
+            * @default SCALE_NONE
+            * @private
+            */
+            this._scaleType = Kiwi.Stage.SCALE_NONE;
             /**
             * A point which determines the offset of this Stage
             * @property offset
@@ -501,6 +529,7 @@ var Kiwi;
             this.color = 'ffffff';
 
             this._scale = new Kiwi.Geom.Point(1, 1);
+            this._scaleType = scaleType;
 
             this.onResize = new Kiwi.Signal();
         }
@@ -513,6 +542,26 @@ var Kiwi;
         Stage.prototype.objType = function () {
             return "Stage";
         };
+
+
+        Object.defineProperty(Stage.prototype, "scaleType", {
+            get: function () {
+                return this._scaleType;
+            },
+            /**
+            * Holds type of scaling that should be applied the container element.
+            * @property scaleType
+            * @type number
+            * @default SCALE_NONE
+            * @private
+            */
+            set: function (val) {
+                this._scaleType = val;
+                this._resizeContainer();
+            },
+            enumerable: true,
+            configurable: true
+        });
 
         Object.defineProperty(Stage.prototype, "alpha", {
             /**
@@ -730,16 +779,17 @@ var Kiwi;
                 this._x = this.offset.x;
                 this._y = this.offset.y;
 
-                //Update the containers width/height to the initial value
-                this.container.style.height = String(this._height + 'px');
-                this.container.style.width = String(this._width + 'px');
-
+                this._windowResized(null);
                 window.addEventListener("resize", function (event) {
                     return _this._windowResized(event);
                 }, true);
             }
 
             this._createCompositeCanvas();
+
+            if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                this._resizeContainer();
+            }
         };
 
         /**
@@ -753,6 +803,58 @@ var Kiwi;
             this.offset = this._game.browser.getOffsetPoint(this.container);
             this._scale.x = this._width / this.container.clientWidth;
             this._scale.y = this._height / this.container.clientHeight;
+            this._resizeContainer();
+        };
+
+        /**
+        * Handles the scaling/sizing based upon the scaleType property.
+        * @method _resizeContainer
+        * @private
+        */
+        Stage.prototype._resizeContainer = function () {
+            if (this._game.deviceTargetOption == Kiwi.TARGET_BROWSER) {
+                this.container.style.width = String(this._width + 'px');
+                this.container.style.height = String(this._height + 'px');
+
+                if (this._scaleType == Kiwi.Stage.SCALE_NONE) {
+                    this.container.style.maxWidth = '';
+                    this.container.style.minWidth = '';
+                    return;
+                }
+
+                //To Fit or STRETCH
+                if (this._scaleType == Kiwi.Stage.SCALE_STRETCH || this._scaleType == Kiwi.Stage.SCALE_FIT) {
+                    this.container.style.minWidth = '100%';
+                    this.container.style.maxWidth = '100%';
+                }
+
+                //If scale stretched then scale the containers height to 100% of its parents.
+                if (this._scaleType == Kiwi.Stage.SCALE_STRETCH) {
+                    this.container.style.minHeight = '100%';
+                    this.container.style.maxHeight = '100%';
+                }
+
+                //If it is SCALE to FIT then scale the containers height in ratio with the containers width.
+                if (this._scaleType == Kiwi.Stage.SCALE_FIT) {
+                    this.container.style.height = String((this.container.clientWidth / this._width) * this._height) + 'px';
+                }
+            }
+
+            if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
+                switch (this._scaleType) {
+                    case Kiwi.Stage.SCALE_FIT:
+                        this.canvas.style.cssText = 'idtkscale:ScaleAspectFit';
+                        break;
+
+                    case Kiwi.Stage.SCALE_STRETCH:
+                        this.canvas.style.cssText = 'idtkscale:ScaleToFill';
+                        break;
+
+                    case Kiwi.Stage.SCALE_NONE:
+                        this.canvas.style.cssText = '';
+                        break;
+                }
+            }
         };
 
         /**
@@ -811,10 +913,9 @@ var Kiwi;
             this._width = width;
 
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.container.style.height = String(height + 'px');
-                this.container.style.width = String(width + 'px');
                 this._scale.x = this._width / this.container.clientWidth;
                 this._scale.y = this._height / this.container.clientHeight;
+                this._resizeContainer();
             }
 
             this.onResize.dispatch(this._width, this._height);
@@ -901,6 +1002,12 @@ var Kiwi;
         Stage.DEFAULT_WIDTH = 800;
 
         Stage.DEFAULT_HEIGHT = 600;
+
+        Stage.SCALE_NONE = 0;
+
+        Stage.SCALE_FIT = 1;
+
+        Stage.SCALE_STRETCH = 2;
         return Stage;
     })();
     Kiwi.Stage = Stage;
@@ -29034,7 +29141,7 @@ var Kiwi;
     Kiwi.DEBUG_OFF = 1;
 
     /**
-    * Contains the Device class that is used to detirmine which features are supported by the users browser.
+    * Contains the Device class that is used to determine which features are supported by the users browser.
     * @property DEVICE
     * @static
     * @type Device

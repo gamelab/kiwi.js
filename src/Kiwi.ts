@@ -214,7 +214,7 @@ module Kiwi {
     export var DEBUG_OFF: number = 1;
     
     /**
-    * Contains the Device class that is used to detirmine which features are supported by the users browser.
+    * Contains the Device class that is used to determine which features are supported by the users browser.
     * @property DEVICE
     * @static
     * @type Device

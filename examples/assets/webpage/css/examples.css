@@ -141,11 +141,11 @@ h1, h1.message {
 #game {
 	margin-top: 0.5em;
 	border: 1px solid rgba(200,200,200,0.1);
-	max-width: 100% !important;
+	/*max-width: 100% !important;
 }
 
 #game canvas {
-	max-width: 100% !important;
+	max-width: 100% !important;*/
 }
 
 /* button */

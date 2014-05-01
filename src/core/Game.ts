@@ -116,8 +116,33 @@ module Kiwi {
 
             console.log('Stage Dimensions: ' + width + 'x' + height);
 
-            this.stage = new Kiwi.Stage(this, name, width, height);
-            
+
+            if (options.scaleType !== 'undefined') {
+
+                switch (options.scaleType) {
+                    case Kiwi.Stage.SCALE_FIT:
+                        console.log('Stage scaling set to FIT.');
+                        break;
+                    case Kiwi.Stage.SCALE_STRETCH:
+                        console.log('Stage scaling set to STRETCH.');
+                        break;
+                    case Kiwi.Stage.SCALE_NONE:
+                        console.log('Stage scaling set to NONE.');
+                        break;
+                    default:
+                        console.log('Stage specified, but is not a valid option. Set to NONE.');
+                        options.scaleType = 0;
+                        break;
+                }
+
+            } else {
+                options.scaleType = 0;
+            }
+
+
+            this.stage = new Kiwi.Stage(this, name, width, height, options.scaleType);
+
+
             if (this._renderOption === Kiwi.RENDERER_CANVAS) {
                 this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
             } else {
