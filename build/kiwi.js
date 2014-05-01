@@ -819,7 +819,6 @@ var Kiwi;
                 if (this._scaleType == Kiwi.Stage.SCALE_NONE) {
                     this.container.style.maxWidth = '';
                     this.container.style.minWidth = '';
-                    return;
                 }
 
                 //To Fit or STRETCH
