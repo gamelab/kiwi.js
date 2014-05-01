@@ -124,7 +124,7 @@ module Kiwi {
         */
         public set scaleType(val: number) {
             this._scaleType = val;
-            this._resizeContainer();
+            this._scaleContainer();
         }
 
         public get scaleType():number {
@@ -471,8 +471,7 @@ module Kiwi {
                 this._x = this.offset.x;
                 this._y = this.offset.y;
 
-                this._windowResized(null);
-                window.addEventListener("resize", (event: UIEvent) => this._windowResized(event), true);
+                window.addEventListener("resize", (event: UIEvent) => this._calculateContainerScale(), true);
             }
 
             
@@ -480,7 +479,9 @@ module Kiwi {
 
 
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-                this._resizeContainer();
+                this._scaleContainer();
+            } else {
+                this._calculateContainerScale();
             }
         }
 
@@ -492,72 +493,14 @@ module Kiwi {
         * @param event {UIEvent}
         * @private
         */
-        private _windowResized(event: UIEvent) {
+        private _calculateContainerScale() {
             this.offset = this._game.browser.getOffsetPoint(this.container);
+            this._scaleContainer();
+
             this._scale.x = this._width / this.container.clientWidth;
             this._scale.y = this._height / this.container.clientHeight;
-            this._resizeContainer();
-        }
-
-        /**
-        * Handles the scaling/sizing based upon the scaleType property.
-        * @method _resizeContainer
-        * @private
-        */
-        private _resizeContainer() {
-
-            if (this._game.deviceTargetOption == Kiwi.TARGET_BROWSER) {
-
-                this.container.style.width = String(this._width + 'px');
-                this.container.style.height = String(this._height + 'px');
-
-                if (this._scaleType == Kiwi.Stage.SCALE_NONE) {
-                    this.container.style.maxWidth = '';
-                    this.container.style.minWidth = '';
-                }
-
-                //To Fit or STRETCH 
-                if (this._scaleType == Kiwi.Stage.SCALE_STRETCH || this._scaleType == Kiwi.Stage.SCALE_FIT) {
-                    this.container.style.minWidth = '100%';
-                    this.container.style.maxWidth = '100%';
-                }
-
-                //If scale stretched then scale the containers height to 100% of its parents.
-                if (this._scaleType == Kiwi.Stage.SCALE_STRETCH) {
-                    this.container.style.minHeight = '100%';
-                    this.container.style.maxHeight = '100%';
-                } else {
-                    this.container.style.minHeight = '';
-                    this.container.style.maxHeight = '';
-                }
-
-                //If it is SCALE to FIT then scale the containers height in ratio with the containers width.
-                if (this._scaleType == Kiwi.Stage.SCALE_FIT) {
-                    this.container.style.height = String((this.container.clientWidth / this._width) * this._height) + 'px';
-                }
-
-            } 
-
-            if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
-
-                switch (this._scaleType) {
-                    case Kiwi.Stage.SCALE_FIT:
-                        this.canvas.style.cssText = 'idtkscale:ScaleAspectFit';
-                        break;
-
-                    case Kiwi.Stage.SCALE_STRETCH:
-                        this.canvas.style.cssText = 'idtkscale:ScaleToFill';
-                        break;
-
-                    case Kiwi.Stage.SCALE_NONE:
-                        this.canvas.style.cssText = '';
-                        break;
-                }
-
-            }
 
         }
-
 
         /**
         * Handles the creation of the canvas that the game will use and retrieves the context for the renderer. 
@@ -624,11 +567,8 @@ module Kiwi {
             this._height = height;
             this._width = width;
 
-            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER)
-            {
-                this._scale.x = this._width / this.container.clientWidth;
-                this._scale.y = this._height / this.container.clientHeight;
-                this._resizeContainer();
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this._calculateContainerScale();
             }
 
             this.onResize.dispatch(this._width, this._height);
@@ -718,6 +658,68 @@ module Kiwi {
         public toggleDebugCanvas() {
             this.debugCanvas.style.display = (this.debugCanvas.style.display === "none") ? "block" : "none";
         }
+
+
+
+        /**
+        * Handles the scaling/sizing based upon the scaleType property.
+        * @method _resizeContainer
+        * @private
+        */
+        private _scaleContainer() {
+
+            if (this._game.deviceTargetOption == Kiwi.TARGET_BROWSER) {
+
+                this.container.style.width = String(this._width + 'px');
+                this.container.style.height = String(this._height + 'px');
+
+                if (this._scaleType == Kiwi.Stage.SCALE_NONE) {
+                    this.container.style.maxWidth = '';
+                    this.container.style.minWidth = '';
+                }
+
+                //To Fit or STRETCH 
+                if (this._scaleType == Kiwi.Stage.SCALE_STRETCH || this._scaleType == Kiwi.Stage.SCALE_FIT) {
+                    this.container.style.minWidth = '100%';
+                    this.container.style.maxWidth = '100%';
+                }
+
+                //If scale stretched then scale the containers height to 100% of its parents.
+                if (this._scaleType == Kiwi.Stage.SCALE_STRETCH) {
+                    this.container.style.minHeight = '100%';
+                    this.container.style.maxHeight = '100%';
+                } else {
+                    this.container.style.minHeight = '';
+                    this.container.style.maxHeight = '';
+                }
+
+                //If it is SCALE to FIT then scale the containers height in ratio with the containers width.
+                if (this._scaleType == Kiwi.Stage.SCALE_FIT) {
+                    this.container.style.height = String((this.container.clientWidth / this._width) * this._height) + 'px';
+                }
+
+            }
+
+            if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
+
+                switch (this._scaleType) {
+                    case Kiwi.Stage.SCALE_FIT:
+                        this.canvas.style.cssText = 'idtkscale:ScaleAspectFit';
+                        break;
+
+                    case Kiwi.Stage.SCALE_STRETCH:
+                        this.canvas.style.cssText = 'idtkscale:ScaleToFill';
+                        break;
+
+                    case Kiwi.Stage.SCALE_NONE:
+                        this.canvas.style.cssText = '';
+                        break;
+                }
+
+            }
+
+        }
+
 
     }
 
