@@ -527,6 +527,9 @@ module Kiwi {
                 if (this._scaleType == Kiwi.Stage.SCALE_STRETCH) {
                     this.container.style.minHeight = '100%';
                     this.container.style.maxHeight = '100%';
+                } else {
+                    this.container.style.minHeight = '';
+                    this.container.style.maxHeight = '';
                 }
 
                 //If it is SCALE to FIT then scale the containers height in ratio with the containers width.
