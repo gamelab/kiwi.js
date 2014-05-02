@@ -40,7 +40,6 @@ module Kiwi.Input {
         * @public
         */
         public start(event) {
-            this.id = event.identifier;
             this.active = true;
             super.start(event);
         }

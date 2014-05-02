@@ -91,6 +91,14 @@ module Kiwi.System {
         */
         public windows: boolean = false;
 
+        /**
+        * 
+        * @property windowsPhone 
+        * @type boolean
+        * @public
+        */
+        public windowsPhone: boolean = false;
+
         //  Features
 
         /**
@@ -159,6 +167,14 @@ module Kiwi.System {
         public touch: boolean = false;
 
         /**
+        * If the type of touch events are pointers (event msPointers)
+        * @property pointerEnabled
+        * @type boolean
+        * @public
+        */
+        public pointerEnabled: boolean = false;
+
+        /**
         * 
         * @property css3D
         * @type boolean
@@ -215,6 +231,14 @@ module Kiwi.System {
         * @public
         */
         public ieVersion: number = 0;
+
+        /**
+        *
+        * @property ieMobile
+        * @type boolean
+        * @public 
+        */
+        public ieMobile: boolean = false;
 
         /**
         * 
@@ -369,9 +393,13 @@ module Kiwi.System {
             {
                 this.macOS = true;
             }
+            else if(/Windows Phone/.test(ua)) {
+                this.windowsPhone = true;
+            }
             else if (/Windows/.test(ua))
             {
                 this.windows = true;
+
             }
 
         }
@@ -393,7 +421,7 @@ module Kiwi.System {
             }
             catch (error)
             {
-                this.localStorage = false;
+                this.localStorage = false; 
             }
 
             this.file = !!window['File'] && !!window['FileReader'] && !!window['FileList'] && !!window['Blob'];
@@ -401,9 +429,16 @@ module Kiwi.System {
             this.webGL = !!window['WebGLRenderingContext'];
             this.worker = !!window['Worker'];
 
-            if ('ontouchstart' in document.documentElement || window.navigator.msPointerEnabled)
+            if ('ontouchstart' in document.documentElement ||
+               (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 0) ||
+               ((<any>window.navigator).pointerEnabled && (<any>window.navigator).maxTouchPoints > 0))
             {
                 this.touch = true;
+
+            }
+
+            if ((<any>window.navigator).pointerEnabled || window.navigator.msPointerEnabled ) {
+                this.pointerEnabled = true;
             }
 
         }
@@ -416,6 +451,7 @@ module Kiwi.System {
         private _checkBrowser() {
 
             var ua = navigator.userAgent;
+            var an = navigator.appName;
 
             if (/Arora/.test(ua))
             {
@@ -437,9 +473,20 @@ module Kiwi.System {
             {
                 this.mobileSafari = true;
             }
-            else if (/MSIE (\d+\.\d+);/.test(ua))
+            else if (/MSIE (\d+\.\d+);/.test(ua)) //Will Detect 10- versions of IE
             {
                 this.ie = true;
+                this.ieVersion = parseInt(RegExp.$1);
+
+                if ( /IEMobile/.test(ua) ) {
+                    this.ieMobile = true;
+                }
+
+            }
+            else if (/Trident/.test(ua))        //Will Detect 11+ versions for IE
+            {
+                this.ie = true;
+                /rv:(\d+\.\d+)\)/.test(ua);
                 this.ieVersion = parseInt(RegExp.$1);
             }
             else if (/Midori/.test(ua))

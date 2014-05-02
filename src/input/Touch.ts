@@ -33,6 +33,14 @@ module Kiwi.Input {
             return 'TouchManager';
         }
 
+        /**
+        * If the touch inputs are enabled on the current device (and so if the events will fire) or not.
+        * @property touchEnabled
+        * @type boolean
+        * @public
+        */
+        public touchEnabled: boolean;
+
         /** 
         * The game that this touch manager belongs to.
         * @property _game
@@ -233,25 +241,60 @@ module Kiwi.Input {
         */
         public start() {
 
-            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+            if (Kiwi.DEVICE.touch) {
+                this.touchEnabled = true;
 
-                this._domElement.addEventListener('touchstart', (event) => this.onTouchStart(event), false);
-                this._domElement.addEventListener('touchmove', (event) => this.onTouchMove(event), false);
-                this._domElement.addEventListener('touchend', (event) => this.onTouchEnd(event), false);
-                this._domElement.addEventListener('touchenter', (event) => this.onTouchEnter(event), false);
-                this._domElement.addEventListener('touchleave', (event) => this.onTouchLeave(event), false);
-                this._domElement.addEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
+                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
 
-                document.addEventListener('touchmove', (event) => this.consumeTouchMove(event), false);
+                    //If IE....
+                    if (Kiwi.DEVICE.pointerEnabled) {
+                        var pointerUp = 'pointerup',
+                            pointerDown = 'pointerdown',
+                            pointerEnter = 'pointerenter',
+                            pointerLeave = 'pointerleave',
+                            pointerCancel = 'pointercancel',
+                            pointerMove = 'pointermove';
 
-            } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) { 
+                        if ((window.navigator.msPointerEnabled)) {
+                            var pointerUp = 'MSPointerUp',
+                                pointerDown = 'MSPointerDown',
+                                pointerEnter = 'MSPointerEnter',
+                                pointerLeave = 'MSPointerLeave',
+                                pointerCancel = 'MSPointerCancel',
+                                pointerMove = 'MSPointerMove';
+                        }
 
-                this._game.stage.canvas.addEventListener('touchstart', (event) => this.onTouchStart(event), false);
-                this._game.stage.canvas.addEventListener('touchmove', (event) => this.onTouchMove(event), false);
-                this._game.stage.canvas.addEventListener('touchend', (event) => this.onTouchEnd(event), false);
-                this._game.stage.canvas.addEventListener('touchenter', (event) => this.onTouchEnter(event), false);
-                this._game.stage.canvas.addEventListener('touchleave', (event) => this.onTouchLeave(event), false);
-                this._game.stage.canvas.addEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
+                        this._domElement.addEventListener(pointerUp, (event:MSPointerEvent) => this.onPointerStart(event), false);
+                        this._domElement.addEventListener(pointerDown, (event: MSPointerEvent) => this.onPointerEnd(event), false);
+                        this._domElement.addEventListener(pointerEnter, (event: MSPointerEvent) => this.onPointerEnter(event), false);
+                        this._domElement.addEventListener(pointerLeave, (event: MSPointerEvent) => this.onPointerLeave(event), false);
+                        this._domElement.addEventListener(pointerCancel, (event: MSPointerEvent) => this.onPointerCancel(event), false);
+                        this._domElement.addEventListener(pointerMove, (event: MSPointerEvent) => this.onPointerMove(event), false);
+
+                    } else {
+                        this._domElement.addEventListener('touchstart', (event) => this.onTouchStart(event), false);
+                        this._domElement.addEventListener('touchmove', (event) => this.onTouchMove(event), false);
+                        this._domElement.addEventListener('touchend', (event) => this.onTouchEnd(event), false);
+                        this._domElement.addEventListener('touchenter', (event) => this.onTouchEnter(event), false);
+                        this._domElement.addEventListener('touchleave', (event) => this.onTouchLeave(event), false);
+                        this._domElement.addEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
+
+                        document.addEventListener('touchmove', (event) => this.consumeTouchMove(event), false);
+
+                    }
+
+
+                } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+
+                    this._game.stage.canvas.addEventListener('touchstart', (event) => this.onTouchStart(event), false);
+                    this._game.stage.canvas.addEventListener('touchmove', (event) => this.onTouchMove(event), false);
+                    this._game.stage.canvas.addEventListener('touchend', (event) => this.onTouchEnd(event), false);
+                    this._game.stage.canvas.addEventListener('touchenter', (event) => this.onTouchEnter(event), false);
+                    this._game.stage.canvas.addEventListener('touchleave', (event) => this.onTouchLeave(event), false);
+                    this._game.stage.canvas.addEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
+                }
+            } else {
+                this.touchEnabled = false;
             }
 
         }
@@ -285,7 +328,8 @@ module Kiwi.Input {
         }
 
         /**
-        * The developer defined maximum number of touch events. By default this is set to 10 but this can be set to be lower.
+        * The developer defined maximum number of touch events.
+        * By default this is set to 10 but this can be set to be lower.
         * @property _maxTouchEvents
         * @type number
         * @default 10
@@ -316,66 +360,138 @@ module Kiwi.Input {
             return this._maxPointers;
         }
 
+
+        /**
+        *-------------------------
+        * Generic Methods for Dealing with Pointers
+        *-------------------------
+        */
+
+
+        private _registerFinger(event, id) {
+            for (var f = 0; f < this._maxPointers; f++) {
+                if (this._fingers[f].active === false) {
+                    this._fingers[f].id = id;
+                    this._fingers[f].start(event);
+                    this.latestFinger = this._fingers[f];
+
+                    this.touchDown.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]);
+
+                    this.isDown = true;
+                    this.isUp = false;
+                    break;
+                }
+            }
+        }
+
+
+        private _deregisterFinger(event, id) {
+            for (var f = 0; f < this._fingers.length; f++) {
+                if (this._fingers[f].active && this._fingers[f].id === id) {
+                    this._fingers[f].stop(event);
+                    this.latestFinger = this._fingers[f];
+
+                    this.touchUp.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]);
+
+                    this.isDown = false;
+                    this.isUp = true;
+                    break;
+                }
+            }
+
+            //loop through the fingers and check to see that none of them are down.
+            for (var i = 0; i < this._fingers.length; i++) {
+                if (this._fingers[i].active) {
+                    this.isDown = true;
+                    this.isUp = false;
+                }
+            }
+        }
+
+
+        private _cancelFinger(event, id) {
+            for (var f = 0; f < this._fingers.length; f++) {
+                if (this._fingers[f].active && this._fingers[f].id === id) {
+                    this._fingers[f].stop(event);
+                    this.touchCancel.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]);
+                    break;
+                }
+            }
+
+            //loop through the fingers and check to see that none of them are down.
+            for (var i = 0; i < this._fingers.length; i++) {
+                if (this._fingers[i].active) {
+                    this.isDown = true;
+                    this.isUp = false;
+                }
+            }
+        }
+
+        private _enterFinger(event, id) {
+            for (var f = 0; f < this._maxPointers; f++) {
+                if (this._fingers[f].active === false) {
+                    this._fingers[f].id = id;
+                    this._fingers[f].start(event);
+                    break;
+                }
+            }
+        }
+
+        private _leaveFinger(event, id) {
+            for (var f = 0; f < this._fingers.length; f++) {
+                if (this._fingers[f].active && this._fingers[f].id === id) {
+                    this._fingers[f].leave(event);
+                    break;
+                }
+            }
+        }
+
+        private _moveFinger(event, id) {
+            for (var f = 0; f < this._fingers.length; f++) {
+                if (this._fingers[f].active && this._fingers[f].id === id) {
+                    this._fingers[f].move(event);
+                    this.latestFinger = this._fingers[f];
+                    break;
+                }
+            }
+        }
+
+        
+        /**
+        *-------------------
+        * Touch Events
+        *-------------------
+        **/
+
+
         /** 
         * This method runs when the a touch start event is fired by the browser and then assigns the event to a pointer that is currently not active.
+        * https://developer.mozilla.org/en-US/docs/DOM/TouchList
         * @method onTouchStart
         * @param {Any} event
         * @private
         */
         private onTouchStart(event) {
 
-            //event.preventDefault();
-
-            //  A list of all the touch points that BECAME active with the current event
-            //  https://developer.mozilla.org/en-US/docs/DOM/TouchList
-
-            //  event.targetTouches = list of all touches on the TARGET ELEMENT (i.e. game dom element)
-            //  event.touches = list of all touches on the ENTIRE DOCUMENT, not just the target element
-            //  event.changedTouches = the touches that CHANGED in this event, not the total number of them
-
-            for (var i = 0; i < event.changedTouches.length; i++)
-            {
+            for (var i = 0; i < event.changedTouches.length; i++) {
                 //loop though the fingers to find the first one that is not active
-                for (var f = 0; f < this._maxPointers; f++) 
-                {
-                    if (this._fingers[f].active === false) {
-                        this._fingers[f].start(event.changedTouches[i]);
-                        this.latestFinger = this._fingers[f];
-
-                        this.touchDown.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]);
-                        
-                        this.isDown = true;
-                        this.isUp = false;
-                        break;  
-                    }
-                }
+                this._registerFinger(event.changedTouches[i], event.changedTouches[i].identifier);
             }
 
         }
 
         /** 
         * Doesn't appear to be supported by most browsers yet but if it was it would fire events when a touch is canceled.
+        * http://www.w3.org/TR/touch-events/#dfn-touchcancel
         * @method onTouchCancel
         * @param {Any} event
         * @private
         */
         private onTouchCancel(event) {
 
-            //event.preventDefault();
-
-            //  Touch cancel - touches that were disrupted (perhaps by moving into a plugin or browser chrome)
-            //  http://www.w3.org/TR/touch-events/#dfn-touchcancel
-            //  event.changedTouches = the touches that CHANGED in this event, not the total number of them
             for (var i = 0; i < event.changedTouches.length; i++)
             {
-                for (var f = 0; f < this._fingers.length; f++)
-                {
-                    if (this._fingers[f].id === event.changedTouches[i].identifier) {
-                        this._fingers[f].stop(event.changedTouches[i]);
-                        this.touchCancel.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]);
-                        break;
-                    }
-                }
+                this._cancelFinger(event.changedTouches[i], event.changedTouches[i].identifier);
             }
 
         }
@@ -388,17 +504,10 @@ module Kiwi.Input {
         */
         private onTouchEnter(event) {
 
-            //event.preventDefault();
-
-            //  For touch enter and leave its a list of the touch points that have entered or left the target
+            // For touch enter and leave its a list of the touch points that have entered or left the target
             for (var i = 0; i < event.changedTouches.length; i++)
             {
-                for (var f = 0; f < this._maxPointers; f++) {
-                    if (this._fingers[f].active === false) {
-                        this._fingers[f].start(event.changedTouches[i]);
-                        break;
-                    }
-                }
+                this._enterFinger(event.changedTouches[i], event.changedTouches[i].identifier);
             }
 
         }
@@ -412,18 +521,10 @@ module Kiwi.Input {
         */
         private onTouchLeave(event) {
 
-            //event.preventDefault();
-
-            //  For touch enter and leave its a list of the touch points that have entered or left the target 
+            // For touch enter and leave its a list of the touch points that have entered or left the target 
             for (var i = 0; i < event.changedTouches.length; i++)
             {
-                for (var f = 0; f < this._fingers.length; f++)
-                {
-                    if (this._fingers[f].id === event.changedTouches[i].identifier) {
-                        this._fingers[f].leave(event.changedTouches[i]);
-                        break;
-                    }
-                }
+                this._leaveFinger(event.changedTouches[i], event.changedTouches[i].identifier);
             }
 
         }
@@ -436,66 +537,93 @@ module Kiwi.Input {
         */
         private onTouchMove(event) {
 
-            //event.preventDefault();
-            
-            //  event.targetTouches = list of all touches on the TARGET ELEMENT (i.e. game dom element)
-            //  event.touches = list of all touches on the ENTIRE DOCUMENT, not just the target element
-            //  event.changedTouches = the touches that CHANGED in this event, not the total number of them
             for (var i = 0; i < event.changedTouches.length; i++)
             {
-                for (var f = 0; f < this._fingers.length; f++)
-                {
-                    if (this._fingers[f].id  === event.changedTouches[i].identifier) {
-                        this._fingers[f].move(event.changedTouches[i]);
-                        this.latestFinger = this._fingers[f]; 
-                        break;
-                    }
-                }
+                this._moveFinger(event.changedTouches[i], event.changedTouches[i].identifier);
             }
 
         }
 
         /** 
         * When a touch event gets released.
+        * https://developer.mozilla.org/en-US/docs/DOM/TouchList
         * @method onTouchEnd
         * @param {Any} event
         * @private
         */
         private onTouchEnd(event) {
 
-            //event.preventDefault();
-
-            //  For touch end its a list of the touch points that have been removed from the surface
-            //  https://developer.mozilla.org/en-US/docs/DOM/TouchList
-
-            //  event.changedTouches = the touches that CHANGED in this event, not the total number of them
             for (var i = 0; i < event.changedTouches.length; i++)
             {
-                for (var f = 0; f < this._fingers.length; f++)
-                {
-                    if (this._fingers[f].id === event.changedTouches[i].identifier)
-                    {
-                        this._fingers[f].stop(event.changedTouches[i]);
-                        this.latestFinger = this._fingers[f];
-                        
-                        this.touchUp.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]); 
-
-                        this.isDown = false;
-                        this.isUp = true;
-                        break;
-                    }
-                }
+                this._deregisterFinger(event.changedTouches[i], event.changedTouches[i].identifier);
             }
             
-            //loop through the fingers and check to see that none of them are down.
-            for (var i = 0; i < this._fingers.length; i++) {
-                if (this._fingers[i].active) {
-                    this.isDown = true;
-                    this.isUp = false;
-                }
-            }
-
         }
+
+
+        /**
+        *-------------------
+        * Pointer Events
+        *-------------------
+        **/
+
+
+        /** 
+        *
+        */
+        private onPointerStart(event: MSPointerEvent) {
+            if (event.type !== 'mouse') {
+                this._registerFinger(event, event.pointerId);
+            }
+        }
+
+        /** 
+        *
+        */
+        private onPointerCancel(event: MSPointerEvent) {
+            if (event.type !== 'mouse') {
+                this._cancelFinger(event, event.pointerId);
+            }
+        }
+
+        /** 
+        *
+        */
+        private onPointerEnter(event: MSPointerEvent) {
+            if (event.type !== 'mouse') {
+                this._enterFinger(event, event.pointerId);
+            }
+        }
+
+        /** 
+        *
+        */
+        private onPointerLeave(event: MSPointerEvent) {
+            if (event.type !== 'mouse') {
+                this._leaveFinger(event, event.pointerId);
+            }
+        }
+
+        /** 
+        *
+        */
+        private onPointerMove(event: MSPointerEvent) {
+            if (event.type !== 'mouse') {
+                this._moveFinger(event, event.pointerId);
+            }
+        }
+        
+        /** 
+        *
+        */
+        private onPointerEnd(event: MSPointerEvent) {
+            if (event.type !== 'mouse') {
+                this._deregisterFinger(event, event.pointerId);
+            }
+        }
+
+
+
 
         /** 
         * The update loop fro the touch manager.
@@ -503,12 +631,14 @@ module Kiwi.Input {
         * @public
         */
         public update() {
-            if (this.isDown) {
+            if (this.touchEnabled && this.isDown) {
+
                 for (var i = 0; i < this._fingers.length; i++) {
                     if (this._fingers[i].active) {
                         this._fingers[i].update();
                     }
                 }
+
             }
         }
 
@@ -520,23 +650,25 @@ module Kiwi.Input {
         */
         public stop() {
 
-            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+            if (this.touchEnabled) {
+                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
 
-                this._domElement.removeEventListener('touchstart', (event) => this.onTouchStart(event), false);
-                this._domElement.removeEventListener('touchmove', (event) => this.onTouchMove(event), false);
-                this._domElement.removeEventListener('touchend', (event) => this.onTouchEnd(event), false);
-                this._domElement.removeEventListener('touchenter', (event) => this.onTouchEnter(event), false);
-                this._domElement.removeEventListener('touchleave', (event) => this.onTouchLeave(event), false);
-                this._domElement.removeEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
+                    this._domElement.removeEventListener('touchstart', (event) => this.onTouchStart(event), false);
+                    this._domElement.removeEventListener('touchmove', (event) => this.onTouchMove(event), false);
+                    this._domElement.removeEventListener('touchend', (event) => this.onTouchEnd(event), false);
+                    this._domElement.removeEventListener('touchenter', (event) => this.onTouchEnter(event), false);
+                    this._domElement.removeEventListener('touchleave', (event) => this.onTouchLeave(event), false);
+                    this._domElement.removeEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
 
-            } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
 
-                this._game.stage.canvas.removeEventListener('touchstart', (event) => this.onTouchStart(event), false);
-                this._game.stage.canvas.removeEventListener('touchmove', (event) => this.onTouchMove(event), false);
-                this._game.stage.canvas.removeEventListener('touchend', (event) => this.onTouchEnd(event), false);
-                this._game.stage.canvas.removeEventListener('touchenter', (event) => this.onTouchEnter(event), false);
-                this._game.stage.canvas.removeEventListener('touchleave', (event) => this.onTouchLeave(event), false);
-                this._game.stage.canvas.removeEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
+                    this._game.stage.canvas.removeEventListener('touchstart', (event) => this.onTouchStart(event), false);
+                    this._game.stage.canvas.removeEventListener('touchmove', (event) => this.onTouchMove(event), false);
+                    this._game.stage.canvas.removeEventListener('touchend', (event) => this.onTouchEnd(event), false);
+                    this._game.stage.canvas.removeEventListener('touchenter', (event) => this.onTouchEnter(event), false);
+                    this._game.stage.canvas.removeEventListener('touchleave', (event) => this.onTouchLeave(event), false);
+                    this._game.stage.canvas.removeEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
+                }
             }
         }
 

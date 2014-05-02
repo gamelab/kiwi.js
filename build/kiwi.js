@@ -11257,6 +11257,13 @@ var Kiwi;
                 * @public
                 */
                 this.windows = false;
+                /**
+                *
+                * @property windowsPhone
+                * @type boolean
+                * @public
+                */
+                this.windowsPhone = false;
                 //  Features
                 /**
                 *
@@ -11315,6 +11322,13 @@ var Kiwi;
                 */
                 this.touch = false;
                 /**
+                * If the type of touch events are pointers (event msPointers)
+                * @property pointerEnabled
+                * @type boolean
+                * @public
+                */
+                this.pointerEnabled = false;
+                /**
                 *
                 * @property css3D
                 * @type boolean
@@ -11364,6 +11378,13 @@ var Kiwi;
                 * @public
                 */
                 this.ieVersion = 0;
+                /**
+                *
+                * @property ieMobile
+                * @type boolean
+                * @public
+                */
+                this.ieMobile = false;
                 /**
                 *
                 * @property mobileSafari
@@ -11506,6 +11527,8 @@ var Kiwi;
                     this.linux = true;
                 } else if (/Mac OS/.test(ua)) {
                     this.macOS = true;
+                } else if (/Windows Phone/.test(ua)) {
+                    this.windowsPhone = true;
                 } else if (/Windows/.test(ua)) {
                     this.windows = true;
                 }
@@ -11533,8 +11556,12 @@ var Kiwi;
                 this.webGL = !!window['WebGLRenderingContext'];
                 this.worker = !!window['Worker'];
 
-                if ('ontouchstart' in document.documentElement || window.navigator.msPointerEnabled) {
+                if ('ontouchstart' in document.documentElement || (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 0) || (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 0)) {
                     this.touch = true;
+                }
+
+                if (window.navigator.pointerEnabled || window.navigator.msPointerEnabled) {
+                    this.pointerEnabled = true;
                 }
             };
 
@@ -11545,6 +11572,7 @@ var Kiwi;
             */
             Device.prototype._checkBrowser = function () {
                 var ua = navigator.userAgent;
+                var an = navigator.appName;
 
                 if (/Arora/.test(ua)) {
                     this.arora = true;
@@ -11558,6 +11586,14 @@ var Kiwi;
                     this.mobileSafari = true;
                 } else if (/MSIE (\d+\.\d+);/.test(ua)) {
                     this.ie = true;
+                    this.ieVersion = parseInt(RegExp.$1);
+
+                    if (/IEMobile/.test(ua)) {
+                        this.ieMobile = true;
+                    }
+                } else if (/Trident/.test(ua)) {
+                    this.ie = true;
+                    /rv:(\d+\.\d+)\)/.test(ua);
                     this.ieVersion = parseInt(RegExp.$1);
                 } else if (/Midori/.test(ua)) {
                     this.midori = true;
@@ -16477,7 +16513,8 @@ var Kiwi;
 (function (Kiwi) {
     (function (Input) {
         /**
-        * Handles the initialization and management of the various ways a user can interact with the device/game, whether this is through a Keyboard and Mouse or by a Touch. Also contains some of the general callbacks that are 'global' between both Desktop and Mobile based devices.
+        * Handles the initialization and management of the various ways a user can interact with the device/game,
+        * whether this is through a Keyboard and Mouse or by a Touch. Also contains some of the general callbacks that are 'global' between both Desktop and Mobile based devices.
         *
         * @class InputManager
         * @constructor
@@ -16528,9 +16565,11 @@ var Kiwi;
                 this.keyboard = new Kiwi.Input.Keyboard(this.game);
                 this.keyboard.boot();
 
-                if (Kiwi.DEVICE.touch === true) {
-                    this.touch = new Kiwi.Input.Touch(this.game);
-                    this.touch.boot();
+                this.touch = new Kiwi.Input.Touch(this.game);
+                this.touch.boot();
+
+                //Decided which inputs to map to the up/down events.
+                if (Kiwi.DEVICE.touch == true) {
                     this.touch.touchDown.add(this._onDownEvent, this);
                     this.touch.touchUp.add(this._onUpEvent, this);
                     this._pointers = this.touch.fingers;
@@ -16613,15 +16652,15 @@ var Kiwi;
             InputManager.prototype.update = function () {
                 this.mouse.update();
                 this.keyboard.update();
+                this.touch.update();
 
-                if (Kiwi.DEVICE.touch === true) {
-                    this.touch.update();
+                if (this.touch.touchEnabled) {
                     this.position.setTo(this.touch.x, this.touch.y);
-                    this.isDown = this.touch.isDown;
                 } else {
                     this.position.setTo(this.mouse.x, this.mouse.y);
-                    this.isDown = this.mouse.isDown;
                 }
+
+                this.isDown = this.mouse.isDown || this.touch.isDown;
             };
 
             /**
@@ -16631,10 +16670,7 @@ var Kiwi;
             InputManager.prototype.reset = function () {
                 this.mouse.reset();
                 this.keyboard.reset();
-
-                if (Kiwi.DEVICE.touch === true) {
-                    this.touch.reset();
-                }
+                this.touch.reset();
             };
 
             Object.defineProperty(InputManager.prototype, "x", {
@@ -17119,7 +17155,8 @@ var Kiwi;
                 */
                 this.isUp = true;
                 /**
-                * The developer defined maximum number of touch events. By default this is set to 10 but this can be set to be lower.
+                * The developer defined maximum number of touch events.
+                * By default this is set to 10 but this can be set to be lower.
                 * @property _maxTouchEvents
                 * @type number
                 * @default 10
@@ -17187,48 +17224,82 @@ var Kiwi;
             */
             Touch.prototype.start = function () {
                 var _this = this;
-                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    this._domElement.addEventListener('touchstart', function (event) {
-                        return _this.onTouchStart(event);
-                    }, false);
-                    this._domElement.addEventListener('touchmove', function (event) {
-                        return _this.onTouchMove(event);
-                    }, false);
-                    this._domElement.addEventListener('touchend', function (event) {
-                        return _this.onTouchEnd(event);
-                    }, false);
-                    this._domElement.addEventListener('touchenter', function (event) {
-                        return _this.onTouchEnter(event);
-                    }, false);
-                    this._domElement.addEventListener('touchleave', function (event) {
-                        return _this.onTouchLeave(event);
-                    }, false);
-                    this._domElement.addEventListener('touchcancel', function (event) {
-                        return _this.onTouchCancel(event);
-                    }, false);
+                if (Kiwi.DEVICE.touch) {
+                    this.touchEnabled = true;
 
-                    document.addEventListener('touchmove', function (event) {
-                        return _this.consumeTouchMove(event);
-                    }, false);
-                } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-                    this._game.stage.canvas.addEventListener('touchstart', function (event) {
-                        return _this.onTouchStart(event);
-                    }, false);
-                    this._game.stage.canvas.addEventListener('touchmove', function (event) {
-                        return _this.onTouchMove(event);
-                    }, false);
-                    this._game.stage.canvas.addEventListener('touchend', function (event) {
-                        return _this.onTouchEnd(event);
-                    }, false);
-                    this._game.stage.canvas.addEventListener('touchenter', function (event) {
-                        return _this.onTouchEnter(event);
-                    }, false);
-                    this._game.stage.canvas.addEventListener('touchleave', function (event) {
-                        return _this.onTouchLeave(event);
-                    }, false);
-                    this._game.stage.canvas.addEventListener('touchcancel', function (event) {
-                        return _this.onTouchCancel(event);
-                    }, false);
+                    if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                        //If IE....
+                        if (Kiwi.DEVICE.pointerEnabled) {
+                            var pointerUp = 'pointerup', pointerDown = 'pointerdown', pointerEnter = 'pointerenter', pointerLeave = 'pointerleave', pointerCancel = 'pointercancel', pointerMove = 'pointermove';
+
+                            if ((window.navigator.msPointerEnabled)) {
+                                var pointerUp = 'MSPointerUp', pointerDown = 'MSPointerDown', pointerEnter = 'MSPointerEnter', pointerLeave = 'MSPointerLeave', pointerCancel = 'MSPointerCancel', pointerMove = 'MSPointerMove';
+                            }
+
+                            this._domElement.addEventListener(pointerUp, function (event) {
+                                return _this.onPointerStart(event);
+                            }, false);
+                            this._domElement.addEventListener(pointerDown, function (event) {
+                                return _this.onPointerEnd(event);
+                            }, false);
+                            this._domElement.addEventListener(pointerEnter, function (event) {
+                                return _this.onPointerEnter(event);
+                            }, false);
+                            this._domElement.addEventListener(pointerLeave, function (event) {
+                                return _this.onPointerLeave(event);
+                            }, false);
+                            this._domElement.addEventListener(pointerCancel, function (event) {
+                                return _this.onPointerCancel(event);
+                            }, false);
+                            this._domElement.addEventListener(pointerMove, function (event) {
+                                return _this.onPointerMove(event);
+                            }, false);
+                        } else {
+                            this._domElement.addEventListener('touchstart', function (event) {
+                                return _this.onTouchStart(event);
+                            }, false);
+                            this._domElement.addEventListener('touchmove', function (event) {
+                                return _this.onTouchMove(event);
+                            }, false);
+                            this._domElement.addEventListener('touchend', function (event) {
+                                return _this.onTouchEnd(event);
+                            }, false);
+                            this._domElement.addEventListener('touchenter', function (event) {
+                                return _this.onTouchEnter(event);
+                            }, false);
+                            this._domElement.addEventListener('touchleave', function (event) {
+                                return _this.onTouchLeave(event);
+                            }, false);
+                            this._domElement.addEventListener('touchcancel', function (event) {
+                                return _this.onTouchCancel(event);
+                            }, false);
+
+                            document.addEventListener('touchmove', function (event) {
+                                return _this.consumeTouchMove(event);
+                            }, false);
+                        }
+                    } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                        this._game.stage.canvas.addEventListener('touchstart', function (event) {
+                            return _this.onTouchStart(event);
+                        }, false);
+                        this._game.stage.canvas.addEventListener('touchmove', function (event) {
+                            return _this.onTouchMove(event);
+                        }, false);
+                        this._game.stage.canvas.addEventListener('touchend', function (event) {
+                            return _this.onTouchEnd(event);
+                        }, false);
+                        this._game.stage.canvas.addEventListener('touchenter', function (event) {
+                            return _this.onTouchEnter(event);
+                        }, false);
+                        this._game.stage.canvas.addEventListener('touchleave', function (event) {
+                            return _this.onTouchLeave(event);
+                        }, false);
+                        this._game.stage.canvas.addEventListener('touchcancel', function (event) {
+                            return _this.onTouchCancel(event);
+                        }, false);
+                    }
+                } else {
+                    this.touchEnabled = false;
                 }
             };
 
@@ -17297,43 +17368,123 @@ var Kiwi;
             });
 
             /**
+            *-------------------------
+            * Generic Methods for Dealing with Pointers
+            *-------------------------
+            */
+            Touch.prototype._registerFinger = function (event, id) {
+                for (var f = 0; f < this._maxPointers; f++) {
+                    if (this._fingers[f].active === false) {
+                        this._fingers[f].id = id;
+                        this._fingers[f].start(event);
+                        this.latestFinger = this._fingers[f];
+
+                        this.touchDown.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]);
+
+                        this.isDown = true;
+                        this.isUp = false;
+                        break;
+                    }
+                }
+            };
+
+            Touch.prototype._deregisterFinger = function (event, id) {
+                for (var f = 0; f < this._fingers.length; f++) {
+                    if (this._fingers[f].active && this._fingers[f].id === id) {
+                        this._fingers[f].stop(event);
+                        this.latestFinger = this._fingers[f];
+
+                        this.touchUp.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]);
+
+                        this.isDown = false;
+                        this.isUp = true;
+                        break;
+                    }
+                }
+
+                for (var i = 0; i < this._fingers.length; i++) {
+                    if (this._fingers[i].active) {
+                        this.isDown = true;
+                        this.isUp = false;
+                    }
+                }
+            };
+
+            Touch.prototype._cancelFinger = function (event, id) {
+                for (var f = 0; f < this._fingers.length; f++) {
+                    if (this._fingers[f].active && this._fingers[f].id === id) {
+                        this._fingers[f].stop(event);
+                        this.touchCancel.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]);
+                        break;
+                    }
+                }
+
+                for (var i = 0; i < this._fingers.length; i++) {
+                    if (this._fingers[i].active) {
+                        this.isDown = true;
+                        this.isUp = false;
+                    }
+                }
+            };
+
+            Touch.prototype._enterFinger = function (event, id) {
+                for (var f = 0; f < this._maxPointers; f++) {
+                    if (this._fingers[f].active === false) {
+                        this._fingers[f].id = id;
+                        this._fingers[f].start(event);
+                        break;
+                    }
+                }
+            };
+
+            Touch.prototype._leaveFinger = function (event, id) {
+                for (var f = 0; f < this._fingers.length; f++) {
+                    if (this._fingers[f].active && this._fingers[f].id === id) {
+                        this._fingers[f].leave(event);
+                        break;
+                    }
+                }
+            };
+
+            Touch.prototype._moveFinger = function (event, id) {
+                for (var f = 0; f < this._fingers.length; f++) {
+                    if (this._fingers[f].active && this._fingers[f].id === id) {
+                        this._fingers[f].move(event);
+                        this.latestFinger = this._fingers[f];
+                        break;
+                    }
+                }
+            };
+
+            /**
+            *-------------------
+            * Touch Events
+            *-------------------
+            **/
+            /**
             * This method runs when the a touch start event is fired by the browser and then assigns the event to a pointer that is currently not active.
+            * https://developer.mozilla.org/en-US/docs/DOM/TouchList
             * @method onTouchStart
             * @param {Any} event
             * @private
             */
             Touch.prototype.onTouchStart = function (event) {
                 for (var i = 0; i < event.changedTouches.length; i++) {
-                    for (var f = 0; f < this._maxPointers; f++) {
-                        if (this._fingers[f].active === false) {
-                            this._fingers[f].start(event.changedTouches[i]);
-                            this.latestFinger = this._fingers[f];
-
-                            this.touchDown.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]);
-
-                            this.isDown = true;
-                            this.isUp = false;
-                            break;
-                        }
-                    }
+                    //loop though the fingers to find the first one that is not active
+                    this._registerFinger(event.changedTouches[i], event.changedTouches[i].identifier);
                 }
             };
 
             /**
             * Doesn't appear to be supported by most browsers yet but if it was it would fire events when a touch is canceled.
+            * http://www.w3.org/TR/touch-events/#dfn-touchcancel
             * @method onTouchCancel
             * @param {Any} event
             * @private
             */
             Touch.prototype.onTouchCancel = function (event) {
                 for (var i = 0; i < event.changedTouches.length; i++) {
-                    for (var f = 0; f < this._fingers.length; f++) {
-                        if (this._fingers[f].id === event.changedTouches[i].identifier) {
-                            this._fingers[f].stop(event.changedTouches[i]);
-                            this.touchCancel.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]);
-                            break;
-                        }
-                    }
+                    this._cancelFinger(event.changedTouches[i], event.changedTouches[i].identifier);
                 }
             };
 
@@ -17345,12 +17496,7 @@ var Kiwi;
             */
             Touch.prototype.onTouchEnter = function (event) {
                 for (var i = 0; i < event.changedTouches.length; i++) {
-                    for (var f = 0; f < this._maxPointers; f++) {
-                        if (this._fingers[f].active === false) {
-                            this._fingers[f].start(event.changedTouches[i]);
-                            break;
-                        }
-                    }
+                    this._enterFinger(event.changedTouches[i], event.changedTouches[i].identifier);
                 }
             };
 
@@ -17363,12 +17509,7 @@ var Kiwi;
             */
             Touch.prototype.onTouchLeave = function (event) {
                 for (var i = 0; i < event.changedTouches.length; i++) {
-                    for (var f = 0; f < this._fingers.length; f++) {
-                        if (this._fingers[f].id === event.changedTouches[i].identifier) {
-                            this._fingers[f].leave(event.changedTouches[i]);
-                            break;
-                        }
-                    }
+                    this._leaveFinger(event.changedTouches[i], event.changedTouches[i].identifier);
                 }
             };
 
@@ -17380,43 +17521,79 @@ var Kiwi;
             */
             Touch.prototype.onTouchMove = function (event) {
                 for (var i = 0; i < event.changedTouches.length; i++) {
-                    for (var f = 0; f < this._fingers.length; f++) {
-                        if (this._fingers[f].id === event.changedTouches[i].identifier) {
-                            this._fingers[f].move(event.changedTouches[i]);
-                            this.latestFinger = this._fingers[f];
-                            break;
-                        }
-                    }
+                    this._moveFinger(event.changedTouches[i], event.changedTouches[i].identifier);
                 }
             };
 
             /**
             * When a touch event gets released.
+            * https://developer.mozilla.org/en-US/docs/DOM/TouchList
             * @method onTouchEnd
             * @param {Any} event
             * @private
             */
             Touch.prototype.onTouchEnd = function (event) {
                 for (var i = 0; i < event.changedTouches.length; i++) {
-                    for (var f = 0; f < this._fingers.length; f++) {
-                        if (this._fingers[f].id === event.changedTouches[i].identifier) {
-                            this._fingers[f].stop(event.changedTouches[i]);
-                            this.latestFinger = this._fingers[f];
-
-                            this.touchUp.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]);
-
-                            this.isDown = false;
-                            this.isUp = true;
-                            break;
-                        }
-                    }
+                    this._deregisterFinger(event.changedTouches[i], event.changedTouches[i].identifier);
                 }
+            };
 
-                for (var i = 0; i < this._fingers.length; i++) {
-                    if (this._fingers[i].active) {
-                        this.isDown = true;
-                        this.isUp = false;
-                    }
+            /**
+            *-------------------
+            * Pointer Events
+            *-------------------
+            **/
+            /**
+            *
+            */
+            Touch.prototype.onPointerStart = function (event) {
+                if (event.type !== 'mouse') {
+                    this._registerFinger(event, event.pointerId);
+                }
+            };
+
+            /**
+            *
+            */
+            Touch.prototype.onPointerCancel = function (event) {
+                if (event.type !== 'mouse') {
+                    this._cancelFinger(event, event.pointerId);
+                }
+            };
+
+            /**
+            *
+            */
+            Touch.prototype.onPointerEnter = function (event) {
+                if (event.type !== 'mouse') {
+                    this._enterFinger(event, event.pointerId);
+                }
+            };
+
+            /**
+            *
+            */
+            Touch.prototype.onPointerLeave = function (event) {
+                if (event.type !== 'mouse') {
+                    this._leaveFinger(event, event.pointerId);
+                }
+            };
+
+            /**
+            *
+            */
+            Touch.prototype.onPointerMove = function (event) {
+                if (event.type !== 'mouse') {
+                    this._moveFinger(event, event.pointerId);
+                }
+            };
+
+            /**
+            *
+            */
+            Touch.prototype.onPointerEnd = function (event) {
+                if (event.type !== 'mouse') {
+                    this._deregisterFinger(event, event.pointerId);
                 }
             };
 
@@ -17426,7 +17603,7 @@ var Kiwi;
             * @public
             */
             Touch.prototype.update = function () {
-                if (this.isDown) {
+                if (this.touchEnabled && this.isDown) {
                     for (var i = 0; i < this._fingers.length; i++) {
                         if (this._fingers[i].active) {
                             this._fingers[i].update();
@@ -17442,44 +17619,46 @@ var Kiwi;
             */
             Touch.prototype.stop = function () {
                 var _this = this;
-                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    this._domElement.removeEventListener('touchstart', function (event) {
-                        return _this.onTouchStart(event);
-                    }, false);
-                    this._domElement.removeEventListener('touchmove', function (event) {
-                        return _this.onTouchMove(event);
-                    }, false);
-                    this._domElement.removeEventListener('touchend', function (event) {
-                        return _this.onTouchEnd(event);
-                    }, false);
-                    this._domElement.removeEventListener('touchenter', function (event) {
-                        return _this.onTouchEnter(event);
-                    }, false);
-                    this._domElement.removeEventListener('touchleave', function (event) {
-                        return _this.onTouchLeave(event);
-                    }, false);
-                    this._domElement.removeEventListener('touchcancel', function (event) {
-                        return _this.onTouchCancel(event);
-                    }, false);
-                } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-                    this._game.stage.canvas.removeEventListener('touchstart', function (event) {
-                        return _this.onTouchStart(event);
-                    }, false);
-                    this._game.stage.canvas.removeEventListener('touchmove', function (event) {
-                        return _this.onTouchMove(event);
-                    }, false);
-                    this._game.stage.canvas.removeEventListener('touchend', function (event) {
-                        return _this.onTouchEnd(event);
-                    }, false);
-                    this._game.stage.canvas.removeEventListener('touchenter', function (event) {
-                        return _this.onTouchEnter(event);
-                    }, false);
-                    this._game.stage.canvas.removeEventListener('touchleave', function (event) {
-                        return _this.onTouchLeave(event);
-                    }, false);
-                    this._game.stage.canvas.removeEventListener('touchcancel', function (event) {
-                        return _this.onTouchCancel(event);
-                    }, false);
+                if (this.touchEnabled) {
+                    if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                        this._domElement.removeEventListener('touchstart', function (event) {
+                            return _this.onTouchStart(event);
+                        }, false);
+                        this._domElement.removeEventListener('touchmove', function (event) {
+                            return _this.onTouchMove(event);
+                        }, false);
+                        this._domElement.removeEventListener('touchend', function (event) {
+                            return _this.onTouchEnd(event);
+                        }, false);
+                        this._domElement.removeEventListener('touchenter', function (event) {
+                            return _this.onTouchEnter(event);
+                        }, false);
+                        this._domElement.removeEventListener('touchleave', function (event) {
+                            return _this.onTouchLeave(event);
+                        }, false);
+                        this._domElement.removeEventListener('touchcancel', function (event) {
+                            return _this.onTouchCancel(event);
+                        }, false);
+                    } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                        this._game.stage.canvas.removeEventListener('touchstart', function (event) {
+                            return _this.onTouchStart(event);
+                        }, false);
+                        this._game.stage.canvas.removeEventListener('touchmove', function (event) {
+                            return _this.onTouchMove(event);
+                        }, false);
+                        this._game.stage.canvas.removeEventListener('touchend', function (event) {
+                            return _this.onTouchEnd(event);
+                        }, false);
+                        this._game.stage.canvas.removeEventListener('touchenter', function (event) {
+                            return _this.onTouchEnter(event);
+                        }, false);
+                        this._game.stage.canvas.removeEventListener('touchleave', function (event) {
+                            return _this.onTouchLeave(event);
+                        }, false);
+                        this._game.stage.canvas.removeEventListener('touchcancel', function (event) {
+                            return _this.onTouchCancel(event);
+                        }, false);
+                    }
                 }
             };
 
@@ -17954,7 +18133,6 @@ var Kiwi;
             * @public
             */
             Finger.prototype.start = function (event) {
-                this.id = event.identifier;
                 this.active = true;
                 _super.prototype.start.call(this, event);
             };
