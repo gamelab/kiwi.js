@@ -17372,6 +17372,14 @@ var Kiwi;
             * Generic Methods for Dealing with Pointers
             *-------------------------
             */
+            /**
+            * This method is in charge of registering a "finger"  (either from a Touch/Pointer start method) and assigning it a Finger,
+            * You have to pass this method a id which is used to idenfied when released/cancelled.
+            * @method _registerFinger
+            * @param event {Any}
+            * @param id {Number}
+            * @private
+            */
             Touch.prototype._registerFinger = function (event, id) {
                 for (var f = 0; f < this._maxPointers; f++) {
                     if (this._fingers[f].active === false) {
@@ -17388,6 +17396,14 @@ var Kiwi;
                 }
             };
 
+            /**
+            * This method is in charge of deregistering (removing) a "finger" when it has been released,
+            * You have to pass this method a id which is used to identfy the finger to deregister.
+            * @method _deregisterFinger
+            * @param event {Any}
+            * @param id {Number}
+            * @private
+            */
             Touch.prototype._deregisterFinger = function (event, id) {
                 for (var f = 0; f < this._fingers.length; f++) {
                     if (this._fingers[f].active && this._fingers[f].id === id) {
@@ -17410,6 +17426,14 @@ var Kiwi;
                 }
             };
 
+            /**
+            * This method is in charge of cancelling (removing) a "finger".
+            * You have to pass this method a id which is used to idenfied the finger that was cancelled.
+            * @method _cancelFinger
+            * @param event {Any}
+            * @param id {Number}
+            * @private
+            */
             Touch.prototype._cancelFinger = function (event, id) {
                 for (var f = 0; f < this._fingers.length; f++) {
                     if (this._fingers[f].active && this._fingers[f].id === id) {
@@ -17427,16 +17451,35 @@ var Kiwi;
                 }
             };
 
+            /**
+            * This method is in charge of creating and assigning (removing) a "finger" when it has entered the dom element.
+            * You have to pass this method a id which is used to idenfied the finger that was cancelled.
+            * @method _enterFinger
+            * @param event {Any}
+            * @param id {Number}
+            * @private
+            */
             Touch.prototype._enterFinger = function (event, id) {
                 for (var f = 0; f < this._maxPointers; f++) {
                     if (this._fingers[f].active === false) {
                         this._fingers[f].id = id;
                         this._fingers[f].start(event);
+                        this.latestFinger = this._fingers[f];
+                        this.isDown = true;
+                        this.isUp = false;
                         break;
                     }
                 }
             };
 
+            /**
+            * This method is in charge of removing an assigned "finger" when it has left the DOM Elemetn.
+            * You have to pass this method a id which is used to idenfied the finger that left.
+            * @method _leaveFinger
+            * @param event {Any}
+            * @param id {Number}
+            * @private
+            */
             Touch.prototype._leaveFinger = function (event, id) {
                 for (var f = 0; f < this._fingers.length; f++) {
                     if (this._fingers[f].active && this._fingers[f].id === id) {
@@ -17446,6 +17489,14 @@ var Kiwi;
                 }
             };
 
+            /**
+            * This method is in charge of updating the coordinates of a "finger" when it has moved..
+            * You have to pass this method a id which is used to idenfied the finger that moved.
+            * @method _moveFinger
+            * @param event {Any}
+            * @param id {Number}
+            * @private
+            */
             Touch.prototype._moveFinger = function (event, id) {
                 for (var f = 0; f < this._fingers.length; f++) {
                     if (this._fingers[f].active && this._fingers[f].id === id) {
@@ -17470,7 +17521,6 @@ var Kiwi;
             */
             Touch.prototype.onTouchStart = function (event) {
                 for (var i = 0; i < event.changedTouches.length; i++) {
-                    //loop though the fingers to find the first one that is not active
                     this._registerFinger(event.changedTouches[i], event.changedTouches[i].identifier);
                 }
             };
@@ -17544,59 +17594,81 @@ var Kiwi;
             *-------------------
             **/
             /**
-            *
+            * Event that is fired when a pointer is initially pressed.
+            * @method onPointerStart
+            * @param event {PointerEvent}
+            * @private
             */
             Touch.prototype.onPointerStart = function (event) {
-                if (event.type !== 'mouse') {
+                if (event.type === 'touch') {
                     this._registerFinger(event, event.pointerId);
                 }
             };
 
             /**
-            *
+            * Event that is fired by a pointer event listener upon a pointer canceling for some reason.
+            * @method onPointerCancel
+            * @param event {PointerEvent}
+            * @private
             */
             Touch.prototype.onPointerCancel = function (event) {
-                if (event.type !== 'mouse') {
+                if (event.type === 'touch') {
                     this._cancelFinger(event, event.pointerId);
                 }
             };
 
             /**
-            *
+            * Event that is fired by a pointer event listener upon a pointer entering the DOM Element the event listener is attached to.
+            * @method onPointerEnter
+            * @param event {PointerEvent}
+            * @private
             */
             Touch.prototype.onPointerEnter = function (event) {
-                if (event.type !== 'mouse') {
+                if (event.type !== 'touch') {
                     this._enterFinger(event, event.pointerId);
                 }
             };
 
             /**
-            *
+            * Event that is fired by a pointer event listener upon a pointer being leaving the DOM Element the event listener is attached to.
+            * @method onPointerLeave
+            * @param event {PointerEvent}
+            * @private
             */
             Touch.prototype.onPointerLeave = function (event) {
-                if (event.type !== 'mouse') {
+                if (event.type !== 'touch') {
                     this._leaveFinger(event, event.pointerId);
                 }
             };
 
             /**
-            *
+            * Event that is fired by a pointer event listener upon a pointer moving.
+            * @method onPointerMove
+            * @param event {PointerEvent}
             */
             Touch.prototype.onPointerMove = function (event) {
-                if (event.type !== 'mouse') {
+                if (event.type !== 'touch') {
                     this._moveFinger(event, event.pointerId);
                 }
             };
 
             /**
-            *
+            * Event that is fired by a pointer event listener upon a pointer being released.
+            * @method onPointerEnd
+            * @param event {PointerEvent}
+            * @private
             */
             Touch.prototype.onPointerEnd = function (event) {
-                if (event.type !== 'mouse') {
+                if (event.type !== 'touch') {
                     this._deregisterFinger(event, event.pointerId);
                 }
             };
 
+            /**
+            *-----------------
+            * Normal Methods
+            *-----------------
+            **/
             /**
             * The update loop fro the touch manager.
             * @method update

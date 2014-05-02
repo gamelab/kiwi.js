@@ -662,7 +662,7 @@ module Kiwi.Components {
         */
         private _evaluateMousePointer(pointer:Kiwi.Input.MouseCursor) {
 
-            if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.worldHitbox).result) {
+            if (Kiwi.Geom.Intersect.pointToRectangle(pointer.point, this._box.worldHitbox).result) {
                 
                 if (this._dragEnabled && this.isDragging === false) {
                     this._distance.x = pointer.x - this._box.worldHitbox.left;
