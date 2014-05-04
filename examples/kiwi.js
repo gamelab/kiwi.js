@@ -4162,16 +4162,19 @@ var Kiwi;
         /**
         * Apply this cameras inverted matrix to a an object with x and y properties representing a point and return the transformed point.
         * Useful for when calculating if coordinates with the mouse.
+        * Note: This method clones the point you pass, so that is doesn't "reset" any properties you set.
         * @method transformPoint
         * @param point {Point}
         * @return Point
         * @public
         */
         Camera.prototype.transformPoint = function (point) {
+            var np = point.clone();
+
             var m = this.transform.getConcatenatedMatrix();
             m.invert();
 
-            return m.transformPoint(point);
+            return m.transformPoint(np);
         };
 
         /**
@@ -7419,6 +7422,10 @@ var Kiwi;
                 this._isDragging = null;
                 this._justEntered = false;
                 this._tempDragDisabled = false;
+
+                this._tempPoint = new Kiwi.Geom.Point();
+                this._tempCircle = new Kiwi.Geom.Circle(0, 0, 0);
+
                 this.enabled = enabled;
             }
             /**
@@ -7710,7 +7717,7 @@ var Kiwi;
                     return;
                 }
 
-                //reset the temporary properties
+                // Reset the temporary properties
                 this._nowDown = null;
                 this._nowUp = null;
                 this._nowEntered = null;
@@ -7726,12 +7733,14 @@ var Kiwi;
 
                 //If the entity is dragging.
                 if (this.isDragging) {
+                    this._tempPoint = this.game.cameras.defaultCamera.transformPoint(this._isDragging.point);
+
                     if (this._dragSnapToCenter === false) {
-                        this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.hitboxOffset.x - this._distance.x), this._dragDistance);
-                        this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.hitboxOffset.y - this._distance.y), this._dragDistance);
+                        this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._tempPoint.x - this._box.hitboxOffset.x - this._distance.x), this._dragDistance);
+                        this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._tempPoint.y - this._box.hitboxOffset.y - this._distance.y), this._dragDistance);
                     } else {
-                        this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.hitboxOffset.x - this._box.worldHitbox.width / 2), this._dragDistance);
-                        this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.hitboxOffset.y - this._box.worldHitbox.height / 2), this._dragDistance);
+                        this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._tempPoint.x - this._box.hitboxOffset.x - this._box.worldHitbox.width / 2), this._dragDistance);
+                        this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._tempPoint.y - this._box.hitboxOffset.y - this._box.worldHitbox.height / 2), this._dragDistance);
                     }
                 }
             };
@@ -7803,7 +7812,10 @@ var Kiwi;
             Input.prototype._evaluateTouchPointer = function (pointer) {
                 //if nothing isdown or what is down is the current pointer
                 if (this.isDown === false || this._isDown.id === pointer.id) {
-                    if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.worldHitbox).result) {
+                    this._tempPoint = this.game.cameras.defaultCamera.transformPoint(pointer.point);
+                    this._tempCircle.setTo(this._tempPoint.x, this._tempPoint.y, pointer.circle.diameter);
+
+                    if (Kiwi.Geom.Intersect.circleToRectangle(this._tempCircle, this._box.worldHitbox).result) {
                         if (this.isDown === true && this._isDown.id === pointer.id || this.isDown === false && pointer.duration > 1) {
                             this._nowEntered = pointer;
                         }
@@ -7813,8 +7825,8 @@ var Kiwi;
                         }
 
                         if (this._dragEnabled && this.isDragging == false && this.isDown == true) {
-                            this._distance.x = pointer.x - this._box.worldHitbox.left;
-                            this._distance.y = pointer.y - this._box.worldHitbox.top;
+                            this._distance.x = this._tempPoint.x - this._box.worldHitbox.left;
+                            this._distance.y = this._tempPoint.y - this._box.worldHitbox.top;
                             this._nowDragging = pointer;
                         }
                     } else {
@@ -7858,7 +7870,7 @@ var Kiwi;
                 if (this.isDown === true && this._nowUp !== null && this._isDown.id === this._nowUp.id) {
                     this._onUp.dispatch(this.owner, this._nowUp);
 
-                    //dispatch drag event
+                    // Dispatch drag event
                     if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
                         this._isDragging = null;
                         this._onDragStopped.dispatch(this.owner, this._nowUp);
@@ -7876,10 +7888,12 @@ var Kiwi;
             * @private
             */
             Input.prototype._evaluateMousePointer = function (pointer) {
-                if (Kiwi.Geom.Intersect.pointToRectangle(pointer.point, this._box.worldHitbox).result) {
+                this._tempPoint = this.game.cameras.defaultCamera.transformPoint(pointer.point);
+
+                if (Kiwi.Geom.Intersect.pointToRectangle(this._tempPoint, this._box.worldHitbox).result) {
                     if (this._dragEnabled && this.isDragging === false) {
-                        this._distance.x = pointer.x - this._box.worldHitbox.left;
-                        this._distance.y = pointer.y - this._box.worldHitbox.top;
+                        this._distance.x = this._tempPoint.x - this._box.worldHitbox.left;
+                        this._distance.y = this._tempPoint.y - this._box.worldHitbox.top;
                     }
 
                     //  Has it just moved inside?

@@ -50,6 +50,10 @@ module Kiwi.Components {
             this._isDragging = null;
             this._justEntered = false;
             this._tempDragDisabled = false;
+
+            this._tempPoint = new Kiwi.Geom.Point();
+            this._tempCircle = new Kiwi.Geom.Circle(0, 0, 0);
+
             this.enabled = enabled;
         }
 
@@ -118,7 +122,24 @@ module Kiwi.Components {
         * @private
         */
         private _onDragStopped: Kiwi.Signal;
+
+        /**
+        * A Temporary Point object which is used whilst checking to see if there is any overlap.
+        * @property _tempPoint
+        * @type Point
+        * @private
+        */
+        private _tempPoint: Kiwi.Geom.Point;
         
+        /**
+        * A Temporary Circle object which is used whilst checking to see if there is any overlap.
+        * @property _tempCircle
+        * @type Point
+        * @private
+        */
+        private _tempCircle: Kiwi.Geom.Circle;
+
+
         /**
         * Returns the onEntered Signal, that fires events when a pointer enters the hitbox of a entity.
         * Note: Accessing this signal enables the input.
@@ -481,7 +502,7 @@ module Kiwi.Components {
                 return;
             }
             
-            //reset the temporary properties
+            // Reset the temporary properties
             this._nowDown = null;
             this._nowUp = null;
             this._nowEntered = null;
@@ -497,12 +518,15 @@ module Kiwi.Components {
             
             //If the entity is dragging.
             if (this.isDragging) { 
+
+                this._tempPoint = this.game.cameras.defaultCamera.transformPoint(this._isDragging.point);
+
                 if (this._dragSnapToCenter === false) {
-                    this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.hitboxOffset.x - this._distance.x), this._dragDistance);
-                    this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.hitboxOffset.y - this._distance.y), this._dragDistance);
+                    this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._tempPoint.x - this._box.hitboxOffset.x - this._distance.x), this._dragDistance);
+                    this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._tempPoint.y - this._box.hitboxOffset.y - this._distance.y), this._dragDistance);
                 } else {
-                    this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.hitboxOffset.x - this._box.worldHitbox.width / 2), this._dragDistance);
-                    this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.hitboxOffset.y - this._box.worldHitbox.height / 2), this._dragDistance);
+                    this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._tempPoint.x - this._box.hitboxOffset.x - this._box.worldHitbox.width / 2), this._dragDistance);
+                    this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._tempPoint.y - this._box.hitboxOffset.y - this._box.worldHitbox.height / 2), this._dragDistance);
                 }
             }
         }
@@ -584,7 +608,10 @@ module Kiwi.Components {
             //if nothing isdown or what is down is the current pointer
             if (this.isDown === false || this._isDown.id === pointer.id) {
 
-                if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.worldHitbox).result) {
+                this._tempPoint = this.game.cameras.defaultCamera.transformPoint( pointer.point );
+                this._tempCircle.setTo(this._tempPoint.x, this._tempPoint.y, pointer.circle.diameter);
+
+                if (Kiwi.Geom.Intersect.circleToRectangle(this._tempCircle, this._box.worldHitbox).result) {
                     if (this.isDown === true && this._isDown.id === pointer.id || this.isDown === false && pointer.duration > 1) {
                         this._nowEntered = pointer;
                     }
@@ -594,8 +621,8 @@ module Kiwi.Components {
                     }
 
                     if (this._dragEnabled && this.isDragging == false && this.isDown == true) {
-                        this._distance.x = pointer.x - this._box.worldHitbox.left;
-                        this._distance.y = pointer.y - this._box.worldHitbox.top;
+                        this._distance.x = this._tempPoint.x - this._box.worldHitbox.left;
+                        this._distance.y = this._tempPoint.y - this._box.worldHitbox.top;
                         this._nowDragging = pointer; 
                     }
                 } else {
@@ -642,7 +669,7 @@ module Kiwi.Components {
             if (this.isDown === true && this._nowUp !== null && this._isDown.id === this._nowUp.id) {
                 this._onUp.dispatch(this.owner, this._nowUp);
                 
-                //dispatch drag event
+                // Dispatch drag event
                 if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
                     this._isDragging = null;
                     this._onDragStopped.dispatch(this.owner, this._nowUp);
@@ -662,11 +689,13 @@ module Kiwi.Components {
         */
         private _evaluateMousePointer(pointer:Kiwi.Input.MouseCursor) {
 
-            if (Kiwi.Geom.Intersect.pointToRectangle(pointer.point, this._box.worldHitbox).result) {
+            this._tempPoint = this.game.cameras.defaultCamera.transformPoint(pointer.point);
+
+            if (Kiwi.Geom.Intersect.pointToRectangle(this._tempPoint, this._box.worldHitbox).result) {
                 
                 if (this._dragEnabled && this.isDragging === false) {
-                    this._distance.x = pointer.x - this._box.worldHitbox.left;
-                    this._distance.y = pointer.y - this._box.worldHitbox.top;
+                    this._distance.x = this._tempPoint.x - this._box.worldHitbox.left;
+                    this._distance.y = this._tempPoint.y - this._box.worldHitbox.top;
                 }
 
                 //  Has it just moved inside?

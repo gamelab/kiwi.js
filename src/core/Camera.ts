@@ -166,6 +166,7 @@ module Kiwi {
         /**
 	    * Apply this cameras inverted matrix to a an object with x and y properties representing a point and return the transformed point.
         * Useful for when calculating if coordinates with the mouse.
+        * Note: This method clones the point you pass, so that is doesn't "reset" any properties you set. 
         * @method transformPoint
         * @param point {Point} 
         * @return Point
@@ -173,11 +174,12 @@ module Kiwi {
         */
         public transformPoint(point: Kiwi.Geom.Point): Kiwi.Geom.Point {
 
+            var np = point.clone();
+
             var m = this.transform.getConcatenatedMatrix();
             m.invert();
 
-            return m.transformPoint(point);
-
+            return m.transformPoint(np);
         }
 
         /**
