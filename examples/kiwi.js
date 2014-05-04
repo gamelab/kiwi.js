@@ -11846,7 +11846,9 @@ var Kiwi;
             TextureAtlas.prototype.readJSON = function (atlasJSON) {
                 //populate from json
                 var obj = JSON.parse(atlasJSON);
-                this.name = obj.name;
+
+                if (obj.name !== undefined)
+                    this.name = obj.name;
 
                 for (var i = 0; i < obj.cells.length; i++) {
                     this.cells.push(obj.cells[i]);
