@@ -645,7 +645,7 @@ module Kiwi.Input {
         * @private
         */
         private onPointerEnter(event: MSPointerEvent) {
-            if (event.type !== 'touch') {
+            if (event.type === 'touch') {
                 this._enterFinger(event, event.pointerId);
             }
         }
@@ -657,7 +657,7 @@ module Kiwi.Input {
         * @private
         */
         private onPointerLeave(event: MSPointerEvent) {
-            if (event.type !== 'touch') {
+            if (event.type === 'touch') {
                 this._leaveFinger(event, event.pointerId);
             }
         }
@@ -668,7 +668,7 @@ module Kiwi.Input {
         * @param event {PointerEvent}
         */
         private onPointerMove(event: MSPointerEvent) {
-            if (event.type !== 'touch') {
+            if (event.type === 'touch') {
                 this._moveFinger(event, event.pointerId);
             }
         }
@@ -680,7 +680,7 @@ module Kiwi.Input {
         * @private
         */
         private onPointerEnd(event: MSPointerEvent) {
-            if (event.type !== 'touch') {
+            if (event.type === 'touch') {
                 this._deregisterFinger(event, event.pointerId);
             }
         }

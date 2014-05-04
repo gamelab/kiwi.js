@@ -7876,7 +7876,7 @@ var Kiwi;
             * @private
             */
             Input.prototype._evaluateMousePointer = function (pointer) {
-                if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.worldHitbox).result) {
+                if (Kiwi.Geom.Intersect.pointToRectangle(pointer.point, this._box.worldHitbox).result) {
                     if (this._dragEnabled && this.isDragging === false) {
                         this._distance.x = pointer.x - this._box.worldHitbox.left;
                         this._distance.y = pointer.y - this._box.worldHitbox.top;
@@ -17316,6 +17316,7 @@ var Kiwi;
             Object.defineProperty(Touch.prototype, "x", {
                 /**
                 * Gets the position of the latest finger on the x axis.
+                * @property x
                 * @type number
                 * @public
                 */
@@ -17329,6 +17330,7 @@ var Kiwi;
             Object.defineProperty(Touch.prototype, "y", {
                 /**
                 * Gets the position of the latest finger on the y axis.
+                * @property y
                 * @type number
                 * @public
                 */
@@ -17624,7 +17626,7 @@ var Kiwi;
             * @private
             */
             Touch.prototype.onPointerEnter = function (event) {
-                if (event.type !== 'touch') {
+                if (event.type === 'touch') {
                     this._enterFinger(event, event.pointerId);
                 }
             };
@@ -17636,7 +17638,7 @@ var Kiwi;
             * @private
             */
             Touch.prototype.onPointerLeave = function (event) {
-                if (event.type !== 'touch') {
+                if (event.type === 'touch') {
                     this._leaveFinger(event, event.pointerId);
                 }
             };
@@ -17647,7 +17649,7 @@ var Kiwi;
             * @param event {PointerEvent}
             */
             Touch.prototype.onPointerMove = function (event) {
-                if (event.type !== 'touch') {
+                if (event.type === 'touch') {
                     this._moveFinger(event, event.pointerId);
                 }
             };
@@ -17659,7 +17661,7 @@ var Kiwi;
             * @private
             */
             Touch.prototype.onPointerEnd = function (event) {
-                if (event.type !== 'touch') {
+                if (event.type === 'touch') {
                     this._deregisterFinger(event, event.pointerId);
                 }
             };
