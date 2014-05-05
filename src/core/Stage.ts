@@ -42,6 +42,7 @@ module Kiwi {
             this._scaleType = scaleType;
 
             this.onResize = new Kiwi.Signal();
+            this.onWindowResize = new Kiwi.Signal();
         }
 
         /**
@@ -250,14 +251,23 @@ module Kiwi {
             return this._height;
         }
        
-        /*
-        * A kiwi signal that dispatches an event when the stage gets resized.
+        /**
+        * A Signal that dispatches an event when the stage gets resized.
         * @property onResize
         * @type Signal
         * @public
         */
         public onResize: Kiwi.Signal;
 
+
+        /**
+        * A Signal which dispatches events when the window is resized. 
+        * You can use to detect if the screen is now in a 'landscape' or 'portrait' view on Mobile/Cocoon devices. 
+        * @property onWindowResize
+        * @type Signal
+        * @public
+        */
+        public onWindowResize: Kiwi.Signal;
 
         /**
         * Calculates and returns the amount that the container has been scale by.  
@@ -471,7 +481,7 @@ module Kiwi {
                 this._x = this.offset.x;
                 this._y = this.offset.y;
 
-                window.addEventListener("resize", (event: UIEvent) => this._calculateContainerScale(), true);
+                window.addEventListener("resize", (event: UIEvent) => this._windowResized(event), true);
             }
 
             
@@ -484,12 +494,24 @@ module Kiwi {
                 this._calculateContainerScale();
             }
         }
-
+        
 
         /**
         * Method that is fired when the window is resized. 
-        * Used to calculate the new offset and see what the scale of the stage currently is.
         * @method _windowResized
+        * @param event {UIEvent}
+        * @private
+        */
+        private _windowResized(event:UIEvent) {
+            this._calculateContainerScale();
+
+            //Dispatch window resize event
+            this.onWindowResize.dispatch();
+        }
+
+        /**
+        * Used to calculate the new offset and see what the scale of the stage currently is.
+        * @method _calculateContainerScale
         * @param event {UIEvent}
         * @private
         */

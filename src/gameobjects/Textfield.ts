@@ -360,7 +360,7 @@ module Kiwi.GameObjects {
                         x = 0;
                         break;
                     case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                        x = this._canvas.width / 2;
+                        x = this._canvas.width * 0.5;
                         break;
                     case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
                         x = this._canvas.width;
@@ -405,7 +405,7 @@ module Kiwi.GameObjects {
                     x = 0;
                     break;
                 case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                    x = -(this._canvas.width / 2);
+                    x = -(this._canvas.width * 0.5);
                     break;
                 case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
                     x = -(this._canvas.width);

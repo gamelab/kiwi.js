@@ -532,6 +532,7 @@ var Kiwi;
             this._scaleType = scaleType;
 
             this.onResize = new Kiwi.Signal();
+            this.onWindowResize = new Kiwi.Signal();
         }
         /**
         * Returns the type of this object.
@@ -780,7 +781,7 @@ var Kiwi;
                 this._y = this.offset.y;
 
                 window.addEventListener("resize", function (event) {
-                    return _this._calculateContainerScale();
+                    return _this._windowResized(event);
                 }, true);
             }
 
@@ -795,8 +796,20 @@ var Kiwi;
 
         /**
         * Method that is fired when the window is resized.
-        * Used to calculate the new offset and see what the scale of the stage currently is.
         * @method _windowResized
+        * @param event {UIEvent}
+        * @private
+        */
+        Stage.prototype._windowResized = function (event) {
+            this._calculateContainerScale();
+
+            //Dispatch window resize event
+            this.onWindowResize.dispatch();
+        };
+
+        /**
+        * Used to calculate the new offset and see what the scale of the stage currently is.
+        * @method _calculateContainerScale
         * @param event {UIEvent}
         * @private
         */
