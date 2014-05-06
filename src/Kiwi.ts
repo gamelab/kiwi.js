@@ -128,7 +128,7 @@
 /// <reference path="utils/GameMath.ts" />
 /// <reference path="utils/RandomDataGenerator.ts" />
 /// <reference path="utils/RequestAnimationFrame.ts" />
-
+/// <reference path="utils/Version.ts" />
 /// <reference path="WebGL.d.ts"/>
 
 /**
@@ -145,7 +145,6 @@ module Kiwi {
     * @property VERSION
     * @static
     * @type string
-    * @default '1.0'
     * @public
     */
     export var VERSION: string = "0.7.0";

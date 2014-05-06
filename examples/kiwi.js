@@ -146,7 +146,7 @@ var Kiwi;
             * @private
             */
             this._delta = 0;
-            console.log(name + ' is being created.');
+            console.log(name + ' is booting, using Kiwi.js version ' + Kiwi.VERSION);
 
             //Have they specified debugging
             if (options.debug !== 'undefined' && typeof options.debug === 'number') {
@@ -1388,6 +1388,24 @@ var Kiwi;
                         console.log("Plugin '" + plugin + "' appears to be valid.");
                         console.log("Name:" + Kiwi.Plugins[plugin].name);
                         console.log("Version:" + Kiwi.Plugins[plugin].version);
+
+                        //test for kiwi version compatiblity
+                        if (typeof Kiwi.Plugins[plugin].minimumKiwiVersion !== "undefined") {
+                            console.log(plugin + " requires minimum Kiwi version " + Kiwi.Plugins[plugin].minimumKiwiVersion);
+                            var parsedKiwiVersion = Kiwi.Utils.Version.parseVersion(Kiwi.VERSION);
+                            var parsedPluginMinVersion = Kiwi.Utils.Version.parseVersion(Kiwi.Plugins[plugin].minimumKiwiVersion);
+                            if (parsedKiwiVersion.majorVersion > parsedPluginMinVersion.majorVersion) {
+                                console.warn("This major version of Kiwi is greater than that required by '" + plugin + "'. It is unknown whether this plugin will work with this version of Kiwi");
+                            } else {
+                                if (Kiwi.Utils.Version.greaterOrEqual(Kiwi.VERSION, Kiwi.Plugins[plugin].minimumKiwiVersion)) {
+                                    console.log("Kiwi version meets minimum version requirements for '" + plugin + "'.");
+                                } else {
+                                    console.warn("Kiwi version (" + Kiwi.VERSION + ") does not meet minimum version requirements for the plugin (" + Kiwi.Plugins[plugin].minimumKiwiVersion + ").");
+                                }
+                            }
+                        } else {
+                            console.warn("'" + plugin + "' is missing the minimumKiwiVersion property. It is unknown whether '" + plugin + "' will work with this version of Kiwi");
+                        }
                     } else {
                         console.log("Plugin '" + plugin + "' appears to be invalid. No property with that name exists on the Kiwi.Plugins object or the Plugin is not registered. Check that the js file containing the plugin has been included. This plugin will be ignored");
                     }
@@ -1396,6 +1414,41 @@ var Kiwi;
                 }
             }
             this._plugins = validPlugins;
+
+            for (var i = 0; i < this._plugins.length; i++) {
+                //test for plugin dependencies on other plugins
+                var pluginName = this._plugins[i];
+                var plugin = Kiwi.Plugins[pluginName];
+
+                if (typeof plugin.pluginDependencies !== "undefined") {
+                    if (plugin.pluginDependencies.length === 0) {
+                        console.log("'" + pluginName + "' does not depend on any other plugins.");
+                    } else {
+                        console.log("'" + pluginName + "' depends on the following plugins:");
+                        for (var j = 0; j < plugin.pluginDependencies.length; j++) {
+                            console.log(plugin.pluginDependencies[j].name, plugin.pluginDependencies[j].minimumVersion);
+                            if (!this.validMinimumPluginVersionExists(plugin.pluginDependencies[j].name, plugin.pluginDependencies[j].minimumVersion)) {
+                                console.warn("'" + plugin.pluginDependencies[j].name + " either doesn't exist or does not meet minimum version requirement ( " + plugin.pluginDependencies[j].minimumVersion + ").");
+                            }
+                        }
+                    }
+                } else {
+                    console.log("'" + pluginName + "' does not depend on any other plugins.");
+                }
+            }
+        };
+
+        PluginManager.prototype.validMinimumPluginVersionExists = function (name, version) {
+            var pluginExists = false;
+            var minVersionSatisfied = false;
+            if (this._plugins.indexOf(name) !== -1) {
+                pluginExists = true;
+                if (Kiwi.Utils.Version.greaterOrEqual(version, Kiwi.Plugins[name].version)) {
+                    minVersionSatisfied = true;
+                }
+            }
+
+            return (pluginExists && minVersionSatisfied);
         };
 
         /**
@@ -5213,7 +5266,7 @@ var Kiwi;
                             x = 0;
                             break;
                         case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                            x = this._canvas.width / 2;
+                            x = this._canvas.width * 0.5;
                             break;
                         case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
                             x = this._canvas.width;
@@ -5251,7 +5304,7 @@ var Kiwi;
                         x = 0;
                         break;
                     case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                        x = -(this._canvas.width / 2);
+                        x = -(this._canvas.width * 0.5);
                         break;
                     case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
                         x = -(this._canvas.width);
@@ -29229,6 +29282,62 @@ var Kiwi;
     })(Kiwi.Utils || (Kiwi.Utils = {}));
     var Utils = Kiwi.Utils;
 })(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Utils) {
+        var Version = (function () {
+            function Version() {
+            }
+            Version.parseVersion = function (version) {
+                var split = version.split(".");
+                return {
+                    majorVersion: parseInt(split[0]),
+                    minorVersion: parseInt(split[1]),
+                    patchVersion: parseInt(split[2])
+                };
+            };
+
+            // version1 == version2
+            Version.compareVersions = function (version1, version2) {
+                var v1 = Version.parseVersion(version1);
+                var v2 = Version.parseVersion(version2);
+                if (v1.majorVersion > v2.majorVersion) {
+                    return "greater";
+                }
+                if (v1.majorVersion < v2.majorVersion) {
+                    return "less";
+                }
+
+                // major versions must be equal
+                if (v1.minorVersion > v2.minorVersion) {
+                    return "greater";
+                }
+                if (v1.minorVersion < v2.minorVersion) {
+                    return "less";
+                }
+
+                //minor versions must be equal
+                if (v1.patchVersion > v2.patchVersion) {
+                    return "greater";
+                }
+                if (v1.patchVersion < v2.patchVersion) {
+                    return "less";
+                }
+
+                //patch versions must be equal
+                return "equal";
+            };
+
+            Version.greaterOrEqual = function (version1, version2) {
+                var comp = Version.compareVersions(version1, version2);
+                return (comp == "greater" || comp == "equal");
+            };
+            return Version;
+        })();
+        Utils.Version = Version;
+    })(Kiwi.Utils || (Kiwi.Utils = {}));
+    var Utils = Kiwi.Utils;
+})(Kiwi || (Kiwi = {}));
 /// <reference path="core/Game.ts" />
 /// <reference path="core/Stage.ts" />
 /// <reference path="core/ComponentManager.ts" />
@@ -29341,6 +29450,7 @@ var Kiwi;
 /// <reference path="utils/GameMath.ts" />
 /// <reference path="utils/RandomDataGenerator.ts" />
 /// <reference path="utils/RequestAnimationFrame.ts" />
+/// <reference path="utils/Version.ts" />
 /// <reference path="WebGL.d.ts"/>
 /**
 * Module - Kiwi (Core)
@@ -29355,7 +29465,6 @@ var Kiwi;
     * @property VERSION
     * @static
     * @type string
-    * @default '1.0'
     * @public
     */
     Kiwi.VERSION = "0.7.0";

@@ -23,7 +23,7 @@ module Kiwi {
          
         constructor (domParent: string = '', name: string = 'KiwiGame', state: any = null, options:any={}) {
             
-            console.log(name + ' is being created.');
+            console.log(name + ' is booting, using Kiwi.js version ' + Kiwi.VERSION);
       
             //Have they specified debugging
             if (options.debug !== 'undefined' && typeof options.debug === 'number') {
