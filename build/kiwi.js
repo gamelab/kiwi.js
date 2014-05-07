@@ -146,31 +146,30 @@ var Kiwi;
             * @private
             */
             this._delta = 0;
-            console.log(name + ' is booting, using Kiwi.js version ' + Kiwi.VERSION);
+            console.log('Kiwi.Game: ' + name + ' is booting, using Kiwi.js version ' + Kiwi.VERSION);
 
             //Have they specified debugging
             if (options.debug !== 'undefined' && typeof options.debug === 'number') {
                 switch (options.debug) {
                     case Kiwi.DEBUG_ON:
                         this._debugOption = options.debug;
-                        console.log('Debugging turned ON.');
+                        console.log('  Kiwi.Game: Debugging turned ON.');
                         break;
                     case Kiwi.DEBUG_OFF:
                         this._debugOption = options.debug;
-                        console.log('Debugging turned OFF.');
+                        console.log('  Kiwi.Game: Debugging turned OFF.');
                         break;
                     default:
                         this._debugOption = Kiwi.DEBUG_ON;
-                        console.error('Debug option passed, but is not a valid option. Turned ON by default.');
+                        console.error('  Kiwi.Game: Debug option passed, but is not a valid option. Turned ON by default.');
                         break;
                 }
             } else {
                 this._debugOption = Kiwi.DEBUG_ON;
-                console.log('Debug option not specified. Turned ON by default.');
+                console.log('  Kiwi.Game: Debug option not specified. Turned ON by default.');
             }
 
             if (options.bootCallback !== 'undefined') {
-                console.log("boot callback provided");
                 this.bootCallbackOption = options.bootCallback;
             }
 
@@ -179,20 +178,20 @@ var Kiwi;
                 switch (options.deviceTarget) {
                     case Kiwi.TARGET_BROWSER:
                         this._deviceTargetOption = options.deviceTarget;
-                        console.log('Targeting BROWSERS.');
+                        console.log('  Kiwi.Game: Targeting BROWSERS.');
                         break;
                     case Kiwi.TARGET_COCOON:
                         this._deviceTargetOption = options.deviceTarget;
-                        console.log('Targeting COCOONJS.');
+                        console.log('  Kiwi.Game: Targeting COCOONJS.');
                         break;
                     default:
                         this._deviceTargetOption = Kiwi.TARGET_BROWSER;
-                        console.error('Target device specified, but is not a valid option. Defaulting to BROWSER.');
+                        console.error('  Kiwi.Game: Target device specified, but is not a valid option. Defaulting to BROWSER.');
                         break;
                 }
             } else {
                 this._deviceTargetOption = Kiwi.TARGET_BROWSER;
-                console.log('Targeted device not specified. Defaulting to BROWSER');
+                console.log('  Kiwi.Game: Targeted device not specified. Defaulting to BROWSER');
             }
 
             //What renderer are they using?
@@ -200,20 +199,20 @@ var Kiwi;
                 switch (options.renderer) {
                     case Kiwi.RENDERER_CANVAS:
                         this._renderOption = options.renderer;
-                        console.log('Rendering using CANVAS.');
+                        console.log('  Kiwi.Game: Rendering using CANVAS.');
                         break;
                     case Kiwi.RENDERER_WEBGL:
                         this._renderOption = options.renderer;
-                        console.log('Rendering using WEBGL.');
+                        console.log('  Kiwi.Game: Rendering using WEBGL.');
                         break;
                     default:
                         this._renderOption = Kiwi.RENDERER_CANVAS;
-                        console.log('Renderer specified, but is not a valid option. Defaulting to CANVAS.');
+                        console.log('  Kiwi.Game: Renderer specified, but is not a valid option. Defaulting to CANVAS.');
                         break;
                 }
             } else {
                 this._renderOption = Kiwi.RENDERER_CANVAS;
-                console.log('Renderer not specified. Defaulting to CANVAS');
+                console.log('  Kiwi.Game: Renderer not specified. Defaulting to CANVAS');
             }
 
             this.id = Kiwi.GameManager.register(this);
@@ -237,21 +236,21 @@ var Kiwi;
                 height = options.height;
             }
 
-            console.log('Stage Dimensions: ' + width + 'x' + height);
+            console.log('  Kiwi.Game: Stage Dimensions: ' + width + 'x' + height);
 
             if (options.scaleType !== 'undefined') {
                 switch (options.scaleType) {
                     case Kiwi.Stage.SCALE_FIT:
-                        console.log('Stage scaling set to FIT.');
+                        console.log('  Kiwi.Game: Stage scaling set to FIT.');
                         break;
                     case Kiwi.Stage.SCALE_STRETCH:
-                        console.log('Stage scaling set to STRETCH.');
+                        console.log('  Kiwi.Game: Stage scaling set to STRETCH.');
                         break;
                     case Kiwi.Stage.SCALE_NONE:
-                        console.log('Stage scaling set to NONE.');
+                        console.log('  Kiwi.Game: Stage scaling set to NONE.');
                         break;
                     default:
-                        console.log('Stage specified, but is not a valid option. Set to NONE.');
+                        console.log('  Kiwi.Game: Stage specified, but is not a valid option. Set to NONE.');
                         options.scaleType = 0;
                         break;
                 }
@@ -282,7 +281,7 @@ var Kiwi;
             if (state !== null) {
                 this.states.addState(state, true);
             } else {
-                console.log('Default State not passed.');
+                console.log('  Kiwi.Game: Default State not passed.');
             }
 
             this.pluginManager = new Kiwi.PluginManager(this, options.plugins);
@@ -290,11 +289,11 @@ var Kiwi;
             if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 if (domParent !== '') {
                     if (document.getElementById(domParent))
-                        console.log('Game being created inside ' + domParent + '.');
+                        console.log('  Kiwi.Game: Game being created inside ' + domParent + '.');
                     else
-                        console.log('The element "' + domParent + '" could not be found. Appending the game to the body.');
+                        console.log('  Kiwi.Game: The element "' + domParent + '" could not be found. Appending the game to the body.');
                 } else {
-                    console.log('No DOM parent specified. Appending the game to the body.');
+                    console.log('  Kiwi.Game: No DOM parent specified. Appending the game to the body.');
                 }
 
                 this._startup.boot(domParent, function () {
@@ -302,7 +301,7 @@ var Kiwi;
                 });
             } else {
                 if (domParent !== '')
-                    console.log('Not Targetting a BROWSER. DOM Parent parameter ignored.');
+                    console.log('  Kiwi.Game: Not Targetting a BROWSER. DOM Parent parameter ignored.');
 
                 this.start();
             }
@@ -433,7 +432,7 @@ var Kiwi;
             });
             this.raf.start();
             if (this.bootCallbackOption) {
-                console.log("invoked boot callback");
+                console.log("  Kiwi.Game: invoked boot callback");
                 this.bootCallbackOption();
             }
         };
@@ -1299,7 +1298,6 @@ var Kiwi;
     */
     var PluginManager = (function () {
         function PluginManager(game, plugins) {
-            console.log("creating PluginManager");
             this._game = game;
             this._plugins = plugins || new Array();
             this._bootObjects = new Array();
@@ -1335,7 +1333,7 @@ var Kiwi;
         * @static
         */
         PluginManager.register = function (plugin) {
-            console.log("Attempting to register plugin :" + plugin.name);
+            console.log("Kiwi.PluginManager: Attempting to register plugin :" + plugin.name);
             if (this._availablePlugins.indexOf(plugin) == -1) {
                 //check if plugin with same name is registered
                 var uniqueName = true;
@@ -1347,12 +1345,12 @@ var Kiwi;
 
                 if (uniqueName) {
                     this._availablePlugins.push(plugin);
-                    console.log("Registered plugin " + plugin.name + ": version " + plugin.version);
+                    console.log("  Kiwi.PluginManager: Registered plugin " + plugin.name + ": version " + plugin.version);
                 } else {
-                    console.log("A plugin with the same name has already been registered. Ignoring this plugin.");
+                    console.log("  Kiwi.PluginManager: A plugin with the same name has already been registered. Ignoring this plugin.");
                 }
             } else {
-                console.log("This plugin has already been registered. Ignoring second registration.");
+                console.log("  Kiwi.PluginManager: This plugin has already been registered. Ignoring second registration.");
             }
         };
 
@@ -1379,38 +1377,38 @@ var Kiwi;
         */
         PluginManager.prototype.validatePlugins = function () {
             var validPlugins = new Array();
-
+            console.log("Kiwi.PluginManager: Validating Plugins");
             for (var i = 0; i < this._plugins.length; i++) {
                 var plugin = this._plugins[i];
                 if (typeof plugin == 'string' || plugin instanceof String) {
                     if (Kiwi.Plugins.hasOwnProperty(plugin) && this.pluginIsRegistered(plugin)) {
                         validPlugins.push(plugin);
-                        console.log("Plugin '" + plugin + "' appears to be valid.");
-                        console.log("Name:" + Kiwi.Plugins[plugin].name);
-                        console.log("Version:" + Kiwi.Plugins[plugin].version);
+                        console.log("  Kiwi.PluginManager: Plugin '" + plugin + "' appears to be valid.");
+                        console.log("  Kiwi.PluginManager: Name:" + Kiwi.Plugins[plugin].name);
+                        console.log("  Kiwi.PluginManager: Version:" + Kiwi.Plugins[plugin].version);
 
                         //test for kiwi version compatiblity
                         if (typeof Kiwi.Plugins[plugin].minimumKiwiVersion !== "undefined") {
-                            console.log(plugin + " requires minimum Kiwi version " + Kiwi.Plugins[plugin].minimumKiwiVersion);
+                            console.log("  Kiwi.PluginManager: " + plugin + " requires minimum Kiwi version " + Kiwi.Plugins[plugin].minimumKiwiVersion);
                             var parsedKiwiVersion = Kiwi.Utils.Version.parseVersion(Kiwi.VERSION);
                             var parsedPluginMinVersion = Kiwi.Utils.Version.parseVersion(Kiwi.Plugins[plugin].minimumKiwiVersion);
                             if (parsedKiwiVersion.majorVersion > parsedPluginMinVersion.majorVersion) {
-                                console.warn("This major version of Kiwi is greater than that required by '" + plugin + "'. It is unknown whether this plugin will work with this version of Kiwi");
+                                console.warn("  Kiwi.PluginManager: This major version of Kiwi is greater than that required by '" + plugin + "'. It is unknown whether this plugin will work with this version of Kiwi");
                             } else {
                                 if (Kiwi.Utils.Version.greaterOrEqual(Kiwi.VERSION, Kiwi.Plugins[plugin].minimumKiwiVersion)) {
-                                    console.log("Kiwi version meets minimum version requirements for '" + plugin + "'.");
+                                    console.log("  Kiwi.PluginManager: Kiwi version meets minimum version requirements for '" + plugin + "'.");
                                 } else {
-                                    console.warn("Kiwi version (" + Kiwi.VERSION + ") does not meet minimum version requirements for the plugin (" + Kiwi.Plugins[plugin].minimumKiwiVersion + ").");
+                                    console.warn("  Kiwi.PluginManager: Kiwi version (" + Kiwi.VERSION + ") does not meet minimum version requirements for the plugin (" + Kiwi.Plugins[plugin].minimumKiwiVersion + ").");
                                 }
                             }
                         } else {
-                            console.warn("'" + plugin + "' is missing the minimumKiwiVersion property. It is unknown whether '" + plugin + "' will work with this version of Kiwi");
+                            console.warn("  Kiwi.PluginManager: '" + plugin + "' is missing the minimumKiwiVersion property. It is unknown whether '" + plugin + "' will work with this version of Kiwi");
                         }
                     } else {
-                        console.log("Plugin '" + plugin + "' appears to be invalid. No property with that name exists on the Kiwi.Plugins object or the Plugin is not registered. Check that the js file containing the plugin has been included. This plugin will be ignored");
+                        console.log("  Kiwi.PluginManager: Plugin '" + plugin + "' appears to be invalid. No property with that name exists on the Kiwi.Plugins object or the Plugin is not registered. Check that the js file containing the plugin has been included. This plugin will be ignored");
                     }
                 } else {
-                    console.log("The supplied plugin name at index " + i + "is not a string and will be ignored");
+                    console.log("  Kiwi.PluginManager: The supplied plugin name at index " + i + "is not a string and will be ignored");
                 }
             }
             this._plugins = validPlugins;
@@ -1422,18 +1420,18 @@ var Kiwi;
 
                 if (typeof plugin.pluginDependencies !== "undefined") {
                     if (plugin.pluginDependencies.length === 0) {
-                        console.log("'" + pluginName + "' does not depend on any other plugins.");
+                        console.log("  Kiwi.PluginManager: '" + pluginName + "' does not depend on any other plugins.");
                     } else {
-                        console.log("'" + pluginName + "' depends on the following plugins:");
+                        console.log("  Kiwi.PluginManager: '" + pluginName + "' depends on the following plugins:");
                         for (var j = 0; j < plugin.pluginDependencies.length; j++) {
                             console.log(plugin.pluginDependencies[j].name, plugin.pluginDependencies[j].minimumVersion);
                             if (!this.validMinimumPluginVersionExists(plugin.pluginDependencies[j].name, plugin.pluginDependencies[j].minimumVersion)) {
-                                console.warn("'" + plugin.pluginDependencies[j].name + " either doesn't exist or does not meet minimum version requirement ( " + plugin.pluginDependencies[j].minimumVersion + ").");
+                                console.warn("  Kiwi.PluginManager: '" + plugin.pluginDependencies[j].name + " hasn't been added to this game via the config, doesn't exist, or does not meet minimum version requirement ( " + plugin.pluginDependencies[j].minimumVersion + ").");
                             }
                         }
                     }
                 } else {
-                    console.log("'" + pluginName + "' does not depend on any other plugins.");
+                    console.log("  Kiwi.PluginManager: '" + pluginName + "' does not depend on any other plugins.");
                 }
             }
         };
@@ -1478,12 +1476,9 @@ var Kiwi;
             for (var i = 0; i < this._plugins.length; i++) {
                 var plugin = this._plugins[i];
                 if (Kiwi.Plugins[plugin].hasOwnProperty("create")) {
-                    console.log("'Create' function found on plugin '" + plugin + "'");
                     var bootObject = Kiwi.Plugins[plugin].create(this._game);
                     if (bootObject)
                         this._bootObjects.push(bootObject);
-                } else {
-                    console.log("No 'Create' function found on plugin '" + plugin + "'");
                 }
             }
         };
@@ -1494,13 +1489,11 @@ var Kiwi;
         * @public
         */
         PluginManager.prototype.boot = function () {
-            console.log("boot pluginmanager");
             for (var i = 0; i < this._bootObjects.length; i++) {
-                console.log("Booting plugin " + i);
                 if ("boot" in this._bootObjects[i]) {
                     this._bootObjects[i].boot.call(this._bootObjects[i]);
                 } else {
-                    console.log("Warning! No boot function found on boot object");
+                    console.warn("Kiwi.PluginManager: Warning! No boot function found on boot object");
                 }
             }
         };
@@ -1856,6 +1849,7 @@ var Kiwi;
         */
         StateManager.prototype.addState = function (state, switchTo) {
             if (typeof switchTo === "undefined") { switchTo = false; }
+            console.log('Kiwi.StateManager: Adding state');
             var tempState;
 
             //What type is the state that was passed.
@@ -1870,7 +1864,7 @@ var Kiwi;
             //Does a state with that name already exist?
             if (tempState.config.name && this.checkKeyExists(tempState.config.name) === true) {
                 if (this._game.debug)
-                    console.error('Could not add ' + tempState.config.name + ' as a State with that name already exists.');
+                    console.error('  Kiwi.StateManager: Could not add ' + tempState.config.name + ' as a State with that name already exists.');
 
                 return false;
             }
@@ -1880,14 +1874,14 @@ var Kiwi;
             //Is it a valid state?
             if (this.checkValidState(tempState) === false) {
                 if (this._game.debug)
-                    console.error(tempState.config.name + ' isn\'t a valid state. Make sure you are using the Kiwi.State class!');
+                    console.error('  Kiwi.StateManager: ' + tempState.config.name + ' isn\'t a valid state. Make sure you are using the Kiwi.State class!');
 
                 return false;
             } else {
                 this._states.push(tempState);
 
                 if (this._game.debug)
-                    console.log(tempState.config.name + ' was successfully added.');
+                    console.log('  Kiwi.StateManager: ' + tempState.config.name + ' was successfully added.');
 
                 if (switchTo === true) {
                     this.setCurrentState(tempState.config.name);
@@ -1921,7 +1915,7 @@ var Kiwi;
             }
 
             if (this._game.debug)
-                console.log('Switching to ' + key + ' State.');
+                console.log('Kiwi.StateManager: Switching to "' + key + '" State.');
 
             this._newStateKey = key;
             return true;
@@ -1972,7 +1966,7 @@ var Kiwi;
             //  If we have a current state that isn't yet ready (preload hasn't finished) then abort now
             if (this.current !== null && this.current.config.isReady === false) {
                 if (this._game.debug)
-                    console.error('Cannot change to a new state till the current state has finished loading!');
+                    console.error('Kiwi.StateManager: Cannot change to a new state till the current state has finished loading!');
 
                 return false;
             }
@@ -2057,7 +2051,7 @@ var Kiwi;
         */
         StateManager.prototype.callCreate = function () {
             if (this._game.debug)
-                console.log("Calling State:Create");
+                console.log("Kiwi.StateManager: Calling " + this.current.name + ":Create");
 
             //Execute the create with params if there are some there.
             if (this.current.config.createParams) {
@@ -2113,10 +2107,6 @@ var Kiwi;
         */
         StateManager.prototype.onLoadComplete = function () {
             this.current.loadComplete();
-
-            if (this._game.debug) {
-                console.log("Rebuilding Libraries");
-            }
 
             //Rebuild the Libraries again to have access the new files that were loaded.
             this.rebuildLibraries();
@@ -9759,7 +9749,7 @@ var Kiwi;
             DataLibrary.prototype.rebuild = function (fileStore, state) {
                 this.clear();
                 if (this._game.debug) {
-                    console.log("Rebuilding Data Library");
+                    console.log("Kiwi.DataLibrary: Rebuilding Data Library");
                 }
 
                 var fileStoreKeys = fileStore.keys;
@@ -9767,7 +9757,7 @@ var Kiwi;
                     var file = this._game.fileStore.getFile(fileStoreKeys[i]);
                     if (file.isData) {
                         if (this._game.debug) {
-                            console.log("Adding Data: " + file.fileName);
+                            console.log("  Kiwi.DataLibrary: Adding Data: " + file.fileName);
                         }
                         ;
                         state.dataLibrary.add(file);
@@ -10209,7 +10199,7 @@ var Kiwi;
                 if (typeof onProgressCallback === "undefined") { onProgressCallback = null; }
                 if (typeof customFileStore === "undefined") { customFileStore = null; }
                 if (this._game.debug) {
-                    console.log("Attempting to load: " + this.fileName);
+                    console.log("Kiwi.File: Attempting to load: " + this.fileName);
                 }
 
                 this.onCompleteCallback = onCompleteCallback;
@@ -10387,7 +10377,7 @@ var Kiwi;
 
                 //Image loaded successfully...bit of a assumtion but hey...its a tag loader.
                 if (this._game.debug)
-                    console.log('Successfully Loaded: ' + this.fileName);
+                    console.log('Kiwi.File: Successfully Loaded: ' + this.fileName);
 
                 if (this._saveToFileStore === true) {
                     this._fileStore.addFile(this.key, this);
@@ -10471,7 +10461,7 @@ var Kiwi;
             */
             File.prototype.xhrOnAbort = function (event) {
                 if (this._game.debug)
-                    console.log(this.fileName + ' loading was aborted.');
+                    console.log('Kiwi.File: ' + this.fileName + ' loading was aborted.');
 
                 this.error = event;
             };
@@ -10484,7 +10474,7 @@ var Kiwi;
             */
             File.prototype.xhrOnError = function (event) {
                 if (this._game.debug)
-                    console.log('Error during load: ' + this.fileName);
+                    console.log('Kiwi.File: Error during load: ' + this.fileName);
 
                 this.error = event;
             };
@@ -10497,7 +10487,7 @@ var Kiwi;
             */
             File.prototype.xhrOnTimeout = function (event) {
                 if (this._game.debug)
-                    console.log('Timed out: ' + this.fileName);
+                    console.log('Kiwi.File: Timed out: ' + this.fileName);
 
                 this.hasTimedOut = true;
                 this.timedOut = Date.now();
@@ -10542,7 +10532,7 @@ var Kiwi;
                     this.hasError = false;
 
                     if (this._game.debug)
-                        console.log('Successfully Loaded: ' + this.fileName);
+                        console.log('Kiwi.File: Successfully Loaded: ' + this.fileName);
 
                     //Get the head information of the file.
                     this.fileType = this._xhr.getResponseHeader('Content-Type');
@@ -10561,12 +10551,12 @@ var Kiwi;
                         this.hasError = true;
 
                         if (this._game.debug)
-                            console.error(this.fileName + ' wasn\'t loaded.');
+                            console.error('Kiwi.File: ' + this.fileName + ' wasn\'t loaded.');
 
                         this.parseComplete();
                     } else {
                         if (this._game.debug)
-                            console.log('Retrying to load: ' + this.fileName);
+                            console.log('Kiwi.File: ' + 'Retrying to load: ' + this.fileName);
 
                         this.xhrLoader();
                     }
@@ -12007,7 +11997,7 @@ var Kiwi;
 
                 if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
                     if (Kiwi.Utils.Common.base2Sizes.indexOf(atlas.image.width) == -1 || Kiwi.Utils.Common.base2Sizes.indexOf(atlas.image.height) == -1) {
-                        console.log("Warning:Image is not of base2 size and may not render correctly.");
+                        console.log("Kiwi.TextureLibrary: Warning:Image is not of base2 size and may not render correctly.");
                     }
                     var renderManager = this._game.renderer;
                     renderManager.addTexture(this._game.stage.gl, atlas);
@@ -12070,7 +12060,7 @@ var Kiwi;
                     }
 
                     if (this._game.debug)
-                        console.log(imageFile.fileName + ' has been rebuilt to be base2.');
+                        console.log('Kiwi.TextureLibrary: ' + imageFile.fileName + ' has been rebuilt to be base2.');
 
                     //Assign the new image to the data
                     imageFile.data = newImg;
@@ -12135,7 +12125,7 @@ var Kiwi;
             TextureLibrary.prototype.rebuild = function (fileStore, state) {
                 this.clear();
                 if (this._game.debug) {
-                    console.log("Rebuilding Texture Library");
+                    console.log("Kiwi.TextureLibrary: Rebuilding Texture Library");
                 }
 
                 var fileStoreKeys = fileStore.keys;
@@ -12143,7 +12133,7 @@ var Kiwi;
                     var file = this._game.fileStore.getFile(fileStoreKeys[i]);
                     if (file.isTexture) {
                         if (this._game.debug) {
-                            console.log("Adding Texture: " + file.fileName);
+                            console.log("  Kiwi.TextureLibrary: Adding Texture: " + file.fileName);
                         }
                         ;
                         state.textureLibrary.addFromFile(file);
@@ -25825,7 +25815,7 @@ var Kiwi;
             AudioLibrary.prototype.rebuild = function (fileStore, state) {
                 this.clear();
                 if (this._game.debug) {
-                    console.log("Rebuilding Audio Library");
+                    console.log("Kiwi.AudioLibrary: Rebuilding Audio Library");
                 }
 
                 var fileStoreKeys = fileStore.keys;
@@ -25833,7 +25823,7 @@ var Kiwi;
                     var file = this._game.fileStore.getFile(fileStoreKeys[i]);
                     if (file.isAudio) {
                         if (this._game.debug) {
-                            console.log("Adding Audio: " + file.fileName);
+                            console.log("  Kiwi.AudioLibrary: Adding Audio: " + file.fileName);
                         }
                         ;
                         state.audioLibrary.add(file);

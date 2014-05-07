@@ -23,31 +23,30 @@ module Kiwi {
          
         constructor (domParent: string = '', name: string = 'KiwiGame', state: any = null, options:any={}) {
             
-            console.log(name + ' is booting, using Kiwi.js version ' + Kiwi.VERSION);
+            console.log('Kiwi.Game: ' + name + ' is booting, using Kiwi.js version ' + Kiwi.VERSION);
       
             //Have they specified debugging
             if (options.debug !== 'undefined' && typeof options.debug === 'number') {
                 switch (options.debug) {
                     case Kiwi.DEBUG_ON:
                         this._debugOption = options.debug;
-                        console.log('Debugging turned ON.');
+                        console.log('  Kiwi.Game: Debugging turned ON.');
                         break;
                     case Kiwi.DEBUG_OFF:
                         this._debugOption = options.debug;
-                        console.log('Debugging turned OFF.');
+                        console.log('  Kiwi.Game: Debugging turned OFF.');
                         break;
                     default:
                         this._debugOption = Kiwi.DEBUG_ON;
-                        console.error('Debug option passed, but is not a valid option. Turned ON by default.');
+                        console.error('  Kiwi.Game: Debug option passed, but is not a valid option. Turned ON by default.');
                         break;
                 }
             } else {
                 this._debugOption = Kiwi.DEBUG_ON;
-                console.log('Debug option not specified. Turned ON by default.');
+                console.log('  Kiwi.Game: Debug option not specified. Turned ON by default.');
             }
 
             if (options.bootCallback !== 'undefined') {
-                console.log("boot callback provided");
                 this.bootCallbackOption = options.bootCallback;
             }
 
@@ -56,20 +55,20 @@ module Kiwi {
                 switch (options.deviceTarget) {
                     case Kiwi.TARGET_BROWSER:
                         this._deviceTargetOption = options.deviceTarget;
-                        console.log('Targeting BROWSERS.');
+                        console.log('  Kiwi.Game: Targeting BROWSERS.');
                         break;
                     case Kiwi.TARGET_COCOON:
                         this._deviceTargetOption = options.deviceTarget;
-                        console.log('Targeting COCOONJS.');
+                        console.log('  Kiwi.Game: Targeting COCOONJS.');
                         break;
                     default:
                         this._deviceTargetOption = Kiwi.TARGET_BROWSER;
-                        console.error('Target device specified, but is not a valid option. Defaulting to BROWSER.');
+                        console.error('  Kiwi.Game: Target device specified, but is not a valid option. Defaulting to BROWSER.');
                         break;
                 }
             } else {
                 this._deviceTargetOption = Kiwi.TARGET_BROWSER;
-                console.log('Targeted device not specified. Defaulting to BROWSER'); 
+                console.log('  Kiwi.Game: Targeted device not specified. Defaulting to BROWSER'); 
             }
 
             //What renderer are they using?
@@ -77,20 +76,20 @@ module Kiwi {
                 switch (options.renderer) {
                     case Kiwi.RENDERER_CANVAS:
                         this._renderOption = options.renderer;
-                        console.log('Rendering using CANVAS.');
+                        console.log('  Kiwi.Game: Rendering using CANVAS.');
                         break;
                     case Kiwi.RENDERER_WEBGL:
                         this._renderOption = options.renderer;
-                        console.log('Rendering using WEBGL.');
+                        console.log('  Kiwi.Game: Rendering using WEBGL.');
                         break;
                     default:
                         this._renderOption = Kiwi.RENDERER_CANVAS;
-                        console.log('Renderer specified, but is not a valid option. Defaulting to CANVAS.');
+                        console.log('  Kiwi.Game: Renderer specified, but is not a valid option. Defaulting to CANVAS.');
                         break;
                 }
             } else {
                 this._renderOption = Kiwi.RENDERER_CANVAS;
-                console.log('Renderer not specified. Defaulting to CANVAS');
+                console.log('  Kiwi.Game: Renderer not specified. Defaulting to CANVAS');
             }
             
             this.id = Kiwi.GameManager.register(this);
@@ -114,23 +113,23 @@ module Kiwi {
                 height = options.height;
             }
 
-            console.log('Stage Dimensions: ' + width + 'x' + height);
+            console.log('  Kiwi.Game: Stage Dimensions: ' + width + 'x' + height);
 
 
             if (options.scaleType !== 'undefined') {
 
                 switch (options.scaleType) {
                     case Kiwi.Stage.SCALE_FIT:
-                        console.log('Stage scaling set to FIT.');
+                        console.log('  Kiwi.Game: Stage scaling set to FIT.');
                         break;
                     case Kiwi.Stage.SCALE_STRETCH:
-                        console.log('Stage scaling set to STRETCH.');
+                        console.log('  Kiwi.Game: Stage scaling set to STRETCH.');
                         break;
                     case Kiwi.Stage.SCALE_NONE:
-                        console.log('Stage scaling set to NONE.');
+                        console.log('  Kiwi.Game: Stage scaling set to NONE.');
                         break;
                     default:
-                        console.log('Stage specified, but is not a valid option. Set to NONE.');
+                        console.log('  Kiwi.Game: Stage specified, but is not a valid option. Set to NONE.');
                         options.scaleType = 0;
                         break;
                 }
@@ -163,22 +162,22 @@ module Kiwi {
             if (state !== null) {
                 this.states.addState(state, true);
             } else {
-                console.log('Default State not passed.');
+                console.log('  Kiwi.Game: Default State not passed.');
             }
 
             this.pluginManager = new Kiwi.PluginManager(this, options.plugins);
 
             if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 if (domParent !== '') {
-                    if (document.getElementById(domParent)) console.log('Game being created inside ' + domParent + '.');
-                    else console.log('The element "' + domParent + '" could not be found. Appending the game to the body.');
+                    if (document.getElementById(domParent)) console.log('  Kiwi.Game: Game being created inside ' + domParent + '.');
+                    else console.log('  Kiwi.Game: The element "' + domParent + '" could not be found. Appending the game to the body.');
                 } else {
-                    console.log('No DOM parent specified. Appending the game to the body.');
+                    console.log('  Kiwi.Game: No DOM parent specified. Appending the game to the body.');
                 }
 
                 this._startup.boot( domParent, () => this.start() );
             } else {
-                if (domParent !== '') console.log('Not Targetting a BROWSER. DOM Parent parameter ignored.');
+                if (domParent !== '') console.log('  Kiwi.Game: Not Targetting a BROWSER. DOM Parent parameter ignored.');
                 
                 this.start();
             }
@@ -487,7 +486,7 @@ module Kiwi {
             this.raf = new Kiwi.Utils.RequestAnimationFrame(() => this.loop());
             this.raf.start();
             if (this.bootCallbackOption) {
-                console.log("invoked boot callback");
+                console.log("  Kiwi.Game: invoked boot callback");
                 this.bootCallbackOption();
             }
         }

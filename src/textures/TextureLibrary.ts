@@ -76,7 +76,7 @@ module Kiwi.Textures {
 
             if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
                 if (Kiwi.Utils.Common.base2Sizes.indexOf(atlas.image.width) == -1 || Kiwi.Utils.Common.base2Sizes.indexOf(atlas.image.height) == -1) {
-                    console.log("Warning:Image is not of base2 size and may not render correctly.");
+                    console.log("Kiwi.TextureLibrary: Warning:Image is not of base2 size and may not render correctly.");
                 }
                 var renderManager = <Kiwi.Renderers.GLRenderManager>this._game.renderer;
                 renderManager.addTexture(this._game.stage.gl, atlas);
@@ -151,7 +151,7 @@ module Kiwi.Textures {
                 }
 
                 if (this._game.debug)
-                    console.log(imageFile.fileName + ' has been rebuilt to be base2.');
+                    console.log('Kiwi.TextureLibrary: ' + imageFile.fileName + ' has been rebuilt to be base2.');
 
                 //Assign the new image to the data
                 imageFile.data = newImg;
@@ -218,14 +218,14 @@ module Kiwi.Textures {
         public rebuild(fileStore: Kiwi.Files.FileStore, state: Kiwi.State) {
             this.clear();
             if (this._game.debug) {
-                console.log("Rebuilding Texture Library");
+                console.log("Kiwi.TextureLibrary: Rebuilding Texture Library");
             }
             
             var fileStoreKeys = fileStore.keys;
             for (var i = 0; i < fileStoreKeys.length; i++) {
                 var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
                 if (file.isTexture) {
-                    if (this._game.debug) { console.log("Adding Texture: " + file.fileName) };
+                    if (this._game.debug) { console.log("  Kiwi.TextureLibrary: Adding Texture: " + file.fileName) };
                     state.textureLibrary.addFromFile(file);
                 }
             }

@@ -590,7 +590,7 @@ module Kiwi.Files {
         */
         public load(onCompleteCallback: any = null, onProgressCallback: any = null, customFileStore: Kiwi.Files.FileStore = null, maxLoadAttempts?: number, timeout?: number) {
             if (this._game.debug) {
-                console.log("Attempting to load: " + this.fileName);
+                console.log("Kiwi.File: Attempting to load: " + this.fileName);
             }
 
             this.onCompleteCallback = onCompleteCallback;
@@ -783,7 +783,7 @@ module Kiwi.Files {
             
             //Image loaded successfully...bit of a assumtion but hey...its a tag loader.
             if (this._game.debug)
-                console.log('Successfully Loaded: ' + this.fileName);
+                console.log('Kiwi.File: Successfully Loaded: ' + this.fileName);
 
             if (this._saveToFileStore === true)
             {
@@ -987,7 +987,7 @@ module Kiwi.Files {
 		*/
         private xhrOnAbort(event) {
             if (this._game.debug)
-                console.log(this.fileName + ' loading was aborted.');    
+                console.log('Kiwi.File: ' + this.fileName + ' loading was aborted.');    
 
             this.error = event;
         }
@@ -1001,7 +1001,7 @@ module Kiwi.Files {
 		*/
         private xhrOnError(event) {
             if (this._game.debug)
-                console.log('Error during load: ' + this.fileName);
+                console.log('Kiwi.File: Error during load: ' + this.fileName);
 
             this.error = event;
         }
@@ -1015,7 +1015,7 @@ module Kiwi.Files {
 		*/
         private xhrOnTimeout(event) {
             if (this._game.debug)
-                console.log('Timed out: '+ this.fileName);
+                console.log('Kiwi.File: Timed out: '+ this.fileName);
 
             this.hasTimedOut = true;
             this.timedOut = Date.now();
@@ -1066,7 +1066,7 @@ module Kiwi.Files {
                 this.hasError = false;
 
                 if (this._game.debug)
-                    console.log('Successfully Loaded: ' + this.fileName);
+                    console.log('Kiwi.File: Successfully Loaded: ' + this.fileName);
 
                 //Get the head information of the file.
                 this.fileType = this._xhr.getResponseHeader('Content-Type');
@@ -1087,12 +1087,12 @@ module Kiwi.Files {
                     this.hasError = true;
 
                     if (this._game.debug)
-                        console.error(this.fileName+' wasn\'t loaded.');
+                        console.error('Kiwi.File: ' + this.fileName+' wasn\'t loaded.');
 
                     this.parseComplete();
                 } else {
                     if(this._game.debug)
-                        console.log('Retrying to load: ' + this.fileName);
+                        console.log('Kiwi.File: ' + 'Retrying to load: ' + this.fileName);
 
                     this.xhrLoader();
                 }

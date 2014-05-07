@@ -19,7 +19,6 @@ module Kiwi {
     export class PluginManager {
 
         constructor(game: Kiwi.Game,plugins:string[]) {
-            console.log("creating PluginManager");
             this._game = game;
             this._plugins = plugins || new Array();
             this._bootObjects = new Array();
@@ -53,6 +52,7 @@ module Kiwi {
             return plugins;
         }
 
+        
         /**
         * Registers a plugin object as available. Any game instance can choose to use the plugin.
         * Plugins need only be registered once per webpage. If registered a second time it will be ignored.
@@ -63,7 +63,8 @@ module Kiwi {
         * @static
         */
         public static register(plugin: any) {
-            console.log("Attempting to register plugin :" + plugin.name);
+
+            console.log("Kiwi.PluginManager: Attempting to register plugin :" + plugin.name);
             if (this._availablePlugins.indexOf(plugin) == -1) {
                 //check if plugin with same name is registered
                 var uniqueName: boolean = true;
@@ -75,13 +76,13 @@ module Kiwi {
 
                 if (uniqueName) {
                     this._availablePlugins.push(plugin);
-                    console.log("Registered plugin " + plugin.name + ": version " + plugin.version);
+                    console.log("  Kiwi.PluginManager: Registered plugin " + plugin.name + ": version " + plugin.version);
                 } else {
-                    console.log("A plugin with the same name has already been registered. Ignoring this plugin.");
+                    console.log("  Kiwi.PluginManager: A plugin with the same name has already been registered. Ignoring this plugin.");
                 
                 }
             } else {
-                console.log("This plugin has already been registered. Ignoring second registration.");
+                console.log("  Kiwi.PluginManager: This plugin has already been registered. Ignoring second registration.");
             }
         }
 
@@ -128,40 +129,40 @@ module Kiwi {
         */
         public validatePlugins() {
             var validPlugins: string[] = new Array();
-
+            console.log("Kiwi.PluginManager: Validating Plugins");
             for (var i = 0; i < this._plugins.length; i++) {
                 var plugin: any = this._plugins[i];
                 if (typeof plugin == 'string' || plugin instanceof String) {
                     if (Kiwi.Plugins.hasOwnProperty(plugin) && this.pluginIsRegistered(plugin)) {
                         validPlugins.push(plugin);
-                        console.log("Plugin '" + plugin + "' appears to be valid.");
-                        console.log("Name:" + Kiwi.Plugins[plugin].name);
-                        console.log("Version:" + Kiwi.Plugins[plugin].version);
+                        console.log("  Kiwi.PluginManager: Plugin '" + plugin + "' appears to be valid.");
+                        console.log("  Kiwi.PluginManager: Name:" + Kiwi.Plugins[plugin].name);
+                        console.log("  Kiwi.PluginManager: Version:" + Kiwi.Plugins[plugin].version);
 
                         //test for kiwi version compatiblity
                         if (typeof Kiwi.Plugins[plugin].minimumKiwiVersion !== "undefined") {
-                            console.log (plugin + " requires minimum Kiwi version " + Kiwi.Plugins[plugin].minimumKiwiVersion);
+                            console.log ("  Kiwi.PluginManager: " + plugin + " requires minimum Kiwi version " + Kiwi.Plugins[plugin].minimumKiwiVersion);
                             var parsedKiwiVersion = Utils.Version.parseVersion(Kiwi.VERSION);
                             var parsedPluginMinVersion = Utils.Version.parseVersion(Kiwi.Plugins[plugin].minimumKiwiVersion);
                             if (parsedKiwiVersion.majorVersion > parsedPluginMinVersion.majorVersion) {
-                                console.warn("This major version of Kiwi is greater than that required by '"+ plugin +"'. It is unknown whether this plugin will work with this version of Kiwi"); 
+                                console.warn("  Kiwi.PluginManager: This major version of Kiwi is greater than that required by '"+ plugin +"'. It is unknown whether this plugin will work with this version of Kiwi"); 
                             } else {
                                 if (Utils.Version.greaterOrEqual(Kiwi.VERSION, Kiwi.Plugins[plugin].minimumKiwiVersion)) {
-                                    console.log("Kiwi version meets minimum version requirements for '" + plugin +"'.");
+                                    console.log("  Kiwi.PluginManager: Kiwi version meets minimum version requirements for '" + plugin +"'.");
                                 } else {
-                                    console.warn("Kiwi version (" + Kiwi.VERSION + ") does not meet minimum version requirements for the plugin (" + Kiwi.Plugins[plugin].minimumKiwiVersion+").");
+                                    console.warn("  Kiwi.PluginManager: Kiwi version (" + Kiwi.VERSION + ") does not meet minimum version requirements for the plugin (" + Kiwi.Plugins[plugin].minimumKiwiVersion+").");
                                 }
                             }
                         } else {
-                            console.warn("'" + plugin +"' is missing the minimumKiwiVersion property. It is unknown whether '" + plugin +"' will work with this version of Kiwi");
+                            console.warn("  Kiwi.PluginManager: '" + plugin +"' is missing the minimumKiwiVersion property. It is unknown whether '" + plugin +"' will work with this version of Kiwi");
                         }
                        
 
                     } else {
-                        console.log("Plugin '" + plugin + "' appears to be invalid. No property with that name exists on the Kiwi.Plugins object or the Plugin is not registered. Check that the js file containing the plugin has been included. This plugin will be ignored");
+                        console.log("  Kiwi.PluginManager: Plugin '" + plugin + "' appears to be invalid. No property with that name exists on the Kiwi.Plugins object or the Plugin is not registered. Check that the js file containing the plugin has been included. This plugin will be ignored");
                     }
                 } else {
-                    console.log("The supplied plugin name at index " + i + "is not a string and will be ignored"); 
+                    console.log("  Kiwi.PluginManager: The supplied plugin name at index " + i + "is not a string and will be ignored"); 
                 }
             }
             this._plugins = validPlugins;
@@ -173,19 +174,19 @@ module Kiwi {
 
                 if (typeof plugin.pluginDependencies !== "undefined") {
                     if (plugin.pluginDependencies.length === 0) {
-                        console.log("'" + pluginName + "' does not depend on any other plugins.");
+                        console.log("  Kiwi.PluginManager: '" + pluginName + "' does not depend on any other plugins.");
                     } else {
-                        console.log("'" + pluginName + "' depends on the following plugins:");
+                        console.log("  Kiwi.PluginManager: '" + pluginName + "' depends on the following plugins:");
                         for (var j = 0; j < plugin.pluginDependencies.length; j++) {
                             console.log(plugin.pluginDependencies[j].name, plugin.pluginDependencies[j].minimumVersion);
                             if (!this.validMinimumPluginVersionExists(plugin.pluginDependencies[j].name, plugin.pluginDependencies[j].minimumVersion)) {
-                                console.warn("'" + plugin.pluginDependencies[j].name + " either doesn't exist or does not meet minimum version requirement ( " + plugin.pluginDependencies[j].minimumVersion + ").");   
+                                console.warn("  Kiwi.PluginManager: '" + plugin.pluginDependencies[j].name + " hasn't been added to this game via the config, doesn't exist, or does not meet minimum version requirement ( " + plugin.pluginDependencies[j].minimumVersion + ").");   
                             }
                         }
 
                     }
                 } else {
-                    console.log("'" + pluginName + "' does not depend on any other plugins.");
+                    console.log("  Kiwi.PluginManager: '" + pluginName + "' does not depend on any other plugins.");
                 }
             }
         }
@@ -231,13 +232,10 @@ module Kiwi {
             for (var i = 0; i < this._plugins.length; i++) {
                 var plugin: string = this._plugins[i];
                 if (Kiwi.Plugins[plugin].hasOwnProperty("create")) {
-                    console.log("'Create' function found on plugin '" + plugin + "'");
                     var bootObject = Kiwi.Plugins[plugin].create(this._game);
                     if (bootObject) this._bootObjects.push(bootObject);
                     
-                } else {
-                    console.log("No 'Create' function found on plugin '" + plugin + "'");
-                }
+                } 
             }
            
            
@@ -249,13 +247,11 @@ module Kiwi {
         * @public
         */
         public boot() {
-            console.log("boot pluginmanager");
             for (var i = 0; i < this._bootObjects.length; i++) {
-                console.log("Booting plugin " + i);
                 if ("boot" in this._bootObjects[i]) {
                     this._bootObjects[i].boot.call(this._bootObjects[i]);
                 } else {
-                    console.log("Warning! No boot function found on boot object");
+                    console.warn("Kiwi.PluginManager: Warning! No boot function found on boot object");
                 }
             }
 

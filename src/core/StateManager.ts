@@ -120,7 +120,7 @@ module Kiwi {
         * @public
         */
         public addState(state: any, switchTo:boolean = false): boolean {
-
+            console.log('Kiwi.StateManager: Adding state');
             var tempState;
 
             //What type is the state that was passed.
@@ -138,7 +138,7 @@ module Kiwi {
             if (tempState.config.name && this.checkKeyExists(tempState.config.name) === true) {
 
                 if (this._game.debug)
-                    console.error('Could not add ' + tempState.config.name + ' as a State with that name already exists.');
+                    console.error('  Kiwi.StateManager: Could not add ' + tempState.config.name + ' as a State with that name already exists.');
 
                 return false;
             }
@@ -149,7 +149,7 @@ module Kiwi {
             if (this.checkValidState(tempState) === false) {
 
                 if (this._game.debug)
-                    console.error(tempState.config.name + ' isn\'t a valid state. Make sure you are using the Kiwi.State class!');
+                    console.error('  Kiwi.StateManager: ' + tempState.config.name + ' isn\'t a valid state. Make sure you are using the Kiwi.State class!');
 
                 return false;
 
@@ -158,7 +158,7 @@ module Kiwi {
                 this._states.push(tempState);
 
                 if (this._game.debug)
-                    console.log(tempState.config.name + ' was successfully added.');
+                    console.log('  Kiwi.StateManager: ' + tempState.config.name + ' was successfully added.');
 
                 if (switchTo === true) {
                     this.setCurrentState(tempState.config.name);
@@ -197,7 +197,7 @@ module Kiwi {
             }
 
             if (this._game.debug)
-                console.log('Switching to ' + key + ' State.'); 
+                console.log('Kiwi.StateManager: Switching to "' + key + '" State.'); 
 
             this._newStateKey = key;
             return true;
@@ -253,7 +253,7 @@ module Kiwi {
             if (this.current !== null && this.current.config.isReady === false) {
 
                 if(this._game.debug)
-                    console.error('Cannot change to a new state till the current state has finished loading!');
+                    console.error('Kiwi.StateManager: Cannot change to a new state till the current state has finished loading!');
 
                 return false;
             }
@@ -353,7 +353,7 @@ module Kiwi {
         private callCreate() {
 
             if (this._game.debug)
-                console.log("Calling State:Create");
+                console.log("Kiwi.StateManager: Calling " + this.current.name + ":Create");
 
             //Execute the create with params if there are some there.
             if (this.current.config.createParams) {
@@ -419,10 +419,6 @@ module Kiwi {
 
             this.current.loadComplete();
             
-            if (this._game.debug) {
-                console.log("Rebuilding Libraries");
-            }
-
             //Rebuild the Libraries again to have access the new files that were loaded.
             this.rebuildLibraries();
             this.current.config.isReady = true;
