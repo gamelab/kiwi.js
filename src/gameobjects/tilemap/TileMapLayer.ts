@@ -277,7 +277,7 @@ module Kiwi.GameObjects.Tilemap {
         * Coordinates passed are in pixels and use the world coordinates of the tilemap.
         * Note: Currently only working for ORTHOGONAL TileMaps.
         * 
-        * @method getTileFromXY
+        * @method getTileFromCoords
         * @param x {Number}
         * @param y {Number}
         * @return {Number} The tile

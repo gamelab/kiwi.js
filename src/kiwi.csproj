@@ -211,7 +211,7 @@
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
     <IntermediateOutputPath>C:\Users\Benj\AppData\Local\Temp\vs2B63.tmp\Debug\</IntermediateOutputPath>
-    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vsE2D8.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\Benjamin\AppData\Local\Temp\vs719E.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
@@ -219,7 +219,7 @@
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
     <IntermediateOutputPath>C:\Users\Benj\AppData\Local\Temp\vs2B63.tmp\Release\</IntermediateOutputPath>
-    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vsE2D8.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\Benjamin\AppData\Local\Temp\vs719E.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <PropertyGroup>

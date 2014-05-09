@@ -359,10 +359,10 @@ module Kiwi {
         * 
         * @method addAudio
         * @param key {string} A key for this audio so that you can access it when the loading has finished
-        * @param url {string} The location of the audio file.
+        * @param url {string} The location of the audio file. You can pass a array of urls, in which case the first supported filetype will be used.
         * @param [storeAsGlobal=true] {boolean} If the audio should be deleted when switching to another state or if the other states should still be able to access this audio.
         */
-        public addAudio(key: string, url: string, storeAsGlobal: boolean = true) {
+        public addAudio(key: string, url: any, storeAsGlobal: boolean = true) {
              
             this.game.loader.addAudio(key, url, storeAsGlobal);
           

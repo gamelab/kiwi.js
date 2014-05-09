@@ -4013,7 +4013,7 @@ var Kiwi;
         *
         * @method addAudio
         * @param key {string} A key for this audio so that you can access it when the loading has finished
-        * @param url {string} The location of the audio file.
+        * @param url {string} The location of the audio file. You can pass a array of urls, in which case the first supported filetype will be used.
         * @param [storeAsGlobal=true] {boolean} If the audio should be deleted when switching to another state or if the other states should still be able to access this audio.
         */
         State.prototype.addAudio = function (key, url, storeAsGlobal) {
@@ -6069,7 +6069,7 @@ var Kiwi;
                 * Coordinates passed are in pixels and use the world coordinates of the tilemap.
                 * Note: Currently only working for ORTHOGONAL TileMaps.
                 *
-                * @method getTileFromXY
+                * @method getTileFromCoords
                 * @param x {Number}
                 * @param y {Number}
                 * @return {Number} The tile
@@ -9392,10 +9392,11 @@ var Kiwi;
             * Creates a new File to store a audio piece.
             * This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.
             * You can override this behaviour and tell the audio data to load even if not supported by setting the 'onlyIfSupported' boolean to false.
+            * Also you can now pass an array of filepaths, and the first audio filetype that is supported will be loaded.
             *
             * @method addAudio
             * @param key {String} The key for the audio file.
-            * @param url {String} The url of the audio to load.
+            * @param url {String} The url of the audio to load. You can pass an array of URLs, in which case the first supported audio filetype in the array will be loaded.
             * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
             * @param [onlyIfSupported=true] {Boolean} If the audio file should only be loaded if Kiwi detects that the audio file could be played. Set this to fa
             * @public
@@ -9403,6 +9404,33 @@ var Kiwi;
             Loader.prototype.addAudio = function (key, url, storeAsGlobal, onlyIfSupported) {
                 if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
                 if (typeof onlyIfSupported === "undefined") { onlyIfSupported = true; }
+                //If it is a string then try to load that file
+                if (Kiwi.Utils.Common.isString(url)) {
+                    this.attemptToAddAudio(key, url, storeAsGlobal, onlyIfSupported);
+                } else if (Kiwi.Utils.Common.isArray(url)) {
+                    for (var i = 0; i < url.length; i++) {
+                        //Is the url passed not a string?
+                        if (Kiwi.Utils.Common.isString(url[i]) == false)
+                            continue;
+
+                        //Attempt to load it, and if successful, breakout
+                        if (this.attemptToAddAudio(key, url[i], storeAsGlobal, onlyIfSupported) == true)
+                            break;
+                    }
+                }
+            };
+
+            /**
+            * This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.
+            * Returns a boolean if the audio file was successfully added or not to the file directory.
+            * @method attemptToAddAudio
+            * @param key {String} The key for the audio file.
+            * @param url {String} The url of the audio to load.
+            * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
+            * @param [onlyIfSupported=true] {Boolean} If the audio file should only be loaded if Kiwi detects that the audio file could be played. Set this to fa
+            * @private
+            */
+            Loader.prototype.attemptToAddAudio = function (key, url, storeAsGlobal, onlyIfSupported) {
                 var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, key, true, storeAsGlobal);
                 var support = false;
 
@@ -9428,8 +9456,11 @@ var Kiwi;
 
                 if (support == true || onlyIfSupported == false) {
                     this._fileList.push(file);
+                    return true;
                 } else {
-                    console.error('Audio Format not supported on this Device/Browser.');
+                    if (this._game.debug)
+                        console.error('Kiwi.Loader: Audio Format not supported on this Device/Browser.');
+                    return false;
                 }
             };
 
@@ -22576,6 +22607,8 @@ var Kiwi;
                     this._hudContainer.style.position = "absolute";
                     this._hudContainer.style.width = "100%";
                     this._hudContainer.style.height = "100%";
+                    this._hudContainer.style.top = '0';
+                    this._hudContainer.style.left = '0';
                     this._game.stage.container.appendChild(this._hudContainer);
 
                     this._huds = new Array();
@@ -27437,7 +27470,19 @@ var Kiwi;
             * @public
             */
             Common.isString = function (obj) {
-                return Object.prototype.toString.call(obj) === '[object string]';
+                return Object.prototype.toString.call(obj) === '[object String]';
+            };
+
+            /**
+            * Checks if the given argument is a array.
+            * @method isArray
+            * @param {Any} obj
+            * @return {boolean}
+            * @static
+            * @public
+            */
+            Common.isArray = function (obj) {
+                return Object.prototype.toString.call(obj) === "[object Array]";
             };
 
             /**
