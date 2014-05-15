@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 0.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -434,6 +434,8 @@ module Kiwi.HUD {
                 this._hudContainer.style.position = &quot;absolute&quot;;
                 this._hudContainer.style.width = &quot;100%&quot;;
                 this._hudContainer.style.height = &quot;100%&quot;;
+                this._hudContainer.style.top = &#x27;0&#x27;;
+                this._hudContainer.style.left = &#x27;0&#x27;;
                 this._game.stage.container.appendChild(this._hudContainer);
 
                 this._huds = new Array&lt;HUDDisplay&gt;();

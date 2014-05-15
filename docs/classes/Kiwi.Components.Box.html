@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 0.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -370,11 +370,13 @@
 
 <div class="box intro">
     <p>The Box Component is used to handle the various &#39;bounds&#39; that each GameObject has. 
-There are FOUR different types of bounds (each one is a rectangle) on each box depending on what you are wanting:
+There are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) on each box depending on what you are wanting:
 RawBounds: The bounding box of the GameObject before rotation.
 RawHitbox: The hitbox of the GameObject before rotation. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.
 Bounds: The bounding box of the GameObject after rotation.
-Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.</p>
+Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.
+WorldBounds: The bounding box of the Entity using its world coordinates.
+WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
 
 </div>
 
@@ -631,6 +633,13 @@ Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hit
                                 
                             </li>
                         
+                            <li class="index-item method">
+                                <a href="#method_extents">extents</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public">
                                 <a href="#method_objType">objType</a>
 
@@ -699,6 +708,13 @@ Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hit
                         
                             <li class="index-item property private">
                                 <a href="#property__worldHitbox">_worldHitbox</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property_autoUpdate">autoUpdate</a>
 
                                 
                                 
@@ -856,7 +872,7 @@ Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hit
             
         
         
-        <a href="../files/src_components_Box.ts.html#l361"><code>src\components\Box.ts:361</code></a>
+        <a href="../files/src_components_Box.ts.html#l398"><code>src\components\Box.ts:398</code></a>
         
         </p>
 
@@ -984,7 +1000,7 @@ Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hit
             
         
         
-        <a href="../files/src_components_Box.ts.html#l330"><code>src\components\Box.ts:330</code></a>
+        <a href="../files/src_components_Box.ts.html#l367"><code>src\components\Box.ts:367</code></a>
         
         </p>
 
@@ -1092,7 +1108,7 @@ Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hit
             
         
         
-        <a href="../files/src_components_Box.ts.html#l435"><code>src\components\Box.ts:435</code></a>
+        <a href="../files/src_components_Box.ts.html#l475"><code>src\components\Box.ts:475</code></a>
         
         </p>
 
@@ -1159,7 +1175,7 @@ Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hit
             
         
         
-        <a href="../files/src_components_Box.ts.html#l393"><code>src\components\Box.ts:393</code></a>
+        <a href="../files/src_components_Box.ts.html#l430"><code>src\components\Box.ts:430</code></a>
         
         </p>
 
@@ -1170,7 +1186,7 @@ Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hit
     </div>
 
     <div class="description">
-        <p>Draws the various bounds on a context that is passed. Useful for debugging.</p>
+        <p>Draws the various bounds on a context that is passed. Useful for debugging and using in combination with the debug canvas.</p>
 
     </div>
 
@@ -1199,6 +1215,173 @@ Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hit
         </div>
     
 
+    
+
+    
+</div>
+
+                
+                    <div id="method_extents" class="method item">
+    <h3 class="name"><code>extents</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>topLeftPoint</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>topRightPoint</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>bottomRightPoint</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>bottomLeftPoint</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_Box.ts.html#l454"><code>src\components\Box.ts:454</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>[REQUIRES COMMENTING]</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">topLeftPoint</code>
+                        <span class="type">Point</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">topRightPoint</code>
+                        <span class="type">Point</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">bottomRightPoint</code>
+                        <span class="type">Point</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">bottomLeftPoint</code>
+                        <span class="type">Point</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                    <p>Rectangle</p>
+
+                
+            </div>
+        </div>
     
 
     
@@ -1311,7 +1494,7 @@ Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hit
             
         
         
-        <a href="../files/src_components_Box.ts.html#l82"><code>src\components\Box.ts:82</code></a>
+        <a href="../files/src_components_Box.ts.html#l94"><code>src\components\Box.ts:94</code></a>
         
         </p>
 
@@ -1358,7 +1541,7 @@ Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hit
             
         
         
-        <a href="../files/src_components_Box.ts.html#l198"><code>src\components\Box.ts:198</code></a>
+        <a href="../files/src_components_Box.ts.html#l233"><code>src\components\Box.ts:233</code></a>
         
         </p>
 
@@ -1368,7 +1551,8 @@ Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hit
     </div>
 
     <div class="description">
-        <p>The &#39;raw&#39; bounds of entity. This is its bounds before rotation/scale.</p>
+        <p>The &#39;raw&#39; bounds of entity. This is its bounds before rotation/scale.
+This for property is only for storage of the values and should be accessed via the getter &#39;rawBounds&#39; so that it can update.</p>
 
     </div>
 
@@ -1405,7 +1589,7 @@ Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hit
             
         
         
-        <a href="../files/src_components_Box.ts.html#l105"><code>src\components\Box.ts:105</code></a>
+        <a href="../files/src_components_Box.ts.html#l124"><code>src\components\Box.ts:124</code></a>
         
         </p>
 
@@ -1452,7 +1636,7 @@ Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hit
             
         
         
-        <a href="../files/src_components_Box.ts.html#l284"><code>src\components\Box.ts:284</code></a>
+        <a href="../files/src_components_Box.ts.html#l321"><code>src\components\Box.ts:321</code></a>
         
         </p>
 
@@ -1499,7 +1683,7 @@ Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hit
             
         
         
-        <a href="../files/src_components_Box.ts.html#l254"><code>src\components\Box.ts:254</code></a>
+        <a href="../files/src_components_Box.ts.html#l291"><code>src\components\Box.ts:291</code></a>
         
         </p>
 
@@ -1546,7 +1730,7 @@ Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hit
             
         
         
-        <a href="../files/src_components_Box.ts.html#l135"><code>src\components\Box.ts:135</code></a>
+        <a href="../files/src_components_Box.ts.html#l166"><code>src\components\Box.ts:166</code></a>
         
         </p>
 
@@ -1593,7 +1777,7 @@ Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hit
             
         
         
-        <a href="../files/src_components_Box.ts.html#l293"><code>src\components\Box.ts:293</code></a>
+        <a href="../files/src_components_Box.ts.html#l330"><code>src\components\Box.ts:330</code></a>
         
         </p>
 
@@ -1640,7 +1824,7 @@ Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hit
             
         
         
-        <a href="../files/src_components_Box.ts.html#l144"><code>src\components\Box.ts:144</code></a>
+        <a href="../files/src_components_Box.ts.html#l175"><code>src\components\Box.ts:175</code></a>
         
         </p>
 
@@ -1654,6 +1838,57 @@ Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hit
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_autoUpdate" class="property item private">
+    <h3 class="name"><code>autoUpdate</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_Box.ts.html#l71"><code>src\components\Box.ts:71</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Controls whether the hitbox should update automatically to match the hitbox of the current cell on the entity this Box component is attached to (default behaviour).
+Or if the hitbox shouldn&#39;t auto update 
+This property is automatically set to &#39;false&#39; when you override the hitboxes width/height, but you can set this to true afterwards.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> true</p>
     
 
     
@@ -1687,7 +1922,7 @@ Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hit
             
         
         
-        <a href="../files/src_components_Box.ts.html#l302"><code>src\components\Box.ts:302</code></a>
+        <a href="../files/src_components_Box.ts.html#l339"><code>src\components\Box.ts:339</code></a>
         
         </p>
 
@@ -1735,7 +1970,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l264"><code>src\components\Box.ts:264</code></a>
+        <a href="../files/src_components_Box.ts.html#l301"><code>src\components\Box.ts:301</code></a>
         
         </p>
 
@@ -1783,7 +2018,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l72"><code>src\components\Box.ts:72</code></a>
+        <a href="../files/src_components_Box.ts.html#l84"><code>src\components\Box.ts:84</code></a>
         
         </p>
 
@@ -1830,7 +2065,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l50"><code>src\components\Box.ts:50</code></a>
+        <a href="../files/src_components_Box.ts.html#l51"><code>src\components\Box.ts:51</code></a>
         
         </p>
 
@@ -1877,7 +2112,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l153"><code>src\components\Box.ts:153</code></a>
+        <a href="../files/src_components_Box.ts.html#l184"><code>src\components\Box.ts:184</code></a>
         
         </p>
 
@@ -1924,7 +2159,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l92"><code>src\components\Box.ts:92</code></a>
+        <a href="../files/src_components_Box.ts.html#l104"><code>src\components\Box.ts:104</code></a>
         
         </p>
 
@@ -1972,7 +2207,7 @@ This is without rotation or scaling.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l227"><code>src\components\Box.ts:227</code></a>
+        <a href="../files/src_components_Box.ts.html#l264"><code>src\components\Box.ts:264</code></a>
         
         </p>
 
@@ -2019,7 +2254,7 @@ This is without rotation or scaling.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l208"><code>src\components\Box.ts:208</code></a>
+        <a href="../files/src_components_Box.ts.html#l245"><code>src\components\Box.ts:245</code></a>
         
         </p>
 
@@ -2067,7 +2302,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l237"><code>src\components\Box.ts:237</code></a>
+        <a href="../files/src_components_Box.ts.html#l274"><code>src\components\Box.ts:274</code></a>
         
         </p>
 
@@ -2115,7 +2350,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l115"><code>src\components\Box.ts:115</code></a>
+        <a href="../files/src_components_Box.ts.html#l133"><code>src\components\Box.ts:133</code></a>
         
         </p>
 
@@ -2164,7 +2399,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l316"><code>src\components\Box.ts:316</code></a>
+        <a href="../files/src_components_Box.ts.html#l353"><code>src\components\Box.ts:353</code></a>
         
         </p>
 
@@ -2174,7 +2409,7 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>Returns the &#39;transformed&#39; world bounds for this entity.
+        <p>Returns the &#39;transformed&#39; bounds for this entity using the world coodinates.
 This is READ ONLY.</p>
 
     </div>
@@ -2212,7 +2447,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l180"><code>src\components\Box.ts:180</code></a>
+        <a href="../files/src_components_Box.ts.html#l215"><code>src\components\Box.ts:215</code></a>
         
         </p>
 

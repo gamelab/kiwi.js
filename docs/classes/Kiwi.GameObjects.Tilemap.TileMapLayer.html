@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 0.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -352,7 +352,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l11"><code>src\gameobjects\tilemap\TIleMapLayer.ts:11</code></a>
+            Defined in: <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l11"><code>src\gameobjects\tilemap\TileMapLayer.ts:11</code></a>
         </div>
     
 
@@ -477,7 +477,7 @@ A TileMapLayer should not be directly created, but instead should be created thr
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l11"><code>src\gameobjects\tilemap\TIleMapLayer.ts:11</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l11"><code>src\gameobjects\tilemap\TileMapLayer.ts:11</code></a>
         
         </p>
 
@@ -717,6 +717,13 @@ A TileMapLayer should not be directly created, but instead should be created thr
                             </li>
                         
                             <li class="index-item method public">
+                                <a href="#method_chartToScreen">chartToScreen</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_countTiles">countTiles</a>
 
                                 
@@ -766,7 +773,7 @@ A TileMapLayer should not be directly created, but instead should be created thr
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_getTileFromXY">getTileFromXY</a>
+                                <a href="#method_getTileFromCoords">getTileFromCoords</a>
 
                                 
                                 
@@ -802,6 +809,13 @@ A TileMapLayer should not be directly created, but instead should be created thr
                         
                             <li class="index-item method public">
                                 <a href="#method_replaceTiles">replaceTiles</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_screenToChart">screenToChart</a>
 
                                 
                                 
@@ -903,6 +917,13 @@ A TileMapLayer should not be directly created, but instead should be created thr
                         
                             <li class="index-item property public">
                                 <a href="#property_heightInPixels">heightInPixels</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_orientation">orientation</a>
 
                                 
                                 
@@ -1021,7 +1042,7 @@ A TileMapLayer should not be directly created, but instead should be created thr
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l594"><code>src\gameobjects\tilemap\TIleMapLayer.ts:594</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l627"><code>src\gameobjects\tilemap\TileMapLayer.ts:627</code></a>
         
         </p>
 
@@ -1083,6 +1104,161 @@ All coordinates calculated are stored as temporary properties (maxX/Y, startX/Y)
 </div>
 
                 
+                    <div id="method_chartToScreen" class="method item public">
+    <h3 class="name"><code>chartToScreen</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>chartPt</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>tileW</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>tileH</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l676"><code>src\gameobjects\tilemap\TileMapLayer.ts:676</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>ChartToScreen maps a point in the game tile coordinates into screen pixel
+coordinates that indicate where the tile should be drawn.
+Note: This is for use in ISOMETRIC Tilemaps.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">chartPt</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>A Object containing x/y properties of the tile.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">tileW</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The width of the tile</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">tileH</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The height of the tile</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>With x/y properties of the location of the map onscreen.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_countTiles" class="method item public">
     <h3 class="name"><code>countTiles</code></h3>
 
@@ -1131,7 +1307,7 @@ All coordinates calculated are stored as temporary properties (maxX/Y, startX/Y)
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l168"><code>src\gameobjects\tilemap\TIleMapLayer.ts:168</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l168"><code>src\gameobjects\tilemap\TileMapLayer.ts:168</code></a>
         
         </p>
 
@@ -1261,7 +1437,7 @@ All coordinates calculated are stored as temporary properties (maxX/Y, startX/Y)
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l364"><code>src\gameobjects\tilemap\TIleMapLayer.ts:364</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l378"><code>src\gameobjects\tilemap\TileMapLayer.ts:378</code></a>
         
         </p>
 
@@ -1448,7 +1624,7 @@ All coordinates calculated are stored as temporary properties (maxX/Y, startX/Y)
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l476"><code>src\gameobjects\tilemap\TIleMapLayer.ts:476</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l508"><code>src\gameobjects\tilemap\TileMapLayer.ts:508</code></a>
         
         </p>
 
@@ -1633,7 +1809,7 @@ By default the area is the whole tilemap.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l238"><code>src\gameobjects\tilemap\TIleMapLayer.ts:238</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l248"><code>src\gameobjects\tilemap\TileMapLayer.ts:248</code></a>
         
         </p>
 
@@ -1646,7 +1822,8 @@ By default the area is the whole tilemap.</p>
     <div class="description">
         <p>Returns the index of the tile based on the x and y pixel coordinates that are passed. 
 If no tile is a the coordinates given then -1 is returned instead.
-Coordinates are in pixels not tiles and use the world coordinates of the tilemap.</p>
+Coordinates are in pixels not tiles and use the world coordinates of the tilemap.
+Note: Currently only working for ORTHOGONAL TileMaps.</p>
 
     </div>
 
@@ -1766,7 +1943,7 @@ Coordinates are in pixels not tiles and use the world coordinates of the tilemap
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l205"><code>src\gameobjects\tilemap\TIleMapLayer.ts:205</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l215"><code>src\gameobjects\tilemap\TileMapLayer.ts:215</code></a>
         
         </p>
 
@@ -1893,7 +2070,7 @@ Coordinates are in tiles not pixels.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l277"><code>src\gameobjects\tilemap\TIleMapLayer.ts:277</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l291"><code>src\gameobjects\tilemap\TileMapLayer.ts:291</code></a>
         
         </p>
 
@@ -2005,7 +2182,7 @@ Coordinates are in tiles not pixels.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l443"><code>src\gameobjects\tilemap\TIleMapLayer.ts:443</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l457"><code>src\gameobjects\tilemap\TileMapLayer.ts:457</code></a>
         
         </p>
 
@@ -2016,8 +2193,9 @@ Coordinates are in tiles not pixels.</p>
     </div>
 
     <div class="description">
-        <p>Returns the tiles which overlap with a provided entities box component. 
-Only collidable tiles on ANY side will be returned unless you pass a particular side.</p>
+        <p>Returns the tiles which overlap with a provided entities hitbox component. 
+Only collidable tiles on ANY side will be returned unless you pass a particular side.
+Note: Only designed to work with ORTHOGONAL types of tilemaps, results maybe unexpected for other types of tilemaps.</p>
 
     </div>
 
@@ -2084,8 +2262,8 @@ Only collidable tiles on ANY side will be returned unless you pass a particular 
 </div>
 
                 
-                    <div id="method_getTileFromXY" class="method item public">
-    <h3 class="name"><code>getTileFromXY</code></h3>
+                    <div id="method_getTileFromCoords" class="method item public">
+    <h3 class="name"><code>getTileFromCoords</code></h3>
 
     
         <div class="args">
@@ -2138,7 +2316,7 @@ Only collidable tiles on ANY side will be returned unless you pass a particular 
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l262"><code>src\gameobjects\tilemap\TIleMapLayer.ts:262</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l274"><code>src\gameobjects\tilemap\TileMapLayer.ts:274</code></a>
         
         </p>
 
@@ -2151,7 +2329,8 @@ Only collidable tiles on ANY side will be returned unless you pass a particular 
     <div class="description">
         <p>Returns the TileType for a tile that is at a particular coordinate passed. 
 If no tile is found the null is returned instead.
-Coordinates passed are in pixels and use the world coordinates of the tilemap.</p>
+Coordinates passed are in pixels and use the world coordinates of the tilemap.
+Note: Currently only working for ORTHOGONAL TileMaps.</p>
 
     </div>
 
@@ -2269,7 +2448,7 @@ Coordinates passed are in pixels and use the world coordinates of the tilemap.</
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l223"><code>src\gameobjects\tilemap\TIleMapLayer.ts:223</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l233"><code>src\gameobjects\tilemap\TileMapLayer.ts:233</code></a>
         
         </p>
 
@@ -2384,7 +2563,7 @@ Coordinates passed are in tiles.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l74"><code>src\gameobjects\tilemap\TIleMapLayer.ts:74</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l74"><code>src\gameobjects\tilemap\TileMapLayer.ts:74</code></a>
         
         </p>
 
@@ -2487,7 +2666,7 @@ Coordinates passed are in tiles.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l332"><code>src\gameobjects\tilemap\TIleMapLayer.ts:332</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l346"><code>src\gameobjects\tilemap\TileMapLayer.ts:346</code></a>
         
         </p>
 
@@ -2648,7 +2827,7 @@ Default tile types used are everyone avaiable.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l630"><code>src\gameobjects\tilemap\TIleMapLayer.ts:630</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l711"><code>src\gameobjects\tilemap\TileMapLayer.ts:711</code></a>
         
         </p>
 
@@ -2768,7 +2947,7 @@ Default tile types used are everyone avaiable.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l387"><code>src\gameobjects\tilemap\TIleMapLayer.ts:387</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l401"><code>src\gameobjects\tilemap\TileMapLayer.ts:401</code></a>
         
         </p>
 
@@ -2899,6 +3078,161 @@ Default tile types used are everyone avaiable.</p>
 </div>
 
                 
+                    <div id="method_screenToChart" class="method item public">
+    <h3 class="name"><code>screenToChart</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>scrPt</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>tileW</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>tileH</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l693"><code>src\gameobjects\tilemap\TileMapLayer.ts:693</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>ScreenToChart maps a point in screen coordinates into the game tile chart
+coordinates for the tile on which the screen point falls on.
+This is for use in ISOMETRIC Tilemaps.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">scrPt</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>An object containing x/y coordinates of the point on the screen you want to convert to tile coordinates.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">tileW</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The width of a single tile.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">tileH</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The height of a single tile.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>With x/y properties of the location of tile on the screen.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_setTile" class="method item public">
     <h3 class="name"><code>setTile</code></h3>
 
@@ -2959,7 +3293,7 @@ Default tile types used are everyone avaiable.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l299"><code>src\gameobjects\tilemap\TIleMapLayer.ts:299</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l313"><code>src\gameobjects\tilemap\TileMapLayer.ts:313</code></a>
         
         </p>
 
@@ -3103,7 +3437,7 @@ Can be used to override a tile that may already exist at the location.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l320"><code>src\gameobjects\tilemap\TIleMapLayer.ts:320</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l334"><code>src\gameobjects\tilemap\TileMapLayer.ts:334</code></a>
         
         </p>
 
@@ -3241,7 +3575,7 @@ Can be used to override a tile that may already exist at the location.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l411"><code>src\gameobjects\tilemap\TIleMapLayer.ts:411</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l425"><code>src\gameobjects\tilemap\TileMapLayer.ts:425</code></a>
         
         </p>
 
@@ -3406,7 +3740,7 @@ Can be used to override a tile that may already exist at the location.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l533"><code>src\gameobjects\tilemap\TIleMapLayer.ts:533</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l566"><code>src\gameobjects\tilemap\TileMapLayer.ts:566</code></a>
         
         </p>
 
@@ -3462,7 +3796,7 @@ Can be used to override a tile that may already exist at the location.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l160"><code>src\gameobjects\tilemap\TIleMapLayer.ts:160</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l160"><code>src\gameobjects\tilemap\TileMapLayer.ts:160</code></a>
         
         </p>
 
@@ -3509,7 +3843,7 @@ Can be used to override a tile that may already exist at the location.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l550"><code>src\gameobjects\tilemap\TIleMapLayer.ts:550</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l583"><code>src\gameobjects\tilemap\TileMapLayer.ts:583</code></a>
         
         </p>
 
@@ -3557,7 +3891,7 @@ Is updated each frame, via the _calculateBoundaries method.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l559"><code>src\gameobjects\tilemap\TIleMapLayer.ts:559</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l592"><code>src\gameobjects\tilemap\TileMapLayer.ts:592</code></a>
         
         </p>
 
@@ -3605,7 +3939,7 @@ Is updated each frame, via the _calculateBoundaries method.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l568"><code>src\gameobjects\tilemap\TIleMapLayer.ts:568</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l601"><code>src\gameobjects\tilemap\TileMapLayer.ts:601</code></a>
         
         </p>
 
@@ -3653,7 +3987,7 @@ Is updated each frame, via the _calculateBoundaries method.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l577"><code>src\gameobjects\tilemap\TIleMapLayer.ts:577</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l610"><code>src\gameobjects\tilemap\TileMapLayer.ts:610</code></a>
         
         </p>
 
@@ -3701,7 +4035,7 @@ Is updated each frame, via the _calculateBoundaries method.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l586"><code>src\gameobjects\tilemap\TIleMapLayer.ts:586</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l619"><code>src\gameobjects\tilemap\TileMapLayer.ts:619</code></a>
         
         </p>
 
@@ -3748,7 +4082,7 @@ Is updated each frame, via the _calculateBoundaries method.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l132"><code>src\gameobjects\tilemap\TIleMapLayer.ts:132</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l132"><code>src\gameobjects\tilemap\TileMapLayer.ts:132</code></a>
         
         </p>
 
@@ -3795,7 +4129,7 @@ Is updated each frame, via the _calculateBoundaries method.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l108"><code>src\gameobjects\tilemap\TIleMapLayer.ts:108</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l108"><code>src\gameobjects\tilemap\TileMapLayer.ts:108</code></a>
         
         </p>
 
@@ -3842,7 +4176,7 @@ Is updated each frame, via the _calculateBoundaries method.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l150"><code>src\gameobjects\tilemap\TIleMapLayer.ts:150</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l150"><code>src\gameobjects\tilemap\TileMapLayer.ts:150</code></a>
         
         </p>
 
@@ -3856,6 +4190,56 @@ Is updated each frame, via the _calculateBoundaries method.</p>
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_orientation" class="property item public">
+    <h3 class="name"><code>orientation</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l187"><code>src\gameobjects\tilemap\TileMapLayer.ts:187</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The orientation of the of tilemap. 
+TileMaps can be either &#39;orthogonal&#39; (normal) or &#39;isometric&#39;.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> &#x27;orthogonal&#x27;</p>
     
 
     
@@ -3889,7 +4273,7 @@ Is updated each frame, via the _calculateBoundaries method.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l92"><code>src\gameobjects\tilemap\TIleMapLayer.ts:92</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l92"><code>src\gameobjects\tilemap\TileMapLayer.ts:92</code></a>
         
         </p>
 
@@ -3936,7 +4320,7 @@ Is updated each frame, via the _calculateBoundaries method.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l195"><code>src\gameobjects\tilemap\TIleMapLayer.ts:195</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l205"><code>src\gameobjects\tilemap\TileMapLayer.ts:205</code></a>
         
         </p>
 
@@ -3983,7 +4367,7 @@ Is updated each frame, via the _calculateBoundaries method.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l124"><code>src\gameobjects\tilemap\TIleMapLayer.ts:124</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l124"><code>src\gameobjects\tilemap\TileMapLayer.ts:124</code></a>
         
         </p>
 
@@ -4030,7 +4414,7 @@ Is updated each frame, via the _calculateBoundaries method.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l84"><code>src\gameobjects\tilemap\TIleMapLayer.ts:84</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l84"><code>src\gameobjects\tilemap\TileMapLayer.ts:84</code></a>
         
         </p>
 
@@ -4077,7 +4461,7 @@ Is updated each frame, via the _calculateBoundaries method.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l116"><code>src\gameobjects\tilemap\TIleMapLayer.ts:116</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l116"><code>src\gameobjects\tilemap\TileMapLayer.ts:116</code></a>
         
         </p>
 
@@ -4124,7 +4508,7 @@ Is updated each frame, via the _calculateBoundaries method.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l100"><code>src\gameobjects\tilemap\TIleMapLayer.ts:100</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l100"><code>src\gameobjects\tilemap\TileMapLayer.ts:100</code></a>
         
         </p>
 
@@ -4171,7 +4555,7 @@ Is updated each frame, via the _calculateBoundaries method.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TIleMapLayer.ts.html#l140"><code>src\gameobjects\tilemap\TIleMapLayer.ts:140</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMapLayer.ts.html#l140"><code>src\gameobjects\tilemap\TileMapLayer.ts:140</code></a>
         
         </p>
 

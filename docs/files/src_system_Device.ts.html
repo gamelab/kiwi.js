@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 0.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -437,6 +437,14 @@ module Kiwi.System {
         */
         public windows: boolean = false;
 
+        /**
+        * 
+        * @property windowsPhone 
+        * @type boolean
+        * @public
+        */
+        public windowsPhone: boolean = false;
+
         //  Features
 
         /**
@@ -505,6 +513,14 @@ module Kiwi.System {
         public touch: boolean = false;
 
         /**
+        * If the type of touch events are pointers (event msPointers)
+        * @property pointerEnabled
+        * @type boolean
+        * @public
+        */
+        public pointerEnabled: boolean = false;
+
+        /**
         * 
         * @property css3D
         * @type boolean
@@ -561,6 +577,14 @@ module Kiwi.System {
         * @public
         */
         public ieVersion: number = 0;
+
+        /**
+        *
+        * @property ieMobile
+        * @type boolean
+        * @public 
+        */
+        public ieMobile: boolean = false;
 
         /**
         * 
@@ -715,9 +739,13 @@ module Kiwi.System {
             {
                 this.macOS = true;
             }
+            else if(/Windows Phone/.test(ua)) {
+                this.windowsPhone = true;
+            }
             else if (/Windows/.test(ua))
             {
                 this.windows = true;
+
             }
 
         }
@@ -739,7 +767,7 @@ module Kiwi.System {
             }
             catch (error)
             {
-                this.localStorage = false;
+                this.localStorage = false; 
             }
 
             this.file = !!window[&#x27;File&#x27;] &amp;&amp; !!window[&#x27;FileReader&#x27;] &amp;&amp; !!window[&#x27;FileList&#x27;] &amp;&amp; !!window[&#x27;Blob&#x27;];
@@ -747,9 +775,16 @@ module Kiwi.System {
             this.webGL = !!window[&#x27;WebGLRenderingContext&#x27;];
             this.worker = !!window[&#x27;Worker&#x27;];
 
-            if (&#x27;ontouchstart&#x27; in document.documentElement || window.navigator.msPointerEnabled)
+            if (&#x27;ontouchstart&#x27; in document.documentElement ||
+               (window.navigator.msPointerEnabled &amp;&amp; window.navigator.msMaxTouchPoints &gt; 0) ||
+               ((&lt;any&gt;window.navigator).pointerEnabled &amp;&amp; (&lt;any&gt;window.navigator).maxTouchPoints &gt; 0))
             {
                 this.touch = true;
+
+            }
+
+            if ((&lt;any&gt;window.navigator).pointerEnabled || window.navigator.msPointerEnabled ) {
+                this.pointerEnabled = true;
             }
 
         }
@@ -762,6 +797,7 @@ module Kiwi.System {
         private _checkBrowser() {
 
             var ua = navigator.userAgent;
+            var an = navigator.appName;
 
             if (/Arora/.test(ua))
             {
@@ -783,9 +819,20 @@ module Kiwi.System {
             {
                 this.mobileSafari = true;
             }
-            else if (/MSIE (\d+\.\d+);/.test(ua))
+            else if (/MSIE (\d+\.\d+);/.test(ua)) //Will Detect 10- versions of IE
             {
                 this.ie = true;
+                this.ieVersion = parseInt(RegExp.$1);
+
+                if ( /IEMobile/.test(ua) ) {
+                    this.ieMobile = true;
+                }
+
+            }
+            else if (/Trident/.test(ua))        //Will Detect 11+ versions for IE
+            {
+                this.ie = true;
+                /rv:(\d+\.\d+)\)/.test(ua);
                 this.ieVersion = parseInt(RegExp.$1);
             }
             else if (/Midori/.test(ua))

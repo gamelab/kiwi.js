@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\gameobjects\tilemap\TIleMapLayer.ts - Kiwi.js</title>
+    <title>src\gameobjects\tilemap\TileMapLayer.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 0.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -340,7 +340,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\gameobjects\tilemap\TIleMapLayer.ts</h1>
+                        <h1 class="file-heading">File: src\gameobjects\tilemap\TileMapLayer.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -530,6 +530,16 @@ module Kiwi.GameObjects.Tilemap {
             return cnt;
         }
 
+        /**
+        * The orientation of the of tilemap. 
+        * TileMaps can be either &#x27;orthogonal&#x27; (normal) or &#x27;isometric&#x27;.
+        * @property orientation
+        * @type String
+        * @default &#x27;orthogonal&#x27;
+        * @public
+        */
+        public orientation: string = ORTHOGONAL;
+
 
         /**
         *-----------------------
@@ -585,6 +595,8 @@ module Kiwi.GameObjects.Tilemap {
         * Returns the index of the tile based on the x and y pixel coordinates that are passed. 
         * If no tile is a the coordinates given then -1 is returned instead.
         * Coordinates are in pixels not tiles and use the world coordinates of the tilemap.
+        * Note: Currently only working for ORTHOGONAL TileMaps.
+        *
         * @method getIndexFromCoords
         * @param x {Number} The x coordinate of the Tile you would like to retrieve. 
         * @param y {Number} The y coordinate of the Tile you would like to retrieve.
@@ -609,7 +621,9 @@ module Kiwi.GameObjects.Tilemap {
         * Returns the TileType for a tile that is at a particular coordinate passed. 
         * If no tile is found the null is returned instead.
         * Coordinates passed are in pixels and use the world coordinates of the tilemap.
-        * @method getTileFromXY
+        * Note: Currently only working for ORTHOGONAL TileMaps.
+        * 
+        * @method getTileFromCoords
         * @param x {Number}
         * @param y {Number}
         * @return {Number} The tile
@@ -621,7 +635,7 @@ module Kiwi.GameObjects.Tilemap {
         }
 
         /**
-        * Returns the indexes of every tile of a type you pass.
+        * Returns the indexes of every tile of a type you pass. 
         * @method getIndexsByType
         * @param type {Number}
         * @return {Number[]}
@@ -787,8 +801,9 @@ module Kiwi.GameObjects.Tilemap {
         */
 
         /**
-        * Returns the tiles which overlap with a provided entities box component. 
+        * Returns the tiles which overlap with a provided entities hitbox component. 
         * Only collidable tiles on ANY side will be returned unless you pass a particular side.
+        * Note: Only designed to work with ORTHOGONAL types of tilemaps, results maybe unexpected for other types of tilemaps.
         * 
         * @method getOverlappingTiles
         * @param entity {Entity} The entity you would like to check for the overlap.
@@ -809,19 +824,37 @@ module Kiwi.GameObjects.Tilemap {
             if (b.left &gt; this.transform.worldX + this.widthInPixels || b.right &lt; this.transform.worldX || b.bottom &lt; this.transform.worldY || b.top &gt; this.transform.worldY + this.heightInPixels)
                 return [];
 
+            var nx = b.x - this.transform.worldX;
+            var ny = b.y - this.transform.worldY;
+
             //Get starting location and now many tiles from there we will check. 
-            var x = Kiwi.Utils.GameMath.snapToFloor(b.x - this.transform.worldX, this.tileWidth) / this.tileWidth;
-            var y = Kiwi.Utils.GameMath.snapToFloor(b.y - this.transform.worldY, this.tileHeight) / this.tileHeight;
+            var x = Kiwi.Utils.GameMath.snapToFloor(nx, this.tileWidth) / this.tileWidth;
+            var y = Kiwi.Utils.GameMath.snapToFloor(ny, this.tileHeight) / this.tileHeight;
             var w = Kiwi.Utils.GameMath.snapToCeil(b.width, this.tileWidth) / this.tileWidth;
             var h = Kiwi.Utils.GameMath.snapToCeil(b.height, this.tileHeight) / this.tileHeight;
 
-            return this.getCollidableTiles(x, y, w + 1, h + 1, collisionType);
+            //Add one, because we want to include the very end tile.
+            var tiles = this.getCollidableTiles(x, y, w + 1, h + 1, collisionType);
+
+            //Loop through the tiles and make sure they are actually overlapping with the Entity.
+            for (var i = 0; i &lt; tiles.length; i++) {
+                var t = tiles[i];
+
+                if (t.x &gt; b.right || t.x + this.tileWidth &lt; b.left || t.y &gt; b.bottom || t.y + this.tileHeight &lt; t.top) {
+                    tiles.splice(i, 1);
+                    i--;
+                } 
+            }
+
+            return tiles;
+
         }
 
 
         /**
         * Returns the tiles which can collide with other objects (on ANY side unless otherwise specified) within an area provided.
-        * By default the area is the whole tilemap. 
+        * By default the area is the whole tilemap.
+        * 
         * @method getCollidableTiles
         * @param [x=0] {Number} The x coordinate of the first tile to check.
         * @param [y=0] {Number} The y coordinate of the first tile to check.
@@ -940,6 +973,7 @@ module Kiwi.GameObjects.Tilemap {
         /**
         * Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen. 
         * All coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).
+        *
         * @method _calculateBoundaries
         * @param camera {Camera}
         * @param matrix {Matrix} 
@@ -947,32 +981,79 @@ module Kiwi.GameObjects.Tilemap {
         */
         private _calculateBoundaries(camera: Kiwi.Camera, matrix: Kiwi.Geom.Matrix) {
 
-            // Translation Stuff
-            var sx = 1 / this.scaleX;
-            var sy = 1 / this.scaleY;
+            //If we are calculating the coordinates for &#x27;regular&#x27; then we can do that rather easy
+            if (this.orientation == ORTHOGONAL) {
+                // Translation Stuff
+                var sx = 1 / this.scaleX;
+                var sy = 1 / this.scaleY;
 
-            // Work out how many tiles we can fit into our camera and round it up for the edges
-            this._maxX = Math.min(Math.ceil(camera.width / this.tileWidth) + 1, this.width) * sx;
-            this._maxY = Math.min(Math.ceil(camera.height / this.tileHeight) + 1, this.height) * sy;
+                // Work out how many tiles we can fit into our camera and round it up for the edges
+                this._maxX = Math.min(Math.ceil(camera.width / this.tileWidth) + 1, this.width) * sx;
+                this._maxY = Math.min(Math.ceil(camera.height / this.tileHeight) + 1, this.height) * sy;
 
-            // And now work out where in the tilemap the camera actually is
-            this._startX = Math.floor((-camera.transform.x - this.transform.worldX) / this.tileWidth * sx);
-            this._startY = Math.floor((-camera.transform.y - this.transform.worldY) / this.tileHeight * sy);
+                // And now work out where in the tilemap the camera actually is
+                this._startX = Math.floor((-camera.transform.x - this.transform.worldX) / this.tileWidth * sx);
+                this._startY = Math.floor((-camera.transform.y - this.transform.worldY) / this.tileHeight * sy);
 
-            // Boundaries check for the start 
-            if (this._startX &lt; 0) this._startX = 0;
-            if (this._startY &lt; 0) this._startY = 0;
+                // Boundaries check for the start 
+                if (this._startX &lt; 0) this._startX = 0;
+                if (this._startY &lt; 0) this._startY = 0;
 
-            // Check for the Maximum
-            if (this._maxX &gt; this.width) this._maxX = this.width;
-            if (this._maxY &gt; this.height) this._maxY = this.height;
+                // Check for the Maximum
+                if (this._maxX &gt; this.width) this._maxX = this.width;
+                if (this._maxY &gt; this.height) this._maxY = this.height;
 
-            // Width/Height
-            if (this._startX + this._maxX &gt; this.width) this._maxX = this.width - this._startX;
-            if (this._startY + this._maxY &gt; this.height) this._maxY = this.height - this._startY;
+                // Width/Height
+                if (this._startX + this._maxX &gt; this.width) this._maxX = this.width - this._startX;
+                if (this._startY + this._maxY &gt; this.height) this._maxY = this.height - this._startY;
 
+                return;
+            } 
+
+            //Otherwise we can&#x27;t *just yet* so render the whole lot
+            if (this.orientation == ISOMETRIC) {
+                this._startX = 0;
+                this._startY = 0;
+                this._maxX = this.width;
+                this._maxY = this.height;
+            }
         }
 
+        /** 
+        * ChartToScreen maps a point in the game tile coordinates into screen pixel
+        * coordinates that indicate where the tile should be drawn.
+        * Note: This is for use in ISOMETRIC Tilemaps.
+        *
+        * @method chartToScreen
+        * @param chartPt {any} A Object containing x/y properties of the tile.
+        * @param tileW {Number} The width of the tile
+        * @param tileH {Number} The height of the tile
+        * @return {Object} With x/y properties of the location of the map onscreen.
+        * @public
+        */ 
+        public chartToScreen(chartPt:any, tileW:number, tileH:number):any {
+            return { x:chartPt.x * tileW - chartPt.y * tileW, 
+                y:chartPt.x * tileH / 2 + chartPt.y * tileH / 2 };
+        }
+
+        /**
+        * ScreenToChart maps a point in screen coordinates into the game tile chart
+        * coordinates for the tile on which the screen point falls on.
+        * This is for use in ISOMETRIC Tilemaps.
+        *
+        * @method screenToChart
+        * @param scrPt {any} An object containing x/y coordinates of the point on the screen you want to convert to tile coordinates.
+        * @param tileW {number} The width of a single tile.
+        * @param tileH {number} The height of a single tile.
+        * @return {Object} With x/y properties of the location of tile on the screen.
+        * @public
+        */
+        public screenToChart(scrPt:any, tileW:number, tileH:number):any {
+            var column = Math.floor(scrPt.x / tileW);
+            var row = Math.floor((scrPt.y - column * (tileH / 2)) / tileH);
+            return { x:column + row, y:row };
+        }
+        
         /** 
         * The render loop which is used when using the Canvas renderer.
         * @method render
@@ -1009,15 +1090,47 @@ module Kiwi.GameObjects.Tilemap {
                     if ( (this._temptype = this.getTileFromXY(x, y)) &amp;&amp; this._temptype.cellIndex !== -1 ) {
 
                         var cell = this.atlas.cells[this._temptype.cellIndex];
+                        
+                        var drawX:number;
+                        var drawY:number;
+                        
+                        if (this.orientation == ISOMETRIC) {
 
+                            // Isometric maps
+                            
+                            var offsetX = this._temptype.offset.x;
+                            var offsetY = this._temptype.offset.y;
+                            var w = this.tileWidth * (this.width * 2 - 1 );
+                            var h = this.tileHeight * this.height;
+
+                            // We want &lt;0,0&gt;&#x27;s horizontal center point to be in the screen center, hence the -tileWidth/2.
+                            var shiftX = this.tileWidth / 2;
+
+                            var screenPos = this.chartToScreen( 
+                                { x:x , y:y }, 
+                                this.tileWidth/2, 
+                                this.tileHeight);
+
+                            drawX = screenPos.x + this._temptype.offset.x - shiftX;
+                            drawY = screenPos.y - (cell.h - this.tileHeight) + this._temptype.offset.y;
+
+                        } else {
+                            
+                            // &#x27;Normal&#x27; maps
+
+                            drawX = x * this.tileWidth + this._temptype.offset.x;
+                            drawY = y * this.tileHeight - (cell.h - this.tileHeight) + this._temptype.offset.y;
+
+                        }
+                        
                         ctx.drawImage(
                             this.atlas.image,
                             cell.x,
                             cell.y,
                             cell.w,
                             cell.h,
-                            x * this.tileWidth ,
-                            y * this.tileHeight - (cell.h - this.tileHeight),
+                            drawX,
+                            drawY,
                             cell.w,
                             cell.h
                             );
@@ -1067,9 +1180,36 @@ module Kiwi.GameObjects.Tilemap {
                     
                     //Get the cell index
                     var cell = this.atlas.cells[this._temptype.cellIndex];
-                    var tx = x * this.tileWidth;
-                    var ty = y * this.tileHeight;
+                    
+                    var tx;
+                    var ty;
 
+                    if (this.orientation == ISOMETRIC) {
+
+                        // Isometric maps
+                        var offsetX = this._temptype.offset.x;
+                        var offsetY = this._temptype.offset.y;
+                        var w = this.tileWidth * (this.width * 2 - 1);
+                        var h = this.tileHeight * this.height;
+                        
+                        // We want &lt;0,0&gt;&#x27;s horizontal center point to be in the screen center, hence the -tileWidth/2.
+                        var shiftX = this.tileWidth / 2;
+
+                        var screenPos = this.chartToScreen( 
+                            { x:x , y:y }, 
+                            this.tileWidth / 2, 
+                            this.tileHeight);
+
+                        tx = screenPos.x + this._temptype.offset.x - shiftX;
+                        ty = screenPos.y + this._temptype.offset.y;
+
+                    } else {
+
+                        // &#x27;normal&#x27; maps
+                        tx = x * this.tileWidth + this._temptype.offset.x;
+                        ty = y * this.tileHeight + this._temptype.offset.y;
+
+                    }
 
                     //Set up the points
                     pt1.setTo(tx - t.rotPointX, ty - t.rotPointY - (cell.h - this.tileHeight));

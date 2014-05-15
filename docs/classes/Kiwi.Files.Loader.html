@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 0.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -567,6 +567,13 @@
                                 
                             </li>
                         
+                            <li class="index-item method private">
+                                <a href="#method_attemptToAddAudio">attemptToAddAudio</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public">
                                 <a href="#method_boot">boot</a>
 
@@ -848,7 +855,8 @@
     <div class="description">
         <p>Creates a new File to store a audio piece. 
 This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.
-You can override this behaviour and tell the audio data to load even if not supported by setting the &#39;onlyIfSupported&#39; boolean to false.</p>
+You can override this behaviour and tell the audio data to load even if not supported by setting the &#39;onlyIfSupported&#39; boolean to false.
+Also you can now pass an array of filepaths, and the first audio filetype that is supported will be loaded.</p>
 
     </div>
 
@@ -883,7 +891,7 @@ You can override this behaviour and tell the audio data to load even if not supp
                     
 
                     <div class="param-description">
-                        <p>The url of the audio to load.</p>
+                        <p>The url of the audio to load. You can pass an array of URLs, in which case the first supported audio filetype in the array will be loaded.</p>
 
                     </div>
 
@@ -990,7 +998,7 @@ You can override this behaviour and tell the audio data to load even if not supp
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l340"><code>src\file\Loader.ts:340</code></a>
+        <a href="../files/src_file_Loader.ts.html#l372"><code>src\file\Loader.ts:372</code></a>
         
         </p>
 
@@ -1354,7 +1362,7 @@ You can override this behaviour and tell the audio data to load even if not supp
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l312"><code>src\file\Loader.ts:312</code></a>
+        <a href="../files/src_file_Loader.ts.html#l344"><code>src\file\Loader.ts:344</code></a>
         
         </p>
 
@@ -1830,7 +1838,7 @@ You can override this behaviour and tell the audio data to load even if not supp
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l354"><code>src\file\Loader.ts:354</code></a>
+        <a href="../files/src_file_Loader.ts.html#l386"><code>src\file\Loader.ts:386</code></a>
         
         </p>
 
@@ -2134,7 +2142,7 @@ You can override this behaviour and tell the audio data to load even if not supp
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l428"><code>src\file\Loader.ts:428</code></a>
+        <a href="../files/src_file_Loader.ts.html#l460"><code>src\file\Loader.ts:460</code></a>
         
         </p>
 
@@ -2236,7 +2244,7 @@ You can override this behaviour and tell the audio data to load even if not supp
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l326"><code>src\file\Loader.ts:326</code></a>
+        <a href="../files/src_file_Loader.ts.html#l358"><code>src\file\Loader.ts:358</code></a>
         
         </p>
 
@@ -2300,6 +2308,166 @@ You can override this behaviour and tell the audio data to load even if not supp
 
                     <div class="param-description">
                         <p>If the file should be stored globally.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_attemptToAddAudio" class="method item private">
+    <h3 class="name"><code>attemptToAddAudio</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>key</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>url</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[storeAsGlobal=true]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[onlyIfSupported=true]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l299"><code>src\file\Loader.ts:299</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.
+Returns a boolean if the audio file was successfully added or not to the file directory.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">key</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The key for the audio file.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">url</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The url of the audio to load.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[storeAsGlobal=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If the file should be stored globally.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[onlyIfSupported=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If the audio file should only be loaded if Kiwi detects that the audio file could be played. Set this to fa</p>
 
                     </div>
 
@@ -2421,7 +2589,7 @@ You can override this behaviour and tell the audio data to load even if not supp
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l562"><code>src\file\Loader.ts:562</code></a>
+        <a href="../files/src_file_Loader.ts.html#l594"><code>src\file\Loader.ts:594</code></a>
         
         </p>
 
@@ -2519,7 +2687,7 @@ You can override this behaviour and tell the audio data to load even if not supp
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l581"><code>src\file\Loader.ts:581</code></a>
+        <a href="../files/src_file_Loader.ts.html#l613"><code>src\file\Loader.ts:613</code></a>
         
         </p>
 
@@ -2598,7 +2766,7 @@ You can override this behaviour and tell the audio data to load even if not supp
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l480"><code>src\file\Loader.ts:480</code></a>
+        <a href="../files/src_file_Loader.ts.html#l512"><code>src\file\Loader.ts:512</code></a>
         
         </p>
 
@@ -2688,7 +2856,7 @@ You can override this behaviour and tell the audio data to load even if not supp
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l459"><code>src\file\Loader.ts:459</code></a>
+        <a href="../files/src_file_Loader.ts.html#l491"><code>src\file\Loader.ts:491</code></a>
         
         </p>
 
@@ -2772,7 +2940,7 @@ You can override this behaviour and tell the audio data to load even if not supp
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l531"><code>src\file\Loader.ts:531</code></a>
+        <a href="../files/src_file_Loader.ts.html#l563"><code>src\file\Loader.ts:563</code></a>
         
         </p>
 
@@ -2841,7 +3009,7 @@ You can override this behaviour and tell the audio data to load even if not supp
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l407"><code>src\file\Loader.ts:407</code></a>
+        <a href="../files/src_file_Loader.ts.html#l439"><code>src\file\Loader.ts:439</code></a>
         
         </p>
 
@@ -2902,7 +3070,7 @@ You can override this behaviour and tell the audio data to load even if not supp
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l543"><code>src\file\Loader.ts:543</code></a>
+        <a href="../files/src_file_Loader.ts.html#l575"><code>src\file\Loader.ts:575</code></a>
         
         </p>
 
@@ -3108,7 +3276,7 @@ You can override this behaviour and tell the audio data to load even if not supp
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l444"><code>src\file\Loader.ts:444</code></a>
+        <a href="../files/src_file_Loader.ts.html#l476"><code>src\file\Loader.ts:476</code></a>
         
         </p>
 
@@ -3238,7 +3406,7 @@ You can override this behaviour and tell the audio data to load even if not supp
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l368"><code>src\file\Loader.ts:368</code></a>
+        <a href="../files/src_file_Loader.ts.html#l400"><code>src\file\Loader.ts:400</code></a>
         
         </p>
 

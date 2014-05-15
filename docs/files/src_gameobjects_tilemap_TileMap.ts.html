@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 0.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -387,7 +387,9 @@ module Kiwi.GameObjects.Tilemap {
         }
 
         /**
-        * The orientation of the tilemap. Currently this has not effect on the map.
+        * The orientation of the tilemap. 
+        * Note: This value does not affect the individual layers. 
+        * 
         * @property orientation
         * @type String
         * @public
@@ -515,7 +517,7 @@ module Kiwi.GameObjects.Tilemap {
                         return false;
                     }   
 
-                    var json = JSON.parse( this.game.fileStore.getFile(tileMapData).data );
+                    json = JSON.parse( this.game.fileStore.getFile(tileMapData).data );
                     break;
 
                 case &#x27;object&#x27;:
@@ -525,9 +527,9 @@ module Kiwi.GameObjects.Tilemap {
                 default:
                     console.error(&#x27;The type of TileMapData passed could not be idenified. Please either pass a name of JSON file to use OR an object to be used.&#x27;);                    
             }
-             
+
             //Get the map information
-            this.orientation = (json.orietation == undefined) ? &quot;orthogonal&quot; : json.orientation;
+            this.orientation = (json.orientation == undefined) ? ORTHOGONAL : json.orientation;
             this.tileWidth = (json.tilewidth == undefined) ? 32 : json.tilewidth;
             this.tileHeight = (json.tileheight == undefined) ? 32 : json.tileheight;
             this.width = json.width;
@@ -556,6 +558,7 @@ module Kiwi.GameObjects.Tilemap {
                         var h = (layerData.height !== undefined) ? layerData.height : this.height;
 
                         var layer = this.createNewLayer(layerData.name, atlas, layerData.data, w, h, layerData.x * this.tileWidth, layerData.y * this.tileHeight );
+                        layer.orientation = this.orientation;
                         
                         //Add the extra data...
                         layer.visible = (layerData.visible == undefined) ? true : layerData.visible;
@@ -602,22 +605,28 @@ module Kiwi.GameObjects.Tilemap {
                 var iw = tileset.imagewidth - m;
                 var ih = tileset.imageheight - m;
 
+                //Drawing offsets
+                var offset = (tileset.tileoffset == undefined) ? { x: 0, y: 0 } : tileset.tileoffset;
+                
                 //Calculate how many tiles there are in this tileset and thus how many different tile type there can be.
                 for (var y = m; y &lt; ih; y += th) {
                     for (var x = m; x &lt; iw; x += tw) {
-
+    
                         //Does the cell exist? Then use that.
                         var cell = (atlas.cells[startingCell] == undefined) ? -1 : startingCell ;  
-                       
-                        this.createTileType(cell);
+                        
+                        var tileType = this.createTileType(cell);
+                        tileType.offset.x = offset.x;
+                        tileType.offset.y = offset.y;
+                        
                         startingCell++; //Increase the cell to use by one.
                     }
                 }
-
-
+                
                 //Add tile properties
                 for (var tp in tileset.tileproperties) {
-                    this.tileTypes[(parseInt(tileset.firstgid) + parseInt(tp))].properties = tileset.tileproperties[tp];
+                    var tileType = this.tileTypes[(parseInt(tileset.firstgid) + parseInt(tp))];
+                    tileType.properties = tileset.tileproperties[tp];
                 }
 
             }
@@ -840,6 +849,10 @@ module Kiwi.GameObjects.Tilemap {
         }
 
     }
+
+    export var ISOMETRIC: string = &quot;isometric&quot;;
+
+    export var ORTHOGONAL: string = &quot;orthogonal&quot;;
 
 }
     </pre>

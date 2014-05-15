@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 0.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -602,6 +602,13 @@ Every entity requires that you pass to it the state that it belongs too, that wa
                             </li>
                         
                             <li class="index-item property private">
+                                <a href="#property__cellIndex">_cellIndex</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
                                 <a href="#property__clock">_clock</a>
 
                                 
@@ -678,14 +685,14 @@ Every entity requires that you pass to it the state that it belongs too, that wa
                                 
                             </li>
                         
-                            <li class="index-item property public">
+                            <li class="index-item property private">
                                 <a href="#property_dirty">dirty</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property private">
+                            <li class="index-item property public">
                                 <a href="#property_dirty">dirty</a>
 
                                 
@@ -890,7 +897,7 @@ Every entity requires that you pass to it the state that it belongs too, that wa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l474"><code>src\core\Entity.ts:474</code></a>
+        <a href="../files/src_core_Entity.ts.html#l509"><code>src\core\Entity.ts:509</code></a>
         
         </p>
 
@@ -976,7 +983,7 @@ Every entity requires that you pass to it the state that it belongs too, that wa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l439"><code>src\core\Entity.ts:439</code></a>
+        <a href="../files/src_core_Entity.ts.html#l469"><code>src\core\Entity.ts:469</code></a>
         
         </p>
 
@@ -1057,7 +1064,7 @@ Every entity requires that you pass to it the state that it belongs too, that wa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l458"><code>src\core\Entity.ts:458</code></a>
+        <a href="../files/src_core_Entity.ts.html#l489"><code>src\core\Entity.ts:489</code></a>
         
         </p>
 
@@ -1068,7 +1075,7 @@ Every entity requires that you pass to it the state that it belongs too, that wa
     </div>
 
     <div class="description">
-        <p>This isn&#39;t called until the Entity has been added to a layer.
+        <p>This isn&#39;t called until the Entity has been added to a Group/State which is active.
 This functionality is handled by the sub classes.</p>
 
     </div>
@@ -1138,7 +1145,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l449"><code>src\core\Entity.ts:449</code></a>
+        <a href="../files/src_core_Entity.ts.html#l479"><code>src\core\Entity.ts:479</code></a>
         
         </p>
 
@@ -1149,7 +1156,8 @@ This functionality is handled by the sub classes.</p>
     </div>
 
     <div class="description">
-        <p>This isn&#39;t called until the Entity has been added to a Group or a State</p>
+        <p>This isn&#39;t called until the Entity has been added to a Group or a State.
+Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loop doesn&#39;t run) then each member will not execute either.</p>
 
     </div>
 
@@ -1194,7 +1202,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l327"><code>src\core\Entity.ts:327</code></a>
+        <a href="../files/src_core_Entity.ts.html#l357"><code>src\core\Entity.ts:357</code></a>
         
         </p>
 
@@ -1265,6 +1273,55 @@ This functionality is handled by the sub classes.</p>
 </div>
 
                 
+                    <div id="property__cellIndex" class="property item private">
+    <h3 class="name"><code>_cellIndex</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Entity.ts.html#l255"><code>src\core\Entity.ts:255</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Holds the current cell that is being used by the entity.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property__clock" class="property item private">
     <h3 class="name"><code>_clock</code></h3>
     <span class="type">Clock</span>
@@ -1290,7 +1347,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l395"><code>src\core\Entity.ts:395</code></a>
+        <a href="../files/src_core_Entity.ts.html#l425"><code>src\core\Entity.ts:425</code></a>
         
         </p>
 
@@ -1337,7 +1394,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l306"><code>src\core\Entity.ts:306</code></a>
+        <a href="../files/src_core_Entity.ts.html#l336"><code>src\core\Entity.ts:336</code></a>
         
         </p>
 
@@ -1480,7 +1537,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l350"><code>src\core\Entity.ts:350</code></a>
+        <a href="../files/src_core_Entity.ts.html#l380"><code>src\core\Entity.ts:380</code></a>
         
         </p>
 
@@ -1529,7 +1586,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l336"><code>src\core\Entity.ts:336</code></a>
+        <a href="../files/src_core_Entity.ts.html#l366"><code>src\core\Entity.ts:366</code></a>
         
         </p>
 
@@ -1671,7 +1728,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l255"><code>src\core\Entity.ts:255</code></a>
+        <a href="../files/src_core_Entity.ts.html#l264"><code>src\core\Entity.ts:264</code></a>
         
         </p>
 
@@ -1721,7 +1778,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l403"><code>src\core\Entity.ts:403</code></a>
+        <a href="../files/src_core_Entity.ts.html#l433"><code>src\core\Entity.ts:433</code></a>
         
         </p>
 
@@ -1768,7 +1825,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l265"><code>src\core\Entity.ts:265</code></a>
+        <a href="../files/src_core_Entity.ts.html#l295"><code>src\core\Entity.ts:295</code></a>
         
         </p>
 
@@ -1779,53 +1836,6 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
 
     <div class="description">
         <p>The Component Manager</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_dirty" class="property item public">
-    <h3 class="name"><code>dirty</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_Entity.ts.html#l424"><code>src\core\Entity.ts:424</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A value used by components to control if the Entity needs re-rendering</p>
 
     </div>
 
@@ -1862,7 +1872,54 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l416"><code>src\core\Entity.ts:416</code></a>
+        <a href="../files/src_core_Entity.ts.html#l446"><code>src\core\Entity.ts:446</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A value used by components to control if the Entity needs re-rendering</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_dirty" class="property item public">
+    <h3 class="name"><code>dirty</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Entity.ts.html#l454"><code>src\core\Entity.ts:454</code></a>
         
         </p>
 
@@ -1909,7 +1966,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l373"><code>src\core\Entity.ts:373</code></a>
+        <a href="../files/src_core_Entity.ts.html#l403"><code>src\core\Entity.ts:403</code></a>
         
         </p>
 
@@ -1956,7 +2013,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l314"><code>src\core\Entity.ts:314</code></a>
+        <a href="../files/src_core_Entity.ts.html#l344"><code>src\core\Entity.ts:344</code></a>
         
         </p>
 
@@ -2003,7 +2060,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l273"><code>src\core\Entity.ts:273</code></a>
+        <a href="../files/src_core_Entity.ts.html#l303"><code>src\core\Entity.ts:303</code></a>
         
         </p>
 
@@ -2099,7 +2156,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l289"><code>src\core\Entity.ts:289</code></a>
+        <a href="../files/src_core_Entity.ts.html#l319"><code>src\core\Entity.ts:319</code></a>
         
         </p>
 
@@ -2146,7 +2203,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l381"><code>src\core\Entity.ts:381</code></a>
+        <a href="../files/src_core_Entity.ts.html#l411"><code>src\core\Entity.ts:411</code></a>
         
         </p>
 
@@ -2194,7 +2251,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l297"><code>src\core\Entity.ts:297</code></a>
+        <a href="../files/src_core_Entity.ts.html#l327"><code>src\core\Entity.ts:327</code></a>
         
         </p>
 
@@ -2544,7 +2601,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l281"><code>src\core\Entity.ts:281</code></a>
+        <a href="../files/src_core_Entity.ts.html#l311"><code>src\core\Entity.ts:311</code></a>
         
         </p>
 
@@ -2736,7 +2793,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l359"><code>src\core\Entity.ts:359</code></a>
+        <a href="../files/src_core_Entity.ts.html#l389"><code>src\core\Entity.ts:389</code></a>
         
         </p>
 

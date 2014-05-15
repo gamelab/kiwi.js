@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 0.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -498,7 +498,21 @@ module Kiwi.Utils {
         */
         public static isString(obj) {
 
-            return Object.prototype.toString.call(obj) === &#x27;[object string]&#x27;;
+            return Object.prototype.toString.call(obj) === &#x27;[object String]&#x27;;
+
+        }
+
+        /**
+        * Checks if the given argument is a array.
+        * @method isArray
+        * @param {Any} obj
+        * @return {boolean}
+        * @static
+        * @public
+        */
+        public static isArray(obj) {
+            
+            return Object.prototype.toString.call(obj) === &quot;[object Array]&quot;;
 
         }
 

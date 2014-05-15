@@ -10,6 +10,7 @@ Dragging.preload = function () {
 }
 
 Dragging.create = function () {
+
     //Text
     var text = new Kiwi.GameObjects.Textfield(this, 'Drag the pirate and ninja around the stage!', this.game.stage.width / 2, 10, '#000', 12);
     text.textAlign = 'center';
@@ -33,8 +34,14 @@ Dragging.create = function () {
     * Parameter Two - OPTIONAL - Distance between gridpoints in which the sprite should snap to.
     **/
     this.pirate.input.enableDrag(true, 25);
+
 }
 
+Dragging.update = function() {
+
+    Kiwi.State.prototype.update.call(this);
+
+}
 
 
 //Create's a new Kiwi.Game.
@@ -45,5 +52,7 @@ Dragging.create = function () {
 * Param Four - Options - Object - Optional options that the game will use whilst playing. Currently this is used to to choose the renderer/debugmode/device to target
 */
 if(typeof  gameOptions == "undefined")  gameOptions = {};
+
+gameOptions.scaleType = 1;
 
 var game = new Kiwi.Game('game', 'KiwiExample', Dragging,  gameOptions);

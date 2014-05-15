@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 0.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -373,6 +373,7 @@ module Kiwi.GameObjects.Tilemap {
             this.tilemap = tilemap;
             this.index = index;
             this.cellIndex = cellIndex;
+            this.offset = new Kiwi.Geom.Point(0, 0);
         
         }
 
@@ -395,6 +396,16 @@ module Kiwi.GameObjects.Tilemap {
         */
         public properties: any = {};
 
+        /**
+        * The offset of this tile for rendering purposes. 
+        * Does not affect regular collision detection.
+        * 
+        * @property offset
+        * @type Point
+        * @public
+        */ 
+        public offset: Kiwi.Geom.Point;
+        
         /**
         * A reference to the tilemap this tile object belongs to.
         * @property tilemap

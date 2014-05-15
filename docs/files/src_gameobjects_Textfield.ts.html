@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 0.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -706,16 +706,19 @@ module Kiwi.GameObjects {
                         x = 0;
                         break;
                     case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                        x = this._canvas.width / 2;
+                        x = this._canvas.width * 0.5;
                         break;
                     case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
                         x = this._canvas.width;
                         break;
                 }
-                
+
+
                 //Draw the Image
                 var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
-                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx - x + t.rotPointX, m.ty + t.rotPointY);
+                var ct: Kiwi.Geom.Transform = camera.transform;
+
+                ctx.transform(m.a, m.b, m.c, m.d, (m.tx - x) + t.rotPointX - ct.rotPointX, m.ty + t.rotPointY - ct.rotPointY);
                 ctx.drawImage(this._canvas, 0, 0, this._canvas.width, this._canvas.height, -t.rotPointX, -t.rotPointY, this._canvas.width, this._canvas.height);
                 
 
@@ -748,7 +751,7 @@ module Kiwi.GameObjects {
                     x = 0;
                     break;
                 case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                    x = -(this._canvas.width / 2);
+                    x = -(this._canvas.width * 0.5);
                     break;
                 case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
                     x = -(this._canvas.width);

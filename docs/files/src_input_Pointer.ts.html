@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 0.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -651,8 +651,8 @@ module Kiwi.Input {
             this.screenX = event.screenX;
             this.screenY = event.screenY;
 
-            this.x = (this.pageX - this.game.stage.offset.x) * this.game.stage.scale;
-            this.y = (this.pageY - this.game.stage.offset.y) * this.game.stage.scale;
+            this.x = (this.pageX - this.game.stage.offset.x) * this.game.stage.scaleX;
+            this.y = (this.pageY - this.game.stage.offset.y) * this.game.stage.scaleY;
 
             this.point.setTo(this.x, this.y);
             this.circle.x = this.x;

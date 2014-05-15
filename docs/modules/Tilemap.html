@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 0.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -358,8 +358,9 @@
 
 
 <div class="box intro">
-    <p>Is GameObject that contains the information held for a single Layer of Tiles, along with methods to handle the rendering of those Tiles. 
-A TileMapLayer should not be directly created, but instead should be created through a TileMap object instead.</p>
+    <p>A TileMap handles the creation of TileMapLayers and the TileTypes that they use.
+Since a TileMap isn&#39;t a Entity itself you cannot add it to the Stage inorder to render that it manages, 
+Instead you have to add each layer lies within it. This way you can have other GameObjects behind/in-front of layers.</p>
 
 </div>
 

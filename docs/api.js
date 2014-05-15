@@ -213,7 +213,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Tilemap",
             "name": "Tilemap",
-            "description": "Is GameObject that contains the information held for a single Layer of Tiles, along with methods to handle the rendering of those Tiles. \nA TileMapLayer should not be directly created, but instead should be created through a TileMap object instead."
+            "description": "A TileMap handles the creation of TileMapLayers and the TileTypes that they use.\nSince a TileMap isn't a Entity itself you cannot add it to the Stage inorder to render that it manages, \nInstead you have to add each layer lies within it. This way you can have other GameObjects behind/in-front of layers."
         },
         {
             "displayName": "Time",

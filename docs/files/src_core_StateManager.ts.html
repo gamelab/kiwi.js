@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 0.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -466,7 +466,7 @@ module Kiwi {
         * @public
         */
         public addState(state: any, switchTo:boolean = false): boolean {
-
+            console.log(&#x27;Kiwi.StateManager: Adding state&#x27;);
             var tempState;
 
             //What type is the state that was passed.
@@ -484,7 +484,7 @@ module Kiwi {
             if (tempState.config.name &amp;&amp; this.checkKeyExists(tempState.config.name) === true) {
 
                 if (this._game.debug)
-                    console.error(&#x27;Could not add &#x27; + tempState.config.name + &#x27; as a State with that name already exists.&#x27;);
+                    console.error(&#x27;  Kiwi.StateManager: Could not add &#x27; + tempState.config.name + &#x27; as a State with that name already exists.&#x27;);
 
                 return false;
             }
@@ -495,7 +495,7 @@ module Kiwi {
             if (this.checkValidState(tempState) === false) {
 
                 if (this._game.debug)
-                    console.error(tempState.config.name + &#x27; isn\&#x27;t a valid state. Make sure you are using the Kiwi.State class!&#x27;);
+                    console.error(&#x27;  Kiwi.StateManager: &#x27; + tempState.config.name + &#x27; isn\&#x27;t a valid state. Make sure you are using the Kiwi.State class!&#x27;);
 
                 return false;
 
@@ -504,7 +504,7 @@ module Kiwi {
                 this._states.push(tempState);
 
                 if (this._game.debug)
-                    console.log(tempState.config.name + &#x27; was successfully added.&#x27;);
+                    console.log(&#x27;  Kiwi.StateManager: &#x27; + tempState.config.name + &#x27; was successfully added.&#x27;);
 
                 if (switchTo === true) {
                     this.setCurrentState(tempState.config.name);
@@ -543,7 +543,7 @@ module Kiwi {
             }
 
             if (this._game.debug)
-                console.log(&#x27;Switching to &#x27; + key + &#x27; State.&#x27;); 
+                console.log(&#x27;Kiwi.StateManager: Switching to &quot;&#x27; + key + &#x27;&quot; State.&#x27;); 
 
             this._newStateKey = key;
             return true;
@@ -599,7 +599,7 @@ module Kiwi {
             if (this.current !== null &amp;&amp; this.current.config.isReady === false) {
 
                 if(this._game.debug)
-                    console.error(&#x27;Cannot change to a new state till the current state has finished loading!&#x27;);
+                    console.error(&#x27;Kiwi.StateManager: Cannot change to a new state till the current state has finished loading!&#x27;);
 
                 return false;
             }
@@ -699,7 +699,7 @@ module Kiwi {
         private callCreate() {
 
             if (this._game.debug)
-                console.log(&quot;Calling State:Create&quot;);
+                console.log(&quot;Kiwi.StateManager: Calling &quot; + this.current.name + &quot;:Create&quot;);
 
             //Execute the create with params if there are some there.
             if (this.current.config.createParams) {
@@ -765,16 +765,8 @@ module Kiwi {
 
             this.current.loadComplete();
             
-            if (this._game.debug) {
-                console.log(&quot;Rebuilding Libraries&quot;);
-            }
-
             //Rebuild the Libraries again to have access the new files that were loaded.
             this.rebuildLibraries();
-            if (this._game.renderOption == Kiwi.RENDERER_WEBGL) {
-                this._game.renderer.initState(this.current);
-            }
-            
             this.current.config.isReady = true;
             this.callCreate();
 
@@ -790,7 +782,9 @@ module Kiwi {
             this.current.audioLibrary.rebuild(this._game.fileStore, this.current);
             this.current.dataLibrary.rebuild(this._game.fileStore, this.current);
             this.current.textureLibrary.rebuild(this._game.fileStore, this.current);
-            
+            if (this._game.renderOption == Kiwi.RENDERER_WEBGL) {
+                this._game.renderer.initState(this.current);
+            }
         }
 
         /**

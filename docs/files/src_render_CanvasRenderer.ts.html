@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 0.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -474,7 +474,7 @@ module Kiwi.Renderers {
             var root: IChild[] = this._game.states.current.members;
             
             //clear 
-            this._game.stage.ctx.fillStyle = this._game.stage.color;
+            this._game.stage.ctx.fillStyle = &#x27;#&#x27; + this._game.stage.color;
             
             this._game.stage.ctx.fillRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
 

@@ -61,6 +61,13 @@ Or - use the grunt file. This requires installing node.js, and the grunt CLI pac
 The csproj and grunt compilation methods both output a single kiwi.js file in /build
 Grunt will also create a min.js version and also output a kiwi.d.ts definition file in /build as well
 
+##Folders
+
+* build  
+* src  
+* docs - API documentation on the Kiwi.JS engine.
+* examples 
+* templateGame - An example TemplateGame to help you on your way to developing a Kiwi.JS game.   
 
 ##Contribute
 

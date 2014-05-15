@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 0.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -422,7 +422,7 @@ module Kiwi.Textures {
 
             if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
                 if (Kiwi.Utils.Common.base2Sizes.indexOf(atlas.image.width) == -1 || Kiwi.Utils.Common.base2Sizes.indexOf(atlas.image.height) == -1) {
-                    console.log(&quot;Warning:Image is not of base2 size and may not render correctly.&quot;);
+                    console.log(&quot;Kiwi.TextureLibrary: Warning:Image is not of base2 size and may not render correctly.&quot;);
                 }
                 var renderManager = &lt;Kiwi.Renderers.GLRenderManager&gt;this._game.renderer;
                 renderManager.addTexture(this._game.stage.gl, atlas);
@@ -497,7 +497,7 @@ module Kiwi.Textures {
                 }
 
                 if (this._game.debug)
-                    console.log(imageFile.fileName + &#x27; has been rebuilt to be base2.&#x27;);
+                    console.log(&#x27;Kiwi.TextureLibrary: &#x27; + imageFile.fileName + &#x27; has been rebuilt to be base2.&#x27;);
 
                 //Assign the new image to the data
                 imageFile.data = newImg;
@@ -564,14 +564,14 @@ module Kiwi.Textures {
         public rebuild(fileStore: Kiwi.Files.FileStore, state: Kiwi.State) {
             this.clear();
             if (this._game.debug) {
-                console.log(&quot;Rebuilding Texture Library&quot;);
+                console.log(&quot;Kiwi.TextureLibrary: Rebuilding Texture Library&quot;);
             }
             
             var fileStoreKeys = fileStore.keys;
             for (var i = 0; i &lt; fileStoreKeys.length; i++) {
                 var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
                 if (file.isTexture) {
-                    if (this._game.debug) { console.log(&quot;Adding Texture: &quot; + file.fileName) };
+                    if (this._game.debug) { console.log(&quot;  Kiwi.TextureLibrary: Adding Texture: &quot; + file.fileName) };
                     state.textureLibrary.addFromFile(file);
                 }
             }

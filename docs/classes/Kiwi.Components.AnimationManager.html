@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 0.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -910,7 +910,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l317"><code>src\components\AnimationManager.ts:317</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l318"><code>src\components\AnimationManager.ts:318</code></a>
         
         </p>
 
@@ -1320,7 +1320,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l400"><code>src\components\AnimationManager.ts:400</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l401"><code>src\components\AnimationManager.ts:401</code></a>
         
         </p>
 
@@ -1391,7 +1391,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l376"><code>src\components\AnimationManager.ts:376</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l377"><code>src\components\AnimationManager.ts:377</code></a>
         
         </p>
 
@@ -1483,7 +1483,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l297"><code>src\components\AnimationManager.ts:297</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l298"><code>src\components\AnimationManager.ts:298</code></a>
         
         </p>
 
@@ -1860,7 +1860,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l307"><code>src\components\AnimationManager.ts:307</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l308"><code>src\components\AnimationManager.ts:308</code></a>
         
         </p>
 
@@ -2061,7 +2061,8 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
         <p>Either switches to a particular animation OR a particular frame in the current animation depending on if you pass the name of an animation that exists on this Manager (as a string) or a number refering to a frame index on the Animation. 
 When you switch to a particular animation then 
 You can also force the animation to play or to stop by passing a boolean in. But if left as null, the animation will base it off what is currently happening.
-So if the animation is currently &#39;playing&#39; then once switched to the animation will play. If not currently playing it will switch to and stop.</p>
+So if the animation is currently &#39;playing&#39; then once switched to the animation will play. If not currently playing it will switch to and stop.
+If the previous animation played is non-looping and has reached its final frame, it is no longer considered playing, and as such, switching to another animation will not play unless the argument to the play parameter is true.</p>
 
     </div>
 
@@ -2147,7 +2148,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l335"><code>src\components\AnimationManager.ts:335</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l336"><code>src\components\AnimationManager.ts:336</code></a>
         
         </p>
 
@@ -2204,7 +2205,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l388"><code>src\components\AnimationManager.ts:388</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l389"><code>src\components\AnimationManager.ts:389</code></a>
         
         </p>
 
@@ -2403,7 +2404,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l346"><code>src\components\AnimationManager.ts:346</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l347"><code>src\components\AnimationManager.ts:347</code></a>
         
         </p>
 
@@ -2497,7 +2498,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l356"><code>src\components\AnimationManager.ts:356</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l357"><code>src\components\AnimationManager.ts:357</code></a>
         
         </p>
 
@@ -2591,7 +2592,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l366"><code>src\components\AnimationManager.ts:366</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l367"><code>src\components\AnimationManager.ts:367</code></a>
         
         </p>
 

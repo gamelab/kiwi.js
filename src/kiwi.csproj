@@ -224,7 +224,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(ProjectDir)\..\build\kiwi.js $(ProjectDir)\..\examples\
-copy $(ProjectDir)\..\build\kiwi.js C:\code\kiwiplugins\GLParticles\examples\js\.
+copy $(ProjectDir)\..\build\kiwi.js $(ProjectDir)\..\templateGame\lib\kiwi.js
 $(ProjectDir)\..\postbuildbatch</PostBuildEvent>
   </PropertyGroup>
 </Project>

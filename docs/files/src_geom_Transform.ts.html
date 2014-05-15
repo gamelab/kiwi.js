@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 0.7.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -805,12 +805,12 @@ module Kiwi.Geom {
         */
 
         /** 
-	     * [Requires Description]
-	     * @method transformPoint
-         * @param point {Point} point
-         * @return {Point}
-         * @public
-	     **/
+	    * Apply this matrix to a an object with x and y properties representing a point and return the transformed point.
+	    * @method transformPoint
+        * @param point {Point} point
+        * @return {Point}
+        * @public
+	    */
         public transformPoint(point: Point): Point {
 
             var mat = this.getConcatenatedMatrix();
