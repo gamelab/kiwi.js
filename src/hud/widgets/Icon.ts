@@ -17,8 +17,8 @@ module Kiwi.HUD.Widget {
     * @constructor
     * @param game {Kiwi.Game} The game that this icon belongs to.
     * @param atlas {Kiwi.Textures.TextureAtlas} The image that you would like displayed.
-    * @param x {number} The coordinate of the icon on the x-axis.
-    * @param y {number The coordinate of the icon on the y-axis.
+    * @param x {Number} The coordinate of the icon on the x-axis.
+    * @param y {Number} The coordinate of the icon on the y-axis.
     * @return {Kiwi.HUD.Widget.Icon}
     */
     export class Icon extends Kiwi.HUD.HUDWidget {
