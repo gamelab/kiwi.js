@@ -354,14 +354,15 @@
 module Kiwi.Components {
     
     /**
-    * The Sound Component is a class to assist with the creation and management of multiple pieces of audio that may exist on a single Entity. This class is NOT needed when dealing with audio but is instead provided to assist in dealing with audio.
+    * The Sound Component is a class to assist with the creation and management of multiple pieces of audio that may exist on a single Entity. 
+    * This class is NOT needed when dealing with audio but is instead can be used to assist in dealing with audio.
     * 
     * @class Sound
-    * @extends Component
+    * @extends Kiwi.Component
     * @namespace Kiwi.Components
     * @constructor
-    * @param parent {Any} Who the sound component belongs to.
-    * @return {Sound}
+    * @param parent {Any} Who the owner of the sound component is.
+    * @return {Kiwi.Components.Sound}
     */
     export class Sound extends Component {
  
@@ -375,7 +376,7 @@ module Kiwi.Components {
         /**
         * Returns the type of object that this is.
         * @method objType 
-        * @return {String}
+        * @return {String} &quot;Sound&quot;
         * @public
         */
         public objType():string {
@@ -385,7 +386,7 @@ module Kiwi.Components {
         /**
         * Contains a list of all of the Audio objects that are on this component.
         * @private
-        * @type Audio[]
+        * @type Array 
         * @private
         */
         private _audio: Kiwi.Sound.Audio[];
@@ -398,7 +399,7 @@ module Kiwi.Components {
         * @param key {string} The piece of audio that you want to use. 
         * @param [volume=1] {number} The volume that the audio should be set to.
         * @param [loop=false] {boolean} If the audio should keep play again when it finishes playing.
-        * @return {Audio}
+        * @return {Kiwi.Sound.Audio}
         * @public 
         */
         public addSound(name: string, key: string, volume: number=1, loop: boolean=false): Kiwi.Sound.Audio {
@@ -433,7 +434,7 @@ module Kiwi.Components {
         *
         * @method getSound
         * @param name {string} The piece of audio you would like to grab.
-        * @return {Audio}
+        * @return {Kiwi.Sound.Audio}
         * @public
         */
         public getSound(name: string): Kiwi.Sound.Audio {
@@ -442,7 +443,7 @@ module Kiwi.Components {
             return this._audio[name];
         }
 
-        /*
+        /**
         * This method is used to check to see if an audio segment with the name that is specified is on this component.
         * 
         * @method _validate

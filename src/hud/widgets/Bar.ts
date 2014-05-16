@@ -11,10 +11,10 @@ module Kiwi.HUD.Widget {
     * You can control the minimum/maximum and current values of the bar through the Counter widget.
     * 
     * @class Bar
-    * @extends HUDWidget
+    * @extends Kiwi.HUD.HUDWidget
     * @namespace Kiwi.HUD.Widget
     * @constructor 
-    * @param game {Game} The game that this bar belongs to.
+    * @param game {Kiwi.Game} The game that this bar belongs to.
     * @param current {number} The current value of the bar.
     * @param max {number} The maximum value that there can be.
     * @param x {number} The coordinates of this widget on the x-axis.
@@ -22,7 +22,7 @@ module Kiwi.HUD.Widget {
     * @param [width=120] {number} The width of the widget. Defaults to 120.
     * @param [height=20] {number} The height of the widget. Defaults to 20.
     * @param [color='#000'] {string} The default color of the inner bar. Defaults to #000 (black).
-    * @return {Bar}
+    * @return {Kiwi.HUD.Widget.Bar}
     */
     export class Bar extends Kiwi.HUD.HUDWidget {
         
@@ -56,7 +56,7 @@ module Kiwi.HUD.Widget {
         /**
         * Returns the type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "BarWidget"
         * @public
         */
         public objType(): string {
@@ -139,7 +139,7 @@ module Kiwi.HUD.Widget {
         /**
         * The counter component.
         * @property counter
-        * @type Counter
+        * @type Kiwi.HUD.HUDComponents.Counter
         * @public
         */
         public counter: Kiwi.HUD.HUDComponents.Counter;

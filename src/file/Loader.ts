@@ -13,8 +13,8 @@ module Kiwi.Files {
     * @class Loader
     * @namespace Kiwi.Files
     * @constructor
-    * @param game {Game} The game that this loader belongs to.
-    * @return {Loader} This Object
+    * @param game {Kiwi.Game} The game that this loader belongs to.
+    * @return {Kiwi.Files.Loader} This Object
     *
     */
     export class Loader {
@@ -28,7 +28,7 @@ module Kiwi.Files {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Loader"
         * @public
         */
         public objType() {
@@ -38,23 +38,23 @@ module Kiwi.Files {
         /**
         * The game that this loader belongs to.
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private
         */
         private _game: Kiwi.Game;
 
         /**
-        * A list of all of the files that need to be loaded.
+        * A list of all of the files that need to be loaded. Each item in the array is of the type Kiwi.Files.File.
         * @property _fileList
-        * @type File[]
+        * @type Array
         * @private
         */
         private _fileList: Kiwi.Files.File [];
 
         /**
-        * A list of all of the files that have been loaded.
+        * A list of all of the files that have been loaded. Each item in the array is of the type Kiwi.Files.File.
         * @property _loadList
-        * @type File[]
+        * @type Array
         * @private
         */
         private _loadList: Kiwi.Files.File [];
@@ -437,7 +437,7 @@ module Kiwi.Files {
         }
 
         /**
-        * [DESCRIPTION REQUIRED]
+        * Calculates the size of the new file that is to be loaded.
         * @method getNextFileSize
         * @private
         */
@@ -458,9 +458,9 @@ module Kiwi.Files {
         }
 
         /**
-        * [DESCRIPTION REQUIRED]
+        * Adds the number of bytes that a File is to the total number of bytes loaded.
         * @method addToBytesTotal
-        * @param file {File} 
+        * @param file {Kiwi.Files.File} 
         * @private
         */
         private addToBytesTotal(file: Kiwi.Files.File) {
@@ -489,9 +489,9 @@ module Kiwi.Files {
         }
 
         /**
-        * [DESCRIPTION REQUIRED]
+        * Executed whilst a file is being loaded.
         * @method fileLoadProgress
-        * @param file {File}
+        * @param file {Kiwi.Files.File}
         * @private
         */
         private fileLoadProgress(file: Kiwi.Files.File) {
@@ -510,9 +510,9 @@ module Kiwi.Files {
         }
 
         /**
-        * [DESCRIPTION REQUIRED]
+        * Executed when a file has been successfully loaded. This method then decides whether loading is complete or we need to load the next file.
         * @method fileLoadComplete
-        * @param file {File}
+        * @param file {Kiwi.Files.File}
         * @private
         */
         private fileLoadComplete(file: Kiwi.Files.File) {
@@ -611,7 +611,7 @@ module Kiwi.Files {
         }
 
         /**
-        * [DESCRIPTION REQUIRED]
+        * Returns a boolean indicating if everything in the loading que has been loaded or not.
         * @method complete
         * @return {boolean}
         * @public

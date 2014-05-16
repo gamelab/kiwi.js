@@ -346,7 +346,7 @@
 
     
         <div class="extends">
-            Extends Component
+            Extends <a href="..\classes\Kiwi.Component.html" class="crosslink">Kiwi.Component</a>
         </div>
     
 
@@ -370,13 +370,13 @@
 
 <div class="box intro">
     <p>The Box Component is used to handle the various &#39;bounds&#39; that each GameObject has. 
-There are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) on each box depending on what you are wanting:
-RawBounds: The bounding box of the GameObject before rotation.
-RawHitbox: The hitbox of the GameObject before rotation. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.
-Bounds: The bounding box of the GameObject after rotation.
-Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.
-WorldBounds: The bounding box of the Entity using its world coordinates.
-WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
+There are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) depending on what you are wanting:
+RawBounds: The bounding box of the GameObject before rotation/scale.
+RawHitbox: The hitbox of the GameObject before rotation/scale. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.
+Bounds: The bounding box of the GameObject after rotation/scale.
+Hitbox: The hitbox of the GameObject after rotation/scale. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.
+WorldBounds: The bounding box of the Entity using its world coordinates and after rotation/scale.
+WorldHitbox: The hitbox of the Entity using its world coordinates and after rotation/scale.</p>
 
 </div>
 
@@ -426,7 +426,7 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
 
     
         <span class="returns-inline">
-            <span class="type">Box</span>
+            <span class="type"><a href="..\classes\Kiwi.Components.Box.html" class="crosslink">Kiwi.Components.Box</a></span>
         </span>
     
 
@@ -476,7 +476,7 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
                 <li class="param">
                     
                         <code class="param-name">parent</code>
-                        <span class="type">Entity</span>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
                     
 
                     
@@ -568,7 +568,7 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">Box</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Components.Box.html" class="crosslink">Kiwi.Components.Box</a></span>:
                     
                 
             </div>
@@ -619,7 +619,7 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
                                 <a href="#method_destroy">destroy</a>
 
                                 
@@ -640,8 +640,29 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
                                 <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_postUpdate">postUpdate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_preUpdate">preUpdate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_update">update</a>
 
                                 
                                 
@@ -713,6 +734,13 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
                                 
                             </li>
                         
+                            <li class="index-item property public inherited">
+                                <a href="#property_active">active</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property private">
                                 <a href="#property_autoUpdate">autoUpdate</a>
 
@@ -734,7 +762,7 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
                                 
                             </li>
                         
-                            <li class="index-item property public">
+                            <li class="index-item property public inherited">
                                 <a href="#property_dirty">dirty</a>
 
                                 
@@ -743,6 +771,13 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
                         
                             <li class="index-item property public">
                                 <a href="#property_entity">entity</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_game">game</a>
 
                                 
                                 
@@ -764,6 +799,20 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
                         
                             <li class="index-item property private">
                                 <a href="#property_Kiwi.Geom.Point">Kiwi.Geom.Point</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_name">name</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_owner">owner</a>
 
                                 
                                 
@@ -843,7 +892,7 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
 
     
         <span class="returns-inline">
-            <span class="type">Rectangle</span>
+            <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
         </span>
     
 
@@ -872,7 +921,7 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l398"><code>src\components\Box.ts:398</code></a>
+        <a href="../files/src_components_Box.ts.html#l399"><code>src\components\Box.ts:399</code></a>
         
         </p>
 
@@ -896,7 +945,7 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
                 <li class="param">
                     
                         <code class="param-name">rect</code>
-                        <span class="type">Rectangle</span>
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
                     
 
                     
@@ -935,7 +984,7 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">Rectangle</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>:
                     
                 
             </div>
@@ -971,7 +1020,7 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
 
     
         <span class="returns-inline">
-            <span class="type">Rectangle</span>
+            <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
         </span>
     
 
@@ -1000,7 +1049,7 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l367"><code>src\components\Box.ts:367</code></a>
+        <a href="../files/src_components_Box.ts.html#l368"><code>src\components\Box.ts:368</code></a>
         
         </p>
 
@@ -1011,7 +1060,7 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
     </div>
 
     <div class="description">
-        <p>Private internal method only. Used to calculate the transformed bounds after rotation.</p>
+        <p>Private internal method only. Used to calculate the transformed bounds after rotation/scale.</p>
 
     </div>
 
@@ -1024,7 +1073,7 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
                 <li class="param">
                     
                         <code class="param-name">rect</code>
-                        <span class="type">Rectangle</span>
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
                     
 
                     
@@ -1063,7 +1112,7 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">Rectangle</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>:
                     
                 
             </div>
@@ -1099,16 +1148,16 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Kiwi.Component.html#method_destroy">
+                Kiwi.Component
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
-        <a href="../files/src_components_Box.ts.html#l475"><code>src\components\Box.ts:475</code></a>
+        <a href="../files/src_components_Box.ts.html#l479"><code>src\components\Box.ts:479</code></a>
         
         </p>
 
@@ -1175,7 +1224,7 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l430"><code>src\components\Box.ts:430</code></a>
+        <a href="../files/src_components_Box.ts.html#l431"><code>src\components\Box.ts:431</code></a>
         
         </p>
 
@@ -1285,7 +1334,7 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l454"><code>src\components\Box.ts:454</code></a>
+        <a href="../files/src_components_Box.ts.html#l455"><code>src\components\Box.ts:455</code></a>
         
         </p>
 
@@ -1296,7 +1345,8 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
     </div>
 
     <div class="description">
-        <p>[REQUIRES COMMENTING]</p>
+        <p>Method which takes four Points and then converts it into a Rectangle, which represents the area those points covered.
+The points passed can be maybe in any order, as the are checked for validity first.</p>
 
     </div>
 
@@ -1309,13 +1359,14 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
                 <li class="param">
                     
                         <code class="param-name">topLeftPoint</code>
-                        <span class="type">Point</span>
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>The top left Point that the Rectangle should have.</p>
+
                     </div>
 
                     
@@ -1324,13 +1375,14 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
                 <li class="param">
                     
                         <code class="param-name">topRightPoint</code>
-                        <span class="type">Point</span>
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>The top right Point that the Rectangle should have.</p>
+
                     </div>
 
                     
@@ -1339,13 +1391,14 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
                 <li class="param">
                     
                         <code class="param-name">bottomRightPoint</code>
-                        <span class="type">Point</span>
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>The bottom right Point that the Rectangle should have.</p>
+
                     </div>
 
                     
@@ -1354,13 +1407,14 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
                 <li class="param">
                     
                         <code class="param-name">bottomLeftPoint</code>
-                        <span class="type">Point</span>
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>The bottom left Point that the Rectangle should have.</p>
+
                     </div>
 
                     
@@ -1417,12 +1471,12 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Kiwi.Component.html#method_objType">
+                Kiwi.Component
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
@@ -1452,9 +1506,173 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
                     
                         <span class="type">String</span>:
                     
+                    <p>&quot;Box&quot;</p>
+
                 
             </div>
         </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_postUpdate" class="method item public inherited">
+    <h3 class="name"><code>postUpdate</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#method_postUpdate">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l96"><code>src\core\Component.ts:96</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Components can postUpdate, that is run an update after the parent has updated. This is to be overriden by subclasses.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_preUpdate" class="method item public inherited">
+    <h3 class="name"><code>preUpdate</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#method_preUpdate">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l82"><code>src\core\Component.ts:82</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Components can preUpdate, that is update before the parent updates. This is to be overriden by subclasses.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_update" class="method item public inherited">
+    <h3 class="name"><code>update</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#method_update">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l89"><code>src\core\Component.ts:89</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the component is being added to a State rather than a Game Object then over-ride its update method to perform required tasks.</p>
+
+    </div>
+
+    
+
     
 
     
@@ -1471,7 +1689,7 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
                 
                     <div id="property__hitboxOffset" class="property item private">
     <h3 class="name"><code>_hitboxOffset</code></h3>
-    <span class="type">Point</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
 
     
 
@@ -1518,7 +1736,7 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
                 
                     <div id="property__rawBounds" class="property item private">
     <h3 class="name"><code>_rawBounds</code></h3>
-    <span class="type">Rectangle</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
 
     
 
@@ -1541,7 +1759,7 @@ WorldHitbox: The hitbox of the Entity using its world coordinates.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l233"><code>src\components\Box.ts:233</code></a>
+        <a href="../files/src_components_Box.ts.html#l234"><code>src\components\Box.ts:234</code></a>
         
         </p>
 
@@ -1566,7 +1784,7 @@ This for property is only for storage of the values and should be accessed via t
                 
                     <div id="property__rawHitbox" class="property item private">
     <h3 class="name"><code>_rawHitbox</code></h3>
-    <span class="type">Rectangle</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
 
     
 
@@ -1589,7 +1807,7 @@ This for property is only for storage of the values and should be accessed via t
             
         
         
-        <a href="../files/src_components_Box.ts.html#l124"><code>src\components\Box.ts:124</code></a>
+        <a href="../files/src_components_Box.ts.html#l125"><code>src\components\Box.ts:125</code></a>
         
         </p>
 
@@ -1613,7 +1831,7 @@ This for property is only for storage of the values and should be accessed via t
                 
                     <div id="property__transformedBounds" class="property item private">
     <h3 class="name"><code>_transformedBounds</code></h3>
-    <span class="type">Rectangle</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
 
     
 
@@ -1636,7 +1854,7 @@ This for property is only for storage of the values and should be accessed via t
             
         
         
-        <a href="../files/src_components_Box.ts.html#l321"><code>src\components\Box.ts:321</code></a>
+        <a href="../files/src_components_Box.ts.html#l322"><code>src\components\Box.ts:322</code></a>
         
         </p>
 
@@ -1660,7 +1878,7 @@ This for property is only for storage of the values and should be accessed via t
                 
                     <div id="property__transformedCenter" class="property item private">
     <h3 class="name"><code>_transformedCenter</code></h3>
-    <span class="type">Point</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
 
     
 
@@ -1683,7 +1901,7 @@ This for property is only for storage of the values and should be accessed via t
             
         
         
-        <a href="../files/src_components_Box.ts.html#l291"><code>src\components\Box.ts:291</code></a>
+        <a href="../files/src_components_Box.ts.html#l292"><code>src\components\Box.ts:292</code></a>
         
         </p>
 
@@ -1707,7 +1925,7 @@ This for property is only for storage of the values and should be accessed via t
                 
                     <div id="property__transformedHitbox" class="property item private">
     <h3 class="name"><code>_transformedHitbox</code></h3>
-    <span class="type">Rectangle</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
 
     
 
@@ -1730,7 +1948,7 @@ This for property is only for storage of the values and should be accessed via t
             
         
         
-        <a href="../files/src_components_Box.ts.html#l166"><code>src\components\Box.ts:166</code></a>
+        <a href="../files/src_components_Box.ts.html#l167"><code>src\components\Box.ts:167</code></a>
         
         </p>
 
@@ -1740,7 +1958,7 @@ This for property is only for storage of the values and should be accessed via t
     </div>
 
     <div class="description">
-        <p>The transformed or &#39;normal&#39; hitbox for the entity. This is its box after rotation/e.t.c.</p>
+        <p>The transformed or &#39;normal&#39; hitbox for the entity. This is its box after rotation/scale.</p>
 
     </div>
 
@@ -1754,7 +1972,7 @@ This for property is only for storage of the values and should be accessed via t
                 
                     <div id="property__worldBounds" class="property item private">
     <h3 class="name"><code>_worldBounds</code></h3>
-    <span class="type">Rectangle</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
 
     
 
@@ -1777,7 +1995,7 @@ This for property is only for storage of the values and should be accessed via t
             
         
         
-        <a href="../files/src_components_Box.ts.html#l330"><code>src\components\Box.ts:330</code></a>
+        <a href="../files/src_components_Box.ts.html#l331"><code>src\components\Box.ts:331</code></a>
         
         </p>
 
@@ -1801,7 +2019,7 @@ This for property is only for storage of the values and should be accessed via t
                 
                     <div id="property__worldHitbox" class="property item private">
     <h3 class="name"><code>_worldHitbox</code></h3>
-    <span class="type">Rectangle</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
 
     
 
@@ -1824,7 +2042,7 @@ This for property is only for storage of the values and should be accessed via t
             
         
         
-        <a href="../files/src_components_Box.ts.html#l175"><code>src\components\Box.ts:175</code></a>
+        <a href="../files/src_components_Box.ts.html#l176"><code>src\components\Box.ts:176</code></a>
         
         </p>
 
@@ -1834,10 +2052,56 @@ This for property is only for storage of the values and should be accessed via t
     </div>
 
     <div class="description">
-        <p>The transformed &#39;world&#39; hitbox for the entity. This is its box after rotation/e.t.c.</p>
+        <p>The transformed &#39;world&#39; hitbox for the entity. This is its box after rotation/scale.</p>
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_active" class="property item public inherited">
+    <h3 class="name"><code>active</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_active">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l64"><code>src\core\Component.ts:64</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>An active Component is one that has its update method called by its parent.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> true</p>
     
 
     
@@ -1882,7 +2146,7 @@ This for property is only for storage of the values and should be accessed via t
 
     <div class="description">
         <p>Controls whether the hitbox should update automatically to match the hitbox of the current cell on the entity this Box component is attached to (default behaviour).
-Or if the hitbox shouldn&#39;t auto update 
+Or if the hitbox shouldn&#39;t auto update. Which will mean it will stay the same as the last value it had. 
 This property is automatically set to &#39;false&#39; when you override the hitboxes width/height, but you can set this to true afterwards.</p>
 
     </div>
@@ -1899,7 +2163,7 @@ This property is automatically set to &#39;false&#39; when you override the hitb
                 
                     <div id="property_bounds" class="property item public">
     <h3 class="name"><code>bounds</code></h3>
-    <span class="type">Rectangle</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
 
     
 
@@ -1922,7 +2186,7 @@ This property is automatically set to &#39;false&#39; when you override the hitb
             
         
         
-        <a href="../files/src_components_Box.ts.html#l339"><code>src\components\Box.ts:339</code></a>
+        <a href="../files/src_components_Box.ts.html#l340"><code>src\components\Box.ts:340</code></a>
         
         </p>
 
@@ -1947,7 +2211,7 @@ This is READ ONLY.</p>
                 
                     <div id="property_center" class="property item public">
     <h3 class="name"><code>center</code></h3>
-    <span class="type">Point</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
 
     
 
@@ -1970,7 +2234,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l301"><code>src\components\Box.ts:301</code></a>
+        <a href="../files/src_components_Box.ts.html#l302"><code>src\components\Box.ts:302</code></a>
         
         </p>
 
@@ -2009,12 +2273,12 @@ This is READ ONLY.</p>
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Kiwi.Component.html#property_dirty">
+                Kiwi.Component
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
@@ -2042,7 +2306,7 @@ This is READ ONLY.</p>
                 
                     <div id="property_entity" class="property item public">
     <h3 class="name"><code>entity</code></h3>
-    <span class="type">Entity</span>
+    <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
 
     
 
@@ -2087,9 +2351,53 @@ This is READ ONLY.</p>
 </div>
 
                 
+                    <div id="property_game" class="property item public inherited">
+    <h3 class="name"><code>game</code></h3>
+    <span class="type">Game</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_game">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l48"><code>src\core\Component.ts:48</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The game this Component belongs to</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_hitbox" class="property item public">
     <h3 class="name"><code>hitbox</code></h3>
-    <span class="type">Rectangle</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
 
     
 
@@ -2112,7 +2420,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l184"><code>src\components\Box.ts:184</code></a>
+        <a href="../files/src_components_Box.ts.html#l185"><code>src\components\Box.ts:185</code></a>
         
         </p>
 
@@ -2122,7 +2430,7 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>The &#39;normal&#39; or transformed hitbox for the entity. This is its box after rotation/e.t.c.</p>
+        <p>The &#39;normal&#39; or transformed hitbox for the entity. This is its box after rotation/Kiwi.Geom.Rectangle.</p>
 
     </div>
 
@@ -2136,7 +2444,7 @@ This is READ ONLY.</p>
                 
                     <div id="property_hitboxOffset" class="property item public">
     <h3 class="name"><code>hitboxOffset</code></h3>
-    <span class="type">Point</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
 
     
 
@@ -2170,7 +2478,8 @@ This is READ ONLY.</p>
 
     <div class="description">
         <p>Returns the offset value of the hitbox as a point for the X/Y axis for the developer to use.
-This is without rotation or scaling.</p>
+This is without rotation or scaling.
+This is a READ ONLY property.</p>
 
     </div>
 
@@ -2184,7 +2493,7 @@ This is without rotation or scaling.</p>
                 
                     <div id="property_Kiwi.Geom.Point" class="property item private">
     <h3 class="name"><code>Kiwi.Geom.Point</code></h3>
-    <span class="type">Point</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
 
     
 
@@ -2207,7 +2516,7 @@ This is without rotation or scaling.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l264"><code>src\components\Box.ts:264</code></a>
+        <a href="../files/src_components_Box.ts.html#l265"><code>src\components\Box.ts:265</code></a>
         
         </p>
 
@@ -2229,9 +2538,97 @@ This is without rotation or scaling.</p>
 </div>
 
                 
+                    <div id="property_name" class="property item public inherited">
+    <h3 class="name"><code>name</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_name">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l56"><code>src\core\Component.ts:56</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The name of this component.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_owner" class="property item public inherited">
+    <h3 class="name"><code>owner</code></h3>
+    <span class="type">IChild</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_owner">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l40"><code>src\core\Component.ts:40</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The IChild that owns this entity</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_rawBounds" class="property item public">
     <h3 class="name"><code>rawBounds</code></h3>
-    <span class="type">Rectangle</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
 
     
 
@@ -2254,7 +2651,7 @@ This is without rotation or scaling.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l245"><code>src\components\Box.ts:245</code></a>
+        <a href="../files/src_components_Box.ts.html#l246"><code>src\components\Box.ts:246</code></a>
         
         </p>
 
@@ -2279,7 +2676,7 @@ This is READ ONLY.</p>
                 
                     <div id="property_rawCenter" class="property item public">
     <h3 class="name"><code>rawCenter</code></h3>
-    <span class="type">Point</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
 
     
 
@@ -2302,7 +2699,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l274"><code>src\components\Box.ts:274</code></a>
+        <a href="../files/src_components_Box.ts.html#l275"><code>src\components\Box.ts:275</code></a>
         
         </p>
 
@@ -2327,7 +2724,7 @@ This is READ ONLY.</p>
                 
                     <div id="property_rawHitbox" class="property item public">
     <h3 class="name"><code>rawHitbox</code></h3>
-    <span class="type">Rectangle</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
 
     
 
@@ -2350,7 +2747,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l133"><code>src\components\Box.ts:133</code></a>
+        <a href="../files/src_components_Box.ts.html#l134"><code>src\components\Box.ts:134</code></a>
         
         </p>
 
@@ -2376,7 +2773,7 @@ This is READ ONLY.</p>
                 
                     <div id="property_worldBounds" class="property item public">
     <h3 class="name"><code>worldBounds</code></h3>
-    <span class="type">Rectangle</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
 
     
 
@@ -2399,7 +2796,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l353"><code>src\components\Box.ts:353</code></a>
+        <a href="../files/src_components_Box.ts.html#l354"><code>src\components\Box.ts:354</code></a>
         
         </p>
 
@@ -2424,7 +2821,7 @@ This is READ ONLY.</p>
                 
                     <div id="property_worldHitbox" class="property item public">
     <h3 class="name"><code>worldHitbox</code></h3>
-    <span class="type">Rectangle</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
 
     
 
@@ -2447,7 +2844,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l215"><code>src\components\Box.ts:215</code></a>
+        <a href="../files/src_components_Box.ts.html#l216"><code>src\components\Box.ts:216</code></a>
         
         </p>
 

@@ -9,24 +9,24 @@ module Kiwi.Components {
 
     /**
     * The Box Component is used to handle the various 'bounds' that each GameObject has. 
-    * There are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) on each box depending on what you are wanting:
-    * RawBounds: The bounding box of the GameObject before rotation.
-    * RawHitbox: The hitbox of the GameObject before rotation. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.
-    * Bounds: The bounding box of the GameObject after rotation.
-    * Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.
-    * WorldBounds: The bounding box of the Entity using its world coordinates.
-    * WorldHitbox: The hitbox of the Entity using its world coordinates.
+    * There are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) depending on what you are wanting:
+    * RawBounds: The bounding box of the GameObject before rotation/scale.
+    * RawHitbox: The hitbox of the GameObject before rotation/scale. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.
+    * Bounds: The bounding box of the GameObject after rotation/scale.
+    * Hitbox: The hitbox of the GameObject after rotation/scale. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.
+    * WorldBounds: The bounding box of the Entity using its world coordinates and after rotation/scale.
+    * WorldHitbox: The hitbox of the Entity using its world coordinates and after rotation/scale.
     *
     * @class Box
-    * @extends Component
+    * @extends Kiwi.Component
     * @namespace Kiwi.Components
     * @constructor
-    * @param parent {Entity} The entity that this box belongs to.
+    * @param parent {Kiwi.Entity} The entity that this box belongs to.
     * @param [x=0] {Number} Its position on the x axis
     * @param [y=0] {Number} Its position on the y axis
     * @param [width=0] {Number} The width of the box.
     * @param [height=0] {Number} The height of the box.
-    * @return {Box}
+    * @return {Kiwi.Components.Box}
     */
     export class Box extends Component {
  
@@ -51,7 +51,7 @@ module Kiwi.Components {
         /**
         * The entity that this box belongs to.
         * @property entity
-        * @type Entity
+        * @type Kiwi.Entity
         * @public
         */
         public entity: Kiwi.Entity;
@@ -60,7 +60,7 @@ module Kiwi.Components {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {string}
+        * @return {string} "Box"
         * @public
         */
         public objType() {
@@ -70,7 +70,7 @@ module Kiwi.Components {
 
         /**
         * Controls whether the hitbox should update automatically to match the hitbox of the current cell on the entity this Box component is attached to (default behaviour).
-        * Or if the hitbox shouldn't auto update 
+        * Or if the hitbox shouldn't auto update. Which will mean it will stay the same as the last value it had. 
         * This property is automatically set to 'false' when you override the hitboxes width/height, but you can set this to true afterwards. 
         * 
         * @property autoUpdate
@@ -94,7 +94,7 @@ module Kiwi.Components {
         /**
         * Contains offset point for the hitbox 
         * @property _hitboxOffset
-        * @type Point
+        * @type Kiwi.Geom.Point
         * @private
         */
         private _hitboxOffset: Kiwi.Geom.Point;
@@ -104,8 +104,9 @@ module Kiwi.Components {
         /**
         * Returns the offset value of the hitbox as a point for the X/Y axis for the developer to use.
         * This is without rotation or scaling.
+        * This is a READ ONLY property.
         * @property hitboxOffset
-        * @type Point
+        * @type Kiwi.Geom.Point
         * @public
         */
         public get hitboxOffset(): Kiwi.Geom.Point {
@@ -124,7 +125,7 @@ module Kiwi.Components {
         /**
         * Contains the offset rectangle for the raw hitbox. 
         * @property _rawHitbox
-        * @type Rectangle
+        * @type Kiwi.Geom.Rectangle
         * @private
         */
         private _rawHitbox: Kiwi.Geom.Rectangle;
@@ -135,7 +136,7 @@ module Kiwi.Components {
         * 'Raw' means where it would be without rotation or scaling.
         * This is READ ONLY.
         * @property rawHitbox
-        * @type Rectangle
+        * @type Kiwi.Geom.Rectangle
         * @public
         */
         public get rawHitbox(): Kiwi.Geom.Rectangle {
@@ -164,27 +165,27 @@ module Kiwi.Components {
 
 
         /**
-        * The transformed or 'normal' hitbox for the entity. This is its box after rotation/e.t.c.
+        * The transformed or 'normal' hitbox for the entity. This is its box after rotation/scale.
         * @property _transformedHitbox
-        * @type Rectangle
+        * @type Kiwi.Geom.Rectangle
         * @private
         */
         private _transformedHitbox: Kiwi.Geom.Rectangle;
         
 
         /** 
-        * The transformed 'world' hitbox for the entity. This is its box after rotation/e.t.c.
+        * The transformed 'world' hitbox for the entity. This is its box after rotation/scale.
         * @property _worldHitbox
-        * @type Rectangle
+        * @type Kiwi.Geom.Rectangle
         * @private
         */
         private _worldHitbox: Kiwi.Geom.Rectangle;
 
 
         /**
-        * The 'normal' or transformed hitbox for the entity. This is its box after rotation/e.t.c. 
+        * The 'normal' or transformed hitbox for the entity. This is its box after rotation/Kiwi.Geom.Rectangle. 
         * @property hitbox
-        * @type Rectangle
+        * @type Kiwi.Geom.Rectangle
         * @public
         */
         public get hitbox(): Kiwi.Geom.Rectangle {
@@ -216,7 +217,7 @@ module Kiwi.Components {
         * Returns the transformed hitbox for the entity using its 'world' coordinates.
         * This is READ ONLY.
         * @property worldHitbox
-        * @type Rectangle
+        * @type Kiwi.Geom.Rectangle
         * @public
         */
         public get worldHitbox(): Kiwi.Geom.Rectangle {
@@ -235,7 +236,7 @@ module Kiwi.Components {
         * This for property is only for storage of the values and should be accessed via the getter 'rawBounds' so that it can update.
         * 
         * @property _rawBounds
-        * @type Rectangle
+        * @type Kiwi.Geom.Rectangle
         * @private
         */
         private _rawBounds: Kiwi.Geom.Rectangle;
@@ -246,7 +247,7 @@ module Kiwi.Components {
         * Returns the 'raw' bounds for this entity.
         * This is READ ONLY.
         * @property rawBounds
-        * @type Rectangle
+        * @type Kiwi.Geom.Rectangle
         * @public
         */
         public get rawBounds(): Kiwi.Geom.Rectangle {
@@ -264,7 +265,7 @@ module Kiwi.Components {
         /**
         * Contains the 'raw' center point for the bounds.
         * @property Kiwi.Geom.Point
-        * @type Point
+        * @type Kiwi.Geom.Point
         * @private
         */
         private _rawCenter: Kiwi.Geom.Point;
@@ -275,7 +276,7 @@ module Kiwi.Components {
         * Returns the raw center point of the box.
         * This is READ ONLY.
         * @property rawCenter
-        * @type Point
+        * @type Kiwi.Geom.Point
         * @public
         */
         public get rawCenter(): Kiwi.Geom.Point {
@@ -291,7 +292,7 @@ module Kiwi.Components {
         /**
         * Contains the center point after the box has been transformed.
         * @property _transformedCenter
-        * @type Point
+        * @type Kiwi.Geom.Point
         * @private
         */
         private _transformedCenter: Kiwi.Geom.Point;
@@ -302,7 +303,7 @@ module Kiwi.Components {
         * Returns the center point for the box after it has been transformed.
         * This is READ ONLY.
         * @property center
-        * @type Point
+        * @type Kiwi.Geom.Point
         * @public
         */
         public get center(): Kiwi.Geom.Point {
@@ -321,7 +322,7 @@ module Kiwi.Components {
         /**
         * Contains the transformed or 'normal' bounds for this entity.
         * @property _transformedBounds
-        * @type Rectangle
+        * @type Kiwi.Geom.Rectangle
         * @private
         */
         private _transformedBounds: Kiwi.Geom.Rectangle;
@@ -330,7 +331,7 @@ module Kiwi.Components {
         /**
         * The 'world' transformed bounds for this entity. 
         * @property _worldBounds
-        * @type Rectangle
+        * @type Kiwi.Geom.Rectangle
         * @private
         */
         private _worldBounds: Kiwi.Geom.Rectangle;
@@ -340,7 +341,7 @@ module Kiwi.Components {
         * Returns the 'transformed' or 'normal' bounds for this box. 
         * This is READ ONLY.
         * @property bounds
-        * @type Rectangle
+        * @type Kiwi.Geom.Rectangle
         * @public
         */
         public get bounds(): Kiwi.Geom.Rectangle {
@@ -354,7 +355,7 @@ module Kiwi.Components {
         * Returns the 'transformed' bounds for this entity using the world coodinates.
         * This is READ ONLY.
         * @property worldBounds
-        * @type Rectangle
+        * @type Kiwi.Geom.Rectangle
         * @public
         */
         public get worldBounds(): Kiwi.Geom.Rectangle {
@@ -365,11 +366,11 @@ module Kiwi.Components {
         }
 
         /**
-        * Private internal method only. Used to calculate the transformed bounds after rotation.
+        * Private internal method only. Used to calculate the transformed bounds after rotation/scale.
         * @method _rotateRect
-        * @param rect {Rectangle}
+        * @param rect {Kiwi.Geom.Rectangle}
         * @param [useWorldCoords=false] {Boolean}
-        * @return {Rectangle}
+        * @return {Kiwi.Geom.Rectangle}
         * @private
         */
         private _rotateRect(rect: Kiwi.Geom.Rectangle, useWorldCoords: boolean=false): Kiwi.Geom.Rectangle {
@@ -398,9 +399,9 @@ module Kiwi.Components {
         /**
         * A private method that is used to calculate the transformed hitbox's coordinates after rotation. 
         * @method _rotateHitbox
-        * @param rect {Rectangle} 
+        * @param rect {Kiwi.Geom.Rectangle} 
         * @param [useWorldCoords=false] {Boolean}
-        * @return {Rectangle}
+        * @return {Kiwi.Geom.Rectangle}
         * @private
         */
         private _rotateHitbox(rect: Kiwi.Geom.Rectangle, useWorldCoords: boolean=false): Kiwi.Geom.Rectangle {
@@ -452,12 +453,15 @@ module Kiwi.Components {
 
 
         /** 
-        * [REQUIRES COMMENTING]
+        * Method which takes four Points and then converts it into a Rectangle, which represents the area those points covered.
+        * The points passed can be maybe in any order, as the are checked for validity first. 
+        *
         * @method extents
-        * @param topLeftPoint {Point} 
-        * @param topRightPoint {Point} 
-        * @param bottomRightPoint {Point} 
-        * @param bottomLeftPoint {Point} 
+        * @param topLeftPoint {Kiwi.Geom.Point} The top left Point that the Rectangle should have.
+        * @param topRightPoint {Kiwi.Geom.Point} The top right Point that the Rectangle should have.
+        * @param bottomRightPoint {Kiwi.Geom.Point} The bottom right Point that the Rectangle should have.
+        * @param bottomLeftPoint {Kiwi.Geom.Point} The bottom left Point that the Rectangle should have.
+        * @return {Kiwi.Geom.Rectangle} The new Rectangle that represents the area the points covered.
         * @return Rectangle
         */
         public extents(topLeftPoint:Kiwi.Geom.Point, topRightPoint:Kiwi.Geom.Point, bottomRightPoint:Kiwi.Geom.Point, bottomLeftPoint:Kiwi.Geom.Point):Kiwi.Geom.Rectangle {

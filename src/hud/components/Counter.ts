@@ -13,14 +13,14 @@ module Kiwi.HUD.HUDComponents {
     * You can also specifiy maximum/minimum values that the numeric value has be within but by default there is no max/min.
     *
     * @class Counter
-    * @extends Component
+    * @extends Kiwi.Component
     * @namespace Kiwi.HUD.HUDComponents
     * @constructor
     * @param owner {any} The object that this Component belongs to.
     * @param current {number} The current value.
     * @param [max=null] {number} The maximum value it can be. Default is null which means no maximum.
     * @param [min=null] {number} The minimum value that the current can be. Default is null which means no minium.
-    * @return {number}
+    * @return {Kiwi.HUD.HUDComponents.Counter}
     */
     export class Counter extends Kiwi.Component {
         
@@ -38,7 +38,7 @@ module Kiwi.HUD.HUDComponents {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} 'CounterComponent'
         * @public
         */
         public objType(): string {
@@ -73,7 +73,7 @@ module Kiwi.HUD.HUDComponents {
         /**
         * A Kiwi.Signal that dispatches an event when a value has changed.
         * @property updated
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public updated: Kiwi.Signal;

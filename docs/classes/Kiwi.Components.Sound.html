@@ -346,7 +346,7 @@
 
     
         <div class="extends">
-            Extends Component
+            Extends <a href="..\classes\Kiwi.Component.html" class="crosslink">Kiwi.Component</a>
         </div>
     
 
@@ -369,7 +369,8 @@
 
 
 <div class="box intro">
-    <p>The Sound Component is a class to assist with the creation and management of multiple pieces of audio that may exist on a single Entity. This class is NOT needed when dealing with audio but is instead provided to assist in dealing with audio.</p>
+    <p>The Sound Component is a class to assist with the creation and management of multiple pieces of audio that may exist on a single Entity. 
+This class is NOT needed when dealing with audio but is instead can be used to assist in dealing with audio.</p>
 
 </div>
 
@@ -395,7 +396,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">Sound</span>
+            <span class="type"><a href="..\classes\Kiwi.Components.Sound.html" class="crosslink">Kiwi.Components.Sound</a></span>
         </span>
     
 
@@ -451,7 +452,7 @@
                     
 
                     <div class="param-description">
-                        <p>Who the sound component belongs to.</p>
+                        <p>Who the owner of the sound component is.</p>
 
                     </div>
 
@@ -469,7 +470,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Sound</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Components.Sound.html" class="crosslink">Kiwi.Components.Sound</a></span>:
                     
                 
             </div>
@@ -490,6 +491,8 @@
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
         
         
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+        
         
         
     </ul>
@@ -504,6 +507,13 @@
 
                     <ul class="index-list methods extends">
                         
+                            <li class="index-item method private">
+                                <a href="#method__validate">_validate</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public">
                                 <a href="#method_addSound">addSound</a>
 
@@ -511,7 +521,7 @@
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
                                 <a href="#method_destroy">destroy</a>
 
                                 
@@ -525,7 +535,7 @@
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
                                 <a href="#method_objType">objType</a>
 
                                 
@@ -560,8 +570,74 @@
                                 
                             </li>
                         
+                            <li class="index-item method public inherited">
+                                <a href="#method_postUpdate">postUpdate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_preUpdate">preUpdate</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public">
                                 <a href="#method_removeSound">removeSound</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_update">update</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties extends">
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_active">active</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_dirty">dirty</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_game">game</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_name">name</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_owner">owner</a>
 
                                 
                                 
@@ -574,13 +650,118 @@
             
 
             
-
-            
         </div>
 
         
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method__validate" class="method item private">
+    <h3 class="name"><code>_validate</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>name</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_Sound.ts.html#l100"><code>src\components\Sound.ts:100</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>This method is used to check to see if an audio segment with the name that is specified is on this component.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The name of the audio segment you want to check exists.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
 
                 
                     <div id="method_addSound" class="method item public">
@@ -620,7 +801,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">Audio</span>
+            <span class="type"><a href="..\classes\Kiwi.Sound.Audio.html" class="crosslink">Kiwi.Sound.Audio</a></span>
         </span>
     
 
@@ -649,7 +830,7 @@
             
         
         
-        <a href="../files/src_components_Sound.ts.html#l47"><code>src\components\Sound.ts:47</code></a>
+        <a href="../files/src_components_Sound.ts.html#l48"><code>src\components\Sound.ts:48</code></a>
         
         </p>
 
@@ -747,7 +928,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Audio</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Sound.Audio.html" class="crosslink">Kiwi.Sound.Audio</a></span>:
                     
                 
             </div>
@@ -783,16 +964,16 @@
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Kiwi.Component.html#method_destroy">
+                Kiwi.Component
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
-        <a href="../files/src_components_Sound.ts.html#l173"><code>src\components\Sound.ts:173</code></a>
+        <a href="../files/src_components_Sound.ts.html#l174"><code>src\components\Sound.ts:174</code></a>
         
         </p>
 
@@ -834,7 +1015,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">Audio</span>
+            <span class="type"><a href="..\classes\Kiwi.Sound.Audio.html" class="crosslink">Kiwi.Sound.Audio</a></span>
         </span>
     
 
@@ -863,7 +1044,7 @@
             
         
         
-        <a href="../files/src_components_Sound.ts.html#l85"><code>src\components\Sound.ts:85</code></a>
+        <a href="../files/src_components_Sound.ts.html#l86"><code>src\components\Sound.ts:86</code></a>
         
         </p>
 
@@ -911,7 +1092,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Audio</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Sound.Audio.html" class="crosslink">Kiwi.Sound.Audio</a></span>:
                     
                 
             </div>
@@ -951,16 +1132,16 @@
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Kiwi.Component.html#method_objType">
+                Kiwi.Component
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
-        <a href="../files/src_components_Sound.ts.html#l29"><code>src\components\Sound.ts:29</code></a>
+        <a href="../files/src_components_Sound.ts.html#l30"><code>src\components\Sound.ts:30</code></a>
         
         </p>
 
@@ -986,6 +1167,8 @@
                     
                         <span class="type">String</span>:
                     
+                    <p>&quot;Sound&quot;</p>
+
                 
             </div>
         </div>
@@ -1039,7 +1222,7 @@
             
         
         
-        <a href="../files/src_components_Sound.ts.html#l116"><code>src\components\Sound.ts:116</code></a>
+        <a href="../files/src_components_Sound.ts.html#l117"><code>src\components\Sound.ts:117</code></a>
         
         </p>
 
@@ -1130,7 +1313,7 @@
             
         
         
-        <a href="../files/src_components_Sound.ts.html#l131"><code>src\components\Sound.ts:131</code></a>
+        <a href="../files/src_components_Sound.ts.html#l132"><code>src\components\Sound.ts:132</code></a>
         
         </p>
 
@@ -1221,7 +1404,7 @@
             
         
         
-        <a href="../files/src_components_Sound.ts.html#l146"><code>src\components\Sound.ts:146</code></a>
+        <a href="../files/src_components_Sound.ts.html#l147"><code>src\components\Sound.ts:147</code></a>
         
         </p>
 
@@ -1312,7 +1495,7 @@
             
         
         
-        <a href="../files/src_components_Sound.ts.html#l159"><code>src\components\Sound.ts:159</code></a>
+        <a href="../files/src_components_Sound.ts.html#l160"><code>src\components\Sound.ts:160</code></a>
         
         </p>
 
@@ -1351,6 +1534,114 @@
             
             </ul>
         </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_postUpdate" class="method item public inherited">
+    <h3 class="name"><code>postUpdate</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#method_postUpdate">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l96"><code>src\core\Component.ts:96</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Components can postUpdate, that is run an update after the parent has updated. This is to be overriden by subclasses.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_preUpdate" class="method item public inherited">
+    <h3 class="name"><code>preUpdate</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#method_preUpdate">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l82"><code>src\core\Component.ts:82</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Components can preUpdate, that is update before the parent updates. This is to be overriden by subclasses.</p>
+
+    </div>
+
     
 
     
@@ -1403,7 +1694,7 @@
             
         
         
-        <a href="../files/src_components_Sound.ts.html#l68"><code>src\components\Sound.ts:68</code></a>
+        <a href="../files/src_components_Sound.ts.html#l69"><code>src\components\Sound.ts:69</code></a>
         
         </p>
 
@@ -1450,9 +1741,293 @@
 </div>
 
                 
+                    <div id="method_update" class="method item public inherited">
+    <h3 class="name"><code>update</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#method_update">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l89"><code>src\core\Component.ts:89</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the component is being added to a State rather than a Game Object then over-ride its update method to perform required tasks.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
             </div>
         
 
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property_active" class="property item public inherited">
+    <h3 class="name"><code>active</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_active">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l64"><code>src\core\Component.ts:64</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>An active Component is one that has its update method called by its parent.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> true</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_dirty" class="property item public inherited">
+    <h3 class="name"><code>dirty</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_dirty">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l73"><code>src\core\Component.ts:73</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The state of this component.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_game" class="property item public inherited">
+    <h3 class="name"><code>game</code></h3>
+    <span class="type">Game</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_game">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l48"><code>src\core\Component.ts:48</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The game this Component belongs to</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_name" class="property item public inherited">
+    <h3 class="name"><code>name</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_name">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l56"><code>src\core\Component.ts:56</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The name of this component.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_owner" class="property item public inherited">
+    <h3 class="name"><code>owner</code></h3>
+    <span class="type">IChild</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_owner">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l40"><code>src\core\Component.ts:40</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The IChild that owns this entity</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
         
 
         

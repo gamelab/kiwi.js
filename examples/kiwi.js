@@ -1,4 +1,4 @@
-/**
+﻿/**
 *
 * @module Kiwi
 *
@@ -6609,7 +6609,7 @@ var Kiwi;
     var GameObjects = Kiwi.GameObjects;
 })(Kiwi || (Kiwi = {}));
 /**
-* Component's are a snipnets of code which are designed to provide extra functionality to various objects, such as IChild's/GameObjects/HUDWidgets/e.t.c. The code that components have are not necessarily needed for an object to work, but are instead provided to make common task's that you would do with those objects easier. An Example being that at times you may like to make a GameObject draggable by the user and so you can then add Input Component and execute the enableDrag on that GameObject. That would be task that not every GameObject would need, but only specific ones.
+* Component's are a snipnets of code which are designed to provide extra functionality to various objects that contain a ComponentManager. Objects do not have to have Components in order to preform their main function, but are instead provided to make common task's that you may want to do with those Objects a bit easier. For example: Some times you would like to easily listen for when a GameObject has been 'clicked'. So you can attach a 'InputComponent' to a GameObject (Sprites have them by default) which will then do hit-detector code for you. All you have to do is Subscribe to the events on the InputComponent.
 *
 * @module Kiwi
 * @submodule Components
@@ -6619,44 +6619,48 @@ var Kiwi;
 (function (Kiwi) {
     (function (Components) {
         /**
-        * The AnimationManager is used to handle the creation and playment of Animations on a individual GameObject based on the TextureAtlas it has.
-        * When the AnimationManager is instantiated it will loop through all of the Sequences on the TextureAtlas of the GameObject being used and will create a new Animation for each one.
+        * The AnimationManager is used to handle the creation and use of spritesheet Animations on a GameObject based on the TextureAtlas it has.
+        * If the When the AnimationManager is instantiated it will loop through all of the Sequences on the TextureAtlas of the GameObject being used and will create a new Animation for each one.
         * Now when you create a new Animation that animation will automatically be added as a new Sequence to the corresponding Texture.
         * This way you don't need to create new Animations for a each Sprite that use's the same Texture.
         *
         * @class AnimationManager
-        * @extends Component
+        * @extends Kiwi.Component
         * @namespace Kiwi.Components
         * @constructor
-        * @param entity {Entity} The entity that this animation component belongs to.
-        * @return {AnimationManager}
+        * @param entity {Kiwi.Entity} The entity that this animation component belongs to.
+        * @param [inheritSequences=true] {Boolean} If a new Animation should be created for each Sequence on the Entities TextureAtlas it is a part of or not.
+        * @return {Kiwi.Components.AnimationManager}
         */
         var AnimationManager = (function (_super) {
             __extends(AnimationManager, _super);
-            function AnimationManager(entity) {
+            function AnimationManager(entity, inheritSequences) {
+                if (typeof inheritSequences === "undefined") { inheritSequences = true; }
                 _super.call(this, entity, 'Animation');
                 /**
                 * A reference to the animation that is currently being played.
-                * @property _currentAnimation
-                * @type Animation
-                * @default null
-                * @private
+                * @property currentAnimation
+                * @type Kiwi.Animations.Animation
+                * @public
                 */
                 this.currentAnimation = null;
 
-                //get the entity and the animation.
+                //Get the entity and the animation.
                 this.entity = entity;
                 this._atlas = this.entity.atlas;
                 this._animations = {};
 
-                for (var i = 0; i < this._atlas.sequences.length; i++) {
-                    this.createFromSequence(this._atlas.sequences[i], false);
+                //Create all of the default animations.
+                if (inheritSequences == true) {
+                    for (var i = 0; i < this._atlas.sequences.length; i++) {
+                        this.createFromSequence(this._atlas.sequences[i], false);
+                    }
                 }
 
-                //if a default animation already exists
+                //If a default animation already exists
                 if (this._animations['default']) {
                     this.currentAnimation = this._animations['default'];
-                    //otherwise create one.
+                    //Otherwise create one.
                 } else {
                     var defaultCells = [];
                     for (var i = 0; i < this._atlas.cells.length; i++) {
@@ -6686,9 +6690,9 @@ var Kiwi;
             });
 
             /**
-            * The type of object that this is.
+            * Returns a string indicating the type of object that this is.
             * @method objType
-            * @type string
+            * @return {String} "AnimationManager"
             * @public
             */
             AnimationManager.prototype.objType = function () {
@@ -6696,33 +6700,43 @@ var Kiwi;
             };
 
             /**
-            * Creates a new sequence and then adds that sequence as a new animation on this component. Returns that animation that was created.
+            * Creates a new Animation (by creating a Sequence) that can then be played on this AnimationManager.
+            * If you pass to this the name of a Animation that already exists, then the previous Animation will be overridden by this new one.
+            * Note: If the Animation you have overridden was the currentAnimation, then the previous Animation will keep playing until a different Animation is switched to.
+            * By default new Animation Sequences are also added to the TextureAtlas, which can then be inherited.
+            * Returns the Animation that was created.
             *
             * @method add
-            * @param {string} name
-            * @param cells {number[]} An array that contains a reference to the cells that are to be played in the animation.
-            * @param speed {number} The amount of time that each frame should stay on screen for. In seconds.
-            * @param [loop=false] {boolean} If when the animation reaches the last frame, it should go back to the start again.
-            * @param [play=false] {boolean} If once created the animation should play right away.
-            * @return {Animation} The Anim that was created.
+            * @param name {string} The name of the animation that is to be created.
+            * @param cells {Array} An array of numbers, which are reference to each cell that is to be played in the Animation in order.
+            * @param speed {number} The amount of time that each cell in the Animation should stay on screen for. In seconds.
+            * @param [loop=false] {boolean} If when the Animation reaches the last frame, it should go back to the start again.
+            * @param [play=false] {boolean} If once created the animation should played right away.
+            * @param [addToAtlas=true] {boolean} If the new Sequence created should be added to the TextureAtlas or not.
+            * @return {Kiwi.Animations.Animation} The Animation that was created.
             * @public
             */
-            AnimationManager.prototype.add = function (name, cells, speed, loop, play) {
+            AnimationManager.prototype.add = function (name, cells, speed, loop, play, addToAtlas) {
                 if (typeof loop === "undefined") { loop = false; }
                 if (typeof play === "undefined") { play = false; }
+                if (typeof addToAtlas === "undefined") { addToAtlas = true; }
                 var newSequence = new Kiwi.Animations.Sequence(name, cells, speed, loop);
-                this._atlas.sequences.push(newSequence);
+                if (addToAtlas == true)
+                    this._atlas.sequences.push(newSequence);
 
                 return this.createFromSequence(newSequence, play);
             };
 
             /**
-            * Creates a new animation based on a sequence that is passed.
+            * Creates a new Animation based on a Sequence that is passed.
+            * If you pass to this the name of a Animation that already exists, then the previous Animation will be overridden by this new one.
+            * Note: If the Animation you have overridden was the currentAnimation, then the previous Animation will keep playing until a different Animation is switched to.
+            * Returns the Animation that was created.
             *
             * @method createFromSequence
-            * @param sequence {Kiwi.Sequence} The sequence that the animation is based on.
-            * @param [play=false] {boolean} If the animation should play once it has been created
-            * @return {Animation} The Anim that was created.
+            * @param sequence {Kiwi.Sequence} The sequence that the Animation is based on.
+            * @param [play=false] {boolean} If the Animation should played once it has been created
+            * @return {Kiwi.Animations.Animation} The Animation that was created.
             * @public
             */
             AnimationManager.prototype.createFromSequence = function (sequence, play) {
@@ -6739,20 +6753,31 @@ var Kiwi;
             * Plays either the current animation or the name of the animation that you pass.
             *
             * @method play
-            * @param [name] {string} The name of the animation that you want to play. If not passed it plays the current animation.
+            * @param [name] {String} The name of the animation that you want to play. If not passed it plays the current animation.
+            * @param [resetTime=true] {Boolean} When set to false, this will prevent a new Animation from playing if it is already the currentAnimation that is already playing.
+            * @return {Kiwi.Animations.Animation} Returns the current Animation that is now playing.
             * @public
             */
-            AnimationManager.prototype.play = function (name) {
+            AnimationManager.prototype.play = function (name, resetTime) {
                 if (typeof name === "undefined") { name = this.currentAnimation.name; }
-                return this._play(name);
+                if (typeof resetTime === "undefined") { resetTime = true; }
+                //If the current animation playing
+                if (resetTime == false && this.currentAnimation.name === name && this.currentAnimation.isPlaying == true) {
+                    return this.currentAnimation;
+                } else {
+                    return this._play(name);
+                }
             };
 
             /**
-            * Play an animation at a particular frameIndex.
+            * Plays an Animation at a particular frameIndex.
+            * Note: The frameIndex is a particular index of a cell in the Sequence of the Animation you would like to play.
+            * Example: If you had a Animation with a Sequence [0, 1, 2, 3] and you told it to play at index '2', then the cell that it would be at is '3'.
             *
             * @method playAt
             * @param index {Number} The index of the frame in the Sequence that you would like to play.
-            * @param [name] {String} The name of the animation that you want to play. If not passed, it plays it on the current animation.
+            * @param [name] {String} The name of the animation that you want to play. If not passed, it attempts to play it on the current animation.
+            * @return {Kiwi.Animations.Animation} Returns the current Animation that is now playing.
             * @public
             */
             AnimationManager.prototype.playAt = function (index, name) {
@@ -6761,12 +6786,12 @@ var Kiwi;
             };
 
             /**
-            * An internal method used to actually play the animation.
+            * An internal method used to actually play a Animation at a Index.
             *
             * @method _play
-            * @param name {number} The name of the animation that is to be switched to.
-            * @param [index=null] {string} The index of the frame in the Sequence that is to play.
-            * @return {Animation}
+            * @param name {string} The name of the animation that is to be switched to.
+            * @param [index=null] {number} The index of the frame in the Sequence that is to play. If null, then it restarts the animation at the cell it currently is at.
+            * @return {Kiwi.Animations.Animation} Returns the current Animation that is now playing.
             * @private
             */
             AnimationManager.prototype._play = function (name, index) {
@@ -6785,6 +6810,7 @@ var Kiwi;
 
             /**
             * Stops the current animation from playing.
+            *
             * @method stop
             * @public
             */
@@ -6805,7 +6831,9 @@ var Kiwi;
             };
 
             /**
-            * Resumes the current animation. The animation should have already been paused.
+            * Resumes the current animation.
+            * The animation should have already been paused.
+            *
             * @method resume
             * @public
             */
@@ -6816,7 +6844,7 @@ var Kiwi;
             /**
             * Either switches to a particular animation OR a particular frame in the current animation depending on if you pass the name of an animation that exists on this Manager (as a string) or a number refering to a frame index on the Animation.
             * When you switch to a particular animation then
-            * You can also force the animation to play or to stop by passing a boolean in. But if left as null, the animation will base it off what is currently happening.
+            * You can also force the animation to play or to stop by passing a boolean in. But if left as null, the state of the Animation will based off what is currently happening.
             * So if the animation is currently 'playing' then once switched to the animation will play. If not currently playing it will switch to and stop.
             * If the previous animation played is non-looping and has reached its final frame, it is no longer considered playing, and as such, switching to another animation will not play unless the argument to the play parameter is true.
             *
@@ -6871,10 +6899,10 @@ var Kiwi;
             };
 
             /**
-            * Internal method that sets the current animation to the animation passed.
+            * Internal method that sets the current animation to a Animation passed.
             *
             * @method _setCurrentAnimation
-            * @param {string} name
+            * @param name {string} Name of the Animation that is to be switched to.
             * @private
             */
             AnimationManager.prototype._setCurrentAnimation = function (name) {
@@ -6890,7 +6918,9 @@ var Kiwi;
             };
 
             /**
-            * The update loop, it only updates the currentAnimation and only if it is playing.
+            * The update loop for this component.
+            * Only updates the currentAnimation and only if it is playing.
+            *
             * @method update
             * @public
             */
@@ -6902,7 +6932,7 @@ var Kiwi;
 
             Object.defineProperty(AnimationManager.prototype, "currentCell", {
                 /**
-                * Gets the cell that the current animation is current at. This is READ ONLY.
+                * Gets the cell that the current Animation is current at. This is READ ONLY.
                 * @property currentCell
                 * @type number
                 * @public
@@ -6916,7 +6946,7 @@ var Kiwi;
 
             Object.defineProperty(AnimationManager.prototype, "frameIndex", {
                 /**
-                * Gets the current frame index of the cell in the sequence that is currently playing. This is READ ONLY.
+                * Gets the current frame index of the cell in the Sequence that is currently playing. This is READ ONLY.
                 * @property frameIndex
                 * @type number
                 * @public
@@ -6930,7 +6960,7 @@ var Kiwi;
 
             Object.defineProperty(AnimationManager.prototype, "length", {
                 /**
-                * Returns the length (Number of cells) of the current animation that is playing. This is READ ONLY.
+                * Returns the length (Number of cells) of the current Animation that is playing. This is READ ONLY.
                 * @property length
                 * @type number
                 * @public
@@ -6943,11 +6973,12 @@ var Kiwi;
             });
 
             /**
-            * Get a animation that is on the animation component.
+            * Returns a Animation that is on this AnimationComponent
+            * Does not check to see if that Animation exists or not.
             *
             * @method getAnimation
-            * @param {string} name
-            * @return {Animation}
+            * @param name {string} The name of the Animation you would like to get.
+            * @return {Kiwi.Animations.Animation} The Animation that is found. Will be 'undefined' if a Animation with that name did not exist.
             * @public
             */
             AnimationManager.prototype.getAnimation = function (name) {
@@ -6999,24 +7030,24 @@ var Kiwi;
     (function (Components) {
         /**
         * The Box Component is used to handle the various 'bounds' that each GameObject has.
-        * There are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) on each box depending on what you are wanting:
-        * RawBounds: The bounding box of the GameObject before rotation.
-        * RawHitbox: The hitbox of the GameObject before rotation. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.
-        * Bounds: The bounding box of the GameObject after rotation.
-        * Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.
-        * WorldBounds: The bounding box of the Entity using its world coordinates.
-        * WorldHitbox: The hitbox of the Entity using its world coordinates.
+        * There are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) depending on what you are wanting:
+        * RawBounds: The bounding box of the GameObject before rotation/scale.
+        * RawHitbox: The hitbox of the GameObject before rotation/scale. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.
+        * Bounds: The bounding box of the GameObject after rotation/scale.
+        * Hitbox: The hitbox of the GameObject after rotation/scale. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.
+        * WorldBounds: The bounding box of the Entity using its world coordinates and after rotation/scale.
+        * WorldHitbox: The hitbox of the Entity using its world coordinates and after rotation/scale.
         *
         * @class Box
-        * @extends Component
+        * @extends Kiwi.Component
         * @namespace Kiwi.Components
         * @constructor
-        * @param parent {Entity} The entity that this box belongs to.
+        * @param parent {Kiwi.Entity} The entity that this box belongs to.
         * @param [x=0] {Number} Its position on the x axis
         * @param [y=0] {Number} Its position on the y axis
         * @param [width=0] {Number} The width of the box.
         * @param [height=0] {Number} The height of the box.
-        * @return {Box}
+        * @return {Kiwi.Components.Box}
         */
         var Box = (function (_super) {
             __extends(Box, _super);
@@ -7028,7 +7059,7 @@ var Kiwi;
                 _super.call(this, parent, 'Box');
                 /**
                 * Controls whether the hitbox should update automatically to match the hitbox of the current cell on the entity this Box component is attached to (default behaviour).
-                * Or if the hitbox shouldn't auto update
+                * Or if the hitbox shouldn't auto update. Which will mean it will stay the same as the last value it had.
                 * This property is automatically set to 'false' when you override the hitboxes width/height, but you can set this to true afterwards.
                 *
                 * @property autoUpdate
@@ -7053,7 +7084,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {string}
+            * @return {string} "Box"
             * @public
             */
             Box.prototype.objType = function () {
@@ -7064,8 +7095,9 @@ var Kiwi;
                 /**
                 * Returns the offset value of the hitbox as a point for the X/Y axis for the developer to use.
                 * This is without rotation or scaling.
+                * This is a READ ONLY property.
                 * @property hitboxOffset
-                * @type Point
+                * @type Kiwi.Geom.Point
                 * @public
                 */
                 get: function () {
@@ -7086,7 +7118,7 @@ var Kiwi;
                 * 'Raw' means where it would be without rotation or scaling.
                 * This is READ ONLY.
                 * @property rawHitbox
-                * @type Rectangle
+                * @type Kiwi.Geom.Rectangle
                 * @public
                 */
                 get: function () {
@@ -7113,9 +7145,9 @@ var Kiwi;
 
             Object.defineProperty(Box.prototype, "hitbox", {
                 /**
-                * The 'normal' or transformed hitbox for the entity. This is its box after rotation/e.t.c.
+                * The 'normal' or transformed hitbox for the entity. This is its box after rotation/Kiwi.Geom.Rectangle.
                 * @property hitbox
-                * @type Rectangle
+                * @type Kiwi.Geom.Rectangle
                 * @public
                 */
                 get: function () {
@@ -7146,7 +7178,7 @@ var Kiwi;
                 * Returns the transformed hitbox for the entity using its 'world' coordinates.
                 * This is READ ONLY.
                 * @property worldHitbox
-                * @type Rectangle
+                * @type Kiwi.Geom.Rectangle
                 * @public
                 */
                 get: function () {
@@ -7165,7 +7197,7 @@ var Kiwi;
                 * Returns the 'raw' bounds for this entity.
                 * This is READ ONLY.
                 * @property rawBounds
-                * @type Rectangle
+                * @type Kiwi.Geom.Rectangle
                 * @public
                 */
                 get: function () {
@@ -7186,7 +7218,7 @@ var Kiwi;
                 * Returns the raw center point of the box.
                 * This is READ ONLY.
                 * @property rawCenter
-                * @type Point
+                * @type Kiwi.Geom.Point
                 * @public
                 */
                 get: function () {
@@ -7204,7 +7236,7 @@ var Kiwi;
                 * Returns the center point for the box after it has been transformed.
                 * This is READ ONLY.
                 * @property center
-                * @type Point
+                * @type Kiwi.Geom.Point
                 * @public
                 */
                 get: function () {
@@ -7225,7 +7257,7 @@ var Kiwi;
                 * Returns the 'transformed' or 'normal' bounds for this box.
                 * This is READ ONLY.
                 * @property bounds
-                * @type Rectangle
+                * @type Kiwi.Geom.Rectangle
                 * @public
                 */
                 get: function () {
@@ -7243,7 +7275,7 @@ var Kiwi;
                 * Returns the 'transformed' bounds for this entity using the world coodinates.
                 * This is READ ONLY.
                 * @property worldBounds
-                * @type Rectangle
+                * @type Kiwi.Geom.Rectangle
                 * @public
                 */
                 get: function () {
@@ -7257,11 +7289,11 @@ var Kiwi;
             });
 
             /**
-            * Private internal method only. Used to calculate the transformed bounds after rotation.
+            * Private internal method only. Used to calculate the transformed bounds after rotation/scale.
             * @method _rotateRect
-            * @param rect {Rectangle}
+            * @param rect {Kiwi.Geom.Rectangle}
             * @param [useWorldCoords=false] {Boolean}
-            * @return {Rectangle}
+            * @return {Kiwi.Geom.Rectangle}
             * @private
             */
             Box.prototype._rotateRect = function (rect, useWorldCoords) {
@@ -7284,9 +7316,9 @@ var Kiwi;
             /**
             * A private method that is used to calculate the transformed hitbox's coordinates after rotation.
             * @method _rotateHitbox
-            * @param rect {Rectangle}
+            * @param rect {Kiwi.Geom.Rectangle}
             * @param [useWorldCoords=false] {Boolean}
-            * @return {Rectangle}
+            * @return {Kiwi.Geom.Rectangle}
             * @private
             */
             Box.prototype._rotateHitbox = function (rect, useWorldCoords) {
@@ -7329,12 +7361,13 @@ var Kiwi;
             };
 
             /**
-            * [REQUIRES COMMENTING]
+            * Method which ensures that
             * @method extents
-            * @param topLeftPoint {Point}
-            * @param topRightPoint {Point}
-            * @param bottomRightPoint {Point}
-            * @param bottomLeftPoint {Point}
+            * @param topLeftPoint {Kiwi.Geom.Point}
+            * @param topRightPoint {Kiwi.Geom.Point}
+            * @param bottomRightPoint {Kiwi.Geom.Point}
+            * @param bottomLeftPoint {Kiwi.Geom.Point}
+            * @return {Kiwi.Geom.Rectangle} Returns the
             * @return Rectangle
             */
             Box.prototype.extents = function (topLeftPoint, topRightPoint, bottomRightPoint, bottomLeftPoint) {
@@ -8252,10 +8285,10 @@ var Kiwi;
         * @class ArcadePhysics
         * @constructor
         * @namespace Kiwi.Components
-        * @param entity {Entity} The entity that this ArcadePhysics should be used on.
-        * @param box {Box} The box component that holds the hitbox that should be used when resolving and calculating collisions.
-        * @return {ArcadePhysics}
-        * @extends Component
+        * @param entity {Kiwi.Entity} The Entity that this ArcadePhysics should be used on.
+        * @param box {Kiwi.Components.Box} The box component that holds the hitbox that should be used when resolving and calculating collisions.
+        * @return {Kiwi.Components.ArcadePhysics}
+        * @extends Kiwi.Component
         *
         * @author Adam 'Atomic' Saltsman, Flixel
         *
@@ -8310,7 +8343,7 @@ var Kiwi;
             * Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.
             * @method touching
             * @param value [number] The collision constant of the side you want to check against.
-            * @return boolean
+            * @return {boolean} If the Object is currently colliding on that side or not.
             * @public
             */
             ArcadePhysics.prototype.isTouching = function (value) {
@@ -8323,7 +8356,7 @@ var Kiwi;
             * and set the value of allowCollisions directly.
             * @method solid
             * @param [value] {boolean} If left empty, this will then just toggle between ANY and NONE.
-            * @return boolean
+            * @return {boolean} If Object is currently solid or not.
             * @public
             */
             ArcadePhysics.prototype.solid = function (value) {
@@ -8339,10 +8372,13 @@ var Kiwi;
 
             /**
             * Sets up a callback function that will run when this object overlaps with another.
+            * When the method is dispatched it will have TWO arguments.
+            * One - The parent / entity of this ArcadePhysics.
+            * Two - The GameObject that the collision occured with.
             *
             * @method setCallback
-            * @param callbackFunction {Function}
-            * @param callbackContext {Any}
+            * @param callbackFunction {Function} The method that is to be executed whe a overlap occurs.
+            * @param callbackContext {Any} The context that the method is to be called in.
             * @public
             */
             ArcadePhysics.prototype.setCallback = function (callbackFunction, callbackContext) {
@@ -8362,8 +8398,8 @@ var Kiwi;
             *
             * @method seperate
             * @static
-            * @param object1 {Entity} The first GameObject you would like to seperate.
-            * @param object2 {Entity} The second GameObject you would like to seperate from the first.
+            * @param object1 {Kiwi.Entity} The first GameObject you would like to seperate.
+            * @param object2 {Kiwi.Entity} The second GameObject you would like to seperate from the first.
             * @return {boolean}
             * @public
             */
@@ -8379,8 +8415,8 @@ var Kiwi;
             * This method is not recommended to be directly used but instead use a 'collide/overlaps' method instead.
             *
             * @method seperateX
-            * @param object1 {Entity} The first GameObject.
-            * @param object2 {Entity} The second GameObject.
+            * @param object1 {Kiwi.Entity} The first GameObject.
+            * @param object2 {Kiwi.Entity} The second GameObject.
             * @return {boolean} Whether the objects in fact touched and were separated along the X axis.
             * @static
             * @public
@@ -8469,13 +8505,13 @@ var Kiwi;
             };
 
             /**
-            * Separated two GameObject on the y-axis. This method is executed from the 'separate' method.
+            * Separates two GameObject on the y-axis. This method is executed from the 'separate' method.
             * Both objects need to have both an ArcadePhysics Component and a Box component in order for the separate process to succeed.
             * This method is not recommended to be directly used but instead use a 'collide/overlaps' method instead.
             *
             * @method seperateY
-            * @param object1 {Entity} The first GameObject.
-            * @param object2 {Entity} The second GameObject.
+            * @param object1 {Kiwi.Entity} The first GameObject.
+            * @param object2 {Kiwi.Entity} The second GameObject.
             * @return {boolean} Whether the objects in fact touched and were separated along the Y axis.
             * @static
             * @public
@@ -8585,9 +8621,9 @@ var Kiwi;
             * This method is not recommended to be directly used but instead use the 'overlapsTiles' method instead.
             *
             * @method separateTiles
-            * @param object {Entity} The GameObject you are wanting to separate from a tile.
-            * @param layer {TileMapLayer} The TileMapLayer that the tiles belong on.
-            * @param tiles {Object[]}
+            * @param object {Kiwi.Entity} The GameObject you are wanting to separate from a tile.
+            * @param layer {Kiwi.GameObjects.Tilemap.TileMapLayer} The TileMapLayer that the tiles belong on.
+            * @param tiles {Array}
             * @return {Boolean} If any separation occured.
             * @public
             * @static
@@ -8619,9 +8655,9 @@ var Kiwi;
             /**
             * Separates a GameObjects from an Array of Tiles on the x-axis.
             * @method separateTilesX
-            * @param object {Entity} The GameObject you are wanting to separate from a tile.
-            * @param layer {TileMapLayer} The TileMapLayer that the tiles belong on.
-            * @param tile {Object}.
+            * @param object {Kiwi.Entity} The GameObject you are wanting to separate from a tile.
+            * @param layer {Kiwi.GameObjects.Tilemap.TileMapLayer} The TileMapLayer that the tiles belong on.
+            * @param tile {Object} An Object containing the information (x/y/tiletypr) about the tile that is being overlapped.
             * @return {Boolean} If any separation occured.
             * @public
             * @static
@@ -8690,11 +8726,11 @@ var Kiwi;
             };
 
             /**
-            * Separates a GameObjects from an Array of Tiles on the y-axis.
+            * Separates a GameObject from a tiles on the y-axis.
             * @method separateTilesY
-            * @param object {Entity} The GameObject you are wanting to separate from a tile.
-            * @param layer {TileMapLayer} The TileMapLayer that the tiles belong on.
-            * @param tiles {Object[]} The tiles which are overlapping with the GameObject.
+            * @param object {Kiwi.Entity} The GameObject you are wanting to separate from a tile.
+            * @param layer {Kiwi.GameObjects.Tilemap.TileMapLayer} The TileMapLayer that the tiles belong on.
+            * @param tiles {Object} An Object representing the Tile which we are checking to see any overlaps occurs.
             * @return {Boolean} If any separation occured.
             * @public
             * @static
@@ -8768,11 +8804,11 @@ var Kiwi;
             /**
             * A method to check to see if any Tiles with in this parent TileMapLayer overlaps with a GameObject passed.
             * If seperateObjects is true it will seperate the two entities based on their bounding box.
-            * ONLY works if parent of the ArcadePhysics component which is calling this method is a TileMapLayer.
+            * ONLY works if the parent of the ArcadePhysics component which is calling this method is a TileMapLayer.
             * Note: The GameObject passed must contain a box component and only if you want to separate the two objects must is ALSO contain an ArcadePhysics component.
             *
             * @method overlapsTile
-            * @param gameObject {Entity} The GameObject you would like to separate with this one.
+            * @param gameObject {Kiwi.Entity} The GameObject you would like to separate with this one.
             * @param [separateObjects=false] {Boolean} If you want the GameObject to be separated from any tile it collides with.
             * @param [collisionType=ANY] {Number} If you want the GameObject to only check for collisions from a particular side of tiles. ANY by default.
             * @return {Boolean} If any gameobject overlapped.
@@ -8804,7 +8840,7 @@ var Kiwi;
             * Also: Not to be used for separation from tiles.
             *
             * @method overlaps
-            * @param gameObject {Entity}
+            * @param gameObject {Kiwi.Entity}
             * @param [seperateObjects=false] {boolean}
             * @return {boolean}
             * @public
@@ -8834,9 +8870,9 @@ var Kiwi;
             * A method to check to see if the parent of this physics component overlaps with another individual in a Kiwi Group.
             *
             * @method overlapsGroup
-            * @param group {Group}
+            * @param group {Kiwi.Group}
             * @param [seperateObjects=false] {boolean}
-            * @return { boolean }
+            * @return { boolean } If any object in the group overlapped with the GameObject or not.
             * @public
             */
             ArcadePhysics.prototype.overlapsGroup = function (group, separateObjects) {
@@ -8861,11 +8897,12 @@ var Kiwi;
             };
 
             /**
-            * A method to check to see if the parent of this physics component overlaps with a Entity that is held in an array.
+            * A method to check to see if the parent of this physics component overlaps with any Entities that are held in an Array which is passed.
+            *
             * @method overlapsArray
             * @param array {Array} The array of GameObjects you want to check.
             * @param [separateObjects=false] {boolean} If when the objects collide you want them to seperate outwards.
-            * @return {boolean} If a collision was detected or not.
+            * @return {boolean} If any overlapping occured or not.
             * @public
             */
             ArcadePhysics.prototype.overlapsArray = function (array, separateObjects) {
@@ -8899,10 +8936,10 @@ var Kiwi;
             * Computes the velocity based on the parameters passed.
             * @method computeVelocity
             * @static
-            * @param velocity {number}
-            * @param [acceleration=0] {number}
-            * @param [drag=0] {number}
-            * @param [max=10000] {number}
+            * @param velocity {number} The currently velocity.
+            * @param [acceleration=0] {number} The acceleration of the item.
+            * @param [drag=0] {number} The amount of drag effecting the item.
+            * @param [max=10000] {number} The maximum velocity.
             * @return {Number} The new velocity
             * @public
             */
@@ -8932,8 +8969,10 @@ var Kiwi;
 
             /**
             * Updates the position of this object. Automatically called if the 'moves' parameter is true.
+            * This called each frame during the update method.
+            *
             * @method updateMotion
-            * @public
+            * @private
             */
             ArcadePhysics.prototype.updateMotion = function () {
                 var delta;
@@ -8995,7 +9034,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {string}
+            * @return {string} "ArcadePhysics"
             * @public
             */
             ArcadePhysics.prototype.objType = function () {
@@ -9018,8 +9057,8 @@ var Kiwi;
             * @method collide
             * @static
             * @public
-            * @param gameObject1 {Kiwi.GameObjects.Entity} The first game object.
-            * @param gameObject2 {Kiwi.GameObjects.Entity} The second game object.
+            * @param gameObject1 {Kiwi.Entity} The first game object.
+            * @param gameObject2 {Kiwi.Entity} The second game object.
             * @param [seperate=true] {boolean} If the two gameobjects should seperated when they collide.
             * @return {boolean}
             */
@@ -9034,8 +9073,8 @@ var Kiwi;
             * @method collideGroup
             * @static
             * @public
-            * @param gameObject {Kiwi.GameObjects.Entity}
-            * @param group {Any} This could be either an Array of GameObjects or a Group containing members.
+            * @param gameObject {Kiwi.Entity} The entity you would like to check against.
+            * @param group {Kiwi.Group} The Kiwi Group that you want to check the entity against.
             * @param [seperate=true] {boolean}
             * @return {boolean}
             * @public
@@ -9051,8 +9090,8 @@ var Kiwi;
             * @method collideGroupGroup
             * @static
             * @public
-            * @param group1 {Any} This can either be an array or a Group.
-            * @param group2 {Any} Also could either be an array or a Group.
+            * @param group1 {Kiwi.Group} The first Kiwi Group that you want to check the entity against.
+            * @param group2 {Kiwi.Group} The second Kiwi Group that you want to check the entity against.
             * @param [seperate=true] {boolean}
             * @return {boolean}
             */
@@ -9072,8 +9111,8 @@ var Kiwi;
             * @method overlaps
             * @static
             * @public
-            * @param gameObject1 {Kiwi.GameObjects.Entity}
-            * @param gameObject2 {Kiwi.GameObjects.Entity}
+            * @param gameObject1 {Kiwi.Entity} The first game object.
+            * @param gameObject2 {Kiwi.Entity} The second gameobject you are testing the first against.
             * @param [separateObjects=true] {boolean}
             * @return {boolean}
             */
@@ -9088,8 +9127,8 @@ var Kiwi;
             *
             * @method overlapsObjectGroup
             * @static
-            * @param gameObject {Entity}
-            * @param group {Group}
+            * @param gameObject {Kiwi.Entity}
+            * @param group {Kiwi.Group}
             * @param [seperateObjects=true] {boolean} If they overlap should the seperate or not
             * @return {boolean}
             * @public
@@ -9101,12 +9140,12 @@ var Kiwi;
             };
 
             /**
-            * A Static method that checks to see if any objects in a group overlap with objects in another group.
+            * A Static method that checks to see if any objects in one group overlap with objects in another group.
             *
             * @method overlaps
             * @static
-            * @param group1 {Group} The first
-            * @param group2 {Any}
+            * @param group1 {Kiwi.Group} The first group you would like to check against.
+            * @param group2 {Kiwi.Group} The second group you would like to check against.
             * @param [seperate=true] {boolean} If they overlap should the seperate or not
             * @return {boolean}
             * @public
@@ -9132,11 +9171,11 @@ var Kiwi;
             };
 
             /**
-            * A Statuc method that checks to see if any objects from an Array collide with a Kiwi Group members.
+            * A Static method that checks to see if any objects from an Array collide with a Kiwi Group members.
             *
             * @method overlapsArrayGroup
             * @param array {Array} An array you want to check collide.
-            * @param group {Group} A group of objects you want to check overlaps.
+            * @param group {Kiwi.Group} A group of objects you want to check overlaps.
             * @param [seperateObjects=true] {Boolean} If when a collision is found the objects should seperate out.
             * @return {Boolean}
             * @static
@@ -29695,32 +29734,3 @@ var Kiwi;
         d.prototype = new __();
     };
 })(Kiwi || (Kiwi = {}));
-
-/**
- * @fileoverview gl-matrix - High performance matrix and vector operations
- * @author Brandon Jones
- * @author Colin MacKenzie IV
- * @version 2.2.0
- */
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
-(function(e){"use strict";var t={};typeof exports=="undefined"?typeof define=="function"&&typeof define.amd=="object"&&define.amd?(t.exports={},define(function(){return t.exports})):t.exports=typeof window!="undefined"?window:e:t.exports=exports,function(e){if(!t)var t=1e-6;if(!n)var n=typeof Float32Array!="undefined"?Float32Array:Array;if(!r)var r=Math.random;var i={};i.setMatrixArrayType=function(e){n=e},typeof e!="undefined"&&(e.glMatrix=i);var s={};s.create=function(){var e=new n(2);return e[0]=0,e[1]=0,e},s.clone=function(e){var t=new n(2);return t[0]=e[0],t[1]=e[1],t},s.fromValues=function(e,t){var r=new n(2);return r[0]=e,r[1]=t,r},s.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e},s.set=function(e,t,n){return e[0]=t,e[1]=n,e},s.add=function(e,t,n){return e[0]=t[0]+n[0],e[1]=t[1]+n[1],e},s.subtract=function(e,t,n){return e[0]=t[0]-n[0],e[1]=t[1]-n[1],e},s.sub=s.subtract,s.multiply=function(e,t,n){return e[0]=t[0]*n[0],e[1]=t[1]*n[1],e},s.mul=s.multiply,s.divide=function(e,t,n){return e[0]=t[0]/n[0],e[1]=t[1]/n[1],e},s.div=s.divide,s.min=function(e,t,n){return e[0]=Math.min(t[0],n[0]),e[1]=Math.min(t[1],n[1]),e},s.max=function(e,t,n){return e[0]=Math.max(t[0],n[0]),e[1]=Math.max(t[1],n[1]),e},s.scale=function(e,t,n){return e[0]=t[0]*n,e[1]=t[1]*n,e},s.scaleAndAdd=function(e,t,n,r){return e[0]=t[0]+n[0]*r,e[1]=t[1]+n[1]*r,e},s.distance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1];return Math.sqrt(n*n+r*r)},s.dist=s.distance,s.squaredDistance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1];return n*n+r*r},s.sqrDist=s.squaredDistance,s.length=function(e){var t=e[0],n=e[1];return Math.sqrt(t*t+n*n)},s.len=s.length,s.squaredLength=function(e){var t=e[0],n=e[1];return t*t+n*n},s.sqrLen=s.squaredLength,s.negate=function(e,t){return e[0]=-t[0],e[1]=-t[1],e},s.normalize=function(e,t){var n=t[0],r=t[1],i=n*n+r*r;return i>0&&(i=1/Math.sqrt(i),e[0]=t[0]*i,e[1]=t[1]*i),e},s.dot=function(e,t){return e[0]*t[0]+e[1]*t[1]},s.cross=function(e,t,n){var r=t[0]*n[1]-t[1]*n[0];return e[0]=e[1]=0,e[2]=r,e},s.lerp=function(e,t,n,r){var i=t[0],s=t[1];return e[0]=i+r*(n[0]-i),e[1]=s+r*(n[1]-s),e},s.random=function(e,t){t=t||1;var n=r()*2*Math.PI;return e[0]=Math.cos(n)*t,e[1]=Math.sin(n)*t,e},s.transformMat2=function(e,t,n){var r=t[0],i=t[1];return e[0]=n[0]*r+n[2]*i,e[1]=n[1]*r+n[3]*i,e},s.transformMat2d=function(e,t,n){var r=t[0],i=t[1];return e[0]=n[0]*r+n[2]*i+n[4],e[1]=n[1]*r+n[3]*i+n[5],e},s.transformMat3=function(e,t,n){var r=t[0],i=t[1];return e[0]=n[0]*r+n[3]*i+n[6],e[1]=n[1]*r+n[4]*i+n[7],e},s.transformMat4=function(e,t,n){var r=t[0],i=t[1];return e[0]=n[0]*r+n[4]*i+n[12],e[1]=n[1]*r+n[5]*i+n[13],e},s.forEach=function(){var e=s.create();return function(t,n,r,i,s,o){var u,a;n||(n=2),r||(r=0),i?a=Math.min(i*n+r,t.length):a=t.length;for(u=r;u<a;u+=n)e[0]=t[u],e[1]=t[u+1],s(e,e,o),t[u]=e[0],t[u+1]=e[1];return t}}(),s.str=function(e){return"vec2("+e[0]+", "+e[1]+")"},typeof e!="undefined"&&(e.vec2=s);var o={};o.create=function(){var e=new n(3);return e[0]=0,e[1]=0,e[2]=0,e},o.clone=function(e){var t=new n(3);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t},o.fromValues=function(e,t,r){var i=new n(3);return i[0]=e,i[1]=t,i[2]=r,i},o.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e},o.set=function(e,t,n,r){return e[0]=t,e[1]=n,e[2]=r,e},o.add=function(e,t,n){return e[0]=t[0]+n[0],e[1]=t[1]+n[1],e[2]=t[2]+n[2],e},o.subtract=function(e,t,n){return e[0]=t[0]-n[0],e[1]=t[1]-n[1],e[2]=t[2]-n[2],e},o.sub=o.subtract,o.multiply=function(e,t,n){return e[0]=t[0]*n[0],e[1]=t[1]*n[1],e[2]=t[2]*n[2],e},o.mul=o.multiply,o.divide=function(e,t,n){return e[0]=t[0]/n[0],e[1]=t[1]/n[1],e[2]=t[2]/n[2],e},o.div=o.divide,o.min=function(e,t,n){return e[0]=Math.min(t[0],n[0]),e[1]=Math.min(t[1],n[1]),e[2]=Math.min(t[2],n[2]),e},o.max=function(e,t,n){return e[0]=Math.max(t[0],n[0]),e[1]=Math.max(t[1],n[1]),e[2]=Math.max(t[2],n[2]),e},o.scale=function(e,t,n){return e[0]=t[0]*n,e[1]=t[1]*n,e[2]=t[2]*n,e},o.scaleAndAdd=function(e,t,n,r){return e[0]=t[0]+n[0]*r,e[1]=t[1]+n[1]*r,e[2]=t[2]+n[2]*r,e},o.distance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1],i=t[2]-e[2];return Math.sqrt(n*n+r*r+i*i)},o.dist=o.distance,o.squaredDistance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1],i=t[2]-e[2];return n*n+r*r+i*i},o.sqrDist=o.squaredDistance,o.length=function(e){var t=e[0],n=e[1],r=e[2];return Math.sqrt(t*t+n*n+r*r)},o.len=o.length,o.squaredLength=function(e){var t=e[0],n=e[1],r=e[2];return t*t+n*n+r*r},o.sqrLen=o.squaredLength,o.negate=function(e,t){return e[0]=-t[0],e[1]=-t[1],e[2]=-t[2],e},o.normalize=function(e,t){var n=t[0],r=t[1],i=t[2],s=n*n+r*r+i*i;return s>0&&(s=1/Math.sqrt(s),e[0]=t[0]*s,e[1]=t[1]*s,e[2]=t[2]*s),e},o.dot=function(e,t){return e[0]*t[0]+e[1]*t[1]+e[2]*t[2]},o.cross=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=n[0],u=n[1],a=n[2];return e[0]=i*a-s*u,e[1]=s*o-r*a,e[2]=r*u-i*o,e},o.lerp=function(e,t,n,r){var i=t[0],s=t[1],o=t[2];return e[0]=i+r*(n[0]-i),e[1]=s+r*(n[1]-s),e[2]=o+r*(n[2]-o),e},o.random=function(e,t){t=t||1;var n=r()*2*Math.PI,i=r()*2-1,s=Math.sqrt(1-i*i)*t;return e[0]=Math.cos(n)*s,e[1]=Math.sin(n)*s,e[2]=i*t,e},o.transformMat4=function(e,t,n){var r=t[0],i=t[1],s=t[2];return e[0]=n[0]*r+n[4]*i+n[8]*s+n[12],e[1]=n[1]*r+n[5]*i+n[9]*s+n[13],e[2]=n[2]*r+n[6]*i+n[10]*s+n[14],e},o.transformMat3=function(e,t,n){var r=t[0],i=t[1],s=t[2];return e[0]=r*n[0]+i*n[3]+s*n[6],e[1]=r*n[1]+i*n[4]+s*n[7],e[2]=r*n[2]+i*n[5]+s*n[8],e},o.transformQuat=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=n[0],u=n[1],a=n[2],f=n[3],l=f*r+u*s-a*i,c=f*i+a*r-o*s,h=f*s+o*i-u*r,p=-o*r-u*i-a*s;return e[0]=l*f+p*-o+c*-a-h*-u,e[1]=c*f+p*-u+h*-o-l*-a,e[2]=h*f+p*-a+l*-u-c*-o,e},o.forEach=function(){var e=o.create();return function(t,n,r,i,s,o){var u,a;n||(n=3),r||(r=0),i?a=Math.min(i*n+r,t.length):a=t.length;for(u=r;u<a;u+=n)e[0]=t[u],e[1]=t[u+1],e[2]=t[u+2],s(e,e,o),t[u]=e[0],t[u+1]=e[1],t[u+2]=e[2];return t}}(),o.str=function(e){return"vec3("+e[0]+", "+e[1]+", "+e[2]+")"},typeof e!="undefined"&&(e.vec3=o);var u={};u.create=function(){var e=new n(4);return e[0]=0,e[1]=0,e[2]=0,e[3]=0,e},u.clone=function(e){var t=new n(4);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t[3]=e[3],t},u.fromValues=function(e,t,r,i){var s=new n(4);return s[0]=e,s[1]=t,s[2]=r,s[3]=i,s},u.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e},u.set=function(e,t,n,r,i){return e[0]=t,e[1]=n,e[2]=r,e[3]=i,e},u.add=function(e,t,n){return e[0]=t[0]+n[0],e[1]=t[1]+n[1],e[2]=t[2]+n[2],e[3]=t[3]+n[3],e},u.subtract=function(e,t,n){return e[0]=t[0]-n[0],e[1]=t[1]-n[1],e[2]=t[2]-n[2],e[3]=t[3]-n[3],e},u.sub=u.subtract,u.multiply=function(e,t,n){return e[0]=t[0]*n[0],e[1]=t[1]*n[1],e[2]=t[2]*n[2],e[3]=t[3]*n[3],e},u.mul=u.multiply,u.divide=function(e,t,n){return e[0]=t[0]/n[0],e[1]=t[1]/n[1],e[2]=t[2]/n[2],e[3]=t[3]/n[3],e},u.div=u.divide,u.min=function(e,t,n){return e[0]=Math.min(t[0],n[0]),e[1]=Math.min(t[1],n[1]),e[2]=Math.min(t[2],n[2]),e[3]=Math.min(t[3],n[3]),e},u.max=function(e,t,n){return e[0]=Math.max(t[0],n[0]),e[1]=Math.max(t[1],n[1]),e[2]=Math.max(t[2],n[2]),e[3]=Math.max(t[3],n[3]),e},u.scale=function(e,t,n){return e[0]=t[0]*n,e[1]=t[1]*n,e[2]=t[2]*n,e[3]=t[3]*n,e},u.scaleAndAdd=function(e,t,n,r){return e[0]=t[0]+n[0]*r,e[1]=t[1]+n[1]*r,e[2]=t[2]+n[2]*r,e[3]=t[3]+n[3]*r,e},u.distance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1],i=t[2]-e[2],s=t[3]-e[3];return Math.sqrt(n*n+r*r+i*i+s*s)},u.dist=u.distance,u.squaredDistance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1],i=t[2]-e[2],s=t[3]-e[3];return n*n+r*r+i*i+s*s},u.sqrDist=u.squaredDistance,u.length=function(e){var t=e[0],n=e[1],r=e[2],i=e[3];return Math.sqrt(t*t+n*n+r*r+i*i)},u.len=u.length,u.squaredLength=function(e){var t=e[0],n=e[1],r=e[2],i=e[3];return t*t+n*n+r*r+i*i},u.sqrLen=u.squaredLength,u.negate=function(e,t){return e[0]=-t[0],e[1]=-t[1],e[2]=-t[2],e[3]=-t[3],e},u.normalize=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=n*n+r*r+i*i+s*s;return o>0&&(o=1/Math.sqrt(o),e[0]=t[0]*o,e[1]=t[1]*o,e[2]=t[2]*o,e[3]=t[3]*o),e},u.dot=function(e,t){return e[0]*t[0]+e[1]*t[1]+e[2]*t[2]+e[3]*t[3]},u.lerp=function(e,t,n,r){var i=t[0],s=t[1],o=t[2],u=t[3];return e[0]=i+r*(n[0]-i),e[1]=s+r*(n[1]-s),e[2]=o+r*(n[2]-o),e[3]=u+r*(n[3]-u),e},u.random=function(e,t){return t=t||1,e[0]=r(),e[1]=r(),e[2]=r(),e[3]=r(),u.normalize(e,e),u.scale(e,e,t),e},u.transformMat4=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3];return e[0]=n[0]*r+n[4]*i+n[8]*s+n[12]*o,e[1]=n[1]*r+n[5]*i+n[9]*s+n[13]*o,e[2]=n[2]*r+n[6]*i+n[10]*s+n[14]*o,e[3]=n[3]*r+n[7]*i+n[11]*s+n[15]*o,e},u.transformQuat=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=n[0],u=n[1],a=n[2],f=n[3],l=f*r+u*s-a*i,c=f*i+a*r-o*s,h=f*s+o*i-u*r,p=-o*r-u*i-a*s;return e[0]=l*f+p*-o+c*-a-h*-u,e[1]=c*f+p*-u+h*-o-l*-a,e[2]=h*f+p*-a+l*-u-c*-o,e},u.forEach=function(){var e=u.create();return function(t,n,r,i,s,o){var u,a;n||(n=4),r||(r=0),i?a=Math.min(i*n+r,t.length):a=t.length;for(u=r;u<a;u+=n)e[0]=t[u],e[1]=t[u+1],e[2]=t[u+2],e[3]=t[u+3],s(e,e,o),t[u]=e[0],t[u+1]=e[1],t[u+2]=e[2],t[u+3]=e[3];return t}}(),u.str=function(e){return"vec4("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+")"},typeof e!="undefined"&&(e.vec4=u);var a={};a.create=function(){var e=new n(4);return e[0]=1,e[1]=0,e[2]=0,e[3]=1,e},a.clone=function(e){var t=new n(4);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t[3]=e[3],t},a.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e},a.identity=function(e){return e[0]=1,e[1]=0,e[2]=0,e[3]=1,e},a.transpose=function(e,t){if(e===t){var n=t[1];e[1]=t[2],e[2]=n}else e[0]=t[0],e[1]=t[2],e[2]=t[1],e[3]=t[3];return e},a.invert=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=n*s-i*r;return o?(o=1/o,e[0]=s*o,e[1]=-r*o,e[2]=-i*o,e[3]=n*o,e):null},a.adjoint=function(e,t){var n=t[0];return e[0]=t[3],e[1]=-t[1],e[2]=-t[2],e[3]=n,e},a.determinant=function(e){return e[0]*e[3]-e[2]*e[1]},a.multiply=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=n[0],a=n[1],f=n[2],l=n[3];return e[0]=r*u+i*f,e[1]=r*a+i*l,e[2]=s*u+o*f,e[3]=s*a+o*l,e},a.mul=a.multiply,a.rotate=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=Math.sin(n),a=Math.cos(n);return e[0]=r*a+i*u,e[1]=r*-u+i*a,e[2]=s*a+o*u,e[3]=s*-u+o*a,e},a.scale=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=n[0],a=n[1];return e[0]=r*u,e[1]=i*a,e[2]=s*u,e[3]=o*a,e},a.str=function(e){return"mat2("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+")"},typeof e!="undefined"&&(e.mat2=a);var f={};f.create=function(){var e=new n(6);return e[0]=1,e[1]=0,e[2]=0,e[3]=1,e[4]=0,e[5]=0,e},f.clone=function(e){var t=new n(6);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t[3]=e[3],t[4]=e[4],t[5]=e[5],t},f.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e[4]=t[4],e[5]=t[5],e},f.identity=function(e){return e[0]=1,e[1]=0,e[2]=0,e[3]=1,e[4]=0,e[5]=0,e},f.invert=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=n*s-r*i;return a?(a=1/a,e[0]=s*a,e[1]=-r*a,e[2]=-i*a,e[3]=n*a,e[4]=(i*u-s*o)*a,e[5]=(r*o-n*u)*a,e):null},f.determinant=function(e){return e[0]*e[3]-e[1]*e[2]},f.multiply=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=n[0],l=n[1],c=n[2],h=n[3],p=n[4],d=n[5];return e[0]=r*f+i*c,e[1]=r*l+i*h,e[2]=s*f+o*c,e[3]=s*l+o*h,e[4]=f*u+c*a+p,e[5]=l*u+h*a+d,e},f.mul=f.multiply,f.rotate=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=Math.sin(n),l=Math.cos(n);return e[0]=r*l+i*f,e[1]=-r*f+i*l,e[2]=s*l+o*f,e[3]=-s*f+l*o,e[4]=l*u+f*a,e[5]=l*a-f*u,e},f.scale=function(e,t,n){var r=n[0],i=n[1];return e[0]=t[0]*r,e[1]=t[1]*i,e[2]=t[2]*r,e[3]=t[3]*i,e[4]=t[4]*r,e[5]=t[5]*i,e},f.translate=function(e,t,n){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e[4]=t[4]+n[0],e[5]=t[5]+n[1],e},f.str=function(e){return"mat2d("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+", "+e[4]+", "+e[5]+")"},typeof e!="undefined"&&(e.mat2d=f);var l={};l.create=function(){var e=new n(9);return e[0]=1,e[1]=0,e[2]=0,e[3]=0,e[4]=1,e[5]=0,e[6]=0,e[7]=0,e[8]=1,e},l.fromMat4=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[4],e[4]=t[5],e[5]=t[6],e[6]=t[8],e[7]=t[9],e[8]=t[10],e},l.clone=function(e){var t=new n(9);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t[3]=e[3],t[4]=e[4],t[5]=e[5],t[6]=e[6],t[7]=e[7],t[8]=e[8],t},l.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e[4]=t[4],e[5]=t[5],e[6]=t[6],e[7]=t[7],e[8]=t[8],e},l.identity=function(e){return e[0]=1,e[1]=0,e[2]=0,e[3]=0,e[4]=1,e[5]=0,e[6]=0,e[7]=0,e[8]=1,e},l.transpose=function(e,t){if(e===t){var n=t[1],r=t[2],i=t[5];e[1]=t[3],e[2]=t[6],e[3]=n,e[5]=t[7],e[6]=r,e[7]=i}else e[0]=t[0],e[1]=t[3],e[2]=t[6],e[3]=t[1],e[4]=t[4],e[5]=t[7],e[6]=t[2],e[7]=t[5],e[8]=t[8];return e},l.invert=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=t[6],f=t[7],l=t[8],c=l*o-u*f,h=-l*s+u*a,p=f*s-o*a,d=n*c+r*h+i*p;return d?(d=1/d,e[0]=c*d,e[1]=(-l*r+i*f)*d,e[2]=(u*r-i*o)*d,e[3]=h*d,e[4]=(l*n-i*a)*d,e[5]=(-u*n+i*s)*d,e[6]=p*d,e[7]=(-f*n+r*a)*d,e[8]=(o*n-r*s)*d,e):null},l.adjoint=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=t[6],f=t[7],l=t[8];return e[0]=o*l-u*f,e[1]=i*f-r*l,e[2]=r*u-i*o,e[3]=u*a-s*l,e[4]=n*l-i*a,e[5]=i*s-n*u,e[6]=s*f-o*a,e[7]=r*a-n*f,e[8]=n*o-r*s,e},l.determinant=function(e){var t=e[0],n=e[1],r=e[2],i=e[3],s=e[4],o=e[5],u=e[6],a=e[7],f=e[8];return t*(f*s-o*a)+n*(-f*i+o*u)+r*(a*i-s*u)},l.multiply=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=t[6],l=t[7],c=t[8],h=n[0],p=n[1],d=n[2],v=n[3],m=n[4],g=n[5],y=n[6],b=n[7],w=n[8];return e[0]=h*r+p*o+d*f,e[1]=h*i+p*u+d*l,e[2]=h*s+p*a+d*c,e[3]=v*r+m*o+g*f,e[4]=v*i+m*u+g*l,e[5]=v*s+m*a+g*c,e[6]=y*r+b*o+w*f,e[7]=y*i+b*u+w*l,e[8]=y*s+b*a+w*c,e},l.mul=l.multiply,l.translate=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=t[6],l=t[7],c=t[8],h=n[0],p=n[1];return e[0]=r,e[1]=i,e[2]=s,e[3]=o,e[4]=u,e[5]=a,e[6]=h*r+p*o+f,e[7]=h*i+p*u+l,e[8]=h*s+p*a+c,e},l.rotate=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=t[6],l=t[7],c=t[8],h=Math.sin(n),p=Math.cos(n);return e[0]=p*r+h*o,e[1]=p*i+h*u,e[2]=p*s+h*a,e[3]=p*o-h*r,e[4]=p*u-h*i,e[5]=p*a-h*s,e[6]=f,e[7]=l,e[8]=c,e},l.scale=function(e,t,n){var r=n[0],i=n[1];return e[0]=r*t[0],e[1]=r*t[1],e[2]=r*t[2],e[3]=i*t[3],e[4]=i*t[4],e[5]=i*t[5],e[6]=t[6],e[7]=t[7],e[8]=t[8],e},l.fromMat2d=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=0,e[3]=t[2],e[4]=t[3],e[5]=0,e[6]=t[4],e[7]=t[5],e[8]=1,e},l.fromQuat=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=n+n,u=r+r,a=i+i,f=n*o,l=n*u,c=n*a,h=r*u,p=r*a,d=i*a,v=s*o,m=s*u,g=s*a;return e[0]=1-(h+d),e[3]=l+g,e[6]=c-m,e[1]=l-g,e[4]=1-(f+d),e[7]=p+v,e[2]=c+m,e[5]=p-v,e[8]=1-(f+h),e},l.normalFromMat4=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=t[6],f=t[7],l=t[8],c=t[9],h=t[10],p=t[11],d=t[12],v=t[13],m=t[14],g=t[15],y=n*u-r*o,b=n*a-i*o,w=n*f-s*o,E=r*a-i*u,S=r*f-s*u,x=i*f-s*a,T=l*v-c*d,N=l*m-h*d,C=l*g-p*d,k=c*m-h*v,L=c*g-p*v,A=h*g-p*m,O=y*A-b*L+w*k+E*C-S*N+x*T;return O?(O=1/O,e[0]=(u*A-a*L+f*k)*O,e[1]=(a*C-o*A-f*N)*O,e[2]=(o*L-u*C+f*T)*O,e[3]=(i*L-r*A-s*k)*O,e[4]=(n*A-i*C+s*N)*O,e[5]=(r*C-n*L-s*T)*O,e[6]=(v*x-m*S+g*E)*O,e[7]=(m*w-d*x-g*b)*O,e[8]=(d*S-v*w+g*y)*O,e):null},l.str=function(e){return"mat3("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+", "+e[4]+", "+e[5]+", "+e[6]+", "+e[7]+", "+e[8]+")"},typeof e!="undefined"&&(e.mat3=l);var c={};c.create=function(){var e=new n(16);return e[0]=1,e[1]=0,e[2]=0,e[3]=0,e[4]=0,e[5]=1,e[6]=0,e[7]=0,e[8]=0,e[9]=0,e[10]=1,e[11]=0,e[12]=0,e[13]=0,e[14]=0,e[15]=1,e},c.clone=function(e){var t=new n(16);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t[3]=e[3],t[4]=e[4],t[5]=e[5],t[6]=e[6],t[7]=e[7],t[8]=e[8],t[9]=e[9],t[10]=e[10],t[11]=e[11],t[12]=e[12],t[13]=e[13],t[14]=e[14],t[15]=e[15],t},c.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e[4]=t[4],e[5]=t[5],e[6]=t[6],e[7]=t[7],e[8]=t[8],e[9]=t[9],e[10]=t[10],e[11]=t[11],e[12]=t[12],e[13]=t[13],e[14]=t[14],e[15]=t[15],e},c.identity=function(e){return e[0]=1,e[1]=0,e[2]=0,e[3]=0,e[4]=0,e[5]=1,e[6]=0,e[7]=0,e[8]=0,e[9]=0,e[10]=1,e[11]=0,e[12]=0,e[13]=0,e[14]=0,e[15]=1,e},c.transpose=function(e,t){if(e===t){var n=t[1],r=t[2],i=t[3],s=t[6],o=t[7],u=t[11];e[1]=t[4],e[2]=t[8],e[3]=t[12],e[4]=n,e[6]=t[9],e[7]=t[13],e[8]=r,e[9]=s,e[11]=t[14],e[12]=i,e[13]=o,e[14]=u}else e[0]=t[0],e[1]=t[4],e[2]=t[8],e[3]=t[12],e[4]=t[1],e[5]=t[5],e[6]=t[9],e[7]=t[13],e[8]=t[2],e[9]=t[6],e[10]=t[10],e[11]=t[14],e[12]=t[3],e[13]=t[7],e[14]=t[11],e[15]=t[15];return e},c.invert=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=t[6],f=t[7],l=t[8],c=t[9],h=t[10],p=t[11],d=t[12],v=t[13],m=t[14],g=t[15],y=n*u-r*o,b=n*a-i*o,w=n*f-s*o,E=r*a-i*u,S=r*f-s*u,x=i*f-s*a,T=l*v-c*d,N=l*m-h*d,C=l*g-p*d,k=c*m-h*v,L=c*g-p*v,A=h*g-p*m,O=y*A-b*L+w*k+E*C-S*N+x*T;return O?(O=1/O,e[0]=(u*A-a*L+f*k)*O,e[1]=(i*L-r*A-s*k)*O,e[2]=(v*x-m*S+g*E)*O,e[3]=(h*S-c*x-p*E)*O,e[4]=(a*C-o*A-f*N)*O,e[5]=(n*A-i*C+s*N)*O,e[6]=(m*w-d*x-g*b)*O,e[7]=(l*x-h*w+p*b)*O,e[8]=(o*L-u*C+f*T)*O,e[9]=(r*C-n*L-s*T)*O,e[10]=(d*S-v*w+g*y)*O,e[11]=(c*w-l*S-p*y)*O,e[12]=(u*N-o*k-a*T)*O,e[13]=(n*k-r*N+i*T)*O,e[14]=(v*b-d*E-m*y)*O,e[15]=(l*E-c*b+h*y)*O,e):null},c.adjoint=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=t[6],f=t[7],l=t[8],c=t[9],h=t[10],p=t[11],d=t[12],v=t[13],m=t[14],g=t[15];return e[0]=u*(h*g-p*m)-c*(a*g-f*m)+v*(a*p-f*h),e[1]=-(r*(h*g-p*m)-c*(i*g-s*m)+v*(i*p-s*h)),e[2]=r*(a*g-f*m)-u*(i*g-s*m)+v*(i*f-s*a),e[3]=-(r*(a*p-f*h)-u*(i*p-s*h)+c*(i*f-s*a)),e[4]=-(o*(h*g-p*m)-l*(a*g-f*m)+d*(a*p-f*h)),e[5]=n*(h*g-p*m)-l*(i*g-s*m)+d*(i*p-s*h),e[6]=-(n*(a*g-f*m)-o*(i*g-s*m)+d*(i*f-s*a)),e[7]=n*(a*p-f*h)-o*(i*p-s*h)+l*(i*f-s*a),e[8]=o*(c*g-p*v)-l*(u*g-f*v)+d*(u*p-f*c),e[9]=-(n*(c*g-p*v)-l*(r*g-s*v)+d*(r*p-s*c)),e[10]=n*(u*g-f*v)-o*(r*g-s*v)+d*(r*f-s*u),e[11]=-(n*(u*p-f*c)-o*(r*p-s*c)+l*(r*f-s*u)),e[12]=-(o*(c*m-h*v)-l*(u*m-a*v)+d*(u*h-a*c)),e[13]=n*(c*m-h*v)-l*(r*m-i*v)+d*(r*h-i*c),e[14]=-(n*(u*m-a*v)-o*(r*m-i*v)+d*(r*a-i*u)),e[15]=n*(u*h-a*c)-o*(r*h-i*c)+l*(r*a-i*u),e},c.determinant=function(e){var t=e[0],n=e[1],r=e[2],i=e[3],s=e[4],o=e[5],u=e[6],a=e[7],f=e[8],l=e[9],c=e[10],h=e[11],p=e[12],d=e[13],v=e[14],m=e[15],g=t*o-n*s,y=t*u-r*s,b=t*a-i*s,w=n*u-r*o,E=n*a-i*o,S=r*a-i*u,x=f*d-l*p,T=f*v-c*p,N=f*m-h*p,C=l*v-c*d,k=l*m-h*d,L=c*m-h*v;return g*L-y*k+b*C+w*N-E*T+S*x},c.multiply=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=t[6],l=t[7],c=t[8],h=t[9],p=t[10],d=t[11],v=t[12],m=t[13],g=t[14],y=t[15],b=n[0],w=n[1],E=n[2],S=n[3];return e[0]=b*r+w*u+E*c+S*v,e[1]=b*i+w*a+E*h+S*m,e[2]=b*s+w*f+E*p+S*g,e[3]=b*o+w*l+E*d+S*y,b=n[4],w=n[5],E=n[6],S=n[7],e[4]=b*r+w*u+E*c+S*v,e[5]=b*i+w*a+E*h+S*m,e[6]=b*s+w*f+E*p+S*g,e[7]=b*o+w*l+E*d+S*y,b=n[8],w=n[9],E=n[10],S=n[11],e[8]=b*r+w*u+E*c+S*v,e[9]=b*i+w*a+E*h+S*m,e[10]=b*s+w*f+E*p+S*g,e[11]=b*o+w*l+E*d+S*y,b=n[12],w=n[13],E=n[14],S=n[15],e[12]=b*r+w*u+E*c+S*v,e[13]=b*i+w*a+E*h+S*m,e[14]=b*s+w*f+E*p+S*g,e[15]=b*o+w*l+E*d+S*y,e},c.mul=c.multiply,c.translate=function(e,t,n){var r=n[0],i=n[1],s=n[2],o,u,a,f,l,c,h,p,d,v,m,g;return t===e?(e[12]=t[0]*r+t[4]*i+t[8]*s+t[12],e[13]=t[1]*r+t[5]*i+t[9]*s+t[13],e[14]=t[2]*r+t[6]*i+t[10]*s+t[14],e[15]=t[3]*r+t[7]*i+t[11]*s+t[15]):(o=t[0],u=t[1],a=t[2],f=t[3],l=t[4],c=t[5],h=t[6],p=t[7],d=t[8],v=t[9],m=t[10],g=t[11],e[0]=o,e[1]=u,e[2]=a,e[3]=f,e[4]=l,e[5]=c,e[6]=h,e[7]=p,e[8]=d,e[9]=v,e[10]=m,e[11]=g,e[12]=o*r+l*i+d*s+t[12],e[13]=u*r+c*i+v*s+t[13],e[14]=a*r+h*i+m*s+t[14],e[15]=f*r+p*i+g*s+t[15]),e},c.scale=function(e,t,n){var r=n[0],i=n[1],s=n[2];return e[0]=t[0]*r,e[1]=t[1]*r,e[2]=t[2]*r,e[3]=t[3]*r,e[4]=t[4]*i,e[5]=t[5]*i,e[6]=t[6]*i,e[7]=t[7]*i,e[8]=t[8]*s,e[9]=t[9]*s,e[10]=t[10]*s,e[11]=t[11]*s,e[12]=t[12],e[13]=t[13],e[14]=t[14],e[15]=t[15],e},c.rotate=function(e,n,r,i){var s=i[0],o=i[1],u=i[2],a=Math.sqrt(s*s+o*o+u*u),f,l,c,h,p,d,v,m,g,y,b,w,E,S,x,T,N,C,k,L,A,O,M,_;return Math.abs(a)<t?null:(a=1/a,s*=a,o*=a,u*=a,f=Math.sin(r),l=Math.cos(r),c=1-l,h=n[0],p=n[1],d=n[2],v=n[3],m=n[4],g=n[5],y=n[6],b=n[7],w=n[8],E=n[9],S=n[10],x=n[11],T=s*s*c+l,N=o*s*c+u*f,C=u*s*c-o*f,k=s*o*c-u*f,L=o*o*c+l,A=u*o*c+s*f,O=s*u*c+o*f,M=o*u*c-s*f,_=u*u*c+l,e[0]=h*T+m*N+w*C,e[1]=p*T+g*N+E*C,e[2]=d*T+y*N+S*C,e[3]=v*T+b*N+x*C,e[4]=h*k+m*L+w*A,e[5]=p*k+g*L+E*A,e[6]=d*k+y*L+S*A,e[7]=v*k+b*L+x*A,e[8]=h*O+m*M+w*_,e[9]=p*O+g*M+E*_,e[10]=d*O+y*M+S*_,e[11]=v*O+b*M+x*_,n!==e&&(e[12]=n[12],e[13]=n[13],e[14]=n[14],e[15]=n[15]),e)},c.rotateX=function(e,t,n){var r=Math.sin(n),i=Math.cos(n),s=t[4],o=t[5],u=t[6],a=t[7],f=t[8],l=t[9],c=t[10],h=t[11];return t!==e&&(e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e[12]=t[12],e[13]=t[13],e[14]=t[14],e[15]=t[15]),e[4]=s*i+f*r,e[5]=o*i+l*r,e[6]=u*i+c*r,e[7]=a*i+h*r,e[8]=f*i-s*r,e[9]=l*i-o*r,e[10]=c*i-u*r,e[11]=h*i-a*r,e},c.rotateY=function(e,t,n){var r=Math.sin(n),i=Math.cos(n),s=t[0],o=t[1],u=t[2],a=t[3],f=t[8],l=t[9],c=t[10],h=t[11];return t!==e&&(e[4]=t[4],e[5]=t[5],e[6]=t[6],e[7]=t[7],e[12]=t[12],e[13]=t[13],e[14]=t[14],e[15]=t[15]),e[0]=s*i-f*r,e[1]=o*i-l*r,e[2]=u*i-c*r,e[3]=a*i-h*r,e[8]=s*r+f*i,e[9]=o*r+l*i,e[10]=u*r+c*i,e[11]=a*r+h*i,e},c.rotateZ=function(e,t,n){var r=Math.sin(n),i=Math.cos(n),s=t[0],o=t[1],u=t[2],a=t[3],f=t[4],l=t[5],c=t[6],h=t[7];return t!==e&&(e[8]=t[8],e[9]=t[9],e[10]=t[10],e[11]=t[11],e[12]=t[12],e[13]=t[13],e[14]=t[14],e[15]=t[15]),e[0]=s*i+f*r,e[1]=o*i+l*r,e[2]=u*i+c*r,e[3]=a*i+h*r,e[4]=f*i-s*r,e[5]=l*i-o*r,e[6]=c*i-u*r,e[7]=h*i-a*r,e},c.fromRotationTranslation=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=r+r,a=i+i,f=s+s,l=r*u,c=r*a,h=r*f,p=i*a,d=i*f,v=s*f,m=o*u,g=o*a,y=o*f;return e[0]=1-(p+v),e[1]=c+y,e[2]=h-g,e[3]=0,e[4]=c-y,e[5]=1-(l+v),e[6]=d+m,e[7]=0,e[8]=h+g,e[9]=d-m,e[10]=1-(l+p),e[11]=0,e[12]=n[0],e[13]=n[1],e[14]=n[2],e[15]=1,e},c.fromQuat=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=n+n,u=r+r,a=i+i,f=n*o,l=n*u,c=n*a,h=r*u,p=r*a,d=i*a,v=s*o,m=s*u,g=s*a;return e[0]=1-(h+d),e[1]=l+g,e[2]=c-m,e[3]=0,e[4]=l-g,e[5]=1-(f+d),e[6]=p+v,e[7]=0,e[8]=c+m,e[9]=p-v,e[10]=1-(f+h),e[11]=0,e[12]=0,e[13]=0,e[14]=0,e[15]=1,e},c.frustum=function(e,t,n,r,i,s,o){var u=1/(n-t),a=1/(i-r),f=1/(s-o);return e[0]=s*2*u,e[1]=0,e[2]=0,e[3]=0,e[4]=0,e[5]=s*2*a,e[6]=0,e[7]=0,e[8]=(n+t)*u,e[9]=(i+r)*a,e[10]=(o+s)*f,e[11]=-1,e[12]=0,e[13]=0,e[14]=o*s*2*f,e[15]=0,e},c.perspective=function(e,t,n,r,i){var s=1/Math.tan(t/2),o=1/(r-i);return e[0]=s/n,e[1]=0,e[2]=0,e[3]=0,e[4]=0,e[5]=s,e[6]=0,e[7]=0,e[8]=0,e[9]=0,e[10]=(i+r)*o,e[11]=-1,e[12]=0,e[13]=0,e[14]=2*i*r*o,e[15]=0,e},c.ortho=function(e,t,n,r,i,s,o){var u=1/(t-n),a=1/(r-i),f=1/(s-o);return e[0]=-2*u,e[1]=0,e[2]=0,e[3]=0,e[4]=0,e[5]=-2*a,e[6]=0,e[7]=0,e[8]=0,e[9]=0,e[10]=2*f,e[11]=0,e[12]=(t+n)*u,e[13]=(i+r)*a,e[14]=(o+s)*f,e[15]=1,e},c.lookAt=function(e,n,r,i){var s,o,u,a,f,l,h,p,d,v,m=n[0],g=n[1],y=n[2],b=i[0],w=i[1],E=i[2],S=r[0],x=r[1],T=r[2];return Math.abs(m-S)<t&&Math.abs(g-x)<t&&Math.abs(y-T)<t?c.identity(e):(h=m-S,p=g-x,d=y-T,v=1/Math.sqrt(h*h+p*p+d*d),h*=v,p*=v,d*=v,s=w*d-E*p,o=E*h-b*d,u=b*p-w*h,v=Math.sqrt(s*s+o*o+u*u),v?(v=1/v,s*=v,o*=v,u*=v):(s=0,o=0,u=0),a=p*u-d*o,f=d*s-h*u,l=h*o-p*s,v=Math.sqrt(a*a+f*f+l*l),v?(v=1/v,a*=v,f*=v,l*=v):(a=0,f=0,l=0),e[0]=s,e[1]=a,e[2]=h,e[3]=0,e[4]=o,e[5]=f,e[6]=p,e[7]=0,e[8]=u,e[9]=l,e[10]=d,e[11]=0,e[12]=-(s*m+o*g+u*y),e[13]=-(a*m+f*g+l*y),e[14]=-(h*m+p*g+d*y),e[15]=1,e)},c.str=function(e){return"mat4("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+", "+e[4]+", "+e[5]+", "+e[6]+", "+e[7]+", "+e[8]+", "+e[9]+", "+e[10]+", "+e[11]+", "+e[12]+", "+e[13]+", "+e[14]+", "+e[15]+")"},typeof e!="undefined"&&(e.mat4=c);var h={};h.create=function(){var e=new n(4);return e[0]=0,e[1]=0,e[2]=0,e[3]=1,e},h.rotationTo=function(){var e=o.create(),t=o.fromValues(1,0,0),n=o.fromValues(0,1,0);return function(r,i,s){var u=o.dot(i,s);return u<-0.999999?(o.cross(e,t,i),o.length(e)<1e-6&&o.cross(e,n,i),o.normalize(e,e),h.setAxisAngle(r,e,Math.PI),r):u>.999999?(r[0]=0,r[1]=0,r[2]=0,r[3]=1,r):(o.cross(e,i,s),r[0]=e[0],r[1]=e[1],r[2]=e[2],r[3]=1+u,h.normalize(r,r))}}(),h.setAxes=function(){var e=l.create();return function(t,n,r,i){return e[0]=r[0],e[3]=r[1],e[6]=r[2],e[1]=i[0],e[4]=i[1],e[7]=i[2],e[2]=n[0],e[5]=n[1],e[8]=n[2],h.normalize(t,h.fromMat3(t,e))}}(),h.clone=u.clone,h.fromValues=u.fromValues,h.copy=u.copy,h.set=u.set,h.identity=function(e){return e[0]=0,e[1]=0,e[2]=0,e[3]=1,e},h.setAxisAngle=function(e,t,n){n*=.5;var r=Math.sin(n);return e[0]=r*t[0],e[1]=r*t[1],e[2]=r*t[2],e[3]=Math.cos(n),e},h.add=u.add,h.multiply=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=n[0],a=n[1],f=n[2],l=n[3];return e[0]=r*l+o*u+i*f-s*a,e[1]=i*l+o*a+s*u-r*f,e[2]=s*l+o*f+r*a-i*u,e[3]=o*l-r*u-i*a-s*f,e},h.mul=h.multiply,h.scale=u.scale,h.rotateX=function(e,t,n){n*=.5;var r=t[0],i=t[1],s=t[2],o=t[3],u=Math.sin(n),a=Math.cos(n);return e[0]=r*a+o*u,e[1]=i*a+s*u,e[2]=s*a-i*u,e[3]=o*a-r*u,e},h.rotateY=function(e,t,n){n*=.5;var r=t[0],i=t[1],s=t[2],o=t[3],u=Math.sin(n),a=Math.cos(n);return e[0]=r*a-s*u,e[1]=i*a+o*u,e[2]=s*a+r*u,e[3]=o*a-i*u,e},h.rotateZ=function(e,t,n){n*=.5;var r=t[0],i=t[1],s=t[2],o=t[3],u=Math.sin(n),a=Math.cos(n);return e[0]=r*a+i*u,e[1]=i*a-r*u,e[2]=s*a+o*u,e[3]=o*a-s*u,e},h.calculateW=function(e,t){var n=t[0],r=t[1],i=t[2];return e[0]=n,e[1]=r,e[2]=i,e[3]=-Math.sqrt(Math.abs(1-n*n-r*r-i*i)),e},h.dot=u.dot,h.lerp=u.lerp,h.slerp=function(e,t,n,r){var i=t[0],s=t[1],o=t[2],u=t[3],a=n[0],f=n[1],l=n[2],c=n[3],h,p,d,v,m;return p=i*a+s*f+o*l+u*c,p<0&&(p=-p,a=-a,f=-f,l=-l,c=-c),1-p>1e-6?(h=Math.acos(p),d=Math.sin(h),v=Math.sin((1-r)*h)/d,m=Math.sin(r*h)/d):(v=1-r,m=r),e[0]=v*i+m*a,e[1]=v*s+m*f,e[2]=v*o+m*l,e[3]=v*u+m*c,e},h.invert=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=n*n+r*r+i*i+s*s,u=o?1/o:0;return e[0]=-n*u,e[1]=-r*u,e[2]=-i*u,e[3]=s*u,e},h.conjugate=function(e,t){return e[0]=-t[0],e[1]=-t[1],e[2]=-t[2],e[3]=t[3],e},h.length=u.length,h.len=h.length,h.squaredLength=u.squaredLength,h.sqrLen=h.squaredLength,h.normalize=u.normalize,h.fromMat3=function(){var e=typeof Int8Array!="undefined"?new Int8Array([1,2,0]):[1,2,0];return function(t,n){var r=n[0]+n[4]+n[8],i;if(r>0)i=Math.sqrt(r+1),t[3]=.5*i,i=.5/i,t[0]=(n[7]-n[5])*i,t[1]=(n[2]-n[6])*i,t[2]=(n[3]-n[1])*i;else{var s=0;n[4]>n[0]&&(s=1),n[8]>n[s*3+s]&&(s=2);var o=e[s],u=e[o];i=Math.sqrt(n[s*3+s]-n[o*3+o]-n[u*3+u]+1),t[s]=.5*i,i=.5/i,t[3]=(n[u*3+o]-n[o*3+u])*i,t[o]=(n[o*3+s]+n[s*3+o])*i,t[u]=(n[u*3+s]+n[s*3+u])*i}return t}}(),h.str=function(e){return"quat("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+")"},typeof e!="undefined"&&(e.quat=h)}(t.exports)})(this);

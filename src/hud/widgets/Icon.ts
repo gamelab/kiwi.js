@@ -12,14 +12,14 @@ module Kiwi.HUD.Widget {
     * You can change the current cell that is being used in the TextureAtlas by modifing the cellIndex property.
     *
     * @class Icon
-    * @extends HUDWidget
+    * @extends Kiwi.HUD.HUDWidget
     * @namespace Kiwi.HUD.Widget
     * @constructor
-    * @param game {Game} The game that this icon belongs to.
-    * @param atlas {TextureAtlas} The image that you would like displayed.
+    * @param game {Kiwi.Game} The game that this icon belongs to.
+    * @param atlas {Kiwi.Textures.TextureAtlas} The image that you would like displayed.
     * @param x {number} The coordinate of the icon on the x-axis.
     * @param y {number The coordinate of the icon on the y-axis.
-    * @return {Icon}
+    * @return {Kiwi.HUD.Widget.Icon}
     */
     export class Icon extends Kiwi.HUD.HUDWidget {
 
@@ -36,7 +36,7 @@ module Kiwi.HUD.Widget {
         /**
         * Holds the texture atlas that is being used
         * @property atlas
-        * @type TextureAtlas
+        * @type Kiwi.Textures.TextureAtlas
         * @public
         */
         public atlas: Kiwi.Textures.TextureAtlas;

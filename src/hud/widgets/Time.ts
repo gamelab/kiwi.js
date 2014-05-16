@@ -14,14 +14,14 @@ module Kiwi.HUD.Widget {
     * The time is managed by a Time Component which contains a format property that handles how the time should be formatted.
     * 
     * @class Time
-    * @extends TextField
+    * @extends Kiwi.HUD.Widget.TextField
     * @namespace Kiwi.HUD.Widget
     * @constructor
-    * @param game {Game} The game that this object belongs to.
+    * @param game {Kiwi.Game} The game that this object belongs to.
     * @param format {string} The format that you want the time to be displayed in. Leave it empty to display as normal.
     * @param x {number} The position of this text on the field.
     * @param y {number} The position of this text on the field.
-    * @return {TextField}
+    * @return {Kiwi.HUD.Widget.Time}
     */
     export class Time extends Kiwi.HUD.Widget.TextField {
         
@@ -36,7 +36,7 @@ module Kiwi.HUD.Widget {
         * Holds the time component which manages the counting/formating of the time.
         *
         * @property time
-        * @type Time
+        * @type Kiwi.HUD.HUDComponents.Time
         * @public
         */
         public time: Kiwi.HUD.HUDComponents.Time;
@@ -44,7 +44,7 @@ module Kiwi.HUD.Widget {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} 'TimeWidget'
         * @public
         */
         public objType(): string {

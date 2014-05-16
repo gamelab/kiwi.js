@@ -6609,7 +6609,7 @@ var Kiwi;
     var GameObjects = Kiwi.GameObjects;
 })(Kiwi || (Kiwi = {}));
 /**
-* Component's are a snipnets of code which are designed to provide extra functionality to various objects, such as IChild's/GameObjects/HUDWidgets/e.t.c. The code that components have are not necessarily needed for an object to work, but are instead provided to make common task's that you would do with those objects easier. An Example being that at times you may like to make a GameObject draggable by the user and so you can then add Input Component and execute the enableDrag on that GameObject. That would be task that not every GameObject would need, but only specific ones.
+* Component's are a snipnets of code which are designed to provide extra functionality to various objects that contain a ComponentManager. Objects do not have to have Components in order to preform their main function, but are instead provided to make common task's that you may want to do with those Objects a bit easier. For example: Some times you would like to easily listen for when a GameObject has been 'clicked'. So you can attach a 'InputComponent' to a GameObject (Sprites have them by default) which will then do hit-detector code for you. All you have to do is Subscribe to the events on the InputComponent.
 *
 * @module Kiwi
 * @submodule Components
@@ -6619,44 +6619,48 @@ var Kiwi;
 (function (Kiwi) {
     (function (Components) {
         /**
-        * The AnimationManager is used to handle the creation and playment of Animations on a individual GameObject based on the TextureAtlas it has.
-        * When the AnimationManager is instantiated it will loop through all of the Sequences on the TextureAtlas of the GameObject being used and will create a new Animation for each one.
+        * The AnimationManager is used to handle the creation and use of spritesheet Animations on a GameObject based on the TextureAtlas it has.
+        * If the When the AnimationManager is instantiated it will loop through all of the Sequences on the TextureAtlas of the GameObject being used and will create a new Animation for each one.
         * Now when you create a new Animation that animation will automatically be added as a new Sequence to the corresponding Texture.
         * This way you don't need to create new Animations for a each Sprite that use's the same Texture.
         *
         * @class AnimationManager
-        * @extends Component
+        * @extends Kiwi.Component
         * @namespace Kiwi.Components
         * @constructor
-        * @param entity {Entity} The entity that this animation component belongs to.
-        * @return {AnimationManager}
+        * @param entity {Kiwi.Entity} The entity that this animation component belongs to.
+        * @param [inheritSequences=true] {Boolean} If a new Animation should be created for each Sequence on the Entities TextureAtlas it is a part of or not.
+        * @return {Kiwi.Components.AnimationManager}
         */
         var AnimationManager = (function (_super) {
             __extends(AnimationManager, _super);
-            function AnimationManager(entity) {
+            function AnimationManager(entity, inheritSequences) {
+                if (typeof inheritSequences === "undefined") { inheritSequences = true; }
                 _super.call(this, entity, 'Animation');
                 /**
                 * A reference to the animation that is currently being played.
-                * @property _currentAnimation
-                * @type Animation
-                * @default null
-                * @private
+                * @property currentAnimation
+                * @type Kiwi.Animations.Animation
+                * @public
                 */
                 this.currentAnimation = null;
 
-                //get the entity and the animation.
+                //Get the entity and the animation.
                 this.entity = entity;
                 this._atlas = this.entity.atlas;
                 this._animations = {};
 
-                for (var i = 0; i < this._atlas.sequences.length; i++) {
-                    this.createFromSequence(this._atlas.sequences[i], false);
+                //Create all of the default animations.
+                if (inheritSequences == true) {
+                    for (var i = 0; i < this._atlas.sequences.length; i++) {
+                        this.createFromSequence(this._atlas.sequences[i], false);
+                    }
                 }
 
-                //if a default animation already exists
+                //If a default animation already exists
                 if (this._animations['default']) {
                     this.currentAnimation = this._animations['default'];
-                    //otherwise create one.
+                    //Otherwise create one.
                 } else {
                     var defaultCells = [];
                     for (var i = 0; i < this._atlas.cells.length; i++) {
@@ -6686,9 +6690,9 @@ var Kiwi;
             });
 
             /**
-            * The type of object that this is.
+            * Returns a string indicating the type of object that this is.
             * @method objType
-            * @type string
+            * @return {String} "AnimationManager"
             * @public
             */
             AnimationManager.prototype.objType = function () {
@@ -6696,33 +6700,43 @@ var Kiwi;
             };
 
             /**
-            * Creates a new sequence and then adds that sequence as a new animation on this component. Returns that animation that was created.
+            * Creates a new Animation (by creating a Sequence) that can then be played on this AnimationManager.
+            * If you pass to this the name of a Animation that already exists, then the previous Animation will be overridden by this new one.
+            * Note: If the Animation you have overridden was the currentAnimation, then the previous Animation will keep playing until a different Animation is switched to.
+            * By default new Animation Sequences are also added to the TextureAtlas, which can then be inherited.
+            * Returns the Animation that was created.
             *
             * @method add
-            * @param {string} name
-            * @param cells {number[]} An array that contains a reference to the cells that are to be played in the animation.
-            * @param speed {number} The amount of time that each frame should stay on screen for. In seconds.
-            * @param [loop=false] {boolean} If when the animation reaches the last frame, it should go back to the start again.
-            * @param [play=false] {boolean} If once created the animation should play right away.
-            * @return {Animation} The Anim that was created.
+            * @param name {string} The name of the animation that is to be created.
+            * @param cells {Array} An array of numbers, which are reference to each cell that is to be played in the Animation in order.
+            * @param speed {number} The amount of time that each cell in the Animation should stay on screen for. In seconds.
+            * @param [loop=false] {boolean} If when the Animation reaches the last frame, it should go back to the start again.
+            * @param [play=false] {boolean} If once created the animation should played right away.
+            * @param [addToAtlas=true] {boolean} If the new Sequence created should be added to the TextureAtlas or not.
+            * @return {Kiwi.Animations.Animation} The Animation that was created.
             * @public
             */
-            AnimationManager.prototype.add = function (name, cells, speed, loop, play) {
+            AnimationManager.prototype.add = function (name, cells, speed, loop, play, addToAtlas) {
                 if (typeof loop === "undefined") { loop = false; }
                 if (typeof play === "undefined") { play = false; }
+                if (typeof addToAtlas === "undefined") { addToAtlas = true; }
                 var newSequence = new Kiwi.Animations.Sequence(name, cells, speed, loop);
-                this._atlas.sequences.push(newSequence);
+                if (addToAtlas == true)
+                    this._atlas.sequences.push(newSequence);
 
                 return this.createFromSequence(newSequence, play);
             };
 
             /**
-            * Creates a new animation based on a sequence that is passed.
+            * Creates a new Animation based on a Sequence that is passed.
+            * If you pass to this the name of a Animation that already exists, then the previous Animation will be overridden by this new one.
+            * Note: If the Animation you have overridden was the currentAnimation, then the previous Animation will keep playing until a different Animation is switched to.
+            * Returns the Animation that was created.
             *
             * @method createFromSequence
-            * @param sequence {Kiwi.Sequence} The sequence that the animation is based on.
-            * @param [play=false] {boolean} If the animation should play once it has been created
-            * @return {Animation} The Anim that was created.
+            * @param sequence {Kiwi.Sequence} The sequence that the Animation is based on.
+            * @param [play=false] {boolean} If the Animation should played once it has been created
+            * @return {Kiwi.Animations.Animation} The Animation that was created.
             * @public
             */
             AnimationManager.prototype.createFromSequence = function (sequence, play) {
@@ -6739,20 +6753,31 @@ var Kiwi;
             * Plays either the current animation or the name of the animation that you pass.
             *
             * @method play
-            * @param [name] {string} The name of the animation that you want to play. If not passed it plays the current animation.
+            * @param [name] {String} The name of the animation that you want to play. If not passed it plays the current animation.
+            * @param [resetTime=true] {Boolean} When set to false, this will prevent a new Animation from playing if it is already the currentAnimation that is already playing.
+            * @return {Kiwi.Animations.Animation} Returns the current Animation that is now playing.
             * @public
             */
-            AnimationManager.prototype.play = function (name) {
+            AnimationManager.prototype.play = function (name, resetTime) {
                 if (typeof name === "undefined") { name = this.currentAnimation.name; }
-                return this._play(name);
+                if (typeof resetTime === "undefined") { resetTime = true; }
+                //If the current animation playing
+                if (resetTime == false && this.currentAnimation.name === name && this.currentAnimation.isPlaying == true) {
+                    return this.currentAnimation;
+                } else {
+                    return this._play(name);
+                }
             };
 
             /**
-            * Play an animation at a particular frameIndex.
+            * Plays an Animation at a particular frameIndex.
+            * Note: The frameIndex is a particular index of a cell in the Sequence of the Animation you would like to play.
+            * Example: If you had a Animation with a Sequence [0, 1, 2, 3] and you told it to play at index '2', then the cell that it would be at is '3'.
             *
             * @method playAt
             * @param index {Number} The index of the frame in the Sequence that you would like to play.
-            * @param [name] {String} The name of the animation that you want to play. If not passed, it plays it on the current animation.
+            * @param [name] {String} The name of the animation that you want to play. If not passed, it attempts to play it on the current animation.
+            * @return {Kiwi.Animations.Animation} Returns the current Animation that is now playing.
             * @public
             */
             AnimationManager.prototype.playAt = function (index, name) {
@@ -6761,12 +6786,12 @@ var Kiwi;
             };
 
             /**
-            * An internal method used to actually play the animation.
+            * An internal method used to actually play a Animation at a Index.
             *
             * @method _play
-            * @param name {number} The name of the animation that is to be switched to.
-            * @param [index=null] {string} The index of the frame in the Sequence that is to play.
-            * @return {Animation}
+            * @param name {string} The name of the animation that is to be switched to.
+            * @param [index=null] {number} The index of the frame in the Sequence that is to play. If null, then it restarts the animation at the cell it currently is at.
+            * @return {Kiwi.Animations.Animation} Returns the current Animation that is now playing.
             * @private
             */
             AnimationManager.prototype._play = function (name, index) {
@@ -6785,6 +6810,7 @@ var Kiwi;
 
             /**
             * Stops the current animation from playing.
+            *
             * @method stop
             * @public
             */
@@ -6805,7 +6831,9 @@ var Kiwi;
             };
 
             /**
-            * Resumes the current animation. The animation should have already been paused.
+            * Resumes the current animation.
+            * The animation should have already been paused.
+            *
             * @method resume
             * @public
             */
@@ -6816,7 +6844,7 @@ var Kiwi;
             /**
             * Either switches to a particular animation OR a particular frame in the current animation depending on if you pass the name of an animation that exists on this Manager (as a string) or a number refering to a frame index on the Animation.
             * When you switch to a particular animation then
-            * You can also force the animation to play or to stop by passing a boolean in. But if left as null, the animation will base it off what is currently happening.
+            * You can also force the animation to play or to stop by passing a boolean in. But if left as null, the state of the Animation will based off what is currently happening.
             * So if the animation is currently 'playing' then once switched to the animation will play. If not currently playing it will switch to and stop.
             * If the previous animation played is non-looping and has reached its final frame, it is no longer considered playing, and as such, switching to another animation will not play unless the argument to the play parameter is true.
             *
@@ -6871,10 +6899,10 @@ var Kiwi;
             };
 
             /**
-            * Internal method that sets the current animation to the animation passed.
+            * Internal method that sets the current animation to a Animation passed.
             *
             * @method _setCurrentAnimation
-            * @param {string} name
+            * @param name {string} Name of the Animation that is to be switched to.
             * @private
             */
             AnimationManager.prototype._setCurrentAnimation = function (name) {
@@ -6890,7 +6918,9 @@ var Kiwi;
             };
 
             /**
-            * The update loop, it only updates the currentAnimation and only if it is playing.
+            * The update loop for this component.
+            * Only updates the currentAnimation and only if it is playing.
+            *
             * @method update
             * @public
             */
@@ -6902,7 +6932,7 @@ var Kiwi;
 
             Object.defineProperty(AnimationManager.prototype, "currentCell", {
                 /**
-                * Gets the cell that the current animation is current at. This is READ ONLY.
+                * Gets the cell that the current Animation is current at. This is READ ONLY.
                 * @property currentCell
                 * @type number
                 * @public
@@ -6916,7 +6946,7 @@ var Kiwi;
 
             Object.defineProperty(AnimationManager.prototype, "frameIndex", {
                 /**
-                * Gets the current frame index of the cell in the sequence that is currently playing. This is READ ONLY.
+                * Gets the current frame index of the cell in the Sequence that is currently playing. This is READ ONLY.
                 * @property frameIndex
                 * @type number
                 * @public
@@ -6930,7 +6960,7 @@ var Kiwi;
 
             Object.defineProperty(AnimationManager.prototype, "length", {
                 /**
-                * Returns the length (Number of cells) of the current animation that is playing. This is READ ONLY.
+                * Returns the length (Number of cells) of the current Animation that is playing. This is READ ONLY.
                 * @property length
                 * @type number
                 * @public
@@ -6943,11 +6973,12 @@ var Kiwi;
             });
 
             /**
-            * Get a animation that is on the animation component.
+            * Returns a Animation that is on this AnimationComponent
+            * Does not check to see if that Animation exists or not.
             *
             * @method getAnimation
-            * @param {string} name
-            * @return {Animation}
+            * @param name {string} The name of the Animation you would like to get.
+            * @return {Kiwi.Animations.Animation} The Animation that is found. Will be 'undefined' if a Animation with that name did not exist.
             * @public
             */
             AnimationManager.prototype.getAnimation = function (name) {
@@ -6999,24 +7030,24 @@ var Kiwi;
     (function (Components) {
         /**
         * The Box Component is used to handle the various 'bounds' that each GameObject has.
-        * There are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) on each box depending on what you are wanting:
-        * RawBounds: The bounding box of the GameObject before rotation.
-        * RawHitbox: The hitbox of the GameObject before rotation. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.
-        * Bounds: The bounding box of the GameObject after rotation.
-        * Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.
-        * WorldBounds: The bounding box of the Entity using its world coordinates.
-        * WorldHitbox: The hitbox of the Entity using its world coordinates.
+        * There are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) depending on what you are wanting:
+        * RawBounds: The bounding box of the GameObject before rotation/scale.
+        * RawHitbox: The hitbox of the GameObject before rotation/scale. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.
+        * Bounds: The bounding box of the GameObject after rotation/scale.
+        * Hitbox: The hitbox of the GameObject after rotation/scale. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.
+        * WorldBounds: The bounding box of the Entity using its world coordinates and after rotation/scale.
+        * WorldHitbox: The hitbox of the Entity using its world coordinates and after rotation/scale.
         *
         * @class Box
-        * @extends Component
+        * @extends Kiwi.Component
         * @namespace Kiwi.Components
         * @constructor
-        * @param parent {Entity} The entity that this box belongs to.
+        * @param parent {Kiwi.Entity} The entity that this box belongs to.
         * @param [x=0] {Number} Its position on the x axis
         * @param [y=0] {Number} Its position on the y axis
         * @param [width=0] {Number} The width of the box.
         * @param [height=0] {Number} The height of the box.
-        * @return {Box}
+        * @return {Kiwi.Components.Box}
         */
         var Box = (function (_super) {
             __extends(Box, _super);
@@ -7028,7 +7059,7 @@ var Kiwi;
                 _super.call(this, parent, 'Box');
                 /**
                 * Controls whether the hitbox should update automatically to match the hitbox of the current cell on the entity this Box component is attached to (default behaviour).
-                * Or if the hitbox shouldn't auto update
+                * Or if the hitbox shouldn't auto update. Which will mean it will stay the same as the last value it had.
                 * This property is automatically set to 'false' when you override the hitboxes width/height, but you can set this to true afterwards.
                 *
                 * @property autoUpdate
@@ -7053,7 +7084,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {string}
+            * @return {string} "Box"
             * @public
             */
             Box.prototype.objType = function () {
@@ -7064,8 +7095,9 @@ var Kiwi;
                 /**
                 * Returns the offset value of the hitbox as a point for the X/Y axis for the developer to use.
                 * This is without rotation or scaling.
+                * This is a READ ONLY property.
                 * @property hitboxOffset
-                * @type Point
+                * @type Kiwi.Geom.Point
                 * @public
                 */
                 get: function () {
@@ -7086,7 +7118,7 @@ var Kiwi;
                 * 'Raw' means where it would be without rotation or scaling.
                 * This is READ ONLY.
                 * @property rawHitbox
-                * @type Rectangle
+                * @type Kiwi.Geom.Rectangle
                 * @public
                 */
                 get: function () {
@@ -7113,9 +7145,9 @@ var Kiwi;
 
             Object.defineProperty(Box.prototype, "hitbox", {
                 /**
-                * The 'normal' or transformed hitbox for the entity. This is its box after rotation/e.t.c.
+                * The 'normal' or transformed hitbox for the entity. This is its box after rotation/Kiwi.Geom.Rectangle.
                 * @property hitbox
-                * @type Rectangle
+                * @type Kiwi.Geom.Rectangle
                 * @public
                 */
                 get: function () {
@@ -7146,7 +7178,7 @@ var Kiwi;
                 * Returns the transformed hitbox for the entity using its 'world' coordinates.
                 * This is READ ONLY.
                 * @property worldHitbox
-                * @type Rectangle
+                * @type Kiwi.Geom.Rectangle
                 * @public
                 */
                 get: function () {
@@ -7165,7 +7197,7 @@ var Kiwi;
                 * Returns the 'raw' bounds for this entity.
                 * This is READ ONLY.
                 * @property rawBounds
-                * @type Rectangle
+                * @type Kiwi.Geom.Rectangle
                 * @public
                 */
                 get: function () {
@@ -7186,7 +7218,7 @@ var Kiwi;
                 * Returns the raw center point of the box.
                 * This is READ ONLY.
                 * @property rawCenter
-                * @type Point
+                * @type Kiwi.Geom.Point
                 * @public
                 */
                 get: function () {
@@ -7204,7 +7236,7 @@ var Kiwi;
                 * Returns the center point for the box after it has been transformed.
                 * This is READ ONLY.
                 * @property center
-                * @type Point
+                * @type Kiwi.Geom.Point
                 * @public
                 */
                 get: function () {
@@ -7225,7 +7257,7 @@ var Kiwi;
                 * Returns the 'transformed' or 'normal' bounds for this box.
                 * This is READ ONLY.
                 * @property bounds
-                * @type Rectangle
+                * @type Kiwi.Geom.Rectangle
                 * @public
                 */
                 get: function () {
@@ -7243,7 +7275,7 @@ var Kiwi;
                 * Returns the 'transformed' bounds for this entity using the world coodinates.
                 * This is READ ONLY.
                 * @property worldBounds
-                * @type Rectangle
+                * @type Kiwi.Geom.Rectangle
                 * @public
                 */
                 get: function () {
@@ -7257,11 +7289,11 @@ var Kiwi;
             });
 
             /**
-            * Private internal method only. Used to calculate the transformed bounds after rotation.
+            * Private internal method only. Used to calculate the transformed bounds after rotation/scale.
             * @method _rotateRect
-            * @param rect {Rectangle}
+            * @param rect {Kiwi.Geom.Rectangle}
             * @param [useWorldCoords=false] {Boolean}
-            * @return {Rectangle}
+            * @return {Kiwi.Geom.Rectangle}
             * @private
             */
             Box.prototype._rotateRect = function (rect, useWorldCoords) {
@@ -7284,9 +7316,9 @@ var Kiwi;
             /**
             * A private method that is used to calculate the transformed hitbox's coordinates after rotation.
             * @method _rotateHitbox
-            * @param rect {Rectangle}
+            * @param rect {Kiwi.Geom.Rectangle}
             * @param [useWorldCoords=false] {Boolean}
-            * @return {Rectangle}
+            * @return {Kiwi.Geom.Rectangle}
             * @private
             */
             Box.prototype._rotateHitbox = function (rect, useWorldCoords) {
@@ -7329,12 +7361,13 @@ var Kiwi;
             };
 
             /**
-            * [REQUIRES COMMENTING]
+            * Method which ensures that
             * @method extents
-            * @param topLeftPoint {Point}
-            * @param topRightPoint {Point}
-            * @param bottomRightPoint {Point}
-            * @param bottomLeftPoint {Point}
+            * @param topLeftPoint {Kiwi.Geom.Point}
+            * @param topRightPoint {Kiwi.Geom.Point}
+            * @param bottomRightPoint {Kiwi.Geom.Point}
+            * @param bottomLeftPoint {Kiwi.Geom.Point}
+            * @return {Kiwi.Geom.Rectangle} Returns the
             * @return Rectangle
             */
             Box.prototype.extents = function (topLeftPoint, topRightPoint, bottomRightPoint, bottomLeftPoint) {
@@ -8252,10 +8285,10 @@ var Kiwi;
         * @class ArcadePhysics
         * @constructor
         * @namespace Kiwi.Components
-        * @param entity {Entity} The entity that this ArcadePhysics should be used on.
-        * @param box {Box} The box component that holds the hitbox that should be used when resolving and calculating collisions.
-        * @return {ArcadePhysics}
-        * @extends Component
+        * @param entity {Kiwi.Entity} The Entity that this ArcadePhysics should be used on.
+        * @param box {Kiwi.Components.Box} The box component that holds the hitbox that should be used when resolving and calculating collisions.
+        * @return {Kiwi.Components.ArcadePhysics}
+        * @extends Kiwi.Component
         *
         * @author Adam 'Atomic' Saltsman, Flixel
         *
@@ -8310,7 +8343,7 @@ var Kiwi;
             * Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.
             * @method touching
             * @param value [number] The collision constant of the side you want to check against.
-            * @return boolean
+            * @return {boolean} If the Object is currently colliding on that side or not.
             * @public
             */
             ArcadePhysics.prototype.isTouching = function (value) {
@@ -8323,7 +8356,7 @@ var Kiwi;
             * and set the value of allowCollisions directly.
             * @method solid
             * @param [value] {boolean} If left empty, this will then just toggle between ANY and NONE.
-            * @return boolean
+            * @return {boolean} If Object is currently solid or not.
             * @public
             */
             ArcadePhysics.prototype.solid = function (value) {
@@ -8339,10 +8372,13 @@ var Kiwi;
 
             /**
             * Sets up a callback function that will run when this object overlaps with another.
+            * When the method is dispatched it will have TWO arguments.
+            * One - The parent / entity of this ArcadePhysics.
+            * Two - The GameObject that the collision occured with.
             *
             * @method setCallback
-            * @param callbackFunction {Function}
-            * @param callbackContext {Any}
+            * @param callbackFunction {Function} The method that is to be executed whe a overlap occurs.
+            * @param callbackContext {Any} The context that the method is to be called in.
             * @public
             */
             ArcadePhysics.prototype.setCallback = function (callbackFunction, callbackContext) {
@@ -8362,8 +8398,8 @@ var Kiwi;
             *
             * @method seperate
             * @static
-            * @param object1 {Entity} The first GameObject you would like to seperate.
-            * @param object2 {Entity} The second GameObject you would like to seperate from the first.
+            * @param object1 {Kiwi.Entity} The first GameObject you would like to seperate.
+            * @param object2 {Kiwi.Entity} The second GameObject you would like to seperate from the first.
             * @return {boolean}
             * @public
             */
@@ -8379,8 +8415,8 @@ var Kiwi;
             * This method is not recommended to be directly used but instead use a 'collide/overlaps' method instead.
             *
             * @method seperateX
-            * @param object1 {Entity} The first GameObject.
-            * @param object2 {Entity} The second GameObject.
+            * @param object1 {Kiwi.Entity} The first GameObject.
+            * @param object2 {Kiwi.Entity} The second GameObject.
             * @return {boolean} Whether the objects in fact touched and were separated along the X axis.
             * @static
             * @public
@@ -8469,13 +8505,13 @@ var Kiwi;
             };
 
             /**
-            * Separated two GameObject on the y-axis. This method is executed from the 'separate' method.
+            * Separates two GameObject on the y-axis. This method is executed from the 'separate' method.
             * Both objects need to have both an ArcadePhysics Component and a Box component in order for the separate process to succeed.
             * This method is not recommended to be directly used but instead use a 'collide/overlaps' method instead.
             *
             * @method seperateY
-            * @param object1 {Entity} The first GameObject.
-            * @param object2 {Entity} The second GameObject.
+            * @param object1 {Kiwi.Entity} The first GameObject.
+            * @param object2 {Kiwi.Entity} The second GameObject.
             * @return {boolean} Whether the objects in fact touched and were separated along the Y axis.
             * @static
             * @public
@@ -8585,9 +8621,9 @@ var Kiwi;
             * This method is not recommended to be directly used but instead use the 'overlapsTiles' method instead.
             *
             * @method separateTiles
-            * @param object {Entity} The GameObject you are wanting to separate from a tile.
-            * @param layer {TileMapLayer} The TileMapLayer that the tiles belong on.
-            * @param tiles {Object[]}
+            * @param object {Kiwi.Entity} The GameObject you are wanting to separate from a tile.
+            * @param layer {Kiwi.GameObjects.Tilemap.TileMapLayer} The TileMapLayer that the tiles belong on.
+            * @param tiles {Array}
             * @return {Boolean} If any separation occured.
             * @public
             * @static
@@ -8619,9 +8655,9 @@ var Kiwi;
             /**
             * Separates a GameObjects from an Array of Tiles on the x-axis.
             * @method separateTilesX
-            * @param object {Entity} The GameObject you are wanting to separate from a tile.
-            * @param layer {TileMapLayer} The TileMapLayer that the tiles belong on.
-            * @param tile {Object}.
+            * @param object {Kiwi.Entity} The GameObject you are wanting to separate from a tile.
+            * @param layer {Kiwi.GameObjects.Tilemap.TileMapLayer} The TileMapLayer that the tiles belong on.
+            * @param tile {Object} An Object containing the information (x/y/tiletypr) about the tile that is being overlapped.
             * @return {Boolean} If any separation occured.
             * @public
             * @static
@@ -8690,11 +8726,11 @@ var Kiwi;
             };
 
             /**
-            * Separates a GameObjects from an Array of Tiles on the y-axis.
+            * Separates a GameObject from a tiles on the y-axis.
             * @method separateTilesY
-            * @param object {Entity} The GameObject you are wanting to separate from a tile.
-            * @param layer {TileMapLayer} The TileMapLayer that the tiles belong on.
-            * @param tiles {Object[]} The tiles which are overlapping with the GameObject.
+            * @param object {Kiwi.Entity} The GameObject you are wanting to separate from a tile.
+            * @param layer {Kiwi.GameObjects.Tilemap.TileMapLayer} The TileMapLayer that the tiles belong on.
+            * @param tiles {Object} An Object representing the Tile which we are checking to see any overlaps occurs.
             * @return {Boolean} If any separation occured.
             * @public
             * @static
@@ -8768,11 +8804,11 @@ var Kiwi;
             /**
             * A method to check to see if any Tiles with in this parent TileMapLayer overlaps with a GameObject passed.
             * If seperateObjects is true it will seperate the two entities based on their bounding box.
-            * ONLY works if parent of the ArcadePhysics component which is calling this method is a TileMapLayer.
+            * ONLY works if the parent of the ArcadePhysics component which is calling this method is a TileMapLayer.
             * Note: The GameObject passed must contain a box component and only if you want to separate the two objects must is ALSO contain an ArcadePhysics component.
             *
             * @method overlapsTile
-            * @param gameObject {Entity} The GameObject you would like to separate with this one.
+            * @param gameObject {Kiwi.Entity} The GameObject you would like to separate with this one.
             * @param [separateObjects=false] {Boolean} If you want the GameObject to be separated from any tile it collides with.
             * @param [collisionType=ANY] {Number} If you want the GameObject to only check for collisions from a particular side of tiles. ANY by default.
             * @return {Boolean} If any gameobject overlapped.
@@ -8804,7 +8840,7 @@ var Kiwi;
             * Also: Not to be used for separation from tiles.
             *
             * @method overlaps
-            * @param gameObject {Entity}
+            * @param gameObject {Kiwi.Entity}
             * @param [seperateObjects=false] {boolean}
             * @return {boolean}
             * @public
@@ -8834,9 +8870,9 @@ var Kiwi;
             * A method to check to see if the parent of this physics component overlaps with another individual in a Kiwi Group.
             *
             * @method overlapsGroup
-            * @param group {Group}
+            * @param group {Kiwi.Group}
             * @param [seperateObjects=false] {boolean}
-            * @return { boolean }
+            * @return { boolean } If any object in the group overlapped with the GameObject or not.
             * @public
             */
             ArcadePhysics.prototype.overlapsGroup = function (group, separateObjects) {
@@ -8861,11 +8897,12 @@ var Kiwi;
             };
 
             /**
-            * A method to check to see if the parent of this physics component overlaps with a Entity that is held in an array.
+            * A method to check to see if the parent of this physics component overlaps with any Entities that are held in an Array which is passed.
+            *
             * @method overlapsArray
             * @param array {Array} The array of GameObjects you want to check.
             * @param [separateObjects=false] {boolean} If when the objects collide you want them to seperate outwards.
-            * @return {boolean} If a collision was detected or not.
+            * @return {boolean} If any overlapping occured or not.
             * @public
             */
             ArcadePhysics.prototype.overlapsArray = function (array, separateObjects) {
@@ -8899,10 +8936,10 @@ var Kiwi;
             * Computes the velocity based on the parameters passed.
             * @method computeVelocity
             * @static
-            * @param velocity {number}
-            * @param [acceleration=0] {number}
-            * @param [drag=0] {number}
-            * @param [max=10000] {number}
+            * @param velocity {number} The currently velocity.
+            * @param [acceleration=0] {number} The acceleration of the item.
+            * @param [drag=0] {number} The amount of drag effecting the item.
+            * @param [max=10000] {number} The maximum velocity.
             * @return {Number} The new velocity
             * @public
             */
@@ -8932,8 +8969,10 @@ var Kiwi;
 
             /**
             * Updates the position of this object. Automatically called if the 'moves' parameter is true.
+            * This called each frame during the update method.
+            *
             * @method updateMotion
-            * @public
+            * @private
             */
             ArcadePhysics.prototype.updateMotion = function () {
                 var delta;
@@ -8995,7 +9034,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {string}
+            * @return {string} "ArcadePhysics"
             * @public
             */
             ArcadePhysics.prototype.objType = function () {
@@ -9018,8 +9057,8 @@ var Kiwi;
             * @method collide
             * @static
             * @public
-            * @param gameObject1 {Kiwi.GameObjects.Entity} The first game object.
-            * @param gameObject2 {Kiwi.GameObjects.Entity} The second game object.
+            * @param gameObject1 {Kiwi.Entity} The first game object.
+            * @param gameObject2 {Kiwi.Entity} The second game object.
             * @param [seperate=true] {boolean} If the two gameobjects should seperated when they collide.
             * @return {boolean}
             */
@@ -9034,8 +9073,8 @@ var Kiwi;
             * @method collideGroup
             * @static
             * @public
-            * @param gameObject {Kiwi.GameObjects.Entity}
-            * @param group {Any} This could be either an Array of GameObjects or a Group containing members.
+            * @param gameObject {Kiwi.Entity} The entity you would like to check against.
+            * @param group {Kiwi.Group} The Kiwi Group that you want to check the entity against.
             * @param [seperate=true] {boolean}
             * @return {boolean}
             * @public
@@ -9051,8 +9090,8 @@ var Kiwi;
             * @method collideGroupGroup
             * @static
             * @public
-            * @param group1 {Any} This can either be an array or a Group.
-            * @param group2 {Any} Also could either be an array or a Group.
+            * @param group1 {Kiwi.Group} The first Kiwi Group that you want to check the entity against.
+            * @param group2 {Kiwi.Group} The second Kiwi Group that you want to check the entity against.
             * @param [seperate=true] {boolean}
             * @return {boolean}
             */
@@ -9072,8 +9111,8 @@ var Kiwi;
             * @method overlaps
             * @static
             * @public
-            * @param gameObject1 {Kiwi.GameObjects.Entity}
-            * @param gameObject2 {Kiwi.GameObjects.Entity}
+            * @param gameObject1 {Kiwi.Entity} The first game object.
+            * @param gameObject2 {Kiwi.Entity} The second gameobject you are testing the first against.
             * @param [separateObjects=true] {boolean}
             * @return {boolean}
             */
@@ -9088,8 +9127,8 @@ var Kiwi;
             *
             * @method overlapsObjectGroup
             * @static
-            * @param gameObject {Entity}
-            * @param group {Group}
+            * @param gameObject {Kiwi.Entity}
+            * @param group {Kiwi.Group}
             * @param [seperateObjects=true] {boolean} If they overlap should the seperate or not
             * @return {boolean}
             * @public
@@ -9101,12 +9140,12 @@ var Kiwi;
             };
 
             /**
-            * A Static method that checks to see if any objects in a group overlap with objects in another group.
+            * A Static method that checks to see if any objects in one group overlap with objects in another group.
             *
             * @method overlaps
             * @static
-            * @param group1 {Group} The first
-            * @param group2 {Any}
+            * @param group1 {Kiwi.Group} The first group you would like to check against.
+            * @param group2 {Kiwi.Group} The second group you would like to check against.
             * @param [seperate=true] {boolean} If they overlap should the seperate or not
             * @return {boolean}
             * @public
@@ -9132,11 +9171,11 @@ var Kiwi;
             };
 
             /**
-            * A Statuc method that checks to see if any objects from an Array collide with a Kiwi Group members.
+            * A Static method that checks to see if any objects from an Array collide with a Kiwi Group members.
             *
             * @method overlapsArrayGroup
             * @param array {Array} An array you want to check collide.
-            * @param group {Group} A group of objects you want to check overlaps.
+            * @param group {Kiwi.Group} A group of objects you want to check overlaps.
             * @param [seperateObjects=true] {Boolean} If when a collision is found the objects should seperate out.
             * @return {Boolean}
             * @static
