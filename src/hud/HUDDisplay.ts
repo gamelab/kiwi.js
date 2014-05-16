@@ -15,7 +15,7 @@ module Kiwi.HUD {
     * @class HUDDisplay
     * @namespace Kiwi.HUD
     * @constructor
-    * @param game {Game} The game that this HUD Display belongs to. 
+    * @param game {Kiwi.Game} The game that this HUD Display belongs to. 
     * @param name {string} The name of this display.
     * @return HUDDisplay
     */
@@ -48,7 +48,7 @@ module Kiwi.HUD {
         /**
         * Returns the type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "HUDDisplay"
         * @public
         */
         public objType():string {
@@ -68,7 +68,7 @@ module Kiwi.HUD {
         /**
         * The HUD Manager that this Display belongs to. 
         * @property _manager
-        * @type HUDManager
+        * @type Kiwi.HUD.HUDManager
         * @private
         */
         private _manager: Kiwi.HUD.HUDManager;
@@ -92,15 +92,15 @@ module Kiwi.HUD {
         /**
         * The game that this HUD Display is on.
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private
         */
         private _game: Kiwi.Game;
 
         /**
-        * Contains all of the widgets that are contained in this HUDDisplay.
+        * Contains a list of the widgets that are contained in this HUDDisplay. Each member is of the type Kiwi.HUD.HUDWidget.
         * @property _widgets
-        * @type HUDWidget
+        * @type Array
         * @private
         */
         private _widgets: Kiwi.HUD.HUDWidget[];
@@ -109,7 +109,7 @@ module Kiwi.HUD {
         * Adds a widget to the HUDDisplay. Returns a boolean as an indication of whether or not it was successful.
         *
         * @method addWidget
-        * @param widget {HUDWidget}  The widget to be added to the Display
+        * @param widget {Kiwi.HUD.HUDWidget}  The widget to be added to the Display
         * @return {Boolean} If it was successful or not.
         * @public
         */
@@ -129,7 +129,7 @@ module Kiwi.HUD {
         * Removes a singular widget from the display. Returns a boolean as an indication of if anything happened or not.
         * 
         * @method removeWidget
-        * @param widget {HUDWidget} The widget to be removed.
+        * @param widget {Kiwi.HUD.HUDWidget} The widget to be removed.
         * @return {boolean} If it was successful or not.
         * @public
         */
@@ -166,7 +166,7 @@ module Kiwi.HUD {
         /**
         * Removes a widget from on the HUDDisplay. 
         * @method removeFromContainer
-        * @param widget {HUDWidget} The Widget to be removed.
+        * @param widget {Kiwi.HUD.HUDWidget} The Widget to be removed.
         * @returns {boolean}
         */
         private removeFromContainer(widget:Kiwi.HUD.HUDWidget):boolean {
@@ -184,7 +184,7 @@ module Kiwi.HUD {
         }
 
         /**
-        * Update loop
+        * Update loop.
         * @method update
         * @public
         */

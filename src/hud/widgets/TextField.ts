@@ -15,14 +15,14 @@ module Kiwi.HUD.Widget {
     * Foreach TextField you can add some prefix/suffix text, which is more useful on classes extending this one.
     *
     * @class TextField
-    * @extends HUDWidget
+    * @extends Kiwi.HUD.HUDWidget
     * @namespace Kiwi.HUD.Widget
     * @constructor
-    * @param game {Game} The game that this textfield belongs to.
+    * @param game {Kiwi.Game} The game that this textfield belongs to.
     * @param text {string} The text on this textfield.
     * @param x {number} The x coordinates
     * @param y {number} The y coordinates
-    * @return {TextField} 
+    * @return {Kiwi.HUD.Widget.TextField} 
     */
     export class TextField extends Kiwi.HUD.HUDWidget {
         
@@ -42,7 +42,7 @@ module Kiwi.HUD.Widget {
         /**
         * Returns the type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} 'TextFieldWidget'
         * @public
         */
         public objType(): string {

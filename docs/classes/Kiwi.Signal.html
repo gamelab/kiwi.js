@@ -460,13 +460,6 @@ Released under the MIT license
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_toString">toString</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
                                 <a href="#method_validateListener">validateListener</a>
 
                                 
@@ -578,7 +571,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l143"><code>src\core\Signal.ts:143</code></a>
+        <a href="../files/src_core_Signal.ts.html#l146"><code>src\core\Signal.ts:146</code></a>
         
         </p>
 
@@ -589,7 +582,8 @@ Released under the MIT license
     </div>
 
     <div class="description">
-        
+        <p>Handles the process of adding a new SignalBinding to the bindings list by the new Bindings priority.</p>
+
     </div>
 
     
@@ -601,7 +595,7 @@ Released under the MIT license
                 <li class="param">
                     
                         <code class="param-name">binding</code>
-                        <span class="type">SignalBinding</span>
+                        <span class="type"><a href="..\classes\Kiwi.SignalBinding.html" class="crosslink">Kiwi.SignalBinding</a></span>
                     
 
                     
@@ -677,7 +671,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l161"><code>src\core\Signal.ts:161</code></a>
+        <a href="../files/src_core_Signal.ts.html#l165"><code>src\core\Signal.ts:165</code></a>
         
         </p>
 
@@ -688,7 +682,8 @@ Released under the MIT license
     </div>
 
     <div class="description">
-        <p>[REQUIRES DESCRIPTION]</p>
+        <p>Returns the index of any Binding which matches the listener and context that is passed.
+If none match then this method returns -1.</p>
 
     </div>
 
@@ -707,7 +702,8 @@ Released under the MIT license
                     
 
                     <div class="param-description">
-                         
+                        <p>The method that we are checking to see.</p>
+
                     </div>
 
                     
@@ -722,7 +718,8 @@ Released under the MIT license
                     
 
                     <div class="param-description">
-                         
+                        <p>The context of the method we are checking.</p>
+
                     </div>
 
                     
@@ -741,6 +738,8 @@ Released under the MIT license
                     
                         <span class="type">Number</span>:
                     
+                    <p>The index of listener/context.</p>
+
                 
             </div>
         </div>
@@ -794,7 +793,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l300"><code>src\core\Signal.ts:300</code></a>
+        <a href="../files/src_core_Signal.ts.html#l308"><code>src\core\Signal.ts:308</code></a>
         
         </p>
 
@@ -878,7 +877,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l349"><code>src\core\Signal.ts:349</code></a>
+        <a href="../files/src_core_Signal.ts.html#l356"><code>src\core\Signal.ts:356</code></a>
         
         </p>
 
@@ -935,7 +934,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l337"><code>src\core\Signal.ts:337</code></a>
+        <a href="../files/src_core_Signal.ts.html#l345"><code>src\core\Signal.ts:345</code></a>
         
         </p>
 
@@ -946,8 +945,7 @@ Released under the MIT license
     </div>
 
     <div class="description">
-        <p>[REQUIRES DESCRIPTION]
-Forget memorized arguments. See Signal.memorize</p>
+        <p>Forget memorized arguments. See Signal.memorize</p>
 
     </div>
 
@@ -997,7 +995,7 @@ Forget memorized arguments. See Signal.memorize</p>
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l274"><code>src\core\Signal.ts:274</code></a>
+        <a href="../files/src_core_Signal.ts.html#l282"><code>src\core\Signal.ts:282</code></a>
         
         </p>
 
@@ -1008,7 +1006,7 @@ Forget memorized arguments. See Signal.memorize</p>
     </div>
 
     <div class="description">
-        <p>[REQUIRES DESCRIPTION]</p>
+        <p>Returns the number of listeners that have been attached to this Signal.</p>
 
     </div>
 
@@ -1068,7 +1066,7 @@ Forget memorized arguments. See Signal.memorize</p>
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l286"><code>src\core\Signal.ts:286</code></a>
+        <a href="../files/src_core_Signal.ts.html#l295"><code>src\core\Signal.ts:295</code></a>
         
         </p>
 
@@ -1079,8 +1077,7 @@ Forget memorized arguments. See Signal.memorize</p>
     </div>
 
     <div class="description">
-        <p>[REQUIRES DESCRIPTION]
-Stop propagation of the event, blocking the dispatch to next listeners on the queue.</p>
+        <p>Stop propagation of the event, blocking the dispatch to next listeners on the queue.</p>
 <p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won&#39;t affect signal broadcast.</p>
     </div>
 
@@ -1130,7 +1127,7 @@ Stop propagation of the event, blocking the dispatch to next listeners on the qu
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l79"><code>src\core\Signal.ts:79</code></a>
+        <a href="../files/src_core_Signal.ts.html#l77"><code>src\core\Signal.ts:77</code></a>
         
         </p>
 
@@ -1156,7 +1153,7 @@ Stop propagation of the event, blocking the dispatch to next listeners on the qu
                     
                         <span class="type">String</span>:
                     
-                    <p>The type of this object</p>
+                    <p>&quot;Signal&quot;</p>
 
                 
             </div>
@@ -1201,7 +1198,7 @@ Stop propagation of the event, blocking the dispatch to next listeners on the qu
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l256"><code>src\core\Signal.ts:256</code></a>
+        <a href="../files/src_core_Signal.ts.html#l264"><code>src\core\Signal.ts:264</code></a>
         
         </p>
 
@@ -1224,81 +1221,7 @@ Stop propagation of the event, blocking the dispatch to next listeners on the qu
 </div>
 
                 
-                    <div id="method_toString" class="method item public">
-    <h3 class="name"><code>toString</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_Signal.ts.html#l364"><code>src\core\Signal.ts:364</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">String</span>:
-                    
-                    <p>String representation of the object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_validateListener" class="method item">
+                    <div id="method_validateListener" class="method item public">
     <h3 class="name"><code>validateListener</code></h3>
 
     
@@ -1326,6 +1249,8 @@ Stop propagation of the event, blocking the dispatch to next listeners on the qu
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1346,7 +1271,7 @@ Stop propagation of the event, blocking the dispatch to next listeners on the qu
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l89"><code>src\core\Signal.ts:89</code></a>
+        <a href="../files/src_core_Signal.ts.html#l87"><code>src\core\Signal.ts:87</code></a>
         
         </p>
 
@@ -1357,7 +1282,8 @@ Stop propagation of the event, blocking the dispatch to next listeners on the qu
     </div>
 
     <div class="description">
-        <p>Validates a event listener an is used to check to see if it is valid or not.</p>
+        <p>Validates a event listener an is used to check to see if it is valid or not.
+If a event listener is not valid, then a Error is thrown.</p>
 
     </div>
 
@@ -1417,7 +1343,7 @@ Stop propagation of the event, blocking the dispatch to next listeners on the qu
                 
                     <div id="property__bindings" class="property item private">
     <h3 class="name"><code>_bindings</code></h3>
-    <span class="type">SignalBinding</span>
+    <span class="type">Array</span>
 
     
 
@@ -1455,8 +1381,6 @@ Stop propagation of the event, blocking the dispatch to next listeners on the qu
     </div>
 
     
-        <p><strong>Default:</strong> []</p>
-    
 
     
 
@@ -1489,7 +1413,7 @@ Stop propagation of the event, blocking the dispatch to next listeners on the qu
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l30"><code>src\core\Signal.ts:30</code></a>
+        <a href="../files/src_core_Signal.ts.html#l29"><code>src\core\Signal.ts:29</code></a>
         
         </p>
 
@@ -1502,8 +1426,6 @@ Stop propagation of the event, blocking the dispatch to next listeners on the qu
         
     </div>
 
-    
-        <p><strong>Default:</strong> null</p>
     
 
     
@@ -1537,7 +1459,7 @@ Stop propagation of the event, blocking the dispatch to next listeners on the qu
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l68"><code>src\core\Signal.ts:68</code></a>
+        <a href="../files/src_core_Signal.ts.html#l66"><code>src\core\Signal.ts:66</code></a>
         
         </p>
 
@@ -1586,7 +1508,7 @@ Stop propagation of the event, blocking the dispatch to next listeners on the qu
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l49"><code>src\core\Signal.ts:49</code></a>
+        <a href="../files/src_core_Signal.ts.html#l47"><code>src\core\Signal.ts:47</code></a>
         
         </p>
 
@@ -1641,7 +1563,7 @@ already dispatched before.</p>
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l39"><code>src\core\Signal.ts:39</code></a>
+        <a href="../files/src_core_Signal.ts.html#l37"><code>src\core\Signal.ts:37</code></a>
         
         </p>
 

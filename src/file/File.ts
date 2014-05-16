@@ -15,13 +15,13 @@ module Kiwi.Files {
     * @class File
     * @namespace Kiwi.Files
     * @constructor
-    * @param game {Game} The game that this file belongs to.
+    * @param game {Kiwi.Game} The game that this file belongs to.
     * @param dataType {Number} The type of file that is being loaded. For this you can use the STATIC properties that are located on this class for quick code completion.
     * @param path {String} The location of the file that is to be loaded.
     * @param [name=''] {String} A name for the file. If no name is specified then the files name will be used.
     * @param [saveToFileStore=true] {Boolean} If the file should be saved on the file store or not.
     * @param [storeAsGlobal=true] {Boolean} If this file should be stored as a global file, or if it should be destroyed when this state gets switched out.
-    * @return {File} 
+    * @return {Kiwi.Files.File} 
     *
     */
     export class File {
@@ -59,7 +59,7 @@ module Kiwi.Files {
                 if (this._game.audio.usingAudioTag === true) {
                     this._useTagLoader = true;
 
-                } else { //just dont use the tag loader...just dont....
+                } else { // Just dont use the tag loader...just dont....
                     this._useTagLoader = false;
 
                 }
@@ -72,7 +72,7 @@ module Kiwi.Files {
             this._saveToFileStore = saveToFileStore;
             this._fileStore = this._game.fileStore;
 
-            // null state owner indicates global storage
+            // Null state owner indicates global storage
             if (this._game.states.current && !storeAsGlobal) {
                 this.ownerState = this._game.states.current;
             } else {
@@ -95,7 +95,7 @@ module Kiwi.Files {
         /**
         * Returns the type of this object
         * @method objType
-        * @return {String}
+        * @return {String} "File"
         * @public
         */
         public objType() {
@@ -264,7 +264,7 @@ module Kiwi.Files {
         /**
         * The game that this file belongs to.
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private
         */
         private _game: Kiwi.Game;
@@ -280,9 +280,9 @@ module Kiwi.Files {
 
 
         /**
-        * The file store that this file is a part of.
+        * The file store that this file is a member of.
         * @property _fileStore
-        * @type FileStore
+        * @type Kiwi.Files.FileStore
         * @private
         */
         private _fileStore: Kiwi.Files.FileStore;
@@ -579,7 +579,8 @@ module Kiwi.Files {
 
 
         /**
-        * Starts the loading process for this file.
+        * Starts the loading process for this file. 
+        * 
         * @method load
         * @param [onCompleteCallback=null] {Any} The callback method to execute when this file has loaded.
         * @param [onProgressCallback=null] {Any} The callback method to execute while this file is loading.
@@ -707,7 +708,7 @@ module Kiwi.Files {
         /**
         * Is executed when the tag loader changes its ready state. 
         * @method tagLoaderOnReadyStateChange
-        * @param {Any} event
+        * @param event {Any}
         * @private
 		*/
         private tagLoaderOnReadyStateChange(event) {
@@ -717,7 +718,7 @@ module Kiwi.Files {
         /**
         * Is executed when the tag loader encounters a error that stops it from loading.
         * @method tagLoaderOnError
-        * @param {Any} event
+        * @param event {Any}
         * @private
 		*/
         private tagLoaderOnError(event) {
@@ -735,7 +736,7 @@ module Kiwi.Files {
         /**
         * Is executed when an audio file can play the whole way through with stopping to load.
         * @method tagLoaderProgressThrough
-        * @param {Any} event
+        * @param event {Any}
         * @private
         */
         private tagLoaderProgressThrough(event) {
@@ -774,7 +775,7 @@ module Kiwi.Files {
         /**
         * Is executed when the file has successfully loaded.
         * @method tagLoaderOnLoad
-        * @param {Any} event
+        * @param event {Any}
         * @private
         */
         private tagLoaderOnLoad(event) {
@@ -951,7 +952,7 @@ module Kiwi.Files {
         /**
         * Is executed when the XHR loader has changed its ready state.
         * @method xhrOnReadyStateChange
-        * @param {Any} event
+        * @param event {Any}
         * @private
 		*/
         private xhrOnReadyStateChange(event) {
@@ -968,7 +969,7 @@ module Kiwi.Files {
         /**
         * Is executed when the XHR loader starts to load the file.
         * @method xhrOnLoadStart
-        * @param {Any} event
+        * @param event {Any}
         * @private
 		*/
         private xhrOnLoadStart(event) {
@@ -996,7 +997,7 @@ module Kiwi.Files {
         /**
         * Runs when the XHR loader encounters a error. 
         * @method xhrOnError
-        * @param {Any} event
+        * @param event {Any}
         * @private
 		*/
         private xhrOnError(event) {
@@ -1010,7 +1011,7 @@ module Kiwi.Files {
         /**
         * Is executed when the xhr 
         * @method xhrOnTimeout
-        * @param {Any} event
+        * @param event {Any}
         * @private
 		*/
         private xhrOnTimeout(event) {
@@ -1026,7 +1027,7 @@ module Kiwi.Files {
         /**
         * Is execute whilst loading of the file is occuring. Updates the number of bytes that have been loaded and percentage loaded.
         * @method xhrOnProgress
-        * @param {Any} event
+        * @param event {Any}
         * @private
 		*/
         private xhrOnProgress(event) {
@@ -1046,7 +1047,7 @@ module Kiwi.Files {
         /**
         * Once the file has finished downloading (or pulled from the browser cache) this onload event fires.
         * @method xhrOnLoad
-        * @param {event} The XHR event
+        * @param event {Event} The XHR event.
         * @private
         */
         private xhrOnLoad(event) {
@@ -1111,7 +1112,6 @@ module Kiwi.Files {
         /**
         * Handles the processing of the files information when it was loaded via the xhr + arraybuffer method. 
         * Is only executed when the loading was a success
-            this._xhr.onload = (event) => this.xhrOnLoad(event);.
         * @method processFile
         * @private
         */
@@ -1296,7 +1296,7 @@ module Kiwi.Files {
         * Attempts to make the file send a XHR HEAD request to get information about the file that is going to be downloaded.
         * This is particularly useful when you are wanting to check how large a file is before loading all of the content. 
         * @method getFileDetails
-        * @param [callback=null] {function} The callback to send this FileInfo object to.
+        * @param [callback=null] {Any} The callback to send this FileInfo object to.
         * @param [maxLoadAttempts=1] {number} The maximum amount of load attempts. Only set this if it is different from the default.
         * @param [timeout=this.timeOutDelay] {number} The timeout delay. By default this is the same as the timeout delay property set on this file.
         * @private
@@ -1368,7 +1368,7 @@ module Kiwi.Files {
         /**
         * Process the response headers received.
         * @method getResponseHeaders
-        * @param event {Any} The XHR event
+        * @param event {Any} The XHR event.
         * @private
         */
         private getXHRResponseHeaders(event:any) {
@@ -1414,19 +1414,6 @@ module Kiwi.Files {
                 this.onCompleteCallback(this);
 
             }
-        }
-
-
-	    /**
-	    * Returns a string representation of this object.
-	    * @method toString
-	    * @return {string} a string representation of the instance.
-	    * @public
-        */
-        public toString(): string {
-
-            return "[{File (fileURL=" + this.fileURL + " fileName=" + this.fileName + " dataType=" + this.dataType + " fileSize=" + this.fileSize + " success=" + this.success + " status=" + this.status + ")}]";
-
         }
 
     }

@@ -11,7 +11,7 @@ module Kiwi.HUD.Widget {
     * You can control the minimum/maximum and current values of the bar through the Counter widget.
     * 
     * @class Bar
-    * @extends HUDWidget
+    * @extends Kiwi.HUD.HUDWidget
     * @namespace Kiwi.HUD.Widget
     * @constructor 
     * @param game {Kiwi.Game} The game that this bar belongs to.
@@ -56,7 +56,7 @@ module Kiwi.HUD.Widget {
         /**
         * Returns the type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "BarWidget"
         * @public
         */
         public objType(): string {
@@ -139,7 +139,7 @@ module Kiwi.HUD.Widget {
         /**
         * The counter component.
         * @property counter
-        * @type Counter
+        * @type Kiwi.HUD.HUDComponents.Counter
         * @public
         */
         public counter: Kiwi.HUD.HUDComponents.Counter;

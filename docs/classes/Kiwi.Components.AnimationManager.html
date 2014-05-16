@@ -346,7 +346,7 @@
 
     
         <div class="extends">
-            Extends Component
+            Extends <a href="..\classes\Kiwi.Component.html" class="crosslink">Kiwi.Component</a>
         </div>
     
 
@@ -369,8 +369,8 @@
 
 
 <div class="box intro">
-    <p>The AnimationManager is used to handle the creation and playment of Animations on a individual GameObject based on the TextureAtlas it has. 
-When the AnimationManager is instantiated it will loop through all of the Sequences on the TextureAtlas of the GameObject being used and will create a new Animation for each one.
+    <p>The AnimationManager is used to handle the creation and use of spritesheet Animations on a GameObject based on the TextureAtlas it has. 
+If the When the AnimationManager is instantiated it will loop through all of the Sequences on the TextureAtlas of the GameObject being used and will create a new Animation for each one.
 Now when you create a new Animation that animation will automatically be added as a new Sequence to the corresponding Texture. 
 This way you don&#39;t need to create new Animations for a each Sprite that use&#39;s the same Texture.</p>
 
@@ -392,13 +392,19 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code class="optional">[inheritSequences=true]</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
 
     
         <span class="returns-inline">
-            <span class="type">AnimationManager</span>
+            <span class="type"><a href="..\classes\Kiwi.Components.AnimationManager.html" class="crosslink">Kiwi.Components.AnimationManager</a></span>
         </span>
     
 
@@ -448,13 +454,30 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                 <li class="param">
                     
                         <code class="param-name">entity</code>
-                        <span class="type">Entity</span>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
                     
 
                     
 
                     <div class="param-description">
                         <p>The entity that this animation component belongs to.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[inheritSequences=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If a new Animation should be created for each Sequence on the Entities TextureAtlas it is a part of or not.</p>
 
                     </div>
 
@@ -472,7 +495,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             <div class="returns-description">
                 
                     
-                        <span class="type">AnimationManager</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Components.AnimationManager.html" class="crosslink">Kiwi.Components.AnimationManager</a></span>:
                     
                 
             </div>
@@ -537,7 +560,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
                                 <a href="#method_destroy">destroy</a>
 
                                 
@@ -558,7 +581,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
                                 <a href="#method_objType">objType</a>
 
                                 
@@ -581,6 +604,20 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                         
                             <li class="index-item method public">
                                 <a href="#method_playAt">playAt</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_postUpdate">postUpdate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_preUpdate">preUpdate</a>
 
                                 
                                 
@@ -614,7 +651,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
                                 <a href="#method_update">update</a>
 
                                 
@@ -652,8 +689,15 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                                 
                             </li>
                         
-                            <li class="index-item property private">
-                                <a href="#property__currentAnimation">_currentAnimation</a>
+                            <li class="index-item property public inherited">
+                                <a href="#property_active">active</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_currentAnimation">currentAnimation</a>
 
                                 
                                 
@@ -661,6 +705,13 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                         
                             <li class="index-item property public">
                                 <a href="#property_currentCell">currentCell</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_dirty">dirty</a>
 
                                 
                                 
@@ -680,6 +731,13 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                                 
                             </li>
                         
+                            <li class="index-item property public inherited">
+                                <a href="#property_game">game</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property public">
                                 <a href="#property_isPlaying">isPlaying</a>
 
@@ -689,6 +747,13 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                         
                             <li class="index-item property public">
                                 <a href="#property_length">length</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_name">name</a>
 
                                 
                                 
@@ -717,6 +782,13 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                         
                             <li class="index-item property public">
                                 <a href="#property_onUpdate">onUpdate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_owner">owner</a>
 
                                 
                                 
@@ -761,7 +833,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
 
     
         <span class="returns-inline">
-            <span class="type">Animation</span>
+            <span class="type"><a href="..\classes\Kiwi.Animations.Animation.html" class="crosslink">Kiwi.Animations.Animation</a></span>
         </span>
     
 
@@ -790,7 +862,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l211"><code>src\components\AnimationManager.ts:211</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l238"><code>src\components\AnimationManager.ts:238</code></a>
         
         </p>
 
@@ -801,7 +873,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
     </div>
 
     <div class="description">
-        <p>An internal method used to actually play the animation.</p>
+        <p>An internal method used to actually play a Animation at a Index.</p>
 
     </div>
 
@@ -814,7 +886,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                 <li class="param">
                     
                         <code class="param-name">name</code>
-                        <span class="type">Number</span>
+                        <span class="type">String</span>
                     
 
                     
@@ -830,14 +902,14 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                 <li class="param">
                     
                         <code class="param-name optional">[index=null]</code>
-                        <span class="type">String</span>
+                        <span class="type">Number</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The index of the frame in the Sequence that is to play.</p>
+                        <p>The index of the frame in the Sequence that is to play. If null, then it restarts the animation at the cell it currently is at.</p>
 
                     </div>
 
@@ -855,8 +927,10 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             <div class="returns-description">
                 
                     
-                        <span class="type">Animation</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Animations.Animation.html" class="crosslink">Kiwi.Animations.Animation</a></span>:
                     
+                    <p>Returns the current Animation that is now playing.</p>
+
                 
             </div>
         </div>
@@ -910,7 +984,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l318"><code>src\components\AnimationManager.ts:318</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l348"><code>src\components\AnimationManager.ts:348</code></a>
         
         </p>
 
@@ -921,7 +995,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
     </div>
 
     <div class="description">
-        <p>Internal method that sets the current animation to the animation passed.</p>
+        <p>Internal method that sets the current animation to a Animation passed.</p>
 
     </div>
 
@@ -940,7 +1014,8 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                     
 
                     <div class="param-description">
-                         
+                        <p>Name of the Animation that is to be switched to.</p>
+
                     </div>
 
                     
@@ -993,13 +1068,19 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code class="optional">[addToAtlas=true]</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
 
     
         <span class="returns-inline">
-            <span class="type">Animation</span>
+            <span class="type"><a href="..\classes\Kiwi.Animations.Animation.html" class="crosslink">Kiwi.Animations.Animation</a></span>
         </span>
     
 
@@ -1028,7 +1109,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l151"><code>src\components\AnimationManager.ts:151</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l157"><code>src\components\AnimationManager.ts:157</code></a>
         
         </p>
 
@@ -1039,7 +1120,11 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
     </div>
 
     <div class="description">
-        <p>Creates a new sequence and then adds that sequence as a new animation on this component. Returns that animation that was created.</p>
+        <p>Creates a new Animation (by creating a Sequence) that can then be played on this AnimationManager. 
+If you pass to this the name of a Animation that already exists, then the previous Animation will be overridden by this new one. 
+Note: If the Animation you have overridden was the currentAnimation, then the previous Animation will keep playing until a different Animation is switched to.
+By default new Animation Sequences are also added to the TextureAtlas, which can then be inherited.
+Returns the Animation that was created.</p>
 
     </div>
 
@@ -1058,7 +1143,8 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                     
 
                     <div class="param-description">
-                         
+                        <p>The name of the animation that is to be created.</p>
+
                     </div>
 
                     
@@ -1067,13 +1153,13 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                 <li class="param">
                     
                         <code class="param-name">cells</code>
-                        <span class="type">Number</span>
+                        <span class="type">Array</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>An array that contains a reference to the cells that are to be played in the animation.</p>
+                        <p>An array of numbers, which are reference to each cell that is to be played in the Animation in order.</p>
 
                     </div>
 
@@ -1089,7 +1175,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                     
 
                     <div class="param-description">
-                        <p>The amount of time that each frame should stay on screen for. In seconds.</p>
+                        <p>The amount of time that each cell in the Animation should stay on screen for. In seconds.</p>
 
                     </div>
 
@@ -1106,7 +1192,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                     
 
                     <div class="param-description">
-                        <p>If when the animation reaches the last frame, it should go back to the start again.</p>
+                        <p>If when the Animation reaches the last frame, it should go back to the start again.</p>
 
                     </div>
 
@@ -1123,7 +1209,24 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                     
 
                     <div class="param-description">
-                        <p>If once created the animation should play right away.</p>
+                        <p>If once created the animation should played right away.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[addToAtlas=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If the new Sequence created should be added to the TextureAtlas or not.</p>
 
                     </div>
 
@@ -1141,9 +1244,9 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             <div class="returns-description">
                 
                     
-                        <span class="type">Animation</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Animations.Animation.html" class="crosslink">Kiwi.Animations.Animation</a></span>:
                     
-                    <p>The Anim that was created.</p>
+                    <p>The Animation that was created.</p>
 
                 
             </div>
@@ -1179,7 +1282,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
 
     
         <span class="returns-inline">
-            <span class="type">Animation</span>
+            <span class="type"><a href="..\classes\Kiwi.Animations.Animation.html" class="crosslink">Kiwi.Animations.Animation</a></span>
         </span>
     
 
@@ -1208,7 +1311,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l170"><code>src\components\AnimationManager.ts:170</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l181"><code>src\components\AnimationManager.ts:181</code></a>
         
         </p>
 
@@ -1219,7 +1322,10 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
     </div>
 
     <div class="description">
-        <p>Creates a new animation based on a sequence that is passed.</p>
+        <p>Creates a new Animation based on a Sequence that is passed. 
+If you pass to this the name of a Animation that already exists, then the previous Animation will be overridden by this new one. 
+Note: If the Animation you have overridden was the currentAnimation, then the previous Animation will keep playing until a different Animation is switched to.
+Returns the Animation that was created.</p>
 
     </div>
 
@@ -1238,7 +1344,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                     
 
                     <div class="param-description">
-                        <p>The sequence that the animation is based on.</p>
+                        <p>The sequence that the Animation is based on.</p>
 
                     </div>
 
@@ -1255,7 +1361,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                     
 
                     <div class="param-description">
-                        <p>If the animation should play once it has been created</p>
+                        <p>If the Animation should played once it has been created</p>
 
                     </div>
 
@@ -1273,9 +1379,9 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             <div class="returns-description">
                 
                     
-                        <span class="type">Animation</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Animations.Animation.html" class="crosslink">Kiwi.Animations.Animation</a></span>:
                     
-                    <p>The Anim that was created.</p>
+                    <p>The Animation that was created.</p>
 
                 
             </div>
@@ -1311,16 +1417,16 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Kiwi.Component.html#method_destroy">
+                Kiwi.Component
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l401"><code>src\components\AnimationManager.ts:401</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l434"><code>src\components\AnimationManager.ts:434</code></a>
         
         </p>
 
@@ -1362,7 +1468,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
 
     
         <span class="returns-inline">
-            <span class="type">Animation</span>
+            <span class="type"><a href="..\classes\Kiwi.Animations.Animation.html" class="crosslink">Kiwi.Animations.Animation</a></span>
         </span>
     
 
@@ -1391,7 +1497,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l377"><code>src\components\AnimationManager.ts:377</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l409"><code>src\components\AnimationManager.ts:409</code></a>
         
         </p>
 
@@ -1402,7 +1508,8 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
     </div>
 
     <div class="description">
-        <p>Get a animation that is on the animation component.</p>
+        <p>Returns a Animation that is on this AnimationComponent
+Does not check to see if that Animation exists or not.</p>
 
     </div>
 
@@ -1421,7 +1528,8 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                     
 
                     <div class="param-description">
-                         
+                        <p>The name of the Animation you would like to get.</p>
+
                     </div>
 
                     
@@ -1438,8 +1546,10 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             <div class="returns-description">
                 
                     
-                        <span class="type">Animation</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Animations.Animation.html" class="crosslink">Kiwi.Animations.Animation</a></span>:
                     
+                    <p>The Animation that is found. Will be &#39;undefined&#39; if a Animation with that name did not exist.</p>
+
                 
             </div>
         </div>
@@ -1483,7 +1593,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l298"><code>src\components\AnimationManager.ts:298</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l328"><code>src\components\AnimationManager.ts:328</code></a>
         
         </p>
 
@@ -1514,6 +1624,10 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
     
 
     
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
 
     
 
@@ -1531,16 +1645,16 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Kiwi.Component.html#method_objType">
+                Kiwi.Component
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l141"><code>src\components\AnimationManager.ts:141</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l147"><code>src\components\AnimationManager.ts:147</code></a>
         
         </p>
 
@@ -1551,12 +1665,26 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
     </div>
 
     <div class="description">
-        <p>The type of object that this is.</p>
+        <p>Returns a string indicating the type of object that this is.</p>
 
     </div>
 
     
 
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                    <p>&quot;AnimationManager&quot;</p>
+
+                
+            </div>
+        </div>
     
 
     
@@ -1597,7 +1725,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l246"><code>src\components\AnimationManager.ts:246</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l274"><code>src\components\AnimationManager.ts:274</code></a>
         
         </p>
 
@@ -1633,10 +1761,20 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code class="optional">[resetTime=true]</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
 
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Kiwi.Animations.Animation.html" class="crosslink">Kiwi.Animations.Animation</a></span>
+        </span>
     
 
     
@@ -1664,7 +1802,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l187"><code>src\components\AnimationManager.ts:187</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l201"><code>src\components\AnimationManager.ts:201</code></a>
         
         </p>
 
@@ -1702,10 +1840,41 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                     
                 </li>
             
+                <li class="param">
+                    
+                        <code class="param-name optional">[resetTime=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>When set to false, this will prevent a new Animation from playing if it is already the currentAnimation that is already playing.</p>
+
+                    </div>
+
+                    
+                </li>
+            
             </ul>
         </div>
     
 
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.Animations.Animation.html" class="crosslink">Kiwi.Animations.Animation</a></span>:
+                    
+                    <p>Returns the current Animation that is now playing.</p>
+
+                
+            </div>
+        </div>
     
 
     
@@ -1736,6 +1905,10 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
     
 
     
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Kiwi.Animations.Animation.html" class="crosslink">Kiwi.Animations.Animation</a></span>
+        </span>
+    
 
     
 
@@ -1762,7 +1935,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l198"><code>src\components\AnimationManager.ts:198</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l222"><code>src\components\AnimationManager.ts:222</code></a>
         
         </p>
 
@@ -1773,7 +1946,9 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
     </div>
 
     <div class="description">
-        <p>Play an animation at a particular frameIndex.</p>
+        <p>Plays an Animation at a particular frameIndex.
+Note: The frameIndex is a particular index of a cell in the Sequence of the Animation you would like to play. 
+Example: If you had a Animation with a Sequence [0, 1, 2, 3] and you told it to play at index &#39;2&#39;, then the cell that it would be at is &#39;3&#39;.</p>
 
     </div>
 
@@ -1809,7 +1984,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                     
 
                     <div class="param-description">
-                        <p>The name of the animation that you want to play. If not passed, it plays it on the current animation.</p>
+                        <p>The name of the animation that you want to play. If not passed, it attempts to play it on the current animation.</p>
 
                     </div>
 
@@ -1818,6 +1993,128 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
             </ul>
         </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.Animations.Animation.html" class="crosslink">Kiwi.Animations.Animation</a></span>:
+                    
+                    <p>Returns the current Animation that is now playing.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_postUpdate" class="method item public inherited">
+    <h3 class="name"><code>postUpdate</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#method_postUpdate">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l96"><code>src\core\Component.ts:96</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Components can postUpdate, that is run an update after the parent has updated. This is to be overriden by subclasses.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_preUpdate" class="method item public inherited">
+    <h3 class="name"><code>preUpdate</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#method_preUpdate">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l82"><code>src\core\Component.ts:82</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Components can preUpdate, that is update before the parent updates. This is to be overriden by subclasses.</p>
+
+    </div>
+
     
 
     
@@ -1860,7 +2157,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l308"><code>src\components\AnimationManager.ts:308</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l338"><code>src\components\AnimationManager.ts:338</code></a>
         
         </p>
 
@@ -1917,7 +2214,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l255"><code>src\components\AnimationManager.ts:255</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l283"><code>src\components\AnimationManager.ts:283</code></a>
         
         </p>
 
@@ -1928,7 +2225,8 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
     </div>
 
     <div class="description">
-        <p>Resumes the current animation. The animation should have already been paused.</p>
+        <p>Resumes the current animation.
+The animation should have already been paused.</p>
 
     </div>
 
@@ -1974,7 +2272,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l234"><code>src\components\AnimationManager.ts:234</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l261"><code>src\components\AnimationManager.ts:261</code></a>
         
         </p>
 
@@ -2047,7 +2345,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l264"><code>src\components\AnimationManager.ts:264</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l294"><code>src\components\AnimationManager.ts:294</code></a>
         
         </p>
 
@@ -2060,7 +2358,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
     <div class="description">
         <p>Either switches to a particular animation OR a particular frame in the current animation depending on if you pass the name of an animation that exists on this Manager (as a string) or a number refering to a frame index on the Animation. 
 When you switch to a particular animation then 
-You can also force the animation to play or to stop by passing a boolean in. But if left as null, the animation will base it off what is currently happening.
+You can also force the animation to play or to stop by passing a boolean in. But if left as null, the state of the Animation will based off what is currently happening.
 So if the animation is currently &#39;playing&#39; then once switched to the animation will play. If not currently playing it will switch to and stop.
 If the previous animation played is non-looping and has reached its final frame, it is no longer considered playing, and as such, switching to another animation will not play unless the argument to the play parameter is true.</p>
 
@@ -2139,16 +2437,16 @@ If the previous animation played is non-looping and has reached its final frame,
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Kiwi.Component.html#method_update">
+                Kiwi.Component
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l336"><code>src\components\AnimationManager.ts:336</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l366"><code>src\components\AnimationManager.ts:366</code></a>
         
         </p>
 
@@ -2159,7 +2457,8 @@ If the previous animation played is non-looping and has reached its final frame,
     </div>
 
     <div class="description">
-        <p>The update loop, it only updates the currentAnimation and only if it is playing.</p>
+        <p>The update loop for this component. 
+Only updates the currentAnimation and only if it is playing.</p>
 
     </div>
 
@@ -2205,7 +2504,7 @@ If the previous animation played is non-looping and has reached its final frame,
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l389"><code>src\components\AnimationManager.ts:389</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l422"><code>src\components\AnimationManager.ts:422</code></a>
         
         </p>
 
@@ -2261,7 +2560,7 @@ If the previous animation played is non-looping and has reached its final frame,
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l114"><code>src\components\AnimationManager.ts:114</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l121"><code>src\components\AnimationManager.ts:121</code></a>
         
         </p>
 
@@ -2271,7 +2570,7 @@ If the previous animation played is non-looping and has reached its final frame,
     </div>
 
     <div class="description">
-        <p>A dictionary containing all of the animations that are avaiable.</p>
+        <p>A Object containing all of the animations that are avaiable to be used.</p>
 
     </div>
 
@@ -2285,7 +2584,7 @@ If the previous animation played is non-looping and has reached its final frame,
                 
                     <div id="property__atlas" class="property item private">
     <h3 class="name"><code>_atlas</code></h3>
-    <span class="type">TextureAtlas</span>
+    <span class="type"><a href="..\classes\Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
 
     
 
@@ -2308,7 +2607,7 @@ If the previous animation played is non-looping and has reached its final frame,
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l106"><code>src\components\AnimationManager.ts:106</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l112"><code>src\components\AnimationManager.ts:112</code></a>
         
         </p>
 
@@ -2318,7 +2617,8 @@ If the previous animation played is non-looping and has reached its final frame,
     </div>
 
     <div class="description">
-        <p>The texture atlas that this animation is taking affect on.</p>
+        <p>The texture atlas that this animation is taking effect on.
+The value of this should be the same as the Entity.</p>
 
     </div>
 
@@ -2330,14 +2630,60 @@ If the previous animation played is non-looping and has reached its final frame,
 </div>
 
                 
-                    <div id="property__currentAnimation" class="property item private">
-    <h3 class="name"><code>_currentAnimation</code></h3>
-    <span class="type">Animation</span>
+                    <div id="property_active" class="property item public inherited">
+    <h3 class="name"><code>active</code></h3>
+    <span class="type">Boolean</span>
 
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_active">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l64"><code>src\core\Component.ts:64</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>An active Component is one that has its update method called by its parent.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> true</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_currentAnimation" class="property item public">
+    <h3 class="name"><code>currentAnimation</code></h3>
+    <span class="type"><a href="..\classes\Kiwi.Animations.Animation.html" class="crosslink">Kiwi.Animations.Animation</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2355,7 +2701,7 @@ If the previous animation played is non-looping and has reached its final frame,
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l122"><code>src\components\AnimationManager.ts:122</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l129"><code>src\components\AnimationManager.ts:129</code></a>
         
         </p>
 
@@ -2369,8 +2715,6 @@ If the previous animation played is non-looping and has reached its final frame,
 
     </div>
 
-    
-        <p><strong>Default:</strong> null</p>
     
 
     
@@ -2404,7 +2748,7 @@ If the previous animation played is non-looping and has reached its final frame,
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l347"><code>src\components\AnimationManager.ts:347</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l379"><code>src\components\AnimationManager.ts:379</code></a>
         
         </p>
 
@@ -2414,7 +2758,7 @@ If the previous animation played is non-looping and has reached its final frame,
     </div>
 
     <div class="description">
-        <p>Gets the cell that the current animation is current at. This is READ ONLY.</p>
+        <p>Gets the cell that the current Animation is current at. This is READ ONLY.</p>
 
     </div>
 
@@ -2426,9 +2770,55 @@ If the previous animation played is non-looping and has reached its final frame,
 </div>
 
                 
+                    <div id="property_dirty" class="property item public inherited">
+    <h3 class="name"><code>dirty</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_dirty">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l73"><code>src\core\Component.ts:73</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The state of this component.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_entity" class="property item private">
     <h3 class="name"><code>entity</code></h3>
-    <span class="type">Entity</span>
+    <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
 
     
 
@@ -2451,7 +2841,7 @@ If the previous animation played is non-looping and has reached its final frame,
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l98"><code>src\components\AnimationManager.ts:98</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l104"><code>src\components\AnimationManager.ts:104</code></a>
         
         </p>
 
@@ -2461,7 +2851,7 @@ If the previous animation played is non-looping and has reached its final frame,
     </div>
 
     <div class="description">
-        <p>The entity that this animation belongs to.</p>
+        <p>The entity that this animation belongs to and thus is effecting.</p>
 
     </div>
 
@@ -2498,7 +2888,7 @@ If the previous animation played is non-looping and has reached its final frame,
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l357"><code>src\components\AnimationManager.ts:357</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l389"><code>src\components\AnimationManager.ts:389</code></a>
         
         </p>
 
@@ -2508,7 +2898,51 @@ If the previous animation played is non-looping and has reached its final frame,
     </div>
 
     <div class="description">
-        <p>Gets the current frame index of the cell in the sequence that is currently playing. This is READ ONLY.</p>
+        <p>Gets the current frame index of the cell in the Sequence that is currently playing. This is READ ONLY.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_game" class="property item public inherited">
+    <h3 class="name"><code>game</code></h3>
+    <span class="type">Game</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_game">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l48"><code>src\core\Component.ts:48</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The game this Component belongs to</p>
 
     </div>
 
@@ -2545,7 +2979,7 @@ If the previous animation played is non-looping and has reached its final frame,
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l131"><code>src\components\AnimationManager.ts:131</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l137"><code>src\components\AnimationManager.ts:137</code></a>
         
         </p>
 
@@ -2592,7 +3026,7 @@ If the previous animation played is non-looping and has reached its final frame,
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l367"><code>src\components\AnimationManager.ts:367</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l399"><code>src\components\AnimationManager.ts:399</code></a>
         
         </p>
 
@@ -2602,7 +3036,51 @@ If the previous animation played is non-looping and has reached its final frame,
     </div>
 
     <div class="description">
-        <p>Returns the length (Number of cells) of the current animation that is playing. This is READ ONLY.</p>
+        <p>Returns the length (Number of cells) of the current Animation that is playing. This is READ ONLY.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_name" class="property item public inherited">
+    <h3 class="name"><code>name</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_name">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l56"><code>src\core\Component.ts:56</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The name of this component.</p>
 
     </div>
 
@@ -2639,7 +3117,7 @@ If the previous animation played is non-looping and has reached its final frame,
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l87"><code>src\components\AnimationManager.ts:87</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l93"><code>src\components\AnimationManager.ts:93</code></a>
         
         </p>
 
@@ -2689,7 +3167,7 @@ Two - The Animation object that is now the current.</p>
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l58"><code>src\components\AnimationManager.ts:58</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l64"><code>src\components\AnimationManager.ts:64</code></a>
         
         </p>
 
@@ -2700,7 +3178,7 @@ Two - The Animation object that is now the current.</p>
 
     <div class="description">
         <p>Dispatches callbacks each time an animation is told to play through this AnimationManager.
-Functions dispatched from this signal have ONE parameter.
+Functions dispatched from this signal have ONE Parameter.
 One - The Animation object of that is now playing.</p>
 
     </div>
@@ -2738,7 +3216,7 @@ One - The Animation object of that is now playing.</p>
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l68"><code>src\components\AnimationManager.ts:68</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l74"><code>src\components\AnimationManager.ts:74</code></a>
         
         </p>
 
@@ -2787,7 +3265,7 @@ One - The current animation.</p>
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l78"><code>src\components\AnimationManager.ts:78</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l84"><code>src\components\AnimationManager.ts:84</code></a>
         
         </p>
 
@@ -2799,6 +3277,50 @@ One - The current animation.</p>
     <div class="description">
         <p>Dispatches callbacks each time the cell of the Sprite this AnimationManager belongs to updates/changes.
 Note: This method will be dispatching events EVERY time the cell changes, so this will include when changing/switching animations.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_owner" class="property item public inherited">
+    <h3 class="name"><code>owner</code></h3>
+    <span class="type">IChild</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_owner">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l40"><code>src\core\Component.ts:40</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The IChild that owns this entity</p>
 
     </div>
 

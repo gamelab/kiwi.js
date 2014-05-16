@@ -10,14 +10,14 @@ module Kiwi.HUD.Widget {
     * Since a MenuItem extends the Button Widget you can access the Input Component that it has to listen to mouse events.
     *
     * @class MenuItem
-    * @extends HUDWidget
+    * @extends Kiwi.HUD.Widget.Button
     * @namespace Kiwi.HUD.Widget
     * @contructor
-    * @param game {Game} The game that this MenuItem belongs to.
+    * @param game {Kiwi.Game} The game that this MenuItem belongs to.
     * @param text {string} The text that is to be inside the menuitem.
     * @param x {number} The position of this menu item on the x-axis.
     * @param y {number} The position of this menu item on the y-axis.
-    * @return {Button}
+    * @return {Kiwi.HUD.Widget.MenuItem}
     */
     export class MenuItem extends Kiwi.HUD.Widget.Button {
 
@@ -33,7 +33,7 @@ module Kiwi.HUD.Widget {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {string}
+        * @return {string} "MenuItem"
         * @public
         */
         public objType():string {
@@ -43,7 +43,7 @@ module Kiwi.HUD.Widget {
         /**
         * The Menu that this belongs to.
         * @property menu
-        * @type Menu
+        * @type Kiwi.HUD.Widget.Menu
         * @public
         */
         public menu: Kiwi.HUD.Widget.Menu;

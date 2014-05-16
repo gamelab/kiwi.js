@@ -12,9 +12,9 @@ module Kiwi {
     * @class StateConfig
     * @namespace Kiwi
     * @constructor
-    * @param {State} parent
-    * @param {String} name
-    * @return {StateConfig} This Object
+    * @param parent {Kiwi.State} The State that this configuration object belongs to.
+    * @param name {String} The name of the state which was created.
+    * @return {Kiwi.StateConfig} 
     * 
     */ 
     export class StateConfig {
@@ -34,7 +34,7 @@ module Kiwi {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "StateConfig"
         * @public
         */
         public objType() {
@@ -44,7 +44,7 @@ module Kiwi {
         /**
         * The state this StateConfig belongs to.
         * @property _state
-        * @type State
+        * @type Kiwi.State
         * @private
         */
         private _state: Kiwi.State;
@@ -59,10 +59,6 @@ module Kiwi {
 
         /**
         * Currently unused.
-        * @property isPersistent
-        * @type boolean
-        * @default false
-        * @public
         */
         public isPersistent: boolean = false;
 
@@ -114,12 +110,8 @@ module Kiwi {
         */
         public runCount: number = 0;
 
-        /**
-        * The type of state this is. Currently Unused.
-        * @property type
-        * @type Number
-        * @default 0
-        * @public
+        /*
+        * The type of State this is. Currently Unused.
         */
         public type: number = 0;
 
@@ -142,8 +134,8 @@ module Kiwi {
         /**
         * Resets the properties contained on this StateConfig object. 
         * This is executed when a State is about to be destroyed as so reset's it to be switched to again.
-        * @method 
-        * 
+        * @method reset
+        * @public
         */
         public reset() {
 

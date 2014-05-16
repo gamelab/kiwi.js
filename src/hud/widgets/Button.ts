@@ -11,7 +11,7 @@ module Kiwi.HUD.Widget {
     * A subclass of the TextField that has its own input component so that you can listen for mouse events on this widget.
     *
     * @class Button
-    * @extends TextField
+    * @extends Kiwi.HUD.TextField
     * @namespace Kiwi.HUD.Widget
     * @constructor
     * @param game {Kiwi.Game} The game that this belongs to.
@@ -35,7 +35,7 @@ module Kiwi.HUD.Widget {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "ButtonWidget"
         * @public
         */
         public objType(): string {
@@ -45,7 +45,7 @@ module Kiwi.HUD.Widget {
         /**
         * The WidgetInput component that handles the management of events for this button.
         * @property input
-        * @type WidgetInput
+        * @type Kiwi.HUD.HUDComponents.WidgetInput
         * @public
         */
         public input: Kiwi.HUD.HUDComponents.WidgetInput;

@@ -354,6 +354,9 @@ module Kiwi {
 
     /**
     * An object that represents a binding between a Signal and a listener function.
+    * &lt;br /&gt;- &lt;strong&gt;This is an internal constructor and shouldn&#x27;t be called by regular users.&lt;/strong&gt;
+    * &lt;br /&gt;- inspired by Joa Ebert AS3 SignalBinding and Robert Penner&#x27;s Slot classes.
+    * 
     * Released under the MIT license
     * http://millermedeiros.github.com/js-signals/
     * 
@@ -364,22 +367,15 @@ module Kiwi {
     * @constructor
     * @internal
     * @name SignalBinding
-    * @param {Signal} signal Reference to Signal object that listener is currently bound to.
+    * @param {Kiwi.Signal} Signal Reference to Signal object that listener is currently bound to.
     * @param {Function} listener Handler function bound to the signal.
     * @param {boolean} isOnce If binding should be executed just once.
     * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the &#x60;this&#x60; variable inside listener function).
     * @param {Number} [priority=0] The priority level of the event listener. (default = 0).
-    *
+    * @return {Kiwi.SignalBinding} 
     */
     export class SignalBinding {
 
-        /**
-         * Object that represents a binding between a Signal and a listener function.
-         * &lt;br /&gt;- &lt;strong&gt;This is an internal constructor and shouldn&#x27;t be called by regular users.&lt;/strong&gt;
-         * &lt;br /&gt;- inspired by Joa Ebert AS3 SignalBinding and Robert Penner&#x27;s Slot classes.
-         * @author Miller Medeiros
-         
-         */
         constructor(signal: Signal, listener, isOnce: boolean, listenerContext, priority: number = 0) {
 
             this._listener = listener;
@@ -393,7 +389,7 @@ module Kiwi {
         /**
         * The type of object that this is.
         * @method objType
-        * @return String
+        * @return {String} &quot;SignalBinding&quot;
         * @public
         */
         public objType() {
@@ -401,71 +397,71 @@ module Kiwi {
         }
 
         /**
-         * Handler function bound to the signal.
-         * @property _listener
-         * @type Function
-         * @private
-         */
+        * Handler function bound to the signal.
+        * @property _listener
+        * @type Function
+        * @private
+        */
         private _listener;
 
         /**
-         * If binding should be executed just once.
-         * @property _isOnce
-         * @type boolean
-         * @private
-         */
+        * If binding should be executed just once.
+        * @property _isOnce
+        * @type boolean
+        * @private
+        */
         private _isOnce: boolean;
 
         /**
-         * Context on which listener will be executed (object that should represent the &#x60;this&#x60; variable inside listener function).
-         * @property context
-         * @type any
-         * @public
-         */
+        * Context on which listener will be executed (object that should represent the &#x60;this&#x60; variable inside listener function).
+        * @property context
+        * @type any
+        * @public
+        */
         public context;
 
         /**
-         * Reference to Signal object that listener is currently bound to.
-         * @property _signal
-         * @type Signal
-         * @private
-         */
+        * Reference to Signal object that listener is currently bound to.
+        * @property _signal
+        * @type Kiwi.Signal
+        * @private
+        */
         private _signal: Signal;
 
         /**
-         * Listener priority
-         * @property priority
-         * @type Number
-         * @public
-         */
+        * Listener priority
+        * @property priority
+        * @type Number
+        * @public
+        */
         public priority: number;
 
         /**
-         * If binding is active and should be executed.
-         * @property active
-         * @type boolean
-         * @default true
-         * @public
-         */
+        * If binding is active and should be executed.
+        * @property active
+        * @type boolean
+        * @default true
+        * @public
+        */
         public active: boolean = true;
 
         /**
-         * Default parameters passed to listener during &#x60;Signal.dispatch&#x60; and &#x60;SignalBinding.execute&#x60;. (curried parameters)
-         * @property params
-         * @type Any
-         * @default null
-         * @public
-         */
+        * Default parameters passed to listener during &#x60;Signal.dispatch&#x60; and &#x60;SignalBinding.execute&#x60;. (curried parameters)
+        * @property params
+        * @type Any
+        * @default null
+        * @public
+        */
         public params = null;
 
         /**
-         * Call listener passing arbitrary parameters.
-         * &lt;p&gt;If binding was added using &#x60;Signal.addOnce()&#x60; it will be automatically removed from signal dispatch queue, this method is used internally for the signal dispatch.&lt;/p&gt;
-         * @method execute
-         * @param {Array} [paramsArr]* Array of parameters that should be passed to the listener
-         * @return {*} Value returned by the listener.
-         * @public
-         */
+        * Call listener passing arbitrary parameters.
+        * &lt;p&gt;If binding was added using &#x60;Signal.addOnce()&#x60; it will be automatically removed from signal dispatch queue, this method is used internally for the signal dispatch.&lt;/p&gt;
+        * @method execute
+        * @param {Array} [paramsArr]* Array of parameters that should be passed to the listener
+        * @return {*} Value returned by the listener.
+        * @public
+        */
         public execute(paramsArr?: any[]) {
 
             var handlerReturn;
@@ -488,12 +484,12 @@ module Kiwi {
         }
 
         /**
-         * Detach binding from signal.
-         * - alias to: mySignal.remove(myBinding.getListener());
-         * @method detach
-         * @return {Function|null} Handler function bound to the signal or &#x60;null&#x60; if binding was previously detached.
-         * @public
-         */
+        * Detach binding from signal.
+        * - alias to: mySignal.remove(myBinding.getListener());
+        * @method detach
+        * @return {Function|null} Handler function bound to the signal or &#x60;null&#x60; if binding was previously detached.
+        * @public
+        */
         public detach() {
 
             return this.isBound() ? this._signal.remove(this._listener, this.context) : null;
@@ -501,10 +497,11 @@ module Kiwi {
         }
 
         /**
-         * @method isBound
-         * @return {boolean} &#x60;true&#x60; if binding is still bound to the signal and have a listener.
-         * @public
-         */
+        * Checks to see if this Binding is still bound to a Signal and contains a listener.
+        * @method isBound
+        * @return {boolean} &#x60;true&#x60; if binding is still bound to the signal and have a listener.
+        * @public
+        */
         public isBound(): boolean {
 
             return (!!this._signal &amp;&amp; !!this._listener);
@@ -512,10 +509,11 @@ module Kiwi {
         }
 
         /**
-         * @method isOnce
-         * @return {boolean} If SignalBinding will only be executed once.
-         * @public
-         */
+        * Returns a boolean indicating whether this event will be exectued just once or not.
+        * @method isOnce
+        * @return {boolean} If SignalBinding will only be executed once.
+        * @public
+        */
         public isOnce(): boolean {
 
             return this._isOnce;
@@ -523,10 +521,11 @@ module Kiwi {
         }
 
         /**
-         * @method getListener
-         * @return {Function} Handler function bound to the signal.
-         * @public
-         */
+        * Returns the Handler function bound to the Signal.
+        * @method getListener
+        * @return {Function} Handler function bound to the signal.
+        * @public
+        */
         public getListener() {
 
             return this._listener;
@@ -534,10 +533,11 @@ module Kiwi {
         }
 
         /**
-         * @method getSignal
-         * @return {Signal} Signal that listener is currently bound to.
-         * @public
-         */
+        * Returns the signal which this Binding is currently attached to.
+        * @method getSignal
+        * @return {Kiwi.Signal} Signal that listener is currently bound to.
+        * @public
+        */
         public getSignal() {
 
             return this._signal;
@@ -545,26 +545,15 @@ module Kiwi {
         }
 
         /**
-         * Delete instance properties
-         * @method _destory
-         * @public
-         */
+        * Delete instance properties
+        * @method _destory
+        * @public
+        */
         public _destroy() {
 
             delete this._signal;
             delete this._listener;
             delete this.context;
-
-        }
-
-        /**
-         * @method toString
-         * @return {string} String representation of the object.
-         * @public
-         */
-        public toString(): string {
-
-            return &#x27;[SignalBinding isOnce:&#x27; + this._isOnce + &#x27;, isBound:&#x27; + this.isBound() + &#x27;, active:&#x27; + this.active + &#x27;]&#x27;;
 
         }
 

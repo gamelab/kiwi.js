@@ -10,7 +10,7 @@ module Kiwi.HUD.Widget {
     * The score can be accessed via the counter component.
     * 
     * @class BasicScore
-    * @extends TextField
+    * @extends Kiwi.HUD.TextField
     * @namespace Kiwi.HUD.Widget
     * @constructor
     * @param game {Kiwi.Game} The game that this BasicScore belongs to.
@@ -33,7 +33,7 @@ module Kiwi.HUD.Widget {
         /**
         * Returns the type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "BasicScoreWidget"
         * @public
         */
         public objType(): string {
@@ -43,7 +43,7 @@ module Kiwi.HUD.Widget {
         /**
         * Holds a reference to the counter component.
         * @property counter
-        * @type Counter
+        * @type Kiwi.HUD.HUDComponents.Counter
         * @public
         */
         public counter: Kiwi.HUD.HUDComponents.Counter;

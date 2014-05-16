@@ -396,7 +396,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">StateConfig</span>
+            <span class="type"><a href="..\classes\Kiwi.StateConfig.html" class="crosslink">Kiwi.StateConfig</a></span>
         </span>
     
 
@@ -446,13 +446,14 @@
                 <li class="param">
                     
                         <code class="param-name">parent</code>
-                        <span class="type">State</span>
+                        <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>The State that this configuration object belongs to.</p>
+
                     </div>
 
                     
@@ -467,7 +468,8 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The name of the state which was created.</p>
+
                     </div>
 
                     
@@ -484,10 +486,8 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">StateConfig</span>:
+                        <span class="type"><a href="..\classes\Kiwi.StateConfig.html" class="crosslink">Kiwi.StateConfig</a></span>:
                     
-                    <p>This Object</p>
-
                 
             </div>
         </div>
@@ -530,8 +530,8 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_"></a>
+                            <li class="index-item method public">
+                                <a href="#method_reset">reset</a>
 
                                 
                                 
@@ -590,13 +590,6 @@
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_isPersistent">isPersistent</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
                                 <a href="#property_isReady">isReady</a>
 
                                 
@@ -612,13 +605,6 @@
                         
                             <li class="index-item property public">
                                 <a href="#property_runCount">runCount</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_type">type</a>
 
                                 
                                 
@@ -702,6 +688,8 @@
                     
                         <span class="type">String</span>:
                     
+                    <p>&quot;StateConfig&quot;</p>
+
                 
             </div>
         </div>
@@ -711,8 +699,8 @@
 </div>
 
                 
-                    <div id="method_" class="method item">
-    <h3 class="name"><code></code></h3>
+                    <div id="method_reset" class="method item public">
+    <h3 class="name"><code>reset</code></h3>
 
     
         <span class="paren">()</span>
@@ -722,6 +710,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -743,7 +733,7 @@
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l142"><code>src\core\StateConfig.ts:142</code></a>
+        <a href="../files/src_core_StateConfig.ts.html#l134"><code>src\core\StateConfig.ts:134</code></a>
         
         </p>
 
@@ -777,7 +767,7 @@ This is executed when a State is about to be destroyed as so reset&#39;s it to b
                 
                     <div id="property__state" class="property item private">
     <h3 class="name"><code>_state</code></h3>
-    <span class="type">State</span>
+    <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
 
     
 
@@ -847,7 +837,7 @@ This is executed when a State is about to be destroyed as so reset&#39;s it to b
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l134"><code>src\core\StateConfig.ts:134</code></a>
+        <a href="../files/src_core_StateConfig.ts.html#l126"><code>src\core\StateConfig.ts:126</code></a>
         
         </p>
 
@@ -894,7 +884,7 @@ This is executed when a State is about to be destroyed as so reset&#39;s it to b
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l99"><code>src\core\StateConfig.ts:99</code></a>
+        <a href="../files/src_core_StateConfig.ts.html#l95"><code>src\core\StateConfig.ts:95</code></a>
         
         </p>
 
@@ -943,7 +933,7 @@ This is executed when a State is about to be destroyed as so reset&#39;s it to b
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l126"><code>src\core\StateConfig.ts:126</code></a>
+        <a href="../files/src_core_StateConfig.ts.html#l118"><code>src\core\StateConfig.ts:118</code></a>
         
         </p>
 
@@ -990,7 +980,7 @@ This is executed when a State is about to be destroyed as so reset&#39;s it to b
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l69"><code>src\core\StateConfig.ts:69</code></a>
+        <a href="../files/src_core_StateConfig.ts.html#l65"><code>src\core\StateConfig.ts:65</code></a>
         
         </p>
 
@@ -1040,7 +1030,7 @@ Essentually has the same meaning as &#39;isReady&#39;.</p>
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l79"><code>src\core\StateConfig.ts:79</code></a>
+        <a href="../files/src_core_StateConfig.ts.html#l75"><code>src\core\StateConfig.ts:75</code></a>
         
         </p>
 
@@ -1052,55 +1042,6 @@ Essentually has the same meaning as &#39;isReady&#39;.</p>
     <div class="description">
         <p>If the State has been initialised already (so the Boot and Init methods have been executed already). 
 A State only get Initialised once which is when it switched to for this first time.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_isPersistent" class="property item public">
-    <h3 class="name"><code>isPersistent</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_StateConfig.ts.html#l60"><code>src\core\StateConfig.ts:60</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Currently unused.</p>
 
     </div>
 
@@ -1139,7 +1080,7 @@ A State only get Initialised once which is when it switched to for this first ti
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l89"><code>src\core\StateConfig.ts:89</code></a>
+        <a href="../files/src_core_StateConfig.ts.html#l85"><code>src\core\StateConfig.ts:85</code></a>
         
         </p>
 
@@ -1236,7 +1177,7 @@ or if it isn&#39;t and so it is still at the &#39;loading&#39; stage.</p>
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l108"><code>src\core\StateConfig.ts:108</code></a>
+        <a href="../files/src_core_StateConfig.ts.html#l104"><code>src\core\StateConfig.ts:104</code></a>
         
         </p>
 
@@ -1247,55 +1188,6 @@ or if it isn&#39;t and so it is still at the &#39;loading&#39; stage.</p>
 
     <div class="description">
         <p>The number of times the State that this config belongs to has been active/used.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_type" class="property item public">
-    <h3 class="name"><code>type</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_StateConfig.ts.html#l117"><code>src\core\StateConfig.ts:117</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The type of state this is. Currently Unused.</p>
 
     </div>
 
