@@ -12,9 +12,9 @@ module Kiwi.GameObjects {
     *
     * @class Textfield
     * @namespace Kiwi.GameObjects
-    * @extends Entity
+    * @extends Kiwi.Entity
     * @constructor
-    * @param state {State} The state that this Textfield belongs to
+    * @param state {Kiwi.State} The state that this Textfield belongs to
     * @param text {String} The text that is contained within this textfield.
     * @param [x=0] {Number} The new x coordinate from the Position component
     * @param [y=0] {Number} The new y coordinate from the Position component
@@ -334,7 +334,7 @@ module Kiwi.GameObjects {
         /**
 	    * Called by the Layer to which this Game Object is attached
 	    * @method render
-        * @param {Camera}
+        * @param {Kiwi.Camera}
         * @public
 	    */
         public render(camera:Kiwi.Camera) {
@@ -382,7 +382,14 @@ module Kiwi.GameObjects {
             
         }
 
-
+        /**
+	    * Renders the GameObject using WebGL. 
+	    * @method renderGL
+        * @param {WebGLRenderingContext} gl
+        * @param {Kiwi.Camera} camera
+        * @param {Object} params
+        * @public
+	    */
         public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params: any = null) {
             
             //Does the text need re-rendering

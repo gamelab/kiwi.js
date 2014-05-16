@@ -15,9 +15,9 @@ module Kiwi.GameObjects.Tilemap {
     * @class TileMap
     * @namespace Kiwi.GameObjects.Tilemap
     * @constructor 
-    * @param state {State} The state that this Tilemap is on.
+    * @param state {Kiwi.State} The state that this Tilemap is on.
     * @param [tileMapDataKey] {String} The Data key for the JSON you would like to use.
-    * @param [atlas] {TextureAtlas} The texture atlas that you would like the tilemap layers to use.
+    * @param [atlas] {Kiwi.Textures.TextureAtlas} The texture atlas that you would like the tilemap layers to use.
     * @param [startingCell=0] {number} The number for the initial cell that the first TileType should use. See 'createFromFileStore' for more information.
     * @return {TileMap}
     */
@@ -59,7 +59,7 @@ module Kiwi.GameObjects.Tilemap {
         public tileTypes: TileType[];
 
         /**
-        * A list of all of the TileMapLayers that exist on thie TileMap.
+        * A list of all of the TileMapLayers that exist on the TileMap.
         * @property layers
         * @type TileMapLayer
         * @public
@@ -69,7 +69,7 @@ module Kiwi.GameObjects.Tilemap {
         /**
         * The state that this TileMap exists on.
         * @property state
-        * @type State
+        * @type Kiwi.State
         * @public
         */
         public state: Kiwi.State;
@@ -77,7 +77,7 @@ module Kiwi.GameObjects.Tilemap {
         /**
         * The game that this TileMap is a part of.
         * @property game
-        * @type Game
+        * @type Kiwi.Game
         * @public
         */
         public game: Kiwi.Game;
@@ -150,12 +150,12 @@ module Kiwi.GameObjects.Tilemap {
 
         /** 
         * Creates new tilemap layers from a JSON file that you pass (has to be in the Tiled Format).
-        * The texture atlas you pass is that one that eeach TileMapLayer found in the JSON will use, You can change the TextureAtlas afterwards.
+        * The texture atlas you pass is that one that each TileMapLayer found in the JSON will use, You can change the TextureAtlas afterwards.
         * New TileTypes will automatically be created. The number is based on the Tileset parameter of the JSON. 
         * The cell used for new TileTypes will begin at 0 and increment each time a new TileType is created (and a cell exists). Otherwise new TileTypes will start will a cell of -1 (none).
         * @method createFromFileStore
         * @param tileMapData {Any} This can either 
-        * @param atlas {TextureAtlas} The texture atlas that you would like the tilemap layers to use.
+        * @param atlas {Kiwi.Textures.TextureAtlas} The texture atlas that you would like the tilemap layers to use.
         * @param [startingCell=0] {number} The number for the initial cell that the first TileType should use. If you pass -1 then no new TileTypes will be created.
         * @public
         */
@@ -239,8 +239,8 @@ module Kiwi.GameObjects.Tilemap {
         * Generates new TileTypes based upon the Tileset information that lies inside the Tiled JSON.
         * This is an INTERNAL method, which is used when the createFromFileStore method is executed.
         * @method _generateTypesFromTileset
-        * @param tilesetData {Any[]} The tileset part of the JSON.
-        * @param atlas {TextureAtlas} The Texture atlas which contains the cells that the new TileTypes will use.
+        * @param tilesetData {Array} The tileset part of the JSON.
+        * @param atlas {Kiwi.Textures.TextureAtlas} The Texture atlas which contains the cells that the new TileTypes will use.
         * @param startingCell {Number} The first cell number that would be used.
         * @private
         */
@@ -405,7 +405,7 @@ module Kiwi.GameObjects.Tilemap {
         * Returns the new TileMapLayer that was created.
         * @method createNewLayer
         * @param name {String} Name of the TileMap.
-        * @param atlas {TextureAtlas} The TextureAtlas that this layer should use.
+        * @param atlas {Kiwi.Textures.TextureAtlas} The TextureAtlas that this layer should use.
         * @param data {Number[]} The tile information. 
         * @param [w=this.width] {Number} The width of the whole tile map. In Tiles.
         * @param [h=this.height] {Number} The height of the whole tile map. In Tiles.

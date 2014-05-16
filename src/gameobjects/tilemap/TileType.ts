@@ -14,7 +14,7 @@ module Kiwi.GameObjects.Tilemap {
     * @class TileType
     * @namespace Kiwi.GameObjects.Tilemap
     * @constructor
-    * @param tilemap {TileMap} The TileMap that this TileType is a part of.
+    * @param tilemap {Kiwi.GameObjects.Tilemap.TileMap} The TileMap that this TileType is a part of.
     * @param index {Number} The index of this TileType, which Tiles use when wanting to use this TileType.
     * @param cellIndex {Number} The cell number to use when rendering this Type of Tile.
     * @return {TileType} This TileType
@@ -55,7 +55,7 @@ module Kiwi.GameObjects.Tilemap {
         * Does not affect regular collision detection.
         * 
         * @property offset
-        * @type Point
+        * @type Kiwi.Geom.Point
         * @public
         */ 
         public offset: Kiwi.Geom.Point;
@@ -63,7 +63,7 @@ module Kiwi.GameObjects.Tilemap {
         /**
         * A reference to the tilemap this tile object belongs to.
         * @property tilemap
-        * @type TileMap
+        * @type Kiwi.GameObjects.Tilemap.TileMap
         * @public
         */
         public tilemap: Kiwi.GameObjects.Tilemap.TileMap;
@@ -72,7 +72,7 @@ module Kiwi.GameObjects.Tilemap {
         * The index of this tile type in the core map data.
         * For example, if your map only has 16 different types of tiles in it, this will be one of those tiles and thus a number between 1 and 16.
         * @property index
-        * @type number
+        * @type Number
         * @public
         */
         public index: number;

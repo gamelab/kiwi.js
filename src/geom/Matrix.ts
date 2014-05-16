@@ -11,7 +11,7 @@ module Kiwi.Geom {
 	* by Transform objects to represent translation, scale and rotation transformations, and to determine where objects are in world space or camera space.
 	* Objects such as entities and groups may be nested, and their associated transforms may represent how they are scaled, translated and rotated relative to a parent
     * transform.
-    * By concatenating an object's transformatkion matrix with it's ancestors matrices, it is possible to determine the absolute position of the object in world space.
+    * By concatenating an object's transformation matrix with it's ancestors matrices, it is possible to determine the absolute position of the object in world space.
     * See http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics for an in depth discussion of 2d tranformation matrices.
     * 
     * @class Matrix

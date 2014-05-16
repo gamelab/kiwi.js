@@ -14,15 +14,15 @@ module Kiwi.HUD.Widget {
     * @extends HUDWidget
     * @namespace Kiwi.HUD.Widget
     * @constructor 
-    * @param game {Game} The game that this bar belongs to.
-    * @param current {number} The current value of the bar.
-    * @param max {number} The maximum value that there can be.
-    * @param x {number} The coordinates of this widget on the x-axis.
-    * @param y {number} The cooridnates of this widget on the y-axis.
+    * @param game {Kiwi.Game} The game that this bar belongs to.
+    * @param current {Number} The current value of the bar.
+    * @param max {Number} The maximum value that there can be.
+    * @param x {Number} The coordinates of this widget on the x-axis.
+    * @param y {Number} The cooridnates of this widget on the y-axis.
     * @param [width=120] {number} The width of the widget. Defaults to 120.
     * @param [height=20] {number} The height of the widget. Defaults to 20.
     * @param [color='#000'] {string} The default color of the inner bar. Defaults to #000 (black).
-    * @return {Bar}
+    * @return {Kiwi.HUD.Widget.Bar}
     */
     export class Bar extends Kiwi.HUD.HUDWidget {
         

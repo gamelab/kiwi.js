@@ -13,11 +13,11 @@ module Kiwi.HUD.Widget {
     * @extends TextField
     * @namespace Kiwi.HUD.Widget
     * @constructor
-    * @param game {Game} The game that this BasicScore belongs to.
+    * @param game {Kiwi.Game} The game that this BasicScore belongs to.
     * @param x {number} The cooridnates of the game on the x-axis.
     * @param y {number} The cooridnates of the game on the y-axis.
     * @param [initial=0] {number} The initial score to start off at.
-    * @return {BasicScore}
+    * @return {Kiwi.HUD.Widget.BasicScore}
     */
     export class BasicScore extends Kiwi.HUD.Widget.TextField {
        

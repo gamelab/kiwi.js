@@ -14,11 +14,11 @@ module Kiwi.HUD.Widget {
     * @extends TextField
     * @namespace Kiwi.HUD.Widget
     * @constructor
-    * @param game {game} The game that this belongs to.
+    * @param game {Kiwi.Game} The game that this belongs to.
     * @param text {string} The text that you want to display inside the button.
     * @param x {number} The x-coordnates of this Widget.
     * @param y {number} The y-coordinates of this Widget.
-    * @return {Button}
+    * @return {Kiwi.HUD.Widget.Button}
     */
     export class Button extends Kiwi.HUD.Widget.TextField {
 
