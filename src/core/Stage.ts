@@ -476,7 +476,7 @@ module Kiwi {
 
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
 
-                this.offset = this._game.browser.getOffsetPoint(this.container);
+                this.offset = this.getOffsetPoint(this.container);
 
                 this._x = this.offset.x;
                 this._y = this.offset.y;
@@ -495,6 +495,27 @@ module Kiwi {
             }
         }
         
+        /**
+        * Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser
+        * Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js 
+        * @method getOffsetPoint
+        * @param {Any} element
+        * @param {Kiwi.Geom.Point} output
+        * @return {Kiwi.Geom.Point}
+        * @public
+        */
+        public getOffsetPoint(element, output: Kiwi.Geom.Point = new Kiwi.Geom.Point): Kiwi.Geom.Point {
+
+            var box = element.getBoundingClientRect();
+
+            var clientTop = element.clientTop || document.body.clientTop || 0;
+            var clientLeft = element.clientLeft || document.body.clientLeft || 0;
+            var scrollTop = window.pageYOffset || element.scrollTop || document.body.scrollTop;
+            var scrollLeft = window.pageXOffset || element.scrollLeft || document.body.scrollLeft;
+
+            return output.setTo(box.left + scrollLeft - clientLeft, box.top + scrollTop - clientTop);
+
+        }
 
         /**
         * Method that is fired when the window is resized. 
@@ -516,7 +537,7 @@ module Kiwi {
         * @private
         */
         private _calculateContainerScale() {
-            this.offset = this._game.browser.getOffsetPoint(this.container);
+            this.offset = this.getOffsetPoint(this.container);
             this._scaleContainer();
 
             this._scale.x = this._width / this.container.clientWidth;

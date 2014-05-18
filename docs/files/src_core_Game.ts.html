@@ -41,16 +41,6 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
-            
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Sequence.html">Kiwi.Animations.Sequence</a></li>
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -353,7 +357,7 @@
 module Kiwi {
 
     /**
-    * The base class that is used when you are wanting to create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF which is used for the game loop.
+    * The base class that is used when you create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF (RequestAnimationFrame object) which is used for the game loop.
     *
     * @class Game
     * @namespace Kiwi
@@ -362,7 +366,7 @@ module Kiwi {
     * @param [name=&#x27;KiwiGame&#x27;] {String} The name of the game that is being created. 
     * @param [state=null] {Any} The state to load initially. This can either be the name of a state, but preferably this would be the state object itself.
     * @param [options] {Object} Any special options for the game. E.g. Is DEBUG_ON or DEBUG_OFF, RENDERER_CANVAS or RENDERER_WEBGL, TARGET_BROWSER or TARGET_COCOON
-    * @return {Game}
+    * @return {Kiwi.Game}
     * 
     */
     export class Game {
@@ -442,8 +446,7 @@ module Kiwi {
             this._startup = new Kiwi.System.Bootstrap();
 
             this.audio = new Kiwi.Sound.AudioManager(this);
-            this.browser = new Kiwi.System.Browser(this);
-      
+                
             this.fileStore = new Kiwi.Files.FileStore(this);
             this.input = new Kiwi.Input.InputManager(this);
 
@@ -521,11 +524,11 @@ module Kiwi {
                     console.log(&#x27;  Kiwi.Game: No DOM parent specified. Appending the game to the body.&#x27;);
                 }
 
-                this._startup.boot( domParent, () =&gt; this.start() );
+                this._startup.boot( domParent, () =&gt; this._start() );
             } else {
                 if (domParent !== &#x27;&#x27;) console.log(&#x27;  Kiwi.Game: Not Targetting a BROWSER. DOM Parent parameter ignored.&#x27;);
                 
-                this.start();
+                this._start();
             }
 
         }
@@ -548,6 +551,12 @@ module Kiwi {
             return this._renderOption;
         }
 
+        /**
+        * A callback function that can be passed in as an option in the conifugration object. Invoked after the boot process has completed.
+        * @property bootCallbackOption
+        * @type Function
+        * @private
+        */
         public bootCallbackOption: Function;
 
         /**
@@ -599,7 +608,7 @@ module Kiwi {
         }
 
         /**
-        * Holds the renderer that is being used. This is detiremended based of the _renderMode
+        * Holds the renderer that is being used. This is determined based on the _renderMode
         * @property renderer
         * @type IRenderManager
         * @public
@@ -625,9 +634,9 @@ module Kiwi {
         }
 
         /**
-        * [REQUIRES DESCRIPTION]
-        * @property _dom
-        * @type Bootstrap
+        * The object that peforms DOM and device startup operations for browsers (ie not cocoon)
+        * @property _startup
+        * @type Kiwi.System.Bootstrap
         * @private
         */
         private _startup: Kiwi.System.Bootstrap = null;
@@ -643,23 +652,15 @@ module Kiwi {
         /**
         * The audio manager that handles all of the audio in game. Inside you can globally mute the audio, create new sounds, e.t.c.
         * @property audio
-        * @type AudioManager
+        * @type Kiwi.Sound.AudioManager
         * @public
         */
         public audio: Kiwi.Sound.AudioManager = null;
 
         /**
-        * Used to get the coordinates of any DOM element on the game. 
-        * @property browser
-        * @type Browser
-        * @public
-        */
-        public browser: Kiwi.System.Browser = null;
-
-        /**
         * The global file store for this game. This handles the storage and access of information loaded, as well as tags that maybe set for them individual files.
         * @property fileStore
-        * @type FileStore
+        * @type Kiwi.Files.FileStore
         * @public
         */
         public fileStore: Kiwi.Files.FileStore = null;
@@ -667,7 +668,7 @@ module Kiwi {
         /**
         * Handles any user input with the game. These could via the users keyboard, mouse or touch events.
         * @property input
-        * @type InputManager
+        * @type Kiwi.Input.InputManager
         * @public
         */
         public input: Kiwi.Input.InputManager = null;
@@ -675,7 +676,7 @@ module Kiwi {
         /**
         * Manages the cameras the are on the stage. Single default Camera only in this version.
         * @property cameras
-        * @type CameraManager
+        * @type Kiwi.CameraManager
         * @public
         */
         public cameras: Kiwi.CameraManager = null;
@@ -683,7 +684,7 @@ module Kiwi {
         /**
         * Manages plugins registration and initialisation for the game instance.
         * @property pluginManager
-        * @type PluginManager
+        * @type Kiwi.PluginManager
         * @public
         */
         public pluginManager: Kiwi.PluginManager = null;
@@ -691,7 +692,7 @@ module Kiwi {
         /**
         * Loads files from outside sources and checks to see that they have loaded correctly or not.
         * @property loader
-        * @type Loader
+        * @type Kiwi.Files.Loader
         * @public
         */
         public loader: Kiwi.Files.Loader = null;
@@ -699,7 +700,7 @@ module Kiwi {
         /**
         * The Request Animation Frame that is being used for the update and render loops.
         * @property raf
-        * @type RequestAnimationFrame
+        * @type Kiwi.Utils.RequestAnimationFrame
         * @public
         */
         public raf: Kiwi.Utils.RequestAnimationFrame = null;
@@ -715,7 +716,7 @@ module Kiwi {
         /**
         * Manages all of the states that exist for this game. Via the manager you can create new states, switch states and do various other tasks.
         * @property states
-        * @type StateManager
+        * @type Kiwi.StateManager
         * @public
         */
         public states: Kiwi.StateManager = null;
@@ -723,7 +724,7 @@ module Kiwi {
         /**
         * Holds a reference to the clocks that are being used and has a MASTER clock that is being used for the game.
         * @property time
-        * @type ClockManager
+        * @type Kiwi.Time.ClockManage
         * @public
         */
         public time: Kiwi.Time.ClockManager = null;
@@ -731,7 +732,7 @@ module Kiwi {
         /**
         * The tween manager holds a reference to all of the tweens that are created and currently being used. 
         * @property tweens
-        * @type TweenManager
+        * @type Kiwi.Animations.Tweens.TweenManager
         * @public
         */
         public tweens: Kiwi.Animations.Tweens.TweenManager = null;
@@ -739,7 +740,7 @@ module Kiwi {
         /**
         * A Random Data Generator. This is useful for create unique ids and random information.
         * @property rnd
-        * @type RandomDataGenerator
+        * @type Kiwi.Utils.RandomDataGenerato
         * @public
         */
         public rnd: Kiwi.Utils.RandomDataGenerator = null;
@@ -805,13 +806,12 @@ module Kiwi {
         * @method start
         * @private
         */
-        private start() {
+        private _start() {
 
             if (Kiwi.DEVICE === null) { //dont we want to move this up into the constructor
                 Kiwi.DEVICE = new Kiwi.System.Device();
             }
 
-            this.browser.boot();
             this.stage.boot(this._startup);
             this.renderer.boot();
             this.cameras.boot();
@@ -829,7 +829,7 @@ module Kiwi {
 
             this._lastTime = Date.now();
             
-            this.raf = new Kiwi.Utils.RequestAnimationFrame(() =&gt; this.loop());
+            this.raf = new Kiwi.Utils.RequestAnimationFrame(() =&gt; this._loop());
             this.raf.start();
             if (this.bootCallbackOption) {
                 console.log(&quot;  Kiwi.Game: invoked boot callback&quot;);
@@ -838,11 +838,11 @@ module Kiwi {
         }
         
         /**
-        * The loop that the whole game is using. 
-        * @method loop
+        * The game loop. 
+        * @method _loop
         * @private
         */
-        private loop() {
+        private _loop() {
             
             this._delta = this.raf.currentTime - this._lastTime;
             if (this._delta &gt; this._interval) {

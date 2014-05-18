@@ -27,7 +27,7 @@ Visit our homepage [www.kiwijs.org](http://kiwijs.org) for more information abou
 
 ##License
 
-* GPLv2
+* GPLv2 
 
 *Supporters of the MIT Licence rejoice! In coming weeks Kiwi.JS 1.0 will be released and available for download, we will make available versions of Kiwi.JS that are licended under the more permissive MIT Licence and the GPLv2 License.*
 

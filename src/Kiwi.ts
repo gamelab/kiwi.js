@@ -35,7 +35,6 @@
 /// <reference path="file/FileStore.ts" />
 
 /// <reference path="system/Bootstrap.ts" />
-/// <reference path="system/Browser.ts" />
 /// <reference path="system/Device.ts" />
 
 /// <reference path="textures/TextureAtlas.ts" />

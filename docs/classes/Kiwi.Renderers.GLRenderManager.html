@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Kiwi.Geom.Point - Kiwi.js</title>
+    <title>Kiwi.Renderers.GLRenderManager - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -344,21 +344,25 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Kiwi.Geom.Point Class</h1>
+                        <h1>Kiwi.Renderers.GLRenderManager Class</h1>
 <div class="box meta">
     
 
     
+        <div class="extends">
+            Extends IRenderer
+        </div>
+    
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_geom_Point.ts.html#l9"><code>src\geom\Point.ts:9</code></a>
+            Defined in: <a href="../files/src_render_GLRenderManager.ts.html#l18"><code>src\render\GLRenderManager.ts:18</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/Geom.html">Geom</a><br>
+            Module: <a href="../modules/Renderers.html">Renderers</a><br>
             Parent Module: <a href="../modules/Kiwi.html">Kiwi</a>
         
     
@@ -369,15 +373,19 @@
 
 
 <div class="box intro">
-    <p>Represents a location in a two-dimensional coordinate system, where x represents the horizontal axis and y represents the vertical axis.</p>
+    <p>Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  <a href="https://github.com/toji/gl-matrix">https://github.com/toji/gl-matrix</a>
+Directly manages renderer objects, including factory methods for their creation. 
+Creates manager objects for shaders and textures.
+Manages gl state at game initialisation, at state start and end, and per frame.
+Runs the recursive scene graph rendering sequence every frame.</p>
 
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Kiwi.Geom.Point" class="method item">
-    <h3 class="name"><code>Kiwi.Geom.Point</code></h3>
+        <div id="method_Kiwi.Renderers.GLRenderManager" class="method item">
+    <h3 class="name"><code>Kiwi.Renderers.GLRenderManager</code></h3>
 
     
         <div class="args">
@@ -385,13 +393,7 @@
             
                 <li class="arg">
                     
-                        <code>x</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>y</code>
+                        <code>game</code>
                     
                 </li>
             
@@ -399,6 +401,10 @@
         </div>
     
 
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Kiwi.Renderers.GLRenderManager.html" class="crosslink">Kiwi.Renderers.GLRenderManager</a></span>
+        </span>
     
 
     
@@ -424,7 +430,7 @@
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l9"><code>src\geom\Point.ts:9</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l18"><code>src\render\GLRenderManager.ts:18</code></a>
         
         </p>
 
@@ -446,30 +452,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">x</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">game</code>
+                        <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>x One-liner. Default is ?.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">y</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>y One-liner. Default is ?.</p>
+                        <p>The game that this renderer belongs to.</p>
 
                     </div>
 
@@ -480,6 +470,18 @@
         </div>
     
 
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.Renderers.GLRenderManager.html" class="crosslink">Kiwi.Renderers.GLRenderManager</a></span>:
+                    
+                
+            </div>
+        </div>
     
 
     
@@ -510,122 +512,87 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
+                    <ul class="index-list methods extends">
                         
-                            <li class="index-item method public">
-                                <a href="#method_add">add</a>
+                            <li class="index-item method private">
+                                <a href="#method__init">_init</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__switchRenderer">_switchRenderer</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__switchTexture">_switchTexture</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_addTo">addTo</a>
+                                <a href="#method_addSharedRenderer">addSharedRenderer</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_angleTo">angleTo</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_angleTo">angleTo</a>
+                                <a href="#method_addSharedRenderer">addSharedRenderer</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_clamp">clamp</a>
+                                <a href="#method_addTexture">addTexture</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_clampX">clampX</a>
+                                <a href="#method_boot">boot</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_clampY">clampY</a>
+                                <a href="#method_collateBatches">collateBatches</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_clone">clone</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_copyFrom">copyFrom</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_copyTo">copyTo</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_distanceBetween">distanceBetween</a>
+                                <a href="#method_collateChild">collateChild</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_distanceCompare">distanceCompare</a>
+                                <a href="#method_collateRenderSequence">collateRenderSequence</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_distanceTo">distanceTo</a>
+                                <a href="#method_initState">initState</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_distanceToXY">distanceToXY</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_equals">equals</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_interpolate">interpolate</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_invert">invert</a>
+                                <a href="#method_initState">initState</a>
 
                                 
                                 
@@ -639,49 +606,42 @@
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_offset">offset</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_polar">polar</a>
+                                <a href="#method_render">render</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_polar">polar</a>
+                                <a href="#method_renderBatch">renderBatch</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_setTo">setTo</a>
+                                <a href="#method_renderBatches">renderBatches</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_subtract">subtract</a>
+                                <a href="#method_renderEntity">renderEntity</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_subtractFrom">subtractFrom</a>
+                                <a href="#method_requestRendererInstance">requestRendererInstance</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_toString">toString</a>
+                                <a href="#method_setupGLState">setupGLState</a>
 
                                 
                                 
@@ -695,17 +655,73 @@
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties">
+                    <ul class="index-list properties extends">
                         
-                            <li class="index-item property public">
-                                <a href="#property_x">x</a>
+                            <li class="index-item property private">
+                                <a href="#property__currentRenderer">_currentRenderer</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__currentTextureAtlas">_currentTextureAtlas</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__entityCount">_entityCount</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__game">_game</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__maxItems">_maxItems</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__shaderManager">_shaderManager</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__sharedRenderers">_sharedRenderers</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__stageResolution">_stageResolution</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__textureManager">_textureManager</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_y">y</a>
+                                <a href="#property_numDrawCalls">numDrawCalls</a>
 
                                 
                                 
@@ -725,8 +741,68 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_add" class="method item public">
-    <h3 class="name"><code>add</code></h3>
+                    <div id="method__init" class="method item private">
+    <h3 class="name"><code>_init</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l255"><code>src\render\GLRenderManager.ts:255</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Performs initialisation required for single game instance - happens once, at bootup
+Sets global GL state.
+Initialises managers for shaders and textures.
+Instantiates the default shared renderer (TextureAtlasRenderer)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__switchRenderer" class="method item private">
+    <h3 class="name"><code>_switchRenderer</code></h3>
 
     
         <div class="args">
@@ -734,13 +810,235 @@
             
                 <li class="arg">
                     
-                        <code>toAdd</code>
+                        <code>gl</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>output</code>
+                        <code>entity</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l504"><code>src\render\GLRenderManager.ts:504</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Switch renderer to the one needed by the entity that needs rendering</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">entity</code>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__switchTexture" class="method item private">
+    <h3 class="name"><code>_switchTexture</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>entity</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l517"><code>src\render\GLRenderManager.ts:517</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Switch texture to the one needed by the entity that needs rendering</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">entity</code>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_addSharedRenderer" class="method item public">
+    <h3 class="name"><code>addSharedRenderer</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>rendererID</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
                     
                 </li>
             
@@ -750,7 +1048,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">Point</span>
+            <span class="type">Boolean</span>
         </span>
     
 
@@ -779,7 +1077,7 @@
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l69"><code>src\geom\Point.ts:69</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l172"><code>src\render\GLRenderManager.ts:172</code></a>
         
         </p>
 
@@ -790,7 +1088,8 @@
     </div>
 
     <div class="description">
-        <p>Adds the coordinates of another point to the coordinates of this point to create a new point.</p>
+        <p>Adds a renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. 
+If a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.</p>
 
     </div>
 
@@ -802,17 +1101,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">toAdd</code>
-                        <span class="type">Point</span>
+                        <code class="param-name">rendererID</code>
+                        <span class="type">String</span>
                     
 
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The point to be added.</li>
-</ul>
-
+                         
                     </div>
 
                     
@@ -820,8 +1116,8 @@
             
                 <li class="param">
                     
-                        <code class="param-name">output</code>
-                        <span class="type">Point</span>
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
                     
 
                     
@@ -844,1381 +1140,9 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Point</span>:
-                    
-                    <p>The new Point object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_addTo" class="method item public">
-    <h3 class="name"><code>addTo</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>x</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>y</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Point</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l83"><code>src\geom\Point.ts:83</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Adds the given values to the coordinates of this point and returns it</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">x</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <ul>
-<li>The amount to add to the x value of the point</li>
-</ul>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">y</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <ul>
-<li>The amount to add to the x value of the point</li>
-</ul>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Point</span>:
-                    
-                    <p>This Point object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_angleTo" class="method item public">
-    <h3 class="name"><code>angleTo</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>target</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l218"><code>src\geom\Point.ts:218</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Get the angle from this Point object to given Point object.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">target</code>
-                        <span class="type">Point</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>destination Point object.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                    <p>angle to point</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_angleTo" class="method item">
-    <h3 class="name"><code>angleTo</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>x</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>y</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l231"><code>src\geom\Point.ts:231</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Get the angle from this Point object to given X,Y coordinates.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">x</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>x value.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">y</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>y value.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                    <p>angle to point.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_clamp" class="method item public">
-    <h3 class="name"><code>clamp</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>min</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>max</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Point</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l123"><code>src\geom\Point.ts:123</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Clamps this Point object to be between the given min and max</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">min</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The minimum value to clamp this Point to</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">max</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The maximum value to clamp this Point to</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Point</span>:
-                    
-                    <p>This Point object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_clampX" class="method item public">
-    <h3 class="name"><code>clampX</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>min</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>max</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Point</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l139"><code>src\geom\Point.ts:139</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Clamps the x value of this Point object to be between the given min and max</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">min</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The minimum value to clamp this Point to</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">max</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The maximum value to clamp this Point to</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Point</span>:
-                    
-                    <p>This Point object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_clampY" class="method item public">
-    <h3 class="name"><code>clampY</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>min</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>max</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Point</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l155"><code>src\geom\Point.ts:155</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Clamps the y value of this Point object to be between the given min and max</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">min</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The minimum value to clamp this Point to</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">max</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The maximum value to clamp this Point to</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Point</span>:
-                    
-                    <p>This Point object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_clone" class="method item public">
-    <h3 class="name"><code>clone</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>[output</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Point</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l172"><code>src\geom\Point.ts:172</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Creates a copy of this Point.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">[output</code>
-                        <span class="type">Point</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>= Point] Optional Point object. If given the values will be set into this object, otherwise a brand new Point object will be created and returned.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Point</span>:
-                    
-                    <p>The new Point object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_copyFrom" class="method item">
-    <h3 class="name"><code>copyFrom</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>source</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Point</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l185"><code>src\geom\Point.ts:185</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Copies the point data from the source Point object into this Point object.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">source</code>
-                        <span class="type">Point</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The point to copy from.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Point</span>:
-                    
-                    <p>This Point object. Useful for chaining method calls.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_copyTo" class="method item">
-    <h3 class="name"><code>copyTo</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>target</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Point</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l197"><code>src\geom\Point.ts:197</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Copies the point data from this Point object to the given target Point object.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">target</code>
-                        <span class="type">Point</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>target - The point to copy to.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Point</span>:
-                    
-                    <p>The target Point object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_distanceBetween" class="method item">
-    <h3 class="name"><code>distanceBetween</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>pointA</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>pointB</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>[round</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l284"><code>src\geom\Point.ts:284</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns the distance between the two Point objects.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">pointA</code>
-                        <span class="type">Point</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>pointA - The first Point object.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">pointB</code>
-                        <span class="type">Point</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>pointB - The second Point object.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">[round</code>
-                        <span class="type">Boolean</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>= Boolean]  round - Round the distance to the nearest integer (default false)</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                    <p>The distance between the two Point objects.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_distanceCompare" class="method item public">
-    <h3 class="name"><code>distanceCompare</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>target</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>distance</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l320"><code>src\geom\Point.ts:320</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns true if the distance between this point and a target point is greater than or equal a specified distance.
-This avoids using a costly square root operation</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">target</code>
-                        <span class="type">Point</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The Point object to use for comparison.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">distance</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The distance to use for comparison.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
                         <span class="type">Boolean</span>:
                     
-                    <p>True if distance is &gt;= specified distance.</p>
+                    <p>success</p>
 
                 
             </div>
@@ -2229,8 +1153,8 @@ This avoids using a costly square root operation</p>
 </div>
 
                 
-                    <div id="method_distanceTo" class="method item public">
-    <h3 class="name"><code>distanceTo</code></h3>
+                    <div id="method_addSharedRenderer" class="method item public">
+    <h3 class="name"><code>addSharedRenderer</code></h3>
 
     
         <div class="args">
@@ -2238,13 +1162,13 @@ This avoids using a costly square root operation</p>
             
                 <li class="arg">
                     
-                        <code>target</code>
+                        <code>rendererID</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>round</code>
+                        <code>params</code>
                     
                 </li>
             
@@ -2254,7 +1178,7 @@ This avoids using a costly square root operation</p>
 
     
         <span class="returns-inline">
-            <span class="type">Number</span>
+            <span class="type"><a href="..\classes\Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>
         </span>
     
 
@@ -2283,7 +1207,7 @@ This avoids using a costly square root operation</p>
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l209"><code>src\geom\Point.ts:209</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l196"><code>src\render\GLRenderManager.ts:196</code></a>
         
         </p>
 
@@ -2294,7 +1218,7 @@ This avoids using a costly square root operation</p>
     </div>
 
     <div class="description">
-        <p>Returns the distance from this Point object to the given Point object.</p>
+        <p>Requests a shared renderer. A game object that wants to use a shared renderer uses this method to obtain a reference to the shared renderer instance.</p>
 
     </div>
 
@@ -2306,15 +1230,14 @@ This avoids using a costly square root operation</p>
             
                 <li class="param">
                     
-                        <code class="param-name">target</code>
-                        <span class="type">Point</span>
+                        <code class="param-name">rendererID</code>
+                        <span class="type">String</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The destination Point object.</p>
-
+                         
                     </div>
 
                     
@@ -2322,15 +1245,14 @@ This avoids using a costly square root operation</p>
             
                 <li class="param">
                     
-                        <code class="param-name">round</code>
-                        <span class="type">Boolean</span>
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Round the distance to the nearest integer (default false)</p>
-
+                         
                     </div>
 
                     
@@ -2347,9 +1269,9 @@ This avoids using a costly square root operation</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">Number</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>:
                     
-                    <p>The distance between this Point object and the destination Point object.</p>
+                    <p>A shared renderer or null if none found.</p>
 
                 
             </div>
@@ -2360,8 +1282,8 @@ This avoids using a costly square root operation</p>
 </div>
 
                 
-                    <div id="method_distanceToXY" class="method item public">
-    <h3 class="name"><code>distanceToXY</code></h3>
+                    <div id="method_addTexture" class="method item public">
+    <h3 class="name"><code>addTexture</code></h3>
 
     
         <div class="args">
@@ -2369,19 +1291,13 @@ This avoids using a costly square root operation</p>
             
                 <li class="arg">
                     
-                        <code>x</code>
+                        <code>gl</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>y</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>[round</code>
+                        <code>atlas</code>
                     
                 </li>
             
@@ -2389,10 +1305,6 @@ This avoids using a costly square root operation</p>
         </div>
     
 
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
     
 
     
@@ -2420,7 +1332,7 @@ This avoids using a costly square root operation</p>
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l259"><code>src\geom\Point.ts:259</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l146"><code>src\render\GLRenderManager.ts:146</code></a>
         
         </p>
 
@@ -2431,7 +1343,7 @@ This avoids using a costly square root operation</p>
     </div>
 
     <div class="description">
-        <p>Returns the distance from this Point object to the given Point object.</p>
+        <p>Adds a texture to the Texture Manager.</p>
 
     </div>
 
@@ -2443,15 +1355,14 @@ This avoids using a costly square root operation</p>
             
                 <li class="param">
                     
-                        <code class="param-name">x</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>x - The x value.</p>
-
+                         
                     </div>
 
                     
@@ -2459,31 +1370,14 @@ This avoids using a costly square root operation</p>
             
                 <li class="param">
                     
-                        <code class="param-name">y</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">atlas</code>
+                        <span class="type"><a href="..\classes\Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>y - The y value.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">[round</code>
-                        <span class="type">Boolean</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>= Boolean]  round - Round the distance to the nearest integer (default false)</p>
-
+                         
                     </div>
 
                     
@@ -2494,299 +1388,75 @@ This avoids using a costly square root operation</p>
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                    <p>The distance between this Point object and the x/y values.</p>
-
-                
-            </div>
-        </div>
-    
 
     
 </div>
 
                 
-                    <div id="method_equals" class="method item public">
-    <h3 class="name"><code>equals</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>point</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l342"><code>src\geom\Point.ts:342</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Determines whether this Point object and the given point object are equal. They are equal if they have the same x and y values.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">point</code>
-                        <span class="type">Point</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The point to compare against.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
-                    
-                    <p>A value of true if the object is equal to this Point object; false if it is not equal.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_interpolate" class="method item public">
-    <h3 class="name"><code>interpolate</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>pointA</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>pointB</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>f</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Point</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l362"><code>src\geom\Point.ts:362</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Determines a point between two specified points. The parameter f determines where the new interpolated point is located relative to the two end points specified by parameters pt1 and pt2.
-The closer the value of the parameter f is to 1.0, the closer the interpolated point is to the first point (parameter pt1). The closer the value of the parameter f is to 0, the closer the interpolated point is to the second point (parameter pt2).</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">pointA</code>
-                        <span class="type">Point</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The first Point object.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">pointB</code>
-                        <span class="type">Point</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The second Point object.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">f</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The level of interpolation between the two points. Indicates where the new point will be, along the line between pt1 and pt2. If f=1, pt1 is returned; if f=0, pt2 is returned.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Point</span>:
-                    
-                    <p>The new interpolated Point object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_invert" class="method item public">
-    <h3 class="name"><code>invert</code></h3>
+                    <div id="method_boot" class="method item public">
+    <h3 class="name"><code>boot</code></h3>
 
     
         <span class="paren">()</span>
     
 
     
-        <span class="returns-inline">
-            <span class="type">Point</span>
-        </span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l40"><code>src\render\GLRenderManager.ts:40</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Initialises all WebGL rendering services</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_collateBatches" class="method item public">
+    <h3 class="name"><code>collateBatches</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
     
 
     
@@ -2814,7 +1484,7 @@ The closer the value of the parameter f is to 1.0, the closer the interpolated p
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l111"><code>src\geom\Point.ts:111</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l413"><code>src\render\GLRenderManager.ts:413</code></a>
         
         </p>
 
@@ -2825,26 +1495,274 @@ The closer the value of the parameter f is to 1.0, the closer the interpolated p
     </div>
 
     <div class="description">
-        <p>Inverts the x and y values of this point</p>
+        <p>Sorts the render sequence into batches. Each batch requires the same renderer/shader/texture combination.</p>
 
     </div>
 
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
 
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Point</span>:
-                    
-                    <p>This Point object.</p>
+    
+</div>
 
                 
-            </div>
+                    <div id="method_collateChild" class="method item public">
+    <h3 class="name"><code>collateChild</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l391"><code>src\render\GLRenderManager.ts:391</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Adds a child to the render sequence (may be a group with children of it&#39;s own)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_collateRenderSequence" class="method item public">
+    <h3 class="name"><code>collateRenderSequence</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l380"><code>src\render\GLRenderManager.ts:380</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Creates a new render sequence</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_initState" class="method item public">
+    <h3 class="name"><code>initState</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l296"><code>src\render\GLRenderManager.ts:296</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Performs initialisation required when switching to a different state. Called when a state has been switched to.
+The textureManager is told to rebuild its cache of textures from the states textuer library.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_initState" class="method item public">
+    <h3 class="name"><code>initState</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>state</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
         </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l307"><code>src\render\GLRenderManager.ts:307</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">state</code>
+                        <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
     
 
     
@@ -2889,7 +1807,7 @@ The closer the value of the parameter f is to 1.0, the closer the interpolated p
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l28"><code>src\geom\Point.ts:28</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l53"><code>src\render\GLRenderManager.ts:53</code></a>
         
         </p>
 
@@ -2900,7 +1818,7 @@ The closer the value of the parameter f is to 1.0, the closer the interpolated p
     </div>
 
     <div class="description">
-        <p>The type of this object.</p>
+        <p>The type of object that this is.</p>
 
     </div>
 
@@ -2924,8 +1842,8 @@ The closer the value of the parameter f is to 1.0, the closer the interpolated p
 </div>
 
                 
-                    <div id="method_offset" class="method item public">
-    <h3 class="name"><code>offset</code></h3>
+                    <div id="method_render" class="method item public">
+    <h3 class="name"><code>render</code></h3>
 
     
         <div class="args">
@@ -2933,13 +1851,481 @@ The closer the value of the parameter f is to 1.0, the closer the interpolated p
             
                 <li class="arg">
                     
-                        <code>dx</code>
+                        <code>camera</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l319"><code>src\render\GLRenderManager.ts:319</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Manages rendering of the scene graph - called once per frame.
+Sets up per frame gl uniforms such as the view matrix and camera offset.
+Clears the current renderer ready for a new batch. 
+Initiates recursive render of scene graph starting at the root.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">camera</code>
+                        <span class="type">Camera</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_renderBatch" class="method item public">
+    <h3 class="name"><code>renderBatch</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>dy</code>
+                        <code>batch</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>camera</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l463"><code>src\render\GLRenderManager.ts:463</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Renders a single batch</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">batch</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">camera</code>
+                        <span class="type"><a href="..\classes\Kiwi.Camera.html" class="crosslink">Kiwi.Camera</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_renderBatches" class="method item public">
+    <h3 class="name"><code>renderBatches</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>camera</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l442"><code>src\render\GLRenderManager.ts:442</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Renders all the batches</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">camera</code>
+                        <span class="type"><a href="..\classes\Kiwi.Camera.html" class="crosslink">Kiwi.Camera</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_renderEntity" class="method item public">
+    <h3 class="name"><code>renderEntity</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>entity</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>camera</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l480"><code>src\render\GLRenderManager.ts:480</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Calls the render function on a single entity</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">entity</code>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">camera</code>
+                        <span class="type"><a href="..\classes\Kiwi.Camera.html" class="crosslink">Kiwi.Camera</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_requestRendererInstance" class="method item public">
+    <h3 class="name"><code>requestRendererInstance</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>rendererID</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
                     
                 </li>
             
@@ -2949,7 +2335,7 @@ The closer the value of the parameter f is to 1.0, the closer the interpolated p
 
     
         <span class="returns-inline">
-            <span class="type">Point</span>
+            <span class="type"><a href="..\classes\Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>
         </span>
     
 
@@ -2978,7 +2364,7 @@ The closer the value of the parameter f is to 1.0, the closer the interpolated p
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l380"><code>src\geom\Point.ts:380</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l222"><code>src\render\GLRenderManager.ts:222</code></a>
         
         </p>
 
@@ -2989,8 +2375,10 @@ The closer the value of the parameter f is to 1.0, the closer the interpolated p
     </div>
 
     <div class="description">
-        <p>Offsets the Point object by the specified amount. The value of dx is added to the original value of x to create the new x value.
-The value of dy is added to the original value of y to create the new y value.</p>
+        <p>Requests a new renderer instance. This factory method is the only way gameobjects should instantiate their own renderer. 
+The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. 
+If a match is found then a renderer is instantiated and returned. Gameobjects which have rendering requirements that do not suit
+batch rendering use this technique.</p>
 
     </div>
 
@@ -3002,14 +2390,14 @@ The value of dy is added to the original value of y to create the new y value.</
             
                 <li class="param">
                     
-                        <code class="param-name">dx</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">rendererID</code>
+                        <span class="type">String</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The amount by which to offset the horizontal coordinate, x.</p>
+                        <p>The name of the requested renderer</p>
 
                     </div>
 
@@ -3018,15 +2406,14 @@ The value of dy is added to the original value of y to create the new y value.</
             
                 <li class="param">
                     
-                        <code class="param-name">dy</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The amount by which to offset the vertical coordinate, y.</p>
-
+                         
                     </div>
 
                     
@@ -3043,9 +2430,9 @@ The value of dy is added to the original value of y to create the new y value.</
             <div class="returns-description">
                 
                     
-                        <span class="type">Point</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>:
                     
-                    <p>This Point object. Useful for chaining method calls.</p>
+                    <p>A renderer or null if none found.</p>
 
                 
             </div>
@@ -3056,8 +2443,8 @@ The value of dy is added to the original value of y to create the new y value.</
 </div>
 
                 
-                    <div id="method_polar" class="method item">
-    <h3 class="name"><code>polar</code></h3>
+                    <div id="method_setupGLState" class="method item public">
+    <h3 class="name"><code>setupGLState</code></h3>
 
     
         <div class="args">
@@ -3065,13 +2452,7 @@ The value of dy is added to the original value of y to create the new y value.</
             
                 <li class="arg">
                     
-                        <code>length</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>angle</code>
+                        <code>gl</code>
                     
                 </li>
             
@@ -3079,139 +2460,6 @@ The value of dy is added to the original value of y to create the new y value.</
         </div>
     
 
-    
-        <span class="returns-inline">
-            <span class="type">Point</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l308"><code>src\geom\Point.ts:308</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Creates a new point with cartesian coordinates from a pair of polar coordinates</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">length</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The length coordinate of the polar pair.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">angle</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The angle, in radians, of the polar pair.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Point</span>:
-                    
-                    <p>The new Cartesian Point object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_polar" class="method item public">
-    <h3 class="name"><code>polar</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>length</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>angle</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Point</span>
-        </span>
     
 
     
@@ -3239,7 +2487,7 @@ The value of dy is added to the original value of y to create the new y value.</
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l55"><code>src\geom\Point.ts:55</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l493"><code>src\render\GLRenderManager.ts:493</code></a>
         
         </p>
 
@@ -3250,7 +2498,7 @@ The value of dy is added to the original value of y to create the new y value.</
     </div>
 
     <div class="description">
-        <p>Converts a pair of polar coordinates to a Cartesian point coordinate and sets them on the point instance.</p>
+        <p>Ensures the atlas and renderer needed for a batch is setup</p>
 
     </div>
 
@@ -3262,31 +2510,14 @@ The value of dy is added to the original value of y to create the new y value.</
             
                 <li class="param">
                     
-                        <code class="param-name">length</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The length coordinate of the polar pair.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">angle</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The angle, in radians, of the polar pair.</p>
-
+                         
                     </div>
 
                     
@@ -3296,492 +2527,6 @@ The value of dy is added to the original value of y to create the new y value.</
         </div>
     
 
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Point</span>:
-                    
-                    <p>The new Cartesian Point object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_setTo" class="method item public">
-    <h3 class="name"><code>setTo</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>x</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>y</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Point</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l400"><code>src\geom\Point.ts:400</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Sets the x and y values of this Point object to the given coordinates.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">x</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The horizontal position of this point.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">y</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The vertical position of this point.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Point</span>:
-                    
-                    <p>This Point object. Useful for chaining method calls.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_subtract" class="method item public">
-    <h3 class="name"><code>subtract</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>point</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>output</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Point</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l417"><code>src\geom\Point.ts:417</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Subtracts the coordinates of another point from the coordinates of this point to create a new point.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">point</code>
-                        <span class="type">Point</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The point to be subtracted.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">output</code>
-                        <span class="type">Point</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Optional Point object. If given the values will be set into this object, otherwise a brand new Point object will be created and returned.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Point</span>:
-                    
-                    <p>The new Point object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_subtractFrom" class="method item public">
-    <h3 class="name"><code>subtractFrom</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>x</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>y</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Point</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l97"><code>src\geom\Point.ts:97</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Adds the given values to the coordinates of this point and returns it</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">x</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <ul>
-<li>The amount to subtract from the x value of the point</li>
-</ul>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">y</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <ul>
-<li>The amount to subtract from the x value of the point</li>
-</ul>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Point</span>:
-                    
-                    <p>This Point object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_toString" class="method item public">
-    <h3 class="name"><code>toString</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l437"><code>src\geom\Point.ts:437</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns a string representation of this object.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">String</span>:
-                    
-                    <p>a string representation of the instance.</p>
-
-                
-            </div>
-        </div>
     
 
     
@@ -3796,14 +2541,14 @@ The value of dy is added to the original value of y to create the new y value.</
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_x" class="property item public">
-    <h3 class="name"><code>x</code></h3>
-    <span class="type">Number</span>
+                    <div id="property__currentRenderer" class="property item private">
+    <h3 class="name"><code>_currentRenderer</code></h3>
+    <span class="type"><a href="..\classes\Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>
 
     
 
     
-        <span class="flag public">public</span>
+        <span class="flag private">private</span>
     
 
     
@@ -3821,7 +2566,7 @@ The value of dy is added to the original value of y to create the new y value.</
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l38"><code>src\geom\Point.ts:38</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l98"><code>src\render\GLRenderManager.ts:98</code></a>
         
         </p>
 
@@ -3831,7 +2576,7 @@ The value of dy is added to the original value of y to create the new y value.</
     </div>
 
     <div class="description">
-        <p>The horizontal position of this point (default 0)</p>
+        <p>The renderer object that is in use during a rendering batch.</p>
 
     </div>
 
@@ -3843,8 +2588,395 @@ The value of dy is added to the original value of y to create the new y value.</
 </div>
 
                 
-                    <div id="property_y" class="property item public">
-    <h3 class="name"><code>y</code></h3>
+                    <div id="property__currentTextureAtlas" class="property item private">
+    <h3 class="name"><code>_currentTextureAtlas</code></h3>
+    <span class="type">TextureAtlas</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l138"><code>src\render\GLRenderManager.ts:138</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The most recently bound texture atlas.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__entityCount" class="property item private">
+    <h3 class="name"><code>_entityCount</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l106"><code>src\render\GLRenderManager.ts:106</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Tally of number of entities rendered per frame</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__game" class="property item private">
+    <h3 class="name"><code>_game</code></h3>
+    <span class="type">Game</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l63"><code>src\render\GLRenderManager.ts:63</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The game that this renderer is used with.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__maxItems" class="property item private">
+    <h3 class="name"><code>_maxItems</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l124"><code>src\render\GLRenderManager.ts:124</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Maximum allowable sprites to render per frame
+Note:Not currently used  - candidate for deletion</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 1000</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__shaderManager" class="property item private">
+    <h3 class="name"><code>_shaderManager</code></h3>
+    <span class="type">Kiwi.Renderes.GLShaderManager</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l79"><code>src\render\GLRenderManager.ts:79</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The shader manager object used to allocate GL Shaders.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__sharedRenderers" class="property item private">
+    <h3 class="name"><code>_sharedRenderers</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l157"><code>src\render\GLRenderManager.ts:157</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>An array of renderers. Shared renderers are used for batch rendering. Multiple gameobjects can use the same renderer
+instance and add rendering info to a batch rather than rendering individually. 
+This means only one draw call is necessary to render a number of objects. The most common use of this is standard 2d sprite rendering,
+and the TextureAtlasRenderer is added by default as a shared renderer. Sprites, StaticImages and Tilemaps (core gameobjects) can all use the
+same renderer/shader combination and be drawn as part of the same batch.
+Custom gameobjects can also choose to use a shared renderer, fo example in the case that a custom gameobject&#39;s rendering requirements matched the TextureAtlasRenderer
+capabilities.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__stageResolution" class="property item private">
+    <h3 class="name"><code>_stageResolution</code></h3>
+    <span class="type">Float32Array</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l90"><code>src\render\GLRenderManager.ts:90</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The stage resolution in pixels</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__textureManager" class="property item private">
+    <h3 class="name"><code>_textureManager</code></h3>
+    <span class="type">Kiwi.Renderes.GLTextureManager</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l71"><code>src\render\GLRenderManager.ts:71</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The texture manager object used to allocate GL Textures.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_numDrawCalls" class="property item public">
+    <h3 class="name"><code>numDrawCalls</code></h3>
     <span class="type">Number</span>
 
     
@@ -3868,7 +3000,7 @@ The value of dy is added to the original value of y to create the new y value.</
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l46"><code>src\geom\Point.ts:46</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l115"><code>src\render\GLRenderManager.ts:115</code></a>
         
         </p>
 
@@ -3878,10 +3010,12 @@ The value of dy is added to the original value of y to create the new y value.</
     </div>
 
     <div class="description">
-        <p>The vertical position of this point (default 0)</p>
+        <p>Tally of number of draw calls per frame</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     

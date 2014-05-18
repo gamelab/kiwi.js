@@ -6,7 +6,7 @@
 var Kiwi;
 (function (Kiwi) {
     /**
-    * The base class that is used when you are wanting to create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF which is used for the game loop.
+    * The base class that is used when you create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF (RequestAnimationFrame object) which is used for the game loop.
     *
     * @class Game
     * @namespace Kiwi
@@ -15,7 +15,7 @@ var Kiwi;
     * @param [name='KiwiGame'] {String} The name of the game that is being created.
     * @param [state=null] {Any} The state to load initially. This can either be the name of a state, but preferably this would be the state object itself.
     * @param [options] {Object} Any special options for the game. E.g. Is DEBUG_ON or DEBUG_OFF, RENDERER_CANVAS or RENDERER_WEBGL, TARGET_BROWSER or TARGET_COCOON
-    * @return {Game}
+    * @return {Kiwi.Game}
     *
     */
     var Game = (function () {
@@ -26,65 +26,58 @@ var Kiwi;
             if (typeof options === "undefined") { options = {}; }
             var _this = this;
             /**
-            * [REQUIRES DESCRIPTION]
-            * @property _dom
-            * @type Bootstrap
+            * The object that peforms DOM and device startup operations for browsers (ie not cocoon)
+            * @property _startup
+            * @type Kiwi.System.Bootstrap
             * @private
             */
             this._startup = null;
             /**
             * The audio manager that handles all of the audio in game. Inside you can globally mute the audio, create new sounds, e.t.c.
             * @property audio
-            * @type AudioManager
+            * @type Kiwi.Sound.AudioManager
             * @public
             */
             this.audio = null;
             /**
-            * Used to get the coordinates of any DOM element on the game.
-            * @property browser
-            * @type Browser
-            * @public
-            */
-            this.browser = null;
-            /**
             * The global file store for this game. This handles the storage and access of information loaded, as well as tags that maybe set for them individual files.
             * @property fileStore
-            * @type FileStore
+            * @type Kiwi.Files.FileStore
             * @public
             */
             this.fileStore = null;
             /**
             * Handles any user input with the game. These could via the users keyboard, mouse or touch events.
             * @property input
-            * @type InputManager
+            * @type Kiwi.Input.InputManager
             * @public
             */
             this.input = null;
             /**
             * Manages the cameras the are on the stage. Single default Camera only in this version.
             * @property cameras
-            * @type CameraManager
+            * @type Kiwi.CameraManager
             * @public
             */
             this.cameras = null;
             /**
             * Manages plugins registration and initialisation for the game instance.
             * @property pluginManager
-            * @type PluginManager
+            * @type Kiwi.PluginManager
             * @public
             */
             this.pluginManager = null;
             /**
             * Loads files from outside sources and checks to see that they have loaded correctly or not.
             * @property loader
-            * @type Loader
+            * @type Kiwi.Files.Loader
             * @public
             */
             this.loader = null;
             /**
             * The Request Animation Frame that is being used for the update and render loops.
             * @property raf
-            * @type RequestAnimationFrame
+            * @type Kiwi.Utils.RequestAnimationFrame
             * @public
             */
             this.raf = null;
@@ -98,28 +91,28 @@ var Kiwi;
             /**
             * Manages all of the states that exist for this game. Via the manager you can create new states, switch states and do various other tasks.
             * @property states
-            * @type StateManager
+            * @type Kiwi.StateManager
             * @public
             */
             this.states = null;
             /**
             * Holds a reference to the clocks that are being used and has a MASTER clock that is being used for the game.
             * @property time
-            * @type ClockManager
+            * @type Kiwi.Time.ClockManage
             * @public
             */
             this.time = null;
             /**
             * The tween manager holds a reference to all of the tweens that are created and currently being used.
             * @property tweens
-            * @type TweenManager
+            * @type Kiwi.Animations.Tweens.TweenManager
             * @public
             */
             this.tweens = null;
             /**
             * A Random Data Generator. This is useful for create unique ids and random information.
             * @property rnd
-            * @type RandomDataGenerator
+            * @type Kiwi.Utils.RandomDataGenerato
             * @public
             */
             this.rnd = null;
@@ -219,7 +212,6 @@ var Kiwi;
             this._startup = new Kiwi.System.Bootstrap();
 
             this.audio = new Kiwi.Sound.AudioManager(this);
-            this.browser = new Kiwi.System.Browser(this);
 
             this.fileStore = new Kiwi.Files.FileStore(this);
             this.input = new Kiwi.Input.InputManager(this);
@@ -297,13 +289,13 @@ var Kiwi;
                 }
 
                 this._startup.boot(domParent, function () {
-                    return _this.start();
+                    return _this._start();
                 });
             } else {
                 if (domParent !== '')
                     console.log('  Kiwi.Game: Not Targetting a BROWSER. DOM Parent parameter ignored.');
 
-                this.start();
+                this._start();
             }
         }
         Object.defineProperty(Game.prototype, "renderOption", {
@@ -402,13 +394,12 @@ var Kiwi;
         * @method start
         * @private
         */
-        Game.prototype.start = function () {
+        Game.prototype._start = function () {
             var _this = this;
             if (Kiwi.DEVICE === null) {
                 Kiwi.DEVICE = new Kiwi.System.Device();
             }
 
-            this.browser.boot();
             this.stage.boot(this._startup);
             this.renderer.boot();
             this.cameras.boot();
@@ -428,7 +419,7 @@ var Kiwi;
             this._lastTime = Date.now();
 
             this.raf = new Kiwi.Utils.RequestAnimationFrame(function () {
-                return _this.loop();
+                return _this._loop();
             });
             this.raf.start();
             if (this.bootCallbackOption) {
@@ -438,11 +429,11 @@ var Kiwi;
         };
 
         /**
-        * The loop that the whole game is using.
-        * @method loop
+        * The game loop.
+        * @method _loop
         * @private
         */
-        Game.prototype.loop = function () {
+        Game.prototype._loop = function () {
             this._delta = this.raf.currentTime - this._lastTime;
             if (this._delta > this._interval) {
                 //Only update if there is a current state
@@ -774,7 +765,7 @@ var Kiwi;
             this.container = dom.container;
 
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.offset = this._game.browser.getOffsetPoint(this.container);
+                this.offset = this.getOffsetPoint(this.container);
 
                 this._x = this.offset.x;
                 this._y = this.offset.y;
@@ -791,6 +782,27 @@ var Kiwi;
             } else {
                 this._calculateContainerScale();
             }
+        };
+
+        /**
+        * Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser
+        * Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js
+        * @method getOffsetPoint
+        * @param {Any} element
+        * @param {Kiwi.Geom.Point} output
+        * @return {Kiwi.Geom.Point}
+        * @public
+        */
+        Stage.prototype.getOffsetPoint = function (element, output) {
+            if (typeof output === "undefined") { output = new Kiwi.Geom.Point; }
+            var box = element.getBoundingClientRect();
+
+            var clientTop = element.clientTop || document.body.clientTop || 0;
+            var clientLeft = element.clientLeft || document.body.clientLeft || 0;
+            var scrollTop = window.pageYOffset || element.scrollTop || document.body.scrollTop;
+            var scrollLeft = window.pageXOffset || element.scrollLeft || document.body.scrollLeft;
+
+            return output.setTo(box.left + scrollLeft - clientLeft, box.top + scrollTop - clientTop);
         };
 
         /**
@@ -813,7 +825,7 @@ var Kiwi;
         * @private
         */
         Stage.prototype._calculateContainerScale = function () {
-            this.offset = this._game.browser.getOffsetPoint(this.container);
+            this.offset = this.getOffsetPoint(this.container);
             this._scaleContainer();
 
             this._scale.x = this._width / this.container.clientWidth;
@@ -1034,15 +1046,16 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     /**
-    * The component manager is a class that is used to handle a number of components that are active on a particular object.
-    * This way if you want to check to see if a particular component is on an object you can ask the component manager,
-    * Or when updating components you can tell the component manager to update and all of the components will update as well.
+    * The component manager is a class that is used to handle components that are active on a particular object. Any object
+    * that has a component manager attached to it can use components.
+    * If you want to check to see if a particular component is on an object you can ask the component manager,
+    * or when updating components you can tell the component manager to update and all of the components will update as well.
     *
     * @class ComponentManager
     * @namespace Kiwi
     * @constructor
     * @param type {number} - The type of object that this component manager's owner is.
-    * @param owner {IChild} - The owner of this component manager.
+    * @param owner {Object} - The owner of this component manager.
     * @return {ComponentManager}
     *
     */
@@ -1097,7 +1110,7 @@ var Kiwi;
         * Get an existing component that has been added to the layer by its name
         * @method getComponent
         * @param value {String} The component name
-        * @return {Component} The component, if found, otherwise null
+        * @return {Kiwi.Component} The component, if found, otherwise null
         * @public
         */
         ComponentManager.prototype.getComponent = function (value) {
@@ -1111,8 +1124,8 @@ var Kiwi;
         /**
         * Adds a Component to the manager.
         * @method add
-        * @param component {Component} The component to add
-        * @return {Component} The component that was added
+        * @param component {Kiwi.Component} The component to add
+        * @return {Kiwi.Component} The component that was added
         * @public
         */
         ComponentManager.prototype.add = function (component) {
@@ -1124,7 +1137,7 @@ var Kiwi;
         /**
         * Adds a batch of components to the manager at a single time.
         * @method addBatch
-        * @param value* {Component} The component/s that you would like to add.
+        * @param value* {Kiwi.Component} The component/s that you would like to add.
         * @public
         */
         ComponentManager.prototype.addBatch = function () {
@@ -1140,7 +1153,7 @@ var Kiwi;
         /**
         * Removes a component from the component manager
         * @method removeComponent
-        * @param component {Component} The component to be removed.
+        * @param component {Kiwi.Component} The component to be removed.
         * @param [destroy=true] {boolean} If the destroy method is to be called on the component when it is removed.
         * @return {boolean} true if the component was removed successfully
         * @public
@@ -1287,13 +1300,20 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     /**
-    *
+    * The plugin manager registers plugins, checks plugin dependencies, and calls designated functions on each registered plugin at boot time, and during the update loop if required.
+    * Plugins are registered on the global Kiwi instance. Once a plugin in registered it is allocated a place on the Kiwi.Plugins name space.
+    * Eg. FooPlugin will be accessible at Kiwi.Plugins.FooPlugin.
+    * When a game instance is created, it can contain a list of required plugins in the configuration object. At this point the plugin manager will validate that the plugins
+    * exist, and that dependencies are met (both Kiwi version and versions of other required plugins).
+    * If the plugin has a "create" function, the plugin manager instance will call that function as part of the boot process. The create function may do anything, but usually it would create
+    * an instance of an object.
+    * The plugin manager update function is called every update loop. If an object was created by the "create" function and it has an "update" function, that function will be called in turn.
     * @class PluginManager
     * @namespace Kiwi
     * @constructor
-    * @param game {Game} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
+    * @param game {Kiwi.Game} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
     * @param plugins {string[]} The entities position on the x axis.
-    * @return {PluginManager} This PluginManager.
+    * @return {Kiwi.PluginManager} This PluginManager.
     *
     */
     var PluginManager = (function () {
@@ -1498,6 +1518,11 @@ var Kiwi;
             }
         };
 
+        /**
+        * Calls the update functions on any objects that plugins used by the game instance have designated during creation.
+        * @method update
+        * @public
+        */
         PluginManager.prototype.update = function () {
             for (var i = 0; i < this._bootObjects.length; i++) {
                 if ("update" in this._bootObjects[i]) {
@@ -1518,13 +1543,14 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     /**
-    * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager. More Cameras can always be created by used of the create method of a CameraManager.
+    * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager.
+    * Games currently only usupport the use of a single camera, the default camera. Much of this class has been written with future multiple camera support in mind.
     *
     * @class CameraManager
     * @namespace Kiwi
     * @constructor
-    * @param {Game} game
-    * @return {CameraManager}
+    * @param {Kiwi.Game} game
+    * @return {Kiwi.CameraManager}
     */
     var CameraManager = (function () {
         function CameraManager(game) {
@@ -1559,7 +1585,7 @@ var Kiwi;
         * @param {Number} y. The y position of the new camera.
         * @param {Number} width. The width of the new camera.
         * @param {Number} height. The height of the new camera.
-        * @return {Camera} The new camera object.
+        * @return {Kiwi.Camera} The new camera object.
         * @public
         */
         CameraManager.prototype.create = function (name, x, y, width, height) {
@@ -1574,7 +1600,7 @@ var Kiwi;
         /**
         * Removes the given camera, if it is present in the camera managers camera collection.
         * @method remove
-        * @param camera {Camera}
+        * @param camera {Kiwi.Camera}
         * @return {boolean} True if the camera was removed, false otherwise.
         * @public
         */
@@ -1616,8 +1642,6 @@ var Kiwi;
             }
 
             for (var i = 0; i < this._cameras.length; i++) {
-                //render each layer
-                //this._game.layers.render(this._cameras[i]);
                 this._cameras[i].render();
             }
         };
@@ -1628,7 +1652,7 @@ var Kiwi;
         * @public
         */
         CameraManager.prototype.removeAll = function () {
-            this._cameras.length = 0; //are you sure.
+            this._cameras = [];
         };
         return CameraManager;
     })();
@@ -2180,8 +2204,7 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     /**
-    * An Entity serves as a container for game objects to extend from and thus you should never directly instantiate this class.
-    * Each Entity has a unique ID (UID) which is automatically generated upon instantiation.
+    * An Entity is a base class for game objects to extend from and thus you should never directly instantiate this class.
     * Every entity requires that you pass to it the state that it belongs too, that way when you switch states the appropriate entitys can be deleted.
     *
     * @class Entity
@@ -2190,7 +2213,7 @@ var Kiwi;
     * @param state {State} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
     * @param x {Number} The entities position on the x axis.
     * @param y {Number} The entities position on the y axis.
-    * @return {Entity} This entity.
+    * @return {Kiwi.Entity} This entity.
     *
     */
     var Entity = (function () {
@@ -2198,12 +2221,12 @@ var Kiwi;
             /**
             * The group that this entity belongs to. If added onto the state then this is the state.
             * @property _parent
-            * @type Group
+            * @type Kiwi.Group
             * @private
             */
             this._parent = null;
             /**
-            * The actual alpha of this entity.
+            * The alpha of this entity.
             * @property _alpha
             * @type Number
             * @private
@@ -2236,7 +2259,7 @@ var Kiwi;
             /**
             * The texture atlas that is to be used on this entity.
             * @property atlas
-            * @type TextureAtlas
+            * @type Kiwi.Textures.TextureAtlas
             * @public
             */
             this.atlas = null;
@@ -2259,7 +2282,7 @@ var Kiwi;
             /**
             * The clock that this entity use's for time based calculations. This generated by the state on instatiation.
             * @property _clock
-            * @type Clock
+            * @type Kiwi.Clock
             * @private
             */
             this._clock = null;
@@ -2286,7 +2309,7 @@ var Kiwi;
             * The group that this entity belongs to/is a child of once added to one. If added onto the state then this is the state.
             * @property parent
             * @type Group
-            * @param val {Group}
+            * @param val {Kiwi.Group}
             * @public
             */
             set: function (val) {
@@ -2541,7 +2564,7 @@ var Kiwi;
                 return this._willRender;
             },
             /**
-            * Toggles if this Entity will be rendered by a canvas layer. Use the visibile component for DOM layers.
+            * Toggles if this Entity will be rendered.
             * @property willRender
             * @type boolean
             * @default true
@@ -2579,7 +2602,7 @@ var Kiwi;
             /**
             * The Clock used to update this all of this Entities components (defaults to the Game MasterClock)
             * @property clock
-            * @type Clock
+            * @type Kiwi.Time.Clock
             * @public
             */
             set: function (value) {
@@ -2627,6 +2650,7 @@ var Kiwi;
         };
 
         /**
+        * Renders the entity using the canvas renderer.
         * This isn't called until the Entity has been added to a Group/State which is active.
         * This functionality is handled by the sub classes.
         * @method render
@@ -2637,9 +2661,14 @@ var Kiwi;
         };
 
         /**
-        *
-        *
-        *
+        * Renders the entity using the canvas renderer.
+        * This isn't called until the Entity has been added to a Group/State which is active.
+        * This functionality is handled by the sub classes.
+        * @method renderGL
+        * @param {Kiwi.Camera} camera
+        * @param {WebGLRenderingContext} gl
+        * @param [params=null] {object} params
+        * @public
         */
         Entity.prototype.renderGL = function (gl, camera, params) {
             if (typeof params === "undefined") { params = null; }
@@ -2686,14 +2715,15 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     /**
-    * The base class that all components extend from and thus contains all of the common functionality that is required of every Component.
+    * The base class that all components extend from. It contains all of the common functionality that is required of every Component.
+    * Any object
     *
     * @class Component
     * @namespace Kiwi
     * @constructor
-    * @param owner {IChild} The IChild that this component belongs to.
+    * @param owner {Object} The object that this component belongs to.
     * @param componentName {String} The name of this component.
-    * @return {Component}
+    * @return {Kiwi.Component}
     */
     var Component = (function () {
         function Component(owner, name) {
@@ -2776,14 +2806,15 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     /**
-    * Is a class the implements the IChild structure who's purpose is to contain multiple children/members, those of which also implement the IChild interface. The members of the Group's coordinates are also in relation to the Group that they were added to. So if you moved an entire Group, each member of that Group would also 'move'.
+    * The group class is central to creating the scene graph that contains all objects in a state. A group can contain entities or other groups, thereby enabling a nested tree scene graph.
+    * The members of the Group's coordinates are also in relation to the Group that they were added to. So if you moved an entire Group, each member of that Group would also 'move'.
     *
     * @class Group
     * @namespace Kiwi
     * @constructor
-    * @param state {State} The State that this Group is a part of.
+    * @param state {Kiwi.State} The State that this Group is a part of.
     * @param [name=''] {String} The name of this group.
-    * @return {Group}
+    * @return {Kiwi.Group}
     *
     */
     var Group = (function () {
@@ -2800,21 +2831,21 @@ var Kiwi;
             /**
             * The parent group of this group.
             * @property _parent
-            * @type Group
+            * @type Kiwi.Group
             * @private
             */
             this._parent = null;
             /**
             * The game this Group belongs to
             * @property game
-            * @type Game
+            * @type Kiwi.Game
             * @public
             */
             this.game = null;
             /**
             * The State that this Group belongs to
             * @property state
-            * @type State
+            * @type Kiwi.State
             * @public
             **/
             this.state = null;
@@ -2864,7 +2895,7 @@ var Kiwi;
         };
 
         /*
-        * Represents the type of child that this is. Note: A 'CHILD' is any object that extends from ICHILD.
+        * Represents the type of child that this is.
         * @method childType
         * @return number
         * @public
@@ -2880,7 +2911,7 @@ var Kiwi;
             /**
             * Set's the parent of this entity. Note that this also sets the transforms parent of this entity to be the passed groups transform.
             * @property parent
-            * @type Group
+            * @type Kiwi.Group
             * @public
             */
             set: function (val) {
@@ -3024,9 +3055,9 @@ var Kiwi;
         };
 
         /**
-        * Checks to see if the given IChild is contained in this group as a descendant
+        * Checks to see if the given object is contained in this group as a descendant
         * @method containsDescendant
-        * @param child {IChild} The IChild that you want to check.
+        * @param child {object} The IChild that you want to check.
         * @return {boolean}
         * @public
         */
@@ -3044,7 +3075,7 @@ var Kiwi;
         /**
         * Checks to see if one child is an ansector of another child.
         * @method containsAncestor
-        * @param descendant {IChild} The IChild that you are checking.
+        * @param descendant {object} The object that you are checking.
         * @param ancestor {Group} The parent (ancestor) that you are checking for.
         * @return {boolean}
         * @public
@@ -3061,8 +3092,8 @@ var Kiwi;
         /**
         * Adds an Entity to this Group. The Entity must not already be in this Group.
         * @method addChild
-        * @param child {IChild} The child to be added.
-        * @return {IChild} The child that was added.
+        * @param child {object} The child to be added.
+        * @return {object} The child that was added.
         * @public
         */
         Group.prototype.addChild = function (child) {
@@ -3084,9 +3115,9 @@ var Kiwi;
         /**
         * Adds an Entity to this Group in the specific location. The Entity must not already be in this Group and it must be supported by the Group.
         * @method addChildAt
-        * @param child {IChild} The child to be added.
+        * @param child {object} The child to be added.
         * @param index {Number} The index the child will be set at.
-        * @return {IChild} The child.
+        * @return {object} The child.
         * @public
         */
         Group.prototype.addChildAt = function (child, index) {
@@ -3105,9 +3136,9 @@ var Kiwi;
         /**
         * Adds an Entity to this Group before another child. The Entity must not already be in this Group and it must be supported by the Group.
         * @method addChildBefore
-        * @param child {IChild} The child to be added.
+        * @param child {object} The child to be added.
         * @param beforeChild {Entity} The child before which the child will be added.
-        * @return {IChild} The child.
+        * @return {object} The child.
         * @public
         */
         Group.prototype.addChildBefore = function (child, beforeChild) {
@@ -3124,9 +3155,9 @@ var Kiwi;
         /**
         * Adds an Entity to this Group after another child. The Entity must not already be in this Group and it must be supported by the Group..
         * @method addChildAfter
-        * @param child {IChild} The child to be added.
-        * @param beforeChild {IChild} The child after which the child will be added.
-        * @return {IChild} The child.
+        * @param child {object} The child to be added.
+        * @param beforeChild {object} The child after which the child will be added.
+        * @return {object} The child.
         * @public
         */
         Group.prototype.addChildAfter = function (child, beforeChild) {
@@ -3144,7 +3175,7 @@ var Kiwi;
         * Get the child at a specific position in this Group by its index.
         * @method getChildAt
         * @param index {Number} The index of the child
-        * @return {IChild} The child, if found or null if not.
+        * @return {object} The child, if found or null if not.
         * @public
         */
         Group.prototype.getChildAt = function (index) {
@@ -3159,7 +3190,7 @@ var Kiwi;
         * Get a child from this Group by its name.
         * @method getChildByName
         * @param name {String} The name of the child
-        * @return {IChild} The child, if found or null if not.
+        * @return {object} The child, if found or null if not.
         * @public
         */
         Group.prototype.getChildByName = function (name) {
@@ -3176,7 +3207,7 @@ var Kiwi;
         * Get a child from this Group by its UUID.
         * @method getChildByID
         * @param id {String} The ID of the child.
-        * @return {IChild} The child, if found or null if not.
+        * @return {object} The child, if found or null if not.
         * @public
         */
         Group.prototype.getChildByID = function (id) {
@@ -3192,7 +3223,7 @@ var Kiwi;
         /**
         * Returns the index position of the Entity or -1 if not found.
         * @method getChildIndex
-        * @param child {IChild} The child.
+        * @param child {object} The child.
         * @return {Number} The index of the child or -1 if not found.
         * @public
         */
@@ -3203,9 +3234,9 @@ var Kiwi;
         /**
         * Removes an Entity from this Group if it is a child of it.
         * @method removeChild
-        * @param child {IChild} The child to be removed.
+        * @param child {object} The child to be removed.
         * @param [destroy=false] {boolean} If the entity that gets removed should be destroyed as well.
-        * @return {IChild} The child.
+        * @return {object} The child.
         * @public
         */
         Group.prototype.removeChild = function (child, destroy) {
@@ -3230,7 +3261,7 @@ var Kiwi;
         * Removes the Entity from this Group at the given position.
         * @method removeChildAt
         * @param index {Number} The index of the child to be removed.
-        * @return {IChild} The child, or null.
+        * @return {object} The child, or null.
         */
         Group.prototype.removeChildAt = function (index) {
             if (this.members[index]) {
@@ -3273,7 +3304,7 @@ var Kiwi;
         /**
         * Sets a new position of an existing Entity within the Group.
         * @method setChildIndex
-        * @param child {IChild} The child in this Group to change.
+        * @param child {object} The child in this Group to change.
         * @param index {Number} The index for the child to be set at.
         * @return {boolean} true if the Entity was moved to the new position, otherwise false.
         * @public
@@ -3293,8 +3324,8 @@ var Kiwi;
         /**
         * Swaps the position of two existing Entities that are a direct child of this group.
         * @method swapChildren
-        * @param child1 {IChild} The first child in this Group to swap.
-        * @param child2 {IChild} The second child in this Group to swap.
+        * @param child1 {object} The first child in this Group to swap.
+        * @param child2 {object} The second child in this Group to swap.
         * @return {boolean} true if the Entities were swapped successfully, otherwise false.
         * @public
         */
@@ -3347,8 +3378,8 @@ var Kiwi;
         /**
         * Replaces a child Entity in this Group with a new one.
         * @method replaceChild
-        * @param oldChild {IChild} The Entity in this Group to be removed.
-        * @param newChild {IChild} The new Entity to insert into this Group at the old Entities position.
+        * @param oldChild {object} The Entity in this Group to be removed.
+        * @param newChild {object} The new Entity to insert into this Group at the old Entities position.
         * @return {boolean} true if the Entities were replaced successfully, otherwise false.
         * @public
         */
@@ -3525,7 +3556,7 @@ var Kiwi;
         * The render method that is required by the IChild.
         * This method never gets called as the render is only worried about rendering entities.
         * @method render
-        * @param camera {Camera}
+        * @param camera {Kiwi.Camera}
         * @public
         */
         Group.prototype.render = function (camera) {
@@ -3535,7 +3566,7 @@ var Kiwi;
         * Removes the first Entity from this Group marked as 'alive'
         * @method removeFirstAlive
         * @param [destroy=false] {boolean} If the entity should run the destroy method when it is removed.
-        * @return {IChild} The Entity that was removed from this Group if alive, otherwise null
+        * @return {object} The Entity that was removed from this Group if alive, otherwise null
         * @public
         */
         Group.prototype.removeFirstAlive = function (destroy) {
@@ -3546,7 +3577,7 @@ var Kiwi;
         /**
         * Returns the first Entity from this Group marked as 'alive' or null if no members are alive
         * @method getFirstAlive
-        * @return {IChild}
+        * @return {object}
         * @public
         */
         Group.prototype.getFirstAlive = function () {
@@ -3562,7 +3593,7 @@ var Kiwi;
         /**
         * Returns the first member of the Group which is not 'alive', returns null if all members are alive.
         * @method getFirstDead
-        * @return {IChild}
+        * @return {object}
         * @public
         */
         Group.prototype.getFirstDead = function () {
@@ -3615,7 +3646,7 @@ var Kiwi;
         * Returns a member at random from the group.
         * @param {Number}	StartIndex	Optional offset off the front of the array. Default value is 0, or the beginning of the array.
         * @param {Number}	Length		Optional restriction on the number of values you want to randomly select from.
-        * @return {IChild}	A child from the members list.
+        * @return {object}	A child from the members list.
         * @public
         */
         Group.prototype.getRandom = function (start, length) {
@@ -4126,14 +4157,14 @@ var Kiwi;
     * @class Camera
     * @namespace Kiwi
     * @constructor
-    * @param game {Game} The game that this camera belongs to.
+    * @param game {Kiwi.Game} The game that this camera belongs to.
     * @param id {Number} A unique ID for this camera
     * @param name {String} The name this camera goes by
     * @param x {Number} The x coordinate of the camera
     * @param y {Number} The y coordinate of the camera
     * @param width {Number} The width of the camera
     * @param height {Number} The cameras height
-    * @return {Camera}
+    * @return {Kiwi.Camera}
     *
     */
     var Camera = (function () {
@@ -4160,7 +4191,7 @@ var Kiwi;
             this._game.stage.onResize.add(this._updatedStageSize, this);
         }
         /**
-        * The type of Object this is.
+        * The type of object this is.
         * @method objType
         * @return {String}
         * @public
@@ -4220,8 +4251,8 @@ var Kiwi;
         * Useful for when calculating if coordinates with the mouse.
         * Note: This method clones the point you pass, so that is doesn't "reset" any properties you set.
         * @method transformPoint
-        * @param point {Point}
-        * @return Point
+        * @param point {Kiwi.Geom.Point}
+        * @return {Kiwi.Geom.Point}
         * @public
         */
         Camera.prototype.transformPoint = function (point) {
@@ -11230,73 +11261,6 @@ var Kiwi;
 * Kiwi - System
 * @module Kiwi
 * @submodule System
-*
-*/
-var Kiwi;
-(function (Kiwi) {
-    (function (System) {
-        /**
-        * Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser
-        * Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js
-        *
-        * @class Browser
-        * @constructor
-        * @namespace Kiwi.System
-        * @param {Game} game
-        * @return {StateMananger} This Object
-        *
-        */
-        var Browser = (function () {
-            function Browser(game) {
-                this._game = game;
-            }
-            /**
-            * The type of object that this is.
-            * @method objType
-            * @return {String}
-            * @public
-            */
-            Browser.prototype.objType = function () {
-                return "Browser";
-            };
-
-            /**
-            * The DOM is ready, so if we have a current state pending we can init it now
-            * @method boot
-            */
-            Browser.prototype.boot = function () {
-                //this._game.stage.offset = this.getOffsetPoint(this._game.stage.container);
-            };
-
-            /**
-            *
-            * @method getOffsetPoint
-            * @param {Any} element
-            * @param {Point} output
-            * @return {Point}
-            * @public
-            */
-            Browser.prototype.getOffsetPoint = function (element, output) {
-                if (typeof output === "undefined") { output = new Kiwi.Geom.Point; }
-                var box = element.getBoundingClientRect();
-
-                var clientTop = element.clientTop || document.body.clientTop || 0;
-                var clientLeft = element.clientLeft || document.body.clientLeft || 0;
-                var scrollTop = window.pageYOffset || element.scrollTop || document.body.scrollTop;
-                var scrollLeft = window.pageXOffset || element.scrollLeft || document.body.scrollLeft;
-
-                return output.setTo(box.left + scrollLeft - clientLeft, box.top + scrollTop - clientTop);
-            };
-            return Browser;
-        })();
-        System.Browser = Browser;
-    })(Kiwi.System || (Kiwi.System = {}));
-    var System = Kiwi.System;
-})(Kiwi || (Kiwi = {}));
-/**
-* Kiwi - System
-* @module Kiwi
-* @submodule System
 */
 var Kiwi;
 (function (Kiwi) {
@@ -11864,7 +11828,7 @@ var Kiwi;
 (function (Kiwi) {
     (function (Textures) {
         /**
-        * A TextureAtlas is the base class that is created for each image that is loaded in through Kiwi. Each TextureAtlas contains a name (the same as the key that the user chose when loading the image in),the HTMLImageElement that it is for and a number of cells.
+        * A TextureAtlas is the base class that is created for each image that is loaded through Kiwi. Each TextureAtlas contains a name (the same as the key that the user chose when loading the image in),the HTMLImageElement that it is for and a number of cells.
         *
         * @class TextureAtlas
         * @namespace Kiwi.Textures
@@ -11874,7 +11838,7 @@ var Kiwi;
         * @param cells {any} The cells that are within this image..
         * @param image {HTMLImageElement/HTMLCanvasElement} The image that the texture atlas is using.
         * @param [sequences] {Sequence[]} Any sequences of cells for this texture atlas. Used for animation.
-        * @return {TextureAtlas}
+        * @return {Kiwi.TextureAtlas}
         *
         */
         var TextureAtlas = (function () {
@@ -11988,7 +11952,7 @@ var Kiwi;
         * @namespace Kiwi.Textures
         * @constructor
         * @param game {Game} The game that this texture library belongs to.
-        * @return {TextureLibrary}
+        * @return {Kiwi.TextureLibrary}
         *
         */
         var TextureLibrary = (function () {
@@ -12020,7 +11984,7 @@ var Kiwi;
             /**
             * Adds a texture atlas to the library.
             * @method add
-            * @param atlas {TextureAtlas}
+            * @param atlas {Kiwi.Textures.TextureAtlas}
             * @public
             */
             TextureLibrary.prototype.add = function (atlas) {
@@ -12038,7 +12002,7 @@ var Kiwi;
             /**
             * Adds a new image file to the texture library.
             * @method addFromFile
-            * @param imageFile {File}
+            * @param imageFile {Kiwi.File}
             * @public
             */
             TextureLibrary.prototype.addFromFile = function (imageFile) {
@@ -12064,8 +12028,8 @@ var Kiwi;
             /**
             * Used to rebuild a Texture from the FileStore into a base2 size if it doesn't have it already.
             * @method _rebuildImage
-            * @param imageFile {File} The image file that is to be rebuilt.
-            * @return {File} The new image file.
+            * @param imageFile {Kiwi.File} The image file that is to be rebuilt.
+            * @return {Kiwi.File} The new image file.
             * @private
             */
             TextureLibrary.prototype._rebuildImage = function (imageFile) {
@@ -12103,8 +12067,8 @@ var Kiwi;
             /**
             * Used to build a new texture atlas based on the image file provided. Internal use only.
             * @method _buildTextureAtlas
-            * @param imageFile {File} The image file that is to be used.
-            * @return {TextureAtlas} The new texture atlas that is created.
+            * @param imageFile {Kiwi.File} The image file that is to be used.
+            * @return {Kiwi.Textures.TextureAtlas} The new texture atlas that is created.
             * @private
             */
             TextureLibrary.prototype._buildTextureAtlas = function (imageFile) {
@@ -12122,8 +12086,8 @@ var Kiwi;
             /**
             * Builds a spritesheet atlas from the an image file that is provided.
             * @method _buildSpriteSheet
-            * @param imageFile {File} The image file that is to be used.
-            * @return {SpriteSheet} The SpriteSheet that was just created.
+            * @param imageFile {Kiwi.File} The image file that is to be used.
+            * @return {Kiwi.Textures.SpriteSheet} The SpriteSheet that was just created.
             * @private
             */
             TextureLibrary.prototype._buildSpriteSheet = function (imageFile) {
@@ -12138,7 +12102,7 @@ var Kiwi;
             * Builds a single image atlas from a image file that is provided.
             * @method _buildImage
             * @param imageFile {File} The image file that is to be used.
-            * @return {SingleImage} The SingleImage that was created.
+            * @return {Kiwi.Textures.SingleImage} The SingleImage that was created.
             * @private
             */
             TextureLibrary.prototype._buildImage = function (imageFile) {
@@ -12334,7 +12298,7 @@ var Kiwi;
         * @param [height] {number} the height of the image
         * @param [offsetX] {number} the offset of the image on the x axis. Useful if the image has a border that you don't want to show.
         * @param [offsetY] {number} the offset of the image of the y axis. Useful if the image has a border that you don't want to show.
-        * @return {SingleImage}
+        * @return {Kiwi.SingleImage}
         */
         var SingleImage = (function (_super) {
             __extends(SingleImage, _super);
@@ -13859,11 +13823,10 @@ var Kiwi;
         /**
         *
         * @class CanvasRenderer
-        * @extends IRenderer
         * @constructor
         * @namespace Kiwi.Renderers
-        * @param game {Game} The game that this canvas renderer belongs to.
-        * @return {CanvasRenderer}
+        * @param game {Kiwi.Game} The game that this canvas renderer belongs to.
+        * @return {Kiwi.Renderes.CanvasRenderer}
         *
         */
         var CanvasRenderer = (function () {
@@ -13894,7 +13857,7 @@ var Kiwi;
             * If it is a Group then this method recursively goes through that Groups members the process that happened to the State's members happens to the Group's members.
             *
             * @method _recurse
-            * @param child {IChild} The child that is being checked.
+            * @param child {object} The child that is being checked.
             * @private
             */
             CanvasRenderer.prototype._recurse = function (child) {
@@ -13931,7 +13894,7 @@ var Kiwi;
             /**
             * Renders all of the Elements that are on a particular camera.
             * @method render
-            * @param camera {Camera}
+            * @param camera {Kiwi.Camera}
             * @public
             */
             CanvasRenderer.prototype.render = function (camera) {
@@ -13971,6 +13934,7 @@ var Kiwi;
     * @module Kiwi
     * @submodule Renderers
     * @main Renderers
+    * @namespace Kiwi.Renderers
     */
     (function (Renderers) {
         /**
@@ -13982,8 +13946,8 @@ var Kiwi;
         * @class GLRenderManager
         * @extends IRenderer
         * @constructor
-        * @param game {Game} The game that this renderer belongs to.
-        * @return {GLRenderer}
+        * @param game {Kiwi.Game} The game that this renderer belongs to.
+        * @return {Kiwi.Renderers.GLRenderManager}
         */
         var GLRenderManager = (function () {
             function GLRenderManager(game) {
@@ -14068,6 +14032,13 @@ var Kiwi;
                 return "GLRenderManager";
             };
 
+            /**
+            * Adds a texture to the Texture Manager.
+            * @method addTexture
+            * @param {WebGLRenderingContext} gl
+            * @param {Kiwi.Textures.TextureAtlas} atlas
+            * @public
+            */
             GLRenderManager.prototype.addTexture = function (gl, atlas) {
                 this._textureManager.uploadTexture(gl, atlas);
             };
@@ -14269,12 +14240,22 @@ var Kiwi;
                 }*/
             };
 
+            /**
+            * Creates a new render sequence
+            * @method collateRenderSequence
+            * @public
+            */
             GLRenderManager.prototype.collateRenderSequence = function () {
                 this._sequence = [];
                 var root = this._game.states.current;
                 this.collateChild(root);
             };
 
+            /**
+            * Adds a child to the render sequence (may be a group with children of it's own)
+            * @method collateChild
+            * @public
+            */
             GLRenderManager.prototype.collateChild = function (child) {
                 if (child.childType() === Kiwi.GROUP) {
                     for (var i = 0; i < child.members.length; i++) {
@@ -14292,6 +14273,11 @@ var Kiwi;
                 }
             };
 
+            /**
+            * Sorts the render sequence into batches. Each batch requires the same renderer/shader/texture combination.
+            * @method collateBatches
+            * @public
+            */
             GLRenderManager.prototype.collateBatches = function () {
                 var currentRenderer = null;
                 var currentShader = null;
@@ -14312,6 +14298,13 @@ var Kiwi;
                 }
             };
 
+            /**
+            * Renders all the batches
+            * @method renderBatches
+            * @param {WebGLRenderingContext} gl
+            * @param {Kiwi.Camera} camera
+            * @public
+            */
             GLRenderManager.prototype.renderBatches = function (gl, camera) {
                 for (var i = 0; i < this._batches.length; i++) {
                     var batch = this._batches[i];
@@ -14325,6 +14318,14 @@ var Kiwi;
                 }
             };
 
+            /**
+            * Renders a single batch
+            * @method renderBatch
+            * @param {WebGLRenderingContext} gl
+            * @param {Object} batch
+            * @param {Kiwi.Camera} camera
+            * @public
+            */
             GLRenderManager.prototype.renderBatch = function (gl, batch, camera) {
                 this.setupGLState(gl, batch[0].entity);
                 this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
@@ -14334,11 +14335,25 @@ var Kiwi;
                 this._currentRenderer.draw(gl);
             };
 
+            /**
+            * Calls the render function on a single entity
+            * @method renderEntity
+            * @param {WebGLRenderingContext} gl
+            * @param {Kiwi.Entity} entity
+            * @param {Kiwi.Camera} camera
+            * @public
+            */
             GLRenderManager.prototype.renderEntity = function (gl, entity, camera) {
                 this.setupGLState(gl, entity);
                 entity.renderGL(gl, camera);
             };
 
+            /**
+            * Ensures the atlas and renderer needed for a batch is setup
+            * @method setupGLState
+            * @param {WebGLRenderingContext} gl
+            * @public
+            */
             GLRenderManager.prototype.setupGLState = function (gl, entity) {
                 if (entity.atlas !== this._currentTextureAtlas)
                     this._switchTexture(gl, entity);
@@ -14350,7 +14365,7 @@ var Kiwi;
             * Switch renderer to the one needed by the entity that needs rendering
             * @method _switchRenderer
             * @param gl {WebGLRenderingContext}
-            * @param entity {Entity}
+            * @param entity {Kiwi.Entity}
             * @private
             */
             GLRenderManager.prototype._switchRenderer = function (gl, entity) {
@@ -14364,7 +14379,7 @@ var Kiwi;
             * Switch texture to the one needed by the entity that needs rendering
             * @method _switchTexture
             * @param gl {WebGLRenderingContext}
-            * @param entity {Entity}
+            * @param entity {Kiwi.Entity}
             * @private
             */
             GLRenderManager.prototype._switchTexture = function (gl, entity) {
@@ -14397,6 +14412,7 @@ var Kiwi;
 * @module Kiwi
 * @submodule Shaders
 * @main Shaders
+* @namespace Kiwi.Shaders
 */
 var Kiwi;
 (function (Kiwi) {
@@ -14410,7 +14426,7 @@ var Kiwi;
         * @class ShaderManager
         * @extends IRenderer
         * @constructor
-        * @return {GLRenderer}
+        * @return {Kiwi.Shaders.ShaderManager}
         */
         var ShaderManager = (function () {
             function ShaderManager() {
@@ -14456,7 +14472,7 @@ var Kiwi;
             * @method init
             * @param {WebGLRenderingContext} gl
             * @param {String} shaderID
-            * @return {ShaderPair} a ShaderPair instance - null on fail
+            * @return {Kiwi.Shaders.ShaderPair} a ShaderPair instance - null on fail
             * @public
             */
             ShaderManager.prototype.requestShader = function (gl, shaderID, use) {
@@ -14506,7 +14522,7 @@ var Kiwi;
             * @method _addShader
             * @param {WebGLRenderingContext} gl
             * @param {String} shaderID
-            * @return {ShaderPair}
+            * @return {Kiwi.Shaders.ShaderPair}
             * @private
             */
             ShaderManager.prototype._addShader = function (gl, shaderID) {
@@ -14518,7 +14534,7 @@ var Kiwi;
             * Tells a ShaderPair to load (compile and link)
             * @method _loadShader
             * @param {WebGLRenderingContext} gl
-            * @param {ShaderPair} shader
+            * @param {Kiwi.Shaders.ShaderPair} shader
             * @private
             */
             ShaderManager.prototype._loadShader = function (gl, shader) {
@@ -14529,7 +14545,7 @@ var Kiwi;
             * Changes gl state so that the shaderProgram contined in a ShaderPir is bound for use
             * @method _useShader
             * @param {WebGLRenderingContext} gl
-            * @param {ShaderPair} shader
+            * @param {Kiwi.Shaders.ShaderPair} shader
             * @private
             */
             ShaderManager.prototype._useShader = function (gl, shader) {
@@ -14549,22 +14565,33 @@ var Kiwi;
 * @module Kiwi
 * @submodule Renderers
 *
+* @namespace Kiwi.Renderers
 */
 var Kiwi;
 (function (Kiwi) {
     (function (Renderers) {
         /**
-        *
-        * @class GLTexture
+        * Wraps a webGL texture object
+        * @class GLTextureWrapper
         * @constructor
         * @param gl {WebGLRenderingContext}
         * @param [_image] {HTMLImageElement}
-        * @return {GLTexture}
+        * @return {Kiwi.Renderers.GLTextureWrapper}
         */
         var GLTextureWrapper = (function () {
             function GLTextureWrapper(gl, atlas, upload) {
                 if (typeof upload === "undefined") { upload = false; }
+                /**
+                * Returns whether the texture has been created
+                * @property created
+                * @type boolean
+                */
                 this._created = false;
+                /**
+                * Returns whether the texture has been uploaded to video memory
+                * @property uploaded
+                * @type boolean
+                */
                 this._uploaded = false;
                 this.textureAtlas = atlas;
                 this.image = atlas.image;
@@ -14598,12 +14625,24 @@ var Kiwi;
             });
 
             //force : if true then other textures will be removed until there is room.
+            /**
+            * Creates a webgl texture object
+            * @method createTexture
+            * @param gl {WebGLRenderingContext}
+            * @public
+            */
             GLTextureWrapper.prototype.createTexture = function (gl) {
                 this.texture = gl.createTexture();
                 this._created = true;
                 return true;
             };
 
+            /**
+            * Uploads a webgl texture object to video memory
+            * @method uploadTexture
+            * @param gl {WebGLRenderingContext}
+            * @public
+            */
             GLTextureWrapper.prototype.uploadTexture = function (gl) {
                 var success = false;
                 if (!this.created) {
@@ -14633,10 +14672,22 @@ var Kiwi;
                 return success;
             };
 
+            /**
+            * Re-uploads a webgl texture object to video memory
+            * @method refreshTexture
+            * @param gl {WebGLRenderingContext}
+            * @public
+            */
             GLTextureWrapper.prototype.refreshTexture = function (gl) {
                 gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
             };
 
+            /**
+            * Deletes a webgl texture
+            * @method deleteTexture
+            * @param gl {WebGLRenderingContext}
+            * @public
+            */
             GLTextureWrapper.prototype.deleteTexture = function (gl) {
                 gl.bindTexture(gl.TEXTURE_2D, this.texture);
                 gl.deleteTexture(this.texture);
@@ -14656,6 +14707,7 @@ var Kiwi;
 * @module Kiwi
 * @submodule Renderers
 * @main Renderers
+* @namespace Kiwi.Renderers
 */
 var Kiwi;
 (function (Kiwi) {
@@ -14875,13 +14927,13 @@ var Kiwi;
 *
 * @module Kiwi
 * @submodule Renderers
-*
+* @namespace Kiwi.Renderers
 */
 var Kiwi;
 (function (Kiwi) {
     (function (Renderers) {
         /**
-        *
+        * Encapsulates a WebGL Array Buffer
         * @class GLArrayBuffer
         * @constructor
         * @namespace Kiwi.Renderers
@@ -14889,12 +14941,26 @@ var Kiwi;
         * @param [_itemSize] {number}
         * @param [items] {number[]}
         * @param [init=true] {boolean}
-        * @return {GLArrayBuffer}
+        * @return {Kiwi.RenderersGLArrayBuffer}
         */
         var GLArrayBuffer = (function () {
             function GLArrayBuffer(gl, _itemSize, items, upload) {
                 if (typeof upload === "undefined") { upload = true; }
+                /**
+                * Returns whether the buffer has been created
+                * @property created
+                * @type boolean
+                * @public
+                * @readonly
+                */
                 this._created = false;
+                /**
+                * Returns whether the buffer has been uploaded to video memory
+                * @property created
+                * @type boolean
+                * @public
+                * @readonly
+                */
                 this._uploaded = false;
                 this.items = items || GLArrayBuffer.squareVertices;
                 this.itemSize = _itemSize || 2;
@@ -14921,7 +14987,7 @@ var Kiwi;
             });
 
             /**
-            *
+            * Clears the item array.
             * @method clear
             * @public
             */
@@ -14930,8 +14996,8 @@ var Kiwi;
             };
 
             /**
-            *
-            * @method init
+            * Creates the array buffer.
+            * @method createBuffer
             * @param gl {WebGLRenderingCotext}
             * @return {WebGLBuffer}
             * @public
@@ -14942,6 +15008,14 @@ var Kiwi;
                 return true;
             };
 
+            /**
+            * Uploads the array buffer.
+            * @method uploadBuffer
+            * @param gl {WebGLRenderingCotext}
+            * @param items {Array}
+            * @return {boolean}
+            * @public
+            */
             GLArrayBuffer.prototype.uploadBuffer = function (gl, items) {
                 this.items = items;
                 this.numItems = this.items.length / this.itemSize;
@@ -14952,6 +15026,13 @@ var Kiwi;
                 return true;
             };
 
+            /**
+            * Deletes the array buffer.
+            * @method deleteBuffer
+            * @param gl {WebGLRenderingCotext}
+            * @return {boolean}
+            * @public
+            */
             GLArrayBuffer.prototype.deleteBuffer = function (gl) {
                 gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
                 gl.deleteBuffer(this.buffer);
@@ -14993,7 +15074,7 @@ var Kiwi;
 (function (Kiwi) {
     (function (Renderers) {
         /**
-        *
+        * Encapsulates a WebGL E;ement Array Buffer
         * @class GLElementArrayBuffer
         * @constructor
         * @namespace Kiwi.Renderers
@@ -15014,7 +15095,7 @@ var Kiwi;
                 }
             }
             /**
-            *
+            * Clears the indices array.
             * @method clear
             * @public
             */
@@ -15023,7 +15104,7 @@ var Kiwi;
             };
 
             /**
-            *
+            * Initialises the Element Array Buffer
             * @method init
             * @param gl {WebGLRenderingContext}
             * @return {WebGLBuffer}
@@ -15038,7 +15119,7 @@ var Kiwi;
             };
 
             /**
-            *
+            * Refreshes the Element Array Buffer
             * @method refresh
             * @param gl {WebGLRenderingContext}
             * @param indices {number[]}
@@ -15063,42 +15144,103 @@ var Kiwi;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Renderers
+* @namespace Kiwi.Renderers
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (Renderers) {
         var Renderer = (function () {
+            /**
+            * Base class for WebGL Renderers. Not for instantiation.
+            * @class Renderer
+            * @constructor
+            * @namespace Kiwi.Renderers
+            * @param gl {WebGLRenderingContext}
+            * @param shaderManager {Kiwi.Shaders.ShaderManager}
+            * @param [params=null] {object}
+            * @return {Kiwi.Renderers.Renderer}
+            */
             function Renderer(gl, shaderManager, isBatchRenderer) {
                 if (typeof isBatchRenderer === "undefined") { isBatchRenderer = false; }
+                /**
+                *
+                * @property loaded
+                * @type Array
+                * @public
+                */
                 this.loaded = false;
+                /**
+                * Returns whether this is a batch renderer.
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
                 this._isBatchRenderer = false;
                 this.shaderManager = shaderManager;
                 this._isBatchRenderer = isBatchRenderer;
                 this.loaded = true;
             }
             /**
-            
-            * The stage resolution in pixels
-            * @property _stageResolution
-            * @type Float32Array
+            * Enables the renderer (for override)
+            * @method disable
+            * @param gl {WebGLRenderingCotext}
+            * @param [params=null] {object}
             * @public
             */
-            //public init(gl: WebGLRenderingContext, params: any = null) {
-            //    this.loaded = true;
-            //}
             Renderer.prototype.enable = function (gl, params) {
                 if (typeof params === "undefined") { params = null; }
             };
 
+            /**
+            * Enables the renderer (for override)
+            * @method disable
+            * @param gl {WebGLRenderingCotext}
+            * @param [params=null] {object}
+            * @public
+            */
             Renderer.prototype.disable = function (gl) {
             };
 
+            /**
+            * Enables the renderer (for override)
+            * @method disable
+            * @param gl {WebGLRenderingCotext}
+            * @param [params=null] {object}
+            * @public
+            */
             Renderer.prototype.clear = function (gl, params) {
             };
+
+            /**
+            * Draw to the draw or frame buffer (for override)
+            * @method draw
+            * @param gl {WebGLRenderingCotext}
+            * @public
+            */
             Renderer.prototype.draw = function (gl) {
             };
 
+            /**
+            * Updates the stage resolution uniforms (for override)
+            * @method updateStageResolution
+            * @param gl {WebGLRenderingCotext}
+            * @param res {Float32Array}
+            * @public
+            */
             Renderer.prototype.updateStageResolution = function (gl, res) {
             };
+
+            /**
+            * Updates the texture size uniforms (for override)
+            * @method updateTextureSize
+            * @param gl {WebGLRenderingCotext}
+            * @param size {Float32Array}
+            * @public
+            */
             Renderer.prototype.updateTextureSize = function (gl, size) {
             };
 
@@ -15120,25 +15262,46 @@ var Kiwi;
 *
 * @module Kiwi
 * @submodule Renderers
-*
+* @namespace Kiwi.Renderers
 */
 var Kiwi;
 (function (Kiwi) {
     (function (Renderers) {
         var TextureAtlasRenderer = (function (_super) {
             __extends(TextureAtlasRenderer, _super);
+            /**
+            * The Renderer object for rendering Texture Atlases
+            * @class TextureAtlasRenderer
+            * @constructor
+            * @namespace Kiwi.Renderers
+            * @param gl {WebGLRenderingContext}
+            * @param shaderManager {Kiwi.Shaders.ShaderManager}
+            * @param [params=null] {object}
+            * @return {Kiwi.Renderers.TextureAtlasRenderer}
+            */
             function TextureAtlasRenderer(gl, shaderManager, params) {
                 if (typeof params === "undefined") { params = null; }
                 _super.call(this, gl, shaderManager, true);
+                /**
+                * The maximum number of items that can be rendered by the renderer (not enforced)
+                * @property _maxItems
+                * @type number
+                * @private
+                */
                 this._maxItems = 1000;
-
-                this._vertexBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, 5);
-
-                //6 verts per quad
-                this._indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
-
+                var bufferItemSize = 5;
+                this._vertexBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, bufferItemSize);
+                var vertsPerQuad = 6;
+                this._indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * vertsPerQuad));
                 this.shaderPair = this.shaderManager.requestShader(gl, "TextureAtlasShader");
             }
+            /**
+            * Enables the renderer ready for drawing
+            * @method enable
+            * @param gl {WebGLRenderingCotext}
+            * @param [params=null] {object}
+            * @public
+            */
             TextureAtlasRenderer.prototype.enable = function (gl, params) {
                 if (typeof params === "undefined") { params = null; }
                 this.shaderPair = this.shaderManager.requestShader(gl, "TextureAtlasShader");
@@ -15153,16 +15316,34 @@ var Kiwi;
                 this.updateTextureSize(gl, new Float32Array([params.textureAtlas.glTextureWrapper.image.width, params.textureAtlas.glTextureWrapper.image.height]));
             };
 
+            /**
+            * Disables the renderer
+            * @method disable
+            * @param gl {WebGLRenderingCotext}
+            * @public
+            */
             TextureAtlasRenderer.prototype.disable = function (gl) {
                 gl.disableVertexAttribArray(this.shaderPair.attributes.aXYUV);
                 gl.disableVertexAttribArray(this.shaderPair.attributes.aAlpha);
             };
 
+            /**
+            * Clears the vertex buffer.
+            * @method clear
+            * @param gl {WebGLRenderingCotext}
+            * @public
+            */
             TextureAtlasRenderer.prototype.clear = function (gl, params) {
                 this._vertexBuffer.clear();
                 gl.uniformMatrix3fv(this.shaderPair.uniforms.uCamMatrix.location, false, params.camMatrix);
             };
 
+            /**
+            * Makes a draw call, this is where things actually get rendered to the draw buffer (or a framebuffer).
+            * @method draw
+            * @param gl {WebGLRenderingCotext}
+            * @public
+            */
             TextureAtlasRenderer.prototype.draw = function (gl) {
                 this._vertexBuffer.uploadBuffer(gl, this._vertexBuffer.items);
 
@@ -15177,10 +15358,9 @@ var Kiwi;
             };
 
             /**
-            * Create prebaked indices for drawing quads
+            * Generates quad indices
             * @method _generateIndices
             * @param numQuads {number}
-            * @return number[]
             * @private
             */
             TextureAtlasRenderer.prototype._generateIndices = function (numQuads) {
@@ -15191,10 +15371,24 @@ var Kiwi;
                 return quads;
             };
 
+            /**
+            * Updates the stage resolution uniforms
+            * @method updateStageResolution
+            * @param gl {WebGLRenderingCotext}
+            * @param res {Float32Array}
+            * @public
+            */
             TextureAtlasRenderer.prototype.updateStageResolution = function (gl, res) {
                 gl.uniform2fv(this.shaderPair.uniforms.uResolution.location, res);
             };
 
+            /**
+            * Updates the texture size uniforms
+            * @method updateTextureSize
+            * @param gl {WebGLRenderingCotext}
+            * @param size {Float32Array}
+            * @public
+            */
             TextureAtlasRenderer.prototype.updateTextureSize = function (gl, size) {
                 gl.uniform2fv(this.shaderPair.uniforms.uTextureSize.location, size);
             };
@@ -15203,7 +15397,7 @@ var Kiwi;
             * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
             * @method _collateVertexAttributeArrays
             * @param gl {WebGLRenderingContext}
-            * @param entity {Entity}
+            * @param entity {Kiwi.Entity}
             * @param camera {Camera}
             * @public
             */
@@ -15226,6 +15420,12 @@ var Kiwi;
                 this._vertexBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, entity.alpha, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, entity.alpha, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, entity.alpha, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h, entity.alpha);
             };
 
+            /**
+            * Adds an array of precalculated xyuv values to the item array
+            * @method concatBatch
+            * @param vertexItems {array}
+            * @public
+            */
             TextureAtlasRenderer.prototype.concatBatch = function (vertexItems) {
                 this._vertexBuffer.items = this._vertexBuffer.items.concat(vertexItems);
             };
@@ -15239,23 +15439,36 @@ var Kiwi;
 /**
 *
 * @module Kiwi
-* @submodule Renderers
+* @submodule Shaders
+* @namespace Kiwi.Shaders
 *
 */
 var Kiwi;
 (function (Kiwi) {
     (function (Shaders) {
         /**
-        *
-        * @class GLShaders
+        * Base class for shader pairs which encapsulate a GLSL vertex and fragment shader
+        * @class ShaderPair
         * @constructor
-        * @param gl {WebGLRenderingContext}
-        * @return {GLShaders}
+        * @namespace Kiwi.Shaders
+        * @return {Kiwi.Shaders.ShaderPair}
         */
         var ShaderPair = (function () {
             function ShaderPair() {
+                /**
+                * Returns whether the shader pair has been loaded and compiled.
+                * @property loaded
+                * @type boolean
+                * @public
+                */
                 this.loaded = false;
             }
+            /**
+            * Initialise the shader pair.
+            * @method init
+            * @param gl {WebGLRenderingCotext}
+            * @public
+            */
             ShaderPair.prototype.init = function (gl) {
                 this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
                 this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
@@ -15264,7 +15477,7 @@ var Kiwi;
             };
 
             /**
-            *
+            * Attaches the shaders to the program and links them
             * @method attach
             * @param gl {WebGLRenderingContext}
             * @param vertShader {WebGLShader}
@@ -15281,7 +15494,7 @@ var Kiwi;
             };
 
             /**
-            *
+            * Compiles the shaders
             * @method compile
             * @param gl {WebGLRenderingContext}
             * @param src {string}
@@ -15300,17 +15513,37 @@ var Kiwi;
                 return shader;
             };
 
+            /**
+            * Sets a single uniform value and marks it as dirty.
+            * @method setParam
+            * @param uniformName {string}
+            * @param value {*}
+            * @public
+            */
             ShaderPair.prototype.setParam = function (uniformName, value) {
                 this.uniforms[uniformName].value = value;
                 this.uniforms[uniformName].dirty = true;
             };
 
+            /**
+            * Applies all uniforms to the uploaded program
+            * @method applyUniforms
+            * @param gl {WebGLRenderingCotext}
+            * @public
+            */
             ShaderPair.prototype.applyUniforms = function (gl) {
                 for (var u in this.uniforms) {
                     this.applyUniform(gl, u);
                 }
             };
 
+            /**
+            * Applies a single uniforms to the uploaded program
+            * @method applyUniform
+            * @param gl {WebGLRenderingCotext}
+            * @param name {string}
+            * @public
+            */
             ShaderPair.prototype.applyUniform = function (gl, name) {
                 var u = this.uniforms[name];
                 if (this.uniforms[name].dirty) {
@@ -15320,6 +15553,12 @@ var Kiwi;
                 }
             };
 
+            /**
+            * Initialises all uniforms
+            * @method initUniforms
+            * @param gl {WebGLRenderingCotext}
+            * @public
+            */
             ShaderPair.prototype.initUniforms = function (gl) {
                 for (var uniformName in this.uniforms) {
                     var uniform = this.uniforms[uniformName];
@@ -15337,22 +15576,41 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 /**
 *
-* @class GLShaders
-* @constructor
-* @param gl {WebGLRenderingContext}
-* @return {GLShaders}
+* @module Kiwi
+* @submodule Shaders
+* @namespace Kiwi.Shaders
 */
 var Kiwi;
 (function (Kiwi) {
     (function (Shaders) {
+        /**
+        * Shader wrapper for rendering Texture Atlases
+        * @class TextureAtlasShader
+        * @extends Kiwi.Shaders.ShaderPair
+        * @constructor
+        * @namespace Kiwi.Shaders
+        * @return {Kiwi.Shaders.TextureAtlasShader}
+        */
         var TextureAtlasShader = (function (_super) {
             __extends(TextureAtlasShader, _super);
             function TextureAtlasShader() {
                 _super.call(this);
+                /**
+                * Shader attribute references
+                * @property attributes
+                * @type object
+                * @public
+                */
                 this.attributes = {
                     aXYUV: null,
                     aAlpha: null
                 };
+                /**
+                * Shader uniform descriptors
+                * @property uniforms
+                * @type object
+                * @public
+                */
                 this.uniforms = {
                     uCamMatrix: {
                         type: "mat3"
@@ -15368,8 +15626,8 @@ var Kiwi;
                     }
                 };
                 /**
-                *
-                * @property texture2DFrag
+                * The source for the GLSL fragment shader
+                * @property fragSource
                 * @type Array
                 * @public
                 */
@@ -15384,8 +15642,8 @@ var Kiwi;
                     "}"
                 ];
                 /**
-                *
-                * @property texture2DVert
+                * The source for the GLSL vertex shader
+                * @property vertSource
                 * @type Array
                 * @public
                 */
@@ -15405,10 +15663,16 @@ var Kiwi;
                     "}"
                 ];
             }
+            /**
+            * Initialise the shaderPair
+            * @method init
+            * @param gl {WebGLRenderingCotext}
+            * @return {WebGLBuffer}
+            * @public
+            */
             TextureAtlasShader.prototype.init = function (gl) {
                 _super.prototype.init.call(this, gl);
 
-                //attributes
                 this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
                 this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
 
@@ -25908,10 +26172,10 @@ var Kiwi;
         * @namespace Kiwi.Time
         * @constructor
         * @param manager {ClockManager} The ClockManager that this clock belongs to. .
-        * @param master {MasterClock} The MasterClock that it is getting the time in relation to.
+        * @param master {Kiwi.Time.MasterClock} The MasterClock that it is getting the time in relation to.
         * @param name {String} The name of the clock.
         * @param [units=1000] {Number} The units that this clock is to operate in.
-        * @return {Clock} This Clock object.
+        * @return {Kiwi.Time.Clock} This Clock object.
         *
         */
         var Clock = (function () {
@@ -26010,7 +26274,7 @@ var Kiwi;
                 /**
                 * The master clock.
                 * @property master
-                * @type MasterClock
+                * @type Kiwi.Time.MasterClock
                 * @public
                 */
                 this.master = null;
@@ -26152,7 +26416,7 @@ var Kiwi;
             * Add an existing Timer to the Clock.
             * @method addTimer
             * @param timer {Timer} The Timer object instance to be added to ths Clock.
-            * @return {Clock} This Clock object.
+            * @return {Kiwi.Time.Clock} This Clock object.
             * @public
             */
             Clock.prototype.addTimer = function (timer) {
@@ -26168,7 +26432,7 @@ var Kiwi;
             * @param [delay=1] {Number} The number of clock units to wait between firing events (default 1)
             * @param [repeatCount=0] {Number} The number of times to repeat this Timer (default 0)
             * @param [start=true] {Boolean} If the timer should start.
-            * @return {Timer} The newly created Timer.
+            * @return {Kiwi.Time.Timer} The newly created Timer.
             * @public
             */
             Clock.prototype.createTimer = function (name, delay, repeatCount, start) {
@@ -26295,7 +26559,7 @@ var Kiwi;
             /**
             * Pause the clock. The clock can only be paused if it is already running.
             * @method pause
-            * @return {Clock} This Clock object.
+            * @return {Kiwi.Time.Clock} This Clock object.
             * @public
             */
             Clock.prototype.pause = function () {
@@ -26314,7 +26578,7 @@ var Kiwi;
             /**
             * Resume the clock. The clock can only be resumed if it is already paused.
             * @method resume
-            * @return {Clock} This Clock object.
+            * @return {Kiwi.Time.Clock} This Clock object.
             * @public
             */
             Clock.prototype.resume = function () {
@@ -26334,7 +26598,7 @@ var Kiwi;
             /**
             * Stop the clock. Clock can only be stopped if it is already running or is paused.
             * @method stop
-            * @return {Clock} This Clock object.
+            * @return {Kiwi.Time.Clock} This Clock object.
             * @public
             */
             Clock.prototype.stop = function () {
@@ -26386,8 +26650,8 @@ var Kiwi;
         * @class ClockManager
         * @namespace Kiwi.Time
         * @constructor
-        * @param {Game} game.
-        * @return {ClockManager} This Object.
+        * @param {Kiwi.Game} game.
+        * @return {Kiwi.Time.ClockManager} This Object.
         *
         */
         var ClockManager = (function () {
@@ -26395,7 +26659,7 @@ var Kiwi;
                 /**
                 * An array containing all of the clocks that exist on this manager.
                 * @property _clocks
-                * @type Clock[]
+                * @type Array
                 * @private
                 */
                 this._clocks = [];
@@ -26428,7 +26692,7 @@ var Kiwi;
             * @method addClock
             * @param name {string} The name of the Clock.
             * @param [units=1000] {Number} The number of milliseconds that make up one unit of time on this clock. Default 1000.
-            * @return {Clock} A reference to the newly created Clock object.
+            * @return {Kiwi.Time.Clock} A reference to the newly created Clock object.
             * @public
             */
             ClockManager.prototype.addClock = function (name, units) {
@@ -26442,7 +26706,7 @@ var Kiwi;
             * Returns the Clock with the matching name. Throws and error if no Clock with that name exists
             * @method getClock
             * @param name {string} The name of the Clock to be returned.
-            * @return {Clock} The clock which matches the name given.
+            * @return {Kiwi.Time.Clock} The clock which matches the name given.
             * @public
             */
             ClockManager.prototype.getClock = function (name) {
@@ -26509,7 +26773,7 @@ var Kiwi;
         * @class MasterClock
         * @namespace Kiwi.Time
         * @constructor
-        * @return {MasterClock} This Object.
+        * @return {Kiwi.Time.MasterClock} This Object.
         *
         */
         var MasterClock = (function () {
@@ -26642,10 +26906,10 @@ var Kiwi;
         * @namespace Kiwi.Time
         * @constructor
         * @param name {string} The name of the timer.
-        * @param clock {Clock} The game clock instance this Timer is based on.
+        * @param clock {Kiwi.Time.Clock} The game clock instance this Timer is based on.
         * @param delay {Number} The number of clock units to wait between firing events.
         * @param [repeatCount=0] {Number} The number of times to repeat the timer before it is expired. If you don't want it to ever expire, set a value of -1.
-        * @return {Timer} This object.
+        * @return {Kiwi.Time.Timer} This object.
         *
         */
         var Timer = (function () {
@@ -26662,7 +26926,7 @@ var Kiwi;
                 /**
                 * A collection of the TimerEvents associated with TimerEvent.TIMER_START
                 * @property _startEvents
-                * @type TimerEvent[]
+                * @type Array
                 * @private
                 */
                 this._startEvents = null;
@@ -26670,20 +26934,20 @@ var Kiwi;
                 * A collection of the TimerEvents associated with TimerEvent.TIMER_COUNT
                 * @property _countEvents
                 * @private
-                * @type TimerEvent[]
+                * @type Array
                 */
                 this._countEvents = null;
                 /**
                 * A collection of the TimerEvents associated with TimerEvent.TIMER_STOP
                 * @property _stopEvents
                 * @private
-                * @type TimerEvent[]
+                * @type Array
                 */
                 this._stopEvents = null;
                 /**
                 * The clock which this timer bases its timing on.
                 * @property _clock
-                * @type Clock
+                * @type Kiwi.Time.Clock
                 * @private
                 */
                 this._clock = null;
@@ -26846,7 +27110,7 @@ var Kiwi;
             /**
             * Start the Timer. This will reset the timer and start it. The timer can only be started if it is in a stopped state.
             * @method start
-            * @return {Timer} this object.
+            * @return {Kiwi.Time.Timer} this object.
             * @public
             */
             Timer.prototype.start = function () {
@@ -26867,7 +27131,7 @@ var Kiwi;
             /**
             * Stop the Timer. Only possible when the timer is running or paused.
             * @method stop
-            * @return {Timer} this object.
+            * @return {Kiwi.Time.Timer} this object.
             * @public
             */
             Timer.prototype.stop = function () {
@@ -26885,7 +27149,7 @@ var Kiwi;
             /**
             * Pause the Timer. Only possible when the timer is running.
             * @method pause
-            * @return {Timer} this object.
+            * @return {Kiwi.Time.Timer} this object.
             * @public
             */
             Timer.prototype.pause = function () {
@@ -26900,7 +27164,7 @@ var Kiwi;
             /**
             * Resume the Timer. Only possible if the timer has been paused.
             * @method resume
-            * @return {Timer} this object.
+            * @return {Kiwi.Time.Timer} this object.
             * @public
             */
             Timer.prototype.resume = function () {
@@ -26915,8 +27179,8 @@ var Kiwi;
             /**
             * Adds an existing TimerEvent object to this Timer.
             * @method addTimerEvent
-            * @param {TimerEvent} A TimerEvent object
-            * @return {TimerEvent} The TimerEvent object
+            * @param {Kiwi.Time.TimerEvent} A TimerEvent object
+            * @return {Kiwi.Time.TimerEvent} The TimerEvent object
             * @public
             */
             Timer.prototype.addTimerEvent = function (event) {
@@ -26937,7 +27201,7 @@ var Kiwi;
             * @param type {Number} The type of TimerEvent to create (TIMER_START, TIMER_COUNT or TIMER_STOP).
             * @param callback {Function} The function to call when the TimerEvent fires.
             * @param context {Function} The context in which the given function will run (usually 'this')
-            * @return {TimerEvent} The newly created TimerEvent.
+            * @return {Kiwi.Time.TimerEvent} The newly created TimerEvent.
             * @public
             */
             Timer.prototype.createTimerEvent = function (type, callback, context) {
@@ -26958,7 +27222,7 @@ var Kiwi;
             /**
             * Removes a TimerEvent object from this Timer
             * @method removeTimerEvent
-            * @param {TimerEvent} The TimerEvent to remove
+            * @param {Kiwi.Time.TimerEvent} The TimerEvent to remove
             * @return {boolean} True if the event was removed, otherwise false.
             * @public
             */
@@ -27035,7 +27299,7 @@ var Kiwi;
         * @param type {Number} The type of TimerEvent that this is.
         * @param callback {Any} The method that is to be executed when the event occurs.
         * @param context {Any} The context that the callback is to be called in.
-        * @return {TimerEvent} This Object.
+        * @return {Kiwi.Time.TimerEvent} This Object.
         */
         var TimerEvent = (function () {
             function TimerEvent(type, callback, context) {
@@ -27106,7 +27370,7 @@ var Kiwi;
         * @param height {Number} The height of the canvas.
         * @param [visible=true] {boolean} If the canvas is visible or not.
         * @param [offScreen=false] {boolean} If the canvas is designed to be offscreen or not.
-        * @return {Canvas}
+        * @return {Kiwi.Utils.Canvas}
         *
         */
         var Canvas = (function () {
@@ -29317,12 +29581,31 @@ var Kiwi;
     })(Kiwi.Utils || (Kiwi.Utils = {}));
     var Utils = Kiwi.Utils;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Utils
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (Utils) {
+        /**
+        * Deals with parsing and comparing semver style version numbers
+        * @class Version
+        * @constructor
+        * @namespace Kiwi.Utils
+        */
         var Version = (function () {
             function Version() {
             }
+            /**
+            * Parses a string such as "1.2.3" and returns an oject containing numeric properties for majorVersion, minorVersion and patchVersion
+            * @method parseVersion
+            * @param version {String}
+            * @return {Object}
+            * @public
+            * @static
+            */
             Version.parseVersion = function (version) {
                 var split = version.split(".");
                 return {
@@ -29332,7 +29615,15 @@ var Kiwi;
                 };
             };
 
-            // version1 == version2
+            /**
+            * Compares two semver version strings such as "0.1.0" and "0.2.1". Returns "greater", "less" or "equal".
+            * @method parseVersion
+            * @param version1 {String}
+            * @param version2 {String}
+            * @return {String}
+            * @public
+            * @static
+            */
             Version.compareVersions = function (version1, version2) {
                 var v1 = Version.parseVersion(version1);
                 var v2 = Version.parseVersion(version2);
@@ -29363,6 +29654,15 @@ var Kiwi;
                 return "equal";
             };
 
+            /**
+            * Compares two semver version strings such as "0.1.0" and "0.2.1". Returns true if version1 is greater than version2.
+            * @method parseVersion
+            * @param version1 {String}
+            * @param version2 {String}
+            * @return {boolean}
+            * @public
+            * @static
+            */
             Version.greaterOrEqual = function (version1, version2) {
                 var comp = Version.compareVersions(version1, version2);
                 return (comp == "greater" || comp == "equal");
@@ -29404,7 +29704,6 @@ var Kiwi;
 /// <reference path="file/File.ts" />
 /// <reference path="file/FileStore.ts" />
 /// <reference path="system/Bootstrap.ts" />
-/// <reference path="system/Browser.ts" />
 /// <reference path="system/Device.ts" />
 /// <reference path="textures/TextureAtlas.ts" />
 /// <reference path="textures/TextureLibrary.ts" />

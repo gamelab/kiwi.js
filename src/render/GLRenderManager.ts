@@ -10,6 +10,7 @@ declare var mat2d, mat3, vec2, vec3, mat4;
 * @module Kiwi
 * @submodule Renderers 
 * @main Renderers
+* @namespace Kiwi.Renderers
 */ 
 
 module Kiwi.Renderers {
@@ -23,8 +24,8 @@ module Kiwi.Renderers {
     * @class GLRenderManager
     * @extends IRenderer
     * @constructor
-    * @param game {Game} The game that this renderer belongs to.
-    * @return {GLRenderer}
+    * @param game {Kiwi.Game} The game that this renderer belongs to.
+    * @return {Kiwi.Renderers.GLRenderManager}
     */
     export class GLRenderManager implements IRenderManager {
 
@@ -70,7 +71,7 @@ module Kiwi.Renderers {
         /**
         * The texture manager object used to allocate GL Textures.
         * @property _textureManager
-        * @type GLTextureManager
+        * @type Kiwi.Renderes.GLTextureManager
         * @private
         */
         private _textureManager: GLTextureManager;
@@ -78,7 +79,7 @@ module Kiwi.Renderers {
         /**
         * The shader manager object used to allocate GL Shaders.
         * @property _shaderManager
-        * @type GLShaderManager
+        * @type Kiwi.Renderes.GLShaderManager
         * @private
         */
        
@@ -142,7 +143,13 @@ module Kiwi.Renderers {
         */
         private _currentTextureAtlas: Kiwi.Textures.TextureAtlas = null;
         
-
+        /**
+        * Adds a texture to the Texture Manager. 
+        * @method addTexture
+        * @param {WebGLRenderingContext} gl
+        * @param {Kiwi.Textures.TextureAtlas} atlas
+        * @public
+        */
         public addTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas) {
             this._textureManager.uploadTexture(gl, atlas);
         }
@@ -369,12 +376,23 @@ module Kiwi.Renderers {
         private _sequence: any[];
         private _batches: any[];
 
+
+        /**
+        * Creates a new render sequence
+        * @method collateRenderSequence
+        * @public
+        */
         public collateRenderSequence() {
             this._sequence = [];
             var root: IChild = this._game.states.current;
             this.collateChild(root);
         }
 
+        /**
+        * Adds a child to the render sequence (may be a group with children of it's own)
+        * @method collateChild
+        * @public
+        */
         public collateChild(child:IChild) {
             if (child.childType() === Kiwi.GROUP) {
                 for (var i = 0; i < (<Kiwi.Group>child).members.length; i++) {
@@ -392,6 +410,11 @@ module Kiwi.Renderers {
             }
         }
 
+        /**
+        * Sorts the render sequence into batches. Each batch requires the same renderer/shader/texture combination. 
+        * @method collateBatches
+        * @public
+        */
         public collateBatches() {
             var currentRenderer: Renderer = null;
             var currentShader: Shaders.ShaderPair = null;
@@ -416,6 +439,13 @@ module Kiwi.Renderers {
             }
         }
 
+        /**
+        * Renders all the batches 
+        * @method renderBatches
+        * @param {WebGLRenderingContext} gl
+        * @param {Kiwi.Camera} camera
+        * @public
+        */
         public renderBatches(gl: WebGLRenderingContext, camera) {
             
             for (var i = 0; i < this._batches.length; i++) {
@@ -430,6 +460,14 @@ module Kiwi.Renderers {
             }
         }
 
+        /**
+        * Renders a single batch 
+        * @method renderBatch
+        * @param {WebGLRenderingContext} gl
+        * @param {Object} batch
+        * @param {Kiwi.Camera} camera
+        * @public
+        */
         public renderBatch(gl: WebGLRenderingContext, batch: any, camera) {
             this.setupGLState(gl, batch[0].entity);
             this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
@@ -439,11 +477,25 @@ module Kiwi.Renderers {
             this._currentRenderer.draw(gl);
         }
 
+        /**
+        * Calls the render function on a single entity
+        * @method renderEntity
+        * @param {WebGLRenderingContext} gl
+        * @param {Kiwi.Entity} entity
+        * @param {Kiwi.Camera} camera
+        * @public
+        */
         public renderEntity(gl: WebGLRenderingContext, entity: any, camera) {
             this.setupGLState(gl, entity);
             entity.renderGL(gl, camera);
         }
 
+        /**
+        * Ensures the atlas and renderer needed for a batch is setup
+        * @method setupGLState
+        * @param {WebGLRenderingContext} gl
+        * @public
+        */
         public setupGLState(gl:WebGLRenderingContext,entity) {
             if (entity.atlas !== this._currentTextureAtlas) this._switchTexture(gl, entity);
             if (entity.glRenderer !== this._currentRenderer) this._switchRenderer(gl, entity);
@@ -453,7 +505,7 @@ module Kiwi.Renderers {
         * Switch renderer to the one needed by the entity that needs rendering
         * @method _switchRenderer
         * @param gl {WebGLRenderingContext}
-        * @param entity {Entity}
+        * @param entity {Kiwi.Entity}
         * @private
         */
         private _switchRenderer(gl: WebGLRenderingContext, entity: Entity) {
@@ -466,7 +518,7 @@ module Kiwi.Renderers {
         * Switch texture to the one needed by the entity that needs rendering
         * @method _switchTexture
         * @param gl {WebGLRenderingContext}
-        * @param entity {Entity}
+        * @param entity {Kiwi.Entity}
         * @private
         */
         private _switchTexture(gl: WebGLRenderingContext, entity: Entity) {

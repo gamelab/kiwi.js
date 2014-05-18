@@ -16,10 +16,10 @@ module Kiwi.Time {
     * @namespace Kiwi.Time
     * @constructor
     * @param name {string} The name of the timer.
-    * @param clock {Clock} The game clock instance this Timer is based on.
+    * @param clock {Kiwi.Time.Clock} The game clock instance this Timer is based on.
     * @param delay {Number} The number of clock units to wait between firing events.
     * @param [repeatCount=0] {Number} The number of times to repeat the timer before it is expired. If you don't want it to ever expire, set a value of -1.
-    * @return {Timer} This object.
+    * @return {Kiwi.Time.Timer} This object.
     *
     */
     export class Timer {
@@ -72,7 +72,7 @@ module Kiwi.Time {
         /**
         * A collection of the TimerEvents associated with TimerEvent.TIMER_START
         * @property _startEvents
-        * @type TimerEvent[]
+        * @type Array
         * @private
         */
         private _startEvents:TimerEvent[] = null;
@@ -81,7 +81,7 @@ module Kiwi.Time {
         * A collection of the TimerEvents associated with TimerEvent.TIMER_COUNT
         * @property _countEvents
         * @private
-        * @type TimerEvent[]
+        * @type Array
         */
         private _countEvents:TimerEvent[] = null;
 
@@ -89,14 +89,14 @@ module Kiwi.Time {
         * A collection of the TimerEvents associated with TimerEvent.TIMER_STOP
         * @property _stopEvents
         * @private
-        * @type TimerEvent[]
+        * @type Array
         */
         private _stopEvents:TimerEvent[] = null;
 
         /**
         * The clock which this timer bases its timing on.
         * @property _clock
-        * @type Clock
+        * @type Kiwi.Time.Clock
         * @private
         */
         private _clock: Clock = null;
@@ -258,7 +258,7 @@ module Kiwi.Time {
         /**
         * Start the Timer. This will reset the timer and start it. The timer can only be started if it is in a stopped state.
         * @method start
-        * @return {Timer} this object.
+        * @return {Kiwi.Time.Timer} this object.
         * @public
         */
         public start(): Timer {
@@ -281,7 +281,7 @@ module Kiwi.Time {
         /**
         * Stop the Timer. Only possible when the timer is running or paused.
         * @method stop
-        * @return {Timer} this object.
+        * @return {Kiwi.Time.Timer} this object.
         * @public
         */
         public stop():Timer {
@@ -302,7 +302,7 @@ module Kiwi.Time {
         /**
         * Pause the Timer. Only possible when the timer is running.
         * @method pause
-        * @return {Timer} this object.
+        * @return {Kiwi.Time.Timer} this object.
         * @public
         */
         public pause():Timer {
@@ -319,7 +319,7 @@ module Kiwi.Time {
         /**
         * Resume the Timer. Only possible if the timer has been paused.
         * @method resume
-        * @return {Timer} this object.
+        * @return {Kiwi.Time.Timer} this object.
         * @public
         */
         public resume(): Timer {
@@ -337,8 +337,8 @@ module Kiwi.Time {
         /**
         * Adds an existing TimerEvent object to this Timer.
         * @method addTimerEvent
-        * @param {TimerEvent} A TimerEvent object
-        * @return {TimerEvent} The TimerEvent object
+        * @param {Kiwi.Time.TimerEvent} A TimerEvent object
+        * @return {Kiwi.Time.TimerEvent} The TimerEvent object
         * @public
         */
         public addTimerEvent(event:TimerEvent):TimerEvent {
@@ -366,7 +366,7 @@ module Kiwi.Time {
         * @param type {Number} The type of TimerEvent to create (TIMER_START, TIMER_COUNT or TIMER_STOP).
         * @param callback {Function} The function to call when the TimerEvent fires.
         * @param context {Function} The context in which the given function will run (usually 'this')
-        * @return {TimerEvent} The newly created TimerEvent.
+        * @return {Kiwi.Time.TimerEvent} The newly created TimerEvent.
         * @public
         */
         public createTimerEvent(type:number, callback, context):TimerEvent {
@@ -394,7 +394,7 @@ module Kiwi.Time {
         /**
         * Removes a TimerEvent object from this Timer
         * @method removeTimerEvent
-        * @param {TimerEvent} The TimerEvent to remove
+        * @param {Kiwi.Time.TimerEvent} The TimerEvent to remove
         * @return {boolean} True if the event was removed, otherwise false.
         * @public
         */

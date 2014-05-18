@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Kiwi.Animations.Tweens.Easing.Quintic - Kiwi.js</title>
+    <title>Kiwi.Renderers.Renderer - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -344,7 +344,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Kiwi.Animations.Tweens.Easing.Quintic Class</h1>
+                        <h1>Kiwi.Renderers.Renderer Class</h1>
 <div class="box meta">
     
 
@@ -352,14 +352,14 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_animations_tweens_easing_Quintic.ts.html#l10"><code>src\animations\tweens\easing\Quintic.ts:10</code></a>
+            Defined in: <a href="../files/src_render_renderers_Renderer.ts.html#l14"><code>src\render\renderers\Renderer.ts:14</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/Easing.html">Easing</a><br>
-            Parent Module: <a href="../modules/Tweens.html">Tweens</a>
+            Module: <a href="../modules/Renderers.html">Renderers</a><br>
+            Parent Module: <a href="../modules/Kiwi.html">Kiwi</a>
         
     
 
@@ -369,9 +369,159 @@
 
 
 <div class="box intro">
+    <p>Base class for WebGL Renderers. Not for instantiation.</p>
+
+</div>
+
+
+    <div class="constructor">
+        <h2>Constructor</h2>
+        <div id="method_Kiwi.Renderers.Renderer" class="method item">
+    <h3 class="name"><code>Kiwi.Renderers.Renderer</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>shaderManager</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[params=null]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l14"><code>src\render\renderers\Renderer.ts:14</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">shaderManager</code>
+                        <span class="type"><a href="..\classes\Kiwi.Shaders.ShaderManager.html" class="crosslink">Kiwi.Shaders.ShaderManager</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[params=null]</code>
+                        <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>:
+                    
+                
+            </div>
+        </div>
+    
+
     
 </div>
 
+    </div>
 
 
 <div id="classdocs" class="tabview">
@@ -381,6 +531,8 @@
         
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
         
+        
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
         
         
         
@@ -397,35 +549,43 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method public">
-                                <a href="#method_In">In</a>
-
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_InOut">InOut</a>
-
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_objType">objType</a>
+                                <a href="#method_disable">disable</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_Out">Out</a>
+                                <a href="#method_disable">disable</a>
 
                                 
-                                    <span class="flag static">static</span>
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_disable">disable</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_draw">draw</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_updateStageResolution">updateStageResolution</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_updateTextureSize">updateTextureSize</a>
+
                                 
                                 
                             </li>
@@ -434,6 +594,58 @@
                 </div>
             
 
+            
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                        
+                            <li class="index-item property public">
+                                <a href="#property_camMatrix">camMatrix</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_loaded">loaded</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_RENDERER_ID">RENDERER_ID</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_shaderManager">shaderManager</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_texture2DVert">texture2DVert</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_texture2DVert">texture2DVert</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
             
 
             
@@ -446,8 +658,8 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_In" class="method item public">
-    <h3 class="name"><code>In</code></h3>
+                    <div id="method_disable" class="method item public">
+    <h3 class="name"><code>disable</code></h3>
 
     
         <div class="args">
@@ -455,7 +667,13 @@
             
                 <li class="arg">
                     
-                        <code>k</code>
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[params=null]</code>
                     
                 </li>
             
@@ -463,10 +681,6 @@
         </div>
     
 
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
     
 
     
@@ -477,8 +691,6 @@
 
     
 
-    
-        <span class="flag static">static</span>
     
 
     
@@ -496,7 +708,7 @@
             
         
         
-        <a href="../files/src_animations_tweens_easing_Quintic.ts.html#l28"><code>src\animations\tweens\easing\Quintic.ts:28</code></a>
+        <a href="../files/src_render_renderers_Renderer.ts.html#l63"><code>src\render\renderers\Renderer.ts:63</code></a>
         
         </p>
 
@@ -507,7 +719,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Enables the renderer (for override)</p>
+
     </div>
 
     
@@ -518,8 +731,24 @@
             
                 <li class="param">
                     
-                        <code class="param-name">k</code>
-                        <span class="type">Any</span>
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[params=null]</code>
+                        <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
@@ -536,25 +765,13 @@
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                
-            </div>
-        </div>
-    
 
     
 </div>
 
                 
-                    <div id="method_InOut" class="method item public">
-    <h3 class="name"><code>InOut</code></h3>
+                    <div id="method_disable" class="method item public">
+    <h3 class="name"><code>disable</code></h3>
 
     
         <div class="args">
@@ -562,7 +779,13 @@
             
                 <li class="arg">
                     
-                        <code>k</code>
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[params=null]</code>
                     
                 </li>
             
@@ -570,10 +793,6 @@
         </div>
     
 
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
     
 
     
@@ -584,8 +803,6 @@
 
     
 
-    
-        <span class="flag static">static</span>
     
 
     
@@ -603,7 +820,7 @@
             
         
         
-        <a href="../files/src_animations_tweens_easing_Quintic.ts.html#l56"><code>src\animations\tweens\easing\Quintic.ts:56</code></a>
+        <a href="../files/src_render_renderers_Renderer.ts.html#l74"><code>src\render\renderers\Renderer.ts:74</code></a>
         
         </p>
 
@@ -614,7 +831,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Enables the renderer (for override)</p>
+
     </div>
 
     
@@ -625,8 +843,24 @@
             
                 <li class="param">
                     
-                        <code class="param-name">k</code>
-                        <span class="type">Any</span>
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[params=null]</code>
+                        <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
@@ -643,98 +877,13 @@
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                
-            </div>
-        </div>
-    
 
     
 </div>
 
                 
-                    <div id="method_objType" class="method item public">
-    <h3 class="name"><code>objType</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animations_tweens_easing_Quintic.ts.html#l18"><code>src\animations\tweens\easing\Quintic.ts:18</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The type of object that this is.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">String</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_Out" class="method item public">
-    <h3 class="name"><code>Out</code></h3>
+                    <div id="method_disable" class="method item public">
+    <h3 class="name"><code>disable</code></h3>
 
     
         <div class="args">
@@ -742,7 +891,13 @@
             
                 <li class="arg">
                     
-                        <code>k</code>
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[params=null]</code>
                     
                 </li>
             
@@ -751,10 +906,6 @@
     
 
     
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
 
     
 
@@ -764,8 +915,6 @@
 
     
 
-    
-        <span class="flag static">static</span>
     
 
     
@@ -783,7 +932,7 @@
             
         
         
-        <a href="../files/src_animations_tweens_easing_Quintic.ts.html#l42"><code>src\animations\tweens\easing\Quintic.ts:42</code></a>
+        <a href="../files/src_render_renderers_Renderer.ts.html#l85"><code>src\render\renderers\Renderer.ts:85</code></a>
         
         </p>
 
@@ -794,7 +943,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Enables the renderer (for override)</p>
+
     </div>
 
     
@@ -805,8 +955,24 @@
             
                 <li class="param">
                     
-                        <code class="param-name">k</code>
-                        <span class="type">Any</span>
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[params=null]</code>
+                        <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
@@ -823,17 +989,317 @@
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
 
-            <div class="returns-description">
+    
+</div>
+
                 
+                    <div id="method_draw" class="method item public">
+    <h3 class="name"><code>draw</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
                     
-                        <span class="type">Number</span>:
+                        <code>gl</code>
                     
-                
-            </div>
+                </li>
+            
+            </ul><span class="paren">)</span>
         </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l95"><code>src\render\renderers\Renderer.ts:95</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Draw to the draw or frame buffer (for override)</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_updateStageResolution" class="method item public">
+    <h3 class="name"><code>updateStageResolution</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>res</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l104"><code>src\render\renderers\Renderer.ts:104</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Updates the stage resolution uniforms (for override)</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">res</code>
+                        <span class="type">Float32Array</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_updateTextureSize" class="method item public">
+    <h3 class="name"><code>updateTextureSize</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>size</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l114"><code>src\render\renderers\Renderer.ts:114</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Updates the texture size uniforms (for override)</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">size</code>
+                        <span class="type">Float32Array</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
     
 
     
@@ -843,6 +1309,295 @@
             </div>
         
 
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property_camMatrix" class="property item public">
+    <h3 class="name"><code>camMatrix</code></h3>
+    <span class="type">Float32Array</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l39"><code>src\render\renderers\Renderer.ts:39</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The camera matrix</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_loaded" class="property item public">
+    <h3 class="name"><code>loaded</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l47"><code>src\render\renderers\Renderer.ts:47</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_RENDERER_ID" class="property item public">
+    <h3 class="name"><code>RENDERER_ID</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l30"><code>src\render\renderers\Renderer.ts:30</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Identifier for this renderer</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_shaderManager" class="property item public">
+    <h3 class="name"><code>shaderManager</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l55"><code>src\render\renderers\Renderer.ts:55</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Reference to the shaderManager - used for requesting shaders.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_texture2DVert" class="property item public">
+    <h3 class="name"><code>texture2DVert</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l125"><code>src\render\renderers\Renderer.ts:125</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The shader pair used by the renderer</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_texture2DVert" class="property item public">
+    <h3 class="name"><code>texture2DVert</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l134"><code>src\render\renderers\Renderer.ts:134</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns whether this is a batch renderer.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
         
 
         

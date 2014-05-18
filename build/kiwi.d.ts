@@ -6,7 +6,7 @@
 */
 declare module Kiwi {
     /**
-    * The base class that is used when you are wanting to create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF which is used for the game loop.
+    * The base class that is used when you create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF (RequestAnimationFrame object) which is used for the game loop.
     *
     * @class Game
     * @namespace Kiwi
@@ -15,7 +15,7 @@ declare module Kiwi {
     * @param [name='KiwiGame'] {String} The name of the game that is being created.
     * @param [state=null] {Any} The state to load initially. This can either be the name of a state, but preferably this would be the state object itself.
     * @param [options] {Object} Any special options for the game. E.g. Is DEBUG_ON or DEBUG_OFF, RENDERER_CANVAS or RENDERER_WEBGL, TARGET_BROWSER or TARGET_COCOON
-    * @return {Game}
+    * @return {Kiwi.Game}
     *
     */
     class Game {
@@ -34,6 +34,12 @@ declare module Kiwi {
         * @public
         */
         public renderOption : number;
+        /**
+        * A callback function that can be passed in as an option in the conifugration object. Invoked after the boot process has completed.
+        * @property bootCallbackOption
+        * @type Function
+        * @private
+        */
         public bootCallbackOption: Function;
         /**
         * The type of device that you are targeting. This is either set to COCOON or BROWSER
@@ -72,7 +78,7 @@ declare module Kiwi {
         */
         public debug : boolean;
         /**
-        * Holds the renderer that is being used. This is detiremended based of the _renderMode
+        * Holds the renderer that is being used. This is determined based on the _renderMode
         * @property renderer
         * @type IRenderManager
         * @public
@@ -93,9 +99,9 @@ declare module Kiwi {
         */
         public objType(): string;
         /**
-        * [REQUIRES DESCRIPTION]
-        * @property _dom
-        * @type Bootstrap
+        * The object that peforms DOM and device startup operations for browsers (ie not cocoon)
+        * @property _startup
+        * @type Kiwi.System.Bootstrap
         * @private
         */
         private _startup;
@@ -103,56 +109,49 @@ declare module Kiwi {
         /**
         * The audio manager that handles all of the audio in game. Inside you can globally mute the audio, create new sounds, e.t.c.
         * @property audio
-        * @type AudioManager
+        * @type Kiwi.Sound.AudioManager
         * @public
         */
         public audio: Kiwi.Sound.AudioManager;
         /**
-        * Used to get the coordinates of any DOM element on the game.
-        * @property browser
-        * @type Browser
-        * @public
-        */
-        public browser: Kiwi.System.Browser;
-        /**
         * The global file store for this game. This handles the storage and access of information loaded, as well as tags that maybe set for them individual files.
         * @property fileStore
-        * @type FileStore
+        * @type Kiwi.Files.FileStore
         * @public
         */
         public fileStore: Kiwi.Files.FileStore;
         /**
         * Handles any user input with the game. These could via the users keyboard, mouse or touch events.
         * @property input
-        * @type InputManager
+        * @type Kiwi.Input.InputManager
         * @public
         */
         public input: Kiwi.Input.InputManager;
         /**
         * Manages the cameras the are on the stage. Single default Camera only in this version.
         * @property cameras
-        * @type CameraManager
+        * @type Kiwi.CameraManager
         * @public
         */
         public cameras: Kiwi.CameraManager;
         /**
         * Manages plugins registration and initialisation for the game instance.
         * @property pluginManager
-        * @type PluginManager
+        * @type Kiwi.PluginManager
         * @public
         */
         public pluginManager: Kiwi.PluginManager;
         /**
         * Loads files from outside sources and checks to see that they have loaded correctly or not.
         * @property loader
-        * @type Loader
+        * @type Kiwi.Files.Loader
         * @public
         */
         public loader: Kiwi.Files.Loader;
         /**
         * The Request Animation Frame that is being used for the update and render loops.
         * @property raf
-        * @type RequestAnimationFrame
+        * @type Kiwi.Utils.RequestAnimationFrame
         * @public
         */
         public raf: Kiwi.Utils.RequestAnimationFrame;
@@ -166,28 +165,28 @@ declare module Kiwi {
         /**
         * Manages all of the states that exist for this game. Via the manager you can create new states, switch states and do various other tasks.
         * @property states
-        * @type StateManager
+        * @type Kiwi.StateManager
         * @public
         */
         public states: Kiwi.StateManager;
         /**
         * Holds a reference to the clocks that are being used and has a MASTER clock that is being used for the game.
         * @property time
-        * @type ClockManager
+        * @type Kiwi.Time.ClockManage
         * @public
         */
         public time: Kiwi.Time.ClockManager;
         /**
         * The tween manager holds a reference to all of the tweens that are created and currently being used.
         * @property tweens
-        * @type TweenManager
+        * @type Kiwi.Animations.Tweens.TweenManager
         * @public
         */
         public tweens: Kiwi.Animations.Tweens.TweenManager;
         /**
         * A Random Data Generator. This is useful for create unique ids and random information.
         * @property rnd
-        * @type RandomDataGenerator
+        * @type Kiwi.Utils.RandomDataGenerato
         * @public
         */
         public rnd: Kiwi.Utils.RandomDataGenerator;
@@ -234,13 +233,13 @@ declare module Kiwi {
         * @method start
         * @private
         */
-        private start();
+        private _start();
         /**
-        * The loop that the whole game is using.
-        * @method loop
+        * The game loop.
+        * @method _loop
         * @private
         */
-        private loop();
+        private _loop();
     }
 }
 /**
@@ -570,6 +569,16 @@ declare module Kiwi {
         */
         public boot(dom: Kiwi.System.Bootstrap): void;
         /**
+        * Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser
+        * Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js
+        * @method getOffsetPoint
+        * @param {Any} element
+        * @param {Kiwi.Geom.Point} output
+        * @return {Kiwi.Geom.Point}
+        * @public
+        */
+        public getOffsetPoint(element: any, output?: Kiwi.Geom.Point): Kiwi.Geom.Point;
+        /**
         * Method that is fired when the window is resized.
         * @method _windowResized
         * @param event {UIEvent}
@@ -659,15 +668,16 @@ declare module Kiwi {
 */
 declare module Kiwi {
     /**
-    * The component manager is a class that is used to handle a number of components that are active on a particular object.
-    * This way if you want to check to see if a particular component is on an object you can ask the component manager,
-    * Or when updating components you can tell the component manager to update and all of the components will update as well.
+    * The component manager is a class that is used to handle components that are active on a particular object. Any object
+    * that has a component manager attached to it can use components.
+    * If you want to check to see if a particular component is on an object you can ask the component manager,
+    * or when updating components you can tell the component manager to update and all of the components will update as well.
     *
     * @class ComponentManager
     * @namespace Kiwi
     * @constructor
     * @param type {number} - The type of object that this component manager's owner is.
-    * @param owner {IChild} - The owner of this component manager.
+    * @param owner {Object} - The owner of this component manager.
     * @return {ComponentManager}
     *
     */
@@ -683,7 +693,7 @@ declare module Kiwi {
         /**
         * The owner of this Component Manager
         * @property _owner
-        * @type {any}
+        * @type {object}
         * @private
         */
         private _owner;
@@ -697,7 +707,7 @@ declare module Kiwi {
         /**
         * A list of all components that are currently on the ComponentManager
         * @property _components
-        * @type Component
+        * @type Kiwi.Component
         * @private
         */
         public _components: any;
@@ -721,29 +731,29 @@ declare module Kiwi {
         * Get an existing component that has been added to the layer by its name
         * @method getComponent
         * @param value {String} The component name
-        * @return {Component} The component, if found, otherwise null
+        * @return {Kiwi.Component} The component, if found, otherwise null
         * @public
         */
         public getComponent(value: string): any;
         /**
         * Adds a Component to the manager.
         * @method add
-        * @param component {Component} The component to add
-        * @return {Component} The component that was added
+        * @param component {Kiwi.Component} The component to add
+        * @return {Kiwi.Component} The component that was added
         * @public
         */
         public add(component: Kiwi.Component): any;
         /**
         * Adds a batch of components to the manager at a single time.
         * @method addBatch
-        * @param value* {Component} The component/s that you would like to add.
+        * @param value* {Kiwi.Component} The component/s that you would like to add.
         * @public
         */
         public addBatch(...paramsArr: any[]): void;
         /**
         * Removes a component from the component manager
         * @method removeComponent
-        * @param component {Component} The component to be removed.
+        * @param component {Kiwi.Component} The component to be removed.
         * @param [destroy=true] {boolean} If the destroy method is to be called on the component when it is removed.
         * @return {boolean} true if the component was removed successfully
         * @public
@@ -810,13 +820,20 @@ declare module Kiwi {
 */
 declare module Kiwi {
     /**
-    *
+    * The plugin manager registers plugins, checks plugin dependencies, and calls designated functions on each registered plugin at boot time, and during the update loop if required.
+    * Plugins are registered on the global Kiwi instance. Once a plugin in registered it is allocated a place on the Kiwi.Plugins name space.
+    * Eg. FooPlugin will be accessible at Kiwi.Plugins.FooPlugin.
+    * When a game instance is created, it can contain a list of required plugins in the configuration object. At this point the plugin manager will validate that the plugins
+    * exist, and that dependencies are met (both Kiwi version and versions of other required plugins).
+    * If the plugin has a "create" function, the plugin manager instance will call that function as part of the boot process. The create function may do anything, but usually it would create
+    * an instance of an object.
+    * The plugin manager update function is called every update loop. If an object was created by the "create" function and it has an "update" function, that function will be called in turn.
     * @class PluginManager
     * @namespace Kiwi
     * @constructor
-    * @param game {Game} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
+    * @param game {Kiwi.Game} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
     * @param plugins {string[]} The entities position on the x axis.
-    * @return {PluginManager} This PluginManager.
+    * @return {Kiwi.PluginManager} This PluginManager.
     *
     */
     class PluginManager {
@@ -864,7 +881,7 @@ declare module Kiwi {
         /**
         * An array of plugin names which the game instance has been configured to use. Each name must match the constructor function for the plugin.
         * @property _plugins
-        * @type string[]
+        * @type Array
         * @private
         */
         private _plugins;
@@ -905,6 +922,11 @@ declare module Kiwi {
         * @public
         */
         public boot(): void;
+        /**
+        * Calls the update functions on any objects that plugins used by the game instance have designated during creation.
+        * @method update
+        * @public
+        */
         public update(): void;
     }
 }
@@ -915,13 +937,14 @@ declare module Kiwi {
 */
 declare module Kiwi {
     /**
-    * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager. More Cameras can always be created by used of the create method of a CameraManager.
+    * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager.
+    * Games currently only usupport the use of a single camera, the default camera. Much of this class has been written with future multiple camera support in mind.
     *
     * @class CameraManager
     * @namespace Kiwi
     * @constructor
-    * @param {Game} game
-    * @return {CameraManager}
+    * @param {Kiwi.Game} game
+    * @return {Kiwi.CameraManager}
     */
     class CameraManager {
         constructor(game: Kiwi.Game);
@@ -935,14 +958,14 @@ declare module Kiwi {
         /**
         * The game this object belongs to
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private
         */
         private _game;
         /**
         * A collection of cameras
         * @property _cameras
-        * @type Camara[]
+        * @type Array
         * @private
         */
         private _cameras;
@@ -956,7 +979,7 @@ declare module Kiwi {
         /**
         * The default camera that is on this manager.
         * @property defaultCamera
-        * @type Camara
+        * @type Kiwi.Camara
         * @public
         */
         public defaultCamera: Kiwi.Camera;
@@ -973,14 +996,14 @@ declare module Kiwi {
         * @param {Number} y. The y position of the new camera.
         * @param {Number} width. The width of the new camera.
         * @param {Number} height. The height of the new camera.
-        * @return {Camera} The new camera object.
+        * @return {Kiwi.Camera} The new camera object.
         * @public
         */
         public create(name: string, x: number, y: number, width: number, height: number): Kiwi.Camera;
         /**
         * Removes the given camera, if it is present in the camera managers camera collection.
         * @method remove
-        * @param camera {Camera}
+        * @param camera {Kiwi.Camera}
         * @return {boolean} True if the camera was removed, false otherwise.
         * @public
         */
@@ -1352,8 +1375,7 @@ declare module Kiwi {
 */
 declare module Kiwi {
     /**
-    * An Entity serves as a container for game objects to extend from and thus you should never directly instantiate this class.
-    * Each Entity has a unique ID (UID) which is automatically generated upon instantiation.
+    * An Entity is a base class for game objects to extend from and thus you should never directly instantiate this class.
     * Every entity requires that you pass to it the state that it belongs too, that way when you switch states the appropriate entitys can be deleted.
     *
     * @class Entity
@@ -1362,7 +1384,7 @@ declare module Kiwi {
     * @param state {State} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
     * @param x {Number} The entities position on the x axis.
     * @param y {Number} The entities position on the y axis.
-    * @return {Entity} This entity.
+    * @return {Kiwi.Entity} This entity.
     *
     */
     class Entity implements Kiwi.IChild {
@@ -1371,14 +1393,14 @@ declare module Kiwi {
         /**
         * Represents the position, scale, rotation and registration of this Entity.
         * @property transform
-        * @type Transform
+        * @type Kiwi.Geom.Transform
         * @public
         */
         public transform: Kiwi.Geom.Transform;
         /**
         * The group that this entity belongs to. If added onto the state then this is the state.
         * @property _parent
-        * @type Group
+        * @type Kiwi.Group
         * @private
         */
         private _parent;
@@ -1386,7 +1408,7 @@ declare module Kiwi {
         * The group that this entity belongs to/is a child of once added to one. If added onto the state then this is the state.
         * @property parent
         * @type Group
-        * @param val {Group}
+        * @param val {Kiwi.Group}
         * @public
         */
         public parent : Kiwi.Group;
@@ -1447,7 +1469,7 @@ declare module Kiwi {
         */
         public childType(): number;
         /**
-        * The actual alpha of this entity.
+        * The alpha of this entity.
         * @property _alpha
         * @type Number
         * @private
@@ -1495,7 +1517,7 @@ declare module Kiwi {
         /**
         * The texture atlas that is to be used on this entity.
         * @property atlas
-        * @type TextureAtlas
+        * @type Kiwi.Textures.TextureAtlas
         * @public
         */
         public atlas: Kiwi.Textures.TextureAtlas;
@@ -1519,7 +1541,7 @@ declare module Kiwi {
         /**
         * The Component Manager
         * @property components
-        * @type ComponentManager
+        * @type Kiwi.ComponentManager
         * @public
         */
         public components: Kiwi.ComponentManager;
@@ -1591,7 +1613,7 @@ declare module Kiwi {
         */
         private _willRender;
         /**
-        * Toggles if this Entity will be rendered by a canvas layer. Use the visibile component for DOM layers.
+        * Toggles if this Entity will be rendered.
         * @property willRender
         * @type boolean
         * @default true
@@ -1599,8 +1621,8 @@ declare module Kiwi {
         */
         public willRender : boolean;
         /**
-        * If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
-        * @property exists
+        * Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)
+        * @property _inputEnabled
         * @type boolean
         * @private
         */
@@ -1616,14 +1638,14 @@ declare module Kiwi {
         /**
         * The clock that this entity use's for time based calculations. This generated by the state on instatiation.
         * @property _clock
-        * @type Clock
+        * @type Kiwi.Clock
         * @private
         */
         private _clock;
         /**
         * The Clock used to update this all of this Entities components (defaults to the Game MasterClock)
         * @property clock
-        * @type Clock
+        * @type Kiwi.Time.Clock
         * @public
         */
         public clock : Kiwi.Time.Clock;
@@ -1656,6 +1678,7 @@ declare module Kiwi {
         */
         public update(): void;
         /**
+        * Renders the entity using the canvas renderer.
         * This isn't called until the Entity has been added to a Group/State which is active.
         * This functionality is handled by the sub classes.
         * @method render
@@ -1664,9 +1687,14 @@ declare module Kiwi {
         */
         public render(camera: Kiwi.Camera): void;
         /**
-        *
-        *
-        *
+        * Renders the entity using the canvas renderer.
+        * This isn't called until the Entity has been added to a Group/State which is active.
+        * This functionality is handled by the sub classes.
+        * @method renderGL
+        * @param {Kiwi.Camera} camera
+        * @param {WebGLRenderingContext} gl
+        * @param [params=null] {object} params
+        * @public
         */
         public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
         /**
@@ -1685,14 +1713,15 @@ declare module Kiwi {
 */
 declare module Kiwi {
     /**
-    * The base class that all components extend from and thus contains all of the common functionality that is required of every Component.
+    * The base class that all components extend from. It contains all of the common functionality that is required of every Component.
+    * Any object
     *
     * @class Component
     * @namespace Kiwi
     * @constructor
-    * @param owner {IChild} The IChild that this component belongs to.
+    * @param owner {Object} The object that this component belongs to.
     * @param componentName {String} The name of this component.
-    * @return {Component}
+    * @return {Kiwi.Component}
     */ 
     class Component {
         constructor(owner: Kiwi.IChild, name: string);
@@ -1704,9 +1733,9 @@ declare module Kiwi {
         */
         public objType(): string;
         /**
-        * The IChild that owns this entity
+        * The object that owns this entity
         * @property owner
-        * @type IChild
+        * @type Object
         * @public
         */
         public owner: Kiwi.IChild;
@@ -1773,14 +1802,15 @@ declare module Kiwi {
 */
 declare module Kiwi {
     /**
-    * Is a class the implements the IChild structure who's purpose is to contain multiple children/members, those of which also implement the IChild interface. The members of the Group's coordinates are also in relation to the Group that they were added to. So if you moved an entire Group, each member of that Group would also 'move'.
+    * The group class is central to creating the scene graph that contains all objects in a state. A group can contain entities or other groups, thereby enabling a nested tree scene graph.
+    * The members of the Group's coordinates are also in relation to the Group that they were added to. So if you moved an entire Group, each member of that Group would also 'move'.
     *
     * @class Group
     * @namespace Kiwi
     * @constructor
-    * @param state {State} The State that this Group is a part of.
+    * @param state {Kiwi.State} The State that this Group is a part of.
     * @param [name=''] {String} The name of this group.
-    * @return {Group}
+    * @return {Kiwi.Group}
     *
     */
     class Group implements Kiwi.IChild {
@@ -1805,21 +1835,21 @@ declare module Kiwi {
         * The transform object for this group.
         * Transform handles the calculation of coordinates/rotation/scale e.t.c in the Game World.
         * @property transform
-        * @type Transform
+        * @type Kiwi.Geom.Transform
         * @public
         */
         public transform: Kiwi.Geom.Transform;
         /**
         * The parent group of this group.
         * @property _parent
-        * @type Group
+        * @type Kiwi.Group
         * @private
         */
         private _parent;
         /**
         * Set's the parent of this entity. Note that this also sets the transforms parent of this entity to be the passed groups transform.
         * @property parent
-        * @type Group
+        * @type Kiwi.Group
         * @public
         */
         public parent : Group;
@@ -1843,21 +1873,21 @@ declare module Kiwi {
         /**
         * The Component Manager
         * @property components
-        * @type ComponentManager
+        * @type Kiwi.ComponentManager
         * @public
         */
         public components: Kiwi.ComponentManager;
         /**
         * The game this Group belongs to
         * @property game
-        * @type Game
+        * @type Kiwi.Game
         * @public
         */
         public game: Kiwi.Game;
         /**
         * The State that this Group belongs to
         * @property state
-        * @type State
+        * @type Kiwi.State
         * @public
         **/
         public state: Kiwi.State;
@@ -1871,7 +1901,7 @@ declare module Kiwi {
         /**
         * The collection of children belonging to this group
         * @property members
-        * @type IChild
+        * @type Array
         * @public
         */
         public members: Kiwi.IChild[];
@@ -1905,9 +1935,9 @@ declare module Kiwi {
         */
         public contains(child: Kiwi.IChild): boolean;
         /**
-        * Checks to see if the given IChild is contained in this group as a descendant
+        * Checks to see if the given object is contained in this group as a descendant
         * @method containsDescendant
-        * @param child {IChild} The IChild that you want to check.
+        * @param child {object} The IChild that you want to check.
         * @return {boolean}
         * @public
         */
@@ -1915,7 +1945,7 @@ declare module Kiwi {
         /**
         * Checks to see if one child is an ansector of another child.
         * @method containsAncestor
-        * @param descendant {IChild} The IChild that you are checking.
+        * @param descendant {object} The object that you are checking.
         * @param ancestor {Group} The parent (ancestor) that you are checking for.
         * @return {boolean}
         * @public
@@ -1924,35 +1954,35 @@ declare module Kiwi {
         /**
         * Adds an Entity to this Group. The Entity must not already be in this Group.
         * @method addChild
-        * @param child {IChild} The child to be added.
-        * @return {IChild} The child that was added.
+        * @param child {object} The child to be added.
+        * @return {object} The child that was added.
         * @public
         */
         public addChild(child: Kiwi.IChild): Kiwi.IChild;
         /**
         * Adds an Entity to this Group in the specific location. The Entity must not already be in this Group and it must be supported by the Group.
         * @method addChildAt
-        * @param child {IChild} The child to be added.
+        * @param child {object} The child to be added.
         * @param index {Number} The index the child will be set at.
-        * @return {IChild} The child.
+        * @return {object} The child.
         * @public
         */
         public addChildAt(child: Kiwi.IChild, index: number): Kiwi.IChild;
         /**
         * Adds an Entity to this Group before another child. The Entity must not already be in this Group and it must be supported by the Group.
         * @method addChildBefore
-        * @param child {IChild} The child to be added.
+        * @param child {object} The child to be added.
         * @param beforeChild {Entity} The child before which the child will be added.
-        * @return {IChild} The child.
+        * @return {object} The child.
         * @public
         */
         public addChildBefore(child: Kiwi.IChild, beforeChild: Kiwi.IChild): Kiwi.IChild;
         /**
         * Adds an Entity to this Group after another child. The Entity must not already be in this Group and it must be supported by the Group..
         * @method addChildAfter
-        * @param child {IChild} The child to be added.
-        * @param beforeChild {IChild} The child after which the child will be added.
-        * @return {IChild} The child.
+        * @param child {object} The child to be added.
+        * @param beforeChild {object} The child after which the child will be added.
+        * @return {object} The child.
         * @public
         */
         public addChildAfter(child: Kiwi.IChild, beforeChild: Kiwi.IChild): Kiwi.IChild;
@@ -1960,7 +1990,7 @@ declare module Kiwi {
         * Get the child at a specific position in this Group by its index.
         * @method getChildAt
         * @param index {Number} The index of the child
-        * @return {IChild} The child, if found or null if not.
+        * @return {object} The child, if found or null if not.
         * @public
         */
         public getChildAt(index: number): Kiwi.IChild;
@@ -1968,7 +1998,7 @@ declare module Kiwi {
         * Get a child from this Group by its name.
         * @method getChildByName
         * @param name {String} The name of the child
-        * @return {IChild} The child, if found or null if not.
+        * @return {object} The child, if found or null if not.
         * @public
         */
         public getChildByName(name: string): Kiwi.IChild;
@@ -1976,14 +2006,14 @@ declare module Kiwi {
         * Get a child from this Group by its UUID.
         * @method getChildByID
         * @param id {String} The ID of the child.
-        * @return {IChild} The child, if found or null if not.
+        * @return {object} The child, if found or null if not.
         * @public
         */
         public getChildByID(id: string): Kiwi.IChild;
         /**
         * Returns the index position of the Entity or -1 if not found.
         * @method getChildIndex
-        * @param child {IChild} The child.
+        * @param child {object} The child.
         * @return {Number} The index of the child or -1 if not found.
         * @public
         */
@@ -1991,9 +2021,9 @@ declare module Kiwi {
         /**
         * Removes an Entity from this Group if it is a child of it.
         * @method removeChild
-        * @param child {IChild} The child to be removed.
+        * @param child {object} The child to be removed.
         * @param [destroy=false] {boolean} If the entity that gets removed should be destroyed as well.
-        * @return {IChild} The child.
+        * @return {object} The child.
         * @public
         */
         public removeChild(child: Kiwi.IChild, destroy?: boolean): Kiwi.IChild;
@@ -2001,7 +2031,7 @@ declare module Kiwi {
         * Removes the Entity from this Group at the given position.
         * @method removeChildAt
         * @param index {Number} The index of the child to be removed.
-        * @return {IChild} The child, or null.
+        * @return {object} The child, or null.
         */
         public removeChildAt(index: number): Kiwi.IChild;
         /**
@@ -2017,7 +2047,7 @@ declare module Kiwi {
         /**
         * Sets a new position of an existing Entity within the Group.
         * @method setChildIndex
-        * @param child {IChild} The child in this Group to change.
+        * @param child {object} The child in this Group to change.
         * @param index {Number} The index for the child to be set at.
         * @return {boolean} true if the Entity was moved to the new position, otherwise false.
         * @public
@@ -2026,8 +2056,8 @@ declare module Kiwi {
         /**
         * Swaps the position of two existing Entities that are a direct child of this group.
         * @method swapChildren
-        * @param child1 {IChild} The first child in this Group to swap.
-        * @param child2 {IChild} The second child in this Group to swap.
+        * @param child1 {object} The first child in this Group to swap.
+        * @param child2 {object} The second child in this Group to swap.
         * @return {boolean} true if the Entities were swapped successfully, otherwise false.
         * @public
         */
@@ -2044,8 +2074,8 @@ declare module Kiwi {
         /**
         * Replaces a child Entity in this Group with a new one.
         * @method replaceChild
-        * @param oldChild {IChild} The Entity in this Group to be removed.
-        * @param newChild {IChild} The new Entity to insert into this Group at the old Entities position.
+        * @param oldChild {object} The Entity in this Group to be removed.
+        * @param newChild {object} The new Entity to insert into this Group at the old Entities position.
         * @return {boolean} true if the Entities were replaced successfully, otherwise false.
         * @public
         */
@@ -2128,7 +2158,7 @@ declare module Kiwi {
         * The render method that is required by the IChild.
         * This method never gets called as the render is only worried about rendering entities.
         * @method render
-        * @param camera {Camera}
+        * @param camera {Kiwi.Camera}
         * @public
         */
         public render(camera: Kiwi.Camera): void;
@@ -2136,21 +2166,21 @@ declare module Kiwi {
         * Removes the first Entity from this Group marked as 'alive'
         * @method removeFirstAlive
         * @param [destroy=false] {boolean} If the entity should run the destroy method when it is removed.
-        * @return {IChild} The Entity that was removed from this Group if alive, otherwise null
+        * @return {object} The Entity that was removed from this Group if alive, otherwise null
         * @public
         */
         public removeFirstAlive(destroy?: boolean): Kiwi.IChild;
         /**
         * Returns the first Entity from this Group marked as 'alive' or null if no members are alive
         * @method getFirstAlive
-        * @return {IChild}
+        * @return {object}
         * @public
         */
         public getFirstAlive(): Kiwi.IChild;
         /**
         * Returns the first member of the Group which is not 'alive', returns null if all members are alive.
         * @method getFirstDead
-        * @return {IChild}
+        * @return {object}
         * @public
         */
         public getFirstDead(): Kiwi.IChild;
@@ -2172,7 +2202,7 @@ declare module Kiwi {
         * Returns a member at random from the group.
         * @param {Number}	StartIndex	Optional offset off the front of the array. Default value is 0, or the beginning of the array.
         * @param {Number}	Length		Optional restriction on the number of values you want to randomly select from.
-        * @return {IChild}	A child from the members list.
+        * @return {object}	A child from the members list.
         * @public
         */
         public getRandom(start?: number, length?: number): Kiwi.IChild;
@@ -2516,14 +2546,14 @@ declare module Kiwi {
     * @class Camera
     * @namespace Kiwi
     * @constructor
-    * @param game {Game} The game that this camera belongs to.
+    * @param game {Kiwi.Game} The game that this camera belongs to.
     * @param id {Number} A unique ID for this camera
     * @param name {String} The name this camera goes by
     * @param x {Number} The x coordinate of the camera
     * @param y {Number} The y coordinate of the camera
     * @param width {Number} The width of the camera
     * @param height {Number} The cameras height
-    * @return {Camera}
+    * @return {Kiwi.Camera}
     *
     */
     class Camera {
@@ -2543,7 +2573,7 @@ declare module Kiwi {
         */
         public height: number;
         /**
-        * The type of Object this is.
+        * The type of object this is.
         * @method objType
         * @return {String}
         * @public
@@ -2558,9 +2588,9 @@ declare module Kiwi {
         */
         public fitToStage: boolean;
         /**
-        * The Transform controls the location of this Game Object within the game world. Also controls the cameras scale and rotation.
+        * The Transform controls the location of the camera within the game world. Also controls the cameras scale and rotation.
         * @property transform
-        * @type Transform
+        * @type Kiwi.Geom.Transform
         * @public
         */
         public transform: Kiwi.Geom.Transform;
@@ -2575,10 +2605,10 @@ declare module Kiwi {
         /**
         * The game this Group belongs to
         * @property game
-        * @type Game
-        * @public
+        * @type Kiwi.Game
+        * @private
         */
-        public _game: Kiwi.Game;
+        private _game;
         /**
         * A unique identifier for this Layer within the game used internally by the framework. See the name property for a friendly version.
         * @property id
@@ -2594,7 +2624,7 @@ declare module Kiwi {
         */
         public name: string;
         /**
-        * Actually controls whether this Camera is rendered
+        * Controls whether this Camera is rendered
         * @property _visible
         * @type boolean
         * @private
@@ -2608,7 +2638,7 @@ declare module Kiwi {
         */
         public visible : boolean;
         /**
-        * A flag that indicates whether this camera needs to be rendered again at the next update loop, or if it nothing has changed so it doesn't.
+        * A flag that indicates whether this camera needs to be rendered again at the next update loop, or if nothing has changed so it doesn't.
         * @property _dirty
         * @type boolean
         * @private
@@ -2626,8 +2656,8 @@ declare module Kiwi {
         * Useful for when calculating if coordinates with the mouse.
         * Note: This method clones the point you pass, so that is doesn't "reset" any properties you set.
         * @method transformPoint
-        * @param point {Point}
-        * @return Point
+        * @param point {Kiwi.Geom.Point}
+        * @return {Kiwi.Geom.Point}
         * @public
         */
         public transformPoint(point: Kiwi.Geom.Point): Kiwi.Geom.Point;
@@ -6909,56 +6939,6 @@ declare module Kiwi.System {
 * Kiwi - System
 * @module Kiwi
 * @submodule System
-*
-*/
-declare module Kiwi.System {
-    /**
-    * Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser
-    * Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js
-    *
-    * @class Browser
-    * @constructor
-    * @namespace Kiwi.System
-    * @param {Game} game
-    * @return {StateMananger} This Object
-    *
-    */
-    class Browser {
-        constructor(game: Kiwi.Game);
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
-        * @public
-        */
-        public objType(): string;
-        /**
-        *
-        * @property _game
-        * @type Game
-        * @private
-        */
-        private _game;
-        /**
-        * The DOM is ready, so if we have a current state pending we can init it now
-        * @method boot
-        */
-        public boot(): void;
-        /**
-        *
-        * @method getOffsetPoint
-        * @param {Any} element
-        * @param {Point} output
-        * @return {Point}
-        * @public
-        */
-        public getOffsetPoint(element: any, output?: Kiwi.Geom.Point): Kiwi.Geom.Point;
-    }
-}
-/**
-* Kiwi - System
-* @module Kiwi
-* @submodule System
 */ 
 declare module Kiwi.System {
     /**
@@ -7308,7 +7288,7 @@ declare module Kiwi.System {
 */ 
 declare module Kiwi.Textures {
     /**
-    * A TextureAtlas is the base class that is created for each image that is loaded in through Kiwi. Each TextureAtlas contains a name (the same as the key that the user chose when loading the image in),the HTMLImageElement that it is for and a number of cells.
+    * A TextureAtlas is the base class that is created for each image that is loaded through Kiwi. Each TextureAtlas contains a name (the same as the key that the user chose when loading the image in),the HTMLImageElement that it is for and a number of cells.
     *
     * @class TextureAtlas
     * @namespace Kiwi.Textures
@@ -7318,7 +7298,7 @@ declare module Kiwi.Textures {
     * @param cells {any} The cells that are within this image..
     * @param image {HTMLImageElement/HTMLCanvasElement} The image that the texture atlas is using.
     * @param [sequences] {Sequence[]} Any sequences of cells for this texture atlas. Used for animation.
-    * @return {TextureAtlas}
+    * @return {Kiwi.TextureAtlas}
     *
     */
     class TextureAtlas {
@@ -7359,9 +7339,9 @@ declare module Kiwi.Textures {
         */
         public cells: any;
         /**
-        * Sequences that are for this texture.
+        * An array of Sequences that are for this texture.
         * @property sequences
-        * @type Sequence
+        * @type Array
         * @public
         */
         public sequences: Kiwi.Animations.Sequence[];
@@ -7443,7 +7423,7 @@ declare module Kiwi.Textures {
     * @namespace Kiwi.Textures
     * @constructor
     * @param game {Game} The game that this texture library belongs to.
-    * @return {TextureLibrary}
+    * @return {Kiwi.TextureLibrary}
     *
     */
     class TextureLibrary {
@@ -7477,38 +7457,38 @@ declare module Kiwi.Textures {
         /**
         * Adds a texture atlas to the library.
         * @method add
-        * @param atlas {TextureAtlas}
+        * @param atlas {Kiwi.Textures.TextureAtlas}
         * @public
         */
         public add(atlas: Textures.TextureAtlas): void;
         /**
         * Adds a new image file to the texture library.
         * @method addFromFile
-        * @param imageFile {File}
+        * @param imageFile {Kiwi.File}
         * @public
         */
         public addFromFile(imageFile: Kiwi.Files.File): void;
         /**
         * Used to rebuild a Texture from the FileStore into a base2 size if it doesn't have it already.
         * @method _rebuildImage
-        * @param imageFile {File} The image file that is to be rebuilt.
-        * @return {File} The new image file.
+        * @param imageFile {Kiwi.File} The image file that is to be rebuilt.
+        * @return {Kiwi.File} The new image file.
         * @private
         */
         private _rebuildImage(imageFile);
         /**
         * Used to build a new texture atlas based on the image file provided. Internal use only.
         * @method _buildTextureAtlas
-        * @param imageFile {File} The image file that is to be used.
-        * @return {TextureAtlas} The new texture atlas that is created.
+        * @param imageFile {Kiwi.File} The image file that is to be used.
+        * @return {Kiwi.Textures.TextureAtlas} The new texture atlas that is created.
         * @private
         */
         private _buildTextureAtlas(imageFile);
         /**
         * Builds a spritesheet atlas from the an image file that is provided.
         * @method _buildSpriteSheet
-        * @param imageFile {File} The image file that is to be used.
-        * @return {SpriteSheet} The SpriteSheet that was just created.
+        * @param imageFile {Kiwi.File} The image file that is to be used.
+        * @return {Kiwi.Textures.SpriteSheet} The SpriteSheet that was just created.
         * @private
         */
         private _buildSpriteSheet(imageFile);
@@ -7516,7 +7496,7 @@ declare module Kiwi.Textures {
         * Builds a single image atlas from a image file that is provided.
         * @method _buildImage
         * @param imageFile {File} The image file that is to be used.
-        * @return {SingleImage} The SingleImage that was created.
+        * @return {Kiwi.Textures.SingleImage} The SingleImage that was created.
         * @private
         */
         private _buildImage(imageFile);
@@ -7671,7 +7651,7 @@ declare module Kiwi.Textures {
     * @param [height] {number} the height of the image
     * @param [offsetX] {number} the offset of the image on the x axis. Useful if the image has a border that you don't want to show.
     * @param [offsetY] {number} the offset of the image of the y axis. Useful if the image has a border that you don't want to show.
-    * @return {SingleImage}
+    * @return {Kiwi.SingleImage}
     */
     class SingleImage extends Textures.TextureAtlas {
         constructor(name: string, image: any, width?: number, height?: number, offsetX?: number, offsetY?: number);
@@ -7704,7 +7684,7 @@ declare module Kiwi.Textures {
         */
         private offsetX;
         /**
-        * The offset for the image o nthe Y axis.
+        * The offset for the image on the Y axis.
         * @property offsetY
         * @type number
         * @private
@@ -8631,11 +8611,6 @@ declare module Kiwi.Animations {
         public update(time: any): boolean;
     }
 }
-/**
-* A IRenderer is an Interface (defined as a class as the documentation does not support Interfaces just yet),
-* which outlines the methods/properties that are required any Renderer.
-* @class IRenderer
-*/
 interface IRenderManager {
     render(camera: Kiwi.Camera): any;
     boot(): any;
@@ -8656,11 +8631,10 @@ declare module Kiwi.Renderers {
     /**
     *
     * @class CanvasRenderer
-    * @extends IRenderer
     * @constructor
     * @namespace Kiwi.Renderers
-    * @param game {Game} The game that this canvas renderer belongs to.
-    * @return {CanvasRenderer}
+    * @param game {Kiwi.Game} The game that this canvas renderer belongs to.
+    * @return {Kiwi.Renderes.CanvasRenderer}
     *
     */
     class CanvasRenderer implements IRenderManager {
@@ -8681,14 +8655,14 @@ declare module Kiwi.Renderers {
         /**
         * The game that this object belongs to.
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private
         */
         private _game;
         /**
         * The camera that is currently being used to render upon.
         * @property _currentCamera
-        * @type Camera
+        * @type Kiwi.Camera
         * @private
         */
         private _currentCamera;
@@ -8697,7 +8671,7 @@ declare module Kiwi.Renderers {
         * If it is a Group then this method recursively goes through that Groups members the process that happened to the State's members happens to the Group's members.
         *
         * @method _recurse
-        * @param child {IChild} The child that is being checked.
+        * @param child {object} The child that is being checked.
         * @private
         */
         public _recurse(child: Kiwi.IChild): void;
@@ -8709,7 +8683,7 @@ declare module Kiwi.Renderers {
         /**
         * Renders all of the Elements that are on a particular camera.
         * @method render
-        * @param camera {Camera}
+        * @param camera {Kiwi.Camera}
         * @public
         */
         public render(camera: Kiwi.Camera): void;
@@ -8722,6 +8696,7 @@ declare var mat2d: any, mat3: any, vec2: any, vec3: any, mat4: any;
 * @module Kiwi
 * @submodule Renderers
 * @main Renderers
+* @namespace Kiwi.Renderers
 */ 
 declare module Kiwi.Renderers {
     /**
@@ -8733,8 +8708,8 @@ declare module Kiwi.Renderers {
     * @class GLRenderManager
     * @extends IRenderer
     * @constructor
-    * @param game {Game} The game that this renderer belongs to.
-    * @return {GLRenderer}
+    * @param game {Kiwi.Game} The game that this renderer belongs to.
+    * @return {Kiwi.Renderers.GLRenderManager}
     */
     class GLRenderManager implements IRenderManager {
         constructor(game: Kiwi.Game);
@@ -8761,14 +8736,14 @@ declare module Kiwi.Renderers {
         /**
         * The texture manager object used to allocate GL Textures.
         * @property _textureManager
-        * @type GLTextureManager
+        * @type Kiwi.Renderes.GLTextureManager
         * @private
         */
         private _textureManager;
         /**
         * The shader manager object used to allocate GL Shaders.
         * @property _shaderManager
-        * @type GLShaderManager
+        * @type Kiwi.Renderes.GLShaderManager
         * @private
         */
         private _shaderManager;
@@ -8819,6 +8794,13 @@ declare module Kiwi.Renderers {
         * @private
         */
         private _currentTextureAtlas;
+        /**
+        * Adds a texture to the Texture Manager.
+        * @method addTexture
+        * @param {WebGLRenderingContext} gl
+        * @param {Kiwi.Textures.TextureAtlas} atlas
+        * @public
+        */
         public addTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas): void;
         /**
         * An array of renderers. Shared renderers are used for batch rendering. Multiple gameobjects can use the same renderer
@@ -8892,18 +8874,62 @@ declare module Kiwi.Renderers {
         public render(camera: Kiwi.Camera): void;
         private _sequence;
         private _batches;
+        /**
+        * Creates a new render sequence
+        * @method collateRenderSequence
+        * @public
+        */
         public collateRenderSequence(): void;
+        /**
+        * Adds a child to the render sequence (may be a group with children of it's own)
+        * @method collateChild
+        * @public
+        */
         public collateChild(child: Kiwi.IChild): void;
+        /**
+        * Sorts the render sequence into batches. Each batch requires the same renderer/shader/texture combination.
+        * @method collateBatches
+        * @public
+        */
         public collateBatches(): void;
+        /**
+        * Renders all the batches
+        * @method renderBatches
+        * @param {WebGLRenderingContext} gl
+        * @param {Kiwi.Camera} camera
+        * @public
+        */
         public renderBatches(gl: WebGLRenderingContext, camera: any): void;
+        /**
+        * Renders a single batch
+        * @method renderBatch
+        * @param {WebGLRenderingContext} gl
+        * @param {Object} batch
+        * @param {Kiwi.Camera} camera
+        * @public
+        */
         public renderBatch(gl: WebGLRenderingContext, batch: any, camera: any): void;
+        /**
+        * Calls the render function on a single entity
+        * @method renderEntity
+        * @param {WebGLRenderingContext} gl
+        * @param {Kiwi.Entity} entity
+        * @param {Kiwi.Camera} camera
+        * @public
+        */
         public renderEntity(gl: WebGLRenderingContext, entity: any, camera: any): void;
+        /**
+        * Ensures the atlas and renderer needed for a batch is setup
+        * @method setupGLState
+        * @param {WebGLRenderingContext} gl
+        * @public
+        */
         public setupGLState(gl: WebGLRenderingContext, entity: any): void;
         /**
         * Switch renderer to the one needed by the entity that needs rendering
         * @method _switchRenderer
         * @param gl {WebGLRenderingContext}
-        * @param entity {Entity}
+        * @param entity {Kiwi.Entity}
         * @private
         */
         private _switchRenderer(gl, entity);
@@ -8911,7 +8937,7 @@ declare module Kiwi.Renderers {
         * Switch texture to the one needed by the entity that needs rendering
         * @method _switchTexture
         * @param gl {WebGLRenderingContext}
-        * @param entity {Entity}
+        * @param entity {Kiwi.Entity}
         * @private
         */
         private _switchTexture(gl, entity);
@@ -8935,6 +8961,7 @@ declare module Kiwi.Renderers {
 * @module Kiwi
 * @submodule Shaders
 * @main Shaders
+* @namespace Kiwi.Shaders
 */ 
 declare module Kiwi.Shaders {
     /**
@@ -8946,7 +8973,7 @@ declare module Kiwi.Shaders {
     * @class ShaderManager
     * @extends IRenderer
     * @constructor
-    * @return {GLRenderer}
+    * @return {Kiwi.Shaders.ShaderManager}
     */
     class ShaderManager {
         constructor();
@@ -8982,7 +9009,7 @@ declare module Kiwi.Shaders {
         * @method init
         * @param {WebGLRenderingContext} gl
         * @param {String} shaderID
-        * @return {ShaderPair} a ShaderPair instance - null on fail
+        * @return {Kiwi.Shaders.ShaderPair} a ShaderPair instance - null on fail
         * @public
         */
         public requestShader(gl: WebGLRenderingContext, shaderID: string, use?: boolean): Shaders.ShaderPair;
@@ -9000,7 +9027,7 @@ declare module Kiwi.Shaders {
         * @method _addShader
         * @param {WebGLRenderingContext} gl
         * @param {String} shaderID
-        * @return {ShaderPair}
+        * @return {Kiwi.Shaders.ShaderPair}
         * @private
         */
         private _addShader(gl, shaderID);
@@ -9008,7 +9035,7 @@ declare module Kiwi.Shaders {
         * Tells a ShaderPair to load (compile and link)
         * @method _loadShader
         * @param {WebGLRenderingContext} gl
-        * @param {ShaderPair} shader
+        * @param {Kiwi.Shaders.ShaderPair} shader
         * @private
         */
         private _loadShader(gl, shader);
@@ -9016,7 +9043,7 @@ declare module Kiwi.Shaders {
         * Changes gl state so that the shaderProgram contined in a ShaderPir is bound for use
         * @method _useShader
         * @param {WebGLRenderingContext} gl
-        * @param {ShaderPair} shader
+        * @param {Kiwi.Shaders.ShaderPair} shader
         * @private
         */
         private _useShader(gl, shader);
@@ -9027,23 +9054,44 @@ declare module Kiwi.Shaders {
 * @module Kiwi
 * @submodule Renderers
 *
+* @namespace Kiwi.Renderers
 */
 declare module Kiwi.Renderers {
     /**
-    *
-    * @class GLTexture
+    * Wraps a webGL texture object
+    * @class GLTextureWrapper
     * @constructor
     * @param gl {WebGLRenderingContext}
     * @param [_image] {HTMLImageElement}
-    * @return {GLTexture}
+    * @return {Kiwi.Renderers.GLTextureWrapper}
     */
     class GLTextureWrapper {
         constructor(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas, upload?: boolean);
+        /**
+        * The textureAtlas used by the GLTexture
+        * @property textureAtlas
+        * @type Kiwi.Textures.TextureAtlas
+        */
         public textureAtlas: Kiwi.Textures.TextureAtlas;
+        /**
+        * The number of bytes in the texture
+        * @property numBytes
+        * @type Kiwi.Textures.TextureAtlas
+        */
         private _numBytes;
         public numBytes : number;
+        /**
+        * Returns whether the texture has been created
+        * @property created
+        * @type boolean
+        */
         private _created;
         public created : boolean;
+        /**
+        * Returns whether the texture has been uploaded to video memory
+        * @property uploaded
+        * @type boolean
+        */
         private _uploaded;
         public uploaded : boolean;
         /**
@@ -9060,9 +9108,33 @@ declare module Kiwi.Renderers {
         * @public
         */
         public image: HTMLImageElement;
+        /**
+        * Creates a webgl texture object
+        * @method createTexture
+        * @param gl {WebGLRenderingContext}
+        * @public
+        */
         public createTexture(gl: WebGLRenderingContext): boolean;
+        /**
+        * Uploads a webgl texture object to video memory
+        * @method uploadTexture
+        * @param gl {WebGLRenderingContext}
+        * @public
+        */
         public uploadTexture(gl: WebGLRenderingContext): boolean;
+        /**
+        * Re-uploads a webgl texture object to video memory
+        * @method refreshTexture
+        * @param gl {WebGLRenderingContext}
+        * @public
+        */
         public refreshTexture(gl: WebGLRenderingContext): void;
+        /**
+        * Deletes a webgl texture
+        * @method deleteTexture
+        * @param gl {WebGLRenderingContext}
+        * @public
+        */
         public deleteTexture(gl: WebGLRenderingContext): boolean;
     }
 }
@@ -9072,6 +9144,7 @@ declare module Kiwi.Renderers {
 * @module Kiwi
 * @submodule Renderers
 * @main Renderers
+* @namespace Kiwi.Renderers
 */ 
 declare module Kiwi.Renderers {
     /**
@@ -9195,11 +9268,11 @@ declare module Kiwi.Renderers {
 *
 * @module Kiwi
 * @submodule Renderers
-*
+* @namespace Kiwi.Renderers
 */
 declare module Kiwi.Renderers {
     /**
-    *
+    * Encapsulates a WebGL Array Buffer
     * @class GLArrayBuffer
     * @constructor
     * @namespace Kiwi.Renderers
@@ -9207,57 +9280,86 @@ declare module Kiwi.Renderers {
     * @param [_itemSize] {number}
     * @param [items] {number[]}
     * @param [init=true] {boolean}
-    * @return {GLArrayBuffer}
+    * @return {Kiwi.RenderersGLArrayBuffer}
     */
     class GLArrayBuffer {
         constructor(gl: WebGLRenderingContext, _itemSize?: number, items?: number[], upload?: boolean);
+        /**
+        * Returns whether the buffer has been created
+        * @property created
+        * @type boolean
+        * @public
+        * @readonly
+        */
         private _created;
         public created : boolean;
+        /**
+        * Returns whether the buffer has been uploaded to video memory
+        * @property created
+        * @type boolean
+        * @public
+        * @readonly
+        */
         private _uploaded;
         public uploaded : boolean;
         /**
-        *
+        * The items ito upload to the buffer
         * @property items
         * @type number[]
         * @public
         */
         public items: number[];
         /**
-        *
+        * The WebGL buffer Object
         * @property buffer
         * @type WebGLBuffer
         * @public
         */
         public buffer: WebGLBuffer;
         /**
-        *
+        * The size of each item in the buffer.
         * @property itemSize
         * @type number
         * @public
         */
         public itemSize: number;
         /**
-        *
+        * The number of items in the buffer
         * @property numItems
         * @type number
         * @public
         */
         public numItems: number;
         /**
-        *
+        * Clears the item array.
         * @method clear
         * @public
         */
         public clear(): void;
         /**
-        *
-        * @method init
+        * Creates the array buffer.
+        * @method createBuffer
         * @param gl {WebGLRenderingCotext}
         * @return {WebGLBuffer}
         * @public
         */
         public createBuffer(gl: WebGLRenderingContext): boolean;
+        /**
+        * Uploads the array buffer.
+        * @method uploadBuffer
+        * @param gl {WebGLRenderingCotext}
+        * @param items {Array}
+        * @return {boolean}
+        * @public
+        */
         public uploadBuffer(gl: WebGLRenderingContext, items: number[]): boolean;
+        /**
+        * Deletes the array buffer.
+        * @method deleteBuffer
+        * @param gl {WebGLRenderingCotext}
+        * @return {boolean}
+        * @public
+        */
         public deleteBuffer(gl: WebGLRenderingContext): boolean;
         /**
         *
@@ -9296,7 +9398,7 @@ declare module Kiwi.Renderers {
 */
 declare module Kiwi.Renderers {
     /**
-    *
+    * Encapsulates a WebGL E;ement Array Buffer
     * @class GLElementArrayBuffer
     * @constructor
     * @namespace Kiwi.Renderers
@@ -9309,41 +9411,41 @@ declare module Kiwi.Renderers {
     class GLElementArrayBuffer {
         constructor(gl: WebGLRenderingContext, _itemSize?: number, _indices?: number[], init?: boolean);
         /**
-        *
+        * An array of indices
         * @property indices
         * @type number[]
         * @public
         */
         public indices: number[];
         /**
-        *
+        * The Element Array Buffer object
         * @property buffer
         * @type WebGLBuffer
         * @public
         */
         public buffer: WebGLBuffer;
         /**
-        *
+        * The size of each buffer item
         * @property itemSize
         * @type number
         * @public
         */
         public itemSize: number;
         /**
-        *
+        * The numbe of items in the buffer
         * @property numItems
         * @type number
         * @public
         */
         public numItems: number;
         /**
-        *
+        * Clears the indices array.
         * @method clear
         * @public
         */
         public clear(): void;
         /**
-        *
+        * Initialises the Element Array Buffer
         * @method init
         * @param gl {WebGLRenderingContext}
         * @return {WebGLBuffer}
@@ -9351,7 +9453,7 @@ declare module Kiwi.Renderers {
         */
         public init(gl: WebGLRenderingContext): WebGLBuffer;
         /**
-        *
+        * Refreshes the Element Array Buffer
         * @method refresh
         * @param gl {WebGLRenderingContext}
         * @param indices {number[]}
@@ -9360,7 +9462,7 @@ declare module Kiwi.Renderers {
         */
         public refresh(gl: WebGLRenderingContext, indices: number[]): WebGLBuffer;
         /**
-        *
+        * The required indices for a single quad.
         * @property square
         * @static
         * @type number[]
@@ -9370,20 +9472,114 @@ declare module Kiwi.Renderers {
         static square: number[];
     }
 }
+/**
+*
+* @module Kiwi
+* @submodule Renderers
+* @namespace Kiwi.Renderers
+*/
 declare module Kiwi.Renderers {
     class Renderer {
+        /**
+        * Base class for WebGL Renderers. Not for instantiation.
+        * @class Renderer
+        * @constructor
+        * @namespace Kiwi.Renderers
+        * @param gl {WebGLRenderingContext}
+        * @param shaderManager {Kiwi.Shaders.ShaderManager}
+        * @param [params=null] {object}
+        * @return {Kiwi.Renderers.Renderer}
+        */
         constructor(gl: WebGLRenderingContext, shaderManager: Kiwi.Shaders.ShaderManager, isBatchRenderer?: boolean);
+        /**
+        * Identifier for this renderer
+        * @property RENDERER_ID
+        * @type String
+        * @public
+        * @static
+        */
         static RENDERER_ID: string;
+        /**
+        * The camera matrix
+        * @property camMatrix
+        * @type Float32Array
+        * @public
+        */
         public camMatrix: Float32Array;
+        /**
+        *
+        * @property loaded
+        * @type Array
+        * @public
+        */
         public loaded: boolean;
+        /**
+        * Reference to the shaderManager - used for requesting shaders.
+        * @property shaderManager
+        * @type Array
+        * @public
+        */
         public shaderManager: Kiwi.Shaders.ShaderManager;
+        /**
+        * Enables the renderer (for override)
+        * @method disable
+        * @param gl {WebGLRenderingCotext}
+        * @param [params=null] {object}
+        * @public
+        */
         public enable(gl: WebGLRenderingContext, params?: any): void;
+        /**
+        * Enables the renderer (for override)
+        * @method disable
+        * @param gl {WebGLRenderingCotext}
+        * @param [params=null] {object}
+        * @public
+        */
         public disable(gl: WebGLRenderingContext): void;
+        /**
+        * Enables the renderer (for override)
+        * @method disable
+        * @param gl {WebGLRenderingCotext}
+        * @param [params=null] {object}
+        * @public
+        */
         public clear(gl: WebGLRenderingContext, params: any): void;
+        /**
+        * Draw to the draw or frame buffer (for override)
+        * @method draw
+        * @param gl {WebGLRenderingCotext}
+        * @public
+        */
         public draw(gl: WebGLRenderingContext): void;
+        /**
+        * Updates the stage resolution uniforms (for override)
+        * @method updateStageResolution
+        * @param gl {WebGLRenderingCotext}
+        * @param res {Float32Array}
+        * @public
+        */
         public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array): void;
+        /**
+        * Updates the texture size uniforms (for override)
+        * @method updateTextureSize
+        * @param gl {WebGLRenderingCotext}
+        * @param size {Float32Array}
+        * @public
+        */
         public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array): void;
+        /**
+        * The shader pair used by the renderer
+        * @property texture2DVert
+        * @type Array
+        * @public
+        */
         public shaderPair: Kiwi.Shaders.ShaderPair;
+        /**
+        * Returns whether this is a batch renderer.
+        * @property texture2DVert
+        * @type Array
+        * @public
+        */
         private _isBatchRenderer;
         public isBatchRenderer : boolean;
     }
@@ -9392,84 +9588,189 @@ declare module Kiwi.Renderers {
 *
 * @module Kiwi
 * @submodule Renderers
-*
+* @namespace Kiwi.Renderers
 */
 declare module Kiwi.Renderers {
     class TextureAtlasRenderer extends Renderers.Renderer {
+        /**
+        * The Renderer object for rendering Texture Atlases
+        * @class TextureAtlasRenderer
+        * @constructor
+        * @namespace Kiwi.Renderers
+        * @param gl {WebGLRenderingContext}
+        * @param shaderManager {Kiwi.Shaders.ShaderManager}
+        * @param [params=null] {object}
+        * @return {Kiwi.Renderers.TextureAtlasRenderer}
+        */
         constructor(gl: WebGLRenderingContext, shaderManager: Kiwi.Shaders.ShaderManager, params?: any);
+        /**
+        * The identifier for this renderer.
+        * @property RENDERER_ID
+        * @type Array
+        * @public
+        * @static
+        */
         static RENDERER_ID: string;
+        /**
+        * The shaderPair that this renderer uses.
+        * @property shaderPair
+        * @type Kiwi.Shaders.TextureAtlasShade
+        * @public
+        */
         public shaderPair: Kiwi.Shaders.TextureAtlasShader;
+        /**
+        * The maximum number of items that can be rendered by the renderer (not enforced)
+        * @property _maxItems
+        * @type number
+        * @private
+        */
         private _maxItems;
+        /**
+        * The Vertex Buffer
+        * @property _vertexBuffer
+        * @type Kiwi.Renderers.GLArrayBuffer
+        * @private
+        */
         private _vertexBuffer;
+        /**
+        * The Index Buffer
+        * @property _indexBuffer
+        * @type Kiwi.Renderers.GLElementArrayBuffer
+        * @private
+        */
         private _indexBuffer;
+        /**
+        * Enables the renderer ready for drawing
+        * @method enable
+        * @param gl {WebGLRenderingCotext}
+        * @param [params=null] {object}
+        * @public
+        */
         public enable(gl: WebGLRenderingContext, params?: any): void;
+        /**
+        * Disables the renderer
+        * @method disable
+        * @param gl {WebGLRenderingCotext}
+        * @public
+        */
         public disable(gl: WebGLRenderingContext): void;
+        /**
+        * Clears the vertex buffer.
+        * @method clear
+        * @param gl {WebGLRenderingCotext}
+        * @public
+        */
         public clear(gl: WebGLRenderingContext, params: any): void;
+        /**
+        * Makes a draw call, this is where things actually get rendered to the draw buffer (or a framebuffer).
+        * @method draw
+        * @param gl {WebGLRenderingCotext}
+        * @public
+        */
         public draw(gl: WebGLRenderingContext): void;
         /**
-        * Create prebaked indices for drawing quads
+        * Generates quad indices
         * @method _generateIndices
         * @param numQuads {number}
-        * @return number[]
         * @private
         */
         private _generateIndices(numQuads);
+        /**
+        * Updates the stage resolution uniforms
+        * @method updateStageResolution
+        * @param gl {WebGLRenderingCotext}
+        * @param res {Float32Array}
+        * @public
+        */
         public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array): void;
+        /**
+        * Updates the texture size uniforms
+        * @method updateTextureSize
+        * @param gl {WebGLRenderingCotext}
+        * @param size {Float32Array}
+        * @public
+        */
         public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array): void;
         /**
         * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
         * @method _collateVertexAttributeArrays
         * @param gl {WebGLRenderingContext}
-        * @param entity {Entity}
+        * @param entity {Kiwi.Entity}
         * @param camera {Camera}
         * @public
         */
         public addToBatch(gl: WebGLRenderingContext, entity: Kiwi.Entity, camera: Kiwi.Camera): void;
+        /**
+        * Adds an array of precalculated xyuv values to the item array
+        * @method concatBatch
+        * @param vertexItems {array}
+        * @public
+        */
         public concatBatch(vertexItems: number[]): void;
     }
 }
 /**
 *
 * @module Kiwi
-* @submodule Renderers
+* @submodule Shaders
+* @namespace Kiwi.Shaders
 *
 */
 declare module Kiwi.Shaders {
     /**
-    *
-    * @class GLShaders
+    * Base class for shader pairs which encapsulate a GLSL vertex and fragment shader
+    * @class ShaderPair
     * @constructor
-    * @param gl {WebGLRenderingContext}
-    * @return {GLShaders}
+    * @namespace Kiwi.Shaders
+    * @return {Kiwi.Shaders.ShaderPair}
     */
     class ShaderPair {
         constructor();
-        static RENDERER_ID: string;
-        public init(gl: WebGLRenderingContext): void;
-        public loaded: boolean;
         /**
         *
+        * @property RENDERER_ID
+        * @type string
+        * @public
+        * @static
+        */
+        static RENDERER_ID: string;
+        /**
+        * Initialise the shader pair.
+        * @method init
+        * @param gl {WebGLRenderingCotext}
+        * @public
+        */
+        public init(gl: WebGLRenderingContext): void;
+        /**
+        * Returns whether the shader pair has been loaded and compiled.
+        * @property loaded
+        * @type boolean
+        * @public
+        */
+        public loaded: boolean;
+        /**
+        * Vertex shader
         * @property vertShader
         * @type WebGLShader
         * @public
         */
         public vertShader: WebGLShader;
         /**
-        *
+        * Fragment shader
         * @property fragShader
         * @type WebGLShader
         * @public
         */
         public fragShader: WebGLShader;
         /**
-        *
+        * The WebGl shader program
         * @property shaderProgram
         * @type WebGLProgram
         * @public
         */
         public shaderProgram: WebGLProgram;
         /**
-        *
+        * Attaches the shaders to the program and links them
         * @method attach
         * @param gl {WebGLRenderingContext}
         * @param vertShader {WebGLShader}
@@ -9479,7 +9780,7 @@ declare module Kiwi.Shaders {
         */
         public attach(gl: WebGLRenderingContext, vertShader: WebGLShader, fragShader: WebGLShader): WebGLProgram;
         /**
-        *
+        * Compiles the shaders
         * @method compile
         * @param gl {WebGLRenderingContext}
         * @param src {string}
@@ -9488,51 +9789,115 @@ declare module Kiwi.Shaders {
         * @public
         */
         public compile(gl: WebGLRenderingContext, src: string, shaderType: number): WebGLShader;
+        /**
+        * Uniform descriptors
+        * @property uniforms
+        * @type Array
+        * @public
+        */
         public uniforms: any;
+        /**
+        * Attribute descriptors
+        * @property attributes
+        * @type Array
+        * @public
+        */
         public attributes: any;
         /**
-        *
+        * Shader frag source (for override)
         * @property texture2DFrag
         * @type Array
         * @public
         */
         public fragSource: any[];
         /**
-        *
+        * Shader vert source (for override)
         * @property texture2DVert
         * @type Array
         * @public
         */
         public vertSource: any[];
+        /**
+        * Sets a single uniform value and marks it as dirty.
+        * @method setParam
+        * @param uniformName {string}
+        * @param value {*}
+        * @public
+        */
         public setParam(uniformName: string, value: any): void;
+        /**
+        * Applies all uniforms to the uploaded program
+        * @method applyUniforms
+        * @param gl {WebGLRenderingCotext}
+        * @public
+        */
         public applyUniforms(gl: WebGLRenderingContext): void;
+        /**
+        * Applies a single uniforms to the uploaded program
+        * @method applyUniform
+        * @param gl {WebGLRenderingCotext}
+        * @param name {string}
+        * @public
+        */
         public applyUniform(gl: WebGLRenderingContext, name: string): void;
+        /**
+        * Initialises all uniforms
+        * @method initUniforms
+        * @param gl {WebGLRenderingCotext}
+        * @public
+        */
         public initUniforms(gl: WebGLRenderingContext): void;
     }
 }
 /**
 *
-* @class GLShaders
-* @constructor
-* @param gl {WebGLRenderingContext}
-* @return {GLShaders}
+* @module Kiwi
+* @submodule Shaders
+* @namespace Kiwi.Shaders
 */
 declare module Kiwi.Shaders {
+    /**
+    * Shader wrapper for rendering Texture Atlases
+    * @class TextureAtlasShader
+    * @extends Kiwi.Shaders.ShaderPair
+    * @constructor
+    * @namespace Kiwi.Shaders
+    * @return {Kiwi.Shaders.TextureAtlasShader}
+    */
     class TextureAtlasShader extends Shaders.ShaderPair {
         constructor();
+        /**
+        * Initialise the shaderPair
+        * @method init
+        * @param gl {WebGLRenderingCotext}
+        * @return {WebGLBuffer}
+        * @public
+        */
         public init(gl: WebGLRenderingContext): void;
+        /**
+        * Shader attribute references
+        * @property attributes
+        * @type object
+        * @public
+        */
         public attributes: any;
+        /**
+        * Shader uniform descriptors
+        * @property uniforms
+        * @type object
+        * @public
+        */
         public uniforms: any;
         /**
-        *
-        * @property texture2DFrag
+        * The source for the GLSL fragment shader
+        * @property fragSource
         * @type Array
         * @public
         */
         public fragSource: string[];
         /**
-        *
-        * @property texture2DVert
+        * The source for the GLSL vertex shader
+        * @property vertSource
         * @type Array
         * @public
         */
@@ -16915,10 +17280,10 @@ declare module Kiwi.Time {
     * @namespace Kiwi.Time
     * @constructor
     * @param manager {ClockManager} The ClockManager that this clock belongs to. .
-    * @param master {MasterClock} The MasterClock that it is getting the time in relation to.
+    * @param master {Kiwi.Time.MasterClock} The MasterClock that it is getting the time in relation to.
     * @param name {String} The name of the clock.
     * @param [units=1000] {Number} The units that this clock is to operate in.
-    * @return {Clock} This Clock object.
+    * @return {Kiwi.Time.Clock} This Clock object.
     *
     */
     class Clock {
@@ -17093,7 +17458,7 @@ declare module Kiwi.Time {
         /**
         * The master clock.
         * @property master
-        * @type MasterClock
+        * @type Kiwi.Time.MasterClock
         * @public
         */
         public master: Time.MasterClock;
@@ -17116,7 +17481,7 @@ declare module Kiwi.Time {
         * Add an existing Timer to the Clock.
         * @method addTimer
         * @param timer {Timer} The Timer object instance to be added to ths Clock.
-        * @return {Clock} This Clock object.
+        * @return {Kiwi.Time.Clock} This Clock object.
         * @public
         */
         public addTimer(timer: Time.Timer): Clock;
@@ -17127,7 +17492,7 @@ declare module Kiwi.Time {
         * @param [delay=1] {Number} The number of clock units to wait between firing events (default 1)
         * @param [repeatCount=0] {Number} The number of times to repeat this Timer (default 0)
         * @param [start=true] {Boolean} If the timer should start.
-        * @return {Timer} The newly created Timer.
+        * @return {Kiwi.Time.Timer} The newly created Timer.
         * @public
         */
         public createTimer(name: string, delay?: number, repeatCount?: number, start?: boolean): Time.Timer;
@@ -17178,21 +17543,21 @@ declare module Kiwi.Time {
         /**
         * Pause the clock. The clock can only be paused if it is already running.
         * @method pause
-        * @return {Clock} This Clock object.
+        * @return {Kiwi.Time.Clock} This Clock object.
         * @public
         */
         public pause(): Clock;
         /**
         * Resume the clock. The clock can only be resumed if it is already paused.
         * @method resume
-        * @return {Clock} This Clock object.
+        * @return {Kiwi.Time.Clock} This Clock object.
         * @public
         */
         public resume(): Clock;
         /**
         * Stop the clock. Clock can only be stopped if it is already running or is paused.
         * @method stop
-        * @return {Clock} This Clock object.
+        * @return {Kiwi.Time.Clock} This Clock object.
         * @public
         */
         public stop(): Clock;
@@ -17219,8 +17584,8 @@ declare module Kiwi.Time {
     * @class ClockManager
     * @namespace Kiwi.Time
     * @constructor
-    * @param {Game} game.
-    * @return {ClockManager} This Object.
+    * @param {Kiwi.Game} game.
+    * @return {Kiwi.Time.ClockManager} This Object.
     *
     */
     class ClockManager {
@@ -17235,28 +17600,28 @@ declare module Kiwi.Time {
         /**
         * The game that this belongs to.
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private
         */
         private _game;
         /**
         * An array containing all of the clocks that exist on this manager.
         * @property _clocks
-        * @type Clock[]
+        * @type Array
         * @private
         */
         private _clocks;
         /**
         * The MasterClock for this manager.
         * @property master
-        * @type MasterClock
+        * @type Kiwi.Time.MasterClock
         * @private
         */
         private master;
         /**
         * The default Game Clock - you can use this via this.game.time.clock. Uses a 1000 millisecond time unit.
         * @property clock
-        * @type Clock
+        * @type Kiwi.Time.Clock
         * @public
         */
         public clock: Time.Clock;
@@ -17271,7 +17636,7 @@ declare module Kiwi.Time {
         * @method addClock
         * @param name {string} The name of the Clock.
         * @param [units=1000] {Number} The number of milliseconds that make up one unit of time on this clock. Default 1000.
-        * @return {Clock} A reference to the newly created Clock object.
+        * @return {Kiwi.Time.Clock} A reference to the newly created Clock object.
         * @public
         */
         public addClock(name: string, units?: number): Time.Clock;
@@ -17279,7 +17644,7 @@ declare module Kiwi.Time {
         * Returns the Clock with the matching name. Throws and error if no Clock with that name exists
         * @method getClock
         * @param name {string} The name of the Clock to be returned.
-        * @return {Clock} The clock which matches the name given.
+        * @return {Kiwi.Time.Clock} The clock which matches the name given.
         * @public
         */
         public getClock(name: string): Time.Clock;
@@ -17320,7 +17685,7 @@ declare module Kiwi.Time {
     * @class MasterClock
     * @namespace Kiwi.Time
     * @constructor
-    * @return {MasterClock} This Object.
+    * @return {Kiwi.Time.MasterClock} This Object.
     *
     */
     class MasterClock {
@@ -17420,10 +17785,10 @@ declare module Kiwi.Time {
     * @namespace Kiwi.Time
     * @constructor
     * @param name {string} The name of the timer.
-    * @param clock {Clock} The game clock instance this Timer is based on.
+    * @param clock {Kiwi.Time.Clock} The game clock instance this Timer is based on.
     * @param delay {Number} The number of clock units to wait between firing events.
     * @param [repeatCount=0] {Number} The number of times to repeat the timer before it is expired. If you don't want it to ever expire, set a value of -1.
-    * @return {Timer} This object.
+    * @return {Kiwi.Time.Timer} This object.
     *
     */
     class Timer {
@@ -17453,7 +17818,7 @@ declare module Kiwi.Time {
         /**
         * A collection of the TimerEvents associated with TimerEvent.TIMER_START
         * @property _startEvents
-        * @type TimerEvent[]
+        * @type Array
         * @private
         */
         private _startEvents;
@@ -17461,20 +17826,20 @@ declare module Kiwi.Time {
         * A collection of the TimerEvents associated with TimerEvent.TIMER_COUNT
         * @property _countEvents
         * @private
-        * @type TimerEvent[]
+        * @type Array
         */
         private _countEvents;
         /**
         * A collection of the TimerEvents associated with TimerEvent.TIMER_STOP
         * @property _stopEvents
         * @private
-        * @type TimerEvent[]
+        * @type Array
         */
         private _stopEvents;
         /**
         * The clock which this timer bases its timing on.
         * @property _clock
-        * @type Clock
+        * @type Kiwi.Time.Clock
         * @private
         */
         private _clock;
@@ -17570,36 +17935,36 @@ declare module Kiwi.Time {
         /**
         * Start the Timer. This will reset the timer and start it. The timer can only be started if it is in a stopped state.
         * @method start
-        * @return {Timer} this object.
+        * @return {Kiwi.Time.Timer} this object.
         * @public
         */
         public start(): Timer;
         /**
         * Stop the Timer. Only possible when the timer is running or paused.
         * @method stop
-        * @return {Timer} this object.
+        * @return {Kiwi.Time.Timer} this object.
         * @public
         */
         public stop(): Timer;
         /**
         * Pause the Timer. Only possible when the timer is running.
         * @method pause
-        * @return {Timer} this object.
+        * @return {Kiwi.Time.Timer} this object.
         * @public
         */
         public pause(): Timer;
         /**
         * Resume the Timer. Only possible if the timer has been paused.
         * @method resume
-        * @return {Timer} this object.
+        * @return {Kiwi.Time.Timer} this object.
         * @public
         */
         public resume(): Timer;
         /**
         * Adds an existing TimerEvent object to this Timer.
         * @method addTimerEvent
-        * @param {TimerEvent} A TimerEvent object
-        * @return {TimerEvent} The TimerEvent object
+        * @param {Kiwi.Time.TimerEvent} A TimerEvent object
+        * @return {Kiwi.Time.TimerEvent} The TimerEvent object
         * @public
         */
         public addTimerEvent(event: Time.TimerEvent): Time.TimerEvent;
@@ -17609,14 +17974,14 @@ declare module Kiwi.Time {
         * @param type {Number} The type of TimerEvent to create (TIMER_START, TIMER_COUNT or TIMER_STOP).
         * @param callback {Function} The function to call when the TimerEvent fires.
         * @param context {Function} The context in which the given function will run (usually 'this')
-        * @return {TimerEvent} The newly created TimerEvent.
+        * @return {Kiwi.Time.TimerEvent} The newly created TimerEvent.
         * @public
         */
         public createTimerEvent(type: number, callback: any, context: any): Time.TimerEvent;
         /**
         * Removes a TimerEvent object from this Timer
         * @method removeTimerEvent
-        * @param {TimerEvent} The TimerEvent to remove
+        * @param {Kiwi.Time.TimerEvent} The TimerEvent to remove
         * @return {boolean} True if the event was removed, otherwise false.
         * @public
         */
@@ -17654,7 +18019,7 @@ declare module Kiwi.Time {
     * @param type {Number} The type of TimerEvent that this is.
     * @param callback {Any} The method that is to be executed when the event occurs.
     * @param context {Any} The context that the callback is to be called in.
-    * @return {TimerEvent} This Object.
+    * @return {Kiwi.Time.TimerEvent} This Object.
     */
     class TimerEvent {
         constructor(type: number, callback: any, context: any);
@@ -17740,7 +18105,7 @@ declare module Kiwi.Utils {
     * @param height {Number} The height of the canvas.
     * @param [visible=true] {boolean} If the canvas is visible or not.
     * @param [offScreen=false] {boolean} If the canvas is designed to be offscreen or not.
-    * @return {Canvas}
+    * @return {Kiwi.Utils.Canvas}
     *
     */
     class Canvas {
@@ -19379,14 +19744,51 @@ declare module Kiwi.Utils {
         public SetTimeoutUpdate(): void;
     }
 }
+/**
+*
+* @module Kiwi
+* @submodule Utils
+*/
 declare module Kiwi.Utils {
+    /**
+    * Deals with parsing and comparing semver style version numbers
+    * @class Version
+    * @constructor
+    * @namespace Kiwi.Utils
+    */
     class Version {
+        /**
+        * Parses a string such as "1.2.3" and returns an oject containing numeric properties for majorVersion, minorVersion and patchVersion
+        * @method parseVersion
+        * @param version {String}
+        * @return {Object}
+        * @public
+        * @static
+        */
         static parseVersion(version: string): {
             majorVersion: number;
             minorVersion: number;
             patchVersion: number;
         };
+        /**
+        * Compares two semver version strings such as "0.1.0" and "0.2.1". Returns "greater", "less" or "equal".
+        * @method parseVersion
+        * @param version1 {String}
+        * @param version2 {String}
+        * @return {String}
+        * @public
+        * @static
+        */
         static compareVersions(version1: string, version2: string): string;
+        /**
+        * Compares two semver version strings such as "0.1.0" and "0.2.1". Returns true if version1 is greater than version2.
+        * @method parseVersion
+        * @param version1 {String}
+        * @param version2 {String}
+        * @return {boolean}
+        * @public
+        * @static
+        */
         static greaterOrEqual(version1: string, version2: string): boolean;
     }
 }

@@ -7,14 +7,15 @@
 module Kiwi {
 
     /**
-    * Is a class the implements the IChild structure who's purpose is to contain multiple children/members, those of which also implement the IChild interface. The members of the Group's coordinates are also in relation to the Group that they were added to. So if you moved an entire Group, each member of that Group would also 'move'.
+    * The group class is central to creating the scene graph that contains all objects in a state. A group can contain entities or other groups, thereby enabling a nested tree scene graph.
+    * The members of the Group's coordinates are also in relation to the Group that they were added to. So if you moved an entire Group, each member of that Group would also 'move'.
     * 
     * @class Group
     * @namespace Kiwi
     * @constructor
-    * @param state {State} The State that this Group is a part of.
+    * @param state {Kiwi.State} The State that this Group is a part of.
     * @param [name=''] {String} The name of this group. 
-    * @return {Group}
+    * @return {Kiwi.Group}
     * 
     */
     export class Group implements Kiwi.IChild {
@@ -54,7 +55,7 @@ module Kiwi {
         }
 
         /*
-        * Represents the type of child that this is. Note: A 'CHILD' is any object that extends from ICHILD.
+        * Represents the type of child that this is. 
         * @method childType
         * @return number
         * @public
@@ -76,7 +77,7 @@ module Kiwi {
         * The transform object for this group. 
         * Transform handles the calculation of coordinates/rotation/scale e.t.c in the Game World.
         * @property transform
-        * @type Transform
+        * @type Kiwi.Geom.Transform
         * @public
         */
         public transform: Kiwi.Geom.Transform;
@@ -84,7 +85,7 @@ module Kiwi {
         /**
         * The parent group of this group.
         * @property _parent
-        * @type Group
+        * @type Kiwi.Group
         * @private
         */
         private _parent: Kiwi.Group = null;
@@ -92,7 +93,7 @@ module Kiwi {
         /**
         * Set's the parent of this entity. Note that this also sets the transforms parent of this entity to be the passed groups transform.
         * @property parent
-        * @type Group
+        * @type Kiwi.Group
         * @public
         */
         public set parent(val: Kiwi.Group) {
@@ -174,7 +175,7 @@ module Kiwi {
         /**
         * The Component Manager
         * @property components
-        * @type ComponentManager
+        * @type Kiwi.ComponentManager
         * @public
         */
         public components: Kiwi.ComponentManager;
@@ -182,7 +183,7 @@ module Kiwi {
         /**
         * The game this Group belongs to
         * @property game
-        * @type Game
+        * @type Kiwi.Game
         * @public
         */
         public game: Kiwi.Game = null;
@@ -190,7 +191,7 @@ module Kiwi {
         /**
         * The State that this Group belongs to
         * @property state
-        * @type State
+        * @type Kiwi.State
         * @public
         **/
         public state: Kiwi.State = null;
@@ -204,9 +205,9 @@ module Kiwi {
         public id: string;
         
         /**
-        * The collection of children belonging to this group
+        * The collection of children belonging to this group 
         * @property members
-        * @type IChild
+        * @type Array
         * @public
         */
         public members: Kiwi.IChild[];
@@ -260,9 +261,9 @@ module Kiwi {
         }
 
         /**
-        * Checks to see if the given IChild is contained in this group as a descendant
+        * Checks to see if the given object is contained in this group as a descendant
         * @method containsDescendant
-        * @param child {IChild} The IChild that you want to check.
+        * @param child {object} The IChild that you want to check.
         * @return {boolean}
         * @public
         */
@@ -280,7 +281,7 @@ module Kiwi {
         /**
         * Checks to see if one child is an ansector of another child.
         * @method containsAncestor
-        * @param descendant {IChild} The IChild that you are checking.
+        * @param descendant {object} The object that you are checking.
         * @param ancestor {Group} The parent (ancestor) that you are checking for.
         * @return {boolean}
         * @public
@@ -296,8 +297,8 @@ module Kiwi {
         /**
         * Adds an Entity to this Group. The Entity must not already be in this Group.
         * @method addChild
-        * @param child {IChild} The child to be added.
-        * @return {IChild} The child that was added.
+        * @param child {object} The child to be added.
+        * @return {object} The child that was added.
         * @public
         */
         public addChild(child: Kiwi.IChild): Kiwi.IChild {              
@@ -319,9 +320,9 @@ module Kiwi {
         /**
         * Adds an Entity to this Group in the specific location. The Entity must not already be in this Group and it must be supported by the Group.
         * @method addChildAt
-        * @param child {IChild} The child to be added.
+        * @param child {object} The child to be added.
         * @param index {Number} The index the child will be set at.
-        * @return {IChild} The child.
+        * @return {object} The child.
         * @public
         */
         public addChildAt(child: Kiwi.IChild, index: number): Kiwi.IChild {
@@ -339,9 +340,9 @@ module Kiwi {
         /**
         * Adds an Entity to this Group before another child. The Entity must not already be in this Group and it must be supported by the Group.
         * @method addChildBefore
-        * @param child {IChild} The child to be added.
+        * @param child {object} The child to be added.
         * @param beforeChild {Entity} The child before which the child will be added.
-        * @return {IChild} The child.
+        * @return {object} The child.
         * @public
         */
         public addChildBefore(child: Kiwi.IChild, beforeChild: Kiwi.IChild): Kiwi.IChild {                      //REWORK
@@ -360,9 +361,9 @@ module Kiwi {
         /**
         * Adds an Entity to this Group after another child. The Entity must not already be in this Group and it must be supported by the Group..
         * @method addChildAfter
-        * @param child {IChild} The child to be added.
-        * @param beforeChild {IChild} The child after which the child will be added.
-        * @return {IChild} The child.
+        * @param child {object} The child to be added.
+        * @param beforeChild {object} The child after which the child will be added.
+        * @return {object} The child.
         * @public
         */
         public addChildAfter(child: Kiwi.IChild, beforeChild: Kiwi.IChild): Kiwi.IChild {
@@ -382,7 +383,7 @@ module Kiwi {
         * Get the child at a specific position in this Group by its index.
         * @method getChildAt
         * @param index {Number} The index of the child
-        * @return {IChild} The child, if found or null if not.
+        * @return {object} The child, if found or null if not.
         * @public
         */
         public getChildAt(index: number): Kiwi.IChild {
@@ -399,7 +400,7 @@ module Kiwi {
         * Get a child from this Group by its name.
         * @method getChildByName
         * @param name {String} The name of the child
-        * @return {IChild} The child, if found or null if not.
+        * @return {object} The child, if found or null if not.
         * @public
         */
         public getChildByName(name: string): Kiwi.IChild {              //make recursive!!
@@ -418,7 +419,7 @@ module Kiwi {
         * Get a child from this Group by its UUID.
         * @method getChildByID
         * @param id {String} The ID of the child.
-        * @return {IChild} The child, if found or null if not.
+        * @return {object} The child, if found or null if not.
         * @public
         */
         public getChildByID(id: string): Kiwi.IChild {                  //make recursive!!
@@ -436,7 +437,7 @@ module Kiwi {
         /**
         * Returns the index position of the Entity or -1 if not found.
         * @method getChildIndex
-        * @param child {IChild} The child.
+        * @param child {object} The child.
         * @return {Number} The index of the child or -1 if not found.
         * @public
         */
@@ -449,9 +450,9 @@ module Kiwi {
         /**
         * Removes an Entity from this Group if it is a child of it.
         * @method removeChild
-        * @param child {IChild} The child to be removed.
+        * @param child {object} The child to be removed.
         * @param [destroy=false] {boolean} If the entity that gets removed should be destroyed as well.
-        * @return {IChild} The child.
+        * @return {object} The child.
         * @public
         */
         public removeChild(child: Kiwi.IChild, destroy:boolean=false): Kiwi.IChild {   
@@ -478,7 +479,7 @@ module Kiwi {
         * Removes the Entity from this Group at the given position.
         * @method removeChildAt
         * @param index {Number} The index of the child to be removed.
-        * @return {IChild} The child, or null.
+        * @return {object} The child, or null.
         */
         public removeChildAt(index: number): Kiwi.IChild {
 
@@ -521,7 +522,7 @@ module Kiwi {
         /**
         * Sets a new position of an existing Entity within the Group.
         * @method setChildIndex
-        * @param child {IChild} The child in this Group to change.
+        * @param child {object} The child in this Group to change.
         * @param index {Number} The index for the child to be set at.
         * @return {boolean} true if the Entity was moved to the new position, otherwise false.
         * @public
@@ -542,8 +543,8 @@ module Kiwi {
         /**
         * Swaps the position of two existing Entities that are a direct child of this group.
         * @method swapChildren
-        * @param child1 {IChild} The first child in this Group to swap.
-        * @param child2 {IChild} The second child in this Group to swap.
+        * @param child1 {object} The first child in this Group to swap.
+        * @param child2 {object} The second child in this Group to swap.
         * @return {boolean} true if the Entities were swapped successfully, otherwise false.
         * @public
         */
@@ -598,8 +599,8 @@ module Kiwi {
         /**
         * Replaces a child Entity in this Group with a new one.
         * @method replaceChild
-        * @param oldChild {IChild} The Entity in this Group to be removed.
-        * @param newChild {IChild} The new Entity to insert into this Group at the old Entities position.
+        * @param oldChild {object} The Entity in this Group to be removed.
+        * @param newChild {object} The new Entity to insert into this Group at the old Entities position.
         * @return {boolean} true if the Entities were replaced successfully, otherwise false.
         * @public
         */
@@ -784,7 +785,7 @@ module Kiwi {
         * The render method that is required by the IChild. 
         * This method never gets called as the render is only worried about rendering entities.
         * @method render
-        * @param camera {Camera}
+        * @param camera {Kiwi.Camera}
         * @public
         */
         public render(camera:Kiwi.Camera) {
@@ -795,7 +796,7 @@ module Kiwi {
         * Removes the first Entity from this Group marked as 'alive'
         * @method removeFirstAlive
         * @param [destroy=false] {boolean} If the entity should run the destroy method when it is removed.
-        * @return {IChild} The Entity that was removed from this Group if alive, otherwise null
+        * @return {object} The Entity that was removed from this Group if alive, otherwise null
         * @public
         */
         public removeFirstAlive(destroy:boolean = false): Kiwi.IChild { 
@@ -807,7 +808,7 @@ module Kiwi {
         /**
         * Returns the first Entity from this Group marked as 'alive' or null if no members are alive
         * @method getFirstAlive
-        * @return {IChild}
+        * @return {object}
         * @public
 		*/
         public getFirstAlive(): Kiwi.IChild { 
@@ -824,7 +825,7 @@ module Kiwi {
         /**
         * Returns the first member of the Group which is not 'alive', returns null if all members are alive.
         * @method getFirstDead
-        * @return {IChild}
+        * @return {object}
         * @public
 		*/
         public getFirstDead():Kiwi.IChild { 
@@ -883,7 +884,7 @@ module Kiwi {
 		* Returns a member at random from the group.
 		* @param {Number}	StartIndex	Optional offset off the front of the array. Default value is 0, or the beginning of the array.
 		* @param {Number}	Length		Optional restriction on the number of values you want to randomly select from.
-		* @return {IChild}	A child from the members list.
+		* @return {object}	A child from the members list.
         * @public
 		*/
         public getRandom(start: number = 0, length: number = 0): Kiwi.IChild { 

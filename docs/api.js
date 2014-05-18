@@ -1,11 +1,6 @@
 YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
-        "GLRenderManager",
-        "GLShaders",
-        "GLTexture",
-        "GLTextureManager",
-        "IRenderer",
         "Kiwi.Animations.Animation",
         "Kiwi.Animations.Sequence",
         "Kiwi.Animations.Tween",
@@ -84,6 +79,14 @@ YUI.add("yuidoc-meta", function(Y) {
         "Kiwi.Renderers.CanvasRenderer",
         "Kiwi.Renderers.GLArrayBuffer",
         "Kiwi.Renderers.GLElementArrayBuffer",
+        "Kiwi.Renderers.GLRenderManager",
+        "Kiwi.Renderers.GLTextureManager",
+        "Kiwi.Renderers.GLTextureWrapper",
+        "Kiwi.Renderers.Renderer",
+        "Kiwi.Renderers.TextureAtlasRenderer",
+        "Kiwi.Shaders.ShaderManager",
+        "Kiwi.Shaders.ShaderPair",
+        "Kiwi.Shaders.TextureAtlasShader",
         "Kiwi.Signal",
         "Kiwi.SignalBinding",
         "Kiwi.Sound.Audio",
@@ -94,7 +97,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "Kiwi.StateConfig",
         "Kiwi.StateManager",
         "Kiwi.System.Bootstrap",
-        "Kiwi.System.Browser",
         "Kiwi.System.Device",
         "Kiwi.Textures.SingleImage",
         "Kiwi.Textures.SpriteSheet",
@@ -110,7 +112,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Kiwi.Utils.GameMath",
         "Kiwi.Utils.RandomDataGenerator",
         "Kiwi.Utils.RequestAnimationFrame",
-        "ShaderManager"
+        "Kiwi.Utils.Version"
     ],
     "modules": [
         "Animations",

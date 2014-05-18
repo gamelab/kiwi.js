@@ -12,14 +12,14 @@ module Kiwi {
     * @class Camera
     * @namespace Kiwi
     * @constructor
-    * @param game {Game} The game that this camera belongs to.
+    * @param game {Kiwi.Game} The game that this camera belongs to.
     * @param id {Number} A unique ID for this camera 
     * @param name {String} The name this camera goes by
     * @param x {Number} The x coordinate of the camera
     * @param y {Number} The y coordinate of the camera
     * @param width {Number} The width of the camera
     * @param height {Number} The cameras height
-    * @return {Camera}
+    * @return {Kiwi.Camera}
     * 
     */
     export class Camera {
@@ -57,7 +57,7 @@ module Kiwi {
         public height: number;
 
         /**
-        * The type of Object this is.
+        * The type of object this is.
         * @method objType
         * @return {String}
         * @public
@@ -76,9 +76,9 @@ module Kiwi {
         public fitToStage: boolean = true;
 
         /** 
-	    * The Transform controls the location of this Game Object within the game world. Also controls the cameras scale and rotation.
+	    * The Transform controls the location of the camera within the game world. Also controls the cameras scale and rotation.
 	    * @property transform
-	    * @type Transform
+	    * @type Kiwi.Geom.Transform
         * @public
 	    */
         public transform: Kiwi.Geom.Transform;
@@ -100,10 +100,10 @@ module Kiwi {
         /**
         * The game this Group belongs to
         * @property game
-        * @type Game
-        * @public
+        * @type Kiwi.Game
+        * @private
 	    */
-        public _game: Kiwi.Game;
+        private _game: Kiwi.Game;
 
         /**
         * A unique identifier for this Layer within the game used internally by the framework. See the name property for a friendly version.
@@ -122,7 +122,7 @@ module Kiwi {
         public name: string;
 
         /**
-		* Actually controls whether this Camera is rendered
+		* Controls whether this Camera is rendered
         * @property _visible
         * @type boolean
         * @private
@@ -143,7 +143,7 @@ module Kiwi {
         }
 
         /**
-		* A flag that indicates whether this camera needs to be rendered again at the next update loop, or if it nothing has changed so it doesn't.
+		* A flag that indicates whether this camera needs to be rendered again at the next update loop, or if nothing has changed so it doesn't.
         * @property _dirty
         * @type boolean
         * @private
@@ -168,8 +168,8 @@ module Kiwi {
         * Useful for when calculating if coordinates with the mouse.
         * Note: This method clones the point you pass, so that is doesn't "reset" any properties you set. 
         * @method transformPoint
-        * @param point {Point} 
-        * @return Point
+        * @param point {Kiwi.Geom.Point} 
+        * @return {Kiwi.Geom.Point}
         * @public
         */
         public transformPoint(point: Kiwi.Geom.Point): Kiwi.Geom.Point {

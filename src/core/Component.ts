@@ -7,14 +7,15 @@
 module Kiwi {
 
     /**
-    * The base class that all components extend from and thus contains all of the common functionality that is required of every Component. 
+    * The base class that all components extend from. It contains all of the common functionality that is required of every Component.
+    * Any object  
     *
     * @class Component
     * @namespace Kiwi
     * @constructor
-    * @param owner {IChild} The IChild that this component belongs to.
+    * @param owner {Object} The object that this component belongs to. 
     * @param componentName {String} The name of this component.
-    * @return {Component}
+    * @return {Kiwi.Component}
     */ 
     export class Component {
          
@@ -38,9 +39,9 @@ module Kiwi {
         }
         
         /**
-        * The IChild that owns this entity
+        * The object that owns this entity
         * @property owner
-        * @type IChild
+        * @type Object
         * @public
         */
         public owner: Kiwi.IChild;

@@ -23,6 +23,7 @@ Thumbs.db
 *.map
 *.orig
 *.js
+.idea*
 /obj/debug/*
 /build/kiwi_src
 !log4javascript.js

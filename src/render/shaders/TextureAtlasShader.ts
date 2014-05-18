@@ -1,36 +1,59 @@
 /**
-*
-* @class GLShaders
-* @constructor
-* @param gl {WebGLRenderingContext}
-* @return {GLShaders}
+* 
+* @module Kiwi
+* @submodule Shaders
+* @namespace Kiwi.Shaders
 */
 
 module Kiwi.Shaders {
 
+    /**
+    * Shader wrapper for rendering Texture Atlases
+    * @class TextureAtlasShader
+    * @extends Kiwi.Shaders.ShaderPair
+    * @constructor
+    * @namespace Kiwi.Shaders
+    * @return {Kiwi.Shaders.TextureAtlasShader}
+    */
     export class TextureAtlasShader extends ShaderPair {
 
         constructor() {
             super();
         }
 
+        /**
+        * Initialise the shaderPair
+        * @method init
+        * @param gl {WebGLRenderingCotext}
+        * @return {WebGLBuffer}
+        * @public
+        */
         public init(gl: WebGLRenderingContext) {
             super.init(gl);
 
-            //attributes
             this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
             this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
-
             
             this.initUniforms(gl);
         }
 
+        /**
+        * Shader attribute references
+        * @property attributes
+        * @type object
+        * @public
+        */
         public attributes: any = {
             aXYUV: null,
             aAlpha: null,
-
         };
 
+        /**
+        * Shader uniform descriptors
+        * @property uniforms
+        * @type object
+        * @public
+        */
         public uniforms: any = {
             uCamMatrix: {
                 type: "mat3",
@@ -48,8 +71,8 @@ module Kiwi.Shaders {
 
 
         /**
-        *
-        * @property texture2DFrag
+        * The source for the GLSL fragment shader
+        * @property fragSource
         * @type Array
         * @public
         */
@@ -66,8 +89,8 @@ module Kiwi.Shaders {
 
 
         /**
-        *
-        * @property texture2DVert
+        * The source for the GLSL vertex shader
+        * @property vertSource
         * @type Array
         * @public
         */
