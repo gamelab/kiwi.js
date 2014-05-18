@@ -369,7 +369,8 @@
 
 
 <div class="box intro">
-    <p>Manages the initialisation of assets necessary when dealing with audio in the game, either through Audio Tags or the Web Audio API. Also provides global sound controls that will be applyed to all Audio objects at the same time.</p>
+    <p>Manages the initialisation of assets necessary when dealing with audio in the game, either through Audio Tags or the Web Audio API. 
+Also provides global sound controls that will be applyed to all Audio objects at the same time, within the Game this manager is a part of.</p>
 
 </div>
 
@@ -395,7 +396,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">AudioManager</span>
+            <span class="type"><a href="..\classes\Kiwi.Sound.AudioManager.html" class="crosslink">Kiwi.Sound.AudioManager</a></span>
         </span>
     
 
@@ -445,7 +446,7 @@
                 <li class="param">
                     
                         <code class="param-name">game</code>
-                        <span class="type">Game</span>
+                        <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
                     
 
                     
@@ -469,7 +470,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">AudioManager</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Sound.AudioManager.html" class="crosslink">Kiwi.Sound.AudioManager</a></span>:
                     
                 
             </div>
@@ -556,13 +557,6 @@
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_playAll">playAll</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
                                 <a href="#method_registerSound">registerSound</a>
 
                                 
@@ -578,6 +572,13 @@
                         
                             <li class="index-item method public">
                                 <a href="#method_resumeAll">resumeAll</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_stopAll">stopAll</a>
 
                                 
                                 
@@ -753,7 +754,7 @@
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l209"><code>src\sound\AudioManager.ts:209</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l211"><code>src\sound\AudioManager.ts:211</code></a>
         
         </p>
 
@@ -807,7 +808,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">Audio</span>
+            <span class="type"><a href="..\classes\Kiwi.Sound.Audio.html" class="crosslink">Kiwi.Sound.Audio</a></span>
         </span>
     
 
@@ -836,7 +837,7 @@
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l348"><code>src\sound\AudioManager.ts:348</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l352"><code>src\sound\AudioManager.ts:352</code></a>
         
         </p>
 
@@ -918,7 +919,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Audio</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Sound.Audio.html" class="crosslink">Kiwi.Sound.Audio</a></span>:
                     
                 
             </div>
@@ -963,7 +964,7 @@
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l150"><code>src\sound\AudioManager.ts:150</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l152"><code>src\sound\AudioManager.ts:152</code></a>
         
         </p>
 
@@ -1034,7 +1035,7 @@
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l315"><code>src\sound\AudioManager.ts:315</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l319"><code>src\sound\AudioManager.ts:319</code></a>
         
         </p>
 
@@ -1045,7 +1046,7 @@
     </div>
 
     <div class="description">
-        <p>Indicates whether or not an Audio Object is registered with this Audio Manager or not. More for Kiwi Internal use only.</p>
+        <p>Indicates whether or not an Audio Object is registered with this Audio Manager or not. For Kiwi Internal use only.</p>
 
     </div>
 
@@ -1133,7 +1134,7 @@
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l29"><code>src\sound\AudioManager.ts:29</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l30"><code>src\sound\AudioManager.ts:30</code></a>
         
         </p>
 
@@ -1159,6 +1160,8 @@
                     
                         <span class="type">String</span>:
                     
+                    <p>&quot;AudioManager&quot;</p>
+
                 
             </div>
         </div>
@@ -1202,7 +1205,7 @@
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l423"><code>src\sound\AudioManager.ts:423</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l427"><code>src\sound\AudioManager.ts:427</code></a>
         
         </p>
 
@@ -1213,7 +1216,7 @@
     </div>
 
     <div class="description">
-        <p>Pauses all of the sounds listed in the audio manager.</p>
+        <p>Pauses all of the sounds listed in the AudioManager.</p>
 
     </div>
 
@@ -1259,7 +1262,7 @@
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l389"><code>src\sound\AudioManager.ts:389</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l395"><code>src\sound\AudioManager.ts:395</code></a>
         
         </p>
 
@@ -1270,64 +1273,7 @@
     </div>
 
     <div class="description">
-        <p>Plays all of the sounds listed in the audio manager.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_playAll" class="method item public">
-    <h3 class="name"><code>playAll</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_sound_AudioManager.ts.html#l405"><code>src\sound\AudioManager.ts:405</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Stops all of the sounds that are listed in the audio manager from playing.</p>
+        <p>Plays all of the sounds listed in the AudioManager.</p>
 
     </div>
 
@@ -1387,7 +1333,7 @@
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l332"><code>src\sound\AudioManager.ts:332</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l336"><code>src\sound\AudioManager.ts:336</code></a>
         
         </p>
 
@@ -1461,6 +1407,12 @@
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code class="optional">[destory=true]</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
@@ -1492,7 +1444,7 @@
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l367"><code>src\sound\AudioManager.ts:367</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l371"><code>src\sound\AudioManager.ts:371</code></a>
         
         </p>
 
@@ -1503,7 +1455,8 @@
     </div>
 
     <div class="description">
-        <p>Removes the passed sound from the audio manager. Needs testing.</p>
+        <p>Removes the passed sound from the AudioManager.
+If you remove a Audio Object from the AudioManager, then that Audio Object will not have a update loop.</p>
 
     </div>
 
@@ -1516,13 +1469,30 @@
                 <li class="param">
                     
                         <code class="param-name">sound</code>
-                        <span class="type">Audio</span>
+                        <span class="type"><a href="..\classes\Kiwi.Sound.Audio.html" class="crosslink">Kiwi.Sound.Audio</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The audio file that you want to remove.</p>
+                        <p>The Audio object that you want to remove.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[destory=true]</code>
+                        <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If the Audio Object should be removed or not.</p>
 
                     </div>
 
@@ -1543,17 +1513,7 @@
     <h3 class="name"><code>resumeAll</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code class="optional">[destroy=true]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
@@ -1583,7 +1543,7 @@
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l442"><code>src\sound\AudioManager.ts:442</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l445"><code>src\sound\AudioManager.ts:445</code></a>
         
         </p>
 
@@ -1594,35 +1554,67 @@
     </div>
 
     <div class="description">
-        <p>Resumes all of the sounds listed in the audio manager.</p>
+        <p>Resumes all of the sounds listed in the AudioManager.</p>
 
     </div>
 
     
-        <div class="params">
-            <h4>Parameters:</h4>
 
-            <ul class="params-list">
+    
+
+    
+</div>
+
+                
+                    <div id="method_stopAll" class="method item public">
+    <h3 class="name"><code>stopAll</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
             
-                <li class="param">
-                    
-                        <code class="param-name optional">[destroy=true]</code>
-                        <span class="type">Boolean</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>If the audio objects should be destroyed when they are removed.</p>
-
-                    </div>
-
-                    
-                </li>
+                
+                <p>
+                
+                Defined in
+                
             
-            </ul>
-        </div>
+        
+        
+        <a href="../files/src_sound_AudioManager.ts.html#l410"><code>src\sound\AudioManager.ts:410</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Stops all of the sounds that are listed in the AudioManager from playing.</p>
+
+    </div>
+
     
 
     
@@ -1665,7 +1657,7 @@
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l462"><code>src\sound\AudioManager.ts:462</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l463"><code>src\sound\AudioManager.ts:463</code></a>
         
         </p>
 
@@ -1698,7 +1690,7 @@
                 
                     <div id="property__game" class="property item private">
     <h3 class="name"><code>_game</code></h3>
-    <span class="type">Game</span>
+    <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
 
     
 
@@ -1721,7 +1713,7 @@
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l39"><code>src\sound\AudioManager.ts:39</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l40"><code>src\sound\AudioManager.ts:40</code></a>
         
         </p>
 
@@ -1768,7 +1760,7 @@
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l130"><code>src\sound\AudioManager.ts:130</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l132"><code>src\sound\AudioManager.ts:132</code></a>
         
         </p>
 
@@ -1816,7 +1808,7 @@ If it is &#39;locked&#39; then no audio can play until a user touch&#39;s the de
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l56"><code>src\sound\AudioManager.ts:56</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l57"><code>src\sound\AudioManager.ts:57</code></a>
         
         </p>
 
@@ -1865,7 +1857,7 @@ If it is &#39;locked&#39; then no audio can play until a user touch&#39;s the de
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l122"><code>src\sound\AudioManager.ts:122</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l124"><code>src\sound\AudioManager.ts:124</code></a>
         
         </p>
 
@@ -1889,7 +1881,7 @@ If it is &#39;locked&#39; then no audio can play until a user touch&#39;s the de
                 
                     <div id="property__sounds" class="property item private">
     <h3 class="name"><code>_sounds</code></h3>
-    <span class="type">Audio</span>
+    <span class="type">Array</span>
 
     
 
@@ -1912,7 +1904,7 @@ If it is &#39;locked&#39; then no audio can play until a user touch&#39;s the de
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l65"><code>src\sound\AudioManager.ts:65</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l66"><code>src\sound\AudioManager.ts:66</code></a>
         
         </p>
 
@@ -1959,7 +1951,7 @@ If it is &#39;locked&#39; then no audio can play until a user touch&#39;s the de
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l47"><code>src\sound\AudioManager.ts:47</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l48"><code>src\sound\AudioManager.ts:48</code></a>
         
         </p>
 
@@ -2008,7 +2000,7 @@ If it is &#39;locked&#39; then no audio can play until a user touch&#39;s the de
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l73"><code>src\sound\AudioManager.ts:73</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l74"><code>src\sound\AudioManager.ts:74</code></a>
         
         </p>
 
@@ -2056,7 +2048,7 @@ Not in much use at this point in time.</p>
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l106"><code>src\sound\AudioManager.ts:106</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l108"><code>src\sound\AudioManager.ts:108</code></a>
         
         </p>
 
@@ -2103,7 +2095,7 @@ Not in much use at this point in time.</p>
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l140"><code>src\sound\AudioManager.ts:140</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l142"><code>src\sound\AudioManager.ts:142</code></a>
         
         </p>
 
@@ -2150,7 +2142,7 @@ Not in much use at this point in time.</p>
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l114"><code>src\sound\AudioManager.ts:114</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l116"><code>src\sound\AudioManager.ts:116</code></a>
         
         </p>
 
@@ -2197,7 +2189,7 @@ Not in much use at this point in time.</p>
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l232"><code>src\sound\AudioManager.ts:232</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l234"><code>src\sound\AudioManager.ts:234</code></a>
         
         </p>
 
@@ -2207,7 +2199,8 @@ Not in much use at this point in time.</p>
     </div>
 
     <div class="description">
-        <p>Used to mute the audio on the device, or to check to see if the device is muted.</p>
+        <p>Used to mute the audio on the device, or to check to see if the device is muted.
+This will not stop audio from being played, will just mean that the audio is silent.</p>
 
     </div>
 
@@ -2246,7 +2239,7 @@ Not in much use at this point in time.</p>
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l82"><code>src\sound\AudioManager.ts:82</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l83"><code>src\sound\AudioManager.ts:83</code></a>
         
         </p>
 
@@ -2256,7 +2249,8 @@ Not in much use at this point in time.</p>
     </div>
 
     <div class="description">
-        <p>If the current game has audio support or not.</p>
+        <p>If the current game has audio support or not.
+Useful because audio support is spotty in mobile browsers.</p>
 
     </div>
 
@@ -2293,7 +2287,7 @@ Not in much use at this point in time.</p>
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l98"><code>src\sound\AudioManager.ts:98</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l100"><code>src\sound\AudioManager.ts:100</code></a>
         
         </p>
 
@@ -2340,7 +2334,7 @@ Not in much use at this point in time.</p>
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l90"><code>src\sound\AudioManager.ts:90</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l92"><code>src\sound\AudioManager.ts:92</code></a>
         
         </p>
 
@@ -2387,7 +2381,7 @@ Not in much use at this point in time.</p>
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l278"><code>src\sound\AudioManager.ts:278</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l281"><code>src\sound\AudioManager.ts:281</code></a>
         
         </p>
 
@@ -2397,7 +2391,8 @@ Not in much use at this point in time.</p>
     </div>
 
     <div class="description">
-        <p>Global setting and getting of the volume. A number between 0 (silence) and 1 (full volume)</p>
+        <p>Global setting and getting of the volume.
+A number between 0 (silence) and 1 (full volume).</p>
 
     </div>
 

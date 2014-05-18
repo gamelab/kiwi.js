@@ -15,8 +15,8 @@ module Kiwi.Input {
     * @class InputManager
     * @constructor
     * @namespace Kiwi.Input
-    * @param game {Game} The game that this object belongs to.
-    * @return {InputManager} This object.
+    * @param game {Kiwi.Game} The game that this object belongs to.
+    * @return {Kiwi.Input.InputManager} This object.
     *
     */
     export class InputManager {
@@ -149,7 +149,7 @@ module Kiwi.Input {
         * @param timeDown {Number} The time that the pointer has been down for.
         * @param timeUp {Number} The Time that the pointer has been up form
         * @param duration {Number} 
-        * @param pointer {Pointer} The pointer that was used.
+        * @param pointer {Kiwi.Input.Pointer} The pointer that was used.
         * @private
         */
         private _onDownEvent(x, y, timeDown, timeUp, duration, pointer) {
@@ -165,7 +165,7 @@ module Kiwi.Input {
         * @param timeDown {Number} The time that the pointer has been down for.
         * @param timeUp {Number} The Time that the pointer has been up form
         * @param duration {Number} 
-        * @param pointer {Pointer} The pointer that was used.
+        * @param pointer {Kiwi.Input.Pointer} The pointer that was used.
         * @private
         */
         private _onUpEvent(x, y, timeDown, timeUp, duration, pointer) {
@@ -228,7 +228,7 @@ module Kiwi.Input {
         /**
         * The position of the last pointer that was/is active on the stage.
         * @property position
-        * @type Point
+        * @type Kiwi.Geom.Point
         * @public
         */
         public position: Kiwi.Geom.Point;

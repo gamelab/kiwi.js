@@ -13,8 +13,8 @@ module Kiwi.Files {
     * @class DataLibrary
     * @namespace Kiwi.Files
     * @constructor
-    * @param game {Game} The game that this DataLibrary belongs to.
-    * @return {DataLibrary}
+    * @param game {Kiwi.Game} The game that this DataLibrary belongs to.
+    * @return {Kiwi.Files.DataLibrary}
     *
     */
     export class DataLibrary {
@@ -28,7 +28,7 @@ module Kiwi.Files {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "DataLibrary"
         * @public
         */
         public objType(): string {
@@ -38,7 +38,7 @@ module Kiwi.Files {
         /**
         * The game that this DataLibrary belongs to.
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private
         */
         private _game: Kiwi.Game;
@@ -65,7 +65,7 @@ module Kiwi.Files {
         /**
         * Adds a new data file to the DataLibrary.
         * @method add
-        * @param dataFile {File} 
+        * @param dataFile {Kiwi.Files.File} The File that is to be added.
         * @public
         */
         public add(dataFile: Kiwi.Files.File) {
@@ -89,8 +89,8 @@ module Kiwi.Files {
         /**
        * Rebuild the library from a fileStore. Clears the library and repopulates it.
        * @method rebuild
-       * @param {Kiwi.Files.FileStore} fileStore
-       * @param {Kiwi.State} state
+       * @param fileStore {Kiwi.Files.FileStore} The fileStore which is being used 
+       * @param state {Kiwi.State} The State so that we know which DataLibrary to add the files tot.
        * @public
        */
         public rebuild(fileStore: Kiwi.Files.FileStore, state: Kiwi.State) {

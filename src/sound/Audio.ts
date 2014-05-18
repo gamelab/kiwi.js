@@ -8,16 +8,18 @@
 module Kiwi.Sound {
 
     /**
-    * A Object that contains the functionality needed when wanting to play a single sound/sound file on a game.
+    * The Audio Object contains the functionality for playing a singular sound in a Kiwi Game. 
+    * The Audio can contain Audio Sprites which is a nice way to play audio on mobile devices. 
+    * Audio Objects do not 'die' when game states are switched or changed. 
     *
     * @class Audio
     * @constructor
     * @namespace Kiwi.Sound
-    * @param game {Game} The game that this piece of audio belongs to.
+    * @param game {Kiwi.Game} The game that this piece of audio belongs to.
     * @param key {string} The key to which which piece of audio should be loaded from the AudioLibrary.
     * @param volume {number} A number between 0 (silence) and 1 (loud).
     * @param loop {boolean} If the audio should loop when it is finished or just stop.
-    * @return {Audio} This object
+    * @return {Kiwi.Sound.Audio} This object
     *
     */
     export class Audio {
@@ -102,11 +104,13 @@ module Kiwi.Sound {
         * A unique ID that this audio gets assigned by the audio manager it belongs to when it is created.
         * @property id
         * @type number
+        * @public
         */
         public id: string;
 
         /**
-        * A flag that indicates whether the sound is ready to be played or not. If not then this indicates that we are awaiting a user event.
+        * A flag that indicates whether the sound is ready to be played or not.
+        * If not then this indicates that we are awaiting a user event.
         * @property _playable
         * @type boolean
         * @private
@@ -114,7 +118,9 @@ module Kiwi.Sound {
         private _playable: boolean;
 
         /**
-        * 
+        * Returns whether or not the sound is 'playable' or not. 
+        * The only time the sound would be not 'playable' is on iOS devices when a mouse/touch event has not fired.
+        * Devs should treat this property as READ ONLY.
         * @property playable
         * @type boolean
         * @private
@@ -140,7 +146,7 @@ module Kiwi.Sound {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Audio"
         * @public
         */
         public objType() {
@@ -150,7 +156,7 @@ module Kiwi.Sound {
         /**
         * The game that this sound belongs to.
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private
         */
         private _game: Kiwi.Game;
@@ -316,7 +322,8 @@ module Kiwi.Sound {
         public paused: boolean;
 
         /**
-        * If the sound needs to be played but is waiting on something.
+        * If the sound needs to be played but we are waiting on particular condition.
+        * In the case of CocoonJS, we generally are waiting for the audio 'length' property to have a value.
         * @property _pending
         * @type boolean
         * @private 
@@ -335,7 +342,7 @@ module Kiwi.Sound {
         * When the audio is playing, this is the current time we are at with it playing. In milliseconds
         * @property _currentTime
         * @type number
-        * @private.
+        * @private
         */
         private _currentTime: number;
 
@@ -367,7 +374,7 @@ module Kiwi.Sound {
         /**
         * A Kiwi Signal that dispatches a event when the audio starts playing.
         * @property onPlay
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public onPlay: Kiwi.Signal;
@@ -375,7 +382,7 @@ module Kiwi.Sound {
         /**
         * A Kiwi Signal that dispatches a event when the audio stops playing.
         * @property onStop
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public onStop: Kiwi.Signal;
@@ -383,7 +390,7 @@ module Kiwi.Sound {
         /**
         * A Kiwi Signal that dispatches a event when the audio gets paused.
         * @property onPause
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public onPause: Kiwi.Signal;
@@ -391,7 +398,7 @@ module Kiwi.Sound {
         /**
         * A Kiwi Signal that dispatches a event when the audio resumes.
         * @property onResume
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public onResume: Kiwi.Signal;
@@ -399,7 +406,7 @@ module Kiwi.Sound {
         /**
         * A Kiwi Signal that dispatches a event when the audio finishes and starts again, due to it looping.
         * @property onLoop
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public onLoop: Kiwi.Signal;
@@ -407,7 +414,7 @@ module Kiwi.Sound {
         /**
         * A Kiwi Signal that dispatches a event when the audio gets muted.
         * @property onMute
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public onMute: Kiwi.Signal;
@@ -465,8 +472,8 @@ module Kiwi.Sound {
         }
         
         /**
-        * Used to control the current volume for this sound.
-        *
+        * Used to control the current volume for this sound. 0 is silent, 1 is full volume.
+        * 
         * @property volume
         * @type number
         * @public
@@ -500,7 +507,8 @@ module Kiwi.Sound {
         }
 
         /**
-        * Allows you to mute the sound.
+        * Mutes the sound and makes it 'silent'. 
+        * This will not stop the sound from playing, or events from being dispatched due when the sound has finished/is looping.
         *
         * @property mute
         * @type boolean
@@ -646,7 +654,6 @@ module Kiwi.Sound {
 
         /**
         * Stop the sound from playing.
-        *
         * @method stop
         * @public
         */
@@ -675,7 +682,6 @@ module Kiwi.Sound {
         
         /**
         * Pauses the sound so that you can resume it from at point to paused it at.
-        *
         * @method pause
         * @public
         */
@@ -689,7 +695,6 @@ module Kiwi.Sound {
         
         /**
         * Plays the sound from when you paused the sound.
-        *
         * @method resume
         * @public
         */

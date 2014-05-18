@@ -349,7 +349,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* Component&#x27;s are a snipnets of code which are designed to provide extra functionality to various objects, such as IChild&#x27;s/GameObjects/HUDWidgets/e.t.c. The code that components have are not necessarily needed for an object to work, but are instead provided to make common task&#x27;s that you would do with those objects easier. An Example being that at times you may like to make a GameObject draggable by the user and so you can then add Input Component and execute the enableDrag on that GameObject. That would be task that not every GameObject would need, but only specific ones. 
+* Component&#x27;s are a snipnets of code which are designed to provide extra functionality to various objects that contain a ComponentManager. Objects do not have to have Components in order to preform their main function, but are instead provided to make common task&#x27;s that you may want to do with those Objects a bit easier. For example: Some times you would like to easily listen for when a GameObject has been &#x27;clicked&#x27;. So you can attach a &#x27;InputComponent&#x27; to a GameObject (Sprites have them by default) which will then do hit-detector code for you. All you have to do is Subscribe to the events on the InputComponent.
 *  
 * @module Kiwi
 * @submodule Components 
@@ -359,37 +359,43 @@
 module Kiwi.Components {
 
     /**
-    * The AnimationManager is used to handle the creation and playment of Animations on a individual GameObject based on the TextureAtlas it has. 
-    * When the AnimationManager is instantiated it will loop through all of the Sequences on the TextureAtlas of the GameObject being used and will create a new Animation for each one.
+    * The AnimationManager is used to handle the creation and use of spritesheet Animations on a GameObject based on the TextureAtlas it has. 
+    * If the When the AnimationManager is instantiated it will loop through all of the Sequences on the TextureAtlas of the GameObject being used and will create a new Animation for each one.
     * Now when you create a new Animation that animation will automatically be added as a new Sequence to the corresponding Texture. 
     * This way you don&#x27;t need to create new Animations for a each Sprite that use&#x27;s the same Texture.
     *
     * @class AnimationManager
-    * @extends Component
+    * @extends Kiwi.Component
     * @namespace Kiwi.Components
     * @constructor
-    * @param entity {Entity} The entity that this animation component belongs to.
-    * @return {AnimationManager}
+    * @param entity {Kiwi.Entity} The entity that this animation component belongs to.
+    * @param [inheritSequences=true] {Boolean} If a new Animation should be created for each Sequence on the Entities TextureAtlas it is a part of or not. 
+    * @return {Kiwi.Components.AnimationManager}
     */
     export class AnimationManager extends Component {
          
-        constructor(entity: Kiwi.Entity) {
+        constructor(entity: Kiwi.Entity, inheritSequences: boolean = true) {
             super(entity, &#x27;Animation&#x27;);
 
-            //get the entity and the animation.
+            //Get the entity and the animation.
             this.entity = entity;
             this._atlas = this.entity.atlas; 
             this._animations = {};
 
-            //create all of the default animations.
-            for (var i = 0; i &lt; this._atlas.sequences.length; i++) {
-                this.createFromSequence(this._atlas.sequences[i], false);
+            //Create all of the default animations.
+            if (inheritSequences == true) {
+
+                for (var i = 0; i &lt; this._atlas.sequences.length; i++) {
+                    this.createFromSequence(this._atlas.sequences[i], false);
+                }
+
             }
 
-            //if a default animation already exists
+            //If a default animation already exists
             if (this._animations[&#x27;default&#x27;]) {
                 this.currentAnimation = this._animations[&#x27;default&#x27;];
-            //otherwise create one.
+
+            //Otherwise create one.
             } else {
                 var defaultCells = [];
                 for (var i = 0; i &lt; this._atlas.cells.length; i++) {
@@ -407,7 +413,7 @@ module Kiwi.Components {
 
         /**
         * Dispatches callbacks each time an animation is told to play through this AnimationManager.
-        * Functions dispatched from this signal have ONE parameter.
+        * Functions dispatched from this signal have ONE Parameter.
         * One - The Animation object of that is now playing.
         * @property onPlay
         * @type Kiwi.Signal
@@ -446,23 +452,24 @@ module Kiwi.Components {
         public onChange: Kiwi.Signal;
 
         /**
-        * The entity that this animation belongs to.
+        * The entity that this animation belongs to and thus is effecting.
         * @property entity
-        * @type Entity
+        * @type Kiwi.Entity
         * @private
         */
         private entity: Kiwi.Entity;
 
         /**
-        * The texture atlas that this animation is taking affect on.
+        * The texture atlas that this animation is taking effect on.
+        * The value of this should be the same as the Entity.
         * @property _atlas
-        * @type TextureAtlas
+        * @type Kiwi.Textures.TextureAtlas
         * @private
         */
         private _atlas: Kiwi.Textures.TextureAtlas;
         
         /**
-        * A dictionary containing all of the animations that are avaiable.
+        * A Object containing all of the animations that are avaiable to be used.
         * @property _animations
         * @type Object
         * @private
@@ -471,10 +478,9 @@ module Kiwi.Components {
 
         /**
         * A reference to the animation that is currently being played.
-        * @property _currentAnimation
-        * @type Animation
-        * @default null
-        * @private
+        * @property currentAnimation
+        * @type Kiwi.Animations.Animation
+        * @public
         */
         public currentAnimation: Kiwi.Animations.Animation = null;
         
@@ -489,9 +495,9 @@ module Kiwi.Components {
         }
         
         /**
-        * The type of object that this is.
+        * Returns a string indicating the type of object that this is.
         * @method objType
-        * @type string
+        * @return {String} &quot;AnimationManager&quot;
         * @public
         */
         public objType() {
@@ -499,31 +505,39 @@ module Kiwi.Components {
         }
 
         /**
-        * Creates a new sequence and then adds that sequence as a new animation on this component. Returns that animation that was created.
+        * Creates a new Animation (by creating a Sequence) that can then be played on this AnimationManager. 
+        * If you pass to this the name of a Animation that already exists, then the previous Animation will be overridden by this new one. 
+        * Note: If the Animation you have overridden was the currentAnimation, then the previous Animation will keep playing until a different Animation is switched to.
+        * By default new Animation Sequences are also added to the TextureAtlas, which can then be inherited.
+        * Returns the Animation that was created.
         *
         * @method add
-        * @param {string} name
-        * @param cells {number[]} An array that contains a reference to the cells that are to be played in the animation. 
-        * @param speed {number} The amount of time that each frame should stay on screen for. In seconds.
-        * @param [loop=false] {boolean} If when the animation reaches the last frame, it should go back to the start again.
-        * @param [play=false] {boolean} If once created the animation should play right away.
-        * @return {Animation} The Anim that was created.
+        * @param name {string} The name of the animation that is to be created. 
+        * @param cells {Array} An array of numbers, which are reference to each cell that is to be played in the Animation in order. 
+        * @param speed {number} The amount of time that each cell in the Animation should stay on screen for. In seconds.
+        * @param [loop=false] {boolean} If when the Animation reaches the last frame, it should go back to the start again.
+        * @param [play=false] {boolean} If once created the animation should played right away.
+        * @param [addToAtlas=true] {boolean} If the new Sequence created should be added to the TextureAtlas or not.
+        * @return {Kiwi.Animations.Animation} The Animation that was created.
         * @public
         */
-        public add(name: string, cells: number[], speed: number, loop: boolean= false, play: boolean= false): Kiwi.Animations.Animation {
+        public add(name: string, cells: number[], speed: number, loop: boolean= false, play: boolean= false, addToAtlas:boolean=true): Kiwi.Animations.Animation {
             var newSequence = new Kiwi.Animations.Sequence(name, cells, speed, loop);
-            this._atlas.sequences.push(newSequence);
+            if(addToAtlas == true) this._atlas.sequences.push(newSequence);
             
             return this.createFromSequence(newSequence, play);
         }
 
         /**
-        * Creates a new animation based on a sequence that is passed. 
+        * Creates a new Animation based on a Sequence that is passed. 
+        * If you pass to this the name of a Animation that already exists, then the previous Animation will be overridden by this new one. 
+        * Note: If the Animation you have overridden was the currentAnimation, then the previous Animation will keep playing until a different Animation is switched to.
+        * Returns the Animation that was created.
         *
         * @method createFromSequence
-        * @param sequence {Kiwi.Sequence} The sequence that the animation is based on.
-        * @param [play=false] {boolean} If the animation should play once it has been created
-        * @return {Animation} The Anim that was created.
+        * @param sequence {Kiwi.Sequence} The sequence that the Animation is based on.
+        * @param [play=false] {boolean} If the Animation should played once it has been created
+        * @return {Kiwi.Animations.Animation} The Animation that was created.
         * @public
         */
         public createFromSequence(sequence: Kiwi.Animations.Sequence, play: boolean= false): Kiwi.Animations.Animation {
@@ -538,19 +552,32 @@ module Kiwi.Components {
         * Plays either the current animation or the name of the animation that you pass.
         * 
         * @method play
-        * @param [name] {string} The name of the animation that you want to play. If not passed it plays the current animation.
+        * @param [name] {String} The name of the animation that you want to play. If not passed it plays the current animation.
+        * @param [resetTime=true] {Boolean} When set to false, this will prevent a new Animation from playing if it is already the currentAnimation that is already playing.
+        * @return {Kiwi.Animations.Animation} Returns the current Animation that is now playing.
         * @public
         */
-        public play(name: string = this.currentAnimation.name): Kiwi.Animations.Animation {
-            return this._play(name);
+        public play(name: string = this.currentAnimation.name, resetTime: boolean = true): Kiwi.Animations.Animation {
+
+            //If the current animation playing 
+            if (resetTime == false &amp;&amp; this.currentAnimation.name === name &amp;&amp; this.currentAnimation.isPlaying == true) {
+                return this.currentAnimation;
+
+            } else {
+                return this._play(name);
+            }
+
         }
         
         /**
-        * Play an animation at a particular frameIndex. 
+        * Plays an Animation at a particular frameIndex.
+        * Note: The frameIndex is a particular index of a cell in the Sequence of the Animation you would like to play. 
+        * Example: If you had a Animation with a Sequence [0, 1, 2, 3] and you told it to play at index &#x27;2&#x27;, then the cell that it would be at is &#x27;3&#x27;.
         * 
         * @method playAt
         * @param index {Number} The index of the frame in the Sequence that you would like to play.
-        * @param [name] {String} The name of the animation that you want to play. If not passed, it plays it on the current animation.
+        * @param [name] {String} The name of the animation that you want to play. If not passed, it attempts to play it on the current animation.
+        * @return {Kiwi.Animations.Animation} Returns the current Animation that is now playing.
         * @public
         */
         public playAt(index: number, name: string = this.currentAnimation.name): Kiwi.Animations.Animation {
@@ -559,12 +586,12 @@ module Kiwi.Components {
         } 
 
         /**
-        * An internal method used to actually play the animation.
+        * An internal method used to actually play a Animation at a Index.
         * 
         * @method _play
-        * @param name {number} The name of the animation that is to be switched to.
-        * @param [index=null] {string} The index of the frame in the Sequence that is to play.
-        * @return {Animation}
+        * @param name {string} The name of the animation that is to be switched to.
+        * @param [index=null] {number} The index of the frame in the Sequence that is to play. If null, then it restarts the animation at the cell it currently is at.
+        * @return {Kiwi.Animations.Animation} Returns the current Animation that is now playing.
         * @private
         */
         private _play(name: string, index: number=null): Kiwi.Animations.Animation {
@@ -583,6 +610,7 @@ module Kiwi.Components {
 
         /**
         * Stops the current animation from playing.
+        *
         * @method stop
         * @public
         */
@@ -603,7 +631,9 @@ module Kiwi.Components {
         }
 
         /**
-        * Resumes the current animation. The animation should have already been paused.
+        * Resumes the current animation.
+        * The animation should have already been paused.
+        *
         * @method resume
         * @public
         */
@@ -614,7 +644,7 @@ module Kiwi.Components {
         /**
         * Either switches to a particular animation OR a particular frame in the current animation depending on if you pass the name of an animation that exists on this Manager (as a string) or a number refering to a frame index on the Animation. 
         * When you switch to a particular animation then 
-        * You can also force the animation to play or to stop by passing a boolean in. But if left as null, the animation will base it off what is currently happening.
+        * You can also force the animation to play or to stop by passing a boolean in. But if left as null, the state of the Animation will based off what is currently happening.
         * So if the animation is currently &#x27;playing&#x27; then once switched to the animation will play. If not currently playing it will switch to and stop.
         * If the previous animation played is non-looping and has reached its final frame, it is no longer considered playing, and as such, switching to another animation will not play unless the argument to the play parameter is true.
         *
@@ -666,10 +696,10 @@ module Kiwi.Components {
         }
 
         /**
-        * Internal method that sets the current animation to the animation passed.
+        * Internal method that sets the current animation to a Animation passed.
         *
         * @method _setCurrentAnimation
-        * @param {string} name
+        * @param name {string} Name of the Animation that is to be switched to.
         * @private
         */
         private _setCurrentAnimation(name: string) {
@@ -684,7 +714,9 @@ module Kiwi.Components {
         }
 
         /**
-        * The update loop, it only updates the currentAnimation and only if it is playing.
+        * The update loop for this component. 
+        * Only updates the currentAnimation and only if it is playing.
+        *
         * @method update 
         * @public
         */
@@ -695,7 +727,7 @@ module Kiwi.Components {
         }
         
         /**
-        * Gets the cell that the current animation is current at. This is READ ONLY.
+        * Gets the cell that the current Animation is current at. This is READ ONLY.
         * @property currentCell
         * @type number
         * @public
@@ -705,7 +737,7 @@ module Kiwi.Components {
         }
 
         /**
-        * Gets the current frame index of the cell in the sequence that is currently playing. This is READ ONLY.
+        * Gets the current frame index of the cell in the Sequence that is currently playing. This is READ ONLY.
         * @property frameIndex 
         * @type number
         * @public
@@ -715,7 +747,7 @@ module Kiwi.Components {
         }
 
         /**
-        * Returns the length (Number of cells) of the current animation that is playing. This is READ ONLY.
+        * Returns the length (Number of cells) of the current Animation that is playing. This is READ ONLY.
         * @property length
         * @type number
         * @public
@@ -725,11 +757,12 @@ module Kiwi.Components {
         }
 
         /**
-        * Get a animation that is on the animation component. 
+        * Returns a Animation that is on this AnimationComponent
+        * Does not check to see if that Animation exists or not.
         * 
         * @method getAnimation
-        * @param {string} name
-        * @return {Animation} 
+        * @param name {string} The name of the Animation you would like to get.
+        * @return {Kiwi.Animations.Animation} The Animation that is found. Will be &#x27;undefined&#x27; if a Animation with that name did not exist.
         * @public
         */
         public getAnimation(name: string): Kiwi.Animations.Animation {

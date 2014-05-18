@@ -13,8 +13,8 @@ module Kiwi.Input {
     * @class Keyboard
     * @constructor
     * @namespace Kiwi.Input
-    * @param game {Game}
-    * @return {Keyboard} This object.
+    * @param game {Kiwi.Game}
+    * @return {Kiwi.Input.Keyboard} This object.
     *
     */
     export class Keyboard {
@@ -38,7 +38,7 @@ module Kiwi.Input {
         /** 
         * The game that this Keyboard belongs to.
         * @property game
-        * @type Game
+        * @type Kiwi.Game
         * @public
         */
         public game: Kiwi.Game;
@@ -206,7 +206,7 @@ module Kiwi.Input {
         * @method addKey
         * @param keycode {Number} The keycode of the key that you want to add. 
         * @param [preventDefault=false] {Boolean} If the default action for that key should be prevented or not when an event fires.
-        * @return {Key}
+        * @return {Kiwi.Input.Key}
         * @public
         */
         public addKey(keycode: number, preventDefault:boolean = false): Key {

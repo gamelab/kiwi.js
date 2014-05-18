@@ -12,12 +12,12 @@ module Kiwi.HUD.HUDComponents {
     * This Component is essentually another version of the normal Input Component but instead of for GameObjects this is for HUDWidgets.
     *
     * @class WidgetInput
-    * @extends Component
+    * @extends Kiwi.Component
     * @namespace Kiwi.HUD.HUDComponents
     * @constructor
     * @param owner {any} The object that this WidgetInput belongs to.
     * @param container {HTMLElement} The HTMLElement that the events will occur on/to.
-    * @return {WidgetInput} 
+    * @return {Kiwi.HUD.HUDComponents.WidgetInput} 
     */
     export class WidgetInput extends Component {
 
@@ -37,7 +37,7 @@ module Kiwi.HUD.HUDComponents {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} 'WidgetInputComponent'
         * @public
         */
         public objType(): string {
@@ -47,7 +47,7 @@ module Kiwi.HUD.HUDComponents {
         /**
         * A Signal that dispatches events when the user releases the mouse on top of the HTMLElement.
         * @property onUp
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public onUp: Kiwi.Signal;
@@ -55,7 +55,7 @@ module Kiwi.HUD.HUDComponents {
         /**
         * A Signal that dispatches events when the user presses the mouse on top of the HTMLElement.
         * @property onDown
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public onDown: Kiwi.Signal;
@@ -63,7 +63,7 @@ module Kiwi.HUD.HUDComponents {
         /**
         * A Signal that dispatches events when the user's mouse initially goes over the top of the HTMLElement.
         * @property onOver
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public onOver: Kiwi.Signal;
@@ -71,7 +71,7 @@ module Kiwi.HUD.HUDComponents {
         /**
         * A Signal that dispatches events when the user's mouse leaves the HTMLElement.
         * @property onOut
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public onOut: Kiwi.Signal;

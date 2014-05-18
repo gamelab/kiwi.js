@@ -368,7 +368,8 @@
 
 
 <div class="box intro">
-    <p>The state manager handles the starting, parsing, looping and swapping of game states. Thus there is only ever one state manager per game.</p>
+    <p>The State Manager handles the starting, parsing, looping and swapping of game States within a Kiwi Game
+There is only ever one State Manager per game, but a single Game can contain multiple States.</p>
 
 </div>
 
@@ -394,7 +395,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">StateMananger</span>
+            <span class="type">Kiwi.StateMananger</span>
         </span>
     
 
@@ -444,7 +445,7 @@
                 <li class="param">
                     
                         <code class="param-name">game</code>
-                        <span class="type">Game</span>
+                        <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
                     
 
                     
@@ -468,10 +469,8 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">StateMananger</span>:
+                        <span class="type">Kiwi.StateMananger</span>:
                     
-                    <p>This Object</p>
-
                 
             </div>
         </div>
@@ -732,7 +731,7 @@
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l111"><code>src\core\StateManager.ts:111</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l112"><code>src\core\StateManager.ts:112</code></a>
         
         </p>
 
@@ -846,7 +845,7 @@ Returns true if added successfully, otherwise false (can happen if State is alre
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l173"><code>src\core\StateManager.ts:173</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l174"><code>src\core\StateManager.ts:174</code></a>
         
         </p>
 
@@ -1090,7 +1089,7 @@ If it does then it calls the create method.</p>
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l73"><code>src\core\StateManager.ts:73</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l74"><code>src\core\StateManager.ts:74</code></a>
         
         </p>
 
@@ -1254,7 +1253,7 @@ If it does it loads the file, if it does not it runs the create method.</p>
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l94"><code>src\core\StateManager.ts:94</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l95"><code>src\core\StateManager.ts:95</code></a>
         
         </p>
 
@@ -1265,7 +1264,7 @@ If it does it loads the file, if it does not it runs the create method.</p>
     </div>
 
     <div class="description">
-        <p>Checks to see if the state passed is valid or not.</p>
+        <p>Checks to see if the State passed is valid or not.</p>
 
     </div>
 
@@ -1278,7 +1277,7 @@ If it does it loads the file, if it does not it runs the create method.</p>
                 <li class="param">
                     
                         <code class="param-name">state</code>
-                        <span class="type">State</span>
+                        <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
                     
 
                     
@@ -1331,7 +1330,7 @@ If it does it loads the file, if it does not it runs the create method.</p>
 
     
         <span class="returns-inline">
-            <span class="type">State</span>
+            <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
         </span>
     
 
@@ -1407,7 +1406,7 @@ If it does it loads the file, if it does not it runs the create method.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">State</span>:
+                        <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>:
                     
                 
             </div>
@@ -1427,7 +1426,7 @@ If it does it loads the file, if it does not it runs the create method.</p>
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">String</span>
         </span>
     
 
@@ -1456,7 +1455,7 @@ If it does it loads the file, if it does not it runs the create method.</p>
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l29"><code>src\core\StateManager.ts:29</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l30"><code>src\core\StateManager.ts:30</code></a>
         
         </p>
 
@@ -1480,7 +1479,9 @@ If it does it loads the file, if it does not it runs the create method.</p>
             <div class="returns-description">
                 
                     
-                    <p>string</p>
+                        <span class="type">String</span>:
+                    
+                    <p>&quot;StateManager&quot;</p>
 
                 
             </div>
@@ -1536,7 +1537,7 @@ If it does it loads the file, if it does not it runs the create method.</p>
     </div>
 
     <div class="description">
-        <p>Executed when the preloading has completed. Then executes the loadComplete and create methods of the new state.</p>
+        <p>Executed when the preloading has completed. Then executes the loadComplete and create methods of the new State.</p>
 
     </div>
 
@@ -1634,7 +1635,8 @@ If it does it loads the file, if it does not it runs the create method.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>The current percentage of files that have been loaded. Ranging from 0 - 1.</p>
+
                     </div>
 
                     
@@ -1649,7 +1651,8 @@ If it does it loads the file, if it does not it runs the create method.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>The number of bytes that have been loaded so far.</p>
+
                     </div>
 
                     
@@ -1658,13 +1661,14 @@ If it does it loads the file, if it does not it runs the create method.</p>
                 <li class="param">
                     
                         <code class="param-name">file</code>
-                        <span class="type">File</span>
+                        <span class="type"><a href="..\classes\Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>The last file that has been loaded.</p>
+
                     </div>
 
                     
@@ -2070,6 +2074,8 @@ Otherwise you can pass the state object as well and it will load it then swap to
                     
                         <span class="type">Boolean</span>:
                     
+                    <p>Whether the State is going to be switched to or not.</p>
+
                 
             </div>
         </div>
@@ -2124,7 +2130,7 @@ Otherwise you can pass the state object as well and it will load it then swap to
     </div>
 
     <div class="description">
-        <p>The update loop that is accessable on the state manager.</p>
+        <p>The update loop that is accessible on the StateManager.</p>
 
     </div>
 
@@ -2146,7 +2152,7 @@ Otherwise you can pass the state object as well and it will load it then swap to
                 
                     <div id="property__game" class="property item private">
     <h3 class="name"><code>_game</code></h3>
-    <span class="type">Game</span>
+    <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
 
     
 
@@ -2169,7 +2175,7 @@ Otherwise you can pass the state object as well and it will load it then swap to
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l39"><code>src\core\StateManager.ts:39</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l40"><code>src\core\StateManager.ts:40</code></a>
         
         </p>
 
@@ -2216,7 +2222,7 @@ Otherwise you can pass the state object as well and it will load it then swap to
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l64"><code>src\core\StateManager.ts:64</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l65"><code>src\core\StateManager.ts:65</code></a>
         
         </p>
 
@@ -2226,10 +2232,12 @@ Otherwise you can pass the state object as well and it will load it then swap to
     </div>
 
     <div class="description">
-        <p>The name of the new state that is to be switched to.</p>
+        <p>The name of the new State that is to be switched to.</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> null</p>
     
 
     
@@ -2240,7 +2248,7 @@ Otherwise you can pass the state object as well and it will load it then swap to
                 
                     <div id="property__states" class="property item private">
     <h3 class="name"><code>_states</code></h3>
-    <span class="type">State</span>
+    <span class="type">Array</span>
 
     
 
@@ -2263,7 +2271,7 @@ Otherwise you can pass the state object as well and it will load it then swap to
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l47"><code>src\core\StateManager.ts:47</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l48"><code>src\core\StateManager.ts:48</code></a>
         
         </p>
 
@@ -2287,7 +2295,7 @@ Otherwise you can pass the state object as well and it will load it then swap to
                 
                     <div id="property_current" class="property item public">
     <h3 class="name"><code>current</code></h3>
-    <span class="type">State</span>
+    <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
 
     
 
@@ -2310,7 +2318,7 @@ Otherwise you can pass the state object as well and it will load it then swap to
             
         
         
-        <a href="../files/src_core_StateManager.ts.html#l55"><code>src\core\StateManager.ts:55</code></a>
+        <a href="../files/src_core_StateManager.ts.html#l56"><code>src\core\StateManager.ts:56</code></a>
         
         </p>
 

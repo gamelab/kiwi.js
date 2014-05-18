@@ -7,15 +7,18 @@
 module Kiwi {
 
     /**
-    * Each game contains a single Stage which controls the creation of the elements required for a Kiwi game to work. 
+    * Each game contains a single Stage which controls the creation and management of main domElements required for a Kiwi game to work. 
     * Such as the Canvas and the rendering contexts, as well as the width/height of the game and the position it should be on the screen.
     *
     * @class Stage
     * @namespace Kiwi
     * @constructor
-    * @param game {Kiwi.Game}
-    * @param name {String}
-    * @return {Stage} Kiwi.Stage
+    * @param game {Kiwi.Game} The game that this Stage belongs to. 
+    * @param name {String} The name of the kiwi game.
+    * @param width {Number} The initial width of the game. 
+    * @param height {Number} The initial heihgt of the game.
+    * @param scaleType {Number} The scale method that should be used for the game.
+    * @return {Kiwi.Stage}  
     *
     */
     export class Stage {
@@ -48,7 +51,7 @@ module Kiwi {
         /**
         * Returns the type of this object.
         * @method objType
-        * @return string
+        * @return {string} "Stage"
         * @public
         */
         public objType():string {
@@ -59,6 +62,7 @@ module Kiwi {
         * The default width of the stage.
         * @property DEFAULT_WIDTH
         * @type number
+        * @default 800
         * @public
         * @static
         */
@@ -68,6 +72,7 @@ module Kiwi {
         * The default height of the stage.
         * @property DEFAULT_HEIGHT
         * @type number
+        * @default 600
         * @public
         * @static
         */
@@ -111,7 +116,7 @@ module Kiwi {
         * Private property that holds the scaling method that should be applied to the container element. 
         * @property _scaleType
         * @type number
-        * @default SCALE_NONE
+        * @default Kiwi.Stage.SCALE_NONE
         * @private
         */
         private _scaleType: number = Kiwi.Stage.SCALE_NONE;
@@ -120,7 +125,7 @@ module Kiwi {
         * Holds type of scaling that should be applied the container element. 
         * @property scaleType
         * @type number
-        * @default SCALE_NONE
+        * @default Kiwi.Stage.SCALE_NONE
         * @private
         */
         public set scaleType(val: number) {
@@ -134,9 +139,10 @@ module Kiwi {
 
 
         /**
-        * The alpha of the stage.
+        * The alpha of the stage. 
         * @property _alpha
         * @type number
+        * @default 1
         * @private
         */
         private _alpha: number;
@@ -147,6 +153,7 @@ module Kiwi {
         *
         * @property alpha
         * @type number
+        * @default 1
         * @public
         */
         public get alpha():number {
@@ -222,7 +229,7 @@ module Kiwi {
         private _width: number;
         
         /**
-        * The width of the stage.
+        * The width of the stage. This is READ ONLY. See the 'resize' method if you need to modify this value.
         * @property width
         * @type number
         * @public 
@@ -241,7 +248,7 @@ module Kiwi {
         private _height: number;
         
         /**
-        * The height of the stage
+        * The height of the stage. This is READ ONLY. See the 'resize' method if you need to modify this value.
         * @property height
         * @type number
         * @public
@@ -254,7 +261,7 @@ module Kiwi {
         /**
         * A Signal that dispatches an event when the stage gets resized.
         * @property onResize
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public onResize: Kiwi.Signal;
@@ -262,9 +269,9 @@ module Kiwi {
 
         /**
         * A Signal which dispatches events when the window is resized. 
-        * You can use to detect if the screen is now in a 'landscape' or 'portrait' view on Mobile/Cocoon devices. 
+        * Useful to detect if the screen is now in a 'landscape' or 'portrait' view on Mobile/Cocoon devices. 
         * @property onWindowResize
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public onWindowResize: Kiwi.Signal;
@@ -272,10 +279,10 @@ module Kiwi {
         /**
         * Calculates and returns the amount that the container has been scale by.  
         * Mainly used for re-calculating input coordinates. 
-        * Note: For COCOONJS this returns 1 since COCOONJS translates the points itself.
+        * Note: For COCOONJS this returns 1 since COCOONJS translates the scale itself.
         * This property is READ ONLY.
         * @property scale
-        * @type Point
+        * @type Kiwi.Geom.Point
         * @default 1
         * @public
         */
@@ -310,7 +317,7 @@ module Kiwi {
         /**
 		* A point which determines the offset of this Stage
         * @property offset
-        * @type Point
+        * @type Kiwi.Geom.Point
         * @public
     	*/
         public offset: Kiwi.Geom.Point = new Kiwi.Geom.Point();
@@ -318,7 +325,7 @@ module Kiwi {
         /**
         * The game this Stage belongs to
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private 
         */
         private _game: Kiwi.Game;
@@ -465,8 +472,9 @@ module Kiwi {
 
         /**
         * Is executed when the DOM has loaded and the game is just starting. 
+        * This is a internal method used by the core of Kiwi itself. 
         * @method boot
-        * @param {HTMLElement} dom
+        * @param dom {HTMLElement} The
         * @public
         */
         public boot(dom: Kiwi.System.Bootstrap) {
@@ -531,9 +539,8 @@ module Kiwi {
         }
 
         /**
-        * Used to calculate the new offset and see what the scale of the stage currently is.
+        * Used to calculate the new offset and the scale of the stage currently is at.
         * @method _calculateContainerScale
-        * @param event {UIEvent}
         * @private
         */
         private _calculateContainerScale() {
@@ -596,11 +603,12 @@ module Kiwi {
         
 
         /**
-        * Set the stage width and height.
+        * Set the stage width and height for rendering purposes.
+        * This will not effect that 'scaleType' that it has been set to.
         *
         * @method resize
-        * @param width {number} new stage width
-        * @param height {number} new stage height
+        * @param width {number} The new Stage width.
+        * @param height {number} The new Stage height.
         * @public
         */
         public resize(width: number, height: number) {
@@ -625,7 +633,7 @@ module Kiwi {
         * @method setRGBColor
         * @param r {Number} The red component. A value between 0 and 255.
         * @param g {Number} The green component. A value between 0 and 255.
-        * @param B {Number} The blue component. A value between 0 and 255.
+        * @param b {Number} The blue component. A value between 0 and 255.
         * @return {Object} A Object literal containing the r,g,b properties. 
         * @public
         */
@@ -683,7 +691,7 @@ module Kiwi {
         * If not colour is passed then Red at 20% opacity is used.
         * 
         * @method clearDebugCanvas
-        * @param [color='rgba(255,0,0,0.2)'] {string} debug color
+        * @param [color='rgba(255,0,0,0.2)'] {string} The debug color to rendering on the debug canvas.
         * @public
         */
         public clearDebugCanvas(color?:string) {
@@ -692,9 +700,8 @@ module Kiwi {
             this.dctx.fillRect(0, 0, this.width, this.height)
         }
 
-
         /**
-        * Toggles the visibility of the debug canvas.
+        * Toggles the visibility of the debug canvas. 
         * @method toggleDebugCanvas
         * @public
         */
@@ -702,11 +709,9 @@ module Kiwi {
             this.debugCanvas.style.display = (this.debugCanvas.style.display === "none") ? "block" : "none";
         }
 
-
-
         /**
         * Handles the scaling/sizing based upon the scaleType property.
-        * @method _resizeContainer
+        * @method _scaleContainer
         * @private
         */
         private _scaleContainer() {

@@ -369,7 +369,9 @@
 
 <div class="box intro">
     <p>An object that represents a binding between a Signal and a listener function.
-Released under the MIT license
+<br />- <strong>This is an internal constructor and shouldn&#39;t be called by regular users.</strong>
+<br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner&#39;s Slot classes.</p>
+<p>Released under the MIT license
 <a href="http://millermedeiros.github.com/js-signals/">http://millermedeiros.github.com/js-signals/</a></p>
 
 </div>
@@ -386,7 +388,7 @@ Released under the MIT license
             
                 <li class="arg">
                     
-                        <code>signal</code>
+                        <code>Signal</code>
                     
                 </li>
             
@@ -418,6 +420,10 @@ Released under the MIT license
         </div>
     
 
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Kiwi.SignalBinding.html" class="crosslink">Kiwi.SignalBinding</a></span>
+        </span>
     
 
     
@@ -465,8 +471,8 @@ Released under the MIT license
             
                 <li class="param">
                     
-                        <code class="param-name">signal</code>
-                        <span class="type">Signal</span>
+                        <code class="param-name">Signal</code>
+                        <span class="type"><a href="..\classes\Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
                     
 
                     
@@ -550,6 +556,18 @@ Released under the MIT license
     
 
     
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.SignalBinding.html" class="crosslink">Kiwi.SignalBinding</a></span>:
+                    
+                
+            </div>
+        </div>
+    
 
     
 </div>
@@ -632,13 +650,6 @@ Released under the MIT license
                         
                             <li class="index-item method public">
                                 <a href="#method_objType">objType</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_toString">toString</a>
 
                                 
                                 
@@ -812,7 +823,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_SignalBinding.ts.html#l144"><code>src\core\SignalBinding.ts:144</code></a>
+        <a href="../files/src_core_SignalBinding.ts.html#l140"><code>src\core\SignalBinding.ts:140</code></a>
         
         </p>
 
@@ -900,7 +911,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_SignalBinding.ts.html#l115"><code>src\core\SignalBinding.ts:115</code></a>
+        <a href="../files/src_core_SignalBinding.ts.html#l111"><code>src\core\SignalBinding.ts:111</code></a>
         
         </p>
 
@@ -1002,7 +1013,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_SignalBinding.ts.html#l179"><code>src\core\SignalBinding.ts:179</code></a>
+        <a href="../files/src_core_SignalBinding.ts.html#l177"><code>src\core\SignalBinding.ts:177</code></a>
         
         </p>
 
@@ -1013,7 +1024,8 @@ Released under the MIT license
     </div>
 
     <div class="description">
-        
+        <p>Returns the Handler function bound to the Signal.</p>
+
     </div>
 
     
@@ -1047,7 +1059,7 @@ Released under the MIT license
 
     
         <span class="returns-inline">
-            <span class="type">Signal</span>
+            <span class="type"><a href="..\classes\Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
         </span>
     
 
@@ -1076,7 +1088,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_SignalBinding.ts.html#l190"><code>src\core\SignalBinding.ts:190</code></a>
+        <a href="../files/src_core_SignalBinding.ts.html#l189"><code>src\core\SignalBinding.ts:189</code></a>
         
         </p>
 
@@ -1087,7 +1099,8 @@ Released under the MIT license
     </div>
 
     <div class="description">
-        
+        <p>Returns the signal which this Binding is currently attached to.</p>
+
     </div>
 
     
@@ -1099,7 +1112,7 @@ Released under the MIT license
             <div class="returns-description">
                 
                     
-                        <span class="type">Signal</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>:
                     
                     <p>Signal that listener is currently bound to.</p>
 
@@ -1150,7 +1163,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_SignalBinding.ts.html#l157"><code>src\core\SignalBinding.ts:157</code></a>
+        <a href="../files/src_core_SignalBinding.ts.html#l153"><code>src\core\SignalBinding.ts:153</code></a>
         
         </p>
 
@@ -1161,7 +1174,8 @@ Released under the MIT license
     </div>
 
     <div class="description">
-        
+        <p>Checks to see if this Binding is still bound to a Signal and contains a listener.</p>
+
     </div>
 
     
@@ -1224,7 +1238,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_SignalBinding.ts.html#l168"><code>src\core\SignalBinding.ts:168</code></a>
+        <a href="../files/src_core_SignalBinding.ts.html#l165"><code>src\core\SignalBinding.ts:165</code></a>
         
         </p>
 
@@ -1235,7 +1249,8 @@ Released under the MIT license
     </div>
 
     <div class="description">
-        
+        <p>Returns a boolean indicating whether this event will be exectued just once or not.</p>
+
     </div>
 
     
@@ -1262,79 +1277,6 @@ Released under the MIT license
                 
                     <div id="method_objType" class="method item public">
     <h3 class="name"><code>objType</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"></span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_SignalBinding.ts.html#l47"><code>src\core\SignalBinding.ts:47</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The type of object that this is.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                    <p>String</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_toString" class="method item public">
-    <h3 class="name"><code>toString</code></h3>
 
     
         <span class="paren">()</span>
@@ -1371,7 +1313,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_SignalBinding.ts.html#l214"><code>src\core\SignalBinding.ts:214</code></a>
+        <a href="../files/src_core_SignalBinding.ts.html#l43"><code>src\core\SignalBinding.ts:43</code></a>
         
         </p>
 
@@ -1382,7 +1324,8 @@ Released under the MIT license
     </div>
 
     <div class="description">
-        
+        <p>The type of object that this is.</p>
+
     </div>
 
     
@@ -1396,7 +1339,7 @@ Released under the MIT license
                     
                         <span class="type">String</span>:
                     
-                    <p>String representation of the object.</p>
+                    <p>&quot;SignalBinding&quot;</p>
 
                 
             </div>
@@ -1440,7 +1383,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_SignalBinding.ts.html#l65"><code>src\core\SignalBinding.ts:65</code></a>
+        <a href="../files/src_core_SignalBinding.ts.html#l61"><code>src\core\SignalBinding.ts:61</code></a>
         
         </p>
 
@@ -1487,7 +1430,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_SignalBinding.ts.html#l57"><code>src\core\SignalBinding.ts:57</code></a>
+        <a href="../files/src_core_SignalBinding.ts.html#l53"><code>src\core\SignalBinding.ts:53</code></a>
         
         </p>
 
@@ -1511,7 +1454,7 @@ Released under the MIT license
                 
                     <div id="property__signal" class="property item private">
     <h3 class="name"><code>_signal</code></h3>
-    <span class="type">Signal</span>
+    <span class="type"><a href="..\classes\Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
 
     
 
@@ -1534,7 +1477,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_SignalBinding.ts.html#l81"><code>src\core\SignalBinding.ts:81</code></a>
+        <a href="../files/src_core_SignalBinding.ts.html#l77"><code>src\core\SignalBinding.ts:77</code></a>
         
         </p>
 
@@ -1581,7 +1524,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_SignalBinding.ts.html#l97"><code>src\core\SignalBinding.ts:97</code></a>
+        <a href="../files/src_core_SignalBinding.ts.html#l93"><code>src\core\SignalBinding.ts:93</code></a>
         
         </p>
 
@@ -1630,7 +1573,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_SignalBinding.ts.html#l73"><code>src\core\SignalBinding.ts:73</code></a>
+        <a href="../files/src_core_SignalBinding.ts.html#l69"><code>src\core\SignalBinding.ts:69</code></a>
         
         </p>
 
@@ -1677,7 +1620,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_SignalBinding.ts.html#l106"><code>src\core\SignalBinding.ts:106</code></a>
+        <a href="../files/src_core_SignalBinding.ts.html#l102"><code>src\core\SignalBinding.ts:102</code></a>
         
         </p>
 
@@ -1726,7 +1669,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_SignalBinding.ts.html#l89"><code>src\core\SignalBinding.ts:89</code></a>
+        <a href="../files/src_core_SignalBinding.ts.html#l85"><code>src\core\SignalBinding.ts:85</code></a>
         
         </p>
 

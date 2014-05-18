@@ -368,10 +368,10 @@ module Kiwi.Components {
     * @class ArcadePhysics
     * @constructor
     * @namespace Kiwi.Components
-    * @param entity {Entity} The entity that this ArcadePhysics should be used on.
-    * @param box {Box} The box component that holds the hitbox that should be used when resolving and calculating collisions.
-    * @return {ArcadePhysics}
-    * @extends Component
+    * @param entity {Kiwi.Entity} The Entity that this ArcadePhysics should be used on.
+    * @param box {Kiwi.Components.Box} The box component that holds the hitbox that should be used when resolving and calculating collisions.
+    * @return {Kiwi.Components.ArcadePhysics}
+    * @extends Kiwi.Component
     *
     * @author Adam &#x27;Atomic&#x27; Saltsman, Flixel
     *
@@ -409,9 +409,9 @@ module Kiwi.Components {
 
 
         /**
-        * The transform component.
+        * The transform component of the entity that the ArcadePhysics is a part of.
         * @property transform
-        * @type Transform
+        * @type Kiwi.Geom.Transform
         * @public
         */
         public transform: Kiwi.Geom.Transform;
@@ -419,8 +419,10 @@ module Kiwi.Components {
 
         /**
         * The bounding box component that the collisions are going to be based off.
+        * You can modify the &#x27;hitbox&#x27; of that component to modify the collision area.
+        *
         * @property box
-        * @type Box
+        * @type Kiwi.Components.Box
         * @public
         */
         public box: Kiwi.Components.Box;
@@ -437,8 +439,10 @@ module Kiwi.Components {
 
         /**
         * The basic speed of this object.
+        * You can modify the values contained inside this Object to change the speed.
+        *
         * @property velocity
-        * @type Point
+        * @type Kiwi.Geom.Point
         * @public
         */
         public velocity: Kiwi.Geom.Point;
@@ -467,8 +471,9 @@ module Kiwi.Components {
         /**
         * How fast the speed of this object is changing.
         * Useful for smooth movement and gravity.
+        *
         * @property acceleration
-        * @type Point
+        * @type Kiwi.Geom.Point
         * @public
         */
         public acceleration: Kiwi.Geom.Point;
@@ -478,7 +483,7 @@ module Kiwi.Components {
         * This isn&#x27;t drag exactly, more like deceleration that is only applied
         * when acceleration is not affecting the sprite.
         * @property drag
-        * @type Point
+        * @type Kiwi.Geom.Point
         * @public
         */
         public drag: Kiwi.Geom.Point;
@@ -488,7 +493,7 @@ module Kiwi.Components {
         * If you are using &lt;code&gt;acceleration&lt;/code&gt;, you can use &lt;code&gt;maxVelocity&lt;/code&gt; with it
         * to cap the speed automatically (very useful!).
         * @property maxVelocity
-        * @type Point
+        * @type Kiwi.Geom.Point
         * @public
         */
         public maxVelocity: Kiwi.Geom.Point;
@@ -576,9 +581,9 @@ module Kiwi.Components {
 
         /**
 		* Important variable for collision processing.
-		* By default this value is set automatically during &#x27;preUpdate()&#x27;.
+		* Tracks the last location of the Entity. This is set during the time this method &#x27;updates&#x27;.
 		* @property last
-        * @type Point
+        * @type Kiwi.Geom.Point
         * @public
         */
         public last: Kiwi.Geom.Point;
@@ -617,7 +622,7 @@ module Kiwi.Components {
         * Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.
         * @method touching
         * @param value [number] The collision constant of the side you want to check against.
-        * @return boolean 
+        * @return {boolean} If the Object is currently colliding on that side or not.
         * @public
         */
         public isTouching(value: number): boolean {
@@ -631,7 +636,7 @@ module Kiwi.Components {
 		* and set the value of allowCollisions directly.
         * @method solid
         * @param [value] {boolean} If left empty, this will then just toggle between ANY and NONE.
-        * @return boolean
+        * @return {boolean} If Object is currently solid or not.
         * @public
 		*/
         public solid(value?: boolean): boolean {
@@ -648,10 +653,13 @@ module Kiwi.Components {
 
         /**
         * Sets up a callback function that will run when this object overlaps with another.
+        * When the method is dispatched it will have TWO arguments.
+        * One - The parent / entity of this ArcadePhysics.
+        * Two - The GameObject that the collision occured with.
         * 
         * @method setCallback
-        * @param callbackFunction {Function}
-        * @param callbackContext {Any} 
+        * @param callbackFunction {Function} The method that is to be executed whe a overlap occurs.
+        * @param callbackContext {Any} The context that the method is to be called in.
         * @public
         */
         public setCallback(callbackFunction, callbackContext) {
@@ -663,7 +671,7 @@ module Kiwi.Components {
         /**
         * Returns the parent of this entity. Mainly used for executing callbacks.
         * @property parent
-        * @type Entity
+        * @type Kiwi.Entity
         * @public
         */
         public parent: Kiwi.Entity;
@@ -683,8 +691,8 @@ module Kiwi.Components {
         * 
         * @method seperate
         * @static
-        * @param object1 {Entity} The first GameObject you would like to seperate.
-        * @param object2 {Entity} The second GameObject you would like to seperate from the first. 
+        * @param object1 {Kiwi.Entity} The first GameObject you would like to seperate.
+        * @param object2 {Kiwi.Entity} The second GameObject you would like to seperate from the first. 
         * @return {boolean}
         * @public
         */
@@ -702,8 +710,8 @@ module Kiwi.Components {
         * This method is not recommended to be directly used but instead use a &#x27;collide/overlaps&#x27; method instead.
         *
         * @method seperateX
-		* @param object1 {Entity} The first GameObject.
-		* @param object2 {Entity} The second GameObject.
+		* @param object1 {Kiwi.Entity} The first GameObject.
+		* @param object2 {Kiwi.Entity} The second GameObject.
 		* @return {boolean} Whether the objects in fact touched and were separated along the X axis.
         * @static
         * @public
@@ -819,13 +827,13 @@ module Kiwi.Components {
 
 
         /**
-		* Separated two GameObject on the y-axis. This method is executed from the &#x27;separate&#x27; method.
+		* Separates two GameObject on the y-axis. This method is executed from the &#x27;separate&#x27; method.
         * Both objects need to have both an ArcadePhysics Component and a Box component in order for the separate process to succeed.
         * This method is not recommended to be directly used but instead use a &#x27;collide/overlaps&#x27; method instead.
 		*
         * @method seperateY 
-		* @param object1 {Entity} The first GameObject.
-		* @param object2 {Entity} The second GameObject.
+		* @param object1 {Kiwi.Entity} The first GameObject.
+		* @param object2 {Kiwi.Entity} The second GameObject.
 		* @return {boolean} Whether the objects in fact touched and were separated along the Y axis.
 		* @static
         * @public
@@ -960,9 +968,9 @@ module Kiwi.Components {
         * This method is not recommended to be directly used but instead use the &#x27;overlapsTiles&#x27; method instead.
         *
         * @method separateTiles
-        * @param object {Entity} The GameObject you are wanting to separate from a tile.
-        * @param layer {TileMapLayer} The TileMapLayer that the tiles belong on.
-        * @param tiles {Object[]} 
+        * @param object {Kiwi.Entity} The GameObject you are wanting to separate from a tile.
+        * @param layer {Kiwi.GameObjects.Tilemap.TileMapLayer} The TileMapLayer that the tiles belong on.
+        * @param tiles {Array} 
         * @return {Boolean} If any separation occured.
         * @public
         * @static
@@ -996,9 +1004,9 @@ module Kiwi.Components {
         /**
         * Separates a GameObjects from an Array of Tiles on the x-axis. 
         * @method separateTilesX
-        * @param object {Entity} The GameObject you are wanting to separate from a tile.
-        * @param layer {TileMapLayer} The TileMapLayer that the tiles belong on.
-        * @param tile {Object}.
+        * @param object {Kiwi.Entity} The GameObject you are wanting to separate from a tile.
+        * @param layer {Kiwi.GameObjects.Tilemap.TileMapLayer} The TileMapLayer that the tiles belong on.
+        * @param tile {Object} An Object containing the information (x/y/tiletypr) about the tile that is being overlapped.
         * @return {Boolean} If any separation occured.
         * @public
         * @static
@@ -1082,11 +1090,11 @@ module Kiwi.Components {
 
 
         /**
-        * Separates a GameObjects from an Array of Tiles on the y-axis. 
+        * Separates a GameObject from a tiles on the y-axis. 
         * @method separateTilesY
-        * @param object {Entity} The GameObject you are wanting to separate from a tile.
-        * @param layer {TileMapLayer} The TileMapLayer that the tiles belong on.
-        * @param tiles {Object[]} The tiles which are overlapping with the GameObject.
+        * @param object {Kiwi.Entity} The GameObject you are wanting to separate from a tile.
+        * @param layer {Kiwi.GameObjects.Tilemap.TileMapLayer} The TileMapLayer that the tiles belong on.
+        * @param tiles {Object} An Object representing the Tile which we are checking to see any overlaps occurs.
         * @return {Boolean} If any separation occured.
         * @public
         * @static
@@ -1177,11 +1185,11 @@ module Kiwi.Components {
         /**
         * A method to check to see if any Tiles with in this parent TileMapLayer overlaps with a GameObject passed.
         * If seperateObjects is true it will seperate the two entities based on their bounding box.
-        * ONLY works if parent of the ArcadePhysics component which is calling this method is a TileMapLayer.
+        * ONLY works if the parent of the ArcadePhysics component which is calling this method is a TileMapLayer.
         * Note: The GameObject passed must contain a box component and only if you want to separate the two objects must is ALSO contain an ArcadePhysics component.
         *
         * @method overlapsTile
-        * @param gameObject {Entity} The GameObject you would like to separate with this one.
+        * @param gameObject {Kiwi.Entity} The GameObject you would like to separate with this one.
         * @param [separateObjects=false] {Boolean} If you want the GameObject to be separated from any tile it collides with.
         * @param [collisionType=ANY] {Number} If you want the GameObject to only check for collisions from a particular side of tiles. ANY by default.
         * @return {Boolean} If any gameobject overlapped.
@@ -1211,7 +1219,7 @@ module Kiwi.Components {
         * Also: Not to be used for separation from tiles.
         * 
         * @method overlaps
-        * @param gameObject {Entity}
+        * @param gameObject {Kiwi.Entity}
         * @param [seperateObjects=false] {boolean}
         * @return {boolean}
         * @public
@@ -1243,9 +1251,9 @@ module Kiwi.Components {
         * A method to check to see if the parent of this physics component overlaps with another individual in a Kiwi Group.
         * 
         * @method overlapsGroup
-        * @param group {Group}
+        * @param group {Kiwi.Group}
         * @param [seperateObjects=false] {boolean} 
-        * @return { boolean }
+        * @return { boolean } If any object in the group overlapped with the GameObject or not.
         * @public
         */
         public overlapsGroup(group: Kiwi.Group, separateObjects: boolean = false): boolean {
@@ -1275,11 +1283,12 @@ module Kiwi.Components {
 
 
         /**
-        * A method to check to see if the parent of this physics component overlaps with a Entity that is held in an array.
+        * A method to check to see if the parent of this physics component overlaps with any Entities that are held in an Array which is passed.
+        *
         * @method overlapsArray
         * @param array {Array} The array of GameObjects you want to check.
         * @param [separateObjects=false] {boolean} If when the objects collide you want them to seperate outwards.
-        * @return {boolean} If a collision was detected or not.
+        * @return {boolean} If any overlapping occured or not.
         * @public
         */ 
         public overlapsArray(array: Array&lt;any&gt;, separateObjects: boolean = false): boolean {
@@ -1324,10 +1333,10 @@ module Kiwi.Components {
         * Computes the velocity based on the parameters passed.  
         * @method computeVelocity
         * @static
-        * @param velocity {number}
-        * @param [acceleration=0] {number}
-        * @param [drag=0] {number}
-        * @param [max=10000] {number}
+        * @param velocity {number} The currently velocity.
+        * @param [acceleration=0] {number} The acceleration of the item.
+        * @param [drag=0] {number} The amount of drag effecting the item.
+        * @param [max=10000] {number} The maximum velocity.
         * @return {Number} The new velocity
         * @public
         */
@@ -1356,8 +1365,10 @@ module Kiwi.Components {
 
         /**
         * Updates the position of this object. Automatically called if the &#x27;moves&#x27; parameter is true.  
+        * This called each frame during the update method.
+        * 
         * @method updateMotion
-        * @public
+        * @private
         */
         public updateMotion() {
             
@@ -1427,7 +1438,7 @@ module Kiwi.Components {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {string}
+        * @return {string} &quot;ArcadePhysics&quot;
         * @public
         */
         public objType() {
@@ -1455,8 +1466,8 @@ module Kiwi.Components {
         * @method collide
         * @static
         * @public
-        * @param gameObject1 {Kiwi.GameObjects.Entity} The first game object.
-        * @param gameObject2 {Kiwi.GameObjects.Entity} The second game object.
+        * @param gameObject1 {Kiwi.Entity} The first game object.
+        * @param gameObject2 {Kiwi.Entity} The second game object.
         * @param [seperate=true] {boolean} If the two gameobjects should seperated when they collide.
         * @return {boolean}
         */
@@ -1471,8 +1482,8 @@ module Kiwi.Components {
         * @method collideGroup
         * @static
         * @public
-        * @param gameObject {Kiwi.GameObjects.Entity} 
-        * @param group {Any} This could be either an Array of GameObjects or a Group containing members. 
+        * @param gameObject {Kiwi.Entity} The entity you would like to check against.
+        * @param group {Kiwi.Group} The Kiwi Group that you want to check the entity against. 
         * @param [seperate=true] {boolean} 
         * @return {boolean}
         * @public
@@ -1489,8 +1500,8 @@ module Kiwi.Components {
         * @method collideGroupGroup
         * @static
         * @public
-        * @param group1 {Any} This can either be an array or a Group.
-        * @param group2 {Any} Also could either be an array or a Group.
+        * @param group1 {Kiwi.Group} The first Kiwi Group that you want to check the entity against. 
+        * @param group2 {Kiwi.Group} The second Kiwi Group that you want to check the entity against. 
         * @param [seperate=true] {boolean}
         * @return {boolean}
         */
@@ -1513,8 +1524,8 @@ module Kiwi.Components {
         * @method overlaps
         * @static
         * @public
-        * @param gameObject1 {Kiwi.GameObjects.Entity} 
-        * @param gameObject2 {Kiwi.GameObjects.Entity} 
+        * @param gameObject1 {Kiwi.Entity} The first game object.
+        * @param gameObject2 {Kiwi.Entity} The second gameobject you are testing the first against.
         * @param [separateObjects=true] {boolean} 
         * @return {boolean}
         */
@@ -1530,8 +1541,8 @@ module Kiwi.Components {
         *
         * @method overlapsObjectGroup
         * @static
-        * @param gameObject {Entity}
-        * @param group {Group} 
+        * @param gameObject {Kiwi.Entity}
+        * @param group {Kiwi.Group} 
         * @param [seperateObjects=true] {boolean} If they overlap should the seperate or not
         * @return {boolean}
         * @public
@@ -1544,12 +1555,12 @@ module Kiwi.Components {
 
 
         /**
-        * A Static method that checks to see if any objects in a group overlap with objects in another group.
+        * A Static method that checks to see if any objects in one group overlap with objects in another group.
         *
         * @method overlaps
         * @static
-        * @param group1 {Group} The first 
-        * @param group2 {Any}
+        * @param group1 {Kiwi.Group} The first group you would like to check against.
+        * @param group2 {Kiwi.Group} The second group you would like to check against.
         * @param [seperate=true] {boolean} If they overlap should the seperate or not
         * @return {boolean}
         * @public
@@ -1576,11 +1587,11 @@ module Kiwi.Components {
 
 
         /**
-        * A Statuc method that checks to see if any objects from an Array collide with a Kiwi Group members.
+        * A Static method that checks to see if any objects from an Array collide with a Kiwi Group members.
         * 
         * @method overlapsArrayGroup
         * @param array {Array} An array you want to check collide.
-        * @param group {Group} A group of objects you want to check overlaps.
+        * @param group {Kiwi.Group} A group of objects you want to check overlaps.
         * @param [seperateObjects=true] {Boolean} If when a collision is found the objects should seperate out.
         * @return {Boolean} 
         * @static

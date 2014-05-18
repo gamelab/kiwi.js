@@ -13,8 +13,8 @@ module Kiwi.Input {
     * @class Pointer
     * @constructor
     * @namespace Kiwi.Input
-    * @param {Game} game
-    * @return Pointer
+    * @param {Kiwi.Game} game
+    * @return {Kiwi.Input.Pointer}
     *
     */
     export class Pointer {
@@ -135,9 +135,9 @@ module Kiwi.Input {
         public screenY: number = -1;
 
         /**
-        * The point that this pointer is at. Same c ordina es asX/Y properties.
+        * The point that this pointer is at. Same coordinates as X/Y properties.
         * @property point
-        * @type Point
+        * @type Kiwi.Geom.Point
         * @public
         */
         public point: Kiwi.Geom.Point;
@@ -145,7 +145,7 @@ module Kiwi.Input {
         /**
         * A circle that is representative of the area this point covers.
         * @property circle
-        * @type Circle
+        * @type Kiwi.Geom.Circle
         * @public
         */
         public circle: Kiwi.Geom.Circle;
@@ -243,7 +243,7 @@ module Kiwi.Input {
         /**
         * The points inital coordinates when pressed down.
         * @property startPoint
-        * @type Point
+        * @type Kiwi.Geom.Point
         * @public
         */
         public startPoint: Kiwi.Geom.Point;
@@ -251,7 +251,7 @@ module Kiwi.Input {
         /**
         * The coordinates where the user released the pointer.
         * @property endPoint
-        * @type Point
+        * @type Kiwi.Geom.Point
         * @public
         */
         public endPoint: Kiwi.Geom.Point;
@@ -318,7 +318,7 @@ module Kiwi.Input {
         /**
         * Indicates if the pointer was just pressed. This is based of the justPressedRate unless otherwise specifieds.
         * @method justPressed
-        * @param {number} duration
+        * @param {Number} duration
         * @return boolean
         * @public
         */
@@ -335,7 +335,7 @@ module Kiwi.Input {
         /**
         * Indicates if the pointer was just released. This is based of the justReleasedRate unless otherwise specified.
         * @method justReleased
-        * @param {number} duration
+        * @param {Number} duration
         * @return boolean
         * @public
         */

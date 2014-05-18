@@ -13,8 +13,8 @@ module Kiwi.Sound {
     * @class AudioLibrary
     * @constructor
     * @namespace Kiwi.Sound
-    * @param game {Game} The game that this audio library is a member of.
-    * @return {AudioLibrary}
+    * @param game {Kiwi.Game} The game that this audio library is a member of.
+    * @return {Kiwi.Sound.AudioLibrary}
     */
     export class AudioLibrary {
          
@@ -27,7 +27,7 @@ module Kiwi.Sound {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "AudioLibrary"
         * @public
         */
         public objType(): string {
@@ -37,7 +37,7 @@ module Kiwi.Sound {
         /**
         * The game that the AudioLibrary belongs to.
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private
         */
         private _game: Kiwi.Game;
@@ -88,7 +88,7 @@ module Kiwi.Sound {
         /**
         * Adds a new audio file to the audio library.
         * @method add
-        * @param {File} audioFile
+        * @param {Kiwi.Files.File} audioFile
         * @public
         */
         public add(audioFile: Kiwi.Files.File) {
