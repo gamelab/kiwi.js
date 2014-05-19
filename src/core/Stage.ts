@@ -587,6 +587,14 @@ module Kiwi {
 
             } else if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
                 this.gl = this.canvas.getContext("webgl");
+                if (!this.gl) {
+                    this.gl = this.canvas.getContext("experimental-webgl");
+                    if (!this.gl) {
+                        console.error("Kiwi.Stage: WebGL rendering is not available despite the device apparently supporting it."); 
+                    } else {
+                        console.warn ("Kiwi.Stage: 'webgl' context is not available. Using 'experimental-webgl'");
+                    }
+                }
                 this.gl.clearColor(1, 1, .95, .7);
                 this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
                 this.ctx = null;
