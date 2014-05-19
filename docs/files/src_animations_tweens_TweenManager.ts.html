@@ -367,8 +367,8 @@ module Kiwi.Animations.Tweens {
     * @class TweenManager
     * @namespace Kiwi.Animations.Tweens
     * @constructor
-    * @param game {Game}
-    * @return {TweenManager}
+    * @param game {Kiwi.Game}
+    * @return {Kiwi.Animations.TweenManager}
     * 
     * @author     sole / http://soledadpenades.com
     * @author     mrdoob / http://mrdoob.com
@@ -403,7 +403,7 @@ module Kiwi.Animations.Tweens {
         /** 
         * The game that this manager belongs to.
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private
         */
         private _game: Kiwi.Game;
@@ -411,7 +411,7 @@ module Kiwi.Animations.Tweens {
         /** 
         * An array of all of the tweens on the manager.
         * @property _tweens
-        * @type Tween[]
+        * @type Kiwi.Animations.Tween[]
         * @private
         */
         private _tweens: Kiwi.Animations.Tween[];
@@ -419,7 +419,7 @@ module Kiwi.Animations.Tweens {
         /** 
         * Returns all of tweens that are on the manager.
         * @method getAll
-        * @return Tween[]
+        * @return Kiwi.Animations.Tween[]
         * @public
         */
         public getAll() {
@@ -443,7 +443,7 @@ module Kiwi.Animations.Tweens {
         * Creates a new Tween. 
         * @method create
         * @param object {Any} The object that this tween is to apply.
-        * @return {Tween} The tween that was created.
+        * @return {Kiwi.Animations.Tween} The tween that was created.
         * @public
         */
         public create(object:any): Kiwi.Animations.Tween {
@@ -455,8 +455,8 @@ module Kiwi.Animations.Tweens {
         /** 
         * Adds a tween to the manager. 
         * @method add 
-        * @param tween {Tween} The tween that you want to add to the manager.
-        * @return {Tween} 
+        * @param tween {Kiwi.Animations.Tween} The tween that you want to add to the manager.
+        * @return {Kiwi.Animations.Tween} 
         * @public
         */
         public add(tween: Kiwi.Animations.Tween): Kiwi.Animations.Tween {
@@ -472,8 +472,8 @@ module Kiwi.Animations.Tweens {
         /** 
         * Removes a tween from this manager.
         * @method remove
-        * @param tween {Tween} The tween that you would like to remove.
-        * @return {Tween}
+        * @param tween {Kiwi.Animations.Tween} The tween that you would like to remove.
+        * @return {Kiwi.Animations.Tween}
         * @public
         */
         public remove(tween: Kiwi.Animations.Tween) {

@@ -350,7 +350,7 @@
 
     
         <div class="extends">
-            Extends Component
+            Extends <a href="..\classes\Kiwi.Component.html" class="crosslink">Kiwi.Component</a>
         </div>
     
 
@@ -406,7 +406,7 @@ This Component is essentually another version of the normal Input Component but 
 
     
         <span class="returns-inline">
-            <span class="type">WidgetInput</span>
+            <span class="type"><a href="..\classes\Kiwi.HUD.HUDComponents.WidgetInput.html" class="crosslink">Kiwi.HUD.HUDComponents.WidgetInput</a></span>
         </span>
     
 
@@ -496,7 +496,7 @@ This Component is essentually another version of the normal Input Component but 
             <div class="returns-description">
                 
                     
-                        <span class="type">WidgetInput</span>:
+                        <span class="type"><a href="..\classes\Kiwi.HUD.HUDComponents.WidgetInput.html" class="crosslink">Kiwi.HUD.HUDComponents.WidgetInput</a></span>:
                     
                 
             </div>
@@ -575,8 +575,29 @@ This Component is essentually another version of the normal Input Component but 
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
+                                <a href="#method_destroy">destroy</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
                                 <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_postUpdate">postUpdate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_preUpdate">preUpdate</a>
 
                                 
                                 
@@ -584,6 +605,13 @@ This Component is essentually another version of the normal Input Component but 
                         
                             <li class="index-item method public">
                                 <a href="#method_setElement">setElement</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_update">update</a>
 
                                 
                                 
@@ -613,8 +641,29 @@ This Component is essentually another version of the normal Input Component but 
                                 
                             </li>
                         
-                            <li class="index-item property private">
+                            <li class="index-item property private inherited">
                                 <a href="#property_active">active</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_dirty">dirty</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_game">game</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_name">name</a>
 
                                 
                                 
@@ -643,6 +692,13 @@ This Component is essentually another version of the normal Input Component but 
                         
                             <li class="index-item property public">
                                 <a href="#property_onUp">onUp</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_owner">owner</a>
 
                                 
                                 
@@ -1136,6 +1192,60 @@ This Component is essentually another version of the normal Input Component but 
 </div>
 
                 
+                    <div id="method_destroy" class="method item public inherited">
+    <h3 class="name"><code>destroy</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#method_destroy">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l104"><code>src\core\Component.ts:104</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Destroys this component and all of the properties that exist on it.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_objType" class="method item public">
     <h3 class="name"><code>objType</code></h3>
 
@@ -1165,12 +1275,12 @@ This Component is essentually another version of the normal Input Component but 
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Kiwi.Component.html#method_objType">
+                Kiwi.Component
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
@@ -1200,9 +1310,119 @@ This Component is essentually another version of the normal Input Component but 
                     
                         <span class="type">String</span>:
                     
+                    <p>&#39;WidgetInputComponent&#39;</p>
+
                 
             </div>
         </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_postUpdate" class="method item public inherited">
+    <h3 class="name"><code>postUpdate</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#method_postUpdate">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l97"><code>src\core\Component.ts:97</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Components can postUpdate, that is run an update after the parent has updated. This is to be overriden by subclasses.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_preUpdate" class="method item public inherited">
+    <h3 class="name"><code>preUpdate</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#method_preUpdate">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l83"><code>src\core\Component.ts:83</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Components can preUpdate, that is update before the parent updates. This is to be overriden by subclasses.</p>
+
+    </div>
+
+    
+
     
 
     
@@ -1293,6 +1513,60 @@ Removes all of the current events from container before changing.</p>
             
             </ul>
         </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_update" class="method item public inherited">
+    <h3 class="name"><code>update</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#method_update">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l90"><code>src\core\Component.ts:90</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the component is being added to a State rather than a Game Object then over-ride its update method to perform required tasks.</p>
+
+    </div>
+
     
 
     
@@ -1419,12 +1693,12 @@ Removes all of the current events from container before changing.</p>
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Kiwi.Component.html#property_active">
+                Kiwi.Component
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
@@ -1450,9 +1724,143 @@ Removes all of the current events from container before changing.</p>
 </div>
 
                 
+                    <div id="property_dirty" class="property item public inherited">
+    <h3 class="name"><code>dirty</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_dirty">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l74"><code>src\core\Component.ts:74</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The state of this component.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_game" class="property item public inherited">
+    <h3 class="name"><code>game</code></h3>
+    <span class="type">Game</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_game">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l49"><code>src\core\Component.ts:49</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The game this Component belongs to</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_name" class="property item public inherited">
+    <h3 class="name"><code>name</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_name">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l57"><code>src\core\Component.ts:57</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The name of this component.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_onDown" class="property item public">
     <h3 class="name"><code>onDown</code></h3>
-    <span class="type">Signal</span>
+    <span class="type"><a href="..\classes\Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
 
     
 
@@ -1499,7 +1907,7 @@ Removes all of the current events from container before changing.</p>
                 
                     <div id="property_onOut" class="property item public">
     <h3 class="name"><code>onOut</code></h3>
-    <span class="type">Signal</span>
+    <span class="type"><a href="..\classes\Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
 
     
 
@@ -1546,7 +1954,7 @@ Removes all of the current events from container before changing.</p>
                 
                     <div id="property_onOver" class="property item public">
     <h3 class="name"><code>onOver</code></h3>
-    <span class="type">Signal</span>
+    <span class="type"><a href="..\classes\Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
 
     
 
@@ -1593,7 +2001,7 @@ Removes all of the current events from container before changing.</p>
                 
                     <div id="property_onUp" class="property item public">
     <h3 class="name"><code>onUp</code></h3>
-    <span class="type">Signal</span>
+    <span class="type"><a href="..\classes\Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
 
     
 
@@ -1627,6 +2035,50 @@ Removes all of the current events from container before changing.</p>
 
     <div class="description">
         <p>A Signal that dispatches events when the user releases the mouse on top of the HTMLElement.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_owner" class="property item public inherited">
+    <h3 class="name"><code>owner</code></h3>
+    <span class="type">Object</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_owner">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l41"><code>src\core\Component.ts:41</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The object that owns this entity</p>
 
     </div>
 

@@ -366,7 +366,7 @@ module Kiwi.Geom {
     * @param [y1 = 0] {Number} y1
     * @param [x2 = 0] {Number} x2
     * @param [y2 = 0] {Number} y2
-    * @return {Ray} This Object
+    * @return {Kiwi.Geom.Ray} This Object
     *
     */
     export class Ray {
@@ -422,8 +422,8 @@ module Kiwi.Geom {
         * Makes a copy of this Ray either as a new Ray object or,
         * makes a passed Ray a copy of this one. 
         * @method clone
-        * @param [output = Ray] {Ray} 
-        * @return {Ray}
+        * @param [output = Ray] {Kiwi.Geom.Ray} 
+        * @return {Kiwi.Geom.Ray}
         * @public
         */
         public clone(output: Ray = new Ray): Ray {
@@ -435,8 +435,8 @@ module Kiwi.Geom {
         /**
         * Makes this Ray the same as a passed Ray.
         * @method copyFrom
-        * @param source {Ray} 
-        * @return {Ray}
+        * @param source {Kiwi.Geom.Ray} 
+        * @return {Kiwi.Geom.Ray}
         * @public
         */
         public copyFrom(source: Ray): Ray {
@@ -448,8 +448,8 @@ module Kiwi.Geom {
         /**
         * Makes a passed Ray the same as this Ray object. 
         * @method copyTo
-        * @param target {Ray} 
-        * @return {Ray}
+        * @param target {Kiwi.Geom.Ray} 
+        * @return {Kiwi.Geom.Ray}
         * @public
         */
         public copyTo(target: Ray): Ray {
@@ -465,7 +465,7 @@ module Kiwi.Geom {
         * @param y1{Number} 
         * @param x2{Number} 
         * @param y2{Number} 
-        * @return {Ray}
+        * @return {Kiwi.Geom.Ray}
         * @public
         */
         public setTo(x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0): Ray {

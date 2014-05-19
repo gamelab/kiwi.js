@@ -375,7 +375,10 @@ module Kiwi {
             
             console.log(&#x27;Kiwi.Game: &#x27; + name + &#x27; is booting, using Kiwi.js version &#x27; + Kiwi.VERSION);
       
-            //Have they specified debugging
+            if (Kiwi.DEVICE === null) { 
+                Kiwi.DEVICE = new Kiwi.System.Device();
+            }
+
             if (options.debug !== &#x27;undefined&#x27; &amp;&amp; typeof options.debug === &#x27;number&#x27;) {
                 switch (options.debug) {
                     case Kiwi.DEBUG_ON:
@@ -421,7 +424,6 @@ module Kiwi {
                 console.log(&#x27;  Kiwi.Game: Targeted device not specified. Defaulting to BROWSER&#x27;); 
             }
 
-            //What renderer are they using?
             if (options.renderer !== &#x27;undefined&#x27; &amp;&amp; typeof options.renderer === &#x27;number&#x27;) {
                 switch (options.renderer) {
                     case Kiwi.RENDERER_CANVAS:
@@ -429,8 +431,13 @@ module Kiwi {
                         console.log(&#x27;  Kiwi.Game: Rendering using CANVAS.&#x27;);
                         break;
                     case Kiwi.RENDERER_WEBGL:
-                        this._renderOption = options.renderer;
-                        console.log(&#x27;  Kiwi.Game: Rendering using WEBGL.&#x27;);
+                        if (Kiwi.DEVICE.webGL) {
+                            this._renderOption = options.renderer;
+                            console.log(&#x27;  Kiwi.Game: Rendering using WEBGL.&#x27;);
+                        } else {
+                            this._renderOption = Kiwi.RENDERER_CANVAS;
+                            console.log(&#x27;  Kiwi.Game: WEBGL renderer requested but device does not support WEBGL. Rendering using CANVAS.&#x27;);
+                        }
                         break;
                     default:
                         this._renderOption = Kiwi.RENDERER_CANVAS;
@@ -464,7 +471,7 @@ module Kiwi {
 
             console.log(&#x27;  Kiwi.Game: Stage Dimensions: &#x27; + width + &#x27;x&#x27; + height);
 
-
+            
             if (options.scaleType !== &#x27;undefined&#x27;) {
 
                 switch (options.scaleType) {
@@ -808,10 +815,7 @@ module Kiwi {
         */
         private _start() {
 
-            if (Kiwi.DEVICE === null) { //dont we want to move this up into the constructor
-                Kiwi.DEVICE = new Kiwi.System.Device();
-            }
-
+     
             this.stage.boot(this._startup);
             this.renderer.boot();
             this.cameras.boot();

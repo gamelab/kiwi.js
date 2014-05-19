@@ -368,7 +368,7 @@
 
 
 <div class="box intro">
-    <p>Each game contains a single Stage which controls the creation of the elements required for a Kiwi game to work. 
+    <p>Each game contains a single Stage which controls the creation and management of main domElements required for a Kiwi game to work. 
 Such as the Canvas and the rendering contexts, as well as the width/height of the game and the position it should be on the screen.</p>
 
 </div>
@@ -395,13 +395,31 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code>width</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>height</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>scaleType</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
 
     
         <span class="returns-inline">
-            <span class="type">Stage</span>
+            <span class="type"><a href="..\classes\Kiwi.Stage.html" class="crosslink">Kiwi.Stage</a></span>
         </span>
     
 
@@ -457,7 +475,8 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                     
 
                     <div class="param-description">
-                         
+                        <p>The game that this Stage belongs to.</p>
+
                     </div>
 
                     
@@ -472,7 +491,56 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                     
 
                     <div class="param-description">
-                         
+                        <p>The name of the kiwi game.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">width</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The initial width of the game.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">height</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The initial heihgt of the game.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">scaleType</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The scale method that should be used for the game.</p>
+
                     </div>
 
                     
@@ -489,10 +557,8 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             <div class="returns-description">
                 
                     
-                        <span class="type">Stage</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Stage.html" class="crosslink">Kiwi.Stage</a></span>:
                     
-                    <p>Kiwi.Stage</p>
-
                 
             </div>
         </div>
@@ -543,7 +609,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                             </li>
                         
                             <li class="index-item method private">
-                                <a href="#method__resizeContainer">_resizeContainer</a>
+                                <a href="#method__scaleContainer">_scaleContainer</a>
 
                                 
                                 
@@ -916,17 +982,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
     <h3 class="name"><code>_calculateContainerScale</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>event</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
@@ -956,7 +1012,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l533"><code>src\core\Stage.ts:533</code></a>
+        <a href="../files/src_core_Stage.ts.html#l541"><code>src\core\Stage.ts:541</code></a>
         
         </p>
 
@@ -967,33 +1023,10 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
     </div>
 
     <div class="description">
-        <p>Used to calculate the new offset and see what the scale of the stage currently is.</p>
+        <p>Used to calculate the new offset and the scale of the stage currently is at.</p>
 
     </div>
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">event</code>
-                        <span class="type">UIEvent</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
     
 
     
@@ -1036,7 +1069,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l548"><code>src\core\Stage.ts:548</code></a>
+        <a href="../files/src_core_Stage.ts.html#l555"><code>src\core\Stage.ts:555</code></a>
         
         </p>
 
@@ -1059,8 +1092,8 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
 </div>
 
                 
-                    <div id="method__resizeContainer" class="method item private">
-    <h3 class="name"><code>_resizeContainer</code></h3>
+                    <div id="method__scaleContainer" class="method item private">
+    <h3 class="name"><code>_scaleContainer</code></h3>
 
     
         <span class="paren">()</span>
@@ -1093,7 +1126,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l707"><code>src\core\Stage.ts:707</code></a>
+        <a href="../files/src_core_Stage.ts.html#l720"><code>src\core\Stage.ts:720</code></a>
         
         </p>
 
@@ -1160,7 +1193,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l520"><code>src\core\Stage.ts:520</code></a>
+        <a href="../files/src_core_Stage.ts.html#l528"><code>src\core\Stage.ts:528</code></a>
         
         </p>
 
@@ -1250,7 +1283,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l466"><code>src\core\Stage.ts:466</code></a>
+        <a href="../files/src_core_Stage.ts.html#l473"><code>src\core\Stage.ts:473</code></a>
         
         </p>
 
@@ -1261,7 +1294,8 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
     </div>
 
     <div class="description">
-        <p>Is executed when the DOM has loaded and the game is just starting.</p>
+        <p>Is executed when the DOM has loaded and the game is just starting. 
+This is a internal method used by the core of Kiwi itself.</p>
 
     </div>
 
@@ -1280,7 +1314,8 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                     
 
                     <div class="param-description">
-                         
+                        <p>The</p>
+
                     </div>
 
                     
@@ -1340,7 +1375,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l681"><code>src\core\Stage.ts:681</code></a>
+        <a href="../files/src_core_Stage.ts.html#l697"><code>src\core\Stage.ts:697</code></a>
         
         </p>
 
@@ -1372,7 +1407,7 @@ If not colour is passed then Red at 20% opacity is used.</p>
                     
 
                     <div class="param-description">
-                        <p>debug color</p>
+                        <p>The debug color to rendering on the debug canvas.</p>
 
                     </div>
 
@@ -1437,7 +1472,7 @@ If not colour is passed then Red at 20% opacity is used.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l638"><code>src\core\Stage.ts:638</code></a>
+        <a href="../files/src_core_Stage.ts.html#l654"><code>src\core\Stage.ts:654</code></a>
         
         </p>
 
@@ -1532,7 +1567,7 @@ If not colour is passed then Red at 20% opacity is used.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l652"><code>src\core\Stage.ts:652</code></a>
+        <a href="../files/src_core_Stage.ts.html#l668"><code>src\core\Stage.ts:668</code></a>
         
         </p>
 
@@ -1611,7 +1646,7 @@ The context for rendering can be access via the &#39;dctx&#39; property and you 
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l498"><code>src\core\Stage.ts:498</code></a>
+        <a href="../files/src_core_Stage.ts.html#l506"><code>src\core\Stage.ts:506</code></a>
         
         </p>
 
@@ -1694,7 +1729,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">String</span>
         </span>
     
 
@@ -1723,7 +1758,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l48"><code>src\core\Stage.ts:48</code></a>
+        <a href="../files/src_core_Stage.ts.html#l51"><code>src\core\Stage.ts:51</code></a>
         
         </p>
 
@@ -1747,7 +1782,9 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             <div class="returns-description">
                 
                     
-                    <p>string</p>
+                        <span class="type">String</span>:
+                    
+                    <p>&quot;Stage&quot;</p>
 
                 
             </div>
@@ -1808,7 +1845,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l598"><code>src\core\Stage.ts:598</code></a>
+        <a href="../files/src_core_Stage.ts.html#l613"><code>src\core\Stage.ts:613</code></a>
         
         </p>
 
@@ -1819,7 +1856,8 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
     </div>
 
     <div class="description">
-        <p>Set the stage width and height.</p>
+        <p>Set the stage width and height for rendering purposes.
+This will not effect that &#39;scaleType&#39; that it has been set to.</p>
 
     </div>
 
@@ -1838,7 +1876,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
                     
 
                     <div class="param-description">
-                        <p>new stage width</p>
+                        <p>The new Stage width.</p>
 
                     </div>
 
@@ -1854,7 +1892,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
                     
 
                     <div class="param-description">
-                        <p>new stage height</p>
+                        <p>The new Stage height.</p>
 
                     </div>
 
@@ -1892,7 +1930,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
                 <li class="arg">
                     
-                        <code>B</code>
+                        <code>b</code>
                     
                 </li>
             
@@ -1931,7 +1969,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l621"><code>src\core\Stage.ts:621</code></a>
+        <a href="../files/src_core_Stage.ts.html#l637"><code>src\core\Stage.ts:637</code></a>
         
         </p>
 
@@ -1987,7 +2025,7 @@ Each parameter pass is a number between 0 and 255. This method also returns a Ob
             
                 <li class="param">
                     
-                        <code class="param-name">B</code>
+                        <code class="param-name">b</code>
                         <span class="type">Number</span>
                     
 
@@ -2059,7 +2097,7 @@ Each parameter pass is a number between 0 and 255. This method also returns a Ob
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l696"><code>src\core\Stage.ts:696</code></a>
+        <a href="../files/src_core_Stage.ts.html#l711"><code>src\core\Stage.ts:711</code></a>
         
         </p>
 
@@ -2115,7 +2153,7 @@ Each parameter pass is a number between 0 and 255. This method also returns a Ob
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l136"><code>src\core\Stage.ts:136</code></a>
+        <a href="../files/src_core_Stage.ts.html#l141"><code>src\core\Stage.ts:141</code></a>
         
         </p>
 
@@ -2129,6 +2167,8 @@ Each parameter pass is a number between 0 and 255. This method also returns a Ob
 
     </div>
 
+    
+        <p><strong>Default:</strong> 1</p>
     
 
     
@@ -2162,7 +2202,7 @@ Each parameter pass is a number between 0 and 255. This method also returns a Ob
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l342"><code>src\core\Stage.ts:342</code></a>
+        <a href="../files/src_core_Stage.ts.html#l349"><code>src\core\Stage.ts:349</code></a>
         
         </p>
 
@@ -2189,7 +2229,7 @@ This must be a valid 6 character hex color string such as &quot;ffffff&quot;.</p
                 
                     <div id="property__game" class="property item private">
     <h3 class="name"><code>_game</code></h3>
-    <span class="type">Game</span>
+    <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
 
     
 
@@ -2212,7 +2252,7 @@ This must be a valid 6 character hex color string such as &quot;ffffff&quot;.</p
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l318"><code>src\core\Stage.ts:318</code></a>
+        <a href="../files/src_core_Stage.ts.html#l325"><code>src\core\Stage.ts:325</code></a>
         
         </p>
 
@@ -2259,7 +2299,7 @@ This must be a valid 6 character hex color string such as &quot;ffffff&quot;.</p
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l235"><code>src\core\Stage.ts:235</code></a>
+        <a href="../files/src_core_Stage.ts.html#l242"><code>src\core\Stage.ts:242</code></a>
         
         </p>
 
@@ -2306,7 +2346,7 @@ This must be a valid 6 character hex color string such as &quot;ffffff&quot;.</p
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l393"><code>src\core\Stage.ts:393</code></a>
+        <a href="../files/src_core_Stage.ts.html#l400"><code>src\core\Stage.ts:400</code></a>
         
         </p>
 
@@ -2353,7 +2393,7 @@ This must be a valid 6 character hex color string such as &quot;ffffff&quot;.</p
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l110"><code>src\core\Stage.ts:110</code></a>
+        <a href="../files/src_core_Stage.ts.html#l115"><code>src\core\Stage.ts:115</code></a>
         
         </p>
 
@@ -2368,7 +2408,7 @@ This must be a valid 6 character hex color string such as &quot;ffffff&quot;.</p
     </div>
 
     
-        <p><strong>Default:</strong> SCALE_NONE</p>
+        <p><strong>Default:</strong> Kiwi.Stage.SCALE_NONE</p>
     
 
     
@@ -2402,7 +2442,7 @@ This must be a valid 6 character hex color string such as &quot;ffffff&quot;.</p
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l216"><code>src\core\Stage.ts:216</code></a>
+        <a href="../files/src_core_Stage.ts.html#l223"><code>src\core\Stage.ts:223</code></a>
         
         </p>
 
@@ -2449,7 +2489,7 @@ This must be a valid 6 character hex color string such as &quot;ffffff&quot;.</p
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l164"><code>src\core\Stage.ts:164</code></a>
+        <a href="../files/src_core_Stage.ts.html#l171"><code>src\core\Stage.ts:171</code></a>
         
         </p>
 
@@ -2496,7 +2536,7 @@ This must be a valid 6 character hex color string such as &quot;ffffff&quot;.</p
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l190"><code>src\core\Stage.ts:190</code></a>
+        <a href="../files/src_core_Stage.ts.html#l197"><code>src\core\Stage.ts:197</code></a>
         
         </p>
 
@@ -2543,7 +2583,7 @@ This must be a valid 6 character hex color string such as &quot;ffffff&quot;.</p
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l144"><code>src\core\Stage.ts:144</code></a>
+        <a href="../files/src_core_Stage.ts.html#l150"><code>src\core\Stage.ts:150</code></a>
         
         </p>
 
@@ -2558,6 +2598,8 @@ Note: Because the alpha value is applied to the container, it will not work in C
 
     </div>
 
+    
+        <p><strong>Default:</strong> 1</p>
     
 
     
@@ -2591,7 +2633,7 @@ Note: Because the alpha value is applied to the container, it will not work in C
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l430"><code>src\core\Stage.ts:430</code></a>
+        <a href="../files/src_core_Stage.ts.html#l437"><code>src\core\Stage.ts:437</code></a>
         
         </p>
 
@@ -2638,7 +2680,7 @@ Note: Because the alpha value is applied to the container, it will not work in C
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l353"><code>src\core\Stage.ts:353</code></a>
+        <a href="../files/src_core_Stage.ts.html#l360"><code>src\core\Stage.ts:360</code></a>
         
         </p>
 
@@ -2686,7 +2728,7 @@ The hex colour code should not contain a hashtag &#39;#&#39;.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l457"><code>src\core\Stage.ts:457</code></a>
+        <a href="../files/src_core_Stage.ts.html#l464"><code>src\core\Stage.ts:464</code></a>
         
         </p>
 
@@ -2733,7 +2775,7 @@ The hex colour code should not contain a hashtag &#39;#&#39;.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l421"><code>src\core\Stage.ts:421</code></a>
+        <a href="../files/src_core_Stage.ts.html#l428"><code>src\core\Stage.ts:428</code></a>
         
         </p>
 
@@ -2780,7 +2822,7 @@ The hex colour code should not contain a hashtag &#39;#&#39;.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l448"><code>src\core\Stage.ts:448</code></a>
+        <a href="../files/src_core_Stage.ts.html#l455"><code>src\core\Stage.ts:455</code></a>
         
         </p>
 
@@ -2827,7 +2869,7 @@ The hex colour code should not contain a hashtag &#39;#&#39;.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l439"><code>src\core\Stage.ts:439</code></a>
+        <a href="../files/src_core_Stage.ts.html#l446"><code>src\core\Stage.ts:446</code></a>
         
         </p>
 
@@ -2876,7 +2918,7 @@ The hex colour code should not contain a hashtag &#39;#&#39;.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l67"><code>src\core\Stage.ts:67</code></a>
+        <a href="../files/src_core_Stage.ts.html#l71"><code>src\core\Stage.ts:71</code></a>
         
         </p>
 
@@ -2890,6 +2932,8 @@ The hex colour code should not contain a hashtag &#39;#&#39;.</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> 600</p>
     
 
     
@@ -2925,7 +2969,7 @@ The hex colour code should not contain a hashtag &#39;#&#39;.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l58"><code>src\core\Stage.ts:58</code></a>
+        <a href="../files/src_core_Stage.ts.html#l61"><code>src\core\Stage.ts:61</code></a>
         
         </p>
 
@@ -2939,6 +2983,8 @@ The hex colour code should not contain a hashtag &#39;#&#39;.</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> 800</p>
     
 
     
@@ -2972,7 +3018,7 @@ The hex colour code should not contain a hashtag &#39;#&#39;.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l334"><code>src\core\Stage.ts:334</code></a>
+        <a href="../files/src_core_Stage.ts.html#l341"><code>src\core\Stage.ts:341</code></a>
         
         </p>
 
@@ -3019,7 +3065,7 @@ The hex colour code should not contain a hashtag &#39;#&#39;.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l412"><code>src\core\Stage.ts:412</code></a>
+        <a href="../files/src_core_Stage.ts.html#l419"><code>src\core\Stage.ts:419</code></a>
         
         </p>
 
@@ -3066,7 +3112,7 @@ The hex colour code should not contain a hashtag &#39;#&#39;.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l243"><code>src\core\Stage.ts:243</code></a>
+        <a href="../files/src_core_Stage.ts.html#l250"><code>src\core\Stage.ts:250</code></a>
         
         </p>
 
@@ -3076,7 +3122,7 @@ The hex colour code should not contain a hashtag &#39;#&#39;.</p>
     </div>
 
     <div class="description">
-        <p>The height of the stage</p>
+        <p>The height of the stage. This is READ ONLY. See the &#39;resize&#39; method if you need to modify this value.</p>
 
     </div>
 
@@ -3113,7 +3159,7 @@ The hex colour code should not contain a hashtag &#39;#&#39;.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l326"><code>src\core\Stage.ts:326</code></a>
+        <a href="../files/src_core_Stage.ts.html#l333"><code>src\core\Stage.ts:333</code></a>
         
         </p>
 
@@ -3160,7 +3206,7 @@ The hex colour code should not contain a hashtag &#39;#&#39;.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l401"><code>src\core\Stage.ts:401</code></a>
+        <a href="../files/src_core_Stage.ts.html#l408"><code>src\core\Stage.ts:408</code></a>
         
         </p>
 
@@ -3185,7 +3231,7 @@ This is READ ONLY.</p>
                 
                     <div id="property_offset" class="property item public">
     <h3 class="name"><code>offset</code></h3>
-    <span class="type">Point</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
 
     
 
@@ -3208,7 +3254,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l310"><code>src\core\Stage.ts:310</code></a>
+        <a href="../files/src_core_Stage.ts.html#l317"><code>src\core\Stage.ts:317</code></a>
         
         </p>
 
@@ -3232,7 +3278,7 @@ This is READ ONLY.</p>
                 
                     <div id="property_onResize" class="property item public">
     <h3 class="name"><code>onResize</code></h3>
-    <span class="type">Signal</span>
+    <span class="type"><a href="..\classes\Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
 
     
 
@@ -3255,7 +3301,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l254"><code>src\core\Stage.ts:254</code></a>
+        <a href="../files/src_core_Stage.ts.html#l261"><code>src\core\Stage.ts:261</code></a>
         
         </p>
 
@@ -3279,7 +3325,7 @@ This is READ ONLY.</p>
                 
                     <div id="property_onWindowResize" class="property item public">
     <h3 class="name"><code>onWindowResize</code></h3>
-    <span class="type">Signal</span>
+    <span class="type"><a href="..\classes\Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
 
     
 
@@ -3302,7 +3348,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l263"><code>src\core\Stage.ts:263</code></a>
+        <a href="../files/src_core_Stage.ts.html#l270"><code>src\core\Stage.ts:270</code></a>
         
         </p>
 
@@ -3313,7 +3359,7 @@ This is READ ONLY.</p>
 
     <div class="description">
         <p>A Signal which dispatches events when the window is resized. 
-You can use to detect if the screen is now in a &#39;landscape&#39; or &#39;portrait&#39; view on Mobile/Cocoon devices.</p>
+Useful to detect if the screen is now in a &#39;landscape&#39; or &#39;portrait&#39; view on Mobile/Cocoon devices.</p>
 
     </div>
 
@@ -3350,7 +3396,7 @@ You can use to detect if the screen is now in a &#39;landscape&#39; or &#39;port
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l377"><code>src\core\Stage.ts:377</code></a>
+        <a href="../files/src_core_Stage.ts.html#l384"><code>src\core\Stage.ts:384</code></a>
         
         </p>
 
@@ -3375,7 +3421,7 @@ This property is an Object Literal with &#39;r&#39;, &#39;g&#39;, &#39;b&#39; co
                 
                     <div id="property_scale" class="property item public">
     <h3 class="name"><code>scale</code></h3>
-    <span class="type">Point</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
 
     
 
@@ -3398,7 +3444,7 @@ This property is an Object Literal with &#39;r&#39;, &#39;g&#39;, &#39;b&#39; co
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l272"><code>src\core\Stage.ts:272</code></a>
+        <a href="../files/src_core_Stage.ts.html#l279"><code>src\core\Stage.ts:279</code></a>
         
         </p>
 
@@ -3409,7 +3455,7 @@ This property is an Object Literal with &#39;r&#39;, &#39;g&#39;, &#39;b&#39; co
 
     <div class="description">
         <p>Calculates and returns the amount that the container has been scale by.<br>Mainly used for re-calculating input coordinates. 
-Note: For COCOONJS this returns 1 since COCOONJS translates the points itself.
+Note: For COCOONJS this returns 1 since COCOONJS translates the scale itself.
 This property is READ ONLY.</p>
 
     </div>
@@ -3451,7 +3497,7 @@ This property is READ ONLY.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l88"><code>src\core\Stage.ts:88</code></a>
+        <a href="../files/src_core_Stage.ts.html#l93"><code>src\core\Stage.ts:93</code></a>
         
         </p>
 
@@ -3503,7 +3549,7 @@ The height is then calculated to maintain the aspect ratio of the width/height o
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l77"><code>src\core\Stage.ts:77</code></a>
+        <a href="../files/src_core_Stage.ts.html#l82"><code>src\core\Stage.ts:82</code></a>
         
         </p>
 
@@ -3555,7 +3601,7 @@ This scaling method will set the containers width/height to static values.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l99"><code>src\core\Stage.ts:99</code></a>
+        <a href="../files/src_core_Stage.ts.html#l104"><code>src\core\Stage.ts:104</code></a>
         
         </p>
 
@@ -3605,7 +3651,7 @@ If the parent doesn&#39;t have a height set then the height will be the height o
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l119"><code>src\core\Stage.ts:119</code></a>
+        <a href="../files/src_core_Stage.ts.html#l124"><code>src\core\Stage.ts:124</code></a>
         
         </p>
 
@@ -3620,7 +3666,7 @@ If the parent doesn&#39;t have a height set then the height will be the height o
     </div>
 
     
-        <p><strong>Default:</strong> SCALE_NONE</p>
+        <p><strong>Default:</strong> Kiwi.Stage.SCALE_NONE</p>
     
 
     
@@ -3654,7 +3700,7 @@ If the parent doesn&#39;t have a height set then the height will be the height o
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l288"><code>src\core\Stage.ts:288</code></a>
+        <a href="../files/src_core_Stage.ts.html#l295"><code>src\core\Stage.ts:295</code></a>
         
         </p>
 
@@ -3703,7 +3749,7 @@ If the parent doesn&#39;t have a height set then the height will be the height o
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l299"><code>src\core\Stage.ts:299</code></a>
+        <a href="../files/src_core_Stage.ts.html#l306"><code>src\core\Stage.ts:306</code></a>
         
         </p>
 
@@ -3752,7 +3798,7 @@ If the parent doesn&#39;t have a height set then the height will be the height o
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l224"><code>src\core\Stage.ts:224</code></a>
+        <a href="../files/src_core_Stage.ts.html#l231"><code>src\core\Stage.ts:231</code></a>
         
         </p>
 
@@ -3762,7 +3808,7 @@ If the parent doesn&#39;t have a height set then the height will be the height o
     </div>
 
     <div class="description">
-        <p>The width of the stage.</p>
+        <p>The width of the stage. This is READ ONLY. See the &#39;resize&#39; method if you need to modify this value.</p>
 
     </div>
 
@@ -3799,7 +3845,7 @@ If the parent doesn&#39;t have a height set then the height will be the height o
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l172"><code>src\core\Stage.ts:172</code></a>
+        <a href="../files/src_core_Stage.ts.html#l179"><code>src\core\Stage.ts:179</code></a>
         
         </p>
 
@@ -3846,7 +3892,7 @@ If the parent doesn&#39;t have a height set then the height will be the height o
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l198"><code>src\core\Stage.ts:198</code></a>
+        <a href="../files/src_core_Stage.ts.html#l205"><code>src\core\Stage.ts:205</code></a>
         
         </p>
 
