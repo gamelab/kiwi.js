@@ -39,7 +39,8 @@ _ReSharper*/
 !/build/*.js
 !/build/src/*
 !/build/src/*/*.js
-!/examples/*/.js
+!/examples/*/*.js
+!/templateGame/*/*.js
 /node_modules
 /GLTests
 tscommand.tmp.txt
