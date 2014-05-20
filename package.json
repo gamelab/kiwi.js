@@ -1,18 +1,17 @@
 {
     "name": "Kiwi.js",
-    "version": "0.7.0",
+    "version": "1.0.0",
     "description": "Kiwi.js is a Javascript/Typescript library for creating HTML5 games.",
     "author": "GameLab",
-    "logo": "xx",
-
+    
     "homepage": "http://kiwijs.org/",
-    "bugs": "xx",
-    "license": "xx",
-    "licenseUrl": "xx",
+    "bugs": "https://github.com/gamelab/kiwi.js/issues?state=open",
+    "license": "MIT",
+    "licenseUrl": "https://github.com/gamelab/kiwi.js/blob/master/license.txt",
 
     "repository": {
         "type": "git",
-        "url": "xx"
+        "url": "https://github.com/gamelab/kiwi.js"
     },
 
     "main": "kiwi.js",
