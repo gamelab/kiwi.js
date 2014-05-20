@@ -1,0 +1,3907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Kiwi.Geom.Rectangle - Kiwi.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Kiwi.js"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.7.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Sequence.html">Kiwi.Animations.Sequence</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tween.html">Kiwi.Animations.Tween</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Back.html">Kiwi.Animations.Tweens.Easing.Back</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Bounce.html">Kiwi.Animations.Tweens.Easing.Bounce</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Circular.html">Kiwi.Animations.Tweens.Easing.Circular</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Cubic.html">Kiwi.Animations.Tweens.Easing.Cubic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Elastic.html">Kiwi.Animations.Tweens.Easing.Elastic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Exponential.html">Kiwi.Animations.Tweens.Easing.Exponential</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Linear.html">Kiwi.Animations.Tweens.Easing.Linear</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Quadratic.html">Kiwi.Animations.Tweens.Easing.Quadratic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Quartic.html">Kiwi.Animations.Tweens.Easing.Quartic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Quintic.html">Kiwi.Animations.Tweens.Easing.Quintic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Sinusoidal.html">Kiwi.Animations.Tweens.Easing.Sinusoidal</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.TweenManager.html">Kiwi.Animations.Tweens.TweenManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Camera.html">Kiwi.Camera</a></li>
+            
+                <li><a href="../classes/Kiwi.CameraManager.html">Kiwi.CameraManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Component.html">Kiwi.Component</a></li>
+            
+                <li><a href="../classes/Kiwi.ComponentManager.html">Kiwi.ComponentManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.AnimationManager.html">Kiwi.Components.AnimationManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.ArcadePhysics.html">Kiwi.Components.ArcadePhysics</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.Box.html">Kiwi.Components.Box</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.Input.html">Kiwi.Components.Input</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.Sound.html">Kiwi.Components.Sound</a></li>
+            
+                <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.FileStore.html">Kiwi.Files.FileStore</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
+            
+                <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
+            
+                <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMapLayer.html">Kiwi.GameObjects.Tilemap.TileMapLayer</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileType.html">Kiwi.GameObjects.Tilemap.TileType</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.AABB.html">Kiwi.Geom.AABB</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Circle.html">Kiwi.Geom.Circle</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Intersect.html">Kiwi.Geom.Intersect</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.IntersectResult.html">Kiwi.Geom.IntersectResult</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Line.html">Kiwi.Geom.Line</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Matrix.html">Kiwi.Geom.Matrix</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Point.html">Kiwi.Geom.Point</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Ray.html">Kiwi.Geom.Ray</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Rectangle.html">Kiwi.Geom.Rectangle</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Transform.html">Kiwi.Geom.Transform</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Vector2.html">Kiwi.Geom.Vector2</a></li>
+            
+                <li><a href="../classes/Kiwi.Group.html">Kiwi.Group</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDComponents.Counter.html">Kiwi.HUD.HUDComponents.Counter</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDComponents.Time.html">Kiwi.HUD.HUDComponents.Time</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDComponents.WidgetInput.html">Kiwi.HUD.HUDComponents.WidgetInput</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDDisplay.html">Kiwi.HUD.HUDDisplay</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDManager.html">Kiwi.HUD.HUDManager</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDWidget.html">Kiwi.HUD.HUDWidget</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Bar.html">Kiwi.HUD.Widget.Bar</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.BasicScore.html">Kiwi.HUD.Widget.BasicScore</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Button.html">Kiwi.HUD.Widget.Button</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Icon.html">Kiwi.HUD.Widget.Icon</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.IconBar.html">Kiwi.HUD.Widget.IconBar</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Menu.html">Kiwi.HUD.Widget.Menu</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.MenuItem.html">Kiwi.HUD.Widget.MenuItem</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.TextField.html">Kiwi.HUD.Widget.TextField</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Time.html">Kiwi.HUD.Widget.Time</a></li>
+            
+                <li><a href="../classes/Kiwi.IChild.html">Kiwi.IChild</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Finger.html">Kiwi.Input.Finger</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.InputManager.html">Kiwi.Input.InputManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Key.html">Kiwi.Input.Key</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Keyboard.html">Kiwi.Input.Keyboard</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Keycodes.html">Kiwi.Input.Keycodes</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Mouse.html">Kiwi.Input.Mouse</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.MouseCursor.html">Kiwi.Input.MouseCursor</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Pointer.html">Kiwi.Input.Pointer</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Touch.html">Kiwi.Input.Touch</a></li>
+            
+                <li><a href="../classes/Kiwi.PluginManager.html">Kiwi.PluginManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.CanvasRenderer.html">Kiwi.Renderers.CanvasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
+                <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
+            
+                <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
+            
+                <li><a href="../classes/Kiwi.Sound.Audio.html">Kiwi.Sound.Audio</a></li>
+            
+                <li><a href="../classes/Kiwi.Sound.AudioLibrary.html">Kiwi.Sound.AudioLibrary</a></li>
+            
+                <li><a href="../classes/Kiwi.Sound.AudioManager.html">Kiwi.Sound.AudioManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Stage.html">Kiwi.Stage</a></li>
+            
+                <li><a href="../classes/Kiwi.State.html">Kiwi.State</a></li>
+            
+                <li><a href="../classes/Kiwi.StateConfig.html">Kiwi.StateConfig</a></li>
+            
+                <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
+            
+                <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
+            
+                <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
+            
+                <li><a href="../classes/Kiwi.Textures.SingleImage.html">Kiwi.Textures.SingleImage</a></li>
+            
+                <li><a href="../classes/Kiwi.Textures.SpriteSheet.html">Kiwi.Textures.SpriteSheet</a></li>
+            
+                <li><a href="../classes/Kiwi.Textures.TextureAtlas.html">Kiwi.Textures.TextureAtlas</a></li>
+            
+                <li><a href="../classes/Kiwi.Textures.TextureLibrary.html">Kiwi.Textures.TextureLibrary</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.Clock.html">Kiwi.Time.Clock</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.ClockManager.html">Kiwi.Time.ClockManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.MasterClock.html">Kiwi.Time.MasterClock</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.Timer.html">Kiwi.Time.Timer</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.TimerEvent.html">Kiwi.Time.TimerEvent</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Animations.html">Animations</a></li>
+            
+                <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Easing.html">Easing</a></li>
+            
+                <li><a href="../modules/Files.html">Files</a></li>
+            
+                <li><a href="../modules/GameObjects.html">GameObjects</a></li>
+            
+                <li><a href="../modules/Geom.html">Geom</a></li>
+            
+                <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
+            
+                <li><a href="../modules/Input.html">Input</a></li>
+            
+                <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
+            
+                <li><a href="../modules/Sound.html">Sound</a></li>
+            
+                <li><a href="../modules/System.html">System</a></li>
+            
+                <li><a href="../modules/Textures.html">Textures</a></li>
+            
+                <li><a href="../modules/Tilemap.html">Tilemap</a></li>
+            
+                <li><a href="../modules/Time.html">Time</a></li>
+            
+                <li><a href="../modules/Tweens.html">Tweens</a></li>
+            
+                <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Widget.html">Widget</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1>Kiwi.Geom.Rectangle Class</h1>
+<div class="box meta">
+    
+
+    
+
+    
+        <div class="foundat">
+            Defined in: <a href="../files/src_geom_Rectangle.ts.html#l9"><code>src\geom\Rectangle.ts:9</code></a>
+        </div>
+    
+
+    
+        
+            Module: <a href="../modules/Geom.html">Geom</a><br>
+            Parent Module: <a href="../modules/Kiwi.html">Kiwi</a>
+        
+    
+
+    
+</div>
+
+
+
+<div class="box intro">
+    <p>An area defined by its position, as indicated by its top-left corner (x,y) and width and height</p>
+
+</div>
+
+
+    <div class="constructor">
+        <h2>Constructor</h2>
+        <div id="method_Kiwi.Geom.Rectangle" class="method item">
+    <h3 class="name"><code>Kiwi.Geom.Rectangle</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>[x</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>[y</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>[width</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>[height</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l9"><code>src\geom\Rectangle.ts:9</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">[x</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>= 0]  The x coordinate of the top-left corner of the rectangle.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">[y</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>= 0]  The y coordinate of the top-left corner of the rectangle.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">[width</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>= 0]  width The width of the rectangle in pixels.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">[height</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>= 0]  height The height of the rectangle in pixels.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>:
+                    
+                    <p>This rectangle object</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+    </div>
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+        
+        
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                        
+                            <li class="index-item method public">
+                                <a href="#method_clone">clone</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_contains">contains</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_containsPoint">containsPoint</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_containsRect">containsRect</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_copyFrom">copyFrom</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_copyTo">copyTo</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_equals">equals</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_inflate">inflate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_inflatePoint">inflatePoint</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_intersection">intersection</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_intersects">intersects</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_isEmpty">isEmpty</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_offset">offset</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_offsetPoint">offsetPoint</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_overlap">overlap</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_scale">scale</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_setEmpty">setEmpty</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_setTo">setTo</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_top">top</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_toString">toString</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_union">union</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                        
+                            <li class="index-item property public">
+                                <a href="#property_bottom">bottom</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_bottomRight">bottomRight</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_center">center</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_height">height</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_left">left</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_perimeter">perimeter</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_right">right</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_size">size</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_topLeft">topLeft</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_volume">volume</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_width">width</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_x">x</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_y">y</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+
+            
+        </div>
+
+        
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_clone" class="method item public">
+    <h3 class="name"><code>clone</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>[output</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l294"><code>src\geom\Rectangle.ts:294</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns a new Rectangle object with the same values for the x, y, width, and height properties as the original Rectangle object.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">[output</code>
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>= Rectangle]  Optional Rectangle object. If given the values will be set into the object, otherwise a brand new Rectangle object will be created and returned.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_contains" class="method item">
+    <h3 class="name"><code>contains</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>x</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>y</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l307"><code>src\geom\Rectangle.ts:307</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Determines whether the specified coordinates are contained within the region defined by this Rectangle object.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The x coordinate of the point to test.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">y</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The y coordinate of the point to test.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>A value of true if the Rectangle object contains the specified point; otherwise false.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_containsPoint" class="method item">
+    <h3 class="name"><code>containsPoint</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>point</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l325"><code>src\geom\Rectangle.ts:325</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Determines whether the specified point is contained within the rectangular region defined by this Rectangle object. This method is similar to the Rectangle.contains() method, except that it takes a Point object as a parameter.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">point</code>
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The point object being checked. Can be Kiwi.Geom.Point or any object with .x and .y values.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>A value of true if the Rectangle object contains the specified point; otherwise false.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_containsRect" class="method item public">
+    <h3 class="name"><code>containsRect</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>rect</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l337"><code>src\geom\Rectangle.ts:337</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Determines whether the Rectangle object specified by the rect parameter is contained within this Rectangle object. A Rectangle object is said to contain another if the second Rectangle object falls entirely within the boundaries of the first.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">rect</code>
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The rectangle object being checked.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>A value of true if the Rectangle object contains the specified point; otherwise false.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_copyFrom" class="method item public">
+    <h3 class="name"><code>copyFrom</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>source</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l361"><code>src\geom\Rectangle.ts:361</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Copies all of rectangle data from the source Rectangle object into the calling Rectangle object.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">source</code>
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The source rectangle object to copy from</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>:
+                    
+                    <p>This rectangle object</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_copyTo" class="method item public">
+    <h3 class="name"><code>copyTo</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>target</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Rectangle</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l374"><code>src\geom\Rectangle.ts:374</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Copies all the rectangle data from this Rectangle object into the destination Rectangle object.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">target</code>
+                        <span class="type">Rectangle</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The destination rectangle object to copy in to</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Rectangle</span>:
+                    
+                    <p>The destination rectangle object</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_equals" class="method item public">
+    <h3 class="name"><code>equals</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>toCompare</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l387"><code>src\geom\Rectangle.ts:387</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Determines whether the object specified in the toCompare parameter is equal to this Rectangle object. This method compares the x, y, width, and height properties of an object against the same properties of this Rectangle object.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">toCompare</code>
+                        <span class="type">Rectangle</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>toCompare The rectangle to compare to this Rectangle object.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>A value of true if the object has exactly the same values for the x, y, width, and height properties as this Rectangle object; otherwise false.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_inflate" class="method item public">
+    <h3 class="name"><code>inflate</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>dx</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>dy</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l405"><code>src\geom\Rectangle.ts:405</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Increases the size of the Rectangle object by the specified amounts, in pixels. The center point of the Rectangle object stays the same, and its size increases to the left and right by the dx value, and to the top and the bottom by the dy value.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">dx</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>dx The amount to be added to the left side of this Rectangle.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">dy</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>dy The amount to be added to the bottom side of this Rectangle.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>:
+                    
+                    <p>This Rectangle object.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_inflatePoint" class="method item public">
+    <h3 class="name"><code>inflatePoint</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>point</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l428"><code>src\geom\Rectangle.ts:428</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Increases the size of the Rectangle object. This method is similar to the Rectangle.inflate() method except it takes a Point object as a parameter.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">point</code>
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The x property of this Point object is used to increase the horizontal dimension of the Rectangle object. The y property is used to increase the vertical dimension of the Rectangle object.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>:
+                    
+                    <p>This Rectangle object.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_intersection" class="method item">
+    <h3 class="name"><code>intersection</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>toIntersect</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>output</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l441"><code>src\geom\Rectangle.ts:441</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the Rectangle object specified in the toIntersect parameter intersects with this Rectangle object, returns the area of intersection as a Rectangle object. If the rectangles do not intersect, this method returns an empty Rectangle object with its properties set to 0.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">toIntersect</code>
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The Rectangle object to compare against to see if it intersects with this Rectangle object.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">output</code>
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Optional Rectangle object. If given the intersection values will be set into this object, otherwise a brand new Rectangle object will be created and returned.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>:
+                    
+                    <p>A Rectangle object that equals the area of intersection. If the rectangles do not intersect, this method returns an empty Rectangle object; that is, a rectangle with its x, y, width, and height properties set to 0.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_intersects" class="method item public">
+    <h3 class="name"><code>intersects</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>toIntersect</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l462"><code>src\geom\Rectangle.ts:462</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Determines whether the object specified in the toIntersect parameter intersects with this Rectangle object. This method checks the x, y, width, and height properties of the specified Rectangle object to see if it intersects with this Rectangle object.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">toIntersect</code>
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The Rectangle object to compare against to see if it intersects with this Rectangle object.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>A value of true if the specified object intersects with this Rectangle object; otherwise false.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_isEmpty" class="method item public">
+    <h3 class="name"><code>isEmpty</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l516"><code>src\geom\Rectangle.ts:516</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Determines whether or not this Rectangle object is empty.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>A value of true if the Rectangle object&#39;s width or height is less than or equal to 0; otherwise false.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l33"><code>src\geom\Rectangle.ts:33</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The type of this object.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_offset" class="method item public">
+    <h3 class="name"><code>offset</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>dx</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>dy</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l533"><code>src\geom\Rectangle.ts:533</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Adjusts the location of the Rectangle object, as determined by its top-left corner, by the specified amounts.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">dx</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Moves the x value of the Rectangle object by this amount.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">dy</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Moves the y value of the Rectangle object by this amount.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>:
+                    
+                    <p>This Rectangle object.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_offsetPoint" class="method item">
+    <h3 class="name"><code>offsetPoint</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>point</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l553"><code>src\geom\Rectangle.ts:553</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Adjusts the location of the Rectangle object using a Point object as a parameter. This method is similar to the Rectangle.offset() method, except that it takes a Point object as a parameter.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">point</code>
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>A Point object to use to offset this Rectangle object.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>:
+                    
+                    <p>This Rectangle object.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_overlap" class="method item public">
+    <h3 class="name"><code>overlap</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>rect</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l491"><code>src\geom\Rectangle.ts:491</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Checks for overlaps between this Rectangle and the given Rectangle. Returns an object with boolean values for each check.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">rect</code>
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>An object containing the overlapping details between the two Rectangles</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_scale" class="method item public">
+    <h3 class="name"><code>scale</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>x</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>y</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>translation</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l625"><code>src\geom\Rectangle.ts:625</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>[DESCRIPTION REQUIRED]</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">y</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">translation</code>
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_setEmpty" class="method item">
+    <h3 class="name"><code>setEmpty</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l565"><code>src\geom\Rectangle.ts:565</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Sets all of the Rectangle object&#39;s properties to 0. A Rectangle object is empty if its width or height is less than or equal to 0.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>:
+                    
+                    <p>This rectangle object</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_setTo" class="method item">
+    <h3 class="name"><code>setTo</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>x</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>y</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>width</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>height</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l576"><code>src\geom\Rectangle.ts:576</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Sets the properties of Rectangle to the specified values.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>x The x coordinate of the top-left corner of the rectangle.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">y</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>y The y coordinate of the top-left corner of the rectangle.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">width</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>width The width of the rectangle in pixels.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">height</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>height The height of the rectangle in pixels.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>:
+                    
+                    <p>This rectangle object</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_top" class="method item public">
+    <h3 class="name"><code>top</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l238"><code>src\geom\Rectangle.ts:238</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The y coordinate of the top-left corner of the rectangle. Changing the top property of a Rectangle object has no effect on the x and width properties. However it does affect the height property, whereas changing the y value does not affect the height property.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Number</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_toString" class="method item">
+    <h3 class="name"><code>toString</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l652"><code>src\geom\Rectangle.ts:652</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns a string representation of this object.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                    <p>a string representation of the instance.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_union" class="method item">
+    <h3 class="name"><code>union</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>toUnion</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>[output</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l607"><code>src\geom\Rectangle.ts:607</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Adds two rectangles together to create a new Rectangle object, by filling in the horizontal and vertical space between the two rectangles.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">toUnion</code>
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>toUnion A Rectangle object to add to this Rectangle object.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">[output</code>
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>= Rectangle]  output Optional Rectangle object. If given the new values will be set into this object, otherwise a brand new Rectangle object will be created and returned.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>:
+                    
+                    <p>A Rectangle object that is the union of the two rectangles.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property_bottom" class="property item public">
+    <h3 class="name"><code>bottom</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l75"><code>src\geom\Rectangle.ts:75</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The sum of the y and height properties. Changing the bottom property of a Rectangle object has no effect on the x, y and width properties, but does change the height property.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_bottomRight" class="property item public">
+    <h3 class="name"><code>bottomRight</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l116"><code>src\geom\Rectangle.ts:116</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns a Point containing the location of the Rectangle&#39;s bottom-right corner, determined by the values of the right and bottom properties.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_center" class="property item public">
+    <h3 class="name"><code>center</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l103"><code>src\geom\Rectangle.ts:103</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns a Point containing the location of the center of the Rectangle, relative to the top left edge</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_height" class="property item public">
+    <h3 class="name"><code>height</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l67"><code>src\geom\Rectangle.ts:67</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The height of the rectangle in pixels</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_left" class="property item public">
+    <h3 class="name"><code>left</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l139"><code>src\geom\Rectangle.ts:139</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The x coordinate of the top-left corner of the rectangle. Changing the left property of a Rectangle object has no effect on the y and height properties. However it does affect the width property, whereas changing the x value does not affect the width property.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_perimeter" class="property item public">
+    <h3 class="name"><code>perimeter</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l226"><code>src\geom\Rectangle.ts:226</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The perimeter size of the Rectangle object in pixels. This is the sum of all 4 sides.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_right" class="property item public">
+    <h3 class="name"><code>right</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l173"><code>src\geom\Rectangle.ts:173</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The sum of the x and width properties. Changing the right property of a Rectangle object has no effect on the x, y and height properties. However it does affect the width property.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_size" class="property item public">
+    <h3 class="name"><code>size</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l201"><code>src\geom\Rectangle.ts:201</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The size of the Rectangle object, expressed as a Point object with the values of the width and height properties.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_topLeft" class="property item public">
+    <h3 class="name"><code>topLeft</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l271"><code>src\geom\Rectangle.ts:271</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The location of the Rectangle object&#39;s top-left corner, determined by the x and y coordinates of the point.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_volume" class="property item">
+    <h3 class="name"><code>volume</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l214"><code>src\geom\Rectangle.ts:214</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The volume of the Rectangle object in pixels, derived from width * height</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_width" class="property item public">
+    <h3 class="name"><code>width</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l59"><code>src\geom\Rectangle.ts:59</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The width of the rectangle in pixels</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_x" class="property item public">
+    <h3 class="name"><code>x</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l43"><code>src\geom\Rectangle.ts:43</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The x coordinate of the top-left corner of the rectangle</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_y" class="property item public">
+    <h3 class="name"><code>y</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l51"><code>src\geom\Rectangle.ts:51</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The y coordinate of the top-left corner of the rectangle</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+
+        
+    </div>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

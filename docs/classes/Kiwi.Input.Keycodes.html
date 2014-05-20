@@ -1,0 +1,6418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Kiwi.Input.Keycodes - Kiwi.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Kiwi.js"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.7.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Sequence.html">Kiwi.Animations.Sequence</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tween.html">Kiwi.Animations.Tween</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Back.html">Kiwi.Animations.Tweens.Easing.Back</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Bounce.html">Kiwi.Animations.Tweens.Easing.Bounce</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Circular.html">Kiwi.Animations.Tweens.Easing.Circular</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Cubic.html">Kiwi.Animations.Tweens.Easing.Cubic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Elastic.html">Kiwi.Animations.Tweens.Easing.Elastic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Exponential.html">Kiwi.Animations.Tweens.Easing.Exponential</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Linear.html">Kiwi.Animations.Tweens.Easing.Linear</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Quadratic.html">Kiwi.Animations.Tweens.Easing.Quadratic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Quartic.html">Kiwi.Animations.Tweens.Easing.Quartic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Quintic.html">Kiwi.Animations.Tweens.Easing.Quintic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Sinusoidal.html">Kiwi.Animations.Tweens.Easing.Sinusoidal</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.TweenManager.html">Kiwi.Animations.Tweens.TweenManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Camera.html">Kiwi.Camera</a></li>
+            
+                <li><a href="../classes/Kiwi.CameraManager.html">Kiwi.CameraManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Component.html">Kiwi.Component</a></li>
+            
+                <li><a href="../classes/Kiwi.ComponentManager.html">Kiwi.ComponentManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.AnimationManager.html">Kiwi.Components.AnimationManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.ArcadePhysics.html">Kiwi.Components.ArcadePhysics</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.Box.html">Kiwi.Components.Box</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.Input.html">Kiwi.Components.Input</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.Sound.html">Kiwi.Components.Sound</a></li>
+            
+                <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.FileStore.html">Kiwi.Files.FileStore</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
+            
+                <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
+            
+                <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMapLayer.html">Kiwi.GameObjects.Tilemap.TileMapLayer</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileType.html">Kiwi.GameObjects.Tilemap.TileType</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.AABB.html">Kiwi.Geom.AABB</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Circle.html">Kiwi.Geom.Circle</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Intersect.html">Kiwi.Geom.Intersect</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.IntersectResult.html">Kiwi.Geom.IntersectResult</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Line.html">Kiwi.Geom.Line</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Matrix.html">Kiwi.Geom.Matrix</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Point.html">Kiwi.Geom.Point</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Ray.html">Kiwi.Geom.Ray</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Rectangle.html">Kiwi.Geom.Rectangle</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Transform.html">Kiwi.Geom.Transform</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Vector2.html">Kiwi.Geom.Vector2</a></li>
+            
+                <li><a href="../classes/Kiwi.Group.html">Kiwi.Group</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDComponents.Counter.html">Kiwi.HUD.HUDComponents.Counter</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDComponents.Time.html">Kiwi.HUD.HUDComponents.Time</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDComponents.WidgetInput.html">Kiwi.HUD.HUDComponents.WidgetInput</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDDisplay.html">Kiwi.HUD.HUDDisplay</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDManager.html">Kiwi.HUD.HUDManager</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDWidget.html">Kiwi.HUD.HUDWidget</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Bar.html">Kiwi.HUD.Widget.Bar</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.BasicScore.html">Kiwi.HUD.Widget.BasicScore</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Button.html">Kiwi.HUD.Widget.Button</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Icon.html">Kiwi.HUD.Widget.Icon</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.IconBar.html">Kiwi.HUD.Widget.IconBar</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Menu.html">Kiwi.HUD.Widget.Menu</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.MenuItem.html">Kiwi.HUD.Widget.MenuItem</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.TextField.html">Kiwi.HUD.Widget.TextField</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Time.html">Kiwi.HUD.Widget.Time</a></li>
+            
+                <li><a href="../classes/Kiwi.IChild.html">Kiwi.IChild</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Finger.html">Kiwi.Input.Finger</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.InputManager.html">Kiwi.Input.InputManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Key.html">Kiwi.Input.Key</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Keyboard.html">Kiwi.Input.Keyboard</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Keycodes.html">Kiwi.Input.Keycodes</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Mouse.html">Kiwi.Input.Mouse</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.MouseCursor.html">Kiwi.Input.MouseCursor</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Pointer.html">Kiwi.Input.Pointer</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Touch.html">Kiwi.Input.Touch</a></li>
+            
+                <li><a href="../classes/Kiwi.PluginManager.html">Kiwi.PluginManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.CanvasRenderer.html">Kiwi.Renderers.CanvasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
+                <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
+            
+                <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
+            
+                <li><a href="../classes/Kiwi.Sound.Audio.html">Kiwi.Sound.Audio</a></li>
+            
+                <li><a href="../classes/Kiwi.Sound.AudioLibrary.html">Kiwi.Sound.AudioLibrary</a></li>
+            
+                <li><a href="../classes/Kiwi.Sound.AudioManager.html">Kiwi.Sound.AudioManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Stage.html">Kiwi.Stage</a></li>
+            
+                <li><a href="../classes/Kiwi.State.html">Kiwi.State</a></li>
+            
+                <li><a href="../classes/Kiwi.StateConfig.html">Kiwi.StateConfig</a></li>
+            
+                <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
+            
+                <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
+            
+                <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
+            
+                <li><a href="../classes/Kiwi.Textures.SingleImage.html">Kiwi.Textures.SingleImage</a></li>
+            
+                <li><a href="../classes/Kiwi.Textures.SpriteSheet.html">Kiwi.Textures.SpriteSheet</a></li>
+            
+                <li><a href="../classes/Kiwi.Textures.TextureAtlas.html">Kiwi.Textures.TextureAtlas</a></li>
+            
+                <li><a href="../classes/Kiwi.Textures.TextureLibrary.html">Kiwi.Textures.TextureLibrary</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.Clock.html">Kiwi.Time.Clock</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.ClockManager.html">Kiwi.Time.ClockManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.MasterClock.html">Kiwi.Time.MasterClock</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.Timer.html">Kiwi.Time.Timer</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.TimerEvent.html">Kiwi.Time.TimerEvent</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Animations.html">Animations</a></li>
+            
+                <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Easing.html">Easing</a></li>
+            
+                <li><a href="../modules/Files.html">Files</a></li>
+            
+                <li><a href="../modules/GameObjects.html">GameObjects</a></li>
+            
+                <li><a href="../modules/Geom.html">Geom</a></li>
+            
+                <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
+            
+                <li><a href="../modules/Input.html">Input</a></li>
+            
+                <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
+            
+                <li><a href="../modules/Sound.html">Sound</a></li>
+            
+                <li><a href="../modules/System.html">System</a></li>
+            
+                <li><a href="../modules/Textures.html">Textures</a></li>
+            
+                <li><a href="../modules/Tilemap.html">Tilemap</a></li>
+            
+                <li><a href="../modules/Time.html">Time</a></li>
+            
+                <li><a href="../modules/Tweens.html">Tweens</a></li>
+            
+                <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Widget.html">Widget</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1>Kiwi.Input.Keycodes Class</h1>
+<div class="box meta">
+    
+
+    
+
+    
+        <div class="foundat">
+            Defined in: <a href="../files/src_input_Keycodes.ts.html#l10"><code>src\input\Keycodes.ts:10</code></a>
+        </div>
+    
+
+    
+        
+            Module: <a href="../modules/Input.html">Input</a><br>
+            Parent Module: <a href="../modules/Kiwi.html">Kiwi</a>
+        
+    
+
+    
+</div>
+
+
+
+<div class="box intro">
+    <p>A Static class which has a property associated with all all of the character codes on a typical keyboard. While you don&#39;t need this class for your game to work, it is quite handy to use as it can speed up the development process.</p>
+
+</div>
+
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+        
+        
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                        
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                        
+                            <li class="index-item property public">
+                                <a href="#property_A">A</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_ALT">ALT</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_B">B</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_BACKSPACE">BACKSPACE</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_BACKWARD_SLASH">BACKWARD_SLASH</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_C">C</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_CAPS_LOCK">CAPS_LOCK</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_CLEAR">CLEAR</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_CLOSED_BRACKET">CLOSED_BRACKET</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_COLON">COLON</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_CONTROL">CONTROL</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_D">D</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_DELETE">DELETE</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_DOWN">DOWN</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_E">E</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_EIGHT">EIGHT</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_END">END</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_ENTER">ENTER</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_EQUALS">EQUALS</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_ESC">ESC</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_F">F</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_F1">F1</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_F10">F10</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_F11">F11</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_F12">F12</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_F13">F13</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_F14">F14</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_F15">F15</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_F2">F2</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_F3">F3</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_F4">F4</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_F5">F5</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_F6">F6</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_F7">F7</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_F8">F8</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_F9">F9</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_FIVE">FIVE</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_FOUR">FOUR</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_G">G</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_H">H</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_HELP">HELP</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_HOME">HOME</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_I">I</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_INSERT">INSERT</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_J">J</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_K">K</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_L">L</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_LEFT">LEFT</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_M">M</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_N">N</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_NINE">NINE</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_NUM_LOCK">NUM_LOCK</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_NUMPAD_0">NUMPAD_0</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_NUMPAD_1">NUMPAD_1</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_NUMPAD_2">NUMPAD_2</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_NUMPAD_3">NUMPAD_3</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_NUMPAD_4">NUMPAD_4</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_NUMPAD_5">NUMPAD_5</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_NUMPAD_6">NUMPAD_6</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_NUMPAD_7">NUMPAD_7</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_NUMPAD_8">NUMPAD_8</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_NUMPAD_9">NUMPAD_9</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_NUMPAD_ADD">NUMPAD_ADD</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_NUMPAD_DECIMAL">NUMPAD_DECIMAL</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_NUMPAD_DIVIDE">NUMPAD_DIVIDE</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_NUMPAD_ENTER">NUMPAD_ENTER</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_NUMPAD_MULTIPLY">NUMPAD_MULTIPLY</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_NUMPAD_SUBTRACT">NUMPAD_SUBTRACT</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_O">O</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_ONE">ONE</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_OPEN_BRACKET">OPEN_BRACKET</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_P">P</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_PAGE_DOWN">PAGE_DOWN</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_PAGE_UP">PAGE_UP</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_Q">Q</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_QUESTION_MARK">QUESTION_MARK</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_QUOTES">QUOTES</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_R">R</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_RIGHT">RIGHT</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_S">S</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_SEVEN">SEVEN</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_SHIFT">SHIFT</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_SIX">SIX</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_SPACEBAR">SPACEBAR</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_T">T</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_TAB">TAB</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_THREE">THREE</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_TILDE">TILDE</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_TWO">TWO</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_U">U</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_UNDERSCORE">UNDERSCORE</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_UP">UP</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_V">V</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_W">W</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_X">X</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_Y">Y</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_Z">Z</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_ZERO">ZERO</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+
+            
+        </div>
+
+        
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l19"><code>src\input\Keycodes.ts:19</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The type of object that this is.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property_A" class="property item public">
+    <h3 class="name"><code>A</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l29"><code>src\input\Keycodes.ts:29</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character A</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_ALT" class="property item public">
+    <h3 class="name"><code>ALT</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l771"><code>src\input\Keycodes.ts:771</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character ALT</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_B" class="property item public">
+    <h3 class="name"><code>B</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l38"><code>src\input\Keycodes.ts:38</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character B</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_BACKSPACE" class="property item public">
+    <h3 class="name"><code>BACKSPACE</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l717"><code>src\input\Keycodes.ts:717</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character BACKSPACE</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_BACKWARD_SLASH" class="property item public">
+    <h3 class="name"><code>BACKWARD_SLASH</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l689"><code>src\input\Keycodes.ts:689</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character BACKWARD_SLASH</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_C" class="property item public">
+    <h3 class="name"><code>C</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l47"><code>src\input\Keycodes.ts:47</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character C</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_CAPS_LOCK" class="property item public">
+    <h3 class="name"><code>CAPS_LOCK</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l780"><code>src\input\Keycodes.ts:780</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character CAPS_LOCK</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_CLEAR" class="property item public">
+    <h3 class="name"><code>CLEAR</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l735"><code>src\input\Keycodes.ts:735</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character CLEAR</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_CLOSED_BRACKET" class="property item public">
+    <h3 class="name"><code>CLOSED_BRACKET</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l698"><code>src\input\Keycodes.ts:698</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character CLOSED_BRACKET</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_COLON" class="property item public">
+    <h3 class="name"><code>COLON</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l635"><code>src\input\Keycodes.ts:635</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character COLON</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_CONTROL" class="property item public">
+    <h3 class="name"><code>CONTROL</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l762"><code>src\input\Keycodes.ts:762</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character CONTROL</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_D" class="property item public">
+    <h3 class="name"><code>D</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l56"><code>src\input\Keycodes.ts:56</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character D</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_DELETE" class="property item public">
+    <h3 class="name"><code>DELETE</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l888"><code>src\input\Keycodes.ts:888</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character DELETE</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_DOWN" class="property item public">
+    <h3 class="name"><code>DOWN</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l870"><code>src\input\Keycodes.ts:870</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character DOWN</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_E" class="property item public">
+    <h3 class="name"><code>E</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l65"><code>src\input\Keycodes.ts:65</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character E</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_EIGHT" class="property item public">
+    <h3 class="name"><code>EIGHT</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l336"><code>src\input\Keycodes.ts:336</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character 8</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_END" class="property item public">
+    <h3 class="name"><code>END</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l825"><code>src\input\Keycodes.ts:825</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character END</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_ENTER" class="property item public">
+    <h3 class="name"><code>ENTER</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l744"><code>src\input\Keycodes.ts:744</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character ENTER</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_EQUALS" class="property item public">
+    <h3 class="name"><code>EQUALS</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l644"><code>src\input\Keycodes.ts:644</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character =</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_ESC" class="property item public">
+    <h3 class="name"><code>ESC</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l789"><code>src\input\Keycodes.ts:789</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character ESC</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_F" class="property item public">
+    <h3 class="name"><code>F</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l74"><code>src\input\Keycodes.ts:74</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character F</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_F1" class="property item public">
+    <h3 class="name"><code>F1</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l500"><code>src\input\Keycodes.ts:500</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character F1</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_F10" class="property item public">
+    <h3 class="name"><code>F10</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l581"><code>src\input\Keycodes.ts:581</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character F10</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_F11" class="property item public">
+    <h3 class="name"><code>F11</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l590"><code>src\input\Keycodes.ts:590</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character F11</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_F12" class="property item public">
+    <h3 class="name"><code>F12</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l599"><code>src\input\Keycodes.ts:599</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character F12</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_F13" class="property item public">
+    <h3 class="name"><code>F13</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l608"><code>src\input\Keycodes.ts:608</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character F13</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_F14" class="property item public">
+    <h3 class="name"><code>F14</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l617"><code>src\input\Keycodes.ts:617</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character F14</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_F15" class="property item public">
+    <h3 class="name"><code>F15</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l626"><code>src\input\Keycodes.ts:626</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character F15</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_F2" class="property item public">
+    <h3 class="name"><code>F2</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l509"><code>src\input\Keycodes.ts:509</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character F2</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_F3" class="property item public">
+    <h3 class="name"><code>F3</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l518"><code>src\input\Keycodes.ts:518</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character F3</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_F4" class="property item public">
+    <h3 class="name"><code>F4</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l527"><code>src\input\Keycodes.ts:527</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character F4</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_F5" class="property item public">
+    <h3 class="name"><code>F5</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l536"><code>src\input\Keycodes.ts:536</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character F5</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_F6" class="property item public">
+    <h3 class="name"><code>F6</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l545"><code>src\input\Keycodes.ts:545</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character F6</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_F7" class="property item public">
+    <h3 class="name"><code>F7</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l554"><code>src\input\Keycodes.ts:554</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character F7</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_F8" class="property item public">
+    <h3 class="name"><code>F8</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l563"><code>src\input\Keycodes.ts:563</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character F8</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_F9" class="property item public">
+    <h3 class="name"><code>F9</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l572"><code>src\input\Keycodes.ts:572</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character F9</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_FIVE" class="property item public">
+    <h3 class="name"><code>FIVE</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l309"><code>src\input\Keycodes.ts:309</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character 5</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_FOUR" class="property item public">
+    <h3 class="name"><code>FOUR</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l300"><code>src\input\Keycodes.ts:300</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character 4</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_G" class="property item public">
+    <h3 class="name"><code>G</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l83"><code>src\input\Keycodes.ts:83</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character G</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_H" class="property item public">
+    <h3 class="name"><code>H</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l92"><code>src\input\Keycodes.ts:92</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character H</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_HELP" class="property item public">
+    <h3 class="name"><code>HELP</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l897"><code>src\input\Keycodes.ts:897</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character HELP</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_HOME" class="property item public">
+    <h3 class="name"><code>HOME</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l834"><code>src\input\Keycodes.ts:834</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character HOME</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_I" class="property item public">
+    <h3 class="name"><code>I</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l101"><code>src\input\Keycodes.ts:101</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character I</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_INSERT" class="property item public">
+    <h3 class="name"><code>INSERT</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l879"><code>src\input\Keycodes.ts:879</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character INSERT</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_J" class="property item public">
+    <h3 class="name"><code>J</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l110"><code>src\input\Keycodes.ts:110</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character J</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_K" class="property item public">
+    <h3 class="name"><code>K</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l119"><code>src\input\Keycodes.ts:119</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character K</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_L" class="property item public">
+    <h3 class="name"><code>L</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l128"><code>src\input\Keycodes.ts:128</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character L</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_LEFT" class="property item public">
+    <h3 class="name"><code>LEFT</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l843"><code>src\input\Keycodes.ts:843</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character LEFT</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_M" class="property item public">
+    <h3 class="name"><code>M</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l137"><code>src\input\Keycodes.ts:137</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character M</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_N" class="property item public">
+    <h3 class="name"><code>N</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l146"><code>src\input\Keycodes.ts:146</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character N</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_NINE" class="property item public">
+    <h3 class="name"><code>NINE</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l345"><code>src\input\Keycodes.ts:345</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character 9</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_NUM_LOCK" class="property item public">
+    <h3 class="name"><code>NUM_LOCK</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l906"><code>src\input\Keycodes.ts:906</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character NUM_LOCK</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_NUMPAD_0" class="property item public">
+    <h3 class="name"><code>NUMPAD_0</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l355"><code>src\input\Keycodes.ts:355</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character number pad 0</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_NUMPAD_1" class="property item public">
+    <h3 class="name"><code>NUMPAD_1</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l364"><code>src\input\Keycodes.ts:364</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character number pad 1</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_NUMPAD_2" class="property item public">
+    <h3 class="name"><code>NUMPAD_2</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l373"><code>src\input\Keycodes.ts:373</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character number pad 2</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_NUMPAD_3" class="property item public">
+    <h3 class="name"><code>NUMPAD_3</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l382"><code>src\input\Keycodes.ts:382</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character number pad 3</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_NUMPAD_4" class="property item public">
+    <h3 class="name"><code>NUMPAD_4</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l391"><code>src\input\Keycodes.ts:391</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character number pad 4</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_NUMPAD_5" class="property item public">
+    <h3 class="name"><code>NUMPAD_5</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l400"><code>src\input\Keycodes.ts:400</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character number pad 5</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_NUMPAD_6" class="property item public">
+    <h3 class="name"><code>NUMPAD_6</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l409"><code>src\input\Keycodes.ts:409</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character number pad 6</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_NUMPAD_7" class="property item public">
+    <h3 class="name"><code>NUMPAD_7</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l418"><code>src\input\Keycodes.ts:418</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character number pad 7</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_NUMPAD_8" class="property item public">
+    <h3 class="name"><code>NUMPAD_8</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l427"><code>src\input\Keycodes.ts:427</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character number pad 8</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_NUMPAD_9" class="property item public">
+    <h3 class="name"><code>NUMPAD_9</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l436"><code>src\input\Keycodes.ts:436</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character number pad 9</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_NUMPAD_ADD" class="property item public">
+    <h3 class="name"><code>NUMPAD_ADD</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l454"><code>src\input\Keycodes.ts:454</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character number pad +</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_NUMPAD_DECIMAL" class="property item public">
+    <h3 class="name"><code>NUMPAD_DECIMAL</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l481"><code>src\input\Keycodes.ts:481</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character number pad .</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_NUMPAD_DIVIDE" class="property item public">
+    <h3 class="name"><code>NUMPAD_DIVIDE</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l490"><code>src\input\Keycodes.ts:490</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character /</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_NUMPAD_ENTER" class="property item public">
+    <h3 class="name"><code>NUMPAD_ENTER</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l463"><code>src\input\Keycodes.ts:463</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character on the number pad enter</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_NUMPAD_MULTIPLY" class="property item public">
+    <h3 class="name"><code>NUMPAD_MULTIPLY</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l445"><code>src\input\Keycodes.ts:445</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character number pad *</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_NUMPAD_SUBTRACT" class="property item public">
+    <h3 class="name"><code>NUMPAD_SUBTRACT</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l472"><code>src\input\Keycodes.ts:472</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character number pad -</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_O" class="property item public">
+    <h3 class="name"><code>O</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l155"><code>src\input\Keycodes.ts:155</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character O</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_ONE" class="property item public">
+    <h3 class="name"><code>ONE</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l273"><code>src\input\Keycodes.ts:273</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character 1</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_OPEN_BRACKET" class="property item public">
+    <h3 class="name"><code>OPEN_BRACKET</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l680"><code>src\input\Keycodes.ts:680</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character OPEN_BRAKET</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_P" class="property item public">
+    <h3 class="name"><code>P</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l164"><code>src\input\Keycodes.ts:164</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character P</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_PAGE_DOWN" class="property item public">
+    <h3 class="name"><code>PAGE_DOWN</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l816"><code>src\input\Keycodes.ts:816</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character PAGE_DOWN</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_PAGE_UP" class="property item public">
+    <h3 class="name"><code>PAGE_UP</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l807"><code>src\input\Keycodes.ts:807</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character PAGE_UP</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_Q" class="property item public">
+    <h3 class="name"><code>Q</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l173"><code>src\input\Keycodes.ts:173</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character Q</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_QUESTION_MARK" class="property item public">
+    <h3 class="name"><code>QUESTION_MARK</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l662"><code>src\input\Keycodes.ts:662</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character QUESTION_MARK</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_QUOTES" class="property item public">
+    <h3 class="name"><code>QUOTES</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l707"><code>src\input\Keycodes.ts:707</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character QUOTES</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_R" class="property item public">
+    <h3 class="name"><code>R</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l182"><code>src\input\Keycodes.ts:182</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character R</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_RIGHT" class="property item public">
+    <h3 class="name"><code>RIGHT</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l861"><code>src\input\Keycodes.ts:861</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character RIGHT</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_S" class="property item public">
+    <h3 class="name"><code>S</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l191"><code>src\input\Keycodes.ts:191</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character S</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_SEVEN" class="property item public">
+    <h3 class="name"><code>SEVEN</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l327"><code>src\input\Keycodes.ts:327</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character 7</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_SHIFT" class="property item public">
+    <h3 class="name"><code>SHIFT</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l753"><code>src\input\Keycodes.ts:753</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character SHIFT</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_SIX" class="property item public">
+    <h3 class="name"><code>SIX</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l318"><code>src\input\Keycodes.ts:318</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character 6</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_SPACEBAR" class="property item public">
+    <h3 class="name"><code>SPACEBAR</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l798"><code>src\input\Keycodes.ts:798</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character SPACEBAR</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_T" class="property item public">
+    <h3 class="name"><code>T</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l200"><code>src\input\Keycodes.ts:200</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character T</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_TAB" class="property item public">
+    <h3 class="name"><code>TAB</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l726"><code>src\input\Keycodes.ts:726</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character TAB</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_THREE" class="property item public">
+    <h3 class="name"><code>THREE</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l291"><code>src\input\Keycodes.ts:291</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character 3</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_TILDE" class="property item public">
+    <h3 class="name"><code>TILDE</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l671"><code>src\input\Keycodes.ts:671</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character TILDE</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_TWO" class="property item public">
+    <h3 class="name"><code>TWO</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l282"><code>src\input\Keycodes.ts:282</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character 2</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_U" class="property item public">
+    <h3 class="name"><code>U</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l209"><code>src\input\Keycodes.ts:209</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character U</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_UNDERSCORE" class="property item public">
+    <h3 class="name"><code>UNDERSCORE</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l653"><code>src\input\Keycodes.ts:653</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character UNDERSCORE</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_UP" class="property item public">
+    <h3 class="name"><code>UP</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l852"><code>src\input\Keycodes.ts:852</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character UP</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_V" class="property item public">
+    <h3 class="name"><code>V</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l218"><code>src\input\Keycodes.ts:218</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character V</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_W" class="property item public">
+    <h3 class="name"><code>W</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l227"><code>src\input\Keycodes.ts:227</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character W</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_X" class="property item public">
+    <h3 class="name"><code>X</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l236"><code>src\input\Keycodes.ts:236</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character X</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_Y" class="property item public">
+    <h3 class="name"><code>Y</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l245"><code>src\input\Keycodes.ts:245</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character Y</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_Z" class="property item public">
+    <h3 class="name"><code>Z</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l254"><code>src\input\Keycodes.ts:254</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character Z</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_ZERO" class="property item public">
+    <h3 class="name"><code>ZERO</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keycodes.ts.html#l264"><code>src\input\Keycodes.ts:264</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static property that holds the keycode for the character 0</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+
+        
+    </div>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

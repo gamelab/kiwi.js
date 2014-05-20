@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src\core\Entity.ts - Kiwi.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Kiwi.js"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.7.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Sequence.html">Kiwi.Animations.Sequence</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tween.html">Kiwi.Animations.Tween</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Back.html">Kiwi.Animations.Tweens.Easing.Back</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Bounce.html">Kiwi.Animations.Tweens.Easing.Bounce</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Circular.html">Kiwi.Animations.Tweens.Easing.Circular</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Cubic.html">Kiwi.Animations.Tweens.Easing.Cubic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Elastic.html">Kiwi.Animations.Tweens.Easing.Elastic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Exponential.html">Kiwi.Animations.Tweens.Easing.Exponential</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Linear.html">Kiwi.Animations.Tweens.Easing.Linear</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Quadratic.html">Kiwi.Animations.Tweens.Easing.Quadratic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Quartic.html">Kiwi.Animations.Tweens.Easing.Quartic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Quintic.html">Kiwi.Animations.Tweens.Easing.Quintic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Sinusoidal.html">Kiwi.Animations.Tweens.Easing.Sinusoidal</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.TweenManager.html">Kiwi.Animations.Tweens.TweenManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Camera.html">Kiwi.Camera</a></li>
+            
+                <li><a href="../classes/Kiwi.CameraManager.html">Kiwi.CameraManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Component.html">Kiwi.Component</a></li>
+            
+                <li><a href="../classes/Kiwi.ComponentManager.html">Kiwi.ComponentManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.AnimationManager.html">Kiwi.Components.AnimationManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.ArcadePhysics.html">Kiwi.Components.ArcadePhysics</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.Box.html">Kiwi.Components.Box</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.Input.html">Kiwi.Components.Input</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.Sound.html">Kiwi.Components.Sound</a></li>
+            
+                <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.FileStore.html">Kiwi.Files.FileStore</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
+            
+                <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
+            
+                <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMapLayer.html">Kiwi.GameObjects.Tilemap.TileMapLayer</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileType.html">Kiwi.GameObjects.Tilemap.TileType</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.AABB.html">Kiwi.Geom.AABB</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Circle.html">Kiwi.Geom.Circle</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Intersect.html">Kiwi.Geom.Intersect</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.IntersectResult.html">Kiwi.Geom.IntersectResult</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Line.html">Kiwi.Geom.Line</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Matrix.html">Kiwi.Geom.Matrix</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Point.html">Kiwi.Geom.Point</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Ray.html">Kiwi.Geom.Ray</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Rectangle.html">Kiwi.Geom.Rectangle</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Transform.html">Kiwi.Geom.Transform</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Vector2.html">Kiwi.Geom.Vector2</a></li>
+            
+                <li><a href="../classes/Kiwi.Group.html">Kiwi.Group</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDComponents.Counter.html">Kiwi.HUD.HUDComponents.Counter</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDComponents.Time.html">Kiwi.HUD.HUDComponents.Time</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDComponents.WidgetInput.html">Kiwi.HUD.HUDComponents.WidgetInput</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDDisplay.html">Kiwi.HUD.HUDDisplay</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDManager.html">Kiwi.HUD.HUDManager</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDWidget.html">Kiwi.HUD.HUDWidget</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Bar.html">Kiwi.HUD.Widget.Bar</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.BasicScore.html">Kiwi.HUD.Widget.BasicScore</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Button.html">Kiwi.HUD.Widget.Button</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Icon.html">Kiwi.HUD.Widget.Icon</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.IconBar.html">Kiwi.HUD.Widget.IconBar</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Menu.html">Kiwi.HUD.Widget.Menu</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.MenuItem.html">Kiwi.HUD.Widget.MenuItem</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.TextField.html">Kiwi.HUD.Widget.TextField</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Time.html">Kiwi.HUD.Widget.Time</a></li>
+            
+                <li><a href="../classes/Kiwi.IChild.html">Kiwi.IChild</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Finger.html">Kiwi.Input.Finger</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.InputManager.html">Kiwi.Input.InputManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Key.html">Kiwi.Input.Key</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Keyboard.html">Kiwi.Input.Keyboard</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Keycodes.html">Kiwi.Input.Keycodes</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Mouse.html">Kiwi.Input.Mouse</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.MouseCursor.html">Kiwi.Input.MouseCursor</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Pointer.html">Kiwi.Input.Pointer</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Touch.html">Kiwi.Input.Touch</a></li>
+            
+                <li><a href="../classes/Kiwi.PluginManager.html">Kiwi.PluginManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.CanvasRenderer.html">Kiwi.Renderers.CanvasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
+                <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
+            
+                <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
+            
+                <li><a href="../classes/Kiwi.Sound.Audio.html">Kiwi.Sound.Audio</a></li>
+            
+                <li><a href="../classes/Kiwi.Sound.AudioLibrary.html">Kiwi.Sound.AudioLibrary</a></li>
+            
+                <li><a href="../classes/Kiwi.Sound.AudioManager.html">Kiwi.Sound.AudioManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Stage.html">Kiwi.Stage</a></li>
+            
+                <li><a href="../classes/Kiwi.State.html">Kiwi.State</a></li>
+            
+                <li><a href="../classes/Kiwi.StateConfig.html">Kiwi.StateConfig</a></li>
+            
+                <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
+            
+                <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
+            
+                <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
+            
+                <li><a href="../classes/Kiwi.Textures.SingleImage.html">Kiwi.Textures.SingleImage</a></li>
+            
+                <li><a href="../classes/Kiwi.Textures.SpriteSheet.html">Kiwi.Textures.SpriteSheet</a></li>
+            
+                <li><a href="../classes/Kiwi.Textures.TextureAtlas.html">Kiwi.Textures.TextureAtlas</a></li>
+            
+                <li><a href="../classes/Kiwi.Textures.TextureLibrary.html">Kiwi.Textures.TextureLibrary</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.Clock.html">Kiwi.Time.Clock</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.ClockManager.html">Kiwi.Time.ClockManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.MasterClock.html">Kiwi.Time.MasterClock</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.Timer.html">Kiwi.Time.Timer</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.TimerEvent.html">Kiwi.Time.TimerEvent</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Animations.html">Animations</a></li>
+            
+                <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Easing.html">Easing</a></li>
+            
+                <li><a href="../modules/Files.html">Files</a></li>
+            
+                <li><a href="../modules/GameObjects.html">GameObjects</a></li>
+            
+                <li><a href="../modules/Geom.html">Geom</a></li>
+            
+                <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
+            
+                <li><a href="../modules/Input.html">Input</a></li>
+            
+                <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
+            
+                <li><a href="../modules/Sound.html">Sound</a></li>
+            
+                <li><a href="../modules/System.html">System</a></li>
+            
+                <li><a href="../modules/Textures.html">Textures</a></li>
+            
+                <li><a href="../modules/Tilemap.html">Tilemap</a></li>
+            
+                <li><a href="../modules/Time.html">Time</a></li>
+            
+                <li><a href="../modules/Tweens.html">Tweens</a></li>
+            
+                <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Widget.html">Widget</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src\core\Entity.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+* 
+* @module Kiwi
+* 
+*/
+
+module Kiwi {
+
+    /**
+    * An Entity is a base class for game objects to extend from and thus you should never directly instantiate this class.
+    * Every entity requires that you pass to it the state that it belongs too, that way when you switch states the appropriate entitys can be deleted.
+    * 
+    * @class Entity
+    * @namespace Kiwi
+    * @constructor
+    * @param state {State} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
+    * @param x {Number} The entities position on the x axis.
+    * @param y {Number} The entities position on the y axis.
+    * @return {Kiwi.Entity} This entity.
+    *
+    */
+    export class Entity implements Kiwi.IChild {
+         
+        constructor(state: Kiwi.State, x:number, y: number) {
+            
+            //  Properties
+            this.state = state;
+            this.game = state.game;
+            this.id = this.game.rnd.uuid();
+            this.state.addToTrackingList(this);
+            this._clock = this.game.time.clock;
+             
+            this._exists = true;
+            this._active = true;
+            this._willRender = true;
+            this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this); 
+            this.transform = new Kiwi.Geom.Transform();
+            this.transform.x = x;
+            this.transform.y = y; 
+
+            
+        }
+
+        public glRenderer: Kiwi.Renderers.Renderer;
+
+
+        /**
+        * Represents the position, scale, rotation and registration of this Entity.
+        * @property transform
+        * @type Kiwi.Geom.Transform
+        * @public
+        */
+        public transform: Kiwi.Geom.Transform;
+
+        /**
+        * The group that this entity belongs to. If added onto the state then this is the state.
+        * @property _parent
+        * @type Kiwi.Group
+        * @private
+        */
+        private _parent: Kiwi.Group = null;
+
+        /**
+        * The group that this entity belongs to/is a child of once added to one. If added onto the state then this is the state.
+        * @property parent
+        * @type Group
+        * @param val {Kiwi.Group}
+        * @public
+        */
+        public set parent(val: Kiwi.Group) {
+            this.transform.parent = (val !== null) ? val.transform : null ;
+            this._parent = val;
+        }
+        public get parent(): Kiwi.Group {
+            return this._parent;
+        }
+
+        /**
+        * X coordinate of this Entity. This is just aliased to the transform property.
+        * @property x
+        * @type Number
+        * @public
+        */
+        public get x(): number {
+            return this.transform.x;
+        }
+        public set x(value: number) {
+            this.transform.x = value;
+        }
+        
+        /**
+        * Y coordinate of this Entity. This is just aliased to the transform property.
+        * @property y
+        * @type Number
+        * @public
+        */
+        public get y(): number {
+            return this.transform.y;
+        }
+        
+        public set y(value: number) {
+            this.transform.y = value;
+        }
+        
+        /**
+        * Scale X of this Entity. This is just aliased to the transform property.
+        * @property scaleX
+        * @type Number
+        * @public
+        */
+        public get scaleX():number {
+            return this.transform.scaleX;
+        }
+        public set scaleX(value:number) {
+            this.transform.scaleX = value;
+        }
+
+        /**
+        * Scale Y coordinate of this Entity. This is just aliased to the transform property.
+        * @property scaleY
+        * @type Number
+        * @public
+        */
+        public get scaleY(): number {
+            return this.transform.scaleY;
+        }
+        
+        public set scaleY(value: number) {
+            this.transform.scaleY = value;
+        }
+        
+        /**
+        * Rotation of this Entity. This is just aliased to the transform property.
+        * @property rotation
+        * @type Number
+        * @public
+        */
+        public get rotation(): number {
+            return this.transform.rotation;
+        }
+        public set rotation(value: number) {
+            this.transform.rotation = value;
+        }
+        
+        /**
+        * The rotation point on the x-axis. This is just aliased to the rotPointX on the transform object.
+        * @property rotPointX
+        * @type number
+        * @public
+        */
+        public get rotPointX(): number {
+            return this.transform.rotPointX;
+        }
+        public set rotPointX(value: number) {
+            this.transform.rotPointX = value;
+        }
+        
+        /**
+        * The rotation point on the y-axis. This is just aliased to the rotPointY on the transform object.
+        * @property rotPointY
+        * @type number
+        * @public
+        */
+        public get rotPointY(): number {
+            return this.transform.rotPointY;
+        }
+        public set rotPointY(value: number) {
+            this.transform.rotPointY = value;
+        }
+
+        /**
+        * Returns the type of child that this is. 
+        * @type Number
+        * @return {Number} returns the type of child that the entity is
+        * @public
+        */
+        public childType():number {
+            return Kiwi.ENTITY;
+        }
+
+        /**
+        * The alpha of this entity.
+        * @property _alpha
+        * @type Number
+        * @private
+        */
+        private _alpha: number = 1;
+
+        /**
+        * Alpha of this entity. A number between 0 (invisible) and 1 (completely visible).
+        * @property alpha
+        * @type Number
+        * @public
+        */
+        public set alpha(value: number) {
+            if (value &lt;= 0) value = 0;
+            if (value &gt; 1) value = 1;
+            this._alpha = value;
+        }
+        
+        public get alpha(): number {
+            return this._alpha;
+        }
+
+        /**
+        * A boolean that indicates whether or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.
+        * @property _visible
+        * @type boolean
+        * @default true
+        * @private
+        */
+        private _visible: boolean = true;
+        
+        /**
+        * Set the visiblity of this entity. True or False.
+        * @property visibility
+        * @type boolean
+        * @default true
+        * @public
+        */
+        public set visible(value: boolean) {
+            this._visible = value;
+        }
+        public get visible(): boolean {
+            return this._visible;
+        }
+        
+        /**
+        * The width of the entity in pixels.
+        * @property width
+        * @type number
+        * @default 0 
+        * @public
+        */
+        public width: number = 0;   //If bounds are implemented then getters and setters here would be nice.
+        
+        /**
+        * The height of the entity in pixels.
+        * @property height
+        * @type number
+        * @default 0
+        * @public
+        */
+        public height: number = 0;  
+        
+        /**
+        * The texture atlas that is to be used on this entity.
+        * @property atlas
+        * @type Kiwi.Textures.TextureAtlas
+        * @public
+        */
+        public atlas: Kiwi.Textures.TextureAtlas = null;
+        
+        /**
+        * Holds the current cell that is being used by the entity.
+        * @property _cellIndex
+        * @type number
+        * @default 0
+        * @private
+        */
+        private _cellIndex: number = 0; 
+        
+        /**
+        * Used as a reference to a single Cell in the atlas that is to be rendered. 
+        * E.g. If you had a spritesheet with 3 frames/cells and you wanted the second frame to be displayed you would change this value to 1
+        * @property cellIndex
+        * @type number
+        * @default 0
+        * @public
+        */
+        public get cellIndex():number {
+            return this._cellIndex;
+        }
+
+        public set cellIndex(val: number) {
+            //If the entity has a texture atlas
+            if (this.atlas !== null) {
+                var cell = this.atlas.cells[val];
+
+                if (cell !== undefined) {
+                    //Update the width/height of the GameObject to be the same as the width/height
+                    this._cellIndex = val;
+                    this.width = cell.w;
+                    this.height = cell.h;
+
+                } else {
+
+                    if (this.game.debug) console.error(&#x27;Could not the set the cellIndex of a Entity, to cell that does not exist on its TextureAtlas.&#x27;);
+
+                }
+            }
+        }
+
+        /**
+        * The Component Manager
+        * @property components
+        * @type Kiwi.ComponentManager
+        * @public
+	    */
+        public components: Kiwi.ComponentManager;
+
+        /**
+        * The game this Entity belongs to
+        * @property game
+        * @type Game
+        * @public
+	    */
+        public game: Kiwi.Game;
+
+        /**
+        * The state this Entity belongs to (either the current game state or a persistent world state)
+        * @property state
+        * @type State
+        * @public
+    	*/
+        public state: Kiwi.State;
+
+        /**
+        * A unique identifier for this Entity within the game used internally by the framework. See the name property for a friendly version.
+        * @property id
+        * @type string
+        * @public
+    	*/
+        public id: string;
+
+        /**
+        * A name for this Entity. This is not checked for uniqueness within the Game, but is very useful for debugging
+        * @property name
+        * @type string
+        * @default &#x27;&#x27;
+        * @public
+    	*/
+        public name: string = &#x27;&#x27;;
+
+        /**
+		* If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
+        * @property _exists 
+        * @type boolean
+        * @private
+		*/
+        private _exists: boolean;
+
+        /**
+		* Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool.
+        * @property exists
+        * @type boolean
+        * @public
+		*/
+        public set exists(value: boolean) {
+            this._exists = value;
+        }
+        public get exists():boolean {
+            return this._exists;
+        }
+
+        /**
+		* An active Entity is one that has its update method called by its parent. 
+        * @property _active
+        * @type boolean
+        * @default true
+        * @private
+		*/
+        private _active: boolean;
+
+        /**
+		* Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.
+        * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
+        * @property active
+        * @type boolean
+        * @public
+		*/
+        public set active(value: boolean) {
+            this._active = value;
+        }
+        public get active():boolean {
+            return this._active;
+        }
+
+        /**
+		* Controls whether render is automatically called by the parent. 
+        * @property _willRender
+        * @type boolean
+        * @default true
+        * @private
+		*/
+		private _willRender: boolean;
+
+        /**
+		* Toggles if this Entity will be rendered.
+        * @property willRender
+        * @type boolean
+        * @default true
+        * @public
+		*/
+        public set willRender(value: boolean) {
+            this._willRender = value;
+        }
+        public get willRender():boolean {
+            return this._willRender;
+        }
+
+        /**
+		* Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)
+        * @property _inputEnabled
+        * @type boolean
+        * @private
+		*/
+        private _inputEnabled: boolean;
+
+        /**
+		* Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)
+        * This method should be over-ridden to handle specific game object implementations.
+        * @property inputEnabled
+        * @type boolean
+        * @public
+		*/
+        public set inputEnabled(value: boolean) {
+            this._inputEnabled = value;
+        }
+        public get inputEnabled():boolean {
+            return this._inputEnabled;
+        }
+        
+        /**
+		* The clock that this entity use&#x27;s for time based calculations. This generated by the state on instatiation.
+        * @property _clock
+        * @type Kiwi.Clock
+        * @private
+		*/
+        private _clock: Kiwi.Time.Clock = null;
+
+        /**
+		* The Clock used to update this all of this Entities components (defaults to the Game MasterClock)
+        * @property clock 
+        * @type Kiwi.Time.Clock
+        * @public
+		*/
+        public set clock(value: Kiwi.Time.Clock) {
+            this._clock = value;
+        }
+        public get clock(): Kiwi.Time.Clock {
+            return this._clock;
+        }
+
+        /**
+		* A value used by components to control if the Entity needs re-rendering
+        * @property dirty
+        * @type boolean
+        * @private
+    	*/
+        private _dirty: boolean;
+        
+        /**
+		* A value used by components to control if the Entity needs re-rendering
+        * @property dirty
+        * @type boolean
+        * @public
+    	*/
+        public set dirty(value: boolean) {
+            this._dirty = value;
+        }
+        public get dirty():boolean {
+            return this._dirty;
+        }
+
+        //  Both of these methods can and often should be over-ridden by classes extending Entity to handle specific implementations
+
+        /**
+        * The type of this object.
+        * @method objType
+        * @return {String} The type of the object
+        * @public
+        */
+        public objType() {
+            return &quot;Entity&quot;;
+        }
+
+        /**
+        * This isn&#x27;t called until the Entity has been added to a Group or a State.
+        * Note: If added to a Group, who is not &#x27;active&#x27; (so the Groups update loop doesn&#x27;t run) then each member will not execute either.
+        * @method update
+        * @public
+        */
+        public update() {
+            
+        }
+
+        /**
+        * Renders the entity using the canvas renderer. 
+        * This isn&#x27;t called until the Entity has been added to a Group/State which is active.
+        * This functionality is handled by the sub classes. 
+        * @method render
+        * @param {Camera} camera
+        * @public
+        */
+        public render(camera:Kiwi.Camera) {
+        
+        }
+
+        /**
+        * Renders the entity using the canvas renderer. 
+        * This isn&#x27;t called until the Entity has been added to a Group/State which is active.
+        * This functionality is handled by the sub classes. 
+        * @method renderGL
+        * @param {Kiwi.Camera} camera
+        * @param {WebGLRenderingContext} gl
+        * @param [params=null] {object} params
+        * @public
+        */
+        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params: any = null) {
+        
+        }
+
+        /**
+        * Used to completely destroy this entity and of its components. Used for garbage collection and developers can also use it as needed.
+        * @method destroy
+        * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
+        * @public
+        */
+        public destroy(immediate: boolean = false) {
+            
+            this._exists = false;
+            this._active = false;
+            this._willRender = false;
+
+            if (immediate === true) {
+                
+                if (this.parent !== null &amp;&amp; typeof this.parent !== &quot;undefined&quot;) this.parent.removeChild(this);
+                if (this.state) this.state.removeFromTrackingList(this);
+                delete this._parent;
+                delete this.transform;
+                delete this._clock;
+                delete this.state;
+                delete this.game;
+                delete this.atlas;
+
+                if (this.components) this.components.removeAll(true);
+                delete this.components;
+
+            }
+        }
+
+    }
+
+}
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
