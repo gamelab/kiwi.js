@@ -113,25 +113,22 @@ module Kiwi.Input {
 
             this.mouse = new Kiwi.Input.Mouse(this.game);
             this.mouse.boot();
+            this.mouse.onDown.add(this._onDownEvent, this);
+            this.mouse.onUp.add(this._onUpEvent, this);
 
             this.keyboard = new Kiwi.Input.Keyboard(this.game);
             this.keyboard.boot();
 
             this.touch = new Kiwi.Input.Touch(this.game);
             this.touch.boot();
+            this.touch.touchDown.add(this._onDownEvent, this);
+            this.touch.touchUp.add(this._onUpEvent, this);
 
-            //Decided which inputs to map to the up/down events.
-            if (Kiwi.DEVICE.touch == true ) {
-                this.touch.touchDown.add(this._onDownEvent, this);
-                this.touch.touchUp.add(this._onUpEvent, this);
-                this._pointers = this.touch.fingers;
-
-            } else {
-                this.mouse.onDown.add(this._onDownEvent, this);
-                this.mouse.onUp.add(this._onUpEvent, this);
-                this._pointers.push(this.mouse.cursor);
-
-            }
+            /*
+            * Add the fingers/cursors to the list of 'pointers'
+            */
+            this._pointers = this.touch.fingers;
+            this._pointers.push(this.mouse.cursor);
 
 
             this.isDown = false;
