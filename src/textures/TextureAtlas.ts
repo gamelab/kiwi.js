@@ -8,7 +8,7 @@
 module Kiwi.Textures {
 
     /**
-    * A TextureAtlas is the base class that is created for each image that is loaded in through Kiwi. Each TextureAtlas contains a name (the same as the key that the user chose when loading the image in),the HTMLImageElement that it is for and a number of cells.
+    * A TextureAtlas is the base class that is created for each image that is loaded through Kiwi. Each TextureAtlas contains a name (the same as the key that the user chose when loading the image in),the HTMLImageElement that it is for and a number of cells.
     * 
     * @class TextureAtlas
     * @namespace Kiwi.Textures
@@ -18,7 +18,7 @@ module Kiwi.Textures {
     * @param cells {any} The cells that are within this image..
     * @param image {HTMLImageElement/HTMLCanvasElement} The image that the texture atlas is using.
     * @param [sequences] {Sequence[]} Any sequences of cells for this texture atlas. Used for animation.
-    * @return {TextureAtlas}
+    * @return {Kiwi.TextureAtlas}
     *
     */
     export class TextureAtlas {
@@ -75,9 +75,9 @@ module Kiwi.Textures {
         public cells;
         
         /**
-        * Sequences that are for this texture.
+        * An array of Sequences that are for this texture.
         * @property sequences
-        * @type Sequence
+        * @type Array
         * @public
         */
         public sequences: Kiwi.Animations.Sequence[];

@@ -41,16 +41,6 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
-            
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Sequence.html">Kiwi.Animations.Sequence</a></li>
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -354,7 +358,7 @@ module Kiwi.Geom {
 
     /**
     * A Kiwi Line object has two meanings depending on the situation you need. 
-    * Either an infinte line through space (this is the normal meaning of a Line) 
+    * Either an infinte line through space (this is the usual meaning of a Line) 
     * OR it can be a Line Segment which just exists between the TWO points you specify. 
     *
     * @class Line
@@ -402,7 +406,7 @@ module Kiwi.Geom {
         public y1: number = 0;
 
         /**
-        * x component of second point.
+        * X position of second point.
         * @property x2
         * @type Number
         * @public
@@ -410,7 +414,7 @@ module Kiwi.Geom {
         public x2: number = 0;
 
         /**
-        * y component of second point.
+        * X position of second point.
         * @property y2
         * @type Number
         * @public
@@ -422,8 +426,8 @@ module Kiwi.Geom {
         * The clone will either be a new Line Object, 
         * Otherwise you can pass a existing Line Object that you want to be a clone of this one.
         * @method clone
-        * @param [output = Line] {Line}
-        * @return {Line}
+        * @param [output = Line] {Kiwi.Geom.Line}
+        * @return {Kiwi.Geom.Line}
         * @public
         */
         public clone(output: Line = new Line): Line {
@@ -435,8 +439,8 @@ module Kiwi.Geom {
         /**
         * Make this Line a copy of another passed Line.
         * @method copyFrom 
-        * @param source {Line} source
-        * @return {Line}
+        * @param source {Kiwi.Geom.Line} source
+        * @return {Kiwi.Geom.Line}
         * @public
         */
         public copyFrom(source: Line): Line {
@@ -448,8 +452,8 @@ module Kiwi.Geom {
         /**
         * Make another passed Line a copy of this one.
         * @method copyTo
-        * @param target {Line} target
-        * @return {Line}
+        * @param target {Kiwi.Geom.Line} target
+        * @return {Kiwi.Geom.Line}
         * @public
         */
         public copyTo(target: Line): Line {
@@ -465,7 +469,7 @@ module Kiwi.Geom {
         * @param [y1 = 0]{Number} Y component of first point.
         * @param [x2 = 0]{Number} X component of second point.
         * @param [y2 = 0]{Number} Y component of second point.
-        * @return {Line}
+        * @return {Kiwi.Geom.Line}
         * @public
         */
         public setTo(x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0): Line {
@@ -604,8 +608,8 @@ module Kiwi.Geom {
         * Check to see if this Line object intersects at any point with a passed Line.
         * Note: Both are treated as extending infinately through space.
         * @method intersectLineLine
-        * @param line {Line} The line you want to check for a Intersection with.
-        * @return {IntersectResult} The Intersect Result containing the collision information.
+        * @param line {Kiwi.Geom.Line} The line you want to check for a Intersection with.
+        * @return {Kiwi.Geom.IntersectResult} The Intersect Result containing the collision information.
         * @public
         */
         public intersectLineLine(line): IntersectResult {
@@ -617,8 +621,8 @@ module Kiwi.Geom {
         * @method perp
         * @param x {Number} 
         * @param y {Number} 
-        * @param [output = Line] {Line} 
-        * @return {Line}
+        * @param [output = Line] {Kiwi.Geom.Line} 
+        * @return {Kiwi.Geom.Line}
         * @public
         */
         public perp(x: number, y: number, output?: Line): Line {

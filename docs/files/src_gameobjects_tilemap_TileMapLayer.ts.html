@@ -41,16 +41,6 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
-            
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Sequence.html">Kiwi.Animations.Sequence</a></li>
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -355,16 +359,16 @@ module Kiwi.GameObjects.Tilemap {
 
 
     /**
-    * Is GameObject that contains the information held for a single Layer of Tiles, along with methods to handle the rendering of those Tiles. 
+    * GameObject that contains the information held for a single Layer of Tiles, along with methods to handle the rendering of those Tiles. 
     * A TileMapLayer should not be directly created, but instead should be created through a TileMap object instead.
     * 
     * @class TileMapLayer
-    * @extends Entity
+    * @extends Kiwi.Entity
     * @namespace Kiwi.GameObjects.Tilemap
     * @constructor
-    * @param tilemap {TileMap} The TileMap that this layer belongs to.
+    * @param tilemap {Kiwi.GameObjects.Tilemap.TileMap} The TileMap that this layer belongs to.
     * @param name {String} The name of this TileMapLayer.
-    * @param atlas {TextureAtlas} The texture atlas that should be used when rendering this TileMapLayer onscreen.
+    * @param atlas {Kiwi.Textures.TextureAtlas} The texture atlas that should be used when rendering this TileMapLayer onscreen.
     * @param data {Number[]} The information about the tiles.
     * @param tw {Number} The width of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
     * @param th {Number} The height of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
@@ -478,7 +482,7 @@ module Kiwi.GameObjects.Tilemap {
         /**
         * The texture atlas that should be used when rendering.
         * @property atlas
-        * @type TextureAtlas
+        * @type Kiwi.Textures.TextureAtlas
         * @public
         */
         public atlas: Kiwi.Textures.TextureAtlas;
@@ -619,7 +623,7 @@ module Kiwi.GameObjects.Tilemap {
         
         /**
         * Returns the TileType for a tile that is at a particular coordinate passed. 
-        * If no tile is found the null is returned instead.
+        * If no tile is found then null is returned instead.
         * Coordinates passed are in pixels and use the world coordinates of the tilemap.
         * Note: Currently only working for ORTHOGONAL TileMaps.
         * 
@@ -660,10 +664,10 @@ module Kiwi.GameObjects.Tilemap {
         * Sets the tile to be used at the coordinates provided. 
         * Can be used to override a tile that may already exist at the location.
         * @method setTile
-        * @param x {number} The coordinate of the tile on the x axis. 
-        * @param y {number} The coordinate of the tile on the y axis.
-        * @param tileType {number} The type of tile that should be now used.
-        * @return {boolean} If a tile was changed or not.
+        * @param x {Number} The coordinate of the tile on the x axis. 
+        * @param y {Number} The coordinate of the tile on the y axis.
+        * @param tileType {Number} The type of tile that should be now used.
+        * @return {Boolean} If a tile was changed or not.
         * @public
         */
         public setTile(x: number, y: number, tileType:number):boolean {
@@ -681,8 +685,8 @@ module Kiwi.GameObjects.Tilemap {
         * Sets the tile to be used at the index provided.
         * Can be used to override a tile that may already exist at the location.
         * @method setTileByIndex
-        * @param index {number} The index of the tile that you want to change.
-        * @param tileType {number} The new tile type to be used at that position.
+        * @param index {Number} The index of the tile that you want to change.
+        * @param tileType {Number} The new tile type to be used at that position.
         * @public
         */
         public setTileByIndex(index: number, tileType: number) {
@@ -693,11 +697,11 @@ module Kiwi.GameObjects.Tilemap {
         * Randomizes the types of tiles used in an area of the layer. You can choose which types of tiles to use, and the area.
         * Default tile types used are everyone avaiable. 
         * @method randomizeTiles
-        * @param [types] {number[]} A list of TileTypes that can be used. Default is every tiletype on the TileMap.
-        * @param [x=0] {number} The starting tile on the x axis to fill. 
-        * @param [y=0] {number} The starting tile on the y axis to fill.
-        * @param [width=this.width] {number} How far across you want to go.
-        * @param [height=this.height] {number} How far down you want to go.
+        * @param [types] {Number[]} A list of TileTypes that can be used. Default is every tiletype on the TileMap.
+        * @param [x=0] {Number} The starting tile on the x axis to fill. 
+        * @param [y=0] {Number} The starting tile on the y axis to fill.
+        * @param [width=this.width] {Number} How far across you want to go.
+        * @param [height=this.height] {Number} How far down you want to go.
         * @public
         */
         public randomizeTiles(types?: number[], x: number= 0, y: number= 0, width: number= this.width, height: number= this.height) {
@@ -724,11 +728,11 @@ module Kiwi.GameObjects.Tilemap {
         /**
         * Makes all of the tiles in the area specified a single type that is passed.
         * @method fill
-        * @param type {number} The type of tile you want to fill in the area with.
-        * @param [x=0] {number} The starting tile on the x axis to fill. 
-        * @param [y=0] {number} The starting tile on the y axis to fill.
-        * @param [width=this.width] {number} How far across you want to go.
-        * @param [height=this.height] {number} How far down you want to go.
+        * @param type {Number} The type of tile you want to fill in the area with.
+        * @param [x=0] {Number} The starting tile on the x axis to fill. 
+        * @param [y=0] {Number} The starting tile on the y axis to fill.
+        * @param [width=this.width] {Number} How far across you want to go.
+        * @param [height=this.height] {Number} How far down you want to go.
         * @public
         */
         public fill(type: number, x: number= 0, y: number= 0, width: number= this.width, height: number= this.height) {
@@ -747,12 +751,12 @@ module Kiwi.GameObjects.Tilemap {
         /**
         * Replaces all tiles of typeA to typeB in the area specified. If no area is specified then it is on the whole layer.
         * @method replaceTiles
-        * @param typeA {number} The type of tile you want to be replaced.
-        * @param typeB {number} The type of tile you want to be used instead.
-        * @param [x=0] {number} The starting tile on the x axis to fill. 
-        * @param [y=0] {number} The starting tile on the y axis to fill.
-        * @param [width=this.width] {number} How far across you want to go.
-        * @param [height=this.height] {number} How far down you want to go.
+        * @param typeA {Number} The type of tile you want to be replaced.
+        * @param typeB {Number} The type of tile you want to be used instead.
+        * @param [x=0] {Number} The starting tile on the x axis to fill. 
+        * @param [y=0] {Number} The starting tile on the y axis to fill.
+        * @param [width=this.width] {Number} How far across you want to go.
+        * @param [height=this.height] {Number} How far down you want to go.
         * @public
         */
         public replaceTiles(typeA: number, typeB: number, x:number=0, y:number=0, width:number=this.width,height:number=this.height) {
@@ -806,7 +810,7 @@ module Kiwi.GameObjects.Tilemap {
         * Note: Only designed to work with ORTHOGONAL types of tilemaps, results maybe unexpected for other types of tilemaps.
         * 
         * @method getOverlappingTiles
-        * @param entity {Entity} The entity you would like to check for the overlap.
+        * @param entity {Kiwi.Entity} The entity you would like to check for the overlap.
         * @param [collisionType=ANY] {Number} The particular type of collidable tiles which you would like to check for.
         * @return {Object[]} Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object. 
         * @public
@@ -1043,8 +1047,8 @@ module Kiwi.GameObjects.Tilemap {
         *
         * @method screenToChart
         * @param scrPt {any} An object containing x/y coordinates of the point on the screen you want to convert to tile coordinates.
-        * @param tileW {number} The width of a single tile.
-        * @param tileH {number} The height of a single tile.
+        * @param tileW {Number} The width of a single tile.
+        * @param tileH {Number} The height of a single tile.
         * @return {Object} With x/y properties of the location of tile on the screen.
         * @public
         */

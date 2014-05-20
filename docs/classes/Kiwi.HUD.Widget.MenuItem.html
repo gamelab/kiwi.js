@@ -41,16 +41,6 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
-            
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Sequence.html">Kiwi.Animations.Sequence</a></li>
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -346,7 +350,7 @@
 
     
         <div class="extends">
-            Extends HUDWidget
+            Extends <a href="..\classes\Kiwi.HUD.Widget.Button.html" class="crosslink">Kiwi.HUD.Widget.Button</a>
         </div>
     
 
@@ -400,7 +404,7 @@ Since a MenuItem extends the Button Widget you can access the Input Component th
 
                     <ul class="index-list methods extends">
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
                                 <a href="#method_objType">objType</a>
 
                                 
@@ -416,6 +420,13 @@ Since a MenuItem extends the Button Widget you can access the Input Component th
                     <h3>Properties</h3>
 
                     <ul class="index-list properties extends">
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_input">input</a>
+
+                                
+                                
+                            </li>
                         
                             <li class="index-item property public">
                                 <a href="#property_menu">menu</a>
@@ -467,12 +478,12 @@ Since a MenuItem extends the Button Widget you can access the Input Component th
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Kiwi.HUD.Widget.Button.html#method_objType">
+                Kiwi.HUD.Widget.Button
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
@@ -502,6 +513,8 @@ Since a MenuItem extends the Button Widget you can access the Input Component th
                     
                         <span class="type">String</span>:
                     
+                    <p>&quot;MenuItem&quot;</p>
+
                 
             </div>
         </div>
@@ -519,9 +532,53 @@ Since a MenuItem extends the Button Widget you can access the Input Component th
                 <h2 class="off-left">Properties</h2>
 
                 
+                    <div id="property_input" class="property item public inherited">
+    <h3 class="name"><code>input</code></h3>
+    <span class="type"><a href="..\classes\Kiwi.HUD.HUDComponents.WidgetInput.html" class="crosslink">Kiwi.HUD.HUDComponents.WidgetInput</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.HUD.Widget.Button.html#property_input">Kiwi.HUD.Widget.Button</a>:
+            
+        
+        
+        <a href="../files/src_hud_widgets_Button.ts.html#l45"><code>src\hud\widgets\Button.ts:45</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The WidgetInput component that handles the management of events for this button.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_menu" class="property item public">
     <h3 class="name"><code>menu</code></h3>
-    <span class="type">Menu</span>
+    <span class="type"><a href="..\classes\Kiwi.HUD.Widget.Menu.html" class="crosslink">Kiwi.HUD.Widget.Menu</a></span>
 
     
 

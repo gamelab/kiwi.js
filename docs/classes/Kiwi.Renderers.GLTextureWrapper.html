@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Renderers - Kiwi.js</title>
+    <title>Kiwi.Renderers.GLTextureWrapper - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -344,8 +344,8 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Renderers Module</h1>
-<div class="box clearfix meta">
+                        <h1>Kiwi.Renderers.GLTextureWrapper Class</h1>
+<div class="box meta">
     
 
     
@@ -357,77 +357,915 @@
     
 
     
+        
+            Module: <a href="../modules/Renderers.html">Renderers</a><br>
+            Parent Module: <a href="../modules/Kiwi.html">Kiwi</a>
+        
+    
+
+    
 </div>
 
 
 
 <div class="box intro">
-    <p>Contains the classes which are related to the rendering of GameObjects.</p>
+    <p>Wraps a webGL texture object</p>
 
 </div>
 
 
+    <div class="constructor">
+        <h2>Constructor</h2>
+        <div id="method_Kiwi.Renderers.GLTextureWrapper" class="method item">
+    <h3 class="name"><code>Kiwi.Renderers.GLTextureWrapper</code></h3>
 
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[_image]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Kiwi.Renderers.GLTextureWrapper.html" class="crosslink">Kiwi.Renderers.GLTextureWrapper</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
         
-            <p>This module provides the following classes:</p>
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l13"><code>src\render\GLTextureWrapper.ts:13</code></a>
+        
+        </p>
 
-            <ul class="module-classes">
-            
-                <li class="module-class">
-                    <a href="../classes/Kiwi.Renderers.CanvasRenderer.html">
-                        Kiwi.Renderers.CanvasRenderer
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">
-                        Kiwi.Renderers.GLArrayBuffer
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">
-                        Kiwi.Renderers.GLElementArrayBuffer
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/Kiwi.Renderers.GLRenderManager.html">
-                        Kiwi.Renderers.GLRenderManager
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/Kiwi.Renderers.GLTextureManager.html">
-                        Kiwi.Renderers.GLTextureManager
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">
-                        Kiwi.Renderers.GLTextureWrapper
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/Kiwi.Renderers.Renderer.html">
-                        Kiwi.Renderers.Renderer
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">
-                        Kiwi.Renderers.TextureAtlasRenderer
-                    </a>
-                </li>
-            
-            </ul>
+
+        
+
         
     </div>
 
-    <div class="yui3-u-1-2">
+    <div class="description">
+        
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[_image]</code>
+                        <span class="type">HTMLImageElement</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.Renderers.GLTextureWrapper.html" class="crosslink">Kiwi.Renderers.GLTextureWrapper</a></span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+    </div>
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+        
+        
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                        
+                            <li class="index-item method public">
+                                <a href="#method_createTexture">createTexture</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_deleteTexture">deleteTexture</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_refreshTexture">refreshTexture</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_uploadTexture">uploadTexture</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                        
+                            <li class="index-item property">
+                                <a href="#property_created">created</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_image">image</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_numBytes">numBytes</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_texture">texture</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_textureAtlas">textureAtlas</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_uploaded">uploaded</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+
+            
+        </div>
+
+        
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_createTexture" class="method item public">
+    <h3 class="name"><code>createTexture</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l90"><code>src\render\GLTextureWrapper.ts:90</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Creates a webgl texture object</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_deleteTexture" class="method item public">
+    <h3 class="name"><code>deleteTexture</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l148"><code>src\render\GLTextureWrapper.ts:148</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Deletes a webgl texture</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_refreshTexture" class="method item public">
+    <h3 class="name"><code>refreshTexture</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l137"><code>src\render\GLTextureWrapper.ts:137</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Re-uploads a webgl texture object to video memory</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_uploadTexture" class="method item public">
+    <h3 class="name"><code>uploadTexture</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l103"><code>src\render\GLTextureWrapper.ts:103</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Uploads a webgl texture object to video memory</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property_created" class="property item">
+    <h3 class="name"><code>created</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l51"><code>src\render\GLTextureWrapper.ts:51</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns whether the texture has been created</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_image" class="property item public">
+    <h3 class="name"><code>image</code></h3>
+    <span class="type">HTMLImageElement</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l79"><code>src\render\GLTextureWrapper.ts:79</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_numBytes" class="property item">
+    <h3 class="name"><code>numBytes</code></h3>
+    <span class="type"><a href="..\classes\Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l40"><code>src\render\GLTextureWrapper.ts:40</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The number of bytes in the texture</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_texture" class="property item public">
+    <h3 class="name"><code>texture</code></h3>
+    <span class="type">WebGLTexture</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l71"><code>src\render\GLTextureWrapper.ts:71</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_textureAtlas" class="property item">
+    <h3 class="name"><code>textureAtlas</code></h3>
+    <span class="type"><a href="..\classes\Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l32"><code>src\render\GLTextureWrapper.ts:32</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The textureAtlas used by the GLTexture</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_uploaded" class="property item">
+    <h3 class="name"><code>uploaded</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l61"><code>src\render\GLTextureWrapper.ts:61</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns whether the texture has been uploaded to video memory</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+
         
     </div>
 </div>

@@ -20,10 +20,10 @@ module Kiwi.Time {
     * @namespace Kiwi.Time
     * @constructor
     * @param manager {ClockManager} The ClockManager that this clock belongs to. .
-    * @param master {MasterClock} The MasterClock that it is getting the time in relation to.
+    * @param master {Kiwi.Time.MasterClock} The MasterClock that it is getting the time in relation to.
     * @param name {String} The name of the clock.
     * @param [units=1000] {Number} The units that this clock is to operate in.
-    * @return {Clock} This Clock object.
+    * @return {Kiwi.Time.Clock} This Clock object.
     * 
     */
     export class Clock {
@@ -290,7 +290,7 @@ module Kiwi.Time {
         /**
         * The master clock.
         * @property master
-        * @type MasterClock
+        * @type Kiwi.Time.MasterClock
         * @public
         */
         public master: Kiwi.Time.MasterClock = null;
@@ -316,7 +316,7 @@ module Kiwi.Time {
         * Add an existing Timer to the Clock.
         * @method addTimer
         * @param timer {Timer} The Timer object instance to be added to ths Clock.
-        * @return {Clock} This Clock object.
+        * @return {Kiwi.Time.Clock} This Clock object.
         * @public
         */
         public addTimer(timer: Timer): Clock {
@@ -333,7 +333,7 @@ module Kiwi.Time {
         * @param [delay=1] {Number} The number of clock units to wait between firing events (default 1)
         * @param [repeatCount=0] {Number} The number of times to repeat this Timer (default 0)
         * @param [start=true] {Boolean} If the timer should start.
-        * @return {Timer} The newly created Timer.
+        * @return {Kiwi.Time.Timer} The newly created Timer.
         * @public
         */
         public createTimer(name: string, delay: number = 1, repeatCount: number = 0, start: boolean=true): Timer {
@@ -483,7 +483,7 @@ module Kiwi.Time {
         /**
         * Pause the clock. The clock can only be paused if it is already running.
         * @method pause
-        * @return {Clock} This Clock object.
+        * @return {Kiwi.Time.Clock} This Clock object.
         * @public
         */
         public pause(): Clock {
@@ -504,7 +504,7 @@ module Kiwi.Time {
         /**
         * Resume the clock. The clock can only be resumed if it is already paused.
         * @method resume
-        * @return {Clock} This Clock object.
+        * @return {Kiwi.Time.Clock} This Clock object.
         * @public
         */
         public resume(): Clock {
@@ -527,7 +527,7 @@ module Kiwi.Time {
         /**
         * Stop the clock. Clock can only be stopped if it is already running or is paused.
         * @method stop
-        * @return {Clock} This Clock object.
+        * @return {Kiwi.Time.Clock} This Clock object.
         * @public
         */
         public stop(): Clock {

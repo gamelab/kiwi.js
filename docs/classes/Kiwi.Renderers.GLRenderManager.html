@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Kiwi.Animations.Animation - Kiwi.js</title>
+    <title>Kiwi.Renderers.GLRenderManager - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -344,21 +344,25 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Kiwi.Animations.Animation Class</h1>
+                        <h1>Kiwi.Renderers.GLRenderManager Class</h1>
 <div class="box meta">
     
 
     
+        <div class="extends">
+            Extends IRenderer
+        </div>
+    
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_animations_Animation.ts.html#l11"><code>src\animations\Animation.ts:11</code></a>
+            Defined in: <a href="../files/src_render_GLRenderManager.ts.html#l18"><code>src\render\GLRenderManager.ts:18</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/Animations.html">Animations</a><br>
+            Module: <a href="../modules/Renderers.html">Renderers</a><br>
             Parent Module: <a href="../modules/Kiwi.html">Kiwi</a>
         
     
@@ -369,17 +373,19 @@
 
 
 <div class="box intro">
-    <p>An Animation contains information about a single animation that is held on a AnimationManager. 
-The information that is held is unique to this individual animation and will initially be the same as a Sequence,
-but if you do ever modify the information held in this Animation the corresponding Sequence will not be updated.</p>
+    <p>Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  <a href="https://github.com/toji/gl-matrix">https://github.com/toji/gl-matrix</a>
+Directly manages renderer objects, including factory methods for their creation. 
+Creates manager objects for shaders and textures.
+Manages gl state at game initialisation, at state start and end, and per frame.
+Runs the recursive scene graph rendering sequence every frame.</p>
 
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Kiwi.Animations.Animation" class="method item">
-    <h3 class="name"><code>Kiwi.Animations.Animation</code></h3>
+        <div id="method_Kiwi.Renderers.GLRenderManager" class="method item">
+    <h3 class="name"><code>Kiwi.Renderers.GLRenderManager</code></h3>
 
     
         <div class="args">
@@ -387,25 +393,7 @@ but if you do ever modify the information held in this Animation the correspondi
             
                 <li class="arg">
                     
-                        <code>name</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>sequences</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>clock</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>parent</code>
+                        <code>game</code>
                     
                 </li>
             
@@ -415,7 +403,7 @@ but if you do ever modify the information held in this Animation the correspondi
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Animations.Anim</span>
+            <span class="type"><a href="..\classes\Kiwi.Renderers.GLRenderManager.html" class="crosslink">Kiwi.Renderers.GLRenderManager</a></span>
         </span>
     
 
@@ -442,7 +430,7 @@ but if you do ever modify the information held in this Animation the correspondi
             
         
         
-        <a href="../files/src_animations_Animation.ts.html#l11"><code>src\animations\Animation.ts:11</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l18"><code>src\render\GLRenderManager.ts:18</code></a>
         
         </p>
 
@@ -464,62 +452,14 @@ but if you do ever modify the information held in this Animation the correspondi
             
                 <li class="param">
                     
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
+                        <code class="param-name">game</code>
+                        <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The name of this anim.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">sequences</code>
-                        <span class="type">Kiwi.Animations.Sequences</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The sequence that this anim will be using to animate.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">clock</code>
-                        <span class="type"><a href="..\classes\Kiwi.Time.Clock.html" class="crosslink">Kiwi.Time.Clock</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>A game clock that this anim will be using to keep record of the time between frames.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">parent</code>
-                        <span class="type"><a href="..\classes\Kiwi.Components.AnimationManager.html" class="crosslink">Kiwi.Components.AnimationManager</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The animation manager that this animation belongs to.</p>
+                        <p>The game that this renderer belongs to.</p>
 
                     </div>
 
@@ -537,7 +477,7 @@ but if you do ever modify the information held in this Animation the correspondi
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Animations.Anim</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Renderers.GLRenderManager.html" class="crosslink">Kiwi.Renderers.GLRenderManager</a></span>:
                     
                 
             </div>
@@ -572,31 +512,87 @@ but if you do ever modify the information held in this Animation the correspondi
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
+                    <ul class="index-list methods extends">
                         
                             <li class="index-item method private">
-                                <a href="#method__start">_start</a>
+                                <a href="#method__init">_init</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method private">
-                                <a href="#method__validateFrame">_validateFrame</a>
+                                <a href="#method__switchRenderer">_switchRenderer</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__switchTexture">_switchTexture</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_destroy">destroy</a>
+                                <a href="#method_addSharedRenderer">addSharedRenderer</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_nextFrame">nextFrame</a>
+                                <a href="#method_addSharedRenderer">addSharedRenderer</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_addTexture">addTexture</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_boot">boot</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_collateBatches">collateBatches</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_collateChild">collateChild</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_collateRenderSequence">collateRenderSequence</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_initState">initState</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_initState">initState</a>
 
                                 
                                 
@@ -610,49 +606,42 @@ but if you do ever modify the information held in this Animation the correspondi
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_pause">pause</a>
+                                <a href="#method_render">render</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_play">play</a>
+                                <a href="#method_renderBatch">renderBatch</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_playAt">playAt</a>
+                                <a href="#method_renderBatches">renderBatches</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_prevFrame">prevFrame</a>
+                                <a href="#method_renderEntity">renderEntity</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_resume">resume</a>
+                                <a href="#method_requestRendererInstance">requestRendererInstance</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_stop">stop</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_update">update</a>
+                                <a href="#method_setupGLState">setupGLState</a>
 
                                 
                                 
@@ -666,157 +655,73 @@ but if you do ever modify the information held in this Animation the correspondi
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties">
+                    <ul class="index-list properties extends">
                         
                             <li class="index-item property private">
-                                <a href="#property__clock">_clock</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__frameIndex">_frameIndex</a>
+                                <a href="#property__currentRenderer">_currentRenderer</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__isPlaying">_isPlaying</a>
+                                <a href="#property__currentTextureAtlas">_currentTextureAtlas</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__loop">_loop</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property__onLoop">_onLoop</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property__onPlay">_onPlay</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property__onStop">_onStop</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property__onUpdate">_onUpdate</a>
+                                <a href="#property__entityCount">_entityCount</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__parent">_parent</a>
+                                <a href="#property__game">_game</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__reverse">_reverse</a>
+                                <a href="#property__maxItems">_maxItems</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__sequence">_sequence</a>
+                                <a href="#property__shaderManager">_shaderManager</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__speed">_speed</a>
+                                <a href="#property__sharedRenderers">_sharedRenderers</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__startTime">_startTime</a>
+                                <a href="#property__stageResolution">_stageResolution</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__tick">_tick</a>
+                                <a href="#property__textureManager">_textureManager</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_currentCell">currentCell</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_frameIndex">frameIndex</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property_isPlaying">isPlaying</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_length">length</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_loop">loop</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_name">name</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_reverse">reverse</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_speed">speed</a>
+                                <a href="#property_numDrawCalls">numDrawCalls</a>
 
                                 
                                 
@@ -836,8 +741,68 @@ but if you do ever modify the information held in this Animation the correspondi
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method__start" class="method item private">
-    <h3 class="name"><code>_start</code></h3>
+                    <div id="method__init" class="method item private">
+    <h3 class="name"><code>_init</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l255"><code>src\render\GLRenderManager.ts:255</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Performs initialisation required for single game instance - happens once, at bootup
+Sets global GL state.
+Initialises managers for shaders and textures.
+Instantiates the default shared renderer (TextureAtlasRenderer)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__switchRenderer" class="method item private">
+    <h3 class="name"><code>_switchRenderer</code></h3>
 
     
         <div class="args">
@@ -845,7 +810,13 @@ but if you do ever modify the information held in this Animation the correspondi
             
                 <li class="arg">
                     
-                        <code class="optional">[index=null]</code>
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>entity</code>
                     
                 </li>
             
@@ -880,7 +851,7 @@ but if you do ever modify the information held in this Animation the correspondi
             
         
         
-        <a href="../files/src_animations_Animation.ts.html#l266"><code>src\animations\Animation.ts:266</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l504"><code>src\render\GLRenderManager.ts:504</code></a>
         
         </p>
 
@@ -891,7 +862,7 @@ but if you do ever modify the information held in this Animation the correspondi
     </div>
 
     <div class="description">
-        <p>An Internal method used to start the animation.</p>
+        <p>Switch renderer to the one needed by the entity that needs rendering</p>
 
     </div>
 
@@ -903,16 +874,29 @@ but if you do ever modify the information held in this Animation the correspondi
             
                 <li class="param">
                     
-                        <code class="param-name optional">[index=null]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The index of the frame in the sequence that is to play. If left as null if just starts from where it left off.</p>
+                         
+                    </div>
 
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">entity</code>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
                     </div>
 
                     
@@ -928,8 +912,8 @@ but if you do ever modify the information held in this Animation the correspondi
 </div>
 
                 
-                    <div id="method__validateFrame" class="method item private">
-    <h3 class="name"><code>_validateFrame</code></h3>
+                    <div id="method__switchTexture" class="method item private">
+    <h3 class="name"><code>_switchTexture</code></h3>
 
     
         <div class="args">
@@ -937,7 +921,13 @@ but if you do ever modify the information held in this Animation the correspondi
             
                 <li class="arg">
                     
-                        <code>frame</code>
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>entity</code>
                     
                 </li>
             
@@ -972,7 +962,7 @@ but if you do ever modify the information held in this Animation the correspondi
             
         
         
-        <a href="../files/src_animations_Animation.ts.html#l398"><code>src\animations\Animation.ts:398</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l517"><code>src\render\GLRenderManager.ts:517</code></a>
         
         </p>
 
@@ -983,7 +973,7 @@ but if you do ever modify the information held in this Animation the correspondi
     </div>
 
     <div class="description">
-        <p>An internal method used to check to see if frame passed is valid or not</p>
+        <p>Switch texture to the one needed by the entity that needs rendering</p>
 
     </div>
 
@@ -995,15 +985,29 @@ but if you do ever modify the information held in this Animation the correspondi
             
                 <li class="param">
                     
-                        <code class="param-name">frame</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The index of the frame that is to be validated.</p>
+                         
+                    </div>
 
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">entity</code>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
                     </div>
 
                     
@@ -1019,8 +1023,378 @@ but if you do ever modify the information held in this Animation the correspondi
 </div>
 
                 
-                    <div id="method_destroy" class="method item public">
-    <h3 class="name"><code>destroy</code></h3>
+                    <div id="method_addSharedRenderer" class="method item public">
+    <h3 class="name"><code>addSharedRenderer</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>rendererID</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l172"><code>src\render\GLRenderManager.ts:172</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Adds a renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. 
+If a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">rendererID</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>success</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_addSharedRenderer" class="method item public">
+    <h3 class="name"><code>addSharedRenderer</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>rendererID</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l196"><code>src\render\GLRenderManager.ts:196</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Requests a shared renderer. A game object that wants to use a shared renderer uses this method to obtain a reference to the shared renderer instance.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">rendererID</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>:
+                    
+                    <p>A shared renderer or null if none found.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_addTexture" class="method item public">
+    <h3 class="name"><code>addTexture</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>atlas</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l146"><code>src\render\GLRenderManager.ts:146</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Adds a texture to the Texture Manager.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">atlas</code>
+                        <span class="type"><a href="..\classes\Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_boot" class="method item public">
+    <h3 class="name"><code>boot</code></h3>
 
     
         <span class="paren">()</span>
@@ -1053,7 +1427,7 @@ but if you do ever modify the information held in this Animation the correspondi
             
         
         
-        <a href="../files/src_animations_Animation.ts.html#l418"><code>src\animations\Animation.ts:418</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l40"><code>src\render\GLRenderManager.ts:40</code></a>
         
         </p>
 
@@ -1064,7 +1438,7 @@ but if you do ever modify the information held in this Animation the correspondi
     </div>
 
     <div class="description">
-        <p>Destroys the anim and all of the properties that exist on it.</p>
+        <p>Initialises all WebGL rendering services</p>
 
     </div>
 
@@ -1076,8 +1450,8 @@ but if you do ever modify the information held in this Animation the correspondi
 </div>
 
                 
-                    <div id="method_nextFrame" class="method item public">
-    <h3 class="name"><code>nextFrame</code></h3>
+                    <div id="method_collateBatches" class="method item public">
+    <h3 class="name"><code>collateBatches</code></h3>
 
     
         <span class="paren">()</span>
@@ -1110,7 +1484,7 @@ but if you do ever modify the information held in this Animation the correspondi
             
         
         
-        <a href="../files/src_animations_Animation.ts.html#l337"><code>src\animations\Animation.ts:337</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l413"><code>src\render\GLRenderManager.ts:413</code></a>
         
         </p>
 
@@ -1121,10 +1495,272 @@ but if you do ever modify the information held in this Animation the correspondi
     </div>
 
     <div class="description">
-        <p>Makes the animation go to the next frame. If the animation is at the end it goes back to the start.</p>
+        <p>Sorts the render sequence into batches. Each batch requires the same renderer/shader/texture combination.</p>
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_collateChild" class="method item public">
+    <h3 class="name"><code>collateChild</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l391"><code>src\render\GLRenderManager.ts:391</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Adds a child to the render sequence (may be a group with children of it&#39;s own)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_collateRenderSequence" class="method item public">
+    <h3 class="name"><code>collateRenderSequence</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l380"><code>src\render\GLRenderManager.ts:380</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Creates a new render sequence</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_initState" class="method item public">
+    <h3 class="name"><code>initState</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l296"><code>src\render\GLRenderManager.ts:296</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Performs initialisation required when switching to a different state. Called when a state has been switched to.
+The textureManager is told to rebuild its cache of textures from the states textuer library.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_initState" class="method item public">
+    <h3 class="name"><code>initState</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>state</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l307"><code>src\render\GLRenderManager.ts:307</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">state</code>
+                        <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -1171,7 +1807,7 @@ but if you do ever modify the information held in this Animation the correspondi
             
         
         
-        <a href="../files/src_animations_Animation.ts.html#l39"><code>src\animations\Animation.ts:39</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l53"><code>src\render\GLRenderManager.ts:53</code></a>
         
         </p>
 
@@ -1206,122 +1842,8 @@ but if you do ever modify the information held in this Animation the correspondi
 </div>
 
                 
-                    <div id="method_pause" class="method item public">
-    <h3 class="name"><code>pause</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animations_Animation.ts.html#l305"><code>src\animations\Animation.ts:305</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Pauses the current animation.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_play" class="method item public">
-    <h3 class="name"><code>play</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animations_Animation.ts.html#l283"><code>src\animations\Animation.ts:283</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Plays the animation.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_playAt" class="method item public">
-    <h3 class="name"><code>playAt</code></h3>
+                    <div id="method_render" class="method item public">
+    <h3 class="name"><code>render</code></h3>
 
     
         <div class="args">
@@ -1329,7 +1851,7 @@ but if you do ever modify the information held in this Animation the correspondi
             
                 <li class="arg">
                     
-                        <code>index</code>
+                        <code>camera</code>
                     
                 </li>
             
@@ -1364,7 +1886,7 @@ but if you do ever modify the information held in this Animation the correspondi
             
         
         
-        <a href="../files/src_animations_Animation.ts.html#l295"><code>src\animations\Animation.ts:295</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l319"><code>src\render\GLRenderManager.ts:319</code></a>
         
         </p>
 
@@ -1375,7 +1897,10 @@ but if you do ever modify the information held in this Animation the correspondi
     </div>
 
     <div class="description">
-        <p>Plays the animation at a particular frame</p>
+        <p>Manages rendering of the scene graph - called once per frame.
+Sets up per frame gl uniforms such as the view matrix and camera offset.
+Clears the current renderer ready for a new batch. 
+Initiates recursive render of scene graph starting at the root.</p>
 
     </div>
 
@@ -1387,15 +1912,14 @@ but if you do ever modify the information held in this Animation the correspondi
             
                 <li class="param">
                     
-                        <code class="param-name">index</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">camera</code>
+                        <span class="type">Camera</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The index of the cell in the sequence that the animation is to start at.</p>
-
+                         
                     </div>
 
                     
@@ -1411,11 +1935,33 @@ but if you do ever modify the information held in this Animation the correspondi
 </div>
 
                 
-                    <div id="method_prevFrame" class="method item public">
-    <h3 class="name"><code>prevFrame</code></h3>
+                    <div id="method_renderBatch" class="method item public">
+    <h3 class="name"><code>renderBatch</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>batch</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>camera</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
@@ -1445,7 +1991,7 @@ but if you do ever modify the information held in this Animation the correspondi
             
         
         
-        <a href="../files/src_animations_Animation.ts.html#l347"><code>src\animations\Animation.ts:347</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l463"><code>src\render\GLRenderManager.ts:463</code></a>
         
         </p>
 
@@ -1456,10 +2002,63 @@ but if you do ever modify the information held in this Animation the correspondi
     </div>
 
     <div class="description">
-        <p>Makes the animation go to the previous frame. If the animation is at the first frame it goes to the end.</p>
+        <p>Renders a single batch</p>
 
     </div>
 
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">batch</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">camera</code>
+                        <span class="type"><a href="..\classes\Kiwi.Camera.html" class="crosslink">Kiwi.Camera</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -1468,11 +2067,27 @@ but if you do ever modify the information held in this Animation the correspondi
 </div>
 
                 
-                    <div id="method_resume" class="method item public">
-    <h3 class="name"><code>resume</code></h3>
+                    <div id="method_renderBatches" class="method item public">
+    <h3 class="name"><code>renderBatches</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>camera</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
@@ -1502,7 +2117,7 @@ but if you do ever modify the information held in this Animation the correspondi
             
         
         
-        <a href="../files/src_animations_Animation.ts.html#l314"><code>src\animations\Animation.ts:314</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l442"><code>src\render\GLRenderManager.ts:442</code></a>
         
         </p>
 
@@ -1513,10 +2128,48 @@ but if you do ever modify the information held in this Animation the correspondi
     </div>
 
     <div class="description">
-        <p>Resumes the current animation after stopping.</p>
+        <p>Renders all the batches</p>
 
     </div>
 
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">camera</code>
+                        <span class="type"><a href="..\classes\Kiwi.Camera.html" class="crosslink">Kiwi.Camera</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -1525,11 +2178,33 @@ but if you do ever modify the information held in this Animation the correspondi
 </div>
 
                 
-                    <div id="method_stop" class="method item public">
-    <h3 class="name"><code>stop</code></h3>
+                    <div id="method_renderEntity" class="method item public">
+    <h3 class="name"><code>renderEntity</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>entity</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>camera</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
@@ -1559,7 +2234,7 @@ but if you do ever modify the information held in this Animation the correspondi
             
         
         
-        <a href="../files/src_animations_Animation.ts.html#l325"><code>src\animations\Animation.ts:325</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l480"><code>src\render\GLRenderManager.ts:480</code></a>
         
         </p>
 
@@ -1570,10 +2245,63 @@ but if you do ever modify the information held in this Animation the correspondi
     </div>
 
     <div class="description">
-        <p>Stops the current animation from playing.</p>
+        <p>Calls the render function on a single entity</p>
 
     </div>
 
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">entity</code>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">camera</code>
+                        <span class="type"><a href="..\classes\Kiwi.Camera.html" class="crosslink">Kiwi.Camera</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -1582,11 +2310,154 @@ but if you do ever modify the information held in this Animation the correspondi
 </div>
 
                 
-                    <div id="method_update" class="method item public">
-    <h3 class="name"><code>update</code></h3>
+                    <div id="method_requestRendererInstance" class="method item public">
+    <h3 class="name"><code>requestRendererInstance</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>rendererID</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l222"><code>src\render\GLRenderManager.ts:222</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Requests a new renderer instance. This factory method is the only way gameobjects should instantiate their own renderer. 
+The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. 
+If a match is found then a renderer is instantiated and returned. Gameobjects which have rendering requirements that do not suit
+batch rendering use this technique.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">rendererID</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The name of the requested renderer</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>:
+                    
+                    <p>A renderer or null if none found.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_setupGLState" class="method item public">
+    <h3 class="name"><code>setupGLState</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
@@ -1616,7 +2487,7 @@ but if you do ever modify the information held in this Animation the correspondi
             
         
         
-        <a href="../files/src_animations_Animation.ts.html#l357"><code>src\animations\Animation.ts:357</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l493"><code>src\render\GLRenderManager.ts:493</code></a>
         
         </p>
 
@@ -1627,10 +2498,33 @@ but if you do ever modify the information held in this Animation the correspondi
     </div>
 
     <div class="description">
-        <p>The update loop. Returns a boolean indicating whether the animation has gone to a new frame or not.</p>
+        <p>Ensures the atlas and renderer needed for a batch is setup</p>
 
     </div>
 
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -1647,9 +2541,9 @@ but if you do ever modify the information held in this Animation the correspondi
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property__clock" class="property item private">
-    <h3 class="name"><code>_clock</code></h3>
-    <span class="type"><a href="..\classes\Kiwi.Time.Clock.html" class="crosslink">Kiwi.Time.Clock</a></span>
+                    <div id="property__currentRenderer" class="property item private">
+    <h3 class="name"><code>_currentRenderer</code></h3>
+    <span class="type"><a href="..\classes\Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>
 
     
 
@@ -1672,7 +2566,7 @@ but if you do ever modify the information held in this Animation the correspondi
             
         
         
-        <a href="../files/src_animations_Animation.ts.html#l150"><code>src\animations\Animation.ts:150</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l98"><code>src\render\GLRenderManager.ts:98</code></a>
         
         </p>
 
@@ -1682,7 +2576,7 @@ but if you do ever modify the information held in this Animation the correspondi
     </div>
 
     <div class="description">
-        <p>The clock that is to be used to calculate the animations.</p>
+        <p>The renderer object that is in use during a rendering batch.</p>
 
     </div>
 
@@ -1694,8 +2588,55 @@ but if you do ever modify the information held in this Animation the correspondi
 </div>
 
                 
-                    <div id="property__frameIndex" class="property item private">
-    <h3 class="name"><code>_frameIndex</code></h3>
+                    <div id="property__currentTextureAtlas" class="property item private">
+    <h3 class="name"><code>_currentTextureAtlas</code></h3>
+    <span class="type">TextureAtlas</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l138"><code>src\render\GLRenderManager.ts:138</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The most recently bound texture atlas.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__entityCount" class="property item private">
+    <h3 class="name"><code>_entityCount</code></h3>
     <span class="type">Number</span>
 
     
@@ -1719,7 +2660,7 @@ but if you do ever modify the information held in this Animation the correspondi
             
         
         
-        <a href="../files/src_animations_Animation.ts.html#l94"><code>src\animations\Animation.ts:94</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l106"><code>src\render\GLRenderManager.ts:106</code></a>
         
         </p>
 
@@ -1729,11 +2670,12 @@ but if you do ever modify the information held in this Animation the correspondi
     </div>
 
     <div class="description">
-        <p>The current frame index that the animation is currently upto.
-Note: A frame index is the index of a particular cell in the Sequence.</p>
+        <p>Tally of number of entities rendered per frame</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -1742,9 +2684,9 @@ Note: A frame index is the index of a particular cell in the Sequence.</p>
 </div>
 
                 
-                    <div id="property__isPlaying" class="property item private">
-    <h3 class="name"><code>_isPlaying</code></h3>
-    <span class="type">Boolean</span>
+                    <div id="property__game" class="property item private">
+    <h3 class="name"><code>_game</code></h3>
+    <span class="type">Game</span>
 
     
 
@@ -1767,7 +2709,7 @@ Note: A frame index is the index of a particular cell in the Sequence.</p>
             
         
         
-        <a href="../files/src_animations_Animation.ts.html#l195"><code>src\animations\Animation.ts:195</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l63"><code>src\render\GLRenderManager.ts:63</code></a>
         
         </p>
 
@@ -1777,56 +2719,7 @@ Note: A frame index is the index of a particular cell in the Sequence.</p>
     </div>
 
     <div class="description">
-        <p>If the animation is currently playing or not.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__loop" class="property item private">
-    <h3 class="name"><code>_loop</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animations_Animation.ts.html#l73"><code>src\animations\Animation.ts:73</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>If this animation should loop or not.</p>
+        <p>The game that this renderer is used with.</p>
 
     </div>
 
@@ -1838,337 +2731,8 @@ Note: A frame index is the index of a particular cell in the Sequence.</p>
 </div>
 
                 
-                    <div id="property__onLoop" class="property item public">
-    <h3 class="name"><code>_onLoop</code></h3>
-    <span class="type"><a href="..\classes\Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animations_Animation.ts.html#l253"><code>src\animations\Animation.ts:253</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__onPlay" class="property item public">
-    <h3 class="name"><code>_onPlay</code></h3>
-    <span class="type"><a href="..\classes\Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animations_Animation.ts.html#l227"><code>src\animations\Animation.ts:227</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A Kiwi.Signal that dispatches an event when the animation has started playing.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__onStop" class="property item public">
-    <h3 class="name"><code>_onStop</code></h3>
-    <span class="type">Signal</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animations_Animation.ts.html#l214"><code>src\animations\Animation.ts:214</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A Kiwi.Signal that dispatches an event when the animation has stopped playing.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__onUpdate" class="property item public">
-    <h3 class="name"><code>_onUpdate</code></h3>
-    <span class="type"><a href="..\classes\Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animations_Animation.ts.html#l240"><code>src\animations\Animation.ts:240</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A Kiwi.Signal that dispatches an event when the animation has updated/changed frameIndexs.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__parent" class="property item private">
-    <h3 class="name"><code>_parent</code></h3>
-    <span class="type"><a href="..\classes\Kiwi.Components.AnimationManager.html" class="crosslink">Kiwi.Components.AnimationManager</a></span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animations_Animation.ts.html#l49"><code>src\animations\Animation.ts:49</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The AnimationManager that this animation is a child of.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__reverse" class="property item private">
-    <h3 class="name"><code>_reverse</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animations_Animation.ts.html#l166"><code>src\animations\Animation.ts:166</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Indicates whether the animation is playing in reverse or not.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__sequence" class="property item private">
-    <h3 class="name"><code>_sequence</code></h3>
-    <span class="type"><a href="..\classes\Kiwi.Animations.Sequence.html" class="crosslink">Kiwi.Animations.Sequence</a></span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animations_Animation.ts.html#l65"><code>src\animations\Animation.ts:65</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The sequence on the texture atlas that this animation is based off.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__speed" class="property item private">
-    <h3 class="name"><code>_speed</code></h3>
+                    <div id="property__maxItems" class="property item private">
+    <h3 class="name"><code>_maxItems</code></h3>
     <span class="type">Number</span>
 
     
@@ -2192,7 +2756,7 @@ Note: A frame index is the index of a particular cell in the Sequence.</p>
             
         
         
-        <a href="../files/src_animations_Animation.ts.html#l129"><code>src\animations\Animation.ts:129</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l124"><code>src\render\GLRenderManager.ts:124</code></a>
         
         </p>
 
@@ -2202,10 +2766,13 @@ Note: A frame index is the index of a particular cell in the Sequence.</p>
     </div>
 
     <div class="description">
-        <p>How fast the transition is between cells. Perhaps change to frames per second to reflect actual game speed?</p>
+        <p>Maximum allowable sprites to render per frame
+Note:Not currently used  - candidate for deletion</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> 1000</p>
     
 
     
@@ -2214,9 +2781,9 @@ Note: A frame index is the index of a particular cell in the Sequence.</p>
 </div>
 
                 
-                    <div id="property__startTime" class="property item private">
-    <h3 class="name"><code>_startTime</code></h3>
-    <span class="type">Number</span>
+                    <div id="property__shaderManager" class="property item private">
+    <h3 class="name"><code>_shaderManager</code></h3>
+    <span class="type">Kiwi.Renderes.GLShaderManager</span>
 
     
 
@@ -2239,7 +2806,7 @@ Note: A frame index is the index of a particular cell in the Sequence.</p>
             
         
         
-        <a href="../files/src_animations_Animation.ts.html#l158"><code>src\animations\Animation.ts:158</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l79"><code>src\render\GLRenderManager.ts:79</code></a>
         
         </p>
 
@@ -2249,7 +2816,7 @@ Note: A frame index is the index of a particular cell in the Sequence.</p>
     </div>
 
     <div class="description">
-        <p>The starting time of the animation from when it was played. Internal use only.</p>
+        <p>The shader manager object used to allocate GL Shaders.</p>
 
     </div>
 
@@ -2261,9 +2828,9 @@ Note: A frame index is the index of a particular cell in the Sequence.</p>
 </div>
 
                 
-                    <div id="property__tick" class="property item private">
-    <h3 class="name"><code>_tick</code></h3>
-    <span class="type">Number</span>
+                    <div id="property__sharedRenderers" class="property item private">
+    <h3 class="name"><code>_sharedRenderers</code></h3>
+    <span class="type">Array</span>
 
     
 
@@ -2286,7 +2853,7 @@ Note: A frame index is the index of a particular cell in the Sequence.</p>
             
         
         
-        <a href="../files/src_animations_Animation.ts.html#l187"><code>src\animations\Animation.ts:187</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l157"><code>src\render\GLRenderManager.ts:157</code></a>
         
         </p>
 
@@ -2296,7 +2863,13 @@ Note: A frame index is the index of a particular cell in the Sequence.</p>
     </div>
 
     <div class="description">
-        <p>The time at which the animation should change to the next cell</p>
+        <p>An array of renderers. Shared renderers are used for batch rendering. Multiple gameobjects can use the same renderer
+instance and add rendering info to a batch rather than rendering individually. 
+This means only one draw call is necessary to render a number of objects. The most common use of this is standard 2d sprite rendering,
+and the TextureAtlasRenderer is added by default as a shared renderer. Sprites, StaticImages and Tilemaps (core gameobjects) can all use the
+same renderer/shader combination and be drawn as part of the same batch.
+Custom gameobjects can also choose to use a shared renderer, fo example in the case that a custom gameobject&#39;s rendering requirements matched the TextureAtlasRenderer
+capabilities.</p>
 
     </div>
 
@@ -2308,104 +2881,9 @@ Note: A frame index is the index of a particular cell in the Sequence.</p>
 </div>
 
                 
-                    <div id="property_currentCell" class="property item public">
-    <h3 class="name"><code>currentCell</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animations_Animation.ts.html#l119"><code>src\animations\Animation.ts:119</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns the current cell that the animation is up to. This is READ ONLY.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_frameIndex" class="property item public">
-    <h3 class="name"><code>frameIndex</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animations_Animation.ts.html#l103"><code>src\animations\Animation.ts:103</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The current frame index that the animation is currently upto.
-Note: A frame index is the index of a particular cell in the Sequence.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_isPlaying" class="property item private">
-    <h3 class="name"><code>isPlaying</code></h3>
-    <span class="type">Boolean</span>
+                    <div id="property__stageResolution" class="property item private">
+    <h3 class="name"><code>_stageResolution</code></h3>
+    <span class="type">Float32Array</span>
 
     
 
@@ -2428,7 +2906,7 @@ Note: A frame index is the index of a particular cell in the Sequence.</p>
             
         
         
-        <a href="../files/src_animations_Animation.ts.html#l204"><code>src\animations\Animation.ts:204</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l90"><code>src\render\GLRenderManager.ts:90</code></a>
         
         </p>
 
@@ -2438,7 +2916,7 @@ Note: A frame index is the index of a particular cell in the Sequence.</p>
     </div>
 
     <div class="description">
-        <p>If the animation is currently playing or not.</p>
+        <p>The stage resolution in pixels</p>
 
     </div>
 
@@ -2450,8 +2928,55 @@ Note: A frame index is the index of a particular cell in the Sequence.</p>
 </div>
 
                 
-                    <div id="property_length" class="property item public">
-    <h3 class="name"><code>length</code></h3>
+                    <div id="property__textureManager" class="property item private">
+    <h3 class="name"><code>_textureManager</code></h3>
+    <span class="type">Kiwi.Renderes.GLTextureManager</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l71"><code>src\render\GLRenderManager.ts:71</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The texture manager object used to allocate GL Textures.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_numDrawCalls" class="property item public">
+    <h3 class="name"><code>numDrawCalls</code></h3>
     <span class="type">Number</span>
 
     
@@ -2475,7 +3000,7 @@ Note: A frame index is the index of a particular cell in the Sequence.</p>
             
         
         
-        <a href="../files/src_animations_Animation.ts.html#l408"><code>src\animations\Animation.ts:408</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l115"><code>src\render\GLRenderManager.ts:115</code></a>
         
         </p>
 
@@ -2485,198 +3010,12 @@ Note: A frame index is the index of a particular cell in the Sequence.</p>
     </div>
 
     <div class="description">
-        <p>Returns the number of frames that in the animation. Thus the animations &#39;length&#39;. Note this is READ ONLY.</p>
+        <p>Tally of number of draw calls per frame</p>
 
     </div>
 
     
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_loop" class="property item public">
-    <h3 class="name"><code>loop</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animations_Animation.ts.html#l81"><code>src\animations\Animation.ts:81</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>If once the animation reaches the end, it should start again from the first cell in the sequence or not.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_name" class="property item public">
-    <h3 class="name"><code>name</code></h3>
-    <span class="type">String</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animations_Animation.ts.html#l57"><code>src\animations\Animation.ts:57</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The name of this animation.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_reverse" class="property item public">
-    <h3 class="name"><code>reverse</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animations_Animation.ts.html#l174"><code>src\animations\Animation.ts:174</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Whether the animation is to be played in reverse.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_speed" class="property item public">
-    <h3 class="name"><code>speed</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animations_Animation.ts.html#l137"><code>src\animations\Animation.ts:137</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>How long the each cell should stay on screen for. In seconds.</p>
-
-    </div>
-
+        <p><strong>Default:</strong> 0</p>
     
 
     

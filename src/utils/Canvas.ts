@@ -15,7 +15,7 @@ module Kiwi.Utils {
     * @param height {Number} The height of the canvas.
     * @param [visible=true] {boolean} If the canvas is visible or not.
     * @param [offScreen=false] {boolean} If the canvas is designed to be offscreen or not.
-    * @return {Canvas} 
+    * @return {Kiwi.Utils.Canvas} 
     *
     */
     export class Canvas {

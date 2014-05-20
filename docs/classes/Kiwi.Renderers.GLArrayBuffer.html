@@ -41,16 +41,6 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
-            
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Sequence.html">Kiwi.Animations.Sequence</a></li>
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -365,7 +369,8 @@
 
 
 <div class="box intro">
-    
+    <p>Encapsulates a WebGL Array Buffer</p>
+
 </div>
 
 
@@ -408,7 +413,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">GLArrayBuffer</span>
+            <span class="type">Kiwi.RenderersGLArrayBuffer</span>
         </span>
     
 
@@ -529,7 +534,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">GLArrayBuffer</span>:
+                        <span class="type">Kiwi.RenderersGLArrayBuffer</span>:
                     
                 
             </div>
@@ -574,7 +579,21 @@
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_init">init</a>
+                                <a href="#method_createBuffer">createBuffer</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_deleteBuffer">deleteBuffer</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_uploadBuffer">uploadBuffer</a>
 
                                 
                                 
@@ -592,6 +611,20 @@
                         
                             <li class="index-item property public">
                                 <a href="#property_buffer">buffer</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_created">created</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_created">created</a>
 
                                 
                                 
@@ -693,7 +726,7 @@
             
         
         
-        <a href="../files/src_render_GLArrayBuffer.ts.html#l77"><code>src\render\GLArrayBuffer.ts:77</code></a>
+        <a href="../files/src_render_GLArrayBuffer.ts.html#l91"><code>src\render\GLArrayBuffer.ts:91</code></a>
         
         </p>
 
@@ -704,7 +737,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Clears the item array.</p>
+
     </div>
 
     
@@ -715,8 +749,8 @@
 </div>
 
                 
-                    <div id="method_init" class="method item public">
-    <h3 class="name"><code>init</code></h3>
+                    <div id="method_createBuffer" class="method item public">
+    <h3 class="name"><code>createBuffer</code></h3>
 
     
         <div class="args">
@@ -763,7 +797,7 @@
             
         
         
-        <a href="../files/src_render_GLArrayBuffer.ts.html#l86"><code>src\render\GLArrayBuffer.ts:86</code></a>
+        <a href="../files/src_render_GLArrayBuffer.ts.html#l100"><code>src\render\GLArrayBuffer.ts:100</code></a>
         
         </p>
 
@@ -774,7 +808,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Creates the array buffer.</p>
+
     </div>
 
     
@@ -820,6 +855,239 @@
 </div>
 
                 
+                    <div id="method_deleteBuffer" class="method item public">
+    <h3 class="name"><code>deleteBuffer</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLArrayBuffer.ts.html#l131"><code>src\render\GLArrayBuffer.ts:131</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Deletes the array buffer.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_uploadBuffer" class="method item public">
+    <h3 class="name"><code>uploadBuffer</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>items</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLArrayBuffer.ts.html#l113"><code>src\render\GLArrayBuffer.ts:113</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Uploads the array buffer.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">items</code>
+                        <span class="type">Array</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
             </div>
         
 
@@ -853,7 +1121,7 @@
             
         
         
-        <a href="../files/src_render_GLArrayBuffer.ts.html#l53"><code>src\render\GLArrayBuffer.ts:53</code></a>
+        <a href="../files/src_render_GLArrayBuffer.ts.html#l67"><code>src\render\GLArrayBuffer.ts:67</code></a>
         
         </p>
 
@@ -863,7 +1131,102 @@
     </div>
 
     <div class="description">
+        <p>The WebGL buffer Object</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_created" class="property item public">
+    <h3 class="name"><code>created</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
         
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLArrayBuffer.ts.html#l34"><code>src\render\GLArrayBuffer.ts:34</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns whether the buffer has been created</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_created" class="property item public">
+    <h3 class="name"><code>created</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLArrayBuffer.ts.html#l47"><code>src\render\GLArrayBuffer.ts:47</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns whether the buffer has been uploaded to video memory</p>
+
     </div>
 
     
@@ -899,7 +1262,7 @@
             
         
         
-        <a href="../files/src_render_GLArrayBuffer.ts.html#l45"><code>src\render\GLArrayBuffer.ts:45</code></a>
+        <a href="../files/src_render_GLArrayBuffer.ts.html#l59"><code>src\render\GLArrayBuffer.ts:59</code></a>
         
         </p>
 
@@ -909,7 +1272,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The items ito upload to the buffer</p>
+
     </div>
 
     
@@ -945,7 +1309,7 @@
             
         
         
-        <a href="../files/src_render_GLArrayBuffer.ts.html#l61"><code>src\render\GLArrayBuffer.ts:61</code></a>
+        <a href="../files/src_render_GLArrayBuffer.ts.html#l75"><code>src\render\GLArrayBuffer.ts:75</code></a>
         
         </p>
 
@@ -955,7 +1319,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The size of each item in the buffer.</p>
+
     </div>
 
     
@@ -991,7 +1356,7 @@
             
         
         
-        <a href="../files/src_render_GLArrayBuffer.ts.html#l69"><code>src\render\GLArrayBuffer.ts:69</code></a>
+        <a href="../files/src_render_GLArrayBuffer.ts.html#l83"><code>src\render\GLArrayBuffer.ts:83</code></a>
         
         </p>
 
@@ -1001,7 +1366,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The number of items in the buffer</p>
+
     </div>
 
     
@@ -1039,7 +1405,7 @@
             
         
         
-        <a href="../files/src_render_GLArrayBuffer.ts.html#l151"><code>src\render\GLArrayBuffer.ts:151</code></a>
+        <a href="../files/src_render_GLArrayBuffer.ts.html#l176"><code>src\render\GLArrayBuffer.ts:176</code></a>
         
         </p>
 
@@ -1089,7 +1455,7 @@
             
         
         
-        <a href="../files/src_render_GLArrayBuffer.ts.html#l136"><code>src\render\GLArrayBuffer.ts:136</code></a>
+        <a href="../files/src_render_GLArrayBuffer.ts.html#l161"><code>src\render\GLArrayBuffer.ts:161</code></a>
         
         </p>
 
@@ -1139,7 +1505,7 @@
             
         
         
-        <a href="../files/src_render_GLArrayBuffer.ts.html#l121"><code>src\render\GLArrayBuffer.ts:121</code></a>
+        <a href="../files/src_render_GLArrayBuffer.ts.html#l146"><code>src\render\GLArrayBuffer.ts:146</code></a>
         
         </p>
 

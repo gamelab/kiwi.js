@@ -7,13 +7,14 @@
 module Kiwi {
 
     /**
-    * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager. More Cameras can always be created by used of the create method of a CameraManager. 
+    * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager. 
+    * Games currently only usupport the use of a single camera, the default camera. Much of this class has been written with future multiple camera support in mind. 
     * 
     * @class CameraManager
     * @namespace Kiwi
     * @constructor
-    * @param {Game} game
-    * @return {CameraManager} 
+    * @param {Kiwi.Game} game
+    * @return {Kiwi.CameraManager} 
     */
     export class CameraManager {
          
@@ -38,7 +39,7 @@ module Kiwi {
         /**
 		* The game this object belongs to
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private
     	*/
         private _game: Kiwi.Game;
@@ -46,7 +47,7 @@ module Kiwi {
         /**
 		* A collection of cameras
         * @property _cameras
-        * @type Camara[]
+        * @type Array
         * @private
     	*/
         private _cameras: Kiwi.Camera[];
@@ -62,7 +63,7 @@ module Kiwi {
         /**
 		* The default camera that is on this manager.
         * @property defaultCamera
-        * @type Camara
+        * @type Kiwi.Camara
         * @public
     	*/
         public defaultCamera: Kiwi.Camera;
@@ -86,7 +87,7 @@ module Kiwi {
         * @param {Number} y. The y position of the new camera.
         * @param {Number} width. The width of the new camera.
         * @param {Number} height. The height of the new camera.
-        * @return {Camera} The new camera object.
+        * @return {Kiwi.Camera} The new camera object.
         * @public
         */
         public create(name: string, x: number, y: number, width: number, height: number): Kiwi.Camera {
@@ -104,7 +105,7 @@ module Kiwi {
         /**
 		* Removes the given camera, if it is present in the camera managers camera collection.
         * @method remove
-        * @param camera {Camera}
+        * @param camera {Kiwi.Camera}
         * @return {boolean} True if the camera was removed, false otherwise.
         * @public
     	*/
@@ -149,12 +150,8 @@ module Kiwi {
                 return false;
             }
 
-
             //render each camera
             for (var i = 0; i < this._cameras.length; i++) {
-                //render each layer
-                //this._game.layers.render(this._cameras[i]);
-
                 this._cameras[i].render();
             }
 
@@ -166,7 +163,7 @@ module Kiwi {
         * @public
     	*/
         public removeAll() {
-            this._cameras.length = 0; //are you sure.
+            this._cameras = []; 
         }
 
     }

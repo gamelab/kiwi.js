@@ -16,7 +16,7 @@ module Kiwi.Textures {
     * @namespace Kiwi.Textures
     * @constructor
     * @param game {Game} The game that this texture library belongs to.
-    * @return {TextureLibrary}
+    * @return {Kiwi.TextureLibrary}
     *
     */
     export class TextureLibrary {
@@ -68,7 +68,7 @@ module Kiwi.Textures {
         /**
         * Adds a texture atlas to the library.
         * @method add
-        * @param atlas {TextureAtlas}
+        * @param atlas {Kiwi.Textures.TextureAtlas}
         * @public
         */
         public add(atlas: TextureAtlas) {
@@ -87,7 +87,7 @@ module Kiwi.Textures {
         /**
         * Adds a new image file to the texture library.
         * @method addFromFile
-        * @param imageFile {File}
+        * @param imageFile {Kiwi.File}
         * @public
         */
         public addFromFile(imageFile: Kiwi.Files.File) {
@@ -116,8 +116,8 @@ module Kiwi.Textures {
         /**
         * Used to rebuild a Texture from the FileStore into a base2 size if it doesn't have it already.
         * @method _rebuildImage
-        * @param imageFile {File} The image file that is to be rebuilt.
-        * @return {File} The new image file.
+        * @param imageFile {Kiwi.File} The image file that is to be rebuilt.
+        * @return {Kiwi.File} The new image file.
         * @private
         */
         private _rebuildImage(imageFile: Kiwi.Files.File): Kiwi.Files.File {
@@ -163,8 +163,8 @@ module Kiwi.Textures {
         /**
         * Used to build a new texture atlas based on the image file provided. Internal use only.
         * @method _buildTextureAtlas
-        * @param imageFile {File} The image file that is to be used.
-        * @return {TextureAtlas} The new texture atlas that is created.
+        * @param imageFile {Kiwi.File} The image file that is to be used.
+        * @return {Kiwi.Textures.TextureAtlas} The new texture atlas that is created.
         * @private
         */
         private _buildTextureAtlas(imageFile: Kiwi.Files.File): Kiwi.Textures.TextureAtlas {
@@ -183,8 +183,8 @@ module Kiwi.Textures {
         /**
         * Builds a spritesheet atlas from the an image file that is provided.
         * @method _buildSpriteSheet
-        * @param imageFile {File} The image file that is to be used.
-        * @return {SpriteSheet} The SpriteSheet that was just created.
+        * @param imageFile {Kiwi.File} The image file that is to be used.
+        * @return {Kiwi.Textures.SpriteSheet} The SpriteSheet that was just created.
         * @private
         */
         private _buildSpriteSheet(imageFile:Kiwi.Files.File): Kiwi.Textures.SpriteSheet {
@@ -200,7 +200,7 @@ module Kiwi.Textures {
         * Builds a single image atlas from a image file that is provided.
         * @method _buildImage
         * @param imageFile {File} The image file that is to be used.
-        * @return {SingleImage} The SingleImage that was created.
+        * @return {Kiwi.Textures.SingleImage} The SingleImage that was created.
         * @private
         */
         private _buildImage(imageFile: Kiwi.Files.File): Kiwi.Textures.SingleImage {

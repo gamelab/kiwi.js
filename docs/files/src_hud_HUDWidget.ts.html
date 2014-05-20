@@ -41,16 +41,6 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
-            
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Sequence.html">Kiwi.Animations.Sequence</a></li>
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -359,11 +363,11 @@ module Kiwi.HUD {
     * @class HUDWidget
     * @namespace Kiwi.HUD
     * @constructor
-    * @param game {Game}  The game that this HUDWidget belongs to.
+    * @param game {Kiwi.Game}  The game that this HUDWidget belongs to.
     * @param name {string} Name of the type of HUDWidget.
     * @param x {number} The coordinates of this HUDWidget on the x-axis.
     * @param y {number} The coordinates of this HUDWidget on the y-axis.
-    * @return {HUDWidget}
+    * @return {Kiwi.HUD.HUDWidget}
     */
     export class HUDWidget {
         
@@ -392,7 +396,7 @@ module Kiwi.HUD {
         /**
         * Returns the type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} &quot;HUDWidget&quot;
         * @public
         */
         public objType(): string {
@@ -403,7 +407,7 @@ module Kiwi.HUD {
         * The HUDManager that this widget &#x27;belongs&#x27; to.
         * This is mainly indented for INTERNAL Kiwi use only and is public so that sub classes can have a reference to it.
         * @property _manager
-        * @type HUDManager
+        * @type Kiwi.HUD.HUDManager
         * @protected
         */
         public _manager: Kiwi.HUD.HUDManager;
@@ -421,7 +425,7 @@ module Kiwi.HUD {
         /**
         * The game that this HUDWidget belongs to.
         * @property game
-        * @type Game
+        * @type Kiwi.Game
         * @public
         */
         public game: Kiwi.Game;
@@ -446,7 +450,7 @@ module Kiwi.HUD {
         /**
         * Called when the coordinates of the HUD Widget updates.
         * @property onCoordsUpdate
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public onCoordsUpdate: Kiwi.Signal;
@@ -508,7 +512,7 @@ module Kiwi.HUD {
         /**
         * The list of components that the HUDWidget use&#x27;s.
         * @property components
-        * @type ComponentManager
+        * @type Kiwi.ComponentManager
         * @public
         */
         public components: Kiwi.ComponentManager;

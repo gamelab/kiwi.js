@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Kiwi.System.Browser - Kiwi.js</title>
+    <title>Kiwi.Shaders.ShaderManager - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -340,21 +344,25 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Kiwi.System.Browser Class</h1>
+                        <h1>Kiwi.Shaders.ShaderManager Class</h1>
 <div class="box meta">
     
 
     
+        <div class="extends">
+            Extends IRenderer
+        </div>
+    
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_system_Browser.ts.html#l10"><code>src\system\Browser.ts:10</code></a>
+            Defined in: <a href="../files/src_render_GLShaderManager.ts.html#l25"><code>src\render\GLShaderManager.ts:25</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/System.html">System</a><br>
+            Module: <a href="../modules/Shaders.html">Shaders</a><br>
             Parent Module: <a href="../modules/Kiwi.html">Kiwi</a>
         
     
@@ -365,34 +373,26 @@
 
 
 <div class="box intro">
-    <p>Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser
-Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src/offset.js">https://github.com/jquery/jquery/blob/master/src/offset.js</a></p>
+    <p>Manages all WebGL Shaders. Maintains a list of ShaderPairs </p>
+<p>Provides an interface for using a specific ShaderPair, adding new ShaderPairs, and requesting a reference to a ShaderPair instance.
+Renderes use shaderPairs to draw. Multiple renderers may use the same compiled shader program.
+This Manager ensures only one compiled instance of each program is created</p>
 
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Kiwi.System.Browser" class="method item">
-    <h3 class="name"><code>Kiwi.System.Browser</code></h3>
+        <div id="method_Kiwi.Shaders.ShaderManager" class="method item">
+    <h3 class="name"><code>Kiwi.Shaders.ShaderManager</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>game</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
         <span class="returns-inline">
-            <span class="type">StateMananger</span>
+            <span class="type"><a href="..\classes\Kiwi.Shaders.ShaderManager.html" class="crosslink">Kiwi.Shaders.ShaderManager</a></span>
         </span>
     
 
@@ -419,7 +419,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
         
         
-        <a href="../files/src_system_Browser.ts.html#l10"><code>src\system\Browser.ts:10</code></a>
+        <a href="../files/src_render_GLShaderManager.ts.html#l25"><code>src\render\GLShaderManager.ts:25</code></a>
         
         </p>
 
@@ -434,29 +434,6 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
     </div>
 
     
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">game</code>
-                        <span class="type">Game</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
 
     
         <div class="returns">
@@ -465,10 +442,8 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             <div class="returns-description">
                 
                     
-                        <span class="type">StateMananger</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Shaders.ShaderManager.html" class="crosslink">Kiwi.Shaders.ShaderManager</a></span>:
                     
-                    <p>This Object</p>
-
                 
             </div>
         </div>
@@ -502,24 +477,45 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
+                    <ul class="index-list methods extends">
                         
-                            <li class="index-item method">
-                                <a href="#method_boot">boot</a>
+                            <li class="index-item method private">
+                                <a href="#method__addShader">_addShader</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__loadShader">_loadShader</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__useShader">_useShader</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_getOffsetPoint">getOffsetPoint</a>
+                                <a href="#method_init">init</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_objType">objType</a>
+                                <a href="#method_init">init</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_shaderExists">shaderExists</a>
 
                                 
                                 
@@ -533,10 +529,17 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties">
+                    <ul class="index-list properties extends">
                         
                             <li class="index-item property private">
-                                <a href="#property__game">_game</a>
+                                <a href="#property__shaderPairs">_shaderPairs</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property_currentShader">currentShader</a>
 
                                 
                                 
@@ -556,63 +559,8 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_boot" class="method item">
-    <h3 class="name"><code>boot</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_system_Browser.ts.html#l47"><code>src\system\Browser.ts:47</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The DOM is ready, so if we have a current state pending we can init it now</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_getOffsetPoint" class="method item public">
-    <h3 class="name"><code>getOffsetPoint</code></h3>
+                    <div id="method__addShader" class="method item private">
+    <h3 class="name"><code>_addShader</code></h3>
 
     
         <div class="args">
@@ -620,13 +568,13 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
                 <li class="arg">
                     
-                        <code>element</code>
+                        <code>gl</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>output</code>
+                        <code>shaderID</code>
                     
                 </li>
             
@@ -636,14 +584,14 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
 
     
         <span class="returns-inline">
-            <span class="type">Point</span>
+            <span class="type"><a href="..\classes\Kiwi.Shaders.ShaderPair.html" class="crosslink">Kiwi.Shaders.ShaderPair</a></span>
         </span>
     
 
     
 
     
-        <span class="flag public">public</span>
+        <span class="flag private">private</span>
     
 
     
@@ -665,7 +613,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
         
         
-        <a href="../files/src_system_Browser.ts.html#l55"><code>src\system\Browser.ts:55</code></a>
+        <a href="../files/src_render_GLShaderManager.ts.html#l128"><code>src\render\GLShaderManager.ts:128</code></a>
         
         </p>
 
@@ -676,7 +624,8 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
     </div>
 
     <div class="description">
-        
+        <p>Creates a new instance of a ShaderPair and adds a reference to the _shaderPairs object</p>
+
     </div>
 
     
@@ -687,8 +636,8 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
                 <li class="param">
                     
-                        <code class="param-name">element</code>
-                        <span class="type">Any</span>
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
                     
 
                     
@@ -702,8 +651,8 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
                 <li class="param">
                     
-                        <code class="param-name">output</code>
-                        <span class="type">Point</span>
+                        <code class="param-name">shaderID</code>
+                        <span class="type">String</span>
                     
 
                     
@@ -726,7 +675,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             <div class="returns-description">
                 
                     
-                        <span class="type">Point</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Shaders.ShaderPair.html" class="crosslink">Kiwi.Shaders.ShaderPair</a></span>:
                     
                 
             </div>
@@ -737,16 +686,365 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
 </div>
 
                 
-                    <div id="method_objType" class="method item public">
-    <h3 class="name"><code>objType</code></h3>
+                    <div id="method__loadShader" class="method item private">
+    <h3 class="name"><code>_loadShader</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>shader</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLShaderManager.ts.html#l141"><code>src\render\GLShaderManager.ts:141</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Tells a ShaderPair to load (compile and link)</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">shader</code>
+                        <span class="type"><a href="..\classes\Kiwi.Shaders.ShaderPair.html" class="crosslink">Kiwi.Shaders.ShaderPair</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__useShader" class="method item private">
+    <h3 class="name"><code>_useShader</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>shader</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLShaderManager.ts.html#l152"><code>src\render\GLShaderManager.ts:152</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Changes gl state so that the shaderProgram contined in a ShaderPir is bound for use</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">shader</code>
+                        <span class="type"><a href="..\classes\Kiwi.Shaders.ShaderPair.html" class="crosslink">Kiwi.Shaders.ShaderPair</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_init" class="method item public">
+    <h3 class="name"><code>init</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>defaultShaderID</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLShaderManager.ts.html#l64"><code>src\render\GLShaderManager.ts:64</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Sets up a default shaderPair.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">defaultShaderID</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_init" class="method item public">
+    <h3 class="name"><code>init</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>shaderID</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
         <span class="returns-inline">
-            <span class="type">String</span>
+            <span class="type"><a href="..\classes\Kiwi.Shaders.ShaderPair.html" class="crosslink">Kiwi.Shaders.ShaderPair</a></span>
         </span>
     
 
@@ -775,7 +1073,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
         
         
-        <a href="../files/src_system_Browser.ts.html#l29"><code>src\system\Browser.ts:29</code></a>
+        <a href="../files/src_render_GLShaderManager.ts.html#l76"><code>src\render\GLShaderManager.ts:76</code></a>
         
         </p>
 
@@ -786,10 +1084,51 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
     </div>
 
     <div class="description">
-        <p>The type of object that this is.</p>
+        <p>Provides a reference to a ShaderPair. If the requested ShaderPair exists as a property on the _shaderPairs object it will be returned if already loaded,
+otherwise it will be loaded, then returned.
+If the request is not on the list, the Kiwi.Shaders object will  be checked for a property name that matches shaderID and a new ShaderPair
+will be instantiated, loaded, and set for use.</p>
 
     </div>
 
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">shaderID</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -799,8 +1138,139 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             <div class="returns-description">
                 
                     
-                        <span class="type">String</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Shaders.ShaderPair.html" class="crosslink">Kiwi.Shaders.ShaderPair</a></span>:
                     
+                    <p>a ShaderPair instance - null on fail</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_shaderExists" class="method item public">
+    <h3 class="name"><code>shaderExists</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>shaderID</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLShaderManager.ts.html#l116"><code>src\render\GLShaderManager.ts:116</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Tests to see if a ShaderPair property named ShaderID exists on Kiwi.Shaders. Can be used to test for the availability of specific shaders (for fallback)</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">shaderID</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>success</p>
+
                 
             </div>
         </div>
@@ -818,9 +1288,9 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property__game" class="property item private">
-    <h3 class="name"><code>_game</code></h3>
-    <span class="type">Game</span>
+                    <div id="property__shaderPairs" class="property item private">
+    <h3 class="name"><code>_shaderPairs</code></h3>
+    <span class="type">Object</span>
 
     
 
@@ -843,7 +1313,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
         
         
-        <a href="../files/src_system_Browser.ts.html#l39"><code>src\system\Browser.ts:39</code></a>
+        <a href="../files/src_render_GLShaderManager.ts.html#l43"><code>src\render\GLShaderManager.ts:43</code></a>
         
         </p>
 
@@ -853,7 +1323,55 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
     </div>
 
     <div class="description">
+        <p>An object containing a set of properties each of which references a ShaderPair.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_currentShader" class="property item private">
+    <h3 class="name"><code>currentShader</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
         
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLShaderManager.ts.html#l51"><code>src\render\GLShaderManager.ts:51</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The shader program that is currently set to be used useing gl.useProgram.</p>
+
     </div>
 
     

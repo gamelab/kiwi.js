@@ -7,13 +7,20 @@
 module Kiwi {
 
     /**
-    * 
+    * The plugin manager registers plugins, checks plugin dependencies, and calls designated functions on each registered plugin at boot time, and during the update loop if required.
+    * Plugins are registered on the global Kiwi instance. Once a plugin in registered it is allocated a place on the Kiwi.Plugins name space.
+    * Eg. FooPlugin will be accessible at Kiwi.Plugins.FooPlugin.
+    * When a game instance is created, it can contain a list of required plugins in the configuration object. At this point the plugin manager will validate that the plugins
+    * exist, and that dependencies are met (both Kiwi version and versions of other required plugins).
+    * If the plugin has a "create" function, the plugin manager instance will call that function as part of the boot process. The create function may do anything, but usually it would create
+    * an instance of an object. 
+    * The plugin manager update function is called every update loop. If an object was created by the "create" function and it has an "update" function, that function will be called in turn.
     * @class PluginManager
     * @namespace Kiwi
     * @constructor
-    * @param game {Game} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
+    * @param game {Kiwi.Game} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
     * @param plugins {string[]} The entities position on the x axis.
-    * @return {PluginManager} This PluginManager.
+    * @return {Kiwi.PluginManager} This PluginManager.
     *
     */
     export class PluginManager {
@@ -107,7 +114,7 @@ module Kiwi {
         /**
         * An array of plugin names which the game instance has been configured to use. Each name must match the constructor function for the plugin. 
         * @property _plugins
-        * @type string[]
+        * @type Array
         * @private
         */
         private _plugins: string[];
@@ -257,8 +264,13 @@ module Kiwi {
 
         }
 
+        /**
+        * Calls the update functions on any objects that plugins used by the game instance have designated during creation. 
+        * @method update
+        * @public
+        */
+        
         public update() {
-           
             for (var i = 0; i < this._bootObjects.length; i++) {
                 if ("update" in this._bootObjects[i]) {
                     this._bootObjects[i].update.call(this._bootObjects[i]);

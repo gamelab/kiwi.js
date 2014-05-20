@@ -41,16 +41,6 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
-            
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Sequence.html">Kiwi.Animations.Sequence</a></li>
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -830,7 +834,7 @@ module Kiwi {
 
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
 
-                this.offset = this._game.browser.getOffsetPoint(this.container);
+                this.offset = this.getOffsetPoint(this.container);
 
                 this._x = this.offset.x;
                 this._y = this.offset.y;
@@ -849,6 +853,27 @@ module Kiwi {
             }
         }
         
+        /**
+        * Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser
+        * Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js 
+        * @method getOffsetPoint
+        * @param {Any} element
+        * @param {Kiwi.Geom.Point} output
+        * @return {Kiwi.Geom.Point}
+        * @public
+        */
+        public getOffsetPoint(element, output: Kiwi.Geom.Point = new Kiwi.Geom.Point): Kiwi.Geom.Point {
+
+            var box = element.getBoundingClientRect();
+
+            var clientTop = element.clientTop || document.body.clientTop || 0;
+            var clientLeft = element.clientLeft || document.body.clientLeft || 0;
+            var scrollTop = window.pageYOffset || element.scrollTop || document.body.scrollTop;
+            var scrollLeft = window.pageXOffset || element.scrollLeft || document.body.scrollLeft;
+
+            return output.setTo(box.left + scrollLeft - clientLeft, box.top + scrollTop - clientTop);
+
+        }
 
         /**
         * Method that is fired when the window is resized. 
@@ -869,7 +894,7 @@ module Kiwi {
         * @private
         */
         private _calculateContainerScale() {
-            this.offset = this._game.browser.getOffsetPoint(this.container);
+            this.offset = this.getOffsetPoint(this.container);
             this._scaleContainer();
 
             this._scale.x = this._width / this.container.clientWidth;
@@ -912,6 +937,14 @@ module Kiwi {
 
             } else if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
                 this.gl = this.canvas.getContext(&quot;webgl&quot;);
+                if (!this.gl) {
+                    this.gl = this.canvas.getContext(&quot;experimental-webgl&quot;);
+                    if (!this.gl) {
+                        console.error(&quot;Kiwi.Stage: WebGL rendering is not available despite the device apparently supporting it.&quot;); 
+                    } else {
+                        console.warn (&quot;Kiwi.Stage: &#x27;webgl&#x27; context is not available. Using &#x27;experimental-webgl&#x27;&quot;);
+                    }
+                }
                 this.gl.clearColor(1, 1, .95, .7);
                 this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
                 this.ctx = null;

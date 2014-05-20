@@ -41,16 +41,6 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
-            
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Sequence.html">Kiwi.Animations.Sequence</a></li>
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -461,7 +465,7 @@ Instead you have to add each layer lies within it. This way you can have other G
                 <li class="param">
                     
                         <code class="param-name">state</code>
-                        <span class="type">State</span>
+                        <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
                     
 
                     
@@ -494,7 +498,7 @@ Instead you have to add each layer lies within it. This way you can have other G
                 <li class="param">
                     
                         <code class="param-name optional">[atlas]</code>
-                        <span class="type">TextureAtlas</span>
+                        <span class="type"><a href="..\classes\Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
@@ -860,7 +864,7 @@ This is an INTERNAL method, which is used when the createFromFileStore method is
                 <li class="param">
                     
                         <code class="param-name">tilesetData</code>
-                        <span class="type">Any</span>
+                        <span class="type">Array</span>
                     
 
                     
@@ -876,7 +880,7 @@ This is an INTERNAL method, which is used when the createFromFileStore method is
                 <li class="param">
                     
                         <code class="param-name">atlas</code>
-                        <span class="type">TextureAtlas</span>
+                        <span class="type"><a href="..\classes\Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
                     
 
                     
@@ -983,7 +987,7 @@ This is an INTERNAL method, which is used when the createFromFileStore method is
 
     <div class="description">
         <p>Creates new tilemap layers from a JSON file that you pass (has to be in the Tiled Format).
-The texture atlas you pass is that one that eeach TileMapLayer found in the JSON will use, You can change the TextureAtlas afterwards.
+The texture atlas you pass is that one that each TileMapLayer found in the JSON will use, You can change the TextureAtlas afterwards.
 New TileTypes will automatically be created. The number is based on the Tileset parameter of the JSON. 
 The cell used for new TileTypes will begin at 0 and increment each time a new TileType is created (and a cell exists). Otherwise new TileTypes will start will a cell of -1 (none).</p>
 
@@ -1014,7 +1018,7 @@ The cell used for new TileTypes will begin at 0 and increment each time a new Ti
                 <li class="param">
                     
                         <code class="param-name">atlas</code>
-                        <span class="type">TextureAtlas</span>
+                        <span class="type"><a href="..\classes\Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
                     
 
                     
@@ -1193,7 +1197,7 @@ Returns the new TileMapLayer that was created.</p>
                 <li class="param">
                     
                         <code class="param-name">atlas</code>
-                        <span class="type">TextureAtlas</span>
+                        <span class="type"><a href="..\classes\Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
                     
 
                     
@@ -2515,7 +2519,7 @@ Returns null if no layer with that name was found.</p>
                 
                     <div id="property_game" class="property item public">
     <h3 class="name"><code>game</code></h3>
-    <span class="type">Game</span>
+    <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
 
     
 
@@ -2692,7 +2696,7 @@ This value is in Tiles.</p>
     </div>
 
     <div class="description">
-        <p>A list of all of the TileMapLayers that exist on thie TileMap.</p>
+        <p>A list of all of the TileMapLayers that exist on the TileMap.</p>
 
     </div>
 
@@ -2801,7 +2805,7 @@ Note: This value does not affect the individual layers.</p>
                 
                     <div id="property_state" class="property item public">
     <h3 class="name"><code>state</code></h3>
-    <span class="type">State</span>
+    <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
 
     
 

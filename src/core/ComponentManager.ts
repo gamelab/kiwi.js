@@ -7,15 +7,16 @@
 module Kiwi {
 
     /**
-    * The component manager is a class that is used to handle a number of components that are active on a particular object.
-    * This way if you want to check to see if a particular component is on an object you can ask the component manager, 
-    * Or when updating components you can tell the component manager to update and all of the components will update as well.
+    * The component manager is a class that is used to handle components that are active on a particular object. Any object
+    * that has a component manager attached to it can use components.
+    * If you want to check to see if a particular component is on an object you can ask the component manager, 
+    * or when updating components you can tell the component manager to update and all of the components will update as well.
     *
     * @class ComponentManager
     * @namespace Kiwi
     * @constructor
     * @param type {number} - The type of object that this component manager's owner is.
-    * @param owner {IChild} - The owner of this component manager.
+    * @param owner {Object} - The owner of this component manager.
     * @return {ComponentManager} 
     * 
     */
@@ -43,7 +44,7 @@ module Kiwi {
         /**
         * The owner of this Component Manager
         * @property _owner
-        * @type {any}
+        * @type {object}
         * @private
         */
         private _owner: any;
@@ -59,7 +60,7 @@ module Kiwi {
         /**
         * A list of all components that are currently on the ComponentManager
         * @property _components
-        * @type Component 
+        * @type Kiwi.Component 
         * @private
         */
         public _components;
@@ -102,7 +103,7 @@ module Kiwi {
         * Get an existing component that has been added to the layer by its name
         * @method getComponent
         * @param value {String} The component name
-        * @return {Component} The component, if found, otherwise null
+        * @return {Kiwi.Component} The component, if found, otherwise null
         * @public
         */
         public getComponent(value: string): any {
@@ -117,8 +118,8 @@ module Kiwi {
         /**
         * Adds a Component to the manager.
         * @method add
-        * @param component {Component} The component to add
-        * @return {Component} The component that was added
+        * @param component {Kiwi.Component} The component to add
+        * @return {Kiwi.Component} The component that was added
         * @public
         */
         public add(component: Kiwi.Component): any {
@@ -131,7 +132,7 @@ module Kiwi {
         /** 
         * Adds a batch of components to the manager at a single time. 
         * @method addBatch
-        * @param value* {Component} The component/s that you would like to add.
+        * @param value* {Kiwi.Component} The component/s that you would like to add.
         * @public
         */
         public addBatch(...paramsArr: any[]) {
@@ -145,7 +146,7 @@ module Kiwi {
         /**
         * Removes a component from the component manager
         * @method removeComponent
-        * @param component {Component} The component to be removed.
+        * @param component {Kiwi.Component} The component to be removed.
         * @param [destroy=true] {boolean} If the destroy method is to be called on the component when it is removed.
         * @return {boolean} true if the component was removed successfully
         * @public

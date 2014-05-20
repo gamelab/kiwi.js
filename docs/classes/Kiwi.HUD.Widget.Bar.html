@@ -41,16 +41,6 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
-            
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Sequence.html">Kiwi.Animations.Sequence</a></li>
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -346,7 +350,7 @@
 
     
         <div class="extends">
-            Extends HUDWidget
+            Extends <a href="..\classes\Kiwi.HUD.HUDWidget.html" class="crosslink">Kiwi.HUD.HUDWidget</a>
         </div>
     
 
@@ -439,7 +443,7 @@ You can control the minimum/maximum and current values of the bar through the Co
 
     
         <span class="returns-inline">
-            <span class="type">Bar</span>
+            <span class="type"><a href="..\classes\Kiwi.HUD.Widget.Bar.html" class="crosslink">Kiwi.HUD.Widget.Bar</a></span>
         </span>
     
 
@@ -489,7 +493,7 @@ You can control the minimum/maximum and current values of the bar through the Co
                 <li class="param">
                     
                         <code class="param-name">game</code>
-                        <span class="type">Game</span>
+                        <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
                     
 
                     
@@ -628,7 +632,7 @@ You can control the minimum/maximum and current values of the bar through the Co
             <div class="returns-description">
                 
                     
-                        <span class="type">Bar</span>:
+                        <span class="type"><a href="..\classes\Kiwi.HUD.Widget.Bar.html" class="crosslink">Kiwi.HUD.Widget.Bar</a></span>:
                     
                 
             </div>
@@ -665,22 +669,36 @@ You can control the minimum/maximum and current values of the bar through the Co
 
                     <ul class="index-list methods extends">
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
+                                <a href="#method_destroy">destroy</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
                                 <a href="#method_objType">objType</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
                                 <a href="#method_removeTemplate">removeTemplate</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
                                 <a href="#method_setTemplate">setTemplate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_update">update</a>
 
                                 
                                 
@@ -710,6 +728,13 @@ You can control the minimum/maximum and current values of the bar through the Co
                                 
                             </li>
                         
+                            <li class="index-item property protected inherited">
+                                <a href="#property__device">_device</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property private">
                                 <a href="#property__height">_height</a>
 
@@ -724,8 +749,43 @@ You can control the minimum/maximum and current values of the bar through the Co
                                 
                             </li>
                         
+                            <li class="index-item property protected inherited">
+                                <a href="#property__manager">_manager</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private inherited">
+                                <a href="#property__tempContainer">_tempContainer</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private inherited">
+                                <a href="#property__tempParent">_tempParent</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property private">
                                 <a href="#property__width">_width</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private inherited">
+                                <a href="#property__x">_x</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private inherited">
+                                <a href="#property__y">_y</a>
 
                                 
                                 
@@ -738,8 +798,36 @@ You can control the minimum/maximum and current values of the bar through the Co
                                 
                             </li>
                         
+                            <li class="index-item property public inherited">
+                                <a href="#property_class">class</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited inherited">
+                                <a href="#property_"></a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_components">components</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property public">
                                 <a href="#property_counter">counter</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_game">game</a>
 
                                 
                                 
@@ -759,6 +847,27 @@ You can control the minimum/maximum and current values of the bar through the Co
                                 
                             </li>
                         
+                            <li class="index-item property public inherited">
+                                <a href="#property_onCoordsUpdate">onCoordsUpdate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_style">style</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_tempElement">tempElement</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property public">
                                 <a href="#property_verticle">verticle</a>
 
@@ -768,6 +877,20 @@ You can control the minimum/maximum and current values of the bar through the Co
                         
                             <li class="index-item property public">
                                 <a href="#property_width">width</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_x">x</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_y">y</a>
 
                                 
                                 
@@ -785,6 +908,59 @@ You can control the minimum/maximum and current values of the bar through the Co
         
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_destroy" class="method item public inherited">
+    <h3 class="name"><code>destroy</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.HUD.HUDWidget.html#method_destroy">Kiwi.HUD.HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l296"><code>src\hud\HUDWidget.ts:296</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
 
                 
                     <div id="method_objType" class="method item public">
@@ -816,12 +992,12 @@ You can control the minimum/maximum and current values of the bar through the Co
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Kiwi.HUD.HUDWidget.html#method_objType">
+                Kiwi.HUD.HUDWidget
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
@@ -851,6 +1027,8 @@ You can control the minimum/maximum and current values of the bar through the Co
                     
                         <span class="type">String</span>:
                     
+                    <p>&quot;BarWidget&quot;</p>
+
                 
             </div>
         </div>
@@ -885,12 +1063,12 @@ You can control the minimum/maximum and current values of the bar through the Co
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Kiwi.HUD.HUDWidget.html#method_removeTemplate">
+                Kiwi.HUD.HUDWidget
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
@@ -959,12 +1137,12 @@ Current not supported.</p>
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Kiwi.HUD.HUDWidget.html#method_setTemplate">
+                Kiwi.HUD.HUDWidget
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
@@ -1025,6 +1203,60 @@ Currently not supported.</p>
             
             </ul>
         </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_update" class="method item public inherited">
+    <h3 class="name"><code>update</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.HUD.HUDWidget.html#method_update">Kiwi.HUD.HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l287"><code>src\hud\HUDWidget.ts:287</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The game update loop.</p>
+
+    </div>
+
     
 
     
@@ -1146,6 +1378,52 @@ This should be overriden by subclasses so that you have your own custom bars.</p
 </div>
 
                 
+                    <div id="property__device" class="property item protected inherited">
+    <h3 class="name"><code>_device</code></h3>
+    <span class="type">_device</span>
+
+    
+
+    
+        <span class="flag protected">protected</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.HUD.HUDWidget.html#property__device">Kiwi.HUD.HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l65"><code>src\hud\HUDWidget.ts:65</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The type of device that this game is being targeted at. Same as the deviceTargetOption on the game class.
+Used to detirmine how the HUD is to be managed behind the scenes.
+This is mainly indented for INTERNAL Kiwi use only and is public so that sub classes can have a reference to it.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property__height" class="property item private">
     <h3 class="name"><code>_height</code></h3>
     <span class="type">Number</span>
@@ -1240,6 +1518,141 @@ This should be overriden by subclasses so that you have your own custom bars.</p
 </div>
 
                 
+                    <div id="property__manager" class="property item protected inherited">
+    <h3 class="name"><code>_manager</code></h3>
+    <span class="type"><a href="..\classes\Kiwi.HUD.HUDManager.html" class="crosslink">Kiwi.HUD.HUDManager</a></span>
+
+    
+
+    
+        <span class="flag protected">protected</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.HUD.HUDWidget.html#property__manager">Kiwi.HUD.HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l56"><code>src\hud\HUDWidget.ts:56</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The HUDManager that this widget &#39;belongs&#39; to.
+This is mainly indented for INTERNAL Kiwi use only and is public so that sub classes can have a reference to it.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__tempContainer" class="property item private inherited">
+    <h3 class="name"><code>_tempContainer</code></h3>
+    <span class="type">HTMLElement</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.HUD.HUDWidget.html#property__tempContainer">Kiwi.HUD.HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l204"><code>src\hud\HUDWidget.ts:204</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The container element for the template
+Currently doesn&#39;t have that great support.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__tempParent" class="property item private inherited">
+    <h3 class="name"><code>_tempParent</code></h3>
+    <span class="type">HTMLElement</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.HUD.HUDWidget.html#property__tempParent">Kiwi.HUD.HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l195"><code>src\hud\HUDWidget.ts:195</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The parent of the template container. So that when removing a template we can place it in the right spot
+Currently doesn&#39;t have that great support.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property__width" class="property item private">
     <h3 class="name"><code>_width</code></h3>
     <span class="type">Number</span>
@@ -1276,6 +1689,94 @@ This should be overriden by subclasses so that you have your own custom bars.</p
 
     <div class="description">
         <p>The width of the container</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__x" class="property item private inherited">
+    <h3 class="name"><code>_x</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.HUD.HUDWidget.html#property__x">Kiwi.HUD.HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l108"><code>src\hud\HUDWidget.ts:108</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The x coordinate of the widget</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__y" class="property item private inherited">
+    <h3 class="name"><code>_y</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.HUD.HUDWidget.html#property__y">Kiwi.HUD.HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l135"><code>src\hud\HUDWidget.ts:135</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The y coordinate of the widget</p>
 
     </div>
 
@@ -1334,9 +1835,144 @@ This should be overriden by subclasses so that you have your own custom bars.</p
 </div>
 
                 
+                    <div id="property_class" class="property item public inherited">
+    <h3 class="name"><code>class</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.HUD.HUDWidget.html#property_class">Kiwi.HUD.HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l270"><code>src\hud\HUDWidget.ts:270</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The class name/s that the container element that this HUDWidget current has.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_" class="property item public inherited">
+    <h3 class="name"><code></code></h3>
+    <span class="type">HTMLDivElement</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            <p>Inherited from
+            <a href="..\classes\Kiwi.HUD.HUDWidget.html#property_">
+                Kiwi.HUD.HUDWidget
+            </a>
+            
+            but overwritten in
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l170"><code>src\hud\HUDWidget.ts:170</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The HTMLDivElement that this widget is using.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_components" class="property item public inherited">
+    <h3 class="name"><code>components</code></h3>
+    <span class="type"><a href="..\classes\Kiwi.ComponentManager.html" class="crosslink">Kiwi.ComponentManager</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.HUD.HUDWidget.html#property_components">Kiwi.HUD.HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l162"><code>src\hud\HUDWidget.ts:162</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The list of components that the HUDWidget use&#39;s.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_counter" class="property item public">
     <h3 class="name"><code>counter</code></h3>
-    <span class="type">Counter</span>
+    <span class="type"><a href="..\classes\Kiwi.HUD.HUDComponents.Counter.html" class="crosslink">Kiwi.HUD.HUDComponents.Counter</a></span>
 
     
 
@@ -1370,6 +2006,50 @@ This should be overriden by subclasses so that you have your own custom bars.</p
 
     <div class="description">
         <p>The counter component.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_game" class="property item public inherited">
+    <h3 class="name"><code>game</code></h3>
+    <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.HUD.HUDWidget.html#property_game">Kiwi.HUD.HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l75"><code>src\hud\HUDWidget.ts:75</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The game that this HUDWidget belongs to.</p>
 
     </div>
 
@@ -1475,6 +2155,139 @@ This should be overriden by subclasses so that you have your own custom bars.</p
 </div>
 
                 
+                    <div id="property_onCoordsUpdate" class="property item public inherited">
+    <h3 class="name"><code>onCoordsUpdate</code></h3>
+    <span class="type"><a href="..\classes\Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.HUD.HUDWidget.html#property_onCoordsUpdate">Kiwi.HUD.HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l100"><code>src\hud\HUDWidget.ts:100</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Called when the coordinates of the HUD Widget updates.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_style" class="property item public inherited">
+    <h3 class="name"><code>style</code></h3>
+    <span class="type">Any</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.HUD.HUDWidget.html#property_style">Kiwi.HUD.HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l83"><code>src\hud\HUDWidget.ts:83</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A quick way to reference the style object that exists on the container element of this widget.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_tempElement" class="property item public inherited">
+    <h3 class="name"><code>tempElement</code></h3>
+    <span class="type">HTMLElement</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.HUD.HUDWidget.html#property_tempElement">Kiwi.HUD.HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l186"><code>src\hud\HUDWidget.ts:186</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>When a template has been set, this property will have a reference to the HTMLElement we can place the HUDWidget information into.
+Currently doesn&#39;t have that great support.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_verticle" class="property item public">
     <h3 class="name"><code>verticle</code></h3>
     <span class="type">Boolean</span>
@@ -1558,6 +2371,94 @@ This should be overriden by subclasses so that you have your own custom bars.</p
 
     <div class="description">
         <p>The width of the container</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_x" class="property item public inherited">
+    <h3 class="name"><code>x</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.HUD.HUDWidget.html#property_x">Kiwi.HUD.HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l116"><code>src\hud\HUDWidget.ts:116</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Get the x coordinate of the widget</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_y" class="property item public inherited">
+    <h3 class="name"><code>y</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.HUD.HUDWidget.html#property_y">Kiwi.HUD.HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l143"><code>src\hud\HUDWidget.ts:143</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Get the y coordinate of the widget</p>
 
     </div>
 

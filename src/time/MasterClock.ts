@@ -15,7 +15,7 @@ module Kiwi.Time {
     * @class MasterClock
     * @namespace Kiwi.Time
     * @constructor
-    * @return {MasterClock} This Object.
+    * @return {Kiwi.Time.MasterClock} This Object.
     *
     */
     export class MasterClock {

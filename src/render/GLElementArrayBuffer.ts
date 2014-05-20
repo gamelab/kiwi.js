@@ -8,7 +8,7 @@
 module Kiwi.Renderers {
 
     /**
-    *
+    * Encapsulates a WebGL E;ement Array Buffer
     * @class GLElementArrayBuffer
     * @constructor
     * @namespace Kiwi.Renderers
@@ -31,7 +31,7 @@ module Kiwi.Renderers {
         }
         
         /**
-        * 
+        * An array of indices
         * @property indices
         * @type number[]
         * @public
@@ -39,7 +39,7 @@ module Kiwi.Renderers {
         public indices: number[];
         
         /**
-        * 
+        * The Element Array Buffer object
         * @property buffer
         * @type WebGLBuffer
         * @public
@@ -47,7 +47,7 @@ module Kiwi.Renderers {
         public buffer: WebGLBuffer;
         
         /**
-        * 
+        * The size of each buffer item
         * @property itemSize
         * @type number
         * @public
@@ -55,7 +55,7 @@ module Kiwi.Renderers {
         public itemSize: number;
         
         /**
-        * 
+        * The numbe of items in the buffer
         * @property numItems
         * @type number
         * @public
@@ -63,7 +63,7 @@ module Kiwi.Renderers {
         public numItems: number;
         
         /**
-        * 
+        * Clears the indices array.
         * @method clear
         * @public
         */
@@ -72,7 +72,7 @@ module Kiwi.Renderers {
         }
 
         /**
-        *
+        * Initialises the Element Array Buffer
         * @method init
         * @param gl {WebGLRenderingContext}
         * @return {WebGLBuffer}
@@ -87,7 +87,7 @@ module Kiwi.Renderers {
         }
         
         /**
-        *
+        * Refreshes the Element Array Buffer
         * @method refresh
         * @param gl {WebGLRenderingContext}
         * @param indices {number[]} 
@@ -103,7 +103,7 @@ module Kiwi.Renderers {
         }
         
         /**
-        *
+        * The required indices for a single quad.
         * @property square 
         * @static
         * @type number[]

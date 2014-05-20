@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Kiwi.StateConfig - Kiwi.js</title>
+    <title>Kiwi.Renderers.Renderer - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -344,7 +344,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Kiwi.StateConfig Class</h1>
+                        <h1>Kiwi.Renderers.Renderer Class</h1>
 <div class="box meta">
     
 
@@ -352,13 +352,14 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_core_StateConfig.ts.html#l9"><code>src\core\StateConfig.ts:9</code></a>
+            Defined in: <a href="../files/src_render_renderers_Renderer.ts.html#l14"><code>src\render\renderers\Renderer.ts:14</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/Kiwi.html">Kiwi</a>
+            Module: <a href="../modules/Renderers.html">Renderers</a><br>
+            Parent Module: <a href="../modules/Kiwi.html">Kiwi</a>
         
     
 
@@ -368,15 +369,15 @@
 
 
 <div class="box intro">
-    <p>A lightweight object that contains values relating to the configuration of a State in a Kiwi Game.</p>
+    <p>Base class for WebGL Renderers. Not for instantiation.</p>
 
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Kiwi.StateConfig" class="method item">
-    <h3 class="name"><code>Kiwi.StateConfig</code></h3>
+        <div id="method_Kiwi.Renderers.Renderer" class="method item">
+    <h3 class="name"><code>Kiwi.Renderers.Renderer</code></h3>
 
     
         <div class="args">
@@ -384,13 +385,19 @@
             
                 <li class="arg">
                     
-                        <code>parent</code>
+                        <code>gl</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>name</code>
+                        <code>shaderManager</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[params=null]</code>
                     
                 </li>
             
@@ -400,7 +407,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.StateConfig.html" class="crosslink">Kiwi.StateConfig</a></span>
+            <span class="type"><a href="..\classes\Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>
         </span>
     
 
@@ -427,7 +434,7 @@
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l9"><code>src\core\StateConfig.ts:9</code></a>
+        <a href="../files/src_render_renderers_Renderer.ts.html#l14"><code>src\render\renderers\Renderer.ts:14</code></a>
         
         </p>
 
@@ -449,15 +456,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">parent</code>
-                        <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The State that this configuration object belongs to.</p>
-
+                         
                     </div>
 
                     
@@ -465,15 +471,30 @@
             
                 <li class="param">
                     
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
+                        <code class="param-name">shaderManager</code>
+                        <span class="type"><a href="..\classes\Kiwi.Shaders.ShaderManager.html" class="crosslink">Kiwi.Shaders.ShaderManager</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The name of the state which was created.</p>
+                         
+                    </div>
 
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[params=null]</code>
+                        <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
                     </div>
 
                     
@@ -490,7 +511,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.StateConfig.html" class="crosslink">Kiwi.StateConfig</a></span>:
+                        <span class="type"><a href="..\classes\Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>:
                     
                 
             </div>
@@ -528,14 +549,42 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method public">
-                                <a href="#method_objType">objType</a>
+                                <a href="#method_disable">disable</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_reset">reset</a>
+                                <a href="#method_disable">disable</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_disable">disable</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_draw">draw</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_updateStageResolution">updateStageResolution</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_updateTextureSize">updateTextureSize</a>
 
                                 
                                 
@@ -551,64 +600,45 @@
 
                     <ul class="index-list properties">
                         
-                            <li class="index-item property private">
-                                <a href="#property__state">_state</a>
+                            <li class="index-item property public">
+                                <a href="#property_camMatrix">camMatrix</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_createParams">createParams</a>
+                                <a href="#property_loaded">loaded</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_hasPreloader">hasPreloader</a>
+                                <a href="#property_RENDERER_ID">RENDERER_ID</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_shaderManager">shaderManager</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_initParams">initParams</a>
+                                <a href="#property_texture2DVert">texture2DVert</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_isCreated">isCreated</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_isInitialised">isInitialised</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_isReady">isReady</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_name">name</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_runCount">runCount</a>
+                                <a href="#property_texture2DVert">texture2DVert</a>
 
                                 
                                 
@@ -628,17 +658,29 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_objType" class="method item public">
-    <h3 class="name"><code>objType</code></h3>
+                    <div id="method_disable" class="method item public">
+    <h3 class="name"><code>disable</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[params=null]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
-    
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
     
 
     
@@ -666,7 +708,7 @@
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l34"><code>src\core\StateConfig.ts:34</code></a>
+        <a href="../files/src_render_renderers_Renderer.ts.html#l63"><code>src\render\renderers\Renderer.ts:63</code></a>
         
         </p>
 
@@ -677,37 +719,78 @@
     </div>
 
     <div class="description">
-        <p>The type of object that this is.</p>
+        <p>Enables the renderer (for override)</p>
 
     </div>
 
     
+        <div class="params">
+            <h4>Parameters:</h4>
 
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
+            <ul class="params-list">
+            
+                <li class="param">
                     
-                        <span class="type">String</span>:
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
                     
-                    <p>&quot;StateConfig&quot;</p>
 
-                
-            </div>
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[params=null]</code>
+                        <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
         </div>
+    
+
     
 
     
 </div>
 
                 
-                    <div id="method_reset" class="method item public">
-    <h3 class="name"><code>reset</code></h3>
+                    <div id="method_disable" class="method item public">
+    <h3 class="name"><code>disable</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[params=null]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
@@ -737,7 +820,7 @@
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l134"><code>src\core\StateConfig.ts:134</code></a>
+        <a href="../files/src_render_renderers_Renderer.ts.html#l74"><code>src\render\renderers\Renderer.ts:74</code></a>
         
         </p>
 
@@ -748,11 +831,473 @@
     </div>
 
     <div class="description">
-        <p>Resets the properties contained on this StateConfig object. 
-This is executed when a State is about to be destroyed as so reset&#39;s it to be switched to again.</p>
+        <p>Enables the renderer (for override)</p>
 
     </div>
 
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[params=null]</code>
+                        <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_disable" class="method item public">
+    <h3 class="name"><code>disable</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[params=null]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l85"><code>src\render\renderers\Renderer.ts:85</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Enables the renderer (for override)</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[params=null]</code>
+                        <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_draw" class="method item public">
+    <h3 class="name"><code>draw</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l95"><code>src\render\renderers\Renderer.ts:95</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Draw to the draw or frame buffer (for override)</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_updateStageResolution" class="method item public">
+    <h3 class="name"><code>updateStageResolution</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>res</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l104"><code>src\render\renderers\Renderer.ts:104</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Updates the stage resolution uniforms (for override)</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">res</code>
+                        <span class="type">Float32Array</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_updateTextureSize" class="method item public">
+    <h3 class="name"><code>updateTextureSize</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>size</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l114"><code>src\render\renderers\Renderer.ts:114</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Updates the texture size uniforms (for override)</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">size</code>
+                        <span class="type">Float32Array</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -769,14 +1314,14 @@ This is executed when a State is about to be destroyed as so reset&#39;s it to b
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property__state" class="property item private">
-    <h3 class="name"><code>_state</code></h3>
-    <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
+                    <div id="property_camMatrix" class="property item public">
+    <h3 class="name"><code>camMatrix</code></h3>
+    <span class="type">Float32Array</span>
 
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag public">public</span>
     
 
     
@@ -794,7 +1339,7 @@ This is executed when a State is about to be destroyed as so reset&#39;s it to b
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l44"><code>src\core\StateConfig.ts:44</code></a>
+        <a href="../files/src_render_renderers_Renderer.ts.html#l39"><code>src\render\renderers\Renderer.ts:39</code></a>
         
         </p>
 
@@ -804,7 +1349,7 @@ This is executed when a State is about to be destroyed as so reset&#39;s it to b
     </div>
 
     <div class="description">
-        <p>The state this StateConfig belongs to.</p>
+        <p>The camera matrix</p>
 
     </div>
 
@@ -816,8 +1361,8 @@ This is executed when a State is about to be destroyed as so reset&#39;s it to b
 </div>
 
                 
-                    <div id="property_createParams" class="property item public">
-    <h3 class="name"><code>createParams</code></h3>
+                    <div id="property_loaded" class="property item public">
+    <h3 class="name"><code>loaded</code></h3>
     <span class="type">Array</span>
 
     
@@ -841,7 +1386,7 @@ This is executed when a State is about to be destroyed as so reset&#39;s it to b
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l126"><code>src\core\StateConfig.ts:126</code></a>
+        <a href="../files/src_render_renderers_Renderer.ts.html#l47"><code>src\render\renderers\Renderer.ts:47</code></a>
         
         </p>
 
@@ -851,8 +1396,7 @@ This is executed when a State is about to be destroyed as so reset&#39;s it to b
     </div>
 
     <div class="description">
-        <p>Stores any parameters that are to be passed to the create method when the State that this config is on is switched to.</p>
-
+        
     </div>
 
     
@@ -863,254 +1407,8 @@ This is executed when a State is about to be destroyed as so reset&#39;s it to b
 </div>
 
                 
-                    <div id="property_hasPreloader" class="property item public">
-    <h3 class="name"><code>hasPreloader</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_StateConfig.ts.html#l95"><code>src\core\StateConfig.ts:95</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>If the State that this config is on contains a Preloader Method.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_initParams" class="property item public">
-    <h3 class="name"><code>initParams</code></h3>
-    <span class="type">Array</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_StateConfig.ts.html#l118"><code>src\core\StateConfig.ts:118</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Stores any parameters that are to be passed to the init method when the State that this config is on is switched to.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_isCreated" class="property item public">
-    <h3 class="name"><code>isCreated</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_StateConfig.ts.html#l65"><code>src\core\StateConfig.ts:65</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>If this State has been created (the create method has been executed). 
-Essentually has the same meaning as &#39;isReady&#39;.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_isInitialised" class="property item public">
-    <h3 class="name"><code>isInitialised</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_StateConfig.ts.html#l75"><code>src\core\StateConfig.ts:75</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>If the State has been initialised already (so the Boot and Init methods have been executed already). 
-A State only get Initialised once which is when it switched to for this first time.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_isReady" class="property item public">
-    <h3 class="name"><code>isReady</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_StateConfig.ts.html#l85"><code>src\core\StateConfig.ts:85</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>If the State that this config is on is &#39;ready&#39; to be used (e.g. all the assets have been loaded and libraries complied)
-or if it isn&#39;t and so it is still at the &#39;loading&#39; stage.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_name" class="property item public">
-    <h3 class="name"><code>name</code></h3>
+                    <div id="property_RENDERER_ID" class="property item public">
+    <h3 class="name"><code>RENDERER_ID</code></h3>
     <span class="type">String</span>
 
     
@@ -1122,6 +1420,8 @@ or if it isn&#39;t and so it is still at the &#39;loading&#39; stage.</p>
     
 
     
+        <span class="flag static">static</span>
+    
 
     <div class="meta">
         
@@ -1134,7 +1434,7 @@ or if it isn&#39;t and so it is still at the &#39;loading&#39; stage.</p>
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l52"><code>src\core\StateConfig.ts:52</code></a>
+        <a href="../files/src_render_renderers_Renderer.ts.html#l30"><code>src\render\renderers\Renderer.ts:30</code></a>
         
         </p>
 
@@ -1144,7 +1444,7 @@ or if it isn&#39;t and so it is still at the &#39;loading&#39; stage.</p>
     </div>
 
     <div class="description">
-        <p>The name of the State, must be unique within your game.</p>
+        <p>Identifier for this renderer</p>
 
     </div>
 
@@ -1156,9 +1456,9 @@ or if it isn&#39;t and so it is still at the &#39;loading&#39; stage.</p>
 </div>
 
                 
-                    <div id="property_runCount" class="property item public">
-    <h3 class="name"><code>runCount</code></h3>
-    <span class="type">Number</span>
+                    <div id="property_shaderManager" class="property item public">
+    <h3 class="name"><code>shaderManager</code></h3>
+    <span class="type">Array</span>
 
     
 
@@ -1181,7 +1481,7 @@ or if it isn&#39;t and so it is still at the &#39;loading&#39; stage.</p>
             
         
         
-        <a href="../files/src_core_StateConfig.ts.html#l104"><code>src\core\StateConfig.ts:104</code></a>
+        <a href="../files/src_render_renderers_Renderer.ts.html#l55"><code>src\render\renderers\Renderer.ts:55</code></a>
         
         </p>
 
@@ -1191,12 +1491,104 @@ or if it isn&#39;t and so it is still at the &#39;loading&#39; stage.</p>
     </div>
 
     <div class="description">
-        <p>The number of times the State that this config belongs to has been active/used.</p>
+        <p>Reference to the shaderManager - used for requesting shaders.</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> 0</p>
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_texture2DVert" class="property item public">
+    <h3 class="name"><code>texture2DVert</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l125"><code>src\render\renderers\Renderer.ts:125</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The shader pair used by the renderer</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_texture2DVert" class="property item public">
+    <h3 class="name"><code>texture2DVert</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l134"><code>src\render\renderers\Renderer.ts:134</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns whether this is a batch renderer.</p>
+
+    </div>
+
     
 
     

@@ -41,16 +41,6 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
-            
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Sequence.html">Kiwi.Animations.Sequence</a></li>
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -419,8 +423,8 @@ module Kiwi.Geom {
 	    * @method lineToLine
 	    * @param line1 {Line} The first line object to check
 	    * @param line2 {Line} The second line object to check
-	    * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in. (One is created if none given)
-	    * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+	    * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. (One is created if none given)
+	    * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
         * @public
         * @static
 	    */
@@ -443,10 +447,10 @@ module Kiwi.Geom {
         * Note: The first line passed is treated as if it extends infinately though space, 
         * The second is treated as if it only exists between its two points.
 	    * @method lineToLineSegment
-	    * @param line1 {Line} The first line to check. This is the one that will extend through space infinately.
-	    * @param seg {Line} The second line to check. This is the one that will only exist between its two coordinates.
-	    * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-	    * @return {IntersectResult} An IntersectResult object containing the results of this intersection.
+	    * @param line1 {Kiwi.Geom.Line} The first line to check. This is the one that will extend through space infinately.
+	    * @param seg {Kiwi.Geom.Line} The second line to check. This is the one that will only exist between its two coordinates.
+	    * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+	    * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection.
         * @public
         * @static
 	    */
@@ -481,7 +485,7 @@ module Kiwi.Geom {
         * Note: The first line will extend infinately through space. 
         * And the second line will only exist between the two points passed.
 	    * @method lineToRawSegment
-	    * @param line {Line} The line object that extends infinatly through space.
+	    * @param line {Kiwi.Geom.Line} The line object that extends infinatly through space.
 	    * @param x1 {number} The x coordinate of the first point in the second line.
 	    * @param y1 {number} The y coordinate of the first point in the second line.
 	    * @param x2 {number} The x coordinate of the second point in the second line.
@@ -520,10 +524,10 @@ module Kiwi.Geom {
 	    * Checks to see if a Line and Ray object intersects at any point. 
         * Note: The line in this case extends infinately through space. 
 	    * @method lineToRay
-	    * @param line1 {Line} The Line object that extends infinatly through space.
-	    * @param ray {Ray} The Ray object that you want to check it against.
-	    * @param {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-	    * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+	    * @param line1 {Kiwi.Geom.Line} The Line object that extends infinatly through space.
+	    * @param ray {Kiwi.Geom.Ray} The Ray object that you want to check it against.
+	    * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+	    * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
 	    * @public
         * @static
         */
@@ -556,10 +560,10 @@ module Kiwi.Geom {
 	    * Checks to see if a Line and a Circle intersect at any point.
         * Note: The line passed is assumed to extend infinately through space. 
 	    * @method lineToCircle
-	    * @param line {Line} The Line object that you want to check it against.
-	    * @param circle {Circle} The Circle object to check.
+	    * @param line {Kiwi.Geom.Line} The Line object that you want to check it against.
+	    * @param circle {Kiwi.Geom.Circle} The Circle object to check.
 	    * @param [output=Intersect] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-	    * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+	    * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
 	    * @public
         * @static
         */
@@ -579,10 +583,10 @@ module Kiwi.Geom {
 	    * Check if the Line intersects with each side of a Rectangle.
         * Note: The Line is assumned to extend infinately through space.
 	    * @method lineToRectangle
-	    * @param line {Line} The Line object to check
-	    * @param rectangle {Rectangle} The Rectangle object to check
-	    * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-	    * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+	    * @param line {Kiwi.Geom.Line} The Line object to check
+	    * @param rectangle {Kiwi.Geom.Rectangle} The Rectangle object to check
+	    * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+	    * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
         * @public
         * @static
 	    */
@@ -629,10 +633,10 @@ module Kiwi.Geom {
 	    * Checks to see if two Line Segments intersect at any point in space. 
         * Note: Both lines are treated as if they only exist between their two line coordinates.
 	    * @method lineSegmentToLineSegment
-	    * @param line1 {Line} The first line object to check.
-	    * @param line2 {Line} The second line object to check.
-	    * @param [output=IntersectResult]{IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-	    * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y.
+	    * @param line1 {Kiwi.Geom.Line} The first line object to check.
+	    * @param line2 {Kiwi.Geom.Line} The second line object to check.
+	    * @param [output=IntersectResult]{Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+	    * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y.
 	    * @public
         * @static
         */
@@ -656,9 +660,9 @@ module Kiwi.Geom {
 	    * Check if the Line Segment intersects with the Ray.
         * Note: The Line only exists between its two points.
 	    * @method lineSegmentToRay
-	    * @param line1 {Line} The Line object to check.
-	    * @param ray {Line} The Ray object to check.
-	    * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+	    * @param line1 {Kiwi.Geom.Line} The Line object to check.
+	    * @param ray {Kiwi.Geom.Line} The Ray object to check.
+	    * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
 	    * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
         * @public
         * @static
@@ -684,10 +688,10 @@ module Kiwi.Geom {
 	    * Check if the Line Segment intersects with the Circle.
         * Note the Line only exists between its point points.
 	    * @method lineSegmentToCircle
-	    * @param seg {Line} The Line object to check
-	    * @param circle {Circle} The Circle object to check
-	    * @param [ouput=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-	    * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+	    * @param seg {Kiwi.Geom.Line} The Line object to check
+	    * @param circle {Kiwi.Geom.Circle} The Circle object to check
+	    * @param [ouput=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+	    * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
         * @public
         * @static
 	    */
@@ -725,10 +729,10 @@ module Kiwi.Geom {
 	    * Check if the Line Segment intersects with any side of a Rectangle.
         * Note: The Line only exists between its two points.
 	    * @method lineSegmentToCircle
-	    * @param seg {Line} The Line object to check.
-	    * @param rect {Rectangle} The Rectangle object to check.
-	    * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given).
-	    * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y.
+	    * @param seg {Kiwi.Geom.Line} The Line object to check.
+	    * @param rect {Kiwi.Geom.Rectangle} The Rectangle object to check.
+	    * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given).
+	    * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y.
 	    * @public
         * @static
         */ 
@@ -784,10 +788,10 @@ module Kiwi.Geom {
         /**
 	    * Check to see if a Ray intersects at any point with a Rectangle.
 	    * @method rayToRectangle
-	    * @param ray {Ray} The Ray object to check. 
-	    * @param rect {Rectangle} The Rectangle to check.
-	    * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-	    * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+	    * @param ray {Kiwi.Geom.Ray} The Ray object to check. 
+	    * @param rect {Kiwi.Geom.Rectangle} The Rectangle to check.
+	    * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+	    * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
 	    * @public
         * @static
         */
@@ -813,8 +817,8 @@ module Kiwi.Geom {
         * @param liney1 {Number} The y of the first point of the line segment.
         * @param linex2 {Number} The x of the second point of the line segment.
         * @param liney2 {Number} The y of the second point of the line segment.
-	    * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-	    * @return {IntersectResult} An IntersectResult object containing the results of this intersection stored in x
+	    * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+	    * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection stored in x
         * @public
         */
         static rayToLineSegment(rayx1, rayy1, rayx2, rayy2, linex1, liney1, linex2, liney2, output: IntersectResult = new IntersectResult): IntersectResult {
@@ -855,10 +859,10 @@ module Kiwi.Geom {
         /**
 	    * Check if the two given Circle objects intersect at any point.
 	    * @method circleToCircle
-	    * @param circle1 {Circle} The first circle object to check.
-	    * @param circle2 {Circle} The second circle object to check.
-	    * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-	    * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+	    * @param circle1 {Kiwi.Geom.Circle} The first circle object to check.
+	    * @param circle2 {Kiwi.Geom.Circle} The second circle object to check.
+	    * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+	    * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
 	    * @public
         * @static
         */
@@ -873,10 +877,10 @@ module Kiwi.Geom {
         /**
 	    * Check if a Circle and a Rectangle intersect with each other at any point. 
 	    * @method circleToRectangle
-	    * @param circle {Circle} The circle object to check.
-	    * @param rect {Rectangle} The Rectangle object to check.
-	    * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-	    * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+	    * @param circle {Kiwi.Geom.Circle} The circle object to check.
+	    * @param rect {Kiwi.Geom.Rectangle} The Rectangle object to check.
+	    * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+	    * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
 	    * @public
         * @static
         */
@@ -895,10 +899,10 @@ module Kiwi.Geom {
         /**
 	    * Check if the given Point is found within the given Circle.
 	    * @method circleContainsPoint
-	    * @param circle {Circle} The circle object to check
-	    * @param point {Point} The point object to check
-	    * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-	    * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+	    * @param circle {Kiwi.Geom.Circle} The circle object to check
+	    * @param point {Kiwi.Geom.Point} The point object to check
+	    * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+	    * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
 	    * @public
         * @static
         */
@@ -919,10 +923,10 @@ module Kiwi.Geom {
         /**
         * Determines whether the specified point is contained within a given Rectangle object.
         * @method pointToRectangle
-        * @param point {Point} The point object being checked.
-        * @param rect {Rectangle} The rectangle object being checked.
-	    * @param [output=Intersect] {IntersectResult}  An optional IntersectResult object to store the intersection values in (one is created if none given)
-        * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y/result
+        * @param point {Kiwi.Geom.Point} The point object being checked.
+        * @param rect {Kiwi.Geom.Rectangle} The rectangle object being checked.
+	    * @param [output=Intersect] {Kiwi.Geom.IntersectResult}  An optional IntersectResult object to store the intersection values in (one is created if none given)
+        * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y/result
         * @public
         * @static
         */
@@ -939,10 +943,10 @@ module Kiwi.Geom {
         /**
 	    * Check whether two axis aligned rectangles intersect. Return the intersecting rectangle dimensions if they do.
 	    * @method rectangleToRectangle
-	    * @param rect1 {Rectangle} The first Rectangle object.
-	    * @param rect2 {Rectangle} The second Rectangle object.
-	    * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-	    * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y/width/height
+	    * @param rect1 {Kiwi.Geom.Rectangle} The first Rectangle object.
+	    * @param rect2 {Kiwi.Geom.Rectangle} The second Rectangle object.
+	    * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+	    * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y/width/height
 	    * @public
         * @static
         */

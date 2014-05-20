@@ -1,7 +1,7 @@
-/**
+/*
 * A IRenderer is an Interface (defined as a class as the documentation does not support Interfaces just yet),
 * which outlines the methods/properties that are required any Renderer. 
-* @class IRenderer
+* 
 */
 interface IRenderManager {
     render(camera: Kiwi.Camera);
@@ -25,11 +25,10 @@ module Kiwi.Renderers {
     /**
     *
     * @class CanvasRenderer
-    * @extends IRenderer
     * @constructor 
     * @namespace Kiwi.Renderers
-    * @param game {Game} The game that this canvas renderer belongs to.
-    * @return {CanvasRenderer}
+    * @param game {Kiwi.Game} The game that this canvas renderer belongs to.
+    * @return {Kiwi.Renderes.CanvasRenderer}
     *
     */
     export class CanvasRenderer implements IRenderManager {
@@ -60,7 +59,7 @@ module Kiwi.Renderers {
         /**
         * The game that this object belongs to.
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private
         */
         private _game: Kiwi.Game;
@@ -68,7 +67,7 @@ module Kiwi.Renderers {
         /**
         * The camera that is currently being used to render upon.
         * @property _currentCamera
-        * @type Camera
+        * @type Kiwi.Camera
         * @private
         */
         private _currentCamera: Kiwi.Camera;
@@ -78,7 +77,7 @@ module Kiwi.Renderers {
         * If it is a Group then this method recursively goes through that Groups members the process that happened to the State's members happens to the Group's members.
         * 
         * @method _recurse
-        * @param child {IChild} The child that is being checked.
+        * @param child {object} The child that is being checked.
         * @private
         */
         public _recurse(child: IChild) {
@@ -119,7 +118,7 @@ module Kiwi.Renderers {
         /**
         * Renders all of the Elements that are on a particular camera.
         * @method render
-        * @param camera {Camera}
+        * @param camera {Kiwi.Camera}
         * @public
         */
         public render(camera: Kiwi.Camera) {

@@ -41,16 +41,6 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
-            
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Sequence.html">Kiwi.Animations.Sequence</a></li>
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -347,20 +351,19 @@
 /**
 *  
 * @module Kiwi
-* @submodule Renderers
+* @submodule Shaders
+* @namespace Kiwi.Shaders
 * 
 */
-
-
 
 module Kiwi.Shaders {
 
     /**
-    *
-    * @class GLShaders
+    * Base class for shader pairs which encapsulate a GLSL vertex and fragment shader
+    * @class ShaderPair
     * @constructor
-    * @param gl {WebGLRenderingContext}
-    * @return {GLShaders}
+    * @namespace Kiwi.Shaders
+    * @return {Kiwi.Shaders.ShaderPair}
     */
     export class ShaderPair {
 
@@ -368,8 +371,21 @@ module Kiwi.Shaders {
           
         }
 
+        /**
+        *
+        * @property RENDERER_ID
+        * @type string
+        * @public
+        * @static
+        */
         public static RENDERER_ID: string = &quot;ShaderPair&quot;;
 
+        /**
+        * Initialise the shader pair.
+        * @method init
+        * @param gl {WebGLRenderingCotext}
+        * @public
+        */
         public init(gl: WebGLRenderingContext) {
          
             this.vertShader = this.compile(gl, this.vertSource.join(&quot;\n&quot;), gl.VERTEX_SHADER);
@@ -378,10 +394,16 @@ module Kiwi.Shaders {
             this.loaded = true;
         }
 
+        /**
+        * Returns whether the shader pair has been loaded and compiled.
+        * @property loaded
+        * @type boolean
+        * @public
+        */
         public loaded: boolean = false;
 
         /**
-        *
+        * Vertex shader
         * @property vertShader
         * @type WebGLShader
         * @public
@@ -389,7 +411,7 @@ module Kiwi.Shaders {
         public vertShader: WebGLShader;
 
         /**
-        *
+        * Fragment shader 
         * @property fragShader
         * @type WebGLShader
         * @public
@@ -397,7 +419,7 @@ module Kiwi.Shaders {
         public fragShader: WebGLShader;
 
         /**
-        *
+        * The WebGl shader program
         * @property shaderProgram
         * @type WebGLProgram
         * @public
@@ -405,7 +427,7 @@ module Kiwi.Shaders {
         public shaderProgram: WebGLProgram;
 
         /**
-        *
+        * Attaches the shaders to the program and links them
         * @method attach
         * @param gl {WebGLRenderingContext}
         * @param vertShader {WebGLShader}
@@ -422,7 +444,7 @@ module Kiwi.Shaders {
         }
 
         /**
-        *
+        * Compiles the shaders
         * @method compile
         * @param gl {WebGLRenderingContext}
         * @param src {string}
@@ -441,12 +463,25 @@ module Kiwi.Shaders {
             return shader;
         }
 
+        /**
+        * Uniform descriptors
+        * @property uniforms
+        * @type Array
+        * @public
+        */
         public uniforms: any;
+
+        /**
+        * Attribute descriptors
+        * @property attributes
+        * @type Array
+        * @public
+        */
         public attributes: any;
 
 
         /**
-        *
+        * Shader frag source (for override)
         * @property texture2DFrag
         * @type Array
         * @public
@@ -454,24 +489,44 @@ module Kiwi.Shaders {
         public fragSource: Array&lt;any&gt;;
 
         /**
-        *
+        * Shader vert source (for override)
         * @property texture2DVert
         * @type Array
         * @public
         */
         public vertSource: Array&lt;any&gt;;
 
+        /**
+        * Sets a single uniform value and marks it as dirty.
+        * @method setParam
+        * @param uniformName {string}
+        * @param value {*}
+        * @public
+        */
         public setParam(uniformName: string, value: any) {
             this.uniforms[uniformName].value = value;
             this.uniforms[uniformName].dirty = true;
         }
 
+        /**
+        * Applies all uniforms to the uploaded program
+        * @method applyUniforms
+        * @param gl {WebGLRenderingCotext}
+        * @public
+        */
         public applyUniforms(gl: WebGLRenderingContext) {
             for (var u in this.uniforms) {
                 this.applyUniform(gl, u);
             }
         }
 
+         /**
+        * Applies a single uniforms to the uploaded program
+        * @method applyUniform
+        * @param gl {WebGLRenderingCotext}
+        * @param name {string}
+        * @public
+        */
         public applyUniform(gl: WebGLRenderingContext, name: string) {
             var u = this.uniforms[name]
             if (this.uniforms[name].dirty) {
@@ -481,6 +536,12 @@ module Kiwi.Shaders {
             }
         }
 
+        /**
+        * Initialises all uniforms
+        * @method initUniforms
+        * @param gl {WebGLRenderingCotext}
+        * @public
+        */
         public initUniforms(gl: WebGLRenderingContext) {
             for (var uniformName in this.uniforms) {
                 var uniform = this.uniforms[uniformName];

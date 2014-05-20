@@ -41,16 +41,6 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
-            
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Sequence.html">Kiwi.Animations.Sequence</a></li>
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -345,10 +349,6 @@
     
 
     
-        <div class="extends">
-            Extends <a href="..\classes\IRenderer.html" class="crosslink">IRenderer</a>
-        </div>
-    
 
     
         <div class="foundat">
@@ -394,7 +394,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">CanvasRenderer</span>
+            <span class="type">Kiwi.Renderes.CanvasRenderer</span>
         </span>
     
 
@@ -444,7 +444,7 @@
                 <li class="param">
                     
                         <code class="param-name">game</code>
-                        <span class="type">Game</span>
+                        <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
                     
 
                     
@@ -468,7 +468,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">CanvasRenderer</span>:
+                        <span class="type">Kiwi.Renderes.CanvasRenderer</span>:
                     
                 
             </div>
@@ -503,7 +503,7 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods extends">
+                    <ul class="index-list methods">
                         
                             <li class="index-item method private">
                                 <a href="#method__recurse">_recurse</a>
@@ -541,7 +541,7 @@
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties extends">
+                    <ul class="index-list properties">
                         
                             <li class="index-item property private">
                                 <a href="#property__currentCamera">_currentCamera</a>
@@ -615,7 +615,7 @@
             
         
         
-        <a href="../files/src_render_CanvasRenderer.ts.html#l76"><code>src\render\CanvasRenderer.ts:76</code></a>
+        <a href="../files/src_render_CanvasRenderer.ts.html#l75"><code>src\render\CanvasRenderer.ts:75</code></a>
         
         </p>
 
@@ -640,7 +640,7 @@ If it is a Group then this method recursively goes through that Groups members t
                 <li class="param">
                     
                         <code class="param-name">child</code>
-                        <span class="type">IChild</span>
+                        <span class="type">Object</span>
                     
 
                     
@@ -697,7 +697,7 @@ If it is a Group then this method recursively goes through that Groups members t
             
         
         
-        <a href="../files/src_render_CanvasRenderer.ts.html#l41"><code>src\render\CanvasRenderer.ts:41</code></a>
+        <a href="../files/src_render_CanvasRenderer.ts.html#l40"><code>src\render\CanvasRenderer.ts:40</code></a>
         
         </p>
 
@@ -758,7 +758,7 @@ If it is a Group then this method recursively goes through that Groups members t
             
         
         
-        <a href="../files/src_render_CanvasRenderer.ts.html#l50"><code>src\render\CanvasRenderer.ts:50</code></a>
+        <a href="../files/src_render_CanvasRenderer.ts.html#l49"><code>src\render\CanvasRenderer.ts:49</code></a>
         
         </p>
 
@@ -837,7 +837,7 @@ If it is a Group then this method recursively goes through that Groups members t
             
         
         
-        <a href="../files/src_render_CanvasRenderer.ts.html#l119"><code>src\render\CanvasRenderer.ts:119</code></a>
+        <a href="../files/src_render_CanvasRenderer.ts.html#l118"><code>src\render\CanvasRenderer.ts:118</code></a>
         
         </p>
 
@@ -861,7 +861,7 @@ If it is a Group then this method recursively goes through that Groups members t
                 <li class="param">
                     
                         <code class="param-name">camera</code>
-                        <span class="type">Camera</span>
+                        <span class="type"><a href="..\classes\Kiwi.Camera.html" class="crosslink">Kiwi.Camera</a></span>
                     
 
                     
@@ -893,7 +893,7 @@ If it is a Group then this method recursively goes through that Groups members t
                 
                     <div id="property__currentCamera" class="property item private">
     <h3 class="name"><code>_currentCamera</code></h3>
-    <span class="type">Camera</span>
+    <span class="type"><a href="..\classes\Kiwi.Camera.html" class="crosslink">Kiwi.Camera</a></span>
 
     
 
@@ -916,7 +916,7 @@ If it is a Group then this method recursively goes through that Groups members t
             
         
         
-        <a href="../files/src_render_CanvasRenderer.ts.html#l68"><code>src\render\CanvasRenderer.ts:68</code></a>
+        <a href="../files/src_render_CanvasRenderer.ts.html#l67"><code>src\render\CanvasRenderer.ts:67</code></a>
         
         </p>
 
@@ -940,7 +940,7 @@ If it is a Group then this method recursively goes through that Groups members t
                 
                     <div id="property__game" class="property item private">
     <h3 class="name"><code>_game</code></h3>
-    <span class="type">Game</span>
+    <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
 
     
 
@@ -963,7 +963,7 @@ If it is a Group then this method recursively goes through that Groups members t
             
         
         
-        <a href="../files/src_render_CanvasRenderer.ts.html#l60"><code>src\render\CanvasRenderer.ts:60</code></a>
+        <a href="../files/src_render_CanvasRenderer.ts.html#l59"><code>src\render\CanvasRenderer.ts:59</code></a>
         
         </p>
 

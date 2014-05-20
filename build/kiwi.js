@@ -1,4 +1,4 @@
-﻿/**
+/**
 *
 * @module Kiwi
 *
@@ -6,7 +6,7 @@
 var Kiwi;
 (function (Kiwi) {
     /**
-    * The base class that is used when you are wanting to create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF which is used for the game loop.
+    * The base class that is used when you create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF (RequestAnimationFrame object) which is used for the game loop.
     *
     * @class Game
     * @namespace Kiwi
@@ -15,7 +15,7 @@ var Kiwi;
     * @param [name='KiwiGame'] {String} The name of the game that is being created.
     * @param [state=null] {Any} The state to load initially. This can either be the name of a state, but preferably this would be the state object itself.
     * @param [options] {Object} Any special options for the game. E.g. Is DEBUG_ON or DEBUG_OFF, RENDERER_CANVAS or RENDERER_WEBGL, TARGET_BROWSER or TARGET_COCOON
-    * @return {Game}
+    * @return {Kiwi.Game}
     *
     */
     var Game = (function () {
@@ -26,65 +26,58 @@ var Kiwi;
             if (typeof options === "undefined") { options = {}; }
             var _this = this;
             /**
-            * [REQUIRES DESCRIPTION]
-            * @property _dom
-            * @type Bootstrap
+            * The object that peforms DOM and device startup operations for browsers (ie not cocoon)
+            * @property _startup
+            * @type Kiwi.System.Bootstrap
             * @private
             */
             this._startup = null;
             /**
             * The audio manager that handles all of the audio in game. Inside you can globally mute the audio, create new sounds, e.t.c.
             * @property audio
-            * @type AudioManager
+            * @type Kiwi.Sound.AudioManager
             * @public
             */
             this.audio = null;
             /**
-            * Used to get the coordinates of any DOM element on the game.
-            * @property browser
-            * @type Browser
-            * @public
-            */
-            this.browser = null;
-            /**
             * The global file store for this game. This handles the storage and access of information loaded, as well as tags that maybe set for them individual files.
             * @property fileStore
-            * @type FileStore
+            * @type Kiwi.Files.FileStore
             * @public
             */
             this.fileStore = null;
             /**
             * Handles any user input with the game. These could via the users keyboard, mouse or touch events.
             * @property input
-            * @type InputManager
+            * @type Kiwi.Input.InputManager
             * @public
             */
             this.input = null;
             /**
             * Manages the cameras the are on the stage. Single default Camera only in this version.
             * @property cameras
-            * @type CameraManager
+            * @type Kiwi.CameraManager
             * @public
             */
             this.cameras = null;
             /**
             * Manages plugins registration and initialisation for the game instance.
             * @property pluginManager
-            * @type PluginManager
+            * @type Kiwi.PluginManager
             * @public
             */
             this.pluginManager = null;
             /**
             * Loads files from outside sources and checks to see that they have loaded correctly or not.
             * @property loader
-            * @type Loader
+            * @type Kiwi.Files.Loader
             * @public
             */
             this.loader = null;
             /**
             * The Request Animation Frame that is being used for the update and render loops.
             * @property raf
-            * @type RequestAnimationFrame
+            * @type Kiwi.Utils.RequestAnimationFrame
             * @public
             */
             this.raf = null;
@@ -98,28 +91,28 @@ var Kiwi;
             /**
             * Manages all of the states that exist for this game. Via the manager you can create new states, switch states and do various other tasks.
             * @property states
-            * @type StateManager
+            * @type Kiwi.StateManager
             * @public
             */
             this.states = null;
             /**
             * Holds a reference to the clocks that are being used and has a MASTER clock that is being used for the game.
             * @property time
-            * @type ClockManager
+            * @type Kiwi.Time.ClockManage
             * @public
             */
             this.time = null;
             /**
             * The tween manager holds a reference to all of the tweens that are created and currently being used.
             * @property tweens
-            * @type TweenManager
+            * @type Kiwi.Animations.Tweens.TweenManager
             * @public
             */
             this.tweens = null;
             /**
             * A Random Data Generator. This is useful for create unique ids and random information.
             * @property rnd
-            * @type RandomDataGenerator
+            * @type Kiwi.Utils.RandomDataGenerato
             * @public
             */
             this.rnd = null;
@@ -148,6 +141,10 @@ var Kiwi;
             this._delta = 0;
             console.log('Kiwi.Game: ' + name + ' is booting, using Kiwi.js version ' + Kiwi.VERSION);
 
+            if (Kiwi.DEVICE === null) {
+                Kiwi.DEVICE = new Kiwi.System.Device();
+            }
+
             if (options.debug !== 'undefined' && typeof options.debug === 'number') {
                 switch (options.debug) {
                     case Kiwi.DEBUG_ON:
@@ -172,6 +169,7 @@ var Kiwi;
                 this.bootCallbackOption = options.bootCallback;
             }
 
+            //Which device are they targetting
             if (options.deviceTarget !== 'undefined' && typeof options.deviceTarget === 'number') {
                 switch (options.deviceTarget) {
                     case Kiwi.TARGET_BROWSER:
@@ -199,8 +197,13 @@ var Kiwi;
                         console.log('  Kiwi.Game: Rendering using CANVAS.');
                         break;
                     case Kiwi.RENDERER_WEBGL:
-                        this._renderOption = options.renderer;
-                        console.log('  Kiwi.Game: Rendering using WEBGL.');
+                        if (Kiwi.DEVICE.webGL) {
+                            this._renderOption = options.renderer;
+                            console.log('  Kiwi.Game: Rendering using WEBGL.');
+                        } else {
+                            this._renderOption = Kiwi.RENDERER_CANVAS;
+                            console.log('  Kiwi.Game: WEBGL renderer requested but device does not support WEBGL. Rendering using CANVAS.');
+                        }
                         break;
                     default:
                         this._renderOption = Kiwi.RENDERER_CANVAS;
@@ -216,7 +219,6 @@ var Kiwi;
             this._startup = new Kiwi.System.Bootstrap();
 
             this.audio = new Kiwi.Sound.AudioManager(this);
-            this.browser = new Kiwi.System.Browser(this);
 
             this.fileStore = new Kiwi.Files.FileStore(this);
             this.input = new Kiwi.Input.InputManager(this);
@@ -274,6 +276,7 @@ var Kiwi;
             this.time = new Kiwi.Time.ClockManager(this);
             this.tweens = new Kiwi.Animations.Tweens.TweenManager(this);
 
+            //  If we have a state then pass it to the StateManager
             if (state !== null) {
                 this.states.addState(state, true);
             } else {
@@ -285,30 +288,31 @@ var Kiwi;
             if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 if (domParent !== '') {
                     if (document.getElementById(domParent))
-                        console.log('  Kiwi.Game: Game being created inside ' + domParent + '.'); else
+                        console.log('  Kiwi.Game: Game being created inside ' + domParent + '.');
+                    else
                         console.log('  Kiwi.Game: The element "' + domParent + '" could not be found. Appending the game to the body.');
                 } else {
                     console.log('  Kiwi.Game: No DOM parent specified. Appending the game to the body.');
                 }
 
                 this._startup.boot(domParent, function () {
-                    return _this.start();
+                    return _this._start();
                 });
             } else {
                 if (domParent !== '')
                     console.log('  Kiwi.Game: Not Targetting a BROWSER. DOM Parent parameter ignored.');
 
-                this.start();
+                this._start();
             }
         }
         Object.defineProperty(Game.prototype, "renderOption", {
-            get: /**
+            /**
             * Returns the render mode of the game. This is READ ONLY and is decided once the game gets initialised.
             * @property renderOption
             * @type number
             * @public
             */
-            function () {
+            get: function () {
                 return this._renderOption;
             },
             enumerable: true,
@@ -316,13 +320,13 @@ var Kiwi;
         });
 
         Object.defineProperty(Game.prototype, "deviceTargetOption", {
-            get: /**
+            /**
             * Returns the device target option for the game. This is READ ONLY and is decided once the game gets initialised.
             * @property deviceTargetOption
             * @type number
             * @public
             */
-            function () {
+            get: function () {
                 return this._deviceTargetOption;
             },
             enumerable: true,
@@ -330,13 +334,13 @@ var Kiwi;
         });
 
         Object.defineProperty(Game.prototype, "debugOption", {
-            get: /**
+            /**
             * Returns the debug option. This is READ ONLY and is decided once the game gets initialised.
             * @property debugOption
             * @type number
             * @public
             */
-            function () {
+            get: function () {
                 return this._debugOption;
             },
             enumerable: true,
@@ -344,13 +348,13 @@ var Kiwi;
         });
 
         Object.defineProperty(Game.prototype, "debug", {
-            get: /**
+            /**
             * Returns true if debug option is set to Kiwi.DEBUG_ON
             * @property debug
             * @type boolean
             * @public
             */
-            function () {
+            get: function () {
                 return this._debugOption === Kiwi.DEBUG_ON;
             },
             enumerable: true,
@@ -368,16 +372,17 @@ var Kiwi;
         };
 
         Object.defineProperty(Game.prototype, "frameRate", {
-            get: /**
+            /**
             * The current frameRate that the update/render loops are running at. Note that this may not be an  accurate representation.
             * @property frameRate
             * @return string
             * @public
             */
-            function () {
+            get: function () {
                 return this._frameRate;
             },
             set: function (value) {
+                //cannot exceed 60. The raf will stop this anyway.
                 if (value > 60)
                     value = 60;
 
@@ -396,13 +401,8 @@ var Kiwi;
         * @method start
         * @private
         */
-        Game.prototype.start = function () {
+        Game.prototype._start = function () {
             var _this = this;
-            if (Kiwi.DEVICE === null) {
-                Kiwi.DEVICE = new Kiwi.System.Device();
-            }
-
-            this.browser.boot();
             this.stage.boot(this._startup);
             this.renderer.boot();
             this.cameras.boot();
@@ -422,7 +422,7 @@ var Kiwi;
             this._lastTime = Date.now();
 
             this.raf = new Kiwi.Utils.RequestAnimationFrame(function () {
-                return _this.loop();
+                return _this._loop();
             });
             this.raf.start();
             if (this.bootCallbackOption) {
@@ -432,11 +432,11 @@ var Kiwi;
         };
 
         /**
-        * The loop that the whole game is using.
-        * @method loop
+        * The game loop.
+        * @method _loop
         * @private
         */
-        Game.prototype.loop = function () {
+        Game.prototype._loop = function () {
             this._delta = this.raf.currentTime - this._lastTime;
             if (this._delta > this._interval) {
                 //Only update if there is a current state
@@ -470,15 +470,18 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     /**
-    * Each game contains a single Stage which controls the creation of the elements required for a Kiwi game to work.
+    * Each game contains a single Stage which controls the creation and management of main domElements required for a Kiwi game to work.
     * Such as the Canvas and the rendering contexts, as well as the width/height of the game and the position it should be on the screen.
     *
     * @class Stage
     * @namespace Kiwi
     * @constructor
-    * @param game {Kiwi.Game}
-    * @param name {String}
-    * @return {Stage} Kiwi.Stage
+    * @param game {Kiwi.Game} The game that this Stage belongs to.
+    * @param name {String} The name of the kiwi game.
+    * @param width {Number} The initial width of the game.
+    * @param height {Number} The initial heihgt of the game.
+    * @param scaleType {Number} The scale method that should be used for the game.
+    * @return {Kiwi.Stage}
     *
     */
     var Stage = (function () {
@@ -487,14 +490,14 @@ var Kiwi;
             * Private property that holds the scaling method that should be applied to the container element.
             * @property _scaleType
             * @type number
-            * @default SCALE_NONE
+            * @default Kiwi.Stage.SCALE_NONE
             * @private
             */
             this._scaleType = Kiwi.Stage.SCALE_NONE;
             /**
             * A point which determines the offset of this Stage
             * @property offset
-            * @type Point
+            * @type Kiwi.Geom.Point
             * @public
             */
             this.offset = new Kiwi.Geom.Point();
@@ -530,7 +533,7 @@ var Kiwi;
         /**
         * Returns the type of this object.
         * @method objType
-        * @return string
+        * @return {string} "Stage"
         * @public
         */
         Stage.prototype.objType = function () {
@@ -542,14 +545,14 @@ var Kiwi;
             get: function () {
                 return this._scaleType;
             },
-            set: /**
+            /**
             * Holds type of scaling that should be applied the container element.
             * @property scaleType
             * @type number
-            * @default SCALE_NONE
+            * @default Kiwi.Stage.SCALE_NONE
             * @private
             */
-            function (val) {
+            set: function (val) {
                 this._scaleType = val;
                 this._scaleContainer();
             },
@@ -558,15 +561,16 @@ var Kiwi;
         });
 
         Object.defineProperty(Stage.prototype, "alpha", {
-            get: /**
+            /**
             * Sets the alpha of the container element. 0 = invisible, 1 = fully visible.
             * Note: Because the alpha value is applied to the container, it will not work in CocoonJS.
             *
             * @property alpha
             * @type number
+            * @default 1
             * @public
             */
-            function () {
+            get: function () {
                 return this._alpha;
             },
             set: function (value) {
@@ -582,13 +586,13 @@ var Kiwi;
         });
 
         Object.defineProperty(Stage.prototype, "x", {
-            get: /**
+            /**
             * The X coordinate of the stage. This number should be the same as the stages left property.
             * @property x
             * @type number
             * @public
             */
-            function () {
+            get: function () {
                 return this._x;
             },
             set: function (value) {
@@ -604,13 +608,13 @@ var Kiwi;
         });
 
         Object.defineProperty(Stage.prototype, "y", {
-            get: /**
+            /**
             * Get the Y coordinate of the stage. This number should be the same as the stages top property.
             * @property y
             * @type number
             * @public
             */
-            function () {
+            get: function () {
                 return this._y;
             },
             set: function (value) {
@@ -626,14 +630,14 @@ var Kiwi;
         });
 
         Object.defineProperty(Stage.prototype, "width", {
-            get: /**
-            * The width of the stage.
+            /**
+            * The width of the stage. This is READ ONLY. See the 'resize' method if you need to modify this value.
             * @property width
             * @type number
             * @public
             * @readonly
             */
-            function () {
+            get: function () {
                 return this._width;
             },
             enumerable: true,
@@ -641,14 +645,14 @@ var Kiwi;
         });
 
         Object.defineProperty(Stage.prototype, "height", {
-            get: /**
-            * The height of the stage
+            /**
+            * The height of the stage. This is READ ONLY. See the 'resize' method if you need to modify this value.
             * @property height
             * @type number
             * @public
             * @readonly
             */
-            function () {
+            get: function () {
                 return this._height;
             },
             enumerable: true,
@@ -664,14 +668,14 @@ var Kiwi;
         });
 
         Object.defineProperty(Stage.prototype, "scaleX", {
-            get: /**
+            /**
             * Calculates and returns the amount that the container has been scale by on the X axis.
             * @property scaleX
             * @type Number
             * @default 1
             * @public
             */
-            function () {
+            get: function () {
                 return this._scale.x;
             },
             enumerable: true,
@@ -679,14 +683,14 @@ var Kiwi;
         });
 
         Object.defineProperty(Stage.prototype, "scaleY", {
-            get: /**
+            /**
             * Calculates and returns the amount that the container has been scale by on the Y axis.
             * @property scaleY
             * @type Number
             * @default 1
             * @public
             */
-            function () {
+            get: function () {
                 return this._scale.y;
             },
             enumerable: true,
@@ -694,7 +698,7 @@ var Kiwi;
         });
 
         Object.defineProperty(Stage.prototype, "color", {
-            get: /**
+            /**
             * Sets the background color of the stage via a hex value.
             * The hex colour code should not contain a hashtag '#'.
             *
@@ -702,7 +706,7 @@ var Kiwi;
             * @type string
             * @public
             */
-            function () {
+            get: function () {
                 return this._color;
             },
             set: function (val) {
@@ -722,7 +726,7 @@ var Kiwi;
 
 
         Object.defineProperty(Stage.prototype, "rgbColor", {
-            get: /**
+            /**
             * Allows the setting of the background color of the stage through component RGB colour values.
             * This property is an Object Literal with 'r', 'g', 'b' colour streams of values between 0 and 255.
             *
@@ -730,7 +734,7 @@ var Kiwi;
             * @type Object
             * @public
             */
-            function () {
+            get: function () {
                 return { r: this._normalizedColor.r * 255, g: this._normalizedColor.g * 255, b: this._normalizedColor.b * 255 };
             },
             set: function (val) {
@@ -742,14 +746,14 @@ var Kiwi;
 
 
         Object.defineProperty(Stage.prototype, "normalizedColor", {
-            get: /**
+            /**
             * Get the normalized background color of the stage. Returns a object with rgba values, each being between 0 and 1.
             * This is READ ONLY.
             * @property normalizedColor
             * @type string
             * @public
             */
-            function () {
+            get: function () {
                 return this._normalizedColor;
             },
             enumerable: true,
@@ -758,8 +762,9 @@ var Kiwi;
 
         /**
         * Is executed when the DOM has loaded and the game is just starting.
+        * This is a internal method used by the core of Kiwi itself.
         * @method boot
-        * @param {HTMLElement} dom
+        * @param dom {HTMLElement} The
         * @public
         */
         Stage.prototype.boot = function (dom) {
@@ -768,7 +773,7 @@ var Kiwi;
             this.container = dom.container;
 
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.offset = this._game.browser.getOffsetPoint(this.container);
+                this.offset = this.getOffsetPoint(this.container);
 
                 this._x = this.offset.x;
                 this._y = this.offset.y;
@@ -788,6 +793,27 @@ var Kiwi;
         };
 
         /**
+        * Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser
+        * Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js
+        * @method getOffsetPoint
+        * @param {Any} element
+        * @param {Kiwi.Geom.Point} output
+        * @return {Kiwi.Geom.Point}
+        * @public
+        */
+        Stage.prototype.getOffsetPoint = function (element, output) {
+            if (typeof output === "undefined") { output = new Kiwi.Geom.Point; }
+            var box = element.getBoundingClientRect();
+
+            var clientTop = element.clientTop || document.body.clientTop || 0;
+            var clientLeft = element.clientLeft || document.body.clientLeft || 0;
+            var scrollTop = window.pageYOffset || element.scrollTop || document.body.scrollTop;
+            var scrollLeft = window.pageXOffset || element.scrollLeft || document.body.scrollLeft;
+
+            return output.setTo(box.left + scrollLeft - clientLeft, box.top + scrollTop - clientTop);
+        };
+
+        /**
         * Method that is fired when the window is resized.
         * @method _windowResized
         * @param event {UIEvent}
@@ -801,13 +827,12 @@ var Kiwi;
         };
 
         /**
-        * Used to calculate the new offset and see what the scale of the stage currently is.
+        * Used to calculate the new offset and the scale of the stage currently is at.
         * @method _calculateContainerScale
-        * @param event {UIEvent}
         * @private
         */
         Stage.prototype._calculateContainerScale = function () {
-            this.offset = this._game.browser.getOffsetPoint(this.container);
+            this.offset = this.getOffsetPoint(this.container);
             this._scaleContainer();
 
             this._scale.x = this._width / this.container.clientWidth;
@@ -821,8 +846,10 @@ var Kiwi;
         * @private
         */
         Stage.prototype._createCompositeCanvas = function () {
+            //If we are using cocoon then create a accelerated screen canvas
             if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
                 this.canvas = document.createElement(navigator['isCocoonJS'] ? 'screencanvas' : 'canvas');
+                //Otherwise default to normal canvas
             } else {
                 this.canvas = document.createElement("canvas");
                 this.canvas.style.width = '100%';
@@ -834,12 +861,21 @@ var Kiwi;
             this.canvas.width = this.width;
             this.canvas.height = this.height;
 
+            //Get 2D or GL Context - Should add in error checking here
             if (this._game.renderOption === Kiwi.RENDERER_CANVAS) {
                 this.ctx = this.canvas.getContext("2d");
                 this.ctx.fillStyle = '#fff';
                 this.gl = null;
             } else if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
                 this.gl = this.canvas.getContext("webgl");
+                if (!this.gl) {
+                    this.gl = this.canvas.getContext("experimental-webgl");
+                    if (!this.gl) {
+                        console.error("Kiwi.Stage: WebGL rendering is not available despite the device apparently supporting it.");
+                    } else {
+                        console.warn("Kiwi.Stage: 'webgl' context is not available. Using 'experimental-webgl'");
+                    }
+                }
                 this.gl.clearColor(1, 1, .95, .7);
                 this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
                 this.ctx = null;
@@ -853,11 +889,12 @@ var Kiwi;
         };
 
         /**
-        * Set the stage width and height.
+        * Set the stage width and height for rendering purposes.
+        * This will not effect that 'scaleType' that it has been set to.
         *
         * @method resize
-        * @param width {number} new stage width
-        * @param height {number} new stage height
+        * @param width {number} The new Stage width.
+        * @param height {number} The new Stage height.
         * @public
         */
         Stage.prototype.resize = function (width, height) {
@@ -880,7 +917,7 @@ var Kiwi;
         * @method setRGBColor
         * @param r {Number} The red component. A value between 0 and 255.
         * @param g {Number} The green component. A value between 0 and 255.
-        * @param B {Number} The blue component. A value between 0 and 255.
+        * @param b {Number} The blue component. A value between 0 and 255.
         * @return {Object} A Object literal containing the r,g,b properties.
         * @public
         */
@@ -934,7 +971,7 @@ var Kiwi;
         * If not colour is passed then Red at 20% opacity is used.
         *
         * @method clearDebugCanvas
-        * @param [color='rgba(255,0,0,0.2)'] {string} debug color
+        * @param [color='rgba(255,0,0,0.2)'] {string} The debug color to rendering on the debug canvas.
         * @public
         */
         Stage.prototype.clearDebugCanvas = function (color) {
@@ -954,7 +991,7 @@ var Kiwi;
 
         /**
         * Handles the scaling/sizing based upon the scaleType property.
-        * @method _resizeContainer
+        * @method _scaleContainer
         * @private
         */
         Stage.prototype._scaleContainer = function () {
@@ -967,11 +1004,13 @@ var Kiwi;
                     this.container.style.minWidth = '';
                 }
 
+                //To Fit or STRETCH
                 if (this._scaleType == Kiwi.Stage.SCALE_STRETCH || this._scaleType == Kiwi.Stage.SCALE_FIT) {
                     this.container.style.minWidth = '100%';
                     this.container.style.maxWidth = '100%';
                 }
 
+                //If scale stretched then scale the containers height to 100% of its parents.
                 if (this._scaleType == Kiwi.Stage.SCALE_STRETCH) {
                     this.container.style.minHeight = '100%';
                     this.container.style.maxHeight = '100%';
@@ -980,6 +1019,7 @@ var Kiwi;
                     this.container.style.maxHeight = '';
                 }
 
+                //If it is SCALE to FIT then scale the containers height in ratio with the containers width.
                 if (this._scaleType == Kiwi.Stage.SCALE_FIT) {
                     this.container.style.height = String((this.container.clientWidth / this._width) * this._height) + 'px';
                 }
@@ -1022,15 +1062,16 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     /**
-    * The component manager is a class that is used to handle a number of components that are active on a particular object.
-    * This way if you want to check to see if a particular component is on an object you can ask the component manager,
-    * Or when updating components you can tell the component manager to update and all of the components will update as well.
+    * The component manager is a class that is used to handle components that are active on a particular object. Any object
+    * that has a component manager attached to it can use components.
+    * If you want to check to see if a particular component is on an object you can ask the component manager,
+    * or when updating components you can tell the component manager to update and all of the components will update as well.
     *
     * @class ComponentManager
     * @namespace Kiwi
     * @constructor
     * @param type {number} - The type of object that this component manager's owner is.
-    * @param owner {IChild} - The owner of this component manager.
+    * @param owner {Object} - The owner of this component manager.
     * @return {ComponentManager}
     *
     */
@@ -1085,7 +1126,7 @@ var Kiwi;
         * Get an existing component that has been added to the layer by its name
         * @method getComponent
         * @param value {String} The component name
-        * @return {Component} The component, if found, otherwise null
+        * @return {Kiwi.Component} The component, if found, otherwise null
         * @public
         */
         ComponentManager.prototype.getComponent = function (value) {
@@ -1099,8 +1140,8 @@ var Kiwi;
         /**
         * Adds a Component to the manager.
         * @method add
-        * @param component {Component} The component to add
-        * @return {Component} The component that was added
+        * @param component {Kiwi.Component} The component to add
+        * @return {Kiwi.Component} The component that was added
         * @public
         */
         ComponentManager.prototype.add = function (component) {
@@ -1112,7 +1153,7 @@ var Kiwi;
         /**
         * Adds a batch of components to the manager at a single time.
         * @method addBatch
-        * @param value* {Component} The component/s that you would like to add.
+        * @param value* {Kiwi.Component} The component/s that you would like to add.
         * @public
         */
         ComponentManager.prototype.addBatch = function () {
@@ -1128,7 +1169,7 @@ var Kiwi;
         /**
         * Removes a component from the component manager
         * @method removeComponent
-        * @param component {Component} The component to be removed.
+        * @param component {Kiwi.Component} The component to be removed.
         * @param [destroy=true] {boolean} If the destroy method is to be called on the component when it is removed.
         * @return {boolean} true if the component was removed successfully
         * @public
@@ -1275,13 +1316,20 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     /**
-    *
+    * The plugin manager registers plugins, checks plugin dependencies, and calls designated functions on each registered plugin at boot time, and during the update loop if required.
+    * Plugins are registered on the global Kiwi instance. Once a plugin in registered it is allocated a place on the Kiwi.Plugins name space.
+    * Eg. FooPlugin will be accessible at Kiwi.Plugins.FooPlugin.
+    * When a game instance is created, it can contain a list of required plugins in the configuration object. At this point the plugin manager will validate that the plugins
+    * exist, and that dependencies are met (both Kiwi version and versions of other required plugins).
+    * If the plugin has a "create" function, the plugin manager instance will call that function as part of the boot process. The create function may do anything, but usually it would create
+    * an instance of an object.
+    * The plugin manager update function is called every update loop. If an object was created by the "create" function and it has an "update" function, that function will be called in turn.
     * @class PluginManager
     * @namespace Kiwi
     * @constructor
-    * @param game {Game} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
+    * @param game {Kiwi.Game} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
     * @param plugins {string[]} The entities position on the x axis.
-    * @return {PluginManager} This PluginManager.
+    * @return {Kiwi.PluginManager} This PluginManager.
     *
     */
     var PluginManager = (function () {
@@ -1293,20 +1341,17 @@ var Kiwi;
             this._createPlugins();
         }
         Object.defineProperty(PluginManager, "availablePlugins", {
-            get: /**
+            /**
             * An array of objects represetning all available plugins, each containing the name and version number of an available plugin
             * @property getAvailablePlugins
             * @type Array
             * @static
             * @private
             */
-            function () {
+            get: function () {
                 var plugins = [];
                 for (var i = 0; i < PluginManager._availablePlugins.length; i++) {
-                    plugins.push({
-                        name: PluginManager._availablePlugins[i].name,
-                        version: PluginManager._availablePlugins[i].version
-                    });
+                    plugins.push({ name: PluginManager._availablePlugins[i].name, version: PluginManager._availablePlugins[i].version });
                 }
                 return plugins;
             },
@@ -1314,7 +1359,7 @@ var Kiwi;
             configurable: true
         });
 
-        PluginManager.register = /**
+        /**
         * Registers a plugin object as available. Any game instance can choose to use the plugin.
         * Plugins need only be registered once per webpage. If registered a second time it will be ignored.
         * Two plugins with the same names cannot be reigstered simultaneously, even if different versions.
@@ -1323,7 +1368,7 @@ var Kiwi;
         * @public
         * @static
         */
-        function (plugin) {
+        PluginManager.register = function (plugin) {
             console.log("Kiwi.PluginManager: Attempting to register plugin :" + plugin.name);
             if (this._availablePlugins.indexOf(plugin) == -1) {
                 //check if plugin with same name is registered
@@ -1346,13 +1391,13 @@ var Kiwi;
         };
 
         Object.defineProperty(PluginManager.prototype, "objType", {
-            get: /**
+            /**
             * Identifies the object as a PluginManager.
             * @property objType
             * @type string
             * @public
             */
-            function () {
+            get: function () {
                 return "PluginManager";
             },
             enumerable: true,
@@ -1378,6 +1423,7 @@ var Kiwi;
                         console.log("  Kiwi.PluginManager: Name:" + Kiwi.Plugins[plugin].name);
                         console.log("  Kiwi.PluginManager: Version:" + Kiwi.Plugins[plugin].version);
 
+                        //test for kiwi version compatiblity
                         if (typeof Kiwi.Plugins[plugin].minimumKiwiVersion !== "undefined") {
                             console.log("  Kiwi.PluginManager: " + plugin + " requires minimum Kiwi version " + Kiwi.Plugins[plugin].minimumKiwiVersion);
                             var parsedKiwiVersion = Kiwi.Utils.Version.parseVersion(Kiwi.VERSION);
@@ -1488,6 +1534,11 @@ var Kiwi;
             }
         };
 
+        /**
+        * Calls the update functions on any objects that plugins used by the game instance have designated during creation.
+        * @method update
+        * @public
+        */
         PluginManager.prototype.update = function () {
             for (var i = 0; i < this._bootObjects.length; i++) {
                 if ("update" in this._bootObjects[i]) {
@@ -1508,13 +1559,14 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     /**
-    * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager. More Cameras can always be created by used of the create method of a CameraManager.
+    * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager.
+    * Games currently only usupport the use of a single camera, the default camera. Much of this class has been written with future multiple camera support in mind.
     *
     * @class CameraManager
     * @namespace Kiwi
     * @constructor
-    * @param {Game} game
-    * @return {CameraManager}
+    * @param {Kiwi.Game} game
+    * @return {Kiwi.CameraManager}
     */
     var CameraManager = (function () {
         function CameraManager(game) {
@@ -1549,7 +1601,7 @@ var Kiwi;
         * @param {Number} y. The y position of the new camera.
         * @param {Number} width. The width of the new camera.
         * @param {Number} height. The height of the new camera.
-        * @return {Camera} The new camera object.
+        * @return {Kiwi.Camera} The new camera object.
         * @public
         */
         CameraManager.prototype.create = function (name, x, y, width, height) {
@@ -1564,7 +1616,7 @@ var Kiwi;
         /**
         * Removes the given camera, if it is present in the camera managers camera collection.
         * @method remove
-        * @param camera {Camera}
+        * @param camera {Kiwi.Camera}
         * @return {boolean} True if the camera was removed, false otherwise.
         * @public
         */
@@ -1606,8 +1658,6 @@ var Kiwi;
             }
 
             for (var i = 0; i < this._cameras.length; i++) {
-                //render each layer
-                //this._game.layers.render(this._cameras[i]);
                 this._cameras[i].render();
             }
         };
@@ -1618,7 +1668,7 @@ var Kiwi;
         * @public
         */
         CameraManager.prototype.removeAll = function () {
-            this._cameras.length = 0;
+            this._cameras = [];
         };
         return CameraManager;
     })();
@@ -1637,9 +1687,9 @@ var Kiwi;
     * @class StateConfig
     * @namespace Kiwi
     * @constructor
-    * @param {State} parent
-    * @param {String} name
-    * @return {StateConfig} This Object
+    * @param parent {Kiwi.State} The State that this configuration object belongs to.
+    * @param name {String} The name of the state which was created.
+    * @return {Kiwi.StateConfig}
     *
     */
     var StateConfig = (function () {
@@ -1653,10 +1703,6 @@ var Kiwi;
             this.name = '';
             /**
             * Currently unused.
-            * @property isPersistent
-            * @type boolean
-            * @default false
-            * @public
             */
             this.isPersistent = false;
             /**
@@ -1702,17 +1748,15 @@ var Kiwi;
             * @public
             */
             this.runCount = 0;
-            /**
-            * The type of state this is. Currently Unused.
-            * @property type
-            * @type Number
-            * @default 0
-            * @public
+            /*
+            * The type of State this is. Currently Unused.
             */
             this.type = 0;
             this._state = parent;
             this.name = name;
 
+            //If it has a preload method.
+            //*cough* of course it does.
             if (typeof this._state['preload'] === 'function') {
                 this.hasPreloader = true;
             }
@@ -1720,7 +1764,7 @@ var Kiwi;
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "StateConfig"
         * @public
         */
         StateConfig.prototype.objType = function () {
@@ -1730,8 +1774,8 @@ var Kiwi;
         /**
         * Resets the properties contained on this StateConfig object.
         * This is executed when a State is about to be destroyed as so reset's it to be switched to again.
-        * @method
-        *
+        * @method reset
+        * @public
         */
         StateConfig.prototype.reset = function () {
             this.isReady = false;
@@ -1744,20 +1788,21 @@ var Kiwi;
     Kiwi.StateConfig = StateConfig;
 })(Kiwi || (Kiwi = {}));
 /**
-* Module - Kiwi (Core)
+*
 * @module Kiwi
 *
 */
 var Kiwi;
 (function (Kiwi) {
     /**
-    * The state manager handles the starting, parsing, looping and swapping of game states. Thus there is only ever one state manager per game.
+    * The State Manager handles the starting, parsing, looping and swapping of game States within a Kiwi Game
+    * There is only ever one State Manager per game, but a single Game can contain multiple States.
     *
     * @class StateManager
     * @namespace Kiwi
     * @constructor
-    * @param game {Game} The game that this statemanager belongs to.
-    * @return {StateMananger} This Object
+    * @param game {Kiwi.Game} The game that this statemanager belongs to.
+    * @return {Kiwi.StateMananger}
     *
     */
     var StateManager = (function () {
@@ -1765,16 +1810,16 @@ var Kiwi;
             /**
             * The current State that the game is at.
             * @property current
-            * @type State
+            * @type Kiwi.State
             * @default null
             * @public
             */
             this.current = null;
             /**
-            * The name of the new state that is to be switched to.
+            * The name of the new State that is to be switched to.
             * @property _newStateKey
             * @type string
-            * @defualt null
+            * @default null
             * @private
             */
             this._newStateKey = null;
@@ -1785,7 +1830,7 @@ var Kiwi;
         /**
         * The type of object this is.
         * @method objType
-        * @return string
+        * @return {string} "StateManager"
         * @public
         */
         StateManager.prototype.objType = function () {
@@ -1810,9 +1855,9 @@ var Kiwi;
         };
 
         /**
-        * Checks to see if the state passed is valid or not.
+        * Checks to see if the State passed is valid or not.
         * @method checkValidState
-        * @param {State} state
+        * @param state {Kiwi.State}
         * @return {boolean}
         * @private
         */
@@ -1840,6 +1885,7 @@ var Kiwi;
             console.log('Kiwi.StateManager: Adding state');
             var tempState;
 
+            //What type is the state that was passed.
             if (typeof state === 'function') {
                 tempState = new state();
             } else if (typeof state === 'string') {
@@ -1848,6 +1894,7 @@ var Kiwi;
                 tempState = state;
             }
 
+            //Does a state with that name already exist?
             if (tempState.config.name && this.checkKeyExists(tempState.config.name) === true) {
                 if (this._game.debug)
                     console.error('  Kiwi.StateManager: Could not add ' + tempState.config.name + ' as a State with that name already exists.');
@@ -1857,6 +1904,7 @@ var Kiwi;
 
             tempState.game = this._game;
 
+            //Is it a valid state?
             if (this.checkValidState(tempState) === false) {
                 if (this._game.debug)
                     console.error('  Kiwi.StateManager: ' + tempState.config.name + ' isn\'t a valid state. Make sure you are using the Kiwi.State class!');
@@ -1889,11 +1937,12 @@ var Kiwi;
         * Switches to the name (key) of the state that you pass.
         * Does not work if the state you are switching to is already the current state OR if that state does not exist yet.
         * @method setCurrentState
-        * @param {String} key
+        * @param key {String}
         * @return {boolean}
         * @private
         */
         StateManager.prototype.setCurrentState = function (key) {
+            //  Bail out if they are trying to switch to the already current state
             if (this.current !== null && this.current.config.name === key || this.checkKeyExists(key) === false) {
                 return false;
             }
@@ -1911,13 +1960,14 @@ var Kiwi;
         * @private
         */
         StateManager.prototype.bootNewState = function () {
+            // Destroy the current if there is one.
             if (this.current !== null) {
                 this.current.shutDown();
 
-                this._game.input.reset();
-                this.current.destroy(true);
-                this._game.fileStore.removeStateFiles(this.current);
-                this.current.config.reset();
+                this._game.input.reset(); //Reset the input component
+                this.current.destroy(true); //Destroy ALL IChildren ever created on that state.
+                this._game.fileStore.removeStateFiles(this.current); //Clear the fileStore of not global files.
+                this.current.config.reset(); //Reset the config setting
             }
 
             //Set the current state, reset the key
@@ -1939,13 +1989,14 @@ var Kiwi;
         * @param [state=null] {Any} The state that you want to switch to. This is only used to create the state if it doesn't exist already.
         * @param [initParams=null] {Object} Any parameters that you would like to pass to the init method of that new state.
         * @param [createParams=null] {Object} Any parameters that you would like to pass to the create method of that new state.
-        * @return {boolean}
+        * @return {boolean} Whether the State is going to be switched to or not.
         * @public
         */
         StateManager.prototype.switchState = function (key, state, initParams, createParams) {
             if (typeof state === "undefined") { state = null; }
             if (typeof initParams === "undefined") { initParams = null; }
             if (typeof createParams === "undefined") { createParams = null; }
+            //  If we have a current state that isn't yet ready (preload hasn't finished) then abort now
             if (this.current !== null && this.current.config.isReady === false) {
                 if (this._game.debug)
                     console.error('Kiwi.StateManager: Cannot change to a new state till the current state has finished loading!');
@@ -1953,12 +2004,14 @@ var Kiwi;
                 return false;
             }
 
+            // If state key doesn't exist then lets add it.
             if (this.checkKeyExists(key) === false && state !== null) {
                 if (this.addState(state, false) === false) {
                     return false;
                 }
             }
 
+            // Store the parameters (if any)
             if (initParams !== null || createParams !== null) {
                 var newState = this.getState(key);
                 newState.config.initParams = [];
@@ -1979,8 +2032,8 @@ var Kiwi;
         /**
         * Gets a state by the key that is passed.
         * @method getState
-        * @param {String} key
-        * @return {State}
+        * @param key {String}
+        * @return {Kiwi.State}
         * @private
         */
         StateManager.prototype.getState = function (key) {
@@ -2033,8 +2086,10 @@ var Kiwi;
             if (this._game.debug)
                 console.log("Kiwi.StateManager: Calling " + this.current.name + ":Create");
 
+            //Execute the create with params if there are some there.
             if (this.current.config.createParams) {
                 this.current.create.apply(this.current, this.current.config.createParams);
+                //Otherwise just execute the method.
             } else {
                 this.current.create.call(this.current);
             }
@@ -2049,12 +2104,15 @@ var Kiwi;
         * @private
         */
         StateManager.prototype.checkInit = function () {
+            //Has the state already been initialised?
             if (this.current.config.isInitialised === false) {
                 //Boot the state.
                 this.current.boot();
 
+                //Execute the Init method with params
                 if (this.current.config.initParams) {
                     this.current.init.apply(this.current, this.current.config.initParams);
+                    //Execute the Init method with out params
                 } else {
                     this.current.init.call(this.current);
                 }
@@ -2066,9 +2124,9 @@ var Kiwi;
         /**
         * Is execute whilst files are being loaded by the state.
         * @method onLoadProgress
-        * @param {Number} percent
-        * @param {Number} bytesLoaded
-        * @param {File} file
+        * @param percent {Number} The current percentage of files that have been loaded. Ranging from 0 - 1.
+        * @param bytesLoaded {Number} The number of bytes that have been loaded so far.
+        * @param file {Kiwi.Files.File} The last file that has been loaded.
         * @private
         */
         StateManager.prototype.onLoadProgress = function (percent, bytesLoaded, file) {
@@ -2076,7 +2134,7 @@ var Kiwi;
         };
 
         /**
-        * Executed when the preloading has completed. Then executes the loadComplete and create methods of the new state.
+        * Executed when the preloading has completed. Then executes the loadComplete and create methods of the new State.
         * @method onLoadComplete
         * @private
         */
@@ -2104,12 +2162,13 @@ var Kiwi;
         };
 
         /**
-        * The update loop that is accessable on the state manager.
+        * The update loop that is accessible on the StateManager.
         * @method update
         * @public
         */
         StateManager.prototype.update = function () {
             if (this.current !== null) {
+                //Is the state ready?
                 if (this.current.config.isReady === true) {
                     this.current.preUpdate();
                     this.current.update();
@@ -2119,6 +2178,7 @@ var Kiwi;
                 }
             }
 
+            //Do we need to switch states?
             if (this._newStateKey !== null) {
                 this.bootNewState();
             }
@@ -2145,11 +2205,15 @@ var Kiwi;
 * @module Kiwi
 *
 */
+/**
+*
+* @module Kiwi
+*
+*/
 var Kiwi;
 (function (Kiwi) {
     /**
-    * An Entity serves as a container for game objects to extend from and thus you should never directly instantiate this class.
-    * Each Entity has a unique ID (UID) which is automatically generated upon instantiation.
+    * An Entity is a base class for game objects to extend from and thus you should never directly instantiate this class.
     * Every entity requires that you pass to it the state that it belongs too, that way when you switch states the appropriate entitys can be deleted.
     *
     * @class Entity
@@ -2158,7 +2222,7 @@ var Kiwi;
     * @param state {State} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
     * @param x {Number} The entities position on the x axis.
     * @param y {Number} The entities position on the y axis.
-    * @return {Entity} This entity.
+    * @return {Kiwi.Entity} This entity.
     *
     */
     var Entity = (function () {
@@ -2166,12 +2230,12 @@ var Kiwi;
             /**
             * The group that this entity belongs to. If added onto the state then this is the state.
             * @property _parent
-            * @type Group
+            * @type Kiwi.Group
             * @private
             */
             this._parent = null;
             /**
-            * The actual alpha of this entity.
+            * The alpha of this entity.
             * @property _alpha
             * @type Number
             * @private
@@ -2204,7 +2268,7 @@ var Kiwi;
             /**
             * The texture atlas that is to be used on this entity.
             * @property atlas
-            * @type TextureAtlas
+            * @type Kiwi.Textures.TextureAtlas
             * @public
             */
             this.atlas = null;
@@ -2227,7 +2291,7 @@ var Kiwi;
             /**
             * The clock that this entity use's for time based calculations. This generated by the state on instatiation.
             * @property _clock
-            * @type Clock
+            * @type Kiwi.Clock
             * @private
             */
             this._clock = null;
@@ -2250,14 +2314,14 @@ var Kiwi;
             get: function () {
                 return this._parent;
             },
-            set: /**
+            /**
             * The group that this entity belongs to/is a child of once added to one. If added onto the state then this is the state.
             * @property parent
             * @type Group
-            * @param val {Group}
+            * @param val {Kiwi.Group}
             * @public
             */
-            function (val) {
+            set: function (val) {
                 this.transform.parent = (val !== null) ? val.transform : null;
                 this._parent = val;
             },
@@ -2266,13 +2330,13 @@ var Kiwi;
         });
 
         Object.defineProperty(Entity.prototype, "x", {
-            get: /**
+            /**
             * X coordinate of this Entity. This is just aliased to the transform property.
             * @property x
             * @type Number
             * @public
             */
-            function () {
+            get: function () {
                 return this.transform.x;
             },
             set: function (value) {
@@ -2283,13 +2347,13 @@ var Kiwi;
         });
 
         Object.defineProperty(Entity.prototype, "y", {
-            get: /**
+            /**
             * Y coordinate of this Entity. This is just aliased to the transform property.
             * @property y
             * @type Number
             * @public
             */
-            function () {
+            get: function () {
                 return this.transform.y;
             },
             set: function (value) {
@@ -2301,13 +2365,13 @@ var Kiwi;
 
 
         Object.defineProperty(Entity.prototype, "scaleX", {
-            get: /**
+            /**
             * Scale X of this Entity. This is just aliased to the transform property.
             * @property scaleX
             * @type Number
             * @public
             */
-            function () {
+            get: function () {
                 return this.transform.scaleX;
             },
             set: function (value) {
@@ -2318,13 +2382,13 @@ var Kiwi;
         });
 
         Object.defineProperty(Entity.prototype, "scaleY", {
-            get: /**
+            /**
             * Scale Y coordinate of this Entity. This is just aliased to the transform property.
             * @property scaleY
             * @type Number
             * @public
             */
-            function () {
+            get: function () {
                 return this.transform.scaleY;
             },
             set: function (value) {
@@ -2336,13 +2400,13 @@ var Kiwi;
 
 
         Object.defineProperty(Entity.prototype, "rotation", {
-            get: /**
+            /**
             * Rotation of this Entity. This is just aliased to the transform property.
             * @property rotation
             * @type Number
             * @public
             */
-            function () {
+            get: function () {
                 return this.transform.rotation;
             },
             set: function (value) {
@@ -2353,13 +2417,13 @@ var Kiwi;
         });
 
         Object.defineProperty(Entity.prototype, "rotPointX", {
-            get: /**
+            /**
             * The rotation point on the x-axis. This is just aliased to the rotPointX on the transform object.
             * @property rotPointX
             * @type number
             * @public
             */
-            function () {
+            get: function () {
                 return this.transform.rotPointX;
             },
             set: function (value) {
@@ -2370,13 +2434,13 @@ var Kiwi;
         });
 
         Object.defineProperty(Entity.prototype, "rotPointY", {
-            get: /**
+            /**
             * The rotation point on the y-axis. This is just aliased to the rotPointY on the transform object.
             * @property rotPointY
             * @type number
             * @public
             */
-            function () {
+            get: function () {
                 return this.transform.rotPointY;
             },
             set: function (value) {
@@ -2401,13 +2465,13 @@ var Kiwi;
             get: function () {
                 return this._alpha;
             },
-            set: /**
+            /**
             * Alpha of this entity. A number between 0 (invisible) and 1 (completely visible).
             * @property alpha
             * @type Number
             * @public
             */
-            function (value) {
+            set: function (value) {
                 if (value <= 0)
                     value = 0;
                 if (value > 1)
@@ -2422,14 +2486,14 @@ var Kiwi;
             get: function () {
                 return this._visible;
             },
-            set: /**
+            /**
             * Set the visiblity of this entity. True or False.
             * @property visibility
             * @type boolean
             * @default true
             * @public
             */
-            function (value) {
+            set: function (value) {
                 this._visible = value;
             },
             enumerable: true,
@@ -2437,7 +2501,7 @@ var Kiwi;
         });
 
         Object.defineProperty(Entity.prototype, "cellIndex", {
-            get: /**
+            /**
             * Used as a reference to a single Cell in the atlas that is to be rendered.
             * E.g. If you had a spritesheet with 3 frames/cells and you wanted the second frame to be displayed you would change this value to 1
             * @property cellIndex
@@ -2445,10 +2509,11 @@ var Kiwi;
             * @default 0
             * @public
             */
-            function () {
+            get: function () {
                 return this._cellIndex;
             },
             set: function (val) {
+                //If the entity has a texture atlas
                 if (this.atlas !== null) {
                     var cell = this.atlas.cells[val];
 
@@ -2472,13 +2537,13 @@ var Kiwi;
             get: function () {
                 return this._exists;
             },
-            set: /**
+            /**
             * Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool.
             * @property exists
             * @type boolean
             * @public
             */
-            function (value) {
+            set: function (value) {
                 this._exists = value;
             },
             enumerable: true,
@@ -2489,14 +2554,14 @@ var Kiwi;
             get: function () {
                 return this._active;
             },
-            set: /**
+            /**
             * Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.
             * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
             * @property active
             * @type boolean
             * @public
             */
-            function (value) {
+            set: function (value) {
                 this._active = value;
             },
             enumerable: true,
@@ -2507,14 +2572,14 @@ var Kiwi;
             get: function () {
                 return this._willRender;
             },
-            set: /**
-            * Toggles if this Entity will be rendered by a canvas layer. Use the visibile component for DOM layers.
+            /**
+            * Toggles if this Entity will be rendered.
             * @property willRender
             * @type boolean
             * @default true
             * @public
             */
-            function (value) {
+            set: function (value) {
                 this._willRender = value;
             },
             enumerable: true,
@@ -2525,14 +2590,14 @@ var Kiwi;
             get: function () {
                 return this._inputEnabled;
             },
-            set: /**
+            /**
             * Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)
             * This method should be over-ridden to handle specific game object implementations.
             * @property inputEnabled
             * @type boolean
             * @public
             */
-            function (value) {
+            set: function (value) {
                 this._inputEnabled = value;
             },
             enumerable: true,
@@ -2543,13 +2608,13 @@ var Kiwi;
             get: function () {
                 return this._clock;
             },
-            set: /**
+            /**
             * The Clock used to update this all of this Entities components (defaults to the Game MasterClock)
             * @property clock
-            * @type Clock
+            * @type Kiwi.Time.Clock
             * @public
             */
-            function (value) {
+            set: function (value) {
                 this._clock = value;
             },
             enumerable: true,
@@ -2560,13 +2625,13 @@ var Kiwi;
             get: function () {
                 return this._dirty;
             },
-            set: /**
+            /**
             * A value used by components to control if the Entity needs re-rendering
             * @property dirty
             * @type boolean
             * @public
             */
-            function (value) {
+            set: function (value) {
                 this._dirty = value;
             },
             enumerable: true,
@@ -2594,6 +2659,7 @@ var Kiwi;
         };
 
         /**
+        * Renders the entity using the canvas renderer.
         * This isn't called until the Entity has been added to a Group/State which is active.
         * This functionality is handled by the sub classes.
         * @method render
@@ -2604,9 +2670,14 @@ var Kiwi;
         };
 
         /**
-        *
-        *
-        *
+        * Renders the entity using the canvas renderer.
+        * This isn't called until the Entity has been added to a Group/State which is active.
+        * This functionality is handled by the sub classes.
+        * @method renderGL
+        * @param {Kiwi.Camera} camera
+        * @param {WebGLRenderingContext} gl
+        * @param [params=null] {object} params
+        * @public
         */
         Entity.prototype.renderGL = function (gl, camera, params) {
             if (typeof params === "undefined") { params = null; }
@@ -2653,14 +2724,15 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     /**
-    * The base class that all components extend from and thus contains all of the common functionality that is required of every Component.
+    * The base class that all components extend from. It contains all of the common functionality that is required of every Component.
+    * Any object
     *
     * @class Component
     * @namespace Kiwi
     * @constructor
-    * @param owner {IChild} The IChild that this component belongs to.
+    * @param owner {Object} The object that this component belongs to.
     * @param componentName {String} The name of this component.
-    * @return {Component}
+    * @return {Kiwi.Component}
     */
     var Component = (function () {
         function Component(owner, name) {
@@ -2743,14 +2815,15 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     /**
-    * Is a class the implements the IChild structure who's purpose is to contain multiple children/members, those of which also implement the IChild interface. The members of the Group's coordinates are also in relation to the Group that they were added to. So if you moved an entire Group, each member of that Group would also 'move'.
+    * The group class is central to creating the scene graph that contains all objects in a state. A group can contain entities or other groups, thereby enabling a nested tree scene graph.
+    * The members of the Group's coordinates are also in relation to the Group that they were added to. So if you moved an entire Group, each member of that Group would also 'move'.
     *
     * @class Group
     * @namespace Kiwi
     * @constructor
-    * @param state {State} The State that this Group is a part of.
+    * @param state {Kiwi.State} The State that this Group is a part of.
     * @param [name=''] {String} The name of this group.
-    * @return {Group}
+    * @return {Kiwi.Group}
     *
     */
     var Group = (function () {
@@ -2767,21 +2840,21 @@ var Kiwi;
             /**
             * The parent group of this group.
             * @property _parent
-            * @type Group
+            * @type Kiwi.Group
             * @private
             */
             this._parent = null;
             /**
             * The game this Group belongs to
             * @property game
-            * @type Game
+            * @type Kiwi.Game
             * @public
             */
             this.game = null;
             /**
             * The State that this Group belongs to
             * @property state
-            * @type State
+            * @type Kiwi.State
             * @public
             **/
             this.state = null;
@@ -2799,6 +2872,7 @@ var Kiwi;
             * @private
             */
             this._tempRemoveChildren = null;
+            //prevents the state going AHHH...since the state extends group.
             if (state !== null) {
                 this.state = state;
                 this.game = this.state.game;
@@ -2830,7 +2904,7 @@ var Kiwi;
         };
 
         /*
-        * Represents the type of child that this is. Note: A 'CHILD' is any object that extends from ICHILD.
+        * Represents the type of child that this is.
         * @method childType
         * @return number
         * @public
@@ -2843,30 +2917,31 @@ var Kiwi;
             get: function () {
                 return this._parent;
             },
-            set: /**
+            /**
             * Set's the parent of this entity. Note that this also sets the transforms parent of this entity to be the passed groups transform.
             * @property parent
-            * @type Group
+            * @type Kiwi.Group
             * @public
             */
-            function (val) {
+            set: function (val) {
                 //check to see if the parent is not an descendor
                 //if (this.containsDescendant(val) === false) {
                 this.transform.parent = (val !== null) ? val.transform : null;
                 this._parent = val;
+                //}
             },
             enumerable: true,
             configurable: true
         });
 
         Object.defineProperty(Group.prototype, "x", {
-            get: /**
+            /**
             * The X coordinate of this group. This is just aliased to the transform property.
             * @property x
             * @type Number
             * @public
             */
-            function () {
+            get: function () {
                 return this.transform.x;
             },
             set: function (value) {
@@ -2877,13 +2952,13 @@ var Kiwi;
         });
 
         Object.defineProperty(Group.prototype, "y", {
-            get: /**
+            /**
             * The Y coordinate of this group. This is just aliased to the transform property.
             * @property y
             * @type Number
             * @public
             */
-            function () {
+            get: function () {
                 return this.transform.y;
             },
             set: function (value) {
@@ -2894,13 +2969,13 @@ var Kiwi;
         });
 
         Object.defineProperty(Group.prototype, "scaleX", {
-            get: /*
+            /*
             * The Scale X of this group. This is just aliased to the transform property.
             * @property scaleX
             * @type Number
             * @public
             */
-            function () {
+            get: function () {
                 return this.transform.scaleX;
             },
             set: function (value) {
@@ -2911,13 +2986,13 @@ var Kiwi;
         });
 
         Object.defineProperty(Group.prototype, "scaleY", {
-            get: /*
+            /*
             * The Scale Y coordinate of this group. This is just aliased to the transform property.
             * @property scaleY
             * @type Number
             * @public
             */
-            function () {
+            get: function () {
                 return this.transform.scaleY;
             },
             set: function (value) {
@@ -2928,13 +3003,13 @@ var Kiwi;
         });
 
         Object.defineProperty(Group.prototype, "rotation", {
-            get: /*
+            /*
             * The rotation of this group. This is just aliased to the transform property.
             * @property rotation
             * @type Number
             * @public
             */
-            function () {
+            get: function () {
                 return this.transform.rotation;
             },
             set: function (value) {
@@ -2958,13 +3033,13 @@ var Kiwi;
             get: function () {
                 return this._dirty;
             },
-            set: /**
+            /**
             * Sets all children of the Group to be dirty.
             * @property dirty
             * @type boolean
             * @public
             */
-            function (value) {
+            set: function (value) {
                 if (value !== undefined) {
                     this._dirty = value;
 
@@ -2989,9 +3064,9 @@ var Kiwi;
         };
 
         /**
-        * Checks to see if the given IChild is contained in this group as a descendant
+        * Checks to see if the given object is contained in this group as a descendant
         * @method containsDescendant
-        * @param child {IChild} The IChild that you want to check.
+        * @param child {object} The IChild that you want to check.
         * @return {boolean}
         * @public
         */
@@ -3009,7 +3084,7 @@ var Kiwi;
         /**
         * Checks to see if one child is an ansector of another child.
         * @method containsAncestor
-        * @param descendant {IChild} The IChild that you are checking.
+        * @param descendant {object} The object that you are checking.
         * @param ancestor {Group} The parent (ancestor) that you are checking for.
         * @return {boolean}
         * @public
@@ -3026,14 +3101,16 @@ var Kiwi;
         /**
         * Adds an Entity to this Group. The Entity must not already be in this Group.
         * @method addChild
-        * @param child {IChild} The child to be added.
-        * @return {IChild} The child that was added.
+        * @param child {object} The child to be added.
+        * @return {object} The child that was added.
         * @public
         */
         Group.prototype.addChild = function (child) {
+            //make sure you aren't adding a state or itself
             if (child.childType() === Kiwi.STATE || child == this)
                 return;
 
+            //make sure it is not itself.
             if (child.parent !== null)
                 child.parent.removeChild(child);
 
@@ -3047,9 +3124,9 @@ var Kiwi;
         /**
         * Adds an Entity to this Group in the specific location. The Entity must not already be in this Group and it must be supported by the Group.
         * @method addChildAt
-        * @param child {IChild} The child to be added.
+        * @param child {object} The child to be added.
         * @param index {Number} The index the child will be set at.
-        * @return {IChild} The child.
+        * @return {object} The child.
         * @public
         */
         Group.prototype.addChildAt = function (child, index) {
@@ -3068,9 +3145,9 @@ var Kiwi;
         /**
         * Adds an Entity to this Group before another child. The Entity must not already be in this Group and it must be supported by the Group.
         * @method addChildBefore
-        * @param child {IChild} The child to be added.
+        * @param child {object} The child to be added.
         * @param beforeChild {Entity} The child before which the child will be added.
-        * @return {IChild} The child.
+        * @return {object} The child.
         * @public
         */
         Group.prototype.addChildBefore = function (child, beforeChild) {
@@ -3087,9 +3164,9 @@ var Kiwi;
         /**
         * Adds an Entity to this Group after another child. The Entity must not already be in this Group and it must be supported by the Group..
         * @method addChildAfter
-        * @param child {IChild} The child to be added.
-        * @param beforeChild {IChild} The child after which the child will be added.
-        * @return {IChild} The child.
+        * @param child {object} The child to be added.
+        * @param beforeChild {object} The child after which the child will be added.
+        * @return {object} The child.
         * @public
         */
         Group.prototype.addChildAfter = function (child, beforeChild) {
@@ -3107,7 +3184,7 @@ var Kiwi;
         * Get the child at a specific position in this Group by its index.
         * @method getChildAt
         * @param index {Number} The index of the child
-        * @return {IChild} The child, if found or null if not.
+        * @return {object} The child, if found or null if not.
         * @public
         */
         Group.prototype.getChildAt = function (index) {
@@ -3122,7 +3199,7 @@ var Kiwi;
         * Get a child from this Group by its name.
         * @method getChildByName
         * @param name {String} The name of the child
-        * @return {IChild} The child, if found or null if not.
+        * @return {object} The child, if found or null if not.
         * @public
         */
         Group.prototype.getChildByName = function (name) {
@@ -3139,7 +3216,7 @@ var Kiwi;
         * Get a child from this Group by its UUID.
         * @method getChildByID
         * @param id {String} The ID of the child.
-        * @return {IChild} The child, if found or null if not.
+        * @return {object} The child, if found or null if not.
         * @public
         */
         Group.prototype.getChildByID = function (id) {
@@ -3155,7 +3232,7 @@ var Kiwi;
         /**
         * Returns the index position of the Entity or -1 if not found.
         * @method getChildIndex
-        * @param child {IChild} The child.
+        * @param child {object} The child.
         * @return {Number} The index of the child or -1 if not found.
         * @public
         */
@@ -3166,9 +3243,9 @@ var Kiwi;
         /**
         * Removes an Entity from this Group if it is a child of it.
         * @method removeChild
-        * @param child {IChild} The child to be removed.
+        * @param child {object} The child to be removed.
         * @param [destroy=false] {boolean} If the entity that gets removed should be destroyed as well.
-        * @return {IChild} The child.
+        * @return {object} The child.
         * @public
         */
         Group.prototype.removeChild = function (child, destroy) {
@@ -3193,7 +3270,7 @@ var Kiwi;
         * Removes the Entity from this Group at the given position.
         * @method removeChildAt
         * @param index {Number} The index of the child to be removed.
-        * @return {IChild} The child, or null.
+        * @return {object} The child, or null.
         */
         Group.prototype.removeChildAt = function (index) {
             if (this.members[index]) {
@@ -3236,12 +3313,13 @@ var Kiwi;
         /**
         * Sets a new position of an existing Entity within the Group.
         * @method setChildIndex
-        * @param child {IChild} The child in this Group to change.
+        * @param child {object} The child in this Group to change.
         * @param index {Number} The index for the child to be set at.
         * @return {boolean} true if the Entity was moved to the new position, otherwise false.
         * @public
         */
         Group.prototype.setChildIndex = function (child, index) {
+            //  If the Entity isn't in this Group, or is already at that index then bail out
             if (child.parent !== this || this.getChildIndex(child) === index) {
                 return false;
             }
@@ -3255,12 +3333,13 @@ var Kiwi;
         /**
         * Swaps the position of two existing Entities that are a direct child of this group.
         * @method swapChildren
-        * @param child1 {IChild} The first child in this Group to swap.
-        * @param child2 {IChild} The second child in this Group to swap.
+        * @param child1 {object} The first child in this Group to swap.
+        * @param child2 {object} The second child in this Group to swap.
         * @return {boolean} true if the Entities were swapped successfully, otherwise false.
         * @public
         */
         Group.prototype.swapChildren = function (child1, child2) {
+            //  If either Entity isn't in this Group, or is already at that index then bail out
             if (child1.parent !== this || child2.parent !== this) {
                 return false;
             }
@@ -3291,6 +3370,7 @@ var Kiwi;
             var child2 = this.getChildAt(index2);
 
             if (child1 !== null && child2 !== null) {
+                //  If either Entity isn't in this Group, or is already at that index then bail out
                 if (child1 == child2 || child1.parent !== this || child2.parent !== this) {
                     return false;
                 }
@@ -3307,12 +3387,13 @@ var Kiwi;
         /**
         * Replaces a child Entity in this Group with a new one.
         * @method replaceChild
-        * @param oldChild {IChild} The Entity in this Group to be removed.
-        * @param newChild {IChild} The new Entity to insert into this Group at the old Entities position.
+        * @param oldChild {object} The Entity in this Group to be removed.
+        * @param newChild {object} The new Entity to insert into this Group at the old Entities position.
         * @return {boolean} true if the Entities were replaced successfully, otherwise false.
         * @public
         */
         Group.prototype.replaceChild = function (oldChild, newChild) {
+            //fall through if replacing child with the same child
             if (oldChild === newChild)
                 return false;
 
@@ -3320,6 +3401,7 @@ var Kiwi;
             var index = this.getChildIndex(oldChild);
 
             if (index > -1) {
+                // remove the new child from the group if the group contains it, so it can be reinserted in new position
                 if (newChild.parent) {
                     newChild.parent.removeChild(newChild);
                 }
@@ -3445,14 +3527,14 @@ var Kiwi;
             get: function () {
                 return this._exists;
             },
-            set: /**
+            /**
             * Toggles the exitence of this Group. An Entity that no longer exists can be garbage collected or re-allocated in a pool
             * This method should be over-ridden to handle specific canvas/webgl implementations.
             * @property exists
             * @type boolean
             * @public
             */
-            function (value) {
+            set: function (value) {
                 this._exists = value;
             },
             enumerable: true,
@@ -3464,7 +3546,7 @@ var Kiwi;
             get: function () {
                 return this._active;
             },
-            set: /**
+            /**
             * Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.
             * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
             * @property active
@@ -3472,7 +3554,7 @@ var Kiwi;
             * @default true
             * @public
             */
-            function (value) {
+            set: function (value) {
                 this._active = value;
             },
             enumerable: true,
@@ -3483,7 +3565,7 @@ var Kiwi;
         * The render method that is required by the IChild.
         * This method never gets called as the render is only worried about rendering entities.
         * @method render
-        * @param camera {Camera}
+        * @param camera {Kiwi.Camera}
         * @public
         */
         Group.prototype.render = function (camera) {
@@ -3493,7 +3575,7 @@ var Kiwi;
         * Removes the first Entity from this Group marked as 'alive'
         * @method removeFirstAlive
         * @param [destroy=false] {boolean} If the entity should run the destroy method when it is removed.
-        * @return {IChild} The Entity that was removed from this Group if alive, otherwise null
+        * @return {object} The Entity that was removed from this Group if alive, otherwise null
         * @public
         */
         Group.prototype.removeFirstAlive = function (destroy) {
@@ -3504,7 +3586,7 @@ var Kiwi;
         /**
         * Returns the first Entity from this Group marked as 'alive' or null if no members are alive
         * @method getFirstAlive
-        * @return {IChild}
+        * @return {object}
         * @public
         */
         Group.prototype.getFirstAlive = function () {
@@ -3520,7 +3602,7 @@ var Kiwi;
         /**
         * Returns the first member of the Group which is not 'alive', returns null if all members are alive.
         * @method getFirstDead
-        * @return {IChild}
+        * @return {object}
         * @public
         */
         Group.prototype.getFirstDead = function () {
@@ -3573,7 +3655,7 @@ var Kiwi;
         * Returns a member at random from the group.
         * @param {Number}	StartIndex	Optional offset off the front of the array. Default value is 0, or the beginning of the array.
         * @param {Number}	Length		Optional restriction on the number of values you want to randomly select from.
-        * @return {IChild}	A child from the members list.
+        * @return {object}	A child from the members list.
         * @public
         */
         Group.prototype.getRandom = function (start, length) {
@@ -3613,14 +3695,14 @@ var Kiwi;
             get: function () {
                 return this._willRender;
             },
-            set: /**
+            /**
             * Controls whether render is automatically caleld by the parent.
             * @property willRender
             * @type boolean
             * @return {boolean}
             * @public
             */
-            function (value) {
+            set: function (value) {
                 this._willRender = value;
             },
             enumerable: true,
@@ -3674,37 +3756,40 @@ var Kiwi;
     })();
     Kiwi.Group = Group;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+*
+*/
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-/**
-*
-* @module Kiwi
-*
-*/
 var Kiwi;
 (function (Kiwi) {
     /**
-    *
+    * A State in Kiwi.JS is the main class that developers use when wanting to create a Game.
+    * States in Kiwi are used keep different sections of a game seperated. So a single game maybe comprised of many different States.
+    * Such as one for the menu, in-game, leaderboard, e.t.c.
+    * There can only ever be a single State active at a given time.
     *
     * @class State
     * @namespace Kiwi
-    * @extends Group
+    * @extends Kiwi.Group
     * @constructor
-    * @param name {String}
-    * @return {State}
+    * @param name {String} Name of this State. Should be unique to differentiate itself from other States.
+    * @return {Kiwi.State}
     */
     var State = (function (_super) {
         __extends(State, _super);
         function State(name) {
             _super.call(this, null, name);
             /**
-            * A reference to the Kiwi.Game that this State belongs to
+            * A reference to the Kiwi.Game that this State belongs to.
             * @property game
-            * @type Game
+            * @type Kiwi.Game
             * @public
             */
             this.game = null;
@@ -3717,7 +3802,7 @@ var Kiwi;
         /**
         * Returns the type of object this state is.
         * @method objType
-        * @return String
+        * @return {String} "State"
         * @public
         */
         State.prototype.objType = function () {
@@ -3727,7 +3812,7 @@ var Kiwi;
         /**
         * Returns the type of child this is.
         * @method childType
-        * @return Number
+        * @return {Number} Kiwi.GROUP
         * @public
         */
         State.prototype.childType = function () {
@@ -3735,8 +3820,8 @@ var Kiwi;
         };
 
         /**
-        * Is executed when this state is about to be switched too. Just before the preload method.
-        * ONLY occurs on games targetting browsers.
+        * This method is executed when this State is about to be switched too. This is the first method to be executed, and happens before the Init method.
+        * Is called each time a State is switched to.
         * @method boot
         * @public
         */
@@ -3749,11 +3834,8 @@ var Kiwi;
             this.data = this.dataLibrary.data;
         };
 
-        /**
+        /*
         * Currently unused.
-        * @method setType
-        * @param {Number} value
-        * @public
         */
         State.prototype.setType = function (value) {
             if (this.config.isInitialised === false) {
@@ -3763,14 +3845,15 @@ var Kiwi;
 
         /*
         *--------------
-        * Methods that should be Over-Ridden
+        * Methods that are to be Over-Ridden by Devs.
         *--------------
         */
         /**
         * Gets executed when the state has been initalised and gets switched to for the first time.
         * This method only ever gets called once and it is before the preload method.
+        * Can have parameters passed to it by the previous state that switched to it.
         * @method init
-        * @param[values] * {Any }
+        * @param [values] { Any }
         * @public
         */
         State.prototype.init = function () {
@@ -3782,6 +3865,7 @@ var Kiwi;
 
         /**
         * This method is where you would load of all the assets that are requried for this state or in the entire game.
+        *
         * @method preload
         * @public
         */
@@ -3789,12 +3873,12 @@ var Kiwi;
         };
 
         /**
-        * This method is progressively called whilst loading a file.
-        * This can be used to create a 'progress' bar for each file.
+        * This method is progressively called whilst loading files and is executed each time a file has been loaded.
+        * This can be used to create a 'progress' bar during the loading stage of a game.
         * @method loadProgress
-        * @param {Number} percent
-        * @param {Number} bytesLoaded
-        * @param {Kiwi.Files} file
+        * @param percent {Number} The percent of files that have been loaded so far. This is a number from 0 - 1.
+        * @param bytesLoaded {Number} The number of bytes that have been loaded so far.
+        * @param file {Kiwi.Files.File} The last file to have been loaded.
         * @public
         */
         State.prototype.loadProgress = function (percent, bytesLoaded, file) {
@@ -3852,10 +3936,12 @@ var Kiwi;
             this.components.update();
 
             for (var i = 0; i < this.members.length; i++) {
+                //Should the update loop be executed?
                 if (this.members[i].active === true) {
                     this.members[i].update();
                 }
 
+                //Does the child need to be destroyed?
                 if (this.members[i].exists === false) {
                     this.members[i].destroy(true);
                 }
@@ -3873,7 +3959,7 @@ var Kiwi;
         };
 
         /**
-        * Called after all of the layers have rendered themselves, useful for debugging
+        * Called after all of the layers have rendered themselves, useful for debugging.
         * @method postRender
         * @public
         */
@@ -3978,12 +4064,14 @@ var Kiwi;
         };
 
         /**
-        * Adds a new IChild to the tracking list. This is an INTERNAL Kiwi method and DEVS shouldn't really need to worry about it.
+        * Adds a new Objects to the tracking list.
+        * This is an INTERNAL Kiwi method and DEVS shouldn't need to worry about it.
         * @method addToTrackingList
-        * @param {IChild} child
+        * @param child {Object} The Object which you are adding to the tracking list.
         * @public
         */
         State.prototype.addToTrackingList = function (child) {
+            //check to see that its not already in the tracking list.
             if (this._trackingList.indexOf(child) !== -1)
                 return;
 
@@ -3992,10 +4080,10 @@ var Kiwi;
         };
 
         /**
-        * Removes a IChild from the tracking list. This should only need to happen when a child is being destroyed.
+        * Removes a Object from the tracking list. This should only need to happen when a child is being destroyed.
         * This is an INTERNAL Kiwi method and DEVS shouldn't really need to worry about it.
         * @method removeFromTrackingList
-        * @param {IChild} child
+        * @param child {Object} The object which is being removed from the tracking list.
         * @public
         */
         State.prototype.removeFromTrackingList = function (child) {
@@ -4007,10 +4095,11 @@ var Kiwi;
         };
 
         /**
-        * Destroys all of IChilds that are not currently on stage. All IChilds that currently don't have this STATE as an ancestor.
-        * Returns the number of IChilds removed.
+        * Destroys all of Objects in the tracking list that are not currently on stage.
+        * All that currently don't have this STATE as an ancestor.
+        * Returns the number of Objects removed.
         * @method destroyUnused
-        * @return {Number}
+        * @return {Number} The amount of objects removed.
         * @public
         */
         State.prototype.destroyUnused = function () {
@@ -4028,9 +4117,9 @@ var Kiwi;
         };
 
         /**
-        * Destroys all of the IChild's on the start.
+        * Used to mark all Entities that have been created for deletion, regardless of it they are on the stage or not.
         * @method destroy
-        * @param [deleteAll=true] If all of the IChild's ever created should have the destroy method executed also.
+        * @param [deleteAll=true] If all of the Objects ever created should have the destroy method executed also.
         * @public
         */
         State.prototype.destroy = function (deleteAll) {
@@ -4043,7 +4132,7 @@ var Kiwi;
                 this._trackingList = [];
 
                 for (var i = 0; i < this.members.length; i++) {
-                    this._destroyChildren(this.members[i]);
+                    this._destroyChildren(this.members[i]); //Shouldnt need this as they should already be dead
                     delete this.members[i];
                 }
                 this.members = [];
@@ -4053,7 +4142,7 @@ var Kiwi;
         /**
         * Recursively goes through a child given and runs the destroy method on all that are passed.
         * @method _destroyChildren
-        * @param {IChild} child
+        * @param child {Object}
         * @private
         */
         State.prototype._destroyChildren = function (child) {
@@ -4081,14 +4170,14 @@ var Kiwi;
     * @class Camera
     * @namespace Kiwi
     * @constructor
-    * @param game {Game} The game that this camera belongs to.
+    * @param game {Kiwi.Game} The game that this camera belongs to.
     * @param id {Number} A unique ID for this camera
     * @param name {String} The name this camera goes by
     * @param x {Number} The x coordinate of the camera
     * @param y {Number} The y coordinate of the camera
     * @param width {Number} The width of the camera
     * @param height {Number} The cameras height
-    * @return {Camera}
+    * @return {Kiwi.Camera}
     *
     */
     var Camera = (function () {
@@ -4115,7 +4204,7 @@ var Kiwi;
             this._game.stage.onResize.add(this._updatedStageSize, this);
         }
         /**
-        * The type of Object this is.
+        * The type of object this is.
         * @method objType
         * @return {String}
         * @public
@@ -4137,13 +4226,13 @@ var Kiwi;
         };
 
         Object.defineProperty(Camera.prototype, "visible", {
-            get: /**
+            /**
             * Controls whether this Camera is rendered.
             * @property visible
             * @type boolean
             * @public
             */
-            function () {
+            get: function () {
                 return this._visible;
             },
             set: function (val) {
@@ -4154,13 +4243,13 @@ var Kiwi;
         });
 
         Object.defineProperty(Camera.prototype, "dirty", {
-            get: /**
+            /**
             * A value used by components to control if the camera needs re-rendering.
             * @property dirty
             * @type boolean
             * @public
             */
-            function () {
+            get: function () {
                 return this._dirty;
             },
             set: function (val) {
@@ -4175,8 +4264,8 @@ var Kiwi;
         * Useful for when calculating if coordinates with the mouse.
         * Note: This method clones the point you pass, so that is doesn't "reset" any properties you set.
         * @method transformPoint
-        * @param point {Point}
-        * @return Point
+        * @param point {Kiwi.Geom.Point}
+        * @return {Kiwi.Geom.Point}
         * @public
         */
         Camera.prototype.transformPoint = function (point) {
@@ -4230,8 +4319,7 @@ var Kiwi;
             /**
             * A list of all of the signal bindings that are on this signal.
             * @property _bindings
-            * @type SignalBinding[]
-            * @default []
+            * @type Array
             * @private
             */
             this._bindings = [];
@@ -4239,7 +4327,6 @@ var Kiwi;
             *
             * @property _prevParams
             * @type Any
-            * @default null
             * @private
             */
             this._prevParams = null;
@@ -4254,7 +4341,7 @@ var Kiwi;
             */
             this.memorize = false;
             /**
-            * [REQUIRES DESCRIPTION]
+            * If the callbacks should propagate or not.
             * @type boolean
             * @default true
             * @private
@@ -4273,7 +4360,7 @@ var Kiwi;
         /**
         * Returns the type of this object
         * @method objType
-        * @return {String} The type of this object
+        * @return {String} "Signal"
         * @public
         */
         Signal.prototype.objType = function () {
@@ -4282,9 +4369,12 @@ var Kiwi;
 
         /**
         * Validates a event listener an is used to check to see if it is valid or not.
+        * If a event listener is not valid, then a Error is thrown.
+        *
         * @method validateListener
         * @param listener {Any}
         * @param fnName {Any}
+        * @public
         */
         Signal.prototype.validateListener = function (listener, fnName) {
             if (typeof listener !== 'function') {
@@ -4293,12 +4383,14 @@ var Kiwi;
         };
 
         /**
-        * [REQUIRES DESCRIPTION]
-        * @param listener {Function}
-        * @param isOnce {boolean}
-        * @param listenerContext {Object}
-        * @param priority {Number}
-        * @return {SignalBinding}
+        * Internal Code which handles the registeration of a new callback (known as a "listener").
+        * Creates a new SignalBinding for the Signal and then adds the binding to the list by its priority level.
+        *
+        * @param listener {Function} The method that is to be dispatched.
+        * @param isOnce {boolean} If the method should only be dispatched a single time or not.
+        * @param listenerContext {Object} The context that the callback should be executed with when called.
+        * @param priority {Number} The priority of this callback when Bindings are dispatched.
+        * @return {Kiwi.SignalBinding} The new SignalBinding that was created.
         * @private
         */
         Signal.prototype._registerListener = function (listener, isOnce, listenerContext, priority) {
@@ -4325,9 +4417,10 @@ var Kiwi;
         };
 
         /**
+        * Handles the process of adding a new SignalBinding to the bindings list by the new Bindings priority.
         *
         * @method _addBinding
-        * @param binding {SignalBinding}
+        * @param binding {Kiwi.SignalBinding}
         * @private
         */
         Signal.prototype._addBinding = function (binding) {
@@ -4342,11 +4435,13 @@ var Kiwi;
         };
 
         /**
-        * [REQUIRES DESCRIPTION]
+        * Returns the index of any Binding which matches the listener and context that is passed.
+        * If none match then this method returns -1.
+        *
         * @method _indexOfListener
-        * @param listener {Function}
-        * @param context {any}
-        * @return {number}
+        * @param listener {Function} The method that we are checking to see.
+        * @param context {any} The context of the method we are checking.
+        * @return {number} The index of listener/context.
         * @private
         */
         Signal.prototype._indexOfListener = function (listener, context) {
@@ -4365,9 +4460,9 @@ var Kiwi;
         };
 
         /**
-        * Check if listener was attached to Signal.
-        * @param listener {Function}
-        * @param [context=null] {Any}
+        * Check if listener has already been attached to Signal.
+        * @param listener {Function} The method you are checking for.
+        * @param [context=null] {Any} The context of the listener.
         * @return {boolean} if Signal has the specified listener.
         * @public
         */
@@ -4377,11 +4472,12 @@ var Kiwi;
         };
 
         /**
-        * Add a listener to the signal.
+        * Add a new listener/callback to this Signal.
+        *
         * @param listener {Function} Signal handler function.
         * @param [listenerContext=null] {Any} Context on which listener will be executed (object that should represent the `this` variable inside listener function).
         * @param [priority=0] {Number} The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
-        * @return {SignalBinding} An Object representing the binding between the Signal and listener.
+        * @return {Kiwi.SignalBinding} An Object representing the binding between the Signal and listener.
         * @public
         */
         Signal.prototype.add = function (listener, listenerContext, priority) {
@@ -4394,10 +4490,11 @@ var Kiwi;
 
         /**
         * Add listener to the signal that should be removed after first execution (will be executed only once).
+        *
         * @param listener {Function} Signal handler function.
         * @param [listenerContext=null] {Any} Context on which listener will be executed (object that should represent the `this` variable inside listener function).
         * @param [priority=0] {Number} The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
-        * @return {SignalBinding} An Object representing the binding between the Signal and listener.
+        * @return {Kiwi.SignalBinding} An Object representing the binding between the Signal and listener.
         * @public
         */
         Signal.prototype.addOnce = function (listener, listenerContext, priority) {
@@ -4422,7 +4519,7 @@ var Kiwi;
             var i = this._indexOfListener(listener, context);
 
             if (i !== -1) {
-                this._bindings[i]._destroy();
+                this._bindings[i]._destroy(); //no reason to a SignalBinding exist if it isn't attached to a signal
                 this._bindings.splice(i, 1);
             }
 
@@ -4445,7 +4542,8 @@ var Kiwi;
         };
 
         /**
-        * [REQUIRES DESCRIPTION]
+        * Returns the number of listeners that have been attached to this Signal.
+        *
         * @method getNumListeners
         * @return {number} Number of listeners attached to the Signal.
         * @public
@@ -4455,7 +4553,6 @@ var Kiwi;
         };
 
         /**
-        * [REQUIRES DESCRIPTION]
         * Stop propagation of the event, blocking the dispatch to next listeners on the queue.
         * <p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p>
         * @see Signal.prototype.disable
@@ -4493,9 +4590,9 @@ var Kiwi;
                 return;
             }
 
-            bindings = this._bindings.slice(0);
+            bindings = this._bindings.slice(0); //clone array in case add/remove items during dispatch
 
-            this._shouldPropagate = true;
+            this._shouldPropagate = true; //in case `halt` was called before dispatch or during the previous dispatch.
 
             do {
                 n--;
@@ -4503,7 +4600,6 @@ var Kiwi;
         };
 
         /**
-        * [REQUIRES DESCRIPTION]
         * Forget memorized arguments. See Signal.memorize
         * @method forget
         * @public
@@ -4524,15 +4620,6 @@ var Kiwi;
             delete this._bindings;
             delete this._prevParams;
         };
-
-        /**
-        * @method toString
-        * @return {string} String representation of the object.
-        * @public
-        */
-        Signal.prototype.toString = function () {
-            return '[Signal active:' + this.active + ' numListeners:' + this.getNumListeners() + ']';
-        };
         Signal.VERSION = '1.0.0';
         return Signal;
     })();
@@ -4547,6 +4634,9 @@ var Kiwi;
 (function (Kiwi) {
     /**
     * An object that represents a binding between a Signal and a listener function.
+    * <br />- <strong>This is an internal constructor and shouldn't be called by regular users.</strong>
+    * <br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
+    *
     * Released under the MIT license
     * http://millermedeiros.github.com/js-signals/
     *
@@ -4557,21 +4647,14 @@ var Kiwi;
     * @constructor
     * @internal
     * @name SignalBinding
-    * @param {Signal} signal Reference to Signal object that listener is currently bound to.
+    * @param {Kiwi.Signal} Signal Reference to Signal object that listener is currently bound to.
     * @param {Function} listener Handler function bound to the signal.
     * @param {boolean} isOnce If binding should be executed just once.
     * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
     * @param {Number} [priority=0] The priority level of the event listener. (default = 0).
-    *
+    * @return {Kiwi.SignalBinding}
     */
     var SignalBinding = (function () {
-        /**
-        * Object that represents a binding between a Signal and a listener function.
-        * <br />- <strong>This is an internal constructor and shouldn't be called by regular users.</strong>
-        * <br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
-        * @author Miller Medeiros
-        
-        */
         function SignalBinding(signal, listener, isOnce, listenerContext, priority) {
             if (typeof priority === "undefined") { priority = 0; }
             /**
@@ -4599,7 +4682,7 @@ var Kiwi;
         /**
         * The type of object that this is.
         * @method objType
-        * @return String
+        * @return {String} "SignalBinding"
         * @public
         */
         SignalBinding.prototype.objType = function () {
@@ -4643,6 +4726,7 @@ var Kiwi;
         };
 
         /**
+        * Checks to see if this Binding is still bound to a Signal and contains a listener.
         * @method isBound
         * @return {boolean} `true` if binding is still bound to the signal and have a listener.
         * @public
@@ -4652,6 +4736,7 @@ var Kiwi;
         };
 
         /**
+        * Returns a boolean indicating whether this event will be exectued just once or not.
         * @method isOnce
         * @return {boolean} If SignalBinding will only be executed once.
         * @public
@@ -4661,6 +4746,7 @@ var Kiwi;
         };
 
         /**
+        * Returns the Handler function bound to the Signal.
         * @method getListener
         * @return {Function} Handler function bound to the signal.
         * @public
@@ -4670,8 +4756,9 @@ var Kiwi;
         };
 
         /**
+        * Returns the signal which this Binding is currently attached to.
         * @method getSignal
-        * @return {Signal} Signal that listener is currently bound to.
+        * @return {Kiwi.Signal} Signal that listener is currently bound to.
         * @public
         */
         SignalBinding.prototype.getSignal = function () {
@@ -4687,15 +4774,6 @@ var Kiwi;
             delete this._signal;
             delete this._listener;
             delete this.context;
-        };
-
-        /**
-        * @method toString
-        * @return {string} String representation of the object.
-        * @public
-        */
-        SignalBinding.prototype.toString = function () {
-            return '[SignalBinding isOnce:' + this._isOnce + ', isBound:' + this.isBound() + ', active:' + this.active + ']';
         };
         return SignalBinding;
     })();
@@ -4716,10 +4794,10 @@ var Kiwi;
         *
         * @class Sprite
         * @namespace Kiwi.GameObjects
-        * @extends Entity
+        * @extends Kiwi.Entity
         * @constructor
-        * @param state {State} The state that this sprite belongs to
-        * @param atlas {TextureAtlas} The texture you want to apply to this entity
+        * @param state {Kiwi.State} The state that this sprite belongs to
+        * @param atlas {Kiwi.Textures.TextureAtlas} The texture you want to apply to this entity
         * @param [x=0] {Number} The sprites initial coordinates on the x axis.
         * @param [y=0] {Number} The sprites initial coordinates on the y axis.
         * @param [enableInput=false] {boolean} If the input component should be enabled or not.
@@ -4733,6 +4811,7 @@ var Kiwi;
                 if (typeof enableInput === "undefined") { enableInput = false; }
                 _super.call(this, state, x, y);
 
+                //Texture atlas error check
                 if (typeof atlas == "undefined") {
                     console.error('A Texture Atlas was not passed when instantiating a new Sprite.');
                     this.willRender = false;
@@ -4758,6 +4837,7 @@ var Kiwi;
                 this.box = this.components.add(new Kiwi.Components.Box(this, x, y, this.width, this.height));
                 this.input = this.components.add(new Kiwi.Components.Input(this, this.box, enableInput));
 
+                //Check to see if this sprite could be animated or not
                 if (this.atlas.type === Kiwi.Textures.TextureAtlas.SINGLE_IMAGE) {
                     this.animation = null;
                     this._isAnimated = false;
@@ -4794,14 +4874,15 @@ var Kiwi;
             };
 
             /**
-            * Called by the Layer to which this Game Object is attached
+            * Renders the GameObject using Canvas.
             * @method render
-            * @param {Camera} camera
+            * @param {Kiwi.Camera} camera
             * @public
             */
             Sprite.prototype.render = function (camera) {
                 _super.prototype.render.call(this, camera);
 
+                //if it is would even be visible.
                 if (this.alpha > 0 && this.visible) {
                     var ctx = this.game.stage.ctx;
                     ctx.save();
@@ -4825,9 +4906,17 @@ var Kiwi;
                 }
             };
 
+            /**
+            * Renders the GameObject using WebGL.
+            * @method renderGL
+            * @param {WebGLRenderingContext} gl
+            * @param {Kiwi.Camera} camera
+            * @param {Object} params
+            * @public
+            */
             Sprite.prototype.renderGL = function (gl, camera, params) {
                 if (typeof params === "undefined") { params = null; }
-                (this.glRenderer).addToBatch(gl, this, camera);
+                this.glRenderer.addToBatch(gl, this, camera);
             };
             return Sprite;
         })(Kiwi.Entity);
@@ -4835,24 +4924,24 @@ var Kiwi;
     })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
     var GameObjects = Kiwi.GameObjects;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule GameObjects
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule GameObjects
-    *
-    */
     (function (GameObjects) {
         /**
         * A light weight game object for displaying static images that would have little or no interaction with other GameObjects. An Example of this would be a background image. Note: Since a StaticImage is lightweight it doesn't have any AnimationManager to handle the switching of cells (If you were using a SpriteSheet/TextureAtlas). In order to switch cells you can change the value of the cellIndex property.
         *
         * @class StaticImage
         * @namespace Kiwi.GameObjects
-        * @extends Entity
+        * @extends Kiwi.Entity
         * @constructor
-        * @param state {State} The state that this static image belongs to
-        * @param atlas {TextureAtlas} The texture atlas to use as the image.
+        * @param state {Kiwi.State} The state that this static image belongs to
+        * @param atlas {Kiwi.Textures.TextureAtlas} The texture atlas to use as the image.
         * @param [x=0] {Number} Its coordinates on the x axis
         * @param [y=0] {Number} The coordinates on the y axis
         * @return {StaticImage}
@@ -4868,6 +4957,7 @@ var Kiwi;
                     this.glRenderer = this.game.renderer.requestSharedRenderer("TextureAtlasRenderer");
                 }
 
+                //Texture atlas error check.
                 if (typeof atlas == "undefined") {
                     console.error('A Texture Atlas was not passed when instantiating a new Static Image.');
                     this.willRender = false;
@@ -4898,12 +4988,13 @@ var Kiwi;
             /**
             * Called by the Layer to which this Game Object is attached
             * @method render
-            * @param {Camara} camera
+            * @param {Kiwi.Camara} camera
             * @public
             */
             StaticImage.prototype.render = function (camera) {
                 _super.prototype.render.call(this, camera);
 
+                //if it is would even be visible.
                 if (this.alpha > 0 && this.visible) {
                     var ctx = this.game.stage.ctx;
                     ctx.save();
@@ -4927,9 +5018,17 @@ var Kiwi;
                 }
             };
 
+            /**
+            * Renders the GameObject using WebGL.
+            * @method renderGL
+            * @param {WebGLRenderingContext} gl
+            * @param {Kiwi.Camera} camera
+            * @param {Object} params
+            * @public
+            */
             StaticImage.prototype.renderGL = function (gl, camera, params) {
                 if (typeof params === "undefined") { params = null; }
-                (this.glRenderer).addToBatch(gl, this, camera);
+                this.glRenderer.addToBatch(gl, this, camera);
             };
             return StaticImage;
         })(Kiwi.Entity);
@@ -4937,23 +5036,23 @@ var Kiwi;
     })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
     var GameObjects = Kiwi.GameObjects;
 })(Kiwi || (Kiwi = {}));
+/**
+* Kiwi - GameObjects
+* @module Kiwi
+* @submodule GameObjects
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    * Kiwi - GameObjects
-    * @module Kiwi
-    * @submodule GameObjects
-    *
-    */
     (function (GameObjects) {
         /**
         * Textfield is a GameObject that is used when you are wanting to render text onto the current State. The Textfield is not designed to have any interaction with other GameObjects and as such it does not have many (if any) components or even a width/height.
         *
         * @class Textfield
         * @namespace Kiwi.GameObjects
-        * @extends Entity
+        * @extends Kiwi.Entity
         * @constructor
-        * @param state {State} The state that this Textfield belongs to
+        * @param state {Kiwi.State} The state that this Textfield belongs to
         * @param text {String} The text that is contained within this textfield.
         * @param [x=0] {Number} The new x coordinate from the Position component
         * @param [y=0] {Number} The new y coordinate from the Position component
@@ -5019,13 +5118,13 @@ var Kiwi;
                 get: function () {
                     return this._text;
                 },
-                set: /**
+                /**
                 * The text that you would like to appear in this textfield.
                 * @property text
                 * @type string
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     this._text = value;
                     this._tempDirty = true;
                 },
@@ -5037,13 +5136,13 @@ var Kiwi;
                 get: function () {
                     return this._fontColor;
                 },
-                set: /**
+                /**
                 * The color of the font that is contained in this textfield.
                 * @property color
                 * @type string
                 * @public
                 */
-                function (val) {
+                set: function (val) {
                     this._fontColor = val;
                     this._tempDirty = true;
                 },
@@ -5055,13 +5154,13 @@ var Kiwi;
                 get: function () {
                     return this._fontWeight;
                 },
-                set: /**
+                /**
                 * The weight of the font.
                 * @property fontWeight
                 * @type string
                 * @public
                 */
-                function (val) {
+                set: function (val) {
                     this._fontWeight = val;
                     this._tempDirty = true;
                 },
@@ -5073,13 +5172,13 @@ var Kiwi;
                 get: function () {
                     return this._fontSize;
                 },
-                set: /**
+                /**
                 * The size on font when being displayed onscreen.
                 * @property fontSize
                 * @type number
                 * @public
                 */
-                function (val) {
+                set: function (val) {
                     this._fontSize = val;
                     this._tempDirty = true;
                 },
@@ -5091,13 +5190,13 @@ var Kiwi;
                 get: function () {
                     return this._fontFamily;
                 },
-                set: /**
+                /**
                 * The font family that is being used to render the text.
                 * @property fontFamily
                 * @type string
                 * @public
                 */
-                function (val) {
+                set: function (val) {
                     this._fontFamily = val;
                     this._tempDirty = true;
                 },
@@ -5107,20 +5206,20 @@ var Kiwi;
 
 
             Object.defineProperty(Textfield.prototype, "textAlign", {
-                get: /**
+                /**
                 * Returns a string containing the text alignment for this textfield.
                 * @type string
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._textAlign;
                 },
-                set: /**
+                /**
                 * Changes the alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.
                 * @type string
                 * @public
                 */
-                function (val) {
+                set: function (val) {
                     this._textAlign = val;
                     this._tempDirty = true;
                 },
@@ -5144,6 +5243,7 @@ var Kiwi;
                 var width = _measurements.width;
                 var height = this._fontSize * 1.3;
 
+                //Is the width base2?
                 if (Kiwi.Utils.Common.base2Sizes.indexOf(width) == -1) {
                     var i = 0;
                     while (width > Kiwi.Utils.Common.base2Sizes[i])
@@ -5151,6 +5251,7 @@ var Kiwi;
                     width = Kiwi.Utils.Common.base2Sizes[i];
                 }
 
+                //Is the height base2?
                 if (Kiwi.Utils.Common.base2Sizes.indexOf(height) == -1) {
                     var i = 0;
                     while (height > Kiwi.Utils.Common.base2Sizes[i])
@@ -5179,7 +5280,7 @@ var Kiwi;
             /**
             * Called by the Layer to which this Game Object is attached
             * @method render
-            * @param {Camera}
+            * @param {Kiwi.Camera}
             * @public
             */
             Textfield.prototype.render = function (camera) {
@@ -5193,6 +5294,7 @@ var Kiwi;
                         ctx.globalAlpha = this.alpha;
                     }
 
+                    //Does the text need re-rendering
                     if (this._tempDirty)
                         this._renderText();
 
@@ -5221,8 +5323,17 @@ var Kiwi;
                 }
             };
 
+            /**
+            * Renders the GameObject using WebGL.
+            * @method renderGL
+            * @param {WebGLRenderingContext} gl
+            * @param {Kiwi.Camera} camera
+            * @param {Object} params
+            * @public
+            */
             Textfield.prototype.renderGL = function (gl, camera, params) {
                 if (typeof params === "undefined") { params = null; }
+                //Does the text need re-rendering
                 if (this._tempDirty)
                     this._renderText();
 
@@ -5263,7 +5374,7 @@ var Kiwi;
                 vertexItems.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, 0, 0, this.alpha, pt2.x + t.rotPointX, pt2.y + t.rotPointY, this._canvas.width, 0, this.alpha, pt3.x + t.rotPointX, pt3.y + t.rotPointY, this._canvas.width, this._canvas.height, this.alpha, pt4.x + t.rotPointX, pt4.y + t.rotPointY, 0, this._canvas.height, this.alpha);
 
                 //Add to the batch!
-                (this.glRenderer).concatBatch(vertexItems);
+                this.glRenderer.concatBatch(vertexItems);
             };
             Textfield.TEXT_ALIGN_CENTER = 'center';
 
@@ -5276,15 +5387,15 @@ var Kiwi;
     })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
     var GameObjects = Kiwi.GameObjects;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module GameObjects
+* @submodule Tilemap
+*
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (GameObjects) {
-        /**
-        *
-        * @module GameObjects
-        * @submodule Tilemap
-        *
-        */
         (function (Tilemap) {
             /**
             * Define's the properties of a single Type of Tile for a TileMap. This class should not be directly instanted,
@@ -5293,7 +5404,7 @@ var Kiwi;
             * @class TileType
             * @namespace Kiwi.GameObjects.Tilemap
             * @constructor
-            * @param tilemap {TileMap} The TileMap that this TileType is a part of.
+            * @param tilemap {Kiwi.GameObjects.Tilemap.TileMap} The TileMap that this TileType is a part of.
             * @param index {Number} The index of this TileType, which Tiles use when wanting to use this TileType.
             * @param cellIndex {Number} The cell number to use when rendering this Type of Tile.
             * @return {TileType} This TileType
@@ -5341,15 +5452,15 @@ var Kiwi;
     })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
     var GameObjects = Kiwi.GameObjects;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module GameObjects
+* @submodule Tilemap
+* @main Tilemap
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (GameObjects) {
-        /**
-        *
-        * @module GameObjects
-        * @submodule Tilemap
-        * @main Tilemap
-        */
         (function (Tilemap) {
             /**
             * A TileMap handles the creation of TileMapLayers and the TileTypes that they use.
@@ -5359,9 +5470,9 @@ var Kiwi;
             * @class TileMap
             * @namespace Kiwi.GameObjects.Tilemap
             * @constructor
-            * @param state {State} The state that this Tilemap is on.
+            * @param state {Kiwi.State} The state that this Tilemap is on.
             * @param [tileMapDataKey] {String} The Data key for the JSON you would like to use.
-            * @param [atlas] {TextureAtlas} The texture atlas that you would like the tilemap layers to use.
+            * @param [atlas] {Kiwi.Textures.TextureAtlas} The texture atlas that you would like the tilemap layers to use.
             * @param [startingCell=0] {number} The number for the initial cell that the first TileType should use. See 'createFromFileStore' for more information.
             * @return {TileMap}
             */
@@ -5423,13 +5534,13 @@ var Kiwi;
                     }
                 }
                 Object.defineProperty(TileMap.prototype, "widthInPixels", {
-                    get: /**
+                    /**
                     * The width of the tilemap in pixels. This value is READ ONLY.
                     * @property widthInPixels
                     * @type Number
                     * @public
                     */
-                    function () {
+                    get: function () {
                         return this.width * this.tileWidth;
                     },
                     enumerable: true,
@@ -5437,13 +5548,13 @@ var Kiwi;
                 });
 
                 Object.defineProperty(TileMap.prototype, "heightInPixels", {
-                    get: /**
+                    /**
                     * The height of the tilemap in pixels. This value is READ ONLY.
                     * @property heightInPixels
                     * @type Number
                     * @public
                     */
-                    function () {
+                    get: function () {
                         return this.height * this.tileHeight;
                     },
                     enumerable: true,
@@ -5452,12 +5563,12 @@ var Kiwi;
 
                 /**
                 * Creates new tilemap layers from a JSON file that you pass (has to be in the Tiled Format).
-                * The texture atlas you pass is that one that eeach TileMapLayer found in the JSON will use, You can change the TextureAtlas afterwards.
+                * The texture atlas you pass is that one that each TileMapLayer found in the JSON will use, You can change the TextureAtlas afterwards.
                 * New TileTypes will automatically be created. The number is based on the Tileset parameter of the JSON.
                 * The cell used for new TileTypes will begin at 0 and increment each time a new TileType is created (and a cell exists). Otherwise new TileTypes will start will a cell of -1 (none).
                 * @method createFromFileStore
                 * @param tileMapData {Any} This can either
-                * @param atlas {TextureAtlas} The texture atlas that you would like the tilemap layers to use.
+                * @param atlas {Kiwi.Textures.TextureAtlas} The texture atlas that you would like the tilemap layers to use.
                 * @param [startingCell=0] {number} The number for the initial cell that the first TileType should use. If you pass -1 then no new TileTypes will be created.
                 * @public
                 */
@@ -5494,6 +5605,7 @@ var Kiwi;
                         this.properties[prop] = json.properties[prop];
                     }
 
+                    //Generate the Tiles needed.
                     if (json.tilesets !== "undefined" && startingCell !== -1)
                         this._generateTypesFromTileset(json.tilesets, atlas, startingCell);
 
@@ -5531,8 +5643,8 @@ var Kiwi;
                 * Generates new TileTypes based upon the Tileset information that lies inside the Tiled JSON.
                 * This is an INTERNAL method, which is used when the createFromFileStore method is executed.
                 * @method _generateTypesFromTileset
-                * @param tilesetData {Any[]} The tileset part of the JSON.
-                * @param atlas {TextureAtlas} The Texture atlas which contains the cells that the new TileTypes will use.
+                * @param tilesetData {Array} The tileset part of the JSON.
+                * @param atlas {Kiwi.Textures.TextureAtlas} The Texture atlas which contains the cells that the new TileTypes will use.
                 * @param startingCell {Number} The first cell number that would be used.
                 * @private
                 */
@@ -5560,7 +5672,7 @@ var Kiwi;
                                 tileType.offset.x = offset.x;
                                 tileType.offset.y = offset.y;
 
-                                startingCell++;
+                                startingCell++; //Increase the cell to use by one.
                             }
                         }
 
@@ -5601,7 +5713,7 @@ var Kiwi;
                 */
                 TileMap.prototype.createTileType = function (cell) {
                     if (typeof cell === "undefined") { cell = -1; }
-                    var tileType = new Tilemap.TileType(this, this.tileTypes.length, cell);
+                    var tileType = new Kiwi.GameObjects.Tilemap.TileType(this, this.tileTypes.length, cell);
                     this.tileTypes.push(tileType);
 
                     return tileType;
@@ -5680,7 +5792,7 @@ var Kiwi;
                 * Returns the new TileMapLayer that was created.
                 * @method createNewLayer
                 * @param name {String} Name of the TileMap.
-                * @param atlas {TextureAtlas} The TextureAtlas that this layer should use.
+                * @param atlas {Kiwi.Textures.TextureAtlas} The TextureAtlas that this layer should use.
                 * @param data {Number[]} The tile information.
                 * @param [w=this.width] {Number} The width of the whole tile map. In Tiles.
                 * @param [h=this.height] {Number} The height of the whole tile map. In Tiles.
@@ -5699,6 +5811,7 @@ var Kiwi;
                     if (typeof y === "undefined") { y = 0; }
                     if (typeof tw === "undefined") { tw = this.tileWidth; }
                     if (typeof th === "undefined") { th = this.tileHeight; }
+                    //Did the user provide enough data?
                     if (data.length < w * h) {
                         //No... So push empty cells instead
                         var i = data.length - 1;
@@ -5788,27 +5901,27 @@ var Kiwi;
     })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
     var GameObjects = Kiwi.GameObjects;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module GameObjects
+* @submodule Tilemap
+*
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (GameObjects) {
-        /**
-        *
-        * @module GameObjects
-        * @submodule Tilemap
-        *
-        */
         (function (Tilemap) {
             /**
-            * Is GameObject that contains the information held for a single Layer of Tiles, along with methods to handle the rendering of those Tiles.
+            * GameObject that contains the information held for a single Layer of Tiles, along with methods to handle the rendering of those Tiles.
             * A TileMapLayer should not be directly created, but instead should be created through a TileMap object instead.
             *
             * @class TileMapLayer
-            * @extends Entity
+            * @extends Kiwi.Entity
             * @namespace Kiwi.GameObjects.Tilemap
             * @constructor
-            * @param tilemap {TileMap} The TileMap that this layer belongs to.
+            * @param tilemap {Kiwi.GameObjects.Tilemap.TileMap} The TileMap that this layer belongs to.
             * @param name {String} The name of this TileMapLayer.
-            * @param atlas {TextureAtlas} The texture atlas that should be used when rendering this TileMapLayer onscreen.
+            * @param atlas {Kiwi.Textures.TextureAtlas} The texture atlas that should be used when rendering this TileMapLayer onscreen.
             * @param data {Number[]} The information about the tiles.
             * @param tw {Number} The width of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
             * @param th {Number} The height of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
@@ -5841,8 +5954,9 @@ var Kiwi;
                     * @default 'orthogonal'
                     * @public
                     */
-                    this.orientation = Tilemap.ORTHOGONAL;
+                    this.orientation = Kiwi.GameObjects.Tilemap.ORTHOGONAL;
 
+                    //Request the Shared Texture Atlas renderer.
                     if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
                         this.glRenderer = this.game.renderer.requestSharedRenderer("TextureAtlasRenderer");
                     }
@@ -5855,7 +5969,7 @@ var Kiwi;
                     this.tileHeight = th;
                     this.width = w;
                     this.height = h;
-                    this.cellIndex = null;
+                    this.cellIndex = null; //Cell Index doesn't matter for a TileMapLayer itself.
 
                     this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, null));
                     this.physics.immovable = true;
@@ -5881,13 +5995,13 @@ var Kiwi;
                 };
 
                 Object.defineProperty(TileMapLayer.prototype, "widthInPixels", {
-                    get: /**
+                    /**
                     * The width of the layer in pixels. This property is READ ONLY.
                     * @property widthInPixels
                     * @type number
                     * @public
                     */
-                    function () {
+                    get: function () {
                         return this.width * this.tilemap.tileWidth;
                     },
                     enumerable: true,
@@ -5895,13 +6009,13 @@ var Kiwi;
                 });
 
                 Object.defineProperty(TileMapLayer.prototype, "heightInPixels", {
-                    get: /**
+                    /**
                     * The height of the layer in pixels. This property is READ ONLY.
                     * @property heightInPixels
                     * @type number
                     * @public
                     */
-                    function () {
+                    get: function () {
                         return this.height * this.tilemap.tileHeight;
                     },
                     enumerable: true,
@@ -5920,7 +6034,8 @@ var Kiwi;
 
                     for (var i = 0; i < this._data.length; i++) {
                         if (type == undefined && this._data[i] !== 0)
-                            cnt++; else if (type === this._data[i])
+                            cnt++;
+                        else if (type === this._data[i])
                             cnt++;
                     }
 
@@ -5928,7 +6043,7 @@ var Kiwi;
                 };
 
                 Object.defineProperty(TileMapLayer.prototype, "tileData", {
-                    get: /**
+                    /**
                     *-----------------------
                     * Getting Tiles
                     *-----------------------
@@ -5939,7 +6054,7 @@ var Kiwi;
                     * @type number[]
                     * @public
                     */
-                    function () {
+                    get: function () {
                         return this._data;
                     },
                     enumerable: true,
@@ -5959,8 +6074,10 @@ var Kiwi;
                 TileMapLayer.prototype.getIndexFromXY = function (x, y) {
                     var num = x + y * this.width;
 
+                    //Does the index exist?
                     if (num < 0 || num >= this._data.length)
-                        return -1; else
+                        return -1;
+                    else
                         return num;
                 };
 
@@ -5992,6 +6109,7 @@ var Kiwi;
                 * @public
                 */
                 TileMapLayer.prototype.getIndexFromCoords = function (x, y) {
+                    //Not with the bounds?
                     if (x > this.transform.worldX + this.widthInPixels || y > this.transform.worldY + this.heightInPixels || x < this.transform.worldX || y < this.transform.worldY)
                         return -1;
 
@@ -6004,7 +6122,7 @@ var Kiwi;
 
                 /**
                 * Returns the TileType for a tile that is at a particular coordinate passed.
-                * If no tile is found the null is returned instead.
+                * If no tile is found then null is returned instead.
                 * Coordinates passed are in pixels and use the world coordinates of the tilemap.
                 * Note: Currently only working for ORTHOGONAL TileMaps.
                 *
@@ -6044,10 +6162,10 @@ var Kiwi;
                 * Sets the tile to be used at the coordinates provided.
                 * Can be used to override a tile that may already exist at the location.
                 * @method setTile
-                * @param x {number} The coordinate of the tile on the x axis.
-                * @param y {number} The coordinate of the tile on the y axis.
-                * @param tileType {number} The type of tile that should be now used.
-                * @return {boolean} If a tile was changed or not.
+                * @param x {Number} The coordinate of the tile on the x axis.
+                * @param y {Number} The coordinate of the tile on the y axis.
+                * @param tileType {Number} The type of tile that should be now used.
+                * @return {Boolean} If a tile was changed or not.
                 * @public
                 */
                 TileMapLayer.prototype.setTile = function (x, y, tileType) {
@@ -6065,8 +6183,8 @@ var Kiwi;
                 * Sets the tile to be used at the index provided.
                 * Can be used to override a tile that may already exist at the location.
                 * @method setTileByIndex
-                * @param index {number} The index of the tile that you want to change.
-                * @param tileType {number} The new tile type to be used at that position.
+                * @param index {Number} The index of the tile that you want to change.
+                * @param tileType {Number} The new tile type to be used at that position.
                 * @public
                 */
                 TileMapLayer.prototype.setTileByIndex = function (index, tileType) {
@@ -6077,11 +6195,11 @@ var Kiwi;
                 * Randomizes the types of tiles used in an area of the layer. You can choose which types of tiles to use, and the area.
                 * Default tile types used are everyone avaiable.
                 * @method randomizeTiles
-                * @param [types] {number[]} A list of TileTypes that can be used. Default is every tiletype on the TileMap.
-                * @param [x=0] {number} The starting tile on the x axis to fill.
-                * @param [y=0] {number} The starting tile on the y axis to fill.
-                * @param [width=this.width] {number} How far across you want to go.
-                * @param [height=this.height] {number} How far down you want to go.
+                * @param [types] {Number[]} A list of TileTypes that can be used. Default is every tiletype on the TileMap.
+                * @param [x=0] {Number} The starting tile on the x axis to fill.
+                * @param [y=0] {Number} The starting tile on the y axis to fill.
+                * @param [width=this.width] {Number} How far across you want to go.
+                * @param [height=this.height] {Number} How far down you want to go.
                 * @public
                 */
                 TileMapLayer.prototype.randomizeTiles = function (types, x, y, width, height) {
@@ -6109,11 +6227,11 @@ var Kiwi;
                 /**
                 * Makes all of the tiles in the area specified a single type that is passed.
                 * @method fill
-                * @param type {number} The type of tile you want to fill in the area with.
-                * @param [x=0] {number} The starting tile on the x axis to fill.
-                * @param [y=0] {number} The starting tile on the y axis to fill.
-                * @param [width=this.width] {number} How far across you want to go.
-                * @param [height=this.height] {number} How far down you want to go.
+                * @param type {Number} The type of tile you want to fill in the area with.
+                * @param [x=0] {Number} The starting tile on the x axis to fill.
+                * @param [y=0] {Number} The starting tile on the y axis to fill.
+                * @param [width=this.width] {Number} How far across you want to go.
+                * @param [height=this.height] {Number} How far down you want to go.
                 * @public
                 */
                 TileMapLayer.prototype.fill = function (type, x, y, width, height) {
@@ -6133,12 +6251,12 @@ var Kiwi;
                 /**
                 * Replaces all tiles of typeA to typeB in the area specified. If no area is specified then it is on the whole layer.
                 * @method replaceTiles
-                * @param typeA {number} The type of tile you want to be replaced.
-                * @param typeB {number} The type of tile you want to be used instead.
-                * @param [x=0] {number} The starting tile on the x axis to fill.
-                * @param [y=0] {number} The starting tile on the y axis to fill.
-                * @param [width=this.width] {number} How far across you want to go.
-                * @param [height=this.height] {number} How far down you want to go.
+                * @param typeA {Number} The type of tile you want to be replaced.
+                * @param typeB {Number} The type of tile you want to be used instead.
+                * @param [x=0] {Number} The starting tile on the x axis to fill.
+                * @param [y=0] {Number} The starting tile on the y axis to fill.
+                * @param [width=this.width] {Number} How far across you want to go.
+                * @param [height=this.height] {Number} How far down you want to go.
                 * @public
                 */
                 TileMapLayer.prototype.replaceTiles = function (typeA, typeB, x, y, width, height) {
@@ -6177,7 +6295,8 @@ var Kiwi;
 
                             if (tile !== -1) {
                                 if (this._data[tile] == typeA)
-                                    this._data[tile] = typeB; else if (this._data[tile] == typeB)
+                                    this._data[tile] = typeB;
+                                else if (this._data[tile] == typeB)
                                     this._data[tile] = typeA;
                             }
                         }
@@ -6195,19 +6314,21 @@ var Kiwi;
                 * Note: Only designed to work with ORTHOGONAL types of tilemaps, results maybe unexpected for other types of tilemaps.
                 *
                 * @method getOverlappingTiles
-                * @param entity {Entity} The entity you would like to check for the overlap.
+                * @param entity {Kiwi.Entity} The entity you would like to check for the overlap.
                 * @param [collisionType=ANY] {Number} The particular type of collidable tiles which you would like to check for.
                 * @return {Object[]} Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.
                 * @public
                 */
                 TileMapLayer.prototype.getOverlappingTiles = function (entity, collisionType) {
                     if (typeof collisionType === "undefined") { collisionType = Kiwi.Components.ArcadePhysics.ANY; }
+                    //Do they have a box?
                     if (entity.components.hasComponent("Box") == false)
                         return [];
 
                     //Get the box off them
                     var b = entity.components.getComponent('Box').worldHitbox;
 
+                    //Is the person within the map's bounds?
                     if (b.left > this.transform.worldX + this.widthInPixels || b.right < this.transform.worldX || b.bottom < this.transform.worldY || b.top > this.transform.worldY + this.heightInPixels)
                         return [];
 
@@ -6256,6 +6377,7 @@ var Kiwi;
                     if (typeof collisionType === "undefined") { collisionType = Kiwi.Components.ArcadePhysics.ANY; }
                     var tiles = [];
 
+                    //Make sure its within the map.
                     if (x > this.width || y > this.height)
                         return;
 
@@ -6274,11 +6396,13 @@ var Kiwi;
                             //Get the tile index.
                             var index = this.getIndexFromXY(i, j);
 
+                            //Does that index exist? Should do but just in case.
                             if (index === -1)
                                 continue;
 
                             var type = this.tileData[index];
 
+                            //If the collision type matches the one passed.
                             if ((this.tilemap.tileTypes[type].allowCollisions & collisionType) !== Kiwi.Components.ArcadePhysics.NONE) {
                                 tiles.push({
                                     index: index,
@@ -6314,7 +6438,8 @@ var Kiwi;
                 * @private
                 */
                 TileMapLayer.prototype._calculateBoundaries = function (camera, matrix) {
-                    if (this.orientation == Tilemap.ORTHOGONAL) {
+                    //If we are calculating the coordinates for 'regular' then we can do that rather easy
+                    if (this.orientation == Kiwi.GameObjects.Tilemap.ORTHOGONAL) {
                         // Translation Stuff
                         var sx = 1 / this.scaleX;
                         var sy = 1 / this.scaleY;
@@ -6327,16 +6452,19 @@ var Kiwi;
                         this._startX = Math.floor((-camera.transform.x - this.transform.worldX) / this.tileWidth * sx);
                         this._startY = Math.floor((-camera.transform.y - this.transform.worldY) / this.tileHeight * sy);
 
+                        // Boundaries check for the start
                         if (this._startX < 0)
                             this._startX = 0;
                         if (this._startY < 0)
                             this._startY = 0;
 
+                        // Check for the Maximum
                         if (this._maxX > this.width)
                             this._maxX = this.width;
                         if (this._maxY > this.height)
                             this._maxY = this.height;
 
+                        // Width/Height
                         if (this._startX + this._maxX > this.width)
                             this._maxX = this.width - this._startX;
                         if (this._startY + this._maxY > this.height)
@@ -6345,7 +6473,8 @@ var Kiwi;
                         return;
                     }
 
-                    if (this.orientation == Tilemap.ISOMETRIC) {
+                    //Otherwise we can't *just yet* so render the whole lot
+                    if (this.orientation == Kiwi.GameObjects.Tilemap.ISOMETRIC) {
                         this._startX = 0;
                         this._startY = 0;
                         this._maxX = this.width;
@@ -6368,8 +6497,7 @@ var Kiwi;
                 TileMapLayer.prototype.chartToScreen = function (chartPt, tileW, tileH) {
                     return {
                         x: chartPt.x * tileW - chartPt.y * tileW,
-                        y: chartPt.x * tileH / 2 + chartPt.y * tileH / 2
-                    };
+                        y: chartPt.x * tileH / 2 + chartPt.y * tileH / 2 };
                 };
 
                 /**
@@ -6379,8 +6507,8 @@ var Kiwi;
                 *
                 * @method screenToChart
                 * @param scrPt {any} An object containing x/y coordinates of the point on the screen you want to convert to tile coordinates.
-                * @param tileW {number} The width of a single tile.
-                * @param tileH {number} The height of a single tile.
+                * @param tileW {Number} The width of a single tile.
+                * @param tileH {Number} The height of a single tile.
                 * @return {Object} With x/y properties of the location of tile on the screen.
                 * @public
                 */
@@ -6397,6 +6525,7 @@ var Kiwi;
                 * @public
                 */
                 TileMapLayer.prototype.render = function (camera) {
+                    //When not to render the map.
                     if (this.visible === false || this.alpha < 0.1 || this.exists === false) {
                         return;
                     }
@@ -6405,6 +6534,7 @@ var Kiwi;
                     var ctx = this.game.stage.ctx;
                     ctx.save();
 
+                    //Make the map alphed out.
                     if (this.alpha > 0 && this.alpha <= 1) {
                         ctx.globalAlpha = this.alpha;
                     }
@@ -6425,7 +6555,7 @@ var Kiwi;
                                 var drawX;
                                 var drawY;
 
-                                if (this.orientation == Tilemap.ISOMETRIC) {
+                                if (this.orientation == Kiwi.GameObjects.Tilemap.ISOMETRIC) {
                                     // Isometric maps
                                     var offsetX = this._temptype.offset.x;
                                     var offsetY = this._temptype.offset.y;
@@ -6477,6 +6607,7 @@ var Kiwi;
                             //Get the tile type
                             this._temptype = this.getTileFromXY(x, y);
 
+                            //Skip tiletypes that don't use a cellIndex.
                             if (this._temptype.cellIndex == -1)
                                 continue;
 
@@ -6486,7 +6617,7 @@ var Kiwi;
                             var tx;
                             var ty;
 
-                            if (this.orientation == Tilemap.ISOMETRIC) {
+                            if (this.orientation == Kiwi.GameObjects.Tilemap.ISOMETRIC) {
                                 // Isometric maps
                                 var offsetX = this._temptype.offset.x;
                                 var offsetY = this._temptype.offset.y;
@@ -6524,7 +6655,7 @@ var Kiwi;
                     }
 
                     //Concat points to the Renderer.
-                    (this.glRenderer).concatBatch(vertexItems);
+                    this.glRenderer.concatBatch(vertexItems);
                 };
                 return TileMapLayer;
             })(Kiwi.Entity);
@@ -6534,15 +6665,15 @@ var Kiwi;
     })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
     var GameObjects = Kiwi.GameObjects;
 })(Kiwi || (Kiwi = {}));
+/**
+* Component's are a snipnets of code which are designed to provide extra functionality to various objects that contain a ComponentManager. Objects do not have to have Components in order to preform their main function, but are instead provided to make common task's that you may want to do with those Objects a bit easier. For example: Some times you would like to easily listen for when a GameObject has been 'clicked'. So you can attach a 'InputComponent' to a GameObject (Sprites have them by default) which will then do hit-detector code for you. All you have to do is Subscribe to the events on the InputComponent.
+*
+* @module Kiwi
+* @submodule Components
+* @main Components
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-* Component's are a snipnets of code which are designed to provide extra functionality to various objects that contain a ComponentManager. Objects do not have to have Components in order to preform their main function, but are instead provided to make common task's that you may want to do with those Objects a bit easier. For example: Some times you would like to easily listen for when a GameObject has been 'clicked'. So you can attach a 'InputComponent' to a GameObject (Sprites have them by default) which will then do hit-detector code for you. All you have to do is Subscribe to the events on the InputComponent.
-    *
-    * @module Kiwi
-    * @submodule Components
-    * @main Components
-    */
     (function (Components) {
         /**
         * The AnimationManager is used to handle the creation and use of spritesheet Animations on a GameObject based on the TextureAtlas it has.
@@ -6583,8 +6714,10 @@ var Kiwi;
                     }
                 }
 
+                //If a default animation already exists
                 if (this._animations['default']) {
                     this.currentAnimation = this._animations['default'];
+                    //Otherwise create one.
                 } else {
                     var defaultCells = [];
                     for (var i = 0; i < this._atlas.cells.length; i++) {
@@ -6594,19 +6727,19 @@ var Kiwi;
                 }
 
                 //Signals
-                this.onChange = new Kiwi.Signal();
-                this.onPlay = new Kiwi.Signal();
-                this.onStop = new Kiwi.Signal();
-                this.onUpdate = new Kiwi.Signal();
+                this.onChange = new Kiwi.Signal;
+                this.onPlay = new Kiwi.Signal;
+                this.onStop = new Kiwi.Signal;
+                this.onUpdate = new Kiwi.Signal;
             }
             Object.defineProperty(AnimationManager.prototype, "isPlaying", {
-                get: /**
+                /**
                 * Returns a boolean indicating whether or not the current animation is playing. This is READ ONLY.
                 * @property isPlaying
                 * @type boolean
                 * @public
                 */
-                function () {
+                get: function () {
                     return this.currentAnimation.isPlaying;
                 },
                 enumerable: true,
@@ -6723,7 +6856,8 @@ var Kiwi;
                 this._setCurrentAnimation(name);
 
                 if (index !== null)
-                    this.currentAnimation.playAt(index); else
+                    this.currentAnimation.playAt(index);
+                else
                     this.currentAnimation.play();
 
                 this.onPlay.dispatch(this.currentAnimation);
@@ -6792,6 +6926,7 @@ var Kiwi;
                         break;
                 }
 
+                //Play if the dev forced it to OR if the animation was already playing
                 if (play || play === null && this.isPlaying && switched)
                     this.play();
                 if (play == false && this.isPlaying)
@@ -6853,13 +6988,13 @@ var Kiwi;
             };
 
             Object.defineProperty(AnimationManager.prototype, "currentCell", {
-                get: /**
+                /**
                 * Gets the cell that the current Animation is current at. This is READ ONLY.
                 * @property currentCell
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this.currentAnimation.currentCell;
                 },
                 enumerable: true,
@@ -6867,13 +7002,13 @@ var Kiwi;
             });
 
             Object.defineProperty(AnimationManager.prototype, "frameIndex", {
-                get: /**
+                /**
                 * Gets the current frame index of the cell in the Sequence that is currently playing. This is READ ONLY.
                 * @property frameIndex
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this.currentAnimation.frameIndex;
                 },
                 enumerable: true,
@@ -6881,13 +7016,13 @@ var Kiwi;
             });
 
             Object.defineProperty(AnimationManager.prototype, "length", {
-                get: /**
+                /**
                 * Returns the length (Number of cells) of the current Animation that is playing. This is READ ONLY.
                 * @property length
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this.currentAnimation.length;
                 },
                 enumerable: true,
@@ -6941,14 +7076,14 @@ var Kiwi;
     })(Kiwi.Components || (Kiwi.Components = {}));
     var Components = Kiwi.Components;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Components
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Components
-    *
-    */
     (function (Components) {
         /**
         * The Box Component is used to handle the various 'bounds' that each GameObject has.
@@ -7014,7 +7149,7 @@ var Kiwi;
             };
 
             Object.defineProperty(Box.prototype, "hitboxOffset", {
-                get: /**
+                /**
                 * Returns the offset value of the hitbox as a point for the X/Y axis for the developer to use.
                 * This is without rotation or scaling.
                 * This is a READ ONLY property.
@@ -7022,7 +7157,7 @@ var Kiwi;
                 * @type Kiwi.Geom.Point
                 * @public
                 */
-                function () {
+                get: function () {
                     if (this.dirty && this.autoUpdate == true && this.entity.atlas !== null) {
                         this._hitboxOffset.x = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x;
                         this._hitboxOffset.y = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y;
@@ -7035,7 +7170,7 @@ var Kiwi;
             });
 
             Object.defineProperty(Box.prototype, "rawHitbox", {
-                get: /**
+                /**
                 * Returns the raw hitbox rectangle for the developer to use.
                 * 'Raw' means where it would be without rotation or scaling.
                 * This is READ ONLY.
@@ -7043,11 +7178,12 @@ var Kiwi;
                 * @type Kiwi.Geom.Rectangle
                 * @public
                 */
-                function () {
+                get: function () {
                     if (this.dirty) {
                         this._rawHitbox.x = this.rawBounds.x + this.hitboxOffset.x;
                         this._rawHitbox.y = this.rawBounds.y + this.hitboxOffset.y;
 
+                        //If the hitbox has not already been set, then update the width/height based upon the current cell that the entity has.
                         if (this.autoUpdate == true) {
                             var atlas = this.entity.atlas;
 
@@ -7065,13 +7201,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Box.prototype, "hitbox", {
-                get: /**
+                /**
                 * The 'normal' or transformed hitbox for the entity. This is its box after rotation/Kiwi.Geom.Rectangle.
                 * @property hitbox
                 * @type Kiwi.Geom.Rectangle
                 * @public
                 */
-                function () {
+                get: function () {
                     if (this.dirty) {
                         this._transformedHitbox = this._rotateHitbox(this.rawHitbox.clone());
                     }
@@ -7095,14 +7231,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Box.prototype, "worldHitbox", {
-                get: /**
+                /**
                 * Returns the transformed hitbox for the entity using its 'world' coordinates.
                 * This is READ ONLY.
                 * @property worldHitbox
                 * @type Kiwi.Geom.Rectangle
                 * @public
                 */
-                function () {
+                get: function () {
                     if (this.dirty) {
                         this._worldHitbox = this._rotateHitbox(this.rawHitbox.clone(), true);
                     }
@@ -7114,14 +7250,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Box.prototype, "rawBounds", {
-                get: /**
+                /**
                 * Returns the 'raw' bounds for this entity.
                 * This is READ ONLY.
                 * @property rawBounds
                 * @type Kiwi.Geom.Rectangle
                 * @public
                 */
-                function () {
+                get: function () {
                     if (this.dirty) {
                         this._rawBounds.x = this.entity.x;
                         this._rawBounds.y = this.entity.y;
@@ -7135,14 +7271,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Box.prototype, "rawCenter", {
-                get: /**
+                /**
                 * Returns the raw center point of the box.
                 * This is READ ONLY.
                 * @property rawCenter
                 * @type Kiwi.Geom.Point
                 * @public
                 */
-                function () {
+                get: function () {
                     if (this.dirty) {
                         this._rawCenter.x = this.rawBounds.x + this.rawBounds.width / 2, this._rawCenter.y = this.rawBounds.y + this.rawBounds.height / 2;
                     }
@@ -7153,14 +7289,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Box.prototype, "center", {
-                get: /**
+                /**
                 * Returns the center point for the box after it has been transformed.
                 * This is READ ONLY.
                 * @property center
                 * @type Kiwi.Geom.Point
                 * @public
                 */
-                function () {
+                get: function () {
                     if (this.dirty) {
                         var t = this.entity.transform;
                         var m = t.getConcatenatedMatrix();
@@ -7174,14 +7310,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Box.prototype, "bounds", {
-                get: /**
+                /**
                 * Returns the 'transformed' or 'normal' bounds for this box.
                 * This is READ ONLY.
                 * @property bounds
                 * @type Kiwi.Geom.Rectangle
                 * @public
                 */
-                function () {
+                get: function () {
                     if (this.dirty) {
                         this._transformedBounds = this._rotateRect(this.rawBounds.clone());
                     }
@@ -7192,14 +7328,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Box.prototype, "worldBounds", {
-                get: /**
+                /**
                 * Returns the 'transformed' bounds for this entity using the world coodinates.
                 * This is READ ONLY.
                 * @property worldBounds
                 * @type Kiwi.Geom.Rectangle
                 * @public
                 */
-                function () {
+                get: function () {
                     if (this.dirty) {
                         this._worldBounds = this._rotateRect(this.rawBounds.clone(), true);
                     }
@@ -7223,6 +7359,7 @@ var Kiwi;
                 var t = this.entity.transform;
                 var m = t.getConcatenatedMatrix();
 
+                //Use world coordinates?
                 if (useWorldCoords) {
                     m.setTo(m.a, m.b, m.c, m.d, t.worldX + t.rotPointX, t.worldY + t.rotPointY);
                 } else {
@@ -7247,6 +7384,7 @@ var Kiwi;
                 var t = this.entity.transform;
                 var m = t.getConcatenatedMatrix();
 
+                //Use world coordinates?
                 if (useWorldCoords) {
                     m.setTo(m.a, m.b, m.c, m.d, t.worldX + t.rotPointX, t.worldY + t.rotPointY);
                 } else {
@@ -7280,13 +7418,15 @@ var Kiwi;
             };
 
             /**
-            * Method which ensures that
+            * Method which takes four Points and then converts it into a Rectangle, which represents the area those points covered.
+            * The points passed can be maybe in any order, as the are checked for validity first.
+            *
             * @method extents
-            * @param topLeftPoint {Kiwi.Geom.Point}
-            * @param topRightPoint {Kiwi.Geom.Point}
-            * @param bottomRightPoint {Kiwi.Geom.Point}
-            * @param bottomLeftPoint {Kiwi.Geom.Point}
-            * @return {Kiwi.Geom.Rectangle} Returns the
+            * @param topLeftPoint {Kiwi.Geom.Point} The top left Point that the Rectangle should have.
+            * @param topRightPoint {Kiwi.Geom.Point} The top right Point that the Rectangle should have.
+            * @param bottomRightPoint {Kiwi.Geom.Point} The bottom right Point that the Rectangle should have.
+            * @param bottomLeftPoint {Kiwi.Geom.Point} The bottom left Point that the Rectangle should have.
+            * @return {Kiwi.Geom.Rectangle} The new Rectangle that represents the area the points covered.
             * @return Rectangle
             */
             Box.prototype.extents = function (topLeftPoint, topRightPoint, bottomRightPoint, bottomLeftPoint) {
@@ -7313,14 +7453,14 @@ var Kiwi;
     })(Kiwi.Components || (Kiwi.Components = {}));
     var Components = Kiwi.Components;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Components
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Components
-    *
-    */
     (function (Components) {
         /**
         * The Input Component is used on GameObjects in which the user may interactive with via a Mouse or Touch
@@ -7330,13 +7470,13 @@ var Kiwi;
         * be enabled once you access a Signal on this class.
         *
         * @class Input
-        * @extends Component
+        * @extends Kiwi.Component
         * @namespace Kiwi.Components
         * @constructor
-        * @param owner {IChild} The IChild that owns this Input.
-        * @param box {Box} The box that is to be used for the event firing.
+        * @param owner {Object} The Object that this Component is on. Generally this will be a Entity.
+        * @param box {Kiwi.Components.Box} The box which contains the worldHitbox that is to be used for the event firing.
         * @param [enabled=false] {boolean} If this input component should be enabled or not.
-        * @return {Input}
+        * @return {Kiwi.Components.Input}
         */
         var Input = (function (_super) {
             __extends(Input, _super);
@@ -7344,10 +7484,10 @@ var Kiwi;
                 if (typeof enabled === "undefined") { enabled = false; }
                 _super.call(this, owner, 'Input');
                 /**
-                * A reference to the pointer that is currently 'dragging' this IChild.
+                * A reference to the pointer that is currently 'dragging' this Object.
                 * If not dragging then this is null.
                 * @property _isDragging
-                * @type Pointer
+                * @type Kiwi.Input.Pointer
                 * @default null
                 * @private
                 */
@@ -7371,7 +7511,7 @@ var Kiwi;
                 /**
                 * Temporary property that gets updated everyframe with the pointer that is currently 'down' on this entity.
                 * @property _nowDown
-                * @type Pointer
+                * @type Kiwi.Input.Pointer
                 * @default null
                 * @private
                 */
@@ -7379,7 +7519,7 @@ var Kiwi;
                 /**
                 * Temporary property that gets updated everyframe with the pointer that was just 'released' from being down on this entity
                 * @property _nowUp
-                * @type Pointer
+                * @type Kiwi.Input.Pointer
                 * @default null
                 * @private
                 */
@@ -7387,7 +7527,7 @@ var Kiwi;
                 /**
                 * Temporary property of the pointer that is now within the bounds of the entity
                 * @property _nowEntered
-                * @type Pointer
+                * @type Kiwi.Input.Pointer
                 * @default null
                 * @private
                 */
@@ -7395,7 +7535,7 @@ var Kiwi;
                 /**
                 * Temporary property of the pointer that just left the bounds of the entity.
                 * @property _nowLeft
-                * @type Pointer
+                * @type Kiwi.Input.Pointer
                 * @default null
                 * @private
                 */
@@ -7403,7 +7543,7 @@ var Kiwi;
                 /**
                 * Temporary property of the pointer that just started draggging the entity.
                 * @property _nowDragging
-                * @type Pointer
+                * @type Kiwi.Input.Pointer
                 * @default null
                 * @private
                 */
@@ -7439,7 +7579,7 @@ var Kiwi;
             /**
             * The type of object this input is.
             * @method objType
-            * @return string
+            * @return {string} "Input"
             * @public
             */
             Input.prototype.objType = function () {
@@ -7447,15 +7587,15 @@ var Kiwi;
             };
 
             Object.defineProperty(Input.prototype, "onEntered", {
-                get: /**
+                /**
                 * Returns the onEntered Signal, that fires events when a pointer enters the hitbox of a entity.
                 * Note: Accessing this signal enables the input.
                 * This is READ ONLY.
                 * @property onEntered
-                * @type Signal
+                * @type Kiwi.Signal
                 * @public
                 */
-                function () {
+                get: function () {
                     if (this.enabled == false)
                         this.enabled = true;
                     return this._onEntered;
@@ -7465,15 +7605,15 @@ var Kiwi;
             });
 
             Object.defineProperty(Input.prototype, "onLeft", {
-                get: /**
+                /**
                 * Returns the onLeft Signal, that fires events when a pointer leaves the hitbox of a entity.
                 * Note: Accessing this signal enables the input.
                 * This is READ ONLY.
                 * @property onLeft
-                * @type Signal
+                * @type Kiwi.Signal
                 * @public
                 */
-                function () {
+                get: function () {
                     if (this.enabled == false)
                         this.enabled = true;
                     return this._onLeft;
@@ -7483,15 +7623,15 @@ var Kiwi;
             });
 
             Object.defineProperty(Input.prototype, "onDown", {
-                get: /**
+                /**
                 * Returns the onDown Signal, that fires events when a pointer is pressed within the bounds of the signal.
                 * Note: Accessing this signal enables the input.
                 * This is READ ONLY.
                 * @property onDown
-                * @type Signal
+                * @type Kiwi.Signal
                 * @public
                 */
-                function () {
+                get: function () {
                     if (this.enabled == false)
                         this.enabled = true;
                     return this._onDown;
@@ -7501,15 +7641,15 @@ var Kiwi;
             });
 
             Object.defineProperty(Input.prototype, "onUp", {
-                get: /**
+                /**
                 * Returns the onUp Signal, that fires events when a pointer is released either within the bounds or was pressed initially within the bounds..
                 * Note: Accessing this signal enables the input.
                 * This is READ ONLY.
                 * @property onUp
-                * @type Signal
+                * @type Kiwi.Signal
                 * @public
                 */
-                function () {
+                get: function () {
                     if (this.enabled == false)
                         this.enabled = true;
                     return this._onUp;
@@ -7519,14 +7659,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Input.prototype, "onDragStarted", {
-                get: /**
+                /**
                 * Returns the onDragStarted Signal.
                 * This is READ ONLY.
                 * @property onDragStarted
-                * @type Signal
+                * @type Kiwi.Signal
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._onDragStarted;
                 },
                 enumerable: true,
@@ -7534,14 +7674,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Input.prototype, "onDragStopped", {
-                get: /**
+                /**
                 * Returns the onDragStopped Signal.
                 * This is READ ONLY.
                 * @property onDragStopped
-                * @type Signal
+                * @type Kiwi.Signal
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._onDragStopped;
                 },
                 enumerable: true,
@@ -7549,14 +7689,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Input.prototype, "onRelease", {
-                get: /**
+                /**
                 * A alias for the on release signal.
                 * This is READ ONLY.
                 * @property onRelease
-                * @type Signal
+                * @type Kiwi.Signal
                 * @public
                 */
-                function () {
+                get: function () {
                     return this.onUp;
                 },
                 enumerable: true,
@@ -7564,14 +7704,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Input.prototype, "onPress", {
-                get: /**
+                /**
                 * A alias for the on press signal.
                 * This is READ ONLY.
                 * @property onPress
-                * @type Signal
+                * @type Kiwi.Signal
                 * @public
                 */
-                function () {
+                get: function () {
                     return this.onDown;
                 },
                 enumerable: true,
@@ -7579,13 +7719,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Input.prototype, "enabled", {
-                get: /**
+                /**
                 * Get if the input is enabled or not. Note: Inputs should only be enabled when needed, otherwise unnecessary processing does occur which can result in a slower game.
                 * @property enabled
                 * @type boolean
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._enabled;
                 },
                 set: function (val) {
@@ -7596,14 +7736,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Input.prototype, "isDown", {
-                get: /**
+                /**
                 * Used to see if a pointer is currently on this input. Returns a boolean indicating either true or false.
                 * This is READ ONLY.
                 * @property isDown
                 * @type boolean
                 * @public
                 */
-                function () {
+                get: function () {
                     return (this._isDown !== null);
                 },
                 enumerable: true,
@@ -7611,14 +7751,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Input.prototype, "isUp", {
-                get: /**
+                /**
                 * Used to see if no pointer is on this input (so it is up).
                 * This is READ ONLY.
                 * @property isUp
                 * @type boolean
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._isUp;
                 },
                 enumerable: true,
@@ -7626,14 +7766,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Input.prototype, "withinBounds", {
-                get: /**
+                /**
                 * Check to see if any pointer is within the bounds of this input.
                 * This is READ ONLY.
                 * @property withinBounds
                 * @type boolean
                 * @public
                 */
-                function () {
+                get: function () {
                     return (this._withinBounds !== null);
                 },
                 enumerable: true,
@@ -7641,14 +7781,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Input.prototype, "outsideBounds", {
-                get: /**
+                /**
                 * See if no pointers are within the bounds of this entity.
                 * This is READ ONLY.
                 * @property outsideBounds
                 * @type boolean
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._outsideBounds;
                 },
                 enumerable: true,
@@ -7656,14 +7796,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Input.prototype, "isDragging", {
-                get: /**
+                /**
                 * Returns a boolean indicating if this is currently dragging something.
                 * This is READ ONLY.
                 * @property isDragging
                 * @type boolean
                 * @public
                 */
-                function () {
+                get: function () {
                     return (this._isDragging !== null);
                 },
                 enumerable: true,
@@ -7671,13 +7811,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Input.prototype, "dragDistance", {
-                get: /**
+                /**
                 * The drag distance that is used when dragging this object. See _dragDistance for more information.
                 * @property dragDistance
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._dragDistance;
                 },
                 set: function (val) {
@@ -7732,12 +7872,14 @@ var Kiwi;
                 this._nowLeft = null;
                 this._nowDragging = null;
 
+                //Use the appropriate method of checking.
                 if (Kiwi.DEVICE.touch) {
                     this._updateTouch();
                 } else {
                     this._updateMouse();
                 }
 
+                //If the entity is dragging.
                 if (this.isDragging) {
                     this._tempPoint = this.game.cameras.defaultCamera.transformPoint(this._isDragging.point);
 
@@ -7758,6 +7900,7 @@ var Kiwi;
             */
             Input.prototype._updateTouch = function () {
                 for (var i = 0; i < this.game.input.touch.maximumPointers; i++) {
+                    //if that pointer is active then see where it is
                     if (this.game.input.touch.fingers[i].active === true) {
                         this._evaluateTouchPointer(this.game.input.touch.fingers[i]);
                     } else if (this.isDown === true && this._isDown.id === this.game.input.touch.fingers[i].id) {
@@ -7767,6 +7910,7 @@ var Kiwi;
                     }
                 }
 
+                //Fire the events. LOTS OF CONDITIONS
                 if (this._nowEntered !== null && this.withinBounds === false) {
                     this._withinBounds = this._nowEntered;
                     this._outsideBounds = false;
@@ -7799,6 +7943,7 @@ var Kiwi;
                     this._withinBounds = null;
                     this._outsideBounds = true;
 
+                    //dispatch drag event
                     if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
                         this._isDragging = null;
                         this._onDragStopped.dispatch(this.owner, this._nowUp);
@@ -7809,10 +7954,11 @@ var Kiwi;
             /**
             * A private method for checking to see if a touch pointer should activate any events.
             * @method _evaluateTouchPointer
-            * @param pointer {Finger} The pointer you are checking against.
+            * @param pointer {Kiwi.Input.Finger} The pointer you are checking against.
             * @private
             */
             Input.prototype._evaluateTouchPointer = function (pointer) {
+                //if nothing isdown or what is down is the current pointer
                 if (this.isDown === false || this._isDown.id === pointer.id) {
                     this._tempPoint = this.game.cameras.defaultCamera.transformPoint(pointer.point);
                     this._tempCircle.setTo(this._tempPoint.x, this._tempPoint.y, pointer.circle.diameter);
@@ -7849,6 +7995,7 @@ var Kiwi;
             Input.prototype._updateMouse = function () {
                 this._evaluateMousePointer(this.game.input.mouse.cursor);
 
+                //dispatch the events
                 if (this._nowLeft !== null) {
                     this._onLeft.dispatch(this.owner, this._nowLeft);
                 }
@@ -7871,6 +8018,7 @@ var Kiwi;
                 if (this.isDown === true && this._nowUp !== null && this._isDown.id === this._nowUp.id) {
                     this._onUp.dispatch(this.owner, this._nowUp);
 
+                    // Dispatch drag event
                     if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
                         this._isDragging = null;
                         this._onDragStopped.dispatch(this.owner, this._nowUp);
@@ -7884,7 +8032,7 @@ var Kiwi;
             /**
             * Evaluates where and what the mouse cursor is doing in relation to this box. Needs a little bit more love.
             * @method _evaluateMousePointer
-            * @param pointer {MouseCursor}
+            * @param pointer {Kiwi.Input.MouseCursor}
             * @private
             */
             Input.prototype._evaluateMousePointer = function (pointer) {
@@ -7896,6 +8044,7 @@ var Kiwi;
                         this._distance.y = this._tempPoint.y - this._box.worldHitbox.top;
                     }
 
+                    //  Has it just moved inside?
                     if (this.withinBounds === false) {
                         this._nowEntered = pointer;
                         this._withinBounds = pointer;
@@ -7903,6 +8052,7 @@ var Kiwi;
                         this._justEntered = true;
                     }
                 } else {
+                    //  It's outside the bounds now, was it previously in?
                     if (this.withinBounds === true && this.isDragging === false) {
                         this._nowLeft = pointer;
                         this._withinBounds = null;
@@ -7910,13 +8060,16 @@ var Kiwi;
                     }
                 }
 
+                //  Input is down (click/touch)
                 if (pointer.isDown === true) {
+                    //if is was a mouse, did it just enter?
                     if (this._justEntered) {
                         this._isDown = pointer;
                         this._isUp = false;
                         this._tempDragDisabled = true;
                     }
 
+                    //  Within bounds?
                     if (this.withinBounds === true && this.isDown === false && this._nowDown === null) {
                         this._nowDown = pointer;
                     }
@@ -7937,16 +8090,6 @@ var Kiwi;
 
                 if (this._justEntered)
                     this._justEntered = false;
-            };
-
-            /**
-            * Returns a string representation of this object.
-            * @method toString
-            * @return {string} A string representation of this object.
-            * @publics
-            */
-            Input.prototype.toString = function () {
-                return '[{Input (x=' + this.withinBounds + ')}]';
             };
 
             /**
@@ -7989,24 +8132,25 @@ var Kiwi;
     })(Kiwi.Components || (Kiwi.Components = {}));
     var Components = Kiwi.Components;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Components
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Components
-    *
-    */
     (function (Components) {
         /**
-        * The Sound Component is a class to assist with the creation and management of multiple pieces of audio that may exist on a single Entity. This class is NOT needed when dealing with audio but is instead provided to assist in dealing with audio.
+        * The Sound Component is a class to assist with the creation and management of multiple pieces of audio that may exist on a single Entity.
+        * This class is NOT needed when dealing with audio but is instead can be used to assist in dealing with audio.
         *
         * @class Sound
-        * @extends Component
+        * @extends Kiwi.Component
         * @namespace Kiwi.Components
         * @constructor
-        * @param parent {Any} Who the sound component belongs to.
-        * @return {Sound}
+        * @param parent {Any} Who the owner of the sound component is.
+        * @return {Kiwi.Components.Sound}
         */
         var Sound = (function (_super) {
             __extends(Sound, _super);
@@ -8018,7 +8162,7 @@ var Kiwi;
             /**
             * Returns the type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "Sound"
             * @public
             */
             Sound.prototype.objType = function () {
@@ -8033,7 +8177,7 @@ var Kiwi;
             * @param key {string} The piece of audio that you want to use.
             * @param [volume=1] {number} The volume that the audio should be set to.
             * @param [loop=false] {boolean} If the audio should keep play again when it finishes playing.
-            * @return {Audio}
+            * @return {Kiwi.Sound.Audio}
             * @public
             */
             Sound.prototype.addSound = function (name, key, volume, loop) {
@@ -8069,7 +8213,7 @@ var Kiwi;
             *
             * @method getSound
             * @param name {string} The piece of audio you would like to grab.
-            * @return {Audio}
+            * @return {Kiwi.Sound.Audio}
             * @public
             */
             Sound.prototype.getSound = function (name) {
@@ -8079,7 +8223,7 @@ var Kiwi;
                 return this._audio[name];
             };
 
-            /*
+            /**
             * This method is used to check to see if an audio segment with the name that is specified is on this component.
             *
             * @method _validate
@@ -8171,14 +8315,14 @@ var Kiwi;
     })(Kiwi.Components || (Kiwi.Components = {}));
     var Components = Kiwi.Components;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Components
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Components
-    *
-    */
     (function (Components) {
         /**
         * Arcade Physics is an Optional Component that can be used when you are wanting to do basic physics collisions.
@@ -8268,7 +8412,8 @@ var Kiwi;
             ArcadePhysics.prototype.solid = function (value) {
                 if (value !== undefined) {
                     if (value)
-                        this.allowCollisions = ArcadePhysics.ANY; else
+                        this.allowCollisions = ArcadePhysics.ANY;
+                    else
                         this.allowCollisions = ArcadePhysics.NONE;
                 }
 
@@ -8291,7 +8436,7 @@ var Kiwi;
                 this._callbackContext = callbackContext;
             };
 
-            ArcadePhysics.separate = /*
+            /*
             *---------------
             * Seperation Code
             *---------------
@@ -8308,13 +8453,13 @@ var Kiwi;
             * @return {boolean}
             * @public
             */
-            function (object1, object2) {
+            ArcadePhysics.separate = function (object1, object2) {
                 var separatedX = this.separateX(object1, object2);
                 var separatedY = this.separateY(object1, object2);
                 return separatedX || separatedY;
             };
 
-            ArcadePhysics.separateX = /**
+            /**
             * Separates two passed GameObjects on the x-axis.
             * Both objects need to have both an ArcadePhysics Component and a Box component in order for the separate process to succeed.
             * This method is not recommended to be directly used but instead use a 'collide/overlaps' method instead.
@@ -8326,11 +8471,12 @@ var Kiwi;
             * @static
             * @public
             */
-            function (object1, object2) {
+            ArcadePhysics.separateX = function (object1, object2) {
                 //Get the Physics Components.
                 var phys1 = object1.components.getComponent("ArcadePhysics");
                 var phys2 = object2.components.getComponent("ArcadePhysics");
 
+                //Can they even be sseparatated? two immovable objects
                 if (phys1.immovable && phys2.immovable)
                     return false;
 
@@ -8339,6 +8485,7 @@ var Kiwi;
                 var obj1delta = phys1.transform.worldX - phys1.last.x;
                 var obj2delta = phys2.transform.worldX - phys2.last.x;
 
+                //Are they the same?
                 if (obj1delta == obj2delta)
                     return false;
 
@@ -8354,6 +8501,7 @@ var Kiwi;
                 var obj1rect = new Kiwi.Geom.Rectangle(box1.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y + phys1.box.hitboxOffset.y, box1.width + ((obj1delta > 0) ? obj1delta : -obj1delta), box1.height);
                 var obj2rect = new Kiwi.Geom.Rectangle(box2.x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y + phys2.box.hitboxOffset.y, box2.width + ((obj2delta > 0) ? obj2delta : -obj2delta), box2.height);
 
+                //Could also use Kiwi.Geom.Intersect.rectangleToRectangle here...
                 if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
                     var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
 
@@ -8406,7 +8554,7 @@ var Kiwi;
                 return false;
             };
 
-            ArcadePhysics.separateY = /**
+            /**
             * Separates two GameObject on the y-axis. This method is executed from the 'separate' method.
             * Both objects need to have both an ArcadePhysics Component and a Box component in order for the separate process to succeed.
             * This method is not recommended to be directly used but instead use a 'collide/overlaps' method instead.
@@ -8418,11 +8566,12 @@ var Kiwi;
             * @static
             * @public
             */
-            function (object1, object2) {
+            ArcadePhysics.separateY = function (object1, object2) {
                 //Get the Arcade Physics Components
                 var phys1 = object1.components.getComponent("ArcadePhysics");
                 var phys2 = object2.components.getComponent("ArcadePhysics");
 
+                //Can't separate two immovable objects
                 if (phys1.immovable && phys2.immovable)
                     return false;
 
@@ -8430,6 +8579,7 @@ var Kiwi;
                 var obj1delta = phys1.transform.worldY - phys1.last.y;
                 var obj2delta = phys2.transform.worldY - phys2.last.y;
 
+                //Do the deltas match?
                 if (obj1delta == obj2delta)
                     return false;
 
@@ -8445,6 +8595,7 @@ var Kiwi;
                 var obj1rect = new Kiwi.Geom.Rectangle(box1.x, box1.y - ((obj1delta > 0) ? obj1delta : 0), box1.width, box1.height + obj1deltaAbs);
                 var obj2rect = new Kiwi.Geom.Rectangle(box2.x, box2.y - ((obj2delta > 0) ? obj2delta : 0), box2.width, box2.height + obj2deltaAbs);
 
+                //Check for overlap
                 if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
                     var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
 
@@ -8466,6 +8617,7 @@ var Kiwi;
                         }
                     }
 
+                    //Then adjust their positions and velocities accordingly (if there was any overlap)
                     if (overlap != 0) {
                         var obj1v = phys1.velocity.y;
                         var obj2v = phys2.velocity.y;
@@ -8489,12 +8641,14 @@ var Kiwi;
                             phys1.transform.y = phys1.transform.y - overlap;
                             phys1.velocity.y = obj2v - obj1v * phys1.elasticity;
 
+                            //This is special case code that handles cases like horizontal moving platforms you can ride
                             if (object2.active && phys2.moves && (obj1delta > obj2delta))
                                 phys1.transform.x = phys1.transform.worldX + object2.transform.worldX - phys2.last.x;
                         } else if (!phys2.immovable) {
                             phys2.transform.y = phys2.transform.y + overlap;
                             phys2.velocity.y = obj1v - obj2v * phys2.elasticity;
 
+                            //This is special case code that handles cases like horizontal moving platforms you can ride
                             if (object1.active && phys1.moves && (obj1delta < obj2delta))
                                 phys2.transform.x = phys2.transform.worldX + object1.transform.worldX - phys1.last.x;
                         }
@@ -8506,7 +8660,7 @@ var Kiwi;
                 return false;
             };
 
-            ArcadePhysics.separateTiles = /*
+            /*
             *---------------
             * Seperation of Tiles Methods
             *---------------
@@ -8524,10 +8678,12 @@ var Kiwi;
             * @public
             * @static
             */
-            function (object, layer, tiles) {
+            ArcadePhysics.separateTiles = function (object, layer, tiles) {
+                //Physics Component Found?
                 if (object.components.hasComponent("ArcadePhysics") == false)
                     return false;
 
+                //Immovable?
                 if (object.components.getComponent("ArcadePhysics").immovable)
                     return false;
 
@@ -8546,7 +8702,7 @@ var Kiwi;
                 return sepX || sepY;
             };
 
-            ArcadePhysics.separateTilesX = /**
+            /**
             * Separates a GameObjects from an Array of Tiles on the x-axis.
             * @method separateTilesX
             * @param object {Kiwi.Entity} The GameObject you are wanting to separate from a tile.
@@ -8556,7 +8712,7 @@ var Kiwi;
             * @public
             * @static
             */
-            function (object, layer, tile) {
+            ArcadePhysics.separateTilesX = function (object, layer, tile) {
                 //Get Physics
                 var phys1 = object.components.getComponent("ArcadePhysics");
                 var phys2 = layer.components.getComponent("ArcadePhysics");
@@ -8565,6 +8721,7 @@ var Kiwi;
                 var obj1delta = phys1.transform.worldX - phys1.last.x;
                 var obj2delta = phys2.transform.worldX - phys2.last.x;
 
+                //If they moved the same amount.
                 if (obj1delta == obj2delta)
                     return false;
 
@@ -8584,7 +8741,9 @@ var Kiwi;
                 var obj1rect = new Kiwi.Geom.Rectangle(box1.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y + phys1.box.hitboxOffset.y, box1.width + ((obj1delta > 0) ? obj1delta : -obj1delta), box1.height);
                 var obj2rect = new Kiwi.Geom.Rectangle(x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y + tile.y, layer.tileWidth + ((obj2delta > 0) ? obj2delta : -obj2delta), layer.tileHeight);
 
+                //Check to see if they overlap
                 if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
+                    //Which way the delta is going
                     if (obj1delta > obj2delta) {
                         overlap = box1.x + box1.width - x;
                         if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(tileTypes[tData[tile.index]].allowCollisions & ArcadePhysics.LEFT)) {
@@ -8601,6 +8760,7 @@ var Kiwi;
                         }
                     }
 
+                    //Resolve the Collision
                     if (overlap != 0) {
                         var obj1v = phys1.velocity.x;
                         var obj2v = phys2.velocity.x;
@@ -8615,7 +8775,7 @@ var Kiwi;
                 return false;
             };
 
-            ArcadePhysics.separateTilesY = /**
+            /**
             * Separates a GameObject from a tiles on the y-axis.
             * @method separateTilesY
             * @param object {Kiwi.Entity} The GameObject you are wanting to separate from a tile.
@@ -8625,7 +8785,7 @@ var Kiwi;
             * @public
             * @static
             */
-            function (object, layer, tile) {
+            ArcadePhysics.separateTilesY = function (object, layer, tile) {
                 //Get the physics.
                 var phys1 = object.components.getComponent("ArcadePhysics");
                 var phys2 = layer.components.getComponent("ArcadePhysics");
@@ -8634,6 +8794,7 @@ var Kiwi;
                 var obj1delta = phys1.transform.worldY - phys1.last.y;
                 var obj2delta = phys2.transform.worldY - phys2.last.y;
 
+                //Have they moved the same amount?
                 if (obj1delta == obj2delta)
                     return false;
 
@@ -8652,6 +8813,7 @@ var Kiwi;
                 var obj1rect = new Kiwi.Geom.Rectangle(box1.x, box1.y - ((obj1delta > 0) ? obj1delta : 0), box1.width, box1.height + obj1deltaAbs);
                 var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.worldX + tile.x, y - ((obj2delta > 0) ? obj2delta : 0), layer.tileWidth, layer.tileHeight + obj2deltaAbs);
 
+                //Check if they overlap
                 if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
                     if (obj1delta > obj2delta) {
                         overlap = box1.y + box1.height - y;
@@ -8669,6 +8831,7 @@ var Kiwi;
                         }
                     }
 
+                    //Resolve the Collision
                     if (overlap != 0) {
                         var obj1v = phys1.velocity.y;
                         var obj2v = phys2.velocity.y;
@@ -8704,10 +8867,11 @@ var Kiwi;
             ArcadePhysics.prototype.overlapsTiles = function (gameObject, separateObjects, collisionType) {
                 if (typeof separateObjects === "undefined") { separateObjects = false; }
                 if (typeof collisionType === "undefined") { collisionType = Kiwi.Components.ArcadePhysics.ANY; }
+                //Are we a tilemaplayer?
                 if (this.parent.childType() !== Kiwi.TILE_LAYER)
                     return false;
 
-                var tiles = (this.parent).getOverlappingTiles(gameObject, collisionType);
+                var tiles = this.parent.getOverlappingTiles(gameObject, collisionType);
 
                 if (tiles.length > 0) {
                     if (separateObjects)
@@ -8770,6 +8934,7 @@ var Kiwi;
                         //recursively check overlap
                         this.overlapsGroup(group.members[i], separateObjects);
                     } else {
+                        //otherwise its an entity
                         if (this.overlaps(group.members[i], separateObjects)) {
                             if (this._callbackContext !== null && this._callbackFunction !== null)
                                 this._callbackFunction.call(this._callbackContext, this.owner, group.members[i]);
@@ -8812,7 +8977,7 @@ var Kiwi;
                 return results;
             };
 
-            ArcadePhysics.computeVelocity = /*
+            /*
             *-------------
             * Motion Methods
             *-------------
@@ -8828,21 +8993,25 @@ var Kiwi;
             * @return {Number} The new velocity
             * @public
             */
-            function (velocity, acceleration, drag, max) {
+            ArcadePhysics.computeVelocity = function (velocity, acceleration, drag, max) {
                 if (typeof acceleration === "undefined") { acceleration = 0; }
                 if (typeof drag === "undefined") { drag = 0; }
                 if (typeof max === "undefined") { max = 10000; }
                 if (acceleration != 0)
-                    velocity += acceleration * ArcadePhysics.updateInterval; else if (drag != 0) {
+                    velocity += acceleration * ArcadePhysics.updateInterval;
+                else if (drag != 0) {
                     drag = drag * ArcadePhysics.updateInterval;
                     if (velocity - drag > 0)
-                        velocity = velocity - drag; else if (velocity + drag < 0)
-                        velocity += drag; else
+                        velocity = velocity - drag;
+                    else if (velocity + drag < 0)
+                        velocity += drag;
+                    else
                         velocity = 0;
                 }
                 if ((velocity != 0) && (max != 10000)) {
                     if (velocity > max)
-                        velocity = max; else if (velocity < -max)
+                        velocity = max;
+                    else if (velocity < -max)
                         velocity = -max;
                 }
                 return velocity;
@@ -8890,6 +9059,7 @@ var Kiwi;
                 this.last.x = this.transform.worldX;
                 this.last.y = this.transform.worldY;
 
+                //Flixel postupdate
                 if (this.moves)
                     this.updateMotion();
 
@@ -8921,7 +9091,7 @@ var Kiwi;
                 return "ArcadePhysics";
             };
 
-            ArcadePhysics.collide = /*
+            /*
             *----------------
             * Static Functions
             *----------------
@@ -8942,12 +9112,12 @@ var Kiwi;
             * @param [seperate=true] {boolean} If the two gameobjects should seperated when they collide.
             * @return {boolean}
             */
-            function (gameObject1, gameObject2, seperate) {
+            ArcadePhysics.collide = function (gameObject1, gameObject2, seperate) {
                 if (typeof seperate === "undefined") { seperate = true; }
                 return ArcadePhysics.overlaps(gameObject1, gameObject2, seperate);
             };
 
-            ArcadePhysics.collideGroup = /**
+            /**
             * A Static method to check to see if a single entity collides with a group of entities. Returns a boolean indicating whether they overlaped or not.
             *
             * @method collideGroup
@@ -8959,12 +9129,12 @@ var Kiwi;
             * @return {boolean}
             * @public
             */
-            function (gameObject, group, seperate) {
+            ArcadePhysics.collideGroup = function (gameObject, group, seperate) {
                 if (typeof seperate === "undefined") { seperate = true; }
                 return ArcadePhysics.overlapsObjectGroup(gameObject, group, seperate);
             };
 
-            ArcadePhysics.collideGroupGroup = /**
+            /**
             * A Static method to check to see if a group of entities overlap with another group of entities. Returns a boolean indicating whether they overlaped or not.
             *
             * @method collideGroupGroup
@@ -8975,12 +9145,12 @@ var Kiwi;
             * @param [seperate=true] {boolean}
             * @return {boolean}
             */
-            function (group1, group2, seperate) {
+            ArcadePhysics.collideGroupGroup = function (group1, group2, seperate) {
                 if (typeof seperate === "undefined") { seperate = true; }
                 return ArcadePhysics.overlapsGroupGroup(group1, group2, seperate);
             };
 
-            ArcadePhysics.overlaps = /*
+            /*
             *-------------
             * Overlap Static Method - Use's the Arcade Physics of one of the gameobjects passed.
             *-------------
@@ -8996,13 +9166,13 @@ var Kiwi;
             * @param [separateObjects=true] {boolean}
             * @return {boolean}
             */
-            function (gameObject1, gameObject2, separateObjects) {
+            ArcadePhysics.overlaps = function (gameObject1, gameObject2, separateObjects) {
                 if (typeof separateObjects === "undefined") { separateObjects = true; }
                 var obj1Physics = gameObject1.components.getComponent("ArcadePhysics");
                 return obj1Physics.overlaps(gameObject2, separateObjects);
             };
 
-            ArcadePhysics.overlapsObjectGroup = /**
+            /**
             * A Static method to that checks to see if a single object overlaps with a group of entities. Returns a boolean indicating whether they did or not.
             *
             * @method overlapsObjectGroup
@@ -9013,13 +9183,13 @@ var Kiwi;
             * @return {boolean}
             * @public
             */
-            function (gameObject, group, separateObjects) {
+            ArcadePhysics.overlapsObjectGroup = function (gameObject, group, separateObjects) {
                 if (typeof separateObjects === "undefined") { separateObjects = true; }
                 var objPhysics = gameObject.components.getComponent("ArcadePhysics");
                 return objPhysics.overlapsGroup(group, separateObjects);
             };
 
-            ArcadePhysics.overlapsGroupGroup = /**
+            /**
             * A Static method that checks to see if any objects in one group overlap with objects in another group.
             *
             * @method overlaps
@@ -9030,7 +9200,7 @@ var Kiwi;
             * @return {boolean}
             * @public
             */
-            function (group1, group2, separateObjects) {
+            ArcadePhysics.overlapsGroupGroup = function (group1, group2, separateObjects) {
                 if (typeof separateObjects === "undefined") { separateObjects = true; }
                 var result = false;
 
@@ -9050,7 +9220,7 @@ var Kiwi;
                 return result;
             };
 
-            ArcadePhysics.overlapsArrayGroup = /**
+            /**
             * A Static method that checks to see if any objects from an Array collide with a Kiwi Group members.
             *
             * @method overlapsArrayGroup
@@ -9060,7 +9230,7 @@ var Kiwi;
             * @return {Boolean}
             * @static
             */
-            function (array, group, separateObjects) {
+            ArcadePhysics.overlapsArrayGroup = function (array, group, separateObjects) {
                 if (typeof separateObjects === "undefined") { separateObjects = true; }
                 var result = false;
 
@@ -9106,14 +9276,14 @@ var Kiwi;
     })(Kiwi.Components || (Kiwi.Components = {}));
     var Components = Kiwi.Components;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Files
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Files
-    *
-    */
     (function (Files) {
         /**
         * Used for the loading of files and game assets. This usually happens when a State is at the 'loading' stage (executing the 'preload' method).
@@ -9121,8 +9291,8 @@ var Kiwi;
         * @class Loader
         * @namespace Kiwi.Files
         * @constructor
-        * @param game {Game} The game that this loader belongs to.
-        * @return {Loader} This Object
+        * @param game {Kiwi.Game} The game that this loader belongs to.
+        * @return {Kiwi.Files.Loader} This Object
         *
         */
         var Loader = (function () {
@@ -9196,7 +9366,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "Loader"
             * @public
             */
             Loader.prototype.objType = function () {
@@ -9323,13 +9493,16 @@ var Kiwi;
             Loader.prototype.addAudio = function (key, url, storeAsGlobal, onlyIfSupported) {
                 if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
                 if (typeof onlyIfSupported === "undefined") { onlyIfSupported = true; }
+                //If it is a string then try to load that file
                 if (Kiwi.Utils.Common.isString(url)) {
                     this.attemptToAddAudio(key, url, storeAsGlobal, onlyIfSupported);
                 } else if (Kiwi.Utils.Common.isArray(url)) {
                     for (var i = 0; i < url.length; i++) {
+                        //Is the url passed not a string?
                         if (Kiwi.Utils.Common.isString(url[i]) == false)
                             continue;
 
+                        //Attempt to load it, and if successful, breakout
                         if (this.attemptToAddAudio(key, url[i], storeAsGlobal, onlyIfSupported) == true)
                             break;
                     }
@@ -9463,7 +9636,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Calculates the size of the new file that is to be loaded.
             * @method getNextFileSize
             * @private
             */
@@ -9481,9 +9654,9 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Adds the number of bytes that a File is to the total number of bytes loaded.
             * @method addToBytesTotal
-            * @param file {File}
+            * @param file {Kiwi.Files.File}
             * @private
             */
             Loader.prototype.addToBytesTotal = function (file) {
@@ -9513,9 +9686,9 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Executed whilst a file is being loaded.
             * @method fileLoadProgress
-            * @param file {File}
+            * @param file {Kiwi.Files.File}
             * @private
             */
             Loader.prototype.fileLoadProgress = function (file) {
@@ -9530,9 +9703,9 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Executed when a file has been successfully loaded. This method then decides whether loading is complete or we need to load the next file.
             * @method fileLoadComplete
-            * @param file {File}
+            * @param file {Kiwi.Files.File}
             * @private
             */
             Loader.prototype.fileLoadComplete = function (file) {
@@ -9607,7 +9780,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Returns a boolean indicating if everything in the loading que has been loaded or not.
             * @method complete
             * @return {boolean}
             * @public
@@ -9621,14 +9794,14 @@ var Kiwi;
     })(Kiwi.Files || (Kiwi.Files = {}));
     var Files = Kiwi.Files;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Files
+* @main Files
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Files
-    * @main Files
-    */
     (function (Files) {
         /**
         * Holds a reference to all of the data Files (json, xml, e.t.c) that are accessible on the State that this DataLibrary is on.
@@ -9636,8 +9809,8 @@ var Kiwi;
         * @class DataLibrary
         * @namespace Kiwi.Files
         * @constructor
-        * @param game {Game} The game that this DataLibrary belongs to.
-        * @return {DataLibrary}
+        * @param game {Kiwi.Game} The game that this DataLibrary belongs to.
+        * @return {Kiwi.Files.DataLibrary}
         *
         */
         var DataLibrary = (function () {
@@ -9648,7 +9821,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "DataLibrary"
             * @public
             */
             DataLibrary.prototype.objType = function () {
@@ -9669,7 +9842,7 @@ var Kiwi;
             /**
             * Adds a new data file to the DataLibrary.
             * @method add
-            * @param dataFile {File}
+            * @param dataFile {Kiwi.Files.File} The File that is to be added.
             * @public
             */
             DataLibrary.prototype.add = function (dataFile) {
@@ -9689,8 +9862,8 @@ var Kiwi;
             /**
             * Rebuild the library from a fileStore. Clears the library and repopulates it.
             * @method rebuild
-            * @param {Kiwi.Files.FileStore} fileStore
-            * @param {Kiwi.State} state
+            * @param fileStore {Kiwi.Files.FileStore} The fileStore which is being used
+            * @param state {Kiwi.State} The State so that we know which DataLibrary to add the files tot.
             * @public
             */
             DataLibrary.prototype.rebuild = function (fileStore, state) {
@@ -9717,14 +9890,14 @@ var Kiwi;
     })(Kiwi.Files || (Kiwi.Files = {}));
     var Files = Kiwi.Files;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Files
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Files
-    *
-    */
     (function (Files) {
         /**
         * Handles the loading of an external data file via a tag loader OR xhr + arraybuffer, and optionally saves to the file store.
@@ -9734,13 +9907,13 @@ var Kiwi;
         * @class File
         * @namespace Kiwi.Files
         * @constructor
-        * @param game {Game} The game that this file belongs to.
+        * @param game {Kiwi.Game} The game that this file belongs to.
         * @param dataType {Number} The type of file that is being loaded. For this you can use the STATIC properties that are located on this class for quick code completion.
         * @param path {String} The location of the file that is to be loaded.
         * @param [name=''] {String} A name for the file. If no name is specified then the files name will be used.
         * @param [saveToFileStore=true] {Boolean} If the file should be saved on the file store or not.
         * @param [storeAsGlobal=true] {Boolean} If this file should be stored as a global file, or if it should be destroyed when this state gets switched out.
-        * @return {File}
+        * @return {Kiwi.Files.File}
         *
         */
         var File = (function () {
@@ -10008,6 +10181,7 @@ var Kiwi;
                 this._saveToFileStore = saveToFileStore;
                 this._fileStore = this._game.fileStore;
 
+                // Null state owner indicates global storage
                 if (this._game.states.current && !storeAsGlobal) {
                     this.ownerState = this._game.states.current;
                 } else {
@@ -10023,7 +10197,7 @@ var Kiwi;
             /**
             * Returns the type of this object
             * @method objType
-            * @return {String}
+            * @return {String} "File"
             * @public
             */
             File.prototype.objType = function () {
@@ -10070,7 +10244,7 @@ var Kiwi;
             };
 
             Object.defineProperty(File.prototype, "isTexture", {
-                get: /*
+                /*
                 *----------------
                 * Type Identification
                 *----------------
@@ -10081,7 +10255,7 @@ var Kiwi;
                 * @type boolean
                 * @public
                 */
-                function () {
+                get: function () {
                     if (this.dataType === File.IMAGE || this.dataType === File.SPRITE_SHEET || this.dataType === File.TEXTURE_ATLAS) {
                         return true;
                     }
@@ -10092,13 +10266,13 @@ var Kiwi;
             });
 
             Object.defineProperty(File.prototype, "isAudio", {
-                get: /**
+                /**
                 * An indication of if this file is a piece of audio. This is READ ONLY.
                 * @property isAudio
                 * @type boolean
                 * @public
                 */
-                function () {
+                get: function () {
                     if (this.dataType === File.AUDIO) {
                         return true;
                     }
@@ -10109,13 +10283,13 @@ var Kiwi;
             });
 
             Object.defineProperty(File.prototype, "isData", {
-                get: /**
+                /**
                 * An indication of if this file is data. This is READ ONLY.
                 * @property isData
                 * @type boolean
                 * @public
                 */
-                function () {
+                get: function () {
                     if (this.dataType === File.XML || this.dataType === File.JSON || this.dataType === File.TEXT_DATA || this.dataType === File.BINARY_DATA) {
                         return true;
                     }
@@ -10132,6 +10306,7 @@ var Kiwi;
             */
             /**
             * Starts the loading process for this file.
+            *
             * @method load
             * @param [onCompleteCallback=null] {Any} The callback method to execute when this file has loaded.
             * @param [onProgressCallback=null] {Any} The callback method to execute while this file is loading.
@@ -10156,6 +10331,7 @@ var Kiwi;
                 if (timeout != undefined)
                     this.timeOutDelay = timeout;
 
+                //Should the file be saved in a custom file store?
                 if (customFileStore !== null) {
                     this._fileStore = customFileStore;
                     this._saveToFileStore = true;
@@ -10164,6 +10340,7 @@ var Kiwi;
                 //Start the load.
                 this.start();
 
+                //Load using the appropriate
                 if (this._useTagLoader === true) {
                     this.tagLoader();
                 } else {
@@ -10208,6 +10385,7 @@ var Kiwi;
             */
             File.prototype.tagLoader = function () {
                 var _this = this;
+                //Is the file a image?
                 if (this.dataType === Kiwi.Files.File.IMAGE || this.dataType === Kiwi.Files.File.SPRITE_SHEET || this.dataType === Kiwi.Files.File.TEXTURE_ATLAS) {
                     this.data = new Image();
                     this.data.src = this.fileURL;
@@ -10216,16 +10394,19 @@ var Kiwi;
                     };
                     this.data.onerror = function (event) {
                         return _this.tagLoaderOnError(event);
-                    };
+                    }; //To be remade
                     this.data.onreadystatechange = function (event) {
                         return _this.tagLoaderOnReadyStateChange(event);
                     };
+                    //Is the file a piece of audio?
                 } else if (this.dataType === Kiwi.Files.File.AUDIO) {
                     //Create the audio Element
                     this.data = document.createElement('audio');
                     this.data.src = this.fileURL;
                     this.data.preload = 'auto';
 
+                    //Is the audio currently locked?
+                    //This would mainly be due to iOS waiting for a touch/mouse event to fire.
                     if (this._game.audio.locked) {
                         this.tagLoaderAudioLocked();
                     } else {
@@ -10233,8 +10414,10 @@ var Kiwi;
                             return _this.tagLoaderProgressThrough(null);
                         }, false);
 
+                        //If targetting Cocoon we can use the load method to force the audio loading.
                         if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
                             this.data.load();
+                            //Otherwise we tell the browser to play the audio in 'mute' to force loading.
                         } else {
                             this.data.volume = 0;
                             this.data.play();
@@ -10246,7 +10429,7 @@ var Kiwi;
             /**
             * Is executed when the tag loader changes its ready state.
             * @method tagLoaderOnReadyStateChange
-            * @param {Any} event
+            * @param event {Any}
             * @private
             */
             File.prototype.tagLoaderOnReadyStateChange = function (event) {
@@ -10255,7 +10438,7 @@ var Kiwi;
             /**
             * Is executed when the tag loader encounters a error that stops it from loading.
             * @method tagLoaderOnError
-            * @param {Any} event
+            * @param event {Any}
             * @private
             */
             File.prototype.tagLoaderOnError = function (event) {
@@ -10270,16 +10453,18 @@ var Kiwi;
             /**
             * Is executed when an audio file can play the whole way through with stopping to load.
             * @method tagLoaderProgressThrough
-            * @param {Any} event
+            * @param event {Any}
             * @private
             */
             File.prototype.tagLoaderProgressThrough = function (event) {
                 var _this = this;
+                //Has it not fully loaded yet?
+                //Work arround as the tag will constantly fire.
                 if (this.percentLoaded !== 100) {
                     if (this.dataType === Kiwi.Files.File.AUDIO) {
                         this.data.removeEventListener('canplaythrough', function () {
                             return _this.tagLoaderProgressThrough(null);
-                        });
+                        }); //Remove will not work due to the nameless function.
 
                         //Stop the audio and reset it to the default settings.
                         this.data.pause();
@@ -10305,12 +10490,13 @@ var Kiwi;
             /**
             * Is executed when the file has successfully loaded.
             * @method tagLoaderOnLoad
-            * @param {Any} event
+            * @param event {Any}
             * @private
             */
             File.prototype.tagLoaderOnLoad = function (event) {
                 this.stop();
 
+                //Image loaded successfully...bit of a assumtion but hey...its a tag loader.
                 if (this._game.debug)
                     console.log('Kiwi.File: Successfully Loaded: ' + this.fileName);
 
@@ -10366,7 +10552,7 @@ var Kiwi;
             /**
             * Is executed when the XHR loader has changed its ready state.
             * @method xhrOnReadyStateChange
-            * @param {Any} event
+            * @param event {Any}
             * @private
             */
             File.prototype.xhrOnReadyStateChange = function (event) {
@@ -10380,7 +10566,7 @@ var Kiwi;
             /**
             * Is executed when the XHR loader starts to load the file.
             * @method xhrOnLoadStart
-            * @param {Any} event
+            * @param event {Any}
             * @private
             */
             File.prototype.xhrOnLoadStart = function (event) {
@@ -10404,7 +10590,7 @@ var Kiwi;
             /**
             * Runs when the XHR loader encounters a error.
             * @method xhrOnError
-            * @param {Any} event
+            * @param event {Any}
             * @private
             */
             File.prototype.xhrOnError = function (event) {
@@ -10417,7 +10603,7 @@ var Kiwi;
             /**
             * Is executed when the xhr
             * @method xhrOnTimeout
-            * @param {Any} event
+            * @param event {Any}
             * @private
             */
             File.prototype.xhrOnTimeout = function (event) {
@@ -10432,7 +10618,7 @@ var Kiwi;
             /**
             * Is execute whilst loading of the file is occuring. Updates the number of bytes that have been loaded and percentage loaded.
             * @method xhrOnProgress
-            * @param {Any} event
+            * @param event {Any}
             * @private
             */
             File.prototype.xhrOnProgress = function (event) {
@@ -10448,16 +10634,19 @@ var Kiwi;
             /**
             * Once the file has finished downloading (or pulled from the browser cache) this onload event fires.
             * @method xhrOnLoad
-            * @param {event} The XHR event
+            * @param event {Event} The XHR event.
             * @private
             */
             File.prototype.xhrOnLoad = function (event) {
+                //Stop re-processing of the file if it was already processed.
+                //Received from the ready state.
                 if (this.timeFinished > 0)
                     return;
 
                 this.status = this._xhr.status;
                 this.statusText = this._xhr.statusText;
 
+                //Was the loading a success?
                 if (this._xhr.status === 200) {
                     this.stop();
                     this.success = true;
@@ -10475,7 +10664,9 @@ var Kiwi;
 
                     //Start processing of the file.
                     this.processFile();
+                    //Failed to load.
                 } else {
+                    //Should we try to load the file again?
                     if (this.attemptCounter >= this.maxLoadAttempts) {
                         this.success = false;
                         this.hasError = true;
@@ -10501,7 +10692,6 @@ var Kiwi;
             /**
             * Handles the processing of the files information when it was loaded via the xhr + arraybuffer method.
             * Is only executed when the loading was a success
-            this._xhr.onload = (event) => this.xhrOnLoad(event);.
             * @method processFile
             * @private
             */
@@ -10525,6 +10715,7 @@ var Kiwi;
                         break;
 
                     case Kiwi.Files.File.AUDIO:
+                        //Are we using web audio? (Not needed really as audio tags use Tag Loader.
                         if (this._game.audio.usingWebAudio) {
                             this.data = {
                                 raw: this._xhr.response,
@@ -10582,6 +10773,14 @@ var Kiwi;
                 //{
                 var blob = new window['Blob']([this.buffer], { type: imageType });
 
+                //}
+                //else
+                //{
+                //var BlobBuilder = window['BlobBuilder'] || window['WebKitBlobBuilder'] || window['MozBlobBuilder'] || window['MSBlobBuilder'];
+                //var builder = new BlobBuilder;
+                //builder.append([this.buffer]); // needs appendABV check
+                //var blob = builder.getBlob(imageType);
+                //}
                 if (window['URL']) {
                     this.data.src = window['URL'].createObjectURL(blob);
                 } else if (window['webkitURL']) {
@@ -10624,7 +10823,7 @@ var Kiwi;
             * Attempts to make the file send a XHR HEAD request to get information about the file that is going to be downloaded.
             * This is particularly useful when you are wanting to check how large a file is before loading all of the content.
             * @method getFileDetails
-            * @param [callback=null] {function} The callback to send this FileInfo object to.
+            * @param [callback=null] {Any} The callback to send this FileInfo object to.
             * @param [maxLoadAttempts=1] {number} The maximum amount of load attempts. Only set this if it is different from the default.
             * @param [timeout=this.timeOutDelay] {number} The timeout delay. By default this is the same as the timeout delay property set on this file.
             * @private
@@ -10678,6 +10877,7 @@ var Kiwi;
                 this.hasTimedOut = true;
                 this.timedOut = Date.now();
                 this.error = event;
+                //The onload will fire after, thus trying again automatically.
             };
 
             /**
@@ -10691,12 +10891,13 @@ var Kiwi;
                 this.error = event;
                 this.status = this._xhr.status;
                 this.statusText = this._xhr.statusText;
+                //The onload will fire after, thus trying again automatically.
             };
 
             /**
             * Process the response headers received.
             * @method getResponseHeaders
-            * @param event {Any} The XHR event
+            * @param event {Any} The XHR event.
             * @private
             */
             File.prototype.getXHRResponseHeaders = function (event) {
@@ -10725,25 +10926,17 @@ var Kiwi;
             * @private
             */
             File.prototype.completeXHRHeadRequest = function (outcome) {
+                //If the outcome was not good and we can try again then do it!
                 if (outcome == false && this.attemptCounter < this.maxLoadAttempts) {
                     this.sendXHRHeadRequest(this.timeOutDelay);
                     return;
                 }
 
+                //Execute the on complete callback.
                 if (this.onCompleteCallback) {
                     this.attemptCounter = 0;
                     this.onCompleteCallback(this);
                 }
-            };
-
-            /**
-            * Returns a string representation of this object.
-            * @method toString
-            * @return {string} a string representation of the instance.
-            * @public
-            */
-            File.prototype.toString = function () {
-                return "[{File (fileURL=" + this.fileURL + " fileName=" + this.fileName + " dataType=" + this.dataType + " fileSize=" + this.fileSize + " success=" + this.success + " status=" + this.status + ")}]";
             };
             File.IMAGE = 0;
 
@@ -10766,14 +10959,14 @@ var Kiwi;
     })(Kiwi.Files || (Kiwi.Files = {}));
     var Files = Kiwi.Files;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Files
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Files
-    *
-    */
     (function (Files) {
         /**
         * Holds all of the Files (regardless of the file type) that have been loaded throughout a game/are accessable at a particular point in time. Contains methods for dealing with files. Note: Each time the state is switched the file store will remove all references to files that have not been flagged as global.
@@ -10781,8 +10974,8 @@ var Kiwi;
         * @class FileStore
         * @namespace Kiwi.Files
         * @constructor
-        * @param game {Game} The game that this FileStore belongs to.
-        * @return {FilesStore}
+        * @param game {Kiwi.Game} The game that this FileStore belongs to.
+        * @return {Kiwi.Files.FilesStore}
         *
         */
         var FileStore = (function () {
@@ -10801,7 +10994,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "FileStore"
             * @public
             */
             FileStore.prototype.objType = function () {
@@ -10820,7 +11013,7 @@ var Kiwi;
             * Returns a particular file by the key that you specify.
             * @method getFile
             * @param key {String} The key of the file that you to get.
-            * @return {File}
+            * @return {Kiwi.Files.File}
             * @public
             */
             FileStore.prototype.getFile = function (key) {
@@ -10863,13 +11056,13 @@ var Kiwi;
             };
 
             Object.defineProperty(FileStore.prototype, "keys", {
-                get: /**
+                /**
                 * Returns all of the keys for every file that exist on this FileStore as an array.
                 * @property keys
                 * @type String[]
                 * @public
                 */
-                function () {
+                get: function () {
                     var keys = new Array();
                     for (var key in this._files) {
                         keys.push(key);
@@ -10895,7 +11088,7 @@ var Kiwi;
             * Adds a File with a key to the FileStore. If the key that you specify already exists then this method will return false otherwise it should return true if it was added.
             * @method addFile
             * @param key {String} A unique key that this file should be accessed by.
-            * @param value {File} The file that you would like to save on the FileStore.
+            * @param value {Kiwi.Files.File} The file that you would like to save on the FileStore.
             * @return {Boolean} If the file was added or not
             * @public
             */
@@ -10913,7 +11106,7 @@ var Kiwi;
             * Checks to see if a key that you pass is already being used for another file. Returns true if that key is already in used, false if it isn't.
             * @method exists
             * @param key {String} The key that you are checking.
-            * @return boolean
+            * @return {Boolean}
             * @public
             */
             FileStore.prototype.exists = function (key) {
@@ -10927,7 +11120,7 @@ var Kiwi;
             /**
             * Removes files on the FileStore that are associated with a particular state.
             * @method removeStateFiles
-            * @param state {State}
+            * @param state {Kiwi.State}
             * @public
             */
             FileStore.prototype.removeStateFiles = function (state) {
@@ -10961,14 +11154,14 @@ var Kiwi;
     })(Kiwi.Files || (Kiwi.Files = {}));
     var Files = Kiwi.Files;
 })(Kiwi || (Kiwi = {}));
+/**
+* Kiwi - System
+* @module Kiwi
+* @submodule System
+* @main System
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    * Kiwi - System
-    * @module Kiwi
-    * @submodule System
-    * @main System
-    */
     (function (System) {
         /**
         * DOM Boot and Ready functions (based on those used by jQuery)
@@ -11029,6 +11222,7 @@ var Kiwi;
                 // if this is true a div will be created in browser
                 this._createContainer = createContainer;
 
+                // wait until DOM is loaded and call ready
                 if (document.readyState === 'complete' || document.readyState === 'interactive') {
                     this.ready();
                 } else {
@@ -11061,11 +11255,13 @@ var Kiwi;
                     this.isReady = true;
 
                     if (this._createContainer === true) {
+                        //  No domParent was given so we create our own container for the game with a unique ID
                         if (this._domParent === '') {
                             this.container = document.createElement('div');
                             this._setupContainer('KiwiGame' + Date.now().toString());
                             document.body.appendChild(this.container);
                         } else {
+                            //  Does the container exist?
                             if (document.getElementById(this._domParent)) {
                                 this.container = document.getElementById(this._domParent);
                                 this._setupContainer();
@@ -11109,79 +11305,13 @@ var Kiwi;
     })(Kiwi.System || (Kiwi.System = {}));
     var System = Kiwi.System;
 })(Kiwi || (Kiwi = {}));
+/**
+* Kiwi - System
+* @module Kiwi
+* @submodule System
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    * Kiwi - System
-    * @module Kiwi
-    * @submodule System
-    *
-    */
-    (function (System) {
-        /**
-        * Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser
-        * Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js
-        *
-        * @class Browser
-        * @constructor
-        * @namespace Kiwi.System
-        * @param {Game} game
-        * @return {StateMananger} This Object
-        *
-        */
-        var Browser = (function () {
-            function Browser(game) {
-                this._game = game;
-            }
-            /**
-            * The type of object that this is.
-            * @method objType
-            * @return {String}
-            * @public
-            */
-            Browser.prototype.objType = function () {
-                return "Browser";
-            };
-
-            /**
-            * The DOM is ready, so if we have a current state pending we can init it now
-            * @method boot
-            */
-            Browser.prototype.boot = function () {
-            };
-
-            /**
-            *
-            * @method getOffsetPoint
-            * @param {Any} element
-            * @param {Point} output
-            * @return {Point}
-            * @public
-            */
-            Browser.prototype.getOffsetPoint = function (element, output) {
-                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
-                var box = element.getBoundingClientRect();
-
-                var clientTop = element.clientTop || document.body.clientTop || 0;
-                var clientLeft = element.clientLeft || document.body.clientLeft || 0;
-                var scrollTop = window.pageYOffset || element.scrollTop || document.body.scrollTop;
-                var scrollLeft = window.pageXOffset || element.scrollLeft || document.body.scrollLeft;
-
-                return output.setTo(box.left + scrollLeft - clientLeft, box.top + scrollTop - clientTop);
-            };
-            return Browser;
-        })();
-        System.Browser = Browser;
-    })(Kiwi.System || (Kiwi.System = {}));
-    var System = Kiwi.System;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    /**
-    * Kiwi - System
-    * @module Kiwi
-    * @submodule System
-    */
     (function (System) {
         /**
         * Detects device support capabilities. Using some elements from System.js by MrDoob and Modernizr
@@ -11311,13 +11441,6 @@ var Kiwi;
                 * @public
                 */
                 this.pointerEnabled = false;
-                /**
-                *
-                * @property css3D
-                * @type boolean
-                * @public
-                */
-                this.css3D = false;
                 //  Browser
                 /**
                 *
@@ -11477,7 +11600,6 @@ var Kiwi;
                 this.pixelRatio = 0;
                 this._checkAudio();
                 this._checkBrowser();
-                this._checkCSS3D();
                 this._checkDevice();
                 this._checkFeatures();
                 this._checkOS();
@@ -11539,11 +11661,11 @@ var Kiwi;
                 this.webGL = !!window['WebGLRenderingContext'];
                 this.worker = !!window['Worker'];
 
-                if ('ontouchstart' in document.documentElement || (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 0) || ((window.navigator).pointerEnabled && (window.navigator).maxTouchPoints > 0)) {
+                if ('ontouchstart' in document.documentElement || (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 0) || (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 0)) {
                     this.touch = true;
                 }
 
-                if ((window.navigator).pointerEnabled || window.navigator.msPointerEnabled) {
+                if (window.navigator.pointerEnabled || window.navigator.msPointerEnabled) {
                     this.pointerEnabled = true;
                 }
             };
@@ -11586,6 +11708,7 @@ var Kiwi;
                     this.safari = true;
                 }
 
+                // WebApp mode in iOS
                 if (navigator['standalone']) {
                     this.webApp = true;
                 }
@@ -11613,6 +11736,9 @@ var Kiwi;
                             this.mp3 = true;
                         }
 
+                        // Mimetypes accepted:
+                        //   developer.mozilla.org/En/Media_formats_supported_by_the_audio_and_video_elements
+                        //   bit.ly/iphoneoscodecs
                         if (audioElement.canPlayType('audio/wav; codecs="1"').replace(/^no$/, '')) {
                             this.wav = true;
                         }
@@ -11635,37 +11761,6 @@ var Kiwi;
                 this.iPhone = navigator.userAgent.toLowerCase().indexOf('iphone') != -1;
                 this.iPhone4 = (this.pixelRatio == 2 && this.iPhone);
                 this.iPad = navigator.userAgent.toLowerCase().indexOf('ipad') != -1;
-            };
-
-            /**
-            *
-            * @method _checkCSS3D
-            * @private
-            */
-            Device.prototype._checkCSS3D = function () {
-                var el = document.createElement('p');
-                var has3d;
-                var transforms = {
-                    'webkitTransform': '-webkit-transform',
-                    'OTransform': '-o-transform',
-                    'msTransform': '-ms-transform',
-                    'MozTransform': '-moz-transform',
-                    'transform': 'transform'
-                };
-
-                // Add it to the body to get the computed style.
-                document.body.insertBefore(el, null);
-
-                for (var t in transforms) {
-                    if (el.style[t] !== undefined) {
-                        el.style[t] = "translate3d(1px,1px,1px)";
-                        has3d = window.getComputedStyle(el).getPropertyValue(transforms[t]);
-                    }
-                }
-
-                document.body.removeChild(el);
-
-                this.css3D = (has3d !== undefined && has3d.length > 0 && has3d !== "none");
             };
 
             /**
@@ -11713,7 +11808,6 @@ var Kiwi;
                 output = output.concat('WebGL: ' + this.webGL + '\n');
                 output = output.concat('Worker: ' + this.worker + '\n');
                 output = output.concat('Touch: ' + this.touch + '\n');
-                output = output.concat('CSS 3D: ' + this.css3D + '\n');
 
                 output = output.concat('\n');
                 output = output.concat('Audio\n');
@@ -11732,17 +11826,17 @@ var Kiwi;
     })(Kiwi.System || (Kiwi.System = {}));
     var System = Kiwi.System;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Textures
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Textures
-    *
-    */
     (function (Textures) {
         /**
-        * A TextureAtlas is the base class that is created for each image that is loaded in through Kiwi. Each TextureAtlas contains a name (the same as the key that the user chose when loading the image in),the HTMLImageElement that it is for and a number of cells.
+        * A TextureAtlas is the base class that is created for each image that is loaded through Kiwi. Each TextureAtlas contains a name (the same as the key that the user chose when loading the image in),the HTMLImageElement that it is for and a number of cells.
         *
         * @class TextureAtlas
         * @namespace Kiwi.Textures
@@ -11752,7 +11846,7 @@ var Kiwi;
         * @param cells {any} The cells that are within this image..
         * @param image {HTMLImageElement/HTMLCanvasElement} The image that the texture atlas is using.
         * @param [sequences] {Sequence[]} Any sequences of cells for this texture atlas. Used for animation.
-        * @return {TextureAtlas}
+        * @return {Kiwi.TextureAtlas}
         *
         */
         var TextureAtlas = (function () {
@@ -11789,12 +11883,12 @@ var Kiwi;
             };
 
             Object.defineProperty(TextureAtlas.prototype, "type", {
-                get: /**
+                /**
                 * Will return to you this type of texture atlas. This is READ ONLY.
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._type;
                 },
                 enumerable: true,
@@ -11848,16 +11942,16 @@ var Kiwi;
     })(Kiwi.Textures || (Kiwi.Textures = {}));
     var Textures = Kiwi.Textures;
 })(Kiwi || (Kiwi = {}));
+/**
+* Contains Objects that are used when dealing specifically with Textures/Images. Majority of these classes are for Internal Kiwi use.
+*
+* @module Kiwi
+* @submodule Textures
+* @main Textures
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    * Contains Objects that are used when dealing specifically with Textures/Images. Majority of these classes are for Internal Kiwi use.
-    *
-    * @module Kiwi
-    * @submodule Textures
-    * @main Textures
-    *
-    */
     (function (Textures) {
         /**
         * Holds a reference to all of the image files (jpg, png, e.t.c) that are accessible on the State this TextureLibrary is on.
@@ -11866,7 +11960,7 @@ var Kiwi;
         * @namespace Kiwi.Textures
         * @constructor
         * @param game {Game} The game that this texture library belongs to.
-        * @return {TextureLibrary}
+        * @return {Kiwi.TextureLibrary}
         *
         */
         var TextureLibrary = (function () {
@@ -11898,7 +11992,7 @@ var Kiwi;
             /**
             * Adds a texture atlas to the library.
             * @method add
-            * @param atlas {TextureAtlas}
+            * @param atlas {Kiwi.Textures.TextureAtlas}
             * @public
             */
             TextureLibrary.prototype.add = function (atlas) {
@@ -11916,7 +12010,7 @@ var Kiwi;
             /**
             * Adds a new image file to the texture library.
             * @method addFromFile
-            * @param imageFile {File}
+            * @param imageFile {Kiwi.File}
             * @public
             */
             TextureLibrary.prototype.addFromFile = function (imageFile) {
@@ -11942,19 +12036,22 @@ var Kiwi;
             /**
             * Used to rebuild a Texture from the FileStore into a base2 size if it doesn't have it already.
             * @method _rebuildImage
-            * @param imageFile {File} The image file that is to be rebuilt.
-            * @return {File} The new image file.
+            * @param imageFile {Kiwi.File} The image file that is to be rebuilt.
+            * @return {Kiwi.File} The new image file.
             * @private
             */
             TextureLibrary.prototype._rebuildImage = function (imageFile) {
                 //Check to see if it is base 2
                 var newImg = Kiwi.Utils.Common.convertToBase2(imageFile.data);
 
+                //Was it resized? We can check to see if the width/height has changed.
                 if (imageFile.data.width !== newImg.width || imageFile.data.height !== newImg.height) {
                     if (imageFile.dataType === Kiwi.Files.File.SPRITE_SHEET) {
+                        //If no rows were passed then calculate them now.
                         if (!imageFile.metadata.rows)
                             imageFile.metadata.rows = imageFile.data.height / imageFile.metadata.frameHeight;
 
+                        //If no columns were passed then calculate them again.
                         if (!imageFile.metadata.cols)
                             imageFile.metadata.cols = imageFile.data.width / imageFile.metadata.frameWidth;
                     } else if (imageFile.dataType === Kiwi.Files.File.IMAGE) {
@@ -11978,8 +12075,8 @@ var Kiwi;
             /**
             * Used to build a new texture atlas based on the image file provided. Internal use only.
             * @method _buildTextureAtlas
-            * @param imageFile {File} The image file that is to be used.
-            * @return {TextureAtlas} The new texture atlas that is created.
+            * @param imageFile {Kiwi.File} The image file that is to be used.
+            * @return {Kiwi.Textures.TextureAtlas} The new texture atlas that is created.
             * @private
             */
             TextureLibrary.prototype._buildTextureAtlas = function (imageFile) {
@@ -11997,8 +12094,8 @@ var Kiwi;
             /**
             * Builds a spritesheet atlas from the an image file that is provided.
             * @method _buildSpriteSheet
-            * @param imageFile {File} The image file that is to be used.
-            * @return {SpriteSheet} The SpriteSheet that was just created.
+            * @param imageFile {Kiwi.File} The image file that is to be used.
+            * @return {Kiwi.Textures.SpriteSheet} The SpriteSheet that was just created.
             * @private
             */
             TextureLibrary.prototype._buildSpriteSheet = function (imageFile) {
@@ -12013,7 +12110,7 @@ var Kiwi;
             * Builds a single image atlas from a image file that is provided.
             * @method _buildImage
             * @param imageFile {File} The image file that is to be used.
-            * @return {SingleImage} The SingleImage that was created.
+            * @return {Kiwi.Textures.SingleImage} The SingleImage that was created.
             * @private
             */
             TextureLibrary.prototype._buildImage = function (imageFile) {
@@ -12052,14 +12149,14 @@ var Kiwi;
     })(Kiwi.Textures || (Kiwi.Textures = {}));
     var Textures = Kiwi.Textures;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Textures
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Textures
-    *
-    */
     (function (Textures) {
         /**
         * A special type of TextureAtlas that is created when loading in images that are design to be SpriteSheets. A SpriteSheet will generally contain multiple cells and can also contain sequences which are then automatically added as Animations when this texture is used on a Sprite.
@@ -12110,12 +12207,12 @@ var Kiwi;
             };
 
             Object.defineProperty(SpriteSheet.prototype, "rows", {
-                get: /**
+                /**
                 * Get the number of rows.
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._rows;
                 },
                 enumerable: true,
@@ -12123,12 +12220,12 @@ var Kiwi;
             });
 
             Object.defineProperty(SpriteSheet.prototype, "cols", {
-                get: /**
+                /**
                 * Get the number of columns.
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._cols;
                 },
                 enumerable: true,
@@ -12182,19 +12279,19 @@ var Kiwi;
                 return cells;
             };
             return SpriteSheet;
-        })(Textures.TextureAtlas);
+        })(Kiwi.Textures.TextureAtlas);
         Textures.SpriteSheet = SpriteSheet;
     })(Kiwi.Textures || (Kiwi.Textures = {}));
     var Textures = Kiwi.Textures;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Textures
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Textures
-    *
-    */
     (function (Textures) {
         /**
         * A special type of TextureAtlas that is used when the user has loaded a single image. This type of TextureAtlas contains only one cell which is generally the whole width/height of the image and starts at the coordinates 0/0. A SingleImage has a space to store sequences but this will not be used.
@@ -12209,7 +12306,7 @@ var Kiwi;
         * @param [height] {number} the height of the image
         * @param [offsetX] {number} the offset of the image on the x axis. Useful if the image has a border that you don't want to show.
         * @param [offsetY] {number} the offset of the image of the y axis. Useful if the image has a border that you don't want to show.
-        * @return {SingleImage}
+        * @return {Kiwi.SingleImage}
         */
         var SingleImage = (function (_super) {
             __extends(SingleImage, _super);
@@ -12241,22 +12338,22 @@ var Kiwi;
                 return [{ x: this.offsetX, y: this.offsetY, w: this.width, h: this.height, hitboxes: [{ x: 0, y: 0, w: this.width, h: this.height }] }];
             };
             return SingleImage;
-        })(Textures.TextureAtlas);
+        })(Kiwi.Textures.TextureAtlas);
         Textures.SingleImage = SingleImage;
     })(Kiwi.Textures || (Kiwi.Textures = {}));
     var Textures = Kiwi.Textures;
 })(Kiwi || (Kiwi = {}));
+/**
+* Contains various methods that can be used when you are wanting to ease a Tween.
+*
+* @module Tweens
+* @submodule Easing
+* @main Easing
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (Animations) {
         (function (Tweens) {
-            /**
-            * Contains various methods that can be used when you are wanting to ease a Tween.
-            *
-            * @module Tweens
-            * @submodule Easing
-            * @main Easing
-            */
             (function (Easing) {
                 /**
                 *
@@ -12277,7 +12374,7 @@ var Kiwi;
                         return "Back";
                     };
 
-                    Back.In = /**
+                    /**
                     *
                     * @method In
                     * @param k {Any}
@@ -12285,12 +12382,12 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Back.In = function (k) {
                         var s = 1.70158;
                         return k * k * ((s + 1) * k - s);
                     };
 
-                    Back.Out = /**
+                    /**
                     *
                     * @method Out
                     * @param {Any} k
@@ -12298,12 +12395,12 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Back.Out = function (k) {
                         var s = 1.70158;
                         return --k * k * ((s + 1) * k + s) + 1;
                     };
 
-                    Back.InOut = /**
+                    /**
                     *
                     * @method InOut
                     * @param k {Any}
@@ -12311,7 +12408,7 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Back.InOut = function (k) {
                         var s = 1.70158 * 1.525;
                         if ((k *= 2) < 1)
                             return 0.5 * (k * k * ((s + 1) * k - s));
@@ -12327,16 +12424,16 @@ var Kiwi;
     })(Kiwi.Animations || (Kiwi.Animations = {}));
     var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Tweens
+* @submodule Easing
+*
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (Animations) {
         (function (Tweens) {
-            /**
-            *
-            * @module Tweens
-            * @submodule Easing
-            *
-            */
             (function (Easing) {
                 /**
                 *
@@ -12357,7 +12454,7 @@ var Kiwi;
                         return "Bounce";
                     };
 
-                    Bounce.In = /**
+                    /**
                     *
                     * @method In
                     * @param k {Any}
@@ -12365,11 +12462,11 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Bounce.In = function (k) {
                         return 1 - Kiwi.Animations.Tweens.Easing.Bounce.Out(1 - k);
                     };
 
-                    Bounce.Out = /**
+                    /**
                     *
                     * @method Out
                     * @param k {Any}
@@ -12377,7 +12474,7 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Bounce.Out = function (k) {
                         if (k < (1 / 2.75)) {
                             return 7.5625 * k * k;
                         } else if (k < (2 / 2.75)) {
@@ -12389,7 +12486,7 @@ var Kiwi;
                         }
                     };
 
-                    Bounce.InOut = /**
+                    /**
                     *
                     * @method InOut
                     * @param {Any} k
@@ -12397,7 +12494,7 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Bounce.InOut = function (k) {
                         if (k < 0.5)
                             return Kiwi.Animations.Tweens.Easing.Bounce.In(k * 2) * 0.5;
                         return Kiwi.Animations.Tweens.Easing.Bounce.Out(k * 2 - 1) * 0.5 + 0.5;
@@ -12443,36 +12540,36 @@ var Kiwi;
                         return "Circular";
                     };
 
-                    Circular.In = /**
+                    /**
                     *
                     * @method In
                     * @param k {Any}
                     * @return {Number}
                     * @static
                     */
-                    function (k) {
+                    Circular.In = function (k) {
                         return 1 - Math.sqrt(1 - k * k);
                     };
 
-                    Circular.Out = /**
+                    /**
                     *
                     * @method Out
                     * @param k {Any}
                     * @return {Number}
                     * @static
                     */
-                    function (k) {
+                    Circular.Out = function (k) {
                         return Math.sqrt(1 - (--k * k));
                     };
 
-                    Circular.InOut = /**
+                    /**
                     *
                     * @method InOut
                     * @param k {Any}
                     * @return {Number}
                     * @static
                     */
-                    function (k) {
+                    Circular.InOut = function (k) {
                         if ((k *= 2) < 1)
                             return -0.5 * (Math.sqrt(1 - k * k) - 1);
                         return 0.5 * (Math.sqrt(1 - (k -= 2) * k) + 1);
@@ -12487,16 +12584,16 @@ var Kiwi;
     })(Kiwi.Animations || (Kiwi.Animations = {}));
     var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Tweens
+* @submodule Easing
+*
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (Animations) {
         (function (Tweens) {
-            /**
-            *
-            * @module Tweens
-            * @submodule Easing
-            *
-            */
             (function (Easing) {
                 /**
                 *
@@ -12517,7 +12614,7 @@ var Kiwi;
                         return "Cubic";
                     };
 
-                    Cubic.In = /**
+                    /**
                     *
                     * @method In
                     * @param k {Any}
@@ -12525,11 +12622,11 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Cubic.In = function (k) {
                         return k * k * k;
                     };
 
-                    Cubic.Out = /**
+                    /**
                     *
                     * @method Out
                     * @param k {Any}
@@ -12537,18 +12634,18 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Cubic.Out = function (k) {
                         return --k * k * k + 1;
                     };
 
-                    Cubic.InOut = /**
+                    /**
                     *
                     * @method InOut
                     * @param k {Any}
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Cubic.InOut = function (k) {
                         if ((k *= 2) < 1)
                             return 0.5 * k * k * k;
                         return 0.5 * ((k -= 2) * k * k + 2);
@@ -12563,16 +12660,16 @@ var Kiwi;
     })(Kiwi.Animations || (Kiwi.Animations = {}));
     var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Tweens
+* @submodule Easing
+*
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (Animations) {
         (function (Tweens) {
-            /**
-            *
-            * @module Tweens
-            * @submodule Easing
-            *
-            */
             (function (Easing) {
                 /**
                 *
@@ -12594,7 +12691,7 @@ var Kiwi;
                         return "Elastic";
                     };
 
-                    Elastic.In = /**
+                    /**
                     *
                     * @method In
                     * @param k {Any}
@@ -12602,7 +12699,7 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Elastic.In = function (k) {
                         var s, a = 0.1, p = 0.4;
                         if (k === 0)
                             return 0;
@@ -12616,14 +12713,14 @@ var Kiwi;
                         return -(a * Math.pow(2, 10 * (k -= 1)) * Math.sin((k - s) * (2 * Math.PI) / p));
                     };
 
-                    Elastic.Out = /**
+                    /**
                     *
                     * @method Out
                     * @param {Any} k
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Elastic.Out = function (k) {
                         var s, a = 0.1, p = 0.4;
                         if (k === 0)
                             return 0;
@@ -12637,14 +12734,14 @@ var Kiwi;
                         return (a * Math.pow(2, -10 * k) * Math.sin((k - s) * (2 * Math.PI) / p) + 1);
                     };
 
-                    Elastic.InOut = /**
+                    /**
                     *
                     * @method InOut
                     * @param k {Any}
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Elastic.InOut = function (k) {
                         var s, a = 0.1, p = 0.4;
                         if (k === 0)
                             return 0;
@@ -12669,16 +12766,16 @@ var Kiwi;
     })(Kiwi.Animations || (Kiwi.Animations = {}));
     var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Tweens
+* @submodule Easing
+*
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (Animations) {
         (function (Tweens) {
-            /**
-            *
-            * @module Tweens
-            * @submodule Easing
-            *
-            */
             (function (Easing) {
                 /**
                 *
@@ -12700,7 +12797,7 @@ var Kiwi;
                         return "Exponential";
                     };
 
-                    Exponential.In = /**
+                    /**
                     *
                     * @method In
                     * @param k {Any}
@@ -12708,11 +12805,11 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Exponential.In = function (k) {
                         return k === 0 ? 0 : Math.pow(1024, k - 1);
                     };
 
-                    Exponential.Out = /**
+                    /**
                     *
                     * @method Out
                     * @param k {Any}
@@ -12720,11 +12817,11 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Exponential.Out = function (k) {
                         return k === 1 ? 1 : 1 - Math.pow(2, -10 * k);
                     };
 
-                    Exponential.InOut = /**
+                    /**
                     *
                     * @method InOut
                     * @param k {Any}
@@ -12732,7 +12829,7 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Exponential.InOut = function (k) {
                         if (k === 0)
                             return 0;
                         if (k === 1)
@@ -12751,16 +12848,16 @@ var Kiwi;
     })(Kiwi.Animations || (Kiwi.Animations = {}));
     var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Tweens
+* @submodule Easing
+*
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (Animations) {
         (function (Tweens) {
-            /**
-            *
-            * @module Tweens
-            * @submodule Easing
-            *
-            */
             (function (Easing) {
                 /**
                 *
@@ -12781,14 +12878,14 @@ var Kiwi;
                         return "Linear";
                     };
 
-                    Linear.None = /**
+                    /**
                     *
                     * @method None
                     * @param {Any} k
                     * @return {Number}
                     * @static
                     */
-                    function (k) {
+                    Linear.None = function (k) {
                         return k;
                     };
                     return Linear;
@@ -12801,16 +12898,16 @@ var Kiwi;
     })(Kiwi.Animations || (Kiwi.Animations = {}));
     var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Tweens
+* @submodule Easing
+*
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (Animations) {
         (function (Tweens) {
-            /**
-            *
-            * @module Tweens
-            * @submodule Easing
-            *
-            */
             (function (Easing) {
                 /**
                 *
@@ -12832,7 +12929,7 @@ var Kiwi;
                         return "Quadratic";
                     };
 
-                    Quadratic.In = /**
+                    /**
                     *
                     * @method In
                     * @param k {Any}
@@ -12840,11 +12937,11 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Quadratic.In = function (k) {
                         return k * k;
                     };
 
-                    Quadratic.Out = /**
+                    /**
                     *
                     * @method Out
                     * @param k {Any}
@@ -12852,11 +12949,11 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Quadratic.Out = function (k) {
                         return k * (2 - k);
                     };
 
-                    Quadratic.InOut = /**
+                    /**
                     *
                     * @method InOut
                     * @param k {Any}
@@ -12864,7 +12961,7 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Quadratic.InOut = function (k) {
                         if ((k *= 2) < 1)
                             return 0.5 * k * k;
                         return -0.5 * (--k * (k - 2) - 1);
@@ -12879,16 +12976,16 @@ var Kiwi;
     })(Kiwi.Animations || (Kiwi.Animations = {}));
     var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Tweens
+* @submodule Easing
+*
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (Animations) {
         (function (Tweens) {
-            /**
-            *
-            * @module Tweens
-            * @submodule Easing
-            *
-            */
             (function (Easing) {
                 /**
                 *
@@ -12909,7 +13006,7 @@ var Kiwi;
                         return "Quartic";
                     };
 
-                    Quartic.In = /**
+                    /**
                     *
                     * @method In
                     * @param k {Any}
@@ -12917,11 +13014,11 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Quartic.In = function (k) {
                         return k * k * k * k;
                     };
 
-                    Quartic.Out = /**
+                    /**
                     *
                     * @method Out
                     * @param k {Any}
@@ -12929,11 +13026,11 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Quartic.Out = function (k) {
                         return 1 - (--k * k * k * k);
                     };
 
-                    Quartic.InOut = /**
+                    /**
                     *
                     * @method InOut
                     * @param k {Any}
@@ -12941,7 +13038,7 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Quartic.InOut = function (k) {
                         if ((k *= 2) < 1)
                             return 0.5 * k * k * k * k;
                         return -0.5 * ((k -= 2) * k * k * k - 2);
@@ -12956,16 +13053,16 @@ var Kiwi;
     })(Kiwi.Animations || (Kiwi.Animations = {}));
     var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Tweens
+* @submodule Easing
+*
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (Animations) {
         (function (Tweens) {
-            /**
-            *
-            * @module Tweens
-            * @submodule Easing
-            *
-            */
             (function (Easing) {
                 /**
                 *
@@ -12986,7 +13083,7 @@ var Kiwi;
                         return "Quintic";
                     };
 
-                    Quintic.In = /**
+                    /**
                     *
                     * @method In
                     * @param k {Any}
@@ -12994,11 +13091,11 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Quintic.In = function (k) {
                         return k * k * k * k * k;
                     };
 
-                    Quintic.Out = /**
+                    /**
                     *
                     * @method Out
                     * @param k {Any}
@@ -13006,11 +13103,11 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Quintic.Out = function (k) {
                         return --k * k * k * k * k + 1;
                     };
 
-                    Quintic.InOut = /**
+                    /**
                     *
                     * @method InOut
                     * @param k {Any}
@@ -13018,7 +13115,7 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Quintic.InOut = function (k) {
                         if ((k *= 2) < 1)
                             return 0.5 * k * k * k * k * k;
                         return 0.5 * ((k -= 2) * k * k * k * k + 2);
@@ -13033,16 +13130,16 @@ var Kiwi;
     })(Kiwi.Animations || (Kiwi.Animations = {}));
     var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Tweens
+* @submodule Easing
+*
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (Animations) {
         (function (Tweens) {
-            /**
-            *
-            * @module Tweens
-            * @submodule Easing
-            *
-            */
             (function (Easing) {
                 /**
                 *
@@ -13063,7 +13160,7 @@ var Kiwi;
                         return "Sinusoidal";
                     };
 
-                    Sinusoidal.In = /**
+                    /**
                     *
                     * @method In
                     * @param k {Any}
@@ -13071,11 +13168,11 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Sinusoidal.In = function (k) {
                         return 1 - Math.cos(k * Math.PI / 2);
                     };
 
-                    Sinusoidal.Out = /**
+                    /**
                     *
                     * @method Out
                     * @param k {Any}
@@ -13083,11 +13180,11 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Sinusoidal.Out = function (k) {
                         return Math.sin(k * Math.PI / 2);
                     };
 
-                    Sinusoidal.InOut = /**
+                    /**
                     *
                     * @method InOut
                     * @param {Any} k
@@ -13095,7 +13192,7 @@ var Kiwi;
                     * @static
                     * @public
                     */
-                    function (k) {
+                    Sinusoidal.InOut = function (k) {
                         return 0.5 * (1 - Math.cos(Math.PI * k));
                     };
                     return Sinusoidal;
@@ -13108,16 +13205,16 @@ var Kiwi;
     })(Kiwi.Animations || (Kiwi.Animations = {}));
     var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
+/**
+* The section of Kiwi which holds the scripts that manage Tween's in Kiwi. The scripts in this section are based on Tween.js by sole and have been converted to TypeScript and integrated into Kiwi. https://github.com/sole/tween.js
+*
+* @module Animations
+* @submodule Tweens
+* @main Tweens
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (Animations) {
-        /**
-        * The section of Kiwi which holds the scripts that manage Tween's in Kiwi. The scripts in this section are based on Tween.js by sole and have been converted to TypeScript and integrated into Kiwi. https://github.com/sole/tween.js
-        *
-        * @module Animations
-        * @submodule Tweens
-        * @main Tweens
-        */
         (function (Tweens) {
             /**
             * The TweenManager is automatically created on every game. This class is responsible for the creation and management of tweens for the game.
@@ -13128,8 +13225,8 @@ var Kiwi;
             * @class TweenManager
             * @namespace Kiwi.Animations.Tweens
             * @constructor
-            * @param game {Game}
-            * @return {TweenManager}
+            * @param game {Kiwi.Game}
+            * @return {Kiwi.Animations.TweenManager}
             *
             * @author     sole / http://soledadpenades.com
             * @author     mrdoob / http://mrdoob.com
@@ -13160,7 +13257,7 @@ var Kiwi;
                 /**
                 * Returns all of tweens that are on the manager.
                 * @method getAll
-                * @return Tween[]
+                * @return Kiwi.Animations.Tween[]
                 * @public
                 */
                 TweenManager.prototype.getAll = function () {
@@ -13180,7 +13277,7 @@ var Kiwi;
                 * Creates a new Tween.
                 * @method create
                 * @param object {Any} The object that this tween is to apply.
-                * @return {Tween} The tween that was created.
+                * @return {Kiwi.Animations.Tween} The tween that was created.
                 * @public
                 */
                 TweenManager.prototype.create = function (object) {
@@ -13190,8 +13287,8 @@ var Kiwi;
                 /**
                 * Adds a tween to the manager.
                 * @method add
-                * @param tween {Tween} The tween that you want to add to the manager.
-                * @return {Tween}
+                * @param tween {Kiwi.Animations.Tween} The tween that you want to add to the manager.
+                * @return {Kiwi.Animations.Tween}
                 * @public
                 */
                 TweenManager.prototype.add = function (tween) {
@@ -13205,8 +13302,8 @@ var Kiwi;
                 /**
                 * Removes a tween from this manager.
                 * @method remove
-                * @param tween {Tween} The tween that you would like to remove.
-                * @return {Tween}
+                * @param tween {Kiwi.Animations.Tween} The tween that you would like to remove.
+                * @return {Kiwi.Animations.Tween}
                 * @public
                 */
                 TweenManager.prototype.remove = function (tween) {
@@ -13250,14 +13347,14 @@ var Kiwi;
     })(Kiwi.Animations || (Kiwi.Animations = {}));
     var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Animations
+* @submodule Tweens
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Animations
-    * @submodule Tweens
-    *
-    */
     (function (Animations) {
         /**
         * Manages the tweening of properties/values on a single object. A Tween is the animation of a number between an initially value to and final value (that you specify).
@@ -13270,8 +13367,8 @@ var Kiwi;
         * @constructor
         * @namespace Kiwi.Animations
         * @param object {Any} The object that this tween is taking affect on.
-        * @param game {Game} The game that this tween is for.
-        * @return {Tween} This tween.
+        * @param game {Kiwi.Game} The game that this tween is for.
+        * @return {Kiwi.Animations.Tween} This tween.
         *
         * @author     sole / http://soledadpenades.com
         * @author     mrdoob / http://mrdoob.com
@@ -13290,14 +13387,14 @@ var Kiwi;
                 /**
                 * The game that this tween belongs to.
                 * @property _game
-                * @type Game
+                * @type Kiwi.Game
                 * @private
                 */
                 this._game = null;
                 /**
                 * The manager that this tween belongs to.
                 * @property _manager
-                * @type Manager
+                * @type Kiwi.Animations.Tweens.TweenManager
                 * @private
                 */
                 this._manager = null;
@@ -13467,7 +13564,7 @@ var Kiwi;
             * @param [duration=1000] {Number} The duration of the tween.
             * @param [ease=null] {Any} The easing method to be used. If not specifed then this will default to LINEAR.
             * @param [autoStart=false] {boolean} If the tween should start right away.
-            * @return {Tween}
+            * @return {Kiwi.Animations.Tween}
             * @public
             */
             Tween.prototype.to = function (properties, duration, ease, autoStart) {
@@ -13511,10 +13608,12 @@ var Kiwi;
                 this._startTime = this._game.time.now() + this._delayTime;
 
                 for (var property in this._valuesEnd) {
+                    // This prevents the interpolation of null values or of non-existing properties
                     if (this._object[property] === null || !(property in this._object)) {
                         continue;
                     }
 
+                    // check if an Array was provided as property value
                     if (this._valuesEnd[property] instanceof Array) {
                         if (this._valuesEnd[property].length === 0) {
                             continue;
@@ -13524,6 +13623,7 @@ var Kiwi;
                         this._valuesEnd[property] = [this._object[property]].concat(this._valuesEnd[property]);
                     }
 
+                    //  Check if property is a function
                     if (typeof this._object[property] === 'function') {
                         this._valuesStart[property] = this._object[property]();
                     } else {
@@ -13552,7 +13652,7 @@ var Kiwi;
             /**
             * Sets the game and the manager of this tween.
             * @method setParent
-            * @param {Game} value
+            * @param {Kiwi.Game} value
             * @public
             */
             Tween.prototype.setParent = function (value) {
@@ -13564,7 +13664,7 @@ var Kiwi;
             * Sets the amount of delay that the tween is to have before it starts playing.
             * @method delay
             * @param amount {Number} The amount of time to delay the tween by.
-            * @return {Tween}
+            * @return {Kiwi.Animations.Tween}
             * @public
             */
             Tween.prototype.delay = function (amount) {
@@ -13576,7 +13676,7 @@ var Kiwi;
             * Sets the easing method that is to be used when animating this tween.
             * @method easing
             * @param easing {Function} The easing function to use.
-            * @return {Tween}
+            * @return {Kiwi.Animations.Tween}
             * @public
             */
             Tween.prototype.easing = function (easing) {
@@ -13588,7 +13688,7 @@ var Kiwi;
             * [REQUIRES DESCRIPTION]
             * @method interpolation
             * @param {Any} interpolation
-            * @return {Tween}
+            * @return {Kiwi.Animations.Tween}
             * @public
             */
             Tween.prototype.interpolation = function (interpolation) {
@@ -13600,8 +13700,8 @@ var Kiwi;
             /**
             * Adds another tween that should start playing once tween has completed.
             * @method chain
-            * @param tween {Tween}
-            * @return {Tween}
+            * @param tween {Kiwi.Animations.Tween}
+            * @return {Kiwi.Animations.Tween}
             * @public
             */
             Tween.prototype.chain = function (tween) {
@@ -13614,7 +13714,7 @@ var Kiwi;
             * @method onStart
             * @param callback {Function} The function that is to be executed on tween start.
             * @param context {any} The context that function is to have when called.
-            * @return {Tween}
+            * @return {Kiwi.Animations.Tween}
             * @public
             */
             Tween.prototype.onStart = function (callback, context) {
@@ -13678,6 +13778,7 @@ var Kiwi;
                     var start = this._valuesStart[property];
                     var end = this._valuesEnd[property];
 
+                    //  Add checks for object, array, numeric up front
                     if (end instanceof Array) {
                         this._object[property] = this._interpolationFunction(end, value);
                     } else {
@@ -13716,6 +13817,7 @@ var Kiwi;
     })(Kiwi.Animations || (Kiwi.Animations = {}));
     var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
+
 var Kiwi;
 (function (Kiwi) {
     /**
@@ -13729,11 +13831,10 @@ var Kiwi;
         /**
         *
         * @class CanvasRenderer
-        * @extends IRenderer
         * @constructor
         * @namespace Kiwi.Renderers
-        * @param game {Game} The game that this canvas renderer belongs to.
-        * @return {CanvasRenderer}
+        * @param game {Kiwi.Game} The game that this canvas renderer belongs to.
+        * @return {Kiwi.Renderes.CanvasRenderer}
         *
         */
         var CanvasRenderer = (function () {
@@ -13764,7 +13865,7 @@ var Kiwi;
             * If it is a Group then this method recursively goes through that Groups members the process that happened to the State's members happens to the Group's members.
             *
             * @method _recurse
-            * @param child {IChild} The child that is being checked.
+            * @param child {object} The child that is being checked.
             * @private
             */
             CanvasRenderer.prototype._recurse = function (child) {
@@ -13772,8 +13873,8 @@ var Kiwi;
                     return;
 
                 if (child.childType() === Kiwi.GROUP) {
-                    for (var i = 0; i < (child).members.length; i++) {
-                        this._recurse((child).members[i]);
+                    for (var i = 0; i < child.members.length; i++) {
+                        this._recurse(child.members[i]);
                     }
                 } else {
                     this.numDrawCalls++;
@@ -13801,7 +13902,7 @@ var Kiwi;
             /**
             * Renders all of the Elements that are on a particular camera.
             * @method render
-            * @param camera {Camera}
+            * @param camera {Kiwi.Camera}
             * @public
             */
             CanvasRenderer.prototype.render = function (camera) {
@@ -13832,6 +13933,7 @@ var Kiwi;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
+
 var Kiwi;
 (function (Kiwi) {
     /**
@@ -13840,6 +13942,7 @@ var Kiwi;
     * @module Kiwi
     * @submodule Renderers
     * @main Renderers
+    * @namespace Kiwi.Renderers
     */
     (function (Renderers) {
         /**
@@ -13851,8 +13954,8 @@ var Kiwi;
         * @class GLRenderManager
         * @extends IRenderer
         * @constructor
-        * @param game {Game} The game that this renderer belongs to.
-        * @return {GLRenderer}
+        * @param game {Kiwi.Game} The game that this renderer belongs to.
+        * @return {Kiwi.Renderers.GLRenderManager}
         */
         var GLRenderManager = (function () {
             function GLRenderManager(game) {
@@ -13920,7 +14023,7 @@ var Kiwi;
             * @public
             */
             GLRenderManager.prototype.boot = function () {
-                this._textureManager = new Renderers.GLTextureManager();
+                this._textureManager = new Kiwi.Renderers.GLTextureManager();
                 this._shaderManager = new Kiwi.Shaders.ShaderManager();
 
                 //this.filters = new Kiwi.Filters.GLFilterManager(this._game, this._shaderManager);
@@ -13937,6 +14040,13 @@ var Kiwi;
                 return "GLRenderManager";
             };
 
+            /**
+            * Adds a texture to the Texture Manager.
+            * @method addTexture
+            * @param {WebGLRenderingContext} gl
+            * @param {Kiwi.Textures.TextureAtlas} atlas
+            * @public
+            */
             GLRenderManager.prototype.addTexture = function (gl, atlas) {
                 this._textureManager.uploadTexture(gl, atlas);
             };
@@ -13952,7 +14062,9 @@ var Kiwi;
             */
             GLRenderManager.prototype.addSharedRenderer = function (rendererID, params) {
                 if (typeof params === "undefined") { params = null; }
+                //does renderer exist?
                 if (Kiwi.Renderers[rendererID]) {
+                    //already added?
                     if (!(rendererID in this._sharedRenderers)) {
                         this._sharedRenderers[rendererID] = new Kiwi.Renderers[rendererID](this._game.stage.gl, this._shaderManager, params);
                         return true;
@@ -14054,6 +14166,9 @@ var Kiwi;
                     //this.filters.updateFilterResolution(gl,width, height);
                     gl.viewport(0, 0, width, height);
                 }, this);
+                /* if (this.filtersEnabled && !this.filters.isEmpty) {
+                this.filters.enableFrameBuffers(gl);
+                }*/
             };
 
             /**
@@ -14126,18 +14241,33 @@ var Kiwi;
                 this.collateRenderSequence();
                 this.collateBatches();
                 this.renderBatches(gl, camera);
+                /*if (this._filtersEnabled && !this.filters.isEmpty) {
+                this.filters.applyFilters(gl);
+                gl.useProgram(this._shaderManager.currentShader.shaderProgram);
+                gl.bindTexture(gl.TEXTURE_2D, this._currentTextureAtlas.glTextureWrapper.texture);
+                }*/
             };
 
+            /**
+            * Creates a new render sequence
+            * @method collateRenderSequence
+            * @public
+            */
             GLRenderManager.prototype.collateRenderSequence = function () {
                 this._sequence = [];
                 var root = this._game.states.current;
                 this.collateChild(root);
             };
 
+            /**
+            * Adds a child to the render sequence (may be a group with children of it's own)
+            * @method collateChild
+            * @public
+            */
             GLRenderManager.prototype.collateChild = function (child) {
                 if (child.childType() === Kiwi.GROUP) {
-                    for (var i = 0; i < (child).members.length; i++) {
-                        this.collateChild((child).members[i]);
+                    for (var i = 0; i < child.members.length; i++) {
+                        this.collateChild(child.members[i]);
                     }
                 } else {
                     var entity = child;
@@ -14151,6 +14281,11 @@ var Kiwi;
                 }
             };
 
+            /**
+            * Sorts the render sequence into batches. Each batch requires the same renderer/shader/texture combination.
+            * @method collateBatches
+            * @public
+            */
             GLRenderManager.prototype.collateBatches = function () {
                 var currentRenderer = null;
                 var currentShader = null;
@@ -14171,10 +14306,18 @@ var Kiwi;
                 }
             };
 
+            /**
+            * Renders all the batches
+            * @method renderBatches
+            * @param {WebGLRenderingContext} gl
+            * @param {Kiwi.Camera} camera
+            * @public
+            */
             GLRenderManager.prototype.renderBatches = function (gl, camera) {
                 for (var i = 0; i < this._batches.length; i++) {
                     var batch = this._batches[i];
 
+                    //if first is batch then they all are
                     if (batch[0].isBatchRenderer) {
                         this.renderBatch(gl, batch, camera);
                     } else {
@@ -14183,6 +14326,14 @@ var Kiwi;
                 }
             };
 
+            /**
+            * Renders a single batch
+            * @method renderBatch
+            * @param {WebGLRenderingContext} gl
+            * @param {Object} batch
+            * @param {Kiwi.Camera} camera
+            * @public
+            */
             GLRenderManager.prototype.renderBatch = function (gl, batch, camera) {
                 this.setupGLState(gl, batch[0].entity);
                 this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
@@ -14192,11 +14343,25 @@ var Kiwi;
                 this._currentRenderer.draw(gl);
             };
 
+            /**
+            * Calls the render function on a single entity
+            * @method renderEntity
+            * @param {WebGLRenderingContext} gl
+            * @param {Kiwi.Entity} entity
+            * @param {Kiwi.Camera} camera
+            * @public
+            */
             GLRenderManager.prototype.renderEntity = function (gl, entity, camera) {
                 this.setupGLState(gl, entity);
                 entity.renderGL(gl, camera);
             };
 
+            /**
+            * Ensures the atlas and renderer needed for a batch is setup
+            * @method setupGLState
+            * @param {WebGLRenderingContext} gl
+            * @public
+            */
             GLRenderManager.prototype.setupGLState = function (gl, entity) {
                 if (entity.atlas !== this._currentTextureAtlas)
                     this._switchTexture(gl, entity);
@@ -14208,7 +14373,7 @@ var Kiwi;
             * Switch renderer to the one needed by the entity that needs rendering
             * @method _switchRenderer
             * @param gl {WebGLRenderingContext}
-            * @param entity {Entity}
+            * @param entity {Kiwi.Entity}
             * @private
             */
             GLRenderManager.prototype._switchRenderer = function (gl, entity) {
@@ -14222,7 +14387,7 @@ var Kiwi;
             * Switch texture to the one needed by the entity that needs rendering
             * @method _switchTexture
             * @param gl {WebGLRenderingContext}
-            * @param entity {Entity}
+            * @param entity {Kiwi.Entity}
             * @private
             */
             GLRenderManager.prototype._switchTexture = function (gl, entity) {
@@ -14237,27 +14402,28 @@ var Kiwi;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
+/**
+* GLSL ES Shaders are used for WebGL rendering.
+* ShaderPair objects encapsulate GLSL ES vertex and fragment shader programs.
+*   ShaderPairs contain the GLSL code, provide an interface to uniforms and attributes, and have the ability to link and compile the shaders.
+* The ShaderManager keeps track of each ShaderPair, and controls which one is bound for use at any particular time.
+*   Only the ShaderManager can create ShaderPairs. When a renderer (see note on renderes below) requests a ShaderPair the ShaderManager will either
+*       1) Return a reference to an already instantiated ShaderPair, and set the GL state to use the shader program or
+*       2) Return a reference to a new ShaderPair, which will be linked and compiled and bound for use.
+*   All ShaderPairs must be housed as properties of the Kiwi.Shaders object.
+*
+* Kiwi.Renderer objects use a ShaderPair to draw.
+*   They must request a ShaderPair from the ShaderManager.
+*   Many renderers may use the same ShaderPair.
+*   Some renderers may at different times use multiple ShaderPairs (only one is possible at any given time)
+*
+* @module Kiwi
+* @submodule Shaders
+* @main Shaders
+* @namespace Kiwi.Shaders
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    * GLSL ES Shaders are used for WebGL rendering.
-    * ShaderPair objects encapsulate GLSL ES vertex and fragment shader programs.
-    *   ShaderPairs contain the GLSL code, provide an interface to uniforms and attributes, and have the ability to link and compile the shaders.
-    * The ShaderManager keeps track of each ShaderPair, and controls which one is bound for use at any particular time.
-    *   Only the ShaderManager can create ShaderPairs. When a renderer (see note on renderes below) requests a ShaderPair the ShaderManager will either
-    *       1) Return a reference to an already instantiated ShaderPair, and set the GL state to use the shader program or
-    *       2) Return a reference to a new ShaderPair, which will be linked and compiled and bound for use.
-    *   All ShaderPairs must be housed as properties of the Kiwi.Shaders object.
-    *
-    * Kiwi.Renderer objects use a ShaderPair to draw.
-    *   They must request a ShaderPair from the ShaderManager.
-    *   Many renderers may use the same ShaderPair.
-    *   Some renderers may at different times use multiple ShaderPairs (only one is possible at any given time)
-    *
-    * @module Kiwi
-    * @submodule Shaders
-    * @main Shaders
-    */
     (function (Shaders) {
         /**
         * Manages all WebGL Shaders. Maintains a list of ShaderPairs
@@ -14268,7 +14434,7 @@ var Kiwi;
         * @class ShaderManager
         * @extends IRenderer
         * @constructor
-        * @return {GLRenderer}
+        * @return {Kiwi.Shaders.ShaderManager}
         */
         var ShaderManager = (function () {
             function ShaderManager() {
@@ -14281,13 +14447,13 @@ var Kiwi;
                 this._shaderPairs = {};
             }
             Object.defineProperty(ShaderManager.prototype, "currentShader", {
-                get: /**
+                /**
                 * The shader program that is currently set to be used useing gl.useProgram.
                 * @property currentShader
                 * @type Array
                 * @private
                 */
-                function () {
+                get: function () {
                     return this._currentShader;
                 },
                 enumerable: true,
@@ -14314,13 +14480,14 @@ var Kiwi;
             * @method init
             * @param {WebGLRenderingContext} gl
             * @param {String} shaderID
-            * @return {ShaderPair} a ShaderPair instance - null on fail
+            * @return {Kiwi.Shaders.ShaderPair} a ShaderPair instance - null on fail
             * @public
             */
             ShaderManager.prototype.requestShader = function (gl, shaderID, use) {
                 if (typeof use === "undefined") { use = true; }
                 var shader;
 
+                //in list already?
                 if (shaderID in this._shaderPairs) {
                     shader = this._shaderPairs[shaderID];
                     if (!shader.loaded) {
@@ -14330,6 +14497,7 @@ var Kiwi;
                         this._useShader(gl, shader);
                     return shader;
                 } else {
+                    //not in list, does it exist?
                     if (this.shaderExists) {
                         shader = this._addShader(gl, shaderID);
                         this._loadShader(gl, shader);
@@ -14362,7 +14530,7 @@ var Kiwi;
             * @method _addShader
             * @param {WebGLRenderingContext} gl
             * @param {String} shaderID
-            * @return {ShaderPair}
+            * @return {Kiwi.Shaders.ShaderPair}
             * @private
             */
             ShaderManager.prototype._addShader = function (gl, shaderID) {
@@ -14374,7 +14542,7 @@ var Kiwi;
             * Tells a ShaderPair to load (compile and link)
             * @method _loadShader
             * @param {WebGLRenderingContext} gl
-            * @param {ShaderPair} shader
+            * @param {Kiwi.Shaders.ShaderPair} shader
             * @private
             */
             ShaderManager.prototype._loadShader = function (gl, shader) {
@@ -14385,7 +14553,7 @@ var Kiwi;
             * Changes gl state so that the shaderProgram contined in a ShaderPir is bound for use
             * @method _useShader
             * @param {WebGLRenderingContext} gl
-            * @param {ShaderPair} shader
+            * @param {Kiwi.Shaders.ShaderPair} shader
             * @private
             */
             ShaderManager.prototype._useShader = function (gl, shader) {
@@ -14400,27 +14568,38 @@ var Kiwi;
     })(Kiwi.Shaders || (Kiwi.Shaders = {}));
     var Shaders = Kiwi.Shaders;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Renderers
+*
+* @namespace Kiwi.Renderers
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Renderers
-    *
-    */
     (function (Renderers) {
         /**
-        *
-        * @class GLTexture
+        * Wraps a webGL texture object
+        * @class GLTextureWrapper
         * @constructor
         * @param gl {WebGLRenderingContext}
         * @param [_image] {HTMLImageElement}
-        * @return {GLTexture}
+        * @return {Kiwi.Renderers.GLTextureWrapper}
         */
         var GLTextureWrapper = (function () {
             function GLTextureWrapper(gl, atlas, upload) {
                 if (typeof upload === "undefined") { upload = false; }
+                /**
+                * Returns whether the texture has been created
+                * @property created
+                * @type boolean
+                */
                 this._created = false;
+                /**
+                * Returns whether the texture has been uploaded to video memory
+                * @property uploaded
+                * @type boolean
+                */
                 this._uploaded = false;
                 this.textureAtlas = atlas;
                 this.image = atlas.image;
@@ -14454,12 +14633,24 @@ var Kiwi;
             });
 
             //force : if true then other textures will be removed until there is room.
+            /**
+            * Creates a webgl texture object
+            * @method createTexture
+            * @param gl {WebGLRenderingContext}
+            * @public
+            */
             GLTextureWrapper.prototype.createTexture = function (gl) {
                 this.texture = gl.createTexture();
                 this._created = true;
                 return true;
             };
 
+            /**
+            * Uploads a webgl texture object to video memory
+            * @method uploadTexture
+            * @param gl {WebGLRenderingContext}
+            * @public
+            */
             GLTextureWrapper.prototype.uploadTexture = function (gl) {
                 var success = false;
                 if (!this.created) {
@@ -14489,10 +14680,22 @@ var Kiwi;
                 return success;
             };
 
+            /**
+            * Re-uploads a webgl texture object to video memory
+            * @method refreshTexture
+            * @param gl {WebGLRenderingContext}
+            * @public
+            */
             GLTextureWrapper.prototype.refreshTexture = function (gl) {
                 gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
             };
 
+            /**
+            * Deletes a webgl texture
+            * @method deleteTexture
+            * @param gl {WebGLRenderingContext}
+            * @public
+            */
             GLTextureWrapper.prototype.deleteTexture = function (gl) {
                 gl.bindTexture(gl.TEXTURE_2D, this.texture);
                 gl.deleteTexture(this.texture);
@@ -14506,15 +14709,16 @@ var Kiwi;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+*
+* @module Kiwi
+* @submodule Renderers
+* @main Renderers
+* @namespace Kiwi.Renderers
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    *
-    * @module Kiwi
-    * @submodule Renderers
-    * @main Renderers
-    */
     (function (Renderers) {
         /**
         * Manages GL Texture objects, including creation, uploading, destruction and memory management
@@ -14584,6 +14788,7 @@ var Kiwi;
             * @private
             */
             GLTextureManager.prototype._uploadTexture = function (gl, glTextureWrapper) {
+                //only upload it if it fits
                 if (glTextureWrapper.numBytes + this._usedTextureMem <= this.maxTextureMem) {
                     glTextureWrapper.uploadTexture(gl);
                     this._usedTextureMem += glTextureWrapper.numBytes;
@@ -14610,7 +14815,7 @@ var Kiwi;
 
             GLTextureManager.prototype.uploadTexture = function (gl, textureAtlas) {
                 //create a glTexture
-                var glTextureWrapper = new Renderers.GLTextureWrapper(gl, textureAtlas);
+                var glTextureWrapper = new Kiwi.Renderers.GLTextureWrapper(gl, textureAtlas);
 
                 //store a refence to it
                 this._addTextureToCache(glTextureWrapper);
@@ -14618,6 +14823,7 @@ var Kiwi;
                 //create reference on atlas to avoid lookups when switching
                 textureAtlas.glTextureWrapper = glTextureWrapper;
 
+                //only upload it if it fits
                 if (!this._uploadTexture(gl, glTextureWrapper)) {
                     console.log("...skipped uploading texture due to allocated texture memory exceeded");
                 }
@@ -14658,6 +14864,7 @@ var Kiwi;
                     this.numTextureWrites++;
                 }
 
+                //use texture
                 if (glTextureWrapper.created && glTextureWrapper.uploaded) {
                     gl.bindTexture(gl.TEXTURE_2D, glTextureWrapper.texture);
 
@@ -14724,17 +14931,17 @@ var Kiwi;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Renderers
+* @namespace Kiwi.Renderers
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Renderers
-    *
-    */
     (function (Renderers) {
         /**
-        *
+        * Encapsulates a WebGL Array Buffer
         * @class GLArrayBuffer
         * @constructor
         * @namespace Kiwi.Renderers
@@ -14742,12 +14949,26 @@ var Kiwi;
         * @param [_itemSize] {number}
         * @param [items] {number[]}
         * @param [init=true] {boolean}
-        * @return {GLArrayBuffer}
+        * @return {Kiwi.RenderersGLArrayBuffer}
         */
         var GLArrayBuffer = (function () {
             function GLArrayBuffer(gl, _itemSize, items, upload) {
                 if (typeof upload === "undefined") { upload = true; }
+                /**
+                * Returns whether the buffer has been created
+                * @property created
+                * @type boolean
+                * @public
+                * @readonly
+                */
                 this._created = false;
+                /**
+                * Returns whether the buffer has been uploaded to video memory
+                * @property created
+                * @type boolean
+                * @public
+                * @readonly
+                */
                 this._uploaded = false;
                 this.items = items || GLArrayBuffer.squareVertices;
                 this.itemSize = _itemSize || 2;
@@ -14774,7 +14995,7 @@ var Kiwi;
             });
 
             /**
-            *
+            * Clears the item array.
             * @method clear
             * @public
             */
@@ -14783,8 +15004,8 @@ var Kiwi;
             };
 
             /**
-            *
-            * @method init
+            * Creates the array buffer.
+            * @method createBuffer
             * @param gl {WebGLRenderingCotext}
             * @return {WebGLBuffer}
             * @public
@@ -14795,6 +15016,14 @@ var Kiwi;
                 return true;
             };
 
+            /**
+            * Uploads the array buffer.
+            * @method uploadBuffer
+            * @param gl {WebGLRenderingCotext}
+            * @param items {Array}
+            * @return {boolean}
+            * @public
+            */
             GLArrayBuffer.prototype.uploadBuffer = function (gl, items) {
                 this.items = items;
                 this.numItems = this.items.length / this.itemSize;
@@ -14805,6 +15034,13 @@ var Kiwi;
                 return true;
             };
 
+            /**
+            * Deletes the array buffer.
+            * @method deleteBuffer
+            * @param gl {WebGLRenderingCotext}
+            * @return {boolean}
+            * @public
+            */
             GLArrayBuffer.prototype.deleteBuffer = function (gl) {
                 gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
                 gl.deleteBuffer(this.buffer);
@@ -14814,32 +15050,21 @@ var Kiwi;
             };
 
             GLArrayBuffer.squareVertices = [
-                0,
-                0,
-                100,
-                0,
-                100,
-                100,
-                0,
-                100
+                0, 0,
+                100, 0,
+                100, 100,
+                0, 100
             ];
 
             GLArrayBuffer.squareUVs = [
-                0,
-                0,
-                .1,
-                0,
-                .1,
-                .1,
-                0,
-                .1
+                0, 0,
+                .1, 0,
+                .1, .1,
+                0, .1
             ];
 
             GLArrayBuffer.squareCols = [
-                1,
-                1,
-                1,
-                1
+                1, 1, 1, 1
             ];
             return GLArrayBuffer;
         })();
@@ -14847,17 +15072,17 @@ var Kiwi;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Renderers
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Renderers
-    *
-    */
     (function (Renderers) {
         /**
-        *
+        * Encapsulates a WebGL E;ement Array Buffer
         * @class GLElementArrayBuffer
         * @constructor
         * @namespace Kiwi.Renderers
@@ -14878,7 +15103,7 @@ var Kiwi;
                 }
             }
             /**
-            *
+            * Clears the indices array.
             * @method clear
             * @public
             */
@@ -14887,7 +15112,7 @@ var Kiwi;
             };
 
             /**
-            *
+            * Initialises the Element Array Buffer
             * @method init
             * @param gl {WebGLRenderingContext}
             * @return {WebGLBuffer}
@@ -14902,7 +15127,7 @@ var Kiwi;
             };
 
             /**
-            *
+            * Refreshes the Element Array Buffer
             * @method refresh
             * @param gl {WebGLRenderingContext}
             * @param indices {number[]}
@@ -14918,12 +15143,8 @@ var Kiwi;
             };
 
             GLElementArrayBuffer.square = [
-                0,
-                1,
-                2,
-                0,
-                2,
-                3
+                0, 1, 2,
+                0, 2, 3
             ];
             return GLElementArrayBuffer;
         })();
@@ -14931,42 +15152,103 @@ var Kiwi;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Renderers
+* @namespace Kiwi.Renderers
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (Renderers) {
         var Renderer = (function () {
+            /**
+            * Base class for WebGL Renderers. Not for instantiation.
+            * @class Renderer
+            * @constructor
+            * @namespace Kiwi.Renderers
+            * @param gl {WebGLRenderingContext}
+            * @param shaderManager {Kiwi.Shaders.ShaderManager}
+            * @param [params=null] {object}
+            * @return {Kiwi.Renderers.Renderer}
+            */
             function Renderer(gl, shaderManager, isBatchRenderer) {
                 if (typeof isBatchRenderer === "undefined") { isBatchRenderer = false; }
+                /**
+                *
+                * @property loaded
+                * @type Array
+                * @public
+                */
                 this.loaded = false;
+                /**
+                * Returns whether this is a batch renderer.
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
                 this._isBatchRenderer = false;
                 this.shaderManager = shaderManager;
                 this._isBatchRenderer = isBatchRenderer;
                 this.loaded = true;
             }
             /**
-            
-            * The stage resolution in pixels
-            * @property _stageResolution
-            * @type Float32Array
+            * Enables the renderer (for override)
+            * @method disable
+            * @param gl {WebGLRenderingCotext}
+            * @param [params=null] {object}
             * @public
             */
-            //public init(gl: WebGLRenderingContext, params: any = null) {
-            //    this.loaded = true;
-            //}
             Renderer.prototype.enable = function (gl, params) {
                 if (typeof params === "undefined") { params = null; }
             };
 
+            /**
+            * Enables the renderer (for override)
+            * @method disable
+            * @param gl {WebGLRenderingCotext}
+            * @param [params=null] {object}
+            * @public
+            */
             Renderer.prototype.disable = function (gl) {
             };
 
+            /**
+            * Enables the renderer (for override)
+            * @method disable
+            * @param gl {WebGLRenderingCotext}
+            * @param [params=null] {object}
+            * @public
+            */
             Renderer.prototype.clear = function (gl, params) {
             };
+
+            /**
+            * Draw to the draw or frame buffer (for override)
+            * @method draw
+            * @param gl {WebGLRenderingCotext}
+            * @public
+            */
             Renderer.prototype.draw = function (gl) {
             };
 
+            /**
+            * Updates the stage resolution uniforms (for override)
+            * @method updateStageResolution
+            * @param gl {WebGLRenderingCotext}
+            * @param res {Float32Array}
+            * @public
+            */
             Renderer.prototype.updateStageResolution = function (gl, res) {
             };
+
+            /**
+            * Updates the texture size uniforms (for override)
+            * @method updateTextureSize
+            * @param gl {WebGLRenderingCotext}
+            * @param size {Float32Array}
+            * @public
+            */
             Renderer.prototype.updateTextureSize = function (gl, size) {
             };
 
@@ -14984,29 +15266,50 @@ var Kiwi;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Renderers
+* @namespace Kiwi.Renderers
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Renderers
-    *
-    */
     (function (Renderers) {
         var TextureAtlasRenderer = (function (_super) {
             __extends(TextureAtlasRenderer, _super);
+            /**
+            * The Renderer object for rendering Texture Atlases
+            * @class TextureAtlasRenderer
+            * @constructor
+            * @namespace Kiwi.Renderers
+            * @param gl {WebGLRenderingContext}
+            * @param shaderManager {Kiwi.Shaders.ShaderManager}
+            * @param [params=null] {object}
+            * @return {Kiwi.Renderers.TextureAtlasRenderer}
+            */
             function TextureAtlasRenderer(gl, shaderManager, params) {
                 if (typeof params === "undefined") { params = null; }
                 _super.call(this, gl, shaderManager, true);
+                /**
+                * The maximum number of items that can be rendered by the renderer (not enforced)
+                * @property _maxItems
+                * @type number
+                * @private
+                */
                 this._maxItems = 1000;
-
-                this._vertexBuffer = new Renderers.GLArrayBuffer(gl, 5);
-
-                //6 verts per quad
-                this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
-
+                var bufferItemSize = 5;
+                this._vertexBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, bufferItemSize);
+                var vertsPerQuad = 6;
+                this._indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * vertsPerQuad));
                 this.shaderPair = this.shaderManager.requestShader(gl, "TextureAtlasShader");
             }
+            /**
+            * Enables the renderer ready for drawing
+            * @method enable
+            * @param gl {WebGLRenderingCotext}
+            * @param [params=null] {object}
+            * @public
+            */
             TextureAtlasRenderer.prototype.enable = function (gl, params) {
                 if (typeof params === "undefined") { params = null; }
                 this.shaderPair = this.shaderManager.requestShader(gl, "TextureAtlasShader");
@@ -15021,16 +15324,34 @@ var Kiwi;
                 this.updateTextureSize(gl, new Float32Array([params.textureAtlas.glTextureWrapper.image.width, params.textureAtlas.glTextureWrapper.image.height]));
             };
 
+            /**
+            * Disables the renderer
+            * @method disable
+            * @param gl {WebGLRenderingCotext}
+            * @public
+            */
             TextureAtlasRenderer.prototype.disable = function (gl) {
                 gl.disableVertexAttribArray(this.shaderPair.attributes.aXYUV);
                 gl.disableVertexAttribArray(this.shaderPair.attributes.aAlpha);
             };
 
+            /**
+            * Clears the vertex buffer.
+            * @method clear
+            * @param gl {WebGLRenderingCotext}
+            * @public
+            */
             TextureAtlasRenderer.prototype.clear = function (gl, params) {
                 this._vertexBuffer.clear();
                 gl.uniformMatrix3fv(this.shaderPair.uniforms.uCamMatrix.location, false, params.camMatrix);
             };
 
+            /**
+            * Makes a draw call, this is where things actually get rendered to the draw buffer (or a framebuffer).
+            * @method draw
+            * @param gl {WebGLRenderingCotext}
+            * @public
+            */
             TextureAtlasRenderer.prototype.draw = function (gl) {
                 this._vertexBuffer.uploadBuffer(gl, this._vertexBuffer.items);
 
@@ -15045,10 +15366,9 @@ var Kiwi;
             };
 
             /**
-            * Create prebaked indices for drawing quads
+            * Generates quad indices
             * @method _generateIndices
             * @param numQuads {number}
-            * @return number[]
             * @private
             */
             TextureAtlasRenderer.prototype._generateIndices = function (numQuads) {
@@ -15059,10 +15379,24 @@ var Kiwi;
                 return quads;
             };
 
+            /**
+            * Updates the stage resolution uniforms
+            * @method updateStageResolution
+            * @param gl {WebGLRenderingCotext}
+            * @param res {Float32Array}
+            * @public
+            */
             TextureAtlasRenderer.prototype.updateStageResolution = function (gl, res) {
                 gl.uniform2fv(this.shaderPair.uniforms.uResolution.location, res);
             };
 
+            /**
+            * Updates the texture size uniforms
+            * @method updateTextureSize
+            * @param gl {WebGLRenderingCotext}
+            * @param size {Float32Array}
+            * @public
+            */
             TextureAtlasRenderer.prototype.updateTextureSize = function (gl, size) {
                 gl.uniform2fv(this.shaderPair.uniforms.uTextureSize.location, size);
             };
@@ -15071,7 +15405,7 @@ var Kiwi;
             * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
             * @method _collateVertexAttributeArrays
             * @param gl {WebGLRenderingContext}
-            * @param entity {Entity}
+            * @param entity {Kiwi.Entity}
             * @param camera {Camera}
             * @public
             */
@@ -15094,36 +15428,55 @@ var Kiwi;
                 this._vertexBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, entity.alpha, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, entity.alpha, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, entity.alpha, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h, entity.alpha);
             };
 
+            /**
+            * Adds an array of precalculated xyuv values to the item array
+            * @method concatBatch
+            * @param vertexItems {array}
+            * @public
+            */
             TextureAtlasRenderer.prototype.concatBatch = function (vertexItems) {
                 this._vertexBuffer.items = this._vertexBuffer.items.concat(vertexItems);
             };
             TextureAtlasRenderer.RENDERER_ID = "TextureAtlasRenderer";
             return TextureAtlasRenderer;
-        })(Renderers.Renderer);
+        })(Kiwi.Renderers.Renderer);
         Renderers.TextureAtlasRenderer = TextureAtlasRenderer;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Shaders
+* @namespace Kiwi.Shaders
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Renderers
-    *
-    */
     (function (Shaders) {
         /**
-        *
-        * @class GLShaders
+        * Base class for shader pairs which encapsulate a GLSL vertex and fragment shader
+        * @class ShaderPair
         * @constructor
-        * @param gl {WebGLRenderingContext}
-        * @return {GLShaders}
+        * @namespace Kiwi.Shaders
+        * @return {Kiwi.Shaders.ShaderPair}
         */
         var ShaderPair = (function () {
             function ShaderPair() {
+                /**
+                * Returns whether the shader pair has been loaded and compiled.
+                * @property loaded
+                * @type boolean
+                * @public
+                */
                 this.loaded = false;
             }
+            /**
+            * Initialise the shader pair.
+            * @method init
+            * @param gl {WebGLRenderingCotext}
+            * @public
+            */
             ShaderPair.prototype.init = function (gl) {
                 this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
                 this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
@@ -15132,7 +15485,7 @@ var Kiwi;
             };
 
             /**
-            *
+            * Attaches the shaders to the program and links them
             * @method attach
             * @param gl {WebGLRenderingContext}
             * @param vertShader {WebGLShader}
@@ -15149,7 +15502,7 @@ var Kiwi;
             };
 
             /**
-            *
+            * Compiles the shaders
             * @method compile
             * @param gl {WebGLRenderingContext}
             * @param src {string}
@@ -15168,17 +15521,37 @@ var Kiwi;
                 return shader;
             };
 
+            /**
+            * Sets a single uniform value and marks it as dirty.
+            * @method setParam
+            * @param uniformName {string}
+            * @param value {*}
+            * @public
+            */
             ShaderPair.prototype.setParam = function (uniformName, value) {
                 this.uniforms[uniformName].value = value;
                 this.uniforms[uniformName].dirty = true;
             };
 
+            /**
+            * Applies all uniforms to the uploaded program
+            * @method applyUniforms
+            * @param gl {WebGLRenderingCotext}
+            * @public
+            */
             ShaderPair.prototype.applyUniforms = function (gl) {
                 for (var u in this.uniforms) {
                     this.applyUniform(gl, u);
                 }
             };
 
+            /**
+            * Applies a single uniforms to the uploaded program
+            * @method applyUniform
+            * @param gl {WebGLRenderingCotext}
+            * @param name {string}
+            * @public
+            */
             ShaderPair.prototype.applyUniform = function (gl, name) {
                 var u = this.uniforms[name];
                 if (this.uniforms[name].dirty) {
@@ -15188,6 +15561,12 @@ var Kiwi;
                 }
             };
 
+            /**
+            * Initialises all uniforms
+            * @method initUniforms
+            * @param gl {WebGLRenderingCotext}
+            * @public
+            */
             ShaderPair.prototype.initUniforms = function (gl) {
                 for (var uniformName in this.uniforms) {
                     var uniform = this.uniforms[uniformName];
@@ -15203,24 +15582,43 @@ var Kiwi;
     })(Kiwi.Shaders || (Kiwi.Shaders = {}));
     var Shaders = Kiwi.Shaders;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Shaders
+* @namespace Kiwi.Shaders
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @class GLShaders
-    * @constructor
-    * @param gl {WebGLRenderingContext}
-    * @return {GLShaders}
-    */
     (function (Shaders) {
+        /**
+        * Shader wrapper for rendering Texture Atlases
+        * @class TextureAtlasShader
+        * @extends Kiwi.Shaders.ShaderPair
+        * @constructor
+        * @namespace Kiwi.Shaders
+        * @return {Kiwi.Shaders.TextureAtlasShader}
+        */
         var TextureAtlasShader = (function (_super) {
             __extends(TextureAtlasShader, _super);
             function TextureAtlasShader() {
                 _super.call(this);
+                /**
+                * Shader attribute references
+                * @property attributes
+                * @type object
+                * @public
+                */
                 this.attributes = {
                     aXYUV: null,
                     aAlpha: null
                 };
+                /**
+                * Shader uniform descriptors
+                * @property uniforms
+                * @type object
+                * @public
+                */
                 this.uniforms = {
                     uCamMatrix: {
                         type: "mat3"
@@ -15236,8 +15634,8 @@ var Kiwi;
                     }
                 };
                 /**
-                *
-                * @property texture2DFrag
+                * The source for the GLSL fragment shader
+                * @property fragSource
                 * @type Array
                 * @public
                 */
@@ -15252,8 +15650,8 @@ var Kiwi;
                     "}"
                 ];
                 /**
-                *
-                * @property texture2DVert
+                * The source for the GLSL vertex shader
+                * @property vertSource
                 * @type Array
                 * @public
                 */
@@ -15273,30 +15671,36 @@ var Kiwi;
                     "}"
                 ];
             }
+            /**
+            * Initialise the shaderPair
+            * @method init
+            * @param gl {WebGLRenderingCotext}
+            * @return {WebGLBuffer}
+            * @public
+            */
             TextureAtlasShader.prototype.init = function (gl) {
                 _super.prototype.init.call(this, gl);
 
-                //attributes
                 this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
                 this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
 
                 this.initUniforms(gl);
             };
             return TextureAtlasShader;
-        })(Shaders.ShaderPair);
+        })(Kiwi.Shaders.ShaderPair);
         Shaders.TextureAtlasShader = TextureAtlasShader;
     })(Kiwi.Shaders || (Kiwi.Shaders = {}));
     var Shaders = Kiwi.Shaders;
 })(Kiwi || (Kiwi = {}));
+/**
+* Is the namespace in which all code that is used to create/provide an animation of various sorts are stored. These could range from animations that change the cell of a SpriteSheet that is displayed every few seconds (Animation/Sequence), to animations that change a numeric value on a object over a period time (Tweens).
+*
+* @module Kiwi
+* @submodule Animations
+* @main Animations
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    * Is the namespace in which all code that is used to create/provide an animation of various sorts are stored. These could range from animations that change the cell of a SpriteSheet that is displayed every few seconds (Animation/Sequence), to animations that change a numeric value on a object over a period time (Tweens).
-    *
-    * @module Kiwi
-    * @submodule Animations
-    * @main Animations
-    */
     (function (Animations) {
         /**
         * An Animation contains information about a single animation that is held on a AnimationManager.
@@ -15307,10 +15711,10 @@ var Kiwi;
         * @namespace Kiwi.Animations
         * @constructor
         * @param name {string} The name of this anim.
-        * @param sequences {Sequences} The sequence that this anim will be using to animate.
-        * @param clock {Clock} A game clock that this anim will be using to keep record of the time between frames.
-        * @param parent {AnimationManager} The animation manager that this animation belongs to.
-        * @return {Anim}
+        * @param sequences {Kiwi.Animations.Sequences} The sequence that this anim will be using to animate.
+        * @param clock {Kiwi.Time.Clock} A game clock that this anim will be using to keep record of the time between frames.
+        * @param parent {Kiwi.Components.AnimationManager} The animation manager that this animation belongs to.
+        * @return {Kiwi.Animations.Anim}
         *
         */
         var Animation = (function () {
@@ -15391,13 +15795,13 @@ var Kiwi;
             };
 
             Object.defineProperty(Animation.prototype, "loop", {
-                get: /**
+                /**
                 * If once the animation reaches the end, it should start again from the first cell in the sequence or not.
                 * @property loop
                 * @type boolean
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._loop;
                 },
                 set: function (value) {
@@ -15408,14 +15812,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Animation.prototype, "frameIndex", {
-                get: /**
+                /**
                 * The current frame index that the animation is currently upto.
                 * Note: A frame index is the index of a particular cell in the Sequence.
                 * @property frameIndex
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._frameIndex;
                 },
                 set: function (val) {
@@ -15428,13 +15832,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Animation.prototype, "currentCell", {
-                get: /**
+                /**
                 * Returns the current cell that the animation is up to. This is READ ONLY.
                 * @property currentCell
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._sequence.cells[this.frameIndex];
                 },
                 enumerable: true,
@@ -15442,13 +15846,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Animation.prototype, "speed", {
-                get: /**
+                /**
                 * How long the each cell should stay on screen for. In seconds.
                 * @property speed
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._speed;
                 },
                 set: function (value) {
@@ -15462,13 +15866,13 @@ var Kiwi;
                 get: function () {
                     return this._reverse;
                 },
-                set: /**
+                /**
                 * Whether the animation is to be played in reverse.
                 * @property reverse
                 * @type boolean
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     this._reverse = value;
                 },
                 enumerable: true,
@@ -15476,13 +15880,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Animation.prototype, "isPlaying", {
-                get: /**
+                /**
                 * If the animation is currently playing or not.
                 * @property isPlaying
                 * @type boolean
                 * @private
                 */
-                function () {
+                get: function () {
                     return this._isPlaying;
                 },
                 enumerable: true,
@@ -15492,7 +15896,7 @@ var Kiwi;
             Object.defineProperty(Animation.prototype, "onStop", {
                 get: function () {
                     if (this._onStop == null)
-                        this._onStop = new Kiwi.Signal();
+                        this._onStop = new Kiwi.Signal;
                     return this._onStop;
                 },
                 enumerable: true,
@@ -15502,7 +15906,7 @@ var Kiwi;
             Object.defineProperty(Animation.prototype, "onPlay", {
                 get: function () {
                     if (this._onPlay == null)
-                        this._onPlay = new Kiwi.Signal();
+                        this._onPlay = new Kiwi.Signal;
                     return this._onPlay;
                 },
                 enumerable: true,
@@ -15512,7 +15916,7 @@ var Kiwi;
             Object.defineProperty(Animation.prototype, "onUpdate", {
                 get: function () {
                     if (this._onUpdate == null)
-                        this._onUpdate = new Kiwi.Signal();
+                        this._onUpdate = new Kiwi.Signal;
                     return this._onUpdate;
                 },
                 enumerable: true,
@@ -15522,7 +15926,7 @@ var Kiwi;
             Object.defineProperty(Animation.prototype, "onLoop", {
                 get: function () {
                     if (this._onLoop == null)
-                        this._onLoop = new Kiwi.Signal();
+                        this._onLoop = new Kiwi.Signal;
                     return this._onLoop;
                 },
                 enumerable: true,
@@ -15554,6 +15958,7 @@ var Kiwi;
             * @public
             */
             Animation.prototype.play = function () {
+                //if the animation is at the last frame then start it at the beginning
                 if (this._frameIndex === this.length - 1)
                     this.frameIndex = 0;
 
@@ -15563,7 +15968,7 @@ var Kiwi;
             /**
             * Plays the animation at a particular frame
             * @method playAt
-            * @param index {number} The index of the cell in the sequence that the animation is to start at.
+            * @param index {Number} The index of the cell in the sequence that the animation is to start at.
             * @public
             */
             Animation.prototype.playAt = function (index) {
@@ -15635,12 +16040,14 @@ var Kiwi;
                     if (this._clock.elapsed() >= this._tick) {
                         this._tick = this._clock.elapsed() + this._speed;
 
+                        //Would it be a valid frame?
                         if (this._validateFrame(this._frameIndex + ((this._reverse == true) ? -1 : 1))) {
                             this._frameIndex += (this._reverse == true) ? -1 : 1;
                             this._parent.updateCellIndex();
                             if (this._onUpdate !== null)
                                 this._onUpdate.dispatch();
                         } else {
+                            //Is it looping?
                             if (this._loop) {
                                 if (this._reverse) {
                                     this._frameIndex = this.length - 1;
@@ -15650,6 +16057,7 @@ var Kiwi;
                                 this._parent.updateCellIndex();
                                 if (this._onLoop !== null)
                                     this._onLoop.dispatch();
+                                //Not Looping, stop animation.
                             } else {
                                 //Execute the stop on the parent to allow the isPlaying boolean to remain consistent
                                 this._parent.stop();
@@ -15662,7 +16070,7 @@ var Kiwi;
             /**
             * An internal method used to check to see if frame passed is valid or not
             * @method _validateFrame
-            * @param frame {number} The index of the frame that is to be validated.
+            * @param frame {Number} The index of the frame that is to be validated.
             * @private
             */
             Animation.prototype._validateFrame = function (frame) {
@@ -15670,13 +16078,13 @@ var Kiwi;
             };
 
             Object.defineProperty(Animation.prototype, "length", {
-                get: /**
+                /**
                 * Returns the number of frames that in the animation. Thus the animations 'length'. Note this is READ ONLY.
                 * @property length
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._sequence.cells.length;
                 },
                 enumerable: true,
@@ -15716,14 +16124,14 @@ var Kiwi;
     })(Kiwi.Animations || (Kiwi.Animations = {}));
     var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Animations
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Animations
-    *
-    */
     (function (Animations) {
         /**
         * A Sequence is a series of cells that are held on a SpriteSheet/TextureAtlas.
@@ -15736,7 +16144,7 @@ var Kiwi;
         * @param cells {Number[]} The cells that are in this animation.
         * @param [speed=0.1] {Number} The time an animation should spend on each frame.
         * @param [loop=true] {boolean} If the sequence should play again if it was animating and the animation reaches the last frame.
-        * @return {Sequence}
+        * @return {Kiwi.Animations.Sequence}
         *
         */
         var Sequence = (function () {
@@ -15754,14 +16162,14 @@ var Kiwi;
     })(Kiwi.Animations || (Kiwi.Animations = {}));
     var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Input
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Input
-    *
-    */
     (function (Input) {
         /**
         * A compact object that holds the most important details about a Keyboard Event response.
@@ -15769,10 +16177,10 @@ var Kiwi;
         * @class Key
         * @constructor
         * @namespace Kiwi.Input
-        * @param manager {Keyboard} The keyboard manager that this key belongs to.
+        * @param manager {Kiwi.Input.Keyboard} The keyboard manager that this key belongs to.
         * @param keycode {Number} The keycode that this key is.
         * @param [event] {KeyboardEvent} The keyboard event (if there was one) when this was created.
-        * @return {Key} This object.
+        * @return {Kiwi.Input.Key} This object.
         *
         */
         var Key = (function () {
@@ -15871,7 +16279,7 @@ var Kiwi;
             };
 
             Object.defineProperty(Key.prototype, "duration", {
-                get: /**
+                /**
                 * The duration (in milliseconds) that the key has been down for.
                 * This is property is READ ONLY.
                 * @property duration
@@ -15879,7 +16287,8 @@ var Kiwi;
                 * @default 0
                 * @public
                 */
-                function () {
+                get: function () {
+                    //If the key is down when the dev is getting the duration, then update the duration.
                     if (this.isDown) {
                         this.timeDown = this.game.time.now();
                     }
@@ -15899,6 +16308,7 @@ var Kiwi;
             Key.prototype.update = function (event) {
                 this.keyCode = event.keyCode;
 
+                //Are we needing to prevent the default action?
                 if (this.preventDefault)
                     event.preventDefault();
 
@@ -15977,14 +16387,14 @@ var Kiwi;
     })(Kiwi.Input || (Kiwi.Input = {}));
     var Input = Kiwi.Input;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Input
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Input
-    *
-    */
     (function (Input) {
         /**
         * Handles and Manages the dispatching of keyboard events. When the user press's a button a new Key object is created.
@@ -15992,8 +16402,8 @@ var Kiwi;
         * @class Keyboard
         * @constructor
         * @namespace Kiwi.Input
-        * @param game {Game}
-        * @return {Keyboard} This object.
+        * @param game {Kiwi.Game}
+        * @return {Kiwi.Input.Keyboard} This object.
         *
         */
         var Keyboard = (function () {
@@ -16034,13 +16444,13 @@ var Kiwi;
             };
 
             Object.defineProperty(Keyboard.prototype, "keys", {
-                get: /**
+                /**
                 * Returns all of the Key objects that currently exist. This is READ ONLY.
                 * @property keys
                 * @type Keys[]
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._keys;
                 },
                 enumerable: true,
@@ -16053,9 +16463,9 @@ var Kiwi;
             * @public
             */
             Keyboard.prototype.boot = function () {
-                this.onKeyUp = new Kiwi.Signal();
-                this.onKeyDown = new Kiwi.Signal();
-                this.onKeyDownOnce = new Kiwi.Signal();
+                this.onKeyUp = new Kiwi.Signal;
+                this.onKeyDown = new Kiwi.Signal;
+                this.onKeyDownOnce = new Kiwi.Signal;
                 this.start();
             };
 
@@ -16148,7 +16558,7 @@ var Kiwi;
             * @method addKey
             * @param keycode {Number} The keycode of the key that you want to add.
             * @param [preventDefault=false] {Boolean} If the default action for that key should be prevented or not when an event fires.
-            * @return {Key}
+            * @return {Kiwi.Input.Key}
             * @public
             */
             Keyboard.prototype.addKey = function (keycode, preventDefault) {
@@ -16237,14 +16647,14 @@ var Kiwi;
     })(Kiwi.Input || (Kiwi.Input = {}));
     var Input = Kiwi.Input;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Input
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Input
-    *
-    */
     (function (Input) {
         /**
         * A Static class which has a property associated with all all of the character codes on a typical keyboard. While you don't need this class for your game to work, it is quite handy to use as it can speed up the development process.
@@ -16467,15 +16877,15 @@ var Kiwi;
     })(Kiwi.Input || (Kiwi.Input = {}));
     var Input = Kiwi.Input;
 })(Kiwi || (Kiwi = {}));
+/**
+* Section that contains the code related to handling user interaction with a game.
+*
+* @module Kiwi
+* @submodule Input
+* @main Input
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    * Section that contains the code related to handling user interaction with a game.
-    *
-    * @module Kiwi
-    * @submodule Input
-    * @main Input
-    */
     (function (Input) {
         /**
         * Handles the initialization and management of the various ways a user can interact with the device/game,
@@ -16484,8 +16894,8 @@ var Kiwi;
         * @class InputManager
         * @constructor
         * @namespace Kiwi.Input
-        * @param game {Game} The game that this object belongs to.
-        * @return {InputManager} This object.
+        * @param game {Kiwi.Game} The game that this object belongs to.
+        * @return {Kiwi.Input.InputManager} This object.
         *
         */
         var InputManager = (function () {
@@ -16503,13 +16913,13 @@ var Kiwi;
             };
 
             Object.defineProperty(InputManager.prototype, "pointers", {
-                get: /**
+                /**
                 * Returns all of the pointers that can be used on the Input Manager. This is READ only.
                 * @property pointer
                 * @type Pointer[]
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._pointers;
                 },
                 enumerable: true,
@@ -16533,6 +16943,7 @@ var Kiwi;
                 this.touch = new Kiwi.Input.Touch(this.game);
                 this.touch.boot();
 
+                //Decided which inputs to map to the up/down events.
                 if (Kiwi.DEVICE.touch == true) {
                     this.touch.touchDown.add(this._onDownEvent, this);
                     this.touch.touchUp.add(this._onUpEvent, this);
@@ -16558,7 +16969,7 @@ var Kiwi;
             * @param timeDown {Number} The time that the pointer has been down for.
             * @param timeUp {Number} The Time that the pointer has been up form
             * @param duration {Number}
-            * @param pointer {Pointer} The pointer that was used.
+            * @param pointer {Kiwi.Input.Pointer} The pointer that was used.
             * @private
             */
             InputManager.prototype._onDownEvent = function (x, y, timeDown, timeUp, duration, pointer) {
@@ -16573,7 +16984,7 @@ var Kiwi;
             * @param timeDown {Number} The time that the pointer has been down for.
             * @param timeUp {Number} The Time that the pointer has been up form
             * @param duration {Number}
-            * @param pointer {Pointer} The pointer that was used.
+            * @param pointer {Kiwi.Input.Pointer} The pointer that was used.
             * @private
             */
             InputManager.prototype._onUpEvent = function (x, y, timeDown, timeUp, duration, pointer) {
@@ -16581,13 +16992,13 @@ var Kiwi;
             };
 
             Object.defineProperty(InputManager.prototype, "onPressed", {
-                get: /*
+                /*
                 * An alias for the onPress signal that goes straight to the onDown.
                 * @property onPressed
                 * @type Signal
                 * @public
                 */
-                function () {
+                get: function () {
                     return this.onDown;
                 },
                 enumerable: true,
@@ -16595,13 +17006,13 @@ var Kiwi;
             });
 
             Object.defineProperty(InputManager.prototype, "onReleased", {
-                get: /**
+                /**
                 * An alias for the onRelease signal that goes straight to the onUp
                 * @property onReleased
                 * @type Signal
                 * @public
                 */
-                function () {
+                get: function () {
                     return this.onUp;
                 },
                 enumerable: true,
@@ -16638,13 +17049,13 @@ var Kiwi;
             };
 
             Object.defineProperty(InputManager.prototype, "x", {
-                get: /**
+                /**
                 * Populated x coordinate based on the most recent click/touch event
                 * @property x
                 * @type Number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this.position.x;
                 },
                 enumerable: true,
@@ -16652,13 +17063,13 @@ var Kiwi;
             });
 
             Object.defineProperty(InputManager.prototype, "y", {
-                get: /**
+                /**
                 * Populated y coordinate based on the most recent click/touch event
                 * @property y
                 * @type Number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this.position.y;
                 },
                 enumerable: true,
@@ -16670,14 +17081,14 @@ var Kiwi;
     })(Kiwi.Input || (Kiwi.Input = {}));
     var Input = Kiwi.Input;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Input
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Input
-    *
-    */
     (function (Input) {
         /**
         * Handles the dispatching/management of Mouse Events on a game. When this class is instantiated a MouseCursor object is also created (on this object) which holds the information that is unique to the mouse cursor, although majority of that information is still accessible inside this object.
@@ -16685,8 +17096,8 @@ var Kiwi;
         * @class Mouse
         * @constructor
         * @namespace Kiwi.Input
-        * @param game {Game} The game that this mouse manager belongs to.
-        * @return {Mouse}
+        * @param game {Kiwi.Game} The game that this mouse manager belongs to.
+        * @return {Kiwi.Input.Mouse}
         *
         */
         var Mouse = (function () {
@@ -16711,13 +17122,13 @@ var Kiwi;
             };
 
             Object.defineProperty(Mouse.prototype, "cursor", {
-                get: /**
+                /**
                 * Returns the MouseCursor that is being used on the stage. This is READ ONLY.
                 * @property cursor
-                * @type MouseCursor
+                * @type Kiwi.Input.MouseCursor
                 * @private
                 */
-                function () {
+                get: function () {
                     return this._cursor;
                 },
                 enumerable: true,
@@ -16744,14 +17155,14 @@ var Kiwi;
             };
 
             Object.defineProperty(Mouse.prototype, "isDown", {
-                get: /**
+                /**
                 * Indicates whether or not the cursor is currently down. This is READ ONLY.
                 * @property isDown
                 * @type boolean
                 * @default false
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._cursor.isDown;
                 },
                 enumerable: true,
@@ -16759,14 +17170,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Mouse.prototype, "isUp", {
-                get: /**
+                /**
                 * Indicates whether or not the cursor is currently up. This is READ ONLY.
                 * @property isUp
                 * @type boolean
                 * @default true
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._cursor.isUp;
                 },
                 enumerable: true,
@@ -16774,13 +17185,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Mouse.prototype, "duration", {
-                get: /**
+                /**
                 * Gets the duration in Milliseconds that the mouse cursor has either been up or down for.
                 * @property duration
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._cursor.duration;
                 },
                 enumerable: true,
@@ -16788,13 +17199,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Mouse.prototype, "x", {
-                get: /**
+                /**
                 * Gets the x coordinate of the mouse cursor.
                 * @property x
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._cursor.x;
                 },
                 enumerable: true,
@@ -16802,13 +17213,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Mouse.prototype, "y", {
-                get: /**
+                /**
                 * Gets the y coordinate of the mouse cursor.
                 * @property y
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._cursor.y;
                 },
                 enumerable: true,
@@ -16816,13 +17227,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Mouse.prototype, "wheelDeltaX", {
-                get: /**
+                /**
                 * Gets the wheelDeltaX coordinate of the mouse cursors wheel.
                 * @property wheelDeltaX
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._cursor.wheelDeltaX;
                 },
                 enumerable: true,
@@ -16830,13 +17241,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Mouse.prototype, "wheelDeltaY", {
-                get: /**
+                /**
                 * Gets the wheelDeltaY coordinate of the mouse cursors wheel.
                 * @property wheelDeltaY
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._cursor.wheelDeltaY;
                 },
                 enumerable: true,
@@ -16844,14 +17255,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Mouse.prototype, "ctrlKey", {
-                get: /**
+                /**
                 * Indicates if the ctrl key is down.
                 * @property ctrlKey
                 * @type boolean
                 * @default false
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._cursor.ctrlKey;
                 },
                 enumerable: true,
@@ -16859,14 +17270,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Mouse.prototype, "shiftKey", {
-                get: /**
+                /**
                 * Indicates if the shift key is down.
                 * @property shiftKey
                 * @type boolean
                 * @default false
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._cursor.shiftKey;
                 },
                 enumerable: true,
@@ -16874,14 +17285,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Mouse.prototype, "altKey", {
-                get: /**
+                /**
                 * Indicates if the alt key is down.
                 * @property altKey
                 * @type boolean
                 * @default false
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._cursor.altKey;
                 },
                 enumerable: true,
@@ -16889,13 +17300,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Mouse.prototype, "button", {
-                get: /**
+                /**
                 * Returns a number indicating the button that was used. This can be used with the STATIC button properties.
                 * @property button
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._cursor.button;
                 },
                 enumerable: true,
@@ -17073,14 +17484,14 @@ var Kiwi;
     })(Kiwi.Input || (Kiwi.Input = {}));
     var Input = Kiwi.Input;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Input
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Input
-    *
-    */
     (function (Input) {
         /**
         * Handles the dispatching and management of touch based events for the game. When the Touch manager is created TEN finger objects are created and used when the user interacts with the screen. Those finger are what you can use to create games that make the most out of multitouch events.
@@ -17140,12 +17551,12 @@ var Kiwi;
             };
 
             Object.defineProperty(Touch.prototype, "fingers", {
-                get: /**
+                /**
                 * Get the fingers that are being used.
                 * @type Finger[]
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._fingers;
                 },
                 enumerable: true,
@@ -17192,6 +17603,7 @@ var Kiwi;
                     this.touchEnabled = true;
 
                     if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                        //If IE....
                         if (Kiwi.DEVICE.pointerEnabled) {
                             var pointerUp = 'pointerup', pointerDown = 'pointerdown', pointerEnter = 'pointerenter', pointerLeave = 'pointerleave', pointerCancel = 'pointercancel', pointerMove = 'pointermove';
 
@@ -17277,13 +17689,13 @@ var Kiwi;
             };
 
             Object.defineProperty(Touch.prototype, "x", {
-                get: /**
+                /**
                 * Gets the position of the latest finger on the x axis.
                 * @property x
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this.latestFinger.x;
                 },
                 enumerable: true,
@@ -17291,13 +17703,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Touch.prototype, "y", {
-                get: /**
+                /**
                 * Gets the position of the latest finger on the y axis.
                 * @property y
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this.latestFinger.y;
                 },
                 enumerable: true,
@@ -17306,21 +17718,21 @@ var Kiwi;
 
 
             Object.defineProperty(Touch.prototype, "maximumPointers", {
-                get: /**
+                /**
                 * Gets the maximum number of points of contact that are allowed on the game stage at one point.
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._maxPointers;
                 },
-                set: /**
+                /**
                 * Sets the maximum number of point of contact that are allowed on the game stage at one point.
                 * The maximum number of points that are allowed is 10, and the minimum is 0.
                 * @type number
                 * @public
                 */
-                function (val) {
+                set: function (val) {
                     if (val < 0)
                         val = 1;
                     if (val > this._fingers.length)
@@ -17715,14 +18127,14 @@ var Kiwi;
     })(Kiwi.Input || (Kiwi.Input = {}));
     var Input = Kiwi.Input;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Input
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Input
-    *
-    */
     (function (Input) {
         /**
         * Is a generic class that holds the properties/methods that are common across various different methods of inputs from the user, mainly between Touch and Mouse based events. This abstract class and such it is suppose to be extended from for individual implementations.
@@ -17730,8 +18142,8 @@ var Kiwi;
         * @class Pointer
         * @constructor
         * @namespace Kiwi.Input
-        * @param {Game} game
-        * @return Pointer
+        * @param {Kiwi.Game} game
+        * @return {Kiwi.Input.Pointer}
         *
         */
         var Pointer = (function () {
@@ -17897,12 +18309,12 @@ var Kiwi;
             };
 
             Object.defineProperty(Pointer.prototype, "game", {
-                get: /**
+                /**
                 * Get the game that this pointer belongs to.
                 * @type Game
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._game;
                 },
                 enumerable: true,
@@ -17971,7 +18383,7 @@ var Kiwi;
             /**
             * Indicates if the pointer was just pressed. This is based of the justPressedRate unless otherwise specifieds.
             * @method justPressed
-            * @param {number} duration
+            * @param {Number} duration
             * @return boolean
             * @public
             */
@@ -17987,7 +18399,7 @@ var Kiwi;
             /**
             * Indicates if the pointer was just released. This is based of the justReleasedRate unless otherwise specified.
             * @method justReleased
-            * @param {number} duration
+            * @param {Number} duration
             * @return boolean
             * @public
             */
@@ -18031,14 +18443,14 @@ var Kiwi;
     })(Kiwi.Input || (Kiwi.Input = {}));
     var Input = Kiwi.Input;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Input
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Input
-    *
-    */
     (function (Input) {
         /**
         * Holds the information about a Mouse Cursor. Such as the position of the cursor, the mouse wheels delta, the button that was used, e.t.c. Note: A mouse cursor is always active.
@@ -18124,19 +18536,19 @@ var Kiwi;
                 }
             };
             return MouseCursor;
-        })(Input.Pointer);
+        })(Kiwi.Input.Pointer);
         Input.MouseCursor = MouseCursor;
     })(Kiwi.Input || (Kiwi.Input = {}));
     var Input = Kiwi.Input;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Input
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Input
-    *
-    */
     (function (Input) {
         /**
         * Used with the Touch manager class, this object holds information about a single touch point/locaton (or you know a finger). By default a Finger has a diameter of 44 pixels (random average size of a finger) which can be used for collision/overlap detection. That value can be modified. Note: A Finger is only active whilst the user is 'pressing' down on stage.
@@ -18145,14 +18557,14 @@ var Kiwi;
         * @extends Pointer
         * @namespace Kiwi.Input
         * @constructor
-        * @param game {Game} The game that this finger belongs to.
+        * @param game {Kiwi.Game} The game that this finger belongs to.
         * @return Finger
         */
         var Finger = (function (_super) {
             __extends(Finger, _super);
             function Finger(game) {
                 _super.call(this, game);
-                this.circle.diameter = 44;
+                this.circle.diameter = 44; //The diameter of your average finger!
             }
             /**
             * The type of object this is.
@@ -18203,20 +18615,20 @@ var Kiwi;
                 _super.prototype.reset.call(this);
             };
             return Finger;
-        })(Input.Pointer);
+        })(Kiwi.Input.Pointer);
         Input.Finger = Finger;
     })(Kiwi.Input || (Kiwi.Input = {}));
     var Input = Kiwi.Input;
 })(Kiwi || (Kiwi = {}));
+/**
+* Contains common classes whose applications deal with geometry or the collision of geometric shapes.
+*
+* @module Kiwi
+* @submodule Geom
+* @main
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    * Contains common classes whose applications deal with geometry or the collision of geometric shapes.
-    *
-    * @module Kiwi
-    * @submodule Geom
-    * @main
-    */
     (function (Geom) {
         /**
         * An object representation of an axis-aligned bounding box.
@@ -18228,7 +18640,7 @@ var Kiwi;
         * @param cy {Number}
         * @param width {Number}
         * @param height {Number}
-        * @return {AABB}
+        * @return {Kiwi.Geom.AABB}
         */
         var AABB = (function () {
             function AABB(cx, cy, width, height) {
@@ -18276,13 +18688,13 @@ var Kiwi;
             };
 
             Object.defineProperty(AABB.prototype, "height", {
-                get: /**
+                /**
                 * Returns the full height. This is read only.
                 * @property height
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this.halfHeight * 2;
                 },
                 enumerable: true,
@@ -18290,13 +18702,13 @@ var Kiwi;
             });
 
             Object.defineProperty(AABB.prototype, "width", {
-                get: /**
+                /**
                 * Returns the full width. This is read only.
                 * @property width
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this.halfWidth * 2;
                 },
                 enumerable: true,
@@ -18307,7 +18719,7 @@ var Kiwi;
             * Draws the object to a canvas
             * @method draw
             * @param ctx {CanvasRenderingContext2D} The context you want this drawn to.
-            * @return {AABB}
+            * @return {Kiwi.Geom.AABB}
             * @public
             */
             AABB.prototype.draw = function (ctx) {
@@ -18325,7 +18737,7 @@ var Kiwi;
             * @method setPosition
             * @param cx {Number}
             * @param cy {Number}
-            * @return {AABB}
+            * @return {Kiwi.Geom.AABB}
             * @public
             */
             AABB.prototype.setPosition = function (cx, cy) {
@@ -18338,7 +18750,7 @@ var Kiwi;
             * Sets the position of the object by a point that you pass.
             * @method setPositionPoint
             * @param {Point} pos
-            * @return {AABB}
+            * @return {Kiwi.Geom.AABB}
             * @public
             */
             AABB.prototype.setPositionPoint = function (pos) {
@@ -18350,18 +18762,18 @@ var Kiwi;
             /**
             * Returns this object but as a new Rectangle.
             * @method toRect
-            * @return {Rectangle}
+            * @return {Kiwi.Geom.Rectangle}
             * @public
             */
             AABB.prototype.toRect = function () {
-                return new Geom.Rectangle(this.cx - this.halfWidth, this.cy - this.halfHeight, this.halfWidth * 2, this.halfHeight * 2);
+                return new Kiwi.Geom.Rectangle(this.cx - this.halfWidth, this.cy - this.halfHeight, this.halfWidth * 2, this.halfHeight * 2);
             };
 
             /**
             * Gives the dimension of this AABB from a rectangle's.
             * @method fromRect
-            * @param {Rectangle} rect
-            * @return {AABB}
+            * @param {Kiwi.Geom.Rectangle} rect
+            * @return {Kiwi.Geom.AABB}
             * @public
             */
             AABB.prototype.fromRect = function (rect) {
@@ -18377,13 +18789,13 @@ var Kiwi;
     })(Kiwi.Geom || (Kiwi.Geom = {}));
     var Geom = Kiwi.Geom;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Geom
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Geom
-    */
     (function (Geom) {
         /**
         * A Circle object is an area defined by its position,
@@ -18395,7 +18807,7 @@ var Kiwi;
         * @param [x = 0] {Number} The x coordinate of the center of the circle.
         * @param [y = 0] {Number} The y coordinate of the center of the circle.
         * @param [diameter = 0] {number} The diameter of the circle.
-        * @return {Circle} This circle object
+        * @return {Kiwi.Geom.Circle} This circle object
         *
         */
         var Circle = (function () {
@@ -18451,13 +18863,13 @@ var Kiwi;
                 get: function () {
                     return this._diameter;
                 },
-                set: /**
+                /**
                 * The diameter of the circle. The largest distance between any two points on the circle. The same as the radius * 2.
                 * @property diameter
                 * @type number
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     if (value > 0) {
                         this._diameter = value;
                         this._radius = value * 0.5;
@@ -18471,13 +18883,13 @@ var Kiwi;
                 get: function () {
                     return this._radius;
                 },
-                set: /**
+                /**
                 * The radius of the circle. The length of a line extending from the center of the circle to any point on the circle itself. The same as half the diameter.
                 * @property radius
                 * @type number
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     if (value > 0) {
                         this._radius = value;
                         this._diameter = value * 2;
@@ -18488,13 +18900,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Circle.prototype, "circumference", {
-                get: /**
+                /**
                 * The circumference of the circle. This is READ ONLY.
                 * @property circumference
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return 2 * (Math.PI * this._radius);
                 },
                 enumerable: true,
@@ -18505,13 +18917,13 @@ var Kiwi;
                 get: function () {
                     return this.y + this._radius;
                 },
-                set: /**
+                /**
                 * The sum of the y and radius properties. Changing the bottom property of a Circle object has no effect on the x and y properties, but does change the diameter.
                 * @property bottom
                 * @type number
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     if (!isNaN(value)) {
                         if (value < this.y) {
                             this._radius = 0;
@@ -18529,13 +18941,13 @@ var Kiwi;
                 get: function () {
                     return this.x - this._radius;
                 },
-                set: /**
+                /**
                 * The x coordinate of the leftmost point of the circle. Changing the left property of a Circle object has no effect on the x and y properties. However it does affect the diameter, whereas changing the x value does not affect the diameter property.
                 * @property left
                 * @type number
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     if (!isNaN(value)) {
                         if (value < this.x) {
                             this.radius = this.x - value;
@@ -18553,13 +18965,13 @@ var Kiwi;
                 get: function () {
                     return this.x + this._radius;
                 },
-                set: /**
+                /**
                 * The x coordinate of the rightmost point of the circle. Changing the right property of a Circle object has no effect on the x and y properties. However it does affect the diameter, whereas changing the x value does not affect the diameter property.
                 * @property right
                 * @type number
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     if (value && !isNaN(value)) {
                         if (value > this.x) {
                             this.radius = value - this.x;
@@ -18578,13 +18990,13 @@ var Kiwi;
                 get: function () {
                     return this.y - this._radius;
                 },
-                set: /**
+                /**
                 * The sum of the y minus the radius property. Changing the top property of a Circle object has no effect on the x and y properties, but does change the diameter.
                 * @property top
                 * @type number
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     if (value && !isNaN(value)) {
                         if (value > this.y) {
                             this._radius = 0;
@@ -18599,13 +19011,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Circle.prototype, "area", {
-                get: /**
+                /**
                 * Gets the area of this Circle. Note this is READ ONLY.
                 * @property area
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     if (this._radius > 0) {
                         return Math.PI * this._radius * this._radius;
                     } else {
@@ -18617,13 +19029,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Circle.prototype, "isEmpty", {
-                get: /**
+                /**
                 * Determines whether or not this Circle object is empty. This is READ ONLY.
                 * @method isEmpty
                 * @return {boolean} A value of true if the Circle objects diameter is less than or equal to 0; otherwise false.
                 * @public
                 */
-                function () {
+                get: function () {
                     if (this._diameter <= 0) {
                         return true;
                     }
@@ -18637,20 +19049,20 @@ var Kiwi;
             /**
             * Returns a new Circle object with the same values for the x, y, width, and height properties as the original Circle object.
             * @method clone
-            * @param [output = Circle] {Circle} If given the values will be set into the object, otherwise a brand new Circle object will be created and returned.
-            * @return {Circle}
+            * @param [output = Circle] {Kiwi.Geom.Circle} If given the values will be set into the object, otherwise a brand new Circle object will be created and returned.
+            * @return {Kiwi.Geom.Circle}
             * @public
             */
             Circle.prototype.clone = function (output) {
-                if (typeof output === "undefined") { output = new Circle(); }
+                if (typeof output === "undefined") { output = new Circle; }
                 return output.setTo(this.x, this.y, this._diameter);
             };
 
             /**
             * Copies all of circle data from the source Circle object into the calling Circle object.
             * @method copyFrom
-            * @param source {Circle} The source circle object to copy from
-            * @return {Circle} This circle object
+            * @param source {Kiwi.Geom.Circle} The source circle object to copy from
+            * @return {Kiwi.Geom.Circle} This circle object
             * @public
             */
             Circle.prototype.copyFrom = function (source) {
@@ -18691,7 +19103,7 @@ var Kiwi;
             /**
             * Determines whether the object specified in the toCompare parameter is equal to this Circle object. This method compares the x, y and diameter properties of an object against the same properties of this Circle object.
             * @method equals
-            * @param toCompare {Circle} The circle to compare to this Circle object.
+            * @param toCompare {Kiwi.Geom.Circle} The circle to compare to this Circle object.
             * @return {boolean} A value of true if the object has exactly the same values for the x, y and diameter properties as this Circle object; otherwise false.
             * @public
             */
@@ -18706,7 +19118,7 @@ var Kiwi;
             /**
             * Determines whether the Circle object specified in the toIntersect parameter intersects with this Circle object. This method checks the radius distances between the two Circle objects to see if they intersect.
             * @method intersects
-            * @param toIntersect {Circle} The Circle object to compare against to see if it intersects with this Circle object.
+            * @param toIntersect {Kiwi.Geom.Circle} The Circle object to compare against to see if it intersects with this Circle object.
             * @return {boolean} A value of true if the specified object intersects with this Circle object; otherwise false.
             * @public
             */
@@ -18723,15 +19135,16 @@ var Kiwi;
             * @method circumferencePoint
             * @param angle {Number} The angle in radians (unless asDegrees is true) to return the point from.
             * @param [asDegress=false] {boolean} Is the given angle in radians (false) or degrees (true)?
-            * @param [point=Point] {Point} An optional Point object to put the result in to. If none specified a new Point object will be created.
-            * @return {Point} The Point object holding the result.
+            * @param [output=Point] {Kiwi.Geom.Point} An optional Point object to put the result in to. If none specified a new Point object will be created.
+            * @return {Kiwi.Geom.Point} The Point object holding the result.
             * @public
             */
             Circle.prototype.circumferencePoint = function (angle, asDegrees, output) {
                 if (typeof asDegrees === "undefined") { asDegrees = false; }
-                if (typeof output === "undefined") { output = new Geom.Point(); }
+                if (typeof output === "undefined") { output = new Kiwi.Geom.Point; }
                 if (asDegrees === true) {
-                    angle = angle * (Math.PI / 180);
+                    angle = angle * (Math.PI / 180); // Radians to Degrees
+                    //angle = angle * (180 / Math.PI); // Degrees to Radians
                 }
 
                 output.x = this.x + this._radius * Math.cos(angle);
@@ -18745,7 +19158,7 @@ var Kiwi;
             * @method offset
             * @param dx {Number} Moves the x value of the Circle object by this amount.
             * @param dy {Number} Moves the y value of the Circle object by this amount.
-            * @return {Circle} This Circle object.
+            * @return {Kiwi.Geom.Circle} This Circle object.
             * @public
             */
             Circle.prototype.offset = function (dx, dy) {
@@ -18760,8 +19173,8 @@ var Kiwi;
             /**
             * Adjusts the location of the Circle object using a Point object as a parameter. This method is similar to the Circle.offset() method, except that it takes a Point object as a parameter.
             * @method offsetPoint
-            * @param {Point} point A Point object to use to offset this Circle object.
-            * @return {Circle} This Circle object.
+            * @param {Kiwi.Geom.Point} point A Point object to use to offset this Circle object.
+            * @return {Kiwi.Geom.Circle} This Circle object.
             * @public
             */
             Circle.prototype.offsetPoint = function (point) {
@@ -18774,7 +19187,7 @@ var Kiwi;
             * @param x {Number} The x coordinate of the center of the circle.
             * @param y {Number} The y coordinate of the center of the circle.
             * @param diameter {Number} The diameter of the circle in pixels.
-            * @return {Circle} This circle object
+            * @return {Kiwi.Geom.Circle} This circle object
             * @public
             */
             Circle.prototype.setTo = function (x, y, diameter) {
@@ -18801,13 +19214,13 @@ var Kiwi;
     })(Kiwi.Geom || (Kiwi.Geom = {}));
     var Geom = Kiwi.Geom;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Geom
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Geom
-    */
     (function (Geom) {
         /**
         * Represents a halfline. The ray starts at the first point and extends infinitely in the direction of the second.
@@ -18819,7 +19232,7 @@ var Kiwi;
         * @param [y1 = 0] {Number} y1
         * @param [x2 = 0] {Number} x2
         * @param [y2 = 0] {Number} y2
-        * @return {Ray} This Object
+        * @return {Kiwi.Geom.Ray} This Object
         *
         */
         var Ray = (function () {
@@ -18872,20 +19285,20 @@ var Kiwi;
             * Makes a copy of this Ray either as a new Ray object or,
             * makes a passed Ray a copy of this one.
             * @method clone
-            * @param [output = Ray] {Ray}
-            * @return {Ray}
+            * @param [output = Ray] {Kiwi.Geom.Ray}
+            * @return {Kiwi.Geom.Ray}
             * @public
             */
             Ray.prototype.clone = function (output) {
-                if (typeof output === "undefined") { output = new Ray(); }
+                if (typeof output === "undefined") { output = new Ray; }
                 return output.setTo(this.x1, this.y1, this.x2, this.y2);
             };
 
             /**
             * Makes this Ray the same as a passed Ray.
             * @method copyFrom
-            * @param source {Ray}
-            * @return {Ray}
+            * @param source {Kiwi.Geom.Ray}
+            * @return {Kiwi.Geom.Ray}
             * @public
             */
             Ray.prototype.copyFrom = function (source) {
@@ -18895,8 +19308,8 @@ var Kiwi;
             /**
             * Makes a passed Ray the same as this Ray object.
             * @method copyTo
-            * @param target {Ray}
-            * @return {Ray}
+            * @param target {Kiwi.Geom.Ray}
+            * @return {Kiwi.Geom.Ray}
             * @public
             */
             Ray.prototype.copyTo = function (target) {
@@ -18910,7 +19323,7 @@ var Kiwi;
             * @param y1{Number}
             * @param x2{Number}
             * @param y2{Number}
-            * @return {Ray}
+            * @return {Kiwi.Geom.Ray}
             * @public
             */
             Ray.prototype.setTo = function (x1, y1, x2, y2) {
@@ -18927,13 +19340,13 @@ var Kiwi;
             };
 
             Object.defineProperty(Ray.prototype, "angle", {
-                get: /**
+                /**
                 * Get the angle of the ray.
                 * @property angle
                 * @return {Number}
                 * @public
                 */
-                function () {
+                get: function () {
                     return Math.atan2(this.x2 - this.x1, this.y2 - this.y1);
                 },
                 enumerable: true,
@@ -18941,13 +19354,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Ray.prototype, "slope", {
-                get: /**
+                /**
                 * Get the slope of the ray.
                 * @property slope
                 * @return {Number}
                 * @public
                 */
-                function () {
+                get: function () {
                     return (this.y2 - this.y1) / (this.x2 - this.x1);
                 },
                 enumerable: true,
@@ -18955,14 +19368,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Ray.prototype, "yIntercept", {
-                get: /**
+                /**
                 *
                 * @method yIntercept
                 * @property yIntercept
                 * @return {Number}
                 * @public
                 */
-                function () {
+                get: function () {
                     return (this.y1 - this.slope * this.x1);
                 },
                 enumerable: true,
@@ -19000,13 +19413,13 @@ var Kiwi;
     })(Kiwi.Geom || (Kiwi.Geom = {}));
     var Geom = Kiwi.Geom;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Geom
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Geom
-    */
     (function (Geom) {
         /**
         * Contains a collection of STATIC methods to help determine and return intersection between geometric objects.
@@ -19028,7 +19441,7 @@ var Kiwi;
                 return "Intersect";
             };
 
-            Intersect.distance = /**
+            /**
             * -------------------------------------------------------------------------------------------
             * Distance
             * -------------------------------------------------------------------------------------------
@@ -19044,11 +19457,11 @@ var Kiwi;
             * @public
             * @static
             **/
-            function (x1, y1, x2, y2) {
+            Intersect.distance = function (x1, y1, x2, y2) {
                 return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
             };
 
-            Intersect.distanceSquared = /**
+            /**
             * Returns the distance squared between two sets of coordinates that you specify.
             * @method distanceSquared
             * @param x1 {Number} The x position of the first coordinate.
@@ -19059,11 +19472,11 @@ var Kiwi;
             * @public
             * @static
             */
-            function (x1, y1, x2, y2) {
+            Intersect.distanceSquared = function (x1, y1, x2, y2) {
                 return (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
             };
 
-            Intersect.lineToLine = /**
+            /**
             * -------------------------------------------------------------------------------------------
             * Lines
             * -------------------------------------------------------------------------------------------
@@ -19074,13 +19487,13 @@ var Kiwi;
             * @method lineToLine
             * @param line1 {Line} The first line object to check
             * @param line2 {Line} The second line object to check
-            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in. (One is created if none given)
-            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. (One is created if none given)
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
             * @public
             * @static
             */
-            function (line1, line2, output) {
-                if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
+            Intersect.lineToLine = function (line1, line2, output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var denom = (line1.x1 - line1.x2) * (line2.y1 - line2.y2) - (line1.y1 - line1.y2) * (line2.x1 - line2.x2);
 
                 if (denom !== 0) {
@@ -19092,20 +19505,20 @@ var Kiwi;
                 return output;
             };
 
-            Intersect.lineToLineSegment = /**
+            /**
             * Check to see if a Line and a Line Segment intersect at any point.
             * Note: The first line passed is treated as if it extends infinately though space,
             * The second is treated as if it only exists between its two points.
             * @method lineToLineSegment
-            * @param line1 {Line} The first line to check. This is the one that will extend through space infinately.
-            * @param seg {Line} The second line to check. This is the one that will only exist between its two coordinates.
-            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {IntersectResult} An IntersectResult object containing the results of this intersection.
+            * @param line1 {Kiwi.Geom.Line} The first line to check. This is the one that will extend through space infinately.
+            * @param seg {Kiwi.Geom.Line} The second line to check. This is the one that will only exist between its two coordinates.
+            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection.
             * @public
             * @static
             */
-            function (line1, seg, output) {
-                if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
+            Intersect.lineToLineSegment = function (line1, seg, output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var denom = (line1.x1 - line1.x2) * (seg.y1 - seg.y2) - (line1.y1 - line1.y2) * (seg.x1 - seg.x2);
 
                 if (denom !== 0) {
@@ -19117,6 +19530,7 @@ var Kiwi;
                     var maxY = Math.max(seg.y1, seg.y2);
                     var minY = Math.min(seg.y1, seg.y2);
 
+                    //if (!(output.x <= maxX && output.x >= minX) || !(output.y <= maxY && output.y >= minY))
                     if ((output.x <= maxX && output.x >= minX) === true || (output.y <= maxY && output.y >= minY) === true) {
                         output.result = true;
                     }
@@ -19125,12 +19539,12 @@ var Kiwi;
                 return output;
             };
 
-            Intersect.lineToRawSegment = /**
+            /**
             * Checks to see if a Line that is passed, intersects at any point another Line that is made by passing a set of coordinates to this method.
             * Note: The first line will extend infinately through space.
             * And the second line will only exist between the two points passed.
             * @method lineToRawSegment
-            * @param line {Line} The line object that extends infinatly through space.
+            * @param line {Kiwi.Geom.Line} The line object that extends infinatly through space.
             * @param x1 {number} The x coordinate of the first point in the second line.
             * @param y1 {number} The y coordinate of the first point in the second line.
             * @param x2 {number} The x coordinate of the second point in the second line.
@@ -19140,8 +19554,8 @@ var Kiwi;
             * @static
             * @public
             */
-            function (line, x1, y1, x2, y2, output) {
-                if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
+            Intersect.lineToRawSegment = function (line, x1, y1, x2, y2, output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var denom = (line.x1 - line.x2) * (y1 - y2) - (line.y1 - line.y2) * (x1 - x2);
 
                 if (denom !== 0) {
@@ -19161,25 +19575,25 @@ var Kiwi;
                 return output;
             };
 
-            Intersect.lineToRay = /**
+            /**
             * Checks to see if a Line and Ray object intersects at any point.
             * Note: The line in this case extends infinately through space.
             * @method lineToRay
-            * @param line1 {Line} The Line object that extends infinatly through space.
-            * @param ray {Ray} The Ray object that you want to check it against.
-            * @param {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+            * @param line1 {Kiwi.Geom.Line} The Line object that extends infinatly through space.
+            * @param ray {Kiwi.Geom.Ray} The Ray object that you want to check it against.
+            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
             * @public
             * @static
             */
-            function (line1, ray, output) {
-                if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
+            Intersect.lineToRay = function (line1, ray, output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var denom = (line1.x1 - line1.x2) * (ray.y1 - ray.y2) - (line1.y1 - line1.y2) * (ray.x1 - ray.x2);
 
                 if (denom !== 0) {
                     output.x = ((line1.x1 * line1.y2 - line1.y1 * line1.x2) * (ray.x1 - ray.x2) - (line1.x1 - line1.x2) * (ray.x1 * ray.y2 - ray.y1 * ray.x2)) / denom;
                     output.y = ((line1.x1 * line1.y2 - line1.y1 * line1.x2) * (ray.y1 - ray.y2) - (line1.y1 - line1.y2) * (ray.x1 * ray.y2 - ray.y1 * ray.x2)) / denom;
-                    output.result = true;
+                    output.result = true; // true unless either of the 2 following conditions are met
 
                     if (!(ray.x1 >= ray.x2) && output.x < ray.x1) {
                         output.result = false;
@@ -19193,19 +19607,20 @@ var Kiwi;
                 return output;
             };
 
-            Intersect.lineToCircle = /**
+            /**
             * Checks to see if a Line and a Circle intersect at any point.
             * Note: The line passed is assumed to extend infinately through space.
             * @method lineToCircle
-            * @param line {Line} The Line object that you want to check it against.
-            * @param circle {Circle} The Circle object to check.
+            * @param line {Kiwi.Geom.Line} The Line object that you want to check it against.
+            * @param circle {Kiwi.Geom.Circle} The Circle object to check.
             * @param [output=Intersect] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
             * @public
             * @static
             */
-            function (line, circle, output) {
-                if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
+            Intersect.lineToCircle = function (line, circle, output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
+                //  Get a perpendicular line running to the center of the circle
                 if (line.perp(circle.x, circle.y).length <= circle.radius) {
                     output.result = true;
                 }
@@ -19213,19 +19628,19 @@ var Kiwi;
                 return output;
             };
 
-            Intersect.lineToRectangle = /**
+            /**
             * Check if the Line intersects with each side of a Rectangle.
             * Note: The Line is assumned to extend infinately through space.
             * @method lineToRectangle
-            * @param line {Line} The Line object to check
-            * @param rectangle {Rectangle} The Rectangle object to check
-            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+            * @param line {Kiwi.Geom.Line} The Line object to check
+            * @param rectangle {Kiwi.Geom.Rectangle} The Rectangle object to check
+            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
             * @public
             * @static
             */
-            function (line, rect, output) {
-                if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
+            Intersect.lineToRectangle = function (line, rect, output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 //  Top of the Rectangle vs the Line
                 Intersect.lineToRawSegment(line, rect.x, rect.y, rect.right, rect.y, output);
 
@@ -19253,7 +19668,7 @@ var Kiwi;
                 return output;
             };
 
-            Intersect.lineSegmentToLineSegment = /**
+            /**
             * -------------------------------------------------------------------------------------------
             * Line Segment
             * -------------------------------------------------------------------------------------------
@@ -19262,15 +19677,15 @@ var Kiwi;
             * Checks to see if two Line Segments intersect at any point in space.
             * Note: Both lines are treated as if they only exist between their two line coordinates.
             * @method lineSegmentToLineSegment
-            * @param line1 {Line} The first line object to check.
-            * @param line2 {Line} The second line object to check.
-            * @param [output=IntersectResult]{IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y.
+            * @param line1 {Kiwi.Geom.Line} The first line object to check.
+            * @param line2 {Kiwi.Geom.Line} The second line object to check.
+            * @param [output=IntersectResult]{Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y.
             * @public
             * @static
             */
-            function (line1, line2, output) {
-                if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
+            Intersect.lineSegmentToLineSegment = function (line1, line2, output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 Intersect.lineToLineSegment(line1, line2, output);
 
                 if (output.result === true) {
@@ -19282,19 +19697,19 @@ var Kiwi;
                 return output;
             };
 
-            Intersect.lineSegmentToRay = /**
+            /**
             * Check if the Line Segment intersects with the Ray.
             * Note: The Line only exists between its two points.
             * @method lineSegmentToRay
-            * @param line1 {Line} The Line object to check.
-            * @param ray {Line} The Ray object to check.
-            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @param line1 {Kiwi.Geom.Line} The Line object to check.
+            * @param ray {Kiwi.Geom.Line} The Ray object to check.
+            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
             * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
             * @public
             * @static
             */
-            function (line1, ray, output) {
-                if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
+            Intersect.lineSegmentToRay = function (line1, ray, output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 Intersect.lineToRay(line1, ray, output);
 
                 if (output.result === true) {
@@ -19306,19 +19721,19 @@ var Kiwi;
                 return output;
             };
 
-            Intersect.lineSegmentToCircle = /**
+            /**
             * Check if the Line Segment intersects with the Circle.
             * Note the Line only exists between its point points.
             * @method lineSegmentToCircle
-            * @param seg {Line} The Line object to check
-            * @param circle {Circle} The Circle object to check
-            * @param [ouput=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+            * @param seg {Kiwi.Geom.Line} The Line object to check
+            * @param circle {Kiwi.Geom.Circle} The Circle object to check
+            * @param [ouput=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
             * @public
             * @static
             */
-            function (seg, circle, output) {
-                if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
+            Intersect.lineSegmentToCircle = function (seg, circle, output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var perp = seg.perp(circle.x, circle.y);
 
                 if (perp.length <= circle.radius) {
@@ -19331,6 +19746,7 @@ var Kiwi;
                     if ((perp.x2 <= maxX && perp.x2 >= minX) && (perp.y2 <= maxY && perp.y2 >= minY)) {
                         output.result = true;
                     } else {
+                        //  Worst case - segment doesn't traverse center, so no perpendicular connection.
                         if (Intersect.circleContainsPoint(circle, { x: seg.x1, y: seg.y1 }) || Intersect.circleContainsPoint(circle, { x: seg.x2, y: seg.y2 })) {
                             output.result = true;
                         }
@@ -19340,19 +19756,19 @@ var Kiwi;
                 return output;
             };
 
-            Intersect.lineSegmentToRectangle = /**
+            /**
             * Check if the Line Segment intersects with any side of a Rectangle.
             * Note: The Line only exists between its two points.
             * @method lineSegmentToCircle
-            * @param seg {Line} The Line object to check.
-            * @param rect {Rectangle} The Rectangle object to check.
-            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given).
-            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y.
+            * @param seg {Kiwi.Geom.Line} The Line object to check.
+            * @param rect {Kiwi.Geom.Rectangle} The Rectangle object to check.
+            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given).
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y.
             * @public
             * @static
             */
-            function (seg, rect, output) {
-                if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
+            Intersect.lineSegmentToRectangle = function (seg, rect, output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 if (rect.contains(seg.x1, seg.y1) && rect.contains(seg.x2, seg.y2)) {
                     output.result = true;
                 } else {
@@ -19386,7 +19802,7 @@ var Kiwi;
                 return output;
             };
 
-            Intersect.rayToRectangle = /**
+            /**
             * -------------------------------------------------------------------------------------------
             * Ray
             * -------------------------------------------------------------------------------------------
@@ -19394,22 +19810,22 @@ var Kiwi;
             /**
             * Check to see if a Ray intersects at any point with a Rectangle.
             * @method rayToRectangle
-            * @param ray {Ray} The Ray object to check.
-            * @param rect {Rectangle} The Rectangle to check.
-            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+            * @param ray {Kiwi.Geom.Ray} The Ray object to check.
+            * @param rect {Kiwi.Geom.Rectangle} The Rectangle to check.
+            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
             * @public
             * @static
             */
-            function (ray, rect, output) {
-                if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
+            Intersect.rayToRectangle = function (ray, rect, output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 //  Currently just finds first intersection - might not be closest to ray pt1
                 Intersect.lineToRectangle(ray, rect, output);
 
                 return output;
             };
 
-            Intersect.rayToLineSegment = /**
+            /**
             * Check whether a Ray intersects a Line segment, returns the parametric value where the intersection occurs.
             * Note: The Line only exists between its two points.
             * @method rayToLineSegment
@@ -19422,14 +19838,15 @@ var Kiwi;
             * @param liney1 {Number} The y of the first point of the line segment.
             * @param linex2 {Number} The x of the second point of the line segment.
             * @param liney2 {Number} The y of the second point of the line segment.
-            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {IntersectResult} An IntersectResult object containing the results of this intersection stored in x
+            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection stored in x
             * @public
             */
-            function (rayx1, rayy1, rayx2, rayy2, linex1, liney1, linex2, liney2, output) {
-                if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
+            Intersect.rayToLineSegment = function (rayx1, rayy1, rayx2, rayy2, linex1, liney1, linex2, liney2, output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var r, s, d;
 
+                // Check lines are not parallel
                 if ((rayy2 - rayy1) / (rayx2 - rayx1) != (liney2 - liney1) / (linex2 - linex1)) {
                     d = (((rayx2 - rayx1) * (liney2 - liney1)) - (rayy2 - rayy1) * (linex2 - linex1));
 
@@ -19449,7 +19866,7 @@ var Kiwi;
                 return output;
             };
 
-            Intersect.circleToCircle = /**
+            /**
             * -------------------------------------------------------------------------------------------
             * Circle
             * -------------------------------------------------------------------------------------------
@@ -19457,32 +19874,32 @@ var Kiwi;
             /**
             * Check if the two given Circle objects intersect at any point.
             * @method circleToCircle
-            * @param circle1 {Circle} The first circle object to check.
-            * @param circle2 {Circle} The second circle object to check.
-            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+            * @param circle1 {Kiwi.Geom.Circle} The first circle object to check.
+            * @param circle2 {Kiwi.Geom.Circle} The second circle object to check.
+            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
             * @public
             * @static
             */
-            function (circle1, circle2, output) {
-                if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
+            Intersect.circleToCircle = function (circle1, circle2, output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 output.result = ((circle1.radius + circle2.radius) * (circle1.radius + circle2.radius)) >= Intersect.distanceSquared(circle1.x, circle1.y, circle2.x, circle2.y);
 
                 return output;
             };
 
-            Intersect.circleToRectangle = /**
+            /**
             * Check if a Circle and a Rectangle intersect with each other at any point.
             * @method circleToRectangle
-            * @param circle {Circle} The circle object to check.
-            * @param rect {Rectangle} The Rectangle object to check.
-            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+            * @param circle {Kiwi.Geom.Circle} The circle object to check.
+            * @param rect {Kiwi.Geom.Rectangle} The Rectangle object to check.
+            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
             * @public
             * @static
             */
-            function (circle, rect, output) {
-                if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
+            Intersect.circleToRectangle = function (circle, rect, output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var inflatedRect = rect.clone();
 
                 inflatedRect.inflate(circle.radius, circle.radius);
@@ -19492,24 +19909,24 @@ var Kiwi;
                 return output;
             };
 
-            Intersect.circleContainsPoint = /**
+            /**
             * Check if the given Point is found within the given Circle.
             * @method circleContainsPoint
-            * @param circle {Circle} The circle object to check
-            * @param point {Point} The point object to check
-            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+            * @param circle {Kiwi.Geom.Circle} The circle object to check
+            * @param point {Kiwi.Geom.Point} The point object to check
+            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
             * @public
             * @static
             */
-            function (circle, point, output) {
-                if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
+            Intersect.circleContainsPoint = function (circle, point, output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 output.result = circle.radius * circle.radius >= Intersect.distanceSquared(circle.x, circle.y, point.x, point.y);
 
                 return output;
             };
 
-            Intersect.pointToRectangle = /**
+            /**
             * -------------------------------------------------------------------------------------------
             * Rectangles
             * -------------------------------------------------------------------------------------------
@@ -19517,15 +19934,15 @@ var Kiwi;
             /**
             * Determines whether the specified point is contained within a given Rectangle object.
             * @method pointToRectangle
-            * @param point {Point} The point object being checked.
-            * @param rect {Rectangle} The rectangle object being checked.
-            * @param [output=Intersect] {IntersectResult}  An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y/result
+            * @param point {Kiwi.Geom.Point} The point object being checked.
+            * @param rect {Kiwi.Geom.Rectangle} The rectangle object being checked.
+            * @param [output=Intersect] {Kiwi.Geom.IntersectResult}  An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y/result
             * @public
             * @static
             */
-            function (point, rect, output) {
-                if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
+            Intersect.pointToRectangle = function (point, rect, output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 output.setTo(point.x, point.y);
 
                 output.result = rect.containsPoint(point);
@@ -19533,18 +19950,18 @@ var Kiwi;
                 return output;
             };
 
-            Intersect.rectangleToRectangle = /**
+            /**
             * Check whether two axis aligned rectangles intersect. Return the intersecting rectangle dimensions if they do.
             * @method rectangleToRectangle
-            * @param rect1 {Rectangle} The first Rectangle object.
-            * @param rect2 {Rectangle} The second Rectangle object.
-            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y/width/height
+            * @param rect1 {Kiwi.Geom.Rectangle} The first Rectangle object.
+            * @param rect2 {Kiwi.Geom.Rectangle} The second Rectangle object.
+            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y/width/height
             * @public
             * @static
             */
-            function (rect1, rect2, output) {
-                if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
+            Intersect.rectangleToRectangle = function (rect1, rect2, output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var leftX = Math.max(rect1.x, rect2.x);
                 var rightX = Math.min(rect1.right, rect2.right);
                 var topY = Math.max(rect1.y, rect2.y);
@@ -19567,13 +19984,13 @@ var Kiwi;
     })(Kiwi.Geom || (Kiwi.Geom = {}));
     var Geom = Kiwi.Geom;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Geom
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Geom
-    */
     (function (Geom) {
         /**
         * A Lightweight object to hold the results of an Intersection.
@@ -19637,17 +20054,17 @@ var Kiwi;
     })(Kiwi.Geom || (Kiwi.Geom = {}));
     var Geom = Kiwi.Geom;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Geom
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Geom
-    */
     (function (Geom) {
         /**
         * A Kiwi Line object has two meanings depending on the situation you need.
-        * Either an infinte line through space (this is the normal meaning of a Line)
+        * Either an infinte line through space (this is the usual meaning of a Line)
         * OR it can be a Line Segment which just exists between the TWO points you specify.
         *
         * @class Line
@@ -19681,14 +20098,14 @@ var Kiwi;
                 */
                 this.y1 = 0;
                 /**
-                * x component of second point.
+                * X position of second point.
                 * @property x2
                 * @type Number
                 * @public
                 */
                 this.x2 = 0;
                 /**
-                * y component of second point.
+                * X position of second point.
                 * @property y2
                 * @type Number
                 * @public
@@ -19711,20 +20128,20 @@ var Kiwi;
             * The clone will either be a new Line Object,
             * Otherwise you can pass a existing Line Object that you want to be a clone of this one.
             * @method clone
-            * @param [output = Line] {Line}
-            * @return {Line}
+            * @param [output = Line] {Kiwi.Geom.Line}
+            * @return {Kiwi.Geom.Line}
             * @public
             */
             Line.prototype.clone = function (output) {
-                if (typeof output === "undefined") { output = new Line(); }
+                if (typeof output === "undefined") { output = new Line; }
                 return output.setTo(this.x1, this.y1, this.x2, this.y2);
             };
 
             /**
             * Make this Line a copy of another passed Line.
             * @method copyFrom
-            * @param source {Line} source
-            * @return {Line}
+            * @param source {Kiwi.Geom.Line} source
+            * @return {Kiwi.Geom.Line}
             * @public
             */
             Line.prototype.copyFrom = function (source) {
@@ -19734,8 +20151,8 @@ var Kiwi;
             /**
             * Make another passed Line a copy of this one.
             * @method copyTo
-            * @param target {Line} target
-            * @return {Line}
+            * @param target {Kiwi.Geom.Line} target
+            * @return {Kiwi.Geom.Line}
             * @public
             */
             Line.prototype.copyTo = function (target) {
@@ -19749,7 +20166,7 @@ var Kiwi;
             * @param [y1 = 0]{Number} Y component of first point.
             * @param [x2 = 0]{Number} X component of second point.
             * @param [y2 = 0]{Number} Y component of second point.
-            * @return {Line}
+            * @return {Kiwi.Geom.Line}
             * @public
             */
             Line.prototype.setTo = function (x1, y1, x2, y2) {
@@ -19766,13 +20183,13 @@ var Kiwi;
             };
 
             Object.defineProperty(Line.prototype, "length", {
-                get: /**
+                /**
                 * Get the length of the Line as a Line Segment.
                 * @property length
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return Math.sqrt((this.x2 - this.x1) * (this.x2 - this.x1) + (this.y2 - this.y1) * (this.y2 - this.y1));
                 },
                 enumerable: true,
@@ -19788,17 +20205,18 @@ var Kiwi;
             */
             Line.prototype.getY = function (x) {
                 if (this.x1 == this.x2)
-                    return null; else
+                    return null;
+                else
                     return this.slope * x + this.yIntercept;
             };
 
             Object.defineProperty(Line.prototype, "angle", {
-                get: /**
+                /**
                 * Get the angle of the line.
                 * @property angle
                 * @return {Number}
                 */
-                function () {
+                get: function () {
                     return Math.atan2(this.x2 - this.x1, this.y2 - this.y1);
                 },
                 enumerable: true,
@@ -19806,13 +20224,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Line.prototype, "slope", {
-                get: /**
+                /**
                 * Get the slope of the line (y/x).
                 * @property slope
                 * @return {Number}
                 * @public
                 */
-                function () {
+                get: function () {
                     return (this.y2 - this.y1) / (this.x2 - this.x1);
                 },
                 enumerable: true,
@@ -19820,13 +20238,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Line.prototype, "perpSlope", {
-                get: /**
+                /**
                 * Get the perpendicular slope of the line (x/y).
                 * @propery perpSlope
                 * @return {Number}
                 * @public
                 */
-                function () {
+                get: function () {
                     return -((this.x2 - this.x1) / (this.y2 - this.y1));
                 },
                 enumerable: true,
@@ -19834,13 +20252,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Line.prototype, "yIntercept", {
-                get: /**
+                /**
                 * Get the y intercept for the line.
                 * @property yIntercept
                 * @return {Number}
                 * @property
                 */
-                function () {
+                get: function () {
                     return (this.y1 - this.slope * this.x1);
                 },
                 enumerable: true,
@@ -19888,8 +20306,8 @@ var Kiwi;
             * Check to see if this Line object intersects at any point with a passed Line.
             * Note: Both are treated as extending infinately through space.
             * @method intersectLineLine
-            * @param line {Line} The line you want to check for a Intersection with.
-            * @return {IntersectResult} The Intersect Result containing the collision information.
+            * @param line {Kiwi.Geom.Line} The line you want to check for a Intersection with.
+            * @return {Kiwi.Geom.IntersectResult} The Intersect Result containing the collision information.
             * @public
             */
             Line.prototype.intersectLineLine = function (line) {
@@ -19901,8 +20319,8 @@ var Kiwi;
             * @method perp
             * @param x {Number}
             * @param y {Number}
-            * @param [output = Line] {Line}
-            * @return {Line}
+            * @param [output = Line] {Kiwi.Geom.Line}
+            * @return {Kiwi.Geom.Line}
             * @public
             */
             Line.prototype.perp = function (x, y, output) {
@@ -19940,20 +20358,20 @@ var Kiwi;
     })(Kiwi.Geom || (Kiwi.Geom = {}));
     var Geom = Kiwi.Geom;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Geom
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Geom
-    */
     (function (Geom) {
         /**
         * Represents a 2d transformation matrix. This can be used to map points between different coordinate spaces. Matrices are used
         * by Transform objects to represent translation, scale and rotation transformations, and to determine where objects are in world space or camera space.
         * Objects such as entities and groups may be nested, and their associated transforms may represent how they are scaled, translated and rotated relative to a parent
         * transform.
-        * By concatenating an object's transformatkion matrix with it's ancestors matrices, it is possible to determine the absolute position of the object in world space.
+        * By concatenating an object's transformation matrix with it's ancestors matrices, it is possible to determine the absolute position of the object in world space.
         * See http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics for an in depth discussion of 2d tranformation matrices.
         *
         * @class Matrix
@@ -20173,7 +20591,7 @@ var Kiwi;
             * @return {Object} An object constructed from a literal with x and y properties.
             */
             Matrix.prototype.getPosition = function (output) {
-                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
+                if (typeof output === "undefined") { output = new Kiwi.Geom.Point; }
                 return output.setTo(this.tx, this.ty);
             };
 
@@ -20320,12 +20738,12 @@ var Kiwi;
             };
 
             Object.defineProperty(Matrix.prototype, "toString", {
-                get: /**
+                /**
                 * Returns a string representation of this object.
                 * @method toString
                 * @return {string} a string representation of the instance.
                 **/
-                function () {
+                get: function () {
                     return "[{Matrix (a=" + this.a + " b=" + this.b + " c=" + this.c + " d=" + this.d + " tx=" + this.tx + " ty=" + this.ty + ")}]";
                 },
                 enumerable: true,
@@ -20337,13 +20755,13 @@ var Kiwi;
     })(Kiwi.Geom || (Kiwi.Geom = {}));
     var Geom = Kiwi.Geom;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Geom
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Geom
-    */
     (function (Geom) {
         /**
         * Represents a location in a two-dimensional coordinate system, where x represents the horizontal axis and y represents the vertical axis.
@@ -20376,7 +20794,7 @@ var Kiwi;
             * @method polar
             * @param length {Number}  The length coordinate of the polar pair.
             * @param angle {Number}  The angle, in radians, of the polar pair.
-            * @return {Point} The new Cartesian Point object.
+            * @return {Kiwi.Geom.Point} The new Cartesian Point object.
             * @public
             **/
             Point.prototype.polar = function (distance, angle) {
@@ -20388,13 +20806,13 @@ var Kiwi;
             /**
             * Adds the coordinates of another point to the coordinates of this point to create a new point.
             * @method add
-            * @param toAdd {Point}  - The point to be added.
-            * @param output {Point}
-            * @return {Point} The new Point object.
+            * @param toAdd {Kiwi.Geom.Point}  - The point to be added.
+            * @param output {Kiwi.Geom.Point}
+            * @return {Kiwi.Geom.Point} The new Point object.
             * @public
             **/
             Point.prototype.add = function (toAdd, output) {
-                if (typeof output === "undefined") { output = new Point(); }
+                if (typeof output === "undefined") { output = new Point; }
                 return output.setTo(this.x + toAdd.x, this.y + toAdd.y);
             };
 
@@ -20403,7 +20821,7 @@ var Kiwi;
             * @method addTo
             * @param x {Number} - The amount to add to the x value of the point
             * @param y {Number} - The amount to add to the x value of the point
-            * @return {Point} This Point object.
+            * @return {Kiwi.Geom.Point} This Point object.
             * @public
             **/
             Point.prototype.addTo = function (x, y) {
@@ -20417,7 +20835,7 @@ var Kiwi;
             * @method subtractFrom
             * @param x {Number} - The amount to subtract from the x value of the point
             * @param y {Number} - The amount to subtract from the x value of the point
-            * @return {Point} This Point object.
+            * @return {Kiwi.Geom.Point} This Point object.
             * @public
             **/
             Point.prototype.subtractFrom = function (x, y) {
@@ -20429,7 +20847,7 @@ var Kiwi;
             /**
             * Inverts the x and y values of this point
             * @method invert
-            * @return {Point} This Point object.
+            * @return {Kiwi.Geom.Point} This Point object.
             * @public
             **/
             Point.prototype.invert = function () {
@@ -20469,7 +20887,7 @@ var Kiwi;
             * @method clampY
             * @param min {Number} The minimum value to clamp this Point to
             * @param max {Number} The maximum value to clamp this Point to
-            * @return {Point} This Point object.
+            * @return {Kiwi.Geom.Point} This Point object.
             * @public
             **/
             Point.prototype.clampY = function (min, max) {
@@ -20482,20 +20900,20 @@ var Kiwi;
             /**
             * Creates a copy of this Point.
             * @method clone
-            * @param [output = Point]{Point} Optional Point object. If given the values will be set into this object, otherwise a brand new Point object will be created and returned.
-            * @return {Point} The new Point object.
+            * @param [output = Point]{Kiwi.Geom.Point} Optional Point object. If given the values will be set into this object, otherwise a brand new Point object will be created and returned.
+            * @return {Kiwi.Geom.Point} The new Point object.
             * @public
             **/
             Point.prototype.clone = function (output) {
-                if (typeof output === "undefined") { output = new Point(); }
+                if (typeof output === "undefined") { output = new Point; }
                 return output.setTo(this.x, this.y);
             };
 
             /**
             * Copies the point data from the source Point object into this Point object.
             * @method copyFrom
-            * @param source {Point} The point to copy from.
-            * @return {Point} This Point object. Useful for chaining method calls.
+            * @param source {Kiwi.Geom.Point} The point to copy from.
+            * @return {Kiwi.Geom.Point} This Point object. Useful for chaining method calls.
             **/
             Point.prototype.copyFrom = function (source) {
                 return this.setTo(source.x, source.y);
@@ -20504,8 +20922,8 @@ var Kiwi;
             /**
             * Copies the point data from this Point object to the given target Point object.
             * @method copyTo
-            * @param target {Point} target - The point to copy to.
-            * @return {Point} The target Point object.
+            * @param target {Kiwi.Geom.Point} target - The point to copy to.
+            * @return {Kiwi.Geom.Point} The target Point object.
             **/
             Point.prototype.copyTo = function (target) {
                 return target.setTo(this.x, this.y);
@@ -20514,7 +20932,7 @@ var Kiwi;
             /**
             * Returns the distance from this Point object to the given Point object.
             * @method distanceTo
-            * @param target {Point} The destination Point object.
+            * @param target {Kiwi.Geom.Point} The destination Point object.
             * @param round {boolean} Round the distance to the nearest integer (default false)
             * @return {Number} The distance between this Point object and the destination Point object.
             * @public
@@ -20522,7 +20940,7 @@ var Kiwi;
             /**
             * Get the angle from this Point object to given Point object.
             * @method angleTo
-            * @param target {point} destination Point object.
+            * @param target {Kiwi.Geom.Point} destination Point object.
             * @return {Number} angle to point
             * @public
             */
@@ -20533,8 +20951,8 @@ var Kiwi;
             /**
             * Get the angle from this Point object to given X,Y coordinates.
             * @method angleTo
-            * @param x {number} x value.
-            * @param y {number} y value.
+            * @param x {Number} x value.
+            * @param y {Number} y value.
             * @return {Number} angle to point.
             */
             Point.prototype.angleToXY = function (x, y) {
@@ -20573,15 +20991,15 @@ var Kiwi;
                 }
             };
 
-            Point.distanceBetween = /**
+            /**
             * Returns the distance between the two Point objects.
             * @method distanceBetween
-            * @param pointA {Point} pointA - The first Point object.
-            * @param pointB {Point} pointB - The second Point object.
+            * @param pointA {Kiwi.Geom.Point} pointA - The first Point object.
+            * @param pointB {Kiwi.Geom.Point} pointB - The second Point object.
             * @param [round = Boolean] {boolean} round - Round the distance to the nearest integer (default false)
             * @return {Number} The distance between the two Point objects.
             **/
-            function (pointA, pointB, round) {
+            Point.distanceBetween = function (pointA, pointB, round) {
                 if (typeof round === "undefined") { round = false; }
                 var dx = pointA.x - pointB.x;
                 var dy = pointA.y - pointB.y;
@@ -20593,14 +21011,14 @@ var Kiwi;
                 }
             };
 
-            Point.polar = /**
+            /**
             * Creates a new point with cartesian coordinates from a pair of polar coordinates
             * @method polar
             * @param length {Number} The length coordinate of the polar pair.
             * @param angle {Number} The angle, in radians, of the polar pair.
-            * @return {Point} The new Cartesian Point object.
+            * @return {Kiwi.Geom.Point} The new Cartesian Point object.
             **/
-            function (length, angle) {
+            Point.polar = function (length, angle) {
                 return new Point(length * Math.cos(angle * Math.PI / 180), length * Math.sin(angle * Math.PI / 180));
             };
 
@@ -20608,7 +21026,7 @@ var Kiwi;
             * Returns true if the distance between this point and a target point is greater than or equal a specified distance.
             * This avoids using a costly square root operation
             * @method distanceCompare
-            * @param target {Point} The Point object to use for comparison.
+            * @param target {Kiwi.Geom.Point} The Point object to use for comparison.
             * @param distance {Number} The distance to use for comparison.
             * @return {boolean} True if distance is >= specified distance.
             * @public
@@ -20624,7 +21042,7 @@ var Kiwi;
             /**
             * Determines whether this Point object and the given point object are equal. They are equal if they have the same x and y values.
             * @method equals
-            * @param point {Point} The point to compare against.
+            * @param point {Kiwi.Geom.Point} The point to compare against.
             * @return {boolean} A value of true if the object is equal to this Point object; false if it is not equal.
             * @public
             **/
@@ -20636,17 +21054,17 @@ var Kiwi;
                 }
             };
 
-            Point.interpolate = /**
+            /**
             * Determines a point between two specified points. The parameter f determines where the new interpolated point is located relative to the two end points specified by parameters pt1 and pt2.
             * The closer the value of the parameter f is to 1.0, the closer the interpolated point is to the first point (parameter pt1). The closer the value of the parameter f is to 0, the closer the interpolated point is to the second point (parameter pt2).
             * @method interpolate
-            * @param pointA{Point} The first Point object.
-            * @param pointB {Point} The second Point object.
+            * @param pointA{Kiwi.Geom.Point} The first Point object.
+            * @param pointB {Kiwi.Geom.Point} The second Point object.
             * @param f {Number} The level of interpolation between the two points. Indicates where the new point will be, along the line between pt1 and pt2. If f=1, pt1 is returned; if f=0, pt2 is returned.
-            * @return {Point} The new interpolated Point object.
+            * @return {Kiwi.Geom.Point} The new interpolated Point object.
             * @public
             **/
-            function (pointA, pointB, f) {
+            Point.interpolate = function (pointA, pointB, f) {
                 var xDiff = pointB.x - pointA.x;
                 var yDiff = pointB.y - pointA.y;
                 return new Point(pointB.x - xDiff * f, pointB.y - yDiff * f);
@@ -20658,7 +21076,7 @@ var Kiwi;
             * @method offset
             * @param dx {Number} The amount by which to offset the horizontal coordinate, x.
             * @param dy {Number} The amount by which to offset the vertical coordinate, y.
-            * @return {Point} This Point object. Useful for chaining method calls.
+            * @return {Kiwi.Geom.Point} This Point object. Useful for chaining method calls.
             * @public
             **/
             Point.prototype.offset = function (dx, dy) {
@@ -20673,7 +21091,7 @@ var Kiwi;
             * @method setTo
             * @param x {Number} The horizontal position of this point.
             * @param y {Number} The vertical position of this point.
-            * @return {Point} This Point object. Useful for chaining method calls.
+            * @return {Kiwi.Geom.Point} This Point object. Useful for chaining method calls.
             * @public
             **/
             Point.prototype.setTo = function (x, y) {
@@ -20686,13 +21104,13 @@ var Kiwi;
             /**
             * Subtracts the coordinates of another point from the coordinates of this point to create a new point.
             * @method subtract
-            * @param point {Point} The point to be subtracted.
-            * @param output {Point} Optional Point object. If given the values will be set into this object, otherwise a brand new Point object will be created and returned.
-            * @return {Point} The new Point object.
+            * @param point {Kiwi.Geom.Point} The point to be subtracted.
+            * @param output {Kiwi.Geom.Point} Optional Point object. If given the values will be set into this object, otherwise a brand new Point object will be created and returned.
+            * @return {Kiwi.Geom.Point} The new Point object.
             * @public
             **/
             Point.prototype.subtract = function (point, output) {
-                if (typeof output === "undefined") { output = new Point(); }
+                if (typeof output === "undefined") { output = new Point; }
                 return output.setTo(this.x - point.x, this.y - point.y);
             };
 
@@ -20703,7 +21121,7 @@ var Kiwi;
             /**
             * Returns a string representation of this object.
             * @method toString
-            * @return {string} a string representation of the instance.
+            * @return {String} a string representation of the instance.
             * @public
             **/
             Point.prototype.toString = function () {
@@ -20715,13 +21133,13 @@ var Kiwi;
     })(Kiwi.Geom || (Kiwi.Geom = {}));
     var Geom = Kiwi.Geom;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Geom
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Geom
-    */
     (function (Geom) {
         /**
         * An area defined by its position, as indicated by its top-left corner (x,y) and width and height
@@ -20733,7 +21151,7 @@ var Kiwi;
         * @param [y = 0] {Number} The y coordinate of the top-left corner of the rectangle.
         * @param [width = 0] {Number} width The width of the rectangle in pixels.
         * @param [height = 0] {Number} height The height of the rectangle in pixels.
-        * @return {Rectangle} This rectangle object
+        * @return {Kiwi.Geom.Rectangle} This rectangle object
         *
         */
         var Rectangle = (function () {
@@ -20790,13 +21208,13 @@ var Kiwi;
                 get: function () {
                     return this.y + this.height;
                 },
-                set: /**
+                /**
                 * The sum of the y and height properties. Changing the bottom property of a Rectangle object has no effect on the x, y and width properties, but does change the height property.
                 * @property bottom
                 * @return {Number}
                 * @public
                 **/
-                function (value) {
+                set: function (value) {
                     if (value) {
                         if (value < this.y) {
                             this.height = 0;
@@ -20810,14 +21228,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Rectangle.prototype, "center", {
-                get: /**
+                /**
                 * Returns a Point containing the location of the center of the Rectangle, relative to the top left edge
                 * @property center
-                * @return {Point}
+                * @return {Kiwi.Geom.Point}
                 * @public
                 **/
-                function () {
-                    var output = new Geom.Point();
+                get: function () {
+                    var output = new Kiwi.Geom.Point();
                     return output.setTo(Math.round(this.width / 2), Math.round(this.height / 2));
                 },
                 enumerable: true,
@@ -20827,16 +21245,16 @@ var Kiwi;
 
             Object.defineProperty(Rectangle.prototype, "bottomRight", {
                 get: function () {
-                    var output = new Geom.Point();
+                    var output = new Kiwi.Geom.Point();
                     return output.setTo(this.right, this.bottom);
                 },
-                set: /**
+                /**
                 * Returns a Point containing the location of the Rectangle's bottom-right corner, determined by the values of the right and bottom properties.
                 * @property bottomRight
-                * @return {Point}
+                * @return {Kiwi.Geom.Point}
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     if (value) {
                         this.right = value.x;
                         this.bottom = value.y;
@@ -20851,13 +21269,13 @@ var Kiwi;
                 get: function () {
                     return this.x;
                 },
-                set: /**
+                /**
                 * The x coordinate of the top-left corner of the rectangle. Changing the left property of a Rectangle object has no effect on the y and height properties. However it does affect the width property, whereas changing the x value does not affect the width property.
                 * @property left
-                * @return {number}
+                * @return {Number}
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     if (value) {
                         var diff = this.x - value;
 
@@ -20881,13 +21299,13 @@ var Kiwi;
                 get: function () {
                     return this.x + this.width;
                 },
-                set: /**
+                /**
                 * The sum of the x and width properties. Changing the right property of a Rectangle object has no effect on the x, y and height properties. However it does affect the width property.
                 * @property right
                 * @return {Number}
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     if (value) {
                         if (value < this.x) {
                             this.width = 0;
@@ -20901,14 +21319,14 @@ var Kiwi;
             });
 
             Object.defineProperty(Rectangle.prototype, "size", {
-                get: /**
+                /**
                 * The size of the Rectangle object, expressed as a Point object with the values of the width and height properties.
                 * @property size
-                * @return {Point} The size of the Rectangle object
+                * @return {Kiwi.Geom.Point} The size of the Rectangle object
                 * @public
                 */
-                function () {
-                    var output = new Geom.Point();
+                get: function () {
+                    var output = new Kiwi.Geom.Point();
                     return output.setTo(this.width, this.height);
                 },
                 enumerable: true,
@@ -20916,13 +21334,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Rectangle.prototype, "volume", {
-                get: /**
+                /**
                 * The volume of the Rectangle object in pixels, derived from width * height
                 * @property volume
                 * @return {Number}
                 * @return
                 */
-                function () {
+                get: function () {
                     return this.width * this.height;
                 },
                 enumerable: true,
@@ -20930,13 +21348,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Rectangle.prototype, "perimeter", {
-                get: /**
+                /**
                 * The perimeter size of the Rectangle object in pixels. This is the sum of all 4 sides.
                 * @property perimeter
                 * @return {Number}
                 * @public
                 */
-                function () {
+                get: function () {
                     return (this.width * 2) + (this.height * 2);
                 },
                 enumerable: true,
@@ -20948,13 +21366,13 @@ var Kiwi;
                 get: function () {
                     return this.y;
                 },
-                set: /**
+                /**
                 * The y coordinate of the top-left corner of the rectangle. Changing the top property of a Rectangle object has no effect on the x and width properties. However it does affect the height property, whereas changing the y value does not affect the height property.
                 * @method top
                 * @return {Number}
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     if (value) {
                         var diff = this.y - value;
 
@@ -20976,16 +21394,16 @@ var Kiwi;
 
             Object.defineProperty(Rectangle.prototype, "topLeft", {
                 get: function () {
-                    var output = new Geom.Point();
+                    var output = new Kiwi.Geom.Point();
                     return output.setTo(this.x, this.y);
                 },
-                set: /**
+                /**
                 * The location of the Rectangle object's top-left corner, determined by the x and y coordinates of the point.
                 * @property topLeft
-                * @return {Point}
+                * @return {Kiwi.Geom.Point}
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     if (value) {
                         this.x = value.x;
                         this.y = value.y;
@@ -20998,12 +21416,12 @@ var Kiwi;
             /**
             * Returns a new Rectangle object with the same values for the x, y, width, and height properties as the original Rectangle object.
             * @method clone
-            * @param [output = Rectangle] {Rectangle} Optional Rectangle object. If given the values will be set into the object, otherwise a brand new Rectangle object will be created and returned.
-            * @return {Rectangle}
+            * @param [output = Rectangle] {Kiwi.Geom.Rectangle} Optional Rectangle object. If given the values will be set into the object, otherwise a brand new Rectangle object will be created and returned.
+            * @return {Kiwi.Geom.Rectangle}
             * @public
             **/
             Rectangle.prototype.clone = function (output) {
-                if (typeof output === "undefined") { output = new Rectangle(); }
+                if (typeof output === "undefined") { output = new Rectangle; }
                 return output.setTo(this.x, this.y, this.width, this.height);
             };
 
@@ -21025,7 +21443,7 @@ var Kiwi;
             /**
             * Determines whether the specified point is contained within the rectangular region defined by this Rectangle object. This method is similar to the Rectangle.contains() method, except that it takes a Point object as a parameter.
             * @method containsPoint
-            * @param {Point} point The point object being checked. Can be Kiwi.Geom.Point or any object with .x and .y values.
+            * @param {Kiwi.Geom.Point} point The point object being checked. Can be Kiwi.Geom.Point or any object with .x and .y values.
             * @return {boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
             **/
             Rectangle.prototype.containsPoint = function (point) {
@@ -21035,11 +21453,12 @@ var Kiwi;
             /**
             * Determines whether the Rectangle object specified by the rect parameter is contained within this Rectangle object. A Rectangle object is said to contain another if the second Rectangle object falls entirely within the boundaries of the first.
             * @method containsRect
-            * @param rect {Rectangle} The rectangle object being checked.
+            * @param rect {Kiwi.Geom.Rectangle} The rectangle object being checked.
             * @return {boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
             * @public
             **/
             Rectangle.prototype.containsRect = function (rect) {
+                //	If the given rect has a larger volume than this one then it can never contain it
                 if (rect.volume > this.volume) {
                     return false;
                 }
@@ -21054,8 +21473,8 @@ var Kiwi;
             /**
             * Copies all of rectangle data from the source Rectangle object into the calling Rectangle object.
             * @method copyFrom
-            * @param source {Rectangle} The source rectangle object to copy from
-            * @return {Rectangle} This rectangle object
+            * @param source {Kiwi.Geom.Rectangle} The source rectangle object to copy from
+            * @return {Kiwi.Geom.Rectangle} This rectangle object
             * @public
             **/
             Rectangle.prototype.copyFrom = function (source) {
@@ -21093,7 +21512,7 @@ var Kiwi;
             * @method inflate
             * @param dx {Number} dx The amount to be added to the left side of this Rectangle.
             * @param dy {Number} dy The amount to be added to the bottom side of this Rectangle.
-            * @return {Rectangle} This Rectangle object.
+            * @return {Kiwi.Geom.Rectangle} This Rectangle object.
             * @public
             **/
             Rectangle.prototype.inflate = function (dx, dy) {
@@ -21111,8 +21530,8 @@ var Kiwi;
             /**
             * Increases the size of the Rectangle object. This method is similar to the Rectangle.inflate() method except it takes a Point object as a parameter.
             * @method inflatePoint
-            * @param point {Point} The x property of this Point object is used to increase the horizontal dimension of the Rectangle object. The y property is used to increase the vertical dimension of the Rectangle object.
-            * @return {Rectangle} This Rectangle object.
+            * @param point {Kiwi.Geom.Point} The x property of this Point object is used to increase the horizontal dimension of the Rectangle object. The y property is used to increase the vertical dimension of the Rectangle object.
+            * @return {Kiwi.Geom.Rectangle} This Rectangle object.
             * @public
             **/
             Rectangle.prototype.inflatePoint = function (point) {
@@ -21122,12 +21541,12 @@ var Kiwi;
             /**
             * If the Rectangle object specified in the toIntersect parameter intersects with this Rectangle object, returns the area of intersection as a Rectangle object. If the rectangles do not intersect, this method returns an empty Rectangle object with its properties set to 0.
             * @method intersection
-            * @param toIntersect {Rectangle} The Rectangle object to compare against to see if it intersects with this Rectangle object.
-            * @param output {Rectangle} Optional Rectangle object. If given the intersection values will be set into this object, otherwise a brand new Rectangle object will be created and returned.
-            * @return {Rectangle} A Rectangle object that equals the area of intersection. If the rectangles do not intersect, this method returns an empty Rectangle object; that is, a rectangle with its x, y, width, and height properties set to 0.
+            * @param toIntersect {Kiwi.Geom.Rectangle} The Rectangle object to compare against to see if it intersects with this Rectangle object.
+            * @param output {Kiwi.Geom.Rectangle} Optional Rectangle object. If given the intersection values will be set into this object, otherwise a brand new Rectangle object will be created and returned.
+            * @return {Kiwi.Geom.Rectangle} A Rectangle object that equals the area of intersection. If the rectangles do not intersect, this method returns an empty Rectangle object; that is, a rectangle with its x, y, width, and height properties set to 0.
             **/
             Rectangle.prototype.intersection = function (toIntersect, output) {
-                if (typeof output === "undefined") { output = new Rectangle(); }
+                if (typeof output === "undefined") { output = new Rectangle; }
                 if (this.intersects(toIntersect) === true) {
                     output.x = Math.max(toIntersect.x, this.x);
                     output.y = Math.max(toIntersect.y, this.y);
@@ -21141,7 +21560,7 @@ var Kiwi;
             /**
             * Determines whether the object specified in the toIntersect parameter intersects with this Rectangle object. This method checks the x, y, width, and height properties of the specified Rectangle object to see if it intersects with this Rectangle object.
             * @method intersects
-            * @param toIntersect {Rectangle} The Rectangle object to compare against to see if it intersects with this Rectangle object.
+            * @param toIntersect {Kiwi.Geom.Rectangle} The Rectangle object to compare against to see if it intersects with this Rectangle object.
             * @return {boolean} A value of true if the specified object intersects with this Rectangle object; otherwise false.
             * @public
             **/
@@ -21168,7 +21587,7 @@ var Kiwi;
             /**
             * Checks for overlaps between this Rectangle and the given Rectangle. Returns an object with boolean values for each check.
             * @method overlap
-            * @param rect {Rectangle}
+            * @param rect {Kiwi.Geom.Rectangle}
             * @return {Object} An object containing the overlapping details between the two Rectangles
             * @todo Move to an IntersectResult? Do not want to be generating all of these values each time this is called
             * @public
@@ -21214,7 +21633,7 @@ var Kiwi;
             * @method offset
             * @param dx {Number} Moves the x value of the Rectangle object by this amount.
             * @param dy {Number} Moves the y value of the Rectangle object by this amount.
-            * @return {Rectangle} This Rectangle object.
+            * @return {Kiwi.Geom.Rectangle} This Rectangle object.
             * @public
             **/
             Rectangle.prototype.offset = function (dx, dy) {
@@ -21229,8 +21648,8 @@ var Kiwi;
             /**
             * Adjusts the location of the Rectangle object using a Point object as a parameter. This method is similar to the Rectangle.offset() method, except that it takes a Point object as a parameter.
             * @method offsetPoint
-            * @param point {Point} A Point object to use to offset this Rectangle object.
-            * @return {Rectangle} This Rectangle object.
+            * @param point {Kiwi.Geom.Point} A Point object to use to offset this Rectangle object.
+            * @return {Kiwi.Geom.Rectangle} This Rectangle object.
             **/
             Rectangle.prototype.offsetPoint = function (point) {
                 return this.offset(point.x, point.y);
@@ -21239,7 +21658,7 @@ var Kiwi;
             /**
             * Sets all of the Rectangle object's properties to 0. A Rectangle object is empty if its width or height is less than or equal to 0.
             * @method setEmpty
-            * @return {Rectangle} This rectangle object
+            * @return {Kiwi.Geom.Rectangle} This rectangle object
             **/
             Rectangle.prototype.setEmpty = function () {
                 return this.setTo(0, 0, 0, 0);
@@ -21252,7 +21671,7 @@ var Kiwi;
             * @param y {Number} y The y coordinate of the top-left corner of the rectangle.
             * @param width {Number} width The width of the rectangle in pixels.
             * @param height {Number} height The height of the rectangle in pixels.
-            * @return {Rectangle} This rectangle object
+            * @return {Kiwi.Geom.Rectangle} This rectangle object
             **/
             Rectangle.prototype.setTo = function (x, y, width, height) {
                 if (!isNaN(x) && !isNaN(y) && !isNaN(width) && !isNaN(height)) {
@@ -21274,12 +21693,12 @@ var Kiwi;
             /**
             * Adds two rectangles together to create a new Rectangle object, by filling in the horizontal and vertical space between the two rectangles.
             * @method union
-            * @param toUnion{Rectangle} toUnion A Rectangle object to add to this Rectangle object.
-            * @param [output = Rectangle] {Rectangle} output Optional Rectangle object. If given the new values will be set into this object, otherwise a brand new Rectangle object will be created and returned.
-            * @return {Rectangle} A Rectangle object that is the union of the two rectangles.
+            * @param toUnion{Kiwi.Geom.Rectangle} toUnion A Rectangle object to add to this Rectangle object.
+            * @param [output = Rectangle] {Kiwi.Geom.Rectangle} output Optional Rectangle object. If given the new values will be set into this object, otherwise a brand new Rectangle object will be created and returned.
+            * @return {Kiwi.Geom.Rectangle} A Rectangle object that is the union of the two rectangles.
             **/
             Rectangle.prototype.union = function (toUnion, output) {
-                if (typeof output === "undefined") { output = new Rectangle(); }
+                if (typeof output === "undefined") { output = new Rectangle; }
                 return output.setTo(Math.min(toUnion.x, this.x), Math.min(toUnion.y, this.y), Math.max(toUnion.right, this.right), Math.max(toUnion.bottom, this.bottom));
             };
 
@@ -21288,12 +21707,12 @@ var Kiwi;
             * @method scale
             * @param x {number}
             * @param y {number}
-            * @param translation {Point}
-            * @return {Rectangle}
+            * @param translation {Kiwi.Geom.Point}
+            * @return {Kiwi.Geom.Rectangle}
             * @public
             **/
             Rectangle.prototype.scale = function (x, y, translation) {
-                var trans = new Kiwi.Geom.Transform();
+                var trans = new Kiwi.Geom.Transform;
                 trans.scaleX = x;
                 trans.scaleY = y;
                 trans.x = translation.x;
@@ -21312,7 +21731,7 @@ var Kiwi;
             /**
             * Returns a string representation of this object.
             * @method toString
-            * @return {string} a string representation of the instance.
+            * @return {String} a string representation of the instance.
             **/
             Rectangle.prototype.toString = function () {
                 return "[{Rectangle (x=" + this.x + " y=" + this.y + " width=" + this.width + " height=" + this.height + " isEmpty=" + this.isEmpty() + ")}]";
@@ -21323,13 +21742,13 @@ var Kiwi;
     })(Kiwi.Geom || (Kiwi.Geom = {}));
     var Geom = Kiwi.Geom;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Geom
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Geom
-    */
     (function (Geom) {
         /**
         * Represents position, scale, rotation and rotationPoint of an Entity.
@@ -21410,7 +21829,7 @@ var Kiwi;
                 this._rotPointY = 0;
                 this.setTransform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY);
 
-                this._matrix = new Geom.Matrix();
+                this._matrix = new Kiwi.Geom.Matrix();
 
                 this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
 
@@ -21430,13 +21849,13 @@ var Kiwi;
                 get: function () {
                     return this._x;
                 },
-                set: /**
+                /**
                 * Return the X value of the transform.
                 * @property x
                 * @type Number
                 * @return {Number} The X value of the transform.
                 */
-                function (value) {
+                set: function (value) {
                     this._x = value;
                 },
                 enumerable: true,
@@ -21447,14 +21866,14 @@ var Kiwi;
                 get: function () {
                     return this._y;
                 },
-                set: /**
+                /**
                 * Return the Y value of the transform.
                 * @property y
                 * @type Number
                 * @return {Number} The Y value of the transform.
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     this._y = value;
                 },
                 enumerable: true,
@@ -21466,14 +21885,14 @@ var Kiwi;
                 get: function () {
                     return this._scaleX;
                 },
-                set: /**
+                /**
                 * Return the X scale value of the transform.
                 * @property scaleX
                 * @type Number
                 * @return {Number} The X value of the transform.
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     this._scaleX = value;
                 },
                 enumerable: true,
@@ -21484,14 +21903,14 @@ var Kiwi;
                 get: function () {
                     return this._scaleY;
                 },
-                set: /**
+                /**
                 * Return the Y scale value of the transform.
                 * @property scaleY
                 * @type Number
                 * @return {Number} The Y value of the transform.
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     this._scaleY = value;
                 },
                 enumerable: true,
@@ -21503,13 +21922,13 @@ var Kiwi;
                 get: function () {
                     return this._rotation;
                 },
-                set: /**
+                /**
                 * Return the rotation value of the transform in radians.
                 * @property rotation
                 * @return {Number} The rotation value of the transform.
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     this._rotation = value;
                 },
                 enumerable: true,
@@ -21521,13 +21940,13 @@ var Kiwi;
                 get: function () {
                     return this._rotPointX;
                 },
-                set: /**
+                /**
                 * Return the Rotation value from the x axis.
                 * @property rotPointX
                 * @return {Number} The registration value from the x axis.
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     this._rotPointX = value;
                 },
                 enumerable: true,
@@ -21539,13 +21958,13 @@ var Kiwi;
                 get: function () {
                     return this._rotPointY;
                 },
-                set: /**
+                /**
                 * Return the rotation value from the y axis.
                 * @public rotY
                 * @return {Number} The rotation value from the y axis.
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     this._rotPointY = value;
                 },
                 enumerable: true,
@@ -21553,12 +21972,12 @@ var Kiwi;
             });
 
             Object.defineProperty(Transform.prototype, "matrix", {
-                get: /**
+                /**
                 * Return the Matrix being used by this Transform
                 * @property matrix
-                * @return {Matrix} The Matrix being used by this Transform
+                * @return {Kiwi.Geom.Matrix} The Matrix being used by this Transform
                 */
-                function () {
+                get: function () {
                     return this._matrix;
                 },
                 enumerable: true,
@@ -21566,13 +21985,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Transform.prototype, "worldX", {
-                get: /**
+                /**
                 * Return the x of this transform translated to world space.
                 * @property worldX
                 * @return {Number} x coordinate in world space
                 * @public
                 */
-                function () {
+                get: function () {
                     return this.getConcatenatedMatrix().tx;
                 },
                 enumerable: true,
@@ -21580,13 +21999,13 @@ var Kiwi;
             });
 
             Object.defineProperty(Transform.prototype, "worldY", {
-                get: /**
+                /**
                 * Return the y of this transform translated to world space.
                 * @property worldY
                 * @return {Number} y coordinate in world space
                 * @public
                 */
-                function () {
+                get: function () {
                     return this.getConcatenatedMatrix().ty;
                 },
                 enumerable: true,
@@ -21598,13 +22017,13 @@ var Kiwi;
                 get: function () {
                     return this._parent;
                 },
-                set: /**
+                /**
                 * Return the parent Transform, if any.
                 * @property parent
-                * @return {Transform} The parent Transform, or null.
+                * @return {Kiwi.Geom.Transform} The parent Transform, or null.
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     if (!this.checkAncestor(value)) {
                         this._parent = value;
                     }
@@ -21618,7 +22037,7 @@ var Kiwi;
             * @method setPosition
             * @param x {Number} x.
             * @param y {Number} y.
-            * @return {Transform} This object.
+            * @return {Kiwi.Geom.Transform} This object.
             * @public
             */
             Transform.prototype.setPosition = function (x, y) {
@@ -21633,7 +22052,7 @@ var Kiwi;
             * Set the X and Y values of the transform from a point.
             * @method setPositionPoint
             * @param point {Kiwi.Geom.Point} point.
-            * @return {Transform} This object.
+            * @return {Kiwi.Geom.Transform} This object.
             * @public
             */
             Transform.prototype.setPositionFromPoint = function (point) {
@@ -21647,8 +22066,8 @@ var Kiwi;
             /**
             * Translate the X and Y value of the transform by point components.
             * @method translatePositionFromPoint
-            * @param point {Point} point.
-            * @return {Transform} This object.
+            * @param point {Kiwi.Geom.Point} point.
+            * @return {Kiwi.Geom.Transform} This object.
             */
             Transform.prototype.translatePositionFromPoint = function (point) {
                 this._x += point.x;
@@ -21665,21 +22084,22 @@ var Kiwi;
             * @public
             */
             Transform.prototype.getPositionPoint = function (output) {
-                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
+                if (typeof output === "undefined") { output = new Kiwi.Geom.Point; }
                 return output.setTo(this._x, this._y);
             };
 
             Object.defineProperty(Transform.prototype, "scale", {
-                set: /**
+                /**
                 * Set the X and Y scale value of the transform.
                 * @method scale
                 * @param value {Number}
-                * @return {Transform} This object.
+                * @return {Kiwi.Geom.Transform} This object.
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     this._scaleX = value;
                     this._scaleY = value;
+                    //this.owner.dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -21695,7 +22115,7 @@ var Kiwi;
             * @param rotation {Number} rotation. Rotation of the transform in radians.
             * @param rotX{Number} rotX. Rotation offset on X axis.
             * @param rotY{Number} rotY. Rotation offset on Y axis.
-            * @return {Transform} This object.
+            * @return {Kiwi.Geom.Transform} This object.
             * @public
             */
             Transform.prototype.setTransform = function (x, y, scaleX, scaleY, rotation, rotPointX, rotPointY) {
@@ -21724,7 +22144,7 @@ var Kiwi;
             /**
             * Return the parent matrix of the transform. If there is no parent then null is returned.
             * @method getParentMatrix
-            * @return {Matrix} The parent transform matrix.
+            * @return {Kiwi.Geom.Matrix} The parent transform matrix.
             * @public
             */
             Transform.prototype.getParentMatrix = function () {
@@ -21739,7 +22159,7 @@ var Kiwi;
             * Return the transformation matrix that concatenates this transform with all ancestor transforms.
             * If there is no parent then this will return a matrix the same as this transforms matrix.
             * @method getConcatenatedMatrix
-            * @return {Matrix} The concatenated matrix.
+            * @return {Kiwi.Geom.Matrix} The concatenated matrix.
             * @public
             */
             Transform.prototype.getConcatenatedMatrix = function () {
@@ -21786,8 +22206,8 @@ var Kiwi;
             /**
             * Apply this matrix to a an object with x and y properties representing a point and return the transformed point.
             * @method transformPoint
-            * @param point {Point} point
-            * @return {Point}
+            * @param point {Kiwi.Geom.Point} point
+            * @return {Kiwi.Geom.Point}
             * @public
             */
             Transform.prototype.transformPoint = function (point) {
@@ -21799,8 +22219,8 @@ var Kiwi;
             /**
             * Copy another transforms data to this transform. A clone of the source matrix is created for the matrix property.
             * @method copyFrom
-            * @param transform {Transform} transform. The tranform to be copied from.
-            * @return {Transform} This object.
+            * @param transform {Kiwi.Geom.Transform} transform. The tranform to be copied from.
+            * @return {Kiwi.Geom.Transform} This object.
             * @public
             */
             Transform.prototype.copyFrom = function (source) {
@@ -21817,8 +22237,8 @@ var Kiwi;
             /**
             * Copy this transforms data to the destination Transform. A clone of this transforms matrix is created in the destination Transform Matrix.
             * @method copyTo
-            * @param destination {Transform} The tranform to copy to.
-            * @return {Transform} This object.
+            * @param destination {Kiwi.Geom.Transform} The tranform to copy to.
+            * @return {Kiwi.Geom.Transform} This object.
             * @public
             */
             Transform.prototype.copyTo = function (destination) {
@@ -21830,8 +22250,8 @@ var Kiwi;
             /**
             * Return a clone of this transform.
             * @method clone
-            * @param output {Transform} A Transform to copy the clone in to. If none is given a new Transform object will be made.
-            * @return {Transform} A clone of this object.
+            * @param output {Kiwi.Geom.Transform} A Transform to copy the clone in to. If none is given a new Transform object will be made.
+            * @return {Kiwi.Geom.Transform} A clone of this object.
             * @public
             */
             Transform.prototype.clone = function (output) {
@@ -21844,7 +22264,7 @@ var Kiwi;
             /**
             * Recursively check that a transform does not appear as its own ancestor
             * @method checkAncestor
-            * @param transform{Transform} The Transform to check.
+            * @param transform{Kiwi.Geom.Transform} The Transform to check.
             * @return {boolean} Returns true if the given transform is the same as this or an ancestor, otherwise false.
             * @public
             */
@@ -21862,13 +22282,13 @@ var Kiwi;
             };
 
             Object.defineProperty(Transform.prototype, "toString", {
-                get: /**
+                /**
                 * Return a string represention of this object.
                 * @method toString
-                * @return {string} A string represention of this object.
+                * @return {String} A string represention of this object.
                 * @public
                 */
-                function () {
+                get: function () {
                     return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._rotPointX + " regY=" + this.rotPointY + " matrix=" + this._matrix + ")}]";
                 },
                 enumerable: true,
@@ -21880,13 +22300,13 @@ var Kiwi;
     })(Kiwi.Geom || (Kiwi.Geom = {}));
     var Geom = Kiwi.Geom;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Geom
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Geom
-    */
     (function (Geom) {
         /**
         * A two dimensional vector object for storing and manipulating x and y vector components.
@@ -21896,7 +22316,7 @@ var Kiwi;
         * @constructor
         * @param {Number} x The x component of the vector.
         * @param {Number} y The y component of the vector.
-        * @return {Vector2}
+        * @return {Kiwi.Geom.Vector2}
         */
         var Vector2 = (function () {
             function Vector2(x, y) {
@@ -21914,46 +22334,46 @@ var Kiwi;
                 return "Vector2";
             };
 
-            Vector2.fromAngle = /**
+            /**
             * Generate a Vector2 from an angle
             * @method fromAngle
             * @param angle {Number} The angle to generate the Vector2 from.
             * @static
-            * @return {Vector2} A new Vector2.
+            * @return {Kiwi.Geom.Vector2} A new Vector2.
             */
-            function (angle) {
+            Vector2.fromAngle = function (angle) {
                 return new Vector2(Math.cos(angle), Math.sin(angle));
             };
 
-            Vector2.randomRadius = /**
+            /**
             * Generate a random Vector2 within a given radius.
             * @method randomRadius
             * @param radius {Number} The size of the radius to use.
             * @static
-            * @return {Vector2} A new Vector2.
+            * @return {Kiwi.Geom.Vector2} A new Vector2.
             * @public
             */
-            function (radius) {
+            Vector2.randomRadius = function (radius) {
                 return new Vector2(Math.random() * 2 - 1, Math.random() * 2 - 1).multiplyScalar(radius);
             };
 
-            Vector2.fromPoint = /**
+            /**
             * Generate a Vector2 from a point.
             * @method fromPoint
-            * @param point {Point} point.
+            * @param point {Kiwi.Geom.Point} point.
             * @static
-            * @return {Vector2} A new Vector2.
+            * @return {Kiwi.Geom.Vector2} A new Vector2.
             * @public
             */
-            function (point) {
+            Vector2.fromPoint = function (point) {
                 return new Vector2(point.x, point.y);
             };
 
             /**
             * Add each component of another Vector2 to this vectors components.
             * @method add
-            * @param {Vector2} Vector2 to add.
-            * @return {Vector2} A new Vector2 containing the product.
+            * @param {Kiwi.Geom.Vector2} Vector2 to add.
+            * @return {Kiwi.Geom.Vector2} A new Vector2 containing the product.
             */
             Vector2.prototype.add = function (vector2) {
                 return new Vector2(this.x + vector2.x, this.y + vector2.y);
@@ -21962,7 +22382,7 @@ var Kiwi;
             /**
             * Add only the x component of another Vector2 to this vector.
             * @method addX
-            * @param vector2 {Vector2} Vector2 to add.
+            * @param vector2 {Kiwi.Geom.Vector2} Vector2 to add.
             * @return {Vector2} A new Vector2 containing the result.
             * @public
             */
@@ -21973,8 +22393,8 @@ var Kiwi;
             /**
             * Add only the y component of another Vector2 to this vector.
             * @method addY
-            * @param vector2 {Vector2} Vector2 to add.
-            * @return {Vector2} A new Vector2 containing the result.
+            * @param vector2 {Kiwi.Geom.Vector2} Vector2 to add.
+            * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result.
             */
             Vector2.prototype.addY = function (vector2) {
                 return new Vector2(this.x, this.y + vector2.y);
@@ -21983,8 +22403,8 @@ var Kiwi;
             /**
             * Subtract each component of another Vector2 from this vectors components.
             * @method subtract
-            * @param vector2 {Vector2} Vector2 to subtract.
-            * @return {Vector2} A new Vector2 containing the result.
+            * @param vector2 {Kiwi.Geom.Vector2} Vector2 to subtract.
+            * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result.
             * @public
             */
             Vector2.prototype.subtract = function (vector2) {
@@ -21994,8 +22414,8 @@ var Kiwi;
             /**
             * Multiply each component of another Vector2 with this vectors components.
             * @method multiply
-            * @param vector2 {Vector2} Vector2 to multiply.
-            * @return {Vector2} A new Vector2 containing the result.
+            * @param vector2 {Kiwi.Geom.Vector2} Vector2 to multiply.
+            * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result.
             * @public
             */
             Vector2.prototype.multiply = function (vector2) {
@@ -22006,7 +22426,7 @@ var Kiwi;
             * Multiply each component of this vector with a scalar number.
             * @method multiplyScalar
             * @param scalar {Number} Scalar to multiply.
-            * @return {Vector2} A new Vector2 containing the result.
+            * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result.
             * @public
             */
             Vector2.prototype.multiplyScalar = function (scalar) {
@@ -22016,7 +22436,7 @@ var Kiwi;
             /**
             * Calculate the dot product if a Vector2 with this Vector2.
             * @method dot
-            * @param vector2{Vector2} Vector2 to dot with this Vector2.
+            * @param vector2{Kiwi.Geom.Vector2} Vector2 to dot with this Vector2.
             * @return {Number} Result of dot product.
             * @public
             */
@@ -22047,7 +22467,7 @@ var Kiwi;
             /**
             * Calculate a normalised unit Vector2 from this Vector2.
             * @method unit
-            * @return {Vector2} a new Unit Length Vector2.
+            * @return {Kiwi.Geom.Vector2} a new Unit Length Vector2.
             * @public
             */
             Vector2.prototype.unit = function () {
@@ -22068,7 +22488,7 @@ var Kiwi;
             /**
             * Increase each component of the Vector to the closest upper round value.
             * @method ceil
-            * @return {Vector2} a rounded up Vector2.
+            * @return {Kiwi.Geom.Vector2} a rounded up Vector2.
             * @public
             */
             Vector2.prototype.ceil = function () {
@@ -22078,7 +22498,7 @@ var Kiwi;
             /**
             * Round each component of the Vector to the closest round value.
             * @method round
-            * @return {Vector2} a rounded Vector2.
+            * @return {Kiwi.Geom.Vector2} a rounded Vector2.
             * @public
             */
             Vector2.prototype.round = function () {
@@ -22088,9 +22508,9 @@ var Kiwi;
             /**
             * Clamp the vector between a maximum and minimum Vector2 range component-wise.
             * @method clamp
-            * @param min {Vector2} min. Minimum values for Vector2.
-            * @param max {Vector2} max. Maximum values for Vector2.
-            * @return {Vector2} a clamped Vector2.
+            * @param min {Kiwi.Geom.Vector2} min. Minimum values for Vector2.
+            * @param max {Kiwi.Geom.Vector2} max. Maximum values for Vector2.
+            * @return {Kiwi.Geom.Vector2} a clamped Vector2.
             * @public
             */
             Vector2.prototype.clamp = function (min, max) {
@@ -22100,7 +22520,7 @@ var Kiwi;
             /**
             * Calculate a Vector2 perpendicular to this Vector2.
             * @method perp
-            * @return {Vector2} the perpendicular Vector2.
+            * @return {Kiwi.Geom.Vector2} the perpendicular Vector2.
             * @public
             */
             Vector2.prototype.perp = function () {
@@ -22110,7 +22530,7 @@ var Kiwi;
             /**
             * Calculate a Vector2 opposite to this Vector2.
             * @method neg
-            * @return {Vector2} the opposite Vector2.
+            * @return {Kiwi.Geom.Vector2} the opposite Vector2.
             * @public
             */
             Vector2.prototype.neg = function () {
@@ -22120,7 +22540,7 @@ var Kiwi;
             /**
             * Check if two Vector2s from equal components.
             * @method equal
-            * @param vector2 {Vector2} vector2. Vector2 to check against.
+            * @param vector2 {Kiwi.Geom.Vector2} vector2. Vector2 to check against.
             * @return {boolean} returns true if equal.
             * @public
             */
@@ -22131,17 +22551,17 @@ var Kiwi;
             /**
             * Get a Point object with the same components as this Vector2.
             * @method point
-            * @return {Point} A new Point.
+            * @return {Kiwi.Geom.Point} A new Point.
             * @public
             */
             Vector2.prototype.point = function () {
-                return new Geom.Point(this.x, this.y);
+                return new Kiwi.Geom.Point(this.x, this.y);
             };
 
             /**
             * Set both components to zero.
             * @method clear
-            * @return {Vector2} This object.
+            * @return {Kiwi.Geom.Vector2} This object.
             * @public
             */
             Vector2.prototype.clear = function () {
@@ -22153,8 +22573,8 @@ var Kiwi;
             /**
             * Get a clone of this Vector2.
             * @method clone
-            * @param vector2 {Vector2} vector2. A vector2 that will be cloned to. Optional.
-            * @return {Vector2} Either a new cloned Vector2 or the output vector with cloned components.
+            * @param output {Kiwi.Geom.Vector2} vector2. A vector2 that will be cloned to. Optional.
+            * @return {Kiwi.Geom.Vector2} Either a new cloned Vector2 or the output vector with cloned components.
             * @public
             */
             Vector2.prototype.clone = function (output) {
@@ -22168,8 +22588,8 @@ var Kiwi;
             /**
             * Copy components from another Vector2.
             * @method copyFrom
-            * @param source {Vector2} A Vector2 to copy from.
-            * @return {Vector2} This object.
+            * @param source {Kiwi.Geom.Vector2} A Vector2 to copy from.
+            * @return {Kiwi.Geom.Vector2} This object.
             * @public
             */
             Vector2.prototype.copyFrom = function (source) {
@@ -22181,8 +22601,8 @@ var Kiwi;
             /**
             * Copy components to another Vector2.
             * @method copyTo
-            * @param target {Vector2} A Vector2 to copy to.
-            * @return {Vector2} The supplied Vector2.
+            * @param target {Kiwi.Geom.Vector2} A Vector2 to copy to.
+            * @return {Kiwi.Geom.Vector2} The supplied Vector2.
             * @public
             */
             Vector2.prototype.copyTo = function (target) {
@@ -22196,7 +22616,7 @@ var Kiwi;
             * @method setTo
             * @param x {Number} x component to set.
             * @param y {Number} y component to set.
-            * @return {Vector2} This object.
+            * @return {Kiwi.Geom.Vector2} This object.
             * @public
             */
             Vector2.prototype.setTo = function (x, y) {
@@ -22208,7 +22628,7 @@ var Kiwi;
             /**
             * Get a string representation of this object.
             * @method toString
-            * @return {string} This object as a string.
+            * @return {String} This object as a string.
             */
             Vector2.prototype.toString = function () {
                 return '[{Vector2 (x=' + this.x + ' y=' + this.y + ')}]';
@@ -22219,14 +22639,14 @@ var Kiwi;
     })(Kiwi.Geom || (Kiwi.Geom = {}));
     var Geom = Kiwi.Geom;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule HUD
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule HUD
-    *
-    */
     (function (HUD) {
         /**
         * A HUDDisplay is a container for which you can add/removes widget on, and is more used to manage the widgets that are being displayed on it.
@@ -22236,7 +22656,7 @@ var Kiwi;
         * @class HUDDisplay
         * @namespace Kiwi.HUD
         * @constructor
-        * @param game {Game} The game that this HUD Display belongs to.
+        * @param game {Kiwi.Game} The game that this HUD Display belongs to.
         * @param name {string} The name of this display.
         * @return HUDDisplay
         */
@@ -22266,7 +22686,7 @@ var Kiwi;
             /**
             * Returns the type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "HUDDisplay"
             * @public
             */
             HUDDisplay.prototype.objType = function () {
@@ -22277,7 +22697,7 @@ var Kiwi;
             * Adds a widget to the HUDDisplay. Returns a boolean as an indication of whether or not it was successful.
             *
             * @method addWidget
-            * @param widget {HUDWidget}  The widget to be added to the Display
+            * @param widget {Kiwi.HUD.HUDWidget}  The widget to be added to the Display
             * @return {Boolean} If it was successful or not.
             * @public
             */
@@ -22297,7 +22717,7 @@ var Kiwi;
             * Removes a singular widget from the display. Returns a boolean as an indication of if anything happened or not.
             *
             * @method removeWidget
-            * @param widget {HUDWidget} The widget to be removed.
+            * @param widget {Kiwi.HUD.HUDWidget} The widget to be removed.
             * @return {boolean} If it was successful or not.
             * @public
             */
@@ -22331,7 +22751,7 @@ var Kiwi;
             /**
             * Removes a widget from on the HUDDisplay.
             * @method removeFromContainer
-            * @param widget {HUDWidget} The Widget to be removed.
+            * @param widget {Kiwi.HUD.HUDWidget} The Widget to be removed.
             * @returns {boolean}
             */
             HUDDisplay.prototype.removeFromContainer = function (widget) {
@@ -22347,7 +22767,7 @@ var Kiwi;
             };
 
             /**
-            * Update loop
+            * Update loop.
             * @method update
             * @public
             */
@@ -22381,13 +22801,13 @@ var Kiwi;
                         return this.container.className;
                     }
                 },
-                set: /**
+                /**
                 * The class name that the container element that this HUDWidget current has.
                 * @property class
                 * @type {String}
                 * @public
                 */
-                function (cssClass) {
+                set: function (cssClass) {
                     if (this._device == Kiwi.TARGET_BROWSER) {
                         this.container.className = cssClass;
                     }
@@ -22401,16 +22821,16 @@ var Kiwi;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
+/**
+* The HUD (Heads Up Display) is a section that handles the displayment of information that you always want visible to user.
+* This section is managed differently to normal GameObjects, where the difference being that HUD items aren't added to a Canvas but are DOM elements instead. Since they DOM elements you can style these elements using a CSS sheet if you wish.
+*
+* @module Kiwi
+* @submodule HUD
+* @main HUD
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    * The HUD (Heads Up Display) is a section that handles the displayment of information that you always want visible to user.
-    * This section is managed differently to normal GameObjects, where the difference being that HUD items aren't added to a Canvas but are DOM elements instead. Since they DOM elements you can style these elements using a CSS sheet if you wish.
-    *
-    * @module Kiwi
-    * @submodule HUD
-    * @main HUD
-    */
     (function (HUD) {
         /**
         * This class manages all of the various HUDDisplays that are currently used on this Managers game.
@@ -22423,8 +22843,8 @@ var Kiwi;
         * @class HUDManager
         * @namespace Kiwi.HUD
         * @constructor
-        * @param game {Game} game
-        * @return {HUDManager}
+        * @param game {Kiwi.Game} game
+        * @return {Kiwi.HUD.HUDManager}
         */
         var HUDManager = (function () {
             function HUDManager(game) {
@@ -22432,13 +22852,13 @@ var Kiwi;
                 this._device = this._game.deviceTargetOption;
             }
             Object.defineProperty(HUDManager.prototype, "supported", {
-                get: /**
+                /**
                 * Returns the _supported property indicating whether HUD is supported or not.
                 * @property supported
                 * @type boolean
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._supported;
                 },
                 enumerable: true,
@@ -22476,7 +22896,7 @@ var Kiwi;
             /**
             * Returns the type of object this is.
             * @method objType
-            * @return {String}
+            * @return {String} "HUDManager"
             * @public
             */
             HUDManager.prototype.objType = function () {
@@ -22487,15 +22907,15 @@ var Kiwi;
                 get: function () {
                     return this._defaultHUD;
                 },
-                set: /**
+                /**
                 * The default HUDDisplay that is to be used.
                 * The defaultHUD cannot be removed, and a game (that supports HUDS) will always contain the defaultHUD.
                 *
                 * @property defaultHUD
-                * @type {HUDDisplay}
+                * @type Kiwi.HUD.HUDDisplay
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     if (this._currentHUD === this._defaultHUD) {
                         this._currentHUD = value;
                         this.setHUD(this._currentHUD);
@@ -22509,7 +22929,7 @@ var Kiwi;
             /**
             * Changes the currentHUD that is being displayed to one that is passed.
             * @method setHUD
-            * @param hud {HUDDisplay} The HUD you want to display.
+            * @param hud {Kiwi.HUD.HUDDisplay} The HUD you want to display.
             * @public
             */
             HUDManager.prototype.setHUD = function (hud) {
@@ -22523,7 +22943,7 @@ var Kiwi;
             /**
             * Shows the currentHUD (if nothing is passed) or shows a HUDDisplay that is passed.
             * @method showHUD
-            * @param [hud=currentHUD] {HUDDisplay} The HUDDisplay you want to show. Defaults to the currentHUD if nothing is passed.
+            * @param [hud=currentHUD] {Kiwi.HUD.HUDDisplay} The HUDDisplay you want to show. Defaults to the currentHUD if nothing is passed.
             * @public
             */
             HUDManager.prototype.showHUD = function (hud) {
@@ -22534,7 +22954,7 @@ var Kiwi;
             /**
             * Hides the currentHUD (if nothing is passed) or shows a HUDDisplay that is passed.
             * @method hideHUD
-            * @param [hud=currentHUD] {HUDDisplay} The HUDDisplay you want to hude. Defaults to the currentHUD if nothing is passed.
+            * @param [hud=currentHUD] {Kiwi.HUD.HUDDisplay} The HUDDisplay you want to hude. Defaults to the currentHUD if nothing is passed.
             * @public
             */
             HUDManager.prototype.hideHUD = function (hud) {
@@ -22548,7 +22968,7 @@ var Kiwi;
             * @method createHUD
             * @param name {string} Name of the new HUDDisplay that is being creates.
             * @param [switchTo=false] {boolean} Switch to the new HUD that was created. DE
-            * @return {HUDDisplay} The HUDDisplay that was created.
+            * @return {Kiwi.HUD.HUDDisplay} The HUDDisplay that was created.
             * @public
             */
             HUDManager.prototype.createHUD = function (name, switchTo) {
@@ -22570,7 +22990,7 @@ var Kiwi;
             * Removes a HUDDisplay off this manager. Returns a boolean indicating whether or not this method was a success.
             *
             * @method removeHUD
-            * @param hud {HUDDisplay} The hud you want to remove.
+            * @param hud {Kiwi.HUD.HUDDisplay} The hud you want to remove.
             * @returns {boolean} If this method succeeded or not.
             * @public
             */
@@ -22599,7 +23019,7 @@ var Kiwi;
             /**
             * Adds a HUDDisplays HTMLDivElement to this HUDManagers container element.
             * @method addToContainer
-            * @param hud {HUDDisplay} The HUDDisplay that is to be added.
+            * @param hud {Kiwi.HUD.HUDDisplay} The HUDDisplay that is to be added.
             * @private
             */
             HUDManager.prototype.addToContainer = function (hud) {
@@ -22611,7 +23031,7 @@ var Kiwi;
             /**
             * Removes the hud that is passed from this HUD Manager. Checks to see if that hud has this container as a parent first.
             * @method removeFromContainer
-            * @param hud {HUDDisplay} The hud to be removed
+            * @param hud {Kiwi.HUD.HUDDisplay} The hud to be removed
             * @private
             */
             HUDManager.prototype.removeFromContainer = function (hud) {
@@ -22640,13 +23060,13 @@ var Kiwi;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule HUD
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule HUD
-    */
     (function (HUD) {
         /**
         * The HUDWidget is an abstract class containing the fundamental properties and methods that every HUDWidget needs to have.
@@ -22655,11 +23075,11 @@ var Kiwi;
         * @class HUDWidget
         * @namespace Kiwi.HUD
         * @constructor
-        * @param game {Game}  The game that this HUDWidget belongs to.
+        * @param game {Kiwi.Game}  The game that this HUDWidget belongs to.
         * @param name {string} Name of the type of HUDWidget.
         * @param x {number} The coordinates of this HUDWidget on the x-axis.
         * @param y {number} The coordinates of this HUDWidget on the y-axis.
-        * @return {HUDWidget}
+        * @return {Kiwi.HUD.HUDWidget}
         */
         var HUDWidget = (function () {
             function HUDWidget(game, name, x, y) {
@@ -22685,7 +23105,7 @@ var Kiwi;
             /**
             * Returns the type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "HUDWidget"
             * @public
             */
             HUDWidget.prototype.objType = function () {
@@ -22693,13 +23113,13 @@ var Kiwi;
             };
 
             Object.defineProperty(HUDWidget.prototype, "style", {
-                get: /**
+                /**
                 * A quick way to reference the style object that exists on the container element of this widget.
                 * @property style
                 * @type any
                 * @public
                 */
-                function () {
+                get: function () {
                     if (this._device === Kiwi.TARGET_BROWSER) {
                         return this.container.style;
                     }
@@ -22714,13 +23134,13 @@ var Kiwi;
             });
 
             Object.defineProperty(HUDWidget.prototype, "x", {
-                get: /**
+                /**
                 * Get the x coordinate of the widget
                 * @property x
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._x;
                 },
                 set: function (value) {
@@ -22737,13 +23157,13 @@ var Kiwi;
             });
 
             Object.defineProperty(HUDWidget.prototype, "y", {
-                get: /**
+                /**
                 * Get the y coordinate of the widget
                 * @property y
                 * @type number
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._y;
                 },
                 set: function (value) {
@@ -22824,13 +23244,13 @@ var Kiwi;
                         return this.container.className;
                     }
                 },
-                set: /**
+                /**
                 * The class name/s that the container element that this HUDWidget current has.
                 * @property class
                 * @type {String}
                 * @public
                 */
-                function (cssClass) {
+                set: function (cssClass) {
                     if (this._device == Kiwi.TARGET_BROWSER) {
                         this.container.className = cssClass;
                     }
@@ -22860,6 +23280,7 @@ var Kiwi;
                 if (this.onCoordsUpdate)
                     this.onCoordsUpdate.dispose();
                 delete this.onCoordsUpdate;
+                //remove the elements....
             };
             return HUDWidget;
         })();
@@ -22867,32 +23288,32 @@ var Kiwi;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
+/**
+* HUD Widgets are objects that are generally placed on to a HUD Display for displaying and managing information that the user would always need to see.
+* An example of such information would be: the Health remaining, amount of ammo left, time they have left, e.t.c.
+* And each one of those examples would have its own widget.
+*
+* @module HUD
+* @submodule Widget
+* @main Widget
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (HUD) {
-        /**
-        * HUD Widgets are objects that are generally placed on to a HUD Display for displaying and managing information that the user would always need to see.
-        * An example of such information would be: the Health remaining, amount of ammo left, time they have left, e.t.c.
-        * And each one of those examples would have its own widget.
-        *
-        * @module HUD
-        * @submodule Widget
-        * @main Widget
-        */
         (function (Widget) {
             /**
             * A Widget that is used for the displaying of text on the HUD.
             * Foreach TextField you can add some prefix/suffix text, which is more useful on classes extending this one.
             *
             * @class TextField
-            * @extends HUDWidget
+            * @extends Kiwi.HUD.HUDWidget
             * @namespace Kiwi.HUD.Widget
             * @constructor
-            * @param game {Game} The game that this textfield belongs to.
+            * @param game {Kiwi.Game} The game that this textfield belongs to.
             * @param text {string} The text on this textfield.
             * @param x {number} The x coordinates
             * @param y {number} The y coordinates
-            * @return {TextField}
+            * @return {Kiwi.HUD.Widget.TextField}
             */
             var TextField = (function (_super) {
                 __extends(TextField, _super);
@@ -22927,7 +23348,7 @@ var Kiwi;
                 /**
                 * Returns the type of object that this is.
                 * @method objType
-                * @return {String}
+                * @return {String} 'TextFieldWidget'
                 * @public
                 */
                 TextField.prototype.objType = function () {
@@ -22979,13 +23400,13 @@ var Kiwi;
                     get: function () {
                         return this._text;
                     },
-                    set: /**
+                    /**
                     * The text that is currently being displayed inside the textfield.
                     * @property text
                     * @type string
                     * @public
                     */
-                    function (val) {
+                    set: function (val) {
                         if (this._manager.supported) {
                             if (this._device === Kiwi.TARGET_BROWSER) {
                                 if (this._prefix !== '')
@@ -23006,14 +23427,14 @@ var Kiwi;
                     get: function () {
                         return this._suffix;
                     },
-                    set: /**
+                    /**
                     * A string that is to be added after the score. Can contain HTMLElements.
                     * @property _suffix
                     * @type string
                     * @default ''
                     * @public
                     */
-                    function (val) {
+                    set: function (val) {
                         this._suffix = val;
                         this._updateText();
                     },
@@ -23025,14 +23446,14 @@ var Kiwi;
                     get: function () {
                         return this._prefix;
                     },
-                    set: /**
+                    /**
                     * A string that is to be added in-front of the score. Can contain HTMLElements.
                     * @property _prefix
                     * @type string
                     * @default ''
                     * @public
                     */
-                    function (val) {
+                    set: function (val) {
                         this._prefix = val;
                         this._updateText();
                     },
@@ -23057,13 +23478,13 @@ var Kiwi;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
+/**
+* @module HUD
+* @submodule Widget
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (HUD) {
-        /**
-        * @module HUD
-        * @submodule Widget
-        */
         (function (Widget) {
             /**
             * Used for displaying of information in a bar like of format. Example: Amount of health remaining for a character.
@@ -23071,18 +23492,18 @@ var Kiwi;
             * You can control the minimum/maximum and current values of the bar through the Counter widget.
             *
             * @class Bar
-            * @extends HUDWidget
+            * @extends Kiwi.HUD.HUDWidget
             * @namespace Kiwi.HUD.Widget
             * @constructor
-            * @param game {Game} The game that this bar belongs to.
-            * @param current {number} The current value of the bar.
-            * @param max {number} The maximum value that there can be.
-            * @param x {number} The coordinates of this widget on the x-axis.
-            * @param y {number} The cooridnates of this widget on the y-axis.
+            * @param game {Kiwi.Game} The game that this bar belongs to.
+            * @param current {Number} The current value of the bar.
+            * @param max {Number} The maximum value that there can be.
+            * @param x {Number} The coordinates of this widget on the x-axis.
+            * @param y {Number} The cooridnates of this widget on the y-axis.
             * @param [width=120] {number} The width of the widget. Defaults to 120.
             * @param [height=20] {number} The height of the widget. Defaults to 20.
             * @param [color='#000'] {string} The default color of the inner bar. Defaults to #000 (black).
-            * @return {Bar}
+            * @return {Kiwi.HUD.Widget.Bar}
             */
             var Bar = (function (_super) {
                 __extends(Bar, _super);
@@ -23118,7 +23539,7 @@ var Kiwi;
                 /**
                 * Returns the type of object that this is.
                 * @method objType
-                * @return {String}
+                * @return {String} "BarWidget"
                 * @public
                 */
                 Bar.prototype.objType = function () {
@@ -23126,13 +23547,13 @@ var Kiwi;
                 };
 
                 Object.defineProperty(Bar.prototype, "width", {
-                    get: /**
+                    /**
                     * The width of the container
                     * @property width
                     * @type number
                     * @public
                     */
-                    function () {
+                    get: function () {
                         return this._width;
                     },
                     set: function (value) {
@@ -23147,13 +23568,13 @@ var Kiwi;
                 });
 
                 Object.defineProperty(Bar.prototype, "height", {
-                    get: /**
+                    /**
                     * The height of the container
                     * @property height
                     * @type number
                     * @public
                     */
-                    function () {
+                    get: function () {
                         return this._height;
                     },
                     set: function (value) {
@@ -23167,13 +23588,13 @@ var Kiwi;
                 });
 
                 Object.defineProperty(Bar.prototype, "horizontal", {
-                    get: /**
+                    /**
                     * Used to set the bar to be horizontal or vertical by passing a boolean.
                     * @property horizontal
                     * @type boolean
                     * @public
                     */
-                    function () {
+                    get: function () {
                         return this._horizontal;
                     },
                     set: function (val) {
@@ -23185,13 +23606,13 @@ var Kiwi;
                 });
 
                 Object.defineProperty(Bar.prototype, "vertical", {
-                    get: /**
+                    /**
                     * Used to set the bar to be horizontal or vertical by passing a boolean.
                     * @property verticle
                     * @type boolean
                     * @public
                     */
-                    function () {
+                    get: function () {
                         return !this._horizontal;
                     },
                     set: function (val) {
@@ -23262,29 +23683,29 @@ var Kiwi;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module HUD
+* @submodule Widget
+*
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (HUD) {
-        /**
-        *
-        * @module HUD
-        * @submodule Widget
-        *
-        */
         (function (Widget) {
             /**
             * Used to display a cell from a TextureAtlas in the HUD. This could be used for portraits of the character, e.t.c.
             * You can change the current cell that is being used in the TextureAtlas by modifing the cellIndex property.
             *
             * @class Icon
-            * @extends HUDWidget
+            * @extends Kiwi.HUD.HUDWidget
             * @namespace Kiwi.HUD.Widget
             * @constructor
-            * @param game {Game} The game that this icon belongs to.
-            * @param atlas {TextureAtlas} The image that you would like displayed.
-            * @param x {number} The coordinate of the icon on the x-axis.
-            * @param y {number The coordinate of the icon on the y-axis.
-            * @return {Icon}
+            * @param game {Kiwi.Game} The game that this icon belongs to.
+            * @param atlas {Kiwi.Textures.TextureAtlas} The image that you would like displayed.
+            * @param x {Number} The coordinate of the icon on the x-axis.
+            * @param y {Number} The coordinate of the icon on the y-axis.
+            * @return {Kiwi.HUD.Widget.Icon}
             */
             var Icon = (function (_super) {
                 __extends(Icon, _super);
@@ -23305,14 +23726,14 @@ var Kiwi;
                     this._applyCSS();
                 }
                 Object.defineProperty(Icon.prototype, "cellIndex", {
-                    get: /**
+                    /**
                     * Gets the cell index that is being used.
                     * @property cellIndex
                     * @type number
                     * @default 0
                     * @public
                     */
-                    function () {
+                    get: function () {
                         return this._cellIndex;
                     },
                     set: function (value) {
@@ -23326,13 +23747,13 @@ var Kiwi;
                 });
 
                 Object.defineProperty(Icon.prototype, "width", {
-                    get: /**
+                    /**
                     * Returns the width of the cell that is being used.
                     * @property width
                     * @type number
                     * @public
                     */
-                    function () {
+                    get: function () {
                         return this.atlas.cells[this.cellIndex].w;
                     },
                     enumerable: true,
@@ -23340,13 +23761,13 @@ var Kiwi;
                 });
 
                 Object.defineProperty(Icon.prototype, "height", {
-                    get: /**
+                    /**
                     * Returns the height of the cell that is being used.
                     * @property height
                     * @type number
                     * @public
                     */
-                    function () {
+                    get: function () {
                         return this.atlas.cells[this.cellIndex].h;
                     },
                     enumerable: true,
@@ -23428,14 +23849,14 @@ var Kiwi;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module HUD
+* @submodule Widget
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (HUD) {
-        /**
-        *
-        * @module HUD
-        * @submodule Widget
-        */
         (function (Widget) {
             /**
             * The IconBar used to display a series of icons which represent a number of 'something' the user may have.
@@ -23443,16 +23864,16 @@ var Kiwi;
             * The amount is based of a counter components current value, so you can set a maximum and minimum number of images to be displayed.
             *
             * @class IconBar
-            * @extends HUDWidget
+            * @extends Kiwi.HUD.HUDWidget
             * @namespace Kiwi.HUD.Widget
             * @constructor
-            * @param game {Game} The game that this icon bar belongs to.
-            * @param atlas {TextureAtlas} The texture atlas that the icons will have.
+            * @param game {Kiwi.Game} The game that this icon bar belongs to.
+            * @param atlas {Kiwi.Textures.TextureAtlas} The texture atlas that the icons will have.
             * @param current {number} The current amount of icons in the bar.
             * @param max {number} The maximum number of icons.
             * @param x {number} The x coordinates of the first icon.
             * @param y {number} The y coordinates of the last icon.
-            * @return {IconBar}
+            * @return {Kiwi.HUD.Widget.IconBar}
             */
             var IconBar = (function (_super) {
                 __extends(IconBar, _super);
@@ -23482,7 +23903,7 @@ var Kiwi;
                 /**
                 * The type of object that this is.
                 * @method objType
-                * @return {String}
+                * @return {String} "IconBarWidget"
                 * @public
                 */
                 IconBar.prototype.objType = function () {
@@ -23495,6 +23916,7 @@ var Kiwi;
                 * @private
                 */
                 IconBar.prototype._amountChanged = function () {
+                    //do we need to do something to the icons?!?
                     if (this.counter.max !== this._icons.length) {
                         if ((this.counter.max) > this._icons.length) {
                             //add more
@@ -23542,7 +23964,7 @@ var Kiwi;
                 /**
                 * Removes a Icon from the container.
                 * @method _removeIcon
-                * @param icon {Icon} The icon that you want to remove
+                * @param icon {Kiwi.HUD.Widget.Icon} The icon that you want to remove.
                 * @private
                 */
                 IconBar.prototype._removeIcon = function (icon) {
@@ -23552,14 +23974,14 @@ var Kiwi;
                 };
 
                 Object.defineProperty(IconBar.prototype, "horizontal", {
-                    get: /**
+                    /**
                     * Used to set the bar to be horizontal or vertical by passing a boolean.
                     * @property horizontal
                     * @type boolean
                     * @default true
                     * @public
                     */
-                    function () {
+                    get: function () {
                         return this._horizontal;
                     },
                     set: function (val) {
@@ -23571,14 +23993,14 @@ var Kiwi;
                 });
 
                 Object.defineProperty(IconBar.prototype, "vertical", {
-                    get: /**
+                    /**
                     * Used to set the bar to be horizontal or vertical by passing a boolean.
                     * @property vertical
                     * @type boolean
                     * @default false
                     * @public
                     */
-                    function () {
+                    get: function () {
                         return !this._horizontal;
                     },
                     set: function (val) {
@@ -23596,27 +24018,27 @@ var Kiwi;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
+/**
+* @module HUD
+* @submodule Widget
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (HUD) {
-        /**
-        * @module HUD
-        * @submodule Widget
-        */
         (function (Widget) {
             /**
             * A subclass of textfield that is primarily used to keep track of a score.
             * The score can be accessed via the counter component.
             *
             * @class BasicScore
-            * @extends TextField
+            * @extends Kiwi.HUD.TextField
             * @namespace Kiwi.HUD.Widget
             * @constructor
-            * @param game {Game} The game that this BasicScore belongs to.
+            * @param game {Kiwi.Game} The game that this BasicScore belongs to.
             * @param x {number} The cooridnates of the game on the x-axis.
             * @param y {number} The cooridnates of the game on the y-axis.
             * @param [initial=0] {number} The initial score to start off at.
-            * @return {BasicScore}
+            * @return {Kiwi.HUD.Widget.BasicScore}
             */
             var BasicScore = (function (_super) {
                 __extends(BasicScore, _super);
@@ -23632,7 +24054,7 @@ var Kiwi;
                 /**
                 * Returns the type of object that this is.
                 * @method objType
-                * @return {String}
+                * @return {String} "BasicScoreWidget"
                 * @public
                 */
                 BasicScore.prototype.objType = function () {
@@ -23655,28 +24077,28 @@ var Kiwi;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module HUD
+* @submodule Widget
+*
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (HUD) {
-        /**
-        *
-        * @module HUD
-        * @submodule Widget
-        *
-        */
         (function (Widget) {
             /**
             * A subclass of the TextField that has its own input component so that you can listen for mouse events on this widget.
             *
             * @class Button
-            * @extends TextField
+            * @extends Kiwi.HUD.TextField
             * @namespace Kiwi.HUD.Widget
             * @constructor
-            * @param game {game} The game that this belongs to.
+            * @param game {Kiwi.Game} The game that this belongs to.
             * @param text {string} The text that you want to display inside the button.
             * @param x {number} The x-coordnates of this Widget.
             * @param y {number} The y-coordinates of this Widget.
-            * @return {Button}
+            * @return {Kiwi.HUD.Widget.Button}
             */
             var Button = (function (_super) {
                 __extends(Button, _super);
@@ -23691,7 +24113,7 @@ var Kiwi;
                 /**
                 * The type of object that this is.
                 * @method objType
-                * @return {String}
+                * @return {String} "ButtonWidget"
                 * @public
                 */
                 Button.prototype.objType = function () {
@@ -23705,14 +24127,14 @@ var Kiwi;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module HUD
+* @submodule Widget
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (HUD) {
-        /**
-        *
-        * @module HUD
-        * @submodule Widget
-        */
         /*
         * TO DO---- SIGNALS/CALLBACKS
         */
@@ -23722,14 +24144,14 @@ var Kiwi;
             * The time is managed by a Time Component which contains a format property that handles how the time should be formatted.
             *
             * @class Time
-            * @extends TextField
+            * @extends Kiwi.HUD.Widget.TextField
             * @namespace Kiwi.HUD.Widget
             * @constructor
-            * @param game {Game} The game that this object belongs to.
+            * @param game {Kiwi.Game} The game that this object belongs to.
             * @param format {string} The format that you want the time to be displayed in. Leave it empty to display as normal.
             * @param x {number} The position of this text on the field.
             * @param y {number} The position of this text on the field.
-            * @return {TextField}
+            * @return {Kiwi.HUD.Widget.Time}
             */
             var Time = (function (_super) {
                 __extends(Time, _super);
@@ -23742,7 +24164,7 @@ var Kiwi;
                 /**
                 * The type of object that this is.
                 * @method objType
-                * @return {String}
+                * @return {String} 'TimeWidget'
                 * @public
                 */
                 Time.prototype.objType = function () {
@@ -23793,6 +24215,7 @@ var Kiwi;
                 Time.prototype.update = function () {
                     _super.prototype.update.call(this);
 
+                    //update the time
                     if (this.time.isRunning) {
                         this.text = this.time.getTime();
                     }
@@ -23805,13 +24228,13 @@ var Kiwi;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
+/**
+* @module HUD
+* @submodule Widget
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (HUD) {
-        /**
-        * @module HUD
-        * @submodule Widget
-        */
         (function (Widget) {
             /**
             * A Widget for that is used for the management/displaying of a Menu.
@@ -23819,13 +24242,13 @@ var Kiwi;
             * and styles that you want applyed to all MenuItems.
             *
             * @class Menu
-            * @extends HUDWidget
+            * @extends Kiwi.HUD.HUDWidget
             * @namespace Kiwi.HUD.Widget
             * @constructor
-            * @param game {Game} The game that this Menu belongs to.
+            * @param game {Kiwi.Game} The game that this Menu belongs to.
             * @param x {number} Its position on the x-axis.
             * @param y {number} Its position on the y -axis.
-            * @return {Menu}
+            * @return {Kiwi.HUD.Widget.Menu}
             */
             var Menu = (function (_super) {
                 __extends(Menu, _super);
@@ -23839,7 +24262,7 @@ var Kiwi;
                 /**
                 * The type of object that this is.
                 * @method objType
-                * @return {string}
+                * @return {string} "MenuWidget"
                 * @public
                 */
                 Menu.prototype.objType = function () {
@@ -23862,14 +24285,15 @@ var Kiwi;
                 };
 
                 Object.defineProperty(Menu.prototype, "menuItems", {
-                    get: /**
+                    /**
                     * Returns a list that contains all of the menu items (buttons) that are currently on this menu.
+                    * Each item in the list is of the type Kiwi.HUD.Widget.MenuItem.
                     * Note: The array itself is READ ONLY but you can modify the objects contained inside of it.
                     * @property menuItems
-                    * @type MenuItem[]
+                    * @type Array
                     * @public
                     */
-                    function () {
+                    get: function () {
                         return this._menuItems;
                     },
                     enumerable: true,
@@ -23882,7 +24306,7 @@ var Kiwi;
                 * @param text {string} The text that you would like the menu item to have.
                 * @param x {number} The x position of the menu item you are wanting to add.
                 * @param y {number} The y position of the menu item you are wanting to add.
-                * @return {MenuItem} The newly created MenuItem.
+                * @return {Kiwi.HUD.Widget.MenuItem} The newly created MenuItem.
                 * @public
                 */
                 Menu.prototype.createMenuItem = function (text, x, y) {
@@ -23892,8 +24316,8 @@ var Kiwi;
                 /**
                 * Adds a MenuItem to this menu.
                 * @method addMenuItem
-                * @param item {MenuItem} The MenuItem that you would like to add to this menu.
-                * @return {MenuItem}
+                * @param item {Kiwi.HUD.Widget.MenuItem} The MenuItem that you would like to add to this menu.
+                * @return {Kiwi.HUD.Widget.MenuItem}
                 * @public
                 */
                 Menu.prototype.addMenuItem = function (item) {
@@ -23912,9 +24336,9 @@ var Kiwi;
                 };
 
                 /**
-                * Adds multiple MenuItems to this Menu.
+                * Adds multiple MenuItems to this Menu. Each item in the array you would like to add needs to be of the type Kiwi.HUD.Widget.MenuItem.
                 * @method addMenuItems
-                * @param items {MenuItem[]} The array containing all of the menu items you want to add.
+                * @param items {Array} The array containing all of the menu items you want to add.
                 * @public
                 */
                 Menu.prototype.addMenuItems = function (items) {
@@ -23954,11 +24378,12 @@ var Kiwi;
                         }
 
                         _super.prototype.setTemplate.call(this, main);
+                        //do something with each item
                     }
                 };
 
                 /**
-                * Currently not working.
+                * Currently not supported or working.
                 * @method removeTemplate
                 * @public
                 */
@@ -23984,27 +24409,27 @@ var Kiwi;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
+/**
+* @module HUD
+* @submodule Widget
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (HUD) {
-        /**
-        * @module HUD
-        * @submodule Widget
-        */
         (function (Widget) {
             /**
             * A MenuItem extends the Button Widget and is typically contained inside of a Menu Widget.
             * Since a MenuItem extends the Button Widget you can access the Input Component that it has to listen to mouse events.
             *
             * @class MenuItem
-            * @extends HUDWidget
+            * @extends Kiwi.HUD.Widget.Button
             * @namespace Kiwi.HUD.Widget
             * @contructor
-            * @param game {Game} The game that this MenuItem belongs to.
+            * @param game {Kiwi.Game} The game that this MenuItem belongs to.
             * @param text {string} The text that is to be inside the menuitem.
             * @param x {number} The position of this menu item on the x-axis.
             * @param y {number} The position of this menu item on the y-axis.
-            * @return {Button}
+            * @return {Kiwi.HUD.Widget.MenuItem}
             */
             var MenuItem = (function (_super) {
                 __extends(MenuItem, _super);
@@ -24017,7 +24442,7 @@ var Kiwi;
                 /**
                 * The type of object that this is.
                 * @method objType
-                * @return {string}
+                * @return {string} "MenuItem"
                 * @public
                 */
                 MenuItem.prototype.objType = function () {
@@ -24031,30 +24456,30 @@ var Kiwi;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
+/**
+* HUDComponents are a space where components that are specific to HUDWidgets are kept. This are seperated from the normal Components section as the implementation of these are unique and only make sense when implemented on HUDWidgets, otherwise the concepts behind these are the same as normal Components.
+*
+* @module HUD
+* @submodule HUDComponents
+* @main HUDComponents
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (HUD) {
-        /**
-        * HUDComponents are a space where components that are specific to HUDWidgets are kept. This are seperated from the normal Components section as the implementation of these are unique and only make sense when implemented on HUDWidgets, otherwise the concepts behind these are the same as normal Components.
-        *
-        * @module HUD
-        * @submodule HUDComponents
-        * @main HUDComponents
-        */
         (function (HUDComponents) {
             /**
             * The Counter component handles a incrementation/decrementation of a singular numeric value.
             * You can also specifiy maximum/minimum values that the numeric value has be within but by default there is no max/min.
             *
             * @class Counter
-            * @extends Component
+            * @extends Kiwi.Component
             * @namespace Kiwi.HUD.HUDComponents
             * @constructor
             * @param owner {any} The object that this Component belongs to.
             * @param current {number} The current value.
             * @param [max=null] {number} The maximum value it can be. Default is null which means no maximum.
             * @param [min=null] {number} The minimum value that the current can be. Default is null which means no minium.
-            * @return {number}
+            * @return {Kiwi.HUD.HUDComponents.Counter}
             */
             var Counter = (function (_super) {
                 __extends(Counter, _super);
@@ -24073,7 +24498,7 @@ var Kiwi;
                 /**
                 * The type of object that this is.
                 * @method objType
-                * @return {String}
+                * @return {String} 'CounterComponent'
                 * @public
                 */
                 Counter.prototype.objType = function () {
@@ -24084,7 +24509,7 @@ var Kiwi;
                     get: function () {
                         return this._max;
                     },
-                    set: /**
+                    /**
                     * Set allows setting of the maximum value that the range can be in.
                     * Get returns the maximum value.
                     *
@@ -24092,7 +24517,7 @@ var Kiwi;
                     * @type number
                     * @public
                     */
-                    function (val) {
+                    set: function (val) {
                         this._max = val;
                         this.updated.dispatch(this._current, this._max, this._min);
                     },
@@ -24104,7 +24529,7 @@ var Kiwi;
                     get: function () {
                         return this._min;
                     },
-                    set: /**
+                    /**
                     * Set allows setting of the minimum value that the range can be in.
                     * Get returns the minimum value.
                     *
@@ -24112,7 +24537,7 @@ var Kiwi;
                     * @type number
                     * @public
                     */
-                    function (val) {
+                    set: function (val) {
                         this._min = val;
                         this.updated.dispatch(this._current, this._max, this._min);
                     },
@@ -24124,7 +24549,7 @@ var Kiwi;
                     get: function () {
                         return this._current;
                     },
-                    set: /**
+                    /**
                     * Set allows setting of the current value that the range can be in.
                     * The current value will only change if it is within the maximum/minimum values.
                     * Get returns the current value.
@@ -24133,7 +24558,7 @@ var Kiwi;
                     * @type number
                     * @public
                     */
-                    function (val) {
+                    set: function (val) {
                         if (this._max !== null && val > this._max) {
                             this._current = this._max;
                         } else if (this._min !== null && val < this._min) {
@@ -24208,27 +24633,27 @@ var Kiwi;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module HUD
+* @submodule HUDComponents
+*
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (HUD) {
-        /**
-        *
-        * @module HUD
-        * @submodule HUDComponents
-        *
-        */
         (function (HUDComponents) {
             /**
             * The WidgetInput Component handles the input events that you may want to listen to on a widget.
             * This Component is essentually another version of the normal Input Component but instead of for GameObjects this is for HUDWidgets.
             *
             * @class WidgetInput
-            * @extends Component
+            * @extends Kiwi.Component
             * @namespace Kiwi.HUD.HUDComponents
             * @constructor
             * @param owner {any} The object that this WidgetInput belongs to.
             * @param container {HTMLElement} The HTMLElement that the events will occur on/to.
-            * @return {WidgetInput}
+            * @return {Kiwi.HUD.HUDComponents.WidgetInput}
             */
             var WidgetInput = (function (_super) {
                 __extends(WidgetInput, _super);
@@ -24244,17 +24669,17 @@ var Kiwi;
                     this._container = container;
 
                     //signals!!
-                    this.onUp = new Kiwi.Signal();
-                    this.onDown = new Kiwi.Signal();
-                    this.onOver = new Kiwi.Signal();
-                    this.onOut = new Kiwi.Signal();
+                    this.onUp = new Kiwi.Signal;
+                    this.onDown = new Kiwi.Signal;
+                    this.onOver = new Kiwi.Signal;
+                    this.onOut = new Kiwi.Signal;
 
                     this._addEvents();
                 }
                 /**
                 * The type of object that this is.
                 * @method objType
-                * @return {String}
+                * @return {String} 'WidgetInputComponent'
                 * @public
                 */
                 WidgetInput.prototype.objType = function () {
@@ -24356,15 +24781,15 @@ var Kiwi;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module HUD
+* @submodule HUDComponents
+*
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (HUD) {
-        /**
-        *
-        * @module HUD
-        * @submodule HUDComponents
-        *
-        */
         (function (HUDComponents) {
             /**
             * A Component to manage and display a Time in a particular format.
@@ -24378,12 +24803,12 @@ var Kiwi;
             *  'mm' = 'minutes with leading zero'
             *
             * @class Time
-            * @extends Component
+            * @extends Kiwi.Component
             * @namespace Kiwi.HUD.HUDComponents
             * @constructor
             * @param owner {any} The object that this component belongs to.
             * @param [format=''] {string} The format that the time is to be displayed in. Leave blank for the default time.
-            * @return {Counter}
+            * @return {Kiwi.HUD.HUDComponents.Counter}
             */
             var Time = (function (_super) {
                 __extends(Time, _super);
@@ -24435,7 +24860,7 @@ var Kiwi;
                 /**
                 * The type of object that this is.
                 * @method objType
-                * @return {String}
+                * @return {String} 'TimeComponent'
                 * @public
                 */
                 Time.prototype.objType = function () {
@@ -24443,13 +24868,13 @@ var Kiwi;
                 };
 
                 Object.defineProperty(Time.prototype, "isRunning", {
-                    get: /**
+                    /**
                     * Indicates whether or not the clock is currently running or not, and thus whether or not the time is playing or not.
                     * @property isRunning
                     * @type boolean
                     * @public
                     */
-                    function () {
+                    get: function () {
                         return this.clock.isRunning();
                     },
                     enumerable: true,
@@ -24497,13 +24922,13 @@ var Kiwi;
                     get: function () {
                         return this._format;
                     },
-                    set: /**
+                    /**
                     * The format that you want the time to be displayed in.
                     * @property format
                     * @type string
                     * @public
                     */
-                    function (val) {
+                    set: function (val) {
                         this._format = val;
                     },
                     enumerable: true,
@@ -24511,13 +24936,13 @@ var Kiwi;
                 });
 
                 Object.defineProperty(Time.prototype, "currentTime", {
-                    get: /**
+                    /**
                     * The current time in seconds. This is READ ONLY.
                     * @property currentTime
                     * @type number
                     * @public
                     */
-                    function () {
+                    get: function () {
                         return this._currentTime;
                     },
                     enumerable: true,
@@ -24593,14 +25018,17 @@ var Kiwi;
                     }
                     this._timeBefore = this.clock.elapsed();
 
+                    //format time
                     if (this._format !== '') {
                         this._displayString = this._format;
 
+                        //milliseconds
                         if (this._displayString.indexOf('ms') !== -1) {
                             var t = String(Math.floor(this._currentTime * 1000) % 1000);
                             this._displayString = this._displayString.replace('ms', t);
                         }
 
+                        //seconds - leading
                         if (this._displayString.indexOf('ss') != -1) {
                             var t = String(Math.floor(this._currentTime) % 60);
                             if (t.length < 2)
@@ -24608,6 +25036,7 @@ var Kiwi;
                             this._displayString = this._displayString.replace('ss', t);
                         }
 
+                        //minutes - leading
                         if (this._displayString.indexOf('mm') !== -1) {
                             var t = String(Math.floor(this._currentTime / 60) % 60);
                             if (t.length < 2)
@@ -24615,11 +25044,13 @@ var Kiwi;
                             this._displayString = this._displayString.replace('mm', t);
                         }
 
+                        //minutes - no leading
                         if (this._displayString.indexOf('s') != -1) {
                             var t = String(Math.floor(this._currentTime) % 60);
                             this._displayString = this._displayString.replace('s', t);
                         }
 
+                        //seconds - no leading
                         if (this._displayString.indexOf('m') !== -1) {
                             var t = String(Math.floor(this._currentTime / 60) % 60);
                             this._displayString = this._displayString.replace('m', t);
@@ -24638,30 +25069,32 @@ var Kiwi;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
+/**
+* The namespace that holds all of the assets and functionality when dealing with Audio.
+*
+* @module Kiwi
+* @submodule Sound
+* @main Sound
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    * The namespace that holds all of the assets and functionality when dealing with Audio.
-    *
-    * @module Kiwi
-    * @submodule Sound
-    * @main Sound
-    *
-    */
     (function (Sound) {
         /**
-        * Manages the initialisation of assets necessary when dealing with audio in the game, either through Audio Tags or the Web Audio API. Also provides global sound controls that will be applyed to all Audio objects at the same time.
+        * Manages the initialisation of assets necessary when dealing with audio in the game, either through Audio Tags or the Web Audio API.
+        * Also provides global sound controls that will be applyed to all Audio objects at the same time, within the Game this manager is a part of.
         *
         * @class AudioManager
         * @constructor
         * @namespace Kiwi.Sound
-        * @param game {Game} The game that this audio manager belongs to.
-        * @return {AudioManager}
+        * @param game {Kiwi.Game} The game that this audio manager belongs to.
+        * @return {Kiwi.Sound.AudioManager}
         */
         var AudioManager = (function () {
             function AudioManager(game) {
                 /**
                 * If the current game has audio support or not.
+                * Useful because audio support is spotty in mobile browsers.
                 * @property noAudio
                 * @type boolean
                 * @public
@@ -24701,7 +25134,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "AudioManager"
             * @public
             */
             AudioManager.prototype.objType = function () {
@@ -24709,13 +25142,13 @@ var Kiwi;
             };
 
             Object.defineProperty(AudioManager.prototype, "locked", {
-                get: /**
+                /**
                 * Returns a boolean indicating whether the device has been touched or not. READ ONLY.
                 * @property locked
                 * @type boolean
                 * @public
                 */
-                function () {
+                get: function () {
                     return this._locked;
                 },
                 enumerable: true,
@@ -24733,20 +25166,22 @@ var Kiwi;
                 this._muted = false;
                 this._sounds = [];
 
+                //check to see if it is an iOS device and if it doesn't support webAudio
                 if (Kiwi.DEVICE.iOS && Kiwi.DEVICE.webaudio == false) {
                     this.channels = 1;
                 }
 
+                //Add mouse event here to 'unlock' the device.
                 if (Kiwi.DEVICE.iOS && this._game.deviceTargetOption !== Kiwi.TARGET_COCOON) {
                     this._locked = true;
                     this._game.input.onUp.addOnce(this._unlocked, this);
 
-                    console.log('Audio is currently Locked until at touch event.');
+                    console.log('Kiwi.AudioManager: Audio is currently Locked until at touch event.');
                 } else {
                     this._locked = false;
                 }
 
-                this.usingWebAudio = true;
+                this.usingWebAudio = true; //we hope for the best....
                 this.usingAudioTag = false;
 
                 if (!!window['AudioContext']) {
@@ -24758,7 +25193,7 @@ var Kiwi;
                     this.usingAudioTag = true;
                 } else {
                     this.usingWebAudio = false;
-                    this.noAudio = true;
+                    this.noAudio = true; //prepared for the worst :(
                 }
 
                 if (this.context !== null) {
@@ -24779,7 +25214,7 @@ var Kiwi;
             * @private
             */
             AudioManager.prototype._unlocked = function () {
-                console.log('Audio now Unlocked');
+                console.log('Kiwi.AudioManager: Audio now Unlocked');
 
                 if (this.usingAudioTag) {
                     this._locked = false;
@@ -24801,20 +25236,22 @@ var Kiwi;
                 get: function () {
                     return this._muted;
                 },
-                set: /**
+                /**
                 * Used to mute the audio on the device, or to check to see if the device is muted.
+                * This will not stop audio from being played, will just mean that the audio is silent.
                 *
                 * @property mute
                 * @type boolean
                 * @default false
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     if (value === true) {
                         if (this._muted)
                             return;
                         this._muted = true;
 
+                        //mute the sounds
                         if (this.usingWebAudio) {
                             this._muteVolume = this.masterGain.gain.value;
                             this.masterGain.gain.value = 0;
@@ -24845,15 +25282,16 @@ var Kiwi;
                 get: function () {
                     return this._volume;
                 },
-                set: /**
-                * Global setting and getting of the volume. A number between 0 (silence) and 1 (full volume)
+                /**
+                * Global setting and getting of the volume.
+                * A number between 0 (silence) and 1 (full volume).
                 *
                 * @property volume
                 * @type number
                 * @default 1
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     if (value !== undefined) {
                         value = Kiwi.Utils.GameMath.clamp(value, 1, 0);
                         this._volume = value;
@@ -24877,7 +25315,7 @@ var Kiwi;
             });
 
             /**
-            * Indicates whether or not an Audio Object is registered with this Audio Manager or not. More for Kiwi Internal use only.
+            * Indicates whether or not an Audio Object is registered with this Audio Manager or not. For Kiwi Internal use only.
             * @method isRegistered
             * @param sound {Audio} The Audio object you are checking for.
             * @return {Boolean} If the piece of audio is registered or not.
@@ -24898,7 +25336,7 @@ var Kiwi;
             * Registers an Audio Object with this audio manager. Also assign's the audio piece a unique ID to identify it by. Internal Kiwi use only.
             * @method registerSound
             * @param sound {Audio} The audio piece you are wanting to register.
-            * @return {Boolean } Indication of if the sound was successfully added or not.
+            * @return { Boolean } Indication of if the sound was successfully added or not.
             * @public
             */
             AudioManager.prototype.registerSound = function (sound) {
@@ -24917,7 +25355,7 @@ var Kiwi;
             * @param key {string} The key for the audio file that is to be loaded from the AudioLibrary.
             * @param [volume=1] {number} The volume for the piece of audio.
             * @param [loop=false] {boolean} If the audio should keep repeat when it gets to the end.
-            * @return {Audio}
+            * @return {Kiwi.Sound.Audio}
             * @public
             */
             AudioManager.prototype.add = function (key, volume, loop) {
@@ -24931,10 +25369,12 @@ var Kiwi;
             };
 
             /**
-            * Removes the passed sound from the audio manager. Needs testing.
+            * Removes the passed sound from the AudioManager.
+            * If you remove a Audio Object from the AudioManager, then that Audio Object will not have a update loop.
             *
             * @method remove
-            * @param sound {Audio} The audio file that you want to remove.
+            * @param sound {Kiwi.Sound.Audio} The Audio object that you want to remove.
+            * @param [destory=true] If the Audio Object should be removed or not.
             * @public
             */
             AudioManager.prototype.remove = function (sound, destroy) {
@@ -24946,14 +25386,13 @@ var Kiwi;
                         if (destroy == true)
                             this._sounds[i].destroy();
                         this._sounds.splice(i, 1, 0);
-                        i--;
+                        return;
                     }
                 }
             };
 
             /**
-            * Plays all of the sounds listed in the audio manager.
-            *
+            * Plays all of the sounds listed in the AudioManager.
             * @method playAll
             * @public
             */
@@ -24966,9 +25405,8 @@ var Kiwi;
             };
 
             /**
-            * Stops all of the sounds that are listed in the audio manager from playing.
-            *
-            * @method playAll
+            * Stops all of the sounds that are listed in the AudioManager from playing.
+            * @method stopAll
             * @public
             */
             AudioManager.prototype.stopAll = function () {
@@ -24980,8 +25418,7 @@ var Kiwi;
             };
 
             /**
-            * Pauses all of the sounds listed in the audio manager.
-            *
+            * Pauses all of the sounds listed in the AudioManager.
             * @method pauseAll
             * @public
             */
@@ -24994,14 +25431,11 @@ var Kiwi;
             };
 
             /**
-            * Resumes all of the sounds listed in the audio manager.
-            *
+            * Resumes all of the sounds listed in the AudioManager.
             * @method resumeAll
-            * @param [destroy=true] {boolean} If the audio objects should be destroyed when they are removed.
             * @public
             */
-            AudioManager.prototype.resumeAll = function (destroy) {
-                if (typeof destroy === "undefined") { destroy = true; }
+            AudioManager.prototype.resumeAll = function () {
                 for (var i = 0; i < this._sounds.length; i++) {
                     if (this._sounds[i]) {
                         this._sounds[i].resume();
@@ -25039,26 +25473,28 @@ var Kiwi;
     })(Kiwi.Sound || (Kiwi.Sound = {}));
     var Sound = Kiwi.Sound;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Sound
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Sound
-    *
-    */
     (function (Sound) {
         /**
-        * A Object that contains the functionality needed when wanting to play a single sound/sound file on a game.
+        * The Audio Object contains the functionality for playing a singular sound in a Kiwi Game.
+        * The Audio can contain Audio Sprites which is a nice way to play audio on mobile devices.
+        * Audio Objects do not 'die' when game states are switched or changed.
         *
         * @class Audio
         * @constructor
         * @namespace Kiwi.Sound
-        * @param game {Game} The game that this piece of audio belongs to.
+        * @param game {Kiwi.Game} The game that this piece of audio belongs to.
         * @param key {string} The key to which which piece of audio should be loaded from the AudioLibrary.
         * @param volume {number} A number between 0 (silence) and 1 (loud).
         * @param loop {boolean} If the audio should loop when it is finished or just stop.
-        * @return {Audio} This object
+        * @return {Kiwi.Sound.Audio} This object
         *
         */
         var Audio = (function () {
@@ -25124,12 +25560,14 @@ var Kiwi;
                 this._loop = loop;
                 this.key = key;
 
+                //If audio isn't supported OR the file does not exist
                 if (this._game.audio.noAudio || this._game.fileStore.exists(this.key) === false) {
                     if (this._game.debugOption)
                         console.log('Could not play Audio. Either the browser doesn\'t support audio or the Audio file was not found on the filestore');
                     return;
                 }
 
+                //Setup the Web AUDIO API Sound
                 if (this._usingWebAudio) {
                     this._setAudio();
 
@@ -25137,6 +25575,7 @@ var Kiwi;
                         this.context = this._game.audio.context;
                         this.masterGainNode = this._game.audio.masterGain;
 
+                        //create our gain node
                         if (typeof this.context.createGain === 'undefined') {
                             this.gainNode = this.context.createGainNode();
                         } else {
@@ -25146,9 +25585,10 @@ var Kiwi;
                         //make sure the audio is decoded.
                         this._decode();
 
-                        this.gainNode.gain.value = this.volume * this._game.audio.volume;
+                        this.gainNode.gain.value = this.volume * this._game.audio.volume; //this may need to change.....
                         this.gainNode.connect(this.masterGainNode);
                     }
+                    //Set-up the Audio Tag Sound
                 } else if (this._usingAudioTag) {
                     if (this._playable === true) {
                         this._setAudio();
@@ -25175,13 +25615,15 @@ var Kiwi;
                 this.onMute = new Kiwi.Signal();
             }
             Object.defineProperty(Audio.prototype, "playable", {
-                get: /**
-                *
+                /**
+                * Returns whether or not the sound is 'playable' or not.
+                * The only time the sound would be not 'playable' is on iOS devices when a mouse/touch event has not fired.
+                * Devs should treat this property as READ ONLY.
                 * @property playable
                 * @type boolean
                 * @private
                 */
-                function () {
+                get: function () {
                     return this._playable;
                 },
                 set: function (val) {
@@ -25202,7 +25644,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "Audio"
             * @public
             */
             Audio.prototype.objType = function () {
@@ -25217,9 +25659,11 @@ var Kiwi;
             Audio.prototype._setAudio = function () {
                 this._file = this._game.fileStore.getFile(this.key);
 
+                //Does the data actually exist?
                 if (typeof this._file.data == "undefined")
                     return;
 
+                //force the browser to play it at least for a little bit
                 if (this._usingAudioTag) {
                     //clone the audio node
                     this._sound = this._file.data.cloneNode(true);
@@ -25239,9 +25683,11 @@ var Kiwi;
             * @private
             */
             Audio.prototype._decode = function () {
+                //You only decode when using the web audio api, when the audio has loaded and if it hasn't been decoded already
                 if (this.ready == false || this._usingAudioTag)
                     return;
 
+                //has the
                 if (this._file.data.decoded === true && this._file.data.buffer !== null) {
                     this._buffer = this._file.data.buffer;
                     this._decoded = true;
@@ -25259,14 +25705,14 @@ var Kiwi;
                 get: function () {
                     return this._volume;
                 },
-                set: /**
-                * Used to control the current volume for this sound.
+                /**
+                * Used to control the current volume for this sound. 0 is silent, 1 is full volume.
                 *
                 * @property volume
                 * @type number
                 * @public
                 */
-                function (val) {
+                set: function (val) {
                     if (this._game.audio.noAudio || this.ready === false)
                         return;
 
@@ -25280,7 +25726,7 @@ var Kiwi;
 
                     if (this._playable) {
                         if (this._usingWebAudio) {
-                            this.gainNode.gain.value = this._volume * this._game.audio.volume;
+                            this.gainNode.gain.value = this._volume * this._game.audio.volume; //this may need to change....
                         } else if (this._usingAudioTag) {
                             this._sound.volume = this._volume * this._game.audio.volume;
                         }
@@ -25294,14 +25740,15 @@ var Kiwi;
                 get: function () {
                     return this._muted;
                 },
-                set: /**
-                * Allows you to mute the sound.
+                /**
+                * Mutes the sound and makes it 'silent'.
+                * This will not stop the sound from playing, or events from being dispatched due when the sound has finished/is looping.
                 *
                 * @property mute
                 * @type boolean
                 * @public
                 */
-                function (val) {
+                set: function (val) {
                     if (this._game.audio.noAudio)
                         return;
 
@@ -25374,6 +25821,7 @@ var Kiwi;
                 if (typeof this._markers[marker] == "undefined")
                     return;
 
+                //If its the current marker that is playing and shouldn't force restart then stop
                 if (this._currentMarker === marker && this.isPlaying && forceRestart == false)
                     return;
 
@@ -25403,6 +25851,7 @@ var Kiwi;
                         if (this._loop)
                             this._sound.loop = true;
 
+                        //start
                         if (this._sound.start === undefined) {
                             this._sound.noteGrainOn(0, this._markers[this._currentMarker].start, this.duration / 1000);
                         } else {
@@ -25424,7 +25873,8 @@ var Kiwi;
                             this.duration = this.totalDuration * 1000;
 
                         if (this._muted)
-                            this._sound.volume = 0; else
+                            this._sound.volume = 0;
+                        else
                             this._sound.volume = this._volume;
 
                         this._sound.currentTime = this._markers[this._currentMarker].start;
@@ -25444,7 +25894,6 @@ var Kiwi;
 
             /**
             * Stop the sound from playing.
-            *
             * @method stop
             * @public
             */
@@ -25470,7 +25919,6 @@ var Kiwi;
 
             /**
             * Pauses the sound so that you can resume it from at point to paused it at.
-            *
             * @method pause
             * @public
             */
@@ -25484,7 +25932,6 @@ var Kiwi;
 
             /**
             * Plays the sound from when you paused the sound.
-            *
             * @method resume
             * @public
             */
@@ -25520,23 +25967,29 @@ var Kiwi;
             * @public
             */
             Audio.prototype.update = function () {
+                //Check to see that the audio is ready
                 if (!this.ready)
                     return;
 
+                //Is the audio ready to be played and was waiting?
                 if (this._playable && this._pending) {
+                    //Is it the using the Web Audio API (can tell otherwise the audio would not be decoding otherwise) and it is now ready to be played?
                     if (this._decoded === true || this._file.data && this._file.data.decoded) {
                         this._pending = false;
                         this.play();
+                        //If we are using Audio tags and the audio is pending then that must be because we are waiting for the audio to load.
+                        // Also the work around for CocoonJS
                     } else if (this._usingAudioTag && !isNaN(this._sound.duration) || this._game.deviceTargetOption == Kiwi.TARGET_COCOON && this._sound.duration !== 0) {
                         this.totalDuration = this._sound.duration;
                         this._markers['default'].duration = this.totalDuration;
-                        this._pending = false;
+                        this._pending = false; //again shouldn't need once audio tag loader works.
 
                         if (this.isPlaying && this._currentMarker == 'default')
                             this.duration = this.totalDuration;
                     }
                 }
 
+                //if the audio is playing
                 if (this.isPlaying) {
                     this._currentTime = this._game.time.now() - this._startTime;
 
@@ -25616,14 +26069,14 @@ var Kiwi;
     })(Kiwi.Sound || (Kiwi.Sound = {}));
     var Sound = Kiwi.Sound;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Sound
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Sound
-    *
-    */
     (function (Sound) {
         /**
         * Holds a reference to all of the Audio Files (mp3, ogg, e.t.c) that are accessible on the State that this AudioLibrary is on.
@@ -25631,8 +26084,8 @@ var Kiwi;
         * @class AudioLibrary
         * @constructor
         * @namespace Kiwi.Sound
-        * @param game {Game} The game that this audio library is a member of.
-        * @return {AudioLibrary}
+        * @param game {Kiwi.Game} The game that this audio library is a member of.
+        * @return {Kiwi.Sound.AudioLibrary}
         */
         var AudioLibrary = (function () {
             function AudioLibrary(game) {
@@ -25642,7 +26095,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "AudioLibrary"
             * @public
             */
             AudioLibrary.prototype.objType = function () {
@@ -25689,7 +26142,7 @@ var Kiwi;
             /**
             * Adds a new audio file to the audio library.
             * @method add
-            * @param {File} audioFile
+            * @param {Kiwi.Files.File} audioFile
             * @public
             */
             AudioLibrary.prototype.add = function (audioFile) {
@@ -25708,14 +26161,14 @@ var Kiwi;
     })(Kiwi.Sound || (Kiwi.Sound = {}));
     var Sound = Kiwi.Sound;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Time
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Time
-    *
-    */
     (function (Time) {
         /**
         * The Clock class offers a way of tracking time within a game. When creating a new Clock you should NOT directly instantiate this class but instead use the addClock method on a ClockManager.
@@ -25730,10 +26183,10 @@ var Kiwi;
         * @namespace Kiwi.Time
         * @constructor
         * @param manager {ClockManager} The ClockManager that this clock belongs to. .
-        * @param master {MasterClock} The MasterClock that it is getting the time in relation to.
+        * @param master {Kiwi.Time.MasterClock} The MasterClock that it is getting the time in relation to.
         * @param name {String} The name of the clock.
         * @param [units=1000] {Number} The units that this clock is to operate in.
-        * @return {Clock} This Clock object.
+        * @return {Kiwi.Time.Clock} This Clock object.
         *
         */
         var Clock = (function () {
@@ -25832,7 +26285,7 @@ var Kiwi;
                 /**
                 * The master clock.
                 * @property master
-                * @type MasterClock
+                * @type Kiwi.Time.MasterClock
                 * @public
                 */
                 this.master = null;
@@ -25974,7 +26427,7 @@ var Kiwi;
             * Add an existing Timer to the Clock.
             * @method addTimer
             * @param timer {Timer} The Timer object instance to be added to ths Clock.
-            * @return {Clock} This Clock object.
+            * @return {Kiwi.Time.Clock} This Clock object.
             * @public
             */
             Clock.prototype.addTimer = function (timer) {
@@ -25990,14 +26443,14 @@ var Kiwi;
             * @param [delay=1] {Number} The number of clock units to wait between firing events (default 1)
             * @param [repeatCount=0] {Number} The number of times to repeat this Timer (default 0)
             * @param [start=true] {Boolean} If the timer should start.
-            * @return {Timer} The newly created Timer.
+            * @return {Kiwi.Time.Timer} The newly created Timer.
             * @public
             */
             Clock.prototype.createTimer = function (name, delay, repeatCount, start) {
                 if (typeof delay === "undefined") { delay = 1; }
                 if (typeof repeatCount === "undefined") { repeatCount = 0; }
                 if (typeof start === "undefined") { start = true; }
-                this.timers.push(new Time.Timer(name, this, delay, repeatCount));
+                this.timers.push(new Kiwi.Time.Timer(name, this, delay, repeatCount));
 
                 if (start === true) {
                     this.timers[this.timers.length - 1].start();
@@ -26017,6 +26470,7 @@ var Kiwi;
             Clock.prototype.removeTimer = function (timer, timerName) {
                 if (typeof timer === "undefined") { timer = null; }
                 if (typeof timerName === "undefined") { timerName = ''; }
+                //  Timer object given?
                 if (timer !== null) {
                     if (this.timers[timer.name]) {
                         delete this.timers[timer.name];
@@ -26116,7 +26570,7 @@ var Kiwi;
             /**
             * Pause the clock. The clock can only be paused if it is already running.
             * @method pause
-            * @return {Clock} This Clock object.
+            * @return {Kiwi.Time.Clock} This Clock object.
             * @public
             */
             Clock.prototype.pause = function () {
@@ -26135,7 +26589,7 @@ var Kiwi;
             /**
             * Resume the clock. The clock can only be resumed if it is already paused.
             * @method resume
-            * @return {Clock} This Clock object.
+            * @return {Kiwi.Time.Clock} This Clock object.
             * @public
             */
             Clock.prototype.resume = function () {
@@ -26155,7 +26609,7 @@ var Kiwi;
             /**
             * Stop the clock. Clock can only be stopped if it is already running or is paused.
             * @method stop
-            * @return {Clock} This Clock object.
+            * @return {Kiwi.Time.Clock} This Clock object.
             * @public
             */
             Clock.prototype.stop = function () {
@@ -26191,15 +26645,15 @@ var Kiwi;
     })(Kiwi.Time || (Kiwi.Time = {}));
     var Time = Kiwi.Time;
 })(Kiwi || (Kiwi = {}));
+/**
+* Contains ways of tracking time within a game or application. Each game will have a ClockManager, MasterClock and a single Clock automatically generated for them upon game creation.
+*
+* @module Kiwi
+* @submodule Time
+* @main Time
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    * Contains ways of tracking time within a game or application. Each game will have a ClockManager, MasterClock and a single Clock automatically generated for them upon game creation.
-    *
-    * @module Kiwi
-    * @submodule Time
-    * @main Time
-    */
     (function (Time) {
         /**
         * Handles the generation and tracking of Clocks and Time related applications for a single game.
@@ -26207,8 +26661,8 @@ var Kiwi;
         * @class ClockManager
         * @namespace Kiwi.Time
         * @constructor
-        * @param {Game} game.
-        * @return {ClockManager} This Object.
+        * @param {Kiwi.Game} game.
+        * @return {Kiwi.Time.ClockManager} This Object.
         *
         */
         var ClockManager = (function () {
@@ -26216,7 +26670,7 @@ var Kiwi;
                 /**
                 * An array containing all of the clocks that exist on this manager.
                 * @property _clocks
-                * @type Clock[]
+                * @type Array
                 * @private
                 */
                 this._clocks = [];
@@ -26240,7 +26694,7 @@ var Kiwi;
             ClockManager.prototype.boot = function () {
                 this.master = new Kiwi.Time.MasterClock();
 
-                this.clock = new Time.Clock(this, this.master, 'default', 1000);
+                this.clock = new Kiwi.Time.Clock(this, this.master, 'default', 1000);
                 this.clock.start();
             };
 
@@ -26249,12 +26703,12 @@ var Kiwi;
             * @method addClock
             * @param name {string} The name of the Clock.
             * @param [units=1000] {Number} The number of milliseconds that make up one unit of time on this clock. Default 1000.
-            * @return {Clock} A reference to the newly created Clock object.
+            * @return {Kiwi.Time.Clock} A reference to the newly created Clock object.
             * @public
             */
             ClockManager.prototype.addClock = function (name, units) {
                 if (typeof units === "undefined") { units = 1000; }
-                this._clocks.push(new Time.Clock(this, this.master, name, units));
+                this._clocks.push(new Kiwi.Time.Clock(this, this.master, name, units));
 
                 return this._clocks[this._clocks.length - 1];
             };
@@ -26263,7 +26717,7 @@ var Kiwi;
             * Returns the Clock with the matching name. Throws and error if no Clock with that name exists
             * @method getClock
             * @param name {string} The name of the Clock to be returned.
-            * @return {Clock} The clock which matches the name given.
+            * @return {Kiwi.Time.Clock} The clock which matches the name given.
             * @public
             */
             ClockManager.prototype.getClock = function (name) {
@@ -26313,14 +26767,14 @@ var Kiwi;
     })(Kiwi.Time || (Kiwi.Time = {}));
     var Time = Kiwi.Time;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Time
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Time
-    *
-    */
     (function (Time) {
         /**
         * The MasterClock tracks time elapsed since the application started.
@@ -26330,7 +26784,7 @@ var Kiwi;
         * @class MasterClock
         * @namespace Kiwi.Time
         * @constructor
-        * @return {MasterClock} This Object.
+        * @return {Kiwi.Time.MasterClock} This Object.
         *
         */
         var MasterClock = (function () {
@@ -26402,9 +26856,11 @@ var Kiwi;
 
                 this.time = this.now;
 
+                //  Lock the delta at 0.1 minimum to minimise fps tunneling
                 if (this.delta > 0.1) {
                     this.delta = 0.1;
                 }
+                //  Apply time scaling
             };
 
             /**
@@ -26443,14 +26899,14 @@ var Kiwi;
     })(Kiwi.Time || (Kiwi.Time = {}));
     var Time = Kiwi.Time;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Time
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Time
-    *
-    */
     (function (Time) {
         /**
         * The Timer class hooks into a game Clock and allows you run code at a specified point in game time.
@@ -26461,10 +26917,10 @@ var Kiwi;
         * @namespace Kiwi.Time
         * @constructor
         * @param name {string} The name of the timer.
-        * @param clock {Clock} The game clock instance this Timer is based on.
+        * @param clock {Kiwi.Time.Clock} The game clock instance this Timer is based on.
         * @param delay {Number} The number of clock units to wait between firing events.
         * @param [repeatCount=0] {Number} The number of times to repeat the timer before it is expired. If you don't want it to ever expire, set a value of -1.
-        * @return {Timer} This object.
+        * @return {Kiwi.Time.Timer} This object.
         *
         */
         var Timer = (function () {
@@ -26481,7 +26937,7 @@ var Kiwi;
                 /**
                 * A collection of the TimerEvents associated with TimerEvent.TIMER_START
                 * @property _startEvents
-                * @type TimerEvent[]
+                * @type Array
                 * @private
                 */
                 this._startEvents = null;
@@ -26489,20 +26945,20 @@ var Kiwi;
                 * A collection of the TimerEvents associated with TimerEvent.TIMER_COUNT
                 * @property _countEvents
                 * @private
-                * @type TimerEvent[]
+                * @type Array
                 */
                 this._countEvents = null;
                 /**
                 * A collection of the TimerEvents associated with TimerEvent.TIMER_STOP
                 * @property _stopEvents
                 * @private
-                * @type TimerEvent[]
+                * @type Array
                 */
                 this._stopEvents = null;
                 /**
                 * The clock which this timer bases its timing on.
                 * @property _clock
-                * @type Clock
+                * @type Kiwi.Time.Clock
                 * @private
                 */
                 this._clock = null;
@@ -26628,15 +27084,15 @@ var Kiwi;
             * @private
             */
             Timer.prototype.processEvents = function (type) {
-                if (type === Time.TimerEvent.TIMER_START) {
+                if (type === Kiwi.Time.TimerEvent.TIMER_START) {
                     for (var i = 0; i < this._startEvents.length; i++) {
                         this._startEvents[i].run();
                     }
-                } else if (type === Time.TimerEvent.TIMER_COUNT) {
+                } else if (type === Kiwi.Time.TimerEvent.TIMER_COUNT) {
                     for (var i = 0; i < this._countEvents.length; i++) {
                         this._countEvents[i].run();
                     }
-                } else if (type === Time.TimerEvent.TIMER_STOP) {
+                } else if (type === Kiwi.Time.TimerEvent.TIMER_STOP) {
                     for (var i = 0; i < this._stopEvents.length; i++) {
                         this._stopEvents[i].run();
                     }
@@ -26652,7 +27108,7 @@ var Kiwi;
                 if (this._isRunning && this._clock.elapsed() - this._timeLastCount >= this.delay && this._isPaused === false) {
                     this._currentCount++;
 
-                    this.processEvents(Time.TimerEvent.TIMER_COUNT);
+                    this.processEvents(Kiwi.Time.TimerEvent.TIMER_COUNT);
 
                     this._timeLastCount = this._clock.elapsed() || 0;
 
@@ -26665,7 +27121,7 @@ var Kiwi;
             /**
             * Start the Timer. This will reset the timer and start it. The timer can only be started if it is in a stopped state.
             * @method start
-            * @return {Timer} this object.
+            * @return {Kiwi.Time.Timer} this object.
             * @public
             */
             Timer.prototype.start = function () {
@@ -26677,7 +27133,7 @@ var Kiwi;
                     this._currentCount = 0;
                     this._timeLastCount = this._clock.elapsed() || 0;
 
-                    this.processEvents(Time.TimerEvent.TIMER_START);
+                    this.processEvents(Kiwi.Time.TimerEvent.TIMER_START);
                 }
 
                 return this;
@@ -26686,7 +27142,7 @@ var Kiwi;
             /**
             * Stop the Timer. Only possible when the timer is running or paused.
             * @method stop
-            * @return {Timer} this object.
+            * @return {Kiwi.Time.Timer} this object.
             * @public
             */
             Timer.prototype.stop = function () {
@@ -26695,7 +27151,7 @@ var Kiwi;
                     this._isPaused = false;
                     this._isStopped = true;
 
-                    this.processEvents(Time.TimerEvent.TIMER_STOP);
+                    this.processEvents(Kiwi.Time.TimerEvent.TIMER_STOP);
                 }
 
                 return this;
@@ -26704,7 +27160,7 @@ var Kiwi;
             /**
             * Pause the Timer. Only possible when the timer is running.
             * @method pause
-            * @return {Timer} this object.
+            * @return {Kiwi.Time.Timer} this object.
             * @public
             */
             Timer.prototype.pause = function () {
@@ -26719,7 +27175,7 @@ var Kiwi;
             /**
             * Resume the Timer. Only possible if the timer has been paused.
             * @method resume
-            * @return {Timer} this object.
+            * @return {Kiwi.Time.Timer} this object.
             * @public
             */
             Timer.prototype.resume = function () {
@@ -26734,16 +27190,16 @@ var Kiwi;
             /**
             * Adds an existing TimerEvent object to this Timer.
             * @method addTimerEvent
-            * @param {TimerEvent} A TimerEvent object
-            * @return {TimerEvent} The TimerEvent object
+            * @param {Kiwi.Time.TimerEvent} A TimerEvent object
+            * @return {Kiwi.Time.TimerEvent} The TimerEvent object
             * @public
             */
             Timer.prototype.addTimerEvent = function (event) {
-                if (event.type === Time.TimerEvent.TIMER_START) {
+                if (event.type === Kiwi.Time.TimerEvent.TIMER_START) {
                     this._startEvents.push(event);
-                } else if (event.type === Time.TimerEvent.TIMER_COUNT) {
+                } else if (event.type === Kiwi.Time.TimerEvent.TIMER_COUNT) {
                     this._countEvents.push(event);
-                } else if (event.type === Time.TimerEvent.TIMER_STOP) {
+                } else if (event.type === Kiwi.Time.TimerEvent.TIMER_STOP) {
                     this._stopEvents.push(event);
                 }
 
@@ -26756,18 +27212,18 @@ var Kiwi;
             * @param type {Number} The type of TimerEvent to create (TIMER_START, TIMER_COUNT or TIMER_STOP).
             * @param callback {Function} The function to call when the TimerEvent fires.
             * @param context {Function} The context in which the given function will run (usually 'this')
-            * @return {TimerEvent} The newly created TimerEvent.
+            * @return {Kiwi.Time.TimerEvent} The newly created TimerEvent.
             * @public
             */
             Timer.prototype.createTimerEvent = function (type, callback, context) {
-                if (type === Time.TimerEvent.TIMER_START) {
-                    this._startEvents.push(new Time.TimerEvent(type, callback, context));
+                if (type === Kiwi.Time.TimerEvent.TIMER_START) {
+                    this._startEvents.push(new Kiwi.Time.TimerEvent(type, callback, context));
                     return this._startEvents[this._startEvents.length - 1];
-                } else if (type === Time.TimerEvent.TIMER_COUNT) {
-                    this._countEvents.push(new Time.TimerEvent(type, callback, context));
+                } else if (type === Kiwi.Time.TimerEvent.TIMER_COUNT) {
+                    this._countEvents.push(new Kiwi.Time.TimerEvent(type, callback, context));
                     return this._countEvents[this._countEvents.length - 1];
-                } else if (type === Time.TimerEvent.TIMER_STOP) {
-                    this._stopEvents.push(new Time.TimerEvent(type, callback, context));
+                } else if (type === Kiwi.Time.TimerEvent.TIMER_STOP) {
+                    this._stopEvents.push(new Kiwi.Time.TimerEvent(type, callback, context));
                     return this._stopEvents[this._stopEvents.length - 1];
                 }
 
@@ -26777,18 +27233,18 @@ var Kiwi;
             /**
             * Removes a TimerEvent object from this Timer
             * @method removeTimerEvent
-            * @param {TimerEvent} The TimerEvent to remove
+            * @param {Kiwi.Time.TimerEvent} The TimerEvent to remove
             * @return {boolean} True if the event was removed, otherwise false.
             * @public
             */
             Timer.prototype.removeTimerEvent = function (event) {
                 var removed = [];
 
-                if (event.type === Time.TimerEvent.TIMER_START) {
+                if (event.type === Kiwi.Time.TimerEvent.TIMER_START) {
                     removed = this._startEvents.splice(this._startEvents.indexOf(event), 1);
-                } else if (event.type === Time.TimerEvent.TIMER_COUNT) {
+                } else if (event.type === Kiwi.Time.TimerEvent.TIMER_COUNT) {
                     removed = this._countEvents.splice(this._countEvents.indexOf(event), 1);
-                } else if (event.type === Time.TimerEvent.TIMER_STOP) {
+                } else if (event.type === Kiwi.Time.TimerEvent.TIMER_STOP) {
                     removed = this._stopEvents.splice(this._stopEvents.indexOf(event), 1);
                 }
 
@@ -26812,11 +27268,11 @@ var Kiwi;
                     this._startEvents.length = 0;
                     this._countEvents.length = 0;
                     this._stopEvents.length = 0;
-                } else if (type === Time.TimerEvent.TIMER_START) {
+                } else if (type === Kiwi.Time.TimerEvent.TIMER_START) {
                     this._startEvents.length = 0;
-                } else if (type === Time.TimerEvent.TIMER_COUNT) {
+                } else if (type === Kiwi.Time.TimerEvent.TIMER_COUNT) {
                     this._countEvents.length = 0;
-                } else if (type === Time.TimerEvent.TIMER_STOP) {
+                } else if (type === Kiwi.Time.TimerEvent.TIMER_STOP) {
                     this._stopEvents.length = 0;
                 }
             };
@@ -26836,14 +27292,14 @@ var Kiwi;
     })(Kiwi.Time || (Kiwi.Time = {}));
     var Time = Kiwi.Time;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Time
+*
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Time
-    *
-    */
     (function (Time) {
         /**
         * A TimerEvent hooks into a Timer and is an object that is generated when you are wanting to executed a callback at a specific point in time.
@@ -26854,7 +27310,7 @@ var Kiwi;
         * @param type {Number} The type of TimerEvent that this is.
         * @param callback {Any} The method that is to be executed when the event occurs.
         * @param context {Any} The context that the callback is to be called in.
-        * @return {TimerEvent} This Object.
+        * @return {Kiwi.Time.TimerEvent} This Object.
         */
         var TimerEvent = (function () {
             function TimerEvent(type, callback, context) {
@@ -26925,7 +27381,7 @@ var Kiwi;
         * @param height {Number} The height of the canvas.
         * @param [visible=true] {boolean} If the canvas is visible or not.
         * @param [offScreen=false] {boolean} If the canvas is designed to be offscreen or not.
-        * @return {Canvas}
+        * @return {Kiwi.Utils.Canvas}
         *
         */
         var Canvas = (function () {
@@ -26995,13 +27451,13 @@ var Kiwi;
                 get: function () {
                     return this._width;
                 },
-                set: /**
+                /**
                 * The width of this canvas.
                 * @property width
                 * @type number
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     this._width = value;
                     this._updatedSize();
                 },
@@ -27013,13 +27469,13 @@ var Kiwi;
                 get: function () {
                     return this._height;
                 },
-                set: /**
+                /**
                 * The height of this canvas.
                 * @property height
                 * @type number
                 * @private
                 */
-                function (value) {
+                set: function (value) {
                     this._height = value;
                     this._updatedSize();
                 },
@@ -27062,14 +27518,14 @@ var Kiwi;
                 get: function () {
                     return this._visible;
                 },
-                set: /**
+                /**
                 * If the canvas element is visible or not.
                 * @property visible
                 * @type boolean
                 * @default true
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     if (value !== null && value !== this._visible) {
                         this._visible = value;
 
@@ -27088,14 +27544,14 @@ var Kiwi;
                 get: function () {
                     return this._clearMode;
                 },
-                set: /**
+                /**
                 * The clearmode the is to be used when clearing the canvas.
                 * @property clearMode
                 * @type Number
                 * @default 1
                 * @public
                 */
-                function (value) {
+                set: function (value) {
                     if (value !== null && value !== this._clearMode && value >= Kiwi.Utils.Canvas.CLEARMODE_NONE && value <= Kiwi.Utils.Canvas.CLEARMODE_FILLRECT_ALPHA) {
                         this._clearMode = value;
                     }
@@ -27111,6 +27567,7 @@ var Kiwi;
             */
             Canvas.prototype.clear = function () {
                 if (this._clearMode === Canvas.CLEARMODE_NONE) {
+                    //  Do nothing
                 } else if (this._clearMode === Canvas.CLEARMODE_CLEARRECT) {
                     //  Clear Rect
                     this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
@@ -27158,15 +27615,15 @@ var Kiwi;
     })(Kiwi.Utils || (Kiwi.Utils = {}));
     var Utils = Kiwi.Utils;
 })(Kiwi || (Kiwi = {}));
+/**
+* Utils is a space that holds a wide varity of useful methods.
+*
+* @module Kiwi
+* @submodule Utils
+* @main Utils
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    * Utils is a space that holds a wide varity of useful methods.
-    *
-    * @module Kiwi
-    * @submodule Utils
-    * @main Utils
-    */
     (function (Utils) {
         /**
         * Methods to assist in working with Structs.
@@ -27182,7 +27639,7 @@ var Kiwi;
         var Common = (function () {
             function Common() {
             }
-            Common.defaultCompare = /**
+            /**
             * Default function to compare element order.
             * @method defaultCompare
             * @param {Any} a.
@@ -27190,7 +27647,7 @@ var Kiwi;
             * @return {Number}
             * @static
             */
-            function (a, b) {
+            Common.defaultCompare = function (a, b) {
                 if (a < b) {
                     return -1;
                 } else if (a === b) {
@@ -27210,7 +27667,7 @@ var Kiwi;
                 return "Common";
             };
 
-            Common.defaultEquals = /**
+            /**
             * Default function to test equality.
             * @method defaultEquals
             * @param {Any} a
@@ -27219,11 +27676,11 @@ var Kiwi;
             * @static
             * @public
             */
-            function (a, b) {
+            Common.defaultEquals = function (a, b) {
                 return a === b;
             };
 
-            Common.defaultTostring = /**
+            /**
             * Default function to convert an object to a string.
             * @method defaultTostring
             * @param item {Any}
@@ -27231,7 +27688,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (item) {
+            Common.defaultTostring = function (item) {
                 if (item === null) {
                     return 'KIWI_NULL';
                 } else if (Kiwi.Utils.Common.isUndefined(item)) {
@@ -27243,7 +27700,7 @@ var Kiwi;
                 }
             };
 
-            Common.isFunction = /**
+            /**
             * Checks if the given argument is a function.
             * @method isFunction
             * @param {Any} func.
@@ -27251,11 +27708,11 @@ var Kiwi;
             * @static
             * @public
             */
-            function (func) {
+            Common.isFunction = function (func) {
                 return (typeof func) === 'function';
             };
 
-            Common.isNumeric = /**
+            /**
             * Checks if the given value is numeric.
             * @method isNumeric
             * @param value {Any}
@@ -27263,11 +27720,11 @@ var Kiwi;
             * @static
             * @public
             */
-            function (value) {
+            Common.isNumeric = function (value) {
                 return !isNaN(value);
             };
 
-            Common.isUndefined = /**
+            /**
             * Checks if the given argument is undefined.
             * @method isUndefined
             * @param {Any} obj
@@ -27275,11 +27732,11 @@ var Kiwi;
             * @static
             * @public
             */
-            function (obj) {
+            Common.isUndefined = function (obj) {
                 return (typeof obj) === 'undefined';
             };
 
-            Common.isString = /**
+            /**
             * Checks if the given argument is a string.
             * @method isString
             * @param {Any} obj
@@ -27287,11 +27744,11 @@ var Kiwi;
             * @static
             * @public
             */
-            function (obj) {
+            Common.isString = function (obj) {
                 return Object.prototype.toString.call(obj) === '[object String]';
             };
 
-            Common.isArray = /**
+            /**
             * Checks if the given argument is a array.
             * @method isArray
             * @param {Any} obj
@@ -27299,11 +27756,11 @@ var Kiwi;
             * @static
             * @public
             */
-            function (obj) {
+            Common.isArray = function (obj) {
                 return Object.prototype.toString.call(obj) === "[object Array]";
             };
 
-            Common.reverseCompareFunction = /**
+            /**
             * Reverses a compare function.
             * @method reverseCompareFunction
             * @param {Any} compareFunction
@@ -27311,7 +27768,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (compareFunction) {
+            Common.reverseCompareFunction = function (compareFunction) {
                 if (!Kiwi.Utils.Common.isFunction(compareFunction)) {
                     return function (a, b) {
                         if (a < b) {
@@ -27329,7 +27786,7 @@ var Kiwi;
                 }
             };
 
-            Common.compareToEquals = /**
+            /**
             * Returns an equal function given a compare function.
             * @method compareToEquals
             * @param {Any} compareFunction
@@ -27337,13 +27794,13 @@ var Kiwi;
             * @static
             * @public
             */
-            function (compareFunction) {
+            Common.compareToEquals = function (compareFunction) {
                 return function (a, b) {
                     return compareFunction(a, b) === 0;
                 };
             };
 
-            Common.shuffleArray = /**
+            /**
             * Shuffles the contents of an array given into a random order.
             * @method shuffleArray
             * @param array {Any}
@@ -27351,7 +27808,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (array) {
+            Common.shuffleArray = function (array) {
                 for (var i = array.length - 1; i > 0; i--) {
                     var j = Math.floor(Math.random() * (i + 1));
                     var temp = array[i];
@@ -27362,7 +27819,7 @@ var Kiwi;
                 return array;
             };
 
-            Common.convertToBase2 = /**
+            /**
             * A method that checks to see if an Image or Canvas that is passed has base2 proportions.
             * If it doesn't the image is created on a Canvas and that Canvas is returned.
             * Used mainly when creating TextureAtlases for WebGL.
@@ -27372,11 +27829,12 @@ var Kiwi;
             * @static
             * @public
             */
-            function (image) {
+            Common.convertToBase2 = function (image) {
                 //Get the width/height
                 var width = image.width;
                 var height = image.height;
 
+                //Check to see if the width is base2
                 if (this.base2Sizes.indexOf(width) == -1) {
                     var i = 0;
                     while (width > this.base2Sizes[i])
@@ -27384,6 +27842,7 @@ var Kiwi;
                     width = this.base2Sizes[i];
                 }
 
+                //Check to see if the height is base2
                 if (this.base2Sizes.indexOf(height) == -1) {
                     var i = 0;
                     while (height > this.base2Sizes[i])
@@ -27391,6 +27850,7 @@ var Kiwi;
                     height = this.base2Sizes[i];
                 }
 
+                //If either of them did not have a base2 size then create a canvas and create a new canvas.
                 if (image.width !== width || image.height !== height) {
                     //Is it already a canvas?
                     var canvas = document.createElement('canvas');
@@ -27442,14 +27902,14 @@ var Kiwi;
                 return "GameMath";
             };
 
-            GameMath.computeMachineEpsilon = /**
+            /**
             * [DESCRIPTION REQUIRED]
             * @method computeMachineEpsilon
             * @return {Number}
             * @static
             * @public
             */
-            function () {
+            GameMath.computeMachineEpsilon = function () {
                 // Machine epsilon ala Eispack
                 var fourThirds = 4.0 / 3.0;
                 var third = fourThirds - 1.0;
@@ -27457,7 +27917,7 @@ var Kiwi;
                 return Math.abs(1.0 - one);
             };
 
-            GameMath.fuzzyEqual = /**
+            /**
             * [DESCRIPTION REQUIRED]
             * @method fuzzyEqual
             * @param a {number}
@@ -27467,12 +27927,12 @@ var Kiwi;
             * @static
             * @public
             */
-            function (a, b, epsilon) {
+            GameMath.fuzzyEqual = function (a, b, epsilon) {
                 if (typeof epsilon === "undefined") { epsilon = 0.0001; }
                 return Math.abs(a - b) < epsilon;
             };
 
-            GameMath.fuzzyLessThan = /**
+            /**
             * [DESCRIPTION REQUIRED]
             * @method fuzzyLessThan
             * @param a {number}
@@ -27482,12 +27942,12 @@ var Kiwi;
             * @static
             * @public
             */
-            function (a, b, epsilon) {
+            GameMath.fuzzyLessThan = function (a, b, epsilon) {
                 if (typeof epsilon === "undefined") { epsilon = 0.0001; }
                 return a < b + epsilon;
             };
 
-            GameMath.fuzzyGreaterThan = /**
+            /**
             * [DESCRIPTION REQUIRED]
             * @method fuzzyGreaterThan
             * @param a {number}
@@ -27497,12 +27957,12 @@ var Kiwi;
             * @static
             * @public
             */
-            function (a, b, epsilon) {
+            GameMath.fuzzyGreaterThan = function (a, b, epsilon) {
                 if (typeof epsilon === "undefined") { epsilon = 0.0001; }
                 return a > b - epsilon;
             };
 
-            GameMath.fuzzyCeil = /**
+            /**
             * [DESCRIPTION REQUIRED]
             * @method fuzzyCeil
             * @param val {number}
@@ -27511,12 +27971,12 @@ var Kiwi;
             * @static
             * @public
             */
-            function (val, epsilon) {
+            GameMath.fuzzyCeil = function (val, epsilon) {
                 if (typeof epsilon === "undefined") { epsilon = 0.0001; }
                 return Math.ceil(val - epsilon);
             };
 
-            GameMath.fuzzyFloor = /**
+            /**
             * [DESCRIPTION REQUIRED]
             * @method fuzzyFloor
             * @param val {number}
@@ -27525,12 +27985,12 @@ var Kiwi;
             * @static
             * @public
             */
-            function (val, epsilon) {
+            GameMath.fuzzyFloor = function (val, epsilon) {
                 if (typeof epsilon === "undefined") { epsilon = 0.0001; }
                 return Math.floor(val + epsilon);
             };
 
-            GameMath.average = /**
+            /**
             * [DESCRIPTION REQUIRED]
             * @method average
             * @param [args]* {Any[]}
@@ -27538,7 +27998,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function () {
+            GameMath.average = function () {
                 var args = [];
                 for (var _i = 0; _i < (arguments.length - 0); _i++) {
                     args[_i] = arguments[_i + 0];
@@ -27552,7 +28012,7 @@ var Kiwi;
                 return avg / args.length;
             };
 
-            GameMath.slam = /**
+            /**
             * [DESCRIPTION REQUIRED]
             * @method slam
             * @param value {number}
@@ -27562,12 +28022,12 @@ var Kiwi;
             * @static
             * @public
             */
-            function (value, target, epsilon) {
+            GameMath.slam = function (value, target, epsilon) {
                 if (typeof epsilon === "undefined") { epsilon = 0.0001; }
                 return (Math.abs(value - target) < epsilon) ? target : value;
             };
 
-            GameMath.percentageMinMax = /**
+            /**
             * Ratio of value to a range.
             * @method percentageMinMax
             * @param val {number}
@@ -27577,17 +28037,18 @@ var Kiwi;
             * @static
             * @public
             */
-            function (val, max, min) {
+            GameMath.percentageMinMax = function (val, max, min) {
                 if (typeof min === "undefined") { min = 0; }
                 val -= min;
                 max -= min;
 
                 if (!max)
-                    return 0; else
+                    return 0;
+                else
                     return val / max;
             };
 
-            GameMath.sign = /**
+            /**
             * A value representing the sign of the value.
             * -1 for negative, +1 for positive, 0 if value is 0
             * @method sign
@@ -27596,13 +28057,14 @@ var Kiwi;
             * @static
             * @public
             */
-            function (n) {
+            GameMath.sign = function (n) {
                 if (n)
-                    return n / Math.abs(n); else
+                    return n / Math.abs(n);
+                else
                     return 0;
             };
 
-            GameMath.truncate = /**
+            /**
             * [DESCRIPTION REQUIRED]
             * @method truncate
             * @param n {number}
@@ -27610,11 +28072,11 @@ var Kiwi;
             * @static
             * @public
             */
-            function (n) {
+            GameMath.truncate = function (n) {
                 return (n > 0) ? Math.floor(n) : Math.ceil(n);
             };
 
-            GameMath.shear = /**
+            /**
             * [DESCRIPTION REQUIRED]
             * @method shear
             * @param n {number}
@@ -27622,11 +28084,11 @@ var Kiwi;
             * @static
             * @public
             */
-            function (n) {
+            GameMath.shear = function (n) {
                 return n % 1;
             };
 
-            GameMath.wrap = /**
+            /**
             * Wrap a value around a range, similar to modulus with a floating minimum
             * @method wrap
             * @param val {number}
@@ -27636,7 +28098,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (val, max, min) {
+            GameMath.wrap = function (val, max, min) {
                 if (typeof min === "undefined") { min = 0; }
                 val -= min;
                 max -= min;
@@ -27650,7 +28112,7 @@ var Kiwi;
                 return val;
             };
 
-            GameMath.arithWrap = /**
+            /**
             * Arithmetic version of wrap.
             * @method arithWrap
             * @param val {number}
@@ -27660,7 +28122,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (value, max, min) {
+            GameMath.arithWrap = function (value, max, min) {
                 if (typeof min === "undefined") { min = 0; }
                 max -= min;
                 if (max == 0)
@@ -27668,7 +28130,7 @@ var Kiwi;
                 return value - max * Math.floor((value - min) / max);
             };
 
-            GameMath.clamp = /**
+            /**
             * Force a value within the boundaries of two values
             * If max < min, min is returned.
             * @method clamp
@@ -27679,12 +28141,12 @@ var Kiwi;
             * @static
             * @public
             */
-            function (input, max, min) {
+            GameMath.clamp = function (input, max, min) {
                 if (typeof min === "undefined") { min = 0; }
                 return Math.max(min, Math.min(max, input));
             };
 
-            GameMath.snapTo = /**
+            /**
             * Snap a value to nearest grid slice, using rounding.
             * Example if you have an interval gap of 5 and a position of 12... you will snap to 10. Where as 14 will snap to 15
             *
@@ -27696,7 +28158,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (input, gap, start) {
+            GameMath.snapTo = function (input, gap, start) {
                 if (typeof start === "undefined") { start = 0; }
                 if (gap == 0)
                     return input;
@@ -27706,7 +28168,7 @@ var Kiwi;
                 return start + input;
             };
 
-            GameMath.snapToFloor = /**
+            /**
             * Snap a value to nearest grid slice, using floor.
             * Example if you have an interval gap of 5 and a position of 12... you will snap to 10. As will 14 snap to 10... but 16 will snap to 15
             *
@@ -27718,7 +28180,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (input, gap, start) {
+            GameMath.snapToFloor = function (input, gap, start) {
                 if (typeof start === "undefined") { start = 0; }
                 if (gap == 0)
                     return input;
@@ -27728,7 +28190,7 @@ var Kiwi;
                 return start + input;
             };
 
-            GameMath.snapToCeil = /**
+            /**
             * Snap a value to nearest grid slice, using ceil.
             * Example if you have an interval gap of 5 and a position of 12... you will snap to 15. As will 14 will snap to 15... but 16 will snap to 20
             *
@@ -27740,7 +28202,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (input, gap, start) {
+            GameMath.snapToCeil = function (input, gap, start) {
                 if (typeof start === "undefined") { start = 0; }
                 if (gap == 0)
                     return input;
@@ -27750,7 +28212,7 @@ var Kiwi;
                 return start + input;
             };
 
-            GameMath.snapToInArray = /**
+            /**
             * Snaps a value to the nearest value in an array.
             * @method snapToInArray
             * @param input {number}
@@ -27760,7 +28222,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (input, arr, sort) {
+            GameMath.snapToInArray = function (input, arr, sort) {
                 if (typeof sort === "undefined") { sort = true; }
                 if (sort)
                     arr.sort();
@@ -27778,7 +28240,7 @@ var Kiwi;
                 return ((high - input) <= (input - low)) ? high : low;
             };
 
-            GameMath.roundTo = /**
+            /**
             * Round to some place comparative to a 'base', default is 10 for decimal place.
             * 'place' is represented by the power applied to 'base' to get that place
             *
@@ -27790,14 +28252,14 @@ var Kiwi;
             * @static
             * @public
             */
-            function (value, place, base) {
+            GameMath.roundTo = function (value, place, base) {
                 if (typeof place === "undefined") { place = 0; }
                 if (typeof base === "undefined") { base = 10; }
                 var p = Math.pow(base, -place);
                 return Math.round(value * p) / p;
             };
 
-            GameMath.floorTo = /*
+            /*
             * E.g.
             *
             * 2000/7 ~= 285.714285714285714285714 ~= (bin)100011101.1011011011011011
@@ -27835,14 +28297,14 @@ var Kiwi;
             * @static
             * @public
             */
-            function (value, place, base) {
+            GameMath.floorTo = function (value, place, base) {
                 if (typeof place === "undefined") { place = 0; }
                 if (typeof base === "undefined") { base = 10; }
                 var p = Math.pow(base, -place);
                 return Math.floor(value * p) / p;
             };
 
-            GameMath.ceilTo = /**
+            /**
             * [DESCRIPTION REQUIRED]
             * @method ceilTo
             * @param value {number}
@@ -27852,14 +28314,14 @@ var Kiwi;
             * @static
             * @public
             */
-            function (value, place, base) {
+            GameMath.ceilTo = function (value, place, base) {
                 if (typeof place === "undefined") { place = 0; }
                 if (typeof base === "undefined") { base = 10; }
                 var p = Math.pow(base, -place);
                 return Math.ceil(value * p) / p;
             };
 
-            GameMath.interpolateFloat = /**
+            /**
             * A one dimensional linear interpolation of a value.
             * @method interpolateFloat
             * @param a {number}
@@ -27869,11 +28331,11 @@ var Kiwi;
             * @static
             * @public
             */
-            function (a, b, weight) {
+            GameMath.interpolateFloat = function (a, b, weight) {
                 return (b - a) * weight + a;
             };
 
-            GameMath.radiansToDegrees = /**
+            /**
             * Convert radians to degrees
             * @method radiansToDegrees
             * @param angle {number}
@@ -27881,11 +28343,11 @@ var Kiwi;
             * @static
             * @public
             */
-            function (angle) {
+            GameMath.radiansToDegrees = function (angle) {
                 return angle * GameMath.RAD_TO_DEG;
             };
 
-            GameMath.degreesToRadians = /**
+            /**
             * Convert degrees to radians
             * @method degreesToRadians
             * @param angle {number}
@@ -27893,11 +28355,11 @@ var Kiwi;
             * @static
             * @public
             */
-            function (angle) {
+            GameMath.degreesToRadians = function (angle) {
                 return angle * GameMath.DEG_TO_RAD;
             };
 
-            GameMath.angleBetween = /**
+            /**
             * Find the angle of a segment from (x1, y1) -> (x2, y2 )
             * @method angleBetween
             * @param x1 {number}
@@ -27908,11 +28370,11 @@ var Kiwi;
             * @static
             * @public
             */
-            function (x1, y1, x2, y2) {
+            GameMath.angleBetween = function (x1, y1, x2, y2) {
                 return Math.atan2(y2 - y1, x2 - x1);
             };
 
-            GameMath.normalizeAngle = /**
+            /**
             * Set an angle with in the bounds of -PI to PI
             * @method normalizeAngle
             * @param angle {number}
@@ -27921,13 +28383,13 @@ var Kiwi;
             * @static
             * @public
             */
-            function (angle, radians) {
+            GameMath.normalizeAngle = function (angle, radians) {
                 if (typeof radians === "undefined") { radians = true; }
                 var rd = (radians) ? GameMath.PI : 180;
                 return GameMath.wrap(angle, rd, -rd);
             };
 
-            GameMath.nearestAngleBetween = /**
+            /**
             * Closest angle between two angles from a1 to a2
             * absolute value the return for exact angle.
             * @method nearestAngleBetween
@@ -27938,7 +28400,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (a1, a2, radians) {
+            GameMath.nearestAngleBetween = function (a1, a2, radians) {
                 if (typeof radians === "undefined") { radians = true; }
                 var rd = (radians) ? GameMath.PI : 180;
 
@@ -27953,7 +28415,7 @@ var Kiwi;
                 return a2 - a1;
             };
 
-            GameMath.normalizeAngleToAnother = /**
+            /**
             * Normalizes independent and then sets dep to the nearest value respective to independent.
             * For instance if dep=-170 and ind=170 then 190 will be returned as an alternative to -170
             * @method normalizeAngleToAnother
@@ -27964,12 +28426,12 @@ var Kiwi;
             * @static
             * @public
             */
-            function (dep, ind, radians) {
+            GameMath.normalizeAngleToAnother = function (dep, ind, radians) {
                 if (typeof radians === "undefined") { radians = true; }
                 return ind + Kiwi.Utils.GameMath.nearestAngleBetween(ind, dep, radians);
             };
 
-            GameMath.normalizeAngleAfterAnother = /**
+            /**
             * Normalize independent and dependent and then set dependent to an angle relative to 'after/clockwise' independent.
             * For instance dep=-170 and ind=170, then 190 will be reutrned as alternative to -170
             * @method normalizeAngleAfterAnother
@@ -27980,13 +28442,13 @@ var Kiwi;
             * @static
             * @public
             */
-            function (dep, ind, radians) {
+            GameMath.normalizeAngleAfterAnother = function (dep, ind, radians) {
                 if (typeof radians === "undefined") { radians = true; }
                 dep = Kiwi.Utils.GameMath.normalizeAngle(dep - ind, radians);
                 return ind + dep;
             };
 
-            GameMath.normalizeAngleBeforeAnother = /**
+            /**
             * Normalizes indendent and dependent and then sets dependent to an angle relative to 'before/counterclockwise' independent.
             * For instance dep = 190 and ind = 170, then -170 will be returned as an alternative to 190
             * @method normalizeAngleBeforeAnother
@@ -27997,13 +28459,13 @@ var Kiwi;
             * @static
             * @public
             */
-            function (dep, ind, radians) {
+            GameMath.normalizeAngleBeforeAnother = function (dep, ind, radians) {
                 if (typeof radians === "undefined") { radians = true; }
                 dep = Kiwi.Utils.GameMath.normalizeAngle(ind - dep, radians);
                 return ind - dep;
             };
 
-            GameMath.interpolateAngles = /**
+            /**
             * Interpolate across the shortest arc between two angles.
             * @method interpolateAngles
             * @param a1 {number}
@@ -28015,7 +28477,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (a1, a2, weight, radians, ease) {
+            GameMath.interpolateAngles = function (a1, a2, weight, radians, ease) {
                 if (typeof radians === "undefined") { radians = true; }
                 if (typeof ease === "undefined") { ease = null; }
                 a1 = Kiwi.Utils.GameMath.normalizeAngle(a1, radians);
@@ -28024,7 +28486,7 @@ var Kiwi;
                 return (typeof ease === 'function') ? ease(weight, a1, a2 - a1, 1) : Kiwi.Utils.GameMath.interpolateFloat(a1, a2, weight);
             };
 
-            GameMath.logBaseOf = /**
+            /**
             * Compute the logarithm of any value of any base.
             * A logarithm is the exponent that some constant (base) would have to be raised to
             * to be equal to value.
@@ -28035,11 +28497,11 @@ var Kiwi;
             * @static
             * @public
             */
-            function (value, base) {
+            GameMath.logBaseOf = function (value, base) {
                 return Math.log(value) / Math.log(base);
             };
 
-            GameMath.GCD = /*
+            /*
             * i.e.
             * 4 ^ x = 16
             * can be rewritten as to solve for x
@@ -28058,13 +28520,14 @@ var Kiwi;
             * @static
             * @public
             */
-            function (m, n) {
+            GameMath.GCD = function (m, n) {
                 var r;
 
                 //make sure positive, GCD is always positive
                 m = Math.abs(m);
                 n = Math.abs(n);
 
+                //m must be >= n
                 if (m < n) {
                     r = m;
                     m = n;
@@ -28082,7 +28545,7 @@ var Kiwi;
                 return 1;
             };
 
-            GameMath.LCM = /**
+            /**
             * Lowest Common Multiple
             * @method LCM
             * @param m {number}
@@ -28091,11 +28554,11 @@ var Kiwi;
             * @static
             * @public
             */
-            function (m, n) {
+            GameMath.LCM = function (m, n) {
                 return (m * n) / Kiwi.Utils.GameMath.GCD(m, n);
             };
 
-            GameMath.factorial = /**
+            /**
             * Factorial - N! Simple product series. By definition:
             * 0! == 1
             * @method factorial
@@ -28104,7 +28567,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (value) {
+            GameMath.factorial = function (value) {
                 if (value == 0)
                     return 1;
 
@@ -28117,7 +28580,7 @@ var Kiwi;
                 return res;
             };
 
-            GameMath.gammaFunction = /**
+            /**
             * Gamma function. Defined: gamma(N) == (N - 1)!
             * @method gammaFunction
             * @param value {number}
@@ -28125,11 +28588,11 @@ var Kiwi;
             * @static
             * @public
             */
-            function (value) {
+            GameMath.gammaFunction = function (value) {
                 return Kiwi.Utils.GameMath.factorial(value - 1);
             };
 
-            GameMath.fallingFactorial = /**
+            /**
             * Falling factorial. Defined: (N)! / (N - x)!
             * Written subscript: (N)x OR (base)exp
             * @method fallingFactorial
@@ -28139,11 +28602,11 @@ var Kiwi;
             * @static
             * @public
             */
-            function (base, exp) {
+            GameMath.fallingFactorial = function (base, exp) {
                 return Kiwi.Utils.GameMath.factorial(base) / Kiwi.Utils.GameMath.factorial(base - exp);
             };
 
-            GameMath.risingFactorial = /**
+            /**
             * Rising factorial. Defined: (N + x - 1)! / (N - 1)!
             * Written superscript N^(x) OR base^(exp)
             * @method risingFactorial
@@ -28153,12 +28616,12 @@ var Kiwi;
             * @static
             * @public
             */
-            function (base, exp) {
+            GameMath.risingFactorial = function (base, exp) {
                 //expanded from gammaFunction for speed
                 return Kiwi.Utils.GameMath.factorial(base + exp - 1) / Kiwi.Utils.GameMath.factorial(base - 1);
             };
 
-            GameMath.binCoef = /**
+            /**
             * Binomial coefficient.
             * @method binCoef
             * @param n {number}
@@ -28167,11 +28630,11 @@ var Kiwi;
             * @static
             * @public
             */
-            function (n, k) {
+            GameMath.binCoef = function (n, k) {
                 return Kiwi.Utils.GameMath.fallingFactorial(n, k) / Kiwi.Utils.GameMath.factorial(k);
             };
 
-            GameMath.risingBinCoef = /*
+            /*
             * defined: N! / (k!(N-k)!)
             * reduced: N! / (N-k)! == (N)k (fallingfactorial)
             * reduced: (N)k / k!
@@ -28188,11 +28651,11 @@ var Kiwi;
             * @static
             * @public
             */
-            function (n, k) {
+            GameMath.risingBinCoef = function (n, k) {
                 return Kiwi.Utils.GameMath.risingFactorial(n, k) / Kiwi.Utils.GameMath.factorial(k);
             };
 
-            GameMath.chanceRoll = /**
+            /**
             * Generate a random boolean result based on the chance value.
             * Returns true or false based on the chance value (default 50%). For example if you wanted a player to have a 30% chance
             * of getting a bonus, call chanceRoll(30) - true means the chance passed, false means it failed.
@@ -28203,7 +28666,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (chance) {
+            GameMath.chanceRoll = function (chance) {
                 if (typeof chance === "undefined") { chance = 50; }
                 if (chance <= 0) {
                     return false;
@@ -28218,7 +28681,7 @@ var Kiwi;
                 }
             };
 
-            GameMath.maxAdd = /**
+            /**
             * Adds the given amount to the value, but never lets the value go over the specified maximum.
             *
             * @method maxAdd
@@ -28229,7 +28692,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (value, amount, max) {
+            GameMath.maxAdd = function (value, amount, max) {
                 value += amount;
 
                 if (value > max) {
@@ -28239,7 +28702,7 @@ var Kiwi;
                 return value;
             };
 
-            GameMath.minSub = /**
+            /**
             * Subtracts the given amount from the value, but never lets the value go below the specified minimum.
             *
             * @method minSub
@@ -28250,7 +28713,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (value, amount, min) {
+            GameMath.minSub = function (value, amount, min) {
                 value -= amount;
 
                 if (value < min) {
@@ -28260,7 +28723,7 @@ var Kiwi;
                 return value;
             };
 
-            GameMath.wrapValue = /**
+            /**
             * Adds value to amount and ensures that the result always stays between 0 and max, by wrapping the value around.
             * Values must be positive integers, and are passed through Math.abs
             *
@@ -28272,7 +28735,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (value, amount, max) {
+            GameMath.wrapValue = function (value, amount, max) {
                 var diff;
 
                 value = Math.abs(value);
@@ -28284,18 +28747,18 @@ var Kiwi;
                 return diff;
             };
 
-            GameMath.randomSign = /**
+            /**
             * Randomly returns either a 1 or -1
             * @method randomSign
             * @return {number} Either 1 or -1.
             * @static
             * @public
             */
-            function () {
+            GameMath.randomSign = function () {
                 return (Math.random() > 0.5) ? 1 : -1;
             };
 
-            GameMath.isOdd = /**
+            /**
             * Returns true if the number given is odd.
             * @method isOff
             * @param n {number} The number to check
@@ -28303,7 +28766,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (n) {
+            GameMath.isOdd = function (n) {
                 if (n & 1) {
                     return true;
                 } else {
@@ -28311,7 +28774,7 @@ var Kiwi;
                 }
             };
 
-            GameMath.isEven = /**
+            /**
             * Returns true if the number given is even.
             * @method isEvent
             * @param n {number} The number to check
@@ -28319,7 +28782,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (n) {
+            GameMath.isEven = function (n) {
                 if (n & 1) {
                     return false;
                 } else {
@@ -28327,7 +28790,7 @@ var Kiwi;
                 }
             };
 
-            GameMath.wrapAngle = /**
+            /**
             * Keeps an angle value between -180 and +180.
             * Should be called whenever the angle is updated on the Sprite to stop it from going insane.
             * @method wrapAngle
@@ -28336,9 +28799,10 @@ var Kiwi;
             * @static
             * @public
             */
-            function (angle) {
+            GameMath.wrapAngle = function (angle) {
                 var result = angle;
 
+                //  Nothing needs to change
                 if (angle >= -180 && angle <= 180) {
                     return angle;
                 }
@@ -28353,7 +28817,7 @@ var Kiwi;
                 return result - 180;
             };
 
-            GameMath.angleLimit = /**
+            /**
             * Keeps an angle value between the given min and max values.
             * @method angleLimit
             * @param angle {number} The angle value to check. Must be between -180 and +180
@@ -28363,7 +28827,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (angle, min, max) {
+            GameMath.angleLimit = function (angle, min, max) {
                 var result = angle;
 
                 if (angle > max) {
@@ -28375,7 +28839,7 @@ var Kiwi;
                 return result;
             };
 
-            GameMath.linearInterpolation = /**
+            /**
             * [DESCRIPTION REQUIRED]
             * @method linear
             * @param {Any} v
@@ -28384,7 +28848,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (v, k) {
+            GameMath.linearInterpolation = function (v, k) {
                 var m = v.length - 1;
                 var f = m * k;
                 var i = Math.floor(f);
@@ -28397,7 +28861,7 @@ var Kiwi;
                 return Kiwi.Utils.GameMath.linear(v[i], v[i + 1 > m ? m : i + 1], f - i);
             };
 
-            GameMath.bezierInterpolation = /**
+            /**
             * [DESCRIPTION REQUIRED]
             * @method Bezier
             * @param {Any} v
@@ -28406,7 +28870,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (v, k) {
+            GameMath.bezierInterpolation = function (v, k) {
                 var b = 0;
                 var n = v.length - 1;
 
@@ -28417,7 +28881,7 @@ var Kiwi;
                 return b;
             };
 
-            GameMath.catmullRomInterpolation = /**
+            /**
             * [DESCRIPTION REQUIRED]
             * @method CatmullRom
             * @param {Any} v
@@ -28426,7 +28890,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (v, k) {
+            GameMath.catmullRomInterpolation = function (v, k) {
                 var m = v.length - 1;
                 var f = m * k;
                 var i = Math.floor(f);
@@ -28447,7 +28911,7 @@ var Kiwi;
                 }
             };
 
-            GameMath.linear = /**
+            /**
             * [DESCRIPTION REQUIRED]
             * @method Linear
             * @param {Any} p0
@@ -28457,11 +28921,11 @@ var Kiwi;
             * @static
             * @public
             */
-            function (p0, p1, t) {
+            GameMath.linear = function (p0, p1, t) {
                 return (p1 - p0) * t + p0;
             };
 
-            GameMath.bernstein = /**
+            /**
             * [DESCRIPTION REQUIRED]
             * @method Bernstein
             * @param {Any} n
@@ -28470,11 +28934,11 @@ var Kiwi;
             * @static
             * @public
             */
-            function (n, i) {
+            GameMath.bernstein = function (n, i) {
                 return Kiwi.Utils.GameMath.factorial(n) / Kiwi.Utils.GameMath.factorial(i) / Kiwi.Utils.GameMath.factorial(n - i);
             };
 
-            GameMath.catmullRom = /**
+            /**
             * [DESCRIPTION REQUIRED]
             * @method CatmullRom
             * @param {Any} p0
@@ -28486,12 +28950,12 @@ var Kiwi;
             * @static
             * @public
             */
-            function (p0, p1, p2, p3, t) {
+            GameMath.catmullRom = function (p0, p1, p2, p3, t) {
                 var v0 = (p2 - p0) * 0.5, v1 = (p3 - p1) * 0.5, t2 = t * t, t3 = t * t2;
                 return (2 * p1 - 2 * p2 + v0 + v1) * t3 + (-3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
             };
 
-            GameMath.difference = /**
+            /**
             * [DESCRIPTION REQUIRED]
             * @method difference
             * @param a {number}
@@ -28500,7 +28964,7 @@ var Kiwi;
             * @static
             * @public
             */
-            function (a, b) {
+            GameMath.difference = function (a, b) {
                 return Math.abs(a - b);
             };
             GameMath.PI = 3.141592653589793;
@@ -28576,13 +29040,13 @@ var Kiwi;
     })(Kiwi.Utils || (Kiwi.Utils = {}));
     var Utils = Kiwi.Utils;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Utils
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Utils
-    */
     (function (Utils) {
         /**
         * Manages the creation of unique internal game IDs.
@@ -28616,106 +29080,21 @@ var Kiwi;
                 */
                 this._data = {
                     lipsum: [
-                        "lorem",
-                        "ipsum",
-                        "dolor",
-                        "sit",
-                        "amet",
-                        "consectetur",
-                        "adipiscing",
-                        "elit",
-                        "nunc",
-                        "sagittis",
-                        "tortor",
-                        "ac",
-                        "mi",
-                        "pretium",
-                        "sed",
-                        "convallis",
-                        "massa",
-                        "pulvinar",
-                        "curabitur",
-                        "non",
-                        "turpis",
-                        "velit",
-                        "vitae",
-                        "rutrum",
-                        "odio",
-                        "aliquam",
-                        "sapien",
-                        "orci",
-                        "tempor",
-                        "sed",
-                        "elementum",
-                        "sit",
-                        "amet",
-                        "tincidunt",
-                        "sed",
-                        "risus",
-                        "etiam",
-                        "nec",
-                        "lacus",
-                        "id",
-                        "ante",
-                        "hendrerit",
-                        "malesuada",
-                        "donec",
-                        "porttitor",
-                        "magna",
-                        "eget",
-                        "libero",
-                        "pharetra",
-                        "sollicitudin",
-                        "aliquam",
-                        "mattis",
-                        "mattis",
-                        "massa",
-                        "et",
-                        "porta",
-                        "morbi",
-                        "vitae",
-                        "magna",
-                        "augue",
-                        "vestibulum",
-                        "at",
-                        "lectus",
-                        "sed",
-                        "tellus",
-                        "facilisis",
-                        "tincidunt",
-                        "suspendisse",
-                        "eros",
-                        "magna",
-                        "consequat",
-                        "at",
-                        "sollicitudin",
-                        "ac",
-                        "vestibulum",
-                        "vel",
-                        "dolor",
-                        "in",
-                        "egestas",
-                        "lacus",
-                        "quis",
-                        "lacus",
-                        "placerat",
-                        "et",
-                        "molestie",
-                        "ipsum",
-                        "scelerisque",
-                        "nullam",
-                        "sit",
-                        "amet",
-                        "tortor",
-                        "dui",
-                        "aenean",
-                        "pulvinar",
-                        "odio",
-                        "nec",
-                        "placerat",
-                        "fringilla",
-                        "neque",
-                        "dolor"
+                        "lorem", "ipsum", "dolor", "sit", "amet", "consectetur",
+                        "adipiscing", "elit", "nunc", "sagittis", "tortor", "ac", "mi",
+                        "pretium", "sed", "convallis", "massa", "pulvinar", "curabitur",
+                        "non", "turpis", "velit", "vitae", "rutrum", "odio", "aliquam",
+                        "sapien", "orci", "tempor", "sed", "elementum", "sit", "amet",
+                        "tincidunt", "sed", "risus", "etiam", "nec", "lacus", "id", "ante",
+                        "hendrerit", "malesuada", "donec", "porttitor", "magna", "eget",
+                        "libero", "pharetra", "sollicitudin", "aliquam", "mattis", "mattis",
+                        "massa", "et", "porta", "morbi", "vitae", "magna", "augue",
+                        "vestibulum", "at", "lectus", "sed", "tellus", "facilisis",
+                        "tincidunt", "suspendisse", "eros", "magna", "consequat", "at",
+                        "sollicitudin", "ac", "vestibulum", "vel", "dolor", "in", "egestas",
+                        "lacus", "quis", "lacus", "placerat", "et", "molestie", "ipsum",
+                        "scelerisque", "nullam", "sit", "amet", "tortor", "dui", "aenean",
+                        "pulvinar", "odio", "nec", "placerat", "fringilla", "neque", "dolor"
                     ]
                 };
                 this.sow(seeds);
@@ -28789,7 +29168,7 @@ var Kiwi;
                     h *= n;
                     n = h >>> 0;
                     h -= n;
-                    n += h * 0x100000000;
+                    n += h * 0x100000000; // 2^32
                 }
 
                 return (n >>> 0) * 2.3283064365386963e-10;
@@ -28809,7 +29188,7 @@ var Kiwi;
 
                 var seed;
 
-                for (var i = 0; seed = seeds[i++]; ) {
+                for (var i = 0; seed = seeds[i++];) {
                     this.s0 -= this.hash(seed);
                     this.s0 += ~~(this.s0 < 0);
 
@@ -29016,13 +29395,13 @@ var Kiwi;
     })(Kiwi.Utils || (Kiwi.Utils = {}));
     var Utils = Kiwi.Utils;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Utils
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    *
-    * @module Kiwi
-    * @submodule Utils
-    */
     (function (Utils) {
         /**
         * Abstracts away the use of RAF or setTimeout for the core game update loop. The callback can be re-mapped on the fly.
@@ -29213,12 +29592,31 @@ var Kiwi;
     })(Kiwi.Utils || (Kiwi.Utils = {}));
     var Utils = Kiwi.Utils;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Utils
+*/
 var Kiwi;
 (function (Kiwi) {
     (function (Utils) {
+        /**
+        * Deals with parsing and comparing semver style version numbers
+        * @class Version
+        * @constructor
+        * @namespace Kiwi.Utils
+        */
         var Version = (function () {
             function Version() {
             }
+            /**
+            * Parses a string such as "1.2.3" and returns an oject containing numeric properties for majorVersion, minorVersion and patchVersion
+            * @method parseVersion
+            * @param version {String}
+            * @return {Object}
+            * @public
+            * @static
+            */
             Version.parseVersion = function (version) {
                 var split = version.split(".");
                 return {
@@ -29228,8 +29626,16 @@ var Kiwi;
                 };
             };
 
-            Version.compareVersions = // version1 == version2
-            function (version1, version2) {
+            /**
+            * Compares two semver version strings such as "0.1.0" and "0.2.1". Returns "greater", "less" or "equal".
+            * @method parseVersion
+            * @param version1 {String}
+            * @param version2 {String}
+            * @return {String}
+            * @public
+            * @static
+            */
+            Version.compareVersions = function (version1, version2) {
                 var v1 = Version.parseVersion(version1);
                 var v2 = Version.parseVersion(version2);
                 if (v1.majorVersion > v2.majorVersion) {
@@ -29239,6 +29645,7 @@ var Kiwi;
                     return "less";
                 }
 
+                // major versions must be equal
                 if (v1.minorVersion > v2.minorVersion) {
                     return "greater";
                 }
@@ -29246,6 +29653,7 @@ var Kiwi;
                     return "less";
                 }
 
+                //minor versions must be equal
                 if (v1.patchVersion > v2.patchVersion) {
                     return "greater";
                 }
@@ -29257,6 +29665,15 @@ var Kiwi;
                 return "equal";
             };
 
+            /**
+            * Compares two semver version strings such as "0.1.0" and "0.2.1". Returns true if version1 is greater than version2.
+            * @method parseVersion
+            * @param version1 {String}
+            * @param version2 {String}
+            * @return {boolean}
+            * @public
+            * @static
+            */
             Version.greaterOrEqual = function (version1, version2) {
                 var comp = Version.compareVersions(version1, version2);
                 return (comp == "greater" || comp == "equal");
@@ -29298,7 +29715,6 @@ var Kiwi;
 /// <reference path="file/File.ts" />
 /// <reference path="file/FileStore.ts" />
 /// <reference path="system/Bootstrap.ts" />
-/// <reference path="system/Browser.ts" />
 /// <reference path="system/Device.ts" />
 /// <reference path="textures/TextureAtlas.ts" />
 /// <reference path="textures/TextureLibrary.ts" />
@@ -29551,24 +29967,24 @@ var Kiwi;
             return "GameManager";
         };
 
-        GameManager.register = /**
+        /**
         * Used to register a new Game with this manager. Returns the new number of games that have been registered.
         * @method register
         * @param game {Game} The game you are wanting to register.
         * @return {Number] The new number of games registered.
         * @public
         */
-        function (game) {
+        GameManager.register = function (game) {
             return Kiwi.GameManager._games.push(game);
         };
 
-        GameManager.total = /**
+        /**
         * Returns the total number of game that are currently registered with this GameManager.
         * @method total
         * @return {Number} Total number of registered games.
         * @public
         */
-        function () {
+        GameManager.total = function () {
             return Kiwi.GameManager._games.length;
         };
         GameManager._games = [];
@@ -29589,3 +30005,32 @@ var Kiwi;
         d.prototype = new __();
     };
 })(Kiwi || (Kiwi = {}));
+
+/**
+ * @fileoverview gl-matrix - High performance matrix and vector operations
+ * @author Brandon Jones
+ * @author Colin MacKenzie IV
+ * @version 2.2.0
+ */
+/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+  * Redistributions of source code must retain the above copyright notice, this
+    list of conditions and the following disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation 
+    and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
+(function(e){"use strict";var t={};typeof exports=="undefined"?typeof define=="function"&&typeof define.amd=="object"&&define.amd?(t.exports={},define(function(){return t.exports})):t.exports=typeof window!="undefined"?window:e:t.exports=exports,function(e){if(!t)var t=1e-6;if(!n)var n=typeof Float32Array!="undefined"?Float32Array:Array;if(!r)var r=Math.random;var i={};i.setMatrixArrayType=function(e){n=e},typeof e!="undefined"&&(e.glMatrix=i);var s={};s.create=function(){var e=new n(2);return e[0]=0,e[1]=0,e},s.clone=function(e){var t=new n(2);return t[0]=e[0],t[1]=e[1],t},s.fromValues=function(e,t){var r=new n(2);return r[0]=e,r[1]=t,r},s.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e},s.set=function(e,t,n){return e[0]=t,e[1]=n,e},s.add=function(e,t,n){return e[0]=t[0]+n[0],e[1]=t[1]+n[1],e},s.subtract=function(e,t,n){return e[0]=t[0]-n[0],e[1]=t[1]-n[1],e},s.sub=s.subtract,s.multiply=function(e,t,n){return e[0]=t[0]*n[0],e[1]=t[1]*n[1],e},s.mul=s.multiply,s.divide=function(e,t,n){return e[0]=t[0]/n[0],e[1]=t[1]/n[1],e},s.div=s.divide,s.min=function(e,t,n){return e[0]=Math.min(t[0],n[0]),e[1]=Math.min(t[1],n[1]),e},s.max=function(e,t,n){return e[0]=Math.max(t[0],n[0]),e[1]=Math.max(t[1],n[1]),e},s.scale=function(e,t,n){return e[0]=t[0]*n,e[1]=t[1]*n,e},s.scaleAndAdd=function(e,t,n,r){return e[0]=t[0]+n[0]*r,e[1]=t[1]+n[1]*r,e},s.distance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1];return Math.sqrt(n*n+r*r)},s.dist=s.distance,s.squaredDistance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1];return n*n+r*r},s.sqrDist=s.squaredDistance,s.length=function(e){var t=e[0],n=e[1];return Math.sqrt(t*t+n*n)},s.len=s.length,s.squaredLength=function(e){var t=e[0],n=e[1];return t*t+n*n},s.sqrLen=s.squaredLength,s.negate=function(e,t){return e[0]=-t[0],e[1]=-t[1],e},s.normalize=function(e,t){var n=t[0],r=t[1],i=n*n+r*r;return i>0&&(i=1/Math.sqrt(i),e[0]=t[0]*i,e[1]=t[1]*i),e},s.dot=function(e,t){return e[0]*t[0]+e[1]*t[1]},s.cross=function(e,t,n){var r=t[0]*n[1]-t[1]*n[0];return e[0]=e[1]=0,e[2]=r,e},s.lerp=function(e,t,n,r){var i=t[0],s=t[1];return e[0]=i+r*(n[0]-i),e[1]=s+r*(n[1]-s),e},s.random=function(e,t){t=t||1;var n=r()*2*Math.PI;return e[0]=Math.cos(n)*t,e[1]=Math.sin(n)*t,e},s.transformMat2=function(e,t,n){var r=t[0],i=t[1];return e[0]=n[0]*r+n[2]*i,e[1]=n[1]*r+n[3]*i,e},s.transformMat2d=function(e,t,n){var r=t[0],i=t[1];return e[0]=n[0]*r+n[2]*i+n[4],e[1]=n[1]*r+n[3]*i+n[5],e},s.transformMat3=function(e,t,n){var r=t[0],i=t[1];return e[0]=n[0]*r+n[3]*i+n[6],e[1]=n[1]*r+n[4]*i+n[7],e},s.transformMat4=function(e,t,n){var r=t[0],i=t[1];return e[0]=n[0]*r+n[4]*i+n[12],e[1]=n[1]*r+n[5]*i+n[13],e},s.forEach=function(){var e=s.create();return function(t,n,r,i,s,o){var u,a;n||(n=2),r||(r=0),i?a=Math.min(i*n+r,t.length):a=t.length;for(u=r;u<a;u+=n)e[0]=t[u],e[1]=t[u+1],s(e,e,o),t[u]=e[0],t[u+1]=e[1];return t}}(),s.str=function(e){return"vec2("+e[0]+", "+e[1]+")"},typeof e!="undefined"&&(e.vec2=s);var o={};o.create=function(){var e=new n(3);return e[0]=0,e[1]=0,e[2]=0,e},o.clone=function(e){var t=new n(3);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t},o.fromValues=function(e,t,r){var i=new n(3);return i[0]=e,i[1]=t,i[2]=r,i},o.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e},o.set=function(e,t,n,r){return e[0]=t,e[1]=n,e[2]=r,e},o.add=function(e,t,n){return e[0]=t[0]+n[0],e[1]=t[1]+n[1],e[2]=t[2]+n[2],e},o.subtract=function(e,t,n){return e[0]=t[0]-n[0],e[1]=t[1]-n[1],e[2]=t[2]-n[2],e},o.sub=o.subtract,o.multiply=function(e,t,n){return e[0]=t[0]*n[0],e[1]=t[1]*n[1],e[2]=t[2]*n[2],e},o.mul=o.multiply,o.divide=function(e,t,n){return e[0]=t[0]/n[0],e[1]=t[1]/n[1],e[2]=t[2]/n[2],e},o.div=o.divide,o.min=function(e,t,n){return e[0]=Math.min(t[0],n[0]),e[1]=Math.min(t[1],n[1]),e[2]=Math.min(t[2],n[2]),e},o.max=function(e,t,n){return e[0]=Math.max(t[0],n[0]),e[1]=Math.max(t[1],n[1]),e[2]=Math.max(t[2],n[2]),e},o.scale=function(e,t,n){return e[0]=t[0]*n,e[1]=t[1]*n,e[2]=t[2]*n,e},o.scaleAndAdd=function(e,t,n,r){return e[0]=t[0]+n[0]*r,e[1]=t[1]+n[1]*r,e[2]=t[2]+n[2]*r,e},o.distance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1],i=t[2]-e[2];return Math.sqrt(n*n+r*r+i*i)},o.dist=o.distance,o.squaredDistance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1],i=t[2]-e[2];return n*n+r*r+i*i},o.sqrDist=o.squaredDistance,o.length=function(e){var t=e[0],n=e[1],r=e[2];return Math.sqrt(t*t+n*n+r*r)},o.len=o.length,o.squaredLength=function(e){var t=e[0],n=e[1],r=e[2];return t*t+n*n+r*r},o.sqrLen=o.squaredLength,o.negate=function(e,t){return e[0]=-t[0],e[1]=-t[1],e[2]=-t[2],e},o.normalize=function(e,t){var n=t[0],r=t[1],i=t[2],s=n*n+r*r+i*i;return s>0&&(s=1/Math.sqrt(s),e[0]=t[0]*s,e[1]=t[1]*s,e[2]=t[2]*s),e},o.dot=function(e,t){return e[0]*t[0]+e[1]*t[1]+e[2]*t[2]},o.cross=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=n[0],u=n[1],a=n[2];return e[0]=i*a-s*u,e[1]=s*o-r*a,e[2]=r*u-i*o,e},o.lerp=function(e,t,n,r){var i=t[0],s=t[1],o=t[2];return e[0]=i+r*(n[0]-i),e[1]=s+r*(n[1]-s),e[2]=o+r*(n[2]-o),e},o.random=function(e,t){t=t||1;var n=r()*2*Math.PI,i=r()*2-1,s=Math.sqrt(1-i*i)*t;return e[0]=Math.cos(n)*s,e[1]=Math.sin(n)*s,e[2]=i*t,e},o.transformMat4=function(e,t,n){var r=t[0],i=t[1],s=t[2];return e[0]=n[0]*r+n[4]*i+n[8]*s+n[12],e[1]=n[1]*r+n[5]*i+n[9]*s+n[13],e[2]=n[2]*r+n[6]*i+n[10]*s+n[14],e},o.transformMat3=function(e,t,n){var r=t[0],i=t[1],s=t[2];return e[0]=r*n[0]+i*n[3]+s*n[6],e[1]=r*n[1]+i*n[4]+s*n[7],e[2]=r*n[2]+i*n[5]+s*n[8],e},o.transformQuat=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=n[0],u=n[1],a=n[2],f=n[3],l=f*r+u*s-a*i,c=f*i+a*r-o*s,h=f*s+o*i-u*r,p=-o*r-u*i-a*s;return e[0]=l*f+p*-o+c*-a-h*-u,e[1]=c*f+p*-u+h*-o-l*-a,e[2]=h*f+p*-a+l*-u-c*-o,e},o.forEach=function(){var e=o.create();return function(t,n,r,i,s,o){var u,a;n||(n=3),r||(r=0),i?a=Math.min(i*n+r,t.length):a=t.length;for(u=r;u<a;u+=n)e[0]=t[u],e[1]=t[u+1],e[2]=t[u+2],s(e,e,o),t[u]=e[0],t[u+1]=e[1],t[u+2]=e[2];return t}}(),o.str=function(e){return"vec3("+e[0]+", "+e[1]+", "+e[2]+")"},typeof e!="undefined"&&(e.vec3=o);var u={};u.create=function(){var e=new n(4);return e[0]=0,e[1]=0,e[2]=0,e[3]=0,e},u.clone=function(e){var t=new n(4);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t[3]=e[3],t},u.fromValues=function(e,t,r,i){var s=new n(4);return s[0]=e,s[1]=t,s[2]=r,s[3]=i,s},u.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e},u.set=function(e,t,n,r,i){return e[0]=t,e[1]=n,e[2]=r,e[3]=i,e},u.add=function(e,t,n){return e[0]=t[0]+n[0],e[1]=t[1]+n[1],e[2]=t[2]+n[2],e[3]=t[3]+n[3],e},u.subtract=function(e,t,n){return e[0]=t[0]-n[0],e[1]=t[1]-n[1],e[2]=t[2]-n[2],e[3]=t[3]-n[3],e},u.sub=u.subtract,u.multiply=function(e,t,n){return e[0]=t[0]*n[0],e[1]=t[1]*n[1],e[2]=t[2]*n[2],e[3]=t[3]*n[3],e},u.mul=u.multiply,u.divide=function(e,t,n){return e[0]=t[0]/n[0],e[1]=t[1]/n[1],e[2]=t[2]/n[2],e[3]=t[3]/n[3],e},u.div=u.divide,u.min=function(e,t,n){return e[0]=Math.min(t[0],n[0]),e[1]=Math.min(t[1],n[1]),e[2]=Math.min(t[2],n[2]),e[3]=Math.min(t[3],n[3]),e},u.max=function(e,t,n){return e[0]=Math.max(t[0],n[0]),e[1]=Math.max(t[1],n[1]),e[2]=Math.max(t[2],n[2]),e[3]=Math.max(t[3],n[3]),e},u.scale=function(e,t,n){return e[0]=t[0]*n,e[1]=t[1]*n,e[2]=t[2]*n,e[3]=t[3]*n,e},u.scaleAndAdd=function(e,t,n,r){return e[0]=t[0]+n[0]*r,e[1]=t[1]+n[1]*r,e[2]=t[2]+n[2]*r,e[3]=t[3]+n[3]*r,e},u.distance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1],i=t[2]-e[2],s=t[3]-e[3];return Math.sqrt(n*n+r*r+i*i+s*s)},u.dist=u.distance,u.squaredDistance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1],i=t[2]-e[2],s=t[3]-e[3];return n*n+r*r+i*i+s*s},u.sqrDist=u.squaredDistance,u.length=function(e){var t=e[0],n=e[1],r=e[2],i=e[3];return Math.sqrt(t*t+n*n+r*r+i*i)},u.len=u.length,u.squaredLength=function(e){var t=e[0],n=e[1],r=e[2],i=e[3];return t*t+n*n+r*r+i*i},u.sqrLen=u.squaredLength,u.negate=function(e,t){return e[0]=-t[0],e[1]=-t[1],e[2]=-t[2],e[3]=-t[3],e},u.normalize=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=n*n+r*r+i*i+s*s;return o>0&&(o=1/Math.sqrt(o),e[0]=t[0]*o,e[1]=t[1]*o,e[2]=t[2]*o,e[3]=t[3]*o),e},u.dot=function(e,t){return e[0]*t[0]+e[1]*t[1]+e[2]*t[2]+e[3]*t[3]},u.lerp=function(e,t,n,r){var i=t[0],s=t[1],o=t[2],u=t[3];return e[0]=i+r*(n[0]-i),e[1]=s+r*(n[1]-s),e[2]=o+r*(n[2]-o),e[3]=u+r*(n[3]-u),e},u.random=function(e,t){return t=t||1,e[0]=r(),e[1]=r(),e[2]=r(),e[3]=r(),u.normalize(e,e),u.scale(e,e,t),e},u.transformMat4=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3];return e[0]=n[0]*r+n[4]*i+n[8]*s+n[12]*o,e[1]=n[1]*r+n[5]*i+n[9]*s+n[13]*o,e[2]=n[2]*r+n[6]*i+n[10]*s+n[14]*o,e[3]=n[3]*r+n[7]*i+n[11]*s+n[15]*o,e},u.transformQuat=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=n[0],u=n[1],a=n[2],f=n[3],l=f*r+u*s-a*i,c=f*i+a*r-o*s,h=f*s+o*i-u*r,p=-o*r-u*i-a*s;return e[0]=l*f+p*-o+c*-a-h*-u,e[1]=c*f+p*-u+h*-o-l*-a,e[2]=h*f+p*-a+l*-u-c*-o,e},u.forEach=function(){var e=u.create();return function(t,n,r,i,s,o){var u,a;n||(n=4),r||(r=0),i?a=Math.min(i*n+r,t.length):a=t.length;for(u=r;u<a;u+=n)e[0]=t[u],e[1]=t[u+1],e[2]=t[u+2],e[3]=t[u+3],s(e,e,o),t[u]=e[0],t[u+1]=e[1],t[u+2]=e[2],t[u+3]=e[3];return t}}(),u.str=function(e){return"vec4("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+")"},typeof e!="undefined"&&(e.vec4=u);var a={};a.create=function(){var e=new n(4);return e[0]=1,e[1]=0,e[2]=0,e[3]=1,e},a.clone=function(e){var t=new n(4);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t[3]=e[3],t},a.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e},a.identity=function(e){return e[0]=1,e[1]=0,e[2]=0,e[3]=1,e},a.transpose=function(e,t){if(e===t){var n=t[1];e[1]=t[2],e[2]=n}else e[0]=t[0],e[1]=t[2],e[2]=t[1],e[3]=t[3];return e},a.invert=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=n*s-i*r;return o?(o=1/o,e[0]=s*o,e[1]=-r*o,e[2]=-i*o,e[3]=n*o,e):null},a.adjoint=function(e,t){var n=t[0];return e[0]=t[3],e[1]=-t[1],e[2]=-t[2],e[3]=n,e},a.determinant=function(e){return e[0]*e[3]-e[2]*e[1]},a.multiply=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=n[0],a=n[1],f=n[2],l=n[3];return e[0]=r*u+i*f,e[1]=r*a+i*l,e[2]=s*u+o*f,e[3]=s*a+o*l,e},a.mul=a.multiply,a.rotate=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=Math.sin(n),a=Math.cos(n);return e[0]=r*a+i*u,e[1]=r*-u+i*a,e[2]=s*a+o*u,e[3]=s*-u+o*a,e},a.scale=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=n[0],a=n[1];return e[0]=r*u,e[1]=i*a,e[2]=s*u,e[3]=o*a,e},a.str=function(e){return"mat2("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+")"},typeof e!="undefined"&&(e.mat2=a);var f={};f.create=function(){var e=new n(6);return e[0]=1,e[1]=0,e[2]=0,e[3]=1,e[4]=0,e[5]=0,e},f.clone=function(e){var t=new n(6);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t[3]=e[3],t[4]=e[4],t[5]=e[5],t},f.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e[4]=t[4],e[5]=t[5],e},f.identity=function(e){return e[0]=1,e[1]=0,e[2]=0,e[3]=1,e[4]=0,e[5]=0,e},f.invert=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=n*s-r*i;return a?(a=1/a,e[0]=s*a,e[1]=-r*a,e[2]=-i*a,e[3]=n*a,e[4]=(i*u-s*o)*a,e[5]=(r*o-n*u)*a,e):null},f.determinant=function(e){return e[0]*e[3]-e[1]*e[2]},f.multiply=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=n[0],l=n[1],c=n[2],h=n[3],p=n[4],d=n[5];return e[0]=r*f+i*c,e[1]=r*l+i*h,e[2]=s*f+o*c,e[3]=s*l+o*h,e[4]=f*u+c*a+p,e[5]=l*u+h*a+d,e},f.mul=f.multiply,f.rotate=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=Math.sin(n),l=Math.cos(n);return e[0]=r*l+i*f,e[1]=-r*f+i*l,e[2]=s*l+o*f,e[3]=-s*f+l*o,e[4]=l*u+f*a,e[5]=l*a-f*u,e},f.scale=function(e,t,n){var r=n[0],i=n[1];return e[0]=t[0]*r,e[1]=t[1]*i,e[2]=t[2]*r,e[3]=t[3]*i,e[4]=t[4]*r,e[5]=t[5]*i,e},f.translate=function(e,t,n){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e[4]=t[4]+n[0],e[5]=t[5]+n[1],e},f.str=function(e){return"mat2d("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+", "+e[4]+", "+e[5]+")"},typeof e!="undefined"&&(e.mat2d=f);var l={};l.create=function(){var e=new n(9);return e[0]=1,e[1]=0,e[2]=0,e[3]=0,e[4]=1,e[5]=0,e[6]=0,e[7]=0,e[8]=1,e},l.fromMat4=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[4],e[4]=t[5],e[5]=t[6],e[6]=t[8],e[7]=t[9],e[8]=t[10],e},l.clone=function(e){var t=new n(9);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t[3]=e[3],t[4]=e[4],t[5]=e[5],t[6]=e[6],t[7]=e[7],t[8]=e[8],t},l.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e[4]=t[4],e[5]=t[5],e[6]=t[6],e[7]=t[7],e[8]=t[8],e},l.identity=function(e){return e[0]=1,e[1]=0,e[2]=0,e[3]=0,e[4]=1,e[5]=0,e[6]=0,e[7]=0,e[8]=1,e},l.transpose=function(e,t){if(e===t){var n=t[1],r=t[2],i=t[5];e[1]=t[3],e[2]=t[6],e[3]=n,e[5]=t[7],e[6]=r,e[7]=i}else e[0]=t[0],e[1]=t[3],e[2]=t[6],e[3]=t[1],e[4]=t[4],e[5]=t[7],e[6]=t[2],e[7]=t[5],e[8]=t[8];return e},l.invert=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=t[6],f=t[7],l=t[8],c=l*o-u*f,h=-l*s+u*a,p=f*s-o*a,d=n*c+r*h+i*p;return d?(d=1/d,e[0]=c*d,e[1]=(-l*r+i*f)*d,e[2]=(u*r-i*o)*d,e[3]=h*d,e[4]=(l*n-i*a)*d,e[5]=(-u*n+i*s)*d,e[6]=p*d,e[7]=(-f*n+r*a)*d,e[8]=(o*n-r*s)*d,e):null},l.adjoint=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=t[6],f=t[7],l=t[8];return e[0]=o*l-u*f,e[1]=i*f-r*l,e[2]=r*u-i*o,e[3]=u*a-s*l,e[4]=n*l-i*a,e[5]=i*s-n*u,e[6]=s*f-o*a,e[7]=r*a-n*f,e[8]=n*o-r*s,e},l.determinant=function(e){var t=e[0],n=e[1],r=e[2],i=e[3],s=e[4],o=e[5],u=e[6],a=e[7],f=e[8];return t*(f*s-o*a)+n*(-f*i+o*u)+r*(a*i-s*u)},l.multiply=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=t[6],l=t[7],c=t[8],h=n[0],p=n[1],d=n[2],v=n[3],m=n[4],g=n[5],y=n[6],b=n[7],w=n[8];return e[0]=h*r+p*o+d*f,e[1]=h*i+p*u+d*l,e[2]=h*s+p*a+d*c,e[3]=v*r+m*o+g*f,e[4]=v*i+m*u+g*l,e[5]=v*s+m*a+g*c,e[6]=y*r+b*o+w*f,e[7]=y*i+b*u+w*l,e[8]=y*s+b*a+w*c,e},l.mul=l.multiply,l.translate=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=t[6],l=t[7],c=t[8],h=n[0],p=n[1];return e[0]=r,e[1]=i,e[2]=s,e[3]=o,e[4]=u,e[5]=a,e[6]=h*r+p*o+f,e[7]=h*i+p*u+l,e[8]=h*s+p*a+c,e},l.rotate=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=t[6],l=t[7],c=t[8],h=Math.sin(n),p=Math.cos(n);return e[0]=p*r+h*o,e[1]=p*i+h*u,e[2]=p*s+h*a,e[3]=p*o-h*r,e[4]=p*u-h*i,e[5]=p*a-h*s,e[6]=f,e[7]=l,e[8]=c,e},l.scale=function(e,t,n){var r=n[0],i=n[1];return e[0]=r*t[0],e[1]=r*t[1],e[2]=r*t[2],e[3]=i*t[3],e[4]=i*t[4],e[5]=i*t[5],e[6]=t[6],e[7]=t[7],e[8]=t[8],e},l.fromMat2d=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=0,e[3]=t[2],e[4]=t[3],e[5]=0,e[6]=t[4],e[7]=t[5],e[8]=1,e},l.fromQuat=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=n+n,u=r+r,a=i+i,f=n*o,l=n*u,c=n*a,h=r*u,p=r*a,d=i*a,v=s*o,m=s*u,g=s*a;return e[0]=1-(h+d),e[3]=l+g,e[6]=c-m,e[1]=l-g,e[4]=1-(f+d),e[7]=p+v,e[2]=c+m,e[5]=p-v,e[8]=1-(f+h),e},l.normalFromMat4=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=t[6],f=t[7],l=t[8],c=t[9],h=t[10],p=t[11],d=t[12],v=t[13],m=t[14],g=t[15],y=n*u-r*o,b=n*a-i*o,w=n*f-s*o,E=r*a-i*u,S=r*f-s*u,x=i*f-s*a,T=l*v-c*d,N=l*m-h*d,C=l*g-p*d,k=c*m-h*v,L=c*g-p*v,A=h*g-p*m,O=y*A-b*L+w*k+E*C-S*N+x*T;return O?(O=1/O,e[0]=(u*A-a*L+f*k)*O,e[1]=(a*C-o*A-f*N)*O,e[2]=(o*L-u*C+f*T)*O,e[3]=(i*L-r*A-s*k)*O,e[4]=(n*A-i*C+s*N)*O,e[5]=(r*C-n*L-s*T)*O,e[6]=(v*x-m*S+g*E)*O,e[7]=(m*w-d*x-g*b)*O,e[8]=(d*S-v*w+g*y)*O,e):null},l.str=function(e){return"mat3("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+", "+e[4]+", "+e[5]+", "+e[6]+", "+e[7]+", "+e[8]+")"},typeof e!="undefined"&&(e.mat3=l);var c={};c.create=function(){var e=new n(16);return e[0]=1,e[1]=0,e[2]=0,e[3]=0,e[4]=0,e[5]=1,e[6]=0,e[7]=0,e[8]=0,e[9]=0,e[10]=1,e[11]=0,e[12]=0,e[13]=0,e[14]=0,e[15]=1,e},c.clone=function(e){var t=new n(16);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t[3]=e[3],t[4]=e[4],t[5]=e[5],t[6]=e[6],t[7]=e[7],t[8]=e[8],t[9]=e[9],t[10]=e[10],t[11]=e[11],t[12]=e[12],t[13]=e[13],t[14]=e[14],t[15]=e[15],t},c.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e[4]=t[4],e[5]=t[5],e[6]=t[6],e[7]=t[7],e[8]=t[8],e[9]=t[9],e[10]=t[10],e[11]=t[11],e[12]=t[12],e[13]=t[13],e[14]=t[14],e[15]=t[15],e},c.identity=function(e){return e[0]=1,e[1]=0,e[2]=0,e[3]=0,e[4]=0,e[5]=1,e[6]=0,e[7]=0,e[8]=0,e[9]=0,e[10]=1,e[11]=0,e[12]=0,e[13]=0,e[14]=0,e[15]=1,e},c.transpose=function(e,t){if(e===t){var n=t[1],r=t[2],i=t[3],s=t[6],o=t[7],u=t[11];e[1]=t[4],e[2]=t[8],e[3]=t[12],e[4]=n,e[6]=t[9],e[7]=t[13],e[8]=r,e[9]=s,e[11]=t[14],e[12]=i,e[13]=o,e[14]=u}else e[0]=t[0],e[1]=t[4],e[2]=t[8],e[3]=t[12],e[4]=t[1],e[5]=t[5],e[6]=t[9],e[7]=t[13],e[8]=t[2],e[9]=t[6],e[10]=t[10],e[11]=t[14],e[12]=t[3],e[13]=t[7],e[14]=t[11],e[15]=t[15];return e},c.invert=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=t[6],f=t[7],l=t[8],c=t[9],h=t[10],p=t[11],d=t[12],v=t[13],m=t[14],g=t[15],y=n*u-r*o,b=n*a-i*o,w=n*f-s*o,E=r*a-i*u,S=r*f-s*u,x=i*f-s*a,T=l*v-c*d,N=l*m-h*d,C=l*g-p*d,k=c*m-h*v,L=c*g-p*v,A=h*g-p*m,O=y*A-b*L+w*k+E*C-S*N+x*T;return O?(O=1/O,e[0]=(u*A-a*L+f*k)*O,e[1]=(i*L-r*A-s*k)*O,e[2]=(v*x-m*S+g*E)*O,e[3]=(h*S-c*x-p*E)*O,e[4]=(a*C-o*A-f*N)*O,e[5]=(n*A-i*C+s*N)*O,e[6]=(m*w-d*x-g*b)*O,e[7]=(l*x-h*w+p*b)*O,e[8]=(o*L-u*C+f*T)*O,e[9]=(r*C-n*L-s*T)*O,e[10]=(d*S-v*w+g*y)*O,e[11]=(c*w-l*S-p*y)*O,e[12]=(u*N-o*k-a*T)*O,e[13]=(n*k-r*N+i*T)*O,e[14]=(v*b-d*E-m*y)*O,e[15]=(l*E-c*b+h*y)*O,e):null},c.adjoint=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=t[6],f=t[7],l=t[8],c=t[9],h=t[10],p=t[11],d=t[12],v=t[13],m=t[14],g=t[15];return e[0]=u*(h*g-p*m)-c*(a*g-f*m)+v*(a*p-f*h),e[1]=-(r*(h*g-p*m)-c*(i*g-s*m)+v*(i*p-s*h)),e[2]=r*(a*g-f*m)-u*(i*g-s*m)+v*(i*f-s*a),e[3]=-(r*(a*p-f*h)-u*(i*p-s*h)+c*(i*f-s*a)),e[4]=-(o*(h*g-p*m)-l*(a*g-f*m)+d*(a*p-f*h)),e[5]=n*(h*g-p*m)-l*(i*g-s*m)+d*(i*p-s*h),e[6]=-(n*(a*g-f*m)-o*(i*g-s*m)+d*(i*f-s*a)),e[7]=n*(a*p-f*h)-o*(i*p-s*h)+l*(i*f-s*a),e[8]=o*(c*g-p*v)-l*(u*g-f*v)+d*(u*p-f*c),e[9]=-(n*(c*g-p*v)-l*(r*g-s*v)+d*(r*p-s*c)),e[10]=n*(u*g-f*v)-o*(r*g-s*v)+d*(r*f-s*u),e[11]=-(n*(u*p-f*c)-o*(r*p-s*c)+l*(r*f-s*u)),e[12]=-(o*(c*m-h*v)-l*(u*m-a*v)+d*(u*h-a*c)),e[13]=n*(c*m-h*v)-l*(r*m-i*v)+d*(r*h-i*c),e[14]=-(n*(u*m-a*v)-o*(r*m-i*v)+d*(r*a-i*u)),e[15]=n*(u*h-a*c)-o*(r*h-i*c)+l*(r*a-i*u),e},c.determinant=function(e){var t=e[0],n=e[1],r=e[2],i=e[3],s=e[4],o=e[5],u=e[6],a=e[7],f=e[8],l=e[9],c=e[10],h=e[11],p=e[12],d=e[13],v=e[14],m=e[15],g=t*o-n*s,y=t*u-r*s,b=t*a-i*s,w=n*u-r*o,E=n*a-i*o,S=r*a-i*u,x=f*d-l*p,T=f*v-c*p,N=f*m-h*p,C=l*v-c*d,k=l*m-h*d,L=c*m-h*v;return g*L-y*k+b*C+w*N-E*T+S*x},c.multiply=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=t[6],l=t[7],c=t[8],h=t[9],p=t[10],d=t[11],v=t[12],m=t[13],g=t[14],y=t[15],b=n[0],w=n[1],E=n[2],S=n[3];return e[0]=b*r+w*u+E*c+S*v,e[1]=b*i+w*a+E*h+S*m,e[2]=b*s+w*f+E*p+S*g,e[3]=b*o+w*l+E*d+S*y,b=n[4],w=n[5],E=n[6],S=n[7],e[4]=b*r+w*u+E*c+S*v,e[5]=b*i+w*a+E*h+S*m,e[6]=b*s+w*f+E*p+S*g,e[7]=b*o+w*l+E*d+S*y,b=n[8],w=n[9],E=n[10],S=n[11],e[8]=b*r+w*u+E*c+S*v,e[9]=b*i+w*a+E*h+S*m,e[10]=b*s+w*f+E*p+S*g,e[11]=b*o+w*l+E*d+S*y,b=n[12],w=n[13],E=n[14],S=n[15],e[12]=b*r+w*u+E*c+S*v,e[13]=b*i+w*a+E*h+S*m,e[14]=b*s+w*f+E*p+S*g,e[15]=b*o+w*l+E*d+S*y,e},c.mul=c.multiply,c.translate=function(e,t,n){var r=n[0],i=n[1],s=n[2],o,u,a,f,l,c,h,p,d,v,m,g;return t===e?(e[12]=t[0]*r+t[4]*i+t[8]*s+t[12],e[13]=t[1]*r+t[5]*i+t[9]*s+t[13],e[14]=t[2]*r+t[6]*i+t[10]*s+t[14],e[15]=t[3]*r+t[7]*i+t[11]*s+t[15]):(o=t[0],u=t[1],a=t[2],f=t[3],l=t[4],c=t[5],h=t[6],p=t[7],d=t[8],v=t[9],m=t[10],g=t[11],e[0]=o,e[1]=u,e[2]=a,e[3]=f,e[4]=l,e[5]=c,e[6]=h,e[7]=p,e[8]=d,e[9]=v,e[10]=m,e[11]=g,e[12]=o*r+l*i+d*s+t[12],e[13]=u*r+c*i+v*s+t[13],e[14]=a*r+h*i+m*s+t[14],e[15]=f*r+p*i+g*s+t[15]),e},c.scale=function(e,t,n){var r=n[0],i=n[1],s=n[2];return e[0]=t[0]*r,e[1]=t[1]*r,e[2]=t[2]*r,e[3]=t[3]*r,e[4]=t[4]*i,e[5]=t[5]*i,e[6]=t[6]*i,e[7]=t[7]*i,e[8]=t[8]*s,e[9]=t[9]*s,e[10]=t[10]*s,e[11]=t[11]*s,e[12]=t[12],e[13]=t[13],e[14]=t[14],e[15]=t[15],e},c.rotate=function(e,n,r,i){var s=i[0],o=i[1],u=i[2],a=Math.sqrt(s*s+o*o+u*u),f,l,c,h,p,d,v,m,g,y,b,w,E,S,x,T,N,C,k,L,A,O,M,_;return Math.abs(a)<t?null:(a=1/a,s*=a,o*=a,u*=a,f=Math.sin(r),l=Math.cos(r),c=1-l,h=n[0],p=n[1],d=n[2],v=n[3],m=n[4],g=n[5],y=n[6],b=n[7],w=n[8],E=n[9],S=n[10],x=n[11],T=s*s*c+l,N=o*s*c+u*f,C=u*s*c-o*f,k=s*o*c-u*f,L=o*o*c+l,A=u*o*c+s*f,O=s*u*c+o*f,M=o*u*c-s*f,_=u*u*c+l,e[0]=h*T+m*N+w*C,e[1]=p*T+g*N+E*C,e[2]=d*T+y*N+S*C,e[3]=v*T+b*N+x*C,e[4]=h*k+m*L+w*A,e[5]=p*k+g*L+E*A,e[6]=d*k+y*L+S*A,e[7]=v*k+b*L+x*A,e[8]=h*O+m*M+w*_,e[9]=p*O+g*M+E*_,e[10]=d*O+y*M+S*_,e[11]=v*O+b*M+x*_,n!==e&&(e[12]=n[12],e[13]=n[13],e[14]=n[14],e[15]=n[15]),e)},c.rotateX=function(e,t,n){var r=Math.sin(n),i=Math.cos(n),s=t[4],o=t[5],u=t[6],a=t[7],f=t[8],l=t[9],c=t[10],h=t[11];return t!==e&&(e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e[12]=t[12],e[13]=t[13],e[14]=t[14],e[15]=t[15]),e[4]=s*i+f*r,e[5]=o*i+l*r,e[6]=u*i+c*r,e[7]=a*i+h*r,e[8]=f*i-s*r,e[9]=l*i-o*r,e[10]=c*i-u*r,e[11]=h*i-a*r,e},c.rotateY=function(e,t,n){var r=Math.sin(n),i=Math.cos(n),s=t[0],o=t[1],u=t[2],a=t[3],f=t[8],l=t[9],c=t[10],h=t[11];return t!==e&&(e[4]=t[4],e[5]=t[5],e[6]=t[6],e[7]=t[7],e[12]=t[12],e[13]=t[13],e[14]=t[14],e[15]=t[15]),e[0]=s*i-f*r,e[1]=o*i-l*r,e[2]=u*i-c*r,e[3]=a*i-h*r,e[8]=s*r+f*i,e[9]=o*r+l*i,e[10]=u*r+c*i,e[11]=a*r+h*i,e},c.rotateZ=function(e,t,n){var r=Math.sin(n),i=Math.cos(n),s=t[0],o=t[1],u=t[2],a=t[3],f=t[4],l=t[5],c=t[6],h=t[7];return t!==e&&(e[8]=t[8],e[9]=t[9],e[10]=t[10],e[11]=t[11],e[12]=t[12],e[13]=t[13],e[14]=t[14],e[15]=t[15]),e[0]=s*i+f*r,e[1]=o*i+l*r,e[2]=u*i+c*r,e[3]=a*i+h*r,e[4]=f*i-s*r,e[5]=l*i-o*r,e[6]=c*i-u*r,e[7]=h*i-a*r,e},c.fromRotationTranslation=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=r+r,a=i+i,f=s+s,l=r*u,c=r*a,h=r*f,p=i*a,d=i*f,v=s*f,m=o*u,g=o*a,y=o*f;return e[0]=1-(p+v),e[1]=c+y,e[2]=h-g,e[3]=0,e[4]=c-y,e[5]=1-(l+v),e[6]=d+m,e[7]=0,e[8]=h+g,e[9]=d-m,e[10]=1-(l+p),e[11]=0,e[12]=n[0],e[13]=n[1],e[14]=n[2],e[15]=1,e},c.fromQuat=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=n+n,u=r+r,a=i+i,f=n*o,l=n*u,c=n*a,h=r*u,p=r*a,d=i*a,v=s*o,m=s*u,g=s*a;return e[0]=1-(h+d),e[1]=l+g,e[2]=c-m,e[3]=0,e[4]=l-g,e[5]=1-(f+d),e[6]=p+v,e[7]=0,e[8]=c+m,e[9]=p-v,e[10]=1-(f+h),e[11]=0,e[12]=0,e[13]=0,e[14]=0,e[15]=1,e},c.frustum=function(e,t,n,r,i,s,o){var u=1/(n-t),a=1/(i-r),f=1/(s-o);return e[0]=s*2*u,e[1]=0,e[2]=0,e[3]=0,e[4]=0,e[5]=s*2*a,e[6]=0,e[7]=0,e[8]=(n+t)*u,e[9]=(i+r)*a,e[10]=(o+s)*f,e[11]=-1,e[12]=0,e[13]=0,e[14]=o*s*2*f,e[15]=0,e},c.perspective=function(e,t,n,r,i){var s=1/Math.tan(t/2),o=1/(r-i);return e[0]=s/n,e[1]=0,e[2]=0,e[3]=0,e[4]=0,e[5]=s,e[6]=0,e[7]=0,e[8]=0,e[9]=0,e[10]=(i+r)*o,e[11]=-1,e[12]=0,e[13]=0,e[14]=2*i*r*o,e[15]=0,e},c.ortho=function(e,t,n,r,i,s,o){var u=1/(t-n),a=1/(r-i),f=1/(s-o);return e[0]=-2*u,e[1]=0,e[2]=0,e[3]=0,e[4]=0,e[5]=-2*a,e[6]=0,e[7]=0,e[8]=0,e[9]=0,e[10]=2*f,e[11]=0,e[12]=(t+n)*u,e[13]=(i+r)*a,e[14]=(o+s)*f,e[15]=1,e},c.lookAt=function(e,n,r,i){var s,o,u,a,f,l,h,p,d,v,m=n[0],g=n[1],y=n[2],b=i[0],w=i[1],E=i[2],S=r[0],x=r[1],T=r[2];return Math.abs(m-S)<t&&Math.abs(g-x)<t&&Math.abs(y-T)<t?c.identity(e):(h=m-S,p=g-x,d=y-T,v=1/Math.sqrt(h*h+p*p+d*d),h*=v,p*=v,d*=v,s=w*d-E*p,o=E*h-b*d,u=b*p-w*h,v=Math.sqrt(s*s+o*o+u*u),v?(v=1/v,s*=v,o*=v,u*=v):(s=0,o=0,u=0),a=p*u-d*o,f=d*s-h*u,l=h*o-p*s,v=Math.sqrt(a*a+f*f+l*l),v?(v=1/v,a*=v,f*=v,l*=v):(a=0,f=0,l=0),e[0]=s,e[1]=a,e[2]=h,e[3]=0,e[4]=o,e[5]=f,e[6]=p,e[7]=0,e[8]=u,e[9]=l,e[10]=d,e[11]=0,e[12]=-(s*m+o*g+u*y),e[13]=-(a*m+f*g+l*y),e[14]=-(h*m+p*g+d*y),e[15]=1,e)},c.str=function(e){return"mat4("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+", "+e[4]+", "+e[5]+", "+e[6]+", "+e[7]+", "+e[8]+", "+e[9]+", "+e[10]+", "+e[11]+", "+e[12]+", "+e[13]+", "+e[14]+", "+e[15]+")"},typeof e!="undefined"&&(e.mat4=c);var h={};h.create=function(){var e=new n(4);return e[0]=0,e[1]=0,e[2]=0,e[3]=1,e},h.rotationTo=function(){var e=o.create(),t=o.fromValues(1,0,0),n=o.fromValues(0,1,0);return function(r,i,s){var u=o.dot(i,s);return u<-0.999999?(o.cross(e,t,i),o.length(e)<1e-6&&o.cross(e,n,i),o.normalize(e,e),h.setAxisAngle(r,e,Math.PI),r):u>.999999?(r[0]=0,r[1]=0,r[2]=0,r[3]=1,r):(o.cross(e,i,s),r[0]=e[0],r[1]=e[1],r[2]=e[2],r[3]=1+u,h.normalize(r,r))}}(),h.setAxes=function(){var e=l.create();return function(t,n,r,i){return e[0]=r[0],e[3]=r[1],e[6]=r[2],e[1]=i[0],e[4]=i[1],e[7]=i[2],e[2]=n[0],e[5]=n[1],e[8]=n[2],h.normalize(t,h.fromMat3(t,e))}}(),h.clone=u.clone,h.fromValues=u.fromValues,h.copy=u.copy,h.set=u.set,h.identity=function(e){return e[0]=0,e[1]=0,e[2]=0,e[3]=1,e},h.setAxisAngle=function(e,t,n){n*=.5;var r=Math.sin(n);return e[0]=r*t[0],e[1]=r*t[1],e[2]=r*t[2],e[3]=Math.cos(n),e},h.add=u.add,h.multiply=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=n[0],a=n[1],f=n[2],l=n[3];return e[0]=r*l+o*u+i*f-s*a,e[1]=i*l+o*a+s*u-r*f,e[2]=s*l+o*f+r*a-i*u,e[3]=o*l-r*u-i*a-s*f,e},h.mul=h.multiply,h.scale=u.scale,h.rotateX=function(e,t,n){n*=.5;var r=t[0],i=t[1],s=t[2],o=t[3],u=Math.sin(n),a=Math.cos(n);return e[0]=r*a+o*u,e[1]=i*a+s*u,e[2]=s*a-i*u,e[3]=o*a-r*u,e},h.rotateY=function(e,t,n){n*=.5;var r=t[0],i=t[1],s=t[2],o=t[3],u=Math.sin(n),a=Math.cos(n);return e[0]=r*a-s*u,e[1]=i*a+o*u,e[2]=s*a+r*u,e[3]=o*a-i*u,e},h.rotateZ=function(e,t,n){n*=.5;var r=t[0],i=t[1],s=t[2],o=t[3],u=Math.sin(n),a=Math.cos(n);return e[0]=r*a+i*u,e[1]=i*a-r*u,e[2]=s*a+o*u,e[3]=o*a-s*u,e},h.calculateW=function(e,t){var n=t[0],r=t[1],i=t[2];return e[0]=n,e[1]=r,e[2]=i,e[3]=-Math.sqrt(Math.abs(1-n*n-r*r-i*i)),e},h.dot=u.dot,h.lerp=u.lerp,h.slerp=function(e,t,n,r){var i=t[0],s=t[1],o=t[2],u=t[3],a=n[0],f=n[1],l=n[2],c=n[3],h,p,d,v,m;return p=i*a+s*f+o*l+u*c,p<0&&(p=-p,a=-a,f=-f,l=-l,c=-c),1-p>1e-6?(h=Math.acos(p),d=Math.sin(h),v=Math.sin((1-r)*h)/d,m=Math.sin(r*h)/d):(v=1-r,m=r),e[0]=v*i+m*a,e[1]=v*s+m*f,e[2]=v*o+m*l,e[3]=v*u+m*c,e},h.invert=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=n*n+r*r+i*i+s*s,u=o?1/o:0;return e[0]=-n*u,e[1]=-r*u,e[2]=-i*u,e[3]=s*u,e},h.conjugate=function(e,t){return e[0]=-t[0],e[1]=-t[1],e[2]=-t[2],e[3]=t[3],e},h.length=u.length,h.len=h.length,h.squaredLength=u.squaredLength,h.sqrLen=h.squaredLength,h.normalize=u.normalize,h.fromMat3=function(){var e=typeof Int8Array!="undefined"?new Int8Array([1,2,0]):[1,2,0];return function(t,n){var r=n[0]+n[4]+n[8],i;if(r>0)i=Math.sqrt(r+1),t[3]=.5*i,i=.5/i,t[0]=(n[7]-n[5])*i,t[1]=(n[2]-n[6])*i,t[2]=(n[3]-n[1])*i;else{var s=0;n[4]>n[0]&&(s=1),n[8]>n[s*3+s]&&(s=2);var o=e[s],u=e[o];i=Math.sqrt(n[s*3+s]-n[o*3+o]-n[u*3+u]+1),t[s]=.5*i,i=.5/i,t[3]=(n[u*3+o]-n[o*3+u])*i,t[o]=(n[o*3+s]+n[s*3+o])*i,t[u]=(n[u*3+s]+n[s*3+u])*i}return t}}(),h.str=function(e){return"quat("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+")"},typeof e!="undefined"&&(e.quat=h)}(t.exports)})(this);
