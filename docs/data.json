@@ -38578,7 +38578,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 34,
+            "line": 33,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -38595,7 +38595,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 46,
+            "line": 45,
             "itemtype": "property",
             "name": "iOS",
             "type": "boolean",
@@ -38608,7 +38608,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 54,
+            "line": 53,
             "itemtype": "property",
             "name": "android",
             "type": "boolean",
@@ -38621,7 +38621,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 62,
+            "line": 61,
             "itemtype": "property",
             "name": "chromeOS",
             "type": "boolean",
@@ -38634,7 +38634,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 70,
+            "line": 69,
             "itemtype": "property",
             "name": "linux",
             "type": "boolean",
@@ -38647,7 +38647,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 78,
+            "line": 77,
             "itemtype": "property",
             "name": "maxOS",
             "type": "boolean",
@@ -38660,7 +38660,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 86,
+            "line": 85,
             "itemtype": "property",
             "name": "windows",
             "type": "boolean",
@@ -38673,7 +38673,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 94,
+            "line": 93,
             "itemtype": "property",
             "name": "windowsPhone",
             "type": "boolean",
@@ -38686,7 +38686,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 104,
+            "line": 103,
             "itemtype": "property",
             "name": "canvas",
             "type": "boolean",
@@ -38699,7 +38699,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 112,
+            "line": 111,
             "itemtype": "property",
             "name": "file",
             "type": "boolean",
@@ -38712,7 +38712,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 120,
+            "line": 119,
             "itemtype": "property",
             "name": "fileSystem",
             "type": "boolean",
@@ -38725,7 +38725,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 128,
+            "line": 127,
             "itemtype": "property",
             "name": "localStorage",
             "type": "boolean",
@@ -38738,7 +38738,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 136,
+            "line": 135,
             "itemtype": "property",
             "name": "webGL",
             "type": "boolean",
@@ -38751,7 +38751,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 144,
+            "line": 143,
             "itemtype": "property",
             "name": "worker",
             "type": "boolean",
@@ -38764,7 +38764,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 152,
+            "line": 151,
             "itemtype": "property",
             "name": "blob",
             "type": "boolean",
@@ -38777,7 +38777,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 161,
+            "line": 160,
             "itemtype": "property",
             "name": "touch",
             "type": "boolean",
@@ -38790,7 +38790,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 169,
+            "line": 168,
             "description": "If the type of touch events are pointers (event msPointers)",
             "itemtype": "property",
             "name": "pointerEnabled",
@@ -38804,20 +38804,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 177,
-            "itemtype": "property",
-            "name": "css3D",
-            "type": "boolean",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.System.Device",
-            "module": "Kiwi",
-            "submodule": "System",
-            "namespace": "Kiwi.System"
-        },
-        {
-            "file": "src\\system\\Device.ts",
-            "line": 187,
+            "line": 179,
             "itemtype": "property",
             "name": "arora",
             "type": "boolean",
@@ -38830,7 +38817,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 195,
+            "line": 187,
             "itemtype": "property",
             "name": "chrome",
             "type": "boolean",
@@ -38843,7 +38830,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 203,
+            "line": 195,
             "itemtype": "property",
             "name": "epiphany",
             "type": "boolean",
@@ -38856,7 +38843,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 211,
+            "line": 203,
             "itemtype": "property",
             "name": "firefox",
             "type": "boolean",
@@ -38869,7 +38856,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 219,
+            "line": 211,
             "itemtype": "property",
             "name": "ie",
             "type": "boolean",
@@ -38882,7 +38869,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 227,
+            "line": 219,
             "itemtype": "property",
             "name": "ieVersion",
             "type": "Number",
@@ -38895,7 +38882,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 235,
+            "line": 227,
             "itemtype": "property",
             "name": "ieMobile",
             "type": "boolean",
@@ -38908,7 +38895,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 243,
+            "line": 235,
             "itemtype": "property",
             "name": "mobileSafari",
             "type": "boolean",
@@ -38921,7 +38908,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 251,
+            "line": 243,
             "itemtype": "property",
             "name": "midori",
             "type": "boolean",
@@ -38934,7 +38921,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 259,
+            "line": 251,
             "itemtype": "property",
             "name": "opera",
             "type": "boolean",
@@ -38947,7 +38934,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 267,
+            "line": 259,
             "itemtype": "property",
             "name": "safari",
             "type": "boolean",
@@ -38960,7 +38947,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 275,
+            "line": 267,
             "itemtype": "property",
             "name": "webApp",
             "type": "boolean",
@@ -38973,7 +38960,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 285,
+            "line": 277,
             "itemtype": "property",
             "name": "audioData",
             "type": "boolean",
@@ -38986,7 +38973,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 293,
+            "line": 285,
             "itemtype": "property",
             "name": "webaudio",
             "type": "boolean",
@@ -38999,7 +38986,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 301,
+            "line": 293,
             "itemtype": "property",
             "name": "ogg",
             "type": "boolean",
@@ -39012,7 +38999,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 309,
+            "line": 301,
             "itemtype": "property",
             "name": "mp3",
             "type": "boolean",
@@ -39025,7 +39012,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 317,
+            "line": 309,
             "itemtype": "property",
             "name": "wav",
             "type": "boolean",
@@ -39038,7 +39025,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 325,
+            "line": 317,
             "itemtype": "property",
             "name": "m4a",
             "type": "boolean",
@@ -39051,7 +39038,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 335,
+            "line": 327,
             "itemtype": "property",
             "name": "iPhone",
             "type": "boolean",
@@ -39064,7 +39051,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 343,
+            "line": 335,
             "itemtype": "property",
             "name": "iPhone4",
             "type": "boolean",
@@ -39077,7 +39064,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 351,
+            "line": 343,
             "itemtype": "property",
             "name": "iPad",
             "type": "boolean",
@@ -39090,7 +39077,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 359,
+            "line": 351,
             "itemtype": "property",
             "name": "pixelRatio",
             "type": "Number",
@@ -39103,7 +39090,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 367,
+            "line": 359,
             "itemtype": "method",
             "name": "_checkOS",
             "access": "private",
@@ -39115,7 +39102,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 407,
+            "line": 399,
             "itemtype": "method",
             "name": "_checkFeatures",
             "access": "private",
@@ -39127,7 +39114,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 446,
+            "line": 438,
             "itemtype": "method",
             "name": "_checkBrowser",
             "access": "private",
@@ -39139,7 +39126,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 513,
+            "line": 505,
             "itemtype": "method",
             "name": "_checkAudio",
             "access": "private",
@@ -39151,7 +39138,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 557,
+            "line": 549,
             "itemtype": "method",
             "name": "_checkDevice",
             "access": "private",
@@ -39163,19 +39150,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 571,
-            "itemtype": "method",
-            "name": "_checkCSS3D",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.System.Device",
-            "module": "Kiwi",
-            "submodule": "System",
-            "namespace": "Kiwi.System"
-        },
-        {
-            "file": "src\\system\\Device.ts",
-            "line": 604,
+            "line": 564,
             "itemtype": "method",
             "name": "getAll",
             "return": {

@@ -7124,13 +7124,6 @@ declare module Kiwi.System {
         public pointerEnabled: boolean;
         /**
         *
-        * @property css3D
-        * @type boolean
-        * @public
-        */
-        public css3D: boolean;
-        /**
-        *
         * @property arora
         * @type boolean
         * @public
@@ -7313,12 +7306,6 @@ declare module Kiwi.System {
         * @private
         */
         private _checkDevice();
-        /**
-        *
-        * @method _checkCSS3D
-        * @private
-        */
-        private _checkCSS3D();
         /**
         *
         * @method getAll

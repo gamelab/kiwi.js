@@ -11441,13 +11441,6 @@ var Kiwi;
                 * @public
                 */
                 this.pointerEnabled = false;
-                /**
-                *
-                * @property css3D
-                * @type boolean
-                * @public
-                */
-                this.css3D = false;
                 //  Browser
                 /**
                 *
@@ -11607,7 +11600,6 @@ var Kiwi;
                 this.pixelRatio = 0;
                 this._checkAudio();
                 this._checkBrowser();
-                this._checkCSS3D();
                 this._checkDevice();
                 this._checkFeatures();
                 this._checkOS();
@@ -11773,37 +11765,6 @@ var Kiwi;
 
             /**
             *
-            * @method _checkCSS3D
-            * @private
-            */
-            Device.prototype._checkCSS3D = function () {
-                var el = document.createElement('p');
-                var has3d;
-                var transforms = {
-                    'webkitTransform': '-webkit-transform',
-                    'OTransform': '-o-transform',
-                    'msTransform': '-ms-transform',
-                    'MozTransform': '-moz-transform',
-                    'transform': 'transform'
-                };
-
-                // Add it to the body to get the computed style.
-                document.body.insertBefore(el, null);
-
-                for (var t in transforms) {
-                    if (el.style[t] !== undefined) {
-                        el.style[t] = "translate3d(1px,1px,1px)";
-                        has3d = window.getComputedStyle(el).getPropertyValue(transforms[t]);
-                    }
-                }
-
-                document.body.removeChild(el);
-
-                this.css3D = (has3d !== undefined && has3d.length > 0 && has3d !== "none");
-            };
-
-            /**
-            *
             * @method getAll
             * @return {String}
             * @public
@@ -11847,7 +11808,6 @@ var Kiwi;
                 output = output.concat('WebGL: ' + this.webGL + '\n');
                 output = output.concat('Worker: ' + this.worker + '\n');
                 output = output.concat('Touch: ' + this.touch + '\n');
-                output = output.concat('CSS 3D: ' + this.css3D + '\n');
 
                 output = output.concat('\n');
                 output = output.concat('Audio\n');
