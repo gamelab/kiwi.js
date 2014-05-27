@@ -57,17 +57,9 @@ KiwiLoadingScreen.prototype.init = function() {
  	
  	Kiwi.State.prototype.init.call(this);
 
- 	if(this.newDimensions == null) {
- 		this.newDimensions = {width: this.game.stage.width, height: this.game.stage.height};
+ 	if(this.newDimensions !== null) {
+ 		this.game.stage.resize( this.newDimensions.width, this.newDimensions.height );
  	}
-
-	var shortest = (this.newDimensions.width > this.newDimensions.height) ? this.newDimensions.height : this.newDimensions.width;
-
-	if(shortest < 600) {
-		this.scaled = shortest / 600;
-	} else {
-		this.scaled = 1;
-	}
 
 }
 
@@ -83,16 +75,21 @@ KiwiLoadingScreen.prototype.preload = function() {
 	this.game.stage.color = '061029';
 
 	//New Dimensions
-	if(this.newDimensions) {
-		this.game.stage.resize(this.newDimensions.width, this.newDimensions.height);
+	var shortest = (this.game.stage.width > this.game.stage.height) ? this.game.stage.height : this.game.stage.width;
+
+	if(shortest < 600) {
+		this.scaled = shortest / 600;
+	} else {
+		this.scaled = 1;
 	}
 
+
 	//Should combine into a texture atlas...
-	this.currentSplashState = 0;	//0 = HTML 5 LOGO FADING IN
-									//1 = KIWIJS READY TO APPEAR
-									//2 = KIWIJS FADING IN
-									//3 = LOADING WITH KIWIJS THERE
-									//4 = DONE. SWITCHING TO NEXT STATE
+	this.currentSplashState = 0;	// 0 = HTML 5 LOGO FADING IN
+									// 1 = KIWIJS READY TO APPEAR
+									// 2 = KIWIJS FADING IN
+									// 3 = LOADING WITH KIWIJS THERE
+									// 4 = DONE. SWITCHING TO NEXT STATE
 
 	this.addTextureAtlas('loadingGraphic', this.subfolder + 'loading-texture-atlas.png', 'loadingJSON', this.subfolder + 'loading-texture-atlas.json', false);
 
@@ -114,18 +111,16 @@ KiwiLoadingScreen.prototype.loadProgress = function (percent, bytesLoaded, file)
 
 	if(this.currentSplashState == 3) {
 		this.loadingBar.scaleX =  this.percentLoaded / 100 * this.scaled;
-
 		this.finishLoading();
 	}
 
-	console.l
 
 	if(file == null || file == undefined) return;
 
-	if(file.key == 'loadingJSON') {
+	if(file.key === 'loadingJSON') {
 		//Add to the Library
-
 		this.game.states.rebuildLibraries();
+
 
         //Create the StaticImage
 		this.html5Logo = new Kiwi.GameObjects.StaticImage(this, this.textures['loadingGraphic'], this.game.stage.width / 2, this.game.stage.height / 2);
@@ -176,9 +171,8 @@ KiwiLoadingScreen.prototype.loadProgress = function (percent, bytesLoaded, file)
 KiwiLoadingScreen.prototype.fadeInHTML5 = function() {
 	var gl = this.game.stage.gl;
 	if (gl) {
-	gl.blendEquationSeparate(gl.FUNC_ADD,gl.FUNC_ADD)
-
-    gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE,gl.ONE);
+		gl.blendEquationSeparate(gl.FUNC_ADD, gl.FUNC_ADD);
+    	gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE,gl.ONE);
 	}
 	
 	this.loadingTween.to({ alpha: 0 }, 500, Kiwi.Animations.Tweens.Easing.Linear.None);
@@ -224,13 +218,6 @@ KiwiLoadingScreen.prototype.fadeOutHTML5 = function() {
 	this.radial.cellIndex = 1;
 	this.madeWith.cellIndex = 5;
 	this.loadingBar.cellIndex = 3;
-
-	//Swinging Kiwi Logo
-	this.kiwijsLogo.rotPointX = ((this.kiwijsLogo.box.bounds.width) / 3) ;
-	this.kiwijsLogo.rotPointY = (this.kiwijsLogo.box.bounds.height * 0.8);
-	this.swing = this.game.tweens.create(this.kiwijsLogo);
-	this.swingForward();
-
 	//Adjust Coordinates
 	this.radial.scaleX = this.scaled;
 	this.radial.scaleY = this.scaled;
@@ -248,27 +235,40 @@ KiwiLoadingScreen.prototype.fadeOutHTML5 = function() {
 
 	this.kiwijsLogo.scaleX = this.scaled;
 	this.kiwijsLogo.scaleY = this.scaled;
-	this.kiwijsLogo.x -= this.kiwijsLogo.box.bounds.width / 2;
-	this.kiwijsLogo.y -= this.kiwijsLogo.box.bounds.height / 2;
+
+
+	this.kiwijsLogo.rotPointX = this.kiwijsLogo.width * 0.2727;
+	this.kiwijsLogo.rotPointY = this.kiwijsLogo.height;
+
+	//Swinging Kiwi Logo
+	this.kiwijsLogo.x = this.radial.x + ( this.radial.box.bounds.width * 0.5 - this.kiwijsLogo.box.bounds.width * 0.5);
+	this.kiwijsLogo.y = this.radial.y + ( this.radial.box.bounds.height * 0.5 - this.kiwijsLogo.box.bounds.height * 0.5);
 
 	if(this.scaled < 1) {
-		this.kiwijsLogo.x -= this.kiwijsLogo.box.bounds.width * (this.scaled / 3);
-		this.kiwijsLogo.y -= this.kiwijsLogo.box.bounds.height * (this.scaled / 1.5);
+		this.kiwijsLogo.y -= this.kiwijsLogo.rotPointY * (1 - this.scaled);
+		this.kiwijsLogo.x -= this.kiwijsLogo.box.bounds.width * (1 - this.scaled); 
 	}
+
+
+	this.swing = this.game.tweens.create(this.kiwijsLogo);
+	this.swingForward();
+
 
 	this.kiwijsText.scaleX = this.scaled;
 	this.kiwijsText.scaleY = this.scaled;
 	this.kiwijsText.rotPointX = 0;
 	this.kiwijsText.rotPointY = 0;
-	this.kiwijsText.x += this.kiwijsText.box.bounds.width / 5;
-	this.kiwijsText.y += this.kiwijsText.box.bounds.height / 1.75;
+	this.kiwijsText.x = this.kiwijsLogo.box.bounds.right - this.kiwijsText.box.bounds.width / 1.75;
+	this.kiwijsText.y = this.kiwijsLogo.box.bounds.bottom - this.kiwijsText.box.bounds.height * 1.2;
+
 
 	this.loadingBar.rotPointX = 0;
 	this.loadingBar.rotPointY = 0;
 	this.loadingBar.scaleX = this.scaled;
 	this.loadingBar.scaleY = this.scaled;
 	this.loadingBar.x = this.kiwijsText.x;
-	this.loadingBar.y = this.kiwijsText.y + this.kiwijsText.box.bounds.height * 0.8;
+	this.loadingBar.y = this.kiwijsText.y + this.kiwijsText.box.bounds.height * 0.85;
+
 
 	//Alpha
 	this.kiwijsLogo.alpha = 0;
@@ -277,6 +277,7 @@ KiwiLoadingScreen.prototype.fadeOutHTML5 = function() {
 	this.madeWith.alpha = 0;
 	this.loadingBar.alpha = 0;
 
+
 	//Add then in the right order
 	this.addChild(this.radial);
 	this.addChild(this.madeWith);
@@ -284,8 +285,10 @@ KiwiLoadingScreen.prototype.fadeOutHTML5 = function() {
 	this.addChild(this.kiwijsText);
 	this.addChild(this.loadingBar);
 
+
 	//Scale the LoadingBar
 	this.loadingBar.scaleX = (this.percentLoaded / 100) * this.scaled;	
+
 
 	//Start the Tween
 	this.loadingTween._object = this;

@@ -2,7 +2,7 @@
     "project": {
         "name": "Kiwi.js",
         "description": "Kiwi.js is a Javascript/Typescript library for creating HTML5 games.",
-        "version": "0.7.0",
+        "version": "1.0.0",
         "url": "http://kiwijs.org/"
     },
     "files": {
@@ -30236,7 +30236,7 @@
         },
         {
             "file": "src\\input\\InputManager.ts",
-            "line": 144,
+            "line": 141,
             "description": "A private method that gets dispatched when either the mouse or touch manager dispatches a down event",
             "itemtype": "method",
             "name": "_onDownEvent",
@@ -30281,7 +30281,7 @@
         },
         {
             "file": "src\\input\\InputManager.ts",
-            "line": 160,
+            "line": 157,
             "description": "A private method that gets dispatched when either the mouse or touch manager dispatches a up event",
             "itemtype": "method",
             "name": "_onUpEvent",
@@ -30326,7 +30326,7 @@
         },
         {
             "file": "src\\input\\InputManager.ts",
-            "line": 185,
+            "line": 182,
             "description": "An alias for the onRelease signal that goes straight to the onUp",
             "itemtype": "property",
             "name": "onReleased",
@@ -30340,7 +30340,7 @@
         },
         {
             "file": "src\\input\\InputManager.ts",
-            "line": 195,
+            "line": 192,
             "description": "The update loop that gets executed every frame.",
             "itemtype": "method",
             "name": "update",
@@ -30353,7 +30353,7 @@
         },
         {
             "file": "src\\input\\InputManager.ts",
-            "line": 217,
+            "line": 214,
             "description": "Runs the reset method on the managers.",
             "itemtype": "method",
             "name": "reset",
@@ -30364,7 +30364,7 @@
         },
         {
             "file": "src\\input\\InputManager.ts",
-            "line": 228,
+            "line": 225,
             "description": "The position of the last pointer that was/is active on the stage.",
             "itemtype": "property",
             "name": "position",
@@ -30378,7 +30378,7 @@
         },
         {
             "file": "src\\input\\InputManager.ts",
-            "line": 236,
+            "line": 233,
             "description": "If an input (either touch or the mouse cursor) is currently down. Not an accurate representation, should use the individual managers.",
             "itemtype": "property",
             "name": "isDown",
@@ -30392,7 +30392,7 @@
         },
         {
             "file": "src\\input\\InputManager.ts",
-            "line": 244,
+            "line": 241,
             "description": "Populated x coordinate based on the most recent click/touch event",
             "itemtype": "property",
             "name": "x",
@@ -30406,7 +30406,7 @@
         },
         {
             "file": "src\\input\\InputManager.ts",
-            "line": 255,
+            "line": 252,
             "description": "Populated y coordinate based on the most recent click/touch event",
             "itemtype": "property",
             "name": "y",
