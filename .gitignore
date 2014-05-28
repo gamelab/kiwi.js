@@ -44,5 +44,6 @@ _ReSharper*/
 !/templateGame/*/*.js
 /node_modules
 /GLTests
+/testgl
 tscommand.tmp.txt
 .tscache/build/*
