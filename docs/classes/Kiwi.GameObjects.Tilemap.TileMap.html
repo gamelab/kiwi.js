@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -461,7 +465,7 @@ Instead you have to add each layer lies within it. This way you can have other G
                 <li class="param">
                     
                         <code class="param-name">state</code>
-                        <span class="type">State</span>
+                        <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
                     
 
                     
@@ -494,7 +498,7 @@ Instead you have to add each layer lies within it. This way you can have other G
                 <li class="param">
                     
                         <code class="param-name optional">[atlas]</code>
-                        <span class="type">TextureAtlas</span>
+                        <span class="type"><a href="..\classes\Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
@@ -835,7 +839,7 @@ Instead you have to add each layer lies within it. This way you can have other G
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l235"><code>src\gameobjects\tilemap\TileMap.ts:235</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l238"><code>src\gameobjects\tilemap\TileMap.ts:238</code></a>
         
         </p>
 
@@ -860,7 +864,7 @@ This is an INTERNAL method, which is used when the createFromFileStore method is
                 <li class="param">
                     
                         <code class="param-name">tilesetData</code>
-                        <span class="type">Any</span>
+                        <span class="type">Array</span>
                     
 
                     
@@ -876,7 +880,7 @@ This is an INTERNAL method, which is used when the createFromFileStore method is
                 <li class="param">
                     
                         <code class="param-name">atlas</code>
-                        <span class="type">TextureAtlas</span>
+                        <span class="type"><a href="..\classes\Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
                     
 
                     
@@ -971,7 +975,7 @@ This is an INTERNAL method, which is used when the createFromFileStore method is
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l149"><code>src\gameobjects\tilemap\TileMap.ts:149</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l151"><code>src\gameobjects\tilemap\TileMap.ts:151</code></a>
         
         </p>
 
@@ -983,7 +987,7 @@ This is an INTERNAL method, which is used when the createFromFileStore method is
 
     <div class="description">
         <p>Creates new tilemap layers from a JSON file that you pass (has to be in the Tiled Format).
-The texture atlas you pass is that one that eeach TileMapLayer found in the JSON will use, You can change the TextureAtlas afterwards.
+The texture atlas you pass is that one that each TileMapLayer found in the JSON will use, You can change the TextureAtlas afterwards.
 New TileTypes will automatically be created. The number is based on the Tileset parameter of the JSON. 
 The cell used for new TileTypes will begin at 0 and increment each time a new TileType is created (and a cell exists). Otherwise new TileTypes will start will a cell of -1 (none).</p>
 
@@ -1014,7 +1018,7 @@ The cell used for new TileTypes will begin at 0 and increment each time a new Ti
                 <li class="param">
                     
                         <code class="param-name">atlas</code>
-                        <span class="type">TextureAtlas</span>
+                        <span class="type"><a href="..\classes\Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
                     
 
                     
@@ -1150,7 +1154,7 @@ The cell used for new TileTypes will begin at 0 and increment each time a new Ti
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l392"><code>src\gameobjects\tilemap\TileMap.ts:392</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l401"><code>src\gameobjects\tilemap\TileMap.ts:401</code></a>
         
         </p>
 
@@ -1193,7 +1197,7 @@ Returns the new TileMapLayer that was created.</p>
                 <li class="param">
                     
                         <code class="param-name">atlas</code>
-                        <span class="type">TextureAtlas</span>
+                        <span class="type"><a href="..\classes\Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
                     
 
                     
@@ -1382,7 +1386,7 @@ Returns the new TileMapLayer that was created.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l432"><code>src\gameobjects\tilemap\TileMap.ts:432</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l441"><code>src\gameobjects\tilemap\TileMap.ts:441</code></a>
         
         </p>
 
@@ -1439,7 +1443,7 @@ Returns the new TileMapLayer that was created.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l442"><code>src\gameobjects\tilemap\TileMap.ts:442</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l451"><code>src\gameobjects\tilemap\TileMap.ts:451</code></a>
         
         </p>
 
@@ -1510,7 +1514,7 @@ Returns the new TileMapLayer that was created.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l303"><code>src\gameobjects\tilemap\TileMap.ts:303</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l312"><code>src\gameobjects\tilemap\TileMap.ts:312</code></a>
         
         </p>
 
@@ -1620,7 +1624,7 @@ Returns the new TileMapLayer that was created.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l317"><code>src\gameobjects\tilemap\TileMap.ts:317</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l326"><code>src\gameobjects\tilemap\TileMap.ts:326</code></a>
         
         </p>
 
@@ -1733,7 +1737,7 @@ Returns the new TileMapLayer that was created.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l334"><code>src\gameobjects\tilemap\TileMap.ts:334</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l343"><code>src\gameobjects\tilemap\TileMap.ts:343</code></a>
         
         </p>
 
@@ -1858,7 +1862,7 @@ Returns the new TileMapLayer that was created.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l474"><code>src\gameobjects\tilemap\TileMap.ts:474</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l483"><code>src\gameobjects\tilemap\TileMap.ts:483</code></a>
         
         </p>
 
@@ -1965,7 +1969,7 @@ Returns the new TileMapLayer that was created.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l457"><code>src\gameobjects\tilemap\TileMap.ts:457</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l466"><code>src\gameobjects\tilemap\TileMap.ts:466</code></a>
         
         </p>
 
@@ -2065,7 +2069,7 @@ Returns null if no layer with that name was found.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l486"><code>src\gameobjects\tilemap\TileMap.ts:486</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l495"><code>src\gameobjects\tilemap\TileMap.ts:495</code></a>
         
         </p>
 
@@ -2150,7 +2154,7 @@ Returns null if no layer with that name was found.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l358"><code>src\gameobjects\tilemap\TileMap.ts:358</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l367"><code>src\gameobjects\tilemap\TileMap.ts:367</code></a>
         
         </p>
 
@@ -2269,7 +2273,7 @@ Returns null if no layer with that name was found.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l369"><code>src\gameobjects\tilemap\TileMap.ts:369</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l378"><code>src\gameobjects\tilemap\TileMap.ts:378</code></a>
         
         </p>
 
@@ -2410,7 +2414,7 @@ Returns null if no layer with that name was found.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l281"><code>src\gameobjects\tilemap\TileMap.ts:281</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l290"><code>src\gameobjects\tilemap\TileMap.ts:290</code></a>
         
         </p>
 
@@ -2515,7 +2519,7 @@ Returns null if no layer with that name was found.</p>
                 
                     <div id="property_game" class="property item public">
     <h3 class="name"><code>game</code></h3>
-    <span class="type">Game</span>
+    <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
 
     
 
@@ -2538,7 +2542,7 @@ Returns null if no layer with that name was found.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l75"><code>src\gameobjects\tilemap\TileMap.ts:75</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l77"><code>src\gameobjects\tilemap\TileMap.ts:77</code></a>
         
         </p>
 
@@ -2585,7 +2589,7 @@ Returns null if no layer with that name was found.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l111"><code>src\gameobjects\tilemap\TileMap.ts:111</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l113"><code>src\gameobjects\tilemap\TileMap.ts:113</code></a>
         
         </p>
 
@@ -2635,7 +2639,7 @@ This value is in Tiles.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l131"><code>src\gameobjects\tilemap\TileMap.ts:131</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l133"><code>src\gameobjects\tilemap\TileMap.ts:133</code></a>
         
         </p>
 
@@ -2682,7 +2686,7 @@ This value is in Tiles.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l59"><code>src\gameobjects\tilemap\TileMap.ts:59</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l61"><code>src\gameobjects\tilemap\TileMap.ts:61</code></a>
         
         </p>
 
@@ -2692,7 +2696,7 @@ This value is in Tiles.</p>
     </div>
 
     <div class="description">
-        <p>A list of all of the TileMapLayers that exist on thie TileMap.</p>
+        <p>A list of all of the TileMapLayers that exist on the TileMap.</p>
 
     </div>
 
@@ -2739,7 +2743,8 @@ This value is in Tiles.</p>
     </div>
 
     <div class="description">
-        <p>The orientation of the tilemap. Currently this has not effect on the map.</p>
+        <p>The orientation of the tilemap. 
+Note: This value does not affect the individual layers.</p>
 
     </div>
 
@@ -2776,7 +2781,7 @@ This value is in Tiles.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l141"><code>src\gameobjects\tilemap\TileMap.ts:141</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l143"><code>src\gameobjects\tilemap\TileMap.ts:143</code></a>
         
         </p>
 
@@ -2800,7 +2805,7 @@ This value is in Tiles.</p>
                 
                     <div id="property_state" class="property item public">
     <h3 class="name"><code>state</code></h3>
-    <span class="type">State</span>
+    <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
 
     
 
@@ -2823,7 +2828,7 @@ This value is in Tiles.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l67"><code>src\gameobjects\tilemap\TileMap.ts:67</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l69"><code>src\gameobjects\tilemap\TileMap.ts:69</code></a>
         
         </p>
 
@@ -2870,7 +2875,7 @@ This value is in Tiles.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l92"><code>src\gameobjects\tilemap\TileMap.ts:92</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l94"><code>src\gameobjects\tilemap\TileMap.ts:94</code></a>
         
         </p>
 
@@ -2919,7 +2924,7 @@ This value is in Tiles.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l51"><code>src\gameobjects\tilemap\TileMap.ts:51</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l53"><code>src\gameobjects\tilemap\TileMap.ts:53</code></a>
         
         </p>
 
@@ -2966,7 +2971,7 @@ This value is in Tiles.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l83"><code>src\gameobjects\tilemap\TileMap.ts:83</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l85"><code>src\gameobjects\tilemap\TileMap.ts:85</code></a>
         
         </p>
 
@@ -3015,7 +3020,7 @@ This value is in Tiles.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l101"><code>src\gameobjects\tilemap\TileMap.ts:101</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l103"><code>src\gameobjects\tilemap\TileMap.ts:103</code></a>
         
         </p>
 
@@ -3065,7 +3070,7 @@ This value is in Tiles.</p>
             
         
         
-        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l121"><code>src\gameobjects\tilemap\TileMap.ts:121</code></a>
+        <a href="../files/src_gameobjects_tilemap_TileMap.ts.html#l123"><code>src\gameobjects\tilemap\TileMap.ts:123</code></a>
         
         </p>
 

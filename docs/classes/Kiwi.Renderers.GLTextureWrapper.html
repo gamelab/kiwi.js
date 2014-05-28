@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ShaderManager - Kiwi.js</title>
+    <title>Kiwi.Renderers.GLTextureWrapper - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -340,25 +344,21 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>ShaderManager Class</h1>
+                        <h1>Kiwi.Renderers.GLTextureWrapper Class</h1>
 <div class="box meta">
     
 
     
-        <div class="extends">
-            Extends <a href="..\classes\IRenderer.html" class="crosslink">IRenderer</a>
-        </div>
-    
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_render_GLShaderManager.ts.html#l24"><code>src\render\GLShaderManager.ts:24</code></a>
+            Defined in: <a href="../files/src_render_GLTextureWrapper.ts.html#l13"><code>src\render\GLTextureWrapper.ts:13</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/Shaders.html">Shaders</a><br>
+            Module: <a href="../modules/Renderers.html">Renderers</a><br>
             Parent Module: <a href="../modules/Kiwi.html">Kiwi</a>
         
     
@@ -369,26 +369,39 @@
 
 
 <div class="box intro">
-    <p>Manages all WebGL Shaders. Maintains a list of ShaderPairs </p>
-<p>Provides an interface for using a specific ShaderPair, adding new ShaderPairs, and requesting a reference to a ShaderPair instance.
-Renderes use shaderPairs to draw. Multiple renderers may use the same compiled shader program.
-This Manager ensures only one compiled instance of each program is created</p>
+    <p>Wraps a webGL texture object</p>
 
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_ShaderManager" class="method item">
-    <h3 class="name"><code>ShaderManager</code></h3>
+        <div id="method_Kiwi.Renderers.GLTextureWrapper" class="method item">
+    <h3 class="name"><code>Kiwi.Renderers.GLTextureWrapper</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[_image]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
         <span class="returns-inline">
-            <span class="type">GLRenderer</span>
+            <span class="type"><a href="..\classes\Kiwi.Renderers.GLTextureWrapper.html" class="crosslink">Kiwi.Renderers.GLTextureWrapper</a></span>
         </span>
     
 
@@ -415,7 +428,7 @@ This Manager ensures only one compiled instance of each program is created</p>
             
         
         
-        <a href="../files/src_render_GLShaderManager.ts.html#l24"><code>src\render\GLShaderManager.ts:24</code></a>
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l13"><code>src\render\GLTextureWrapper.ts:13</code></a>
         
         </p>
 
@@ -430,6 +443,45 @@ This Manager ensures only one compiled instance of each program is created</p>
     </div>
 
     
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[_image]</code>
+                        <span class="type">HTMLImageElement</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
 
     
         <div class="returns">
@@ -438,7 +490,7 @@ This Manager ensures only one compiled instance of each program is created</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">GLRenderer</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Renderers.GLTextureWrapper.html" class="crosslink">Kiwi.Renderers.GLTextureWrapper</a></span>:
                     
                 
             </div>
@@ -473,45 +525,31 @@ This Manager ensures only one compiled instance of each program is created</p>
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods extends">
+                    <ul class="index-list methods">
                         
-                            <li class="index-item method private">
-                                <a href="#method__addShader">_addShader</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__loadShader">_loadShader</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__useShader">_useShader</a>
+                            <li class="index-item method public">
+                                <a href="#method_createTexture">createTexture</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_init">init</a>
+                                <a href="#method_deleteTexture">deleteTexture</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_init">init</a>
+                                <a href="#method_refreshTexture">refreshTexture</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_shaderExists">shaderExists</a>
+                                <a href="#method_uploadTexture">uploadTexture</a>
 
                                 
                                 
@@ -525,17 +563,45 @@ This Manager ensures only one compiled instance of each program is created</p>
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties extends">
+                    <ul class="index-list properties">
                         
-                            <li class="index-item property private">
-                                <a href="#property__shaderPairs">_shaderPairs</a>
+                            <li class="index-item property">
+                                <a href="#property_created">created</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property private">
-                                <a href="#property_currentShader">currentShader</a>
+                            <li class="index-item property public">
+                                <a href="#property_image">image</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_numBytes">numBytes</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_texture">texture</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_textureAtlas">textureAtlas</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_uploaded">uploaded</a>
 
                                 
                                 
@@ -555,8 +621,8 @@ This Manager ensures only one compiled instance of each program is created</p>
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method__addShader" class="method item private">
-    <h3 class="name"><code>_addShader</code></h3>
+                    <div id="method_createTexture" class="method item public">
+    <h3 class="name"><code>createTexture</code></h3>
 
     
         <div class="args">
@@ -565,361 +631,6 @@ This Manager ensures only one compiled instance of each program is created</p>
                 <li class="arg">
                     
                         <code>gl</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>shaderID</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">ShaderPair</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLShaderManager.ts.html#l127"><code>src\render\GLShaderManager.ts:127</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Creates a new instance of a ShaderPair and adds a reference to the _shaderPairs object</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingContext</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">shaderID</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">ShaderPair</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method__loadShader" class="method item private">
-    <h3 class="name"><code>_loadShader</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>gl</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>shader</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLShaderManager.ts.html#l140"><code>src\render\GLShaderManager.ts:140</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Tells a ShaderPair to load (compile and link)</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingContext</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">shader</code>
-                        <span class="type">ShaderPair</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method__useShader" class="method item private">
-    <h3 class="name"><code>_useShader</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>gl</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>shader</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLShaderManager.ts.html#l151"><code>src\render\GLShaderManager.ts:151</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Changes gl state so that the shaderProgram contined in a ShaderPir is bound for use</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingContext</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">shader</code>
-                        <span class="type">ShaderPair</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_init" class="method item public">
-    <h3 class="name"><code>init</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>gl</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>defaultShaderID</code>
                     
                 </li>
             
@@ -954,7 +665,7 @@ This Manager ensures only one compiled instance of each program is created</p>
             
         
         
-        <a href="../files/src_render_GLShaderManager.ts.html#l63"><code>src\render\GLShaderManager.ts:63</code></a>
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l90"><code>src\render\GLTextureWrapper.ts:90</code></a>
         
         </p>
 
@@ -965,7 +676,7 @@ This Manager ensures only one compiled instance of each program is created</p>
     </div>
 
     <div class="description">
-        <p>Sets up a default shaderPair.</p>
+        <p>Creates a webgl texture object</p>
 
     </div>
 
@@ -990,21 +701,6 @@ This Manager ensures only one compiled instance of each program is created</p>
                     
                 </li>
             
-                <li class="param">
-                    
-                        <code class="param-name">defaultShaderID</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
             </ul>
         </div>
     
@@ -1015,8 +711,8 @@ This Manager ensures only one compiled instance of each program is created</p>
 </div>
 
                 
-                    <div id="method_init" class="method item public">
-    <h3 class="name"><code>init</code></h3>
+                    <div id="method_deleteTexture" class="method item public">
+    <h3 class="name"><code>deleteTexture</code></h3>
 
     
         <div class="args">
@@ -1028,20 +724,10 @@ This Manager ensures only one compiled instance of each program is created</p>
                     
                 </li>
             
-                <li class="arg">
-                    
-                        <code>shaderID</code>
-                    
-                </li>
-            
             </ul><span class="paren">)</span>
         </div>
     
 
-    
-        <span class="returns-inline">
-            <span class="type">ShaderPair</span>
-        </span>
     
 
     
@@ -1069,7 +755,7 @@ This Manager ensures only one compiled instance of each program is created</p>
             
         
         
-        <a href="../files/src_render_GLShaderManager.ts.html#l75"><code>src\render\GLShaderManager.ts:75</code></a>
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l148"><code>src\render\GLTextureWrapper.ts:148</code></a>
         
         </p>
 
@@ -1080,10 +766,7 @@ This Manager ensures only one compiled instance of each program is created</p>
     </div>
 
     <div class="description">
-        <p>Provides a reference to a ShaderPair. If the requested ShaderPair exists as a property on the _shaderPairs object it will be returned if already loaded,
-otherwise it will be loaded, then returned.
-If the request is not on the list, the Kiwi.Shaders object will  be checked for a property name that matches shaderID and a new ShaderPair
-will be instantiated, loaded, and set for use.</p>
+        <p>Deletes a webgl texture</p>
 
     </div>
 
@@ -1108,47 +791,18 @@ will be instantiated, loaded, and set for use.</p>
                     
                 </li>
             
-                <li class="param">
-                    
-                        <code class="param-name">shaderID</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
             </ul>
         </div>
     
 
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">ShaderPair</span>:
-                    
-                    <p>a ShaderPair instance - null on fail</p>
-
-                
-            </div>
-        </div>
     
 
     
 </div>
 
                 
-                    <div id="method_shaderExists" class="method item public">
-    <h3 class="name"><code>shaderExists</code></h3>
+                    <div id="method_refreshTexture" class="method item public">
+    <h3 class="name"><code>refreshTexture</code></h3>
 
     
         <div class="args">
@@ -1160,20 +814,10 @@ will be instantiated, loaded, and set for use.</p>
                     
                 </li>
             
-                <li class="arg">
-                    
-                        <code>shaderID</code>
-                    
-                </li>
-            
             </ul><span class="paren">)</span>
         </div>
     
 
-    
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
     
 
     
@@ -1201,7 +845,7 @@ will be instantiated, loaded, and set for use.</p>
             
         
         
-        <a href="../files/src_render_GLShaderManager.ts.html#l115"><code>src\render\GLShaderManager.ts:115</code></a>
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l137"><code>src\render\GLTextureWrapper.ts:137</code></a>
         
         </p>
 
@@ -1212,7 +856,7 @@ will be instantiated, loaded, and set for use.</p>
     </div>
 
     <div class="description">
-        <p>Tests to see if a ShaderPair property named ShaderID exists on Kiwi.Shaders. Can be used to test for the availability of specific shaders (for fallback)</p>
+        <p>Re-uploads a webgl texture object to video memory</p>
 
     </div>
 
@@ -1237,10 +881,85 @@ will be instantiated, loaded, and set for use.</p>
                     
                 </li>
             
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_uploadTexture" class="method item public">
+    <h3 class="name"><code>uploadTexture</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l103"><code>src\render\GLTextureWrapper.ts:103</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Uploads a webgl texture object to video memory</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
                 <li class="param">
                     
-                        <code class="param-name">shaderID</code>
-                        <span class="type">String</span>
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
                     
 
                     
@@ -1256,20 +975,6 @@ will be instantiated, loaded, and set for use.</p>
         </div>
     
 
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
-                    
-                    <p>success</p>
-
-                
-            </div>
-        </div>
     
 
     
@@ -1284,14 +989,12 @@ will be instantiated, loaded, and set for use.</p>
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property__shaderPairs" class="property item private">
-    <h3 class="name"><code>_shaderPairs</code></h3>
-    <span class="type">Object</span>
+                    <div id="property_created" class="property item">
+    <h3 class="name"><code>created</code></h3>
+    <span class="type">Boolean</span>
 
     
 
-    
-        <span class="flag private">private</span>
     
 
     
@@ -1309,7 +1012,7 @@ will be instantiated, loaded, and set for use.</p>
             
         
         
-        <a href="../files/src_render_GLShaderManager.ts.html#l42"><code>src\render\GLShaderManager.ts:42</code></a>
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l51"><code>src\render\GLTextureWrapper.ts:51</code></a>
         
         </p>
 
@@ -1319,7 +1022,7 @@ will be instantiated, loaded, and set for use.</p>
     </div>
 
     <div class="description">
-        <p>An object containing a set of properties each of which references a ShaderPair.</p>
+        <p>Returns whether the texture has been created</p>
 
     </div>
 
@@ -1331,14 +1034,14 @@ will be instantiated, loaded, and set for use.</p>
 </div>
 
                 
-                    <div id="property_currentShader" class="property item private">
-    <h3 class="name"><code>currentShader</code></h3>
-    <span class="type">Array</span>
+                    <div id="property_image" class="property item public">
+    <h3 class="name"><code>image</code></h3>
+    <span class="type">HTMLImageElement</span>
 
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag public">public</span>
     
 
     
@@ -1356,7 +1059,7 @@ will be instantiated, loaded, and set for use.</p>
             
         
         
-        <a href="../files/src_render_GLShaderManager.ts.html#l50"><code>src\render\GLShaderManager.ts:50</code></a>
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l79"><code>src\render\GLTextureWrapper.ts:79</code></a>
         
         </p>
 
@@ -1366,7 +1069,187 @@ will be instantiated, loaded, and set for use.</p>
     </div>
 
     <div class="description">
-        <p>The shader program that is currently set to be used useing gl.useProgram.</p>
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_numBytes" class="property item">
+    <h3 class="name"><code>numBytes</code></h3>
+    <span class="type"><a href="..\classes\Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l40"><code>src\render\GLTextureWrapper.ts:40</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The number of bytes in the texture</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_texture" class="property item public">
+    <h3 class="name"><code>texture</code></h3>
+    <span class="type">WebGLTexture</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l71"><code>src\render\GLTextureWrapper.ts:71</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_textureAtlas" class="property item">
+    <h3 class="name"><code>textureAtlas</code></h3>
+    <span class="type"><a href="..\classes\Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l32"><code>src\render\GLTextureWrapper.ts:32</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The textureAtlas used by the GLTexture</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_uploaded" class="property item">
+    <h3 class="name"><code>uploaded</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureWrapper.ts.html#l61"><code>src\render\GLTextureWrapper.ts:61</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns whether the texture has been uploaded to video memory</p>
 
     </div>
 

@@ -14,8 +14,8 @@ module Kiwi.Time {
     * @class ClockManager
     * @namespace Kiwi.Time
     * @constructor
-    * @param {Game} game.
-    * @return {ClockManager} This Object.
+    * @param {Kiwi.Game} game.
+    * @return {Kiwi.Time.ClockManager} This Object.
     *
     */
     export class ClockManager {
@@ -39,7 +39,7 @@ module Kiwi.Time {
         /**
         * The game that this belongs to.
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private
         */
         private _game: Kiwi.Game;
@@ -47,7 +47,7 @@ module Kiwi.Time {
         /**
         * An array containing all of the clocks that exist on this manager.
         * @property _clocks
-        * @type Clock[]
+        * @type Array
         * @private
         */
         private _clocks: Clock[] = [];
@@ -55,7 +55,7 @@ module Kiwi.Time {
         /**
         * The MasterClock for this manager.
         * @property master
-        * @type MasterClock
+        * @type Kiwi.Time.MasterClock
         * @private
         */
         private master: Kiwi.Time.MasterClock;
@@ -63,7 +63,7 @@ module Kiwi.Time {
         /**
         * The default Game Clock - you can use this via this.game.time.clock. Uses a 1000 millisecond time unit.
         * @property clock
-        * @type Clock
+        * @type Kiwi.Time.Clock
         * @public
         */
         public clock: Kiwi.Time.Clock;
@@ -87,7 +87,7 @@ module Kiwi.Time {
         * @method addClock
         * @param name {string} The name of the Clock.
         * @param [units=1000] {Number} The number of milliseconds that make up one unit of time on this clock. Default 1000.
-        * @return {Clock} A reference to the newly created Clock object.
+        * @return {Kiwi.Time.Clock} A reference to the newly created Clock object.
         * @public
         */
         public addClock(name: string, units: number = 1000): Clock {
@@ -102,7 +102,7 @@ module Kiwi.Time {
         * Returns the Clock with the matching name. Throws and error if no Clock with that name exists
         * @method getClock
         * @param name {string} The name of the Clock to be returned.
-        * @return {Clock} The clock which matches the name given.
+        * @return {Kiwi.Time.Clock} The clock which matches the name given.
         * @public
         */
         public getClock(name: string): Clock {

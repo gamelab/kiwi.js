@@ -3,34 +3,80 @@
 *  
 * @module Kiwi
 * @submodule Renderers
-* 
+* @namespace Kiwi.Renderers
 */
 
 module Kiwi.Renderers {
 
     export class TextureAtlasRenderer extends Renderer {
 
+        /**
+        * The Renderer object for rendering Texture Atlases
+        * @class TextureAtlasRenderer
+        * @constructor
+        * @namespace Kiwi.Renderers
+        * @param gl {WebGLRenderingContext} 
+        * @param shaderManager {Kiwi.Shaders.ShaderManager}
+        * @param [params=null] {object}
+        * @return {Kiwi.Renderers.TextureAtlasRenderer}
+        */
         constructor(gl: WebGLRenderingContext, shaderManager: Kiwi.Shaders.ShaderManager, params: any = null) {
-            super(gl, shaderManager,true);
-            
-            this._vertexBuffer = new GLArrayBuffer(gl, 5);
-
-            //6 verts per quad
-            this._indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
-
+            super(gl, shaderManager, true);
+            var bufferItemSize = 5;
+            this._vertexBuffer = new GLArrayBuffer(gl, bufferItemSize);
+            var vertsPerQuad = 6;
+            this._indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * vertsPerQuad));
             this.shaderPair = <Kiwi.Shaders.TextureAtlasShader>this.shaderManager.requestShader(gl, "TextureAtlasShader");
         }
 
+        /**
+        * The identifier for this renderer.
+        * @property RENDERER_ID
+        * @type Array
+        * @public
+        * @static
+        */
         public static RENDERER_ID: string = "TextureAtlasRenderer";
 
+        /**
+        * The shaderPair that this renderer uses.
+        * @property shaderPair
+        * @type Kiwi.Shaders.TextureAtlasShade
+        * @public
+        */
         public shaderPair: Kiwi.Shaders.TextureAtlasShader;
 
+        /**
+        * The maximum number of items that can be rendered by the renderer (not enforced)
+        * @property _maxItems
+        * @type number
+        * @private
+        */
         private _maxItems: number = 1000;
 
+        /**
+        * The Vertex Buffer
+        * @property _vertexBuffer
+        * @type Kiwi.Renderers.GLArrayBuffer
+        * @private
+        */
         private _vertexBuffer: GLArrayBuffer;
 
+        /**
+        * The Index Buffer
+        * @property _indexBuffer
+        * @type Kiwi.Renderers.GLElementArrayBuffer
+        * @private
+        */
         private _indexBuffer: GLElementArrayBuffer;
 
+        /**
+        * Enables the renderer ready for drawing
+        * @method enable
+        * @param gl {WebGLRenderingCotext}
+        * @param [params=null] {object}
+        * @public
+        */
         public enable(gl: WebGLRenderingContext, params: any = null) {
         
             this.shaderPair = <Kiwi.Shaders.TextureAtlasShader>this.shaderManager.requestShader(gl, "TextureAtlasShader");
@@ -45,16 +91,34 @@ module Kiwi.Renderers {
             this.updateTextureSize(gl, new Float32Array([params.textureAtlas.glTextureWrapper.image.width, params.textureAtlas.glTextureWrapper.image.height]));
         }
 
+        /**
+        * Disables the renderer
+        * @method disable
+        * @param gl {WebGLRenderingCotext}
+        * @public
+        */
         public disable(gl: WebGLRenderingContext) {
             gl.disableVertexAttribArray(this.shaderPair.attributes.aXYUV);
             gl.disableVertexAttribArray(this.shaderPair.attributes.aAlpha);
         }
 
+        /**
+        * Clears the vertex buffer.
+        * @method clear
+        * @param gl {WebGLRenderingCotext}
+        * @public
+        */
         public clear(gl: WebGLRenderingContext, params: any) {
             this._vertexBuffer.clear();
             gl.uniformMatrix3fv(this.shaderPair.uniforms.uCamMatrix.location, false, params.camMatrix);
         }
 
+        /**
+        * Makes a draw call, this is where things actually get rendered to the draw buffer (or a framebuffer).
+        * @method draw
+        * @param gl {WebGLRenderingCotext}
+        * @public
+        */
         public draw(gl: WebGLRenderingContext) {
             this._vertexBuffer.uploadBuffer(gl, this._vertexBuffer.items);
 
@@ -69,13 +133,12 @@ module Kiwi.Renderers {
         
         }
 
-      /**
-      * Create prebaked indices for drawing quads 
-      * @method _generateIndices
-      * @param numQuads {number}
-      * @return number[]
-      * @private
-      */
+        /**
+        * Generates quad indices
+        * @method _generateIndices
+        * @param numQuads {number}
+        * @private
+        */
         private _generateIndices(numQuads: number): number[] {
 
             var quads: number[] = new Array();
@@ -85,10 +148,24 @@ module Kiwi.Renderers {
             return quads;
         }
 
+        /**
+        * Updates the stage resolution uniforms
+        * @method updateStageResolution
+        * @param gl {WebGLRenderingCotext}
+        * @param res {Float32Array}
+        * @public
+        */
         public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array) {
             gl.uniform2fv(this.shaderPair.uniforms.uResolution.location, res);
         }
 
+        /**
+        * Updates the texture size uniforms
+        * @method updateTextureSize
+        * @param gl {WebGLRenderingCotext}
+        * @param size {Float32Array}
+        * @public
+        */
         public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array) {
             gl.uniform2fv(this.shaderPair.uniforms.uTextureSize.location, size);
         }
@@ -97,7 +174,7 @@ module Kiwi.Renderers {
         * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
         * @method _collateVertexAttributeArrays
         * @param gl {WebGLRenderingContext}
-        * @param entity {Entity}
+        * @param entity {Kiwi.Entity}
         * @param camera {Camera}
         * @public
         */
@@ -125,6 +202,12 @@ module Kiwi.Renderers {
                 );
         }
 
+        /**
+        * Adds an array of precalculated xyuv values to the item array
+        * @method concatBatch
+        * @param vertexItems {array}
+        * @public
+        */
         public concatBatch(vertexItems: Array<number>) {
             this._vertexBuffer.items = this._vertexBuffer.items.concat(vertexItems);
         }

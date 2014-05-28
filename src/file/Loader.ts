@@ -13,8 +13,8 @@ module Kiwi.Files {
     * @class Loader
     * @namespace Kiwi.Files
     * @constructor
-    * @param game {Game} The game that this loader belongs to.
-    * @return {Loader} This Object
+    * @param game {Kiwi.Game} The game that this loader belongs to.
+    * @return {Kiwi.Files.Loader} This Object
     *
     */
     export class Loader {
@@ -28,7 +28,7 @@ module Kiwi.Files {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Loader"
         * @public
         */
         public objType() {
@@ -38,23 +38,23 @@ module Kiwi.Files {
         /**
         * The game that this loader belongs to.
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private
         */
         private _game: Kiwi.Game;
 
         /**
-        * A list of all of the files that need to be loaded.
+        * A list of all of the files that need to be loaded. Each item in the array is of the type Kiwi.Files.File.
         * @property _fileList
-        * @type File[]
+        * @type Array
         * @private
         */
         private _fileList: Kiwi.Files.File [];
 
         /**
-        * A list of all of the files that have been loaded.
+        * A list of all of the files that have been loaded. Each item in the array is of the type Kiwi.Files.File.
         * @property _loadList
-        * @type File[]
+        * @type Array
         * @private
         */
         private _loadList: Kiwi.Files.File [];
@@ -265,21 +265,53 @@ module Kiwi.Files {
         * Creates a new File to store a audio piece. 
         * This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.
         * You can override this behaviour and tell the audio data to load even if not supported by setting the 'onlyIfSupported' boolean to false.
+        * Also you can now pass an array of filepaths, and the first audio filetype that is supported will be loaded.
         *
         * @method addAudio
         * @param key {String} The key for the audio file.
-        * @param url {String} The url of the audio to load.
+        * @param url {String} The url of the audio to load. You can pass an array of URLs, in which case the first supported audio filetype in the array will be loaded.
         * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
         * @param [onlyIfSupported=true] {Boolean} If the audio file should only be loaded if Kiwi detects that the audio file could be played. Set this to fa
         * @public
         */
-        public addAudio(key: string, url: string, storeAsGlobal: boolean = true, onlyIfSupported: boolean = true) {
+        public addAudio(key: string, url: any, storeAsGlobal: boolean = true, onlyIfSupported: boolean = true) {
+
+            //If it is a string then try to load that file
+            if ( Kiwi.Utils.Common.isString(url) ) {
+                this.attemptToAddAudio(key, url, storeAsGlobal, onlyIfSupported);
+
+
+            } else if ( Kiwi.Utils.Common.isArray(url) ) {
+
+                for (var i = 0; i < url.length; i++) {
+                    //Is the url passed not a string?
+                    if ( Kiwi.Utils.Common.isString(url[i]) == false ) continue;
+
+                    //Attempt to load it, and if successful, breakout
+                    if (this.attemptToAddAudio(key, url[i], storeAsGlobal, onlyIfSupported) == true) break;
+                    
+                }
+
+            }
+
+        }
+
+        /**
+        * This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.
+        * Returns a boolean if the audio file was successfully added or not to the file directory.
+        * @method attemptToAddAudio
+        * @param key {String} The key for the audio file.
+        * @param url {String} The url of the audio to load. 
+        * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
+        * @param [onlyIfSupported=true] {Boolean} If the audio file should only be loaded if Kiwi detects that the audio file could be played. Set this to fa
+        * @private
+        */ 
+        private attemptToAddAudio(key: string, url:any, storeAsGlobal:boolean, onlyIfSupported:boolean):boolean {
 
             var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, key, true, storeAsGlobal);
             var support = false;
 
             switch (file.fileExtension) {
-
                 case 'mp3':
                     support = Kiwi.DEVICE.mp3;
                     break;
@@ -289,7 +321,7 @@ module Kiwi.Files {
                     support = Kiwi.DEVICE.ogg;
                     break;
 
-                case 'm4a':    
+                case 'm4a':
                     support = Kiwi.DEVICE.m4a;
                     break;
 
@@ -297,16 +329,16 @@ module Kiwi.Files {
                 case 'wave':
                     support = Kiwi.DEVICE.wav;
                     break;
-
             }
 
             if (support == true || onlyIfSupported == false) {
                 this._fileList.push(file);
-
+                return true;
             } else {
-                console.error('Audio Format not supported on this Device/Browser.');
-
+                if(this._game.debug) console.error('Kiwi.Loader: Audio Format not supported on this Device/Browser.');
+                return false;
             }
+
         }
 
         /**
@@ -405,7 +437,7 @@ module Kiwi.Files {
         }
 
         /**
-        * [DESCRIPTION REQUIRED]
+        * Calculates the size of the new file that is to be loaded.
         * @method getNextFileSize
         * @private
         */
@@ -426,9 +458,9 @@ module Kiwi.Files {
         }
 
         /**
-        * [DESCRIPTION REQUIRED]
+        * Adds the number of bytes that a File is to the total number of bytes loaded.
         * @method addToBytesTotal
-        * @param file {File} 
+        * @param file {Kiwi.Files.File} 
         * @private
         */
         private addToBytesTotal(file: Kiwi.Files.File) {
@@ -457,9 +489,9 @@ module Kiwi.Files {
         }
 
         /**
-        * [DESCRIPTION REQUIRED]
+        * Executed whilst a file is being loaded.
         * @method fileLoadProgress
-        * @param file {File}
+        * @param file {Kiwi.Files.File}
         * @private
         */
         private fileLoadProgress(file: Kiwi.Files.File) {
@@ -478,9 +510,9 @@ module Kiwi.Files {
         }
 
         /**
-        * [DESCRIPTION REQUIRED]
+        * Executed when a file has been successfully loaded. This method then decides whether loading is complete or we need to load the next file.
         * @method fileLoadComplete
-        * @param file {File}
+        * @param file {Kiwi.Files.File}
         * @private
         */
         private fileLoadComplete(file: Kiwi.Files.File) {
@@ -579,7 +611,7 @@ module Kiwi.Files {
         }
 
         /**
-        * [DESCRIPTION REQUIRED]
+        * Returns a boolean indicating if everything in the loading que has been loaded or not.
         * @method complete
         * @return {boolean}
         * @public

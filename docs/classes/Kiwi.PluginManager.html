@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -364,7 +368,15 @@
 
 
 <div class="box intro">
-    
+    <p>The plugin manager registers plugins, checks plugin dependencies, and calls designated functions on each registered plugin at boot time, and during the update loop if required.
+Plugins are registered on the global Kiwi instance. Once a plugin in registered it is allocated a place on the Kiwi.Plugins name space.
+Eg. FooPlugin will be accessible at Kiwi.Plugins.FooPlugin.
+When a game instance is created, it can contain a list of required plugins in the configuration object. At this point the plugin manager will validate that the plugins
+exist, and that dependencies are met (both Kiwi version and versions of other required plugins).
+If the plugin has a &quot;create&quot; function, the plugin manager instance will call that function as part of the boot process. The create function may do anything, but usually it would create
+an instance of an object. 
+The plugin manager update function is called every update loop. If an object was created by the &quot;create&quot; function and it has an &quot;update&quot; function, that function will be called in turn.</p>
+
 </div>
 
 
@@ -395,7 +407,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">PluginManager</span>
+            <span class="type"><a href="..\classes\Kiwi.PluginManager.html" class="crosslink">Kiwi.PluginManager</a></span>
         </span>
     
 
@@ -445,7 +457,7 @@
                 <li class="param">
                     
                         <code class="param-name">game</code>
-                        <span class="type">Game</span>
+                        <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
                     
 
                     
@@ -485,7 +497,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">PluginManager</span>:
+                        <span class="type"><a href="..\classes\Kiwi.PluginManager.html" class="crosslink">Kiwi.PluginManager</a></span>:
                     
                     <p>This PluginManager.</p>
 
@@ -550,6 +562,13 @@
 
                                 
                                     <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_update">update</a>
+
                                 
                                 
                             </li>
@@ -665,7 +684,7 @@
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l167"><code>src\core\PluginManager.ts:167</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l231"><code>src\core\PluginManager.ts:231</code></a>
         
         </p>
 
@@ -724,7 +743,7 @@ The create function may return an object on which a boot function exists - to be
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l190"><code>src\core\PluginManager.ts:190</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l251"><code>src\core\PluginManager.ts:251</code></a>
         
         </p>
 
@@ -791,7 +810,7 @@ The create function may return an object on which a boot function exists - to be
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l150"><code>src\core\PluginManager.ts:150</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l214"><code>src\core\PluginManager.ts:214</code></a>
         
         </p>
 
@@ -883,7 +902,7 @@ The create function may return an object on which a boot function exists - to be
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l56"><code>src\core\PluginManager.ts:56</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l63"><code>src\core\PluginManager.ts:63</code></a>
         
         </p>
 
@@ -931,6 +950,63 @@ Two plugins with the same names cannot be reigstered simultaneously, even if dif
 </div>
 
                 
+                    <div id="method_update" class="method item public">
+    <h3 class="name"><code>update</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_PluginManager.ts.html#l267"><code>src\core\PluginManager.ts:267</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Calls the update functions on any objects that plugins used by the game instance have designated during creation.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_validatePlugins" class="method item public">
     <h3 class="name"><code>validatePlugins</code></h3>
 
@@ -965,7 +1041,7 @@ Two plugins with the same names cannot be reigstered simultaneously, even if dif
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l122"><code>src\core\PluginManager.ts:122</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l130"><code>src\core\PluginManager.ts:130</code></a>
         
         </p>
 
@@ -1024,7 +1100,7 @@ This will ignore plugin that are registered but not used by the game instance.</
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l30"><code>src\core\PluginManager.ts:30</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l36"><code>src\core\PluginManager.ts:36</code></a>
         
         </p>
 
@@ -1071,7 +1147,7 @@ This will ignore plugin that are registered but not used by the game instance.</
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l114"><code>src\core\PluginManager.ts:114</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l122"><code>src\core\PluginManager.ts:122</code></a>
         
         </p>
 
@@ -1095,7 +1171,7 @@ This will ignore plugin that are registered but not used by the game instance.</
                 
                     <div id="property__plugins" class="property item private">
     <h3 class="name"><code>_plugins</code></h3>
-    <span class="type">String</span>
+    <span class="type">Array</span>
 
     
 
@@ -1118,7 +1194,7 @@ This will ignore plugin that are registered but not used by the game instance.</
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l106"><code>src\core\PluginManager.ts:106</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l114"><code>src\core\PluginManager.ts:114</code></a>
         
         </p>
 
@@ -1167,7 +1243,7 @@ This will ignore plugin that are registered but not used by the game instance.</
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l40"><code>src\core\PluginManager.ts:40</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l46"><code>src\core\PluginManager.ts:46</code></a>
         
         </p>
 
@@ -1214,7 +1290,7 @@ This will ignore plugin that are registered but not used by the game instance.</
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l88"><code>src\core\PluginManager.ts:88</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l96"><code>src\core\PluginManager.ts:96</code></a>
         
         </p>
 
@@ -1261,7 +1337,7 @@ This will ignore plugin that are registered but not used by the game instance.</
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l98"><code>src\core\PluginManager.ts:98</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l106"><code>src\core\PluginManager.ts:106</code></a>
         
         </p>
 

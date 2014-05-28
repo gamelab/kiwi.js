@@ -7,7 +7,7 @@
 module Kiwi {
 
     /**
-    * The base class that is used when you are wanting to create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF which is used for the game loop.
+    * The base class that is used when you create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF (RequestAnimationFrame object) which is used for the game loop.
     *
     * @class Game
     * @namespace Kiwi
@@ -16,38 +16,40 @@ module Kiwi {
     * @param [name='KiwiGame'] {String} The name of the game that is being created. 
     * @param [state=null] {Any} The state to load initially. This can either be the name of a state, but preferably this would be the state object itself.
     * @param [options] {Object} Any special options for the game. E.g. Is DEBUG_ON or DEBUG_OFF, RENDERER_CANVAS or RENDERER_WEBGL, TARGET_BROWSER or TARGET_COCOON
-    * @return {Game}
+    * @return {Kiwi.Game}
     * 
     */
     export class Game {
          
         constructor (domParent: string = '', name: string = 'KiwiGame', state: any = null, options:any={}) {
             
-            console.log(name + ' is being created.');
+            console.log('Kiwi.Game: ' + name + ' is booting, using Kiwi.js version ' + Kiwi.VERSION);
       
-            //Have they specified debugging
+            if (Kiwi.DEVICE === null) { 
+                Kiwi.DEVICE = new Kiwi.System.Device();
+            }
+
             if (options.debug !== 'undefined' && typeof options.debug === 'number') {
                 switch (options.debug) {
                     case Kiwi.DEBUG_ON:
                         this._debugOption = options.debug;
-                        console.log('Debugging turned ON.');
+                        console.log('  Kiwi.Game: Debugging turned ON.');
                         break;
                     case Kiwi.DEBUG_OFF:
                         this._debugOption = options.debug;
-                        console.log('Debugging turned OFF.');
+                        console.log('  Kiwi.Game: Debugging turned OFF.');
                         break;
                     default:
                         this._debugOption = Kiwi.DEBUG_ON;
-                        console.error('Debug option passed, but is not a valid option. Turned ON by default.');
+                        console.error('  Kiwi.Game: Debug option passed, but is not a valid option. Turned ON by default.');
                         break;
                 }
             } else {
                 this._debugOption = Kiwi.DEBUG_ON;
-                console.log('Debug option not specified. Turned ON by default.');
+                console.log('  Kiwi.Game: Debug option not specified. Turned ON by default.');
             }
 
             if (options.bootCallback !== 'undefined') {
-                console.log("boot callback provided");
                 this.bootCallbackOption = options.bootCallback;
             }
 
@@ -56,54 +58,96 @@ module Kiwi {
                 switch (options.deviceTarget) {
                     case Kiwi.TARGET_BROWSER:
                         this._deviceTargetOption = options.deviceTarget;
-                        console.log('Targeting BROWSERS.');
+                        console.log('  Kiwi.Game: Targeting BROWSERS.');
                         break;
                     case Kiwi.TARGET_COCOON:
                         this._deviceTargetOption = options.deviceTarget;
-                        console.log('Targeting COCOONJS.');
+                        console.log('  Kiwi.Game: Targeting COCOONJS.');
                         break;
                     default:
                         this._deviceTargetOption = Kiwi.TARGET_BROWSER;
-                        console.error('Target device specified, but is not a valid option. Defaulting to BROWSER.');
+                        console.error('  Kiwi.Game: Target device specified, but is not a valid option. Defaulting to BROWSER.');
                         break;
                 }
             } else {
                 this._deviceTargetOption = Kiwi.TARGET_BROWSER;
-                console.log('Targeted device not specified. Defaulting to BROWSER'); 
+                console.log('  Kiwi.Game: Targeted device not specified. Defaulting to BROWSER'); 
             }
 
-            //What renderer are they using?
             if (options.renderer !== 'undefined' && typeof options.renderer === 'number') {
                 switch (options.renderer) {
                     case Kiwi.RENDERER_CANVAS:
                         this._renderOption = options.renderer;
-                        console.log('Rendering using CANVAS.');
+                        console.log('  Kiwi.Game: Rendering using CANVAS.');
                         break;
                     case Kiwi.RENDERER_WEBGL:
-                        this._renderOption = options.renderer;
-                        console.log('Rendering using WEBGL.');
+                        if (Kiwi.DEVICE.webGL) {
+                            this._renderOption = options.renderer;
+                            console.log('  Kiwi.Game: Rendering using WEBGL.');
+                        } else {
+                            this._renderOption = Kiwi.RENDERER_CANVAS;
+                            console.log('  Kiwi.Game: WEBGL renderer requested but device does not support WEBGL. Rendering using CANVAS.');
+                        }
                         break;
                     default:
                         this._renderOption = Kiwi.RENDERER_CANVAS;
-                        console.log('Renderer specified, but is not a valid option. Defaulting to CANVAS.');
+                        console.log('  Kiwi.Game: Renderer specified, but is not a valid option. Defaulting to CANVAS.');
                         break;
                 }
             } else {
                 this._renderOption = Kiwi.RENDERER_CANVAS;
-                console.log('Renderer not specified. Defaulting to CANVAS');
+                console.log('  Kiwi.Game: Renderer not specified. Defaulting to CANVAS');
             }
             
             this.id = Kiwi.GameManager.register(this);
             this._startup = new Kiwi.System.Bootstrap();
 
             this.audio = new Kiwi.Sound.AudioManager(this);
-            this.browser = new Kiwi.System.Browser(this);
-      
+                
             this.fileStore = new Kiwi.Files.FileStore(this);
             this.input = new Kiwi.Input.InputManager(this);
 
-            this.stage = new Kiwi.Stage(this, name);
+            // Width / Height
+            var width = Stage.DEFAULT_WIDTH;
+            var height = Stage.DEFAULT_HEIGHT;
+
+            if (options.width !== 'undefined' && typeof options.width === 'number') {
+                width = options.width;
+            }
+
+            if (options.height !== 'undefined' && typeof options.height === 'number') {
+                height = options.height;
+            }
+
+            console.log('  Kiwi.Game: Stage Dimensions: ' + width + 'x' + height);
+
             
+            if (options.scaleType !== 'undefined') {
+
+                switch (options.scaleType) {
+                    case Kiwi.Stage.SCALE_FIT:
+                        console.log('  Kiwi.Game: Stage scaling set to FIT.');
+                        break;
+                    case Kiwi.Stage.SCALE_STRETCH:
+                        console.log('  Kiwi.Game: Stage scaling set to STRETCH.');
+                        break;
+                    case Kiwi.Stage.SCALE_NONE:
+                        console.log('  Kiwi.Game: Stage scaling set to NONE.');
+                        break;
+                    default:
+                        console.log('  Kiwi.Game: Stage specified, but is not a valid option. Set to NONE.');
+                        options.scaleType = 0;
+                        break;
+                }
+
+            } else {
+                options.scaleType = 0;
+            }
+
+
+            this.stage = new Kiwi.Stage(this, name, width, height, options.scaleType);
+
+
             if (this._renderOption === Kiwi.RENDERER_CANVAS) {
                 this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
             } else {
@@ -124,24 +168,24 @@ module Kiwi {
             if (state !== null) {
                 this.states.addState(state, true);
             } else {
-                console.log('Default State not passed.');
+                console.log('  Kiwi.Game: Default State not passed.');
             }
 
             this.pluginManager = new Kiwi.PluginManager(this, options.plugins);
 
             if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 if (domParent !== '') {
-                    if (document.getElementById(domParent)) console.log('Game being created inside ' + domParent + '.');
-                    else console.log('The element "' + domParent + '" could not be found. Appending the game to the body.');
+                    if (document.getElementById(domParent)) console.log('  Kiwi.Game: Game being created inside ' + domParent + '.');
+                    else console.log('  Kiwi.Game: The element "' + domParent + '" could not be found. Appending the game to the body.');
                 } else {
-                    console.log('No DOM parent specified. Appending the game to the body.');
+                    console.log('  Kiwi.Game: No DOM parent specified. Appending the game to the body.');
                 }
 
-                this._startup.boot(domParent, () => this.start());
+                this._startup.boot( domParent, () => this._start() );
             } else {
-                if (domParent !== '') console.log('Not Targetting a BROWSER. DOM Parent parameter ignored.');
+                if (domParent !== '') console.log('  Kiwi.Game: Not Targetting a BROWSER. DOM Parent parameter ignored.');
                 
-                this.start();
+                this._start();
             }
 
         }
@@ -164,6 +208,12 @@ module Kiwi {
             return this._renderOption;
         }
 
+        /**
+        * A callback function that can be passed in as an option in the conifugration object. Invoked after the boot process has completed.
+        * @property bootCallbackOption
+        * @type Function
+        * @private
+        */
         public bootCallbackOption: Function;
 
         /**
@@ -215,7 +265,7 @@ module Kiwi {
         }
 
         /**
-        * Holds the renderer that is being used. This is detiremended based of the _renderMode
+        * Holds the renderer that is being used. This is determined based on the _renderMode
         * @property renderer
         * @type IRenderManager
         * @public
@@ -241,9 +291,9 @@ module Kiwi {
         }
 
         /**
-        * [REQUIRES DESCRIPTION]
-        * @property _dom
-        * @type Bootstrap
+        * The object that peforms DOM and device startup operations for browsers (ie not cocoon)
+        * @property _startup
+        * @type Kiwi.System.Bootstrap
         * @private
         */
         private _startup: Kiwi.System.Bootstrap = null;
@@ -259,23 +309,15 @@ module Kiwi {
         /**
         * The audio manager that handles all of the audio in game. Inside you can globally mute the audio, create new sounds, e.t.c.
         * @property audio
-        * @type AudioManager
+        * @type Kiwi.Sound.AudioManager
         * @public
         */
         public audio: Kiwi.Sound.AudioManager = null;
 
         /**
-        * Used to get the coordinates of any DOM element on the game. 
-        * @property browser
-        * @type Browser
-        * @public
-        */
-        public browser: Kiwi.System.Browser = null;
-
-        /**
         * The global file store for this game. This handles the storage and access of information loaded, as well as tags that maybe set for them individual files.
         * @property fileStore
-        * @type FileStore
+        * @type Kiwi.Files.FileStore
         * @public
         */
         public fileStore: Kiwi.Files.FileStore = null;
@@ -283,7 +325,7 @@ module Kiwi {
         /**
         * Handles any user input with the game. These could via the users keyboard, mouse or touch events.
         * @property input
-        * @type InputManager
+        * @type Kiwi.Input.InputManager
         * @public
         */
         public input: Kiwi.Input.InputManager = null;
@@ -291,7 +333,7 @@ module Kiwi {
         /**
         * Manages the cameras the are on the stage. Single default Camera only in this version.
         * @property cameras
-        * @type CameraManager
+        * @type Kiwi.CameraManager
         * @public
         */
         public cameras: Kiwi.CameraManager = null;
@@ -299,7 +341,7 @@ module Kiwi {
         /**
         * Manages plugins registration and initialisation for the game instance.
         * @property pluginManager
-        * @type PluginManager
+        * @type Kiwi.PluginManager
         * @public
         */
         public pluginManager: Kiwi.PluginManager = null;
@@ -307,7 +349,7 @@ module Kiwi {
         /**
         * Loads files from outside sources and checks to see that they have loaded correctly or not.
         * @property loader
-        * @type Loader
+        * @type Kiwi.Files.Loader
         * @public
         */
         public loader: Kiwi.Files.Loader = null;
@@ -315,7 +357,7 @@ module Kiwi {
         /**
         * The Request Animation Frame that is being used for the update and render loops.
         * @property raf
-        * @type RequestAnimationFrame
+        * @type Kiwi.Utils.RequestAnimationFrame
         * @public
         */
         public raf: Kiwi.Utils.RequestAnimationFrame = null;
@@ -331,7 +373,7 @@ module Kiwi {
         /**
         * Manages all of the states that exist for this game. Via the manager you can create new states, switch states and do various other tasks.
         * @property states
-        * @type StateManager
+        * @type Kiwi.StateManager
         * @public
         */
         public states: Kiwi.StateManager = null;
@@ -339,7 +381,7 @@ module Kiwi {
         /**
         * Holds a reference to the clocks that are being used and has a MASTER clock that is being used for the game.
         * @property time
-        * @type ClockManager
+        * @type Kiwi.Time.ClockManage
         * @public
         */
         public time: Kiwi.Time.ClockManager = null;
@@ -347,7 +389,7 @@ module Kiwi {
         /**
         * The tween manager holds a reference to all of the tweens that are created and currently being used. 
         * @property tweens
-        * @type TweenManager
+        * @type Kiwi.Animations.Tweens.TweenManager
         * @public
         */
         public tweens: Kiwi.Animations.Tweens.TweenManager = null;
@@ -355,7 +397,7 @@ module Kiwi {
         /**
         * A Random Data Generator. This is useful for create unique ids and random information.
         * @property rnd
-        * @type RandomDataGenerator
+        * @type Kiwi.Utils.RandomDataGenerato
         * @public
         */
         public rnd: Kiwi.Utils.RandomDataGenerator = null;
@@ -421,13 +463,9 @@ module Kiwi {
         * @method start
         * @private
         */
-        private start() {
+        private _start() {
 
-            if (Kiwi.DEVICE === null) { //dont we want to move this up into the constructor
-                Kiwi.DEVICE = new Kiwi.System.Device();
-            }
-
-            this.browser.boot();
+     
             this.stage.boot(this._startup);
             this.renderer.boot();
             this.cameras.boot();
@@ -445,20 +483,20 @@ module Kiwi {
 
             this._lastTime = Date.now();
             
-            this.raf = new Kiwi.Utils.RequestAnimationFrame(() => this.loop());
+            this.raf = new Kiwi.Utils.RequestAnimationFrame(() => this._loop());
             this.raf.start();
             if (this.bootCallbackOption) {
-                console.log("invoked boot callback");
+                console.log("  Kiwi.Game: invoked boot callback");
                 this.bootCallbackOption();
             }
         }
         
         /**
-        * The loop that the whole game is using. 
-        * @method loop
+        * The game loop. 
+        * @method _loop
         * @private
         */
-        private loop() {
+        private _loop() {
             
             this._delta = this.raf.currentTime - this._lastTime;
             if (this._delta > this._interval) {

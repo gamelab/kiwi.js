@@ -4,18 +4,19 @@
 *  
 * @module Kiwi
 * @submodule Renderers
-* 
+*
+* @namespace Kiwi.Renderers
 */
 
 module Kiwi.Renderers {
      
     /**
-    *
-    * @class GLTexture
+    * Wraps a webGL texture object
+    * @class GLTextureWrapper
     * @constructor
     * @param gl {WebGLRenderingContext}
     * @param [_image] {HTMLImageElement}
-    * @return {GLTexture}
+    * @return {Kiwi.Renderers.GLTextureWrapper}
     */
     export class GLTextureWrapper {
 
@@ -28,21 +29,40 @@ module Kiwi.Renderers {
        
         }
 
-     
+        /**
+        * The textureAtlas used by the GLTexture
+        * @property textureAtlas
+        * @type Kiwi.Textures.TextureAtlas
+        */
 
         public textureAtlas: Kiwi.Textures.TextureAtlas;
+
+        /**
+        * The number of bytes in the texture
+        * @property numBytes
+        * @type Kiwi.Textures.TextureAtlas
+        */
 
         private _numBytes: number;
         public get numBytes(): number {
             return this._numBytes;
         }
 
-        
+        /**
+        * Returns whether the texture has been created
+        * @property created
+        * @type boolean
+        */
         private _created: boolean = false;
         public get created(): boolean {
             return this._created;
         }
-
+        
+        /**
+        * Returns whether the texture has been uploaded to video memory
+        * @property uploaded
+        * @type boolean
+        */
         private _uploaded: boolean = false;
         public get uploaded(): boolean {
             return this._uploaded;
@@ -66,12 +86,26 @@ module Kiwi.Renderers {
 
         //force : if true then other textures will be removed until there is room.
 
+
+        /**
+        * Creates a webgl texture object
+        * @method createTexture
+        * @param gl {WebGLRenderingContext}
+        * @public
+        */
         public createTexture(gl: WebGLRenderingContext): boolean {
             this.texture = gl.createTexture();
             this._created = true;
             return true;
         }
 
+        
+        /**
+        * Uploads a webgl texture object to video memory
+        * @method uploadTexture
+        * @param gl {WebGLRenderingContext}
+        * @public
+        */
         public uploadTexture(gl: WebGLRenderingContext):boolean {
             var success: boolean = false;
             if (!this.created) {
@@ -100,11 +134,23 @@ module Kiwi.Renderers {
             return success;
         }
 
+        /**
+        * Re-uploads a webgl texture object to video memory
+        * @method refreshTexture
+        * @param gl {WebGLRenderingContext}
+        * @public
+        */
         public refreshTexture(gl: WebGLRenderingContext) {
             
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
         }
 
+        /**
+        * Deletes a webgl texture
+        * @method deleteTexture
+        * @param gl {WebGLRenderingContext}
+        * @public
+        */
         public deleteTexture(gl: WebGLRenderingContext) :boolean{
             gl.bindTexture(gl.TEXTURE_2D, this.texture);
             gl.deleteTexture(this.texture);

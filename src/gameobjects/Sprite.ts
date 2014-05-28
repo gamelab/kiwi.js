@@ -12,10 +12,10 @@ module Kiwi.GameObjects {
     *
     * @class Sprite
     * @namespace Kiwi.GameObjects
-    * @extends Entity
+    * @extends Kiwi.Entity
     * @constructor
-    * @param state {State} The state that this sprite belongs to
-    * @param atlas {TextureAtlas} The texture you want to apply to this entity 
+    * @param state {Kiwi.State} The state that this sprite belongs to
+    * @param atlas {Kiwi.Textures.TextureAtlas} The texture you want to apply to this entity 
     * @param [x=0] {Number} The sprites initial coordinates on the x axis.
     * @param [y=0] {Number} The sprites initial coordinates on the y axis.
     * @param [enableInput=false] {boolean} If the input component should be enabled or not.
@@ -44,8 +44,8 @@ module Kiwi.GameObjects {
             this.cellIndex = this.atlas.cellIndex;
 
             //may need to add an optional other cell frame index here
-            this.width = atlas.cells[0].w;
-            this.height = atlas.cells[0].h;
+            this.width = atlas.cells[this.cellIndex].w;
+            this.height = atlas.cells[this.cellIndex].h;
             this.transform.rotPointX = this.width / 2;
             this.transform.rotPointY = this.height / 2;
                 
@@ -89,15 +89,15 @@ module Kiwi.GameObjects {
 	    * The animation component that allows you to create a animation with spritesheets/texture atlas's. 
         * Note: If the atlas that was added is of type Kiwi.Textures.TextureAtlas.SINGLE_IMAGE then no animation component will be created.
 	    * @property animation
-	    * @type AnimationManager
+	    * @type Kiwi.Components.AnimationManager
         * @public
 	    */
         public animation: Kiwi.Components.AnimationManager;
         
         /** 
         * The box component that controls the bounding box around this Game Object
-        * @property bounds
-        * @type Bounds
+        * @property box
+        * @type Kiwi.Components.Box
         * @public
         */
         public box: Kiwi.Components.Box;
@@ -105,7 +105,7 @@ module Kiwi.GameObjects {
         /** 
 	    * The Input component controls the user interaction with this Game Object
 	    * @property input
-	    * @type Input
+	    * @type Kiwi.Components.Input
         * @public
 	    */
         public input: Kiwi.Components.Input;
@@ -130,9 +130,9 @@ module Kiwi.GameObjects {
         }
 
         /**
-	    * Called by the Layer to which this Game Object is attached
+	    * Renders the GameObject using Canvas. 
 	    * @method render
-        * @param {Camera} camera
+        * @param {Kiwi.Camera} camera
         * @public
 	    */
         public render(camera:Kiwi.Camera) {
@@ -167,6 +167,15 @@ module Kiwi.GameObjects {
 
         
         }
+
+        /**
+	    * Renders the GameObject using WebGL. 
+	    * @method renderGL
+        * @param {WebGLRenderingContext} gl
+        * @param {Kiwi.Camera} camera
+        * @param {Object} params
+        * @public
+	    */
 
         public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params: any = null) {
             (<Kiwi.Renderers.TextureAtlasRenderer>this.glRenderer).addToBatch(gl, this, camera);

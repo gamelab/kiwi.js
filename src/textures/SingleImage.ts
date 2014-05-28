@@ -20,7 +20,7 @@ module Kiwi.Textures  {
     * @param [height] {number} the height of the image
     * @param [offsetX] {number} the offset of the image on the x axis. Useful if the image has a border that you don't want to show.
     * @param [offsetY] {number} the offset of the image of the y axis. Useful if the image has a border that you don't want to show.
-    * @return {SingleImage}
+    * @return {Kiwi.SingleImage}
     */
     export class SingleImage extends TextureAtlas {
          
@@ -68,7 +68,7 @@ module Kiwi.Textures  {
         private offsetX: number;
         
         /**
-        * The offset for the image o nthe Y axis.
+        * The offset for the image on the Y axis.
         * @property offsetY
         * @type number
         * @private

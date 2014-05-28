@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -359,8 +363,8 @@ module Kiwi.Files {
     * @class FileStore
     * @namespace Kiwi.Files
     * @constructor
-    * @param game {Game} The game that this FileStore belongs to.
-    * @return {FilesStore}
+    * @param game {Kiwi.Game} The game that this FileStore belongs to.
+    * @return {Kiwi.Files.FilesStore}
     *
     */
     export class FileStore {
@@ -373,7 +377,7 @@ module Kiwi.Files {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} &quot;FileStore&quot;
         * @public
         */
         public objType() {
@@ -383,7 +387,7 @@ module Kiwi.Files {
         /**
         * The game that this FileStore belongs to.
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private
         */
         private _game: Kiwi.Game;
@@ -418,7 +422,7 @@ module Kiwi.Files {
         * Returns a particular file by the key that you specify.
         * @method getFile
         * @param key {String} The key of the file that you to get.
-        * @return {File} 
+        * @return {Kiwi.Files.File} 
         * @public
         */
         public getFile(key: string): Kiwi.Files.File {
@@ -495,7 +499,7 @@ module Kiwi.Files {
         * Adds a File with a key to the FileStore. If the key that you specify already exists then this method will return false otherwise it should return true if it was added.
         * @method addFile
         * @param key {String} A unique key that this file should be accessed by.
-        * @param value {File} The file that you would like to save on the FileStore.
+        * @param value {Kiwi.Files.File} The file that you would like to save on the FileStore.
         * @return {Boolean} If the file was added or not
         * @public
 		*/
@@ -516,7 +520,7 @@ module Kiwi.Files {
         * Checks to see if a key that you pass is already being used for another file. Returns true if that key is already in used, false if it isn&#x27;t.
         * @method exists
         * @param key {String} The key that you are checking.
-        * @return boolean
+        * @return {Boolean} 
         * @public
 		*/
         public exists(key: string): boolean {
@@ -535,7 +539,7 @@ module Kiwi.Files {
         /**
         * Removes files on the FileStore that are associated with a particular state.
         * @method removeStateFiles
-        * @param state {State} 
+        * @param state {Kiwi.State} 
         * @public
         */
         public removeStateFiles(state: Kiwi.State) {

@@ -12,16 +12,16 @@ module Kiwi.HUD.Widget {
     * The amount is based of a counter components current value, so you can set a maximum and minimum number of images to be displayed.
     *
     * @class IconBar
-    * @extends HUDWidget
+    * @extends Kiwi.HUD.HUDWidget
     * @namespace Kiwi.HUD.Widget
     * @constructor
-    * @param game {Game} The game that this icon bar belongs to.
-    * @param atlas {TextureAtlas} The texture atlas that the icons will have.
+    * @param game {Kiwi.Game} The game that this icon bar belongs to.
+    * @param atlas {Kiwi.Textures.TextureAtlas} The texture atlas that the icons will have.
     * @param current {number} The current amount of icons in the bar.
     * @param max {number} The maximum number of icons.
     * @param x {number} The x coordinates of the first icon.
     * @param y {number} The y coordinates of the last icon.
-    * @return {IconBar}
+    * @return {Kiwi.HUD.Widget.IconBar}
     */
     export class IconBar extends Kiwi.HUD.HUDWidget {
 
@@ -45,7 +45,7 @@ module Kiwi.HUD.Widget {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "IconBarWidget"
         * @public
         */
         public objType():string {
@@ -64,7 +64,7 @@ module Kiwi.HUD.Widget {
         /**
         * The texture atlas that each Icon inside the IconBar will use.
         * @property atlas
-        * @type TextureAtlas
+        * @type Kiwi.Textures.TextureAtlas
         * @public
         */
         public atlas: Kiwi.Textures.TextureAtlas;
@@ -97,15 +97,15 @@ module Kiwi.HUD.Widget {
         /**
         * Holds the counter component.
         * @property counter
-        * @type Counter
+        * @type Kiwi.HUD.HUDComponents.Counter
         * @public
         */
         public counter: Kiwi.HUD.HUDComponents.Counter;
 
         /**
-        * An array of all of the icons on the screen.
+        * An array of all of the icons on the screen. Each item in the array is of the type Kiwi.HUD.Widget.Icon
         * @property icons
-        * @type Icon[]
+        * @type Array
         * @private
         */
         private _icons: Kiwi.HUD.Widget.Icon[];
@@ -167,7 +167,7 @@ module Kiwi.HUD.Widget {
         /**
         * Removes a Icon from the container.
         * @method _removeIcon
-        * @param icon {Icon} The icon that you want to remove
+        * @param icon {Kiwi.HUD.Widget.Icon} The icon that you want to remove.
         * @private
         */
         private _removeIcon(icon:Kiwi.HUD.Widget.Icon) {

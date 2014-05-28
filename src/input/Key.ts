@@ -13,10 +13,10 @@ module Kiwi.Input {
     * @class Key
     * @constructor
     * @namespace Kiwi.Input
-    * @param manager {Keyboard} The keyboard manager that this key belongs to. 
+    * @param manager {Kiwi.Input.Keyboard} The keyboard manager that this key belongs to. 
     * @param keycode {Number} The keycode that this key is. 
     * @param [event] {KeyboardEvent} The keyboard event (if there was one) when this was created.
-    * @return {Key} This object.
+    * @return {Kiwi.Input.Key} This object.
     *
     */
     export class Key {
@@ -47,7 +47,7 @@ module Kiwi.Input {
         /**
         * The game that this key belongs to.
         * @property game
-        * @type Game
+        * @type Kiwi.Game
         * @public
         */
         public game: Kiwi.Game;
@@ -65,7 +65,7 @@ module Kiwi.Input {
         /** 
         * The keyboard manager that this key belongs to.
         * @property _manager
-        * @type Keyboard
+        * @type Kiwi.Input.Keyboard
         * @private
         */
         private _manager: Kiwi.Input.Keyboard;

@@ -12,10 +12,10 @@ module Kiwi.GameObjects {
     *
     * @class StaticImage
     * @namespace Kiwi.GameObjects
-    * @extends Entity
+    * @extends Kiwi.Entity
     * @constructor
-    * @param state {State} The state that this static image belongs to 
-    * @param atlas {TextureAtlas} The texture atlas to use as the image.
+    * @param state {Kiwi.State} The state that this static image belongs to 
+    * @param atlas {Kiwi.Textures.TextureAtlas} The texture atlas to use as the image.
     * @param [x=0] {Number} Its coordinates on the x axis
     * @param [y=0] {Number} The coordinates on the y axis
     * @return {StaticImage}
@@ -41,8 +41,8 @@ module Kiwi.GameObjects {
             //Set coordinates and texture
             this.atlas = atlas;
             this.cellIndex = this.atlas.cellIndex;
-            this.width = atlas.cells[0].w;
-            this.height = atlas.cells[0].h;
+            this.width = atlas.cells[this.cellIndex].w;
+            this.height = atlas.cells[this.cellIndex].h;
             this.transform.rotPointX = this.width / 2;
             this.transform.rotPointY = this.height / 2;
             
@@ -62,8 +62,8 @@ module Kiwi.GameObjects {
 
         /** 
         * The Bounds component that controls the bounding box around this Game Object
-        * @property bounds
-        * @type Bounds
+        * @property box
+        * @type Kiwi.Components.Box
         * @public
         */
         public box: Kiwi.Components.Box;
@@ -71,7 +71,7 @@ module Kiwi.GameObjects {
         /**
 	    * Called by the Layer to which this Game Object is attached
 	    * @method render
-        * @param {Camara} camera
+        * @param {Kiwi.Camara} camera
         * @public
 	    */
         public render(camera: Kiwi.Camera) {
@@ -104,6 +104,15 @@ module Kiwi.GameObjects {
             
             }
         }
+
+        /**
+	    * Renders the GameObject using WebGL. 
+	    * @method renderGL
+        * @param {WebGLRenderingContext} gl
+        * @param {Kiwi.Camera} camera
+        * @param {Object} params
+        * @public
+	    */
 
         public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params: any = null) {
             (<Kiwi.Renderers.TextureAtlasRenderer>this.glRenderer).addToBatch(gl, this, camera);

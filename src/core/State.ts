@@ -7,14 +7,17 @@
 module Kiwi {
 
     /**
-    * 
+    * A State in Kiwi.JS is the main class that developers use when wanting to create a Game. 
+    * States in Kiwi are used keep different sections of a game seperated. So a single game maybe comprised of many different States. 
+    * Such as one for the menu, in-game, leaderboard, e.t.c.
+    * There can only ever be a single State active at a given time.   
     * 
     * @class State
     * @namespace Kiwi
-    * @extends Group
+    * @extends Kiwi.Group
     * @constructor
-    * @param name {String}
-    * @return {State} 
+    * @param name {String} Name of this State. Should be unique to differentiate itself from other States.
+    * @return {Kiwi.State} 
     */ 
     export class State extends Group {
          
@@ -30,7 +33,7 @@ module Kiwi {
         /**
         * Returns the type of object this state is.
         * @method objType
-        * @return String
+        * @return {String} "State"
         * @public
         */
         public objType() {
@@ -40,7 +43,7 @@ module Kiwi {
         /**
         * Returns the type of child this is. 
         * @method childType
-        * @return Number
+        * @return {Number} Kiwi.GROUP
         * @public
         */
         public childType() {
@@ -48,17 +51,17 @@ module Kiwi {
         }
 
         /**
-        * The configuration object for this State
+        * The configuration object for this State.
         * @property config
-        * @type StateConfig
+        * @type Kiwi.StateConfig
         * @public
         */
         public config: Kiwi.StateConfig;
 
         /**
-        * A reference to the Kiwi.Game that this State belongs to
+        * A reference to the Kiwi.Game that this State belongs to.
         * @property game
-        * @type Game
+        * @type Kiwi.Game
         * @public
         */
         public game: Kiwi.Game = null;
@@ -66,7 +69,7 @@ module Kiwi {
         /**
         * The library that this state use's for the loading of textures.
         * @property textureLibrary
-        * @type TextureLibrary
+        * @type Kiwi.Textures.TextureLibrary
         * @public
         */
         public textureLibrary: Kiwi.Textures.TextureLibrary;
@@ -74,7 +77,7 @@ module Kiwi {
         /**
         * The library that this state use's for the loading of audio.
         * @property audioLibrary
-        * @type AudioLibrary
+        * @type Kiwi.Sound.AudioLibrary
         * @public
         */
         public audioLibrary: Kiwi.Sound.AudioLibrary;
@@ -82,7 +85,7 @@ module Kiwi {
         /**
         * The library that this state use's for the loading of data.
         * @property dataLibrary
-        * @type DataLibrary
+        * @type Kiwi.Files.DataLibrary
         * @public
         */
         public dataLibrary: Kiwi.Files.DataLibrary;
@@ -115,8 +118,8 @@ module Kiwi {
         public data;
 
         /**
-        * Is executed when this state is about to be switched too. Just before the preload method. 
-        * ONLY occurs on games targetting browsers.
+        * This method is executed when this State is about to be switched too. This is the first method to be executed, and happens before the Init method.
+        * Is called each time a State is switched to.
         * @method boot
         * @public
         */
@@ -131,11 +134,8 @@ module Kiwi {
                 
         }
 
-        /**
+        /*
         * Currently unused.
-        * @method setType
-        * @param {Number} value
-        * @public
         */
         public setType(value: number) {
 
@@ -148,7 +148,7 @@ module Kiwi {
          
         /*
         *--------------
-        * Methods that should be Over-Ridden
+        * Methods that are to be Over-Ridden by Devs.
         *--------------
         */
 
@@ -156,26 +156,28 @@ module Kiwi {
         /**
         * Gets executed when the state has been initalised and gets switched to for the first time.
         * This method only ever gets called once and it is before the preload method.
+        * Can have parameters passed to it by the previous state that switched to it.
         * @method init
-        * @param[values] * {Any } 
+        * @param [values] { Any } 
         * @public
         */
         public init(...paramsArr: any[]) { }
 
         /**
         * This method is where you would load of all the assets that are requried for this state or in the entire game.
+        *
         * @method preload
         * @public
         */
         public preload() { }
 
         /**
-        * This method is progressively called whilst loading a file.
-        * This can be used to create a 'progress' bar for each file.
+        * This method is progressively called whilst loading files and is executed each time a file has been loaded.
+        * This can be used to create a 'progress' bar during the loading stage of a game.
         * @method loadProgress
-        * @param {Number} percent
-        * @param {Number} bytesLoaded
-        * @param {Kiwi.Files} file
+        * @param percent {Number} The percent of files that have been loaded so far. This is a number from 0 - 1.
+        * @param bytesLoaded {Number} The number of bytes that have been loaded so far.
+        * @param file {Kiwi.Files.File} The last file to have been loaded.
         * @public
         */
         public loadProgress(percent: number, bytesLoaded: number, file: Kiwi.Files.File) { }
@@ -188,7 +190,7 @@ module Kiwi {
         public loadComplete() { }
 
         /**
-        * The game loop that gets executed while the game is loading.
+        * The game loop that gets executed while the game is loading. 
         * @method loadUpdate
         * @public
         */
@@ -260,7 +262,7 @@ module Kiwi {
         }
 
         /**
-        * Called after all of the layers have rendered themselves, useful for debugging
+        * Called after all of the layers have rendered themselves, useful for debugging.
         * @method postRender
         * @public
         */
@@ -359,10 +361,10 @@ module Kiwi {
         * 
         * @method addAudio
         * @param key {string} A key for this audio so that you can access it when the loading has finished
-        * @param url {string} The location of the audio file.
+        * @param url {string} The location of the audio file. You can pass a array of urls, in which case the first supported filetype will be used.
         * @param [storeAsGlobal=true] {boolean} If the audio should be deleted when switching to another state or if the other states should still be able to access this audio.
         */
-        public addAudio(key: string, url: string, storeAsGlobal: boolean = true) {
+        public addAudio(key: string, url: any, storeAsGlobal: boolean = true) {
              
             this.game.loader.addAudio(key, url, storeAsGlobal);
           
@@ -371,24 +373,25 @@ module Kiwi {
 
         /*
         *----------------
-        * Garbage Collection stuff
+        * Garbage Collection 
         *----------------
         */
 
 
         /**
-        * Contains a reference to all of the IChilds that have ever been created for this state. 
+        * Contains a reference to all of the Objects that have ever been created for this state. Generally Kiwi.Entities or Kiwi.Groups.
         * Useful for keeping track of sprites that are not used any more and need to be destroyed.
         * @property trackingList
-        * @type IChild[]
+        * @type Array
         * @private
         */
         private _trackingList: Kiwi.IChild[];
 
         /**
-        * Adds a new IChild to the tracking list. This is an INTERNAL Kiwi method and DEVS shouldn't really need to worry about it.
+        * Adds a new Objects to the tracking list. 
+        * This is an INTERNAL Kiwi method and DEVS shouldn't need to worry about it.
         * @method addToTrackingList
-        * @param {IChild} child
+        * @param child {Object} The Object which you are adding to the tracking list.
         * @public
         */
         public addToTrackingList(child: Kiwi.IChild) {
@@ -399,10 +402,10 @@ module Kiwi {
         }
 
         /**
-        * Removes a IChild from the tracking list. This should only need to happen when a child is being destroyed.
+        * Removes a Object from the tracking list. This should only need to happen when a child is being destroyed.
         * This is an INTERNAL Kiwi method and DEVS shouldn't really need to worry about it.
         * @method removeFromTrackingList
-        * @param {IChild} child
+        * @param child {Object} The object which is being removed from the tracking list. 
         * @public
         */
         public removeFromTrackingList(child:Kiwi.IChild) {
@@ -414,10 +417,11 @@ module Kiwi {
         }
 
         /**
-        * Destroys all of IChilds that are not currently on stage. All IChilds that currently don't have this STATE as an ancestor.
-        * Returns the number of IChilds removed.  
+        * Destroys all of Objects in the tracking list that are not currently on stage. 
+        * All that currently don't have this STATE as an ancestor.
+        * Returns the number of Objects removed.  
         * @method destroyUnused
-        * @return {Number}
+        * @return {Number} The amount of objects removed.
         * @public
         */
         public destroyUnused():number {
@@ -436,14 +440,15 @@ module Kiwi {
         }
 
         /**
-        * Destroys all of the IChild's on the start.
+        * Used to mark all Entities that have been created for deletion, regardless of it they are on the stage or not.
         * @method destroy
-        * @param [deleteAll=true] If all of the IChild's ever created should have the destroy method executed also.
+        * @param [deleteAll=true] If all of the Objects ever created should have the destroy method executed also.
         * @public
         */
         public destroy(deleteAll: boolean=true) {
             
             if (deleteAll == true) {
+
                 //destroy all of the tracking list
                 for (var i = 0; i < this._trackingList.length; i++) {
 
@@ -458,6 +463,7 @@ module Kiwi {
                     delete this.members[i];
                 }
                 this.members = [];    
+
             }
 
         }
@@ -465,7 +471,7 @@ module Kiwi {
         /**
         * Recursively goes through a child given and runs the destroy method on all that are passed.
         * @method _destroyChildren
-        * @param {IChild} child
+        * @param child {Object}
         * @private
         */
         private _destroyChildren(child: any) {

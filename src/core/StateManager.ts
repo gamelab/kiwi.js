@@ -1,5 +1,5 @@
 /**
-* Module - Kiwi (Core)
+* 
 * @module Kiwi
 * 
 */  
@@ -7,13 +7,14 @@
 module Kiwi {
 
     /**
-    * The state manager handles the starting, parsing, looping and swapping of game states. Thus there is only ever one state manager per game.
+    * The State Manager handles the starting, parsing, looping and swapping of game States within a Kiwi Game
+    * There is only ever one State Manager per game, but a single Game can contain multiple States.
     *
     * @class StateManager
     * @namespace Kiwi
     * @constructor
-    * @param game {Game} The game that this statemanager belongs to.
-    * @return {StateMananger} This Object
+    * @param game {Kiwi.Game} The game that this statemanager belongs to.
+    * @return {Kiwi.StateMananger} 
     *
     */
     export class StateManager {
@@ -29,7 +30,7 @@ module Kiwi {
         /**
         * The type of object this is.
         * @method objType
-        * @return string
+        * @return {string} "StateManager"
         * @public
         */
         public objType() {
@@ -39,7 +40,7 @@ module Kiwi {
         /**
         * The game that this manager belongs to.
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private
         */
         private _game: Kiwi.Game;
@@ -47,7 +48,7 @@ module Kiwi {
         /**
         * An array of all of the states that are contained within this manager.
         * @property _states
-        * @type State[]
+        * @type Array
         * @private
         */
         private _states: Kiwi.State[];
@@ -55,17 +56,17 @@ module Kiwi {
         /**
         * The current State that the game is at.
         * @property current
-        * @type State
+        * @type Kiwi.State
         * @default null
         * @public
         */
         public current: Kiwi.State = null;
 
         /**
-        * The name of the new state that is to be switched to.
+        * The name of the new State that is to be switched to.
         * @property _newStateKey
         * @type string
-        * @defualt null
+        * @default null
         * @private
         */
         private _newStateKey: string = null;
@@ -92,9 +93,9 @@ module Kiwi {
         }
 
         /**
-        * Checks to see if the state passed is valid or not.
+        * Checks to see if the State passed is valid or not.
         * @method checkValidState
-        * @param {State} state
+        * @param state {Kiwi.State}
         * @return {boolean}
         * @private
         */
@@ -120,7 +121,7 @@ module Kiwi {
         * @public
         */
         public addState(state: any, switchTo:boolean = false): boolean {
-
+            console.log('Kiwi.StateManager: Adding state');
             var tempState;
 
             //What type is the state that was passed.
@@ -138,7 +139,7 @@ module Kiwi {
             if (tempState.config.name && this.checkKeyExists(tempState.config.name) === true) {
 
                 if (this._game.debug)
-                    console.error('Could not add ' + tempState.config.name + ' as a State with that name already exists.');
+                    console.error('  Kiwi.StateManager: Could not add ' + tempState.config.name + ' as a State with that name already exists.');
 
                 return false;
             }
@@ -149,7 +150,7 @@ module Kiwi {
             if (this.checkValidState(tempState) === false) {
 
                 if (this._game.debug)
-                    console.error(tempState.config.name + ' isn\'t a valid state. Make sure you are using the Kiwi.State class!');
+                    console.error('  Kiwi.StateManager: ' + tempState.config.name + ' isn\'t a valid state. Make sure you are using the Kiwi.State class!');
 
                 return false;
 
@@ -158,7 +159,7 @@ module Kiwi {
                 this._states.push(tempState);
 
                 if (this._game.debug)
-                    console.log(tempState.config.name + ' was successfully added.');
+                    console.log('  Kiwi.StateManager: ' + tempState.config.name + ' was successfully added.');
 
                 if (switchTo === true) {
                     this.setCurrentState(tempState.config.name);
@@ -178,14 +179,13 @@ module Kiwi {
         */
         boot() {                                         
 
-
         }
 
         /**
         * Switches to the name (key) of the state that you pass. 
         * Does not work if the state you are switching to is already the current state OR if that state does not exist yet.
         * @method setCurrentState
-        * @param {String} key
+        * @param key {String}
         * @return {boolean}
         * @private
         */
@@ -197,7 +197,7 @@ module Kiwi {
             }
 
             if (this._game.debug)
-                console.log('Switching to ' + key + ' State.'); 
+                console.log('Kiwi.StateManager: Switching to "' + key + '" State.'); 
 
             this._newStateKey = key;
             return true;
@@ -244,7 +244,7 @@ module Kiwi {
         * @param [state=null] {Any} The state that you want to switch to. This is only used to create the state if it doesn't exist already.
         * @param [initParams=null] {Object} Any parameters that you would like to pass to the init method of that new state.
         * @param [createParams=null] {Object} Any parameters that you would like to pass to the create method of that new state.
-        * @return {boolean}
+        * @return {boolean} Whether the State is going to be switched to or not.
         * @public
         */
         public switchState(key: string, state: any = null, initParams = null, createParams = null): boolean {
@@ -253,7 +253,7 @@ module Kiwi {
             if (this.current !== null && this.current.config.isReady === false) {
 
                 if(this._game.debug)
-                    console.error('Cannot change to a new state till the current state has finished loading!');
+                    console.error('Kiwi.StateManager: Cannot change to a new state till the current state has finished loading!');
 
                 return false;
             }
@@ -290,8 +290,8 @@ module Kiwi {
         /**
         * Gets a state by the key that is passed.
         * @method getState
-        * @param {String} key
-        * @return {State}
+        * @param key {String}
+        * @return {Kiwi.State}
         * @private
         */
         private getState(key: string): Kiwi.State {
@@ -353,7 +353,7 @@ module Kiwi {
         private callCreate() {
 
             if (this._game.debug)
-                console.log("Calling State:Create");
+                console.log("Kiwi.StateManager: Calling " + this.current.name + ":Create");
 
             //Execute the create with params if there are some there.
             if (this.current.config.createParams) {
@@ -399,9 +399,9 @@ module Kiwi {
         /**
         * Is execute whilst files are being loaded by the state.
         * @method onLoadProgress
-        * @param {Number} percent
-        * @param {Number} bytesLoaded
-        * @param {File} file
+        * @param percent {Number} The current percentage of files that have been loaded. Ranging from 0 - 1.
+        * @param bytesLoaded {Number} The number of bytes that have been loaded so far.
+        * @param file {Kiwi.Files.File} The last file that has been loaded.
         * @private
         */
         private onLoadProgress(percent: number, bytesLoaded: number, file: Kiwi.Files.File) {
@@ -411,7 +411,7 @@ module Kiwi {
         }
 
         /**
-        * Executed when the preloading has completed. Then executes the loadComplete and create methods of the new state.
+        * Executed when the preloading has completed. Then executes the loadComplete and create methods of the new State.
         * @method onLoadComplete
         * @private
         */
@@ -419,16 +419,8 @@ module Kiwi {
 
             this.current.loadComplete();
             
-            if (this._game.debug) {
-                console.log("Rebuilding Libraries");
-            }
-
             //Rebuild the Libraries again to have access the new files that were loaded.
             this.rebuildLibraries();
-            if (this._game.renderOption == Kiwi.RENDERER_WEBGL) {
-                this._game.renderer.initState(this.current);
-            }
-            
             this.current.config.isReady = true;
             this.callCreate();
 
@@ -444,11 +436,13 @@ module Kiwi {
             this.current.audioLibrary.rebuild(this._game.fileStore, this.current);
             this.current.dataLibrary.rebuild(this._game.fileStore, this.current);
             this.current.textureLibrary.rebuild(this._game.fileStore, this.current);
-            
+            if (this._game.renderOption == Kiwi.RENDERER_WEBGL) {
+                this._game.renderer.initState(this.current);
+            }
         }
 
         /**
-        * The update loop that is accessable on the state manager.
+        * The update loop that is accessible on the StateManager.
         * @method update
         * @public
         */

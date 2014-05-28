@@ -16,7 +16,7 @@ module Kiwi.Time {
     * @param type {Number} The type of TimerEvent that this is. 
     * @param callback {Any} The method that is to be executed when the event occurs.
     * @param context {Any} The context that the callback is to be called in.
-    * @return {TimerEvent} This Object.
+    * @return {Kiwi.Time.TimerEvent} This Object.
     */
     export class TimerEvent {
          

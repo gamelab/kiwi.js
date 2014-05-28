@@ -23,6 +23,7 @@ Thumbs.db
 *.map
 *.orig
 *.js
+.idea*
 /obj/debug/*
 /build/kiwi_src
 !log4javascript.js
@@ -39,8 +40,10 @@ _ReSharper*/
 !/build/*.js
 !/build/src/*
 !/build/src/*/*.js
-!/examples/*/.js
+!/examples/*/*.js
+!/templateGame/*/*.js
 /node_modules
 /GLTests
+/testgl
 tscommand.tmp.txt
 .tscache/build/*

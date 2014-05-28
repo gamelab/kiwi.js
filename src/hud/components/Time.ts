@@ -19,12 +19,12 @@ module Kiwi.HUD.HUDComponents {
     *  'mm' = 'minutes with leading zero'
     *
     * @class Time
-    * @extends Component
+    * @extends Kiwi.Component
     * @namespace Kiwi.HUD.HUDComponents
     * @constructor
     * @param owner {any} The object that this component belongs to.
     * @param [format=''] {string} The format that the time is to be displayed in. Leave blank for the default time.
-    * @return {Counter}
+    * @return {Kiwi.HUD.HUDComponents.Counter}
     */
     export class Time extends Kiwi.Component {
 
@@ -39,7 +39,7 @@ module Kiwi.HUD.HUDComponents {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} 'TimeComponent'
         * @public
         */
         public objType(): string {
@@ -49,7 +49,7 @@ module Kiwi.HUD.HUDComponents {
         /**
         * The clock that this component creates and uses to manage the current time.
         * @property clock
-        * @type Clock
+        * @type Kiwi.Time.Clock
         * @private
         */
         public clock: Kiwi.Time.Clock;

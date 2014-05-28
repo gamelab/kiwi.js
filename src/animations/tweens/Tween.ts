@@ -18,8 +18,8 @@ module Kiwi.Animations {
     * @constructor
     * @namespace Kiwi.Animations
     * @param object {Any} The object that this tween is taking affect on.
-    * @param game {Game} The game that this tween is for.
-    * @return {Tween} This tween.
+    * @param game {Kiwi.Game} The game that this tween is for.
+    * @return {Kiwi.Animations.Tween} This tween.
     *
     * @author     sole / http://soledadpenades.com
     * @author     mrdoob / http://mrdoob.com
@@ -61,7 +61,7 @@ module Kiwi.Animations {
         /** 
         * The game that this tween belongs to.
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private
         */
         private _game: Kiwi.Game = null;
@@ -69,7 +69,7 @@ module Kiwi.Animations {
         /** 
         * The manager that this tween belongs to. 
         * @property _manager
-        * @type Manager
+        * @type Kiwi.Animations.Tweens.TweenManager
         * @private
         */
         private _manager: Kiwi.Animations.Tweens.TweenManager = null;
@@ -239,7 +239,7 @@ module Kiwi.Animations {
         * @param [duration=1000] {Number} The duration of the tween.
         * @param [ease=null] {Any} The easing method to be used. If not specifed then this will default to LINEAR.
         * @param [autoStart=false] {boolean} If the tween should start right away.
-        * @return {Tween}
+        * @return {Kiwi.Animations.Tween}
         * @public
         */
         public to(properties, duration: number = 1000, ease: any = null, autoStart: boolean = false):Tween {
@@ -342,7 +342,7 @@ module Kiwi.Animations {
         /** 
         * Sets the game and the manager of this tween.
         * @method setParent
-        * @param {Game} value
+        * @param {Kiwi.Game} value
         * @public
         */
 	    public setParent(value:Kiwi.Game) {
@@ -356,7 +356,7 @@ module Kiwi.Animations {
         * Sets the amount of delay that the tween is to have before it starts playing.
         * @method delay
         * @param amount {Number} The amount of time to delay the tween by.
-        * @return {Tween}
+        * @return {Kiwi.Animations.Tween}
         * @public
         */
 	    public delay(amount:number):Tween {
@@ -370,7 +370,7 @@ module Kiwi.Animations {
         * Sets the easing method that is to be used when animating this tween.
         * @method easing
         * @param easing {Function} The easing function to use.
-        * @return {Tween} 
+        * @return {Kiwi.Animations.Tween} 
         * @public
         */
 	    public easing(easing):Tween {
@@ -384,7 +384,7 @@ module Kiwi.Animations {
         * [REQUIRES DESCRIPTION]
         * @method interpolation
         * @param {Any} interpolation
-        * @return {Tween}
+        * @return {Kiwi.Animations.Tween}
         * @public
         */
 	    public interpolation(interpolation):Tween {
@@ -398,8 +398,8 @@ module Kiwi.Animations {
         /** 
         * Adds another tween that should start playing once tween has completed.
         * @method chain
-        * @param tween {Tween}
-        * @return {Tween}
+        * @param tween {Kiwi.Animations.Tween}
+        * @return {Kiwi.Animations.Tween}
         * @public
         */
 	    public chain(tween:Kiwi.Animations.Tween):Tween {
@@ -414,7 +414,7 @@ module Kiwi.Animations {
         * @method onStart
         * @param callback {Function} The function that is to be executed on tween start.
         * @param context {any} The context that function is to have when called.
-        * @return {Tween}
+        * @return {Kiwi.Animations.Tween}
         * @public
         */
 	    public onStart(callback, context):Tween {

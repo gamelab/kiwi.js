@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>GLTexture - Kiwi.js</title>
+    <title>src\utils\Version.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -340,317 +344,99 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>GLTexture Class</h1>
-<div class="box meta">
-    
-
-    
-
-    
-        <div class="foundat">
-            Defined in: <a href="../files/src_render_GLTextureWrapper.ts.html#l12"><code>src\render\GLTextureWrapper.ts:12</code></a>
-        </div>
-    
-
-    
-        
-            Module: <a href="../modules/Renderers.html">Renderers</a><br>
-            Parent Module: <a href="../modules/Kiwi.html">Kiwi</a>
-        
-    
-
-    
-</div>
-
-
-
-<div class="box intro">
-    
-</div>
-
-
-    <div class="constructor">
-        <h2>Constructor</h2>
-        <div id="method_GLTexture" class="method item">
-    <h3 class="name"><code>GLTexture</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>gl</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[_image]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="..\classes\GLTexture.html" class="crosslink">GLTexture</a></span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLTextureWrapper.ts.html#l12"><code>src\render\GLTextureWrapper.ts:12</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingContext</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[_image]</code>
-                        <span class="type">HTMLImageElement</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="..\classes\GLTexture.html" class="crosslink">GLTexture</a></span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-    </div>
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-        
-        
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-        
-        
-        
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-            
-
-            
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                        
-                            <li class="index-item property public">
-                                <a href="#property_image">image</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_texture">texture</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
-            
-
-            
-
-            
-        </div>
-
-        
-
-        
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-                
-                    <div id="property_image" class="property item public">
-    <h3 class="name"><code>image</code></h3>
-    <span class="type">HTMLImageElement</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLTextureWrapper.ts.html#l59"><code>src\render\GLTextureWrapper.ts:59</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_texture" class="property item public">
-    <h3 class="name"><code>texture</code></h3>
-    <span class="type">WebGLTexture</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLTextureWrapper.ts.html#l51"><code>src\render\GLTextureWrapper.ts:51</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-            </div>
-        
-
-        
-
-        
-    </div>
+                        <h1 class="file-heading">File: src\utils\Version.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+* 
+* @module Kiwi
+* @submodule Utils
+*/
+
+module Kiwi.Utils {
+
+    /**
+    * Deals with parsing and comparing semver style version numbers
+    * @class Version
+    * @constructor
+    * @namespace Kiwi.Utils
+    */
+    export class Version {
+
+        /**
+        * Parses a string such as &quot;1.2.3&quot; and returns an oject containing numeric properties for majorVersion, minorVersion and patchVersion
+        * @method parseVersion
+        * @param version {String}
+        * @return {Object}
+        * @public
+        * @static
+        */
+        public static parseVersion(version: string) {
+            var split: Array&lt;string&gt; = version.split(&quot;.&quot;);
+            return {
+                majorVersion: parseInt(split[0]),
+                minorVersion: parseInt(split[1]),
+                patchVersion: parseInt(split[2])
+            }  
+        }
+
+        /**
+        * Compares two semver version strings such as &quot;0.1.0&quot; and &quot;0.2.1&quot;. Returns &quot;greater&quot;, &quot;less&quot; or &quot;equal&quot;. 
+        * @method parseVersion
+        * @param version1 {String}
+        * @param version2 {String}
+        * @return {String}
+        * @public
+        * @static
+        */
+        public static compareVersions(version1: string, version2: string): string {
+            var v1:any = Version.parseVersion(version1);
+            var v2:any = Version.parseVersion(version2);
+            if (v1.majorVersion &gt; v2.majorVersion) {
+                return &quot;greater&quot;;    
+            }
+            if (v1.majorVersion &lt; v2.majorVersion) {
+                return &quot;less&quot;;
+            }
+            // major versions must be equal
+            if (v1.minorVersion &gt; v2.minorVersion) {
+                return &quot;greater&quot;;
+            }
+            if (v1.minorVersion &lt; v2.minorVersion) {
+                return &quot;less&quot;;
+            }
+            //minor versions must be equal
+            if (v1.patchVersion &gt; v2.patchVersion) {
+                return &quot;greater&quot;;
+            }
+            if (v1.patchVersion &lt; v2.patchVersion) {
+                return &quot;less&quot;;
+            }
+            //patch versions must be equal
+            return &quot;equal&quot;;
+
+        }
+
+        /**
+        * Compares two semver version strings such as &quot;0.1.0&quot; and &quot;0.2.1&quot;. Returns true if version1 is greater than version2. 
+        * @method parseVersion
+        * @param version1 {String}
+        * @param version2 {String}
+        * @return {boolean}
+        * @public
+        * @static
+        */
+        public static greaterOrEqual(version1: string, version2: string): boolean {
+            var comp = Version.compareVersions(version1, version2);
+            return (comp == &quot;greater&quot; || comp == &quot;equal&quot;);
+        }
+
+    }
+
+}
+
+    </pre>
 </div>
 
                     </div>

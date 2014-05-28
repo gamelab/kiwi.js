@@ -7,8 +7,7 @@
 module Kiwi {
 
     /**
-    * An Entity serves as a container for game objects to extend from and thus you should never directly instantiate this class.
-    * Each Entity has a unique ID (UID) which is automatically generated upon instantiation.
+    * An Entity is a base class for game objects to extend from and thus you should never directly instantiate this class.
     * Every entity requires that you pass to it the state that it belongs too, that way when you switch states the appropriate entitys can be deleted.
     * 
     * @class Entity
@@ -17,7 +16,7 @@ module Kiwi {
     * @param state {State} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
     * @param x {Number} The entities position on the x axis.
     * @param y {Number} The entities position on the y axis.
-    * @return {Entity} This entity.
+    * @return {Kiwi.Entity} This entity.
     *
     */
     export class Entity implements Kiwi.IChild {
@@ -48,7 +47,7 @@ module Kiwi {
         /**
         * Represents the position, scale, rotation and registration of this Entity.
         * @property transform
-        * @type Transform
+        * @type Kiwi.Geom.Transform
         * @public
         */
         public transform: Kiwi.Geom.Transform;
@@ -56,7 +55,7 @@ module Kiwi {
         /**
         * The group that this entity belongs to. If added onto the state then this is the state.
         * @property _parent
-        * @type Group
+        * @type Kiwi.Group
         * @private
         */
         private _parent: Kiwi.Group = null;
@@ -65,7 +64,7 @@ module Kiwi {
         * The group that this entity belongs to/is a child of once added to one. If added onto the state then this is the state.
         * @property parent
         * @type Group
-        * @param val {Group}
+        * @param val {Kiwi.Group}
         * @public
         */
         public set parent(val: Kiwi.Group) {
@@ -180,7 +179,7 @@ module Kiwi {
         }
 
         /**
-        * The actual alpha of this entity.
+        * The alpha of this entity.
         * @property _alpha
         * @type Number
         * @private
@@ -233,7 +232,7 @@ module Kiwi {
         * @default 0 
         * @public
         */
-        public width: number = 0;   //if bounds are implemented then getters and setters here would be nice.
+        public width: number = 0;   //If bounds are implemented then getters and setters here would be nice.
         
         /**
         * The height of the entity in pixels.
@@ -247,10 +246,19 @@ module Kiwi {
         /**
         * The texture atlas that is to be used on this entity.
         * @property atlas
-        * @type TextureAtlas
+        * @type Kiwi.Textures.TextureAtlas
         * @public
         */
-        public atlas: Kiwi.Textures.TextureAtlas;
+        public atlas: Kiwi.Textures.TextureAtlas = null;
+        
+        /**
+        * Holds the current cell that is being used by the entity.
+        * @property _cellIndex
+        * @type number
+        * @default 0
+        * @private
+        */
+        private _cellIndex: number = 0; 
         
         /**
         * Used as a reference to a single Cell in the atlas that is to be rendered. 
@@ -260,12 +268,33 @@ module Kiwi {
         * @default 0
         * @public
         */
-        public cellIndex: number = 0; 
+        public get cellIndex():number {
+            return this._cellIndex;
+        }
+
+        public set cellIndex(val: number) {
+            //If the entity has a texture atlas
+            if (this.atlas !== null) {
+                var cell = this.atlas.cells[val];
+
+                if (cell !== undefined) {
+                    //Update the width/height of the GameObject to be the same as the width/height
+                    this._cellIndex = val;
+                    this.width = cell.w;
+                    this.height = cell.h;
+
+                } else {
+
+                    if (this.game.debug) console.error('Could not the set the cellIndex of a Entity, to cell that does not exist on its TextureAtlas.');
+
+                }
+            }
+        }
 
         /**
         * The Component Manager
         * @property components
-        * @type ComponentManager
+        * @type Kiwi.ComponentManager
         * @public
 	    */
         public components: Kiwi.ComponentManager;
@@ -357,7 +386,7 @@ module Kiwi {
 		private _willRender: boolean;
 
         /**
-		* Toggles if this Entity will be rendered by a canvas layer. Use the visibile component for DOM layers.
+		* Toggles if this Entity will be rendered.
         * @property willRender
         * @type boolean
         * @default true
@@ -371,8 +400,8 @@ module Kiwi {
         }
 
         /**
-		* If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
-        * @property exists 
+		* Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)
+        * @property _inputEnabled
         * @type boolean
         * @private
 		*/
@@ -395,7 +424,7 @@ module Kiwi {
         /**
 		* The clock that this entity use's for time based calculations. This generated by the state on instatiation.
         * @property _clock
-        * @type Clock
+        * @type Kiwi.Clock
         * @private
 		*/
         private _clock: Kiwi.Time.Clock = null;
@@ -403,7 +432,7 @@ module Kiwi {
         /**
 		* The Clock used to update this all of this Entities components (defaults to the Game MasterClock)
         * @property clock 
-        * @type Clock
+        * @type Kiwi.Time.Clock
         * @public
 		*/
         public set clock(value: Kiwi.Time.Clock) {
@@ -447,7 +476,8 @@ module Kiwi {
         }
 
         /**
-        * This isn't called until the Entity has been added to a Group or a State
+        * This isn't called until the Entity has been added to a Group or a State.
+        * Note: If added to a Group, who is not 'active' (so the Groups update loop doesn't run) then each member will not execute either.
         * @method update
         * @public
         */
@@ -456,7 +486,8 @@ module Kiwi {
         }
 
         /**
-        * This isn't called until the Entity has been added to a layer.
+        * Renders the entity using the canvas renderer. 
+        * This isn't called until the Entity has been added to a Group/State which is active.
         * This functionality is handled by the sub classes. 
         * @method render
         * @param {Camera} camera
@@ -466,7 +497,16 @@ module Kiwi {
         
         }
 
-        
+        /**
+        * Renders the entity using the canvas renderer. 
+        * This isn't called until the Entity has been added to a Group/State which is active.
+        * This functionality is handled by the sub classes. 
+        * @method renderGL
+        * @param {Kiwi.Camera} camera
+        * @param {WebGLRenderingContext} gl
+        * @param [params=null] {object} params
+        * @public
+        */
         public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params: any = null) {
         
         }

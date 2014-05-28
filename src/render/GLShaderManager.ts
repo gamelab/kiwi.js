@@ -17,6 +17,7 @@
 * @module Kiwi
 * @submodule Shaders 
 * @main Shaders
+* @namespace Kiwi.Shaders
 */ 
 
 module Kiwi.Shaders {
@@ -30,7 +31,7 @@ module Kiwi.Shaders {
     * @class ShaderManager
     * @extends IRenderer
     * @constructor
-    * @return {GLRenderer}
+    * @return {Kiwi.Shaders.ShaderManager}
     */
     export class ShaderManager {
 
@@ -81,7 +82,7 @@ module Kiwi.Shaders {
 	    * @method init
         * @param {WebGLRenderingContext} gl
         * @param {String} shaderID
-        * @return {ShaderPair} a ShaderPair instance - null on fail
+        * @return {Kiwi.Shaders.ShaderPair} a ShaderPair instance - null on fail
         * @public
 	    */
         public requestShader(gl: WebGLRenderingContext,shaderID: string,use:boolean = true):ShaderPair {
@@ -129,7 +130,7 @@ module Kiwi.Shaders {
 	    * @method _addShader
         * @param {WebGLRenderingContext} gl
         * @param {String} shaderID
-        * @return {ShaderPair} 
+        * @return {Kiwi.Shaders.ShaderPair} 
         * @private
 	    */
         private _addShader(gl: WebGLRenderingContext, shaderID: string):ShaderPair {
@@ -141,7 +142,7 @@ module Kiwi.Shaders {
 	    * Tells a ShaderPair to load (compile and link)
 	    * @method _loadShader
         * @param {WebGLRenderingContext} gl
-        * @param {ShaderPair} shader
+        * @param {Kiwi.Shaders.ShaderPair} shader
         * @private
 	    */
         private _loadShader(gl: WebGLRenderingContext,shader:ShaderPair) {
@@ -152,7 +153,7 @@ module Kiwi.Shaders {
 	    * Changes gl state so that the shaderProgram contined in a ShaderPir is bound for use
 	    * @method _useShader
         * @param {WebGLRenderingContext} gl
-        * @param {ShaderPair} shader
+        * @param {Kiwi.Shaders.ShaderPair} shader
         * @private
 	    */
         private _useShader(gl: WebGLRenderingContext, shader: ShaderPair) {

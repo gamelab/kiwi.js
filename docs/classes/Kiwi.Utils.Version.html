@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Kiwi.System.Browser - Kiwi.js</title>
+    <title>Kiwi.Utils.Version - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -340,7 +344,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Kiwi.System.Browser Class</h1>
+                        <h1>Kiwi.Utils.Version Class</h1>
 <div class="box meta">
     
 
@@ -348,13 +352,13 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_system_Browser.ts.html#l10"><code>src\system\Browser.ts:10</code></a>
+            Defined in: <a href="../files/src_utils_Version.ts.html#l9"><code>src\utils\Version.ts:9</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/System.html">System</a><br>
+            Module: <a href="../modules/Utils.html">Utils</a><br>
             Parent Module: <a href="../modules/Kiwi.html">Kiwi</a>
         
     
@@ -365,35 +369,20 @@
 
 
 <div class="box intro">
-    <p>Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser
-Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src/offset.js">https://github.com/jquery/jquery/blob/master/src/offset.js</a></p>
+    <p>Deals with parsing and comparing semver style version numbers</p>
 
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Kiwi.System.Browser" class="method item">
-    <h3 class="name"><code>Kiwi.System.Browser</code></h3>
+        <div id="method_Kiwi.Utils.Version" class="method item">
+    <h3 class="name"><code>Kiwi.Utils.Version</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>game</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
-    
-        <span class="returns-inline">
-            <span class="type">StateMananger</span>
-        </span>
     
 
     
@@ -419,7 +408,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
         
         
-        <a href="../files/src_system_Browser.ts.html#l10"><code>src\system\Browser.ts:10</code></a>
+        <a href="../files/src_utils_Version.ts.html#l9"><code>src\utils\Version.ts:9</code></a>
         
         </p>
 
@@ -434,44 +423,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
     </div>
 
     
-        <div class="params">
-            <h4>Parameters:</h4>
 
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">game</code>
-                        <span class="type">Game</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">StateMananger</span>:
-                    
-                    <p>This Object</p>
-
-                
-            </div>
-        </div>
     
 
     
@@ -488,8 +440,6 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
         
         
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-        
         
         
     </ul>
@@ -504,23 +454,29 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
 
                     <ul class="index-list methods">
                         
-                            <li class="index-item method">
-                                <a href="#method_boot">boot</a>
+                            <li class="index-item method public">
+                                <a href="#method_parseVersion">parseVersion</a>
 
+                                
+                                    <span class="flag static">static</span>
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_getOffsetPoint">getOffsetPoint</a>
+                                <a href="#method_parseVersion">parseVersion</a>
 
+                                
+                                    <span class="flag static">static</span>
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_objType">objType</a>
+                                <a href="#method_parseVersion">parseVersion</a>
 
+                                
+                                    <span class="flag static">static</span>
                                 
                                 
                             </li>
@@ -529,21 +485,6 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
                 </div>
             
 
-            
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                        
-                            <li class="index-item property private">
-                                <a href="#property__game">_game</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
             
 
             
@@ -556,63 +497,8 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_boot" class="method item">
-    <h3 class="name"><code>boot</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_system_Browser.ts.html#l47"><code>src\system\Browser.ts:47</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The DOM is ready, so if we have a current state pending we can init it now</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_getOffsetPoint" class="method item public">
-    <h3 class="name"><code>getOffsetPoint</code></h3>
+                    <div id="method_parseVersion" class="method item public">
+    <h3 class="name"><code>parseVersion</code></h3>
 
     
         <div class="args">
@@ -620,13 +506,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
                 <li class="arg">
                     
-                        <code>element</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>output</code>
+                        <code>version</code>
                     
                 </li>
             
@@ -636,7 +516,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
 
     
         <span class="returns-inline">
-            <span class="type">Point</span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -649,6 +529,8 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
     
 
     
+        <span class="flag static">static</span>
+    
 
     
 
@@ -665,7 +547,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
         
         
-        <a href="../files/src_system_Browser.ts.html#l55"><code>src\system\Browser.ts:55</code></a>
+        <a href="../files/src_utils_Version.ts.html#l17"><code>src\utils\Version.ts:17</code></a>
         
         </p>
 
@@ -676,7 +558,8 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
     </div>
 
     <div class="description">
-        
+        <p>Parses a string such as &quot;1.2.3&quot; and returns an oject containing numeric properties for majorVersion, minorVersion and patchVersion</p>
+
     </div>
 
     
@@ -687,23 +570,8 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
                 <li class="param">
                     
-                        <code class="param-name">element</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">output</code>
-                        <span class="type">Point</span>
+                        <code class="param-name">version</code>
+                        <span class="type">String</span>
                     
 
                     
@@ -726,7 +594,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             <div class="returns-description">
                 
                     
-                        <span class="type">Point</span>:
+                        <span class="type">Object</span>:
                     
                 
             </div>
@@ -737,11 +605,27 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
 </div>
 
                 
-                    <div id="method_objType" class="method item public">
-    <h3 class="name"><code>objType</code></h3>
+                    <div id="method_parseVersion" class="method item public">
+    <h3 class="name"><code>parseVersion</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>version1</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>version2</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
@@ -759,6 +643,8 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
     
 
     
+        <span class="flag static">static</span>
+    
 
     
 
@@ -775,7 +661,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
         
         
-        <a href="../files/src_system_Browser.ts.html#l29"><code>src\system\Browser.ts:29</code></a>
+        <a href="../files/src_utils_Version.ts.html#l34"><code>src\utils\Version.ts:34</code></a>
         
         </p>
 
@@ -786,10 +672,48 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
     </div>
 
     <div class="description">
-        <p>The type of object that this is.</p>
+        <p>Compares two semver version strings such as &quot;0.1.0&quot; and &quot;0.2.1&quot;. Returns &quot;greater&quot;, &quot;less&quot; or &quot;equal&quot;.</p>
 
     </div>
 
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">version1</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">version2</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -810,22 +734,45 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
 </div>
 
                 
-            </div>
-        
+                    <div id="method_parseVersion" class="method item public">
+    <h3 class="name"><code>parseVersion</code></h3>
 
-        
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-                
-                    <div id="property__game" class="property item private">
-    <h3 class="name"><code>_game</code></h3>
-    <span class="type">Game</span>
-
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>version1</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>version2</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
-        <span class="flag private">private</span>
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
     
 
     
@@ -843,9 +790,10 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
         
         
-        <a href="../files/src_system_Browser.ts.html#l39"><code>src\system\Browser.ts:39</code></a>
+        <a href="../files/src_utils_Version.ts.html#l71"><code>src\utils\Version.ts:71</code></a>
         
         </p>
+
 
         
 
@@ -853,11 +801,62 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
     </div>
 
     <div class="description">
-        
+        <p>Compares two semver version strings such as &quot;0.1.0&quot; and &quot;0.2.1&quot;. Returns true if version1 is greater than version2.</p>
+
     </div>
 
     
+        <div class="params">
+            <h4>Parameters:</h4>
 
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">version1</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">version2</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
     
 
     
@@ -865,6 +864,8 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
 
                 
             </div>
+        
+
         
 
         

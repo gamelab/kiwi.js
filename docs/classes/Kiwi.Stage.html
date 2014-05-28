@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -364,7 +368,7 @@
 
 
 <div class="box intro">
-    <p>Each game contains a single Stage which controls the creation of the elements required for a Kiwi game to work. 
+    <p>Each game contains a single Stage which controls the creation and management of main domElements required for a Kiwi game to work. 
 Such as the Canvas and the rendering contexts, as well as the width/height of the game and the position it should be on the screen.</p>
 
 </div>
@@ -391,13 +395,31 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code>width</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>height</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>scaleType</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
 
     
         <span class="returns-inline">
-            <span class="type">Stage</span>
+            <span class="type"><a href="..\classes\Kiwi.Stage.html" class="crosslink">Kiwi.Stage</a></span>
         </span>
     
 
@@ -453,7 +475,8 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                     
 
                     <div class="param-description">
-                         
+                        <p>The game that this Stage belongs to.</p>
+
                     </div>
 
                     
@@ -468,7 +491,56 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                     
 
                     <div class="param-description">
-                         
+                        <p>The name of the kiwi game.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">width</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The initial width of the game.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">height</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The initial heihgt of the game.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">scaleType</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The scale method that should be used for the game.</p>
+
                     </div>
 
                     
@@ -485,10 +557,8 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             <div class="returns-description">
                 
                     
-                        <span class="type">Stage</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Stage.html" class="crosslink">Kiwi.Stage</a></span>:
                     
-                    <p>Kiwi.Stage</p>
-
                 
             </div>
         </div>
@@ -525,6 +595,13 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                     <ul class="index-list methods">
                         
                             <li class="index-item method private">
+                                <a href="#method__calculateContainerScale">_calculateContainerScale</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
                                 <a href="#method__createComponsiteCanvas">_createComponsiteCanvas</a>
 
                                 
@@ -532,7 +609,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                             </li>
                         
                             <li class="index-item method private">
-                                <a href="#method__createDebugCanvas">_createDebugCanvas</a>
+                                <a href="#method__scaleContainer">_scaleContainer</a>
 
                                 
                                 
@@ -559,6 +636,27 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                                 
                             </li>
                         
+                            <li class="index-item method private">
+                                <a href="#method_componentToHex">componentToHex</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_createDebugCanvas">createDebugCanvas</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_getOffsetPoint">getOffsetPoint</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public">
                                 <a href="#method_objType">objType</a>
 
@@ -568,6 +666,13 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                         
                             <li class="index-item method public">
                                 <a href="#method_resize">resize</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_setRGBColor">setRGBColor</a>
 
                                 
                                 
@@ -626,6 +731,13 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                             </li>
                         
                             <li class="index-item property private">
+                                <a href="#property__scaleType">_scaleType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
                                 <a href="#property__width">_width</a>
 
                                 
@@ -655,13 +767,6 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                         
                             <li class="index-item property public">
                                 <a href="#property_canvas">canvas</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_color">color</a>
 
                                 
                                 
@@ -749,6 +854,13 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                             </li>
                         
                             <li class="index-item property public">
+                                <a href="#property_normalizedColor">normalizedColor</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
                                 <a href="#property_offset">offset</a>
 
                                 
@@ -756,7 +868,76 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                             </li>
                         
                             <li class="index-item property public">
+                                <a href="#property_onResize">onResize</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_onWindowResize">onWindowResize</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_rgbColor">rgbColor</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
                                 <a href="#property_scale">scale</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_SCALE_FIT">SCALE_FIT</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_SCALE_NONE">SCALE_NONE</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_SCALE_STRETCH">SCALE_STRETCH</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property_scaleType">scaleType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_scaleX">scaleX</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_scaleY">scaleY</a>
 
                                 
                                 
@@ -797,6 +978,63 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                 <h2 class="off-left">Methods</h2>
 
                 
+                    <div id="method__calculateContainerScale" class="method item private">
+    <h3 class="name"><code>_calculateContainerScale</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Stage.ts.html#l541"><code>src\core\Stage.ts:541</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Used to calculate the new offset and the scale of the stage currently is at.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method__createComponsiteCanvas" class="method item private">
     <h3 class="name"><code>_createComponsiteCanvas</code></h3>
 
@@ -831,7 +1069,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l378"><code>src\core\Stage.ts:378</code></a>
+        <a href="../files/src_core_Stage.ts.html#l555"><code>src\core\Stage.ts:555</code></a>
         
         </p>
 
@@ -842,7 +1080,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Handles the creation of the canvas that the game will use and retrieves the context for the renderer.</p>
 
     </div>
 
@@ -854,8 +1092,8 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
 </div>
 
                 
-                    <div id="method__createDebugCanvas" class="method item private">
-    <h3 class="name"><code>_createDebugCanvas</code></h3>
+                    <div id="method__scaleContainer" class="method item private">
+    <h3 class="name"><code>_scaleContainer</code></h3>
 
     
         <span class="paren">()</span>
@@ -888,7 +1126,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l444"><code>src\core\Stage.ts:444</code></a>
+        <a href="../files/src_core_Stage.ts.html#l720"><code>src\core\Stage.ts:720</code></a>
         
         </p>
 
@@ -899,7 +1137,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Handles the scaling/sizing based upon the scaleType property.</p>
 
     </div>
 
@@ -955,7 +1193,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l366"><code>src\core\Stage.ts:366</code></a>
+        <a href="../files/src_core_Stage.ts.html#l528"><code>src\core\Stage.ts:528</code></a>
         
         </p>
 
@@ -966,8 +1204,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
     </div>
 
     <div class="description">
-        <p>Method that is fired when the window is resized. 
-Used to calculate the new offset and see what the scale of the stage currently is.</p>
+        <p>Method that is fired when the window is resized.</p>
 
     </div>
 
@@ -1046,7 +1283,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l339"><code>src\core\Stage.ts:339</code></a>
+        <a href="../files/src_core_Stage.ts.html#l473"><code>src\core\Stage.ts:473</code></a>
         
         </p>
 
@@ -1057,7 +1294,8 @@ Used to calculate the new offset and see what the scale of the stage currently i
     </div>
 
     <div class="description">
-        <p>Is executed when the DOM has loaded and the game is just starting.</p>
+        <p>Is executed when the DOM has loaded and the game is just starting. 
+This is a internal method used by the core of Kiwi itself.</p>
 
     </div>
 
@@ -1076,7 +1314,8 @@ Used to calculate the new offset and see what the scale of the stage currently i
                     
 
                     <div class="param-description">
-                         
+                        <p>The</p>
+
                     </div>
 
                     
@@ -1136,7 +1375,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l468"><code>src\core\Stage.ts:468</code></a>
+        <a href="../files/src_core_Stage.ts.html#l697"><code>src\core\Stage.ts:697</code></a>
         
         </p>
 
@@ -1147,7 +1386,8 @@ Used to calculate the new offset and see what the scale of the stage currently i
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Clears the debug canvas and fills with either the color passed. 
+If not colour is passed then Red at 20% opacity is used.</p>
 
     </div>
 
@@ -1167,7 +1407,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
                     
 
                     <div class="param-description">
-                        <p>debug color</p>
+                        <p>The debug color to rendering on the debug canvas.</p>
 
                     </div>
 
@@ -1184,16 +1424,200 @@ Used to calculate the new offset and see what the scale of the stage currently i
 </div>
 
                 
-                    <div id="method_objType" class="method item public">
-    <h3 class="name"><code>objType</code></h3>
+                    <div id="method_componentToHex" class="method item private">
+    <h3 class="name"><code>componentToHex</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>c</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Stage.ts.html#l654"><code>src\core\Stage.ts:654</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Converts a component colour value into its hex equivalent. Used when setting rgb colour values.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">c</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The components colour value. A number between 0 and 255.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                    <p>The hex equivelent of that colour string.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_createDebugCanvas" class="method item public">
+    <h3 class="name"><code>createDebugCanvas</code></h3>
 
     
         <span class="paren">()</span>
     
 
     
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Stage.ts.html#l668"><code>src\core\Stage.ts:668</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Creates a debug canvas and adds it above the regular game canvas.
+The debug canvas is not created by default (even with debugging on) and rendering/clearing of the canvas is upto the developer. 
+The context for rendering can be access via the &#39;dctx&#39; property and you can use the &#39;clearDebugCanvas&#39; method to clear the canvas.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_getOffsetPoint" class="method item public">
+    <h3 class="name"><code>getOffsetPoint</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>element</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>output</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
         </span>
     
 
@@ -1222,7 +1646,119 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l44"><code>src\core\Stage.ts:44</code></a>
+        <a href="../files/src_core_Stage.ts.html#l506"><code>src\core\Stage.ts:506</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser
+Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src/offset.js">https://github.com/jquery/jquery/blob/master/src/offset.js</a></p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">element</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">output</code>
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Stage.ts.html#l51"><code>src\core\Stage.ts:51</code></a>
         
         </p>
 
@@ -1246,7 +1782,9 @@ Used to calculate the new offset and see what the scale of the stage currently i
             <div class="returns-description">
                 
                     
-                    <p>string</p>
+                        <span class="type">String</span>:
+                    
+                    <p>&quot;Stage&quot;</p>
 
                 
             </div>
@@ -1307,7 +1845,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l421"><code>src\core\Stage.ts:421</code></a>
+        <a href="../files/src_core_Stage.ts.html#l613"><code>src\core\Stage.ts:613</code></a>
         
         </p>
 
@@ -1318,7 +1856,8 @@ Used to calculate the new offset and see what the scale of the stage currently i
     </div>
 
     <div class="description">
-        <p>Set the stage width and height</p>
+        <p>Set the stage width and height for rendering purposes.
+This will not effect that &#39;scaleType&#39; that it has been set to.</p>
 
     </div>
 
@@ -1337,7 +1876,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
                     
 
                     <div class="param-description">
-                        <p>new stage width</p>
+                        <p>The new Stage width.</p>
 
                     </div>
 
@@ -1353,7 +1892,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
                     
 
                     <div class="param-description">
-                        <p>new stage height</p>
+                        <p>The new Stage height.</p>
 
                     </div>
 
@@ -1364,6 +1903,160 @@ Used to calculate the new offset and see what the scale of the stage currently i
         </div>
     
 
+    
+
+    
+</div>
+
+                
+                    <div id="method_setRGBColor" class="method item public">
+    <h3 class="name"><code>setRGBColor</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>r</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>g</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>b</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Stage.ts.html#l637"><code>src\core\Stage.ts:637</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Sets the background color of the stage through component RGB colour values. 
+Each parameter pass is a number between 0 and 255. This method also returns a Object Literal with &#39;r&#39;, &#39;g&#39;, &#39;b&#39; properties.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">r</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The red component. A value between 0 and 255.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">g</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The green component. A value between 0 and 255.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">b</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The blue component. A value between 0 and 255.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>A Object literal containing the r,g,b properties.</p>
+
+                
+            </div>
+        </div>
     
 
     
@@ -1404,7 +2097,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l481"><code>src\core\Stage.ts:481</code></a>
+        <a href="../files/src_core_Stage.ts.html#l711"><code>src\core\Stage.ts:711</code></a>
         
         </p>
 
@@ -1415,7 +2108,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Toggles the visibility of the debug canvas.</p>
 
     </div>
 
@@ -1460,7 +2153,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l73"><code>src\core\Stage.ts:73</code></a>
+        <a href="../files/src_core_Stage.ts.html#l141"><code>src\core\Stage.ts:141</code></a>
         
         </p>
 
@@ -1474,6 +2167,8 @@ Used to calculate the new offset and see what the scale of the stage currently i
 
     </div>
 
+    
+        <p><strong>Default:</strong> 1</p>
     
 
     
@@ -1507,7 +2202,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l245"><code>src\core\Stage.ts:245</code></a>
+        <a href="../files/src_core_Stage.ts.html#l349"><code>src\core\Stage.ts:349</code></a>
         
         </p>
 
@@ -1517,12 +2212,13 @@ Used to calculate the new offset and see what the scale of the stage currently i
     </div>
 
     <div class="description">
-        <p>The background color of the stage. This must be a valid 6 character hex color string such as &quot;ffffff&quot;.</p>
+        <p>The background color of the stage. 
+This must be a valid 6 character hex color string such as &quot;ffffff&quot;.</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> &#x27;#ffffff&#x27;</p>
+        <p><strong>Default:</strong> &#x27;ffffff&#x27;</p>
     
 
     
@@ -1533,7 +2229,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
                 
                     <div id="property__game" class="property item private">
     <h3 class="name"><code>_game</code></h3>
-    <span class="type">Game</span>
+    <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
 
     
 
@@ -1556,7 +2252,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l221"><code>src\core\Stage.ts:221</code></a>
+        <a href="../files/src_core_Stage.ts.html#l325"><code>src\core\Stage.ts:325</code></a>
         
         </p>
 
@@ -1603,7 +2299,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l170"><code>src\core\Stage.ts:170</code></a>
+        <a href="../files/src_core_Stage.ts.html#l242"><code>src\core\Stage.ts:242</code></a>
         
         </p>
 
@@ -1650,7 +2346,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l272"><code>src\core\Stage.ts:272</code></a>
+        <a href="../files/src_core_Stage.ts.html#l400"><code>src\core\Stage.ts:400</code></a>
         
         </p>
 
@@ -1664,6 +2360,55 @@ Used to calculate the new offset and see what the scale of the stage currently i
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__scaleType" class="property item private">
+    <h3 class="name"><code>_scaleType</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Stage.ts.html#l115"><code>src\core\Stage.ts:115</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Private property that holds the scaling method that should be applied to the container element.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> Kiwi.Stage.SCALE_NONE</p>
     
 
     
@@ -1697,7 +2442,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l151"><code>src\core\Stage.ts:151</code></a>
+        <a href="../files/src_core_Stage.ts.html#l223"><code>src\core\Stage.ts:223</code></a>
         
         </p>
 
@@ -1744,7 +2489,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l99"><code>src\core\Stage.ts:99</code></a>
+        <a href="../files/src_core_Stage.ts.html#l171"><code>src\core\Stage.ts:171</code></a>
         
         </p>
 
@@ -1791,7 +2536,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l125"><code>src\core\Stage.ts:125</code></a>
+        <a href="../files/src_core_Stage.ts.html#l197"><code>src\core\Stage.ts:197</code></a>
         
         </p>
 
@@ -1838,7 +2583,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l81"><code>src\core\Stage.ts:81</code></a>
+        <a href="../files/src_core_Stage.ts.html#l150"><code>src\core\Stage.ts:150</code></a>
         
         </p>
 
@@ -1848,10 +2593,13 @@ Used to calculate the new offset and see what the scale of the stage currently i
     </div>
 
     <div class="description">
-        <p>Get the current alpha of the stage. 0 = invisible, 1 = fully visible.</p>
+        <p>Sets the alpha of the container element. 0 = invisible, 1 = fully visible.
+Note: Because the alpha value is applied to the container, it will not work in CocoonJS.</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> 1</p>
     
 
     
@@ -1885,7 +2633,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l307"><code>src\core\Stage.ts:307</code></a>
+        <a href="../files/src_core_Stage.ts.html#l437"><code>src\core\Stage.ts:437</code></a>
         
         </p>
 
@@ -1932,7 +2680,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l280"><code>src\core\Stage.ts:280</code></a>
+        <a href="../files/src_core_Stage.ts.html#l360"><code>src\core\Stage.ts:360</code></a>
         
         </p>
 
@@ -1942,54 +2690,8 @@ Used to calculate the new offset and see what the scale of the stage currently i
     </div>
 
     <div class="description">
-        <p>Get the normalized background color of the stage. returns a object with rgba values between 0 and 1.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_color" class="property item public">
-    <h3 class="name"><code>color</code></h3>
-    <span class="type">String</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_Stage.ts.html#l254"><code>src\core\Stage.ts:254</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Get the background color of the stage. This returns a hex style color string such as &quot;#ffffff&quot;</p>
+        <p>Sets the background color of the stage via a hex value. 
+The hex colour code should not contain a hashtag &#39;#&#39;.</p>
 
     </div>
 
@@ -2026,7 +2728,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l331"><code>src\core\Stage.ts:331</code></a>
+        <a href="../files/src_core_Stage.ts.html#l464"><code>src\core\Stage.ts:464</code></a>
         
         </p>
 
@@ -2073,7 +2775,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l299"><code>src\core\Stage.ts:299</code></a>
+        <a href="../files/src_core_Stage.ts.html#l428"><code>src\core\Stage.ts:428</code></a>
         
         </p>
 
@@ -2120,7 +2822,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l323"><code>src\core\Stage.ts:323</code></a>
+        <a href="../files/src_core_Stage.ts.html#l455"><code>src\core\Stage.ts:455</code></a>
         
         </p>
 
@@ -2167,7 +2869,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l315"><code>src\core\Stage.ts:315</code></a>
+        <a href="../files/src_core_Stage.ts.html#l446"><code>src\core\Stage.ts:446</code></a>
         
         </p>
 
@@ -2216,7 +2918,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l63"><code>src\core\Stage.ts:63</code></a>
+        <a href="../files/src_core_Stage.ts.html#l71"><code>src\core\Stage.ts:71</code></a>
         
         </p>
 
@@ -2230,6 +2932,8 @@ Used to calculate the new offset and see what the scale of the stage currently i
 
     </div>
 
+    
+        <p><strong>Default:</strong> 600</p>
     
 
     
@@ -2265,7 +2969,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l54"><code>src\core\Stage.ts:54</code></a>
+        <a href="../files/src_core_Stage.ts.html#l61"><code>src\core\Stage.ts:61</code></a>
         
         </p>
 
@@ -2279,6 +2983,8 @@ Used to calculate the new offset and see what the scale of the stage currently i
 
     </div>
 
+    
+        <p><strong>Default:</strong> 800</p>
     
 
     
@@ -2312,7 +3018,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l237"><code>src\core\Stage.ts:237</code></a>
+        <a href="../files/src_core_Stage.ts.html#l341"><code>src\core\Stage.ts:341</code></a>
         
         </p>
 
@@ -2359,7 +3065,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l291"><code>src\core\Stage.ts:291</code></a>
+        <a href="../files/src_core_Stage.ts.html#l419"><code>src\core\Stage.ts:419</code></a>
         
         </p>
 
@@ -2406,7 +3112,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l178"><code>src\core\Stage.ts:178</code></a>
+        <a href="../files/src_core_Stage.ts.html#l250"><code>src\core\Stage.ts:250</code></a>
         
         </p>
 
@@ -2416,7 +3122,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
     </div>
 
     <div class="description">
-        <p>The height of the stage</p>
+        <p>The height of the stage. This is READ ONLY. See the &#39;resize&#39; method if you need to modify this value.</p>
 
     </div>
 
@@ -2453,7 +3159,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l229"><code>src\core\Stage.ts:229</code></a>
+        <a href="../files/src_core_Stage.ts.html#l333"><code>src\core\Stage.ts:333</code></a>
         
         </p>
 
@@ -2475,9 +3181,9 @@ Used to calculate the new offset and see what the scale of the stage currently i
 </div>
 
                 
-                    <div id="property_offset" class="property item public">
-    <h3 class="name"><code>offset</code></h3>
-    <span class="type">Point</span>
+                    <div id="property_normalizedColor" class="property item public">
+    <h3 class="name"><code>normalizedColor</code></h3>
+    <span class="type">String</span>
 
     
 
@@ -2500,7 +3206,55 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l213"><code>src\core\Stage.ts:213</code></a>
+        <a href="../files/src_core_Stage.ts.html#l408"><code>src\core\Stage.ts:408</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Get the normalized background color of the stage. Returns a object with rgba values, each being between 0 and 1.
+This is READ ONLY.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_offset" class="property item public">
+    <h3 class="name"><code>offset</code></h3>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Stage.ts.html#l317"><code>src\core\Stage.ts:317</code></a>
         
         </p>
 
@@ -2522,8 +3276,407 @@ Used to calculate the new offset and see what the scale of the stage currently i
 </div>
 
                 
+                    <div id="property_onResize" class="property item public">
+    <h3 class="name"><code>onResize</code></h3>
+    <span class="type"><a href="..\classes\Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Stage.ts.html#l261"><code>src\core\Stage.ts:261</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Signal that dispatches an event when the stage gets resized.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_onWindowResize" class="property item public">
+    <h3 class="name"><code>onWindowResize</code></h3>
+    <span class="type"><a href="..\classes\Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Stage.ts.html#l270"><code>src\core\Stage.ts:270</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Signal which dispatches events when the window is resized. 
+Useful to detect if the screen is now in a &#39;landscape&#39; or &#39;portrait&#39; view on Mobile/Cocoon devices.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_rgbColor" class="property item public">
+    <h3 class="name"><code>rgbColor</code></h3>
+    <span class="type">Object</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Stage.ts.html#l384"><code>src\core\Stage.ts:384</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Allows the setting of the background color of the stage through component RGB colour values. 
+This property is an Object Literal with &#39;r&#39;, &#39;g&#39;, &#39;b&#39; colour streams of values between 0 and 255.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_scale" class="property item public">
     <h3 class="name"><code>scale</code></h3>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Stage.ts.html#l279"><code>src\core\Stage.ts:279</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Calculates and returns the amount that the container has been scale by.<br>Mainly used for re-calculating input coordinates. 
+Note: For COCOONJS this returns 1 since COCOONJS translates the scale itself.
+This property is READ ONLY.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 1</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_SCALE_FIT" class="property item public">
+    <h3 class="name"><code>SCALE_FIT</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Stage.ts.html#l93"><code>src\core\Stage.ts:93</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Scale Fit will scale the stages width to fit its parents width.
+The height is then calculated to maintain the aspect ratio of the width/height of the Stage.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 1</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_SCALE_NONE" class="property item public">
+    <h3 class="name"><code>SCALE_NONE</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Stage.ts.html#l82"><code>src\core\Stage.ts:82</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The default scaling method used on Kiwi Games. 
+This scaling method will set the containers width/height to static values.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_SCALE_STRETCH" class="property item public">
+    <h3 class="name"><code>SCALE_STRETCH</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Stage.ts.html#l104"><code>src\core\Stage.ts:104</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Stretch will make the stage scale to fit its parents width/height (by using max/min height of 100%).
+If the parent doesn&#39;t have a height set then the height will be the height of the stage.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 2</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_scaleType" class="property item private">
+    <h3 class="name"><code>scaleType</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Stage.ts.html#l124"><code>src\core\Stage.ts:124</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Holds type of scaling that should be applied the container element.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> Kiwi.Stage.SCALE_NONE</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_scaleX" class="property item public">
+    <h3 class="name"><code>scaleX</code></h3>
     <span class="type">Number</span>
 
     
@@ -2547,7 +3700,7 @@ Used to calculate the new offset and see what the scale of the stage currently i
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l197"><code>src\core\Stage.ts:197</code></a>
+        <a href="../files/src_core_Stage.ts.html#l295"><code>src\core\Stage.ts:295</code></a>
         
         </p>
 
@@ -2557,9 +3710,56 @@ Used to calculate the new offset and see what the scale of the stage currently i
     </div>
 
     <div class="description">
-        <p>Calculates and returns the amount that the container has been scale buy.<br>Mainly used for re-calculating input coordinates. 
-Note: For COCOONJS this returns 1 since COCOONJS translates the points itself.
-This property is READ ONLY.</p>
+        <p>Calculates and returns the amount that the container has been scale by on the X axis.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 1</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_scaleY" class="property item public">
+    <h3 class="name"><code>scaleY</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Stage.ts.html#l306"><code>src\core\Stage.ts:306</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Calculates and returns the amount that the container has been scale by on the Y axis.</p>
 
     </div>
 
@@ -2598,7 +3798,7 @@ This property is READ ONLY.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l159"><code>src\core\Stage.ts:159</code></a>
+        <a href="../files/src_core_Stage.ts.html#l231"><code>src\core\Stage.ts:231</code></a>
         
         </p>
 
@@ -2608,7 +3808,7 @@ This property is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>The width of the stage.</p>
+        <p>The width of the stage. This is READ ONLY. See the &#39;resize&#39; method if you need to modify this value.</p>
 
     </div>
 
@@ -2645,7 +3845,7 @@ This property is READ ONLY.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l107"><code>src\core\Stage.ts:107</code></a>
+        <a href="../files/src_core_Stage.ts.html#l179"><code>src\core\Stage.ts:179</code></a>
         
         </p>
 
@@ -2692,7 +3892,7 @@ This property is READ ONLY.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l133"><code>src\core\Stage.ts:133</code></a>
+        <a href="../files/src_core_Stage.ts.html#l205"><code>src\core\Stage.ts:205</code></a>
         
         </p>
 

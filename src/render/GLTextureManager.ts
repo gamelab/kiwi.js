@@ -5,6 +5,7 @@
 * @module Kiwi
 * @submodule Renderers 
 * @main Renderers
+* @namespace Kiwi.Renderers
 */ 
 
 module Kiwi.Renderers {

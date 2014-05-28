@@ -1,0 +1,47 @@
+{
+	"name": "LoadingGraphics",
+	"cells": [
+		{
+			"x": 0,
+			"y": 0,
+			"w": 448,
+			"h": 448,
+			"name": "HTML5-logo"
+		},
+		{
+			"x": 0,
+			"y": 448,
+			"w": 349,
+			"h": 349,
+			"name": "radial-background"
+		},
+		{
+			"x": 603,
+			"y": 0,
+			"w": 148,
+			"h": 43,
+			"name": "kiwi-name" 
+		},
+		{
+			"x": 603,
+			"y": 57,
+			"w": 143,
+			"h": 15,
+			"name": "loading-bar" 
+		},
+		{
+			"x": 603,
+			"y": 83,
+			"w": 252,
+			"h": 201,
+			"name": "kiwi-bird" 
+		},
+		{
+			"x": 603,
+			"y": 352,
+			"w": 214,
+			"h": 27,
+			"name": "made-with-text" 
+		}
+	]
+}

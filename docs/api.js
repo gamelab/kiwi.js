@@ -1,11 +1,6 @@
 YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
-        "GLRenderManager",
-        "GLShaders",
-        "GLTexture",
-        "GLTextureManager",
-        "IRenderer",
         "Kiwi.Animations.Animation",
         "Kiwi.Animations.Sequence",
         "Kiwi.Animations.Tween",
@@ -84,6 +79,14 @@ YUI.add("yuidoc-meta", function(Y) {
         "Kiwi.Renderers.CanvasRenderer",
         "Kiwi.Renderers.GLArrayBuffer",
         "Kiwi.Renderers.GLElementArrayBuffer",
+        "Kiwi.Renderers.GLRenderManager",
+        "Kiwi.Renderers.GLTextureManager",
+        "Kiwi.Renderers.GLTextureWrapper",
+        "Kiwi.Renderers.Renderer",
+        "Kiwi.Renderers.TextureAtlasRenderer",
+        "Kiwi.Shaders.ShaderManager",
+        "Kiwi.Shaders.ShaderPair",
+        "Kiwi.Shaders.TextureAtlasShader",
         "Kiwi.Signal",
         "Kiwi.SignalBinding",
         "Kiwi.Sound.Audio",
@@ -94,7 +97,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "Kiwi.StateConfig",
         "Kiwi.StateManager",
         "Kiwi.System.Bootstrap",
-        "Kiwi.System.Browser",
         "Kiwi.System.Device",
         "Kiwi.Textures.SingleImage",
         "Kiwi.Textures.SpriteSheet",
@@ -110,7 +112,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Kiwi.Utils.GameMath",
         "Kiwi.Utils.RandomDataGenerator",
         "Kiwi.Utils.RequestAnimationFrame",
-        "ShaderManager"
+        "Kiwi.Utils.Version"
     ],
     "modules": [
         "Animations",
@@ -143,7 +145,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Components",
             "name": "Components",
-            "description": "Component's are a snipnets of code which are designed to provide extra functionality to various objects, such as IChild's/GameObjects/HUDWidgets/e.t.c. The code that components have are not necessarily needed for an object to work, but are instead provided to make common task's that you would do with those objects easier. An Example being that at times you may like to make a GameObject draggable by the user and so you can then add Input Component and execute the enableDrag on that GameObject. That would be task that not every GameObject would need, but only specific ones."
+            "description": "Component's are a snipnets of code which are designed to provide extra functionality to various objects that contain a ComponentManager. Objects do not have to have Components in order to preform their main function, but are instead provided to make common task's that you may want to do with those Objects a bit easier. For example: Some times you would like to easily listen for when a GameObject has been 'clicked'. So you can attach a 'InputComponent' to a GameObject (Sprites have them by default) which will then do hit-detector code for you. All you have to do is Subscribe to the events on the InputComponent."
         },
         {
             "displayName": "Easing",
@@ -213,7 +215,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Tilemap",
             "name": "Tilemap",
-            "description": "Is GameObject that contains the information held for a single Layer of Tiles, along with methods to handle the rendering of those Tiles. \nA TileMapLayer should not be directly created, but instead should be created through a TileMap object instead."
+            "description": "A TileMap handles the creation of TileMapLayers and the TileTypes that they use.\nSince a TileMap isn't a Entity itself you cannot add it to the Stage inorder to render that it manages, \nInstead you have to add each layer lies within it. This way you can have other GameObjects behind/in-front of layers."
         },
         {
             "displayName": "Time",

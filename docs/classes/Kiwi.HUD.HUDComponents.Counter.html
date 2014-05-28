@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -346,7 +350,7 @@
 
     
         <div class="extends">
-            Extends Component
+            Extends <a href="..\classes\Kiwi.Component.html" class="crosslink">Kiwi.Component</a>
         </div>
     
 
@@ -414,7 +418,7 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
 
     
         <span class="returns-inline">
-            <span class="type">Number</span>
+            <span class="type"><a href="..\classes\Kiwi.HUD.HUDComponents.Counter.html" class="crosslink">Kiwi.HUD.HUDComponents.Counter</a></span>
         </span>
     
 
@@ -538,7 +542,7 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
             <div class="returns-description">
                 
                     
-                        <span class="type">Number</span>:
+                        <span class="type"><a href="..\classes\Kiwi.HUD.HUDComponents.Counter.html" class="crosslink">Kiwi.HUD.HUDComponents.Counter</a></span>:
                     
                 
             </div>
@@ -589,6 +593,13 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
                                 
                             </li>
                         
+                            <li class="index-item method public inherited">
+                                <a href="#method_destroy">destroy</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public">
                                 <a href="#method_increase">increase</a>
 
@@ -596,8 +607,29 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
                                 <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_postUpdate">postUpdate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_preUpdate">preUpdate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_update">update</a>
 
                                 
                                 
@@ -634,8 +666,29 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
                                 
                             </li>
                         
+                            <li class="index-item property public inherited">
+                                <a href="#property_active">active</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property public">
                                 <a href="#property_current">current</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_dirty">dirty</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_game">game</a>
 
                                 
                                 
@@ -650,6 +703,20 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
                         
                             <li class="index-item property public">
                                 <a href="#property_min">min</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_name">name</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_owner">owner</a>
 
                                 
                                 
@@ -857,6 +924,60 @@ If the new amount would be less than the minimun it goes to the min instead.</p>
 </div>
 
                 
+                    <div id="method_destroy" class="method item public inherited">
+    <h3 class="name"><code>destroy</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#method_destroy">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l104"><code>src\core\Component.ts:104</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Destroys this component and all of the properties that exist on it.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_increase" class="method item public">
     <h3 class="name"><code>increase</code></h3>
 
@@ -995,12 +1116,12 @@ If the new amount would be greater than the maximum it goes to the max instead.<
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Kiwi.Component.html#method_objType">
+                Kiwi.Component
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
@@ -1030,9 +1151,173 @@ If the new amount would be greater than the maximum it goes to the max instead.<
                     
                         <span class="type">String</span>:
                     
+                    <p>&#39;CounterComponent&#39;</p>
+
                 
             </div>
         </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_postUpdate" class="method item public inherited">
+    <h3 class="name"><code>postUpdate</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#method_postUpdate">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l97"><code>src\core\Component.ts:97</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Components can postUpdate, that is run an update after the parent has updated. This is to be overriden by subclasses.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_preUpdate" class="method item public inherited">
+    <h3 class="name"><code>preUpdate</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#method_preUpdate">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l83"><code>src\core\Component.ts:83</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Components can preUpdate, that is update before the parent updates. This is to be overriden by subclasses.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_update" class="method item public inherited">
+    <h3 class="name"><code>update</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#method_update">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l90"><code>src\core\Component.ts:90</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the component is being added to a State rather than a Game Object then over-ride its update method to perform required tasks.</p>
+
+    </div>
+
+    
+
     
 
     
@@ -1190,6 +1475,52 @@ If the new amount would be greater than the maximum it goes to the max instead.<
 </div>
 
                 
+                    <div id="property_active" class="property item public inherited">
+    <h3 class="name"><code>active</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_active">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l65"><code>src\core\Component.ts:65</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>An active Component is one that has its update method called by its parent.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> true</p>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_current" class="property item public">
     <h3 class="name"><code>current</code></h3>
     <span class="type">Number</span>
@@ -1228,6 +1559,96 @@ If the new amount would be greater than the maximum it goes to the max instead.<
         <p>Set allows setting of the current value that the range can be in. 
 The current value will only change if it is within the maximum/minimum values.
 Get returns the current value.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_dirty" class="property item public inherited">
+    <h3 class="name"><code>dirty</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_dirty">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l74"><code>src\core\Component.ts:74</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The state of this component.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_game" class="property item public inherited">
+    <h3 class="name"><code>game</code></h3>
+    <span class="type">Game</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_game">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l49"><code>src\core\Component.ts:49</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The game this Component belongs to</p>
 
     </div>
 
@@ -1335,9 +1756,97 @@ Get returns the minimum value.</p>
 </div>
 
                 
+                    <div id="property_name" class="property item public inherited">
+    <h3 class="name"><code>name</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_name">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l57"><code>src\core\Component.ts:57</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The name of this component.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_owner" class="property item public inherited">
+    <h3 class="name"><code>owner</code></h3>
+    <span class="type">Object</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_owner">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l41"><code>src\core\Component.ts:41</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The object that owns this entity</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_updated" class="property item public">
     <h3 class="name"><code>updated</code></h3>
-    <span class="type">Signal</span>
+    <span class="type"><a href="..\classes\Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
 
     
 

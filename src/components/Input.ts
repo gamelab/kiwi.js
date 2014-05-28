@@ -15,13 +15,13 @@ module Kiwi.Components {
     * be enabled once you access a Signal on this class.
     *
     * @class Input
-    * @extends Component
+    * @extends Kiwi.Component
     * @namespace Kiwi.Components
     * @constructor
-    * @param owner {IChild} The IChild that owns this Input.
-    * @param box {Box} The box that is to be used for the event firing.
+    * @param owner {Object} The Object that this Component is on. Generally this will be a Entity. 
+    * @param box {Kiwi.Components.Box} The box which contains the worldHitbox that is to be used for the event firing.
     * @param [enabled=false] {boolean} If this input component should be enabled or not. 
-    * @return {Input}
+    * @return {Kiwi.Components.Input}
     */
     export class Input extends Component {
  
@@ -50,13 +50,17 @@ module Kiwi.Components {
             this._isDragging = null;
             this._justEntered = false;
             this._tempDragDisabled = false;
+
+            this._tempPoint = new Kiwi.Geom.Point();
+            this._tempCircle = new Kiwi.Geom.Circle(0, 0, 0);
+
             this.enabled = enabled;
         }
 
         /**
         * The type of object this input is.
         * @method objType
-        * @return string
+        * @return {string} "Input"
         * @public
         */
         public objType() {
@@ -66,15 +70,15 @@ module Kiwi.Components {
         /**
         * The bounding box that is being used for the 'hitarea'.
         * @property _box
-        * @type Box
+        * @type Kiwi.Components.Box
         * @private
         */
         private _box: Kiwi.Components.Box;
 
         /**
-        * Kiwi Signal for firing callbacks when a pointer is active and has entered the entities hit box.
+        * Kiwi Signal for firing callbacks when a pointer is active and has entered the entities hitbox.
         * @property _onEntered
-        * @type Signal
+        * @type Kiwi.Signal
         * @private
         */
         private _onEntered: Kiwi.Signal;
@@ -82,7 +86,7 @@ module Kiwi.Components {
         /**
         * Kiwi Signal for firing callbacks when a pointer is active and has left the entities hit box.
         * @property _onLeft
-        * @type Signal
+        * @type Kiwi.Signal
         * @private
         */
         private _onLeft: Kiwi.Signal;
@@ -90,7 +94,7 @@ module Kiwi.Components {
         /**
         * Kiwi Signal for firing callbacks when a pointer is active and has pressed down on the entity.
         * @property _onDown
-        * @type Signal
+        * @type Kiwi.Signal
         * @private
         */
         private _onDown: Kiwi.Signal;
@@ -98,7 +102,7 @@ module Kiwi.Components {
         /**
         * Kiwi Signal for firing callbacks when a pointer just released from either being above the entity or the pointer was initally pressed on it.
         * @property _onUp
-        * @type Signal
+        * @type Kiwi.Signal
         * @private
         */
         private _onUp: Kiwi.Signal;
@@ -106,7 +110,7 @@ module Kiwi.Components {
         /**
         * Kiwi Signal for firing callbacks a entity starts being dragged.
         * @property _onDragStarted
-        * @type Signal
+        * @type Kiwi.Signal
         * @private
         */
         private _onDragStarted: Kiwi.Signal;
@@ -114,17 +118,34 @@ module Kiwi.Components {
         /**
         * Kiwi Signal for firing callbacks a entity stops being dragged. Like on release.
         * @property _onDragStopped
-        * @type Signal
+        * @type Kiwi.Signal
         * @private
         */
         private _onDragStopped: Kiwi.Signal;
+
+        /**
+        * A Temporary Point object which is used whilst checking to see if there is any overlap.
+        * @property _tempPoint
+        * @type Kiwi.Geom.Point
+        * @private
+        */
+        private _tempPoint: Kiwi.Geom.Point;
         
+        /**
+        * A Temporary Circle object which is used whilst checking to see if there is any overlap.
+        * @property _tempCircle
+        * @type Kiwi.Geom.Circle
+        * @private
+        */
+        private _tempCircle: Kiwi.Geom.Circle;
+
+
         /**
         * Returns the onEntered Signal, that fires events when a pointer enters the hitbox of a entity.
         * Note: Accessing this signal enables the input.
         * This is READ ONLY.
         * @property onEntered
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public get onEntered(): Kiwi.Signal {
@@ -137,7 +158,7 @@ module Kiwi.Components {
         * Note: Accessing this signal enables the input.
         * This is READ ONLY.
         * @property onLeft
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public get onLeft(): Kiwi.Signal {
@@ -150,7 +171,7 @@ module Kiwi.Components {
         * Note: Accessing this signal enables the input.
         * This is READ ONLY.
         * @property onDown
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public get onDown(): Kiwi.Signal {
@@ -163,7 +184,7 @@ module Kiwi.Components {
         * Note: Accessing this signal enables the input.
         * This is READ ONLY.
         * @property onUp
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public get onUp(): Kiwi.Signal {
@@ -175,7 +196,7 @@ module Kiwi.Components {
         * Returns the onDragStarted Signal.
         * This is READ ONLY.
         * @property onDragStarted
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public get onDragStarted(): Kiwi.Signal { return this._onDragStarted; }
@@ -184,7 +205,7 @@ module Kiwi.Components {
         * Returns the onDragStopped Signal.
         * This is READ ONLY.
         * @property onDragStopped
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public get onDragStopped(): Kiwi.Signal { return this._onDragStopped; }
@@ -193,7 +214,7 @@ module Kiwi.Components {
         * A alias for the on release signal.
         * This is READ ONLY.
         * @property onRelease
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public get onRelease():Kiwi.Signal {
@@ -204,7 +225,7 @@ module Kiwi.Components {
         * A alias for the on press signal.
         * This is READ ONLY.
         * @property onPress
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public get onPress(): Kiwi.Signal {
@@ -236,7 +257,7 @@ module Kiwi.Components {
         /**
         * If a pointer is current pressing down on the input, this will be a reference to that pointer. Otherwise it will be null.
         * @property _isDown
-        * @type Pointer
+        * @type Kiwi.Input.Pointer
         * @private
         */
         private _isDown: Kiwi.Input.Pointer;    
@@ -253,7 +274,7 @@ module Kiwi.Components {
         /**
         * Indicates if a pointer is within the bounds or not. If one is then it referers to the pointer that is. Other it will be null.
         * @property _withinBounds
-        * @type Pointer
+        * @type Kiwi.Input.Pointer
         * @private
         */
         private _withinBounds: Kiwi.Input.Pointer;
@@ -322,19 +343,19 @@ module Kiwi.Components {
         }
         
         /**
-        * A reference to the pointer that is currently 'dragging' this IChild. 
+        * A reference to the pointer that is currently 'dragging' this Object. 
         * If not dragging then this is null.
         * @property _isDragging
-        * @type Pointer
+        * @type Kiwi.Input.Pointer
         * @default null
         * @private
         */
         private _isDragging: Kiwi.Input.Pointer = null;
         
         /**
-        * The distance between the top left corner of this IChild and the coordinates of a Pointer.
+        * The distance between the top left corner of this Objects parent and the coordinates of a Pointer.
         * @property _distance
-        * @type Point
+        * @type Kiwi.Geom.Point
         * @private
         */
         private _distance: Kiwi.Geom.Point;
@@ -401,7 +422,7 @@ module Kiwi.Components {
         /**
         * Temporary property that gets updated everyframe with the pointer that is currently 'down' on this entity.
         * @property _nowDown
-        * @type Pointer
+        * @type Kiwi.Input.Pointer
         * @default null
         * @private
         */
@@ -410,7 +431,7 @@ module Kiwi.Components {
         /**
         * Temporary property that gets updated everyframe with the pointer that was just 'released' from being down on this entity
         * @property _nowUp
-        * @type Pointer
+        * @type Kiwi.Input.Pointer
         * @default null
         * @private
         */
@@ -419,7 +440,7 @@ module Kiwi.Components {
         /**
         * Temporary property of the pointer that is now within the bounds of the entity
         * @property _nowEntered
-        * @type Pointer
+        * @type Kiwi.Input.Pointer
         * @default null
         * @private
         */
@@ -428,7 +449,7 @@ module Kiwi.Components {
         /**
         * Temporary property of the pointer that just left the bounds of the entity.
         * @property _nowLeft
-        * @type Pointer
+        * @type Kiwi.Input.Pointer
         * @default null
         * @private
         */
@@ -437,7 +458,7 @@ module Kiwi.Components {
         /**
         * Temporary property of the pointer that just started draggging the entity.
         * @property _nowDragging
-        * @type Pointer
+        * @type Kiwi.Input.Pointer
         * @default null
         * @private
         */
@@ -481,7 +502,7 @@ module Kiwi.Components {
                 return;
             }
             
-            //reset the temporary properties
+            // Reset the temporary properties
             this._nowDown = null;
             this._nowUp = null;
             this._nowEntered = null;
@@ -497,12 +518,15 @@ module Kiwi.Components {
             
             //If the entity is dragging.
             if (this.isDragging) { 
+
+                this._tempPoint = this.game.cameras.defaultCamera.transformPoint(this._isDragging.point);
+
                 if (this._dragSnapToCenter === false) {
-                    this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._distance.x), this._dragDistance);
-                    this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._distance.y), this._dragDistance);
+                    this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._tempPoint.x - this._box.hitboxOffset.x - this._distance.x), this._dragDistance);
+                    this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._tempPoint.y - this._box.hitboxOffset.y - this._distance.y), this._dragDistance);
                 } else {
-                    this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.worldHitbox.width / 2), this._dragDistance);
-                    this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.worldHitbox.height / 2), this._dragDistance);
+                    this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._tempPoint.x - this._box.hitboxOffset.x - this._box.worldHitbox.width / 2), this._dragDistance);
+                    this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._tempPoint.y - this._box.hitboxOffset.y - this._box.worldHitbox.height / 2), this._dragDistance);
                 }
             }
         }
@@ -576,7 +600,7 @@ module Kiwi.Components {
         /**
         * A private method for checking to see if a touch pointer should activate any events.
         * @method _evaluateTouchPointer
-        * @param pointer {Finger} The pointer you are checking against.
+        * @param pointer {Kiwi.Input.Finger} The pointer you are checking against.
         * @private
         */
         private _evaluateTouchPointer(pointer:Kiwi.Input.Finger) {
@@ -584,7 +608,10 @@ module Kiwi.Components {
             //if nothing isdown or what is down is the current pointer
             if (this.isDown === false || this._isDown.id === pointer.id) {
 
-                if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.worldHitbox).result) {
+                this._tempPoint = this.game.cameras.defaultCamera.transformPoint( pointer.point );
+                this._tempCircle.setTo(this._tempPoint.x, this._tempPoint.y, pointer.circle.diameter);
+
+                if (Kiwi.Geom.Intersect.circleToRectangle(this._tempCircle, this._box.worldHitbox).result) {
                     if (this.isDown === true && this._isDown.id === pointer.id || this.isDown === false && pointer.duration > 1) {
                         this._nowEntered = pointer;
                     }
@@ -594,8 +621,8 @@ module Kiwi.Components {
                     }
 
                     if (this._dragEnabled && this.isDragging == false && this.isDown == true) {
-                        this._distance.x = pointer.x - this._box.worldHitbox.left;
-                        this._distance.y = pointer.y - this._box.worldHitbox.top;
+                        this._distance.x = this._tempPoint.x - this._box.worldHitbox.left;
+                        this._distance.y = this._tempPoint.y - this._box.worldHitbox.top;
                         this._nowDragging = pointer; 
                     }
                 } else {
@@ -642,7 +669,7 @@ module Kiwi.Components {
             if (this.isDown === true && this._nowUp !== null && this._isDown.id === this._nowUp.id) {
                 this._onUp.dispatch(this.owner, this._nowUp);
                 
-                //dispatch drag event
+                // Dispatch drag event
                 if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
                     this._isDragging = null;
                     this._onDragStopped.dispatch(this.owner, this._nowUp);
@@ -657,16 +684,18 @@ module Kiwi.Components {
         /**
         * Evaluates where and what the mouse cursor is doing in relation to this box. Needs a little bit more love.
         * @method _evaluateMousePointer
-        * @param pointer {MouseCursor}
+        * @param pointer {Kiwi.Input.MouseCursor}
         * @private
         */
         private _evaluateMousePointer(pointer:Kiwi.Input.MouseCursor) {
 
-            if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.worldHitbox).result) {
+            this._tempPoint = this.game.cameras.defaultCamera.transformPoint(pointer.point);
+
+            if (Kiwi.Geom.Intersect.pointToRectangle(this._tempPoint, this._box.worldHitbox).result) {
                 
                 if (this._dragEnabled && this.isDragging === false) {
-                    this._distance.x = pointer.x - this._box.worldHitbox.left;
-                    this._distance.y = pointer.y - this._box.worldHitbox.top;
+                    this._distance.x = this._tempPoint.x - this._box.worldHitbox.left;
+                    this._distance.y = this._tempPoint.y - this._box.worldHitbox.top;
                 }
 
                 //  Has it just moved inside?
@@ -722,18 +751,6 @@ module Kiwi.Components {
             }
 
             if (this._justEntered) this._justEntered = false;
-        }
-
-	    /**
-	    * Returns a string representation of this object.
-	    * @method toString
-	    * @return {string} A string representation of this object.
-        * @publics
-	    */
-        public toString(): string {
-
-            return '[{Input (x=' + this.withinBounds + ')}]';
-
         }
 
         /**

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -350,18 +354,19 @@
 *  
 * @module Kiwi
 * @submodule Renderers
-* 
+*
+* @namespace Kiwi.Renderers
 */
 
 module Kiwi.Renderers {
      
     /**
-    *
-    * @class GLTexture
+    * Wraps a webGL texture object
+    * @class GLTextureWrapper
     * @constructor
     * @param gl {WebGLRenderingContext}
     * @param [_image] {HTMLImageElement}
-    * @return {GLTexture}
+    * @return {Kiwi.Renderers.GLTextureWrapper}
     */
     export class GLTextureWrapper {
 
@@ -374,21 +379,40 @@ module Kiwi.Renderers {
        
         }
 
-     
+        /**
+        * The textureAtlas used by the GLTexture
+        * @property textureAtlas
+        * @type Kiwi.Textures.TextureAtlas
+        */
 
         public textureAtlas: Kiwi.Textures.TextureAtlas;
+
+        /**
+        * The number of bytes in the texture
+        * @property numBytes
+        * @type Kiwi.Textures.TextureAtlas
+        */
 
         private _numBytes: number;
         public get numBytes(): number {
             return this._numBytes;
         }
 
-        
+        /**
+        * Returns whether the texture has been created
+        * @property created
+        * @type boolean
+        */
         private _created: boolean = false;
         public get created(): boolean {
             return this._created;
         }
-
+        
+        /**
+        * Returns whether the texture has been uploaded to video memory
+        * @property uploaded
+        * @type boolean
+        */
         private _uploaded: boolean = false;
         public get uploaded(): boolean {
             return this._uploaded;
@@ -412,12 +436,26 @@ module Kiwi.Renderers {
 
         //force : if true then other textures will be removed until there is room.
 
+
+        /**
+        * Creates a webgl texture object
+        * @method createTexture
+        * @param gl {WebGLRenderingContext}
+        * @public
+        */
         public createTexture(gl: WebGLRenderingContext): boolean {
             this.texture = gl.createTexture();
             this._created = true;
             return true;
         }
 
+        
+        /**
+        * Uploads a webgl texture object to video memory
+        * @method uploadTexture
+        * @param gl {WebGLRenderingContext}
+        * @public
+        */
         public uploadTexture(gl: WebGLRenderingContext):boolean {
             var success: boolean = false;
             if (!this.created) {
@@ -446,11 +484,23 @@ module Kiwi.Renderers {
             return success;
         }
 
+        /**
+        * Re-uploads a webgl texture object to video memory
+        * @method refreshTexture
+        * @param gl {WebGLRenderingContext}
+        * @public
+        */
         public refreshTexture(gl: WebGLRenderingContext) {
             
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
         }
 
+        /**
+        * Deletes a webgl texture
+        * @method deleteTexture
+        * @param gl {WebGLRenderingContext}
+        * @public
+        */
         public deleteTexture(gl: WebGLRenderingContext) :boolean{
             gl.bindTexture(gl.TEXTURE_2D, this.texture);
             gl.deleteTexture(this.texture);

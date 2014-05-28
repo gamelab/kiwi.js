@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -357,13 +361,13 @@ module Kiwi.HUD.Widget {
     * and styles that you want applyed to all MenuItems. 
     * 
     * @class Menu
-    * @extends HUDWidget
+    * @extends Kiwi.HUD.HUDWidget
     * @namespace Kiwi.HUD.Widget
     * @constructor
-    * @param game {Game} The game that this Menu belongs to.
+    * @param game {Kiwi.Game} The game that this Menu belongs to.
     * @param x {number} Its position on the x-axis.
     * @param y {number} Its position on the y -axis.
-    * @return {Menu}
+    * @return {Kiwi.HUD.Widget.Menu}
     */
     export class Menu extends Kiwi.HUD.HUDWidget {
         
@@ -378,7 +382,7 @@ module Kiwi.HUD.Widget {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {string}
+        * @return {string} &quot;MenuWidget&quot;
         * @public
         */
         public objType():string {
@@ -386,9 +390,9 @@ module Kiwi.HUD.Widget {
         }
         
         /**
-        * Contains a list of all of the menu items that are currently on this menu.
+        * Contains a list of all of the menu items that are currently on this menu. Each item in the list is of the type Kiwi.HUD.Widget.MenuItem.
         * @property _menuItems
-        * @type MenuItem[]
+        * @type Array.
         * @private
         */
         private _menuItems: Kiwi.HUD.Widget.MenuItem[];
@@ -418,9 +422,10 @@ module Kiwi.HUD.Widget {
 
         /**
         * Returns a list that contains all of the menu items (buttons) that are currently on this menu.
+        * Each item in the list is of the type Kiwi.HUD.Widget.MenuItem.
         * Note: The array itself is READ ONLY but you can modify the objects contained inside of it.
         * @property menuItems
-        * @type MenuItem[]
+        * @type Array
         * @public
         */
         public get menuItems(): Kiwi.HUD.Widget.MenuItem[] {
@@ -433,7 +438,7 @@ module Kiwi.HUD.Widget {
         * @param text {string} The text that you would like the menu item to have.
         * @param x {number} The x position of the menu item you are wanting to add.
         * @param y {number} The y position of the menu item you are wanting to add.
-        * @return {MenuItem} The newly created MenuItem.
+        * @return {Kiwi.HUD.Widget.MenuItem} The newly created MenuItem.
         * @public
         */
         public createMenuItem(text:string,x:number,y:number): Kiwi.HUD.Widget.MenuItem {
@@ -443,8 +448,8 @@ module Kiwi.HUD.Widget {
         /**
         * Adds a MenuItem to this menu.
         * @method addMenuItem
-        * @param item {MenuItem} The MenuItem that you would like to add to this menu.
-        * @return {MenuItem}
+        * @param item {Kiwi.HUD.Widget.MenuItem} The MenuItem that you would like to add to this menu.
+        * @return {Kiwi.HUD.Widget.MenuItem}
         * @public 
         */
         public addMenuItem(item: Kiwi.HUD.Widget.MenuItem): Kiwi.HUD.Widget.MenuItem {
@@ -463,9 +468,9 @@ module Kiwi.HUD.Widget {
         }
 
         /**
-        * Adds multiple MenuItems to this Menu.
+        * Adds multiple MenuItems to this Menu. Each item in the array you would like to add needs to be of the type Kiwi.HUD.Widget.MenuItem.
         * @method addMenuItems
-        * @param items {MenuItem[]} The array containing all of the menu items you want to add.
+        * @param items {Array} The array containing all of the menu items you want to add.
         * @public 
         */
         public addMenuItems(items: Kiwi.HUD.Widget.MenuItem[]) {
@@ -510,7 +515,7 @@ module Kiwi.HUD.Widget {
         }
 
         /**
-        * Currently not working.
+        * Currently not supported or working.
         * @method removeTemplate
         * @public 
         */

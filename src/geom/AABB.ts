@@ -18,7 +18,7 @@ module Kiwi.Geom {
     * @param cy {Number}
     * @param width {Number}
     * @param height {Number}
-    * @return {AABB}
+    * @return {Kiwi.Geom.AABB}
     */
     export class AABB {
 
@@ -96,7 +96,7 @@ module Kiwi.Geom {
         * Draws the object to a canvas
         * @method draw
         * @param ctx {CanvasRenderingContext2D} The context you want this drawn to.
-        * @return {AABB}
+        * @return {Kiwi.Geom.AABB}
         * @public
         */
         public draw(ctx: CanvasRenderingContext2D): AABB {
@@ -114,7 +114,7 @@ module Kiwi.Geom {
         * @method setPosition
         * @param cx {Number}
         * @param cy {Number}
-        * @return {AABB}
+        * @return {Kiwi.Geom.AABB}
         * @public
         */
         public setPosition(cx: number, cy: number): AABB {
@@ -127,7 +127,7 @@ module Kiwi.Geom {
         * Sets the position of the object by a point that you pass.
         * @method setPositionPoint
         * @param {Point} pos
-        * @return {AABB}
+        * @return {Kiwi.Geom.AABB}
         * @public
         */
         public setPositionPoint(pos: Point): AABB {
@@ -139,7 +139,7 @@ module Kiwi.Geom {
         /**
         * Returns this object but as a new Rectangle.
         * @method toRect
-        * @return {Rectangle}
+        * @return {Kiwi.Geom.Rectangle}
         * @public
         */
         public toRect(): Rectangle {
@@ -149,8 +149,8 @@ module Kiwi.Geom {
         /**
         * Gives the dimension of this AABB from a rectangle's.
         * @method fromRect
-        * @param {Rectangle} rect
-        * @return {AABB}
+        * @param {Kiwi.Geom.Rectangle} rect
+        * @return {Kiwi.Geom.AABB}
         * @public
         */
         public fromRect(rect: Rectangle): AABB {

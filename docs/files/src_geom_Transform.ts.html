@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -562,7 +566,7 @@ module Kiwi.Geom {
         /** 
         * Return the Matrix being used by this Transform
         * @property matrix
-        * @return {Matrix} The Matrix being used by this Transform
+        * @return {Kiwi.Geom.Matrix} The Matrix being used by this Transform
         */
         public get matrix(): Matrix {
 
@@ -614,7 +618,7 @@ module Kiwi.Geom {
         /** 
         * Return the parent Transform, if any.
         * @property parent
-        * @return {Transform} The parent Transform, or null.
+        * @return {Kiwi.Geom.Transform} The parent Transform, or null.
         * @public
         */
         
@@ -633,7 +637,7 @@ module Kiwi.Geom {
         * @method setPosition
         * @param x {Number} x.
         * @param y {Number} y.
-        * @return {Transform} This object.
+        * @return {Kiwi.Geom.Transform} This object.
         * @public
         */
         public setPosition(x: number, y: number): Transform {
@@ -649,7 +653,7 @@ module Kiwi.Geom {
         * Set the X and Y values of the transform from a point.
         * @method setPositionPoint
         * @param point {Kiwi.Geom.Point} point.
-        * @return {Transform} This object.
+        * @return {Kiwi.Geom.Transform} This object.
         * @public
         */
         public setPositionFromPoint(point: Point): Transform {
@@ -665,8 +669,8 @@ module Kiwi.Geom {
         /** 
         * Translate the X and Y value of the transform by point components.
         * @method translatePositionFromPoint
-        * @param point {Point} point.
-        * @return {Transform} This object.
+        * @param point {Kiwi.Geom.Point} point.
+        * @return {Kiwi.Geom.Transform} This object.
         */
         public translatePositionFromPoint(point: Point): Transform {
 
@@ -694,7 +698,7 @@ module Kiwi.Geom {
 	    * Set the X and Y scale value of the transform.
 	    * @method scale
 	    * @param value {Number} 
-        * @return {Transform} This object.
+        * @return {Kiwi.Geom.Transform} This object.
         * @public
 	    */
         public set scale(value:number) {
@@ -715,7 +719,7 @@ module Kiwi.Geom {
         * @param rotation {Number} rotation. Rotation of the transform in radians.
         * @param rotX{Number} rotX. Rotation offset on X axis.
         * @param rotY{Number} rotY. Rotation offset on Y axis.
-        * @return {Transform} This object.
+        * @return {Kiwi.Geom.Transform} This object.
         * @public
         */
         public setTransform(x: number = 0, y: number = 0, scaleX: number = 1, scaleY: number = 1, rotation: number = 0, rotPointX: number = 0, rotPointY: number = 0): Transform {
@@ -740,7 +744,7 @@ module Kiwi.Geom {
         /** 
         * Return the parent matrix of the transform. If there is no parent then null is returned.
         * @method getParentMatrix
-        * @return {Matrix} The parent transform matrix.
+        * @return {Kiwi.Geom.Matrix} The parent transform matrix.
         * @public
         */
         public getParentMatrix(): Matrix {
@@ -757,7 +761,7 @@ module Kiwi.Geom {
         * Return the transformation matrix that concatenates this transform with all ancestor transforms.
         * If there is no parent then this will return a matrix the same as this transforms matrix.
         * @method getConcatenatedMatrix
-        * @return {Matrix} The concatenated matrix.
+        * @return {Kiwi.Geom.Matrix} The concatenated matrix.
         * @public
         */
         public getConcatenatedMatrix(): Matrix {
@@ -805,12 +809,12 @@ module Kiwi.Geom {
         */
 
         /** 
-	     * [Requires Description]
-	     * @method transformPoint
-         * @param point {Point} point
-         * @return {Point}
-         * @public
-	     **/
+	    * Apply this matrix to a an object with x and y properties representing a point and return the transformed point.
+	    * @method transformPoint
+        * @param point {Kiwi.Geom.Point} point
+        * @return {Kiwi.Geom.Point}
+        * @public
+	    */
         public transformPoint(point: Point): Point {
 
             var mat = this.getConcatenatedMatrix();
@@ -822,8 +826,8 @@ module Kiwi.Geom {
         /** 
         * Copy another transforms data to this transform. A clone of the source matrix is created for the matrix property.
         * @method copyFrom
-        * @param transform {Transform} transform. The tranform to be copied from.
-        * @return {Transform} This object.
+        * @param transform {Kiwi.Geom.Transform} transform. The tranform to be copied from.
+        * @return {Kiwi.Geom.Transform} This object.
         * @public
         */
         public copyFrom(source: Transform): Transform {
@@ -843,8 +847,8 @@ module Kiwi.Geom {
         /** 
 	     * Copy this transforms data to the destination Transform. A clone of this transforms matrix is created in the destination Transform Matrix.
 	     * @method copyTo
-	     * @param destination {Transform} The tranform to copy to.
-         * @return {Transform} This object.
+	     * @param destination {Kiwi.Geom.Transform} The tranform to copy to.
+         * @return {Kiwi.Geom.Transform} This object.
          * @public
 	     */
         public copyTo(destination: Transform): Transform {
@@ -858,8 +862,8 @@ module Kiwi.Geom {
         /** 
 	     * Return a clone of this transform.
 	     * @method clone
-	     * @param output {Transform} A Transform to copy the clone in to. If none is given a new Transform object will be made.
-         * @return {Transform} A clone of this object.
+	     * @param output {Kiwi.Geom.Transform} A Transform to copy the clone in to. If none is given a new Transform object will be made.
+         * @return {Kiwi.Geom.Transform} A clone of this object.
          * @public
 	     */
         public clone(output: Transform = new Transform()): Transform {
@@ -873,7 +877,7 @@ module Kiwi.Geom {
         /** 
 	     * Recursively check that a transform does not appear as its own ancestor
 	     * @method checkAncestor
-         * @param transform{Transform} The Transform to check.
+         * @param transform{Kiwi.Geom.Transform} The Transform to check.
 	     * @return {boolean} Returns true if the given transform is the same as this or an ancestor, otherwise false.
          * @public
 	     */
@@ -896,7 +900,7 @@ module Kiwi.Geom {
         /** 
         * Return a string represention of this object.
         * @method toString
-        * @return {string} A string represention of this object.
+        * @return {String} A string represention of this object.
         * @public
         */
         public get toString(): string {

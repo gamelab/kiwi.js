@@ -67,14 +67,24 @@ module.exports = function(grunt) {
 
     copy: {
         doclogo: {
-		    src: 'docstyles/logo.png',
-        dest: 'docs/assets/css/logo.png'
-	  },
-   	    
-    docstyles: {
-      src: 'docstyles/main.css',
-    	dest: 'docs/assets/css/main.css'
-	  }
+    		    src: 'docstyles/logo.png',
+            dest: 'docs/assets/css/logo.png'
+    	  },
+       	    
+        docstyles: {
+          src: 'docstyles/main.css',
+        	dest: 'docs/assets/css/main.css'
+    	  },
+
+        templateGame: {
+          src: './build/kiwi.js',
+          dest: './templateGame/lib/kiwi.js'
+        },
+
+        example: {
+          src: './build/kiwi.js',
+          dest: './examples/kiwi.js'
+        }
 
     }
 
@@ -93,8 +103,9 @@ module.exports = function(grunt) {
   
   grunt.loadNpmTasks('grunt-contrib-concat');
 
-  grunt.registerTask("default", ["ts:build", "tslint","concat:build","uglify:build"]);
-  grunt.registerTask("full", ["ts:build","concat:build","uglify:build","yuidoc:compile","copy:doclogo","copy:docstyles"]);
+  grunt.registerTask("default", ["ts:build", "tslint","concat:build","uglify:build","copy:templateGame","copy:example"]);
+  grunt.registerTask("full", ["ts:build","concat:build","uglify:build","yuidoc:compile","copy:templateGame","copy:example","copy:doclogo","copy:docstyles"]);
   grunt.registerTask("docs", ["yuidoc:compile","copy:doclogo","copy:docstyles"]);
   grunt.registerTask("join", ["concat:build"]);
+
 };

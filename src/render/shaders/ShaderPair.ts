@@ -1,20 +1,19 @@
 /**
 *  
 * @module Kiwi
-* @submodule Renderers
+* @submodule Shaders
+* @namespace Kiwi.Shaders
 * 
 */
-
-
 
 module Kiwi.Shaders {
 
     /**
-    *
-    * @class GLShaders
+    * Base class for shader pairs which encapsulate a GLSL vertex and fragment shader
+    * @class ShaderPair
     * @constructor
-    * @param gl {WebGLRenderingContext}
-    * @return {GLShaders}
+    * @namespace Kiwi.Shaders
+    * @return {Kiwi.Shaders.ShaderPair}
     */
     export class ShaderPair {
 
@@ -22,8 +21,21 @@ module Kiwi.Shaders {
           
         }
 
+        /**
+        *
+        * @property RENDERER_ID
+        * @type string
+        * @public
+        * @static
+        */
         public static RENDERER_ID: string = "ShaderPair";
 
+        /**
+        * Initialise the shader pair.
+        * @method init
+        * @param gl {WebGLRenderingCotext}
+        * @public
+        */
         public init(gl: WebGLRenderingContext) {
          
             this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
@@ -32,10 +44,16 @@ module Kiwi.Shaders {
             this.loaded = true;
         }
 
+        /**
+        * Returns whether the shader pair has been loaded and compiled.
+        * @property loaded
+        * @type boolean
+        * @public
+        */
         public loaded: boolean = false;
 
         /**
-        *
+        * Vertex shader
         * @property vertShader
         * @type WebGLShader
         * @public
@@ -43,7 +61,7 @@ module Kiwi.Shaders {
         public vertShader: WebGLShader;
 
         /**
-        *
+        * Fragment shader 
         * @property fragShader
         * @type WebGLShader
         * @public
@@ -51,7 +69,7 @@ module Kiwi.Shaders {
         public fragShader: WebGLShader;
 
         /**
-        *
+        * The WebGl shader program
         * @property shaderProgram
         * @type WebGLProgram
         * @public
@@ -59,7 +77,7 @@ module Kiwi.Shaders {
         public shaderProgram: WebGLProgram;
 
         /**
-        *
+        * Attaches the shaders to the program and links them
         * @method attach
         * @param gl {WebGLRenderingContext}
         * @param vertShader {WebGLShader}
@@ -76,7 +94,7 @@ module Kiwi.Shaders {
         }
 
         /**
-        *
+        * Compiles the shaders
         * @method compile
         * @param gl {WebGLRenderingContext}
         * @param src {string}
@@ -95,12 +113,25 @@ module Kiwi.Shaders {
             return shader;
         }
 
+        /**
+        * Uniform descriptors
+        * @property uniforms
+        * @type Array
+        * @public
+        */
         public uniforms: any;
+
+        /**
+        * Attribute descriptors
+        * @property attributes
+        * @type Array
+        * @public
+        */
         public attributes: any;
 
 
         /**
-        *
+        * Shader frag source (for override)
         * @property texture2DFrag
         * @type Array
         * @public
@@ -108,24 +139,44 @@ module Kiwi.Shaders {
         public fragSource: Array<any>;
 
         /**
-        *
+        * Shader vert source (for override)
         * @property texture2DVert
         * @type Array
         * @public
         */
         public vertSource: Array<any>;
 
+        /**
+        * Sets a single uniform value and marks it as dirty.
+        * @method setParam
+        * @param uniformName {string}
+        * @param value {*}
+        * @public
+        */
         public setParam(uniformName: string, value: any) {
             this.uniforms[uniformName].value = value;
             this.uniforms[uniformName].dirty = true;
         }
 
+        /**
+        * Applies all uniforms to the uploaded program
+        * @method applyUniforms
+        * @param gl {WebGLRenderingCotext}
+        * @public
+        */
         public applyUniforms(gl: WebGLRenderingContext) {
             for (var u in this.uniforms) {
                 this.applyUniform(gl, u);
             }
         }
 
+         /**
+        * Applies a single uniforms to the uploaded program
+        * @method applyUniform
+        * @param gl {WebGLRenderingCotext}
+        * @param name {string}
+        * @public
+        */
         public applyUniform(gl: WebGLRenderingContext, name: string) {
             var u = this.uniforms[name]
             if (this.uniforms[name].dirty) {
@@ -135,6 +186,12 @@ module Kiwi.Shaders {
             }
         }
 
+        /**
+        * Initialises all uniforms
+        * @method initUniforms
+        * @param gl {WebGLRenderingCotext}
+        * @public
+        */
         public initUniforms(gl: WebGLRenderingContext) {
             for (var uniformName in this.uniforms) {
                 var uniform = this.uniforms[uniformName];

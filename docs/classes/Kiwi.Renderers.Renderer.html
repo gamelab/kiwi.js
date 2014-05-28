@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>GLRenderManager - Kiwi.js</title>
+    <title>Kiwi.Renderers.Renderer - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -340,19 +344,15 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>GLRenderManager Class</h1>
+                        <h1>Kiwi.Renderers.Renderer Class</h1>
 <div class="box meta">
     
 
     
-        <div class="extends">
-            Extends <a href="..\classes\IRenderer.html" class="crosslink">IRenderer</a>
-        </div>
-    
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_render_GLRenderManager.ts.html#l17"><code>src\render\GLRenderManager.ts:17</code></a>
+            Defined in: <a href="../files/src_render_renderers_Renderer.ts.html#l14"><code>src\render\renderers\Renderer.ts:14</code></a>
         </div>
     
 
@@ -369,19 +369,15 @@
 
 
 <div class="box intro">
-    <p>Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  <a href="https://github.com/toji/gl-matrix">https://github.com/toji/gl-matrix</a>
-Directly manages renderer objects, including factory methods for their creation. 
-Creates manager objects for shaders and textures.
-Manages gl state at game initialisation, at state start and end, and per frame.
-Runs the recursive scene graph rendering sequence every frame.</p>
+    <p>Base class for WebGL Renderers. Not for instantiation.</p>
 
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_GLRenderManager" class="method item">
-    <h3 class="name"><code>GLRenderManager</code></h3>
+        <div id="method_Kiwi.Renderers.Renderer" class="method item">
+    <h3 class="name"><code>Kiwi.Renderers.Renderer</code></h3>
 
     
         <div class="args">
@@ -389,7 +385,19 @@ Runs the recursive scene graph rendering sequence every frame.</p>
             
                 <li class="arg">
                     
-                        <code>game</code>
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>shaderManager</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[params=null]</code>
                     
                 </li>
             
@@ -399,7 +407,7 @@ Runs the recursive scene graph rendering sequence every frame.</p>
 
     
         <span class="returns-inline">
-            <span class="type">GLRenderer</span>
+            <span class="type"><a href="..\classes\Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>
         </span>
     
 
@@ -426,7 +434,7 @@ Runs the recursive scene graph rendering sequence every frame.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l17"><code>src\render\GLRenderManager.ts:17</code></a>
+        <a href="../files/src_render_renderers_Renderer.ts.html#l14"><code>src\render\renderers\Renderer.ts:14</code></a>
         
         </p>
 
@@ -448,15 +456,45 @@ Runs the recursive scene graph rendering sequence every frame.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">game</code>
-                        <span class="type">Game</span>
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The game that this renderer belongs to.</p>
+                         
+                    </div>
 
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">shaderManager</code>
+                        <span class="type"><a href="..\classes\Kiwi.Shaders.ShaderManager.html" class="crosslink">Kiwi.Shaders.ShaderManager</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[params=null]</code>
+                        <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
                     </div>
 
                     
@@ -473,7 +511,7 @@ Runs the recursive scene graph rendering sequence every frame.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">GLRenderer</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>:
                     
                 
             </div>
@@ -508,80 +546,45 @@ Runs the recursive scene graph rendering sequence every frame.</p>
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods extends">
+                    <ul class="index-list methods">
                         
-                            <li class="index-item method private">
-                                <a href="#method__init">_init</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__switchRenderer">_switchRenderer</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__switchTexture">_switchTexture</a>
+                            <li class="index-item method public">
+                                <a href="#method_disable">disable</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_addSharedRenderer">addSharedRenderer</a>
+                                <a href="#method_disable">disable</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_addSharedRenderer">addSharedRenderer</a>
+                                <a href="#method_disable">disable</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_boot">boot</a>
+                                <a href="#method_draw">draw</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_initState">initState</a>
+                                <a href="#method_updateStageResolution">updateStageResolution</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_initState">initState</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_objType">objType</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_render">render</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_requestRendererInstance">requestRendererInstance</a>
+                                <a href="#method_updateTextureSize">updateTextureSize</a>
 
                                 
                                 
@@ -595,73 +598,47 @@ Runs the recursive scene graph rendering sequence every frame.</p>
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties extends">
+                    <ul class="index-list properties">
                         
-                            <li class="index-item property private">
-                                <a href="#property__currentRenderer">_currentRenderer</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__currentTextureAtlas">_currentTextureAtlas</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__entityCount">_entityCount</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__game">_game</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__maxItems">_maxItems</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__shaderManager">_shaderManager</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__sharedRenderers">_sharedRenderers</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__stageResolution">_stageResolution</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__textureManager">_textureManager</a>
+                            <li class="index-item property public">
+                                <a href="#property_camMatrix">camMatrix</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_numDrawCalls">numDrawCalls</a>
+                                <a href="#property_loaded">loaded</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_RENDERER_ID">RENDERER_ID</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_shaderManager">shaderManager</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_texture2DVert">texture2DVert</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_texture2DVert">texture2DVert</a>
 
                                 
                                 
@@ -681,68 +658,8 @@ Runs the recursive scene graph rendering sequence every frame.</p>
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method__init" class="method item private">
-    <h3 class="name"><code>_init</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l248"><code>src\render\GLRenderManager.ts:248</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Performs initialisation required for single game instance - happens once, at bootup
-Sets global GL state.
-Initialises managers for shaders and textures.
-Instantiates the default shared renderer (TextureAtlasRenderer)</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method__switchRenderer" class="method item private">
-    <h3 class="name"><code>_switchRenderer</code></h3>
+                    <div id="method_disable" class="method item public">
+    <h3 class="name"><code>disable</code></h3>
 
     
         <div class="args">
@@ -756,7 +673,7 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
             
                 <li class="arg">
                     
-                        <code>entity</code>
+                        <code class="optional">[params=null]</code>
                     
                 </li>
             
@@ -769,7 +686,7 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag public">public</span>
     
 
     
@@ -791,7 +708,7 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l449"><code>src\render\GLRenderManager.ts:449</code></a>
+        <a href="../files/src_render_renderers_Renderer.ts.html#l63"><code>src\render\renderers\Renderer.ts:63</code></a>
         
         </p>
 
@@ -802,7 +719,7 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
     </div>
 
     <div class="description">
-        <p>Switch renderer to the one needed by the entity that needs rendering</p>
+        <p>Enables the renderer (for override)</p>
 
     </div>
 
@@ -815,7 +732,7 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
                 <li class="param">
                     
                         <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingContext</span>
+                        <span class="type">WebGLRenderingCotext</span>
                     
 
                     
@@ -829,8 +746,9 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
             
                 <li class="param">
                     
-                        <code class="param-name">entity</code>
-                        <span class="type">Entity</span>
+                        <code class="param-name optional">[params=null]</code>
+                        <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
@@ -852,8 +770,8 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
 </div>
 
                 
-                    <div id="method__switchTexture" class="method item private">
-    <h3 class="name"><code>_switchTexture</code></h3>
+                    <div id="method_disable" class="method item public">
+    <h3 class="name"><code>disable</code></h3>
 
     
         <div class="args">
@@ -867,7 +785,7 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
             
                 <li class="arg">
                     
-                        <code>entity</code>
+                        <code class="optional">[params=null]</code>
                     
                 </li>
             
@@ -880,7 +798,7 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag public">public</span>
     
 
     
@@ -902,7 +820,7 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l462"><code>src\render\GLRenderManager.ts:462</code></a>
+        <a href="../files/src_render_renderers_Renderer.ts.html#l74"><code>src\render\renderers\Renderer.ts:74</code></a>
         
         </p>
 
@@ -913,7 +831,7 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
     </div>
 
     <div class="description">
-        <p>Switch texture to the one needed by the entity that needs rendering</p>
+        <p>Enables the renderer (for override)</p>
 
     </div>
 
@@ -926,7 +844,7 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
                 <li class="param">
                     
                         <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingContext</span>
+                        <span class="type">WebGLRenderingCotext</span>
                     
 
                     
@@ -940,123 +858,9 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
             
                 <li class="param">
                     
-                        <code class="param-name">entity</code>
-                        <span class="type">Entity</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_addSharedRenderer" class="method item public">
-    <h3 class="name"><code>addSharedRenderer</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>rendererID</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>params</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Kiwi.Renderers.Renderer</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l189"><code>src\render\GLRenderManager.ts:189</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Requests a shared renderer. A game object that wants to use a shared renderer uses this method to obtain a reference to the shared renderer instance.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">rendererID</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">params</code>
+                        <code class="param-name optional">[params=null]</code>
                         <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
@@ -1073,27 +877,13 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Kiwi.Renderers.Renderer</span>:
-                    
-                    <p>A shared renderer or null if none found.</p>
-
-                
-            </div>
-        </div>
-    
 
     
 </div>
 
                 
-                    <div id="method_addSharedRenderer" class="method item public">
-    <h3 class="name"><code>addSharedRenderer</code></h3>
+                    <div id="method_disable" class="method item public">
+    <h3 class="name"><code>disable</code></h3>
 
     
         <div class="args">
@@ -1101,13 +891,13 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
             
                 <li class="arg">
                     
-                        <code>rendererID</code>
+                        <code>gl</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>params</code>
+                        <code class="optional">[params=null]</code>
                     
                 </li>
             
@@ -1115,10 +905,6 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
         </div>
     
 
-    
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
     
 
     
@@ -1146,7 +932,7 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l165"><code>src\render\GLRenderManager.ts:165</code></a>
+        <a href="../files/src_render_renderers_Renderer.ts.html#l85"><code>src\render\renderers\Renderer.ts:85</code></a>
         
         </p>
 
@@ -1157,8 +943,7 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
     </div>
 
     <div class="description">
-        <p>Adds a renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. 
-If a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.</p>
+        <p>Enables the renderer (for override)</p>
 
     </div>
 
@@ -1170,8 +955,8 @@ If a match is found and an instance does not already exist, then a renderer is i
             
                 <li class="param">
                     
-                        <code class="param-name">rendererID</code>
-                        <span class="type">String</span>
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
                     
 
                     
@@ -1185,8 +970,9 @@ If a match is found and an instance does not already exist, then a renderer is i
             
                 <li class="param">
                     
-                        <code class="param-name">params</code>
+                        <code class="param-name optional">[params=null]</code>
                         <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
@@ -1203,142 +989,13 @@ If a match is found and an instance does not already exist, then a renderer is i
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
-                    
-                    <p>success</p>
-
-                
-            </div>
-        </div>
-    
 
     
 </div>
 
                 
-                    <div id="method_boot" class="method item public">
-    <h3 class="name"><code>boot</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l39"><code>src\render\GLRenderManager.ts:39</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Initialises all WebGL rendering services</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_initState" class="method item public">
-    <h3 class="name"><code>initState</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l289"><code>src\render\GLRenderManager.ts:289</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Performs initialisation required when switching to a different state. Called when a state has been switched to.
-The textureManager is told to rebuild its cache of textures from the states textuer library.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_initState" class="method item public">
-    <h3 class="name"><code>initState</code></h3>
+                    <div id="method_draw" class="method item public">
+    <h3 class="name"><code>draw</code></h3>
 
     
         <div class="args">
@@ -1346,7 +1003,7 @@ The textureManager is told to rebuild its cache of textures from the states text
             
                 <li class="arg">
                     
-                        <code>state</code>
+                        <code>gl</code>
                     
                 </li>
             
@@ -1381,7 +1038,7 @@ The textureManager is told to rebuild its cache of textures from the states text
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l300"><code>src\render\GLRenderManager.ts:300</code></a>
+        <a href="../files/src_render_renderers_Renderer.ts.html#l95"><code>src\render\renderers\Renderer.ts:95</code></a>
         
         </p>
 
@@ -1392,7 +1049,7 @@ The textureManager is told to rebuild its cache of textures from the states text
     </div>
 
     <div class="description">
-        <p>Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.</p>
+        <p>Draw to the draw or frame buffer (for override)</p>
 
     </div>
 
@@ -1404,8 +1061,8 @@ The textureManager is told to rebuild its cache of textures from the states text
             
                 <li class="param">
                     
-                        <code class="param-name">state</code>
-                        <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
                     
 
                     
@@ -1427,81 +1084,8 @@ The textureManager is told to rebuild its cache of textures from the states text
 </div>
 
                 
-                    <div id="method_objType" class="method item public">
-    <h3 class="name"><code>objType</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l52"><code>src\render\GLRenderManager.ts:52</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The type of object that this is.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">String</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_render" class="method item public">
-    <h3 class="name"><code>render</code></h3>
+                    <div id="method_updateStageResolution" class="method item public">
+    <h3 class="name"><code>updateStageResolution</code></h3>
 
     
         <div class="args">
@@ -1509,7 +1093,13 @@ The textureManager is told to rebuild its cache of textures from the states text
             
                 <li class="arg">
                     
-                        <code>camera</code>
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>res</code>
                     
                 </li>
             
@@ -1544,7 +1134,7 @@ The textureManager is told to rebuild its cache of textures from the states text
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l312"><code>src\render\GLRenderManager.ts:312</code></a>
+        <a href="../files/src_render_renderers_Renderer.ts.html#l104"><code>src\render\renderers\Renderer.ts:104</code></a>
         
         </p>
 
@@ -1555,10 +1145,7 @@ The textureManager is told to rebuild its cache of textures from the states text
     </div>
 
     <div class="description">
-        <p>Manages rendering of the scene graph - called once per frame.
-Sets up per frame gl uniforms such as the view matrix and camera offset.
-Clears the current renderer ready for a new batch. 
-Initiates recursive render of scene graph starting at the root.</p>
+        <p>Updates the stage resolution uniforms (for override)</p>
 
     </div>
 
@@ -1570,8 +1157,23 @@ Initiates recursive render of scene graph starting at the root.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">camera</code>
-                        <span class="type">Camera</span>
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">res</code>
+                        <span class="type">Float32Array</span>
                     
 
                     
@@ -1593,8 +1195,8 @@ Initiates recursive render of scene graph starting at the root.</p>
 </div>
 
                 
-                    <div id="method_requestRendererInstance" class="method item public">
-    <h3 class="name"><code>requestRendererInstance</code></h3>
+                    <div id="method_updateTextureSize" class="method item public">
+    <h3 class="name"><code>updateTextureSize</code></h3>
 
     
         <div class="args">
@@ -1602,13 +1204,13 @@ Initiates recursive render of scene graph starting at the root.</p>
             
                 <li class="arg">
                     
-                        <code>rendererID</code>
+                        <code>gl</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>params</code>
+                        <code>size</code>
                     
                 </li>
             
@@ -1616,10 +1218,6 @@ Initiates recursive render of scene graph starting at the root.</p>
         </div>
     
 
-    
-        <span class="returns-inline">
-            <span class="type">Kiwi.Renderers.Renderer</span>
-        </span>
     
 
     
@@ -1647,7 +1245,7 @@ Initiates recursive render of scene graph starting at the root.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l215"><code>src\render\GLRenderManager.ts:215</code></a>
+        <a href="../files/src_render_renderers_Renderer.ts.html#l114"><code>src\render\renderers\Renderer.ts:114</code></a>
         
         </p>
 
@@ -1658,10 +1256,7 @@ Initiates recursive render of scene graph starting at the root.</p>
     </div>
 
     <div class="description">
-        <p>Requests a new renderer instance. This factory method is the only way gameobjects should instantiate their own renderer. 
-The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. 
-If a match is found then a renderer is instantiated and returned. Gameobjects which have rendering requirements that do not suit
-batch rendering use this technique.</p>
+        <p>Updates the texture size uniforms (for override)</p>
 
     </div>
 
@@ -1673,15 +1268,14 @@ batch rendering use this technique.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">rendererID</code>
-                        <span class="type">String</span>
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The name of the requested renderer</p>
-
+                         
                     </div>
 
                     
@@ -1689,8 +1283,8 @@ batch rendering use this technique.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">params</code>
-                        <span class="type">Object</span>
+                        <code class="param-name">size</code>
+                        <span class="type">Float32Array</span>
                     
 
                     
@@ -1706,20 +1300,6 @@ batch rendering use this technique.</p>
         </div>
     
 
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Kiwi.Renderers.Renderer</span>:
-                    
-                    <p>A renderer or null if none found.</p>
-
-                
-            </div>
-        </div>
     
 
     
@@ -1734,443 +1314,9 @@ batch rendering use this technique.</p>
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property__currentRenderer" class="property item private">
-    <h3 class="name"><code>_currentRenderer</code></h3>
-    <span class="type">Kiwi.Renderers.Renderer</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l97"><code>src\render\GLRenderManager.ts:97</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The renderer object that is in use during a rendering batch.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__currentTextureAtlas" class="property item private">
-    <h3 class="name"><code>_currentTextureAtlas</code></h3>
-    <span class="type">TextureAtlas</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l137"><code>src\render\GLRenderManager.ts:137</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The most recently bound texture atlas.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__entityCount" class="property item private">
-    <h3 class="name"><code>_entityCount</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l105"><code>src\render\GLRenderManager.ts:105</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Tally of number of entities rendered per frame</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__game" class="property item private">
-    <h3 class="name"><code>_game</code></h3>
-    <span class="type">Game</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l62"><code>src\render\GLRenderManager.ts:62</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The game that this renderer is used with.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__maxItems" class="property item private">
-    <h3 class="name"><code>_maxItems</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l123"><code>src\render\GLRenderManager.ts:123</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Maximum allowable sprites to render per frame
-Note:Not currently used  - candidate for deletion</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 1000</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__shaderManager" class="property item private">
-    <h3 class="name"><code>_shaderManager</code></h3>
-    <span class="type">GLShaderManager</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l78"><code>src\render\GLRenderManager.ts:78</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The shader manager object used to allocate GL Shaders.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__sharedRenderers" class="property item private">
-    <h3 class="name"><code>_sharedRenderers</code></h3>
-    <span class="type">Array</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l150"><code>src\render\GLRenderManager.ts:150</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>An array of renderers. Shared renderers are used for batch rendering. Multiple gameobjects can use the same renderer
-instance and add rendering info to a batch rather than rendering individually. 
-This means only one draw call is necessary to render a number of objects. The most common use of this is standard 2d sprite rendering,
-and the TextureAtlasRenderer is added by default as a shared renderer. Sprites, StaticImages and Tilemaps (core gameobjects) can all use the
-same renderer/shader combination and be drawn as part of the same batch.
-Custom gameobjects can also choose to use a shared renderer, fo example in the case that a custom gameobject&#39;s rendering requirements matched the TextureAtlasRenderer
-capabilities.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__stageResolution" class="property item private">
-    <h3 class="name"><code>_stageResolution</code></h3>
+                    <div id="property_camMatrix" class="property item public">
+    <h3 class="name"><code>camMatrix</code></h3>
     <span class="type">Float32Array</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l89"><code>src\render\GLRenderManager.ts:89</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The stage resolution in pixels</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__textureManager" class="property item private">
-    <h3 class="name"><code>_textureManager</code></h3>
-    <span class="type"><a href="..\classes\GLTextureManager.html" class="crosslink">GLTextureManager</a></span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l70"><code>src\render\GLRenderManager.ts:70</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The texture manager object used to allocate GL Textures.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_numDrawCalls" class="property item public">
-    <h3 class="name"><code>numDrawCalls</code></h3>
-    <span class="type">Number</span>
 
     
 
@@ -2193,7 +1339,7 @@ capabilities.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l114"><code>src\render\GLRenderManager.ts:114</code></a>
+        <a href="../files/src_render_renderers_Renderer.ts.html#l39"><code>src\render\renderers\Renderer.ts:39</code></a>
         
         </p>
 
@@ -2203,12 +1349,246 @@ capabilities.</p>
     </div>
 
     <div class="description">
-        <p>Tally of number of draw calls per frame</p>
+        <p>The camera matrix</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> 0</p>
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_loaded" class="property item public">
+    <h3 class="name"><code>loaded</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l47"><code>src\render\renderers\Renderer.ts:47</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_RENDERER_ID" class="property item public">
+    <h3 class="name"><code>RENDERER_ID</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l30"><code>src\render\renderers\Renderer.ts:30</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Identifier for this renderer</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_shaderManager" class="property item public">
+    <h3 class="name"><code>shaderManager</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l55"><code>src\render\renderers\Renderer.ts:55</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Reference to the shaderManager - used for requesting shaders.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_texture2DVert" class="property item public">
+    <h3 class="name"><code>texture2DVert</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l125"><code>src\render\renderers\Renderer.ts:125</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The shader pair used by the renderer</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_texture2DVert" class="property item public">
+    <h3 class="name"><code>texture2DVert</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l134"><code>src\render\renderers\Renderer.ts:134</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns whether this is a batch renderer.</p>
+
+    </div>
+
     
 
     

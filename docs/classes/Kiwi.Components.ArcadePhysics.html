@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -346,7 +350,7 @@
 
     
         <div class="extends">
-            Extends Component
+            Extends <a href="..\classes\Kiwi.Component.html" class="crosslink">Kiwi.Component</a>
         </div>
     
 
@@ -406,7 +410,7 @@ either groups or gameobjects within the same argument, the ported functions one 
 
     
         <span class="returns-inline">
-            <span class="type">ArcadePhysics</span>
+            <span class="type"><a href="..\classes\Kiwi.Components.ArcadePhysics.html" class="crosslink">Kiwi.Components.ArcadePhysics</a></span>
         </span>
     
 
@@ -456,13 +460,13 @@ either groups or gameobjects within the same argument, the ported functions one 
                 <li class="param">
                     
                         <code class="param-name">entity</code>
-                        <span class="type">Entity</span>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The entity that this ArcadePhysics should be used on.</p>
+                        <p>The Entity that this ArcadePhysics should be used on.</p>
 
                     </div>
 
@@ -472,7 +476,7 @@ either groups or gameobjects within the same argument, the ported functions one 
                 <li class="param">
                     
                         <code class="param-name">box</code>
-                        <span class="type">Box</span>
+                        <span class="type"><a href="..\classes\Kiwi.Components.Box.html" class="crosslink">Kiwi.Components.Box</a></span>
                     
 
                     
@@ -496,7 +500,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             <div class="returns-description">
                 
                     
-                        <span class="type">ArcadePhysics</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Components.ArcadePhysics.html" class="crosslink">Kiwi.Components.ArcadePhysics</a></span>:
                     
                 
             </div>
@@ -569,14 +573,14 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
                                 <a href="#method_destroy">destroy</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
                                 <a href="#method_objType">objType</a>
 
                                 
@@ -642,6 +646,20 @@ either groups or gameobjects within the same argument, the ported functions one 
                         
                             <li class="index-item method public">
                                 <a href="#method_overlapsTile">overlapsTile</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_postUpdate">postUpdate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_preUpdate">preUpdate</a>
 
                                 
                                 
@@ -722,14 +740,14 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
                                 <a href="#method_update">update</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method private">
                                 <a href="#method_updateMotion">updateMotion</a>
 
                                 
@@ -769,6 +787,13 @@ either groups or gameobjects within the same argument, the ported functions one 
                         
                             <li class="index-item property public">
                                 <a href="#property_acceleration">acceleration</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_active">active</a>
 
                                 
                                 
@@ -827,6 +852,13 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
+                            <li class="index-item property public inherited">
+                                <a href="#property_dirty">dirty</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property public">
                                 <a href="#property_DOWN">DOWN</a>
 
@@ -855,6 +887,13 @@ either groups or gameobjects within the same argument, the ported functions one 
 
                                 
                                     <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_game">game</a>
+
                                 
                                 
                             </li>
@@ -910,6 +949,13 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
+                            <li class="index-item property public inherited">
+                                <a href="#property_name">name</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property public">
                                 <a href="#property_NONE">NONE</a>
 
@@ -924,6 +970,13 @@ either groups or gameobjects within the same argument, the ported functions one 
 
                                 
                                     <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_owner">owner</a>
+
                                 
                                 
                             </li>
@@ -1075,7 +1128,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1100"><code>src\components\ArcadePhysics.ts:1100</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1113"><code>src\components\ArcadePhysics.ts:1113</code></a>
         
         </p>
 
@@ -1099,7 +1152,7 @@ either groups or gameobjects within the same argument, the ported functions one 
                 <li class="param">
                     
                         <code class="param-name">gameObject1</code>
-                        <span class="type">Kiwi.GameObjects.Entity</span>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
                     
 
                     
@@ -1115,7 +1168,7 @@ either groups or gameobjects within the same argument, the ported functions one 
                 <li class="param">
                     
                         <code class="param-name">gameObject2</code>
-                        <span class="type">Kiwi.GameObjects.Entity</span>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
                     
 
                     
@@ -1229,7 +1282,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1116"><code>src\components\ArcadePhysics.ts:1116</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1129"><code>src\components\ArcadePhysics.ts:1129</code></a>
         
         </p>
 
@@ -1253,13 +1306,14 @@ either groups or gameobjects within the same argument, the ported functions one 
                 <li class="param">
                     
                         <code class="param-name">gameObject</code>
-                        <span class="type">Kiwi.GameObjects.Entity</span>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>The entity you would like to check against.</p>
+
                     </div>
 
                     
@@ -1268,13 +1322,13 @@ either groups or gameobjects within the same argument, the ported functions one 
                 <li class="param">
                     
                         <code class="param-name">group</code>
-                        <span class="type">Any</span>
+                        <span class="type"><a href="..\classes\Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>This could be either an Array of GameObjects or a Group containing members.</p>
+                        <p>The Kiwi Group that you want to check the entity against.</p>
 
                     </div>
 
@@ -1381,7 +1435,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1134"><code>src\components\ArcadePhysics.ts:1134</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1147"><code>src\components\ArcadePhysics.ts:1147</code></a>
         
         </p>
 
@@ -1405,13 +1459,13 @@ either groups or gameobjects within the same argument, the ported functions one 
                 <li class="param">
                     
                         <code class="param-name">group1</code>
-                        <span class="type">Any</span>
+                        <span class="type"><a href="..\classes\Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>This can either be an array or a Group.</p>
+                        <p>The first Kiwi Group that you want to check the entity against.</p>
 
                     </div>
 
@@ -1421,13 +1475,13 @@ either groups or gameobjects within the same argument, the ported functions one 
                 <li class="param">
                     
                         <code class="param-name">group2</code>
-                        <span class="type">Any</span>
+                        <span class="type"><a href="..\classes\Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Also could either be an array or a Group.</p>
+                        <p>The second Kiwi Group that you want to check the entity against.</p>
 
                     </div>
 
@@ -1540,7 +1594,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l971"><code>src\components\ArcadePhysics.ts:971</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l982"><code>src\components\ArcadePhysics.ts:982</code></a>
         
         </p>
 
@@ -1570,7 +1624,8 @@ either groups or gameobjects within the same argument, the ported functions one 
                     
 
                     <div class="param-description">
-                         
+                        <p>The currently velocity.</p>
+
                     </div>
 
                     
@@ -1586,7 +1641,8 @@ either groups or gameobjects within the same argument, the ported functions one 
                     
 
                     <div class="param-description">
-                         
+                        <p>The acceleration of the item.</p>
+
                     </div>
 
                     
@@ -1602,7 +1658,8 @@ either groups or gameobjects within the same argument, the ported functions one 
                     
 
                     <div class="param-description">
-                         
+                        <p>The amount of drag effecting the item.</p>
+
                     </div>
 
                     
@@ -1618,7 +1675,8 @@ either groups or gameobjects within the same argument, the ported functions one 
                     
 
                     <div class="param-description">
-                         
+                        <p>The maximum velocity.</p>
+
                     </div>
 
                     
@@ -1673,16 +1731,16 @@ either groups or gameobjects within the same argument, the ported functions one 
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Kiwi.Component.html#method_destroy">
+                Kiwi.Component
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1060"><code>src\components\ArcadePhysics.ts:1060</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1073"><code>src\components\ArcadePhysics.ts:1073</code></a>
         
         </p>
 
@@ -1734,16 +1792,16 @@ either groups or gameobjects within the same argument, the ported functions one 
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Kiwi.Component.html#method_objType">
+                Kiwi.Component
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1075"><code>src\components\ArcadePhysics.ts:1075</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1088"><code>src\components\ArcadePhysics.ts:1088</code></a>
         
         </p>
 
@@ -1768,6 +1826,161 @@ either groups or gameobjects within the same argument, the ported functions one 
                 
                     
                         <span class="type">String</span>:
+                    
+                    <p>&quot;ArcadePhysics&quot;</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_overlaps" class="method item public">
+    <h3 class="name"><code>overlaps</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gameObject1</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>gameObject2</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[separateObjects=true]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1171"><code>src\components\ArcadePhysics.ts:1171</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static method to that checks to see if two objects overlap. Returns a boolean indicating whether they did or not.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gameObject1</code>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The first game object.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">gameObject2</code>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The second gameobject you are testing the first against.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[separateObjects=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
                     
                 
             </div>
@@ -1840,7 +2053,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1194"><code>src\components\ArcadePhysics.ts:1194</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1207"><code>src\components\ArcadePhysics.ts:1207</code></a>
         
         </p>
 
@@ -1851,7 +2064,7 @@ either groups or gameobjects within the same argument, the ported functions one 
     </div>
 
     <div class="description">
-        <p>A Static method that checks to see if any objects in a group overlap with objects in another group.</p>
+        <p>A Static method that checks to see if any objects in one group overlap with objects in another group.</p>
 
     </div>
 
@@ -1864,13 +2077,13 @@ either groups or gameobjects within the same argument, the ported functions one 
                 <li class="param">
                     
                         <code class="param-name">group1</code>
-                        <span class="type">Group</span>
+                        <span class="type"><a href="..\classes\Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The first</p>
+                        <p>The first group you would like to check against.</p>
 
                     </div>
 
@@ -1880,13 +2093,14 @@ either groups or gameobjects within the same argument, the ported functions one 
                 <li class="param">
                     
                         <code class="param-name">group2</code>
-                        <span class="type">Any</span>
+                        <span class="type"><a href="..\classes\Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>The second group you would like to check against.</p>
+
                     </div>
 
                     
@@ -1904,157 +2118,6 @@ either groups or gameobjects within the same argument, the ported functions one 
                     <div class="param-description">
                         <p>If they overlap should the seperate or not</p>
 
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_overlaps" class="method item public">
-    <h3 class="name"><code>overlaps</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>gameObject1</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>gameObject2</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[separateObjects=true]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-        <span class="flag static">static</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1158"><code>src\components\ArcadePhysics.ts:1158</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A Static method to that checks to see if two objects overlap. Returns a boolean indicating whether they did or not.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">gameObject1</code>
-                        <span class="type">Kiwi.GameObjects.Entity</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">gameObject2</code>
-                        <span class="type">Kiwi.GameObjects.Entity</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[separateObjects=true]</code>
-                        <span class="type">Boolean</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
                     </div>
 
                     
@@ -2136,7 +2199,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l857"><code>src\components\ArcadePhysics.ts:857</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l865"><code>src\components\ArcadePhysics.ts:865</code></a>
         
         </p>
 
@@ -2163,7 +2226,7 @@ Also: Not to be used for separation from tiles.</p>
                 <li class="param">
                     
                         <code class="param-name">gameObject</code>
-                        <span class="type">Entity</span>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
                     
 
                     
@@ -2267,7 +2330,7 @@ Also: Not to be used for separation from tiles.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l927"><code>src\components\ArcadePhysics.ts:927</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l935"><code>src\components\ArcadePhysics.ts:935</code></a>
         
         </p>
 
@@ -2278,7 +2341,7 @@ Also: Not to be used for separation from tiles.</p>
     </div>
 
     <div class="description">
-        <p>A method to check to see if the parent of this physics component overlaps with a Entity that is held in an array.</p>
+        <p>A method to check to see if the parent of this physics component overlaps with any Entities that are held in an Array which is passed.</p>
 
     </div>
 
@@ -2334,7 +2397,7 @@ Also: Not to be used for separation from tiles.</p>
                     
                         <span class="type">Boolean</span>:
                     
-                    <p>If a collision was detected or not.</p>
+                    <p>If any overlapping occured or not.</p>
 
                 
             </div>
@@ -2405,7 +2468,7 @@ Also: Not to be used for separation from tiles.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1226"><code>src\components\ArcadePhysics.ts:1226</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1239"><code>src\components\ArcadePhysics.ts:1239</code></a>
         
         </p>
 
@@ -2416,7 +2479,7 @@ Also: Not to be used for separation from tiles.</p>
     </div>
 
     <div class="description">
-        <p>A Statuc method that checks to see if any objects from an Array collide with a Kiwi Group members.</p>
+        <p>A Static method that checks to see if any objects from an Array collide with a Kiwi Group members.</p>
 
     </div>
 
@@ -2445,7 +2508,7 @@ Also: Not to be used for separation from tiles.</p>
                 <li class="param">
                     
                         <code class="param-name">group</code>
-                        <span class="type">Group</span>
+                        <span class="type"><a href="..\classes\Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
                     
 
                     
@@ -2551,7 +2614,7 @@ Also: Not to be used for separation from tiles.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l892"><code>src\components\ArcadePhysics.ts:892</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l900"><code>src\components\ArcadePhysics.ts:900</code></a>
         
         </p>
 
@@ -2575,7 +2638,7 @@ Also: Not to be used for separation from tiles.</p>
                 <li class="param">
                     
                         <code class="param-name">group</code>
-                        <span class="type">Group</span>
+                        <span class="type"><a href="..\classes\Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
                     
 
                     
@@ -2616,6 +2679,8 @@ Also: Not to be used for separation from tiles.</p>
                     
                         <span class="type">Boolean</span>:
                     
+                    <p>If any object in the group overlapped with the GameObject or not.</p>
+
                 
             </div>
         </div>
@@ -2687,7 +2752,7 @@ Also: Not to be used for separation from tiles.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1176"><code>src\components\ArcadePhysics.ts:1176</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1189"><code>src\components\ArcadePhysics.ts:1189</code></a>
         
         </p>
 
@@ -2711,7 +2776,7 @@ Also: Not to be used for separation from tiles.</p>
                 <li class="param">
                     
                         <code class="param-name">gameObject</code>
-                        <span class="type">Entity</span>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
                     
 
                     
@@ -2726,7 +2791,7 @@ Also: Not to be used for separation from tiles.</p>
                 <li class="param">
                     
                         <code class="param-name">group</code>
-                        <span class="type">Group</span>
+                        <span class="type"><a href="..\classes\Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
                     
 
                     
@@ -2837,7 +2902,7 @@ Also: Not to be used for separation from tiles.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l827"><code>src\components\ArcadePhysics.ts:827</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l835"><code>src\components\ArcadePhysics.ts:835</code></a>
         
         </p>
 
@@ -2850,7 +2915,7 @@ Also: Not to be used for separation from tiles.</p>
     <div class="description">
         <p>A method to check to see if any Tiles with in this parent TileMapLayer overlaps with a GameObject passed.
 If seperateObjects is true it will seperate the two entities based on their bounding box.
-ONLY works if parent of the ArcadePhysics component which is calling this method is a TileMapLayer.
+ONLY works if the parent of the ArcadePhysics component which is calling this method is a TileMapLayer.
 Note: The GameObject passed must contain a box component and only if you want to separate the two objects must is ALSO contain an ArcadePhysics component.</p>
 
     </div>
@@ -2864,7 +2929,7 @@ Note: The GameObject passed must contain a box component and only if you want to
                 <li class="param">
                     
                         <code class="param-name">gameObject</code>
-                        <span class="type">Entity</span>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
                     
 
                     
@@ -2935,6 +3000,114 @@ Note: The GameObject passed must contain a box component and only if you want to
 </div>
 
                 
+                    <div id="method_postUpdate" class="method item public inherited">
+    <h3 class="name"><code>postUpdate</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#method_postUpdate">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l97"><code>src\core\Component.ts:97</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Components can postUpdate, that is run an update after the parent has updated. This is to be overriden by subclasses.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_preUpdate" class="method item public inherited">
+    <h3 class="name"><code>preUpdate</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#method_preUpdate">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l83"><code>src\core\Component.ts:83</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Components can preUpdate, that is update before the parent updates. This is to be overriden by subclasses.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_separateTiles" class="method item public">
     <h3 class="name"><code>separateTiles</code></h3>
 
@@ -2997,7 +3170,7 @@ Note: The GameObject passed must contain a box component and only if you want to
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l607"><code>src\components\ArcadePhysics.ts:607</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l615"><code>src\components\ArcadePhysics.ts:615</code></a>
         
         </p>
 
@@ -3023,7 +3196,7 @@ This method is not recommended to be directly used but instead use the &#39;over
                 <li class="param">
                     
                         <code class="param-name">object</code>
-                        <span class="type">Entity</span>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
                     
 
                     
@@ -3039,7 +3212,7 @@ This method is not recommended to be directly used but instead use the &#39;over
                 <li class="param">
                     
                         <code class="param-name">layer</code>
-                        <span class="type">TileMapLayer</span>
+                        <span class="type"><a href="..\classes\Kiwi.GameObjects.Tilemap.TileMapLayer.html" class="crosslink">Kiwi.GameObjects.Tilemap.TileMapLayer</a></span>
                     
 
                     
@@ -3055,7 +3228,7 @@ This method is not recommended to be directly used but instead use the &#39;over
                 <li class="param">
                     
                         <code class="param-name">tiles</code>
-                        <span class="type">Object</span>
+                        <span class="type">Array</span>
                     
 
                     
@@ -3153,7 +3326,7 @@ This method is not recommended to be directly used but instead use the &#39;over
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l646"><code>src\components\ArcadePhysics.ts:646</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l654"><code>src\components\ArcadePhysics.ts:654</code></a>
         
         </p>
 
@@ -3177,7 +3350,7 @@ This method is not recommended to be directly used but instead use the &#39;over
                 <li class="param">
                     
                         <code class="param-name">object</code>
-                        <span class="type">Entity</span>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
                     
 
                     
@@ -3193,7 +3366,7 @@ This method is not recommended to be directly used but instead use the &#39;over
                 <li class="param">
                     
                         <code class="param-name">layer</code>
-                        <span class="type">TileMapLayer</span>
+                        <span class="type"><a href="..\classes\Kiwi.GameObjects.Tilemap.TileMapLayer.html" class="crosslink">Kiwi.GameObjects.Tilemap.TileMapLayer</a></span>
                     
 
                     
@@ -3215,7 +3388,7 @@ This method is not recommended to be directly used but instead use the &#39;over
                     
 
                     <div class="param-description">
-                        <p>.</p>
+                        <p>An Object containing the information (x/y/tiletypr) about the tile that is being overlapped.</p>
 
                     </div>
 
@@ -3308,7 +3481,7 @@ This method is not recommended to be directly used but instead use the &#39;over
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l734"><code>src\components\ArcadePhysics.ts:734</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l742"><code>src\components\ArcadePhysics.ts:742</code></a>
         
         </p>
 
@@ -3319,7 +3492,7 @@ This method is not recommended to be directly used but instead use the &#39;over
     </div>
 
     <div class="description">
-        <p>Separates a GameObjects from an Array of Tiles on the y-axis.</p>
+        <p>Separates a GameObject from a tiles on the y-axis.</p>
 
     </div>
 
@@ -3332,7 +3505,7 @@ This method is not recommended to be directly used but instead use the &#39;over
                 <li class="param">
                     
                         <code class="param-name">object</code>
-                        <span class="type">Entity</span>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
                     
 
                     
@@ -3348,7 +3521,7 @@ This method is not recommended to be directly used but instead use the &#39;over
                 <li class="param">
                     
                         <code class="param-name">layer</code>
-                        <span class="type">TileMapLayer</span>
+                        <span class="type"><a href="..\classes\Kiwi.GameObjects.Tilemap.TileMapLayer.html" class="crosslink">Kiwi.GameObjects.Tilemap.TileMapLayer</a></span>
                     
 
                     
@@ -3370,7 +3543,7 @@ This method is not recommended to be directly used but instead use the &#39;over
                     
 
                     <div class="param-description">
-                        <p>The tiles which are overlapping with the GameObject.</p>
+                        <p>An Object representing the Tile which we are checking to see any overlaps occurs.</p>
 
                     </div>
 
@@ -3457,7 +3630,7 @@ This method is not recommended to be directly used but instead use the &#39;over
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l329"><code>src\components\ArcadePhysics.ts:329</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l337"><code>src\components\ArcadePhysics.ts:337</code></a>
         
         </p>
 
@@ -3483,7 +3656,7 @@ This method is not recommended to be directly used but instead use a &#39;collid
                 <li class="param">
                     
                         <code class="param-name">object1</code>
-                        <span class="type">Entity</span>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
                     
 
                     
@@ -3499,7 +3672,7 @@ This method is not recommended to be directly used but instead use a &#39;collid
                 <li class="param">
                     
                         <code class="param-name">object2</code>
-                        <span class="type">Entity</span>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
                     
 
                     
@@ -3590,7 +3763,7 @@ This method is not recommended to be directly used but instead use a &#39;collid
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l349"><code>src\components\ArcadePhysics.ts:349</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l357"><code>src\components\ArcadePhysics.ts:357</code></a>
         
         </p>
 
@@ -3616,7 +3789,7 @@ This method is not recommended to be directly used but instead use a &#39;collid
                 <li class="param">
                     
                         <code class="param-name">object1</code>
-                        <span class="type">Entity</span>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
                     
 
                     
@@ -3632,7 +3805,7 @@ This method is not recommended to be directly used but instead use a &#39;collid
                 <li class="param">
                     
                         <code class="param-name">object2</code>
-                        <span class="type">Entity</span>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
                     
 
                     
@@ -3725,7 +3898,7 @@ This method is not recommended to be directly used but instead use a &#39;collid
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l471"><code>src\components\ArcadePhysics.ts:471</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l479"><code>src\components\ArcadePhysics.ts:479</code></a>
         
         </p>
 
@@ -3736,7 +3909,7 @@ This method is not recommended to be directly used but instead use a &#39;collid
     </div>
 
     <div class="description">
-        <p>Separated two GameObject on the y-axis. This method is executed from the &#39;separate&#39; method.
+        <p>Separates two GameObject on the y-axis. This method is executed from the &#39;separate&#39; method.
 Both objects need to have both an ArcadePhysics Component and a Box component in order for the separate process to succeed.
 This method is not recommended to be directly used but instead use a &#39;collide/overlaps&#39; method instead.</p>
 
@@ -3751,7 +3924,7 @@ This method is not recommended to be directly used but instead use a &#39;collid
                 <li class="param">
                     
                         <code class="param-name">object1</code>
-                        <span class="type">Entity</span>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
                     
 
                     
@@ -3767,7 +3940,7 @@ This method is not recommended to be directly used but instead use a &#39;collid
                 <li class="param">
                     
                         <code class="param-name">object2</code>
-                        <span class="type">Entity</span>
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
                     
 
                     
@@ -3854,7 +4027,7 @@ This method is not recommended to be directly used but instead use a &#39;collid
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l299"><code>src\components\ArcadePhysics.ts:299</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l304"><code>src\components\ArcadePhysics.ts:304</code></a>
         
         </p>
 
@@ -3865,7 +4038,10 @@ This method is not recommended to be directly used but instead use a &#39;collid
     </div>
 
     <div class="description">
-        <p>Sets up a callback function that will run when this object overlaps with another.</p>
+        <p>Sets up a callback function that will run when this object overlaps with another.
+When the method is dispatched it will have TWO arguments.
+One - The parent / entity of this ArcadePhysics.
+Two - The GameObject that the collision occured with.</p>
 
     </div>
 
@@ -3884,7 +4060,8 @@ This method is not recommended to be directly used but instead use a &#39;collid
                     
 
                     <div class="param-description">
-                         
+                        <p>The method that is to be executed whe a overlap occurs.</p>
+
                     </div>
 
                     
@@ -3899,7 +4076,8 @@ This method is not recommended to be directly used but instead use a &#39;collid
                     
 
                     <div class="param-description">
-                         
+                        <p>The context that the method is to be called in.</p>
+
                     </div>
 
                     
@@ -3934,7 +4112,7 @@ This method is not recommended to be directly used but instead use a &#39;collid
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Boolean</span>
         </span>
     
 
@@ -3963,7 +4141,7 @@ This method is not recommended to be directly used but instead use a &#39;collid
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l278"><code>src\components\ArcadePhysics.ts:278</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l283"><code>src\components\ArcadePhysics.ts:283</code></a>
         
         </p>
 
@@ -4013,7 +4191,9 @@ and set the value of allowCollisions directly.</p>
             <div class="returns-description">
                 
                     
-                    <p>boolean</p>
+                        <span class="type">Boolean</span>:
+                    
+                    <p>If Object is currently solid or not.</p>
 
                 
             </div>
@@ -4043,7 +4223,7 @@ and set the value of allowCollisions directly.</p>
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Boolean</span>
         </span>
     
 
@@ -4072,7 +4252,7 @@ and set the value of allowCollisions directly.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l265"><code>src\components\ArcadePhysics.ts:265</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l270"><code>src\components\ArcadePhysics.ts:270</code></a>
         
         </p>
 
@@ -4121,7 +4301,9 @@ Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.</p>
             <div class="returns-description">
                 
                     
-                    <p>boolean</p>
+                        <span class="type">Boolean</span>:
+                    
+                    <p>If the Object is currently colliding on that side or not.</p>
 
                 
             </div>
@@ -4157,16 +4339,16 @@ Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.</p>
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Kiwi.Component.html#method_update">
+                Kiwi.Component
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1038"><code>src\components\ArcadePhysics.ts:1038</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1051"><code>src\components\ArcadePhysics.ts:1051</code></a>
         
         </p>
 
@@ -4189,7 +4371,7 @@ Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.</p>
 </div>
 
                 
-                    <div id="method_updateMotion" class="method item public">
+                    <div id="method_updateMotion" class="method item private">
     <h3 class="name"><code>updateMotion</code></h3>
 
     
@@ -4201,7 +4383,7 @@ Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.</p>
     
 
     
-        <span class="flag public">public</span>
+        <span class="flag private">private</span>
     
 
     
@@ -4223,7 +4405,7 @@ Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1005"><code>src\components\ArcadePhysics.ts:1005</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1016"><code>src\components\ArcadePhysics.ts:1016</code></a>
         
         </p>
 
@@ -4234,7 +4416,7 @@ Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.</p>
     </div>
 
     <div class="description">
-        <p>Updates the position of this object. Automatically called if the &#39;moves&#39; parameter is true.</p>
+        <p>Updates the position of this object. Automatically called if the &#39;moves&#39; parameter is true.<br>This called each frame during the update method.</p>
 
     </div>
 
@@ -4279,7 +4461,7 @@ Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l256"><code>src\components\ArcadePhysics.ts:256</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l261"><code>src\components\ArcadePhysics.ts:261</code></a>
         
         </p>
 
@@ -4326,7 +4508,7 @@ Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l246"><code>src\components\ArcadePhysics.ts:246</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l251"><code>src\components\ArcadePhysics.ts:251</code></a>
         
         </p>
 
@@ -4375,7 +4557,7 @@ Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l237"><code>src\components\ArcadePhysics.ts:237</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l242"><code>src\components\ArcadePhysics.ts:242</code></a>
         
         </p>
 
@@ -4399,7 +4581,7 @@ Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.</p>
                 
                     <div id="property_acceleration" class="property item public">
     <h3 class="name"><code>acceleration</code></h3>
-    <span class="type">Point</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
 
     
 
@@ -4422,7 +4604,7 @@ Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l117"><code>src\components\ArcadePhysics.ts:117</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l121"><code>src\components\ArcadePhysics.ts:121</code></a>
         
         </p>
 
@@ -4437,6 +4619,52 @@ Useful for smooth movement and gravity.</p>
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_active" class="property item public inherited">
+    <h3 class="name"><code>active</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_active">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l65"><code>src\core\Component.ts:65</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>An active Component is one that has its update method called by its parent.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> true</p>
     
 
     
@@ -4470,7 +4698,7 @@ Useful for smooth movement and gravity.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l215"><code>src\components\ArcadePhysics.ts:215</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l220"><code>src\components\ArcadePhysics.ts:220</code></a>
         
         </p>
 
@@ -4520,7 +4748,7 @@ The accessor &quot;solid&quot; just flips this variable between NONE and ANY.</p
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l156"><code>src\components\ArcadePhysics.ts:156</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l161"><code>src\components\ArcadePhysics.ts:161</code></a>
         
         </p>
 
@@ -4567,7 +4795,7 @@ The accessor &quot;solid&quot; just flips this variable between NONE and ANY.</p
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l165"><code>src\components\ArcadePhysics.ts:165</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l170"><code>src\components\ArcadePhysics.ts:170</code></a>
         
         </p>
 
@@ -4614,7 +4842,7 @@ The accessor &quot;solid&quot; just flips this variable between NONE and ANY.</p
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l147"><code>src\components\ArcadePhysics.ts:147</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l152"><code>src\components\ArcadePhysics.ts:152</code></a>
         
         </p>
 
@@ -4663,7 +4891,7 @@ The accessor &quot;solid&quot; just flips this variable between NONE and ANY.</p
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1366"><code>src\components\ArcadePhysics.ts:1366</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1379"><code>src\components\ArcadePhysics.ts:1379</code></a>
         
         </p>
 
@@ -4689,7 +4917,7 @@ The accessor &quot;solid&quot; just flips this variable between NONE and ANY.</p
                 
                     <div id="property_box" class="property item public">
     <h3 class="name"><code>box</code></h3>
-    <span class="type">Box</span>
+    <span class="type"><a href="..\classes\Kiwi.Components.Box.html" class="crosslink">Kiwi.Components.Box</a></span>
 
     
 
@@ -4722,7 +4950,8 @@ The accessor &quot;solid&quot; just flips this variable between NONE and ANY.</p
     </div>
 
     <div class="description">
-        <p>The bounding box component that the collisions are going to be based off.</p>
+        <p>The bounding box component that the collisions are going to be based off.
+You can modify the &#39;hitbox&#39; of that component to modify the collision area.</p>
 
     </div>
 
@@ -4761,7 +4990,7 @@ The accessor &quot;solid&quot; just flips this variable between NONE and ANY.</p
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1333"><code>src\components\ArcadePhysics.ts:1333</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1346"><code>src\components\ArcadePhysics.ts:1346</code></a>
         
         </p>
 
@@ -4777,6 +5006,52 @@ The accessor &quot;solid&quot; just flips this variable between NONE and ANY.</p
 
     
         <p><strong>Default:</strong> 0x0100</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_dirty" class="property item public inherited">
+    <h3 class="name"><code>dirty</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_dirty">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l74"><code>src\core\Component.ts:74</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The state of this component.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
     
 
     
@@ -4812,7 +5087,7 @@ The accessor &quot;solid&quot; just flips this variable between NONE and ANY.</p
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1311"><code>src\components\ArcadePhysics.ts:1311</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1324"><code>src\components\ArcadePhysics.ts:1324</code></a>
         
         </p>
 
@@ -4838,7 +5113,7 @@ The accessor &quot;solid&quot; just flips this variable between NONE and ANY.</p
                 
                     <div id="property_drag" class="property item public">
     <h3 class="name"><code>drag</code></h3>
-    <span class="type">Point</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
 
     
 
@@ -4861,7 +5136,7 @@ The accessor &quot;solid&quot; just flips this variable between NONE and ANY.</p
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l127"><code>src\components\ArcadePhysics.ts:127</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l132"><code>src\components\ArcadePhysics.ts:132</code></a>
         
         </p>
 
@@ -4909,7 +5184,7 @@ when acceleration is not affecting the sprite.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l108"><code>src\components\ArcadePhysics.ts:108</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l112"><code>src\components\ArcadePhysics.ts:112</code></a>
         
         </p>
 
@@ -4958,7 +5233,7 @@ when acceleration is not affecting the sprite.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1344"><code>src\components\ArcadePhysics.ts:1344</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1357"><code>src\components\ArcadePhysics.ts:1357</code></a>
         
         </p>
 
@@ -4974,6 +5249,50 @@ when acceleration is not affecting the sprite.</p>
 
     
         <p><strong>Default:</strong> 0x1000</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_game" class="property item public inherited">
+    <h3 class="name"><code>game</code></h3>
+    <span class="type">Game</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_game">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l49"><code>src\core\Component.ts:49</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The game this Component belongs to</p>
+
+    </div>
+
     
 
     
@@ -5007,7 +5326,7 @@ when acceleration is not affecting the sprite.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l79"><code>src\components\ArcadePhysics.ts:79</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l81"><code>src\components\ArcadePhysics.ts:81</code></a>
         
         </p>
 
@@ -5031,7 +5350,7 @@ when acceleration is not affecting the sprite.</p>
                 
                     <div id="property_last" class="property item public">
     <h3 class="name"><code>last</code></h3>
-    <span class="type">Point</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
 
     
 
@@ -5054,7 +5373,7 @@ when acceleration is not affecting the sprite.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l227"><code>src\components\ArcadePhysics.ts:227</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l232"><code>src\components\ArcadePhysics.ts:232</code></a>
         
         </p>
 
@@ -5065,7 +5384,7 @@ when acceleration is not affecting the sprite.</p>
 
     <div class="description">
         <p>Important variable for collision processing.
-By default this value is set automatically during &#39;preUpdate()&#39;.</p>
+Tracks the last location of the Entity. This is set during the time this method &#39;updates&#39;.</p>
 
     </div>
 
@@ -5104,7 +5423,7 @@ By default this value is set automatically during &#39;preUpdate()&#39;.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1278"><code>src\components\ArcadePhysics.ts:1278</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1291"><code>src\components\ArcadePhysics.ts:1291</code></a>
         
         </p>
 
@@ -5153,7 +5472,7 @@ By default this value is set automatically during &#39;preUpdate()&#39;.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l97"><code>src\components\ArcadePhysics.ts:97</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l101"><code>src\components\ArcadePhysics.ts:101</code></a>
         
         </p>
 
@@ -5202,7 +5521,7 @@ Change at your own risk; effects seem crazy unpredictable so far!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l174"><code>src\components\ArcadePhysics.ts:174</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l179"><code>src\components\ArcadePhysics.ts:179</code></a>
         
         </p>
 
@@ -5226,7 +5545,7 @@ Change at your own risk; effects seem crazy unpredictable so far!</p>
                 
                     <div id="property_maxVelocity" class="property item public">
     <h3 class="name"><code>maxVelocity</code></h3>
-    <span class="type">Point</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
 
     
 
@@ -5249,7 +5568,7 @@ Change at your own risk; effects seem crazy unpredictable so far!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l137"><code>src\components\ArcadePhysics.ts:137</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l142"><code>src\components\ArcadePhysics.ts:142</code></a>
         
         </p>
 
@@ -5297,7 +5616,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l183"><code>src\components\ArcadePhysics.ts:183</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l188"><code>src\components\ArcadePhysics.ts:188</code></a>
         
         </p>
 
@@ -5313,6 +5632,50 @@ to cap the speed automatically (very useful!).</p>
 
     
         <p><strong>Default:</strong> true</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_name" class="property item public inherited">
+    <h3 class="name"><code>name</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_name">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l57"><code>src\core\Component.ts:57</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The name of this component.</p>
+
+    </div>
+
     
 
     
@@ -5348,7 +5711,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1322"><code>src\components\ArcadePhysics.ts:1322</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1335"><code>src\components\ArcadePhysics.ts:1335</code></a>
         
         </p>
 
@@ -5399,7 +5762,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1377"><code>src\components\ArcadePhysics.ts:1377</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1390"><code>src\components\ArcadePhysics.ts:1390</code></a>
         
         </p>
 
@@ -5423,9 +5786,53 @@ to cap the speed automatically (very useful!).</p>
 </div>
 
                 
+                    <div id="property_owner" class="property item public inherited">
+    <h3 class="name"><code>owner</code></h3>
+    <span class="type">Object</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Component.html#property_owner">Kiwi.Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l41"><code>src\core\Component.ts:41</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The object that owns this entity</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_parent" class="property item public">
     <h3 class="name"><code>parent</code></h3>
-    <span class="type">Entity</span>
+    <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
 
     
 
@@ -5448,7 +5855,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l313"><code>src\components\ArcadePhysics.ts:313</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l321"><code>src\components\ArcadePhysics.ts:321</code></a>
         
         </p>
 
@@ -5497,7 +5904,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1289"><code>src\components\ArcadePhysics.ts:1289</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1302"><code>src\components\ArcadePhysics.ts:1302</code></a>
         
         </p>
 
@@ -5546,7 +5953,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l193"><code>src\components\ArcadePhysics.ts:193</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l198"><code>src\components\ArcadePhysics.ts:198</code></a>
         
         </p>
 
@@ -5572,7 +5979,7 @@ You can even use them broadly as boolean values if you&#39;re feeling saucy!</p>
                 
                     <div id="property_transform" class="property item public">
     <h3 class="name"><code>transform</code></h3>
-    <span class="type">Transform</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
 
     
 
@@ -5605,7 +6012,7 @@ You can even use them broadly as boolean values if you&#39;re feeling saucy!</p>
     </div>
 
     <div class="description">
-        <p>The transform component.</p>
+        <p>The transform component of the entity that the ArcadePhysics is a part of.</p>
 
     </div>
 
@@ -5644,7 +6051,7 @@ You can even use them broadly as boolean values if you&#39;re feeling saucy!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1300"><code>src\components\ArcadePhysics.ts:1300</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1313"><code>src\components\ArcadePhysics.ts:1313</code></a>
         
         </p>
 
@@ -5695,7 +6102,7 @@ You can even use them broadly as boolean values if you&#39;re feeling saucy!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1267"><code>src\components\ArcadePhysics.ts:1267</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1280"><code>src\components\ArcadePhysics.ts:1280</code></a>
         
         </p>
 
@@ -5721,7 +6128,7 @@ You can even use them broadly as boolean values if you&#39;re feeling saucy!</p>
                 
                     <div id="property_velocity" class="property item public">
     <h3 class="name"><code>velocity</code></h3>
-    <span class="type">Point</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
 
     
 
@@ -5744,7 +6151,7 @@ You can even use them broadly as boolean values if you&#39;re feeling saucy!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l88"><code>src\components\ArcadePhysics.ts:88</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l90"><code>src\components\ArcadePhysics.ts:90</code></a>
         
         </p>
 
@@ -5754,7 +6161,8 @@ You can even use them broadly as boolean values if you&#39;re feeling saucy!</p>
     </div>
 
     <div class="description">
-        <p>The basic speed of this object.</p>
+        <p>The basic speed of this object.
+You can modify the values contained inside this Object to change the speed.</p>
 
     </div>
 
@@ -5793,7 +6201,7 @@ You can even use them broadly as boolean values if you&#39;re feeling saucy!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1355"><code>src\components\ArcadePhysics.ts:1355</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1368"><code>src\components\ArcadePhysics.ts:1368</code></a>
         
         </p>
 
@@ -5842,7 +6250,7 @@ You can even use them broadly as boolean values if you&#39;re feeling saucy!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l204"><code>src\components\ArcadePhysics.ts:204</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l209"><code>src\components\ArcadePhysics.ts:209</code></a>
         
         </p>
 

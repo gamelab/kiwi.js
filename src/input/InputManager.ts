@@ -9,19 +9,19 @@
 module Kiwi.Input {
 
     /**
-    * Handles the initialization and management of the various ways a user can interact with the device/game, whether this is through a Keyboard and Mouse or by a Touch. Also contains some of the general callbacks that are 'global' between both Desktop and Mobile based devices.
+    * Handles the initialization and management of the various ways a user can interact with the device/game,
+    * whether this is through a Keyboard and Mouse or by a Touch. Also contains some of the general callbacks that are 'global' between both Desktop and Mobile based devices.
     * 
     * @class InputManager
     * @constructor
     * @namespace Kiwi.Input
-    * @param game {Game} The game that this object belongs to.
-    * @return {InputManager} This object.
+    * @param game {Kiwi.Game} The game that this object belongs to.
+    * @return {Kiwi.Input.InputManager} This object.
     *
     */
     export class InputManager {
          
         constructor (game: Kiwi.Game) {
-
             this.game = game;
 
         }
@@ -113,22 +113,23 @@ module Kiwi.Input {
 
             this.mouse = new Kiwi.Input.Mouse(this.game);
             this.mouse.boot();
+            this.mouse.onDown.add(this._onDownEvent, this);
+            this.mouse.onUp.add(this._onUpEvent, this);
 
             this.keyboard = new Kiwi.Input.Keyboard(this.game);
             this.keyboard.boot();
 
-            if (Kiwi.DEVICE.touch === true) {
-                this.touch = new Kiwi.Input.Touch(this.game);
-                this.touch.boot();
-                this.touch.touchDown.add(this._onDownEvent, this);
-                this.touch.touchUp.add(this._onUpEvent, this);
-                this._pointers = this.touch.fingers;
+            this.touch = new Kiwi.Input.Touch(this.game);
+            this.touch.boot();
+            this.touch.touchDown.add(this._onDownEvent, this);
+            this.touch.touchUp.add(this._onUpEvent, this);
 
-            } else {
-                this.mouse.onDown.add(this._onDownEvent, this);
-                this.mouse.onUp.add(this._onUpEvent, this);
-                this._pointers.push(this.mouse.cursor);
-            }
+            /*
+            * Add the fingers/cursors to the list of 'pointers'
+            */
+            this._pointers = this.touch.fingers;
+            this._pointers.push(this.mouse.cursor);
+
 
             this.isDown = false;
             this.position = new Kiwi.Geom.Point();
@@ -145,7 +146,7 @@ module Kiwi.Input {
         * @param timeDown {Number} The time that the pointer has been down for.
         * @param timeUp {Number} The Time that the pointer has been up form
         * @param duration {Number} 
-        * @param pointer {Pointer} The pointer that was used.
+        * @param pointer {Kiwi.Input.Pointer} The pointer that was used.
         * @private
         */
         private _onDownEvent(x, y, timeDown, timeUp, duration, pointer) {
@@ -161,7 +162,7 @@ module Kiwi.Input {
         * @param timeDown {Number} The time that the pointer has been down for.
         * @param timeUp {Number} The Time that the pointer has been up form
         * @param duration {Number} 
-        * @param pointer {Pointer} The pointer that was used.
+        * @param pointer {Kiwi.Input.Pointer} The pointer that was used.
         * @private
         */
         private _onUpEvent(x, y, timeDown, timeUp, duration, pointer) {
@@ -196,18 +197,17 @@ module Kiwi.Input {
         public update() {
             this.mouse.update();
             this.keyboard.update();
+            this.touch.update();
 
-            if (Kiwi.DEVICE.touch === true)
-            {
-                this.touch.update();
+            if (this.touch.touchEnabled) {
                 this.position.setTo(this.touch.x, this.touch.y);
-                this.isDown = this.touch.isDown;
-            }
-            else
-            {
+
+            } else {
                 this.position.setTo(this.mouse.x, this.mouse.y);
-                this.isDown = this.mouse.isDown;
+
             }
+
+            this.isDown = this.mouse.isDown || this.touch.isDown;
 
         }
 
@@ -218,24 +218,20 @@ module Kiwi.Input {
         public reset() {
             this.mouse.reset();
             this.keyboard.reset();
-
-            if (Kiwi.DEVICE.touch === true)
-            {
-                this.touch.reset();
-            }
+            this.touch.reset();
 
         }
         
         /**
         * The position of the last pointer that was/is active on the stage.
         * @property position
-        * @type Point
+        * @type Kiwi.Geom.Point
         * @public
         */
         public position: Kiwi.Geom.Point;
 
         /**
-        * If an input is currently down. Not an accurate representation, should use the individual managers.
+        * If an input (either touch or the mouse cursor) is currently down. Not an accurate representation, should use the individual managers.
         * @property isDown
         * @type boolean
         * @public
@@ -249,7 +245,6 @@ module Kiwi.Input {
         * @public
         */
         public get x(): number {
-
             return this.position.x;
 
         }
@@ -261,7 +256,6 @@ module Kiwi.Input {
         * @public
         */
         public get y(): number {
-
             return this.position.y;
 
         }

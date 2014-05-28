@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -360,8 +364,8 @@ module Kiwi.Time {
     * @class ClockManager
     * @namespace Kiwi.Time
     * @constructor
-    * @param {Game} game.
-    * @return {ClockManager} This Object.
+    * @param {Kiwi.Game} game.
+    * @return {Kiwi.Time.ClockManager} This Object.
     *
     */
     export class ClockManager {
@@ -385,7 +389,7 @@ module Kiwi.Time {
         /**
         * The game that this belongs to.
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private
         */
         private _game: Kiwi.Game;
@@ -393,7 +397,7 @@ module Kiwi.Time {
         /**
         * An array containing all of the clocks that exist on this manager.
         * @property _clocks
-        * @type Clock[]
+        * @type Array
         * @private
         */
         private _clocks: Clock[] = [];
@@ -401,7 +405,7 @@ module Kiwi.Time {
         /**
         * The MasterClock for this manager.
         * @property master
-        * @type MasterClock
+        * @type Kiwi.Time.MasterClock
         * @private
         */
         private master: Kiwi.Time.MasterClock;
@@ -409,7 +413,7 @@ module Kiwi.Time {
         /**
         * The default Game Clock - you can use this via this.game.time.clock. Uses a 1000 millisecond time unit.
         * @property clock
-        * @type Clock
+        * @type Kiwi.Time.Clock
         * @public
         */
         public clock: Kiwi.Time.Clock;
@@ -433,7 +437,7 @@ module Kiwi.Time {
         * @method addClock
         * @param name {string} The name of the Clock.
         * @param [units=1000] {Number} The number of milliseconds that make up one unit of time on this clock. Default 1000.
-        * @return {Clock} A reference to the newly created Clock object.
+        * @return {Kiwi.Time.Clock} A reference to the newly created Clock object.
         * @public
         */
         public addClock(name: string, units: number = 1000): Clock {
@@ -448,7 +452,7 @@ module Kiwi.Time {
         * Returns the Clock with the matching name. Throws and error if no Clock with that name exists
         * @method getClock
         * @param name {string} The name of the Clock to be returned.
-        * @return {Clock} The clock which matches the name given.
+        * @return {Kiwi.Time.Clock} The clock which matches the name given.
         * @public
         */
         public getClock(name: string): Clock {

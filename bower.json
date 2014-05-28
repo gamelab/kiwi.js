@@ -1,6 +1,6 @@
 {
   "name": "Kiwi.js",
-  "version": "0.5.3",
+  "version": "1.0.0",
   "homepage": "git://github.com:gamelab/kiwi.js.git",
   "authors": [
     "GameLab"
@@ -14,7 +14,7 @@
     "typescript",
     "javascript"
   ],
-  "license": "GPL",
+  "license": "MIT",
   "ignore": [
     "**/.*",
     "node_modules",

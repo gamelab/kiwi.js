@@ -35,7 +35,6 @@
 /// <reference path="file/FileStore.ts" />
 
 /// <reference path="system/Bootstrap.ts" />
-/// <reference path="system/Browser.ts" />
 /// <reference path="system/Device.ts" />
 
 /// <reference path="textures/TextureAtlas.ts" />
@@ -128,7 +127,7 @@
 /// <reference path="utils/GameMath.ts" />
 /// <reference path="utils/RandomDataGenerator.ts" />
 /// <reference path="utils/RequestAnimationFrame.ts" />
-
+/// <reference path="utils/Version.ts" />
 /// <reference path="WebGL.d.ts"/>
 
 /**
@@ -145,10 +144,9 @@ module Kiwi {
     * @property VERSION
     * @static
     * @type string
-    * @default '1.0'
     * @public
     */
-    export var VERSION: string = "0.7.0";
+    export var VERSION: string = "1.0.0";
     
     //DIFFERENT RENDERER STATIC VARIABLES
     /**
@@ -214,7 +212,7 @@ module Kiwi {
     export var DEBUG_OFF: number = 1;
     
     /**
-    * Contains the Device class that is used to detirmine which features are supported by the users browser.
+    * Contains the Device class that is used to determine which features are supported by the users browser.
     * @property DEVICE
     * @static
     * @type Device

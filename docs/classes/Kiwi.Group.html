@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -364,7 +368,8 @@
 
 
 <div class="box intro">
-    <p>Is a class the implements the IChild structure who&#39;s purpose is to contain multiple children/members, those of which also implement the IChild interface. The members of the Group&#39;s coordinates are also in relation to the Group that they were added to. So if you moved an entire Group, each member of that Group would also &#39;move&#39;.</p>
+    <p>The group class is central to creating the scene graph that contains all objects in a state. A group can contain entities or other groups, thereby enabling a nested tree scene graph.
+The members of the Group&#39;s coordinates are also in relation to the Group that they were added to. So if you moved an entire Group, each member of that Group would also &#39;move&#39;.</p>
 
 </div>
 
@@ -396,7 +401,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">Group</span>
+            <span class="type"><a href="..\classes\Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
         </span>
     
 
@@ -446,7 +451,7 @@
                 <li class="param">
                     
                         <code class="param-name">state</code>
-                        <span class="type">State</span>
+                        <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
                     
 
                     
@@ -487,7 +492,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Group</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>:
                     
                 
             </div>
@@ -938,7 +943,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">IChild</span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -967,7 +972,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l296"><code>src\core\Group.ts:296</code></a>
+        <a href="../files/src_core_Group.ts.html#l297"><code>src\core\Group.ts:297</code></a>
         
         </p>
 
@@ -991,7 +996,7 @@
                 <li class="param">
                     
                         <code class="param-name">child</code>
-                        <span class="type">IChild</span>
+                        <span class="type">Object</span>
                     
 
                     
@@ -1015,7 +1020,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">IChild</span>:
+                        <span class="type">Object</span>:
                     
                     <p>The child that was added.</p>
 
@@ -1053,7 +1058,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">IChild</span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -1082,7 +1087,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l360"><code>src\core\Group.ts:360</code></a>
+        <a href="../files/src_core_Group.ts.html#l361"><code>src\core\Group.ts:361</code></a>
         
         </p>
 
@@ -1106,7 +1111,7 @@
                 <li class="param">
                     
                         <code class="param-name">child</code>
-                        <span class="type">IChild</span>
+                        <span class="type">Object</span>
                     
 
                     
@@ -1122,7 +1127,7 @@
                 <li class="param">
                     
                         <code class="param-name">beforeChild</code>
-                        <span class="type">IChild</span>
+                        <span class="type">Object</span>
                     
 
                     
@@ -1146,7 +1151,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">IChild</span>:
+                        <span class="type">Object</span>:
                     
                     <p>The child.</p>
 
@@ -1184,7 +1189,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">IChild</span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -1213,7 +1218,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l319"><code>src\core\Group.ts:319</code></a>
+        <a href="../files/src_core_Group.ts.html#l320"><code>src\core\Group.ts:320</code></a>
         
         </p>
 
@@ -1237,7 +1242,7 @@
                 <li class="param">
                     
                         <code class="param-name">child</code>
-                        <span class="type">IChild</span>
+                        <span class="type">Object</span>
                     
 
                     
@@ -1277,7 +1282,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">IChild</span>:
+                        <span class="type">Object</span>:
                     
                     <p>The child.</p>
 
@@ -1315,7 +1320,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">IChild</span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -1344,7 +1349,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l339"><code>src\core\Group.ts:339</code></a>
+        <a href="../files/src_core_Group.ts.html#l340"><code>src\core\Group.ts:340</code></a>
         
         </p>
 
@@ -1368,7 +1373,7 @@
                 <li class="param">
                     
                         <code class="param-name">child</code>
-                        <span class="type">IChild</span>
+                        <span class="type">Object</span>
                     
 
                     
@@ -1408,7 +1413,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">IChild</span>:
+                        <span class="type">Object</span>:
                     
                     <p>The child.</p>
 
@@ -1477,7 +1482,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l687"><code>src\core\Group.ts:687</code></a>
+        <a href="../files/src_core_Group.ts.html#l688"><code>src\core\Group.ts:688</code></a>
         
         </p>
 
@@ -1590,7 +1595,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l914"><code>src\core\Group.ts:914</code></a>
+        <a href="../files/src_core_Group.ts.html#l915"><code>src\core\Group.ts:915</code></a>
         
         </p>
 
@@ -1661,7 +1666,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l251"><code>src\core\Group.ts:251</code></a>
+        <a href="../files/src_core_Group.ts.html#l252"><code>src\core\Group.ts:252</code></a>
         
         </p>
 
@@ -1776,7 +1781,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l280"><code>src\core\Group.ts:280</code></a>
+        <a href="../files/src_core_Group.ts.html#l281"><code>src\core\Group.ts:281</code></a>
         
         </p>
 
@@ -1800,13 +1805,13 @@
                 <li class="param">
                     
                         <code class="param-name">descendant</code>
-                        <span class="type">IChild</span>
+                        <span class="type">Object</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The IChild that you are checking.</p>
+                        <p>The object that you are checking.</p>
 
                     </div>
 
@@ -1899,7 +1904,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l262"><code>src\core\Group.ts:262</code></a>
+        <a href="../files/src_core_Group.ts.html#l263"><code>src\core\Group.ts:263</code></a>
         
         </p>
 
@@ -1910,7 +1915,7 @@
     </div>
 
     <div class="description">
-        <p>Checks to see if the given IChild is contained in this group as a descendant</p>
+        <p>Checks to see if the given object is contained in this group as a descendant</p>
 
     </div>
 
@@ -1923,7 +1928,7 @@
                 <li class="param">
                     
                         <code class="param-name">child</code>
-                        <span class="type">IChild</span>
+                        <span class="type">Object</span>
                     
 
                     
@@ -1996,7 +2001,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l862"><code>src\core\Group.ts:862</code></a>
+        <a href="../files/src_core_Group.ts.html#l863"><code>src\core\Group.ts:863</code></a>
         
         </p>
 
@@ -2069,7 +2074,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l842"><code>src\core\Group.ts:842</code></a>
+        <a href="../files/src_core_Group.ts.html#l843"><code>src\core\Group.ts:843</code></a>
         
         </p>
 
@@ -2154,7 +2159,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l947"><code>src\core\Group.ts:947</code></a>
+        <a href="../files/src_core_Group.ts.html#l948"><code>src\core\Group.ts:948</code></a>
         
         </p>
 
@@ -2275,7 +2280,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l631"><code>src\core\Group.ts:631</code></a>
+        <a href="../files/src_core_Group.ts.html#l632"><code>src\core\Group.ts:632</code></a>
         
         </p>
 
@@ -2413,7 +2418,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l647"><code>src\core\Group.ts:647</code></a>
+        <a href="../files/src_core_Group.ts.html#l648"><code>src\core\Group.ts:648</code></a>
         
         </p>
 
@@ -2514,7 +2519,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">IChild</span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -2543,7 +2548,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l381"><code>src\core\Group.ts:381</code></a>
+        <a href="../files/src_core_Group.ts.html#l382"><code>src\core\Group.ts:382</code></a>
         
         </p>
 
@@ -2591,7 +2596,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">IChild</span>:
+                        <span class="type">Object</span>:
                     
                     <p>The child, if found or null if not.</p>
 
@@ -2623,7 +2628,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">IChild</span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -2652,7 +2657,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l417"><code>src\core\Group.ts:417</code></a>
+        <a href="../files/src_core_Group.ts.html#l418"><code>src\core\Group.ts:418</code></a>
         
         </p>
 
@@ -2700,7 +2705,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">IChild</span>:
+                        <span class="type">Object</span>:
                     
                     <p>The child, if found or null if not.</p>
 
@@ -2732,7 +2737,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">IChild</span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -2761,7 +2766,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l398"><code>src\core\Group.ts:398</code></a>
+        <a href="../files/src_core_Group.ts.html#l399"><code>src\core\Group.ts:399</code></a>
         
         </p>
 
@@ -2809,7 +2814,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">IChild</span>:
+                        <span class="type">Object</span>:
                     
                     <p>The child, if found or null if not.</p>
 
@@ -2870,7 +2875,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l436"><code>src\core\Group.ts:436</code></a>
+        <a href="../files/src_core_Group.ts.html#l437"><code>src\core\Group.ts:437</code></a>
         
         </p>
 
@@ -2894,7 +2899,7 @@
                 <li class="param">
                     
                         <code class="param-name">child</code>
-                        <span class="type">IChild</span>
+                        <span class="type">Object</span>
                     
 
                     
@@ -2940,7 +2945,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">IChild</span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -2969,7 +2974,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l807"><code>src\core\Group.ts:807</code></a>
+        <a href="../files/src_core_Group.ts.html#l808"><code>src\core\Group.ts:808</code></a>
         
         </p>
 
@@ -2993,7 +2998,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">IChild</span>:
+                        <span class="type">Object</span>:
                     
                 
             </div>
@@ -3013,7 +3018,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">IChild</span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -3042,7 +3047,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l824"><code>src\core\Group.ts:824</code></a>
+        <a href="../files/src_core_Group.ts.html#l825"><code>src\core\Group.ts:825</code></a>
         
         </p>
 
@@ -3066,7 +3071,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">IChild</span>:
+                        <span class="type">Object</span>:
                     
                 
             </div>
@@ -3115,7 +3120,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l214"><code>src\core\Group.ts:214</code></a>
+        <a href="../files/src_core_Group.ts.html#l215"><code>src\core\Group.ts:215</code></a>
         
         </p>
 
@@ -3190,7 +3195,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l46"><code>src\core\Group.ts:46</code></a>
+        <a href="../files/src_core_Group.ts.html#l47"><code>src\core\Group.ts:47</code></a>
         
         </p>
 
@@ -3252,7 +3257,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">IChild</span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -3281,7 +3286,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l449"><code>src\core\Group.ts:449</code></a>
+        <a href="../files/src_core_Group.ts.html#l450"><code>src\core\Group.ts:450</code></a>
         
         </p>
 
@@ -3305,7 +3310,7 @@
                 <li class="param">
                     
                         <code class="param-name">child</code>
-                        <span class="type">IChild</span>
+                        <span class="type">Object</span>
                     
 
                     
@@ -3346,7 +3351,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">IChild</span>:
+                        <span class="type">Object</span>:
                     
                     <p>The child.</p>
 
@@ -3378,7 +3383,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">IChild</span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -3405,7 +3410,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l477"><code>src\core\Group.ts:477</code></a>
+        <a href="../files/src_core_Group.ts.html#l478"><code>src\core\Group.ts:478</code></a>
         
         </p>
 
@@ -3453,7 +3458,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">IChild</span>:
+                        <span class="type">Object</span>:
                     
                     <p>The child, or null.</p>
 
@@ -3526,7 +3531,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l495"><code>src\core\Group.ts:495</code></a>
+        <a href="../files/src_core_Group.ts.html#l496"><code>src\core\Group.ts:496</code></a>
         
         </p>
 
@@ -3638,7 +3643,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">IChild</span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -3667,7 +3672,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l794"><code>src\core\Group.ts:794</code></a>
+        <a href="../files/src_core_Group.ts.html#l795"><code>src\core\Group.ts:795</code></a>
         
         </p>
 
@@ -3716,7 +3721,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">IChild</span>:
+                        <span class="type">Object</span>:
                     
                     <p>The Entity that was removed from this Group if alive, otherwise null</p>
 
@@ -3773,7 +3778,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l783"><code>src\core\Group.ts:783</code></a>
+        <a href="../files/src_core_Group.ts.html#l784"><code>src\core\Group.ts:784</code></a>
         
         </p>
 
@@ -3798,7 +3803,7 @@ This method never gets called as the render is only worried about rendering enti
                 <li class="param">
                     
                         <code class="param-name">camera</code>
-                        <span class="type">Camera</span>
+                        <span class="type"><a href="..\classes\Kiwi.Camera.html" class="crosslink">Kiwi.Camera</a></span>
                     
 
                     
@@ -3874,7 +3879,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l598"><code>src\core\Group.ts:598</code></a>
+        <a href="../files/src_core_Group.ts.html#l599"><code>src\core\Group.ts:599</code></a>
         
         </p>
 
@@ -3898,7 +3903,7 @@ This method never gets called as the render is only worried about rendering enti
                 <li class="param">
                     
                         <code class="param-name">oldChild</code>
-                        <span class="type">IChild</span>
+                        <span class="type">Object</span>
                     
 
                     
@@ -3914,7 +3919,7 @@ This method never gets called as the render is only worried about rendering enti
                 <li class="param">
                     
                         <code class="param-name">newChild</code>
-                        <span class="type">IChild</span>
+                        <span class="type">Object</span>
                     
 
                     
@@ -4007,7 +4012,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l667"><code>src\core\Group.ts:667</code></a>
+        <a href="../files/src_core_Group.ts.html#l668"><code>src\core\Group.ts:668</code></a>
         
         </p>
 
@@ -4140,7 +4145,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l521"><code>src\core\Group.ts:521</code></a>
+        <a href="../files/src_core_Group.ts.html#l522"><code>src\core\Group.ts:522</code></a>
         
         </p>
 
@@ -4164,7 +4169,7 @@ This method never gets called as the render is only worried about rendering enti
                 <li class="param">
                     
                         <code class="param-name">child</code>
-                        <span class="type">IChild</span>
+                        <span class="type">Object</span>
                     
 
                     
@@ -4271,7 +4276,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l542"><code>src\core\Group.ts:542</code></a>
+        <a href="../files/src_core_Group.ts.html#l543"><code>src\core\Group.ts:543</code></a>
         
         </p>
 
@@ -4295,7 +4300,7 @@ This method never gets called as the render is only worried about rendering enti
                 <li class="param">
                     
                         <code class="param-name">child1</code>
-                        <span class="type">IChild</span>
+                        <span class="type">Object</span>
                     
 
                     
@@ -4311,7 +4316,7 @@ This method never gets called as the render is only worried about rendering enti
                 <li class="param">
                     
                         <code class="param-name">child2</code>
-                        <span class="type">IChild</span>
+                        <span class="type">Object</span>
                     
 
                     
@@ -4402,7 +4407,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l570"><code>src\core\Group.ts:570</code></a>
+        <a href="../files/src_core_Group.ts.html#l571"><code>src\core\Group.ts:571</code></a>
         
         </p>
 
@@ -4513,7 +4518,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l707"><code>src\core\Group.ts:707</code></a>
+        <a href="../files/src_core_Group.ts.html#l708"><code>src\core\Group.ts:708</code></a>
         
         </p>
 
@@ -4569,7 +4574,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l758"><code>src\core\Group.ts:758</code></a>
+        <a href="../files/src_core_Group.ts.html#l759"><code>src\core\Group.ts:759</code></a>
         
         </p>
 
@@ -4618,7 +4623,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l993"><code>src\core\Group.ts:993</code></a>
+        <a href="../files/src_core_Group.ts.html#l994"><code>src\core\Group.ts:994</code></a>
         
         </p>
 
@@ -4665,7 +4670,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l224"><code>src\core\Group.ts:224</code></a>
+        <a href="../files/src_core_Group.ts.html#l225"><code>src\core\Group.ts:225</code></a>
         
         </p>
 
@@ -4689,7 +4694,7 @@ This method never gets called as the render is only worried about rendering enti
                 
                     <div id="property__parent" class="property item private">
     <h3 class="name"><code>_parent</code></h3>
-    <span class="type">Group</span>
+    <span class="type"><a href="..\classes\Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
 
     
 
@@ -4712,7 +4717,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l84"><code>src\core\Group.ts:84</code></a>
+        <a href="../files/src_core_Group.ts.html#l85"><code>src\core\Group.ts:85</code></a>
         
         </p>
 
@@ -4759,7 +4764,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l925"><code>src\core\Group.ts:925</code></a>
+        <a href="../files/src_core_Group.ts.html#l926"><code>src\core\Group.ts:926</code></a>
         
         </p>
 
@@ -4806,7 +4811,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l767"><code>src\core\Group.ts:767</code></a>
+        <a href="../files/src_core_Group.ts.html#l768"><code>src\core\Group.ts:768</code></a>
         
         </p>
 
@@ -4833,7 +4838,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
                 
                     <div id="property_components" class="property item public">
     <h3 class="name"><code>components</code></h3>
-    <span class="type">ComponentManager</span>
+    <span class="type"><a href="..\classes\Kiwi.ComponentManager.html" class="crosslink">Kiwi.ComponentManager</a></span>
 
     
 
@@ -4856,7 +4861,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Group.ts.html#l174"><code>src\core\Group.ts:174</code></a>
+        <a href="../files/src_core_Group.ts.html#l175"><code>src\core\Group.ts:175</code></a>
         
         </p>
 
@@ -4903,7 +4908,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Group.ts.html#l232"><code>src\core\Group.ts:232</code></a>
+        <a href="../files/src_core_Group.ts.html#l233"><code>src\core\Group.ts:233</code></a>
         
         </p>
 
@@ -4950,7 +4955,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Group.ts.html#l735"><code>src\core\Group.ts:735</code></a>
+        <a href="../files/src_core_Group.ts.html#l736"><code>src\core\Group.ts:736</code></a>
         
         </p>
 
@@ -4997,7 +5002,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Group.ts.html#l743"><code>src\core\Group.ts:743</code></a>
+        <a href="../files/src_core_Group.ts.html#l744"><code>src\core\Group.ts:744</code></a>
         
         </p>
 
@@ -5022,7 +5027,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
                 
                     <div id="property_game" class="property item public">
     <h3 class="name"><code>game</code></h3>
-    <span class="type">Game</span>
+    <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
 
     
 
@@ -5045,7 +5050,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l182"><code>src\core\Group.ts:182</code></a>
+        <a href="../files/src_core_Group.ts.html#l183"><code>src\core\Group.ts:183</code></a>
         
         </p>
 
@@ -5092,7 +5097,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l198"><code>src\core\Group.ts:198</code></a>
+        <a href="../files/src_core_Group.ts.html#l199"><code>src\core\Group.ts:199</code></a>
         
         </p>
 
@@ -5116,7 +5121,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
                 
                     <div id="property_members" class="property item public">
     <h3 class="name"><code>members</code></h3>
-    <span class="type">IChild</span>
+    <span class="type">Array</span>
 
     
 
@@ -5139,7 +5144,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l206"><code>src\core\Group.ts:206</code></a>
+        <a href="../files/src_core_Group.ts.html#l207"><code>src\core\Group.ts:207</code></a>
         
         </p>
 
@@ -5186,7 +5191,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l66"><code>src\core\Group.ts:66</code></a>
+        <a href="../files/src_core_Group.ts.html#l67"><code>src\core\Group.ts:67</code></a>
         
         </p>
 
@@ -5212,7 +5217,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
                 
                     <div id="property_parent" class="property item public">
     <h3 class="name"><code>parent</code></h3>
-    <span class="type">Group</span>
+    <span class="type"><a href="..\classes\Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
 
     
 
@@ -5235,7 +5240,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l92"><code>src\core\Group.ts:92</code></a>
+        <a href="../files/src_core_Group.ts.html#l93"><code>src\core\Group.ts:93</code></a>
         
         </p>
 
@@ -5259,7 +5264,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
                 
                     <div id="property_state" class="property item public">
     <h3 class="name"><code>state</code></h3>
-    <span class="type">State</span>
+    <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
 
     
 
@@ -5282,7 +5287,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l190"><code>src\core\Group.ts:190</code></a>
+        <a href="../files/src_core_Group.ts.html#l191"><code>src\core\Group.ts:191</code></a>
         
         </p>
 
@@ -5306,7 +5311,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
                 
                     <div id="property_transform" class="property item public">
     <h3 class="name"><code>transform</code></h3>
-    <span class="type">Transform</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
 
     
 
@@ -5329,7 +5334,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l75"><code>src\core\Group.ts:75</code></a>
+        <a href="../files/src_core_Group.ts.html#l76"><code>src\core\Group.ts:76</code></a>
         
         </p>
 
@@ -5377,7 +5382,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l933"><code>src\core\Group.ts:933</code></a>
+        <a href="../files/src_core_Group.ts.html#l934"><code>src\core\Group.ts:934</code></a>
         
         </p>
 
@@ -5424,7 +5429,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l109"><code>src\core\Group.ts:109</code></a>
+        <a href="../files/src_core_Group.ts.html#l110"><code>src\core\Group.ts:110</code></a>
         
         </p>
 
@@ -5471,7 +5476,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l122"><code>src\core\Group.ts:122</code></a>
+        <a href="../files/src_core_Group.ts.html#l123"><code>src\core\Group.ts:123</code></a>
         
         </p>
 

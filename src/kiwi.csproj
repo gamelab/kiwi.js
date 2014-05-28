@@ -77,6 +77,7 @@
     <Content Include="render\renderers\Renderer.ts" />
     <Content Include="render\renderers\TextureAtlasRenderer.ts" />
     <Content Include="render\shaders\TextureAtlasShader.ts" />
+    <Content Include="utils\Version.ts" />
     <Content Include="WebGL.d.ts" />
     <Content Include="sound\AudioLibrary.ts" />
     <Content Include="textures\TextureAtlas.ts" />
@@ -106,7 +107,6 @@
     <Content Include="core\StateConfig.ts" />
     <Content Include="geom\Circle.ts" />
     <Content Include="system\Bootstrap.ts" />
-    <Content Include="system\Browser.ts" />
     <Content Include="gameobjects\StaticImage.ts" />
     <Content Include="gameobjects\Sprite.ts" />
     <Content Include="geom\AABB.ts" />
@@ -210,7 +210,7 @@
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
     <IntermediateOutputPath>C:\Users\Benj\AppData\Local\Temp\vs2B63.tmp\Debug\</IntermediateOutputPath>
-    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vs4810.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\Benjamin\AppData\Local\Temp\vs4A8.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
@@ -218,12 +218,12 @@
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
     <IntermediateOutputPath>C:\Users\Benj\AppData\Local\Temp\vs2B63.tmp\Release\</IntermediateOutputPath>
-    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vs4810.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\Benjamin\AppData\Local\Temp\vs4A8.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(ProjectDir)\..\build\kiwi.js $(ProjectDir)\..\examples\
-copy $(ProjectDir)\..\build\kiwi.js C:\code\kiwiplugins\GLParticles\examples\js\.
+copy $(ProjectDir)\..\build\kiwi.js $(ProjectDir)\..\templateGame\lib\kiwi.js
 $(ProjectDir)\..\postbuildbatch</PostBuildEvent>
   </PropertyGroup>
 </Project>

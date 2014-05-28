@@ -13,8 +13,8 @@ module Kiwi.Input {
     * @class Mouse
     * @constructor
     * @namespace Kiwi.Input
-    * @param game {Game} The game that this mouse manager belongs to.
-    * @return {Mouse} 
+    * @param game {Kiwi.Game} The game that this mouse manager belongs to.
+    * @return {Kiwi.Input.Mouse} 
     *
     */
     export class Mouse {
@@ -36,7 +36,7 @@ module Kiwi.Input {
         /**
         * The game that this mouse manager belongs to.
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private
         */
         private _game: Kiwi.Game;
@@ -109,7 +109,7 @@ module Kiwi.Input {
         /**
         * The MouseCursor that is on the stage. This contains the coordinates and information about the cursor.
         * @property _cursor
-        * @type MouseCursor
+        * @type Kiwi.Input.MouseCursor
         * @private
         */
         private _cursor: Kiwi.Input.MouseCursor;
@@ -117,7 +117,7 @@ module Kiwi.Input {
         /**
         * Returns the MouseCursor that is being used on the stage. This is READ ONLY.
         * @property cursor
-        * @type MouseCursor
+        * @type Kiwi.Input.MouseCursor
         * @private
         */
         public get cursor(): Kiwi.Input.MouseCursor {

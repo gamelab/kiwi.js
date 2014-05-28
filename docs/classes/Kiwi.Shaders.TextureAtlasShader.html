@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>GLTextureManager - Kiwi.js</title>
+    <title>Kiwi.Shaders.TextureAtlasShader - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -340,21 +344,25 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>GLTextureManager Class</h1>
+                        <h1>Kiwi.Shaders.TextureAtlasShader Class</h1>
 <div class="box meta">
     
 
     
+        <div class="extends">
+            Extends <a href="..\classes\Kiwi.Shaders.ShaderPair.html" class="crosslink">Kiwi.Shaders.ShaderPair</a>
+        </div>
+    
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_render_GLTextureManager.ts.html#l12"><code>src\render\GLTextureManager.ts:12</code></a>
+            Defined in: <a href="../files/src_render_shaders_TextureAtlasShader.ts.html#l10"><code>src\render\shaders\TextureAtlasShader.ts:10</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/Renderers.html">Renderers</a><br>
+            Module: <a href="../modules/Shaders.html">Shaders</a><br>
             Parent Module: <a href="../modules/Kiwi.html">Kiwi</a>
         
     
@@ -365,15 +373,15 @@
 
 
 <div class="box intro">
-    <p>Manages GL Texture objects, including creation, uploading, destruction and memory management</p>
+    <p>Shader wrapper for rendering Texture Atlases</p>
 
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_GLTextureManager" class="method item">
-    <h3 class="name"><code>GLTextureManager</code></h3>
+        <div id="method_Kiwi.Shaders.TextureAtlasShader" class="method item">
+    <h3 class="name"><code>Kiwi.Shaders.TextureAtlasShader</code></h3>
 
     
         <span class="paren">()</span>
@@ -381,7 +389,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\GLTextureManager.html" class="crosslink">GLTextureManager</a></span>
+            <span class="type"><a href="..\classes\Kiwi.Shaders.TextureAtlasShader.html" class="crosslink">Kiwi.Shaders.TextureAtlasShader</a></span>
         </span>
     
 
@@ -408,7 +416,7 @@
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l12"><code>src\render\GLTextureManager.ts:12</code></a>
+        <a href="../files/src_render_shaders_TextureAtlasShader.ts.html#l10"><code>src\render\shaders\TextureAtlasShader.ts:10</code></a>
         
         </p>
 
@@ -431,7 +439,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\GLTextureManager.html" class="crosslink">GLTextureManager</a></span>:
+                        <span class="type"><a href="..\classes\Kiwi.Shaders.TextureAtlasShader.html" class="crosslink">Kiwi.Shaders.TextureAtlasShader</a></span>:
                     
                 
             </div>
@@ -466,52 +474,52 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
+                    <ul class="index-list methods extends">
                         
-                            <li class="index-item method private">
-                                <a href="#method__addTextureToCache">_addTextureToCache</a>
+                            <li class="index-item method public inherited">
+                                <a href="#method_applyUniform">applyUniform</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method private">
-                                <a href="#method__deleteTexture">_deleteTexture</a>
+                            <li class="index-item method public inherited">
+                                <a href="#method_applyUniforms">applyUniforms</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method public">
-                                <a href="#method__freeSpace">_freeSpace</a>
+                            <li class="index-item method public inherited">
+                                <a href="#method_attach">attach</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method private">
-                                <a href="#method__uploadTexture">_uploadTexture</a>
+                            <li class="index-item method public inherited">
+                                <a href="#method_compile">compile</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method public">
-                                <a href="#method_clearTextures">clearTextures</a>
+                            <li class="index-item method public inherited">
+                                <a href="#method_init">init</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method public">
-                                <a href="#method_uploadTextureLibrary">uploadTextureLibrary</a>
+                            <li class="index-item method public inherited">
+                                <a href="#method_initUniforms">initUniforms</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method public">
-                                <a href="#method_useTexture">useTexture</a>
+                            <li class="index-item method public inherited">
+                                <a href="#method_setParam">setParam</a>
 
                                 
                                 
@@ -525,47 +533,73 @@
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties">
+                    <ul class="index-list properties extends">
                         
-                            <li class="index-item property private">
-                                <a href="#property__textureWrapperCache">_textureWrapperCache</a>
+                            <li class="index-item property public inherited">
+                                <a href="#property_attributes">attributes</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_fragShader">fragShader</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_DEFAULT_MAX_TEX_MEM_MB">DEFAULT_MAX_TEX_MEM_MB</a>
-
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_maxTextureMem">maxTextureMem</a>
+                                <a href="#property_fragSource">fragSource</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property public">
-                                <a href="#property_numTextureWrites">numTextureWrites</a>
+                            <li class="index-item property public inherited">
+                                <a href="#property_loaded">loaded</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_shaderProgram">shaderProgram</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_texture2DFrag">texture2DFrag</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_texture2DVert">texture2DVert</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_uniforms">uniforms</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_vertShader">vertShader</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_usedTextureMem">usedTextureMem</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_usedTextureMem">usedTextureMem</a>
+                                <a href="#property_vertSource">vertSource</a>
 
                                 
                                 
@@ -585,98 +619,8 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method__addTextureToCache" class="method item private">
-    <h3 class="name"><code>_addTextureToCache</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>glTexture</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLTextureManager.ts.html#l83"><code>src\render\GLTextureManager.ts:83</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Adds a texture wrapper to the cache</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">glTexture</code>
-                        <span class="type">GLTextureWrapper</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method__deleteTexture" class="method item private">
-    <h3 class="name"><code>_deleteTexture</code></h3>
+                    <div id="method_applyUniform" class="method item public inherited">
+    <h3 class="name"><code>applyUniform</code></h3>
 
     
         <div class="args">
@@ -690,7 +634,7 @@
             
                 <li class="arg">
                     
-                        <code>idx</code>
+                        <code>name</code>
                     
                 </li>
             
@@ -703,7 +647,7 @@
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag public">public</span>
     
 
     
@@ -717,15 +661,12 @@
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Shaders.ShaderPair.html#method_applyUniform">Kiwi.Shaders.ShaderPair</a>:
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l93"><code>src\render\GLTextureManager.ts:93</code></a>
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l173"><code>src\render\shaders\ShaderPair.ts:173</code></a>
         
         </p>
 
@@ -736,7 +677,7 @@
     </div>
 
     <div class="description">
-        <p>Deletes a texture from memory and removes the wrapper from the cache</p>
+        <p>Applies a single uniforms to the uploaded program</p>
 
     </div>
 
@@ -749,13 +690,13 @@
                 <li class="param">
                     
                         <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingContext</span>
+                        <span class="type">WebGLRenderingCotext</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        
                     </div>
 
                     
@@ -763,14 +704,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">idx</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        
                     </div>
 
                     
@@ -786,8 +727,95 @@
 </div>
 
                 
-                    <div id="method__freeSpace" class="method item public">
-    <h3 class="name"><code>_freeSpace</code></h3>
+                    <div id="method_applyUniforms" class="method item public inherited">
+    <h3 class="name"><code>applyUniforms</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Shaders.ShaderPair.html#method_applyUniforms">Kiwi.Shaders.ShaderPair</a>:
+            
+        
+        
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l161"><code>src\render\shaders\ShaderPair.ts:161</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Applies all uniforms to the uploaded program</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_attach" class="method item public inherited">
+    <h3 class="name"><code>attach</code></h3>
 
     
         <div class="args">
@@ -801,7 +829,13 @@
             
                 <li class="arg">
                     
-                        <code>numBytesToRemove</code>
+                        <code>vertShader</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>fragShader</code>
                     
                 </li>
             
@@ -811,7 +845,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">WebGLProgram</span>
         </span>
     
 
@@ -832,15 +866,12 @@
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Shaders.ShaderPair.html#method_attach">Kiwi.Shaders.ShaderPair</a>:
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l207"><code>src\render\GLTextureManager.ts:207</code></a>
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l79"><code>src\render\shaders\ShaderPair.ts:79</code></a>
         
         </p>
 
@@ -851,10 +882,7 @@
     </div>
 
     <div class="description">
-        <p>Attemps to free space for to uplaod a texture.
-1: Try and find texture that is same size to remove
-2: Find next smallest to remove (not yet implemented)
-3: Sequentially remove until there is room (not yet implemented)</p>
+        <p>Attaches the shaders to the program and links them</p>
 
     </div>
 
@@ -873,7 +901,7 @@
                     
 
                     <div class="param-description">
-                         
+                        
                     </div>
 
                     
@@ -881,8 +909,274 @@
             
                 <li class="param">
                     
-                        <code class="param-name">numBytesToRemove</code>
+                        <code class="param-name">vertShader</code>
+                        <span class="type">WebGLShader</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">fragShader</code>
+                        <span class="type">WebGLShader</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">WebGLProgram</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_compile" class="method item public inherited">
+    <h3 class="name"><code>compile</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>src</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>shaderType</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">WebGLShader</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Shaders.ShaderPair.html#method_compile">Kiwi.Shaders.ShaderPair</a>:
+            
+        
+        
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l96"><code>src\render\shaders\ShaderPair.ts:96</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Compiles the shaders</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">src</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">shaderType</code>
                         <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">WebGLShader</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_init" class="method item public">
+    <h3 class="name"><code>init</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">WebGLBuffer</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            <p>Inherited from
+            <a href="..\classes\Kiwi.Shaders.ShaderPair.html#method_init">
+                Kiwi.Shaders.ShaderPair
+            </a>
+            
+            but overwritten in
+            
+        
+        
+        <a href="../files/src_render_shaders_TextureAtlasShader.ts.html#l24"><code>src\render\shaders\TextureAtlasShader.ts:24</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Initialise the shaderPair</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
                     
 
                     
@@ -905,8 +1199,8 @@
             <div class="returns-description">
                 
                     
-                    <p>boolean</p>
-
+                        <span class="type">WebGLBuffer</span>:
+                    
                 
             </div>
         </div>
@@ -916,135 +1210,8 @@
 </div>
 
                 
-                    <div id="method__uploadTexture" class="method item private">
-    <h3 class="name"><code>_uploadTexture</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>gl</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>glTextureWrapper</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"></span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLTextureManager.ts.html#l107"><code>src\render\GLTextureManager.ts:107</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Uploads a texture to video memory</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingContext</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">glTextureWrapper</code>
-                        <span class="type">GLTextureWrapper</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                    <p>boolean</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_clearTextures" class="method item public">
-    <h3 class="name"><code>clearTextures</code></h3>
+                    <div id="method_initUniforms" class="method item public inherited">
+    <h3 class="name"><code>initUniforms</code></h3>
 
     
         <div class="args">
@@ -1079,15 +1246,12 @@
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Shaders.ShaderPair.html#method_initUniforms">Kiwi.Shaders.ShaderPair</a>:
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l158"><code>src\render\GLTextureManager.ts:158</code></a>
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l189"><code>src\render\shaders\ShaderPair.ts:189</code></a>
         
         </p>
 
@@ -1098,7 +1262,7 @@
     </div>
 
     <div class="description">
-        <p>Removes all textures from video memory and clears the wrapper cache</p>
+        <p>Initialises all uniforms</p>
 
     </div>
 
@@ -1111,13 +1275,13 @@
                 <li class="param">
                     
                         <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingContext</span>
+                        <span class="type">WebGLRenderingCotext</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        
                     </div>
 
                     
@@ -1133,8 +1297,8 @@
 </div>
 
                 
-                    <div id="method_uploadTextureLibrary" class="method item public">
-    <h3 class="name"><code>uploadTextureLibrary</code></h3>
+                    <div id="method_setParam" class="method item public inherited">
+    <h3 class="name"><code>setParam</code></h3>
 
     
         <div class="args">
@@ -1142,13 +1306,13 @@
             
                 <li class="arg">
                     
-                        <code>gl</code>
+                        <code>uniformName</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>textureLibrary</code>
+                        <code>value</code>
                     
                 </li>
             
@@ -1175,15 +1339,12 @@
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Shaders.ShaderPair.html#method_setParam">Kiwi.Shaders.ShaderPair</a>:
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l128"><code>src\render\GLTextureManager.ts:128</code></a>
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l149"><code>src\render\shaders\ShaderPair.ts:149</code></a>
         
         </p>
 
@@ -1194,7 +1355,7 @@
     </div>
 
     <div class="description">
-        <p>Uploads a texture library to video memory</p>
+        <p>Sets a single uniform value and marks it as dirty.</p>
 
     </div>
 
@@ -1206,14 +1367,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingContext</span>
+                        <code class="param-name">uniformName</code>
+                        <span class="type">String</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        
                     </div>
 
                     
@@ -1221,14 +1382,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">textureLibrary</code>
-                        <span class="type"><a href="..\classes\Kiwi.Textures.TextureLibrary.html" class="crosslink">Kiwi.Textures.TextureLibrary</a></span>
+                        <code class="param-name">value</code>
+                        <span class="type"></span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        
                     </div>
 
                     
@@ -1238,154 +1399,6 @@
         </div>
     
 
-    
-
-    
-</div>
-
-                
-                    <div id="method_useTexture" class="method item public">
-    <h3 class="name"><code>useTexture</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>gl</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>glTextureWrapper</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>textureSizeUniform</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"></span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLTextureManager.ts.html#l176"><code>src\render\GLTextureManager.ts:176</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Binds the texture ready for use, uploads it if it isn&#39;t already</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingContext</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">glTextureWrapper</code>
-                        <span class="type">GLTextureWrappery</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">textureSizeUniform</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                    <p>boolean</p>
-
-                
-            </div>
-        </div>
     
 
     
@@ -1400,56 +1413,9 @@
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property__textureWrapperCache" class="property item private">
-    <h3 class="name"><code>_textureWrapperCache</code></h3>
-    <span class="type">GLTextureWrapper</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLTextureManager.ts.html#l75"><code>src\render\GLTextureManager.ts:75</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>An array of references to all texture wrappers</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_DEFAULT_MAX_TEX_MEM_MB" class="property item public">
-    <h3 class="name"><code>DEFAULT_MAX_TEX_MEM_MB</code></h3>
-    <span class="type">Number</span>
+                    <div id="property_attributes" class="property item public">
+    <h3 class="name"><code>attributes</code></h3>
+    <span class="type">Object</span>
 
     
 
@@ -1460,21 +1426,19 @@
     
 
     
-        <span class="flag static">static</span>
-    
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Kiwi.Shaders.ShaderPair.html#property_attributes">
+                Kiwi.Shaders.ShaderPair
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l27"><code>src\render\GLTextureManager.ts:27</code></a>
+        <a href="../files/src_render_shaders_TextureAtlasShader.ts.html#l40"><code>src\render\shaders\TextureAtlasShader.ts:40</code></a>
         
         </p>
 
@@ -1484,7 +1448,7 @@
     </div>
 
     <div class="description">
-        <p>The default maximum amount of texture memory to use before swapping textures</p>
+        <p>Shader attribute references</p>
 
     </div>
 
@@ -1496,9 +1460,9 @@
 </div>
 
                 
-                    <div id="property_maxTextureMem" class="property item public">
-    <h3 class="name"><code>maxTextureMem</code></h3>
-    <span class="type">Number</span>
+                    <div id="property_fragShader" class="property item public inherited">
+    <h3 class="name"><code>fragShader</code></h3>
+    <span class="type">WebGLShader</span>
 
     
 
@@ -1513,15 +1477,12 @@
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Shaders.ShaderPair.html#property_fragShader">Kiwi.Shaders.ShaderPair</a>:
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l36"><code>src\render\GLTextureManager.ts:36</code></a>
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l63"><code>src\render\shaders\ShaderPair.ts:63</code></a>
         
         </p>
 
@@ -1531,7 +1492,7 @@
     </div>
 
     <div class="description">
-        <p>The maximum amount of texture memory to use before swapping textures, initialised from DEFAULT_MAX_TEX_MEM_MB</p>
+        <p>Fragment shader</p>
 
     </div>
 
@@ -1543,9 +1504,9 @@
 </div>
 
                 
-                    <div id="property_numTextureWrites" class="property item public">
-    <h3 class="name"><code>numTextureWrites</code></h3>
-    <span class="type">Number</span>
+                    <div id="property_fragSource" class="property item public">
+    <h3 class="name"><code>fragSource</code></h3>
+    <span class="type">Array</span>
 
     
 
@@ -1568,7 +1529,7 @@
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l66"><code>src\render\GLTextureManager.ts:66</code></a>
+        <a href="../files/src_render_shaders_TextureAtlasShader.ts.html#l73"><code>src\render\shaders\TextureAtlasShader.ts:73</code></a>
         
         </p>
 
@@ -1578,7 +1539,7 @@
     </div>
 
     <div class="description">
-        <p>The number of textures uploads in the last frame</p>
+        <p>The source for the GLSL fragment shader</p>
 
     </div>
 
@@ -1590,9 +1551,276 @@
 </div>
 
                 
-                    <div id="property_usedTextureMem" class="property item public">
-    <h3 class="name"><code>usedTextureMem</code></h3>
-    <span class="type">Number</span>
+                    <div id="property_loaded" class="property item public inherited">
+    <h3 class="name"><code>loaded</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Shaders.ShaderPair.html#property_loaded">Kiwi.Shaders.ShaderPair</a>:
+            
+        
+        
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l47"><code>src\render\shaders\ShaderPair.ts:47</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns whether the shader pair has been loaded and compiled.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_shaderProgram" class="property item public inherited">
+    <h3 class="name"><code>shaderProgram</code></h3>
+    <span class="type">WebGLProgram</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Shaders.ShaderPair.html#property_shaderProgram">Kiwi.Shaders.ShaderPair</a>:
+            
+        
+        
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l71"><code>src\render\shaders\ShaderPair.ts:71</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The WebGl shader program</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_texture2DFrag" class="property item public inherited">
+    <h3 class="name"><code>texture2DFrag</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Shaders.ShaderPair.html#property_texture2DFrag">Kiwi.Shaders.ShaderPair</a>:
+            
+        
+        
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l133"><code>src\render\shaders\ShaderPair.ts:133</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Shader frag source (for override)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_texture2DVert" class="property item public inherited">
+    <h3 class="name"><code>texture2DVert</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Shaders.ShaderPair.html#property_texture2DVert">Kiwi.Shaders.ShaderPair</a>:
+            
+        
+        
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l141"><code>src\render\shaders\ShaderPair.ts:141</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Shader vert source (for override)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_uniforms" class="property item public">
+    <h3 class="name"><code>uniforms</code></h3>
+    <span class="type">Object</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            <p>Inherited from
+            <a href="..\classes\Kiwi.Shaders.ShaderPair.html#property_uniforms">
+                Kiwi.Shaders.ShaderPair
+            </a>
+            
+            but overwritten in
+            
+        
+        
+        <a href="../files/src_render_shaders_TextureAtlasShader.ts.html#l51"><code>src\render\shaders\TextureAtlasShader.ts:51</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Shader uniform descriptors</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_vertShader" class="property item public inherited">
+    <h3 class="name"><code>vertShader</code></h3>
+    <span class="type">WebGLShader</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Shaders.ShaderPair.html#property_vertShader">Kiwi.Shaders.ShaderPair</a>:
+            
+        
+        
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l55"><code>src\render\shaders\ShaderPair.ts:55</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Vertex shader</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_vertSource" class="property item public">
+    <h3 class="name"><code>vertSource</code></h3>
+    <span class="type">Array</span>
 
     
 
@@ -1615,7 +1843,7 @@
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l44"><code>src\render\GLTextureManager.ts:44</code></a>
+        <a href="../files/src_render_shaders_TextureAtlasShader.ts.html#l91"><code>src\render\shaders\TextureAtlasShader.ts:91</code></a>
         
         </p>
 
@@ -1625,54 +1853,7 @@
     </div>
 
     <div class="description">
-        <p>The amount of texture memory currently uplaoded</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_usedTextureMem" class="property item public">
-    <h3 class="name"><code>usedTextureMem</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLTextureManager.ts.html#l55"><code>src\render\GLTextureManager.ts:55</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The number of textures currently uplaoded</p>
+        <p>The source for the GLSL vertex shader</p>
 
     </div>
 

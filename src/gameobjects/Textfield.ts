@@ -12,9 +12,9 @@ module Kiwi.GameObjects {
     *
     * @class Textfield
     * @namespace Kiwi.GameObjects
-    * @extends Entity
+    * @extends Kiwi.Entity
     * @constructor
-    * @param state {State} The state that this Textfield belongs to
+    * @param state {Kiwi.State} The state that this Textfield belongs to
     * @param text {String} The text that is contained within this textfield.
     * @param [x=0] {Number} The new x coordinate from the Position component
     * @param [y=0] {Number} The new y coordinate from the Position component
@@ -334,7 +334,7 @@ module Kiwi.GameObjects {
         /**
 	    * Called by the Layer to which this Game Object is attached
 	    * @method render
-        * @param {Camera}
+        * @param {Kiwi.Camera}
         * @public
 	    */
         public render(camera:Kiwi.Camera) {
@@ -360,16 +360,19 @@ module Kiwi.GameObjects {
                         x = 0;
                         break;
                     case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                        x = this._canvas.width / 2;
+                        x = this._canvas.width * 0.5;
                         break;
                     case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
                         x = this._canvas.width;
                         break;
                 }
-                
+
+
                 //Draw the Image
                 var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
-                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx - x + t.rotPointX, m.ty + t.rotPointY);
+                var ct: Kiwi.Geom.Transform = camera.transform;
+
+                ctx.transform(m.a, m.b, m.c, m.d, (m.tx - x) + t.rotPointX - ct.rotPointX, m.ty + t.rotPointY - ct.rotPointY);
                 ctx.drawImage(this._canvas, 0, 0, this._canvas.width, this._canvas.height, -t.rotPointX, -t.rotPointY, this._canvas.width, this._canvas.height);
                 
 
@@ -379,7 +382,14 @@ module Kiwi.GameObjects {
             
         }
 
-
+        /**
+	    * Renders the GameObject using WebGL. 
+	    * @method renderGL
+        * @param {WebGLRenderingContext} gl
+        * @param {Kiwi.Camera} camera
+        * @param {Object} params
+        * @public
+	    */
         public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params: any = null) {
             
             //Does the text need re-rendering
@@ -402,7 +412,7 @@ module Kiwi.GameObjects {
                     x = 0;
                     break;
                 case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                    x = -(this._canvas.width / 2);
+                    x = -(this._canvas.width * 0.5);
                     break;
                 case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
                     x = -(this._canvas.width);

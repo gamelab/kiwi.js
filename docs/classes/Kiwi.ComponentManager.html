@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -364,9 +368,10 @@
 
 
 <div class="box intro">
-    <p>The component manager is a class that is used to handle a number of components that are active on a particular object.
-This way if you want to check to see if a particular component is on an object you can ask the component manager, 
-Or when updating components you can tell the component manager to update and all of the components will update as well.</p>
+    <p>The component manager is a class that is used to handle components that are active on a particular object. Any object
+that has a component manager attached to it can use components.
+If you want to check to see if a particular component is on an object you can ask the component manager, 
+or when updating components you can tell the component manager to update and all of the components will update as well.</p>
 
 </div>
 
@@ -466,7 +471,7 @@ Or when updating components you can tell the component manager to update and all
                 <li class="param">
                     
                         <code class="param-name">owner</code>
-                        <span class="type">IChild</span>
+                        <span class="type">Object</span>
                     
 
                     
@@ -698,7 +703,7 @@ Or when updating components you can tell the component manager to update and all
 
     
         <span class="returns-inline">
-            <span class="type">Component</span>
+            <span class="type"><a href="..\classes\Kiwi.Component.html" class="crosslink">Kiwi.Component</a></span>
         </span>
     
 
@@ -727,7 +732,7 @@ Or when updating components you can tell the component manager to update and all
             
         
         
-        <a href="../files/src_core_ComponentManager.ts.html#l117"><code>src\core\ComponentManager.ts:117</code></a>
+        <a href="../files/src_core_ComponentManager.ts.html#l118"><code>src\core\ComponentManager.ts:118</code></a>
         
         </p>
 
@@ -751,7 +756,7 @@ Or when updating components you can tell the component manager to update and all
                 <li class="param">
                     
                         <code class="param-name">component</code>
-                        <span class="type">Component</span>
+                        <span class="type"><a href="..\classes\Kiwi.Component.html" class="crosslink">Kiwi.Component</a></span>
                     
 
                     
@@ -775,7 +780,7 @@ Or when updating components you can tell the component manager to update and all
             <div class="returns-description">
                 
                     
-                        <span class="type">Component</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Component.html" class="crosslink">Kiwi.Component</a></span>:
                     
                     <p>The component that was added</p>
 
@@ -832,7 +837,7 @@ Or when updating components you can tell the component manager to update and all
             
         
         
-        <a href="../files/src_core_ComponentManager.ts.html#l131"><code>src\core\ComponentManager.ts:131</code></a>
+        <a href="../files/src_core_ComponentManager.ts.html#l132"><code>src\core\ComponentManager.ts:132</code></a>
         
         </p>
 
@@ -856,7 +861,7 @@ Or when updating components you can tell the component manager to update and all
                 <li class="param">
                     
                         <code class="param-name">value</code>
-                        <span class="type">Component</span>
+                        <span class="type"><a href="..\classes\Kiwi.Component.html" class="crosslink">Kiwi.Component</a></span>
                     
 
                     
@@ -900,7 +905,7 @@ Or when updating components you can tell the component manager to update and all
 
     
         <span class="returns-inline">
-            <span class="type">Component</span>
+            <span class="type"><a href="..\classes\Kiwi.Component.html" class="crosslink">Kiwi.Component</a></span>
         </span>
     
 
@@ -929,7 +934,7 @@ Or when updating components you can tell the component manager to update and all
             
         
         
-        <a href="../files/src_core_ComponentManager.ts.html#l101"><code>src\core\ComponentManager.ts:101</code></a>
+        <a href="../files/src_core_ComponentManager.ts.html#l102"><code>src\core\ComponentManager.ts:102</code></a>
         
         </p>
 
@@ -977,7 +982,7 @@ Or when updating components you can tell the component manager to update and all
             <div class="returns-description">
                 
                     
-                        <span class="type">Component</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Component.html" class="crosslink">Kiwi.Component</a></span>:
                     
                     <p>The component, if found, otherwise null</p>
 
@@ -1038,7 +1043,7 @@ Or when updating components you can tell the component manager to update and all
             
         
         
-        <a href="../files/src_core_ComponentManager.ts.html#l83"><code>src\core\ComponentManager.ts:83</code></a>
+        <a href="../files/src_core_ComponentManager.ts.html#l84"><code>src\core\ComponentManager.ts:84</code></a>
         
         </p>
 
@@ -1147,7 +1152,7 @@ Or when updating components you can tell the component manager to update and all
             
         
         
-        <a href="../files/src_core_ComponentManager.ts.html#l67"><code>src\core\ComponentManager.ts:67</code></a>
+        <a href="../files/src_core_ComponentManager.ts.html#l68"><code>src\core\ComponentManager.ts:68</code></a>
         
         </p>
 
@@ -1246,7 +1251,7 @@ Or when updating components you can tell the component manager to update and all
             
         
         
-        <a href="../files/src_core_ComponentManager.ts.html#l33"><code>src\core\ComponentManager.ts:33</code></a>
+        <a href="../files/src_core_ComponentManager.ts.html#l34"><code>src\core\ComponentManager.ts:34</code></a>
         
         </p>
 
@@ -1317,7 +1322,7 @@ Or when updating components you can tell the component manager to update and all
             
         
         
-        <a href="../files/src_core_ComponentManager.ts.html#l280"><code>src\core\ComponentManager.ts:280</code></a>
+        <a href="../files/src_core_ComponentManager.ts.html#l281"><code>src\core\ComponentManager.ts:281</code></a>
         
         </p>
 
@@ -1374,7 +1379,7 @@ Or when updating components you can tell the component manager to update and all
             
         
         
-        <a href="../files/src_core_ComponentManager.ts.html#l235"><code>src\core\ComponentManager.ts:235</code></a>
+        <a href="../files/src_core_ComponentManager.ts.html#l236"><code>src\core\ComponentManager.ts:236</code></a>
         
         </p>
 
@@ -1431,7 +1436,7 @@ Or when updating components you can tell the component manager to update and all
             
         
         
-        <a href="../files/src_core_ComponentManager.ts.html#l250"><code>src\core\ComponentManager.ts:250</code></a>
+        <a href="../files/src_core_ComponentManager.ts.html#l251"><code>src\core\ComponentManager.ts:251</code></a>
         
         </p>
 
@@ -1488,7 +1493,7 @@ Or when updating components you can tell the component manager to update and all
             
         
         
-        <a href="../files/src_core_ComponentManager.ts.html#l205"><code>src\core\ComponentManager.ts:205</code></a>
+        <a href="../files/src_core_ComponentManager.ts.html#l206"><code>src\core\ComponentManager.ts:206</code></a>
         
         </p>
 
@@ -1555,7 +1560,7 @@ Or when updating components you can tell the component manager to update and all
             
         
         
-        <a href="../files/src_core_ComponentManager.ts.html#l193"><code>src\core\ComponentManager.ts:193</code></a>
+        <a href="../files/src_core_ComponentManager.ts.html#l194"><code>src\core\ComponentManager.ts:194</code></a>
         
         </p>
 
@@ -1657,7 +1662,7 @@ Or when updating components you can tell the component manager to update and all
             
         
         
-        <a href="../files/src_core_ComponentManager.ts.html#l145"><code>src\core\ComponentManager.ts:145</code></a>
+        <a href="../files/src_core_ComponentManager.ts.html#l146"><code>src\core\ComponentManager.ts:146</code></a>
         
         </p>
 
@@ -1681,7 +1686,7 @@ Or when updating components you can tell the component manager to update and all
                 <li class="param">
                     
                         <code class="param-name">component</code>
-                        <span class="type">Component</span>
+                        <span class="type"><a href="..\classes\Kiwi.Component.html" class="crosslink">Kiwi.Component</a></span>
                     
 
                     
@@ -1789,7 +1794,7 @@ Or when updating components you can tell the component manager to update and all
             
         
         
-        <a href="../files/src_core_ComponentManager.ts.html#l170"><code>src\core\ComponentManager.ts:170</code></a>
+        <a href="../files/src_core_ComponentManager.ts.html#l171"><code>src\core\ComponentManager.ts:171</code></a>
         
         </p>
 
@@ -1901,7 +1906,7 @@ Or when updating components you can tell the component manager to update and all
             
         
         
-        <a href="../files/src_core_ComponentManager.ts.html#l265"><code>src\core\ComponentManager.ts:265</code></a>
+        <a href="../files/src_core_ComponentManager.ts.html#l266"><code>src\core\ComponentManager.ts:266</code></a>
         
         </p>
 
@@ -1958,7 +1963,7 @@ Or when updating components you can tell the component manager to update and all
             
         
         
-        <a href="../files/src_core_ComponentManager.ts.html#l220"><code>src\core\ComponentManager.ts:220</code></a>
+        <a href="../files/src_core_ComponentManager.ts.html#l221"><code>src\core\ComponentManager.ts:221</code></a>
         
         </p>
 
@@ -1991,7 +1996,7 @@ Or when updating components you can tell the component manager to update and all
                 
                     <div id="property__components" class="property item private">
     <h3 class="name"><code>_components</code></h3>
-    <span class="type">Component</span>
+    <span class="type"><a href="..\classes\Kiwi.Component.html" class="crosslink">Kiwi.Component</a></span>
 
     
 
@@ -2014,7 +2019,7 @@ Or when updating components you can tell the component manager to update and all
             
         
         
-        <a href="../files/src_core_ComponentManager.ts.html#l59"><code>src\core\ComponentManager.ts:59</code></a>
+        <a href="../files/src_core_ComponentManager.ts.html#l60"><code>src\core\ComponentManager.ts:60</code></a>
         
         </p>
 
@@ -2038,7 +2043,7 @@ Or when updating components you can tell the component manager to update and all
                 
                     <div id="property__owner" class="property item private">
     <h3 class="name"><code>_owner</code></h3>
-    <span class="type">Any</span>
+    <span class="type">Object</span>
 
     
 
@@ -2061,7 +2066,7 @@ Or when updating components you can tell the component manager to update and all
             
         
         
-        <a href="../files/src_core_ComponentManager.ts.html#l43"><code>src\core\ComponentManager.ts:43</code></a>
+        <a href="../files/src_core_ComponentManager.ts.html#l44"><code>src\core\ComponentManager.ts:44</code></a>
         
         </p>
 
@@ -2108,7 +2113,7 @@ Or when updating components you can tell the component manager to update and all
             
         
         
-        <a href="../files/src_core_ComponentManager.ts.html#l51"><code>src\core\ComponentManager.ts:51</code></a>
+        <a href="../files/src_core_ComponentManager.ts.html#l52"><code>src\core\ComponentManager.ts:52</code></a>
         
         </p>
 

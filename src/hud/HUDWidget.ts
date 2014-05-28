@@ -13,11 +13,11 @@ module Kiwi.HUD {
     * @class HUDWidget
     * @namespace Kiwi.HUD
     * @constructor
-    * @param game {Game}  The game that this HUDWidget belongs to.
+    * @param game {Kiwi.Game}  The game that this HUDWidget belongs to.
     * @param name {string} Name of the type of HUDWidget.
     * @param x {number} The coordinates of this HUDWidget on the x-axis.
     * @param y {number} The coordinates of this HUDWidget on the y-axis.
-    * @return {HUDWidget}
+    * @return {Kiwi.HUD.HUDWidget}
     */
     export class HUDWidget {
         
@@ -46,7 +46,7 @@ module Kiwi.HUD {
         /**
         * Returns the type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "HUDWidget"
         * @public
         */
         public objType(): string {
@@ -57,7 +57,7 @@ module Kiwi.HUD {
         * The HUDManager that this widget 'belongs' to.
         * This is mainly indented for INTERNAL Kiwi use only and is public so that sub classes can have a reference to it.
         * @property _manager
-        * @type HUDManager
+        * @type Kiwi.HUD.HUDManager
         * @protected
         */
         public _manager: Kiwi.HUD.HUDManager;
@@ -75,7 +75,7 @@ module Kiwi.HUD {
         /**
         * The game that this HUDWidget belongs to.
         * @property game
-        * @type Game
+        * @type Kiwi.Game
         * @public
         */
         public game: Kiwi.Game;
@@ -100,7 +100,7 @@ module Kiwi.HUD {
         /**
         * Called when the coordinates of the HUD Widget updates.
         * @property onCoordsUpdate
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public onCoordsUpdate: Kiwi.Signal;
@@ -162,7 +162,7 @@ module Kiwi.HUD {
         /**
         * The list of components that the HUDWidget use's.
         * @property components
-        * @type ComponentManager
+        * @type Kiwi.ComponentManager
         * @public
         */
         public components: Kiwi.ComponentManager;

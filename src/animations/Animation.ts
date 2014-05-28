@@ -17,10 +17,10 @@ module Kiwi.Animations {
     * @namespace Kiwi.Animations
     * @constructor
     * @param name {string} The name of this anim.
-    * @param sequences {Sequences} The sequence that this anim will be using to animate.
-    * @param clock {Clock} A game clock that this anim will be using to keep record of the time between frames.
-    * @param parent {AnimationManager} The animation manager that this animation belongs to.
-    * @return {Anim} 
+    * @param sequences {Kiwi.Animations.Sequences} The sequence that this anim will be using to animate.
+    * @param clock {Kiwi.Time.Clock} A game clock that this anim will be using to keep record of the time between frames.
+    * @param parent {Kiwi.Components.AnimationManager} The animation manager that this animation belongs to.
+    * @return {Kiwi.Animations.Anim} 
     * 
     */
     export class Animation {
@@ -49,7 +49,7 @@ module Kiwi.Animations {
         /**
         * The AnimationManager that this animation is a child of.
         * @property _parent
-        * @type AnimationManager
+        * @type Kiwi.Components.AnimationManager
         * @private
         */
         private _parent: Kiwi.Components.AnimationManager;
@@ -65,7 +65,7 @@ module Kiwi.Animations {
         /**
         * The sequence on the texture atlas that this animation is based off.
         * @property _sequence
-        * @type Sequence
+        * @type Kiwi.Animations.Sequence
         * @private
         */
         private _sequence: Kiwi.Animations.Sequence;
@@ -150,7 +150,7 @@ module Kiwi.Animations {
         /**
         * The clock that is to be used to calculate the animations.
         * @property _clock
-        * @type Clock
+        * @type Kiwi.Time.Clock
         * @private
         */
         private _clock: Kiwi.Time.Clock;
@@ -295,7 +295,7 @@ module Kiwi.Animations {
         /**
         * Plays the animation at a particular frame
         * @method playAt
-        * @param index {number} The index of the cell in the sequence that the animation is to start at.
+        * @param index {Number} The index of the cell in the sequence that the animation is to start at.
         * @public
         */
         public playAt(index: number) {  
@@ -398,7 +398,7 @@ module Kiwi.Animations {
         /**
         * An internal method used to check to see if frame passed is valid or not
         * @method _validateFrame
-        * @param frame {number} The index of the frame that is to be validated.
+        * @param frame {Number} The index of the frame that is to be validated.
         * @private
         */
         private _validateFrame(frame: number) {

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -364,8 +368,7 @@
 
 
 <div class="box intro">
-    <p>An Entity serves as a container for game objects to extend from and thus you should never directly instantiate this class.
-Each Entity has a unique ID (UID) which is automatically generated upon instantiation.
+    <p>An Entity is a base class for game objects to extend from and thus you should never directly instantiate this class.
 Every entity requires that you pass to it the state that it belongs too, that way when you switch states the appropriate entitys can be deleted.</p>
 
 </div>
@@ -404,7 +407,7 @@ Every entity requires that you pass to it the state that it belongs too, that wa
 
     
         <span class="returns-inline">
-            <span class="type">Entity</span>
+            <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
         </span>
     
 
@@ -510,7 +513,7 @@ Every entity requires that you pass to it the state that it belongs too, that wa
             <div class="returns-description">
                 
                     
-                        <span class="type">Entity</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>:
                     
                     <p>This entity.</p>
 
@@ -571,6 +574,13 @@ Every entity requires that you pass to it the state that it belongs too, that wa
                             </li>
                         
                             <li class="index-item method public">
+                                <a href="#method_renderGL">renderGL</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_update">update</a>
 
                                 
@@ -602,6 +612,13 @@ Every entity requires that you pass to it the state that it belongs too, that wa
                             </li>
                         
                             <li class="index-item property private">
+                                <a href="#property__cellIndex">_cellIndex</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
                                 <a href="#property__clock">_clock</a>
 
                                 
@@ -610,6 +627,13 @@ Every entity requires that you pass to it the state that it belongs too, that wa
                         
                             <li class="index-item property private">
                                 <a href="#property__exists">_exists</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__inputEnabled">_inputEnabled</a>
 
                                 
                                 
@@ -687,13 +711,6 @@ Every entity requires that you pass to it the state that it belongs too, that wa
                         
                             <li class="index-item property private">
                                 <a href="#property_dirty">dirty</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property_exists">exists</a>
 
                                 
                                 
@@ -890,7 +907,7 @@ Every entity requires that you pass to it the state that it belongs too, that wa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l474"><code>src\core\Entity.ts:474</code></a>
+        <a href="../files/src_core_Entity.ts.html#l514"><code>src\core\Entity.ts:514</code></a>
         
         </p>
 
@@ -976,7 +993,7 @@ Every entity requires that you pass to it the state that it belongs too, that wa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l439"><code>src\core\Entity.ts:439</code></a>
+        <a href="../files/src_core_Entity.ts.html#l468"><code>src\core\Entity.ts:468</code></a>
         
         </p>
 
@@ -1057,7 +1074,7 @@ Every entity requires that you pass to it the state that it belongs too, that wa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l458"><code>src\core\Entity.ts:458</code></a>
+        <a href="../files/src_core_Entity.ts.html#l488"><code>src\core\Entity.ts:488</code></a>
         
         </p>
 
@@ -1068,7 +1085,8 @@ Every entity requires that you pass to it the state that it belongs too, that wa
     </div>
 
     <div class="description">
-        <p>This isn&#39;t called until the Entity has been added to a layer.
+        <p>Renders the entity using the canvas renderer. 
+This isn&#39;t called until the Entity has been added to a Group/State which is active.
 This functionality is handled by the sub classes.</p>
 
     </div>
@@ -1089,6 +1107,142 @@ This functionality is handled by the sub classes.</p>
 
                     <div class="param-description">
                          
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_renderGL" class="method item public">
+    <h3 class="name"><code>renderGL</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>camera</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[params=null]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Entity.ts.html#l500"><code>src\core\Entity.ts:500</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Renders the entity using the canvas renderer. 
+This isn&#39;t called until the Entity has been added to a Group/State which is active.
+This functionality is handled by the sub classes.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">camera</code>
+                        <span class="type"><a href="..\classes\Kiwi.Camera.html" class="crosslink">Kiwi.Camera</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[params=null]</code>
+                        <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>params</p>
+
                     </div>
 
                     
@@ -1138,7 +1292,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l449"><code>src\core\Entity.ts:449</code></a>
+        <a href="../files/src_core_Entity.ts.html#l478"><code>src\core\Entity.ts:478</code></a>
         
         </p>
 
@@ -1149,7 +1303,8 @@ This functionality is handled by the sub classes.</p>
     </div>
 
     <div class="description">
-        <p>This isn&#39;t called until the Entity has been added to a Group or a State</p>
+        <p>This isn&#39;t called until the Entity has been added to a Group or a State.
+Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loop doesn&#39;t run) then each member will not execute either.</p>
 
     </div>
 
@@ -1194,7 +1349,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l327"><code>src\core\Entity.ts:327</code></a>
+        <a href="../files/src_core_Entity.ts.html#l356"><code>src\core\Entity.ts:356</code></a>
         
         </p>
 
@@ -1243,7 +1398,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l182"><code>src\core\Entity.ts:182</code></a>
+        <a href="../files/src_core_Entity.ts.html#l181"><code>src\core\Entity.ts:181</code></a>
         
         </p>
 
@@ -1253,7 +1408,7 @@ This functionality is handled by the sub classes.</p>
     </div>
 
     <div class="description">
-        <p>The actual alpha of this entity.</p>
+        <p>The alpha of this entity.</p>
 
     </div>
 
@@ -1265,9 +1420,9 @@ This functionality is handled by the sub classes.</p>
 </div>
 
                 
-                    <div id="property__clock" class="property item private">
-    <h3 class="name"><code>_clock</code></h3>
-    <span class="type">Clock</span>
+                    <div id="property__cellIndex" class="property item private">
+    <h3 class="name"><code>_cellIndex</code></h3>
+    <span class="type">Number</span>
 
     
 
@@ -1290,7 +1445,56 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l395"><code>src\core\Entity.ts:395</code></a>
+        <a href="../files/src_core_Entity.ts.html#l254"><code>src\core\Entity.ts:254</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Holds the current cell that is being used by the entity.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__clock" class="property item private">
+    <h3 class="name"><code>_clock</code></h3>
+    <span class="type">Kiwi.Clock</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Entity.ts.html#l424"><code>src\core\Entity.ts:424</code></a>
         
         </p>
 
@@ -1337,7 +1541,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l306"><code>src\core\Entity.ts:306</code></a>
+        <a href="../files/src_core_Entity.ts.html#l335"><code>src\core\Entity.ts:335</code></a>
         
         </p>
 
@@ -1359,9 +1563,9 @@ This functionality is handled by the sub classes.</p>
 </div>
 
                 
-                    <div id="property__parent" class="property item private">
-    <h3 class="name"><code>_parent</code></h3>
-    <span class="type">Group</span>
+                    <div id="property__inputEnabled" class="property item private">
+    <h3 class="name"><code>_inputEnabled</code></h3>
+    <span class="type">Boolean</span>
 
     
 
@@ -1384,7 +1588,54 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l56"><code>src\core\Entity.ts:56</code></a>
+        <a href="../files/src_core_Entity.ts.html#l402"><code>src\core\Entity.ts:402</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__parent" class="property item private">
+    <h3 class="name"><code>_parent</code></h3>
+    <span class="type"><a href="..\classes\Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Entity.ts.html#l55"><code>src\core\Entity.ts:55</code></a>
         
         </p>
 
@@ -1431,7 +1682,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l206"><code>src\core\Entity.ts:206</code></a>
+        <a href="../files/src_core_Entity.ts.html#l205"><code>src\core\Entity.ts:205</code></a>
         
         </p>
 
@@ -1480,7 +1731,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l350"><code>src\core\Entity.ts:350</code></a>
+        <a href="../files/src_core_Entity.ts.html#l379"><code>src\core\Entity.ts:379</code></a>
         
         </p>
 
@@ -1529,7 +1780,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l336"><code>src\core\Entity.ts:336</code></a>
+        <a href="../files/src_core_Entity.ts.html#l365"><code>src\core\Entity.ts:365</code></a>
         
         </p>
 
@@ -1577,7 +1828,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l190"><code>src\core\Entity.ts:190</code></a>
+        <a href="../files/src_core_Entity.ts.html#l189"><code>src\core\Entity.ts:189</code></a>
         
         </p>
 
@@ -1601,7 +1852,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
                 
                     <div id="property_atlas" class="property item public">
     <h3 class="name"><code>atlas</code></h3>
-    <span class="type">TextureAtlas</span>
+    <span class="type"><a href="..\classes\Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
 
     
 
@@ -1624,7 +1875,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l247"><code>src\core\Entity.ts:247</code></a>
+        <a href="../files/src_core_Entity.ts.html#l246"><code>src\core\Entity.ts:246</code></a>
         
         </p>
 
@@ -1671,7 +1922,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l255"><code>src\core\Entity.ts:255</code></a>
+        <a href="../files/src_core_Entity.ts.html#l263"><code>src\core\Entity.ts:263</code></a>
         
         </p>
 
@@ -1698,7 +1949,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
                 
                     <div id="property_clock" class="property item public">
     <h3 class="name"><code>clock</code></h3>
-    <span class="type">Clock</span>
+    <span class="type"><a href="..\classes\Kiwi.Time.Clock.html" class="crosslink">Kiwi.Time.Clock</a></span>
 
     
 
@@ -1721,7 +1972,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l403"><code>src\core\Entity.ts:403</code></a>
+        <a href="../files/src_core_Entity.ts.html#l432"><code>src\core\Entity.ts:432</code></a>
         
         </p>
 
@@ -1745,7 +1996,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
                 
                     <div id="property_components" class="property item public">
     <h3 class="name"><code>components</code></h3>
-    <span class="type">ComponentManager</span>
+    <span class="type"><a href="..\classes\Kiwi.ComponentManager.html" class="crosslink">Kiwi.ComponentManager</a></span>
 
     
 
@@ -1768,7 +2019,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l265"><code>src\core\Entity.ts:265</code></a>
+        <a href="../files/src_core_Entity.ts.html#l294"><code>src\core\Entity.ts:294</code></a>
         
         </p>
 
@@ -1815,7 +2066,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l424"><code>src\core\Entity.ts:424</code></a>
+        <a href="../files/src_core_Entity.ts.html#l453"><code>src\core\Entity.ts:453</code></a>
         
         </p>
 
@@ -1862,7 +2113,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l416"><code>src\core\Entity.ts:416</code></a>
+        <a href="../files/src_core_Entity.ts.html#l445"><code>src\core\Entity.ts:445</code></a>
         
         </p>
 
@@ -1873,53 +2124,6 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
 
     <div class="description">
         <p>A value used by components to control if the Entity needs re-rendering</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_exists" class="property item private">
-    <h3 class="name"><code>exists</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_Entity.ts.html#l373"><code>src\core\Entity.ts:373</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>If an Entity no longer exists it is cleared for garbage collection or pool re-allocation</p>
 
     </div>
 
@@ -1956,7 +2160,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l314"><code>src\core\Entity.ts:314</code></a>
+        <a href="../files/src_core_Entity.ts.html#l343"><code>src\core\Entity.ts:343</code></a>
         
         </p>
 
@@ -2003,7 +2207,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l273"><code>src\core\Entity.ts:273</code></a>
+        <a href="../files/src_core_Entity.ts.html#l302"><code>src\core\Entity.ts:302</code></a>
         
         </p>
 
@@ -2050,7 +2254,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l238"><code>src\core\Entity.ts:238</code></a>
+        <a href="../files/src_core_Entity.ts.html#l237"><code>src\core\Entity.ts:237</code></a>
         
         </p>
 
@@ -2099,7 +2303,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l289"><code>src\core\Entity.ts:289</code></a>
+        <a href="../files/src_core_Entity.ts.html#l318"><code>src\core\Entity.ts:318</code></a>
         
         </p>
 
@@ -2146,7 +2350,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l381"><code>src\core\Entity.ts:381</code></a>
+        <a href="../files/src_core_Entity.ts.html#l410"><code>src\core\Entity.ts:410</code></a>
         
         </p>
 
@@ -2194,7 +2398,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l297"><code>src\core\Entity.ts:297</code></a>
+        <a href="../files/src_core_Entity.ts.html#l326"><code>src\core\Entity.ts:326</code></a>
         
         </p>
 
@@ -2243,7 +2447,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l64"><code>src\core\Entity.ts:64</code></a>
+        <a href="../files/src_core_Entity.ts.html#l63"><code>src\core\Entity.ts:63</code></a>
         
         </p>
 
@@ -2269,7 +2473,7 @@ This method should be over-ridden to handle specific game object implementations
             <li class="param">
                 
                     <code class="param-name">val</code>
-                    <span class="type">Group</span>
+                    <span class="type"><a href="..\classes\Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
                 
 
                 <div class="param-description">
@@ -2309,7 +2513,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l133"><code>src\core\Entity.ts:133</code></a>
+        <a href="../files/src_core_Entity.ts.html#l132"><code>src\core\Entity.ts:132</code></a>
         
         </p>
 
@@ -2356,7 +2560,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l146"><code>src\core\Entity.ts:146</code></a>
+        <a href="../files/src_core_Entity.ts.html#l145"><code>src\core\Entity.ts:145</code></a>
         
         </p>
 
@@ -2403,7 +2607,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l159"><code>src\core\Entity.ts:159</code></a>
+        <a href="../files/src_core_Entity.ts.html#l158"><code>src\core\Entity.ts:158</code></a>
         
         </p>
 
@@ -2450,7 +2654,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l106"><code>src\core\Entity.ts:106</code></a>
+        <a href="../files/src_core_Entity.ts.html#l105"><code>src\core\Entity.ts:105</code></a>
         
         </p>
 
@@ -2497,7 +2701,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l119"><code>src\core\Entity.ts:119</code></a>
+        <a href="../files/src_core_Entity.ts.html#l118"><code>src\core\Entity.ts:118</code></a>
         
         </p>
 
@@ -2544,7 +2748,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l281"><code>src\core\Entity.ts:281</code></a>
+        <a href="../files/src_core_Entity.ts.html#l310"><code>src\core\Entity.ts:310</code></a>
         
         </p>
 
@@ -2568,7 +2772,7 @@ This method should be over-ridden to handle specific game object implementations
                 
                     <div id="property_transform" class="property item public">
     <h3 class="name"><code>transform</code></h3>
-    <span class="type">Transform</span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
 
     
 
@@ -2591,7 +2795,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l48"><code>src\core\Entity.ts:48</code></a>
+        <a href="../files/src_core_Entity.ts.html#l47"><code>src\core\Entity.ts:47</code></a>
         
         </p>
 
@@ -2638,7 +2842,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l215"><code>src\core\Entity.ts:215</code></a>
+        <a href="../files/src_core_Entity.ts.html#l214"><code>src\core\Entity.ts:214</code></a>
         
         </p>
 
@@ -2687,7 +2891,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l229"><code>src\core\Entity.ts:229</code></a>
+        <a href="../files/src_core_Entity.ts.html#l228"><code>src\core\Entity.ts:228</code></a>
         
         </p>
 
@@ -2736,7 +2940,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l359"><code>src\core\Entity.ts:359</code></a>
+        <a href="../files/src_core_Entity.ts.html#l388"><code>src\core\Entity.ts:388</code></a>
         
         </p>
 
@@ -2746,7 +2950,7 @@ This method should be over-ridden to handle specific game object implementations
     </div>
 
     <div class="description">
-        <p>Toggles if this Entity will be rendered by a canvas layer. Use the visibile component for DOM layers.</p>
+        <p>Toggles if this Entity will be rendered.</p>
 
     </div>
 
@@ -2785,7 +2989,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l79"><code>src\core\Entity.ts:79</code></a>
+        <a href="../files/src_core_Entity.ts.html#l78"><code>src\core\Entity.ts:78</code></a>
         
         </p>
 
@@ -2832,7 +3036,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l92"><code>src\core\Entity.ts:92</code></a>
+        <a href="../files/src_core_Entity.ts.html#l91"><code>src\core\Entity.ts:91</code></a>
         
         </p>
 

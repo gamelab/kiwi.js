@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -358,9 +362,9 @@ module Kiwi {
     * @class StateConfig
     * @namespace Kiwi
     * @constructor
-    * @param {State} parent
-    * @param {String} name
-    * @return {StateConfig} This Object
+    * @param parent {Kiwi.State} The State that this configuration object belongs to.
+    * @param name {String} The name of the state which was created.
+    * @return {Kiwi.StateConfig} 
     * 
     */ 
     export class StateConfig {
@@ -380,7 +384,7 @@ module Kiwi {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} &quot;StateConfig&quot;
         * @public
         */
         public objType() {
@@ -390,7 +394,7 @@ module Kiwi {
         /**
         * The state this StateConfig belongs to.
         * @property _state
-        * @type State
+        * @type Kiwi.State
         * @private
         */
         private _state: Kiwi.State;
@@ -405,10 +409,6 @@ module Kiwi {
 
         /**
         * Currently unused.
-        * @property isPersistent
-        * @type boolean
-        * @default false
-        * @public
         */
         public isPersistent: boolean = false;
 
@@ -460,12 +460,8 @@ module Kiwi {
         */
         public runCount: number = 0;
 
-        /**
-        * The type of state this is. Currently Unused.
-        * @property type
-        * @type Number
-        * @default 0
-        * @public
+        /*
+        * The type of State this is. Currently Unused.
         */
         public type: number = 0;
 
@@ -488,8 +484,8 @@ module Kiwi {
         /**
         * Resets the properties contained on this StateConfig object. 
         * This is executed when a State is about to be destroyed as so reset&#x27;s it to be switched to again.
-        * @method 
-        * 
+        * @method reset
+        * @public
         */
         public reset() {
 

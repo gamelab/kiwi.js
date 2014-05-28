@@ -14,7 +14,7 @@ module Kiwi.Input {
     * @extends Pointer
     * @namespace Kiwi.Input
     * @constructor
-    * @param game {Game} The game that this finger belongs to.
+    * @param game {Kiwi.Game} The game that this finger belongs to.
     * @return Finger
     */
     export class Finger extends Pointer {
@@ -40,7 +40,6 @@ module Kiwi.Input {
         * @public
         */
         public start(event) {
-            this.id = event.identifier;
             this.active = true;
             super.start(event);
         }

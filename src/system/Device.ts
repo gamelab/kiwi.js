@@ -24,7 +24,6 @@ module Kiwi.System {
 
             this._checkAudio();
             this._checkBrowser();
-            this._checkCSS3D();
             this._checkDevice();
             this._checkFeatures();
             this._checkOS();
@@ -90,6 +89,14 @@ module Kiwi.System {
         * @public
         */
         public windows: boolean = false;
+
+        /**
+        * 
+        * @property windowsPhone 
+        * @type boolean
+        * @public
+        */
+        public windowsPhone: boolean = false;
 
         //  Features
 
@@ -159,13 +166,14 @@ module Kiwi.System {
         public touch: boolean = false;
 
         /**
-        * 
-        * @property css3D
+        * If the type of touch events are pointers (event msPointers)
+        * @property pointerEnabled
         * @type boolean
         * @public
         */
-        public css3D: boolean = false;
+        public pointerEnabled: boolean = false;
 
+       
         //  Browser
 
         /**
@@ -215,6 +223,14 @@ module Kiwi.System {
         * @public
         */
         public ieVersion: number = 0;
+
+        /**
+        *
+        * @property ieMobile
+        * @type boolean
+        * @public 
+        */
+        public ieMobile: boolean = false;
 
         /**
         * 
@@ -369,9 +385,13 @@ module Kiwi.System {
             {
                 this.macOS = true;
             }
+            else if(/Windows Phone/.test(ua)) {
+                this.windowsPhone = true;
+            }
             else if (/Windows/.test(ua))
             {
                 this.windows = true;
+
             }
 
         }
@@ -393,7 +413,7 @@ module Kiwi.System {
             }
             catch (error)
             {
-                this.localStorage = false;
+                this.localStorage = false; 
             }
 
             this.file = !!window['File'] && !!window['FileReader'] && !!window['FileList'] && !!window['Blob'];
@@ -401,9 +421,16 @@ module Kiwi.System {
             this.webGL = !!window['WebGLRenderingContext'];
             this.worker = !!window['Worker'];
 
-            if ('ontouchstart' in document.documentElement || window.navigator.msPointerEnabled)
+            if ('ontouchstart' in document.documentElement ||
+               (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 0) ||
+               ((<any>window.navigator).pointerEnabled && (<any>window.navigator).maxTouchPoints > 0))
             {
                 this.touch = true;
+
+            }
+
+            if ((<any>window.navigator).pointerEnabled || window.navigator.msPointerEnabled ) {
+                this.pointerEnabled = true;
             }
 
         }
@@ -416,6 +443,7 @@ module Kiwi.System {
         private _checkBrowser() {
 
             var ua = navigator.userAgent;
+            var an = navigator.appName;
 
             if (/Arora/.test(ua))
             {
@@ -437,9 +465,20 @@ module Kiwi.System {
             {
                 this.mobileSafari = true;
             }
-            else if (/MSIE (\d+\.\d+);/.test(ua))
+            else if (/MSIE (\d+\.\d+);/.test(ua)) //Will Detect 10- versions of IE
             {
                 this.ie = true;
+                this.ieVersion = parseInt(RegExp.$1);
+
+                if ( /IEMobile/.test(ua) ) {
+                    this.ieMobile = true;
+                }
+
+            }
+            else if (/Trident/.test(ua))        //Will Detect 11+ versions for IE
+            {
+                this.ie = true;
+                /rv:(\d+\.\d+)\)/.test(ua);
                 this.ieVersion = parseInt(RegExp.$1);
             }
             else if (/Midori/.test(ua))
@@ -521,39 +560,7 @@ module Kiwi.System {
 
         }
 
-        /**
-        * 
-        * @method _checkCSS3D
-        * @private
-        */
-        private _checkCSS3D() {
-
-            var el = document.createElement('p');
-            var has3d;
-            var transforms = {
-                'webkitTransform':'-webkit-transform',
-                'OTransform':'-o-transform',
-                'msTransform':'-ms-transform',
-                'MozTransform':'-moz-transform',
-                'transform':'transform'
-            };
-
-            // Add it to the body to get the computed style.
-            document.body.insertBefore(el, null);
-
-            for (var t in transforms) {
-                if (el.style[t] !== undefined) {
-                    el.style[t] = "translate3d(1px,1px,1px)";
-                    has3d = window.getComputedStyle(el).getPropertyValue(transforms[t]);
-                }
-            }
-
-            document.body.removeChild(el);
-
-            this.css3D = (has3d !== undefined && has3d.length > 0 && has3d !== "none");
-
-        }
-
+      
         /**
         * 
         * @method getAll
@@ -600,8 +607,7 @@ module Kiwi.System {
             output = output.concat('WebGL: ' + this.webGL + '\n');
             output = output.concat('Worker: ' + this.worker + '\n');
             output = output.concat('Touch: ' + this.touch + '\n');
-            output = output.concat('CSS 3D: ' + this.css3D + '\n');
-
+           
             output = output.concat('\n');
             output = output.concat('Audio\n');
             output = output.concat('Audio Data: ' + this.canvas + '\n');

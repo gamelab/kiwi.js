@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -364,7 +368,7 @@
 
 
 <div class="box intro">
-    <p>The base class that is used when you are wanting to create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF which is used for the game loop.</p>
+    <p>The base class that is used when you create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF (RequestAnimationFrame object) which is used for the game loop.</p>
 
 </div>
 
@@ -408,7 +412,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">Game</span>
+            <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
         </span>
     
 
@@ -534,7 +538,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Game</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>:
                     
                 
             </div>
@@ -572,7 +576,7 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method private">
-                                <a href="#method_loop">loop</a>
+                                <a href="#method__loop">_loop</a>
 
                                 
                                 
@@ -623,13 +627,6 @@
                                 
                             </li>
                         
-                            <li class="index-item property private">
-                                <a href="#property__dom">_dom</a>
-
-                                
-                                
-                            </li>
-                        
                             <li class="index-item property public">
                                 <a href="#property__framerate">_framerate</a>
 
@@ -658,6 +655,13 @@
                                 
                             </li>
                         
+                            <li class="index-item property private">
+                                <a href="#property__startup">_startup</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property public">
                                 <a href="#property_audio">audio</a>
 
@@ -665,8 +669,8 @@
                                 
                             </li>
                         
-                            <li class="index-item property public">
-                                <a href="#property_browser">browser</a>
+                            <li class="index-item property private">
+                                <a href="#property_bootCallbackOption">bootCallbackOption</a>
 
                                 
                                 
@@ -812,8 +816,8 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_loop" class="method item private">
-    <h3 class="name"><code>loop</code></h3>
+                    <div id="method__loop" class="method item private">
+    <h3 class="name"><code>_loop</code></h3>
 
     
         <span class="paren">()</span>
@@ -846,7 +850,7 @@
             
         
         
-        <a href="../files/src_core_Game.ts.html#l456"><code>src\core\Game.ts:456</code></a>
+        <a href="../files/src_core_Game.ts.html#l494"><code>src\core\Game.ts:494</code></a>
         
         </p>
 
@@ -857,7 +861,7 @@
     </div>
 
     <div class="description">
-        <p>The loop that the whole game is using.</p>
+        <p>The game loop.</p>
 
     </div>
 
@@ -907,7 +911,7 @@
             
         
         
-        <a href="../files/src_core_Game.ts.html#l233"><code>src\core\Game.ts:233</code></a>
+        <a href="../files/src_core_Game.ts.html#l283"><code>src\core\Game.ts:283</code></a>
         
         </p>
 
@@ -978,7 +982,7 @@
             
         
         
-        <a href="../files/src_core_Game.ts.html#l418"><code>src\core\Game.ts:418</code></a>
+        <a href="../files/src_core_Game.ts.html#l460"><code>src\core\Game.ts:460</code></a>
         
         </p>
 
@@ -1035,7 +1039,7 @@ Once the managers have started up the start loop will then begin to create the g
             
         
         
-        <a href="../files/src_core_Game.ts.html#l187"><code>src\core\Game.ts:187</code></a>
+        <a href="../files/src_core_Game.ts.html#l237"><code>src\core\Game.ts:237</code></a>
         
         </p>
 
@@ -1083,7 +1087,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l381"><code>src\core\Game.ts:381</code></a>
+        <a href="../files/src_core_Game.ts.html#l423"><code>src\core\Game.ts:423</code></a>
         
         </p>
 
@@ -1130,7 +1134,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l169"><code>src\core\Game.ts:169</code></a>
+        <a href="../files/src_core_Game.ts.html#l219"><code>src\core\Game.ts:219</code></a>
         
         </p>
 
@@ -1141,53 +1145,6 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
 
     <div class="description">
         <p>The type of device that you are targeting. This is either set to COCOON or BROWSER</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__dom" class="property item private">
-    <h3 class="name"><code>_dom</code></h3>
-    <span class="type">Bootstrap</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_Game.ts.html#l243"><code>src\core\Game.ts:243</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>[REQUIRES DESCRIPTION]</p>
 
     </div>
 
@@ -1224,7 +1181,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l363"><code>src\core\Game.ts:363</code></a>
+        <a href="../files/src_core_Game.ts.html#l405"><code>src\core\Game.ts:405</code></a>
         
         </p>
 
@@ -1273,7 +1230,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l372"><code>src\core\Game.ts:372</code></a>
+        <a href="../files/src_core_Game.ts.html#l414"><code>src\core\Game.ts:414</code></a>
         
         </p>
 
@@ -1322,7 +1279,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l389"><code>src\core\Game.ts:389</code></a>
+        <a href="../files/src_core_Game.ts.html#l431"><code>src\core\Game.ts:431</code></a>
         
         </p>
 
@@ -1369,7 +1326,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l149"><code>src\core\Game.ts:149</code></a>
+        <a href="../files/src_core_Game.ts.html#l193"><code>src\core\Game.ts:193</code></a>
         
         </p>
 
@@ -1391,9 +1348,56 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
 </div>
 
                 
+                    <div id="property__startup" class="property item private">
+    <h3 class="name"><code>_startup</code></h3>
+    <span class="type"><a href="..\classes\Kiwi.System.Bootstrap.html" class="crosslink">Kiwi.System.Bootstrap</a></span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Game.ts.html#l293"><code>src\core\Game.ts:293</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The object that peforms DOM and device startup operations for browsers (ie not cocoon)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_audio" class="property item public">
     <h3 class="name"><code>audio</code></h3>
-    <span class="type">AudioManager</span>
+    <span class="type"><a href="..\classes\Kiwi.Sound.AudioManager.html" class="crosslink">Kiwi.Sound.AudioManager</a></span>
 
     
 
@@ -1416,7 +1420,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l259"><code>src\core\Game.ts:259</code></a>
+        <a href="../files/src_core_Game.ts.html#l309"><code>src\core\Game.ts:309</code></a>
         
         </p>
 
@@ -1438,14 +1442,14 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
 </div>
 
                 
-                    <div id="property_browser" class="property item public">
-    <h3 class="name"><code>browser</code></h3>
-    <span class="type">Browser</span>
+                    <div id="property_bootCallbackOption" class="property item private">
+    <h3 class="name"><code>bootCallbackOption</code></h3>
+    <span class="type">Function</span>
 
     
 
     
-        <span class="flag public">public</span>
+        <span class="flag private">private</span>
     
 
     
@@ -1463,7 +1467,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l267"><code>src\core\Game.ts:267</code></a>
+        <a href="../files/src_core_Game.ts.html#l211"><code>src\core\Game.ts:211</code></a>
         
         </p>
 
@@ -1473,7 +1477,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>Used to get the coordinates of any DOM element on the game.</p>
+        <p>A callback function that can be passed in as an option in the conifugration object. Invoked after the boot process has completed.</p>
 
     </div>
 
@@ -1487,7 +1491,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
                 
                     <div id="property_cameras" class="property item public">
     <h3 class="name"><code>cameras</code></h3>
-    <span class="type">CameraManager</span>
+    <span class="type"><a href="..\classes\Kiwi.CameraManager.html" class="crosslink">Kiwi.CameraManager</a></span>
 
     
 
@@ -1510,7 +1514,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l291"><code>src\core\Game.ts:291</code></a>
+        <a href="../files/src_core_Game.ts.html#l333"><code>src\core\Game.ts:333</code></a>
         
         </p>
 
@@ -1557,7 +1561,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l206"><code>src\core\Game.ts:206</code></a>
+        <a href="../files/src_core_Game.ts.html#l256"><code>src\core\Game.ts:256</code></a>
         
         </p>
 
@@ -1604,7 +1608,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l196"><code>src\core\Game.ts:196</code></a>
+        <a href="../files/src_core_Game.ts.html#l246"><code>src\core\Game.ts:246</code></a>
         
         </p>
 
@@ -1651,7 +1655,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l177"><code>src\core\Game.ts:177</code></a>
+        <a href="../files/src_core_Game.ts.html#l227"><code>src\core\Game.ts:227</code></a>
         
         </p>
 
@@ -1675,7 +1679,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
                 
                     <div id="property_fileStore" class="property item public">
     <h3 class="name"><code>fileStore</code></h3>
-    <span class="type">FileStore</span>
+    <span class="type"><a href="..\classes\Kiwi.Files.FileStore.html" class="crosslink">Kiwi.Files.FileStore</a></span>
 
     
 
@@ -1698,7 +1702,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l275"><code>src\core\Game.ts:275</code></a>
+        <a href="../files/src_core_Game.ts.html#l317"><code>src\core\Game.ts:317</code></a>
         
         </p>
 
@@ -1745,7 +1749,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l397"><code>src\core\Game.ts:397</code></a>
+        <a href="../files/src_core_Game.ts.html#l439"><code>src\core\Game.ts:439</code></a>
         
         </p>
 
@@ -1792,7 +1796,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l225"><code>src\core\Game.ts:225</code></a>
+        <a href="../files/src_core_Game.ts.html#l275"><code>src\core\Game.ts:275</code></a>
         
         </p>
 
@@ -1816,7 +1820,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
                 
                     <div id="property_input" class="property item public">
     <h3 class="name"><code>input</code></h3>
-    <span class="type">InputManager</span>
+    <span class="type"><a href="..\classes\Kiwi.Input.InputManager.html" class="crosslink">Kiwi.Input.InputManager</a></span>
 
     
 
@@ -1839,7 +1843,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l283"><code>src\core\Game.ts:283</code></a>
+        <a href="../files/src_core_Game.ts.html#l325"><code>src\core\Game.ts:325</code></a>
         
         </p>
 
@@ -1863,7 +1867,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
                 
                     <div id="property_loader" class="property item public">
     <h3 class="name"><code>loader</code></h3>
-    <span class="type">Loader</span>
+    <span class="type"><a href="..\classes\Kiwi.Files.Loader.html" class="crosslink">Kiwi.Files.Loader</a></span>
 
     
 
@@ -1886,7 +1890,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l307"><code>src\core\Game.ts:307</code></a>
+        <a href="../files/src_core_Game.ts.html#l349"><code>src\core\Game.ts:349</code></a>
         
         </p>
 
@@ -1910,7 +1914,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
                 
                     <div id="property_pluginManager" class="property item public">
     <h3 class="name"><code>pluginManager</code></h3>
-    <span class="type">PluginManager</span>
+    <span class="type"><a href="..\classes\Kiwi.PluginManager.html" class="crosslink">Kiwi.PluginManager</a></span>
 
     
 
@@ -1933,7 +1937,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l299"><code>src\core\Game.ts:299</code></a>
+        <a href="../files/src_core_Game.ts.html#l341"><code>src\core\Game.ts:341</code></a>
         
         </p>
 
@@ -1957,7 +1961,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
                 
                     <div id="property_raf" class="property item public">
     <h3 class="name"><code>raf</code></h3>
-    <span class="type">RequestAnimationFrame</span>
+    <span class="type"><a href="..\classes\Kiwi.Utils.RequestAnimationFrame.html" class="crosslink">Kiwi.Utils.RequestAnimationFrame</a></span>
 
     
 
@@ -1980,7 +1984,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l315"><code>src\core\Game.ts:315</code></a>
+        <a href="../files/src_core_Game.ts.html#l357"><code>src\core\Game.ts:357</code></a>
         
         </p>
 
@@ -2027,7 +2031,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l217"><code>src\core\Game.ts:217</code></a>
+        <a href="../files/src_core_Game.ts.html#l267"><code>src\core\Game.ts:267</code></a>
         
         </p>
 
@@ -2037,7 +2041,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>Holds the renderer that is being used. This is detiremended based of the _renderMode</p>
+        <p>Holds the renderer that is being used. This is determined based on the _renderMode</p>
 
     </div>
 
@@ -2074,7 +2078,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l157"><code>src\core\Game.ts:157</code></a>
+        <a href="../files/src_core_Game.ts.html#l201"><code>src\core\Game.ts:201</code></a>
         
         </p>
 
@@ -2098,7 +2102,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
                 
                     <div id="property_rnd" class="property item public">
     <h3 class="name"><code>rnd</code></h3>
-    <span class="type">RandomDataGenerator</span>
+    <span class="type">Kiwi.Utils.RandomDataGenerato</span>
 
     
 
@@ -2121,7 +2125,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l355"><code>src\core\Game.ts:355</code></a>
+        <a href="../files/src_core_Game.ts.html#l397"><code>src\core\Game.ts:397</code></a>
         
         </p>
 
@@ -2168,7 +2172,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l323"><code>src\core\Game.ts:323</code></a>
+        <a href="../files/src_core_Game.ts.html#l365"><code>src\core\Game.ts:365</code></a>
         
         </p>
 
@@ -2192,7 +2196,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
                 
                     <div id="property_states" class="property item public">
     <h3 class="name"><code>states</code></h3>
-    <span class="type">StateManager</span>
+    <span class="type"><a href="..\classes\Kiwi.StateManager.html" class="crosslink">Kiwi.StateManager</a></span>
 
     
 
@@ -2215,7 +2219,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l331"><code>src\core\Game.ts:331</code></a>
+        <a href="../files/src_core_Game.ts.html#l373"><code>src\core\Game.ts:373</code></a>
         
         </p>
 
@@ -2239,7 +2243,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
                 
                     <div id="property_time" class="property item public">
     <h3 class="name"><code>time</code></h3>
-    <span class="type">ClockManager</span>
+    <span class="type">Kiwi.Time.ClockManage</span>
 
     
 
@@ -2262,7 +2266,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l339"><code>src\core\Game.ts:339</code></a>
+        <a href="../files/src_core_Game.ts.html#l381"><code>src\core\Game.ts:381</code></a>
         
         </p>
 
@@ -2286,7 +2290,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
                 
                     <div id="property_tweens" class="property item public">
     <h3 class="name"><code>tweens</code></h3>
-    <span class="type">TweenManager</span>
+    <span class="type"><a href="..\classes\Kiwi.Animations.Tweens.TweenManager.html" class="crosslink">Kiwi.Animations.Tweens.TweenManager</a></span>
 
     
 
@@ -2309,7 +2313,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l347"><code>src\core\Game.ts:347</code></a>
+        <a href="../files/src_core_Game.ts.html#l389"><code>src\core\Game.ts:389</code></a>
         
         </p>
 

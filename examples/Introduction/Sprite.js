@@ -12,6 +12,7 @@ Sprite.preload = function () {
     this.game.stage.resize(800, 250);
     // Load out saloon background and ninja
     this.addImage('pirate', 'assets/static/pirate.png');
+
 }
 
 Sprite.create = function () {

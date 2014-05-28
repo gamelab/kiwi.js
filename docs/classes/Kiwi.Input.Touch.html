@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -504,6 +508,48 @@
 
                     <ul class="index-list methods">
                         
+                            <li class="index-item method private">
+                                <a href="#method__cancelFinger">_cancelFinger</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__deregisterFinger">_deregisterFinger</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__enterFinger">_enterFinger</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__leaveFinger">_leaveFinger</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__moveFinger">_moveFinger</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__registerFinger">_registerFinger</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public">
                                 <a href="#method_boot">boot</a>
 
@@ -520,6 +566,48 @@
                         
                             <li class="index-item method public">
                                 <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_onPointerCancel">onPointerCancel</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_onPointerEnd">onPointerEnd</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_onPointerEnter">onPointerEnter</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_onPointerLeave">onPointerLeave</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_onPointerMove">onPointerMove</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_onPointerStart">onPointerStart</a>
 
                                 
                                 
@@ -739,7 +827,28 @@
                             </li>
                         
                             <li class="index-item property public">
+                                <a href="#property_touchEnabled">touchEnabled</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
                                 <a href="#property_touchUp">touchUp</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_x">x</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_y">y</a>
 
                                 
                                 
@@ -757,6 +866,678 @@
         
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method__cancelFinger" class="method item private">
+    <h3 class="name"><code>_cancelFinger</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>event</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>id</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Touch.ts.html#l428"><code>src\input\Touch.ts:428</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>This method is in charge of cancelling (removing) a &quot;finger&quot;.
+You have to pass this method a id which is used to idenfied the finger that was cancelled.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">event</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">id</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__deregisterFinger" class="method item private">
+    <h3 class="name"><code>_deregisterFinger</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>event</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>id</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Touch.ts.html#l396"><code>src\input\Touch.ts:396</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>This method is in charge of deregistering (removing) a &quot;finger&quot; when it has been released,
+You have to pass this method a id which is used to identfy the finger to deregister.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">event</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">id</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__enterFinger" class="method item private">
+    <h3 class="name"><code>_enterFinger</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>event</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>id</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Touch.ts.html#l455"><code>src\input\Touch.ts:455</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>This method is in charge of creating and assigning (removing) a &quot;finger&quot; when it has entered the dom element.
+You have to pass this method a id which is used to idenfied the finger that was cancelled.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">event</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">id</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__leaveFinger" class="method item private">
+    <h3 class="name"><code>_leaveFinger</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>event</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>id</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Touch.ts.html#l476"><code>src\input\Touch.ts:476</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>This method is in charge of removing an assigned &quot;finger&quot; when it has left the DOM Elemetn.
+You have to pass this method a id which is used to idenfied the finger that left.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">event</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">id</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__moveFinger" class="method item private">
+    <h3 class="name"><code>_moveFinger</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>event</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>id</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Touch.ts.html#l493"><code>src\input\Touch.ts:493</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>This method is in charge of updating the coordinates of a &quot;finger&quot; when it has moved..
+You have to pass this method a id which is used to idenfied the finger that moved.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">event</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">id</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__registerFinger" class="method item private">
+    <h3 class="name"><code>_registerFinger</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>event</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>id</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Touch.ts.html#l372"><code>src\input\Touch.ts:372</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>This method is in charge of registering a &quot;finger&quot;  (either from a Touch/Pointer start method) and assigning it a Finger,
+You have to pass this method a id which is used to idenfied when released/cancelled.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">event</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">id</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
 
                 
                     <div id="method_boot" class="method item public">
@@ -793,7 +1574,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l200"><code>src\input\Touch.ts:200</code></a>
+        <a href="../files/src_input_Touch.ts.html#l208"><code>src\input\Touch.ts:208</code></a>
         
         </p>
 
@@ -860,7 +1641,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l259"><code>src\input\Touch.ts:259</code></a>
+        <a href="../files/src_input_Touch.ts.html#l302"><code>src\input\Touch.ts:302</code></a>
         
         </p>
 
@@ -979,6 +1760,544 @@
 </div>
 
                 
+                    <div id="method_onPointerCancel" class="method item private">
+    <h3 class="name"><code>onPointerCancel</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>event</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Touch.ts.html#l629"><code>src\input\Touch.ts:629</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Event that is fired by a pointer event listener upon a pointer canceling for some reason.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">event</code>
+                        <span class="type">PointerEvent</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_onPointerEnd" class="method item private">
+    <h3 class="name"><code>onPointerEnd</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>event</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Touch.ts.html#l676"><code>src\input\Touch.ts:676</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Event that is fired by a pointer event listener upon a pointer being released.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">event</code>
+                        <span class="type">PointerEvent</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_onPointerEnter" class="method item private">
+    <h3 class="name"><code>onPointerEnter</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>event</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Touch.ts.html#l641"><code>src\input\Touch.ts:641</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Event that is fired by a pointer event listener upon a pointer entering the DOM Element the event listener is attached to.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">event</code>
+                        <span class="type">PointerEvent</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_onPointerLeave" class="method item private">
+    <h3 class="name"><code>onPointerLeave</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>event</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Touch.ts.html#l653"><code>src\input\Touch.ts:653</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Event that is fired by a pointer event listener upon a pointer being leaving the DOM Element the event listener is attached to.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">event</code>
+                        <span class="type">PointerEvent</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_onPointerMove" class="method item">
+    <h3 class="name"><code>onPointerMove</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>event</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Touch.ts.html#l665"><code>src\input\Touch.ts:665</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Event that is fired by a pointer event listener upon a pointer moving.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">event</code>
+                        <span class="type">PointerEvent</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_onPointerStart" class="method item private">
+    <h3 class="name"><code>onPointerStart</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>event</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Touch.ts.html#l617"><code>src\input\Touch.ts:617</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Event that is fired when a pointer is initially pressed.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">event</code>
+                        <span class="type">PointerEvent</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_onTouchCancel" class="method item private">
     <h3 class="name"><code>onTouchCancel</code></h3>
 
@@ -1023,7 +2342,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l356"><code>src\input\Touch.ts:356</code></a>
+        <a href="../files/src_input_Touch.ts.html#l534"><code>src\input\Touch.ts:534</code></a>
         
         </p>
 
@@ -1034,7 +2353,8 @@
     </div>
 
     <div class="description">
-        <p>Doesn&#39;t appear to be supported by most browsers yet but if it was it would fire events when a touch is canceled.</p>
+        <p>Doesn&#39;t appear to be supported by most browsers yet but if it was it would fire events when a touch is canceled.
+<a href="http://www.w3.org/TR/touch-events/#dfn-touchcancel">http://www.w3.org/TR/touch-events/#dfn-touchcancel</a></p>
 
     </div>
 
@@ -1113,7 +2433,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l458"><code>src\input\Touch.ts:458</code></a>
+        <a href="../files/src_input_Touch.ts.html#l594"><code>src\input\Touch.ts:594</code></a>
         
         </p>
 
@@ -1124,7 +2444,8 @@
     </div>
 
     <div class="description">
-        <p>When a touch event gets released.</p>
+        <p>When a touch event gets released.
+<a href="https://developer.mozilla.org/en-US/docs/DOM/TouchList">https://developer.mozilla.org/en-US/docs/DOM/TouchList</a></p>
 
     </div>
 
@@ -1203,7 +2524,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l383"><code>src\input\Touch.ts:383</code></a>
+        <a href="../files/src_input_Touch.ts.html#l549"><code>src\input\Touch.ts:549</code></a>
         
         </p>
 
@@ -1293,7 +2614,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l406"><code>src\input\Touch.ts:406</code></a>
+        <a href="../files/src_input_Touch.ts.html#l564"><code>src\input\Touch.ts:564</code></a>
         
         </p>
 
@@ -1383,7 +2704,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l431"><code>src\input\Touch.ts:431</code></a>
+        <a href="../files/src_input_Touch.ts.html#l580"><code>src\input\Touch.ts:580</code></a>
         
         </p>
 
@@ -1473,7 +2794,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l319"><code>src\input\Touch.ts:319</code></a>
+        <a href="../files/src_input_Touch.ts.html#l519"><code>src\input\Touch.ts:519</code></a>
         
         </p>
 
@@ -1484,7 +2805,8 @@
     </div>
 
     <div class="description">
-        <p>This method runs when the a touch start event is fired by the browser and then assigns the event to a pointer that is currently not active.</p>
+        <p>This method runs when the a touch start event is fired by the browser and then assigns the event to a pointer that is currently not active.
+<a href="https://developer.mozilla.org/en-US/docs/DOM/TouchList">https://developer.mozilla.org/en-US/docs/DOM/TouchList</a></p>
 
     </div>
 
@@ -1553,7 +2875,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l543"><code>src\input\Touch.ts:543</code></a>
+        <a href="../files/src_input_Touch.ts.html#l743"><code>src\input\Touch.ts:743</code></a>
         
         </p>
 
@@ -1610,7 +2932,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l229"><code>src\input\Touch.ts:229</code></a>
+        <a href="../files/src_input_Touch.ts.html#l237"><code>src\input\Touch.ts:237</code></a>
         
         </p>
 
@@ -1667,7 +2989,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l516"><code>src\input\Touch.ts:516</code></a>
+        <a href="../files/src_input_Touch.ts.html#l714"><code>src\input\Touch.ts:714</code></a>
         
         </p>
 
@@ -1724,7 +3046,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l500"><code>src\input\Touch.ts:500</code></a>
+        <a href="../files/src_input_Touch.ts.html#l696"><code>src\input\Touch.ts:696</code></a>
         
         </p>
 
@@ -1780,7 +3102,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l44"><code>src\input\Touch.ts:44</code></a>
+        <a href="../files/src_input_Touch.ts.html#l52"><code>src\input\Touch.ts:52</code></a>
         
         </p>
 
@@ -1829,7 +3151,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l53"><code>src\input\Touch.ts:53</code></a>
+        <a href="../files/src_input_Touch.ts.html#l61"><code>src\input\Touch.ts:61</code></a>
         
         </p>
 
@@ -1876,7 +3198,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l36"><code>src\input\Touch.ts:36</code></a>
+        <a href="../files/src_input_Touch.ts.html#l44"><code>src\input\Touch.ts:44</code></a>
         
         </p>
 
@@ -1923,7 +3245,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l287"><code>src\input\Touch.ts:287</code></a>
+        <a href="../files/src_input_Touch.ts.html#l332"><code>src\input\Touch.ts:332</code></a>
         
         </p>
 
@@ -1933,7 +3255,8 @@
     </div>
 
     <div class="description">
-        <p>The developer defined maximum number of touch events. By default this is set to 10 but this can be set to be lower.</p>
+        <p>The developer defined maximum number of touch events.
+By default this is set to 10 but this can be set to be lower.</p>
 
     </div>
 
@@ -1972,7 +3295,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l70"><code>src\input\Touch.ts:70</code></a>
+        <a href="../files/src_input_Touch.ts.html#l78"><code>src\input\Touch.ts:78</code></a>
         
         </p>
 
@@ -2019,7 +3342,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l142"><code>src\input\Touch.ts:142</code></a>
+        <a href="../files/src_input_Touch.ts.html#l150"><code>src\input\Touch.ts:150</code></a>
         
         </p>
 
@@ -2066,7 +3389,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l78"><code>src\input\Touch.ts:78</code></a>
+        <a href="../files/src_input_Touch.ts.html#l86"><code>src\input\Touch.ts:86</code></a>
         
         </p>
 
@@ -2113,7 +3436,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l86"><code>src\input\Touch.ts:86</code></a>
+        <a href="../files/src_input_Touch.ts.html#l94"><code>src\input\Touch.ts:94</code></a>
         
         </p>
 
@@ -2160,7 +3483,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l94"><code>src\input\Touch.ts:94</code></a>
+        <a href="../files/src_input_Touch.ts.html#l102"><code>src\input\Touch.ts:102</code></a>
         
         </p>
 
@@ -2207,7 +3530,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l102"><code>src\input\Touch.ts:102</code></a>
+        <a href="../files/src_input_Touch.ts.html#l110"><code>src\input\Touch.ts:110</code></a>
         
         </p>
 
@@ -2254,7 +3577,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l110"><code>src\input\Touch.ts:110</code></a>
+        <a href="../files/src_input_Touch.ts.html#l118"><code>src\input\Touch.ts:118</code></a>
         
         </p>
 
@@ -2301,7 +3624,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l118"><code>src\input\Touch.ts:118</code></a>
+        <a href="../files/src_input_Touch.ts.html#l126"><code>src\input\Touch.ts:126</code></a>
         
         </p>
 
@@ -2348,7 +3671,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l126"><code>src\input\Touch.ts:126</code></a>
+        <a href="../files/src_input_Touch.ts.html#l134"><code>src\input\Touch.ts:134</code></a>
         
         </p>
 
@@ -2395,7 +3718,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l134"><code>src\input\Touch.ts:134</code></a>
+        <a href="../files/src_input_Touch.ts.html#l142"><code>src\input\Touch.ts:142</code></a>
         
         </p>
 
@@ -2442,7 +3765,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l158"><code>src\input\Touch.ts:158</code></a>
+        <a href="../files/src_input_Touch.ts.html#l166"><code>src\input\Touch.ts:166</code></a>
         
         </p>
 
@@ -2491,7 +3814,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l167"><code>src\input\Touch.ts:167</code></a>
+        <a href="../files/src_input_Touch.ts.html#l175"><code>src\input\Touch.ts:175</code></a>
         
         </p>
 
@@ -2540,7 +3863,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l150"><code>src\input\Touch.ts:150</code></a>
+        <a href="../files/src_input_Touch.ts.html#l158"><code>src\input\Touch.ts:158</code></a>
         
         </p>
 
@@ -2587,7 +3910,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l192"><code>src\input\Touch.ts:192</code></a>
+        <a href="../files/src_input_Touch.ts.html#l200"><code>src\input\Touch.ts:200</code></a>
         
         </p>
 
@@ -2634,7 +3957,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l176"><code>src\input\Touch.ts:176</code></a>
+        <a href="../files/src_input_Touch.ts.html#l184"><code>src\input\Touch.ts:184</code></a>
         
         </p>
 
@@ -2645,6 +3968,53 @@
 
     <div class="description">
         <p>A Kiwi Signal that dispatches an event when a user presses down on the stage.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_touchEnabled" class="property item public">
+    <h3 class="name"><code>touchEnabled</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Touch.ts.html#l36"><code>src\input\Touch.ts:36</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the touch inputs are enabled on the current device (and so if the events will fire) or not.</p>
 
     </div>
 
@@ -2681,7 +4051,7 @@
             
         
         
-        <a href="../files/src_input_Touch.ts.html#l184"><code>src\input\Touch.ts:184</code></a>
+        <a href="../files/src_input_Touch.ts.html#l192"><code>src\input\Touch.ts:192</code></a>
         
         </p>
 
@@ -2692,6 +4062,100 @@
 
     <div class="description">
         <p>A Kiwi Signal that dispatches an event when a user releases a finger off of the stage.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_x" class="property item public">
+    <h3 class="name"><code>x</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Touch.ts.html#l312"><code>src\input\Touch.ts:312</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Gets the position of the latest finger on the x axis.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_y" class="property item public">
+    <h3 class="name"><code>y</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Touch.ts.html#l322"><code>src\input\Touch.ts:322</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Gets the position of the latest finger on the y axis.</p>
 
     </div>
 

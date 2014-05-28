@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -359,8 +363,8 @@ module Kiwi.Files {
     * @class DataLibrary
     * @namespace Kiwi.Files
     * @constructor
-    * @param game {Game} The game that this DataLibrary belongs to.
-    * @return {DataLibrary}
+    * @param game {Kiwi.Game} The game that this DataLibrary belongs to.
+    * @return {Kiwi.Files.DataLibrary}
     *
     */
     export class DataLibrary {
@@ -374,7 +378,7 @@ module Kiwi.Files {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} &quot;DataLibrary&quot;
         * @public
         */
         public objType(): string {
@@ -384,7 +388,7 @@ module Kiwi.Files {
         /**
         * The game that this DataLibrary belongs to.
         * @property _game
-        * @type Game
+        * @type Kiwi.Game
         * @private
         */
         private _game: Kiwi.Game;
@@ -411,7 +415,7 @@ module Kiwi.Files {
         /**
         * Adds a new data file to the DataLibrary.
         * @method add
-        * @param dataFile {File} 
+        * @param dataFile {Kiwi.Files.File} The File that is to be added.
         * @public
         */
         public add(dataFile: Kiwi.Files.File) {
@@ -435,21 +439,21 @@ module Kiwi.Files {
         /**
        * Rebuild the library from a fileStore. Clears the library and repopulates it.
        * @method rebuild
-       * @param {Kiwi.Files.FileStore} fileStore
-       * @param {Kiwi.State} state
+       * @param fileStore {Kiwi.Files.FileStore} The fileStore which is being used 
+       * @param state {Kiwi.State} The State so that we know which DataLibrary to add the files tot.
        * @public
        */
         public rebuild(fileStore: Kiwi.Files.FileStore, state: Kiwi.State) {
             this.clear();
             if (this._game.debug) {
-                console.log(&quot;Rebuilding Data Library&quot;);
+                console.log(&quot;Kiwi.DataLibrary: Rebuilding Data Library&quot;);
             }
 
             var fileStoreKeys = fileStore.keys;
             for (var i = 0; i &lt; fileStoreKeys.length; i++) {
                 var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
                 if (file.isData) {
-                    if (this._game.debug) { console.log(&quot;Adding Data: &quot; + file.fileName) };
+                    if (this._game.debug) { console.log(&quot;  Kiwi.DataLibrary: Adding Data: &quot; + file.fileName) };
                     state.dataLibrary.add(file);
                 }
             }

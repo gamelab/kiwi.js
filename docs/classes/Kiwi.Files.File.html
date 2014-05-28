@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.1</em>
+            <em>API Docs for: 1.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,16 +40,6 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/GLRenderManager.html">GLRenderManager</a></li>
-            
-                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
-            
-                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
-            
-                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
-            
-                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -207,6 +197,22 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
                 <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
@@ -226,8 +232,6 @@
                 <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
             
                 <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
-            
-                <li><a href="../classes/Kiwi.System.Browser.html">Kiwi.System.Browser</a></li>
             
                 <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
             
@@ -259,7 +263,7 @@
             
                 <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
             
-                <li><a href="../classes/ShaderManager.html">ShaderManager</a></li>
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
             </ul>
 
@@ -423,7 +427,7 @@ OR if you use the &#39;getFileDetails&#39; method and the properties will then b
 
     
         <span class="returns-inline">
-            <span class="type">File</span>
+            <span class="type"><a href="..\classes\Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
         </span>
     
 
@@ -473,7 +477,7 @@ OR if you use the &#39;getFileDetails&#39; method and the properties will then b
                 <li class="param">
                     
                         <code class="param-name">game</code>
-                        <span class="type">Game</span>
+                        <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
                     
 
                     
@@ -580,7 +584,7 @@ OR if you use the &#39;getFileDetails&#39; method and the properties will then b
             <div class="returns-description">
                 
                     
-                        <span class="type">File</span>:
+                        <span class="type"><a href="..\classes\Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
                     
                 
             </div>
@@ -759,13 +763,6 @@ OR if you use the &#39;getFileDetails&#39; method and the properties will then b
                         
                             <li class="index-item method private">
                                 <a href="#method_tagLoaderProgressThrough">tagLoaderProgressThrough</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_toString">toString</a>
 
                                 
                                 
@@ -1566,7 +1563,7 @@ This is particularly useful when you are wanting to check how large a file is be
                 <li class="param">
                     
                         <code class="param-name optional">[callback=null]</code>
-                        <span class="type">Function</span>
+                        <span class="type">Any</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
@@ -1698,7 +1695,7 @@ This is particularly useful when you are wanting to check how large a file is be
                     
 
                     <div class="param-description">
-                        <p>The XHR event</p>
+                        <p>The XHR event.</p>
 
                     </div>
 
@@ -2072,6 +2069,8 @@ This is particularly useful when you are wanting to check how large a file is be
                     
                         <span class="type">String</span>:
                     
+                    <p>&quot;File&quot;</p>
+
                 
             </div>
         </div>
@@ -2172,7 +2171,7 @@ This is particularly useful when you are wanting to check how large a file is be
             
         
         
-        <a href="../files/src_file_File.ts.html#l1111"><code>src\file\File.ts:1111</code></a>
+        <a href="../files/src_file_File.ts.html#l1112"><code>src\file\File.ts:1112</code></a>
         
         </p>
 
@@ -2184,8 +2183,7 @@ This is particularly useful when you are wanting to check how large a file is be
 
     <div class="description">
         <p>Handles the processing of the files information when it was loaded via the xhr + arraybuffer method. 
-Is only executed when the loading was a success
-           this._xhr.onload = (event) =&gt; this.xhrOnLoad(event);.</p>
+Is only executed when the loading was a success</p>
 
     </div>
 
@@ -2472,7 +2470,7 @@ Useful as it can will contain the information about the file before loading the 
             
         
         
-        <a href="../files/src_file_File.ts.html#l623"><code>src\file\File.ts:623</code></a>
+        <a href="../files/src_file_File.ts.html#l624"><code>src\file\File.ts:624</code></a>
         
         </p>
 
@@ -2530,7 +2528,7 @@ Gets the time and initalised properties that are used across both loading method
             
         
         
-        <a href="../files/src_file_File.ts.html#l639"><code>src\file\File.ts:639</code></a>
+        <a href="../files/src_file_File.ts.html#l640"><code>src\file\File.ts:640</code></a>
         
         </p>
 
@@ -2587,7 +2585,7 @@ Gets the time and initalised properties that are used across both loading method
             
         
         
-        <a href="../files/src_file_File.ts.html#l658"><code>src\file\File.ts:658</code></a>
+        <a href="../files/src_file_File.ts.html#l659"><code>src\file\File.ts:659</code></a>
         
         </p>
 
@@ -2645,7 +2643,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l762"><code>src\file\File.ts:762</code></a>
+        <a href="../files/src_file_File.ts.html#l763"><code>src\file\File.ts:763</code></a>
         
         </p>
 
@@ -2713,7 +2711,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l717"><code>src\file\File.ts:717</code></a>
+        <a href="../files/src_file_File.ts.html#l718"><code>src\file\File.ts:718</code></a>
         
         </p>
 
@@ -2803,7 +2801,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l774"><code>src\file\File.ts:774</code></a>
+        <a href="../files/src_file_File.ts.html#l775"><code>src\file\File.ts:775</code></a>
         
         </p>
 
@@ -2893,7 +2891,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l707"><code>src\file\File.ts:707</code></a>
+        <a href="../files/src_file_File.ts.html#l708"><code>src\file\File.ts:708</code></a>
         
         </p>
 
@@ -2983,7 +2981,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l735"><code>src\file\File.ts:735</code></a>
+        <a href="../files/src_file_File.ts.html#l736"><code>src\file\File.ts:736</code></a>
         
         </p>
 
@@ -3023,81 +3021,6 @@ Only supports the IMAGES and AUDIO files.</p>
         </div>
     
 
-    
-
-    
-</div>
-
-                
-                    <div id="method_toString" class="method item public">
-    <h3 class="name"><code>toString</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l1420"><code>src\file\File.ts:1420</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns a string representation of this object.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">String</span>:
-                    
-                    <p>a string representation of the instance.</p>
-
-                
-            </div>
-        </div>
     
 
     
@@ -3319,7 +3242,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l922"><code>src\file\File.ts:922</code></a>
+        <a href="../files/src_file_File.ts.html#l923"><code>src\file\File.ts:923</code></a>
         
         </p>
 
@@ -3386,7 +3309,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l982"><code>src\file\File.ts:982</code></a>
+        <a href="../files/src_file_File.ts.html#l983"><code>src\file\File.ts:983</code></a>
         
         </p>
 
@@ -3476,7 +3399,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l996"><code>src\file\File.ts:996</code></a>
+        <a href="../files/src_file_File.ts.html#l997"><code>src\file\File.ts:997</code></a>
         
         </p>
 
@@ -3531,7 +3454,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
                 <li class="arg">
                     
-                        <code>The</code>
+                        <code>event</code>
                     
                 </li>
             
@@ -3566,7 +3489,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l1046"><code>src\file\File.ts:1046</code></a>
+        <a href="../files/src_file_File.ts.html#l1047"><code>src\file\File.ts:1047</code></a>
         
         </p>
 
@@ -3589,14 +3512,14 @@ Only supports the IMAGES and AUDIO files.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">The</code>
+                        <code class="param-name">event</code>
                         <span class="type">Event</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>XHR event</p>
+                        <p>The XHR event.</p>
 
                     </div>
 
@@ -3657,7 +3580,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l968"><code>src\file\File.ts:968</code></a>
+        <a href="../files/src_file_File.ts.html#l969"><code>src\file\File.ts:969</code></a>
         
         </p>
 
@@ -3747,7 +3670,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l1026"><code>src\file\File.ts:1026</code></a>
+        <a href="../files/src_file_File.ts.html#l1027"><code>src\file\File.ts:1027</code></a>
         
         </p>
 
@@ -3837,7 +3760,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l951"><code>src\file\File.ts:951</code></a>
+        <a href="../files/src_file_File.ts.html#l952"><code>src\file\File.ts:952</code></a>
         
         </p>
 
@@ -3927,7 +3850,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l1010"><code>src\file\File.ts:1010</code></a>
+        <a href="../files/src_file_File.ts.html#l1011"><code>src\file\File.ts:1011</code></a>
         
         </p>
 
@@ -3983,7 +3906,7 @@ Only supports the IMAGES and AUDIO files.</p>
                 
                     <div id="property__fileStore" class="property item private">
     <h3 class="name"><code>_fileStore</code></h3>
-    <span class="type">FileStore</span>
+    <span class="type"><a href="..\classes\Kiwi.Files.FileStore.html" class="crosslink">Kiwi.Files.FileStore</a></span>
 
     
 
@@ -4016,7 +3939,7 @@ Only supports the IMAGES and AUDIO files.</p>
     </div>
 
     <div class="description">
-        <p>The file store that this file is a part of.</p>
+        <p>The file store that this file is a member of.</p>
 
     </div>
 
@@ -4030,7 +3953,7 @@ Only supports the IMAGES and AUDIO files.</p>
                 
                     <div id="property__game" class="property item private">
     <h3 class="name"><code>_game</code></h3>
-    <span class="type">Game</span>
+    <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
 
     
 
@@ -4295,7 +4218,7 @@ By default we use the tag loader and only used the second method if the browser 
             
         
         
-        <a href="../files/src_file_File.ts.html#l892"><code>src\file\File.ts:892</code></a>
+        <a href="../files/src_file_File.ts.html#l893"><code>src\file\File.ts:893</code></a>
         
         </p>
 
@@ -4449,7 +4372,7 @@ This is only used with XHR methods of loading.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l913"><code>src\file\File.ts:913</code></a>
+        <a href="../files/src_file_File.ts.html#l914"><code>src\file\File.ts:914</code></a>
         
         </p>
 
@@ -4496,7 +4419,7 @@ This is only used with XHR methods of loading.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l829"><code>src\file\File.ts:829</code></a>
+        <a href="../files/src_file_File.ts.html#l830"><code>src\file\File.ts:830</code></a>
         
         </p>
 
@@ -4546,7 +4469,7 @@ This can used to create progress bars but only has a value when using the XHR me
             
         
         
-        <a href="../files/src_file_File.ts.html#l840"><code>src\file\File.ts:840</code></a>
+        <a href="../files/src_file_File.ts.html#l841"><code>src\file\File.ts:841</code></a>
         
         </p>
 
@@ -5218,7 +5141,7 @@ The value is based off of the &#39;Content-Type&#39; of the XHR&#39;s response h
             
         
         
-        <a href="../files/src_file_File.ts.html#l872"><code>src\file\File.ts:872</code></a>
+        <a href="../files/src_file_File.ts.html#l873"><code>src\file\File.ts:873</code></a>
         
         </p>
 
@@ -5707,7 +5630,7 @@ Only has a value when using the XHR method of loading OR when requesting the fil
             
         
         
-        <a href="../files/src_file_File.ts.html#l902"><code>src\file\File.ts:902</code></a>
+        <a href="../files/src_file_File.ts.html#l903"><code>src\file\File.ts:903</code></a>
         
         </p>
 
@@ -5949,7 +5872,7 @@ Only used with XHR methods of loading.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l851"><code>src\file\File.ts:851</code></a>
+        <a href="../files/src_file_File.ts.html#l852"><code>src\file\File.ts:852</code></a>
         
         </p>
 
@@ -6051,7 +5974,7 @@ Only used with XHR methods of loading.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l808"><code>src\file\File.ts:808</code></a>
+        <a href="../files/src_file_File.ts.html#l809"><code>src\file\File.ts:809</code></a>
         
         </p>
 
@@ -6101,7 +6024,7 @@ Only used/has a value when the file was/is being loaded by the XHR method.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l819"><code>src\file\File.ts:819</code></a>
+        <a href="../files/src_file_File.ts.html#l820"><code>src\file\File.ts:820</code></a>
         
         </p>
 
@@ -6303,7 +6226,7 @@ Only used/has a value when the file was/is being loaded by the XHR method.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l882"><code>src\file\File.ts:882</code></a>
+        <a href="../files/src_file_File.ts.html#l883"><code>src\file\File.ts:883</code></a>
         
         </p>
 
@@ -6401,7 +6324,7 @@ Only used/has a value when the file was/is being loaded by the XHR method.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l861"><code>src\file\File.ts:861</code></a>
+        <a href="../files/src_file_File.ts.html#l862"><code>src\file\File.ts:862</code></a>
         
         </p>
 
