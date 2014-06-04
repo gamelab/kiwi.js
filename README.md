@@ -3,7 +3,6 @@ Kiwi.js 1.0
 
 ![Splash](http://kiwi-js.s3.amazonaws.com/wounds-with-friends.jpg) 
 
-
 Kiwi.js is the worlds easiest to use Open Source HTML5 game framework for making both mobile and desktop HTML5 browser games. 
 
 Our focus is blazingly fast WebGL rendering and complimentary tools to make professional quality serious games. We use [CocoonJS](https://www.ludei.com/) for publishing games and App creation. 
@@ -44,7 +43,6 @@ Kiwi uses a custom built WebGL rendering system for targetting modern mobile and
 Not only is Kiwi lightning quick but it is also extendable, meaning that fellow contributors can easily write there own powerful rendering Plugins and Add-ons using WebGL Shaders. For instance our WebGL Particle Plugin creates stunning special FX using this systmem.
 
 Of course, you can render to canvas too, which means older browsers, and mobile browsers, don't miss out.
-Kiwi.js is closely aligned with Ludei's Cocoon.js system. You can use cocoon to wrap up your game and play it on iOS or Android devices.
 
 ####Mobile Publishing
 Kiwi.js is closely aligned with Ludei's [CocoonJS](https://www.ludei.com/). You can use Cocoon to wrap up your game and play it on iOS or Android devices.
@@ -143,72 +141,9 @@ Note: If you just want to use the framework, the kiwi.js and kiwi.min.js files a
 * docs - API documentation on the Kiwi.JS framework.
 * docstyles - Used to store assets for building docs.
 * examples - These examples are soon to moved to a new repo and updated (See more info below)
-Note: If you just want to use the framework, the kiwi.js and kiwi.min.js files are located in the `/build` folder, and the docs in the `/docs` folder, and there is a template game in the `/templateGame` folder. You probably don't need to worry about the rest of the repo! 
-
-### Folders.
-
-* build - The kiwi.js and kiwi.min.js files  
-* src - The kiwi.js framework source code
-* docs - API documentation on the Kiwi.JS framework.
-* docstyles - Used to store assets for building docs.
-* examples - These examples are soon to moved to a new repo and updated (See more info below)
 * templateGame - An example TemplateGame to help you on your way to developing a Kiwi.JS game.  
 
 ###Files
-
-* .gitignore - mask files from git
-* bower.json - see below about bower installation
-* grunfile.js - used for building the framework
-* license.txt - The MIT license 
-* package.json - the npm package used for installing dev dependencies
-* README.md - this file!
-* tslint.json - the tslint configuration file
-
-##Bower
-If you use the [Bower](http://bower.io/) package manager you can install kiwi.js with
-```
-bower install kiwijs
-```
-
-##Yeoman
-If you use the [Yeoman](https://github.com/gamelab/generator-kiwigame) scaffolding system you can install a blank kiwi.js game with
-
-```
-yo kiwijs
-```
-
-It's best to look at our Yeoman Game Generator repo for full details.
-
-##Building the library
-
-You don't need to build the library to use it. The repo has prebuilt files in the `/build` folder. If you want to make changes to the library though, you'll need to keep reading.
-
-Kiwi.js is currently using Typescript 0.9.5
-Either - use Visual Studio/TS extension. There are csproj files for both the main project and also the examples.
-
-###Using Grunt
-This requires installing node.js, and the grunt CLI package. 
-There are a few thing you can do with grunt, including linting and compiling the typescript, uglifying the result and compiling the docs.
-
-To build, lint and uglify use the default
-```
-grunt
-```
-
-To do all of the above plus compile the docs
-```
-grunt full
-```
-
-To just build the docs
-```
-grunt docs
-```
-
-The csproj and grunt compilation methods both output a single kiwi.js file in `/build`
-Grunt will also create a min.js version and also output a kiwi.d.ts definition file in `/build` as well
-
-
 
 * .gitignore - mask files from git
 * bower.json - see below about bower installation
