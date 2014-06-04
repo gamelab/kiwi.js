@@ -425,6 +425,7 @@ var Kiwi;
                 return _this._loop();
             });
             this.raf.start();
+
             if (this.bootCallbackOption) {
                 console.log("  Kiwi.Game: invoked boot callback");
                 this.bootCallbackOption();

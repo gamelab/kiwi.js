@@ -485,6 +485,7 @@ module Kiwi {
             
             this.raf = new Kiwi.Utils.RequestAnimationFrame(() => this._loop());
             this.raf.start();
+
             if (this.bootCallbackOption) {
                 console.log("  Kiwi.Game: invoked boot callback");
                 this.bootCallbackOption();

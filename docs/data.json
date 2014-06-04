@@ -12908,7 +12908,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 494,
+            "line": 495,
             "description": "The game loop.",
             "itemtype": "method",
             "name": "_loop",
