@@ -674,6 +674,9 @@ module Kiwi {
         * @public
         */
         public createDebugCanvas() {
+
+            if( Kiwi.Utils.Common.isUndefined(this.debugCanvas) == false ) return;
+            
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
                 //Not supported in CocoonJS only because we cannot add it to the container (as a container does not exist) and position will be hard.
                 console.log('Debug canvas not supported in cocoon, creating canvas and context anyway');                
