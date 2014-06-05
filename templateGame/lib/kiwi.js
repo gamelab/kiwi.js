@@ -962,6 +962,8 @@ var Kiwi;
             this.debugCanvas.style.position = "absolute";
             this.debugCanvas.width = this.width;
             this.debugCanvas.height = this.height;
+            this.debugCanvas.style.width = '100%';
+            this.debugCanvas.style.height = '100%';
             this.dctx = this.debugCanvas.getContext("2d");
             this.clearDebugCanvas();
 
