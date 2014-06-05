@@ -52,7 +52,7 @@ module Kiwi.GameObjects.Tilemap {
             this.physics.immovable = true;
         }
 
-        /*
+        /**
         * The physics component contained on the Tilemap. Use for basic collisions between People and Tiles.
         * Note: That tilemap layers a immovable and collisions with tiles are set on the individual TileTypes that are contained on the TileMap. 
         * @property physics
