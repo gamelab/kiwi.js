@@ -1,5 +1,7 @@
 module.exports = function(grunt) {
 
+  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -7,53 +9,53 @@ module.exports = function(grunt) {
     BASE_PATH: '',
     DEVELOPMENT_PATH: '',
 
-    ts: {            
-        build: {                          
-            src: ["./src/**/*.ts"],    
-            out: './build/kiwi.js',    
-           
-            options: {                    
-                target: 'es5',            
-                module: 'commonjs',       
-                sourcemap: false,         
-                declaration: true,       
-                comments: true           
-            },
-        }
+    ts: {
+      build: {
+        src: ["./src/**/*.ts"],
+        out: './build/kiwi.js',
+
+        options: {
+          target: 'es5',
+          module: 'commonjs',
+          sourcemap: false,
+          declaration: true,
+          comments: true
+        },
+      }
     },
 
     yuidoc: {
-            compile: {
-                name: '<%= pkg.name %>',
-                description: '<%= pkg.description %>',
-                version: '<%= pkg.version %>',
-                url: '<%= pkg.homepage %>',
-                options: {
-                    extension: '.ts',                               
-                    paths: '<%= DEVELOPMENT_PATH %>' + 'src/',
-                    outdir: '<%= BASE_PATH %>' + 'docs/'
-                }
-            }
-        },
+      compile: {
+        name: '<%= pkg.name %>',
+        description: '<%= pkg.description %>',
+        version: '<%= pkg.version %>',
+        url: '<%= pkg.homepage %>',
+
+        options: {
+          extension: '.ts',
+          paths: '<%= DEVELOPMENT_PATH %>' + 'src/',
+          outdir: '<%= BASE_PATH %>' + 'docs/'
+        }
+      }
+    },
 
     uglify: {
-            build: {
-                files: {
-                'build/kiwi.min.js': ['build/kiwi.js']
-            }
+      build: {
+        files: {
+          'build/kiwi.min.js': ['build/kiwi.js']
         }
+      }
     },
 
     concat: {
-          build: {
-            src:['build/kiwi.js','src/gl-matrix-min.js'],
-            dest: 'build/kiwi.js'
-          },
-          buildmin: {
-            src:['build/kiwi.min.js','src/gl-matrix-min.js'],
-            dest: 'build/kiwi.min.js'
-          }
-          
+      build: {
+        src: ['build/kiwi.js', 'src/gl-matrix-min.js'],
+        dest: 'build/kiwi.js'
+      },
+      buildmin: {
+        src: ['build/kiwi.min.js', 'src/gl-matrix-min.js'],
+        dest: 'build/kiwi.min.js'
+      }
     },
 
     tslint: {
@@ -66,46 +68,31 @@ module.exports = function(grunt) {
     },
 
     copy: {
-        doclogo: {
-    		    src: 'docstyles/logo.png',
-            dest: 'docs/assets/css/logo.png'
-    	  },
-       	    
-        docstyles: {
-          src: 'docstyles/main.css',
-        	dest: 'docs/assets/css/main.css'
-    	  },
+      doclogo: {
+        src: 'docstyles/logo.png',
+        dest: 'docs/assets/css/logo.png'
+      },
 
-        templateGame: {
-          src: './build/kiwi.js',
-          dest: './templateGame/lib/kiwi.js'
-        },
+      docstyles: {
+        src: 'docstyles/main.css',
+        dest: 'docs/assets/css/main.css'
+      },
 
-        example: {
-          src: './build/kiwi.js',
-          dest: './examples/kiwi.js'
-        }
+      templateGame: {
+        src: './build/kiwi.js',
+        dest: './templateGame/lib/kiwi.js'
+      },
 
+      example: {
+        src: './build/kiwi.js',
+        dest: './examples/kiwi.js'
+      }
     }
+  });
 
-
- });
-
-  grunt.loadNpmTasks("grunt-ts");
-
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-
-  grunt.loadNpmTasks('grunt-contrib-yuidoc');
-
-  grunt.loadNpmTasks('grunt-contrib-copy');
-
-  grunt.loadNpmTasks('grunt-tslint'); 
-  
-  grunt.loadNpmTasks('grunt-contrib-concat');
-
-  grunt.registerTask("default", ["ts:build", "tslint","concat:build","uglify:build","copy:templateGame","copy:example"]);
-  grunt.registerTask("full", ["ts:build","concat:build","uglify:build","yuidoc:compile","copy:templateGame","copy:example","copy:doclogo","copy:docstyles"]);
-  grunt.registerTask("docs", ["yuidoc:compile","copy:doclogo","copy:docstyles"]);
+  grunt.registerTask("default", ["ts:build", "tslint", "concat:build", "uglify:build", "copy:templateGame", "copy:example"]);
+  grunt.registerTask("full", ["ts:build", "concat:build", "uglify:build", "yuidoc:compile", "copy:templateGame", "copy:example", "copy:doclogo", "copy:docstyles"]);
+  grunt.registerTask("docs", ["yuidoc:compile", "copy:doclogo", "copy:docstyles"]);
   grunt.registerTask("join", ["concat:build"]);
 
 };
