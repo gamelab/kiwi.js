@@ -60,6 +60,7 @@
     <Content Include="cocoon.php" />
     <None Include="ArcadePhysics\TilemapPlatformer.ts" />
     <TypeScriptCompile Include="Dummy\DummyScript.ts" />
+    <Content Include="Debug\BoxComponentDebug.js" />
     <Content Include="Dummy\DummyScript.js">
       <DependentUpon>DummyScript.ts</DependentUpon>
     </Content>
