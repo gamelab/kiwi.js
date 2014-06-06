@@ -52,7 +52,7 @@ module Kiwi.GameObjects.Tilemap {
 
         /**
         * Is an Array containing all of the TileTypes that are available on the TileMap.
-        * @property tileType
+        * @property tileTypes
         * @type TileType[]
         * @public
         */
