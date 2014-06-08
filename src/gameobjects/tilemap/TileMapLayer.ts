@@ -46,7 +46,6 @@ module Kiwi.GameObjects.Tilemap {
             this.tileHeight = th;
             this.width = w;
             this.height = h;
-            this.cellIndex = null; //Cell Index doesn't matter for a TileMapLayer itself.
 
             this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, null));
             this.physics.immovable = true;
