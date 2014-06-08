@@ -838,7 +838,7 @@ module Kiwi.Components {
         * ONLY works if the parent of the ArcadePhysics component which is calling this method is a TileMapLayer.
         * Note: The GameObject passed must contain a box component and only if you want to separate the two objects must is ALSO contain an ArcadePhysics component.
         *
-        * @method overlapsTile
+        * @method overlapsTiles
         * @param gameObject {Kiwi.Entity} The GameObject you would like to separate with this one.
         * @param [separateObjects=false] {Boolean} If you want the GameObject to be separated from any tile it collides with.
         * @param [collisionType=ANY] {Number} If you want the GameObject to only check for collisions from a particular side of tiles. ANY by default.
