@@ -122,15 +122,21 @@ module Kiwi.Renderers {
         * @public
         */
         public render(camera: Kiwi.Camera) {
-            this.numDrawCalls = 0;    
-            this._currentCamera = camera;
             var root: IChild[] = this._game.states.current.members;
             
             //clear 
             this._game.stage.ctx.fillStyle = '#' + this._game.stage.color;
-            
             this._game.stage.ctx.fillRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
-
+            
+            // Stop drawing if there is nothing to draw
+            if ( root.length == 0 ) {
+                console.log("nothing to render");
+                return;
+            }
+            
+            this.numDrawCalls = 0;    
+            this._currentCamera = camera;
+            
             //apply camera transform
             var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
             var ct: Kiwi.Geom.Transform = camera.transform;

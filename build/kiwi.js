@@ -2156,7 +2156,7 @@ var Kiwi;
         /**
         * Rebuilds the texture, audio and data libraries that are on the current state. Thus updating what files the user has access to.
         * @method rebuildLibraries
-        * @private
+        * @public
         */
         StateManager.prototype.rebuildLibraries = function () {
             this.current.audioLibrary.rebuild(this._game.fileStore, this.current);
@@ -8862,7 +8862,7 @@ var Kiwi;
             * ONLY works if the parent of the ArcadePhysics component which is calling this method is a TileMapLayer.
             * Note: The GameObject passed must contain a box component and only if you want to separate the two objects must is ALSO contain an ArcadePhysics component.
             *
-            * @method overlapsTile
+            * @method overlapsTiles
             * @param gameObject {Kiwi.Entity} The GameObject you would like to separate with this one.
             * @param [separateObjects=false] {Boolean} If you want the GameObject to be separated from any tile it collides with.
             * @param [collisionType=ANY] {Number} If you want the GameObject to only check for collisions from a particular side of tiles. ANY by default.
@@ -13911,14 +13911,20 @@ var Kiwi;
             * @public
             */
             CanvasRenderer.prototype.render = function (camera) {
-                this.numDrawCalls = 0;
-                this._currentCamera = camera;
                 var root = this._game.states.current.members;
 
                 //clear
                 this._game.stage.ctx.fillStyle = '#' + this._game.stage.color;
-
                 this._game.stage.ctx.fillRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
+
+                // Stop drawing if there is nothing to draw
+                if (root.length == 0) {
+                    console.log("nothing to render");
+                    return;
+                }
+
+                this.numDrawCalls = 0;
+                this._currentCamera = camera;
 
                 //apply camera transform
                 var cm = camera.transform.getConcatenatedMatrix();
@@ -14207,22 +14213,23 @@ var Kiwi;
             * @public
             */
             GLRenderManager.prototype.render = function (camera) {
+                var gl = this._game.stage.gl;
+
+                //clear stage every frame
+                var col = this._game.stage.normalizedColor;
+                gl.clearColor(col.r, col.g, col.b, col.a);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+
+                // Stop drawing if there is nothing to draw
                 if (this._game.states.current.members.length == 0) {
                     console.log("nothing to render");
                     return;
                 }
 
-                var gl = this._game.stage.gl;
-
                 //reset stats
                 this.numDrawCalls = 0;
                 this._textureManager.numTextureWrites = 0;
                 this._entityCount = 0;
-
-                //clear stage
-                var col = this._game.stage.normalizedColor;
-                gl.clearColor(col.r, col.g, col.b, col.a);
-                gl.clear(gl.COLOR_BUFFER_BIT);
 
                 //set cam matrix uniform
                 var cm = camera.transform.getConcatenatedMatrix();

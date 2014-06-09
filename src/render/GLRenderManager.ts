@@ -326,22 +326,24 @@ module Kiwi.Renderers {
         * @public
         */
         public render(camera: Kiwi.Camera) {
+                     
+            var gl: WebGLRenderingContext = this._game.stage.gl;
+               
+            //clear stage every frame
+            var col = this._game.stage.normalizedColor;
+            gl.clearColor(col.r, col.g, col.b, col.a);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            
+            // Stop drawing if there is nothing to draw
             if (this._game.states.current.members.length == 0) {
                 console.log("nothing to render");
                 return;
             }
-                     
-            var gl: WebGLRenderingContext = this._game.stage.gl;
                                        
             //reset stats
             this.numDrawCalls = 0;
             this._textureManager.numTextureWrites = 0;
             this._entityCount = 0;
-               
-            //clear stage 
-            var col = this._game.stage.normalizedColor;
-            gl.clearColor(col.r, col.g, col.b, col.a);
-            gl.clear(gl.COLOR_BUFFER_BIT);
             
             //set cam matrix uniform
             var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
