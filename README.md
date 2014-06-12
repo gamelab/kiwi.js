@@ -168,7 +168,7 @@ bower install kiwijs
 If you use the [Yeoman](https://github.com/gamelab/generator-kiwigame) scaffolding system you can install a blank kiwi.js game with
 
 ```
-yo kiwijs
+yo kiwigame
 ```
 
 It's best to look at our Yeoman Game Generator repo for full details.
