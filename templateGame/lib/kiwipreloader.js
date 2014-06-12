@@ -163,18 +163,24 @@ KiwiLoadingScreen.prototype.loadProgress = function (percent, bytesLoaded, file)
 
 }
 
+
+/**
+* Create: rebuild html5Logo
+**/
+KiwiLoadingScreen.prototype.create = function(){
+	Kiwi.State.prototype.create.call( this );
+	
+	// Reassign texture atlas to html5Logo, as it has just been rebuilt and WebGL may have lost track of it
+	this.html5Logo.atlas = this.textures.loadingGraphic;
+}
+
+
 /**
 * Called when the fading in of the HTML5 logo is completed. Makes the HTML5 logo fade out oafter a period of time.
 * @method fadeInHTML5
 * 
 */
 KiwiLoadingScreen.prototype.fadeInHTML5 = function() {
-	var gl = this.game.stage.gl;
-	if (gl) {
-		gl.blendEquationSeparate(gl.FUNC_ADD, gl.FUNC_ADD);
-    	gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE,gl.ONE);
-	}
-	
 	this.loadingTween.to({ alpha: 0 }, 500, Kiwi.Animations.Tweens.Easing.Linear.None);
 	this.loadingTween.onComplete(this.fadeOutHTML5, this);
 

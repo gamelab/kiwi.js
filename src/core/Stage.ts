@@ -595,7 +595,7 @@ module Kiwi {
                         console.warn ("Kiwi.Stage: 'webgl' context is not available. Using 'experimental-webgl'");
                     }
                 }
-                this.gl.clearColor(1, 1, .95, .7);
+                this.gl.clearColor(1, 1, 1, 1);
                 this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
                 this.ctx = null;
 

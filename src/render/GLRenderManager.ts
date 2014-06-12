@@ -270,7 +270,7 @@ module Kiwi.Renderers {
                         
             //set default gl state
             gl.enable(gl.BLEND);
-            gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+            gl.blendFuncSeparate( gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE );
 
             //shader manager
             this._shaderManager.init(gl, "TextureAtlasShader");

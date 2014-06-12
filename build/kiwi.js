@@ -877,7 +877,7 @@ var Kiwi;
                         console.warn("Kiwi.Stage: 'webgl' context is not available. Using 'experimental-webgl'");
                     }
                 }
-                this.gl.clearColor(1, 1, .95, .7);
+                this.gl.clearColor(1, 1, 1, 1);
                 this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
                 this.ctx = null;
             }
@@ -14160,7 +14160,7 @@ var Kiwi;
 
                 //set default gl state
                 gl.enable(gl.BLEND);
-                gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+                gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE);
 
                 //shader manager
                 this._shaderManager.init(gl, "TextureAtlasShader");
