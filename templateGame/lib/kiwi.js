@@ -15422,6 +15422,9 @@ var Kiwi;
             * @public
             */
             TextureAtlasRenderer.prototype.addToBatch = function (gl, entity, camera) {
+                // Skip if it's invisible, either due to visible flag or zero alpha
+                if (!entity.visible || entity.alpha <= 0)
+                    return;
                 var t = entity.transform;
                 var m = t.getConcatenatedMatrix();
 
