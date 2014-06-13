@@ -179,6 +179,9 @@ module Kiwi.Renderers {
         * @public
         */
         public addToBatch(gl: WebGLRenderingContext, entity: Entity, camera: Kiwi.Camera) {
+            // Skip if it's invisible, either due to visible flag or zero alpha
+            if( !entity.visible  ||  entity.alpha <= 0 )
+                return;
             var t: Kiwi.Geom.Transform = entity.transform;
             var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
 
