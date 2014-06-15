@@ -81,8 +81,8 @@ module Kiwi.Renderers {
         * @private
         */
         public _recurse(child: IChild) {
-
-            if (!child.willRender) return;
+			// Do not render non-visible objects or their children
+            if (!child.visible) return;
 
             if (child.childType() === Kiwi.GROUP) {
                 for (var i = 0; i < (<Kiwi.Group>child).members.length; i++) {

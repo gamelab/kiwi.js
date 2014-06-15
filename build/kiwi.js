@@ -2699,7 +2699,7 @@ var Kiwi;
             if (typeof immediate === "undefined") { immediate = false; }
             this._exists = false;
             this._active = false;
-            this._willRender = false;
+            this._visible = false;
 
             if (immediate === true) {
                 if (this.parent !== null && typeof this.parent !== "undefined")
@@ -2893,11 +2893,10 @@ var Kiwi;
             this._exists = true;
             this._active = true;
             this._willRender = true;
+            this._visible = true;
 
             this.transform = new Kiwi.Geom.Transform();
             this.members = [];
-
-            this._willRender = true;
         }
         /**
         * Returns the type of this object
@@ -3715,6 +3714,24 @@ var Kiwi;
             configurable: true
         });
 
+        Object.defineProperty(Group.prototype, "visible", {
+            get: function () {
+                return this._visible;
+            },
+            /**
+            * Set the visiblity of this entity. True or False.
+            * @property visibility
+            * @type boolean
+            * @default true
+            * @public
+            */
+            set: function (value) {
+                this._visible = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         /**
         * Removes all children and destroys the Group.
         * @method destroy
@@ -3727,7 +3744,7 @@ var Kiwi;
             if (typeof destroyChildren === "undefined") { destroyChildren = true; }
             this._exists = false;
             this._active = false;
-            this._willRender = false;
+            this._visible = false;
 
             if (immediate === true) {
                 if (this._tempRemoveChildren !== null)
@@ -4820,7 +4837,7 @@ var Kiwi;
                 //Texture atlas error check
                 if (typeof atlas == "undefined") {
                     console.error('A Texture Atlas was not passed when instantiating a new Sprite.');
-                    this.willRender = false;
+                    this.visible = false;
                     this.active = false;
                     return;
                 }
@@ -4889,7 +4906,7 @@ var Kiwi;
                 _super.prototype.render.call(this, camera);
 
                 //if it is would even be visible.
-                if (this.alpha > 0 && this.visible) {
+                if (this.alpha > 0) {
                     var ctx = this.game.stage.ctx;
                     ctx.save();
 
@@ -4966,7 +4983,7 @@ var Kiwi;
                 //Texture atlas error check.
                 if (typeof atlas == "undefined") {
                     console.error('A Texture Atlas was not passed when instantiating a new Static Image.');
-                    this.willRender = false;
+                    this.visible = false;
                     this.active = false;
                     return;
                 }
@@ -5001,7 +5018,7 @@ var Kiwi;
                 _super.prototype.render.call(this, camera);
 
                 //if it is would even be visible.
-                if (this.alpha > 0 && this.visible) {
+                if (this.alpha > 0) {
                     var ctx = this.game.stage.ctx;
                     ctx.save();
 
@@ -7866,7 +7883,7 @@ var Kiwi;
             * @protected
             */
             Input.prototype.update = function () {
-                if (this.enabled === false || !this.game || this.owner.active === false || this.owner.willRender === false) {
+                if (this.enabled === false || !this.game || this.owner.active === false) {
                     return;
                 }
 
@@ -13874,7 +13891,8 @@ var Kiwi;
             * @private
             */
             CanvasRenderer.prototype._recurse = function (child) {
-                if (!child.willRender)
+                // Do not render non-visible objects or their children
+                if (!child.visible)
                     return;
 
                 if (child.childType() === Kiwi.GROUP) {
@@ -14277,6 +14295,10 @@ var Kiwi;
             * @public
             */
             GLRenderManager.prototype.collateChild = function (child) {
+                // Do not render non-visible objects or their children
+                if (!child.visible)
+                    return;
+
                 if (child.childType() === Kiwi.GROUP) {
                     for (var i = 0; i < child.members.length; i++) {
                         this.collateChild(child.members[i]);
@@ -15422,8 +15444,8 @@ var Kiwi;
             * @public
             */
             TextureAtlasRenderer.prototype.addToBatch = function (gl, entity, camera) {
-                // Skip if it's invisible, either due to visible flag or zero alpha
-                if (!entity.visible || entity.alpha <= 0)
+                // Skip if it's invisible due to zero alpha
+                if (entity.alpha <= 0)
                     return;
                 var t = entity.transform;
                 var m = t.getConcatenatedMatrix();

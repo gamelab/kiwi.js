@@ -396,6 +396,9 @@ module Kiwi.Renderers {
         * @public
         */
         public collateChild(child:IChild) {
+        	// Do not render non-visible objects or their children
+        	if( !child.visible) return;
+        	
             if (child.childType() === Kiwi.GROUP) {
                 for (var i = 0; i < (<Kiwi.Group>child).members.length; i++) {
                     this.collateChild( (<Kiwi.Group>child).members[i]);

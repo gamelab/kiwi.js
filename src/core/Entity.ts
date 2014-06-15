@@ -521,7 +521,7 @@ module Kiwi {
             
             this._exists = false;
             this._active = false;
-            this._willRender = false;
+            this._visible = false;
 
             if (immediate === true) {
                 

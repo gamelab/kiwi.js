@@ -37,11 +37,10 @@ module Kiwi {
             this._exists = true;
             this._active = true;
             this._willRender = true;
+            this._visible = true;
 
             this.transform = new Kiwi.Geom.Transform();
             this.members = [];
-
-            this._willRender = true; 
         }
 
         /**
@@ -946,6 +945,29 @@ module Kiwi {
         }
 
         /**
+        * A boolean that indicates whether or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.
+        * @property _visible
+        * @type boolean
+        * @default true
+        * @private
+        */
+        private _visible: boolean;
+        
+        /**
+        * Set the visiblity of this entity. True or False.
+        * @property visibility
+        * @type boolean
+        * @default true
+        * @public
+        */
+        public set visible(value: boolean) {
+            this._visible = value;
+        }
+        public get visible(): boolean {
+            return this._visible;
+        }
+
+        /**
 		* Removes all children and destroys the Group. 
         * @method destroy
         * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
@@ -956,7 +978,7 @@ module Kiwi {
             
             this._exists = false;
             this._active = false
-            this._willRender = false;
+            this._visible = false;
 
             if (immediate === true) {
 

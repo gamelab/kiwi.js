@@ -33,7 +33,7 @@ module Kiwi.GameObjects {
             //Texture atlas error check.
             if (typeof atlas == "undefined") {
                 console.error('A Texture Atlas was not passed when instantiating a new Static Image.');
-                this.willRender = false;
+                this.visible = false;
                 this.active = false;
                 return;
             } 
@@ -79,7 +79,7 @@ module Kiwi.GameObjects {
             super.render(camera);
 
             //if it is would even be visible.
-            if (this.alpha > 0 && this.visible) {
+            if (this.alpha > 0) {
 
                 var ctx: CanvasRenderingContext2D = this.game.stage.ctx;
                 ctx.save();

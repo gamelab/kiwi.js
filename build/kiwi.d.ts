@@ -1356,6 +1356,7 @@ declare module Kiwi {
         active: boolean;
         exists: boolean;
         willRender: boolean;
+        visible: boolean;
         parent: Kiwi.Group;
         transform: Kiwi.Geom.Transform;
         x: number;
@@ -2225,6 +2226,22 @@ declare module Kiwi {
         * @public
         */
         public willRender : boolean;
+        /**
+        * A boolean that indicates whether or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.
+        * @property _visible
+        * @type boolean
+        * @default true
+        * @private
+        */
+        private _visible;
+        /**
+        * Set the visiblity of this entity. True or False.
+        * @property visibility
+        * @type boolean
+        * @default true
+        * @public
+        */
+        public visible : boolean;
         /**
         * Removes all children and destroys the Group.
         * @method destroy
