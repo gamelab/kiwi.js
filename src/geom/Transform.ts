@@ -416,7 +416,7 @@ module Kiwi.Geom {
         */
         public getConcatenatedMatrix(): Matrix {
 
-            this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
+            this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
 
             var parentMatrix = this.getParentMatrix();
 

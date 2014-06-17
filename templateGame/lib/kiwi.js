@@ -4918,10 +4918,7 @@ var Kiwi;
                     var t = this.transform;
                     var m = t.getConcatenatedMatrix();
 
-                    var ct = camera.transform;
-
-                    //ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
-                    ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - ct.rotPointX, m.ty + t.rotPointY - ct.rotPointY);
+                    ctx.transform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
                     var cell = this.atlas.cells[this.cellIndex];
                     ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
@@ -5030,10 +5027,7 @@ var Kiwi;
                     var t = this.transform;
                     var m = t.getConcatenatedMatrix();
 
-                    var ct = camera.transform;
-
-                    //ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
-                    ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - ct.rotPointX, m.ty + t.rotPointY - ct.rotPointY);
+                    ctx.transform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
                     var cell = this.atlas.cells[this.cellIndex];
                     ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
@@ -5337,9 +5331,8 @@ var Kiwi;
 
                     //Draw the Image
                     var m = t.getConcatenatedMatrix();
-                    var ct = camera.transform;
 
-                    ctx.transform(m.a, m.b, m.c, m.d, (m.tx - x) + t.rotPointX - ct.rotPointX, m.ty + t.rotPointY - ct.rotPointY);
+                    ctx.transform(m.a, m.b, m.c, m.d, (m.tx - x), m.ty);
                     ctx.drawImage(this._canvas, 0, 0, this._canvas.width, this._canvas.height, -t.rotPointX, -t.rotPointY, this._canvas.width, this._canvas.height);
 
                     ctx.restore();
@@ -6565,7 +6558,7 @@ var Kiwi;
                     var t = this.transform;
                     var m = t.getConcatenatedMatrix();
 
-                    ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - camera.transform.rotPointX, m.ty + t.rotPointY - camera.transform.rotPointY);
+                    ctx.transform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
                     this._calculateBoundaries(camera, m);
 
@@ -6592,7 +6585,7 @@ var Kiwi;
                                     drawX = screenPos.x + this._temptype.offset.x - shiftX;
                                     drawY = screenPos.y - (cell.h - this.tileHeight) + this._temptype.offset.y;
                                 } else {
-                                    // 'Normal' maps
+                                    // Orthogonal maps
                                     drawX = x * this.tileWidth + this._temptype.offset.x;
                                     drawY = y * this.tileHeight - (cell.h - this.tileHeight) + this._temptype.offset.y;
                                 }
@@ -6654,7 +6647,7 @@ var Kiwi;
                                 tx = screenPos.x + this._temptype.offset.x - shiftX;
                                 ty = screenPos.y + this._temptype.offset.y;
                             } else {
-                                // 'normal' maps
+                                // Orthogonal maps
                                 tx = x * this.tileWidth + this._temptype.offset.x;
                                 ty = y * this.tileHeight + this._temptype.offset.y;
                             }
@@ -13944,12 +13937,13 @@ var Kiwi;
                 this.numDrawCalls = 0;
                 this._currentCamera = camera;
 
-                //apply camera transform
+                //apply camera transform, accounting for rotPoint offsets
                 var cm = camera.transform.getConcatenatedMatrix();
                 var ct = camera.transform;
 
                 this._game.stage.ctx.save();
-                this._game.stage.ctx.setTransform(cm.a, cm.b, cm.c, cm.d, cm.tx + ct.rotPointX, cm.ty + ct.rotPointY);
+                this._game.stage.ctx.setTransform(cm.a, cm.b, cm.c, cm.d, cm.tx, cm.ty);
+                this._game.stage.ctx.transform(1, 0, 0, 1, -ct.rotPointX, -ct.rotPointY);
 
                 for (var i = 0; i < root.length; i++) {
                     this._recurse(root[i]);
@@ -20491,6 +20485,28 @@ var Kiwi;
             };
 
             /**
+            * Set matrix values from transform values, with rotation point data included
+            * @method setFromOffsetTransform
+            * @Param tx {Number} tx. Translation on x axis.
+            * @Param ty {Number} ty. Translation on y axis.
+            * @Param scaleX {Number} scaleX. Scale on x axis.
+            * @Param scaleY {Number} scaleY. Scale on y axis.
+            * @Param rotation {Number} rotation.
+            * @Param rotPointX {Number} Rotation point offset on x axis.
+            * @Param rotPointY {Number} Rotation point offset on y axis.
+            * @return {Object} This object.
+            */
+            Matrix.prototype.setFromOffsetTransform = function (tx, ty, scaleX, scaleY, rotation, rotPointX, rotPointY) {
+                this.identity();
+                var cos = Math.cos(rotation);
+                var sin = Math.sin(rotation);
+
+                this.append(cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, tx + rotPointX, ty + rotPointY);
+
+                return this;
+            };
+
+            /**
             * Prepend values to this matrix, paramters supplied individually.
             * @method prepend
             * @param [a = 1]{Number} position 0,0 of the matrix, affects scaling and rotation.
@@ -22199,7 +22215,7 @@ var Kiwi;
             * @public
             */
             Transform.prototype.getConcatenatedMatrix = function () {
-                this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
+                this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
 
                 var parentMatrix = this.getParentMatrix();
 

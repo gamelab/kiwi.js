@@ -137,12 +137,13 @@ module Kiwi.Renderers {
             this.numDrawCalls = 0;    
             this._currentCamera = camera;
             
-            //apply camera transform
+            //apply camera transform, accounting for rotPoint offsets
             var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
             var ct: Kiwi.Geom.Transform = camera.transform;
 
             this._game.stage.ctx.save();
-            this._game.stage.ctx.setTransform(cm.a, cm.b, cm.c, cm.d, cm.tx + ct.rotPointX, cm.ty + ct.rotPointY);
+            this._game.stage.ctx.setTransform(cm.a, cm.b, cm.c, cm.d, cm.tx, cm.ty);
+            this._game.stage.ctx.transform( 1,0,0,1, -ct.rotPointX, -ct.rotPointY );
 
 
             for (var i = 0; i < root.length; i++) {

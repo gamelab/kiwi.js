@@ -733,7 +733,7 @@ module Kiwi.GameObjects.Tilemap {
             var t: Kiwi.Geom.Transform = this.transform;
             var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
 
-            ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - camera.transform.rotPointX, m.ty + t.rotPointY - camera.transform.rotPointY);
+            ctx.transform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
             this._calculateBoundaries(camera, m);
             
@@ -769,7 +769,7 @@ module Kiwi.GameObjects.Tilemap {
 
                         } else {
                             
-                            // 'Normal' maps
+                            // Orthogonal maps
 
                             drawX = x * this.tileWidth + this._temptype.offset.x;
                             drawY = y * this.tileHeight - (cell.h - this.tileHeight) + this._temptype.offset.y;
@@ -858,7 +858,7 @@ module Kiwi.GameObjects.Tilemap {
 
                     } else {
 
-                        // 'normal' maps
+                        // Orthogonal maps
                         tx = x * this.tileWidth + this._temptype.offset.x;
                         ty = y * this.tileHeight + this._temptype.offset.y;
 
