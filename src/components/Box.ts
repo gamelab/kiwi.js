@@ -379,10 +379,9 @@ module Kiwi.Components {
             var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
             
             //Use world coordinates?
-            if (useWorldCoords) {
-                m.setTo(m.a, m.b, m.c, m.d, t.worldX + t.rotPointX, t.worldY + t.rotPointY);
-            } else {
-                m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
+            if( !useWorldCoords )
+            {
+            	m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
             }
 
             out = this.extents(
@@ -410,10 +409,9 @@ module Kiwi.Components {
             var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
 
             //Use world coordinates?
-            if (useWorldCoords) {
-                m.setTo(m.a, m.b, m.c, m.d, t.worldX + t.rotPointX, t.worldY + t.rotPointY);
-            } else {
-                m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
+            if( !useWorldCoords )
+            {
+            	m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
             }
 
             out = this.extents(
@@ -436,18 +434,32 @@ module Kiwi.Components {
         */
         public draw(ctx: CanvasRenderingContext2D) {
             var t: Kiwi.Geom.Transform = this.entity.transform;
+            
+            // Draw raw bounds and raw center
             ctx.strokeStyle = "red";
-           
             ctx.strokeRect(this.rawBounds.x, this.rawBounds.y, this.rawBounds.width, this.rawBounds.height);
             ctx.fillRect(this.rawCenter.x - 1, this.rawCenter.y - 1, 3, 3);
             ctx.strokeRect(t.x + t.rotPointX - 3 , t.y + t.rotPointY - 3, 7, 7);
+            
+            // Draw bounds
             ctx.strokeStyle = "blue";
             ctx.strokeRect(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
+            
+            // Draw hitbox
             ctx.strokeStyle = "green";
             ctx.strokeRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
+            
+            // Draw raw hitbox
             ctx.strokeStyle = "white";
             ctx.strokeRect(this.rawHitbox.x, this.rawHitbox.y, this.rawHitbox.width, this.rawHitbox.height);
-
+            
+            // Draw world bounds
+			ctx.strokeStyle = "purple";
+			ctx.strokeRect(this.worldBounds.x, this.worldBounds.y, this.worldBounds.width, this.worldBounds.height);
+			
+			// Draw world hitbox
+			ctx.strokeStyle = "cyan";
+			ctx.strokeRect(this.worldHitbox.x, this.worldHitbox.y, this.worldHitbox.width, this.worldHitbox.height);
         }
 
 

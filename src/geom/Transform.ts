@@ -240,7 +240,7 @@ module Kiwi.Geom {
         */
         public get worldX(): number {
 
-            return this.getConcatenatedMatrix().tx;
+            return this.getConcatenatedMatrix().tx - this._rotPointX;
 
         }
 
@@ -252,7 +252,7 @@ module Kiwi.Geom {
         */
         public get worldY(): number {
 
-            return this.getConcatenatedMatrix().ty;
+            return this.getConcatenatedMatrix().ty - this._rotPointY;
 
         }
 
