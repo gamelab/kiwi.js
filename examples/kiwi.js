@@ -14263,14 +14263,12 @@ var Kiwi;
                 var translate = vec2.create();
 
                 vec2.set(scale, ct.scaleX, ct.scaleY);
-                vec2.set(rotOffset, ct.rotPointX + cm.tx, ct.rotPointY + cm.ty);
+                vec2.set(rotOffset, -ct.rotPointX, -ct.rotPointY);
                 vec2.set(translate, cm.tx, cm.ty);
                 mat3.identity(this.camMatrix);
-                mat3.translate(this.camMatrix, this.camMatrix, rotOffset);
-                mat3.rotate(this.camMatrix, this.camMatrix, ct.rotation);
                 mat3.translate(this.camMatrix, this.camMatrix, translate);
+                mat3.rotate(this.camMatrix, this.camMatrix, ct.rotation);
                 mat3.scale(this.camMatrix, this.camMatrix, scale);
-                vec2.negate(rotOffset, rotOffset);
                 mat3.translate(this.camMatrix, this.camMatrix, rotOffset);
 
                 this.collateRenderSequence();
@@ -15467,7 +15465,7 @@ var Kiwi;
                 pt3 = m.transformPoint(pt3);
                 pt4 = m.transformPoint(pt4);
 
-                this._vertexBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, entity.alpha, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, entity.alpha, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, entity.alpha, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h, entity.alpha);
+                this._vertexBuffer.items.push(pt1.x, pt1.y, cell.x, cell.y, entity.alpha, pt2.x, pt2.y, cell.x + cell.w, cell.y, entity.alpha, pt3.x, pt3.y, cell.x + cell.w, cell.y + cell.h, entity.alpha, pt4.x, pt4.y, cell.x, cell.y + cell.h, entity.alpha);
             };
 
             /**

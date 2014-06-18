@@ -198,10 +198,10 @@ module Kiwi.Renderers {
             pt4 = m.transformPoint(pt4);
 
             this._vertexBuffer.items.push(
-                pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, entity.alpha,
-                pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, entity.alpha,
-                pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, entity.alpha,
-                pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h, entity.alpha
+                pt1.x, pt1.y, cell.x, cell.y, entity.alpha,
+                pt2.x, pt2.y, cell.x + cell.w, cell.y, entity.alpha,
+                pt3.x, pt3.y, cell.x + cell.w, cell.y + cell.h, entity.alpha,
+                pt4.x, pt4.y, cell.x, cell.y + cell.h, entity.alpha
                 );
         }
 
