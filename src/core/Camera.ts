@@ -177,6 +177,7 @@ module Kiwi {
             var np = point.clone();
 
             var m = this.transform.getConcatenatedMatrix();
+            m.append( 1,0,0,1, -this.transform.rotPointX, -this.transform.rotPointY );
             m.invert();
 
             return m.transformPoint(np);

@@ -498,7 +498,7 @@ module Kiwi.Components {
         */
         public update() {
 
-            if (this.enabled === false  ||  !this.game || this.owner.active === false || this.owner.willRender === false) {
+            if (this.enabled === false  ||  !this.game || this.owner.active === false) {
                 return;
             }
             

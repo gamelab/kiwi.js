@@ -429,7 +429,7 @@ module Kiwi {
         /**
         * Rebuilds the texture, audio and data libraries that are on the current state. Thus updating what files the user has access to.
         * @method rebuildLibraries
-        * @private
+        * @public
         */
         public rebuildLibraries() {
             

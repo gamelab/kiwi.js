@@ -90,6 +90,28 @@ module Kiwi.Geom {
         }
 
         /** 
+	    * Set matrix values from transform values, with rotation point data included
+	    * @method setFromOffsetTransform
+	    * @Param tx {Number} tx. Translation on x axis.
+	    * @Param ty {Number} ty. Translation on y axis.
+	    * @Param scaleX {Number} scaleX. Scale on x axis.
+	    * @Param scaleY {Number} scaleY. Scale on y axis.
+	    * @Param rotation {Number} rotation. 
+	    * @Param rotPointX {Number} Rotation point offset on x axis.
+	    * @Param rotPointY {Number} Rotation point offset on y axis.
+	    * @return {Object} This object.
+	    */
+          public setFromOffsetTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number, rotPointX: number, rotPointY: number) {
+            this.identity();
+            var cos = Math.cos(rotation);
+            var sin = Math.sin(rotation);
+
+            this.append(cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, tx + rotPointX, ty + rotPointY);
+
+            return this;
+        }
+
+        /** 
         * Prepend values to this matrix, paramters supplied individually.
         * @method prepend
         * @param [a = 1]{Number} position 0,0 of the matrix, affects scaling and rotation.

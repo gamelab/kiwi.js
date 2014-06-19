@@ -33,7 +33,7 @@ module Kiwi.Geom {
 
             this._matrix = new Matrix();
 
-            this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
+            this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
 
             this._cachedConcatenatedMatrix = this.getConcatenatedMatrix();
 
@@ -240,7 +240,7 @@ module Kiwi.Geom {
         */
         public get worldX(): number {
 
-            return this.getConcatenatedMatrix().tx;
+            return this.getConcatenatedMatrix().tx - this._rotPointX;
 
         }
 
@@ -252,7 +252,7 @@ module Kiwi.Geom {
         */
         public get worldY(): number {
 
-            return this.getConcatenatedMatrix().ty;
+            return this.getConcatenatedMatrix().ty - this._rotPointY;
 
         }
 
@@ -416,7 +416,7 @@ module Kiwi.Geom {
         */
         public getConcatenatedMatrix(): Matrix {
 
-            this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
+            this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
 
             var parentMatrix = this.getParentMatrix();
 

@@ -877,7 +877,7 @@ var Kiwi;
                         console.warn("Kiwi.Stage: 'webgl' context is not available. Using 'experimental-webgl'");
                     }
                 }
-                this.gl.clearColor(1, 1, .95, .7);
+                this.gl.clearColor(1, 1, 1, 1);
                 this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
                 this.ctx = null;
             }
@@ -2156,7 +2156,7 @@ var Kiwi;
         /**
         * Rebuilds the texture, audio and data libraries that are on the current state. Thus updating what files the user has access to.
         * @method rebuildLibraries
-        * @private
+        * @public
         */
         StateManager.prototype.rebuildLibraries = function () {
             this.current.audioLibrary.rebuild(this._game.fileStore, this.current);
@@ -2699,7 +2699,7 @@ var Kiwi;
             if (typeof immediate === "undefined") { immediate = false; }
             this._exists = false;
             this._active = false;
-            this._willRender = false;
+            this._visible = false;
 
             if (immediate === true) {
                 if (this.parent !== null && typeof this.parent !== "undefined")
@@ -2893,11 +2893,10 @@ var Kiwi;
             this._exists = true;
             this._active = true;
             this._willRender = true;
+            this._visible = true;
 
             this.transform = new Kiwi.Geom.Transform();
             this.members = [];
-
-            this._willRender = true;
         }
         /**
         * Returns the type of this object
@@ -3715,6 +3714,24 @@ var Kiwi;
             configurable: true
         });
 
+        Object.defineProperty(Group.prototype, "visible", {
+            get: function () {
+                return this._visible;
+            },
+            /**
+            * Set the visiblity of this entity. True or False.
+            * @property visibility
+            * @type boolean
+            * @default true
+            * @public
+            */
+            set: function (value) {
+                this._visible = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         /**
         * Removes all children and destroys the Group.
         * @method destroy
@@ -3727,7 +3744,7 @@ var Kiwi;
             if (typeof destroyChildren === "undefined") { destroyChildren = true; }
             this._exists = false;
             this._active = false;
-            this._willRender = false;
+            this._visible = false;
 
             if (immediate === true) {
                 if (this._tempRemoveChildren !== null)
@@ -4278,6 +4295,7 @@ var Kiwi;
             var np = point.clone();
 
             var m = this.transform.getConcatenatedMatrix();
+            m.append(1, 0, 0, 1, -this.transform.rotPointX, -this.transform.rotPointY);
             m.invert();
 
             return m.transformPoint(np);
@@ -4820,7 +4838,7 @@ var Kiwi;
                 //Texture atlas error check
                 if (typeof atlas == "undefined") {
                     console.error('A Texture Atlas was not passed when instantiating a new Sprite.');
-                    this.willRender = false;
+                    this.visible = false;
                     this.active = false;
                     return;
                 }
@@ -4889,7 +4907,7 @@ var Kiwi;
                 _super.prototype.render.call(this, camera);
 
                 //if it is would even be visible.
-                if (this.alpha > 0 && this.visible) {
+                if (this.alpha > 0) {
                     var ctx = this.game.stage.ctx;
                     ctx.save();
 
@@ -4901,10 +4919,7 @@ var Kiwi;
                     var t = this.transform;
                     var m = t.getConcatenatedMatrix();
 
-                    var ct = camera.transform;
-
-                    //ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
-                    ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - ct.rotPointX, m.ty + t.rotPointY - ct.rotPointY);
+                    ctx.transform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
                     var cell = this.atlas.cells[this.cellIndex];
                     ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
@@ -4966,7 +4981,7 @@ var Kiwi;
                 //Texture atlas error check.
                 if (typeof atlas == "undefined") {
                     console.error('A Texture Atlas was not passed when instantiating a new Static Image.');
-                    this.willRender = false;
+                    this.visible = false;
                     this.active = false;
                     return;
                 }
@@ -5001,7 +5016,7 @@ var Kiwi;
                 _super.prototype.render.call(this, camera);
 
                 //if it is would even be visible.
-                if (this.alpha > 0 && this.visible) {
+                if (this.alpha > 0) {
                     var ctx = this.game.stage.ctx;
                     ctx.save();
 
@@ -5013,10 +5028,7 @@ var Kiwi;
                     var t = this.transform;
                     var m = t.getConcatenatedMatrix();
 
-                    var ct = camera.transform;
-
-                    //ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
-                    ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - ct.rotPointX, m.ty + t.rotPointY - ct.rotPointY);
+                    ctx.transform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
                     var cell = this.atlas.cells[this.cellIndex];
                     ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
@@ -5320,9 +5332,8 @@ var Kiwi;
 
                     //Draw the Image
                     var m = t.getConcatenatedMatrix();
-                    var ct = camera.transform;
 
-                    ctx.transform(m.a, m.b, m.c, m.d, (m.tx - x) + t.rotPointX - ct.rotPointX, m.ty + t.rotPointY - ct.rotPointY);
+                    ctx.transform(m.a, m.b, m.c, m.d, (m.tx - x), m.ty);
                     ctx.drawImage(this._canvas, 0, 0, this._canvas.width, this._canvas.height, -t.rotPointX, -t.rotPointY, this._canvas.width, this._canvas.height);
 
                     ctx.restore();
@@ -5377,7 +5388,7 @@ var Kiwi;
                 pt4 = m.transformPoint(pt4);
 
                 //Append to the xyuv and alpha arrays
-                vertexItems.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, 0, 0, this.alpha, pt2.x + t.rotPointX, pt2.y + t.rotPointY, this._canvas.width, 0, this.alpha, pt3.x + t.rotPointX, pt3.y + t.rotPointY, this._canvas.width, this._canvas.height, this.alpha, pt4.x + t.rotPointX, pt4.y + t.rotPointY, 0, this._canvas.height, this.alpha);
+                vertexItems.push(pt1.x, pt1.y, 0, 0, this.alpha, pt2.x, pt2.y, this._canvas.width, 0, this.alpha, pt3.x, pt3.y, this._canvas.width, this._canvas.height, this.alpha, pt4.x, pt4.y, 0, this._canvas.height, this.alpha);
 
                 //Add to the batch!
                 this.glRenderer.concatBatch(vertexItems);
@@ -5975,7 +5986,6 @@ var Kiwi;
                     this.tileHeight = th;
                     this.width = w;
                     this.height = h;
-                    this.cellIndex = null; //Cell Index doesn't matter for a TileMapLayer itself.
 
                     this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, null));
                     this.physics.immovable = true;
@@ -6549,7 +6559,7 @@ var Kiwi;
                     var t = this.transform;
                     var m = t.getConcatenatedMatrix();
 
-                    ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - camera.transform.rotPointX, m.ty + t.rotPointY - camera.transform.rotPointY);
+                    ctx.transform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
                     this._calculateBoundaries(camera, m);
 
@@ -6576,7 +6586,7 @@ var Kiwi;
                                     drawX = screenPos.x + this._temptype.offset.x - shiftX;
                                     drawY = screenPos.y - (cell.h - this.tileHeight) + this._temptype.offset.y;
                                 } else {
-                                    // 'Normal' maps
+                                    // Orthogonal maps
                                     drawX = x * this.tileWidth + this._temptype.offset.x;
                                     drawY = y * this.tileHeight - (cell.h - this.tileHeight) + this._temptype.offset.y;
                                 }
@@ -6638,7 +6648,7 @@ var Kiwi;
                                 tx = screenPos.x + this._temptype.offset.x - shiftX;
                                 ty = screenPos.y + this._temptype.offset.y;
                             } else {
-                                // 'normal' maps
+                                // Orthogonal maps
                                 tx = x * this.tileWidth + this._temptype.offset.x;
                                 ty = y * this.tileHeight + this._temptype.offset.y;
                             }
@@ -7366,9 +7376,7 @@ var Kiwi;
                 var m = t.getConcatenatedMatrix();
 
                 //Use world coordinates?
-                if (useWorldCoords) {
-                    m.setTo(m.a, m.b, m.c, m.d, t.worldX + t.rotPointX, t.worldY + t.rotPointY);
-                } else {
+                if (!useWorldCoords) {
                     m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
                 }
 
@@ -7391,9 +7399,7 @@ var Kiwi;
                 var m = t.getConcatenatedMatrix();
 
                 //Use world coordinates?
-                if (useWorldCoords) {
-                    m.setTo(m.a, m.b, m.c, m.d, t.worldX + t.rotPointX, t.worldY + t.rotPointY);
-                } else {
+                if (!useWorldCoords) {
                     m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
                 }
 
@@ -7410,17 +7416,32 @@ var Kiwi;
             */
             Box.prototype.draw = function (ctx) {
                 var t = this.entity.transform;
-                ctx.strokeStyle = "red";
 
+                // Draw raw bounds and raw center
+                ctx.strokeStyle = "red";
                 ctx.strokeRect(this.rawBounds.x, this.rawBounds.y, this.rawBounds.width, this.rawBounds.height);
                 ctx.fillRect(this.rawCenter.x - 1, this.rawCenter.y - 1, 3, 3);
                 ctx.strokeRect(t.x + t.rotPointX - 3, t.y + t.rotPointY - 3, 7, 7);
+
+                // Draw bounds
                 ctx.strokeStyle = "blue";
                 ctx.strokeRect(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
+
+                // Draw hitbox
                 ctx.strokeStyle = "green";
                 ctx.strokeRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
+
+                // Draw raw hitbox
                 ctx.strokeStyle = "white";
                 ctx.strokeRect(this.rawHitbox.x, this.rawHitbox.y, this.rawHitbox.width, this.rawHitbox.height);
+
+                // Draw world bounds
+                ctx.strokeStyle = "purple";
+                ctx.strokeRect(this.worldBounds.x, this.worldBounds.y, this.worldBounds.width, this.worldBounds.height);
+
+                // Draw world hitbox
+                ctx.strokeStyle = "cyan";
+                ctx.strokeRect(this.worldHitbox.x, this.worldHitbox.y, this.worldHitbox.width, this.worldHitbox.height);
             };
 
             /**
@@ -7867,7 +7888,7 @@ var Kiwi;
             * @protected
             */
             Input.prototype.update = function () {
-                if (this.enabled === false || !this.game || this.owner.active === false || this.owner.willRender === false) {
+                if (this.enabled === false || !this.game || this.owner.active === false) {
                     return;
                 }
 
@@ -8863,7 +8884,7 @@ var Kiwi;
             * ONLY works if the parent of the ArcadePhysics component which is calling this method is a TileMapLayer.
             * Note: The GameObject passed must contain a box component and only if you want to separate the two objects must is ALSO contain an ArcadePhysics component.
             *
-            * @method overlapsTile
+            * @method overlapsTiles
             * @param gameObject {Kiwi.Entity} The GameObject you would like to separate with this one.
             * @param [separateObjects=false] {Boolean} If you want the GameObject to be separated from any tile it collides with.
             * @param [collisionType=ANY] {Number} If you want the GameObject to only check for collisions from a particular side of tiles. ANY by default.
@@ -13875,7 +13896,8 @@ var Kiwi;
             * @private
             */
             CanvasRenderer.prototype._recurse = function (child) {
-                if (!child.willRender)
+                // Do not render non-visible objects or their children
+                if (!child.visible)
                     return;
 
                 if (child.childType() === Kiwi.GROUP) {
@@ -13912,21 +13934,28 @@ var Kiwi;
             * @public
             */
             CanvasRenderer.prototype.render = function (camera) {
-                this.numDrawCalls = 0;
-                this._currentCamera = camera;
                 var root = this._game.states.current.members;
 
                 //clear
                 this._game.stage.ctx.fillStyle = '#' + this._game.stage.color;
-
                 this._game.stage.ctx.fillRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
 
-                //apply camera transform
+                // Stop drawing if there is nothing to draw
+                if (root.length == 0) {
+                    console.log("nothing to render");
+                    return;
+                }
+
+                this.numDrawCalls = 0;
+                this._currentCamera = camera;
+
+                //apply camera transform, accounting for rotPoint offsets
                 var cm = camera.transform.getConcatenatedMatrix();
                 var ct = camera.transform;
 
                 this._game.stage.ctx.save();
-                this._game.stage.ctx.setTransform(cm.a, cm.b, cm.c, cm.d, cm.tx + ct.rotPointX, cm.ty + ct.rotPointY);
+                this._game.stage.ctx.setTransform(cm.a, cm.b, cm.c, cm.d, cm.tx, cm.ty);
+                this._game.stage.ctx.transform(1, 0, 0, 1, -ct.rotPointX, -ct.rotPointY);
 
                 for (var i = 0; i < root.length; i++) {
                     this._recurse(root[i]);
@@ -14155,7 +14184,7 @@ var Kiwi;
 
                 //set default gl state
                 gl.enable(gl.BLEND);
-                gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+                gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE);
 
                 //shader manager
                 this._shaderManager.init(gl, "TextureAtlasShader");
@@ -14208,22 +14237,23 @@ var Kiwi;
             * @public
             */
             GLRenderManager.prototype.render = function (camera) {
+                var gl = this._game.stage.gl;
+
+                //clear stage every frame
+                var col = this._game.stage.normalizedColor;
+                gl.clearColor(col.r, col.g, col.b, col.a);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+
+                // Stop drawing if there is nothing to draw
                 if (this._game.states.current.members.length == 0) {
                     console.log("nothing to render");
                     return;
                 }
 
-                var gl = this._game.stage.gl;
-
                 //reset stats
                 this.numDrawCalls = 0;
                 this._textureManager.numTextureWrites = 0;
                 this._entityCount = 0;
-
-                //clear stage
-                var col = this._game.stage.normalizedColor;
-                gl.clearColor(col.r, col.g, col.b, col.a);
-                gl.clear(gl.COLOR_BUFFER_BIT);
 
                 //set cam matrix uniform
                 var cm = camera.transform.getConcatenatedMatrix();
@@ -14234,14 +14264,12 @@ var Kiwi;
                 var translate = vec2.create();
 
                 vec2.set(scale, ct.scaleX, ct.scaleY);
-                vec2.set(rotOffset, ct.rotPointX + cm.tx, ct.rotPointY + cm.ty);
+                vec2.set(rotOffset, -ct.rotPointX, -ct.rotPointY);
                 vec2.set(translate, cm.tx, cm.ty);
                 mat3.identity(this.camMatrix);
-                mat3.translate(this.camMatrix, this.camMatrix, rotOffset);
-                mat3.rotate(this.camMatrix, this.camMatrix, ct.rotation);
                 mat3.translate(this.camMatrix, this.camMatrix, translate);
+                mat3.rotate(this.camMatrix, this.camMatrix, ct.rotation);
                 mat3.scale(this.camMatrix, this.camMatrix, scale);
-                vec2.negate(rotOffset, rotOffset);
                 mat3.translate(this.camMatrix, this.camMatrix, rotOffset);
 
                 this.collateRenderSequence();
@@ -14271,6 +14299,10 @@ var Kiwi;
             * @public
             */
             GLRenderManager.prototype.collateChild = function (child) {
+                // Do not render non-visible objects or their children
+                if (!child.visible)
+                    return;
+
                 if (child.childType() === Kiwi.GROUP) {
                     for (var i = 0; i < child.members.length; i++) {
                         this.collateChild(child.members[i]);
@@ -15416,6 +15448,9 @@ var Kiwi;
             * @public
             */
             TextureAtlasRenderer.prototype.addToBatch = function (gl, entity, camera) {
+                // Skip if it's invisible due to zero alpha
+                if (entity.alpha <= 0)
+                    return;
                 var t = entity.transform;
                 var m = t.getConcatenatedMatrix();
 
@@ -15431,7 +15466,7 @@ var Kiwi;
                 pt3 = m.transformPoint(pt3);
                 pt4 = m.transformPoint(pt4);
 
-                this._vertexBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, entity.alpha, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, entity.alpha, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, entity.alpha, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h, entity.alpha);
+                this._vertexBuffer.items.push(pt1.x, pt1.y, cell.x, cell.y, entity.alpha, pt2.x, pt2.y, cell.x + cell.w, cell.y, entity.alpha, pt3.x, pt3.y, cell.x + cell.w, cell.y + cell.h, entity.alpha, pt4.x, pt4.y, cell.x, cell.y + cell.h, entity.alpha);
             };
 
             /**
@@ -20460,6 +20495,28 @@ var Kiwi;
             };
 
             /**
+            * Set matrix values from transform values, with rotation point data included
+            * @method setFromOffsetTransform
+            * @Param tx {Number} tx. Translation on x axis.
+            * @Param ty {Number} ty. Translation on y axis.
+            * @Param scaleX {Number} scaleX. Scale on x axis.
+            * @Param scaleY {Number} scaleY. Scale on y axis.
+            * @Param rotation {Number} rotation.
+            * @Param rotPointX {Number} Rotation point offset on x axis.
+            * @Param rotPointY {Number} Rotation point offset on y axis.
+            * @return {Object} This object.
+            */
+            Matrix.prototype.setFromOffsetTransform = function (tx, ty, scaleX, scaleY, rotation, rotPointX, rotPointY) {
+                this.identity();
+                var cos = Math.cos(rotation);
+                var sin = Math.sin(rotation);
+
+                this.append(cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, tx + rotPointX, ty + rotPointY);
+
+                return this;
+            };
+
+            /**
             * Prepend values to this matrix, paramters supplied individually.
             * @method prepend
             * @param [a = 1]{Number} position 0,0 of the matrix, affects scaling and rotation.
@@ -21836,7 +21893,7 @@ var Kiwi;
 
                 this._matrix = new Kiwi.Geom.Matrix();
 
-                this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
+                this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
 
                 this._cachedConcatenatedMatrix = this.getConcatenatedMatrix();
             }
@@ -21997,7 +22054,7 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    return this.getConcatenatedMatrix().tx;
+                    return this.getConcatenatedMatrix().tx - this._rotPointX;
                 },
                 enumerable: true,
                 configurable: true
@@ -22011,7 +22068,7 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    return this.getConcatenatedMatrix().ty;
+                    return this.getConcatenatedMatrix().ty - this._rotPointY;
                 },
                 enumerable: true,
                 configurable: true
@@ -22168,7 +22225,7 @@ var Kiwi;
             * @public
             */
             Transform.prototype.getConcatenatedMatrix = function () {
-                this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
+                this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
 
                 var parentMatrix = this.getParentMatrix();
 
@@ -29817,7 +29874,7 @@ var Kiwi;
     * @type string
     * @public
     */
-    Kiwi.VERSION = "1.0.0";
+    Kiwi.VERSION = "1.0.1";
 
     //DIFFERENT RENDERER STATIC VARIABLES
     /**

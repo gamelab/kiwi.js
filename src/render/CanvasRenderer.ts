@@ -81,8 +81,8 @@ module Kiwi.Renderers {
         * @private
         */
         public _recurse(child: IChild) {
-
-            if (!child.willRender) return;
+			// Do not render non-visible objects or their children
+            if (!child.visible) return;
 
             if (child.childType() === Kiwi.GROUP) {
                 for (var i = 0; i < (<Kiwi.Group>child).members.length; i++) {
@@ -122,21 +122,28 @@ module Kiwi.Renderers {
         * @public
         */
         public render(camera: Kiwi.Camera) {
-            this.numDrawCalls = 0;    
-            this._currentCamera = camera;
             var root: IChild[] = this._game.states.current.members;
             
             //clear 
             this._game.stage.ctx.fillStyle = '#' + this._game.stage.color;
-            
             this._game.stage.ctx.fillRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
-
-            //apply camera transform
+            
+            // Stop drawing if there is nothing to draw
+            if ( root.length == 0 ) {
+                console.log("nothing to render");
+                return;
+            }
+            
+            this.numDrawCalls = 0;    
+            this._currentCamera = camera;
+            
+            //apply camera transform, accounting for rotPoint offsets
             var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
             var ct: Kiwi.Geom.Transform = camera.transform;
 
             this._game.stage.ctx.save();
-            this._game.stage.ctx.setTransform(cm.a, cm.b, cm.c, cm.d, cm.tx + ct.rotPointX, cm.ty + ct.rotPointY);
+            this._game.stage.ctx.setTransform(cm.a, cm.b, cm.c, cm.d, cm.tx, cm.ty);
+            this._game.stage.ctx.transform( 1,0,0,1, -ct.rotPointX, -ct.rotPointY );
 
 
             for (var i = 0; i < root.length; i++) {

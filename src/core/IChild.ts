@@ -26,6 +26,7 @@ module Kiwi {
         active: boolean;
         exists: boolean;
         willRender: boolean;
+        visible: boolean;
         parent: Kiwi.Group;
         transform: Kiwi.Geom.Transform;
         x: number;

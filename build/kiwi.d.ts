@@ -1313,7 +1313,7 @@ declare module Kiwi {
         /**
         * Rebuilds the texture, audio and data libraries that are on the current state. Thus updating what files the user has access to.
         * @method rebuildLibraries
-        * @private
+        * @public
         */
         public rebuildLibraries(): void;
         /**
@@ -1356,6 +1356,7 @@ declare module Kiwi {
         active: boolean;
         exists: boolean;
         willRender: boolean;
+        visible: boolean;
         parent: Kiwi.Group;
         transform: Kiwi.Geom.Transform;
         x: number;
@@ -2225,6 +2226,22 @@ declare module Kiwi {
         * @public
         */
         public willRender : boolean;
+        /**
+        * A boolean that indicates whether or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.
+        * @property _visible
+        * @type boolean
+        * @default true
+        * @private
+        */
+        private _visible;
+        /**
+        * Set the visiblity of this entity. True or False.
+        * @property visibility
+        * @type boolean
+        * @default true
+        * @public
+        */
+        public visible : boolean;
         /**
         * Removes all children and destroys the Group.
         * @method destroy
@@ -3468,7 +3485,7 @@ declare module Kiwi.GameObjects.Tilemap {
         public orientation: string;
         /**
         * Is an Array containing all of the TileTypes that are available on the TileMap.
-        * @property tileType
+        * @property tileTypes
         * @type TileType[]
         * @public
         */
@@ -3730,6 +3747,13 @@ declare module Kiwi.GameObjects.Tilemap {
     */
     class TileMapLayer extends Kiwi.Entity {
         constructor(tilemap: Tilemap.TileMap, name: string, atlas: Kiwi.Textures.TextureAtlas, data: number[], tw: number, th: number, x?: number, y?: number, w?: number, h?: number);
+        /**
+        * The physics component contained on the Tilemap. Use for basic collisions between People and Tiles.
+        * Note: That tilemap layers a immovable and collisions with tiles are set on the individual TileTypes that are contained on the TileMap.
+        * @property physics
+        * @type ArcadePhysics
+        * @public
+        */
         public physics: Kiwi.Components.ArcadePhysics;
         /**
         * Returns the type of child that this is.
@@ -5451,7 +5475,7 @@ declare module Kiwi.Components {
         * ONLY works if the parent of the ArcadePhysics component which is calling this method is a TileMapLayer.
         * Note: The GameObject passed must contain a box component and only if you want to separate the two objects must is ALSO contain an ArcadePhysics component.
         *
-        * @method overlapsTile
+        * @method overlapsTiles
         * @param gameObject {Kiwi.Entity} The GameObject you would like to separate with this one.
         * @param [separateObjects=false] {Boolean} If you want the GameObject to be separated from any tile it collides with.
         * @param [collisionType=ANY] {Number} If you want the GameObject to only check for collisions from a particular side of tiles. ANY by default.
@@ -10498,8 +10522,11 @@ declare module Kiwi.Input {
         public update(): void;
         /**
         * A Signal that dispatches events when a key is released/is now up.
+        * Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
+        * 1) KeyCode - The keyCode of the key that was just released.
+        * 2) Key - The key object for that keycode.
         * @property onKeyUp
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public onKeyUp: Kiwi.Signal;
@@ -10507,9 +10534,12 @@ declare module Kiwi.Input {
         * A Signal that dispatches events when a key is pressed/is down.
         * This mimics the natural 'keydown' event listener, so it will keep dispatching events if the user holds the key down.
         * Note: This fires after the 'onKeyDownOnce' signal.
+        * Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
+        * 1) KeyCode - The keyCode of the key that was just released.
+        * 2) Key - The key object for that keycode.
         *
         * @property onKeyDown
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public onKeyDown: Kiwi.Signal;
@@ -10517,9 +10547,12 @@ declare module Kiwi.Input {
         * A Signal that dispatches events when a key is pressed/is down initially.
         * This event only fires the first time that the key is pressed, so it won't dispatch events if the user is holding the key down.
         * Note: This fires before the 'onKeyDown' signal;
+        * Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
+        * 1) KeyCode - The keyCode of the key that was just released.
+        * 2) Key - The key object for that keycode.
         *
         * @property onKeyDownOnce
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public onKeyDownOnce: Kiwi.Signal;
@@ -13739,6 +13772,19 @@ declare module Kiwi.Geom {
         * @return {Object} This object.
         */
         public setFromTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number): Matrix;
+        /**
+        * Set matrix values from transform values, with rotation point data included
+        * @method setFromOffsetTransform
+        * @Param tx {Number} tx. Translation on x axis.
+        * @Param ty {Number} ty. Translation on y axis.
+        * @Param scaleX {Number} scaleX. Scale on x axis.
+        * @Param scaleY {Number} scaleY. Scale on y axis.
+        * @Param rotation {Number} rotation.
+        * @Param rotPointX {Number} Rotation point offset on x axis.
+        * @Param rotPointY {Number} Rotation point offset on y axis.
+        * @return {Object} This object.
+        */
+        public setFromOffsetTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number, rotPointX: number, rotPointY: number): Matrix;
         /**
         * Prepend values to this matrix, paramters supplied individually.
         * @method prepend

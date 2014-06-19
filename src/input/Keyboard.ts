@@ -102,8 +102,11 @@ module Kiwi.Input {
         
         /**
         * A Signal that dispatches events when a key is released/is now up.
+        * Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
+        * 1) KeyCode - The keyCode of the key that was just released.
+        * 2) Key - The key object for that keycode.
         * @property onKeyUp
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public onKeyUp: Kiwi.Signal;
@@ -112,9 +115,12 @@ module Kiwi.Input {
         * A Signal that dispatches events when a key is pressed/is down.
         * This mimics the natural 'keydown' event listener, so it will keep dispatching events if the user holds the key down. 
         * Note: This fires after the 'onKeyDownOnce' signal.
+        * Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
+        * 1) KeyCode - The keyCode of the key that was just released.
+        * 2) Key - The key object for that keycode.
         *
         * @property onKeyDown
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public onKeyDown: Kiwi.Signal;
@@ -123,9 +129,12 @@ module Kiwi.Input {
         * A Signal that dispatches events when a key is pressed/is down initially. 
         * This event only fires the first time that the key is pressed, so it won't dispatch events if the user is holding the key down.
         * Note: This fires before the 'onKeyDown' signal;
+        * Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
+        * 1) KeyCode - The keyCode of the key that was just released.
+        * 2) Key - The key object for that keycode.
         *
         * @property onKeyDownOnce
-        * @type Signal
+        * @type Kiwi.Signal
         * @public
         */
         public onKeyDownOnce: Kiwi.Signal;

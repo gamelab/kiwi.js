@@ -33,7 +33,7 @@ module Kiwi.GameObjects {
             //Texture atlas error check.
             if (typeof atlas == "undefined") {
                 console.error('A Texture Atlas was not passed when instantiating a new Static Image.');
-                this.willRender = false;
+                this.visible = false;
                 this.active = false;
                 return;
             } 
@@ -79,7 +79,7 @@ module Kiwi.GameObjects {
             super.render(camera);
 
             //if it is would even be visible.
-            if (this.alpha > 0 && this.visible) {
+            if (this.alpha > 0) {
 
                 var ctx: CanvasRenderingContext2D = this.game.stage.ctx;
                 ctx.save();
@@ -91,18 +91,15 @@ module Kiwi.GameObjects {
                 //get entity/view matrix
                 var t: Kiwi.Geom.Transform = this.transform;
                 var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
-
-                var ct: Kiwi.Geom.Transform = camera.transform;
-
-                //ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
-                ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - ct.rotPointX, m.ty + t.rotPointY - ct.rotPointY);
-
+                
+                ctx.transform(m.a, m.b, m.c, m.d, m.tx, m.ty);
                 
                 var cell = this.atlas.cells[this.cellIndex];
                 ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
                 ctx.restore();
             
             }
+            
         }
 
         /**
@@ -117,7 +114,6 @@ module Kiwi.GameObjects {
         public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params: any = null) {
             (<Kiwi.Renderers.TextureAtlasRenderer>this.glRenderer).addToBatch(gl, this, camera);
         }
-
 
     }
 
