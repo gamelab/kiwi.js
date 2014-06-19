@@ -33,7 +33,7 @@ module Kiwi.Geom {
 
             this._matrix = new Matrix();
 
-            this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
+            this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
 
             this._cachedConcatenatedMatrix = this.getConcatenatedMatrix();
 

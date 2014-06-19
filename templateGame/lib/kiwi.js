@@ -4295,6 +4295,7 @@ var Kiwi;
             var np = point.clone();
 
             var m = this.transform.getConcatenatedMatrix();
+            m.append(1, 0, 0, 1, -this.transform.rotPointX, -this.transform.rotPointY);
             m.invert();
 
             return m.transformPoint(np);
@@ -5387,7 +5388,7 @@ var Kiwi;
                 pt4 = m.transformPoint(pt4);
 
                 //Append to the xyuv and alpha arrays
-                vertexItems.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, 0, 0, this.alpha, pt2.x + t.rotPointX, pt2.y + t.rotPointY, this._canvas.width, 0, this.alpha, pt3.x + t.rotPointX, pt3.y + t.rotPointY, this._canvas.width, this._canvas.height, this.alpha, pt4.x + t.rotPointX, pt4.y + t.rotPointY, 0, this._canvas.height, this.alpha);
+                vertexItems.push(pt1.x, pt1.y, 0, 0, this.alpha, pt2.x, pt2.y, this._canvas.width, 0, this.alpha, pt3.x, pt3.y, this._canvas.width, this._canvas.height, this.alpha, pt4.x, pt4.y, 0, this._canvas.height, this.alpha);
 
                 //Add to the batch!
                 this.glRenderer.concatBatch(vertexItems);
@@ -21892,7 +21893,7 @@ var Kiwi;
 
                 this._matrix = new Kiwi.Geom.Matrix();
 
-                this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
+                this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
 
                 this._cachedConcatenatedMatrix = this.getConcatenatedMatrix();
             }
