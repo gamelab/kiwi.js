@@ -7422,6 +7422,7 @@ var Kiwi;
 
                 // Draw raw bounds and raw center
                 ctx.strokeStyle = "red";
+                ctx.fillRect(this.rawCenter.x + ct.x - 1, this.rawCenter.y + ct.y - 1, 3, 3);
                 ctx.strokeRect(t.x + ct.x + t.rotPointX - 3, t.y + ct.y + t.rotPointY - 3, 7, 7);
 
                 // Draw bounds
@@ -29875,7 +29876,7 @@ var Kiwi;
     * @type string
     * @public
     */
-    Kiwi.VERSION = "1.0.1";
+    Kiwi.VERSION = "1.1.0";
 
     //DIFFERENT RENDERER STATIC VARIABLES
     /**

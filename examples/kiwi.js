@@ -7411,29 +7411,31 @@ var Kiwi;
             /**
             * Draws the various bounds on a context that is passed. Useful for debugging and using in combination with the debug canvas.
             * @method draw
-            * @param {CanvasRenderingContext2D} ctx
+            * @param ctx {CanvasRenderingContext2D} Context of the canvas that this box component is to be rendered on top of.
+            * @param [camera] {Kiwi.Camera} A camera that should be taken into account before rendered. This is the default camera by default.
             * @public
             */
-            Box.prototype.draw = function (ctx) {
+            Box.prototype.draw = function (ctx, camera) {
+                if (typeof camera === "undefined") { camera = this.game.cameras.defaultCamera; }
                 var t = this.entity.transform;
+                var ct = camera.transform;
 
                 // Draw raw bounds and raw center
                 ctx.strokeStyle = "red";
-                ctx.strokeRect(this.rawBounds.x, this.rawBounds.y, this.rawBounds.width, this.rawBounds.height);
-                ctx.fillRect(this.rawCenter.x - 1, this.rawCenter.y - 1, 3, 3);
-                ctx.strokeRect(t.x + t.rotPointX - 3, t.y + t.rotPointY - 3, 7, 7);
+                ctx.fillRect(this.rawCenter.x + ct.x - 1, this.rawCenter.y + ct.y - 1, 3, 3);
+                ctx.strokeRect(t.x + ct.x + t.rotPointX - 3, t.y + ct.y + t.rotPointY - 3, 7, 7);
 
                 // Draw bounds
                 ctx.strokeStyle = "blue";
-                ctx.strokeRect(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
+                ctx.strokeRect(this.bounds.x + ct.x, this.bounds.y + ct.y, this.bounds.width, this.bounds.height);
 
                 // Draw hitbox
                 ctx.strokeStyle = "green";
-                ctx.strokeRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
+                ctx.strokeRect(this.hitbox.x + ct.x, this.hitbox.y + ct.y, this.hitbox.width, this.hitbox.height);
 
                 // Draw raw hitbox
                 ctx.strokeStyle = "white";
-                ctx.strokeRect(this.rawHitbox.x, this.rawHitbox.y, this.rawHitbox.width, this.rawHitbox.height);
+                ctx.strokeRect(this.rawHitbox.x + ct.x, this.rawHitbox.y + ct.y, this.rawHitbox.width, this.rawHitbox.height);
 
                 // Draw world bounds
                 ctx.strokeStyle = "purple";
@@ -29874,7 +29876,7 @@ var Kiwi;
     * @type string
     * @public
     */
-    Kiwi.VERSION = "1.0.1";
+    Kiwi.VERSION = "1.1.0";
 
     //DIFFERENT RENDERER STATIC VARIABLES
     /**

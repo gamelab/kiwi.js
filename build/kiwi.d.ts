@@ -4617,10 +4617,11 @@ declare module Kiwi.Components {
         /**
         * Draws the various bounds on a context that is passed. Useful for debugging and using in combination with the debug canvas.
         * @method draw
-        * @param {CanvasRenderingContext2D} ctx
+        * @param ctx {CanvasRenderingContext2D} Context of the canvas that this box component is to be rendered on top of.
+        * @param [camera] {Kiwi.Camera} A camera that should be taken into account before rendered. This is the default camera by default.
         * @public
         */
-        public draw(ctx: CanvasRenderingContext2D): void;
+        public draw(ctx: CanvasRenderingContext2D, camera?: Kiwi.Camera): void;
         /**
         * Method which takes four Points and then converts it into a Rectangle, which represents the area those points covered.
         * The points passed can be maybe in any order, as the are checked for validity first.
