@@ -106,7 +106,6 @@ module Kiwi.HUD.Widget {
             this.icon.style.height = '';
             this.icon.style.backgroundImage = '';
             this.icon.style.backgroundRepeat = '';
-            this.icon.style.backgroundSize = '';
         }
 
         /**
@@ -117,10 +116,16 @@ module Kiwi.HUD.Widget {
         public _applyCSS() {
             this.icon.style.width = this.width + "px";
             this.icon.style.height = this.height + "px";
-            this.icon.style.backgroundSize = "100%";
             this.icon.style.backgroundPositionX = -this.atlas.cells[this.cellIndex].x + "px";
             this.icon.style.backgroundPositionY = -this.atlas.cells[this.cellIndex].y + "px";
-            this.icon.style.backgroundImage = 'url("'+this.atlas.image.src+'")';
+            this.icon.style.backgroundRepeat = 'no-repeat';
+
+            if ( Kiwi.Utils.Common.isUndefined( this.atlas.image.src) == false) {
+                this.icon.style.backgroundImage = 'url("' + this.atlas.image.src + '")';
+            } else {
+                this.icon.style.backgroundImage = 'url("' + this.atlas.image.toDataURL("image/png") + '")';
+            }
+
         }
 
         /**
