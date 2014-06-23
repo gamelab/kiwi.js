@@ -477,6 +477,8 @@ module Kiwi.Renderers {
             for (var i = 0; i < batch.length; i++) {
                 batch[i].entity.renderGL(gl, camera);
             }
+            if( batch[0].texture.dirty )
+                batch[0].texture.refreshTextureGL(gl);
             this._currentRenderer.draw(gl);
         }
 
@@ -490,7 +492,11 @@ module Kiwi.Renderers {
         */
         public renderEntity(gl: WebGLRenderingContext, entity: any, camera) {
             this.setupGLState(gl, entity);
+            this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
             entity.renderGL(gl, camera);
+            if( entity.atlas.dirty )
+                entity.atlas.refreshTextureGL(gl);
+            this._currentRenderer.draw(gl);
         }
 
         /**

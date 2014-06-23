@@ -7457,6 +7457,13 @@ declare module Kiwi.Textures {
         public type : number;
         public glTextureWrapper: Kiwi.Renderers.GLTextureWrapper;
         /**
+        * Will reload the texture into video memory for WebGL rendering.
+        *
+        * @method refreshTextureGL
+        * @public
+        */
+        public refreshTextureGL(glContext: any): void;
+        /**
         * Will populate this texture atlas with information based on a JSON file that was passed.
         *
         * @method readJSON

@@ -11923,6 +11923,17 @@ var Kiwi;
             });
 
             /**
+            * Will reload the texture into video memory for WebGL rendering.
+            *
+            * @method refreshTextureGL
+            * @public
+            */
+            TextureAtlas.prototype.refreshTextureGL = function (glContext) {
+                if (this.glTextureWrapper)
+                    this.glTextureWrapper.refreshTexture(glContext);
+            };
+
+            /**
             * Will populate this texture atlas with information based on a JSON file that was passed.
             *
             * @method readJSON
@@ -14378,6 +14389,8 @@ var Kiwi;
                 for (var i = 0; i < batch.length; i++) {
                     batch[i].entity.renderGL(gl, camera);
                 }
+                if (batch[0].texture.dirty)
+                    batch[0].texture.refreshTextureGL(gl);
                 this._currentRenderer.draw(gl);
             };
 
@@ -14391,7 +14404,11 @@ var Kiwi;
             */
             GLRenderManager.prototype.renderEntity = function (gl, entity, camera) {
                 this.setupGLState(gl, entity);
+                this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
                 entity.renderGL(gl, camera);
+                if (entity.atlas.dirty)
+                    entity.atlas.refreshTextureGL(gl);
+                this._currentRenderer.draw(gl);
             };
 
             /**
