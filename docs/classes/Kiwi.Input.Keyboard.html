@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.0</em>
+            <em>API Docs for: 1.0.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -732,7 +732,7 @@
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l202"><code>src\input\Keyboard.ts:202</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l211"><code>src\input\Keyboard.ts:211</code></a>
         
         </p>
 
@@ -915,7 +915,7 @@ and choosing whether to prevent that keys any default action.</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l254"><code>src\input\Keyboard.ts:254</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l263"><code>src\input\Keyboard.ts:263</code></a>
         
         </p>
 
@@ -1022,7 +1022,7 @@ and choosing whether to prevent that keys any default action.</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l271"><code>src\input\Keyboard.ts:271</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l280"><code>src\input\Keyboard.ts:280</code></a>
         
         </p>
 
@@ -1131,7 +1131,7 @@ and choosing whether to prevent that keys any default action.</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l221"><code>src\input\Keyboard.ts:221</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l230"><code>src\input\Keyboard.ts:230</code></a>
         
         </p>
 
@@ -1245,7 +1245,7 @@ and choosing whether to prevent that keys any default action.</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l238"><code>src\input\Keyboard.ts:238</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l247"><code>src\input\Keyboard.ts:247</code></a>
         
         </p>
 
@@ -1426,7 +1426,7 @@ and choosing whether to prevent that keys any default action.</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l161"><code>src\input\Keyboard.ts:161</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l170"><code>src\input\Keyboard.ts:170</code></a>
         
         </p>
 
@@ -1517,7 +1517,7 @@ or it updates the key that was pressed (if one does exist).</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l183"><code>src\input\Keyboard.ts:183</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l192"><code>src\input\Keyboard.ts:192</code></a>
         
         </p>
 
@@ -1598,7 +1598,7 @@ or it updates the key that was released (if one does exist).</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l288"><code>src\input\Keyboard.ts:288</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l297"><code>src\input\Keyboard.ts:297</code></a>
         
         </p>
 
@@ -1655,7 +1655,7 @@ or it updates the key that was released (if one does exist).</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l133"><code>src\input\Keyboard.ts:133</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l142"><code>src\input\Keyboard.ts:142</code></a>
         
         </p>
 
@@ -1712,7 +1712,7 @@ or it updates the key that was released (if one does exist).</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l147"><code>src\input\Keyboard.ts:147</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l156"><code>src\input\Keyboard.ts:156</code></a>
         
         </p>
 
@@ -2041,7 +2041,7 @@ or it updates the key that was released (if one does exist).</p>
                 
                     <div id="property_onKeyDown" class="property item public">
     <h3 class="name"><code>onKeyDown</code></h3>
-    <span class="type">Signal</span>
+    <span class="type"><a href="..\classes\Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
 
     
 
@@ -2064,7 +2064,7 @@ or it updates the key that was released (if one does exist).</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l111"><code>src\input\Keyboard.ts:111</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l114"><code>src\input\Keyboard.ts:114</code></a>
         
         </p>
 
@@ -2076,7 +2076,10 @@ or it updates the key that was released (if one does exist).</p>
     <div class="description">
         <p>A Signal that dispatches events when a key is pressed/is down.
 This mimics the natural &#39;keydown&#39; event listener, so it will keep dispatching events if the user holds the key down. 
-Note: This fires after the &#39;onKeyDownOnce&#39; signal.</p>
+Note: This fires after the &#39;onKeyDownOnce&#39; signal.
+Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
+1) KeyCode - The keyCode of the key that was just released.
+2) Key - The key object for that keycode.</p>
 
     </div>
 
@@ -2090,7 +2093,7 @@ Note: This fires after the &#39;onKeyDownOnce&#39; signal.</p>
                 
                     <div id="property_onKeyDownOnce" class="property item public">
     <h3 class="name"><code>onKeyDownOnce</code></h3>
-    <span class="type">Signal</span>
+    <span class="type"><a href="..\classes\Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
 
     
 
@@ -2113,7 +2116,7 @@ Note: This fires after the &#39;onKeyDownOnce&#39; signal.</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l122"><code>src\input\Keyboard.ts:122</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l128"><code>src\input\Keyboard.ts:128</code></a>
         
         </p>
 
@@ -2125,7 +2128,10 @@ Note: This fires after the &#39;onKeyDownOnce&#39; signal.</p>
     <div class="description">
         <p>A Signal that dispatches events when a key is pressed/is down initially. 
 This event only fires the first time that the key is pressed, so it won&#39;t dispatch events if the user is holding the key down.
-Note: This fires before the &#39;onKeyDown&#39; signal;</p>
+Note: This fires before the &#39;onKeyDown&#39; signal;
+Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
+1) KeyCode - The keyCode of the key that was just released.
+2) Key - The key object for that keycode.</p>
 
     </div>
 
@@ -2139,7 +2145,7 @@ Note: This fires before the &#39;onKeyDown&#39; signal;</p>
                 
                     <div id="property_onKeyUp" class="property item public">
     <h3 class="name"><code>onKeyUp</code></h3>
-    <span class="type">Signal</span>
+    <span class="type"><a href="..\classes\Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
 
     
 
@@ -2172,7 +2178,10 @@ Note: This fires before the &#39;onKeyDown&#39; signal;</p>
     </div>
 
     <div class="description">
-        <p>A Signal that dispatches events when a key is released/is now up.</p>
+        <p>A Signal that dispatches events when a key is released/is now up.
+Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
+1) KeyCode - The keyCode of the key that was just released.
+2) Key - The key object for that keycode.</p>
 
     </div>
 

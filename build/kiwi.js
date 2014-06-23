@@ -23864,7 +23864,6 @@ var Kiwi;
                     this.icon.style.height = '';
                     this.icon.style.backgroundImage = '';
                     this.icon.style.backgroundRepeat = '';
-                    this.icon.style.backgroundSize = '';
                 };
 
                 /**
@@ -23875,8 +23874,6 @@ var Kiwi;
                 Icon.prototype._applyCSS = function () {
                     this.icon.style.width = this.width + "px";
                     this.icon.style.height = this.height + "px";
-
-                    //this.icon.style.backgroundSize = "100%";
                     this.icon.style.backgroundPositionX = -this.atlas.cells[this.cellIndex].x + "px";
                     this.icon.style.backgroundPositionY = -this.atlas.cells[this.cellIndex].y + "px";
                     this.icon.style.backgroundRepeat = 'no-repeat';

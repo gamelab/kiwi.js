@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.0</em>
+            <em>API Docs for: 1.0.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -945,7 +945,7 @@ module Kiwi {
                         console.warn (&quot;Kiwi.Stage: &#x27;webgl&#x27; context is not available. Using &#x27;experimental-webgl&#x27;&quot;);
                     }
                 }
-                this.gl.clearColor(1, 1, .95, .7);
+                this.gl.clearColor(1, 1, 1, 1);
                 this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
                 this.ctx = null;
 
@@ -1024,6 +1024,9 @@ module Kiwi {
         * @public
         */
         public createDebugCanvas() {
+
+            if( Kiwi.Utils.Common.isUndefined(this.debugCanvas) == false ) return;
+            
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
                 //Not supported in CocoonJS only because we cannot add it to the container (as a container does not exist) and position will be hard.
                 console.log(&#x27;Debug canvas not supported in cocoon, creating canvas and context anyway&#x27;);                
@@ -1034,6 +1037,8 @@ module Kiwi {
             this.debugCanvas.style.position = &quot;absolute&quot;;
             this.debugCanvas.width = this.width;
             this.debugCanvas.height = this.height;
+            this.debugCanvas.style.width = &#x27;100%&#x27;;
+            this.debugCanvas.style.height = &#x27;100%&#x27;;
             this.dctx = this.debugCanvas.getContext(&quot;2d&quot;);
             this.clearDebugCanvas();
 
