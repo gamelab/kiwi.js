@@ -52,6 +52,7 @@ Our [Official Documentation Codex](http://www.kiwijs.org/documentation/getting-s
 * Textures that are set to 'dirty' are now re-uploaded to video memory. This fixes other bugs, such as the Textfield not working in WebGL.
 * Visibility flag now works correctly with groups: no children are rendered.
 * Visibility flag now works correctly under WebGL renderer.
+* Upgraded the projects to use Typescript version 1.0.0. 
 
 ##Features
 
@@ -220,7 +221,7 @@ Grunt will also create a min.js version and also output a kiwi.d.ts definition f
 
 You don't need to build the library to use it. The repo has prebuilt files in the `/build` folder.
 
-Kiwi.js is currently using Typescript 0.9.5
+Kiwi.js is currently using Typescript 1.0.0
 Either - use Visual Studio/TS extension. There are csproj files for both the main project and also the examples.
 
 ##Extending Kiwi.js

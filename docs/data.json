@@ -1484,7 +1484,7 @@
             },
             "tag": "main",
             "file": "src\\Kiwi.ts",
-            "line": 285,
+            "line": 284,
             "description": "Module - Kiwi (Core)\nThe top level namespace in which all core classes and modules are defined.",
             "itemtype": "main"
         },
@@ -5649,7 +5649,7 @@
             "module": "Kiwi",
             "namespace": "Kiwi",
             "file": "src\\Kiwi.ts",
-            "line": 285,
+            "line": 284,
             "description": "The GameManager is used to maintain mulitple instances of Kiwi games within a single document.",
             "static": 1
         }
@@ -45508,7 +45508,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 142,
+            "line": 141,
             "description": "The version of Kiwi that is currently being used.",
             "itemtype": "property",
             "name": "VERSION",
@@ -45521,7 +45521,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 152,
+            "line": 151,
             "description": "A Static property that contains the number associated with the CANVAS RENDERER.",
             "itemtype": "property",
             "name": "RENDERER_CANVAS",
@@ -45535,7 +45535,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 162,
+            "line": 161,
             "description": "A Static property that contains the number associated with the WEBGL RENDERER.",
             "itemtype": "property",
             "name": "RENDERER_WEBGL",
@@ -45549,7 +45549,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 173,
+            "line": 172,
             "description": "Contains the number associated with the targetting of browsers.",
             "itemtype": "property",
             "name": "TARGET_BROWSER",
@@ -45563,7 +45563,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 183,
+            "line": 182,
             "description": "Contains the number associated with the targetting of CocoonJS.",
             "itemtype": "property",
             "name": "TARGET_COCOON",
@@ -45577,7 +45577,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 194,
+            "line": 193,
             "description": "Contains the number that is used to turn the Debug options on.",
             "itemtype": "property",
             "name": "DEBUG_ON",
@@ -45591,7 +45591,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 204,
+            "line": 203,
             "description": "Contains the number that is used to turn the Debug options off.",
             "itemtype": "property",
             "name": "DEBUG_OFF",
@@ -45605,7 +45605,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 214,
+            "line": 213,
             "description": "Contains the Device class that is used to determine which features are supported by the users browser.",
             "itemtype": "property",
             "name": "DEVICE",
@@ -45618,7 +45618,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 224,
+            "line": 223,
             "description": "Contains a number that is used to identify objects that are a State.",
             "itemtype": "property",
             "name": "STATE",
@@ -45632,7 +45632,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 234,
+            "line": 233,
             "description": "Contains a number that is used to identify objects that are a Group.",
             "itemtype": "property",
             "name": "GROUP",
@@ -45646,7 +45646,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 244,
+            "line": 243,
             "description": "Contains a number that is used to identify objects that are a Entity.",
             "itemtype": "property",
             "name": "ENTITY",
@@ -45660,7 +45660,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 254,
+            "line": 253,
             "description": "Contains a number that is used to identify objects that are a Camera.",
             "itemtype": "property",
             "name": "CAMERA",
@@ -45674,7 +45674,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 264,
+            "line": 263,
             "description": "Contains a number that is used to identify objects that are a HUD Widget.",
             "itemtype": "property",
             "name": "HUD_WIDGET",
@@ -45688,7 +45688,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 274,
+            "line": 273,
             "description": "Contains a number that is used to identify objects that are a TILE_LAYER.",
             "itemtype": "property",
             "name": "TILE_LAYER",
@@ -45702,7 +45702,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 294,
+            "line": 293,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -45718,7 +45718,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 304,
+            "line": 303,
             "description": "A list of all of the games that are currently on this document.",
             "itemtype": "property",
             "name": "_games",
@@ -45732,7 +45732,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 313,
+            "line": 312,
             "description": "Used to register a new Game with this manager. Returns the new number of games that have been registered.",
             "itemtype": "method",
             "name": "register",
@@ -45754,7 +45754,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 326,
+            "line": 325,
             "description": "Returns the total number of game that are currently registered with this GameManager.",
             "itemtype": "method",
             "name": "total",

@@ -21,7 +21,7 @@
         "matchdep": "~0.1.2",
         "grunt": "~0.4.x",
         "grunt-contrib-uglify": "0.2.x",
-        "typescript": "0.9.5",
+        "typescript": "1.0.0",
         "grunt-ts" : "latest",
         "grunt-contrib-concat" : "latest",
         "grunt-contrib-yuidoc": "0.4.x",

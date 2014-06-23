@@ -128,7 +128,6 @@
 /// <reference path="utils/RandomDataGenerator.ts" />
 /// <reference path="utils/RequestAnimationFrame.ts" />
 /// <reference path="utils/Version.ts" />
-/// <reference path="WebGL.d.ts"/>
 
 /**
 * Module - Kiwi (Core)
