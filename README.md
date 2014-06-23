@@ -50,6 +50,8 @@ Our [Official Documentation Codex](http://www.kiwijs.org/documentation/getting-s
 * Fixed a WebGL bug where alphas between 0 and 1 made the page background color bleed through.
 * The WebGL renderer now clears every frame which solves the bug where nothing would appear.
 * Textures that are set to 'dirty' are now re-uploaded to video memory. This fixes other bugs, such as the Textfield not working in WebGL.
+* Visibility flag now works correctly with groups: no children are rendered.
+* Visibility flag now works correctly under WebGL renderer.
 
 ##Features
 
