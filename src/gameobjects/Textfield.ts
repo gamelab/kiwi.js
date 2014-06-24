@@ -55,6 +55,8 @@ module Kiwi.GameObjects {
             this.state.textureLibrary.add(this.atlas);
             this.atlas.dirty = true;
 
+            // Render text
+            this._renderText();
         }
 
         /**

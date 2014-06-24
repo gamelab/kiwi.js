@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.0</em>
+            <em>API Docs for: 1.0.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -527,6 +527,7 @@ module Kiwi {
             var np = point.clone();
 
             var m = this.transform.getConcatenatedMatrix();
+            m.append( 1,0,0,1, -this.transform.rotPointX, -this.transform.rotPointY );
             m.invert();
 
             return m.transformPoint(np);

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.0</em>
+            <em>API Docs for: 1.0.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -493,6 +493,17 @@ module Kiwi.Textures {
         
 
         public glTextureWrapper: Kiwi.Renderers.GLTextureWrapper;
+
+        /**
+        * Will reload the texture into video memory for WebGL rendering.
+        * 
+        * @method refreshTextureGL
+        * @public
+        */
+        public refreshTextureGL( glContext ) {
+            if(this.glTextureWrapper)
+                this.glTextureWrapper.refreshTexture( glContext );
+        }
 
         /**
         * Will populate this texture atlas with information based on a JSON file that was passed.

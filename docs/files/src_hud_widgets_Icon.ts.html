@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.0</em>
+            <em>API Docs for: 1.0.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -456,7 +456,6 @@ module Kiwi.HUD.Widget {
             this.icon.style.height = &#x27;&#x27;;
             this.icon.style.backgroundImage = &#x27;&#x27;;
             this.icon.style.backgroundRepeat = &#x27;&#x27;;
-            this.icon.style.backgroundSize = &#x27;&#x27;;
         }
 
         /**
@@ -467,10 +466,16 @@ module Kiwi.HUD.Widget {
         public _applyCSS() {
             this.icon.style.width = this.width + &quot;px&quot;;
             this.icon.style.height = this.height + &quot;px&quot;;
-            this.icon.style.backgroundSize = &quot;100%&quot;;
             this.icon.style.backgroundPositionX = -this.atlas.cells[this.cellIndex].x + &quot;px&quot;;
             this.icon.style.backgroundPositionY = -this.atlas.cells[this.cellIndex].y + &quot;px&quot;;
-            this.icon.style.backgroundImage = &#x27;url(&quot;&#x27;+this.atlas.image.src+&#x27;&quot;)&#x27;;
+            this.icon.style.backgroundRepeat = &#x27;no-repeat&#x27;;
+
+            if ( Kiwi.Utils.Common.isUndefined( this.atlas.image.src) == false) {
+                this.icon.style.backgroundImage = &#x27;url(&quot;&#x27; + this.atlas.image.src + &#x27;&quot;)&#x27;;
+            } else {
+                this.icon.style.backgroundImage = &#x27;url(&quot;&#x27; + this.atlas.image.toDataURL(&quot;image/png&quot;) + &#x27;&quot;)&#x27;;
+            }
+
         }
 
         /**

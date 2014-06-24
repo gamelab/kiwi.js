@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.0</em>
+            <em>API Docs for: 1.0.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -435,6 +435,28 @@ module Kiwi.Geom {
             var sin = Math.sin(rotation);
 
             this.append(cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, tx, ty);
+
+            return this;
+        }
+
+        /** 
+	    * Set matrix values from transform values, with rotation point data included
+	    * @method setFromOffsetTransform
+	    * @Param tx {Number} tx. Translation on x axis.
+	    * @Param ty {Number} ty. Translation on y axis.
+	    * @Param scaleX {Number} scaleX. Scale on x axis.
+	    * @Param scaleY {Number} scaleY. Scale on y axis.
+	    * @Param rotation {Number} rotation. 
+	    * @Param rotPointX {Number} Rotation point offset on x axis.
+	    * @Param rotPointY {Number} Rotation point offset on y axis.
+	    * @return {Object} This object.
+	    */
+          public setFromOffsetTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number, rotPointX: number, rotPointY: number) {
+            this.identity();
+            var cos = Math.cos(rotation);
+            var sin = Math.sin(rotation);
+
+            this.append(cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, tx + rotPointX, ty + rotPointY);
 
             return this;
         }

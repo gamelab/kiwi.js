@@ -1,4 +1,4 @@
-Kiwi.js 1.0 
+Kiwi.js 1.0.1
 ============
 
 ![Splash](http://kiwi-js.s3.amazonaws.com/wounds-with-friends.jpg) 
@@ -7,7 +7,7 @@ Kiwi.js is the worlds easiest to use Open Source HTML5 game framework for making
 
 Our focus is blazingly fast WebGL rendering and complimentary tools to make professional quality serious games. We use [CocoonJS](https://www.ludei.com/) for publishing games and App creation. 
 
-Version: 1.0 "Iwatani"
+Version: 1.0.1 "Iwatani"
 
 - Visit the [Official Website](http://www.kiwijs.org/documentation/getting-started/)
 - Follow us on [Twitter](http://www.twitter.com/kiwijsengine)
@@ -34,6 +34,25 @@ And we do think you’re going to feel the love. What couldn’t you love about 
 Have you ever been trying to figure out how to do something on a website and the help pages resemble a [Goosebumps](https://en.wikipedia.org/wiki/Goosebumps) choose your own adventure book? So have we, which is why we have spent literally hundreds of hours writing good help documents for Kiwi.js developers.
 
 Our [Official Documentation Codex](http://www.kiwijs.org/documentation/getting-started/) is here if you do get stuck.
+
+
+## Release Notes for this Version
+
+####Bug Fixes and Changes 
+* Thanks to @zzarcon the Grunt file now has more clarity.
+* @tjwudi has pushed up numerious fixes to the Documentation!
+* Bug fix where multiple debug canvases could be generated from subsequent 'createDebugCanvas' calls. 
+* The debug canvas now responds to the "scaleType" property on the 'Stage'.
+* Tilemap layers no longer return error messages about the cellIndex. 
+* Groups now use correct rotation point, as does the Camera and the State. 
+* Fixed a bug where the HUDIcon would not work with Textures use a Canvas.   
+* Canvas renderer now behaves more like the WebGL renderer. 
+* Fixed a WebGL bug where alphas between 0 and 1 made the page background color bleed through.
+* The WebGL renderer now clears every frame which solves the bug where nothing would appear.
+* Textures that are set to 'dirty' are now re-uploaded to video memory. This fixes other bugs, such as the Textfield not working in WebGL.
+* Visibility flag now works correctly with groups: no children are rendered.
+* Visibility flag now works correctly under WebGL renderer.
+* Upgraded Kiwi.js to use Typescript version 1.0.0. 
 
 ##Features
 
@@ -202,7 +221,7 @@ Grunt will also create a min.js version and also output a kiwi.d.ts definition f
 
 You don't need to build the library to use it. The repo has prebuilt files in the `/build` folder.
 
-Kiwi.js is currently using Typescript 0.9.5
+Kiwi.js is currently using Typescript 1.0.0
 Either - use Visual Studio/TS extension. There are csproj files for both the main project and also the examples.
 
 ##Extending Kiwi.js

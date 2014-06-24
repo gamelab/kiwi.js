@@ -145,6 +145,20 @@ module Kiwi.Textures {
         public glTextureWrapper: Kiwi.Renderers.GLTextureWrapper;
 
         /**
+        * Will reload the texture into video memory for WebGL rendering.
+        * 
+        * @method refreshTextureGL
+        * @public
+        */
+        public refreshTextureGL( glContext ) {
+            if(this.glTextureWrapper)
+                this.glTextureWrapper.refreshTexture( glContext );
+            // Clean dirty flag, even if glTextureWrapper failed, so we don't keep calling it
+            this.dirty = false;
+
+        }
+
+        /**
         * Will populate this texture atlas with information based on a JSON file that was passed.
         * 
         * @method readJSON
