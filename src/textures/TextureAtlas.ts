@@ -153,6 +153,9 @@ module Kiwi.Textures {
         public refreshTextureGL( glContext ) {
             if(this.glTextureWrapper)
                 this.glTextureWrapper.refreshTexture( glContext );
+            // Clean dirty flag, even if glTextureWrapper failed, so we don't keep calling it
+            this.dirty = false;
+
         }
 
         /**

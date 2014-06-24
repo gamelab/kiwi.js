@@ -5121,6 +5121,9 @@ var Kiwi;
                 this.atlas = new Kiwi.Textures.SingleImage(this.game.rnd.uuid(), this._canvas);
                 this.state.textureLibrary.add(this.atlas);
                 this.atlas.dirty = true;
+
+                // Render text
+                this._renderText();
             }
             /**
             * Returns the type of object that this is
@@ -11931,6 +11934,9 @@ var Kiwi;
             TextureAtlas.prototype.refreshTextureGL = function (glContext) {
                 if (this.glTextureWrapper)
                     this.glTextureWrapper.refreshTexture(glContext);
+
+                // Clean dirty flag, even if glTextureWrapper failed, so we don't keep calling it
+                this.dirty = false;
             };
 
             /**
