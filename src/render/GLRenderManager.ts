@@ -450,17 +450,8 @@ module Kiwi.Renderers {
         * @public
         */
         public renderBatches(gl: WebGLRenderingContext, camera) {
-            
-            for (var i = 0; i < this._batches.length; i++) {
-                var batch = this._batches[i];
-                //if first is batch then they all are
-                if (batch[0].isBatchRenderer) {
-                    this.renderBatch(gl, batch, camera);
-                } else {
-                    this.renderEntity(gl,batch[0].entity,camera);
-                }
-
-            }
+            for (var i = 0; i < this._batches.length; i++)
+                this.renderBatch( gl, this._batches[i], camera );
         }
 
         /**
@@ -471,19 +462,24 @@ module Kiwi.Renderers {
         * @param {Kiwi.Camera} camera
         * @public
         */
-        public renderBatch(gl: WebGLRenderingContext, batch: any, camera) {
-            this.setupGLState(gl, batch[0].entity);
+        public renderBatch(gl, batch, camera) {
+            // Acquire renderer
+            if( batch[0].entity.glRenderer !== this._currentRenderer )
+                this._switchRenderer(gl, batch[0].entity);
+            // Clear renderer for fresh data
             this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
-            for (var i = 0; i < batch.length; i++) {
+            // Call render functions
+            for( var i = 0;  i < batch.length;  i++ )
                 batch[i].entity.renderGL(gl, camera);
-            }
-            if( batch[0].texture.dirty )
-                batch[0].texture.refreshTextureGL(gl);
+            // Upload textures
+            if( batch[0].entity.atlas !== this._currentTextureAtlas  ||  batch[0].entity.atlas.dirty )
+                this._switchTexture(gl, batch[0].entity);
+            // Render
             this._currentRenderer.draw(gl);
         }
 
         /**
-        * Calls the render function on a single entity
+        * Calls the render function on a single entity; deprecated in v1.1.0
         * @method renderEntity
         * @param {WebGLRenderingContext} gl
         * @param {Kiwi.Entity} entity
@@ -491,16 +487,11 @@ module Kiwi.Renderers {
         * @public
         */
         public renderEntity(gl: WebGLRenderingContext, entity: any, camera) {
-            this.setupGLState(gl, entity);
-            this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
-            entity.renderGL(gl, camera);
-            if( entity.atlas.dirty )
-                entity.atlas.refreshTextureGL(gl);
-            this._currentRenderer.draw(gl);
+            this.renderBatch( gl, [entity], camera );
         }
 
         /**
-        * Ensures the atlas and renderer needed for a batch is setup
+        * Ensures the atlas and renderer needed for a batch is setup; deprecated in v1.1.0
         * @method setupGLState
         * @param {WebGLRenderingContext} gl
         * @public
@@ -534,8 +525,7 @@ module Kiwi.Renderers {
             this._currentTextureAtlas = entity.atlas;
             if (this._currentRenderer) this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
             this._textureManager.useTexture(gl, entity.atlas.glTextureWrapper);
-
-               
+            this._currentTextureAtlas.refreshTextureGL( gl );
         }
         
     }

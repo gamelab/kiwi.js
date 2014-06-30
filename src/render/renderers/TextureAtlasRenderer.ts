@@ -87,8 +87,6 @@ module Kiwi.Renderers {
             //Other uniforms
             gl.uniform2fv(this.shaderPair.uniforms.uResolution.location, params.stageResolution);
             gl.uniformMatrix3fv(this.shaderPair.uniforms.uCamMatrix.location, false, params.camMatrix);
-
-            this.updateTextureSize(gl, new Float32Array([params.textureAtlas.glTextureWrapper.image.width, params.textureAtlas.glTextureWrapper.image.height]));
         }
 
         /**

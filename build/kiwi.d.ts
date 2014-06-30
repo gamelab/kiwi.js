@@ -4620,7 +4620,7 @@ declare module Kiwi.Components {
         * @param [camera] {Kiwi.Camera} A camera that should be taken into account before rendered. This is the default camera by default.
         * @public
         */
-        public draw(ctx: CanvasRenderingContext2D, camera?: Kiwi.Camera): void;
+        public draw(ctx: CanvasRenderingContext2D, camera?: Camera): void;
         /**
         * Method which takes four Points and then converts it into a Rectangle, which represents the area those points covered.
         * The points passed can be maybe in any order, as the are checked for validity first.
@@ -8974,9 +8974,9 @@ declare module Kiwi.Renderers {
         * @param {Kiwi.Camera} camera
         * @public
         */
-        public renderBatch(gl: WebGLRenderingContext, batch: any, camera: any): void;
+        public renderBatch(gl: any, batch: any, camera: any): void;
         /**
-        * Calls the render function on a single entity
+        * Calls the render function on a single entity; deprecated in v1.1.0
         * @method renderEntity
         * @param {WebGLRenderingContext} gl
         * @param {Kiwi.Entity} entity
@@ -8985,7 +8985,7 @@ declare module Kiwi.Renderers {
         */
         public renderEntity(gl: WebGLRenderingContext, entity: any, camera: any): void;
         /**
-        * Ensures the atlas and renderer needed for a batch is setup
+        * Ensures the atlas and renderer needed for a batch is setup; deprecated in v1.1.0
         * @method setupGLState
         * @param {WebGLRenderingContext} gl
         * @public

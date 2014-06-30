@@ -5121,9 +5121,6 @@ var Kiwi;
                 this.atlas = new Kiwi.Textures.SingleImage(this.game.rnd.uuid(), this._canvas);
                 this.state.textureLibrary.add(this.atlas);
                 this.atlas.dirty = true;
-
-                // Render text
-                this._renderText();
             }
             /**
             * Returns the type of object that this is
@@ -14371,16 +14368,8 @@ var Kiwi;
             * @public
             */
             GLRenderManager.prototype.renderBatches = function (gl, camera) {
-                for (var i = 0; i < this._batches.length; i++) {
-                    var batch = this._batches[i];
-
-                    //if first is batch then they all are
-                    if (batch[0].isBatchRenderer) {
-                        this.renderBatch(gl, batch, camera);
-                    } else {
-                        this.renderEntity(gl, batch[0].entity, camera);
-                    }
-                }
+                for (var i = 0; i < this._batches.length; i++)
+                    this.renderBatch(gl, this._batches[i], camera);
             };
 
             /**
@@ -14392,18 +14381,26 @@ var Kiwi;
             * @public
             */
             GLRenderManager.prototype.renderBatch = function (gl, batch, camera) {
-                this.setupGLState(gl, batch[0].entity);
+                // Acquire renderer
+                if (batch[0].entity.glRenderer !== this._currentRenderer)
+                    this._switchRenderer(gl, batch[0].entity);
+
+                // Clear renderer for fresh data
                 this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
-                for (var i = 0; i < batch.length; i++) {
+
+                for (var i = 0; i < batch.length; i++)
                     batch[i].entity.renderGL(gl, camera);
-                }
-                if (batch[0].texture.dirty)
-                    batch[0].texture.refreshTextureGL(gl);
+
+                // Upload textures
+                if (batch[0].entity.atlas !== this._currentTextureAtlas || batch[0].entity.atlas.dirty)
+                    this._switchTexture(gl, batch[0].entity);
+
+                // Render
                 this._currentRenderer.draw(gl);
             };
 
             /**
-            * Calls the render function on a single entity
+            * Calls the render function on a single entity; deprecated in v1.1.0
             * @method renderEntity
             * @param {WebGLRenderingContext} gl
             * @param {Kiwi.Entity} entity
@@ -14411,16 +14408,11 @@ var Kiwi;
             * @public
             */
             GLRenderManager.prototype.renderEntity = function (gl, entity, camera) {
-                this.setupGLState(gl, entity);
-                this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
-                entity.renderGL(gl, camera);
-                if (entity.atlas.dirty)
-                    entity.atlas.refreshTextureGL(gl);
-                this._currentRenderer.draw(gl);
+                this.renderBatch(gl, [entity], camera);
             };
 
             /**
-            * Ensures the atlas and renderer needed for a batch is setup
+            * Ensures the atlas and renderer needed for a batch is setup; deprecated in v1.1.0
             * @method setupGLState
             * @param {WebGLRenderingContext} gl
             * @public
@@ -14458,6 +14450,7 @@ var Kiwi;
                 if (this._currentRenderer)
                     this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
                 this._textureManager.useTexture(gl, entity.atlas.glTextureWrapper);
+                this._currentTextureAtlas.refreshTextureGL(gl);
             };
             return GLRenderManager;
         })();
@@ -14750,6 +14743,7 @@ var Kiwi;
             * @public
             */
             GLTextureWrapper.prototype.refreshTexture = function (gl) {
+                this.numBytes = this.image.width * this.image.height * 4;
                 gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
             };
 
@@ -15383,8 +15377,6 @@ var Kiwi;
                 //Other uniforms
                 gl.uniform2fv(this.shaderPair.uniforms.uResolution.location, params.stageResolution);
                 gl.uniformMatrix3fv(this.shaderPair.uniforms.uCamMatrix.location, false, params.camMatrix);
-
-                this.updateTextureSize(gl, new Float32Array([params.textureAtlas.glTextureWrapper.image.width, params.textureAtlas.glTextureWrapper.image.height]));
             };
 
             /**
