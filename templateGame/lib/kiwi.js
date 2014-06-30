@@ -5121,6 +5121,9 @@ var Kiwi;
                 this.atlas = new Kiwi.Textures.SingleImage(this.game.rnd.uuid(), this._canvas);
                 this.state.textureLibrary.add(this.atlas);
                 this.atlas.dirty = true;
+
+                // Track actual text width - not canvas width (which rounds up to powers of 2), necessary for proper alignment
+                this._alignWidth = 0;
             }
             /**
             * Returns the type of object that this is
@@ -5261,6 +5264,9 @@ var Kiwi;
                 var width = _measurements.width;
                 var height = this._fontSize * 1.3;
 
+                // Cache alignment width
+                this._alignWidth = width;
+
                 //Is the width base2?
                 if (Kiwi.Utils.Common.base2Sizes.indexOf(width) == -1) {
                     var i = 0;
@@ -5323,10 +5329,10 @@ var Kiwi;
                             x = 0;
                             break;
                         case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                            x = this._canvas.width * 0.5;
+                            x = this._alignWidth * 0.5;
                             break;
                         case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
-                            x = this._canvas.width;
+                            x = this._alignWidth;
                             break;
                     }
 
@@ -5368,10 +5374,10 @@ var Kiwi;
                         x = 0;
                         break;
                     case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                        x = -(this._canvas.width * 0.5);
+                        x = -(this._alignWidth * 0.5);
                         break;
                     case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
-                        x = -(this._canvas.width);
+                        x = -(this._alignWidth);
                         break;
                 }
 

@@ -3245,6 +3245,14 @@ declare module Kiwi.GameObjects {
         */
         private _textAlign;
         /**
+        * The pixel width of the text. Used internally for alignment purposes.
+        * @property _alignWidth
+        * @type number
+        * @default 0
+        * @private
+        */
+        private _alignWidth;
+        /**
         * The baseline of the text to be rendered.
         * @property _baseline
         * @type string
