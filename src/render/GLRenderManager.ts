@@ -295,12 +295,13 @@ module Kiwi.Renderers {
         
         /**
         * Performs initialisation required when switching to a different state. Called when a state has been switched to.
-        * The textureManager is told to rebuild its cache of textures from the states textuer library.
+        * The textureManager is told to clear its contents from video memory, then rebuild its cache of textures from the state's texture library.
         * @method initState
         * @public
         */
 
         public initState(state: Kiwi.State) {
+            this._textureManager.clearTextures(this._game.stage.gl);
             this._textureManager.uploadTextureLibrary(this._game.stage.gl, state.textureLibrary);
         }
 

@@ -1676,6 +1676,34 @@ var Kiwi;
         CameraManager.prototype.removeAll = function () {
             this._cameras = [];
         };
+
+        /**
+        * Returns all cameras to origin. Called when starting a new state.
+        * @method zeroAllCameras
+        * @public
+        */
+        CameraManager.prototype.zeroAllCameras = function () {
+            for (var i = 0; i < this._cameras.length; i++) {
+                this.zeroCamera(this._cameras[i]);
+            }
+            this.zeroCamera(this.defaultCamera);
+        };
+
+        /**
+        * Returns camera to origin.
+        * @method zeroCamera
+        * @param camera {Kiwi.Camera}
+        * @public
+        */
+        CameraManager.prototype.zeroCamera = function (camera) {
+            camera.transform.x = 0;
+            camera.transform.y = 0;
+            camera.transform.rotation = 0;
+            camera.transform.scaleX = 1;
+            camera.transform.scaleY = 1;
+            camera.transform.rotPointX = camera.width / 2;
+            camera.transform.rotPointY = camera.height / 2;
+        };
         return CameraManager;
     })();
     Kiwi.CameraManager = CameraManager;
@@ -1974,6 +2002,7 @@ var Kiwi;
                 this.current.destroy(true); //Destroy ALL IChildren ever created on that state.
                 this._game.fileStore.removeStateFiles(this.current); //Clear the fileStore of not global files.
                 this.current.config.reset(); //Reset the config setting
+                this._game.cameras.zeroAllCameras(); // Reset cameras
             }
 
             //Set the current state, reset the key
@@ -2068,18 +2097,13 @@ var Kiwi;
             //Rebuild the Libraries before the preload is executed
             this.rebuildLibraries();
 
-            if (this.current.config.hasPreloader === true) {
-                this._game.loader.init(function (percent, bytes, file) {
-                    return _this.onLoadProgress(percent, bytes, file);
-                }, function () {
-                    return _this.onLoadComplete();
-                });
-                this.current.preload();
-                this._game.loader.startLoad();
-            } else {
-                this.current.config.isReady = true;
-                this.callCreate();
-            }
+            this._game.loader.init(function (percent, bytes, file) {
+                return _this.onLoadProgress(percent, bytes, file);
+            }, function () {
+                return _this.onLoadComplete();
+            });
+            this.current.preload();
+            this._game.loader.startLoad();
         };
 
         /**
@@ -14230,11 +14254,12 @@ var Kiwi;
 
             /**
             * Performs initialisation required when switching to a different state. Called when a state has been switched to.
-            * The textureManager is told to rebuild its cache of textures from the states textuer library.
+            * The textureManager is told to clear its contents from video memory, then rebuild its cache of textures from the state's texture library.
             * @method initState
             * @public
             */
             GLRenderManager.prototype.initState = function (state) {
+                this._textureManager.clearTextures(this._game.stage.gl);
                 this._textureManager.uploadTextureLibrary(this._game.stage.gl, state.textureLibrary);
             };
 
@@ -14760,7 +14785,6 @@ var Kiwi;
             * @public
             */
             GLTextureWrapper.prototype.deleteTexture = function (gl) {
-                gl.bindTexture(gl.TEXTURE_2D, this.texture);
                 gl.deleteTexture(this.texture);
                 this._uploaded = false;
                 this._created = false;
@@ -14900,8 +14924,8 @@ var Kiwi;
             */
             GLTextureManager.prototype.clearTextures = function (gl) {
                 for (var i = 0; i < this._textureWrapperCache.length; i++) {
-                    //delete it from g mem
-                    this._textureWrapperCache[i].deleteTexture(gl);
+                    // Delete from graphics memory
+                    this._deleteTexture(gl, i);
 
                     //kill the reference on the atlas
                     this._textureWrapperCache[i].textureAtlas.glTextureWrapper = null;

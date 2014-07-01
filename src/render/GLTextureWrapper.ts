@@ -152,7 +152,6 @@ module Kiwi.Renderers {
         * @public
         */
         public deleteTexture(gl: WebGLRenderingContext) :boolean{
-            gl.bindTexture(gl.TEXTURE_2D, this.texture);
             gl.deleteTexture(this.texture);
             this._uploaded = false;
             this._created = false;

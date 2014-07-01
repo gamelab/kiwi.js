@@ -166,5 +166,35 @@ module Kiwi {
             this._cameras = []; 
         }
 
+        /**
+        * Returns all cameras to origin. Called when starting a new state.
+        * @method zeroAllCameras
+        * @public
+        */
+        public zeroAllCameras() {
+            for( var i = 0;  i < this._cameras.length;  i++ )
+            {
+                this.zeroCamera( this._cameras[i] );
+            }
+            this.zeroCamera( this.defaultCamera );
+        }
+
+        /**
+        * Returns camera to origin.
+        * @method zeroCamera
+        * @param camera {Kiwi.Camera}
+        * @public
+        */
+        public zeroCamera(camera:Kiwi.Camera)
+        {
+            camera.transform.x = 0;
+            camera.transform.y = 0;
+            camera.transform.rotation = 0;
+            camera.transform.scaleX = 1;
+            camera.transform.scaleY = 1;
+            camera.transform.rotPointX = camera.width / 2;
+            camera.transform.rotPointY = camera.height / 2;
+        }
+
     }
 }

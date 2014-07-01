@@ -1033,6 +1033,19 @@ declare module Kiwi {
         * @public
         */
         public removeAll(): void;
+        /**
+        * Returns all cameras to origin. Called when starting a new state.
+        * @method zeroAllCameras
+        * @public
+        */
+        public zeroAllCameras(): void;
+        /**
+        * Returns camera to origin.
+        * @method zeroCamera
+        * @param camera {Kiwi.Camera}
+        * @public
+        */
+        public zeroCamera(camera: Camera): void;
     }
 }
 /**
@@ -8924,7 +8937,7 @@ declare module Kiwi.Renderers {
         private _init();
         /**
         * Performs initialisation required when switching to a different state. Called when a state has been switched to.
-        * The textureManager is told to rebuild its cache of textures from the states textuer library.
+        * The textureManager is told to clear its contents from video memory, then rebuild its cache of textures from the state's texture library.
         * @method initState
         * @public
         */

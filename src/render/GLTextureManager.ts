@@ -164,8 +164,8 @@ module Kiwi.Renderers {
         */
         public clearTextures(gl: WebGLRenderingContext) {
             for (var i = 0; i < this._textureWrapperCache.length; i++) {
-                //delete it from g mem
-                this._textureWrapperCache[i].deleteTexture(gl);
+                // Delete from graphics memory
+                this._deleteTexture(gl, i);
                 //kill the reference on the atlas
                 this._textureWrapperCache[i].textureAtlas.glTextureWrapper = null;
             }    
