@@ -74,6 +74,7 @@ module Kiwi {
                 console.log('  Kiwi.Game: Targeted device not specified. Defaulting to BROWSER'); 
             }
 
+            // Optimise renderer request
             if (options.renderer !== 'undefined' && typeof options.renderer === 'number') {
                 switch (options.renderer) {
                     case Kiwi.RENDERER_CANVAS:
@@ -90,14 +91,25 @@ module Kiwi {
                         }
                         break;
                     default:
-                        this._renderOption = Kiwi.RENDERER_CANVAS;
-                        console.log('  Kiwi.Game: Renderer specified, but is not a valid option. Defaulting to CANVAS.');
+                        if (Kiwi.DEVICE.webGL) {
+                            this._renderOption = Kiwi.RENDERER_WEBGL;
+                            console.log('  Kiwi.Game: Renderer specified, but is not a valid option. Defaulting to WEBGL.');
+                        } else {
+                            this._renderOption = Kiwi.RENDERER_CANVAS;
+                            console.log('  Kiwi.Game: Renderer specified, but is not a valid option. WEBGL renderer sought by default but device does not support WEBGL. Defaulting to CANVAS.');
+                        }
                         break;
                 }
             } else {
-                this._renderOption = Kiwi.RENDERER_CANVAS;
-                console.log('  Kiwi.Game: Renderer not specified. Defaulting to CANVAS');
+                if (Kiwi.DEVICE.webGL) {
+                    this._renderOption = Kiwi.RENDERER_WEBGL;
+                    console.log('  Kiwi.Game: Renderer not specified. Defaulting to WEBGL.');
+                } else {
+                    this._renderOption = Kiwi.RENDERER_CANVAS;
+                    console.log('  Kiwi.Game: Renderer not specified. WEBGL renderer sought by default but device does not support WEBGL. Defaulting to CANVAS.');
+                }
             }
+            
             
             this.id = Kiwi.GameManager.register(this);
             this._startup = new Kiwi.System.Bootstrap();
