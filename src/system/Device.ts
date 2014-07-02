@@ -406,34 +406,8 @@ module Kiwi.System {
             if (typeof window['Blob'] !== 'undefined') this.blob = true;
 
             // Check availability of rendering contexts
-                // Check canvas availability
-                this.canvas = !!window['CanvasRenderingContext2D'];
-                // Manual canvas availability check
-                if(this.canvas)
-                {   try
-                    {
-                        if(!document.createElement('canvas').getContext('2d'))    this.canvas = false;
-                    }
-                    catch(e) { this.canvas = false; }   }
-                // Check webGL availability
-                this.webGL = !!window['WebGLRenderingContext'];
-                // Manual webGL availability check
-                if(this.webGL)
-                {   try
-                    {
-                        if(!document.createElement('canvas').getContext('webgl'))    this.webGL = false;
-                    }
-                    catch(e) {  this.webGL = false; }
-                    // Fallback to experimental webgl support?
-                    if(!this.webGL)
-                    {
-                        try
-                        {
-                            if(document.createElement('canvas').getContext('experimental-webgl'))     this.webGL = true;
-                        }
-                        catch(e) {}
-                    }
-                }
+            this.canvas = !!window['CanvasRenderingContext2D'];
+            this.webGL = !!window['WebGLRenderingContext'];
 
             try
             {

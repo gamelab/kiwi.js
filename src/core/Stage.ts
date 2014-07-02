@@ -46,6 +46,8 @@ module Kiwi {
 
             this.onResize = new Kiwi.Signal();
             this.onWindowResize = new Kiwi.Signal();
+
+            this._renderer = null;
         }
 
         /**
@@ -468,6 +470,26 @@ module Kiwi {
         * @public
         */
         public container:HTMLDivElement = null;
+
+
+        /**
+        * Stores the renderer created after context detection.
+        * @property _renderer
+        * @type IRenderer
+        * @private
+        */
+        private _renderer: any;
+
+        /**
+        * Get the renderer associated with the canvas context. This is either a GLRenderManager or a CanvasRenderer. If the Kiwi.RENDERER_WEBGL renderer was requested but could not be created, it will fall back to CanvasRenderer.
+        * This is READ ONLY.
+        * @property renderer
+        * @type number
+        * @public
+        */
+        public get renderer(): any {
+            return this._renderer;
+        }
          
 
         /**
@@ -578,29 +600,42 @@ module Kiwi {
             this.canvas.height = this.height;
             
 
-            //Get 2D or GL Context - Should add in error checking here
-
+            //Get 2D or GL Context; do error detection and fallback to valid rendering context
             if (this._game.renderOption === Kiwi.RENDERER_CANVAS) {
                 this.ctx = this.canvas.getContext("2d");
                 this.ctx.fillStyle = '#fff';
                 this.gl = null;
-
             } else if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
                 this.gl = this.canvas.getContext("webgl");
                 if (!this.gl) {
                     this.gl = this.canvas.getContext("experimental-webgl");
                     if (!this.gl) {
-                        console.error("Kiwi.Stage: WebGL rendering is not available despite the device apparently supporting it."); 
+                        console.warn("Kiwi.Stage: WebGL rendering is not available despite the device apparently supporting it. Reverting to CANVAS.");
+                        // Reset to canvas mode
+                        this.ctx = this.canvas.getContext("2d");
+                        this.ctx.fillStyle = '#fff';
+                        this.gl = null;
                     } else {
-                        console.warn ("Kiwi.Stage: 'webgl' context is not available. Using 'experimental-webgl'");
+                        console.warn("Kiwi.Stage: 'webgl' context is not available. Using 'experimental-webgl'");
                     }
                 }
-                this.gl.clearColor(1, 1, 1, 1);
-                this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-                this.ctx = null;
+                if(this.gl) // That is, WebGL was properly supported and created
+                {
+                    this.gl.clearColor(1, 1, 1, 1);
+                    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+                    this.ctx = null;
+                }
+            }
 
-            } 
+            // Create render manager
+            // This is reported back to the Kiwi.Game that created the Stage.
+            if(this.ctx) {
+                this._renderer = new Kiwi.Renderers.CanvasRenderer(this._game);
+            } else if(this.gl) {
+                this._renderer = new Kiwi.Renderers.GLRenderManager(this._game);
+            }
             
+
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.container.appendChild(this.canvas);
             } else {

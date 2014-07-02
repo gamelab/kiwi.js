@@ -568,6 +568,21 @@ declare module Kiwi {
         */
         public container: HTMLDivElement;
         /**
+        * Stores the renderer created after context detection.
+        * @property _renderer
+        * @type IRenderer
+        * @private
+        */
+        private _renderer;
+        /**
+        * Get the renderer associated with the canvas context. This is either a GLRenderManager or a CanvasRenderer. If the Kiwi.RENDERER_WEBGL renderer was requested but could not be created, it will fall back to CanvasRenderer.
+        * This is READ ONLY.
+        * @property renderer
+        * @type number
+        * @public
+        */
+        public renderer : any;
+        /**
         * Is executed when the DOM has loaded and the game is just starting.
         * This is a internal method used by the core of Kiwi itself.
         * @method boot
@@ -19941,6 +19956,15 @@ declare module Kiwi {
     * @public
     */
     var RENDERER_WEBGL: number;
+    /**
+    * A Static property that contains the number associated with RENDERER AUTODETECTION
+    * @property RENDERER_AUTO
+    * @static
+    * @type number
+    * @default 2
+    * @public
+    */
+    var RENDERER_AUTO: number;
     /**
     * Contains the number associated with the targetting of browsers.
     * @property TARGET_BROWSER

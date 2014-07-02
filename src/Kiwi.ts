@@ -167,6 +167,16 @@ module Kiwi {
     * @public
     */
     export var RENDERER_WEBGL: number = 1;
+
+    /**
+    * A Static property that contains the number associated with RENDERER AUTODETECTION
+    * @property RENDERER_AUTO
+    * @static
+    * @type number
+    * @default 2
+    * @public
+    */
+    export var RENDERER_AUTO: number = 2;
     
     // DEVICE TARGET STATIC VARIABLES
     /**
