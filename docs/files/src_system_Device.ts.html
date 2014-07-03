@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\system\Device.ts - Kiwi.js</title>
+    <title>src/system/Device.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.1</em>
+            <em>API Docs for: 1.1.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -344,7 +344,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\system\Device.ts</h1>
+                        <h1 class="file-heading">File: src/system/Device.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -755,7 +755,9 @@ module Kiwi.System {
 
             if (typeof window[&#x27;Blob&#x27;] !== &#x27;undefined&#x27;) this.blob = true;
 
+            // Check availability of rendering contexts
             this.canvas = !!window[&#x27;CanvasRenderingContext2D&#x27;];
+            this.webGL = !!window[&#x27;WebGLRenderingContext&#x27;];
 
             try
             {
@@ -768,7 +770,6 @@ module Kiwi.System {
 
             this.file = !!window[&#x27;File&#x27;] &amp;&amp; !!window[&#x27;FileReader&#x27;] &amp;&amp; !!window[&#x27;FileList&#x27;] &amp;&amp; !!window[&#x27;Blob&#x27;];
             this.fileSystem = !!window[&#x27;requestFileSystem&#x27;];
-            this.webGL = !!window[&#x27;WebGLRenderingContext&#x27;];
             this.worker = !!window[&#x27;Worker&#x27;];
 
             if (&#x27;ontouchstart&#x27; in document.documentElement ||

@@ -475,8 +475,9 @@ module Kiwi {
         /**
         * Stores the renderer created after context detection.
         * @property _renderer
-        * @type IRenderer
+        * @type any
         * @private
+        * @since 1.1.0
         */
         private _renderer: any;
 
@@ -486,6 +487,7 @@ module Kiwi {
         * @property renderer
         * @type number
         * @public
+        * @since 1.1.0
         */
         public get renderer(): any {
             return this._renderer;

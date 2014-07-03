@@ -159,7 +159,7 @@ module Kiwi {
 
         /**
 		* Removes all cameras in the camera Manager except the default camera. Does nothing if in multi camera mode.
-        * @method removeAll - note should not remove default
+        * @method removeAll
         * @public
     	*/
         public removeAll() {
@@ -170,6 +170,7 @@ module Kiwi {
         * Returns all cameras to origin. Called when starting a new state.
         * @method zeroAllCameras
         * @public
+        * @since 1.1.0
         */
         public zeroAllCameras() {
             for( var i = 0;  i < this._cameras.length;  i++ )
@@ -184,6 +185,7 @@ module Kiwi {
         * @method zeroCamera
         * @param camera {Kiwi.Camera}
         * @public
+        * @since 1.1.0
         */
         public zeroCamera(camera:Kiwi.Camera)
         {

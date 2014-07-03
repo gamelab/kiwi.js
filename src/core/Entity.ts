@@ -32,7 +32,7 @@ module Kiwi {
              
             this._exists = true;
             this._active = true;
-            this._willRender = true;
+            this._visible = true;
             this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this); 
             this.transform = new Kiwi.Geom.Transform();
             this.transform.x = x;
@@ -209,11 +209,11 @@ module Kiwi {
         * @default true
         * @private
         */
-        private _visible: boolean = true;
+        private _visible: boolean;
         
         /**
-        * Set the visiblity of this entity. True or False.
-        * @property visibility
+        * Set the visibility of this entity. True or False.
+        * @property visible
         * @type boolean
         * @default true
         * @public
@@ -382,6 +382,7 @@ module Kiwi {
         * @type boolean
         * @default true
         * @private
+        * @deprecated Use _visible instead
 		*/
 		private _willRender: boolean;
 
@@ -391,6 +392,7 @@ module Kiwi {
         * @type boolean
         * @default true
         * @public
+        * @deprecated Use visible instead
 		*/
         public set willRender(value: boolean) {
             this._willRender = value;

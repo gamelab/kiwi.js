@@ -796,6 +796,7 @@ var Kiwi;
             * @property renderer
             * @type number
             * @public
+            * @since 1.1.0
             */
             get: function () {
                 return this._renderer;
@@ -1728,7 +1729,7 @@ var Kiwi;
 
         /**
         * Removes all cameras in the camera Manager except the default camera. Does nothing if in multi camera mode.
-        * @method removeAll - note should not remove default
+        * @method removeAll
         * @public
         */
         CameraManager.prototype.removeAll = function () {
@@ -1739,6 +1740,7 @@ var Kiwi;
         * Returns all cameras to origin. Called when starting a new state.
         * @method zeroAllCameras
         * @public
+        * @since 1.1.0
         */
         CameraManager.prototype.zeroAllCameras = function () {
             for (var i = 0; i < this._cameras.length; i++) {
@@ -1752,6 +1754,7 @@ var Kiwi;
         * @method zeroCamera
         * @param camera {Kiwi.Camera}
         * @public
+        * @since 1.1.0
         */
         CameraManager.prototype.zeroCamera = function (camera) {
             camera.transform.x = 0;
@@ -2330,14 +2333,6 @@ var Kiwi;
             */
             this._alpha = 1;
             /**
-            * A boolean that indicates whether or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.
-            * @property _visible
-            * @type boolean
-            * @default true
-            * @private
-            */
-            this._visible = true;
-            /**
             * The width of the entity in pixels.
             * @property width
             * @type number
@@ -2392,7 +2387,7 @@ var Kiwi;
 
             this._exists = true;
             this._active = true;
-            this._willRender = true;
+            this._visible = true;
             this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
             this.transform = new Kiwi.Geom.Transform();
             this.transform.x = x;
@@ -2575,8 +2570,8 @@ var Kiwi;
                 return this._visible;
             },
             /**
-            * Set the visiblity of this entity. True or False.
-            * @property visibility
+            * Set the visibility of this entity. True or False.
+            * @property visible
             * @type boolean
             * @default true
             * @public
@@ -2666,6 +2661,7 @@ var Kiwi;
             * @type boolean
             * @default true
             * @public
+            * @deprecated Use visible instead
             */
             set: function (value) {
                 this._willRender = value;
@@ -2974,7 +2970,6 @@ var Kiwi;
 
             this._exists = true;
             this._active = true;
-            this._willRender = true;
             this._visible = true;
 
             this.transform = new Kiwi.Geom.Transform();
@@ -3654,6 +3649,7 @@ var Kiwi;
         * @method render
         * @param camera {Kiwi.Camera}
         * @public
+        * @deprecated
         */
         Group.prototype.render = function (camera) {
         };
@@ -3783,11 +3779,12 @@ var Kiwi;
                 return this._willRender;
             },
             /**
-            * Controls whether render is automatically caleld by the parent.
+            * Controls whether render is automatically called by the parent.
             * @property willRender
             * @type boolean
             * @return {boolean}
             * @public
+            * @deprecated Use visible instead
             */
             set: function (value) {
                 this._willRender = value;
@@ -3801,11 +3798,12 @@ var Kiwi;
                 return this._visible;
             },
             /**
-            * Set the visiblity of this entity. True or False.
-            * @property visibility
+            * Set the visibility of this entity. True or False.
+            * @property visible
             * @type boolean
             * @default true
             * @public
+            * @since 1.0.1
             */
             set: function (value) {
                 this._visible = value;
@@ -12017,7 +12015,9 @@ var Kiwi;
             * Will reload the texture into video memory for WebGL rendering.
             *
             * @method refreshTextureGL
+            * @param glContext {WebGLRenderingContext}
             * @public
+            * @since 1.0.1
             */
             TextureAtlas.prototype.refreshTextureGL = function (glContext) {
                 if (this.glTextureWrapper)
@@ -14490,22 +14490,24 @@ var Kiwi;
             };
 
             /**
-            * Calls the render function on a single entity; deprecated in v1.1.0
+            * Calls the render function on a single entity
             * @method renderEntity
             * @param {WebGLRenderingContext} gl
             * @param {Kiwi.Entity} entity
             * @param {Kiwi.Camera} camera
             * @public
+            * @deprecated Used internally; should not be called from external functions
             */
             GLRenderManager.prototype.renderEntity = function (gl, entity, camera) {
                 this.renderBatch(gl, [entity], camera);
             };
 
             /**
-            * Ensures the atlas and renderer needed for a batch is setup; deprecated in v1.1.0
+            * Ensures the atlas and renderer needed for a batch is setup
             * @method setupGLState
             * @param {WebGLRenderingContext} gl
             * @public
+            * @deprecated Used internally; should not be called from external functions.
             */
             GLRenderManager.prototype.setupGLState = function (gl, entity) {
                 if (entity.atlas !== this._currentTextureAtlas)
@@ -20611,6 +20613,7 @@ var Kiwi;
             * @Param rotPointX {Number} Rotation point offset on x axis.
             * @Param rotPointY {Number} Rotation point offset on y axis.
             * @return {Object} This object.
+            * @since 1.0.1
             */
             Matrix.prototype.setFromOffsetTransform = function (tx, ty, scaleX, scaleY, rotation, rotPointX, rotPointY) {
                 this.identity();
@@ -30013,6 +30016,7 @@ var Kiwi;
     * @type number
     * @default 2
     * @public
+    * @since 1.1.0
     */
     Kiwi.RENDERER_AUTO = 2;
 

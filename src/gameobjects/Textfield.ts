@@ -128,6 +128,7 @@ module Kiwi.GameObjects {
         * @type number
         * @default 0
         * @private
+        * @since 1.1.0
         */
         private _alignWidth: number;
 

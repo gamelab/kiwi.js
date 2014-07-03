@@ -480,22 +480,24 @@ module Kiwi.Renderers {
         }
 
         /**
-        * Calls the render function on a single entity; deprecated in v1.1.0
+        * Calls the render function on a single entity
         * @method renderEntity
         * @param {WebGLRenderingContext} gl
         * @param {Kiwi.Entity} entity
         * @param {Kiwi.Camera} camera
         * @public
+        * @deprecated Used internally; should not be called from external functions
         */
         public renderEntity(gl: WebGLRenderingContext, entity: any, camera) {
             this.renderBatch( gl, [entity], camera );
         }
 
         /**
-        * Ensures the atlas and renderer needed for a batch is setup; deprecated in v1.1.0
+        * Ensures the atlas and renderer needed for a batch is setup
         * @method setupGLState
         * @param {WebGLRenderingContext} gl
         * @public
+        * @deprecated Used internally; should not be called from external functions.
         */
         public setupGLState(gl:WebGLRenderingContext,entity) {
             if (entity.atlas !== this._currentTextureAtlas) this._switchTexture(gl, entity);

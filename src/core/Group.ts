@@ -36,7 +36,6 @@ module Kiwi {
 
             this._exists = true;
             this._active = true;
-            this._willRender = true;
             this._visible = true;
 
             this.transform = new Kiwi.Geom.Transform();
@@ -786,6 +785,7 @@ module Kiwi {
         * @method render
         * @param camera {Kiwi.Camera}
         * @public
+        * @deprecated
         */
         public render(camera:Kiwi.Camera) {
 
@@ -927,15 +927,17 @@ module Kiwi {
         * @property _willRender
         * @type Boolean
         * @private
+        * @deprecated Use _visible instead
 		*/
 		private _willRender: boolean;
 
         /**
-        * Controls whether render is automatically caleld by the parent.
+        * Controls whether render is automatically called by the parent.
         * @property willRender
         * @type boolean
         * @return {boolean}
         * @public
+        * @deprecated Use visible instead
         */
         public set willRender(value: boolean) {
             this._willRender = value;
@@ -950,15 +952,17 @@ module Kiwi {
         * @type boolean
         * @default true
         * @private
+        * @since 1.0.1
         */
         private _visible: boolean;
         
         /**
-        * Set the visiblity of this entity. True or False.
-        * @property visibility
+        * Set the visibility of this entity. True or False.
+        * @property visible
         * @type boolean
         * @default true
         * @public
+        * @since 1.0.1
         */
         public set visible(value: boolean) {
             this._visible = value;

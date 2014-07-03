@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\render\GLRenderManager.ts - Kiwi.js</title>
+    <title>src/render/GLRenderManager.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.1</em>
+            <em>API Docs for: 1.1.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -344,7 +344,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\render\GLRenderManager.ts</h1>
+                        <h1 class="file-heading">File: src/render/GLRenderManager.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -645,12 +645,13 @@ module Kiwi.Renderers {
         
         /**
         * Performs initialisation required when switching to a different state. Called when a state has been switched to.
-        * The textureManager is told to rebuild its cache of textures from the states textuer library.
+        * The textureManager is told to clear its contents from video memory, then rebuild its cache of textures from the state&#x27;s texture library.
         * @method initState
         * @public
         */
 
         public initState(state: Kiwi.State) {
+            this._textureManager.clearTextures(this._game.stage.gl);
             this._textureManager.uploadTextureLibrary(this._game.stage.gl, state.textureLibrary);
         }
 
@@ -800,17 +801,8 @@ module Kiwi.Renderers {
         * @public
         */
         public renderBatches(gl: WebGLRenderingContext, camera) {
-            
-            for (var i = 0; i &lt; this._batches.length; i++) {
-                var batch = this._batches[i];
-                //if first is batch then they all are
-                if (batch[0].isBatchRenderer) {
-                    this.renderBatch(gl, batch, camera);
-                } else {
-                    this.renderEntity(gl,batch[0].entity,camera);
-                }
-
-            }
+            for (var i = 0; i &lt; this._batches.length; i++)
+                this.renderBatch( gl, this._batches[i], camera );
         }
 
         /**
@@ -821,14 +813,19 @@ module Kiwi.Renderers {
         * @param {Kiwi.Camera} camera
         * @public
         */
-        public renderBatch(gl: WebGLRenderingContext, batch: any, camera) {
-            this.setupGLState(gl, batch[0].entity);
+        public renderBatch(gl, batch, camera) {
+            // Acquire renderer
+            if( batch[0].entity.glRenderer !== this._currentRenderer )
+                this._switchRenderer(gl, batch[0].entity);
+            // Clear renderer for fresh data
             this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
-            for (var i = 0; i &lt; batch.length; i++) {
+            // Call render functions
+            for( var i = 0;  i &lt; batch.length;  i++ )
                 batch[i].entity.renderGL(gl, camera);
-            }
-            if( batch[0].texture.dirty )
-                batch[0].texture.refreshTextureGL(gl);
+            // Upload textures
+            if( batch[0].entity.atlas !== this._currentTextureAtlas  ||  batch[0].entity.atlas.dirty )
+                this._switchTexture(gl, batch[0].entity);
+            // Render
             this._currentRenderer.draw(gl);
         }
 
@@ -839,14 +836,10 @@ module Kiwi.Renderers {
         * @param {Kiwi.Entity} entity
         * @param {Kiwi.Camera} camera
         * @public
+        * @deprecated Used internally; should not be called from external functions
         */
         public renderEntity(gl: WebGLRenderingContext, entity: any, camera) {
-            this.setupGLState(gl, entity);
-            this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
-            entity.renderGL(gl, camera);
-            if( entity.atlas.dirty )
-                entity.atlas.refreshTextureGL(gl);
-            this._currentRenderer.draw(gl);
+            this.renderBatch( gl, [entity], camera );
         }
 
         /**
@@ -854,6 +847,7 @@ module Kiwi.Renderers {
         * @method setupGLState
         * @param {WebGLRenderingContext} gl
         * @public
+        * @deprecated Used internally; should not be called from external functions.
         */
         public setupGLState(gl:WebGLRenderingContext,entity) {
             if (entity.atlas !== this._currentTextureAtlas) this._switchTexture(gl, entity);
@@ -884,8 +878,7 @@ module Kiwi.Renderers {
             this._currentTextureAtlas = entity.atlas;
             if (this._currentRenderer) this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
             this._textureManager.useTexture(gl, entity.atlas.glTextureWrapper);
-
-               
+            this._currentTextureAtlas.refreshTextureGL( gl );
         }
         
     }

@@ -570,8 +570,9 @@ declare module Kiwi {
         /**
         * Stores the renderer created after context detection.
         * @property _renderer
-        * @type IRenderer
+        * @type any
         * @private
+        * @since 1.1.0
         */
         private _renderer;
         /**
@@ -580,6 +581,7 @@ declare module Kiwi {
         * @property renderer
         * @type number
         * @public
+        * @since 1.1.0
         */
         public renderer : any;
         /**
@@ -1044,7 +1046,7 @@ declare module Kiwi {
         public render(): boolean;
         /**
         * Removes all cameras in the camera Manager except the default camera. Does nothing if in multi camera mode.
-        * @method removeAll - note should not remove default
+        * @method removeAll
         * @public
         */
         public removeAll(): void;
@@ -1052,6 +1054,7 @@ declare module Kiwi {
         * Returns all cameras to origin. Called when starting a new state.
         * @method zeroAllCameras
         * @public
+        * @since 1.1.0
         */
         public zeroAllCameras(): void;
         /**
@@ -1059,6 +1062,7 @@ declare module Kiwi {
         * @method zeroCamera
         * @param camera {Kiwi.Camera}
         * @public
+        * @since 1.1.0
         */
         public zeroCamera(camera: Camera): void;
     }
@@ -1366,31 +1370,176 @@ declare module Kiwi {
     /**
     * A IChild is an Interface (defined as a class as the documentation does not support Interfaces just yet),
     * which outlines the methods/properties that objects which are intended to be added as a child of a Stage or Group must have in order to work.
+    * As Javascript does not use Interfaces, the IChild does not appear directly in the library. It describes common elements of Kiwi.Group and Kiwi.Entity.
     *
     * @class IChild
     * @namespace Kiwi
     */
     interface IChild {
+        /**
+        * Renders the entity.
+        *
+        * @method render
+        * @param camera {Kiwi.Camera}
+        * @public
+        * @deprecated Only Kiwi.Entity and inheritors are rendered.
+        */
         render(camera: Camera): any;
+        /**
+        * Update the entity. Automatically called every frame.
+        *
+        * @method update
+        * @public
+        */
         update(): any;
+        /**
+        * Represents the type of child that this is.
+        *
+        * @method childType
+        * @return number
+        * @public
+        */
         childType(): number;
+        /**
+        * Unique identifier instantiated on creation.
+        *
+        * @property id
+        * @type string
+        * @public
+        */
         id: string;
+        /**
+        * A name for this object. This is not necessary or necessarily unique, but is handy for identifying objects.
+        *
+        * @property name
+        * @type string
+        * @public
+        */
         name: string;
+        /**
+        * The game this object belongs to
+        *
+        * @property game
+        * @type Kiwi.Game
+        * @public
+        */
         game: Game;
+        /**
+        * The State that this object belongs to
+        *
+        * @property state
+        * @type Kiwi.State
+        * @public
+        */
         state: State;
+        /**
+        * The Component Manager
+        *
+        * @property components
+        * @type Kiwi.ComponentManager
+        * @public
+        */
         components: ComponentManager;
+        /**
+        * An indication of whether or not this object is 'dirty' and thus needs to be re-rendered in some manner.
+        *
+        * @property dirty
+        * @type boolean
+        * @public
+        */
         dirty: boolean;
+        /**
+        * Toggles the active state. An active object has its update method called by its parent.
+        *
+        * @property active
+        * @type boolean
+        * @public
+        */
         active: boolean;
+        /**
+        * Toggles the exitence of this object. An object that no longer exists can be garbage collected or re-allocated in a pool
+        * This method should be over-ridden to handle specific canvas/webgl implementations.
+        *
+        * @property exists
+        * @type boolean
+        * @public
+        */
         exists: boolean;
+        /**
+        * Controls whether this object's render methods are called by its parent.
+        *
+        * @property willRender
+        * @type boolean
+        * @public
+        * @deprecated Use visible instead
+        */
         willRender: boolean;
+        /**
+        * Controls whether this object's render methods are called by its parent.
+        *
+        * @property visible
+        * @type boolean
+        * @public
+        * @since 1.0.1
+        */
         visible: boolean;
+        /**
+        * Sets the parent of this object. It is recommended to update transforms when you set this.
+        *
+        * @property parent
+        * @type Kiwi.Group
+        * @public
+        */
         parent: Group;
+        /**
+        * The transform for this object.
+        * Transform handles the calculation of coordinates/rotation/scale etc in the game world.
+        * @property transform
+        * @type Kiwi.Geom.Transform
+        * @public
+        */
         transform: Geom.Transform;
+        /**
+        * The X coordinate of this object. This is just aliased to the transform property.
+        * @property x
+        * @type number
+        * @public
+        */
         x: number;
+        /**
+        * The Y coordinate of this object. This is just aliased to the transform property.
+        * @property y
+        * @type number
+        * @public
+        */
         y: number;
+        /**
+        * The rotation of this object. This is just aliased to the transform property.
+        * @property rotation
+        * @type number
+        * @public
+        */
         rotation: number;
+        /**
+        * The Scale X of this object. This is just aliased to the transform property.
+        * @property scaleX
+        * @type number
+        * @public
+        */
         scaleX: number;
+        /**
+        * The Scale Y of this object. This is just aliased to the transform property.
+        * @property scaleY
+        * @type number
+        * @public
+        */
         scaleY: number;
+        /**
+        * Call this to clean up the object for deletion and garbage collection.
+        * @method destroy
+        * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
+        * @public
+        */
         destroy(...params: any[]): any;
     }
 }
@@ -1517,8 +1666,8 @@ declare module Kiwi {
         */
         private _visible;
         /**
-        * Set the visiblity of this entity. True or False.
-        * @property visibility
+        * Set the visibility of this entity. True or False.
+        * @property visible
         * @type boolean
         * @default true
         * @public
@@ -1636,6 +1785,7 @@ declare module Kiwi {
         * @type boolean
         * @default true
         * @private
+        * @deprecated Use _visible instead
         */
         private _willRender;
         /**
@@ -1644,6 +1794,7 @@ declare module Kiwi {
         * @type boolean
         * @default true
         * @public
+        * @deprecated Use visible instead
         */
         public willRender : boolean;
         /**
@@ -2186,6 +2337,7 @@ declare module Kiwi {
         * @method render
         * @param camera {Kiwi.Camera}
         * @public
+        * @deprecated
         */
         public render(camera: Camera): void;
         /**
@@ -2243,14 +2395,16 @@ declare module Kiwi {
         * @property _willRender
         * @type Boolean
         * @private
+        * @deprecated Use _visible instead
         */
         private _willRender;
         /**
-        * Controls whether render is automatically caleld by the parent.
+        * Controls whether render is automatically called by the parent.
         * @property willRender
         * @type boolean
         * @return {boolean}
         * @public
+        * @deprecated Use visible instead
         */
         public willRender : boolean;
         /**
@@ -2259,14 +2413,16 @@ declare module Kiwi {
         * @type boolean
         * @default true
         * @private
+        * @since 1.0.1
         */
         private _visible;
         /**
-        * Set the visiblity of this entity. True or False.
-        * @property visibility
+        * Set the visibility of this entity. True or False.
+        * @property visible
         * @type boolean
         * @default true
         * @public
+        * @since 1.0.1
         */
         public visible : boolean;
         /**
@@ -3278,6 +3434,7 @@ declare module Kiwi.GameObjects {
         * @type number
         * @default 0
         * @private
+        * @since 1.1.0
         */
         private _alignWidth;
         /**
@@ -7496,7 +7653,9 @@ declare module Kiwi.Textures {
         * Will reload the texture into video memory for WebGL rendering.
         *
         * @method refreshTextureGL
+        * @param glContext {WebGLRenderingContext}
         * @public
+        * @since 1.0.1
         */
         public refreshTextureGL(glContext: any): void;
         /**
@@ -9012,19 +9171,21 @@ declare module Kiwi.Renderers {
         */
         public renderBatch(gl: any, batch: any, camera: any): void;
         /**
-        * Calls the render function on a single entity; deprecated in v1.1.0
+        * Calls the render function on a single entity
         * @method renderEntity
         * @param {WebGLRenderingContext} gl
         * @param {Kiwi.Entity} entity
         * @param {Kiwi.Camera} camera
         * @public
+        * @deprecated Used internally; should not be called from external functions
         */
         public renderEntity(gl: WebGLRenderingContext, entity: any, camera: any): void;
         /**
-        * Ensures the atlas and renderer needed for a batch is setup; deprecated in v1.1.0
+        * Ensures the atlas and renderer needed for a batch is setup
         * @method setupGLState
         * @param {WebGLRenderingContext} gl
         * @public
+        * @deprecated Used internally; should not be called from external functions.
         */
         public setupGLState(gl: WebGLRenderingContext, entity: any): void;
         /**
@@ -13826,6 +13987,7 @@ declare module Kiwi.Geom {
         * @Param rotPointX {Number} Rotation point offset on x axis.
         * @Param rotPointY {Number} Rotation point offset on y axis.
         * @return {Object} This object.
+        * @since 1.0.1
         */
         public setFromOffsetTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number, rotPointX: number, rotPointY: number): Matrix;
         /**
@@ -19963,6 +20125,7 @@ declare module Kiwi {
     * @type number
     * @default 2
     * @public
+    * @since 1.1.0
     */
     var RENDERER_AUTO: number;
     /**

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\core\Game.ts - Kiwi.js</title>
+    <title>src/core/Game.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.1</em>
+            <em>API Docs for: 1.1.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -344,7 +344,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\core\Game.ts</h1>
+                        <h1 class="file-heading">File: src/core/Game.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -424,6 +424,9 @@ module Kiwi {
                 console.log(&#x27;  Kiwi.Game: Targeted device not specified. Defaulting to BROWSER&#x27;); 
             }
 
+            var renderDefault = Kiwi.RENDERER_WEBGL;
+            var renderFallback = Kiwi.RENDERER_CANVAS;
+            // Optimise renderer request
             if (options.renderer !== &#x27;undefined&#x27; &amp;&amp; typeof options.renderer === &#x27;number&#x27;) {
                 switch (options.renderer) {
                     case Kiwi.RENDERER_CANVAS:
@@ -435,19 +438,39 @@ module Kiwi {
                             this._renderOption = options.renderer;
                             console.log(&#x27;  Kiwi.Game: Rendering using WEBGL.&#x27;);
                         } else {
-                            this._renderOption = Kiwi.RENDERER_CANVAS;
+                            this._renderOption = renderFallback;
                             console.log(&#x27;  Kiwi.Game: WEBGL renderer requested but device does not support WEBGL. Rendering using CANVAS.&#x27;);
                         }
                         break;
+                    case Kiwi.RENDERER_AUTO:
+                        if (Kiwi.DEVICE.webGL) {
+                            this._renderOption = renderDefault;
+                            console.log(&#x27;  Kiwi.Game: Renderer auto-detected WEBGL.&#x27;);
+                        } else {
+                            this._renderOption = renderFallback;
+                            console.log(&#x27;  Kiwi.Game: Renderer auto-detected CANVAS.&#x27;);
+                        }
+                        break;
                     default:
-                        this._renderOption = Kiwi.RENDERER_CANVAS;
-                        console.log(&#x27;  Kiwi.Game: Renderer specified, but is not a valid option. Defaulting to CANVAS.&#x27;);
+                        if (Kiwi.DEVICE.webGL) {
+                            this._renderOption = renderDefault;
+                            console.log(&#x27;  Kiwi.Game: Renderer specified, but is not a valid option. Defaulting to WEBGL.&#x27;);
+                        } else {
+                            this._renderOption = renderFallback;
+                            console.log(&#x27;  Kiwi.Game: Renderer specified, but is not a valid option. WEBGL renderer sought by default but device does not support WEBGL. Defaulting to CANVAS.&#x27;);
+                        }
                         break;
                 }
             } else {
-                this._renderOption = Kiwi.RENDERER_CANVAS;
-                console.log(&#x27;  Kiwi.Game: Renderer not specified. Defaulting to CANVAS&#x27;);
+                if (Kiwi.DEVICE.webGL) {
+                    this._renderOption = renderDefault;
+                    console.log(&#x27;  Kiwi.Game: Renderer not specified. Defaulting to WEBGL.&#x27;);
+                } else {
+                    this._renderOption = renderFallback;
+                    console.log(&#x27;  Kiwi.Game: Renderer not specified. WEBGL renderer sought by default but device does not support WEBGL. Defaulting to CANVAS.&#x27;);
+                }
             }
+            
             
             this.id = Kiwi.GameManager.register(this);
             this._startup = new Kiwi.System.Bootstrap();
@@ -497,12 +520,7 @@ module Kiwi {
 
             this.stage = new Kiwi.Stage(this, name, width, height, options.scaleType);
 
-
-            if (this._renderOption === Kiwi.RENDERER_CANVAS) {
-                this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
-            } else {
-                this.renderer = new Kiwi.Renderers.GLRenderManager(this);
-            }
+            this.renderer = null;
            
             this.cameras = new Kiwi.CameraManager(this);
 
@@ -817,7 +835,13 @@ module Kiwi {
 
      
             this.stage.boot(this._startup);
+
+            if(!this.stage.renderer)    console.error(&quot;Could not create rendering context&quot;);
+            if(this._renderOption === Kiwi.RENDERER_WEBGL  &amp;&amp;  this.stage.ctx)
+                this._renderOption = Kiwi.RENDERER_CANVAS;  // Adapt to fallback if WebGL failed
+            this.renderer = this.stage.renderer;
             this.renderer.boot();
+            
             this.cameras.boot();
             if (this._deviceTargetOption !== Kiwi.TARGET_COCOON) this.huds.boot();
             

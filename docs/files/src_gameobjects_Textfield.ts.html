@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\gameobjects\Textfield.ts - Kiwi.js</title>
+    <title>src/gameobjects/Textfield.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.1</em>
+            <em>API Docs for: 1.1.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -344,7 +344,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\gameobjects\Textfield.ts</h1>
+                        <h1 class="file-heading">File: src/gameobjects/Textfield.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -405,6 +405,8 @@ module Kiwi.GameObjects {
             this.state.textureLibrary.add(this.atlas);
             this.atlas.dirty = true;
 
+            // Track actual text width - not canvas width (which rounds up to powers of 2), necessary for proper alignment
+            this._alignWidth = 0;
         }
 
         /**
@@ -469,6 +471,16 @@ module Kiwi.GameObjects {
         * @private
         */
         private _textAlign: string;
+
+        /**
+        * The pixel width of the text. Used internally for alignment purposes.
+        * @property _alignWidth
+        * @type number
+        * @default 0
+        * @private
+        * @since 1.1.0
+        */
+        private _alignWidth: number;
 
         /**
         * The baseline of the text to be rendered.
@@ -643,6 +655,9 @@ module Kiwi.GameObjects {
             var _measurements: TextMetrics = this._ctx.measureText(this._text);   //when you measure the text for some reason it resets the values?! 
             var width = _measurements.width;
             var height = this._fontSize * 1.3; //Need to find a better way to calculate
+            
+            // Cache alignment width
+            this._alignWidth = width;
 
 
             //Is the width base2?
@@ -710,10 +725,10 @@ module Kiwi.GameObjects {
                         x = 0;
                         break;
                     case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                        x = this._canvas.width * 0.5;
+                        x = this._alignWidth * 0.5;
                         break;
                     case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
-                        x = this._canvas.width;
+                        x = this._alignWidth;
                         break;
                 }
 
@@ -761,10 +776,10 @@ module Kiwi.GameObjects {
                     x = 0;
                     break;
                 case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                    x = -(this._canvas.width * 0.5);
+                    x = -(this._alignWidth * 0.5);
                     break;
                 case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
-                    x = -(this._canvas.width);
+                    x = -(this._alignWidth);
                     break;
             }
 

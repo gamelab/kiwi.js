@@ -175,6 +175,7 @@ module Kiwi {
     * @type number
     * @default 2
     * @public
+    * @since 1.1.0
     */
     export var RENDERER_AUTO: number = 2;
     
