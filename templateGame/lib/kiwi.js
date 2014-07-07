@@ -17102,7 +17102,7 @@ var Kiwi;
                 /*
                 * Add the fingers/cursors to the list of 'pointers'
                 */
-                this._pointers = this.touch.fingers;
+                this._pointers = this.touch.fingers.slice();
                 this._pointers.push(this.mouse.cursor);
 
                 this.isDown = false;
@@ -17683,7 +17683,7 @@ var Kiwi;
                 /**
                 * The developer defined maximum number of touch events.
                 * By default this is set to 10 but this can be set to be lower.
-                * @property _maxTouchEvents
+                * @property _maxPointers
                 * @type number
                 * @default 10
                 * @private
@@ -17880,6 +17880,7 @@ var Kiwi;
                 /**
                 * Sets the maximum number of point of contact that are allowed on the game stage at one point.
                 * The maximum number of points that are allowed is 10, and the minimum is 0.
+                * @property maximumPointers
                 * @type number
                 * @public
                 */
@@ -17933,13 +17934,12 @@ var Kiwi;
             * @private
             */
             Touch.prototype._deregisterFinger = function (event, id) {
+                var finger = null;
                 for (var f = 0; f < this._fingers.length; f++) {
                     if (this._fingers[f].active && this._fingers[f].id === id) {
                         this._fingers[f].stop(event);
                         this.latestFinger = this._fingers[f];
-
-                        this.touchUp.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]);
-
+                        finger = this._fingers[f];
                         this.isDown = false;
                         this.isUp = true;
                         break;
@@ -17947,11 +17947,17 @@ var Kiwi;
                 }
 
                 for (var i = 0; i < this._fingers.length; i++) {
-                    if (this._fingers[i].active) {
+                    if (this._fingers[i].active === true) {
                         this.isDown = true;
                         this.isUp = false;
                     }
                 }
+
+                if (finger !== null) {
+                    this.touchUp.dispatch(finger.x, finger.y, finger.timeDown, finger.timeUp, finger.duration, finger);
+                }
+
+                console.log('Down?' + this.isDown);
             };
 
             /**
@@ -21657,12 +21663,14 @@ var Kiwi;
 
             /**
             * Copies all the rectangle data from this Rectangle object into the destination Rectangle object.
+            * Creates a new rectangle if one was not passed.
             * @method copyTo
             * @param target {Rectangle} The destination rectangle object to copy in to
             * @return {Rectangle} The destination rectangle object
             * @public
             **/
             Rectangle.prototype.copyTo = function (target) {
+                if (typeof target === "undefined") { target = new Rectangle(); }
                 return target.copyFrom(this);
             };
 
