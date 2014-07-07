@@ -5367,6 +5367,9 @@ var Kiwi;
                 this._canvas.width = width;
                 this._canvas.height = height;
 
+                //Clear the canvas
+                this._ctx.clearRect(0, 0, width, height);
+
                 //Reapply the styles....cause it unapplies after a measurement...?!?
                 this._ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
                 this._ctx.fillStyle = this._fontColor;
