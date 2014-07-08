@@ -507,12 +507,12 @@ module Kiwi {
 
             this._lastTime = Date.now();
             
-            this.raf = new Kiwi.Utils.RequestAnimationFrame(() => this._loop());
+            this.raf = new Kiwi.Utils.RequestAnimationFrame( () => this._loop() );
             this.raf.start();
 
             if (this.bootCallbackOption) {
                 console.log("  Kiwi.Game: invoked boot callback");
-                this.bootCallbackOption();
+                this.bootCallbackOption( this );
             }
         }
         

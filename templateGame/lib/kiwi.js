@@ -454,7 +454,7 @@ var Kiwi;
 
             if (this.bootCallbackOption) {
                 console.log("  Kiwi.Game: invoked boot callback");
-                this.bootCallbackOption();
+                this.bootCallbackOption(this);
             }
         };
 
