@@ -17966,6 +17966,14 @@ declare module Kiwi.Time {
         */
         private _clocks;
         /**
+        * Frame rate factor, derived from master clock
+        * @property rate
+        * @type Number
+        * @public
+        * @since 1.1.10
+        */
+        public rate: number;
+        /**
         * The MasterClock for this manager.
         * @property master
         * @type Kiwi.Time.MasterClock
@@ -18022,6 +18030,14 @@ declare module Kiwi.Time {
         * @public
         */
         public delta(): number;
+        /**
+        * Sets the interval on the master clock.
+        * @method setMasterInterval
+        * @param interval {Number} The ideal frame interval in milliseconds.
+        * @public
+        * @since 1.1.0
+        */
+        public setMasterInterval(interval: number): void;
     }
 }
 /**
@@ -18079,6 +18095,22 @@ declare module Kiwi.Time {
         * @public
         */
         public delta: number;
+        /**
+        * The rate at which ideal frames are passing. Multiply per-frame iterations by this factor to create smooth movement. For example, if the ideal fps is 60, but you're only getting 45, rate will equal 1.333.
+        * @property rate
+        * @type Number
+        * @public
+        * @since 1.1.0
+        */
+        public rate: number;
+        /**
+        * The ideal frame delta in milliseconds. This is automatically adjusted when the game sets a new frameRate.
+        * @property idealDelta
+        * @type Number
+        * @public
+        * @since 1.1.0
+        */
+        public idealDelta: number;
         /**
         * The time that has elapsed since the game started. In milliseconds.
         * @method elapsed

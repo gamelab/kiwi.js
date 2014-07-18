@@ -465,13 +465,10 @@ module Kiwi {
             return this._frameRate;
         }
         public set frameRate(value: number) {
-
-            //cannot exceed 60. The raf will stop this anyway.
-            if (value > 60) value = 60;
-
-            if (value >= 0) {
+            if (value > 0) {
                 this._frameRate = value;
                 this._interval = 1000 / this._frameRate;
+                this.time.setMasterInterval( this._interval );
             }
         }
 

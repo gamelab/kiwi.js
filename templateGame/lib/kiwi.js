@@ -401,13 +401,10 @@ var Kiwi;
                 return this._frameRate;
             },
             set: function (value) {
-                //cannot exceed 60. The raf will stop this anyway.
-                if (value > 60)
-                    value = 60;
-
-                if (value >= 0) {
+                if (value > 0) {
                     this._frameRate = value;
                     this._interval = 1000 / this._frameRate;
+                    this.time.setMasterInterval(this._interval);
                 }
             },
             enumerable: true,
@@ -26937,6 +26934,14 @@ var Kiwi;
                 * @private
                 */
                 this._clocks = [];
+                /**
+                * Frame rate factor, derived from master clock
+                * @property rate
+                * @type Number
+                * @public
+                * @since 1.1.10
+                */
+                this.rate = 1;
                 this._game = game;
             }
             /**
@@ -27003,6 +27008,8 @@ var Kiwi;
                 for (var i = 0; i < this._clocks.length; i++) {
                     this._clocks[i].update();
                 }
+
+                this.rate = this.master.rate;
             };
 
             /**
@@ -27023,6 +27030,17 @@ var Kiwi;
             */
             ClockManager.prototype.delta = function () {
                 return this.master.delta;
+            };
+
+            /**
+            * Sets the interval on the master clock.
+            * @method setMasterInterval
+            * @param interval {Number} The ideal frame interval in milliseconds.
+            * @public
+            * @since 1.1.0
+            */
+            ClockManager.prototype.setMasterInterval = function (interval) {
+                this.master.idealDelta = interval;
             };
             return ClockManager;
         })();
@@ -27073,6 +27091,22 @@ var Kiwi;
                 * @public
                 */
                 this.delta = 0;
+                /**
+                * The rate at which ideal frames are passing. Multiply per-frame iterations by this factor to create smooth movement. For example, if the ideal fps is 60, but you're only getting 45, rate will equal 1.333.
+                * @property rate
+                * @type Number
+                * @public
+                * @since 1.1.0
+                */
+                this.rate = 1;
+                /**
+                * The ideal frame delta in milliseconds. This is automatically adjusted when the game sets a new frameRate.
+                * @property idealDelta
+                * @type Number
+                * @public
+                * @since 1.1.0
+                */
+                this.idealDelta = 1000 / 60.0;
                 this._started = Date.now();
                 this.time = this._started;
             }
@@ -27119,10 +27153,7 @@ var Kiwi;
 
                 this.time = this.now;
 
-                //  Lock the delta at 0.1 minimum to minimise fps tunneling
-                if (this.delta > 0.1) {
-                    this.delta = 0.1;
-                }
+                this.rate = this.delta / this.idealDelta;
                 //  Apply time scaling
             };
 
