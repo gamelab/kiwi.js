@@ -195,6 +195,8 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLBlendMode.html">Kiwi.Renderers.GLBlendMode</a></li>
+            
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
                 <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
@@ -857,12 +859,12 @@ module Kiwi {
 
             this._lastTime = Date.now();
             
-            this.raf = new Kiwi.Utils.RequestAnimationFrame(() =&gt; this._loop());
+            this.raf = new Kiwi.Utils.RequestAnimationFrame( () =&gt; this._loop() );
             this.raf.start();
 
             if (this.bootCallbackOption) {
                 console.log(&quot;  Kiwi.Game: invoked boot callback&quot;);
-                this.bootCallbackOption();
+                this.bootCallbackOption( this );
             }
         }
         

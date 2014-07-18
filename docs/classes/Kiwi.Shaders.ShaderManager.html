@@ -195,6 +195,8 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLBlendMode.html">Kiwi.Renderers.GLBlendMode</a></li>
+            
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
                 <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
@@ -508,7 +510,7 @@ This Manager ensures only one compiled instance of each program is created</p>
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_init">init</a>
+                                <a href="#method_requestShader">requestShader</a>
 
                                 
                                 
@@ -613,7 +615,7 @@ This Manager ensures only one compiled instance of each program is created</p>
             
         
         
-        <a href="../files/src_render_GLShaderManager.ts.html#l128"><code>src&#x2F;render&#x2F;GLShaderManager.ts:128</code></a>
+        <a href="../files/src_render_GLShaderManager.ts.html#l130"><code>src&#x2F;render&#x2F;GLShaderManager.ts:130</code></a>
         
         </p>
 
@@ -736,7 +738,7 @@ This Manager ensures only one compiled instance of each program is created</p>
             
         
         
-        <a href="../files/src_render_GLShaderManager.ts.html#l141"><code>src&#x2F;render&#x2F;GLShaderManager.ts:141</code></a>
+        <a href="../files/src_render_GLShaderManager.ts.html#l143"><code>src&#x2F;render&#x2F;GLShaderManager.ts:143</code></a>
         
         </p>
 
@@ -847,7 +849,7 @@ This Manager ensures only one compiled instance of each program is created</p>
             
         
         
-        <a href="../files/src_render_GLShaderManager.ts.html#l152"><code>src&#x2F;render&#x2F;GLShaderManager.ts:152</code></a>
+        <a href="../files/src_render_GLShaderManager.ts.html#l154"><code>src&#x2F;render&#x2F;GLShaderManager.ts:154</code></a>
         
         </p>
 
@@ -1019,8 +1021,8 @@ This Manager ensures only one compiled instance of each program is created</p>
 </div>
 
                 
-                    <div id="method_init" class="method item public">
-    <h3 class="name"><code>init</code></h3>
+                    <div id="method_requestShader" class="method item public">
+    <h3 class="name"><code>requestShader</code></h3>
 
     
         <div class="args">
@@ -1035,6 +1037,12 @@ This Manager ensures only one compiled instance of each program is created</p>
                 <li class="arg">
                     
                         <code>shaderID</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>use</code>
                     
                 </li>
             
@@ -1085,8 +1093,8 @@ This Manager ensures only one compiled instance of each program is created</p>
 
     <div class="description">
         <p>Provides a reference to a ShaderPair. If the requested ShaderPair exists as a property on the _shaderPairs object it will be returned if already loaded,
-otherwise it will be loaded, then returned.
-If the request is not on the list, the Kiwi.Shaders object will  be checked for a property name that matches shaderID and a new ShaderPair
+otherwise it will be loaded, then returned.</p>
+<p>If the request is not on the list, the Kiwi.Shaders object will  be checked for a property name that matches shaderID and a new ShaderPair
 will be instantiated, loaded, and set for use.</p>
 
     </div>
@@ -1116,6 +1124,21 @@ will be instantiated, loaded, and set for use.</p>
                     
                         <code class="param-name">shaderID</code>
                         <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">use</code>
+                        <span class="type">Boolean</span>
                     
 
                     
@@ -1205,7 +1228,7 @@ will be instantiated, loaded, and set for use.</p>
             
         
         
-        <a href="../files/src_render_GLShaderManager.ts.html#l116"><code>src&#x2F;render&#x2F;GLShaderManager.ts:116</code></a>
+        <a href="../files/src_render_GLShaderManager.ts.html#l118"><code>src&#x2F;render&#x2F;GLShaderManager.ts:118</code></a>
         
         </p>
 

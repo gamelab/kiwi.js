@@ -26,7 +26,8 @@ module Kiwi.Renderers {
             this._vertexBuffer = new GLArrayBuffer(gl, bufferItemSize);
             var vertsPerQuad = 6;
             this._indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * vertsPerQuad));
-            this.shaderPair = <Kiwi.Shaders.TextureAtlasShader>this.shaderManager.requestShader(gl, "TextureAtlasShader");
+
+            this.shaderPair = this.shaderManager.requestShader(gl, this._shaderPairName);
         }
 
         /**
@@ -45,6 +46,15 @@ module Kiwi.Renderers {
         * @public
         */
         public shaderPair: Kiwi.Shaders.TextureAtlasShader;
+
+        /**
+        * The reference to the shaderPair.
+        * @property _shaderPairName
+        * @type String
+        * @private
+        * @since 1.1.0
+        */
+        private _shaderPairName: string = "TextureAtlasShader";
 
         /**
         * The maximum number of items that can be rendered by the renderer (not enforced)
@@ -79,7 +89,8 @@ module Kiwi.Renderers {
         */
         public enable(gl: WebGLRenderingContext, params: any = null) {
         
-            this.shaderPair = <Kiwi.Shaders.TextureAtlasShader>this.shaderManager.requestShader(gl, "TextureAtlasShader");
+            //this.shaderPair = <Kiwi.Shaders.TextureAtlasShader>this.shaderManager.requestShader(gl, "TextureAtlasShader", true);
+            this.shaderPair = this.shaderManager.requestShader(gl, this._shaderPairName, true);
             
             //Texture
             gl.uniform1i(this.shaderPair.uniforms.uSampler.location, 0);
@@ -166,6 +177,18 @@ module Kiwi.Renderers {
         */
         public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array) {
             gl.uniform2fv(this.shaderPair.uniforms.uTextureSize.location, size);
+        }
+
+        /**
+        * Sets shader pair by name
+        * @method setShaderPair
+        * @param shaderPair {String}
+        * @public
+        * @since 1.1.0
+        */
+        public setShaderPair = function(shaderPair: string) {
+            if(typeof shaderPair == "string")
+                this._shaderPairName = shaderPair;
         }
 
         /**

@@ -980,6 +980,17 @@
                 "Kiwi.Renderers": 1
             }
         },
+        "src/render/GLBlendMode.ts": {
+            "name": "src/render/GLBlendMode.ts",
+            "modules": {},
+            "classes": {
+                "Kiwi.Renderers.GLBlendMode": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "Kiwi.Renderers": 1
+            }
+        },
         "src/render/GLElementArrayBuffer.ts": {
             "name": "src/render/GLElementArrayBuffer.ts",
             "modules": {},
@@ -1437,6 +1448,7 @@
                 "Kiwi.Shaders.TextureAtlasShader": 1,
                 "Kiwi.Renderers.CanvasRenderer": 1,
                 "Kiwi.Renderers.GLArrayBuffer": 1,
+                "Kiwi.Renderers.GLBlendMode": 1,
                 "Kiwi.Renderers.GLElementArrayBuffer": 1,
                 "Kiwi.Renderers.GLRenderManager": 1,
                 "Kiwi.Shaders.ShaderManager": 1,
@@ -1727,6 +1739,7 @@
                 "Kiwi.Renderers.TextureAtlasRenderer": 1,
                 "Kiwi.Renderers.CanvasRenderer": 1,
                 "Kiwi.Renderers.GLArrayBuffer": 1,
+                "Kiwi.Renderers.GLBlendMode": 1,
                 "Kiwi.Renderers.GLElementArrayBuffer": 1,
                 "Kiwi.Renderers.GLRenderManager": 1,
                 "Kiwi.Renderers.GLTextureManager": 1,
@@ -4818,6 +4831,38 @@
             "return": {
                 "description": "",
                 "type": "Kiwi.RenderersGLArrayBuffer"
+            }
+        },
+        "Kiwi.Renderers.GLBlendMode": {
+            "name": "Kiwi.Renderers.GLBlendMode",
+            "shortname": "Kiwi.Renderers.GLBlendMode",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers",
+            "file": "src/render/GLBlendMode.ts",
+            "line": 10,
+            "description": "The Blend Mode object for recording and applying GL blend functions on a renderer.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "params",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Kiwi.Renderers.GLBlendMode"
             }
         },
         "Kiwi.Renderers.GLElementArrayBuffer": {
@@ -21932,7 +21977,7 @@
         },
         {
             "file": "src/gameobjects/Textfield.ts",
-            "line": 349,
+            "line": 351,
             "description": "Called by the Layer to which this Game Object is attached",
             "itemtype": "method",
             "name": "render",
@@ -21952,7 +21997,7 @@
         },
         {
             "file": "src/gameobjects/Textfield.ts",
-            "line": 399,
+            "line": 401,
             "description": "Renders the GameObject using WebGL.",
             "itemtype": "method",
             "name": "renderGL",
@@ -26006,7 +26051,7 @@
         {
             "file": "src/geom/Rectangle.ts",
             "line": 374,
-            "description": "Copies all the rectangle data from this Rectangle object into the destination Rectangle object.",
+            "description": "Copies all the rectangle data from this Rectangle object into the destination Rectangle object.\nCreates a new rectangle if one was not passed.",
             "itemtype": "method",
             "name": "copyTo",
             "params": [
@@ -26029,7 +26074,7 @@
         },
         {
             "file": "src/geom/Rectangle.ts",
-            "line": 387,
+            "line": 388,
             "description": "Determines whether the object specified in the toCompare parameter is equal to this Rectangle object. This method compares the x, y, width, and height properties of an object against the same properties of this Rectangle object.",
             "itemtype": "method",
             "name": "equals",
@@ -26053,7 +26098,7 @@
         },
         {
             "file": "src/geom/Rectangle.ts",
-            "line": 405,
+            "line": 406,
             "description": "Increases the size of the Rectangle object by the specified amounts, in pixels. The center point of the Rectangle object stays the same, and its size increases to the left and right by the dx value, and to the top and the bottom by the dy value.",
             "itemtype": "method",
             "name": "inflate",
@@ -26082,7 +26127,7 @@
         },
         {
             "file": "src/geom/Rectangle.ts",
-            "line": 428,
+            "line": 429,
             "description": "Increases the size of the Rectangle object. This method is similar to the Rectangle.inflate() method except it takes a Point object as a parameter.",
             "itemtype": "method",
             "name": "inflatePoint",
@@ -26106,7 +26151,7 @@
         },
         {
             "file": "src/geom/Rectangle.ts",
-            "line": 441,
+            "line": 442,
             "description": "If the Rectangle object specified in the toIntersect parameter intersects with this Rectangle object, returns the area of intersection as a Rectangle object. If the rectangles do not intersect, this method returns an empty Rectangle object with its properties set to 0.",
             "itemtype": "method",
             "name": "intersection",
@@ -26133,7 +26178,7 @@
         },
         {
             "file": "src/geom/Rectangle.ts",
-            "line": 462,
+            "line": 463,
             "description": "Determines whether the object specified in the toIntersect parameter intersects with this Rectangle object. This method checks the x, y, width, and height properties of the specified Rectangle object to see if it intersects with this Rectangle object.",
             "itemtype": "method",
             "name": "intersects",
@@ -26157,7 +26202,7 @@
         },
         {
             "file": "src/geom/Rectangle.ts",
-            "line": 491,
+            "line": 492,
             "description": "Checks for overlaps between this Rectangle and the given Rectangle. Returns an object with boolean values for each check.",
             "itemtype": "method",
             "name": "overlap",
@@ -26184,7 +26229,7 @@
         },
         {
             "file": "src/geom/Rectangle.ts",
-            "line": 516,
+            "line": 517,
             "description": "Determines whether or not this Rectangle object is empty.",
             "itemtype": "method",
             "name": "isEmpty",
@@ -26201,7 +26246,7 @@
         },
         {
             "file": "src/geom/Rectangle.ts",
-            "line": 533,
+            "line": 534,
             "description": "Adjusts the location of the Rectangle object, as determined by its top-left corner, by the specified amounts.",
             "itemtype": "method",
             "name": "offset",
@@ -26230,7 +26275,7 @@
         },
         {
             "file": "src/geom/Rectangle.ts",
-            "line": 553,
+            "line": 554,
             "description": "Adjusts the location of the Rectangle object using a Point object as a parameter. This method is similar to the Rectangle.offset() method, except that it takes a Point object as a parameter.",
             "itemtype": "method",
             "name": "offsetPoint",
@@ -26252,7 +26297,7 @@
         },
         {
             "file": "src/geom/Rectangle.ts",
-            "line": 565,
+            "line": 566,
             "description": "Sets all of the Rectangle object's properties to 0. A Rectangle object is empty if its width or height is less than or equal to 0.",
             "itemtype": "method",
             "name": "setEmpty",
@@ -26267,7 +26312,7 @@
         },
         {
             "file": "src/geom/Rectangle.ts",
-            "line": 576,
+            "line": 577,
             "description": "Sets the properties of Rectangle to the specified values.",
             "itemtype": "method",
             "name": "setTo",
@@ -26304,7 +26349,7 @@
         },
         {
             "file": "src/geom/Rectangle.ts",
-            "line": 607,
+            "line": 608,
             "description": "Adds two rectangles together to create a new Rectangle object, by filling in the horizontal and vertical space between the two rectangles.",
             "itemtype": "method",
             "name": "union",
@@ -26331,7 +26376,7 @@
         },
         {
             "file": "src/geom/Rectangle.ts",
-            "line": 625,
+            "line": 626,
             "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "scale",
@@ -26365,7 +26410,7 @@
         },
         {
             "file": "src/geom/Rectangle.ts",
-            "line": 652,
+            "line": 653,
             "description": "Returns a string representation of this object.",
             "itemtype": "method",
             "name": "toString",
@@ -34637,7 +34682,7 @@
             "line": 332,
             "description": "The developer defined maximum number of touch events.\nBy default this is set to 10 but this can be set to be lower.",
             "itemtype": "property",
-            "name": "_maxTouchEvents",
+            "name": "_maxPointers",
             "type": "number",
             "default": "10",
             "access": "private",
@@ -34651,6 +34696,8 @@
             "file": "src/input/Touch.ts",
             "line": 342,
             "description": "Sets the maximum number of point of contact that are allowed on the game stage at one point.\nThe maximum number of points that are allowed is 10, and the minimum is 0.",
+            "itemtype": "property",
+            "name": "maximumPointers",
             "type": "number",
             "access": "public",
             "tagname": "",
@@ -34661,7 +34708,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 356,
+            "line": 357,
             "description": "Gets the maximum number of points of contact that are allowed on the game stage at one point.",
             "type": "number",
             "access": "public",
@@ -34673,7 +34720,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 366,
+            "line": 367,
             "description": "-------------------------\n Generic Methods for Dealing with Pointers\n-------------------------",
             "class": "Kiwi.Input.Touch",
             "module": "Kiwi",
@@ -34682,7 +34729,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 372,
+            "line": 373,
             "description": "This method is in charge of registering a \"finger\"  (either from a Touch/Pointer start method) and assigning it a Finger,\nYou have to pass this method a id which is used to idenfied when released/cancelled.",
             "itemtype": "method",
             "name": "_registerFinger",
@@ -34707,7 +34754,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 396,
+            "line": 397,
             "description": "This method is in charge of deregistering (removing) a \"finger\" when it has been released,\nYou have to pass this method a id which is used to identfy the finger to deregister.",
             "itemtype": "method",
             "name": "_deregisterFinger",
@@ -34732,7 +34779,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 428,
+            "line": 436,
             "description": "This method is in charge of cancelling (removing) a \"finger\".\nYou have to pass this method a id which is used to idenfied the finger that was cancelled.",
             "itemtype": "method",
             "name": "_cancelFinger",
@@ -34757,7 +34804,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 455,
+            "line": 463,
             "description": "This method is in charge of creating and assigning (removing) a \"finger\" when it has entered the dom element.\nYou have to pass this method a id which is used to idenfied the finger that was cancelled.",
             "itemtype": "method",
             "name": "_enterFinger",
@@ -34782,7 +34829,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 476,
+            "line": 484,
             "description": "This method is in charge of removing an assigned \"finger\" when it has left the DOM Elemetn.\nYou have to pass this method a id which is used to idenfied the finger that left.",
             "itemtype": "method",
             "name": "_leaveFinger",
@@ -34807,7 +34854,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 493,
+            "line": 501,
             "description": "This method is in charge of updating the coordinates of a \"finger\" when it has moved..\nYou have to pass this method a id which is used to idenfied the finger that moved.",
             "itemtype": "method",
             "name": "_moveFinger",
@@ -34832,7 +34879,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 512,
+            "line": 520,
             "description": "-------------------\n Touch Events\n-------------------",
             "class": "Kiwi.Input.Touch",
             "module": "Kiwi",
@@ -34841,7 +34888,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 519,
+            "line": 527,
             "description": "This method runs when the a touch start event is fired by the browser and then assigns the event to a pointer that is currently not active.\nhttps://developer.mozilla.org/en-US/docs/DOM/TouchList",
             "itemtype": "method",
             "name": "onTouchStart",
@@ -34861,7 +34908,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 534,
+            "line": 542,
             "description": "Doesn't appear to be supported by most browsers yet but if it was it would fire events when a touch is canceled.\nhttp://www.w3.org/TR/touch-events/#dfn-touchcancel",
             "itemtype": "method",
             "name": "onTouchCancel",
@@ -34881,7 +34928,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 549,
+            "line": 557,
             "description": "Doesn't appear to be supported by most browsers yet. But if it was would fire events when touch events enter an element.",
             "itemtype": "method",
             "name": "onTouchEnter",
@@ -34901,7 +34948,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 564,
+            "line": 572,
             "description": "Doesn't appear to be supported by most browsers yet. Would fire events when a 'finger' leaves an element.     \nWould be handly for when an finger 'leaves' the stage.",
             "itemtype": "method",
             "name": "onTouchLeave",
@@ -34921,7 +34968,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 580,
+            "line": 588,
             "description": "When a touch pointer moves. This method updates the appropriate pointer.",
             "itemtype": "method",
             "name": "onTouchMove",
@@ -34941,7 +34988,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 594,
+            "line": 602,
             "description": "When a touch event gets released.\nhttps://developer.mozilla.org/en-US/docs/DOM/TouchList",
             "itemtype": "method",
             "name": "onTouchEnd",
@@ -34961,7 +35008,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 610,
+            "line": 618,
             "description": "-------------------\n Pointer Events\n-------------------",
             "class": "Kiwi.Input.Touch",
             "module": "Kiwi",
@@ -34970,7 +35017,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 617,
+            "line": 625,
             "description": "Event that is fired when a pointer is initially pressed.",
             "itemtype": "method",
             "name": "onPointerStart",
@@ -34990,7 +35037,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 629,
+            "line": 637,
             "description": "Event that is fired by a pointer event listener upon a pointer canceling for some reason.",
             "itemtype": "method",
             "name": "onPointerCancel",
@@ -35010,7 +35057,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 641,
+            "line": 649,
             "description": "Event that is fired by a pointer event listener upon a pointer entering the DOM Element the event listener is attached to.",
             "itemtype": "method",
             "name": "onPointerEnter",
@@ -35030,7 +35077,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 653,
+            "line": 661,
             "description": "Event that is fired by a pointer event listener upon a pointer being leaving the DOM Element the event listener is attached to.",
             "itemtype": "method",
             "name": "onPointerLeave",
@@ -35050,7 +35097,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 665,
+            "line": 673,
             "description": "Event that is fired by a pointer event listener upon a pointer moving.",
             "itemtype": "method",
             "name": "onPointerMove",
@@ -35068,7 +35115,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 676,
+            "line": 684,
             "description": "Event that is fired by a pointer event listener upon a pointer being released.",
             "itemtype": "method",
             "name": "onPointerEnd",
@@ -35088,7 +35135,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 689,
+            "line": 697,
             "description": "-----------------\n Normal Methods \n-----------------",
             "class": "Kiwi.Input.Touch",
             "module": "Kiwi",
@@ -35097,7 +35144,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 696,
+            "line": 704,
             "description": "The update loop fro the touch manager.",
             "itemtype": "method",
             "name": "update",
@@ -35110,7 +35157,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 714,
+            "line": 722,
             "description": "This method removes all of the event listeners and thus 'stops' the touch manager.",
             "itemtype": "method",
             "name": "stop",
@@ -35123,7 +35170,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 743,
+            "line": 751,
             "description": "Resets all of the fingers/pointers to their default states.",
             "itemtype": "method",
             "name": "reset",
@@ -35136,7 +35183,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 30,
+            "line": 31,
             "description": "Identifier for this renderer",
             "itemtype": "property",
             "name": "RENDERER_ID",
@@ -35151,7 +35198,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 39,
+            "line": 40,
             "description": "The camera matrix",
             "itemtype": "property",
             "name": "camMatrix",
@@ -35165,7 +35212,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 47,
+            "line": 48,
             "itemtype": "property",
             "name": "loaded",
             "type": "Array",
@@ -35178,7 +35225,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 55,
+            "line": 56,
             "description": "Reference to the shaderManager - used for requesting shaders.",
             "itemtype": "property",
             "name": "shaderManager",
@@ -35192,7 +35239,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 63,
+            "line": 64,
             "description": "Enables the renderer (for override)",
             "itemtype": "method",
             "name": "disable",
@@ -35219,7 +35266,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 74,
+            "line": 75,
             "description": "Enables the renderer (for override)",
             "itemtype": "method",
             "name": "disable",
@@ -35246,7 +35293,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 85,
+            "line": 86,
             "description": "Enables the renderer (for override)",
             "itemtype": "method",
             "name": "disable",
@@ -35273,7 +35320,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 95,
+            "line": 96,
             "description": "Draw to the draw or frame buffer (for override)",
             "itemtype": "method",
             "name": "draw",
@@ -35293,7 +35340,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 104,
+            "line": 105,
             "description": "Updates the stage resolution uniforms (for override)",
             "itemtype": "method",
             "name": "updateStageResolution",
@@ -35318,7 +35365,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 114,
+            "line": 115,
             "description": "Updates the texture size uniforms (for override)",
             "itemtype": "method",
             "name": "updateTextureSize",
@@ -35343,7 +35390,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 125,
+            "line": 126,
             "description": "The shader pair used by the renderer",
             "itemtype": "property",
             "name": "texture2DVert",
@@ -35357,7 +35404,22 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 134,
+            "line": 135,
+            "description": "This renderer's blend mode data.",
+            "itemtype": "property",
+            "name": "blendMode",
+            "type": "Kiwi.Renderers.GLBlendMode",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Renderers.Renderer",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/renderers/Renderer.ts",
+            "line": 145,
             "description": "Returns whether this is a batch renderer.",
             "itemtype": "property",
             "name": "texture2DVert",
@@ -35371,7 +35433,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 32,
+            "line": 33,
             "description": "The identifier for this renderer.",
             "itemtype": "property",
             "name": "RENDERER_ID",
@@ -35386,7 +35448,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 41,
+            "line": 42,
             "description": "The shaderPair that this renderer uses.",
             "itemtype": "property",
             "name": "shaderPair",
@@ -35400,7 +35462,22 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 49,
+            "line": 50,
+            "description": "The reference to the shaderPair.",
+            "itemtype": "property",
+            "name": "_shaderPairName",
+            "type": "String",
+            "access": "private",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Renderers.TextureAtlasRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/renderers/TextureAtlasRenderer.ts",
+            "line": 59,
             "description": "The maximum number of items that can be rendered by the renderer (not enforced)",
             "itemtype": "property",
             "name": "_maxItems",
@@ -35414,7 +35491,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 57,
+            "line": 67,
             "description": "The Vertex Buffer",
             "itemtype": "property",
             "name": "_vertexBuffer",
@@ -35428,7 +35505,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 65,
+            "line": 75,
             "description": "The Index Buffer",
             "itemtype": "property",
             "name": "_indexBuffer",
@@ -35442,7 +35519,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 73,
+            "line": 83,
             "description": "Enables the renderer ready for drawing",
             "itemtype": "method",
             "name": "enable",
@@ -35469,7 +35546,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 92,
+            "line": 103,
             "description": "Disables the renderer",
             "itemtype": "method",
             "name": "disable",
@@ -35489,7 +35566,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 103,
+            "line": 114,
             "description": "Clears the vertex buffer.",
             "itemtype": "method",
             "name": "clear",
@@ -35509,7 +35586,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 114,
+            "line": 125,
             "description": "Makes a draw call, this is where things actually get rendered to the draw buffer (or a framebuffer).",
             "itemtype": "method",
             "name": "draw",
@@ -35529,7 +35606,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 134,
+            "line": 145,
             "description": "Generates quad indices",
             "itemtype": "method",
             "name": "_generateIndices",
@@ -35549,7 +35626,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 149,
+            "line": 160,
             "description": "Updates the stage resolution uniforms",
             "itemtype": "method",
             "name": "updateStageResolution",
@@ -35574,7 +35651,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 160,
+            "line": 171,
             "description": "Updates the texture size uniforms",
             "itemtype": "method",
             "name": "updateTextureSize",
@@ -35599,7 +35676,28 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 171,
+            "line": 182,
+            "description": "Sets shader pair by name",
+            "itemtype": "method",
+            "name": "setShaderPair",
+            "params": [
+                {
+                    "name": "shaderPair",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Renderers.TextureAtlasRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/renderers/TextureAtlasRenderer.ts",
+            "line": 194,
             "description": "Collates all xy and uv coordinates into a buffer ready for upload to viceo memory",
             "itemtype": "method",
             "name": "_collateVertexAttributeArrays",
@@ -35629,7 +35727,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 206,
+            "line": 229,
             "description": "Adds an array of precalculated xyuv values to the item array",
             "itemtype": "method",
             "name": "concatBatch",
@@ -36351,6 +36449,226 @@
             "namespace": "Kiwi.Renderers"
         },
         {
+            "file": "src/render/GLBlendMode.ts",
+            "line": 40,
+            "description": "Target WebGL rendering context.",
+            "itemtype": "property",
+            "name": "gl",
+            "type": "WebGLRenderingContext",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Renderers.GLBlendMode",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLBlendMode.ts",
+            "line": 48,
+            "description": "Dirty flag indicates whether this object has been altered and needs to be processed.",
+            "itemtype": "property",
+            "name": "dirty",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Renderers.GLBlendMode",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLBlendMode.ts",
+            "line": 56,
+            "description": "Source RGB factor used in WebGL blendfunc.",
+            "itemtype": "property",
+            "name": "_srcRGB",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Renderers.GLBlendMode",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLBlendMode.ts",
+            "line": 64,
+            "description": "Destination RGB factor used in WebGL blendfunc.",
+            "itemtype": "property",
+            "name": "_dstRGB",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Renderers.GLBlendMode",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLBlendMode.ts",
+            "line": 72,
+            "description": "Source alpha factor used in WebGL blendfunc.",
+            "itemtype": "property",
+            "name": "_srcAlpha",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Renderers.GLBlendMode",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLBlendMode.ts",
+            "line": 80,
+            "description": "Destination alpha factor used in WebGL blendfunc.",
+            "itemtype": "property",
+            "name": "_dstAlpha",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Renderers.GLBlendMode",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLBlendMode.ts",
+            "line": 88,
+            "description": "RGB mode used in WebGL blendfunc.",
+            "itemtype": "property",
+            "name": "_modeRGB",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Renderers.GLBlendMode",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLBlendMode.ts",
+            "line": 96,
+            "description": "Alpha mode used in WebGL blendfunc.",
+            "itemtype": "property",
+            "name": "_modeAlpha",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Renderers.GLBlendMode",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLBlendMode.ts",
+            "line": 104,
+            "description": "Set a blend mode from a param object.\n\nThis is the main method for configuring blend modes on a renderer. It resolves to a pair of calls to blendEquationSeparate and blendFuncSeparate. The params object should specify compatible terms, namely { srcRGB: a, dstRGB: b, srcAlpha: c, dstAlpha: d, modeRGB: e, modeAlpha: f }. You should set abcdef using either direct calls to a gl context (ie. gl.SRC_ALPHA) or by using predefined strings.\n\nThe predefined string parameters for blendEquationSeparate are:\n\nFUNC_ADD, FUNC_SUBTRACT, and FUNC_REVERSE_SUBTRACT.\n\nThe predefined string parameters for blendFuncSeparate are:\n\nZERO, ONE, SRC_COLOR, ONE_MINUS_SRC_COLOR, DST_COLOR, ONE_MINUS_DST_COLOR, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, DST_ALPHA, ONE_MINUS_DST_ALPHA, SRC_ALPHA_SATURATE, CONSTANT_COLOR, ONE_MINUS_CONSTANT_COLOR, CONSTANT_ALPHA, and ONE_MINUS_CONSTANT_ALPHA.",
+            "itemtype": "method",
+            "name": "readConfig",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Renderers.GLBlendMode",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLBlendMode.ts",
+            "line": 149,
+            "description": "Formats a parameter into a GL context-compatible number. This recognises valid constant names, such as \"SRC_ALPHA\" or \"REVERSE_AND_SUBTRACT\", with some tolerance for case. It does not check for valid numeric codes.",
+            "itemtype": "method",
+            "name": "makeConstant",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Renderers.GLBlendMode",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLBlendMode.ts",
+            "line": 232,
+            "description": "Sets a blend mode by name. Name is case-tolerant.\n\nThese are shortcuts to setting the blend function parameters manually. A listing of valid modes follows. Each is listed with the parameters modeRGB, modeAlpha, srcRGB, dstRGB, srcAlpha, and dstAlpha, constants used in the gl calls \"blendEquationSeparate(modeRGB, modeAlpha)\" and \"blendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha\". This is very technical, and will probably only be useful if you are developing your own shaders for Kiwi.js.\n\n\"NORMAL\" or any non-recognised string will draw as normal, blending colour via alpha. FUNC_ADD, FUNC_ADD, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE.\n\n\"ADD\" or \"ADDITIVE\" will add pixels to the background, creating a lightening effect. FUNC_ADD, FUNC_ADD, SRC_ALPHA, ONE, ONE, ONE.\n\n\"SUBTRACT\" or \"SUBTRACTIVE\" will subtract pixels from the background, creating an eerie dark effect. FUNC_REVERSE_SUBTRACT, FUNC_ADD, SRC_ALPHA, ONE, ONE, ONE.\n\n\"ERASE\" or \"ERASER\" will erase the game canvas itself, allowing the page background to show through. You can later draw over this erased region. FUNC_REVERSE_SUBTRACT, FUNC_REVERSE_SUBTRACT, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE.\n\n\"BLACK\" or \"BLACKEN\" will turn all colour black, but preserve alpha. FUNC_ADD, FUNC_ADD, ZERO, ONE_MINUS_SRC_ALPHA, ONE, ONE.\n\nBlend modes as seen in Adobe Photoshop are not reliably available via WebGL blend modes. Such blend modes require shaders to create.",
+            "itemtype": "method",
+            "name": "setMode",
+            "params": [
+                {
+                    "name": "mode",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Renderers.GLBlendMode",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLBlendMode.ts",
+            "line": 304,
+            "description": "Compares against another GLBlendMode",
+            "itemtype": "method",
+            "name": "isIdentical",
+            "return": {
+                "description": "Is this GLBlendMode identical to the passed GLBlendMode?",
+                "type": "Boolean"
+            },
+            "params": [
+                {
+                    "name": "blendMode",
+                    "description": "",
+                    "type": "Kiwi.Renderers.GLBlendMode"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Renderers.GLBlendMode",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLBlendMode.ts",
+            "line": 324,
+            "description": "Sets the blend mode on the video card",
+            "itemtype": "method",
+            "name": "apply",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Renderers.GLBlendMode",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
             "file": "src/render/GLElementArrayBuffer.ts",
             "line": 33,
             "description": "An array of indices",
@@ -36490,7 +36808,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 40,
+            "line": 41,
             "description": "Initialises all WebGL rendering services",
             "itemtype": "method",
             "name": "boot",
@@ -36503,7 +36821,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 53,
+            "line": 54,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -36520,7 +36838,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 63,
+            "line": 64,
             "description": "The game that this renderer is used with.",
             "itemtype": "property",
             "name": "_game",
@@ -36534,7 +36852,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 71,
+            "line": 72,
             "description": "The texture manager object used to allocate GL Textures.",
             "itemtype": "property",
             "name": "_textureManager",
@@ -36548,7 +36866,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 79,
+            "line": 80,
             "description": "The shader manager object used to allocate GL Shaders.",
             "itemtype": "property",
             "name": "_shaderManager",
@@ -36562,7 +36880,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 90,
+            "line": 91,
             "description": "The stage resolution in pixels",
             "itemtype": "property",
             "name": "_stageResolution",
@@ -36576,7 +36894,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 98,
+            "line": 99,
             "description": "The renderer object that is in use during a rendering batch.",
             "itemtype": "property",
             "name": "_currentRenderer",
@@ -36590,7 +36908,22 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 106,
+            "line": 107,
+            "description": "The current blend mode.",
+            "itemtype": "property",
+            "name": "_currentBlendMode",
+            "type": "Kiwi.Renderers.GLBlendMode",
+            "access": "private",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Renderers.GLRenderManager",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLRenderManager.ts",
+            "line": 116,
             "description": "Tally of number of entities rendered per frame",
             "itemtype": "property",
             "name": "_entityCount",
@@ -36605,7 +36938,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 115,
+            "line": 125,
             "description": "Tally of number of draw calls per frame",
             "itemtype": "property",
             "name": "numDrawCalls",
@@ -36620,7 +36953,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 124,
+            "line": 134,
             "description": "Maximum allowable sprites to render per frame\nNote:Not currently used  - candidate for deletion",
             "itemtype": "property",
             "name": "_maxItems",
@@ -36635,7 +36968,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 138,
+            "line": 148,
             "description": "The most recently bound texture atlas.",
             "itemtype": "property",
             "name": "_currentTextureAtlas",
@@ -36649,7 +36982,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 146,
+            "line": 156,
             "description": "Adds a texture to the Texture Manager.",
             "itemtype": "method",
             "name": "addTexture",
@@ -36674,7 +37007,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 157,
+            "line": 167,
             "description": "An array of renderers. Shared renderers are used for batch rendering. Multiple gameobjects can use the same renderer\ninstance and add rendering info to a batch rather than rendering individually. \nThis means only one draw call is necessary to render a number of objects. The most common use of this is standard 2d sprite rendering,\nand the TextureAtlasRenderer is added by default as a shared renderer. Sprites, StaticImages and Tilemaps (core gameobjects) can all use the\nsame renderer/shader combination and be drawn as part of the same batch.\nCustom gameobjects can also choose to use a shared renderer, fo example in the case that a custom gameobject's rendering requirements matched the TextureAtlasRenderer\ncapabilities.",
             "itemtype": "property",
             "name": "_sharedRenderers",
@@ -36688,7 +37021,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 172,
+            "line": 182,
             "description": "Adds a renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. \nIf a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.",
             "itemtype": "method",
             "name": "addSharedRenderer",
@@ -36717,10 +37050,45 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 196,
+            "line": 206,
+            "description": "Adds a cloned renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. The cloneID is the name for the cloned renderer.\n\nIf a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.\n\nCloned shared renderers are useful if some items in your scene will use a special shader or blend mode, but others will not. You can subsequently access the clones with a normal requestSharedRenderer() call. You should use this instead of requestRendererInstance() whenever possible, because shared renderers are more efficient than instances.",
+            "itemtype": "method",
+            "name": "addSharedRendererClone",
+            "params": [
+                {
+                    "name": "rendererID",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "cloneID",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "params",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "success",
+                "type": "Boolean"
+            },
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Renderers.GLRenderManager",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLRenderManager.ts",
+            "line": 235,
             "description": "Requests a shared renderer. A game object that wants to use a shared renderer uses this method to obtain a reference to the shared renderer instance.",
             "itemtype": "method",
-            "name": "addSharedRenderer",
+            "name": "requestSharedRenderer",
             "params": [
                 {
                     "name": "rendererID",
@@ -36746,7 +37114,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 222,
+            "line": 261,
             "description": "Requests a new renderer instance. This factory method is the only way gameobjects should instantiate their own renderer. \nThe rendererID is a string that must match a renderer property of the Kiwi.Renderers object. \nIf a match is found then a renderer is instantiated and returned. Gameobjects which have rendering requirements that do not suit\nbatch rendering use this technique.",
             "itemtype": "method",
             "name": "requestRendererInstance",
@@ -36775,7 +37143,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 255,
+            "line": 294,
             "description": "Performs initialisation required for single game instance - happens once, at bootup\nSets global GL state.\nInitialises managers for shaders and textures.\nInstantiates the default shared renderer (TextureAtlasRenderer)",
             "itemtype": "method",
             "name": "_init",
@@ -36788,7 +37156,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 296,
+            "line": 335,
             "description": "Performs initialisation required when switching to a different state. Called when a state has been switched to.\nThe textureManager is told to clear its contents from video memory, then rebuild its cache of textures from the state's texture library.",
             "itemtype": "method",
             "name": "initState",
@@ -36801,7 +37169,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 308,
+            "line": 347,
             "description": "Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.",
             "itemtype": "method",
             "name": "initState",
@@ -36821,7 +37189,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 320,
+            "line": 359,
             "description": "Manages rendering of the scene graph - called once per frame.\nSets up per frame gl uniforms such as the view matrix and camera offset.\nClears the current renderer ready for a new batch. \nInitiates recursive render of scene graph starting at the root.",
             "itemtype": "method",
             "name": "render",
@@ -36841,7 +37209,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 381,
+            "line": 420,
             "description": "Creates a new render sequence",
             "itemtype": "method",
             "name": "collateRenderSequence",
@@ -36854,7 +37222,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 392,
+            "line": 431,
             "description": "Adds a child to the render sequence (may be a group with children of it's own)",
             "itemtype": "method",
             "name": "collateChild",
@@ -36867,7 +37235,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 417,
+            "line": 456,
             "description": "Sorts the render sequence into batches. Each batch requires the same renderer/shader/texture combination.",
             "itemtype": "method",
             "name": "collateBatches",
@@ -36880,7 +37248,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 446,
+            "line": 485,
             "description": "Renders all the batches",
             "itemtype": "method",
             "name": "renderBatches",
@@ -36905,7 +37273,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 458,
+            "line": 497,
             "description": "Renders a single batch",
             "itemtype": "method",
             "name": "renderBatch",
@@ -36935,7 +37303,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 482,
+            "line": 532,
             "description": "Calls the render function on a single entity",
             "itemtype": "method",
             "name": "renderEntity",
@@ -36967,7 +37335,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 495,
+            "line": 545,
             "description": "Ensures the atlas and renderer needed for a batch is setup",
             "itemtype": "method",
             "name": "setupGLState",
@@ -36989,7 +37357,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 507,
+            "line": 557,
             "description": "Switch renderer to the one needed by the entity that needs rendering",
             "itemtype": "method",
             "name": "_switchRenderer",
@@ -37014,7 +37382,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 520,
+            "line": 570,
             "description": "Switch texture to the one needed by the entity that needs rendering",
             "itemtype": "method",
             "name": "_switchTexture",
@@ -37032,6 +37400,32 @@
             ],
             "access": "private",
             "tagname": "",
+            "class": "Kiwi.Renderers.GLRenderManager",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLRenderManager.ts",
+            "line": 584,
+            "description": "Switch blend mode to a new set of constants",
+            "itemtype": "method",
+            "name": "_switchBlendMode",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "blendMode",
+                    "description": "",
+                    "type": "Kiwi.Renderers.GLBlendMode"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "since": "1.1.0",
             "class": "Kiwi.Renderers.GLRenderManager",
             "module": "Kiwi",
             "submodule": "Renderers",
@@ -37093,9 +37487,9 @@
         {
             "file": "src/render/GLShaderManager.ts",
             "line": 76,
-            "description": "Provides a reference to a ShaderPair. If the requested ShaderPair exists as a property on the _shaderPairs object it will be returned if already loaded,\notherwise it will be loaded, then returned.\nIf the request is not on the list, the Kiwi.Shaders object will  be checked for a property name that matches shaderID and a new ShaderPair\nwill be instantiated, loaded, and set for use.",
+            "description": "Provides a reference to a ShaderPair. If the requested ShaderPair exists as a property on the _shaderPairs object it will be returned if already loaded,\notherwise it will be loaded, then returned.\n\nIf the request is not on the list, the Kiwi.Shaders object will  be checked for a property name that matches shaderID and a new ShaderPair\nwill be instantiated, loaded, and set for use.",
             "itemtype": "method",
-            "name": "init",
+            "name": "requestShader",
             "params": [
                 {
                     "name": "gl",
@@ -37106,6 +37500,11 @@
                     "name": "shaderID",
                     "description": "",
                     "type": "String"
+                },
+                {
+                    "name": "use",
+                    "description": "",
+                    "type": "Boolean"
                 }
             ],
             "return": {
@@ -37121,7 +37520,7 @@
         },
         {
             "file": "src/render/GLShaderManager.ts",
-            "line": 116,
+            "line": 118,
             "description": "Tests to see if a ShaderPair property named ShaderID exists on Kiwi.Shaders. Can be used to test for the availability of specific shaders (for fallback)",
             "itemtype": "method",
             "name": "shaderExists",
@@ -37150,7 +37549,7 @@
         },
         {
             "file": "src/render/GLShaderManager.ts",
-            "line": 128,
+            "line": 130,
             "description": "Creates a new instance of a ShaderPair and adds a reference to the _shaderPairs object",
             "itemtype": "method",
             "name": "_addShader",
@@ -37179,7 +37578,7 @@
         },
         {
             "file": "src/render/GLShaderManager.ts",
-            "line": 141,
+            "line": 143,
             "description": "Tells a ShaderPair to load (compile and link)",
             "itemtype": "method",
             "name": "_loadShader",
@@ -37204,7 +37603,7 @@
         },
         {
             "file": "src/render/GLShaderManager.ts",
-            "line": 152,
+            "line": 154,
             "description": "Changes gl state so that the shaderProgram contined in a ShaderPir is bound for use",
             "itemtype": "method",
             "name": "_useShader",
@@ -46195,7 +46594,7 @@
         },
         {
             "message": "param name missing: {Kiwi.Camera}",
-            "line": " src/gameobjects/Textfield.ts:349"
+            "line": " src/gameobjects/Textfield.ts:351"
         },
         {
             "message": "replacing incorrect tag: propery with property",
@@ -46354,28 +46753,24 @@
             "line": " src/input/Touch.ts:69"
         },
         {
-            "message": "Missing item type\nSets the maximum number of point of contact that are allowed on the game stage at one point.\nThe maximum number of points that are allowed is 10, and the minimum is 0.",
-            "line": " src/input/Touch.ts:342"
-        },
-        {
             "message": "Missing item type\nGets the maximum number of points of contact that are allowed on the game stage at one point.",
-            "line": " src/input/Touch.ts:356"
+            "line": " src/input/Touch.ts:357"
         },
         {
             "message": "Missing item type\n-------------------------\n Generic Methods for Dealing with Pointers\n-------------------------",
-            "line": " src/input/Touch.ts:366"
+            "line": " src/input/Touch.ts:367"
         },
         {
             "message": "Missing item type\n-------------------\n Touch Events\n-------------------",
-            "line": " src/input/Touch.ts:512"
+            "line": " src/input/Touch.ts:520"
         },
         {
             "message": "Missing item type\n-------------------\n Pointer Events\n-------------------",
-            "line": " src/input/Touch.ts:610"
+            "line": " src/input/Touch.ts:618"
         },
         {
             "message": "Missing item type\n-----------------\n Normal Methods \n-----------------",
-            "line": " src/input/Touch.ts:689"
+            "line": " src/input/Touch.ts:697"
         },
         {
             "message": "Missing item type\nGet the number of rows.",

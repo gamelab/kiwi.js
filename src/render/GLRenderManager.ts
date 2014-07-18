@@ -35,6 +35,7 @@ module Kiwi.Renderers {
             if (typeof mat4 === "undefined") {
                 throw "ERROR: gl-matrix.js is missing";
             }
+            this._currentBlendMode = new Kiwi.Renderers.GLBlendMode(this._game.stage.gl, {mode:"DEFAULT"} );
         }
 
         /**
@@ -102,6 +103,15 @@ module Kiwi.Renderers {
         * @private
         */
         private _currentRenderer: Renderer = null;
+
+        /**
+        * The current blend mode.
+        * @property _currentBlendMode
+        * @type Kiwi.Renderers.GLBlendMode
+        * @private
+        * @since 1.1.0
+        */
+        private _currentBlendMode: GLBlendMode;
         
         /**
         * Tally of number of entities rendered per frame 
@@ -194,8 +204,37 @@ module Kiwi.Renderers {
 
 
         /**
+        * Adds a cloned renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. The cloneID is the name for the cloned renderer.
+        *
+        * If a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.
+        *
+        * Cloned shared renderers are useful if some items in your scene will use a special shader or blend mode, but others will not. You can subsequently access the clones with a normal requestSharedRenderer() call. You should use this instead of requestRendererInstance() whenever possible, because shared renderers are more efficient than instances.
+        *
+        * @method addSharedRendererClone
+        * @param {String} rendererID
+        * @param {String} cloneID
+        * @param {Object} params
+        * @return {Boolean} success
+        * @public
+        * @since 1.1.0
+        */
+        public addSharedRendererClone(rendererID: string, cloneID: string, params: any = null): boolean {
+            if (typeof params === "undefined") { params = null; }
+            //does renderer exist?
+            if (Kiwi.Renderers[rendererID]) {
+                //already added?
+                if (!(cloneID in this._sharedRenderers)) {
+                    this._sharedRenderers[cloneID] = new Kiwi.Renderers[rendererID](this._game.stage.gl, this._shaderManager, params);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        /**
 	    * Requests a shared renderer. A game object that wants to use a shared renderer uses this method to obtain a reference to the shared renderer instance.
-	    * @method addSharedRenderer
+	    * @method requestSharedRenderer
         * @param {String} rendererID
         * @param {Object} params
         * @return {Kiwi.Renderers.Renderer} A shared renderer or null if none found.
@@ -270,7 +309,7 @@ module Kiwi.Renderers {
                         
             //set default gl state
             gl.enable(gl.BLEND);
-            gl.blendFuncSeparate( gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE );
+            this._switchBlendMode(gl, this._currentBlendMode);
 
             //shader manager
             this._shaderManager.init(gl, "TextureAtlasShader");
@@ -465,16 +504,27 @@ module Kiwi.Renderers {
         */
         public renderBatch(gl, batch, camera) {
             // Acquire renderer
-            if( batch[0].entity.glRenderer !== this._currentRenderer )
+            var rendererSwitched = false;
+            if (batch[0].entity.glRenderer !== this._currentRenderer) {
+                rendererSwitched = true;
                 this._switchRenderer(gl, batch[0].entity);
+            }
+
             // Clear renderer for fresh data
             this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
+
             // Call render functions
             for( var i = 0;  i < batch.length;  i++ )
                 batch[i].entity.renderGL(gl, camera);
+
             // Upload textures
-            if( batch[0].entity.atlas !== this._currentTextureAtlas  ||  batch[0].entity.atlas.dirty )
+            if( batch[0].entity.atlas !== this._currentTextureAtlas  ||  batch[0].entity.atlas.dirty ||  (rendererSwitched  &&  batch[0].entity.atlas == this._currentTextureAtlas) )
                 this._switchTexture(gl, batch[0].entity);
+
+            // Manage blend mode
+            if(!this._currentBlendMode.isIdentical( batch[0].entity.glRenderer.blendMode )  ||  this._currentBlendMode.dirty )
+                this._switchBlendMode(gl, batch[0].entity.glRenderer.blendMode);
+
             // Render
             this._currentRenderer.draw(gl);
         }
@@ -514,7 +564,7 @@ module Kiwi.Renderers {
         private _switchRenderer(gl: WebGLRenderingContext, entity: Entity) {
             if (this._currentRenderer) this._currentRenderer.disable(gl);
             this._currentRenderer = entity.glRenderer;
-            this._currentRenderer.enable(gl, { camMatrix: this.camMatrix, stageResolution: this._stageResolution,textureAtlas:this._currentTextureAtlas });
+            this._currentRenderer.enable(gl, { camMatrix: this.camMatrix, stageResolution: this._stageResolution });
         }
         
         /**
@@ -529,6 +579,19 @@ module Kiwi.Renderers {
             if (this._currentRenderer) this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
             this._textureManager.useTexture(gl, entity.atlas.glTextureWrapper);
             this._currentTextureAtlas.refreshTextureGL( gl );
+        }
+
+        /**
+        * Switch blend mode to a new set of constants
+        * @method _switchBlendMode
+        * @param gl {WebGLRenderingContext}
+        * @param blendMode {Kiwi.Renderers.GLBlendMode}
+        * @private
+        * @since 1.1.0
+        */
+        private _switchBlendMode(gl: WebGLRenderingContext, blendMode: GLBlendMode) {
+            this._currentBlendMode = blendMode;
+            this._currentBlendMode.apply(gl);
         }
         
     }

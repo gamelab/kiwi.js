@@ -9023,6 +9023,14 @@ declare module Kiwi.Renderers {
         */
         private _currentRenderer;
         /**
+        * The current blend mode.
+        * @property _currentBlendMode
+        * @type Kiwi.Renderers.GLBlendMode
+        * @private
+        * @since 1.1.0
+        */
+        private _currentBlendMode;
+        /**
         * Tally of number of entities rendered per frame
         * @property _entityCount
         * @type number
@@ -9088,8 +9096,24 @@ declare module Kiwi.Renderers {
         */
         public addSharedRenderer(rendererID: string, params?: any): boolean;
         /**
+        * Adds a cloned renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. The cloneID is the name for the cloned renderer.
+        *
+        * If a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.
+        *
+        * Cloned shared renderers are useful if some items in your scene will use a special shader or blend mode, but others will not. You can subsequently access the clones with a normal requestSharedRenderer() call. You should use this instead of requestRendererInstance() whenever possible, because shared renderers are more efficient than instances.
+        *
+        * @method addSharedRendererClone
+        * @param {String} rendererID
+        * @param {String} cloneID
+        * @param {Object} params
+        * @return {Boolean} success
+        * @public
+        * @since 1.1.0
+        */
+        public addSharedRendererClone(rendererID: string, cloneID: string, params?: any): boolean;
+        /**
         * Requests a shared renderer. A game object that wants to use a shared renderer uses this method to obtain a reference to the shared renderer instance.
-        * @method addSharedRenderer
+        * @method requestSharedRenderer
         * @param {String} rendererID
         * @param {Object} params
         * @return {Kiwi.Renderers.Renderer} A shared renderer or null if none found.
@@ -9204,6 +9228,15 @@ declare module Kiwi.Renderers {
         * @private
         */
         private _switchTexture(gl, entity);
+        /**
+        * Switch blend mode to a new set of constants
+        * @method _switchBlendMode
+        * @param gl {WebGLRenderingContext}
+        * @param blendMode {Kiwi.Renderers.GLBlendMode}
+        * @private
+        * @since 1.1.0
+        */
+        private _switchBlendMode(gl, blendMode);
     }
 }
 /**
@@ -9266,12 +9299,14 @@ declare module Kiwi.Shaders {
         /**
         * Provides a reference to a ShaderPair. If the requested ShaderPair exists as a property on the _shaderPairs object it will be returned if already loaded,
         * otherwise it will be loaded, then returned.
+        *
         * If the request is not on the list, the Kiwi.Shaders object will  be checked for a property name that matches shaderID and a new ShaderPair
         * will be instantiated, loaded, and set for use.
         
-        * @method init
+        * @method requestShader
         * @param {WebGLRenderingContext} gl
         * @param {String} shaderID
+        * @param {boolean} use
         * @return {Kiwi.Shaders.ShaderPair} a ShaderPair instance - null on fail
         * @public
         */
@@ -9838,6 +9873,14 @@ declare module Kiwi.Renderers {
         */
         public shaderPair: Shaders.ShaderPair;
         /**
+        * This renderer's blend mode data.
+        * @property blendMode
+        * @type Kiwi.Renderers.GLBlendMode
+        * @public
+        * @since 1.1.0
+        */
+        public blendMode: GLBlendMode;
+        /**
         * Returns whether this is a batch renderer.
         * @property texture2DVert
         * @type Array
@@ -9881,6 +9924,14 @@ declare module Kiwi.Renderers {
         * @public
         */
         public shaderPair: Shaders.TextureAtlasShader;
+        /**
+        * The reference to the shaderPair.
+        * @property _shaderPairName
+        * @type String
+        * @private
+        * @since 1.1.0
+        */
+        private _shaderPairName;
         /**
         * The maximum number of items that can be rendered by the renderer (not enforced)
         * @property _maxItems
@@ -9954,6 +10005,14 @@ declare module Kiwi.Renderers {
         * @public
         */
         public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array): void;
+        /**
+        * Sets shader pair by name
+        * @method setShaderPair
+        * @param shaderPair {String}
+        * @public
+        * @since 1.1.0
+        */
+        public setShaderPair: (shaderPair: string) => void;
         /**
         * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
         * @method _collateVertexAttributeArrays
@@ -12284,7 +12343,7 @@ declare module Kiwi.Input {
         /**
         * The developer defined maximum number of touch events.
         * By default this is set to 10 but this can be set to be lower.
-        * @property _maxTouchEvents
+        * @property _maxPointers
         * @type number
         * @default 10
         * @private
@@ -12298,6 +12357,7 @@ declare module Kiwi.Input {
         /**
         * Sets the maximum number of point of contact that are allowed on the game stage at one point.
         * The maximum number of points that are allowed is 10, and the minimum is 0.
+        * @property maximumPointers
         * @type number
         * @public
         */
@@ -14539,12 +14599,13 @@ declare module Kiwi.Geom {
         public copyFrom(source: Rectangle): Rectangle;
         /**
         * Copies all the rectangle data from this Rectangle object into the destination Rectangle object.
+        * Creates a new rectangle if one was not passed.
         * @method copyTo
         * @param target {Rectangle} The destination rectangle object to copy in to
         * @return {Rectangle} The destination rectangle object
         * @public
         **/
-        public copyTo(target: Rectangle): Rectangle;
+        public copyTo(target?: Rectangle): Rectangle;
         /**
         * Determines whether the object specified in the toCompare parameter is equal to this Rectangle object. This method compares the x, y, width, and height properties of an object against the same properties of this Rectangle object.
         * @method equals
@@ -20267,4 +20328,144 @@ declare module Kiwi {
     }
     var Plugins: {};
     var extend: Function;
+}
+/**
+*
+* @module Kiwi
+* @submodule Renderers
+* @namespace Kiwi.Renderers
+*
+*/
+declare module Kiwi.Renderers {
+    /**
+    * The Blend Mode object for recording and applying GL blend functions on a renderer.
+    * @class GLBlendMode
+    * @constructor
+    * @namespace Kiwi.Renderers
+    * @param gl {WebGLRenderingContext}
+    * @param params {Object}
+    * @return {Kiwi.Renderers.GLBlendMode}
+    * @ since 1.1.0
+    */
+    class GLBlendMode {
+        constructor(gl: WebGLRenderingContext, params: any);
+        /**
+        * Target WebGL rendering context.
+        * @property gl
+        * @type WebGLRenderingContext
+        * @public
+        */
+        public gl: WebGLRenderingContext;
+        /**
+        * Dirty flag indicates whether this object has been altered and needs to be processed.
+        * @property dirty
+        * @type boolean
+        * @public
+        */
+        public dirty: boolean;
+        /**
+        * Source RGB factor used in WebGL blendfunc.
+        * @property _srcRGB
+        * @type number
+        * @private
+        */
+        private _srcRGB;
+        /**
+        * Destination RGB factor used in WebGL blendfunc.
+        * @property _dstRGB
+        * @type number
+        * @private
+        */
+        private _dstRGB;
+        /**
+        * Source alpha factor used in WebGL blendfunc.
+        * @property _srcAlpha
+        * @type number
+        * @private
+        */
+        private _srcAlpha;
+        /**
+        * Destination alpha factor used in WebGL blendfunc.
+        * @property _dstAlpha
+        * @type number
+        * @private
+        */
+        private _dstAlpha;
+        /**
+        * RGB mode used in WebGL blendfunc.
+        * @property _modeRGB
+        * @type number
+        * @private
+        */
+        private _modeRGB;
+        /**
+        * Alpha mode used in WebGL blendfunc.
+        * @property _modeAlpha
+        * @type number
+        * @private
+        */
+        private _modeAlpha;
+        /**
+        * Set a blend mode from a param object.
+        *
+        * This is the main method for configuring blend modes on a renderer. It resolves to a pair of calls to blendEquationSeparate and blendFuncSeparate. The params object should specify compatible terms, namely { srcRGB: a, dstRGB: b, srcAlpha: c, dstAlpha: d, modeRGB: e, modeAlpha: f }. You should set abcdef using either direct calls to a gl context (ie. gl.SRC_ALPHA) or by using predefined strings.
+        *
+        * The predefined string parameters for blendEquationSeparate are:
+        *
+        * FUNC_ADD, FUNC_SUBTRACT, and FUNC_REVERSE_SUBTRACT.
+        *
+        * The predefined string parameters for blendFuncSeparate are:
+        *
+        * ZERO, ONE, SRC_COLOR, ONE_MINUS_SRC_COLOR, DST_COLOR, ONE_MINUS_DST_COLOR, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, DST_ALPHA, ONE_MINUS_DST_ALPHA, SRC_ALPHA_SATURATE, CONSTANT_COLOR, ONE_MINUS_CONSTANT_COLOR, CONSTANT_ALPHA, and ONE_MINUS_CONSTANT_ALPHA.
+        *
+        * @method readConfig
+        * @param params {Object}
+        * @public
+        */
+        public readConfig(params: any): void;
+        /**
+        * Formats a parameter into a GL context-compatible number. This recognises valid constant names, such as "SRC_ALPHA" or "REVERSE_AND_SUBTRACT", with some tolerance for case. It does not check for valid numeric codes.
+        * @method makeConstant
+        * @param code {String}
+        * @return {number}
+        * @private
+        */
+        private makeConstant(code);
+        /**
+        * Sets a blend mode by name. Name is case-tolerant.
+        *
+        * These are shortcuts to setting the blend function parameters manually. A listing of valid modes follows. Each is listed with the parameters modeRGB, modeAlpha, srcRGB, dstRGB, srcAlpha, and dstAlpha, constants used in the gl calls "blendEquationSeparate(modeRGB, modeAlpha)" and "blendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha". This is very technical, and will probably only be useful if you are developing your own shaders for Kiwi.js.
+        *
+        * "NORMAL" or any non-recognised string will draw as normal, blending colour via alpha. FUNC_ADD, FUNC_ADD, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE.
+        *
+        * "ADD" or "ADDITIVE" will add pixels to the background, creating a lightening effect. FUNC_ADD, FUNC_ADD, SRC_ALPHA, ONE, ONE, ONE.
+        *
+        * "SUBTRACT" or "SUBTRACTIVE" will subtract pixels from the background, creating an eerie dark effect. FUNC_REVERSE_SUBTRACT, FUNC_ADD, SRC_ALPHA, ONE, ONE, ONE.
+        *
+        * "ERASE" or "ERASER" will erase the game canvas itself, allowing the page background to show through. You can later draw over this erased region. FUNC_REVERSE_SUBTRACT, FUNC_REVERSE_SUBTRACT, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE.
+        *
+        * "BLACK" or "BLACKEN" will turn all colour black, but preserve alpha. FUNC_ADD, FUNC_ADD, ZERO, ONE_MINUS_SRC_ALPHA, ONE, ONE.
+        *
+        * Blend modes as seen in Adobe Photoshop are not reliably available via WebGL blend modes. Such blend modes require shaders to create.
+        * @method setMode
+        * @param mode {String}
+        * @public
+        */
+        public setMode(mode: string): void;
+        /**
+        * Compares against another GLBlendMode
+        * @method isIdentical
+        * @return {Boolean} Is this GLBlendMode identical to the passed GLBlendMode?
+        * @param blendMode {Kiwi.Renderers.GLBlendMode}
+        * @public
+        */
+        public isIdentical(blendMode: GLBlendMode): boolean;
+        /**
+        * Sets the blend mode on the video card
+        * @method apply
+        * @param gl {WebGLRenderingContext}
+        * @public
+        */
+        public apply(gl: WebGLRenderingContext): void;
+    }
 }

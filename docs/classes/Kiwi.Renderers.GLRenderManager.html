@@ -195,6 +195,8 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLBlendMode.html">Kiwi.Renderers.GLBlendMode</a></li>
+            
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
                 <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
@@ -522,6 +524,13 @@ Runs the recursive scene graph rendering sequence every frame.</p>
                             </li>
                         
                             <li class="index-item method private">
+                                <a href="#method__switchBlendMode">_switchBlendMode</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
                                 <a href="#method__switchRenderer">_switchRenderer</a>
 
                                 
@@ -543,7 +552,7 @@ Runs the recursive scene graph rendering sequence every frame.</p>
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_addSharedRenderer">addSharedRenderer</a>
+                                <a href="#method_addSharedRendererClone">addSharedRendererClone</a>
 
                                 
                                 
@@ -642,6 +651,13 @@ Runs the recursive scene graph rendering sequence every frame.</p>
                                 
                             </li>
                         
+                            <li class="index-item method public">
+                                <a href="#method_requestSharedRenderer">requestSharedRenderer</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public deprecated">
                                 <a href="#method_setupGLState">setupGLState</a>
 
@@ -660,6 +676,13 @@ Runs the recursive scene graph rendering sequence every frame.</p>
                     <h3>Properties</h3>
 
                     <ul class="index-list properties extends">
+                        
+                            <li class="index-item property private">
+                                <a href="#property__currentBlendMode">_currentBlendMode</a>
+
+                                
+                                
+                            </li>
                         
                             <li class="index-item property private">
                                 <a href="#property__currentRenderer">_currentRenderer</a>
@@ -779,7 +802,7 @@ Runs the recursive scene graph rendering sequence every frame.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l255"><code>src&#x2F;render&#x2F;GLRenderManager.ts:255</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l294"><code>src&#x2F;render&#x2F;GLRenderManager.ts:294</code></a>
         
         </p>
 
@@ -797,6 +820,119 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__switchBlendMode" class="method item private">
+    <h3 class="name"><code>_switchBlendMode</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>blendMode</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l584"><code>src&#x2F;render&#x2F;GLRenderManager.ts:584</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Switch blend mode to a new set of constants</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">blendMode</code>
+                        <span class="type"><a href="../classes/Kiwi.Renderers.GLBlendMode.html" class="crosslink">Kiwi.Renderers.GLBlendMode</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -855,7 +991,7 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l507"><code>src&#x2F;render&#x2F;GLRenderManager.ts:507</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l557"><code>src&#x2F;render&#x2F;GLRenderManager.ts:557</code></a>
         
         </p>
 
@@ -966,7 +1102,7 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l520"><code>src&#x2F;render&#x2F;GLRenderManager.ts:520</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l570"><code>src&#x2F;render&#x2F;GLRenderManager.ts:570</code></a>
         
         </p>
 
@@ -1081,7 +1217,7 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l172"><code>src&#x2F;render&#x2F;GLRenderManager.ts:172</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l182"><code>src&#x2F;render&#x2F;GLRenderManager.ts:182</code></a>
         
         </p>
 
@@ -1157,8 +1293,8 @@ If a match is found and an instance does not already exist, then a renderer is i
 </div>
 
                 
-                    <div id="method_addSharedRenderer" class="method item public">
-    <h3 class="name"><code>addSharedRenderer</code></h3>
+                    <div id="method_addSharedRendererClone" class="method item public">
+    <h3 class="name"><code>addSharedRendererClone</code></h3>
 
     
         <div class="args">
@@ -1167,6 +1303,12 @@ If a match is found and an instance does not already exist, then a renderer is i
                 <li class="arg">
                     
                         <code>rendererID</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>cloneID</code>
                     
                 </li>
             
@@ -1182,7 +1324,7 @@ If a match is found and an instance does not already exist, then a renderer is i
 
     
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>
+            <span class="type">Boolean</span>
         </span>
     
 
@@ -1211,7 +1353,7 @@ If a match is found and an instance does not already exist, then a renderer is i
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l196"><code>src&#x2F;render&#x2F;GLRenderManager.ts:196</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l206"><code>src&#x2F;render&#x2F;GLRenderManager.ts:206</code></a>
         
         </p>
 
@@ -1219,10 +1361,14 @@ If a match is found and an instance does not already exist, then a renderer is i
         
 
         
+            <p>Available since 1.1.0</p>
+        
     </div>
 
     <div class="description">
-        <p>Requests a shared renderer. A game object that wants to use a shared renderer uses this method to obtain a reference to the shared renderer instance.</p>
+        <p>Adds a cloned renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. The cloneID is the name for the cloned renderer.</p>
+<p>If a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.</p>
+<p>Cloned shared renderers are useful if some items in your scene will use a special shader or blend mode, but others will not. You can subsequently access the clones with a normal requestSharedRenderer() call. You should use this instead of requestRendererInstance() whenever possible, because shared renderers are more efficient than instances.</p>
 
     </div>
 
@@ -1235,6 +1381,21 @@ If a match is found and an instance does not already exist, then a renderer is i
                 <li class="param">
                     
                         <code class="param-name">rendererID</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">cloneID</code>
                         <span class="type">String</span>
                     
 
@@ -1273,9 +1434,9 @@ If a match is found and an instance does not already exist, then a renderer is i
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="../classes/Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>:
+                        <span class="type">Boolean</span>:
                     
-                    <p>A shared renderer or null if none found.</p>
+                    <p>success</p>
 
                 
             </div>
@@ -1336,7 +1497,7 @@ If a match is found and an instance does not already exist, then a renderer is i
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l146"><code>src&#x2F;render&#x2F;GLRenderManager.ts:146</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l156"><code>src&#x2F;render&#x2F;GLRenderManager.ts:156</code></a>
         
         </p>
 
@@ -1431,7 +1592,7 @@ If a match is found and an instance does not already exist, then a renderer is i
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l40"><code>src&#x2F;render&#x2F;GLRenderManager.ts:40</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l41"><code>src&#x2F;render&#x2F;GLRenderManager.ts:41</code></a>
         
         </p>
 
@@ -1488,7 +1649,7 @@ If a match is found and an instance does not already exist, then a renderer is i
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l417"><code>src&#x2F;render&#x2F;GLRenderManager.ts:417</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l456"><code>src&#x2F;render&#x2F;GLRenderManager.ts:456</code></a>
         
         </p>
 
@@ -1545,7 +1706,7 @@ If a match is found and an instance does not already exist, then a renderer is i
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l392"><code>src&#x2F;render&#x2F;GLRenderManager.ts:392</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l431"><code>src&#x2F;render&#x2F;GLRenderManager.ts:431</code></a>
         
         </p>
 
@@ -1602,7 +1763,7 @@ If a match is found and an instance does not already exist, then a renderer is i
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l381"><code>src&#x2F;render&#x2F;GLRenderManager.ts:381</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l420"><code>src&#x2F;render&#x2F;GLRenderManager.ts:420</code></a>
         
         </p>
 
@@ -1659,7 +1820,7 @@ If a match is found and an instance does not already exist, then a renderer is i
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l296"><code>src&#x2F;render&#x2F;GLRenderManager.ts:296</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l335"><code>src&#x2F;render&#x2F;GLRenderManager.ts:335</code></a>
         
         </p>
 
@@ -1727,7 +1888,7 @@ The textureManager is told to clear its contents from video memory, then rebuild
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l308"><code>src&#x2F;render&#x2F;GLRenderManager.ts:308</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l347"><code>src&#x2F;render&#x2F;GLRenderManager.ts:347</code></a>
         
         </p>
 
@@ -1811,7 +1972,7 @@ The textureManager is told to clear its contents from video memory, then rebuild
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l53"><code>src&#x2F;render&#x2F;GLRenderManager.ts:53</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l54"><code>src&#x2F;render&#x2F;GLRenderManager.ts:54</code></a>
         
         </p>
 
@@ -1890,7 +2051,7 @@ The textureManager is told to clear its contents from video memory, then rebuild
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l320"><code>src&#x2F;render&#x2F;GLRenderManager.ts:320</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l359"><code>src&#x2F;render&#x2F;GLRenderManager.ts:359</code></a>
         
         </p>
 
@@ -1995,7 +2156,7 @@ Initiates recursive render of scene graph starting at the root.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l458"><code>src&#x2F;render&#x2F;GLRenderManager.ts:458</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l497"><code>src&#x2F;render&#x2F;GLRenderManager.ts:497</code></a>
         
         </p>
 
@@ -2121,7 +2282,7 @@ Initiates recursive render of scene graph starting at the root.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l446"><code>src&#x2F;render&#x2F;GLRenderManager.ts:446</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l485"><code>src&#x2F;render&#x2F;GLRenderManager.ts:485</code></a>
         
         </p>
 
@@ -2240,7 +2401,7 @@ Initiates recursive render of scene graph starting at the root.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l482"><code>src&#x2F;render&#x2F;GLRenderManager.ts:482</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l532"><code>src&#x2F;render&#x2F;GLRenderManager.ts:532</code></a>
         
         </p>
 
@@ -2372,7 +2533,7 @@ Initiates recursive render of scene graph starting at the root.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l222"><code>src&#x2F;render&#x2F;GLRenderManager.ts:222</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l261"><code>src&#x2F;render&#x2F;GLRenderManager.ts:261</code></a>
         
         </p>
 
@@ -2451,6 +2612,135 @@ batch rendering use this technique.</p>
 </div>
 
                 
+                    <div id="method_requestSharedRenderer" class="method item public">
+    <h3 class="name"><code>requestSharedRenderer</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>rendererID</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l235"><code>src&#x2F;render&#x2F;GLRenderManager.ts:235</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Requests a shared renderer. A game object that wants to use a shared renderer uses this method to obtain a reference to the shared renderer instance.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">rendererID</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>:
+                    
+                    <p>A shared renderer or null if none found.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_setupGLState" class="method item public deprecated">
     <h3 class="name"><code>setupGLState</code></h3>
 
@@ -2497,7 +2787,7 @@ batch rendering use this technique.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l495"><code>src&#x2F;render&#x2F;GLRenderManager.ts:495</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l545"><code>src&#x2F;render&#x2F;GLRenderManager.ts:545</code></a>
         
         </p>
 
@@ -2553,6 +2843,55 @@ batch rendering use this technique.</p>
                 <h2 class="off-left">Properties</h2>
 
                 
+                    <div id="property__currentBlendMode" class="property item private">
+    <h3 class="name"><code>_currentBlendMode</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Renderers.GLBlendMode.html" class="crosslink">Kiwi.Renderers.GLBlendMode</a></span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l107"><code>src&#x2F;render&#x2F;GLRenderManager.ts:107</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>The current blend mode.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property__currentRenderer" class="property item private">
     <h3 class="name"><code>_currentRenderer</code></h3>
     <span class="type"><a href="../classes/Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>
@@ -2578,7 +2917,7 @@ batch rendering use this technique.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l98"><code>src&#x2F;render&#x2F;GLRenderManager.ts:98</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l99"><code>src&#x2F;render&#x2F;GLRenderManager.ts:99</code></a>
         
         </p>
 
@@ -2625,7 +2964,7 @@ batch rendering use this technique.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l138"><code>src&#x2F;render&#x2F;GLRenderManager.ts:138</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l148"><code>src&#x2F;render&#x2F;GLRenderManager.ts:148</code></a>
         
         </p>
 
@@ -2672,7 +3011,7 @@ batch rendering use this technique.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l106"><code>src&#x2F;render&#x2F;GLRenderManager.ts:106</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l116"><code>src&#x2F;render&#x2F;GLRenderManager.ts:116</code></a>
         
         </p>
 
@@ -2721,7 +3060,7 @@ batch rendering use this technique.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l63"><code>src&#x2F;render&#x2F;GLRenderManager.ts:63</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l64"><code>src&#x2F;render&#x2F;GLRenderManager.ts:64</code></a>
         
         </p>
 
@@ -2768,7 +3107,7 @@ batch rendering use this technique.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l124"><code>src&#x2F;render&#x2F;GLRenderManager.ts:124</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l134"><code>src&#x2F;render&#x2F;GLRenderManager.ts:134</code></a>
         
         </p>
 
@@ -2818,7 +3157,7 @@ Note:Not currently used  - candidate for deletion</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l79"><code>src&#x2F;render&#x2F;GLRenderManager.ts:79</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l80"><code>src&#x2F;render&#x2F;GLRenderManager.ts:80</code></a>
         
         </p>
 
@@ -2865,7 +3204,7 @@ Note:Not currently used  - candidate for deletion</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l157"><code>src&#x2F;render&#x2F;GLRenderManager.ts:157</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l167"><code>src&#x2F;render&#x2F;GLRenderManager.ts:167</code></a>
         
         </p>
 
@@ -2918,7 +3257,7 @@ capabilities.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l90"><code>src&#x2F;render&#x2F;GLRenderManager.ts:90</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l91"><code>src&#x2F;render&#x2F;GLRenderManager.ts:91</code></a>
         
         </p>
 
@@ -2965,7 +3304,7 @@ capabilities.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l71"><code>src&#x2F;render&#x2F;GLRenderManager.ts:71</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l72"><code>src&#x2F;render&#x2F;GLRenderManager.ts:72</code></a>
         
         </p>
 
@@ -3012,7 +3351,7 @@ capabilities.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l115"><code>src&#x2F;render&#x2F;GLRenderManager.ts:115</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l125"><code>src&#x2F;render&#x2F;GLRenderManager.ts:125</code></a>
         
         </p>
 

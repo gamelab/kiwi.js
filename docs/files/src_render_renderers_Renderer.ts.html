@@ -195,6 +195,8 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLBlendMode.html">Kiwi.Renderers.GLBlendMode</a></li>
+            
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
                 <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
@@ -375,6 +377,7 @@ module Kiwi.Renderers {
             this.shaderManager = shaderManager;
             this._isBatchRenderer = isBatchRenderer;
             this.loaded = true;
+            this.blendMode = new Kiwi.Renderers.GLBlendMode(gl, {mode:&quot;NORMAL&quot;} );
         }
 
         /**
@@ -479,6 +482,16 @@ module Kiwi.Renderers {
         * @public
         */
         public shaderPair: Kiwi.Shaders.ShaderPair;
+
+
+        /**
+        * This renderer&#x27;s blend mode data.
+        * @property blendMode
+        * @type Kiwi.Renderers.GLBlendMode
+        * @public
+        * @since 1.1.0
+        */
+        public blendMode: Kiwi.Renderers.GLBlendMode;
 
 
         /**

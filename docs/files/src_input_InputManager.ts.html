@@ -195,6 +195,8 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLBlendMode.html">Kiwi.Renderers.GLBlendMode</a></li>
+            
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
                 <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
@@ -477,7 +479,7 @@ module Kiwi.Input {
             /*
             * Add the fingers/cursors to the list of &#x27;pointers&#x27;
             */
-            this._pointers = this.touch.fingers;
+            this._pointers = this.touch.fingers.slice();
             this._pointers.push(this.mouse.cursor);
 
 
