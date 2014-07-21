@@ -461,7 +461,7 @@ module Kiwi {
         * @private
         * @since 1.1.0
         */
-        private _frame: number;
+        private _frame: number = 0;
 
         /**
         * The number of frames since the game was launched.
@@ -559,7 +559,8 @@ module Kiwi {
                 this.cameras.update();
                 if (this._deviceTargetOption !== Kiwi.TARGET_COCOON) this.huds.update();
                 this.states.update();
-                this.pluginManager.update();    
+                this.pluginManager.update();
+                this._frame++;
 
                 if (this.states.current !== null) {
                     this.cameras.render();

@@ -139,6 +139,14 @@ var Kiwi;
             * @private
             */
             this._delta = 0;
+            /**
+            * The number of frames since the game was launched.
+            * @property _frame
+            * @type number
+            * @private
+            * @since 1.1.0
+            */
+            this._frame = 0;
             console.log('Kiwi.Game: ' + name + ' is booting, using Kiwi.js version ' + Kiwi.VERSION);
 
             if (Kiwi.DEVICE === null) {
@@ -495,6 +503,7 @@ var Kiwi;
                     this.huds.update();
                 this.states.update();
                 this.pluginManager.update();
+                this._frame++;
 
                 if (this.states.current !== null) {
                     this.cameras.render();
