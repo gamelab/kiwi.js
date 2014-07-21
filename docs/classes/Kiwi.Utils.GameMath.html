@@ -682,7 +682,7 @@ Includes some methods written by Dylan Engelman.</p>
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_linear">linear</a>
+                                <a href="#method_linearInterpolation">linearInterpolation</a>
 
                                 
                                     <span class="flag static">static</span>
@@ -1320,7 +1320,7 @@ Includes some methods written by Dylan Engelman.</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l833"><code>src&#x2F;utils&#x2F;GameMath.ts:833</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l837"><code>src&#x2F;utils&#x2F;GameMath.ts:837</code></a>
         
         </p>
 
@@ -1485,7 +1485,7 @@ Includes some methods written by Dylan Engelman.</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1319"><code>src&#x2F;utils&#x2F;GameMath.ts:1319</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1323"><code>src&#x2F;utils&#x2F;GameMath.ts:1323</code></a>
         
         </p>
 
@@ -1640,7 +1640,7 @@ Includes some methods written by Dylan Engelman.</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l602"><code>src&#x2F;utils&#x2F;GameMath.ts:602</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l604"><code>src&#x2F;utils&#x2F;GameMath.ts:604</code></a>
         
         </p>
 
@@ -1790,7 +1790,7 @@ Includes some methods written by Dylan Engelman.</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Computes the mean of any number of parameters. For example, average(1,2,3) returns 2.</p>
 
     </div>
 
@@ -1896,7 +1896,7 @@ Includes some methods written by Dylan Engelman.</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1439"><code>src&#x2F;utils&#x2F;GameMath.ts:1439</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1443"><code>src&#x2F;utils&#x2F;GameMath.ts:1443</code></a>
         
         </p>
 
@@ -1907,7 +1907,7 @@ Includes some methods written by Dylan Engelman.</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Bernstein polynomial for constructing Bezier curves. Returns n! / i! / (n-i)!</p>
 
     </div>
 
@@ -2025,7 +2025,7 @@ Includes some methods written by Dylan Engelman.</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1367"><code>src&#x2F;utils&#x2F;GameMath.ts:1367</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1371"><code>src&#x2F;utils&#x2F;GameMath.ts:1371</code></a>
         
         </p>
 
@@ -2036,7 +2036,7 @@ Includes some methods written by Dylan Engelman.</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Interpolates between values in an array using Bezier curves. This treats the values in the array as control points on a spline. Unlike Catmull-Rom splines, the value is not guaranteed to intersect precisely with these points.</p>
 
     </div>
 
@@ -2049,7 +2049,7 @@ Includes some methods written by Dylan Engelman.</p>
                 <li class="param">
                     
                         <code class="param-name">v</code>
-                        <span class="type">Any</span>
+                        <span class="type">Array</span>
                     
 
                     
@@ -2064,7 +2064,7 @@ Includes some methods written by Dylan Engelman.</p>
                 <li class="param">
                     
                         <code class="param-name">k</code>
-                        <span class="type">Any</span>
+                        <span class="type">Number</span>
                     
 
                     
@@ -2154,7 +2154,7 @@ Includes some methods written by Dylan Engelman.</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1093"><code>src&#x2F;utils&#x2F;GameMath.ts:1093</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1097"><code>src&#x2F;utils&#x2F;GameMath.ts:1097</code></a>
         
         </p>
 
@@ -2283,7 +2283,7 @@ Includes some methods written by Dylan Engelman.</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1390"><code>src&#x2F;utils&#x2F;GameMath.ts:1390</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1394"><code>src&#x2F;utils&#x2F;GameMath.ts:1394</code></a>
         
         </p>
 
@@ -2294,7 +2294,7 @@ Includes some methods written by Dylan Engelman.</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Interpolates between values in an array using Catmull-Rom splines. This treats the values in the array as control points on a spline. Unlike Bezier curves, the value will intersect with every point in the array.</p>
 
     </div>
 
@@ -2430,7 +2430,7 @@ Includes some methods written by Dylan Engelman.</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1454"><code>src&#x2F;utils&#x2F;GameMath.ts:1454</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1458"><code>src&#x2F;utils&#x2F;GameMath.ts:1458</code></a>
         
         </p>
 
@@ -2441,7 +2441,7 @@ Includes some methods written by Dylan Engelman.</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Function used to construct a Catmull-Rom interpolation.</p>
 
     </div>
 
@@ -2610,7 +2610,7 @@ Includes some methods written by Dylan Engelman.</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l780"><code>src&#x2F;utils&#x2F;GameMath.ts:780</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l783"><code>src&#x2F;utils&#x2F;GameMath.ts:783</code></a>
         
         </p>
 
@@ -2621,7 +2621,8 @@ Includes some methods written by Dylan Engelman.</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Round down to some place comparative to a &#39;base&#39;, default is 10 for decimal place.
+&#39;place&#39; is represented by the power applied to &#39;base&#39; to get that place</p>
 
     </div>
 
@@ -2750,7 +2751,7 @@ Includes some methods written by Dylan Engelman.</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1127"><code>src&#x2F;utils&#x2F;GameMath.ts:1127</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1131"><code>src&#x2F;utils&#x2F;GameMath.ts:1131</code></a>
         
         </p>
 
@@ -2876,7 +2877,7 @@ of getting a bonus, call chanceRoll(30) - true means the chance passed, false me
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l618"><code>src&#x2F;utils&#x2F;GameMath.ts:618</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l620"><code>src&#x2F;utils&#x2F;GameMath.ts:620</code></a>
         
         </p>
 
@@ -3017,7 +3018,7 @@ If max &lt; min, min is returned.</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Computes the maximum relative error for this machine.</p>
 
     </div>
 
@@ -3091,7 +3092,7 @@ If max &lt; min, min is returned.</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l821"><code>src&#x2F;utils&#x2F;GameMath.ts:821</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l825"><code>src&#x2F;utils&#x2F;GameMath.ts:825</code></a>
         
         </p>
 
@@ -3205,7 +3206,7 @@ If max &lt; min, min is returned.</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1473"><code>src&#x2F;utils&#x2F;GameMath.ts:1473</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1477"><code>src&#x2F;utils&#x2F;GameMath.ts:1477</code></a>
         
         </p>
 
@@ -3216,7 +3217,7 @@ If max &lt; min, min is returned.</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Returns the difference between a and b.</p>
 
     </div>
 
@@ -3328,7 +3329,7 @@ If max &lt; min, min is returned.</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1030"><code>src&#x2F;utils&#x2F;GameMath.ts:1030</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1034"><code>src&#x2F;utils&#x2F;GameMath.ts:1034</code></a>
         
         </p>
 
@@ -3443,7 +3444,7 @@ If max &lt; min, min is returned.</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1064"><code>src&#x2F;utils&#x2F;GameMath.ts:1064</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1068"><code>src&#x2F;utils&#x2F;GameMath.ts:1068</code></a>
         
         </p>
 
@@ -3579,7 +3580,7 @@ Written subscript: (N)x OR (base)exp</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l765"><code>src&#x2F;utils&#x2F;GameMath.ts:765</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l767"><code>src&#x2F;utils&#x2F;GameMath.ts:767</code></a>
         
         </p>
 
@@ -3590,7 +3591,8 @@ Written subscript: (N)x OR (base)exp</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Round down to some place comparative to a &#39;base&#39;, default is 10 for decimal place.
+&#39;place&#39; is represented by the power applied to &#39;base&#39; to get that place</p>
 
     </div>
 
@@ -3736,7 +3738,7 @@ Written subscript: (N)x OR (base)exp</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Computes the integer ceiling of the first parameter, minus a rounding margin defined by epsilon.</p>
 
     </div>
 
@@ -3872,7 +3874,7 @@ Written subscript: (N)x OR (base)exp</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Computes whether two numbers are identical to the limits of the computer&#39;s precision, as specified by the epsilon value.</p>
 
     </div>
 
@@ -4017,7 +4019,7 @@ Written subscript: (N)x OR (base)exp</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Computes the integer floor of the first parameter, plus a rounding margin defined by epsilon.</p>
 
     </div>
 
@@ -4153,7 +4155,7 @@ Written subscript: (N)x OR (base)exp</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Computes whether the first parameter is greater than the second parameter, to the limits of the computer&#39;s precision, as specified by the epsilon value.</p>
 
     </div>
 
@@ -4304,7 +4306,7 @@ Written subscript: (N)x OR (base)exp</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Computes whether the first parameter is less than the second parameter, to the limits of the computer&#39;s precision, as specified by the epsilon value.</p>
 
     </div>
 
@@ -4432,7 +4434,7 @@ Written subscript: (N)x OR (base)exp</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1052"><code>src&#x2F;utils&#x2F;GameMath.ts:1052</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1056"><code>src&#x2F;utils&#x2F;GameMath.ts:1056</code></a>
         
         </p>
 
@@ -4546,7 +4548,7 @@ Written subscript: (N)x OR (base)exp</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l981"><code>src&#x2F;utils&#x2F;GameMath.ts:981</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l985"><code>src&#x2F;utils&#x2F;GameMath.ts:985</code></a>
         
         </p>
 
@@ -4693,7 +4695,7 @@ Written subscript: (N)x OR (base)exp</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l936"><code>src&#x2F;utils&#x2F;GameMath.ts:936</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l940"><code>src&#x2F;utils&#x2F;GameMath.ts:940</code></a>
         
         </p>
 
@@ -4875,7 +4877,7 @@ Written subscript: (N)x OR (base)exp</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l795"><code>src&#x2F;utils&#x2F;GameMath.ts:795</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l799"><code>src&#x2F;utils&#x2F;GameMath.ts:799</code></a>
         
         </p>
 
@@ -5013,7 +5015,7 @@ Written subscript: (N)x OR (base)exp</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1267"><code>src&#x2F;utils&#x2F;GameMath.ts:1267</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1271"><code>src&#x2F;utils&#x2F;GameMath.ts:1271</code></a>
         
         </p>
 
@@ -5124,7 +5126,7 @@ Written subscript: (N)x OR (base)exp</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1246"><code>src&#x2F;utils&#x2F;GameMath.ts:1246</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1250"><code>src&#x2F;utils&#x2F;GameMath.ts:1250</code></a>
         
         </p>
 
@@ -5241,7 +5243,7 @@ Written subscript: (N)x OR (base)exp</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1017"><code>src&#x2F;utils&#x2F;GameMath.ts:1017</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1021"><code>src&#x2F;utils&#x2F;GameMath.ts:1021</code></a>
         
         </p>
 
@@ -5376,7 +5378,7 @@ Written subscript: (N)x OR (base)exp</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1423"><code>src&#x2F;utils&#x2F;GameMath.ts:1423</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1427"><code>src&#x2F;utils&#x2F;GameMath.ts:1427</code></a>
         
         </p>
 
@@ -5387,7 +5389,7 @@ Written subscript: (N)x OR (base)exp</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Simple linear interpolation, identical to interpolateFloat.</p>
 
     </div>
 
@@ -5464,8 +5466,8 @@ Written subscript: (N)x OR (base)exp</p>
 </div>
 
                 
-                    <div id="method_linear" class="method item public">
-    <h3 class="name"><code>linear</code></h3>
+                    <div id="method_linearInterpolation" class="method item public">
+    <h3 class="name"><code>linearInterpolation</code></h3>
 
     
         <div class="args">
@@ -5520,7 +5522,7 @@ Written subscript: (N)x OR (base)exp</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1345"><code>src&#x2F;utils&#x2F;GameMath.ts:1345</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1349"><code>src&#x2F;utils&#x2F;GameMath.ts:1349</code></a>
         
         </p>
 
@@ -5531,7 +5533,7 @@ Written subscript: (N)x OR (base)exp</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Interpolates between neighbouring values in an array using linear interpolation only. For example, linearInterpolation( [ 1,5,4 ], 0.5 ) = 5, and linearInterpolation( [ 1, 2 ], 0.3 ) = 1.3.</p>
 
     </div>
 
@@ -5544,7 +5546,7 @@ Written subscript: (N)x OR (base)exp</p>
                 <li class="param">
                     
                         <code class="param-name">v</code>
-                        <span class="type">Any</span>
+                        <span class="type">Array</span>
                     
 
                     
@@ -5559,7 +5561,7 @@ Written subscript: (N)x OR (base)exp</p>
                 <li class="param">
                     
                         <code class="param-name">k</code>
-                        <span class="type">Any</span>
+                        <span class="type">Number</span>
                     
 
                     
@@ -5649,7 +5651,7 @@ Written subscript: (N)x OR (base)exp</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l956"><code>src&#x2F;utils&#x2F;GameMath.ts:956</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l960"><code>src&#x2F;utils&#x2F;GameMath.ts:960</code></a>
         
         </p>
 
@@ -5786,7 +5788,7 @@ to be equal to value.</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1162"><code>src&#x2F;utils&#x2F;GameMath.ts:1162</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1166"><code>src&#x2F;utils&#x2F;GameMath.ts:1166</code></a>
         
         </p>
 
@@ -5939,7 +5941,7 @@ to be equal to value.</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1186"><code>src&#x2F;utils&#x2F;GameMath.ts:1186</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1190"><code>src&#x2F;utils&#x2F;GameMath.ts:1190</code></a>
         
         </p>
 
@@ -6092,7 +6094,7 @@ to be equal to value.</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l863"><code>src&#x2F;utils&#x2F;GameMath.ts:863</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l867"><code>src&#x2F;utils&#x2F;GameMath.ts:867</code></a>
         
         </p>
 
@@ -6238,7 +6240,7 @@ absolute value the return for exact angle.</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l849"><code>src&#x2F;utils&#x2F;GameMath.ts:849</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l853"><code>src&#x2F;utils&#x2F;GameMath.ts:853</code></a>
         
         </p>
 
@@ -6374,7 +6376,7 @@ absolute value the return for exact angle.</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l902"><code>src&#x2F;utils&#x2F;GameMath.ts:902</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l906"><code>src&#x2F;utils&#x2F;GameMath.ts:906</code></a>
         
         </p>
 
@@ -6526,7 +6528,7 @@ For instance dep=-170 and ind=170, then 190 will be reutrned as alternative to -
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l919"><code>src&#x2F;utils&#x2F;GameMath.ts:919</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l923"><code>src&#x2F;utils&#x2F;GameMath.ts:923</code></a>
         
         </p>
 
@@ -6678,7 +6680,7 @@ For instance dep = 190 and ind = 170, then -170 will be returned as an alternati
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l887"><code>src&#x2F;utils&#x2F;GameMath.ts:887</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l891"><code>src&#x2F;utils&#x2F;GameMath.ts:891</code></a>
         
         </p>
 
@@ -6903,7 +6905,7 @@ For instance if dep=-170 and ind=170 then 190 will be returned as an alternative
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l524"><code>src&#x2F;utils&#x2F;GameMath.ts:524</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l526"><code>src&#x2F;utils&#x2F;GameMath.ts:526</code></a>
         
         </p>
 
@@ -7042,7 +7044,7 @@ For instance if dep=-170 and ind=170 then 190 will be returned as an alternative
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l809"><code>src&#x2F;utils&#x2F;GameMath.ts:809</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l813"><code>src&#x2F;utils&#x2F;GameMath.ts:813</code></a>
         
         </p>
 
@@ -7140,7 +7142,7 @@ For instance if dep=-170 and ind=170 then 190 will be returned as an alternative
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1235"><code>src&#x2F;utils&#x2F;GameMath.ts:1235</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1239"><code>src&#x2F;utils&#x2F;GameMath.ts:1239</code></a>
         
         </p>
 
@@ -7233,7 +7235,7 @@ For instance if dep=-170 and ind=170 then 190 will be returned as an alternative
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1111"><code>src&#x2F;utils&#x2F;GameMath.ts:1111</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1115"><code>src&#x2F;utils&#x2F;GameMath.ts:1115</code></a>
         
         </p>
 
@@ -7365,7 +7367,7 @@ is merely N^(k) / k!</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1078"><code>src&#x2F;utils&#x2F;GameMath.ts:1078</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1082"><code>src&#x2F;utils&#x2F;GameMath.ts:1082</code></a>
         
         </p>
 
@@ -7501,7 +7503,7 @@ Written superscript N^(x) OR base^(exp)</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l719"><code>src&#x2F;utils&#x2F;GameMath.ts:719</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l721"><code>src&#x2F;utils&#x2F;GameMath.ts:721</code></a>
         
         </p>
 
@@ -7645,7 +7647,7 @@ Written superscript N^(x) OR base^(exp)</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l568"><code>src&#x2F;utils&#x2F;GameMath.ts:568</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l570"><code>src&#x2F;utils&#x2F;GameMath.ts:570</code></a>
         
         </p>
 
@@ -7656,7 +7658,7 @@ Written superscript N^(x) OR base^(exp)</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Removes all non-decimal data from the value.</p>
 
     </div>
 
@@ -7753,7 +7755,7 @@ Written superscript N^(x) OR base^(exp)</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l542"><code>src&#x2F;utils&#x2F;GameMath.ts:542</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l544"><code>src&#x2F;utils&#x2F;GameMath.ts:544</code></a>
         
         </p>
 
@@ -7885,7 +7887,8 @@ Written superscript N^(x) OR base^(exp)</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Computes whether value and target are sufficiently close as to be within the computer&#39;s margin of error, as defined by epsilon. Returns the target if they are sufficiently close; returns the value if they are not.</p>
+<p>In other words, slam prevents the target from exceeding epsilon.</p>
 
     </div>
 
@@ -8025,7 +8028,7 @@ Written superscript N^(x) OR base^(exp)</p>
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l633"><code>src&#x2F;utils&#x2F;GameMath.ts:633</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l635"><code>src&#x2F;utils&#x2F;GameMath.ts:635</code></a>
         
         </p>
 
@@ -8180,7 +8183,7 @@ Example if you have an interval gap of 5 and a position of 12... you will snap t
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l673"><code>src&#x2F;utils&#x2F;GameMath.ts:673</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l675"><code>src&#x2F;utils&#x2F;GameMath.ts:675</code></a>
         
         </p>
 
@@ -8335,7 +8338,7 @@ Example if you have an interval gap of 5 and a position of 12... you will snap t
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l653"><code>src&#x2F;utils&#x2F;GameMath.ts:653</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l655"><code>src&#x2F;utils&#x2F;GameMath.ts:655</code></a>
         
         </p>
 
@@ -8490,7 +8493,7 @@ Example if you have an interval gap of 5 and a position of 12... you will snap t
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l693"><code>src&#x2F;utils&#x2F;GameMath.ts:693</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l695"><code>src&#x2F;utils&#x2F;GameMath.ts:695</code></a>
         
         </p>
 
@@ -8629,7 +8632,7 @@ Example if you have an interval gap of 5 and a position of 12... you will snap t
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l556"><code>src&#x2F;utils&#x2F;GameMath.ts:556</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l558"><code>src&#x2F;utils&#x2F;GameMath.ts:558</code></a>
         
         </p>
 
@@ -8640,7 +8643,7 @@ Example if you have an interval gap of 5 and a position of 12... you will snap t
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Truncates a value by removing all decimal data.</p>
 
     </div>
 
@@ -8749,7 +8752,7 @@ Example if you have an interval gap of 5 and a position of 12... you will snap t
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l580"><code>src&#x2F;utils&#x2F;GameMath.ts:580</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l582"><code>src&#x2F;utils&#x2F;GameMath.ts:582</code></a>
         
         </p>
 
@@ -8888,7 +8891,7 @@ Example if you have an interval gap of 5 and a position of 12... you will snap t
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1288"><code>src&#x2F;utils&#x2F;GameMath.ts:1288</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1292"><code>src&#x2F;utils&#x2F;GameMath.ts:1292</code></a>
         
         </p>
 
@@ -9012,7 +9015,7 @@ Should be called whenever the angle is updated on the Sprite to stop it from goi
             
         
         
-        <a href="../files/src_utils_GameMath.ts.html#l1209"><code>src&#x2F;utils&#x2F;GameMath.ts:1209</code></a>
+        <a href="../files/src_utils_GameMath.ts.html#l1213"><code>src&#x2F;utils&#x2F;GameMath.ts:1213</code></a>
         
         </p>
 
@@ -9153,7 +9156,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Holds the value for 2 to the power of 16 (2^16 = 65536). This is the number of values available in 2 bytes.</p>
 
     </div>
 
@@ -9206,7 +9209,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Holds the value for 2 to the power of 31 (2^31 = 2147483648). This is the number of values available to 31-bit memory addressing.</p>
 
     </div>
 
@@ -9259,7 +9262,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Holds the value for 2 to the power of 32 (2^32 = 4294967296). This is the number of values available in 4 bytes, such as certain forms of RGBA colour.</p>
 
     </div>
 
@@ -9312,7 +9315,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Holds the value for 2 to the power of 48 (2^48 = 281474976710656). 48-bit colour has 16 bits per channel.</p>
 
     </div>
 
@@ -9365,7 +9368,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Holds the value for 2 to the power of 53 (2^53 = 9007199254740992). This is the largest accurate double-precision floating point whole number.</p>
 
     </div>
 
@@ -9418,7 +9421,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Holds the value for 2 to the power of 64 (2^64 = 18446744073709551616). This number cannot be accurately represented as a double-precision floating point whole number as it is greater than Kiwi.Utils.GameMath.B_53. It is represented as 18446744073709552000 in memory.</p>
 
     </div>
 
@@ -9471,7 +9474,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Holds the value for 4 * (Math.sqrt(2) - 1) / 3.0. Whatever this means. (Can you help us improve our documentation?)</p>
 
     </div>
 
@@ -9524,7 +9527,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Holds the value of cos(pi / 3). This is the length of the shortest side of a triangle with angles in degrees 30, 60, and 90.</p>
 
     </div>
 
@@ -9630,7 +9633,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Holds the value for &quot;e&quot;: Euler&#39;s number or Napier&#39;s constant, to 15 significant figures. This is a mathematically useful number.</p>
 
     </div>
 
@@ -9683,7 +9686,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Average relative error for single float values.</p>
 
     </div>
 
@@ -9736,7 +9739,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Holds the value for the natural logarithm of 10: ln(10). Accurate to 16 significant figures.</p>
 
     </div>
 
@@ -9789,7 +9792,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Holds the value for the natural logarithm of 2: ln(10). Accurate to 16 significant figures.</p>
 
     </div>
 
@@ -9842,7 +9845,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Holds the value for the base 10 logarithm of e (Euler&#39;s number). Accurate to 16 significant figures.</p>
 
     </div>
 
@@ -9895,7 +9898,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Holds the value for the base 2 logarithm of e (Euler&#39;s number). Accurate to 19 significant figures.</p>
 
     </div>
 
@@ -9948,7 +9951,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Maximum relative error for 8-digit decimal values.</p>
 
     </div>
 
@@ -10213,7 +10216,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Maximum relative error for percentages (where 1% == 0.01).</p>
 
     </div>
 
@@ -10266,7 +10269,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>Holds the value for PI. Only up to 15 decimal places.</p>
+        <p>Holds the value for PI. Only up to 16 significant figures.</p>
 
     </div>
 
@@ -10319,7 +10322,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>Holds the value for PI / 16 OR 11.25 degrees. Only up to 17 decimal places</p>
+        <p>Holds the value for PI / 16 OR 11.25 degrees. Only up to 17 significant figures.</p>
 
     </div>
 
@@ -10372,7 +10375,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>Holds the value for PI / 2 OR 90 degrees. Only up to 16 decimal places.</p>
+        <p>Holds the value for PI / 2 OR 90 degrees. Only up to 17 significant figures.</p>
 
     </div>
 
@@ -10425,7 +10428,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>Holds the value for PI / 4 OR 45 degrees. Only up to 16 decimal places.</p>
+        <p>Holds the value for PI / 4 OR 45 degrees. Only up to 16 significant figures.</p>
 
     </div>
 
@@ -10478,7 +10481,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>Holds the value for PI / 8 OR 22.5 degrees. Only up to 17 decimal places</p>
+        <p>Holds the value for PI / 8 OR 22.5 degrees. Only up to 17 significant figures.</p>
 
     </div>
 
@@ -10584,7 +10587,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Maximum relative error for integers.</p>
 
     </div>
 
@@ -10637,7 +10640,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Holds the value of sin(2 * pi / 3). This is the length of the second-shortest side of a triangle with andles in degrees 30, 60, and 90.</p>
 
     </div>
 
@@ -10690,7 +10693,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Holds the value for the square root of 0.5 (1/2). Accurate to 16 significant figures.</p>
 
     </div>
 
@@ -10743,7 +10746,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>[DESCRIPTION REQUIRED]</p>
+        <p>Holds the value for the square root of 2. Accurate to 17 significant figures. This is the diagonal distance across a square with side length of 1.</p>
 
     </div>
 
@@ -10796,7 +10799,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>Holds the value for 3 * PI_2 OR 270 degrees. Only up to 17 decimal places.</p>
+        <p>Holds the value for 3 * PI_2 OR 270 degrees. Only up to 17 significant figures.</p>
 
     </div>
 
@@ -10849,7 +10852,7 @@ Values must be positive integers, and are passed through Math.abs</p>
     </div>
 
     <div class="description">
-        <p>Holds the value for 2 * PI OR 180 degrees. Only up to 15 decimal places</p>
+        <p>Holds the value for 2 * PI OR 180 degrees. Only up to 15 significant figures.</p>
 
     </div>
 

@@ -19578,7 +19578,7 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    return Math.atan2(this.x2 - this.x1, this.y2 - this.y1);
+                    return Math.atan2(this.y2 - this.y1, this.x2 - this.x1);
                 },
                 enumerable: true,
                 configurable: true
@@ -20448,7 +20448,7 @@ var Kiwi;
                 * @return {Number}
                 */
                 get: function () {
-                    return Math.atan2(this.x2 - this.x1, this.y2 - this.y1);
+                    return Math.atan2(this.y2 - this.y1, this.x2 - this.x1);
                 },
                 enumerable: true,
                 configurable: true
@@ -28197,7 +28197,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Computes the maximum relative error for this machine.
             * @method computeMachineEpsilon
             * @return {Number}
             * @static
@@ -28212,7 +28212,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Computes whether two numbers are identical to the limits of the computer's precision, as specified by the epsilon value.
             * @method fuzzyEqual
             * @param a {number}
             * @param b {number}
@@ -28227,7 +28227,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Computes whether the first parameter is less than the second parameter, to the limits of the computer's precision, as specified by the epsilon value.
             * @method fuzzyLessThan
             * @param a {number}
             * @param b {number}
@@ -28242,7 +28242,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Computes whether the first parameter is greater than the second parameter, to the limits of the computer's precision, as specified by the epsilon value.
             * @method fuzzyGreaterThan
             * @param a {number}
             * @param b {number}
@@ -28257,7 +28257,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Computes the integer ceiling of the first parameter, minus a rounding margin defined by epsilon.
             * @method fuzzyCeil
             * @param val {number}
             * @param [epsilon=0.0001] {number}
@@ -28271,7 +28271,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Computes the integer floor of the first parameter, plus a rounding margin defined by epsilon.
             * @method fuzzyFloor
             * @param val {number}
             * @param [epsilion=0.0001] {number}
@@ -28285,7 +28285,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Computes the mean of any number of parameters. For example, average(1,2,3) returns 2.
             * @method average
             * @param [args]* {Any[]}
             * @return {Number}
@@ -28307,7 +28307,9 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Computes whether value and target are sufficiently close as to be within the computer's margin of error, as defined by epsilon. Returns the target if they are sufficiently close; returns the value if they are not.
+            *
+            * In other words, slam prevents the target from exceeding epsilon.
             * @method slam
             * @param value {number}
             * @param target {number}
@@ -28359,7 +28361,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Truncates a value by removing all decimal data.
             * @method truncate
             * @param n {number}
             * @return {number}
@@ -28371,7 +28373,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Removes all non-decimal data from the value.
             * @method shear
             * @param n {number}
             * @return {number}
@@ -28582,7 +28584,8 @@ var Kiwi;
             * because we are rounding 100011.1011011011011011 which rounds up.
             */
             /**
-            * [DESCRIPTION REQUIRED]
+            * Round down to some place comparative to a 'base', default is 10 for decimal place.
+            * 'place' is represented by the power applied to 'base' to get that place
             * @method floorTo
             * @param value {number}
             * @param [place=0] {number}
@@ -28599,7 +28602,8 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Round down to some place comparative to a 'base', default is 10 for decimal place.
+            * 'place' is represented by the power applied to 'base' to get that place
             * @method ceilTo
             * @param value {number}
             * @param [place=0] {number}
@@ -29134,10 +29138,10 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
-            * @method linear
-            * @param {Any} v
-            * @param {Any} k
+            * Interpolates between neighbouring values in an array using linear interpolation only. For example, linearInterpolation( [ 1,5,4 ], 0.5 ) = 5, and linearInterpolation( [ 1, 2 ], 0.3 ) = 1.3.
+            * @method linearInterpolation
+            * @param {Array} v
+            * @param {number} k
             * @return {number}
             * @static
             * @public
@@ -29156,10 +29160,10 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Interpolates between values in an array using Bezier curves. This treats the values in the array as control points on a spline. Unlike Catmull-Rom splines, the value is not guaranteed to intersect precisely with these points.
             * @method Bezier
-            * @param {Any} v
-            * @param {Any} k
+            * @param {Array} v
+            * @param {number} k
             * @return {number}
             * @static
             * @public
@@ -29176,7 +29180,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Interpolates between values in an array using Catmull-Rom splines. This treats the values in the array as control points on a spline. Unlike Bezier curves, the value will intersect with every point in the array.
             * @method CatmullRom
             * @param {Any} v
             * @param {Any} k
@@ -29206,7 +29210,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Simple linear interpolation, identical to interpolateFloat.
             * @method Linear
             * @param {Any} p0
             * @param {Any} p1
@@ -29220,7 +29224,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Bernstein polynomial for constructing Bezier curves. Returns n! / i! / (n-i)!
             * @method Bernstein
             * @param {Any} n
             * @param {Any} i
@@ -29233,7 +29237,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Function used to construct a Catmull-Rom interpolation.
             * @method CatmullRom
             * @param {Any} p0
             * @param {Any} p1
@@ -29250,7 +29254,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Returns the difference between a and b.
             * @method difference
             * @param a {number}
             * @param b {number}

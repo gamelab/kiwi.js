@@ -422,6 +422,24 @@ module Kiwi.Time {
         public delta: number = 0;
 
         /**
+        * The rate at which ideal frames are passing. Multiply per-frame iterations by this factor to create smooth movement. For example, if the ideal fps is 60, but you&#x27;re only getting 45, rate will equal 1.333.
+        * @property rate
+        * @type Number
+        * @public
+        * @since 1.1.0
+        */
+        public rate = 1;
+
+        /**
+        * The ideal frame delta in milliseconds. This is automatically adjusted when the game sets a new frameRate.
+        * @property idealDelta
+        * @type Number
+        * @public
+        * @since 1.1.0
+        */
+        public idealDelta = 1000/60.0;
+
+        /**
         * The time that has elapsed since the game started. In milliseconds.
         * @method elapsed
         * @return {Number}
@@ -459,11 +477,8 @@ module Kiwi.Time {
 
     	    this.time = this.now;
 
-            //  Lock the delta at 0.1 minimum to minimise fps tunneling
-    	    if (this.delta &gt; 0.1) //shouldn&#x27;t it be the opposite then?!
-    	    {
-    	        this.delta = 0.1;
-    	    }
+            this.rate = this.delta / this.idealDelta;
+
             //  Apply time scaling
 
         }

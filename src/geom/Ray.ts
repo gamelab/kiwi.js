@@ -137,7 +137,7 @@ module Kiwi.Geom {
         */
         public get angle(): number {
 
-            return Math.atan2(this.x2 - this.x1, this.y2 - this.y1);
+            return Math.atan2(this.y2 - this.y1, this.x2 - this.x1);
 
         }
 

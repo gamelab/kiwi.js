@@ -18839,7 +18839,7 @@ declare module Kiwi.Utils {
         */
         public objType(): string;
         /**
-        * Holds the value for PI. Only up to 15 decimal places.
+        * Holds the value for PI. Only up to 16 significant figures.
         * @property PI
         * @type number
         * @default 3.141592653589793
@@ -18849,7 +18849,7 @@ declare module Kiwi.Utils {
         */
         static PI: number;
         /**
-        * Holds the value for PI / 2 OR 90 degrees. Only up to 16 decimal places.
+        * Holds the value for PI / 2 OR 90 degrees. Only up to 17 significant figures.
         * @property PI_2
         * @type number
         * @default 1.5707963267948965
@@ -18859,7 +18859,7 @@ declare module Kiwi.Utils {
         */
         static PI_2: number;
         /**
-        * Holds the value for PI / 4 OR 45 degrees. Only up to 16 decimal places.
+        * Holds the value for PI / 4 OR 45 degrees. Only up to 16 significant figures.
         * @property PI_4
         * @type number
         * @default 0.7853981633974483
@@ -18869,7 +18869,7 @@ declare module Kiwi.Utils {
         */
         static PI_4: number;
         /**
-        * Holds the value for PI / 8 OR 22.5 degrees. Only up to 17 decimal places
+        * Holds the value for PI / 8 OR 22.5 degrees. Only up to 17 significant figures.
         * @property PI_8
         * @type number
         * @default 0.39269908169872413
@@ -18879,7 +18879,7 @@ declare module Kiwi.Utils {
         */
         static PI_8: number;
         /**
-        * Holds the value for PI / 16 OR 11.25 degrees. Only up to 17 decimal places
+        * Holds the value for PI / 16 OR 11.25 degrees. Only up to 17 significant figures.
         * @property PI_16
         * @type number
         * @default 0.19634954084936206
@@ -18889,7 +18889,7 @@ declare module Kiwi.Utils {
         */
         static PI_16: number;
         /**
-        * Holds the value for 2 * PI OR 180 degrees. Only up to 15 decimal places
+        * Holds the value for 2 * PI OR 180 degrees. Only up to 15 significant figures.
         * @property TWO_PI
         * @type number
         * @default 6.283185307179586
@@ -18899,7 +18899,7 @@ declare module Kiwi.Utils {
         */
         static TWO_PI: number;
         /**
-        * Holds the value for 3 * PI_2 OR 270 degrees. Only up to 17 decimal places.
+        * Holds the value for 3 * PI_2 OR 270 degrees. Only up to 17 significant figures.
         * @property THREE_PI_2
         * @type number
         * @default 4.7123889803846895
@@ -18909,7 +18909,7 @@ declare module Kiwi.Utils {
         */
         static THREE_PI_2: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for "e": Euler's number or Napier's constant, to 15 significant figures. This is a mathematically useful number.
         * @property E
         * @type number
         * @default 2.71828182845905
@@ -18919,7 +18919,7 @@ declare module Kiwi.Utils {
         */
         static E: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for the natural logarithm of 10: ln(10). Accurate to 16 significant figures.
         * @property LN10
         * @type number
         * @default 2.302585092994046
@@ -18929,7 +18929,7 @@ declare module Kiwi.Utils {
         */
         static LN10: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for the natural logarithm of 2: ln(10). Accurate to 16 significant figures.
         * @property LN2
         * @type number
         * @default 0.6931471805599453
@@ -18939,7 +18939,7 @@ declare module Kiwi.Utils {
         */
         static LN2: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for the base 10 logarithm of e (Euler's number). Accurate to 16 significant figures.
         * @property LOG10E
         * @type number
         * @default 0.4342944819032518
@@ -18949,7 +18949,7 @@ declare module Kiwi.Utils {
         */
         static LOG10E: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for the base 2 logarithm of e (Euler's number). Accurate to 19 significant figures.
         * @property LOG2E
         * @type number
         * @default 1.442695040888963387
@@ -18959,7 +18959,7 @@ declare module Kiwi.Utils {
         */
         static LOG2E: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for the square root of 0.5 (1/2). Accurate to 16 significant figures.
         * @property SQRT1_2
         * @type number
         * @default 0.7071067811865476
@@ -18969,7 +18969,7 @@ declare module Kiwi.Utils {
         */
         static SQRT1_2: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for the square root of 2. Accurate to 17 significant figures. This is the diagonal distance across a square with side length of 1.
         * @property SQRT2
         * @type number
         * @default 1.4142135623730951
@@ -18999,7 +18999,7 @@ declare module Kiwi.Utils {
         */
         static RAD_TO_DEG: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for 2 to the power of 16 (2^16 = 65536). This is the number of values available in 2 bytes.
         * @property B_16
         * @type number
         * @default 65536
@@ -19009,7 +19009,7 @@ declare module Kiwi.Utils {
         */
         static B_16: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for 2 to the power of 31 (2^31 = 2147483648). This is the number of values available to 31-bit memory addressing.
         * @property B_31
         * @type number
         * @default 2147483648
@@ -19019,7 +19019,7 @@ declare module Kiwi.Utils {
         */
         static B_31: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for 2 to the power of 32 (2^32 = 4294967296). This is the number of values available in 4 bytes, such as certain forms of RGBA colour.
         * @property B_32
         * @type number
         * @default 4294967296
@@ -19029,7 +19029,7 @@ declare module Kiwi.Utils {
         */
         static B_32: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for 2 to the power of 48 (2^48 = 281474976710656). 48-bit colour has 16 bits per channel.
         * @property B_48
         * @type number
         * @default 281474976710656
@@ -19039,7 +19039,7 @@ declare module Kiwi.Utils {
         */
         static B_48: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for 2 to the power of 53 (2^53 = 9007199254740992). This is the largest accurate double-precision floating point whole number.
         * @property B_53
         * @type number
         * @default 9007199254740992
@@ -19049,7 +19049,7 @@ declare module Kiwi.Utils {
         */
         static B_53: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for 2 to the power of 64 (2^64 = 18446744073709551616). This number cannot be accurately represented as a double-precision floating point whole number as it is greater than Kiwi.Utils.GameMath.B_53. It is represented as 18446744073709552000 in memory.
         * @property B_64
         * @type number
         * @default 18446744073709551616
@@ -19089,7 +19089,7 @@ declare module Kiwi.Utils {
         */
         static ONE_SIXTH: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value of cos(pi / 3). This is the length of the shortest side of a triangle with angles in degrees 30, 60, and 90.
         * @property COS_PI_3
         * @type number
         * @default 0.86602540378443864676372317075294
@@ -19099,7 +19099,7 @@ declare module Kiwi.Utils {
         */
         static COS_PI_3: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value of sin(2 * pi / 3). This is the length of the second-shortest side of a triangle with andles in degrees 30, 60, and 90.
         * @property SIN_2PI_3
         * @type number
         * @default 0.03654595
@@ -19109,7 +19109,7 @@ declare module Kiwi.Utils {
         */
         static SIN_2PI_3: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for 4 * (Math.sqrt(2) - 1) / 3.0. Whatever this means. (Can you help us improve our documentation?)
         * @property CIRCLE_ALPHA
         * @type number
         * @default 0.5522847498307933984022516322796
@@ -19139,7 +19139,7 @@ declare module Kiwi.Utils {
         */
         static OFF: boolean;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Maximum relative error for integers.
         * @property SHORT_EPSILON
         * @type number
         * @default 0.1
@@ -19149,7 +19149,7 @@ declare module Kiwi.Utils {
         */
         static SHORT_EPSILON: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Maximum relative error for percentages (where 1% == 0.01).
         * @property PERC_EPSILON
         * @type number
         * @default 0.001
@@ -19159,7 +19159,7 @@ declare module Kiwi.Utils {
         */
         static PERC_EPSILON: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Average relative error for single float values.
         * @property EPSILON
         * @type number
         * @default 0.0001
@@ -19169,7 +19169,7 @@ declare module Kiwi.Utils {
         */
         static EPSILON: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Maximum relative error for 8-digit decimal values.
         * @property LONG_EPSILON
         * @type number
         * @default 0.00000001
@@ -19179,7 +19179,7 @@ declare module Kiwi.Utils {
         */
         static LONG_EPSILON: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Computes the maximum relative error for this machine.
         * @method computeMachineEpsilon
         * @return {Number}
         * @static
@@ -19187,7 +19187,7 @@ declare module Kiwi.Utils {
         */
         static computeMachineEpsilon(): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Computes whether two numbers are identical to the limits of the computer's precision, as specified by the epsilon value.
         * @method fuzzyEqual
         * @param a {number}
         * @param b {number}
@@ -19198,7 +19198,7 @@ declare module Kiwi.Utils {
         */
         static fuzzyEqual(a: number, b: number, epsilon?: number): boolean;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Computes whether the first parameter is less than the second parameter, to the limits of the computer's precision, as specified by the epsilon value.
         * @method fuzzyLessThan
         * @param a {number}
         * @param b {number}
@@ -19209,7 +19209,7 @@ declare module Kiwi.Utils {
         */
         static fuzzyLessThan(a: number, b: number, epsilon?: number): boolean;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Computes whether the first parameter is greater than the second parameter, to the limits of the computer's precision, as specified by the epsilon value.
         * @method fuzzyGreaterThan
         * @param a {number}
         * @param b {number}
@@ -19220,7 +19220,7 @@ declare module Kiwi.Utils {
         */
         static fuzzyGreaterThan(a: number, b: number, epsilon?: number): boolean;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Computes the integer ceiling of the first parameter, minus a rounding margin defined by epsilon.
         * @method fuzzyCeil
         * @param val {number}
         * @param [epsilon=0.0001] {number}
@@ -19230,7 +19230,7 @@ declare module Kiwi.Utils {
         */
         static fuzzyCeil(val: number, epsilon?: number): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Computes the integer floor of the first parameter, plus a rounding margin defined by epsilon.
         * @method fuzzyFloor
         * @param val {number}
         * @param [epsilion=0.0001] {number}
@@ -19240,7 +19240,7 @@ declare module Kiwi.Utils {
         */
         static fuzzyFloor(val: number, epsilon?: number): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Computes the mean of any number of parameters. For example, average(1,2,3) returns 2.
         * @method average
         * @param [args]* {Any[]}
         * @return {Number}
@@ -19249,7 +19249,9 @@ declare module Kiwi.Utils {
         */
         static average(...args: any[]): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Computes whether value and target are sufficiently close as to be within the computer's margin of error, as defined by epsilon. Returns the target if they are sufficiently close; returns the value if they are not.
+        *
+        * In other words, slam prevents the target from exceeding epsilon.
         * @method slam
         * @param value {number}
         * @param target {number}
@@ -19281,7 +19283,7 @@ declare module Kiwi.Utils {
         */
         static sign(n: number): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Truncates a value by removing all decimal data.
         * @method truncate
         * @param n {number}
         * @return {number}
@@ -19290,7 +19292,7 @@ declare module Kiwi.Utils {
         */
         static truncate(n: number): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Removes all non-decimal data from the value.
         * @method shear
         * @param n {number}
         * @return {number}
@@ -19396,7 +19398,8 @@ declare module Kiwi.Utils {
         */
         static roundTo(value: number, place?: number, base?: number): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Round down to some place comparative to a 'base', default is 10 for decimal place.
+        * 'place' is represented by the power applied to 'base' to get that place
         * @method floorTo
         * @param value {number}
         * @param [place=0] {number}
@@ -19407,7 +19410,8 @@ declare module Kiwi.Utils {
         */
         static floorTo(value: number, place?: number, base?: number): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Round down to some place comparative to a 'base', default is 10 for decimal place.
+        * 'place' is represented by the power applied to 'base' to get that place
         * @method ceilTo
         * @param value {number}
         * @param [place=0] {number}
@@ -19722,27 +19726,27 @@ declare module Kiwi.Utils {
         */
         static angleLimit(angle: number, min: number, max: number): number;
         /**
-        * [DESCRIPTION REQUIRED]
-        * @method linear
-        * @param {Any} v
-        * @param {Any} k
+        * Interpolates between neighbouring values in an array using linear interpolation only. For example, linearInterpolation( [ 1,5,4 ], 0.5 ) = 5, and linearInterpolation( [ 1, 2 ], 0.3 ) = 1.3.
+        * @method linearInterpolation
+        * @param {Array} v
+        * @param {number} k
         * @return {number}
         * @static
         * @public
         */
         static linearInterpolation(v: any, k: any): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Interpolates between values in an array using Bezier curves. This treats the values in the array as control points on a spline. Unlike Catmull-Rom splines, the value is not guaranteed to intersect precisely with these points.
         * @method Bezier
-        * @param {Any} v
-        * @param {Any} k
+        * @param {Array} v
+        * @param {number} k
         * @return {number}
         * @static
         * @public
         */
         static bezierInterpolation(v: any, k: any): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Interpolates between values in an array using Catmull-Rom splines. This treats the values in the array as control points on a spline. Unlike Bezier curves, the value will intersect with every point in the array.
         * @method CatmullRom
         * @param {Any} v
         * @param {Any} k
@@ -19752,7 +19756,7 @@ declare module Kiwi.Utils {
         */
         static catmullRomInterpolation(v: any, k: any): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Simple linear interpolation, identical to interpolateFloat.
         * @method Linear
         * @param {Any} p0
         * @param {Any} p1
@@ -19763,7 +19767,7 @@ declare module Kiwi.Utils {
         */
         static linear(p0: any, p1: any, t: any): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Bernstein polynomial for constructing Bezier curves. Returns n! / i! / (n-i)!
         * @method Bernstein
         * @param {Any} n
         * @param {Any} i
@@ -19773,7 +19777,7 @@ declare module Kiwi.Utils {
         */
         static bernstein(n: any, i: any): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Function used to construct a Catmull-Rom interpolation.
         * @method CatmullRom
         * @param {Any} p0
         * @param {Any} p1
@@ -19786,7 +19790,7 @@ declare module Kiwi.Utils {
         */
         static catmullRom(p0: any, p1: any, p2: any, p3: any, t: any): any;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Returns the difference between a and b.
         * @method difference
         * @param a {number}
         * @param b {number}
