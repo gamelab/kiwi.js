@@ -4348,6 +4348,7 @@ var Kiwi;
             * @property dirty
             * @type boolean
             * @public
+            * @deprecated As of 1.1.0, no use has been found for this property.
             */
             get: function () {
                 return this._dirty;

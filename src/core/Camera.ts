@@ -147,6 +147,7 @@ module Kiwi {
         * @property _dirty
         * @type boolean
         * @private
+        * @deprecated As of 1.1.0, no use has been found for this property.
 		*/
         private _dirty: boolean;
 
@@ -155,6 +156,7 @@ module Kiwi {
         * @property dirty
         * @type boolean
         * @public
+        * @deprecated As of 1.1.0, no use has been found for this property.
         */
         public get dirty(): boolean {
             return this._dirty;

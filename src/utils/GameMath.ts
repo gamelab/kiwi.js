@@ -328,7 +328,11 @@ module Kiwi.Utils {
         public static SIN_2PI_3: number = 0.03654595;// SIN( 2*PI/3 )
         
         /**
-        * Holds the value for 4 * (Math.sqrt(2) - 1) / 3.0. Whatever this means. (Can you help us improve our documentation?)
+        * Holds the value for 4 * (Math.sqrt(2) - 1) / 3.0 (approximately 0.5522847).
+        *
+        * This is useful for making circular arcs with Bezier curves. For an arc segment of 90 degrees (PI / 2 radians) or less, you can construct a nice approximation using CIRCLE_ALPHA. If the magic number k = CIRCLE_ALPHA, construct an arc using the following points: [1,0], [1,k], [k,1], [0,1].
+        *
+        * For angles that are smaller by scale n, scale k by n, and displace k along tangents of the arc. For more information, see this article by Hans Muller: http://hansmuller-flex.blogspot.com/2011/04/approximating-circular-arc-with-cubic.html
         * @property CIRCLE_ALPHA
         * @type number
         * @default 0.5522847498307933984022516322796

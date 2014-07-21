@@ -11267,26 +11267,30 @@
             "type": "boolean",
             "access": "private",
             "tagname": "",
+            "deprecated": true,
+            "deprecationMessage": "As of 1.1.0, no use has been found for this property.",
             "class": "Kiwi.Camera",
             "module": "Kiwi",
             "namespace": "Kiwi"
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 153,
+            "line": 154,
             "description": "A value used by components to control if the camera needs re-rendering.",
             "itemtype": "property",
             "name": "dirty",
             "type": "boolean",
             "access": "public",
             "tagname": "",
+            "deprecated": true,
+            "deprecationMessage": "As of 1.1.0, no use has been found for this property.",
             "class": "Kiwi.Camera",
             "module": "Kiwi",
             "namespace": "Kiwi"
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 166,
+            "line": 168,
             "description": "Apply this cameras inverted matrix to a an object with x and y properties representing a point and return the transformed point.\nUseful for when calculating if coordinates with the mouse.\nNote: This method clones the point you pass, so that is doesn't \"reset\" any properties you set.",
             "itemtype": "method",
             "name": "transformPoint",
@@ -11309,7 +11313,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 186,
+            "line": 188,
             "description": "The update loop that is executed every frame.",
             "itemtype": "method",
             "name": "update",
@@ -11321,7 +11325,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 195,
+            "line": 197,
             "description": "The render loop that is executed whilst the game is playing.",
             "itemtype": "method",
             "name": "render",
@@ -43596,7 +43600,7 @@
         {
             "file": "src/utils/GameMath.ts",
             "line": 330,
-            "description": "Holds the value for 4 * (Math.sqrt(2) - 1) / 3.0. Whatever this means. (Can you help us improve our documentation?)",
+            "description": "Holds the value for 4 * (Math.sqrt(2) - 1) / 3.0 (approximately 0.5522847).\n\nThis is useful for making circular arcs with Bezier curves. For an arc segment of 90 degrees (PI / 2 radians) or less, you can construct a nice approximation using CIRCLE_ALPHA. If the magic number k = CIRCLE_ALPHA, construct an arc using the following points: [1,0], [1,k], [k,1], [0,1].\n\nFor angles that are smaller by scale n, scale k by n, and displace k along tangents of the arc. For more information, see this article by Hans Muller: http://hansmuller-flex.blogspot.com/2011/04/approximating-circular-arc-with-cubic.html",
             "itemtype": "property",
             "name": "CIRCLE_ALPHA",
             "type": "number",
@@ -43612,7 +43616,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 341,
+            "line": 345,
             "description": "A boolean that is true.",
             "itemtype": "property",
             "name": "ON",
@@ -43629,7 +43633,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 352,
+            "line": 356,
             "description": "A boolean that is false.",
             "itemtype": "property",
             "name": "OFF",
@@ -43646,7 +43650,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 364,
+            "line": 368,
             "description": "Maximum relative error for integers.",
             "itemtype": "property",
             "name": "SHORT_EPSILON",
@@ -43663,7 +43667,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 375,
+            "line": 379,
             "description": "Maximum relative error for percentages (where 1% == 0.01).",
             "itemtype": "property",
             "name": "PERC_EPSILON",
@@ -43680,7 +43684,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 386,
+            "line": 390,
             "description": "Average relative error for single float values.",
             "itemtype": "property",
             "name": "EPSILON",
@@ -43697,7 +43701,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 397,
+            "line": 401,
             "description": "Maximum relative error for 8-digit decimal values.",
             "itemtype": "property",
             "name": "LONG_EPSILON",
@@ -43714,7 +43718,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 408,
+            "line": 412,
             "description": "Computes the maximum relative error for this machine.",
             "itemtype": "method",
             "name": "computeMachineEpsilon",
@@ -43732,7 +43736,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 423,
+            "line": 427,
             "description": "Computes whether two numbers are identical to the limits of the computer's precision, as specified by the epsilon value.",
             "itemtype": "method",
             "name": "fuzzyEqual",
@@ -43769,7 +43773,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 437,
+            "line": 441,
             "description": "Computes whether the first parameter is less than the second parameter, to the limits of the computer's precision, as specified by the epsilon value.",
             "itemtype": "method",
             "name": "fuzzyLessThan",
@@ -43806,7 +43810,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 451,
+            "line": 455,
             "description": "Computes whether the first parameter is greater than the second parameter, to the limits of the computer's precision, as specified by the epsilon value.",
             "itemtype": "method",
             "name": "fuzzyGreaterThan",
@@ -43843,7 +43847,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 465,
+            "line": 469,
             "description": "Computes the integer ceiling of the first parameter, minus a rounding margin defined by epsilon.",
             "itemtype": "method",
             "name": "fuzzyCeil",
@@ -43875,7 +43879,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 478,
+            "line": 482,
             "description": "Computes the integer floor of the first parameter, plus a rounding margin defined by epsilon.",
             "itemtype": "method",
             "name": "fuzzyFloor",
@@ -43907,7 +43911,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 491,
+            "line": 495,
             "description": "Computes the mean of any number of parameters. For example, average(1,2,3) returns 2.",
             "itemtype": "method",
             "name": "average",
@@ -43934,7 +43938,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 510,
+            "line": 514,
             "description": "Computes whether value and target are sufficiently close as to be within the computer's margin of error, as defined by epsilon. Returns the target if they are sufficiently close; returns the value if they are not.\n\nIn other words, slam prevents the target from exceeding epsilon.",
             "itemtype": "method",
             "name": "slam",
@@ -43971,7 +43975,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 526,
+            "line": 530,
             "description": "Ratio of value to a range.",
             "itemtype": "method",
             "name": "percentageMinMax",
@@ -44008,7 +44012,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 544,
+            "line": 548,
             "description": "A value representing the sign of the value.\n-1 for negative, +1 for positive, 0 if value is 0",
             "itemtype": "method",
             "name": "sign",
@@ -44033,7 +44037,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 558,
+            "line": 562,
             "description": "Truncates a value by removing all decimal data.",
             "itemtype": "method",
             "name": "truncate",
@@ -44058,7 +44062,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 570,
+            "line": 574,
             "description": "Removes all non-decimal data from the value.",
             "itemtype": "method",
             "name": "shear",
@@ -44083,7 +44087,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 582,
+            "line": 586,
             "description": "Wrap a value around a range, similar to modulus with a floating minimum",
             "itemtype": "method",
             "name": "wrap",
@@ -44120,7 +44124,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 604,
+            "line": 608,
             "description": "Arithmetic version of wrap.",
             "itemtype": "method",
             "name": "arithWrap",
@@ -44157,7 +44161,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 620,
+            "line": 624,
             "description": "Force a value within the boundaries of two values\nIf max < min, min is returned.",
             "itemtype": "method",
             "name": "clamp",
@@ -44194,7 +44198,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 635,
+            "line": 639,
             "description": "Snap a value to nearest grid slice, using rounding.\nExample if you have an interval gap of 5 and a position of 12... you will snap to 10. Where as 14 will snap to 15",
             "itemtype": "method",
             "name": "snapTo",
@@ -44231,7 +44235,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 655,
+            "line": 659,
             "description": "Snap a value to nearest grid slice, using floor.\nExample if you have an interval gap of 5 and a position of 12... you will snap to 10. As will 14 snap to 10... but 16 will snap to 15",
             "itemtype": "method",
             "name": "snapToFloor",
@@ -44268,7 +44272,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 675,
+            "line": 679,
             "description": "Snap a value to nearest grid slice, using ceil.\nExample if you have an interval gap of 5 and a position of 12... you will snap to 15. As will 14 will snap to 15... but 16 will snap to 20",
             "itemtype": "method",
             "name": "snapToCeil",
@@ -44305,7 +44309,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 695,
+            "line": 699,
             "description": "Snaps a value to the nearest value in an array.",
             "itemtype": "method",
             "name": "snapToInArray",
@@ -44342,7 +44346,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 721,
+            "line": 725,
             "description": "Round to some place comparative to a 'base', default is 10 for decimal place.\n'place' is represented by the power applied to 'base' to get that place",
             "itemtype": "method",
             "name": "roundTo",
@@ -44381,7 +44385,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 767,
+            "line": 771,
             "description": "Round down to some place comparative to a 'base', default is 10 for decimal place.\n'place' is represented by the power applied to 'base' to get that place",
             "itemtype": "method",
             "name": "floorTo",
@@ -44420,7 +44424,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 783,
+            "line": 787,
             "description": "Round down to some place comparative to a 'base', default is 10 for decimal place.\n'place' is represented by the power applied to 'base' to get that place",
             "itemtype": "method",
             "name": "ceilTo",
@@ -44459,7 +44463,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 799,
+            "line": 803,
             "description": "A one dimensional linear interpolation of a value.",
             "itemtype": "method",
             "name": "interpolateFloat",
@@ -44494,7 +44498,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 813,
+            "line": 817,
             "description": "Convert radians to degrees",
             "itemtype": "method",
             "name": "radiansToDegrees",
@@ -44519,7 +44523,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 825,
+            "line": 829,
             "description": "Convert degrees to radians",
             "itemtype": "method",
             "name": "degreesToRadians",
@@ -44544,7 +44548,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 837,
+            "line": 841,
             "description": "Find the angle of a segment from (x1, y1) -> (x2, y2 )",
             "itemtype": "method",
             "name": "angleBetween",
@@ -44584,7 +44588,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 853,
+            "line": 857,
             "description": "Set an angle with in the bounds of -PI to PI",
             "itemtype": "method",
             "name": "normalizeAngle",
@@ -44616,7 +44620,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 867,
+            "line": 871,
             "description": "Closest angle between two angles from a1 to a2\nabsolute value the return for exact angle.",
             "itemtype": "method",
             "name": "nearestAngleBetween",
@@ -44653,7 +44657,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 891,
+            "line": 895,
             "description": "Normalizes independent and then sets dep to the nearest value respective to independent.\nFor instance if dep=-170 and ind=170 then 190 will be returned as an alternative to -170",
             "itemtype": "method",
             "name": "normalizeAngleToAnother",
@@ -44690,7 +44694,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 906,
+            "line": 910,
             "description": "Normalize independent and dependent and then set dependent to an angle relative to 'after/clockwise' independent.\nFor instance dep=-170 and ind=170, then 190 will be reutrned as alternative to -170",
             "itemtype": "method",
             "name": "normalizeAngleAfterAnother",
@@ -44727,7 +44731,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 923,
+            "line": 927,
             "description": "Normalizes indendent and dependent and then sets dependent to an angle relative to 'before/counterclockwise' independent.\nFor instance dep = 190 and ind = 170, then -170 will be returned as an alternative to 190",
             "itemtype": "method",
             "name": "normalizeAngleBeforeAnother",
@@ -44764,7 +44768,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 940,
+            "line": 944,
             "description": "Interpolate across the shortest arc between two angles.",
             "itemtype": "method",
             "name": "interpolateAngles",
@@ -44813,7 +44817,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 960,
+            "line": 964,
             "description": "Compute the logarithm of any value of any base.\nA logarithm is the exponent that some constant (base) would have to be raised to \nto be equal to value.",
             "itemtype": "method",
             "name": "logBaseOf",
@@ -44843,7 +44847,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 985,
+            "line": 989,
             "description": "Greatest Common Denominator using Euclid's algorithm.",
             "itemtype": "method",
             "name": "GCD",
@@ -44873,7 +44877,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1021,
+            "line": 1025,
             "description": "Lowest Common Multiple",
             "itemtype": "method",
             "name": "LCM",
@@ -44903,7 +44907,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1034,
+            "line": 1038,
             "description": "Factorial - N! Simple product series. By definition:\n0! == 1",
             "itemtype": "method",
             "name": "factorial",
@@ -44928,7 +44932,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1056,
+            "line": 1060,
             "description": "Gamma function. Defined: gamma(N) == (N - 1)!",
             "itemtype": "method",
             "name": "gammaFunction",
@@ -44953,7 +44957,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1068,
+            "line": 1072,
             "description": "Falling factorial. Defined: (N)! / (N - x)!\nWritten subscript: (N)x OR (base)exp",
             "itemtype": "method",
             "name": "fallingFactorial",
@@ -44983,7 +44987,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1082,
+            "line": 1086,
             "description": "Rising factorial. Defined: (N + x - 1)! / (N - 1)!\nWritten superscript N^(x) OR base^(exp)",
             "itemtype": "method",
             "name": "risingFactorial",
@@ -45013,7 +45017,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1097,
+            "line": 1101,
             "description": "Binomial coefficient.",
             "itemtype": "method",
             "name": "binCoef",
@@ -45043,7 +45047,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1115,
+            "line": 1119,
             "description": "Rising binomial coefficient.\nAs one can notice in the analysis of binCoef(...) that \nbinCoef is the (N)k divided by k!. Similarly rising binCoef \nis merely N^(k) / k!",
             "itemtype": "method",
             "name": "risingBinCoef",
@@ -45073,7 +45077,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1131,
+            "line": 1135,
             "description": "Generate a random boolean result based on the chance value.\nReturns true or false based on the chance value (default 50%). For example if you wanted a player to have a 30% chance\nof getting a bonus, call chanceRoll(30) - true means the chance passed, false means it failed.",
             "itemtype": "method",
             "name": "changeRoll",
@@ -45100,7 +45104,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1166,
+            "line": 1170,
             "description": "Adds the given amount to the value, but never lets the value go over the specified maximum.",
             "itemtype": "method",
             "name": "maxAdd",
@@ -45135,7 +45139,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1190,
+            "line": 1194,
             "description": "Subtracts the given amount from the value, but never lets the value go below the specified minimum.",
             "itemtype": "method",
             "name": "minSub",
@@ -45170,7 +45174,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1213,
+            "line": 1217,
             "description": "Adds value to amount and ensures that the result always stays between 0 and max, by wrapping the value around.\nValues must be positive integers, and are passed through Math.abs",
             "itemtype": "method",
             "name": "wrapValue",
@@ -45205,7 +45209,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1239,
+            "line": 1243,
             "description": "Randomly returns either a 1 or -1",
             "itemtype": "method",
             "name": "randomSign",
@@ -45223,7 +45227,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1250,
+            "line": 1254,
             "description": "Returns true if the number given is odd.",
             "itemtype": "method",
             "name": "isOff",
@@ -45248,7 +45252,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1271,
+            "line": 1275,
             "description": "Returns true if the number given is even.",
             "itemtype": "method",
             "name": "isEvent",
@@ -45273,7 +45277,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1292,
+            "line": 1296,
             "description": "Keeps an angle value between -180 and +180.\nShould be called whenever the angle is updated on the Sprite to stop it from going insane.",
             "itemtype": "method",
             "name": "wrapAngle",
@@ -45298,7 +45302,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1323,
+            "line": 1327,
             "description": "Keeps an angle value between the given min and max values.",
             "itemtype": "method",
             "name": "angleLimit",
@@ -45333,7 +45337,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1349,
+            "line": 1353,
             "description": "Interpolates between neighbouring values in an array using linear interpolation only. For example, linearInterpolation( [ 1,5,4 ], 0.5 ) = 5, and linearInterpolation( [ 1, 2 ], 0.3 ) = 1.3.",
             "itemtype": "method",
             "name": "linearInterpolation",
@@ -45363,7 +45367,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1371,
+            "line": 1375,
             "description": "Interpolates between values in an array using Bezier curves. This treats the values in the array as control points on a spline. Unlike Catmull-Rom splines, the value is not guaranteed to intersect precisely with these points.",
             "itemtype": "method",
             "name": "Bezier",
@@ -45393,7 +45397,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1394,
+            "line": 1398,
             "description": "Interpolates between values in an array using Catmull-Rom splines. This treats the values in the array as control points on a spline. Unlike Bezier curves, the value will intersect with every point in the array.",
             "itemtype": "method",
             "name": "CatmullRom",
@@ -45423,7 +45427,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1427,
+            "line": 1431,
             "description": "Simple linear interpolation, identical to interpolateFloat.",
             "itemtype": "method",
             "name": "Linear",
@@ -45458,7 +45462,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1443,
+            "line": 1447,
             "description": "Bernstein polynomial for constructing Bezier curves. Returns n! / i! / (n-i)!",
             "itemtype": "method",
             "name": "Bernstein",
@@ -45488,7 +45492,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1458,
+            "line": 1462,
             "description": "Function used to construct a Catmull-Rom interpolation.",
             "itemtype": "method",
             "name": "CatmullRom",
@@ -45533,7 +45537,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1477,
+            "line": 1481,
             "description": "Returns the difference between a and b.",
             "itemtype": "method",
             "name": "difference",
