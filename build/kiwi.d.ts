@@ -220,6 +220,26 @@ declare module Kiwi {
         */
         private _lastTime;
         /**
+        * The number of frames since the game was launched.
+        * @property _frame
+        * @type number
+        * @private
+        * @since 1.1.0
+        */
+        private _frame;
+        /**
+        * The number of frames since the game was launched.
+        *
+        * Use this to drive cyclic animations. You may manually reset it in a Kiwi.State.create() function to restart the count from 0.
+        *
+        * The largest exact integer value of a JavaScript number is 2^53, or 9007199254740992. At 60 frames per second, this will take 4,760,273 years to become inaccurate.
+        * @property frame
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public frame : number;
+        /**
         * The current frameRate that the update/render loops are running at. Note that this may not be an  accurate representation.
         * @property frameRate
         * @return string
