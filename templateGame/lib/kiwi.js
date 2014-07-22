@@ -6105,6 +6105,11 @@ var Kiwi;
                     this.width = w;
                     this.height = h;
 
+                    this._corner1 = new Kiwi.Geom.Point(0, 0);
+                    this._corner2 = new Kiwi.Geom.Point(0, 0);
+                    this._corner3 = new Kiwi.Geom.Point(0, 0);
+                    this._corner4 = new Kiwi.Geom.Point(0, 0);
+
                     this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, null));
                     this.physics.immovable = true;
                 }
@@ -6574,35 +6579,50 @@ var Kiwi;
                 TileMapLayer.prototype._calculateBoundaries = function (camera, matrix) {
                     //If we are calculating the coordinates for 'regular' then we can do that rather easy
                     if (this.orientation == Tilemap.ORTHOGONAL) {
-                        // Translation Stuff
-                        var sx = 1 / this.scaleX;
-                        var sy = 1 / this.scaleY;
+                        // Account for camera and object transformation
+                        // Initialise corners...
+                        this._corner1.setTo(0, 0);
+                        this._corner2.setTo(this.game.stage.width, 0);
+                        this._corner3.setTo(this.game.stage.width, this.game.stage.height);
+                        this._corner4.setTo(0, this.game.stage.height);
 
-                        // Work out how many tiles we can fit into our camera and round it up for the edges
-                        this._maxX = Math.min(Math.ceil(camera.width / this.tileWidth) + 1, this.width) * sx;
-                        this._maxY = Math.min(Math.ceil(camera.height / this.tileHeight) + 1, this.height) * sy;
+                        // Transform corners by camera...
+                        this._corner1 = camera.transformPoint(this._corner1);
+                        this._corner2 = camera.transformPoint(this._corner2);
+                        this._corner3 = camera.transformPoint(this._corner3);
+                        this._corner4 = camera.transformPoint(this._corner4);
 
-                        // And now work out where in the tilemap the camera actually is
-                        this._startX = Math.floor((-camera.transform.x - this.transform.worldX) / this.tileWidth * sx);
-                        this._startY = Math.floor((-camera.transform.y - this.transform.worldY) / this.tileHeight * sy);
+                        // Transform corners by object...
+                        var m = matrix.clone();
+                        m.invert();
+                        this._corner1 = m.transformPoint(this._corner1);
+                        this._corner2 = m.transformPoint(this._corner2);
+                        this._corner3 = m.transformPoint(this._corner3);
+                        this._corner4 = m.transformPoint(this._corner4);
 
-                        // Boundaries check for the start
-                        if (this._startX < 0)
-                            this._startX = 0;
-                        if (this._startY < 0)
-                            this._startY = 0;
+                        // Find min/max values in X and Y...
+                        this._startX = Math.min(this._corner1.x, this._corner2.x, this._corner3.x, this._corner4.x);
+                        this._startY = Math.min(this._corner1.y, this._corner2.y, this._corner3.y, this._corner4.y);
+                        this._maxX = Math.max(this._corner1.x, this._corner2.x, this._corner3.x, this._corner4.x);
+                        this._maxY = Math.max(this._corner1.y, this._corner2.y, this._corner3.y, this._corner4.y);
 
-                        // Check for the Maximum
-                        if (this._maxX > this.width)
-                            this._maxX = this.width;
-                        if (this._maxY > this.height)
-                            this._maxY = this.height;
+                        // Convert to tile units...
+                        this._startX /= this.tileWidth;
+                        this._startY /= this.tileHeight;
+                        this._maxX /= this.tileWidth;
+                        this._maxY /= this.tileHeight;
 
-                        // Width/Height
-                        if (this._startX + this._maxX > this.width)
-                            this._maxX = this.width - this._startX;
-                        if (this._startY + this._maxY > this.height)
-                            this._maxY = this.height - this._startY;
+                        // Truncate units...
+                        this._startX = Math.floor(this._startX);
+                        this._startY = Math.floor(this._startY);
+                        this._maxX = Math.ceil(this._maxX);
+                        this._maxY = Math.ceil(this._maxY);
+
+                        // Clamp values to tilemap range...
+                        this._startX = Kiwi.Utils.GameMath.clamp(this._startX, this.width);
+                        this._startY = Kiwi.Utils.GameMath.clamp(this._startY, this.height);
+                        this._maxX = Kiwi.Utils.GameMath.clamp(this._maxX, this.width);
+                        this._maxY = Kiwi.Utils.GameMath.clamp(this._maxY, this.height);
 
                         return;
                     }
@@ -6681,8 +6701,8 @@ var Kiwi;
 
                     this._calculateBoundaries(camera, m);
 
-                    for (var y = this._startY; y < this._startY + this._maxY; y++) {
-                        for (var x = this._startX; x < this._startX + this._maxX; x++) {
+                    for (var y = this._startY; y < this._maxY; y++) {
+                        for (var x = this._startX; x < this._maxX; x++) {
                             if ((this._temptype = this.getTileFromXY(x, y)) && this._temptype.cellIndex !== -1) {
                                 var cell = this.atlas.cells[this._temptype.cellIndex];
 
@@ -6733,11 +6753,11 @@ var Kiwi;
                     var t = this.transform;
                     var m = t.getConcatenatedMatrix();
 
-                    //Find which ones we need to render. Needs to be updated for Rotation.
+                    //Find which ones we need to render.
                     this._calculateBoundaries(camera, m);
 
-                    for (var y = this._startY; y < this._startY + this._maxY; y++) {
-                        for (var x = this._startX; x < this._startX + this._maxX; x++) {
+                    for (var y = this._startY; y < this._maxY; y++) {
+                        for (var x = this._startX; x < this._maxX; x++) {
                             //Get the tile type
                             this._temptype = this.getTileFromXY(x, y);
 

@@ -4292,6 +4292,38 @@ declare module Kiwi.GameObjects.Tilemap {
         */
         private _temptype;
         /**
+        * Corner values used internally.
+        * @property corner1
+        * @type {Kiwi.Geom.Point}
+        * @private
+        * @since 1.1.0
+        */
+        private _corner1;
+        /**
+        * Corner values used internally.
+        * @property corner2
+        * @type {Kiwi.Geom.Point}
+        * @private
+        * @since 1.1.0
+        */
+        private _corner2;
+        /**
+        * Corner values used internally.
+        * @property corner3
+        * @type {Kiwi.Geom.Point}
+        * @private
+        * @since 1.1.0
+        */
+        private _corner3;
+        /**
+        * Corner values used internally.
+        * @property corner4
+        * @type {Kiwi.Geom.Point}
+        * @private
+        * @since 1.1.0
+        */
+        private _corner4;
+        /**
         * Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen.
         * All coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).
         *
