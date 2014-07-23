@@ -26422,8 +26422,11 @@ var Kiwi;
                 if (this._usingAudioTag) {
                     //clone the audio node
                     this._sound = this._file.data.cloneNode(true);
-                    this._sound.play();
-                    this._sound.pause();
+
+                    if (this._game.deviceTargetOption == Kiwi.TARGET_BROWSER) {
+                        this._sound.play();
+                        this._sound.pause();
+                    }
                 } else {
                     this._sound = this._file.data;
                 }
