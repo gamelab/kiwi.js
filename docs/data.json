@@ -2276,7 +2276,7 @@
             "namespace": "Kiwi.Components",
             "file": "src/components/Box.ts",
             "line": 10,
-            "description": "The Box Component is used to handle the various 'bounds' that each GameObject has. \nThere are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) depending on what you are wanting:\nRawBounds: The bounding box of the GameObject before rotation/scale.\nRawHitbox: The hitbox of the GameObject before rotation/scale. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.\nBounds: The bounding box of the GameObject after rotation/scale.\nHitbox: The hitbox of the GameObject after rotation/scale. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.\nWorldBounds: The bounding box of the Entity using its world coordinates and after rotation/scale.\nWorldHitbox: The hitbox of the Entity using its world coordinates and after rotation/scale.",
+            "description": "The Box Component is used to handle the various 'bounds' that each GameObject has. \nThere are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) depending on what you are wanting:\n\nRawBounds: The bounding box of the GameObject before rotation/scale.\n\nRawHitbox: The hitbox of the GameObject before rotation/scale. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.\n\nBounds: The bounding box of the GameObject after rotation/scale.\n\nHitbox: The hitbox of the GameObject after rotation/scale. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.\n\nWorldBounds: The bounding box of the Entity using its world coordinates and after rotation/scale.\n\nWorldHitbox: The hitbox of the Entity using its world coordinates and after rotation/scale.",
             "extends": "Kiwi.Component",
             "is_constructor": 1,
             "params": [
@@ -9682,7 +9682,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 51,
+            "line": 56,
             "description": "The entity that this box belongs to.",
             "itemtype": "property",
             "name": "entity",
@@ -9696,7 +9696,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 60,
+            "line": 65,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -9713,7 +9713,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 71,
+            "line": 76,
             "description": "Controls whether the hitbox should update automatically to match the hitbox of the current cell on the entity this Box component is attached to (default behaviour).\nOr if the hitbox shouldn't auto update. Which will mean it will stay the same as the last value it had. \nThis property is automatically set to 'false' when you override the hitboxes width/height, but you can set this to true afterwards.",
             "itemtype": "property",
             "name": "autoUpdate",
@@ -9728,13 +9728,15 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 84,
+            "line": 89,
             "description": "Indicates whether or not this component needs re-rendering/updating or not.",
             "itemtype": "property",
             "name": "dirty",
             "type": "boolean",
             "access": "public",
             "tagname": "",
+            "deprecated": true,
+            "deprecationMessage": "in version 1.1.0 because the box always needed updating",
             "class": "Kiwi.Components.Box",
             "module": "Kiwi",
             "submodule": "Components",
@@ -9742,7 +9744,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 94,
+            "line": 100,
             "description": "Contains offset point for the hitbox",
             "itemtype": "property",
             "name": "_hitboxOffset",
@@ -9756,7 +9758,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 104,
+            "line": 110,
             "description": "Returns the offset value of the hitbox as a point for the X/Y axis for the developer to use.\nThis is without rotation or scaling.\nThis is a READ ONLY property.",
             "itemtype": "property",
             "name": "hitboxOffset",
@@ -9770,7 +9772,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 125,
+            "line": 131,
             "description": "Contains the offset rectangle for the raw hitbox.",
             "itemtype": "property",
             "name": "_rawHitbox",
@@ -9784,7 +9786,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 134,
+            "line": 140,
             "description": "Returns the raw hitbox rectangle for the developer to use. \n'Raw' means where it would be without rotation or scaling.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "rawHitbox",
@@ -9798,7 +9800,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 167,
+            "line": 169,
             "description": "The transformed or 'normal' hitbox for the entity. This is its box after rotation/scale.",
             "itemtype": "property",
             "name": "_transformedHitbox",
@@ -9812,7 +9814,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 176,
+            "line": 178,
             "description": "The transformed 'world' hitbox for the entity. This is its box after rotation/scale.",
             "itemtype": "property",
             "name": "_worldHitbox",
@@ -9826,7 +9828,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 185,
+            "line": 187,
             "description": "The 'normal' or transformed hitbox for the entity. This is its box after rotation/Kiwi.Geom.Rectangle.",
             "itemtype": "property",
             "name": "hitbox",
@@ -9854,7 +9856,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 234,
+            "line": 231,
             "description": "The 'raw' bounds of entity. This is its bounds before rotation/scale.\nThis for property is only for storage of the values and should be accessed via the getter 'rawBounds' so that it can update.",
             "itemtype": "property",
             "name": "_rawBounds",
@@ -9868,7 +9870,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 246,
+            "line": 243,
             "description": "Returns the 'raw' bounds for this entity.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "rawBounds",
@@ -9882,7 +9884,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 265,
+            "line": 261,
             "description": "Contains the 'raw' center point for the bounds.",
             "itemtype": "property",
             "name": "Kiwi.Geom.Point",
@@ -9896,7 +9898,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 275,
+            "line": 271,
             "description": "Returns the raw center point of the box.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "rawCenter",
@@ -9910,7 +9912,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 292,
+            "line": 287,
             "description": "Contains the center point after the box has been transformed.",
             "itemtype": "property",
             "name": "_transformedCenter",
@@ -9924,7 +9926,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 302,
+            "line": 297,
             "description": "Returns the center point for the box after it has been transformed.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "center",
@@ -9938,7 +9940,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 322,
+            "line": 315,
             "description": "Contains the transformed or 'normal' bounds for this entity.",
             "itemtype": "property",
             "name": "_transformedBounds",
@@ -9952,7 +9954,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 331,
+            "line": 324,
             "description": "The 'world' transformed bounds for this entity.",
             "itemtype": "property",
             "name": "_worldBounds",
@@ -9966,7 +9968,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 340,
+            "line": 333,
             "description": "Returns the 'transformed' or 'normal' bounds for this box. \nThis is READ ONLY.",
             "itemtype": "property",
             "name": "bounds",
@@ -9980,7 +9982,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 354,
+            "line": 346,
             "description": "Returns the 'transformed' bounds for this entity using the world coodinates.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "worldBounds",
@@ -9994,7 +9996,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 368,
+            "line": 359,
             "description": "Private internal method only. Used to calculate the transformed bounds after rotation/scale.",
             "itemtype": "method",
             "name": "_rotateRect",
@@ -10025,7 +10027,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 398,
+            "line": 389,
             "description": "A private method that is used to calculate the transformed hitbox's coordinates after rotation.",
             "itemtype": "method",
             "name": "_rotateHitbox",
@@ -10056,7 +10058,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 429,
+            "line": 420,
             "description": "Draws the various bounds on a context that is passed. Useful for debugging and using in combination with the debug canvas.",
             "itemtype": "method",
             "name": "draw",
@@ -10082,7 +10084,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 468,
+            "line": 459,
             "description": "Method which takes four Points and then converts it into a Rectangle, which represents the area those points covered.\nThe points passed can be maybe in any order, as the are checked for validity first.",
             "itemtype": "method",
             "name": "extents",
@@ -10118,7 +10120,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 492,
+            "line": 483,
             "description": "Destroys this component and all of the links it may have to other objects.",
             "itemtype": "method",
             "name": "destroy",
@@ -12974,6 +12976,34 @@
         {
             "file": "src/core/Game.ts",
             "line": 457,
+            "description": "The number of frames since the game was launched.",
+            "itemtype": "property",
+            "name": "_frame",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Game",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Game.ts",
+            "line": 466,
+            "description": "The number of frames since the game was launched.\n\nUse this to drive cyclic animations. You may manually reset it in a Kiwi.State.create() function to restart the count from 0.\n\nThe largest exact integer value of a JavaScript number is 2^53, or 9007199254740992. At 60 frames per second, this will take 4,760,273 years to become inaccurate.",
+            "itemtype": "property",
+            "name": "frame",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Game",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Game.ts",
+            "line": 485,
             "description": "The current frameRate that the update/render loops are running at. Note that this may not be an  accurate representation.",
             "itemtype": "property",
             "name": "frameRate",
@@ -12988,7 +13018,7 @@
         },
         {
             "file": "src/core/Game.ts",
-            "line": 475,
+            "line": 503,
             "description": "The start method gets executed when the game is ready to be booted, and handles the start-up of the managers.\nOnce the managers have started up the start loop will then begin to create the game loop.",
             "itemtype": "method",
             "name": "start",
@@ -13000,7 +13030,7 @@
         },
         {
             "file": "src/core/Game.ts",
-            "line": 516,
+            "line": 544,
             "description": "The game loop.",
             "itemtype": "method",
             "name": "_loop",
@@ -20371,7 +20401,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 54,
+            "line": 59,
             "description": "The physics component contained on the Tilemap. Use for basic collisions between People and Tiles.\nNote: That tilemap layers a immovable and collisions with tiles are set on the individual TileTypes that are contained on the TileMap.",
             "itemtype": "property",
             "name": "physics",
@@ -20385,7 +20415,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 63,
+            "line": 68,
             "description": "Returns the type of child that this is.",
             "type": "Number",
             "return": {
@@ -20401,7 +20431,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 73,
+            "line": 78,
             "description": "The type of object that it is.",
             "itemtype": "method",
             "name": "objType",
@@ -20418,7 +20448,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 83,
+            "line": 88,
             "description": "The tilemap that this TileMapLayer is a part of.",
             "itemtype": "property",
             "name": "tilemap",
@@ -20432,7 +20462,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 91,
+            "line": 96,
             "description": "Properties about that this TileMapLayer has when it was created from a JSON file.",
             "itemtype": "property",
             "name": "properties",
@@ -20446,7 +20476,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 99,
+            "line": 104,
             "description": "The width of this TileMap in tiles.",
             "itemtype": "property",
             "name": "width",
@@ -20460,7 +20490,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 107,
+            "line": 112,
             "description": "The height of this TileMap in tiles.",
             "itemtype": "property",
             "name": "height",
@@ -20474,7 +20504,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 115,
+            "line": 120,
             "description": "The width of a single tile.",
             "itemtype": "property",
             "name": "tileWidth",
@@ -20488,7 +20518,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 123,
+            "line": 128,
             "description": "The height of a single tile.",
             "itemtype": "property",
             "name": "tileHeight",
@@ -20502,7 +20532,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 131,
+            "line": 136,
             "description": "The texture atlas that should be used when rendering.",
             "itemtype": "property",
             "name": "atlas",
@@ -20516,7 +20546,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 139,
+            "line": 144,
             "description": "The width of the layer in pixels. This property is READ ONLY.",
             "itemtype": "property",
             "name": "widthInPixels",
@@ -20530,7 +20560,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 149,
+            "line": 154,
             "description": "The height of the layer in pixels. This property is READ ONLY.",
             "itemtype": "property",
             "name": "heightInPixels",
@@ -20544,7 +20574,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 159,
+            "line": 164,
             "description": "A list containing all the types of tiles found on this TileMapLayer.",
             "itemtype": "property",
             "name": "_data",
@@ -20558,7 +20588,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 167,
+            "line": 172,
             "description": "Returns the total number of tiles. Either for a particular type if passed, otherwise of any type if not passed.",
             "itemtype": "method",
             "name": "countTiles",
@@ -20583,7 +20613,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 186,
+            "line": 191,
             "description": "The orientation of the of tilemap. \nTileMaps can be either 'orthogonal' (normal) or 'isometric'.",
             "itemtype": "property",
             "name": "orientation",
@@ -20598,7 +20628,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 197,
+            "line": 202,
             "description": "-----------------------\n Getting Tiles\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -20607,7 +20637,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 204,
+            "line": 209,
             "description": "A list containing all of the types of tiles found on this TileMapLayer. This is READ ONLY.",
             "itemtype": "property",
             "name": "tileData",
@@ -20621,7 +20651,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 214,
+            "line": 219,
             "description": "Returns the index of the tile based on the x and y coordinates of the tile passed. \nIf no tile is a the coordinates given then -1 is returned instead.\nCoordinates are in tiles not pixels.",
             "itemtype": "method",
             "name": "getIndexFromXY",
@@ -20650,7 +20680,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 232,
+            "line": 237,
             "description": "Returns the TileType for a tile that is at a particular set of coordinates passed. \nIf no tile is found the null is returned instead.\nCoordinates passed are in tiles.",
             "itemtype": "method",
             "name": "getTileFromXY",
@@ -20679,7 +20709,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 247,
+            "line": 252,
             "description": "Returns the index of the tile based on the x and y pixel coordinates that are passed. \nIf no tile is a the coordinates given then -1 is returned instead.\nCoordinates are in pixels not tiles and use the world coordinates of the tilemap.\nNote: Currently only working for ORTHOGONAL TileMaps.",
             "itemtype": "method",
             "name": "getIndexFromCoords",
@@ -20708,7 +20738,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 273,
+            "line": 278,
             "description": "Returns the TileType for a tile that is at a particular coordinate passed. \nIf no tile is found then null is returned instead.\nCoordinates passed are in pixels and use the world coordinates of the tilemap.\nNote: Currently only working for ORTHOGONAL TileMaps.",
             "itemtype": "method",
             "name": "getTileFromCoords",
@@ -20737,7 +20767,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 290,
+            "line": 295,
             "description": "Returns the indexes of every tile of a type you pass.",
             "itemtype": "method",
             "name": "getIndexsByType",
@@ -20761,7 +20791,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 306,
+            "line": 311,
             "description": "-----------------------\n Tiles Manipulation\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -20770,7 +20800,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 312,
+            "line": 317,
             "description": "Sets the tile to be used at the coordinates provided. \nCan be used to override a tile that may already exist at the location.",
             "itemtype": "method",
             "name": "setTile",
@@ -20804,7 +20834,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 333,
+            "line": 338,
             "description": "Sets the tile to be used at the index provided.\nCan be used to override a tile that may already exist at the location.",
             "itemtype": "method",
             "name": "setTileByIndex",
@@ -20829,7 +20859,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 345,
+            "line": 350,
             "description": "Randomizes the types of tiles used in an area of the layer. You can choose which types of tiles to use, and the area.\nDefault tile types used are everyone avaiable.",
             "itemtype": "method",
             "name": "randomizeTiles",
@@ -20878,7 +20908,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 377,
+            "line": 382,
             "description": "Makes all of the tiles in the area specified a single type that is passed.",
             "itemtype": "method",
             "name": "fill",
@@ -20926,7 +20956,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 400,
+            "line": 405,
             "description": "Replaces all tiles of typeA to typeB in the area specified. If no area is specified then it is on the whole layer.",
             "itemtype": "method",
             "name": "replaceTiles",
@@ -20979,7 +21009,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 424,
+            "line": 429,
             "description": "Swaps all the tiles that are typeA -> typeB and typeB -> typeA inside the area specified. If no area is specified then it is on the whole layer.",
             "itemtype": "method",
             "name": "swapTiles",
@@ -21032,7 +21062,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 450,
+            "line": 455,
             "description": "-----------------------\n Get Tiles By Collision Methods\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -21041,7 +21071,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 456,
+            "line": 461,
             "description": "Returns the tiles which overlap with a provided entities hitbox component. \nOnly collidable tiles on ANY side will be returned unless you pass a particular side.\nNote: Only designed to work with ORTHOGONAL types of tilemaps, results maybe unexpected for other types of tilemaps.",
             "itemtype": "method",
             "name": "getOverlappingTiles",
@@ -21072,7 +21102,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 507,
+            "line": 512,
             "description": "Returns the tiles which can collide with other objects (on ANY side unless otherwise specified) within an area provided.\nBy default the area is the whole tilemap.",
             "itemtype": "method",
             "name": "getCollidableTiles",
@@ -21126,7 +21156,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 565,
+            "line": 570,
             "description": "The update loop that is executed when this TileMapLayer is add to the Stage.",
             "itemtype": "method",
             "name": "update",
@@ -21139,7 +21169,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 576,
+            "line": 581,
             "description": "-----------------------\n Temp Properties used During Rendering\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -21148,7 +21178,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 582,
+            "line": 587,
             "description": "Used whilst rendering to calculate the number of tiles to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_maxX",
@@ -21162,7 +21192,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 591,
+            "line": 596,
             "description": "Used whilst rendering to calculate the number of tiles to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_maxY",
@@ -21176,7 +21206,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 600,
+            "line": 605,
             "description": "Used whilst rendering to calculate which is the first tile to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_startX",
@@ -21190,7 +21220,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 609,
+            "line": 614,
             "description": "Used whilst rendering to calculate which is the first tile to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_startY",
@@ -21204,7 +21234,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 618,
+            "line": 623,
             "description": "Temporary property that holds the tileType of the current tile being rendered.",
             "itemtype": "property",
             "name": "_temptype",
@@ -21218,7 +21248,67 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 626,
+            "line": 631,
+            "description": "Corner values used internally.",
+            "itemtype": "property",
+            "name": "corner1",
+            "type": "{Kiwi.Geom.Point}",
+            "access": "private",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src/gameobjects/tilemap/TileMapLayer.ts",
+            "line": 639,
+            "description": "Corner values used internally.",
+            "itemtype": "property",
+            "name": "corner2",
+            "type": "{Kiwi.Geom.Point}",
+            "access": "private",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src/gameobjects/tilemap/TileMapLayer.ts",
+            "line": 647,
+            "description": "Corner values used internally.",
+            "itemtype": "property",
+            "name": "corner3",
+            "type": "{Kiwi.Geom.Point}",
+            "access": "private",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src/gameobjects/tilemap/TileMapLayer.ts",
+            "line": 655,
+            "description": "Corner values used internally.",
+            "itemtype": "property",
+            "name": "corner4",
+            "type": "{Kiwi.Geom.Point}",
+            "access": "private",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src/gameobjects/tilemap/TileMapLayer.ts",
+            "line": 664,
             "description": "Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen. \nAll coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).",
             "itemtype": "method",
             "name": "_calculateBoundaries",
@@ -21243,7 +21333,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 675,
+            "line": 728,
             "description": "ChartToScreen maps a point in the game tile coordinates into screen pixel\ncoordinates that indicate where the tile should be drawn.\nNote: This is for use in ISOMETRIC Tilemaps.",
             "itemtype": "method",
             "name": "chartToScreen",
@@ -21277,7 +21367,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 692,
+            "line": 745,
             "description": "ScreenToChart maps a point in screen coordinates into the game tile chart\ncoordinates for the tile on which the screen point falls on.\nThis is for use in ISOMETRIC Tilemaps.",
             "itemtype": "method",
             "name": "screenToChart",
@@ -21311,7 +21401,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 710,
+            "line": 763,
             "description": "The render loop which is used when using the Canvas renderer.",
             "itemtype": "method",
             "name": "render",
@@ -45230,7 +45320,7 @@
             "line": 1254,
             "description": "Returns true if the number given is odd.",
             "itemtype": "method",
-            "name": "isOff",
+            "name": "isOdd",
             "params": [
                 {
                     "name": "n",
@@ -45255,7 +45345,7 @@
             "line": 1275,
             "description": "Returns true if the number given is even.",
             "itemtype": "method",
-            "name": "isEvent",
+            "name": "isEven",
             "params": [
                 {
                     "name": "n",
@@ -45344,12 +45434,12 @@
             "params": [
                 {
                     "name": "v",
-                    "description": "",
+                    "description": "An array of values through which to interpolate",
                     "type": "Array"
                 },
                 {
                     "name": "k",
-                    "description": "",
+                    "description": "The position to interpolate, in the range 0-1",
                     "type": "Number"
                 }
             ],
@@ -45370,16 +45460,16 @@
             "line": 1375,
             "description": "Interpolates between values in an array using Bezier curves. This treats the values in the array as control points on a spline. Unlike Catmull-Rom splines, the value is not guaranteed to intersect precisely with these points.",
             "itemtype": "method",
-            "name": "Bezier",
+            "name": "bezierInterpolation",
             "params": [
                 {
                     "name": "v",
-                    "description": "",
+                    "description": "An array of values through which to interpolate",
                     "type": "Array"
                 },
                 {
                     "name": "k",
-                    "description": "",
+                    "description": "The position to interpolate, in the range 0-1",
                     "type": "Number"
                 }
             ],
@@ -45400,17 +45490,17 @@
             "line": 1398,
             "description": "Interpolates between values in an array using Catmull-Rom splines. This treats the values in the array as control points on a spline. Unlike Bezier curves, the value will intersect with every point in the array.",
             "itemtype": "method",
-            "name": "CatmullRom",
+            "name": "catmullRomInterpolation",
             "params": [
                 {
                     "name": "v",
-                    "description": "",
-                    "type": "Any"
+                    "description": "An array of values through which to interpolate",
+                    "type": "Array"
                 },
                 {
                     "name": "k",
-                    "description": "",
-                    "type": "Any"
+                    "description": "The position to interpolate, in the range 0-1",
+                    "type": "Number"
                 }
             ],
             "return": {
@@ -45430,7 +45520,7 @@
             "line": 1431,
             "description": "Simple linear interpolation, identical to interpolateFloat.",
             "itemtype": "method",
-            "name": "Linear",
+            "name": "linear",
             "params": [
                 {
                     "name": "p0",
@@ -45465,7 +45555,7 @@
             "line": 1447,
             "description": "Bernstein polynomial for constructing Bezier curves. Returns n! / i! / (n-i)!",
             "itemtype": "method",
-            "name": "Bernstein",
+            "name": "bernstein",
             "params": [
                 {
                     "name": "n",
@@ -45493,9 +45583,9 @@
         {
             "file": "src/utils/GameMath.ts",
             "line": 1462,
-            "description": "Function used to construct a Catmull-Rom interpolation.",
+            "description": "Function used to construct a Catmull-Rom interpolation: see catmullRomInterpolation()",
             "itemtype": "method",
-            "name": "CatmullRom",
+            "name": "catmullRom",
             "params": [
                 {
                     "name": "p0",
@@ -46756,23 +46846,23 @@
         },
         {
             "message": "Missing item type\nReturns the type of child that this is.",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:63"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:68"
         },
         {
             "message": "Missing item type\n-----------------------\n Getting Tiles\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:197"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:202"
         },
         {
             "message": "Missing item type\n-----------------------\n Tiles Manipulation\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:306"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:311"
         },
         {
             "message": "Missing item type\n-----------------------\n Get Tiles By Collision Methods\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:450"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:455"
         },
         {
             "message": "Missing item type\n-----------------------\n Temp Properties used During Rendering\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:576"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:581"
         },
         {
             "message": "Missing item type\nChanges the alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.",

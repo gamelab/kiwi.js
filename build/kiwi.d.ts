@@ -4652,11 +4652,17 @@ declare module Kiwi.Components {
     /**
     * The Box Component is used to handle the various 'bounds' that each GameObject has.
     * There are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) depending on what you are wanting:
+    *
     * RawBounds: The bounding box of the GameObject before rotation/scale.
+    *
     * RawHitbox: The hitbox of the GameObject before rotation/scale. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.
+    *
     * Bounds: The bounding box of the GameObject after rotation/scale.
+    *
     * Hitbox: The hitbox of the GameObject after rotation/scale. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.
+    *
     * WorldBounds: The bounding box of the Entity using its world coordinates and after rotation/scale.
+    *
     * WorldHitbox: The hitbox of the Entity using its world coordinates and after rotation/scale.
     *
     * @class Box
@@ -4702,6 +4708,7 @@ declare module Kiwi.Components {
         * @property dirty
         * @type boolean
         * @public
+        * @deprecated in version 1.1.0 because the box always needed updating
         */
         public dirty: boolean;
         /**
@@ -19746,7 +19753,7 @@ declare module Kiwi.Utils {
         static randomSign(): number;
         /**
         * Returns true if the number given is odd.
-        * @method isOff
+        * @method isOdd
         * @param n {number} The number to check
         * @return {boolean} True if the given number is odd. False if the given number is even.
         * @static
@@ -19755,7 +19762,7 @@ declare module Kiwi.Utils {
         static isOdd(n: number): boolean;
         /**
         * Returns true if the number given is even.
-        * @method isEvent
+        * @method isEven
         * @param n {number} The number to check
         * @return {boolean} True if the given number is even. False if the given number is odd.
         * @static
@@ -19786,8 +19793,8 @@ declare module Kiwi.Utils {
         /**
         * Interpolates between neighbouring values in an array using linear interpolation only. For example, linearInterpolation( [ 1,5,4 ], 0.5 ) = 5, and linearInterpolation( [ 1, 2 ], 0.3 ) = 1.3.
         * @method linearInterpolation
-        * @param {Array} v
-        * @param {number} k
+        * @param v {Array} An array of values through which to interpolate
+        * @param k {number} The position to interpolate, in the range 0-1
         * @return {number}
         * @static
         * @public
@@ -19795,9 +19802,9 @@ declare module Kiwi.Utils {
         static linearInterpolation(v: any, k: any): number;
         /**
         * Interpolates between values in an array using Bezier curves. This treats the values in the array as control points on a spline. Unlike Catmull-Rom splines, the value is not guaranteed to intersect precisely with these points.
-        * @method Bezier
-        * @param {Array} v
-        * @param {number} k
+        * @method bezierInterpolation
+        * @param v {Array} An array of values through which to interpolate
+        * @param k {number} The position to interpolate, in the range 0-1
         * @return {number}
         * @static
         * @public
@@ -19805,9 +19812,9 @@ declare module Kiwi.Utils {
         static bezierInterpolation(v: any, k: any): number;
         /**
         * Interpolates between values in an array using Catmull-Rom splines. This treats the values in the array as control points on a spline. Unlike Bezier curves, the value will intersect with every point in the array.
-        * @method CatmullRom
-        * @param {Any} v
-        * @param {Any} k
+        * @method catmullRomInterpolation
+        * @param v {Array} An array of values through which to interpolate
+        * @param k {Number} The position to interpolate, in the range 0-1
         * @return {number}
         * @static
         * @public
@@ -19815,7 +19822,7 @@ declare module Kiwi.Utils {
         static catmullRomInterpolation(v: any, k: any): number;
         /**
         * Simple linear interpolation, identical to interpolateFloat.
-        * @method Linear
+        * @method linear
         * @param {Any} p0
         * @param {Any} p1
         * @param {Any} t
@@ -19826,7 +19833,7 @@ declare module Kiwi.Utils {
         static linear(p0: any, p1: any, t: any): number;
         /**
         * Bernstein polynomial for constructing Bezier curves. Returns n! / i! / (n-i)!
-        * @method Bernstein
+        * @method bernstein
         * @param {Any} n
         * @param {Any} i
         * @return {number}
@@ -19835,8 +19842,8 @@ declare module Kiwi.Utils {
         */
         static bernstein(n: any, i: any): number;
         /**
-        * Function used to construct a Catmull-Rom interpolation.
-        * @method CatmullRom
+        * Function used to construct a Catmull-Rom interpolation: see catmullRomInterpolation()
+        * @method catmullRom
         * @param {Any} p0
         * @param {Any} p1
         * @param {Any} p2

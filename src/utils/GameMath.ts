@@ -1253,7 +1253,7 @@ module Kiwi.Utils {
 
         /**
         * Returns true if the number given is odd.
-        * @method isOff
+        * @method isOdd
         * @param n {number} The number to check
         * @return {boolean} True if the given number is odd. False if the given number is even.
         * @static
@@ -1274,7 +1274,7 @@ module Kiwi.Utils {
 
         /**
         * Returns true if the number given is even.
-        * @method isEvent
+        * @method isEven
         * @param n {number} The number to check
         * @return {boolean} True if the given number is even. False if the given number is odd.
         * @static
@@ -1353,8 +1353,8 @@ module Kiwi.Utils {
         /**
         * Interpolates between neighbouring values in an array using linear interpolation only. For example, linearInterpolation( [ 1,5,4 ], 0.5 ) = 5, and linearInterpolation( [ 1, 2 ], 0.3 ) = 1.3.
         * @method linearInterpolation
-        * @param {Array} v
-        * @param {number} k
+        * @param v {Array} An array of values through which to interpolate
+        * @param k {number} The position to interpolate, in the range 0-1
 		* @return {number}
         * @static
         * @public
@@ -1374,9 +1374,9 @@ module Kiwi.Utils {
 
         /**
         * Interpolates between values in an array using Bezier curves. This treats the values in the array as control points on a spline. Unlike Catmull-Rom splines, the value is not guaranteed to intersect precisely with these points.
-        * @method Bezier
-        * @param {Array} v
-        * @param {number} k
+        * @method bezierInterpolation
+        * @param v {Array} An array of values through which to interpolate
+        * @param k {number} The position to interpolate, in the range 0-1
 		* @return {number}
         * @static
         * @public
@@ -1397,9 +1397,9 @@ module Kiwi.Utils {
 
         /**
         * Interpolates between values in an array using Catmull-Rom splines. This treats the values in the array as control points on a spline. Unlike Bezier curves, the value will intersect with every point in the array.
-        * @method CatmullRom
-        * @param {Any} v
-        * @param {Any} k
+        * @method catmullRomInterpolation
+        * @param v {Array} An array of values through which to interpolate
+        * @param k {Number} The position to interpolate, in the range 0-1
 		* @return {number}
         * @static
         * @public
@@ -1430,7 +1430,7 @@ module Kiwi.Utils {
 
         /**
         * Simple linear interpolation, identical to interpolateFloat.
-        * @method Linear
+        * @method linear
         * @param {Any} p0
         * @param {Any} p1
         * @param {Any} t
@@ -1446,7 +1446,7 @@ module Kiwi.Utils {
 
         /**
         * Bernstein polynomial for constructing Bezier curves. Returns n! / i! / (n-i)!
-        * @method Bernstein
+        * @method bernstein
         * @param {Any} n
         * @param {Any} i
 		* @return {number}
@@ -1460,8 +1460,8 @@ module Kiwi.Utils {
         }
 
         /**
-        * Function used to construct a Catmull-Rom interpolation.
-        * @method CatmullRom
+        * Function used to construct a Catmull-Rom interpolation: see catmullRomInterpolation()
+        * @method catmullRom
         * @param {Any} p0
         * @param {Any} p1
         * @param {Any} p2
