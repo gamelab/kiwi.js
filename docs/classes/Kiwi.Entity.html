@@ -555,6 +555,13 @@ Every entity requires that you pass to it the state that it belongs too, that wa
                     <ul class="index-list methods">
                         
                             <li class="index-item method public">
+                                <a href="#method_addTags">addTags</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_destroy">destroy</a>
 
                                 
@@ -562,7 +569,21 @@ Every entity requires that you pass to it the state that it belongs too, that wa
                             </li>
                         
                             <li class="index-item method public">
+                                <a href="#method_hasTag">hasTag</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_removeTag">removeTag</a>
 
                                 
                                 
@@ -649,6 +670,13 @@ Every entity requires that you pass to it the state that it belongs too, that wa
                             </li>
                         
                             <li class="index-item property private">
+                                <a href="#property__tags">_tags</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
                                 <a href="#property__visible">_visible</a>
 
                                 
@@ -706,14 +734,14 @@ Every entity requires that you pass to it the state that it belongs too, that wa
                                 
                             </li>
                         
-                            <li class="index-item property public">
+                            <li class="index-item property private">
                                 <a href="#property_dirty">dirty</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property private">
+                            <li class="index-item property public">
                                 <a href="#property_dirty">dirty</a>
 
                                 
@@ -869,6 +897,100 @@ Every entity requires that you pass to it the state that it belongs too, that wa
                 <h2 class="off-left">Methods</h2>
 
                 
+                    <div id="method_addTags" class="method item public">
+    <h3 class="name"><code>addTags</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Entity.ts.html#l365"><code>src&#x2F;core&#x2F;Entity.ts:365</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
+You can pass multiple strings to add multiple tags.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The tag that you would like to add to this Entity.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_destroy" class="method item public">
     <h3 class="name"><code>destroy</code></h3>
 
@@ -913,7 +1035,7 @@ Every entity requires that you pass to it the state that it belongs too, that wa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l516"><code>src&#x2F;core&#x2F;Entity.ts:516</code></a>
+        <a href="../files/src_core_Entity.ts.html#l581"><code>src&#x2F;core&#x2F;Entity.ts:581</code></a>
         
         </p>
 
@@ -961,6 +1083,114 @@ Every entity requires that you pass to it the state that it belongs too, that wa
 </div>
 
                 
+                    <div id="method_hasTag" class="method item public">
+    <h3 class="name"><code>hasTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Entity.ts.html#l400"><code>src&#x2F;core&#x2F;Entity.ts:400</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Checks to see if this Entity has a Tag based upon a string which you pass.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_objType" class="method item public">
     <h3 class="name"><code>objType</code></h3>
 
@@ -999,7 +1229,7 @@ Every entity requires that you pass to it the state that it belongs too, that wa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l470"><code>src&#x2F;core&#x2F;Entity.ts:470</code></a>
+        <a href="../files/src_core_Entity.ts.html#l535"><code>src&#x2F;core&#x2F;Entity.ts:535</code></a>
         
         </p>
 
@@ -1030,6 +1260,99 @@ Every entity requires that you pass to it the state that it belongs too, that wa
                 
             </div>
         </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_removeTag" class="method item public">
+    <h3 class="name"><code>removeTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Entity.ts.html#l384"><code>src&#x2F;core&#x2F;Entity.ts:384</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Removes a Tag from this Entity.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The tag that you would like to remove from this Entity.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
     
 
     
@@ -1080,7 +1403,7 @@ Every entity requires that you pass to it the state that it belongs too, that wa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l490"><code>src&#x2F;core&#x2F;Entity.ts:490</code></a>
+        <a href="../files/src_core_Entity.ts.html#l555"><code>src&#x2F;core&#x2F;Entity.ts:555</code></a>
         
         </p>
 
@@ -1184,7 +1507,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l502"><code>src&#x2F;core&#x2F;Entity.ts:502</code></a>
+        <a href="../files/src_core_Entity.ts.html#l567"><code>src&#x2F;core&#x2F;Entity.ts:567</code></a>
         
         </p>
 
@@ -1298,7 +1621,7 @@ This functionality is handled by the sub classes.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l480"><code>src&#x2F;core&#x2F;Entity.ts:480</code></a>
+        <a href="../files/src_core_Entity.ts.html#l545"><code>src&#x2F;core&#x2F;Entity.ts:545</code></a>
         
         </p>
 
@@ -1355,7 +1678,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l356"><code>src&#x2F;core&#x2F;Entity.ts:356</code></a>
+        <a href="../files/src_core_Entity.ts.html#l421"><code>src&#x2F;core&#x2F;Entity.ts:421</code></a>
         
         </p>
 
@@ -1404,7 +1727,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l181"><code>src&#x2F;core&#x2F;Entity.ts:181</code></a>
+        <a href="../files/src_core_Entity.ts.html#l180"><code>src&#x2F;core&#x2F;Entity.ts:180</code></a>
         
         </p>
 
@@ -1451,7 +1774,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l254"><code>src&#x2F;core&#x2F;Entity.ts:254</code></a>
+        <a href="../files/src_core_Entity.ts.html#l253"><code>src&#x2F;core&#x2F;Entity.ts:253</code></a>
         
         </p>
 
@@ -1500,7 +1823,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l426"><code>src&#x2F;core&#x2F;Entity.ts:426</code></a>
+        <a href="../files/src_core_Entity.ts.html#l491"><code>src&#x2F;core&#x2F;Entity.ts:491</code></a>
         
         </p>
 
@@ -1547,7 +1870,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l335"><code>src&#x2F;core&#x2F;Entity.ts:335</code></a>
+        <a href="../files/src_core_Entity.ts.html#l334"><code>src&#x2F;core&#x2F;Entity.ts:334</code></a>
         
         </p>
 
@@ -1594,7 +1917,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l404"><code>src&#x2F;core&#x2F;Entity.ts:404</code></a>
+        <a href="../files/src_core_Entity.ts.html#l469"><code>src&#x2F;core&#x2F;Entity.ts:469</code></a>
         
         </p>
 
@@ -1641,7 +1964,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l55"><code>src&#x2F;core&#x2F;Entity.ts:55</code></a>
+        <a href="../files/src_core_Entity.ts.html#l54"><code>src&#x2F;core&#x2F;Entity.ts:54</code></a>
         
         </p>
 
@@ -1652,6 +1975,56 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
 
     <div class="description">
         <p>The group that this entity belongs to. If added onto the state then this is the state.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__tags" class="property item private">
+    <h3 class="name"><code>_tags</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Entity.ts.html#l355"><code>src&#x2F;core&#x2F;Entity.ts:355</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.
+By default Entitys contain no tags.</p>
 
     </div>
 
@@ -1688,7 +2061,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l205"><code>src&#x2F;core&#x2F;Entity.ts:205</code></a>
+        <a href="../files/src_core_Entity.ts.html#l204"><code>src&#x2F;core&#x2F;Entity.ts:204</code></a>
         
         </p>
 
@@ -1739,7 +2112,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l379"><code>src&#x2F;core&#x2F;Entity.ts:379</code></a>
+        <a href="../files/src_core_Entity.ts.html#l444"><code>src&#x2F;core&#x2F;Entity.ts:444</code></a>
         
         </p>
 
@@ -1790,7 +2163,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l365"><code>src&#x2F;core&#x2F;Entity.ts:365</code></a>
+        <a href="../files/src_core_Entity.ts.html#l430"><code>src&#x2F;core&#x2F;Entity.ts:430</code></a>
         
         </p>
 
@@ -1838,7 +2211,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l189"><code>src&#x2F;core&#x2F;Entity.ts:189</code></a>
+        <a href="../files/src_core_Entity.ts.html#l188"><code>src&#x2F;core&#x2F;Entity.ts:188</code></a>
         
         </p>
 
@@ -1885,7 +2258,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l246"><code>src&#x2F;core&#x2F;Entity.ts:246</code></a>
+        <a href="../files/src_core_Entity.ts.html#l245"><code>src&#x2F;core&#x2F;Entity.ts:245</code></a>
         
         </p>
 
@@ -1932,7 +2305,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l263"><code>src&#x2F;core&#x2F;Entity.ts:263</code></a>
+        <a href="../files/src_core_Entity.ts.html#l262"><code>src&#x2F;core&#x2F;Entity.ts:262</code></a>
         
         </p>
 
@@ -1982,7 +2355,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l434"><code>src&#x2F;core&#x2F;Entity.ts:434</code></a>
+        <a href="../files/src_core_Entity.ts.html#l499"><code>src&#x2F;core&#x2F;Entity.ts:499</code></a>
         
         </p>
 
@@ -2029,7 +2402,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l294"><code>src&#x2F;core&#x2F;Entity.ts:294</code></a>
+        <a href="../files/src_core_Entity.ts.html#l293"><code>src&#x2F;core&#x2F;Entity.ts:293</code></a>
         
         </p>
 
@@ -2040,53 +2413,6 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
 
     <div class="description">
         <p>The Component Manager</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_dirty" class="property item public">
-    <h3 class="name"><code>dirty</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_Entity.ts.html#l455"><code>src&#x2F;core&#x2F;Entity.ts:455</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A value used by components to control if the Entity needs re-rendering</p>
 
     </div>
 
@@ -2123,7 +2449,54 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l447"><code>src&#x2F;core&#x2F;Entity.ts:447</code></a>
+        <a href="../files/src_core_Entity.ts.html#l512"><code>src&#x2F;core&#x2F;Entity.ts:512</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A value used by components to control if the Entity needs re-rendering</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_dirty" class="property item public">
+    <h3 class="name"><code>dirty</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Entity.ts.html#l520"><code>src&#x2F;core&#x2F;Entity.ts:520</code></a>
         
         </p>
 
@@ -2170,7 +2543,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l343"><code>src&#x2F;core&#x2F;Entity.ts:343</code></a>
+        <a href="../files/src_core_Entity.ts.html#l342"><code>src&#x2F;core&#x2F;Entity.ts:342</code></a>
         
         </p>
 
@@ -2217,7 +2590,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l302"><code>src&#x2F;core&#x2F;Entity.ts:302</code></a>
+        <a href="../files/src_core_Entity.ts.html#l301"><code>src&#x2F;core&#x2F;Entity.ts:301</code></a>
         
         </p>
 
@@ -2264,7 +2637,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l237"><code>src&#x2F;core&#x2F;Entity.ts:237</code></a>
+        <a href="../files/src_core_Entity.ts.html#l236"><code>src&#x2F;core&#x2F;Entity.ts:236</code></a>
         
         </p>
 
@@ -2313,7 +2686,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l318"><code>src&#x2F;core&#x2F;Entity.ts:318</code></a>
+        <a href="../files/src_core_Entity.ts.html#l317"><code>src&#x2F;core&#x2F;Entity.ts:317</code></a>
         
         </p>
 
@@ -2360,7 +2733,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l412"><code>src&#x2F;core&#x2F;Entity.ts:412</code></a>
+        <a href="../files/src_core_Entity.ts.html#l477"><code>src&#x2F;core&#x2F;Entity.ts:477</code></a>
         
         </p>
 
@@ -2408,7 +2781,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l326"><code>src&#x2F;core&#x2F;Entity.ts:326</code></a>
+        <a href="../files/src_core_Entity.ts.html#l325"><code>src&#x2F;core&#x2F;Entity.ts:325</code></a>
         
         </p>
 
@@ -2457,7 +2830,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l63"><code>src&#x2F;core&#x2F;Entity.ts:63</code></a>
+        <a href="../files/src_core_Entity.ts.html#l62"><code>src&#x2F;core&#x2F;Entity.ts:62</code></a>
         
         </p>
 
@@ -2523,7 +2896,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l132"><code>src&#x2F;core&#x2F;Entity.ts:132</code></a>
+        <a href="../files/src_core_Entity.ts.html#l131"><code>src&#x2F;core&#x2F;Entity.ts:131</code></a>
         
         </p>
 
@@ -2570,7 +2943,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l145"><code>src&#x2F;core&#x2F;Entity.ts:145</code></a>
+        <a href="../files/src_core_Entity.ts.html#l144"><code>src&#x2F;core&#x2F;Entity.ts:144</code></a>
         
         </p>
 
@@ -2617,7 +2990,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l158"><code>src&#x2F;core&#x2F;Entity.ts:158</code></a>
+        <a href="../files/src_core_Entity.ts.html#l157"><code>src&#x2F;core&#x2F;Entity.ts:157</code></a>
         
         </p>
 
@@ -2664,7 +3037,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l105"><code>src&#x2F;core&#x2F;Entity.ts:105</code></a>
+        <a href="../files/src_core_Entity.ts.html#l104"><code>src&#x2F;core&#x2F;Entity.ts:104</code></a>
         
         </p>
 
@@ -2711,7 +3084,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l118"><code>src&#x2F;core&#x2F;Entity.ts:118</code></a>
+        <a href="../files/src_core_Entity.ts.html#l117"><code>src&#x2F;core&#x2F;Entity.ts:117</code></a>
         
         </p>
 
@@ -2758,7 +3131,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l310"><code>src&#x2F;core&#x2F;Entity.ts:310</code></a>
+        <a href="../files/src_core_Entity.ts.html#l309"><code>src&#x2F;core&#x2F;Entity.ts:309</code></a>
         
         </p>
 
@@ -2805,7 +3178,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l47"><code>src&#x2F;core&#x2F;Entity.ts:47</code></a>
+        <a href="../files/src_core_Entity.ts.html#l46"><code>src&#x2F;core&#x2F;Entity.ts:46</code></a>
         
         </p>
 
@@ -2852,7 +3225,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l214"><code>src&#x2F;core&#x2F;Entity.ts:214</code></a>
+        <a href="../files/src_core_Entity.ts.html#l213"><code>src&#x2F;core&#x2F;Entity.ts:213</code></a>
         
         </p>
 
@@ -2901,7 +3274,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l228"><code>src&#x2F;core&#x2F;Entity.ts:228</code></a>
+        <a href="../files/src_core_Entity.ts.html#l227"><code>src&#x2F;core&#x2F;Entity.ts:227</code></a>
         
         </p>
 
@@ -2952,7 +3325,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l389"><code>src&#x2F;core&#x2F;Entity.ts:389</code></a>
+        <a href="../files/src_core_Entity.ts.html#l454"><code>src&#x2F;core&#x2F;Entity.ts:454</code></a>
         
         </p>
 
@@ -3003,7 +3376,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l78"><code>src&#x2F;core&#x2F;Entity.ts:78</code></a>
+        <a href="../files/src_core_Entity.ts.html#l77"><code>src&#x2F;core&#x2F;Entity.ts:77</code></a>
         
         </p>
 
@@ -3050,7 +3423,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l91"><code>src&#x2F;core&#x2F;Entity.ts:91</code></a>
+        <a href="../files/src_core_Entity.ts.html#l90"><code>src&#x2F;core&#x2F;Entity.ts:90</code></a>
         
         </p>
 

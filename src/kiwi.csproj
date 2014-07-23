@@ -148,6 +148,7 @@
     <TypeScriptCompile Include="Kiwi.ts" />
     <Content Include="geom\Point.ts" />
     <Content Include="geom\Rectangle.ts" />
+    <Content Include="render\GLBlendMode.ts" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

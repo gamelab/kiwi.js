@@ -1561,6 +1561,30 @@ declare module Kiwi {
         * @public
         */
         destroy(...params: any[]): any;
+        /**
+        * Adds a new Tag to this IChild. Useful for identifying large amounts of the same type of GameObjects.
+        * @method addTag
+        * @param tag {string}
+        * @since 1.1.0
+        * @public
+        */
+        addTag(...params: any[]): any;
+        /**
+        * Removes a Tag from this IChild.
+        * @method removeTag
+        * @param tag {string}
+        * @since 1.1.0
+        * @public
+        */
+        removeTag(...params: any[]): any;
+        /**
+        * Checks to see if this IChild has a Tag based upon a string which you pass.
+        * @method hasTag
+        * @param tag {string}
+        * @since 1.1.0
+        * @public
+        */
+        hasTag(tag: string): boolean;
     }
 }
 /**
@@ -1783,6 +1807,41 @@ declare module Kiwi {
         * @public
         */
         public exists : boolean;
+        /**
+        * Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.
+        * By default Entitys contain no tags.
+        * @property _tags
+        * @type Array
+        * @since 1.1.0
+        * @private
+        */
+        private _tags;
+        /**
+        * Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
+        * You can pass multiple strings to add multiple tags.
+        * @method addTags
+        * @param tag {string} The tag that you would like to add to this Entity.
+        * @since 1.1.0
+        * @public
+        */
+        public addTag(): void;
+        /**
+        * Removes a Tag from this Entity.
+        * @method removeTag
+        * @param tag {string} The tag that you would like to remove from this Entity.
+        * @since 1.1.0
+        * @public
+        */
+        public removeTag(): void;
+        /**
+        * Checks to see if this Entity has a Tag based upon a string which you pass.
+        * @method hasTag
+        * @param tag {string}
+        * @since 1.1.0
+        * @return {boolean}
+        * @public
+        */
+        public hasTag(tag: string): boolean;
         /**
         * An active Entity is one that has its update method called by its parent.
         * @property _active
@@ -2149,6 +2208,11 @@ declare module Kiwi {
         */ 
         public containsAncestor(descendant: IChild, ancestor: Group): boolean;
         /**
+        * -------------------------
+        * Add Children methods
+        * -------------------------
+        **/
+        /**
         * Adds an Entity to this Group. The Entity must not already be in this Group.
         * @method addChild
         * @param child {object} The child to be added.
@@ -2184,6 +2248,50 @@ declare module Kiwi {
         */
         public addChildAfter(child: IChild, beforeChild: IChild): IChild;
         /**
+        * --------------------
+        * Remove Children Methods
+        * --------------------
+        **/
+        /**
+        * Removes an Entity from this Group if it is a child of it.
+        * @method removeChild
+        * @param child {object} The child to be removed.
+        * @param [destroy=false] {boolean} If the entity that gets removed should be destroyed as well.
+        * @return {object} The child.
+        * @public
+        */
+        public removeChild(child: IChild, destroy?: boolean): IChild;
+        /**
+        * Removes the Entity from this Group at the given position.
+        * @method removeChildAt
+        * @param index {Number} The index of the child to be removed.
+        * @return {object} The child, or null.
+        */
+        public removeChildAt(index: number): IChild;
+        /**
+        * Removes all Entities from this Group within the given range.
+        * @method removeChildren
+        * @param begin {Number} The begining index.
+        * @param end {Number} The last index of the range.
+        * @param destroy {Number} If the children should be destroyed as well.
+        * @return {Number} The number of removed entities.
+        * @public
+        */
+        public removeChildren(begin?: number, end?: number, destroy?: boolean): number;
+        /**
+        * Removes the first Entity from this Group marked as 'alive'
+        * @method removeFirstAlive
+        * @param [destroy=false] {boolean} If the entity should run the destroy method when it is removed.
+        * @return {object} The Entity that was removed from this Group if alive, otherwise null
+        * @public
+        */
+        public removeFirstAlive(destroy?: boolean): IChild;
+        /**
+        * -------------------
+        * Get Children Methods
+        * -------------------
+        **/
+        /**
         * Get the child at a specific position in this Group by its index.
         * @method getChildAt
         * @param index {Number} The index of the child
@@ -2216,31 +2324,41 @@ declare module Kiwi {
         */
         public getChildIndex(child: IChild): number;
         /**
-        * Removes an Entity from this Group if it is a child of it.
-        * @method removeChild
-        * @param child {object} The child to be removed.
-        * @param [destroy=false] {boolean} If the entity that gets removed should be destroyed as well.
-        * @return {object} The child.
+        * Returns the first Entity from this Group marked as 'alive' or null if no members are alive
+        * @method getFirstAlive
+        * @return {object}
         * @public
         */
-        public removeChild(child: IChild, destroy?: boolean): IChild;
+        public getFirstAlive(): IChild;
         /**
-        * Removes the Entity from this Group at the given position.
-        * @method removeChildAt
-        * @param index {Number} The index of the child to be removed.
-        * @return {object} The child, or null.
-        */
-        public removeChildAt(index: number): IChild;
-        /**
-        * Removes all Entities from this Group within the given range.
-        * @method removeChildren
-        * @param begin {Number} The begining index.
-        * @param end {Number} The last index of the range.
-        * @param destroy {Number} If the children should be destroyed as well.
-        * @return {Number} The number of removed entities.
+        * Returns the first member of the Group which is not 'alive', returns null if all members are alive.
+        * @method getFirstDead
+        * @return {object}
         * @public
         */
-        public removeChildren(begin?: number, end?: number, destroy?: boolean): number;
+        public getFirstDead(): IChild;
+        /**
+        * Returns a member at random from the group.
+        * @param {Number}	StartIndex	Optional offset off the front of the array. Default value is 0, or the beginning of the array.
+        * @param {Number}	Length		Optional restriction on the number of values you want to randomly select from.
+        * @return {object}	A child from the members list.
+        * @public
+        */
+        public getRandom(start?: number, length?: number): IChild;
+        /**
+        * Returns an array of children which contain the tag which is passed.
+        * @method getChildrenByTag
+        * @param tag {string}
+        * @return {Array}
+        * @public
+        * @since 1.1.0
+        */
+        public getChildrenByTag(tag: string): IChild[];
+        /**
+        * --------------------
+        * Child Depth Sorting Methods
+        * --------------------
+        **/
         /**
         * Sets a new position of an existing Entity within the Group.
         * @method setChildIndex
@@ -2361,28 +2479,6 @@ declare module Kiwi {
         */
         public render(camera: Camera): void;
         /**
-        * Removes the first Entity from this Group marked as 'alive'
-        * @method removeFirstAlive
-        * @param [destroy=false] {boolean} If the entity should run the destroy method when it is removed.
-        * @return {object} The Entity that was removed from this Group if alive, otherwise null
-        * @public
-        */
-        public removeFirstAlive(destroy?: boolean): IChild;
-        /**
-        * Returns the first Entity from this Group marked as 'alive' or null if no members are alive
-        * @method getFirstAlive
-        * @return {object}
-        * @public
-        */
-        public getFirstAlive(): IChild;
-        /**
-        * Returns the first member of the Group which is not 'alive', returns null if all members are alive.
-        * @method getFirstDead
-        * @return {object}
-        * @public
-        */
-        public getFirstDead(): IChild;
-        /**
         * Returns the number of member which are marked as 'alive'
         * @method countLiving
         * @return {Number}
@@ -2396,14 +2492,6 @@ declare module Kiwi {
         * @public
         */
         public countDead(): number;
-        /**
-        * Returns a member at random from the group.
-        * @param {Number}	StartIndex	Optional offset off the front of the array. Default value is 0, or the beginning of the array.
-        * @param {Number}	Length		Optional restriction on the number of values you want to randomly select from.
-        * @return {object}	A child from the members list.
-        * @public
-        */
-        public getRandom(start?: number, length?: number): IChild;
         /**
         * Clear all children from this Group
         * @method clear
@@ -2445,6 +2533,46 @@ declare module Kiwi {
         * @since 1.0.1
         */
         public visible : boolean;
+        /**
+        * ---------------
+        * Tagging System
+        * ---------------
+        **/
+        /**
+        * Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.
+        * By default Entitys contain no tags.
+        * @property _tags
+        * @type Array
+        * @since 1.1.0
+        * @private
+        */
+        private _tags;
+        /**
+        * Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
+        * You can pass multiple strings to add multiple tags.
+        * @method addTags
+        * @param tag {string} The tag that you would like to add to this Entity.
+        * @since 1.1.0
+        * @public
+        */
+        public addTag(): void;
+        /**
+        * Removes a Tag from this Entity.
+        * @method removeTag
+        * @param tag {string} The tag that you would like to remove from this Entity.
+        * @since 1.1.0
+        * @public
+        */
+        public removeTag(): void;
+        /**
+        * Checks to see if this Entity has a Tag based upon a string which you pass.
+        * @method hasTag
+        * @param tag {string}
+        * @since 1.1.0
+        * @return {boolean}
+        * @public
+        */
+        public hasTag(tag: string): boolean;
         /**
         * Removes all children and destroys the Group.
         * @method destroy
@@ -9747,6 +9875,146 @@ declare module Kiwi.Renderers {
         * @public
         */
         static squareCols: number[];
+    }
+}
+/**
+*
+* @module Kiwi
+* @submodule Renderers
+* @namespace Kiwi.Renderers
+*
+*/
+declare module Kiwi.Renderers {
+    /**
+    * The Blend Mode object for recording and applying GL blend functions on a renderer.
+    * @class GLBlendMode
+    * @constructor
+    * @namespace Kiwi.Renderers
+    * @param gl {WebGLRenderingContext}
+    * @param params {Object}
+    * @return {Kiwi.Renderers.GLBlendMode}
+    * @ since 1.1.0
+    */
+    class GLBlendMode {
+        constructor(gl: WebGLRenderingContext, params: any);
+        /**
+        * Target WebGL rendering context.
+        * @property gl
+        * @type WebGLRenderingContext
+        * @public
+        */
+        public gl: WebGLRenderingContext;
+        /**
+        * Dirty flag indicates whether this object has been altered and needs to be processed.
+        * @property dirty
+        * @type boolean
+        * @public
+        */
+        public dirty: boolean;
+        /**
+        * Source RGB factor used in WebGL blendfunc.
+        * @property _srcRGB
+        * @type number
+        * @private
+        */
+        private _srcRGB;
+        /**
+        * Destination RGB factor used in WebGL blendfunc.
+        * @property _dstRGB
+        * @type number
+        * @private
+        */
+        private _dstRGB;
+        /**
+        * Source alpha factor used in WebGL blendfunc.
+        * @property _srcAlpha
+        * @type number
+        * @private
+        */
+        private _srcAlpha;
+        /**
+        * Destination alpha factor used in WebGL blendfunc.
+        * @property _dstAlpha
+        * @type number
+        * @private
+        */
+        private _dstAlpha;
+        /**
+        * RGB mode used in WebGL blendfunc.
+        * @property _modeRGB
+        * @type number
+        * @private
+        */
+        private _modeRGB;
+        /**
+        * Alpha mode used in WebGL blendfunc.
+        * @property _modeAlpha
+        * @type number
+        * @private
+        */
+        private _modeAlpha;
+        /**
+        * Set a blend mode from a param object.
+        *
+        * This is the main method for configuring blend modes on a renderer. It resolves to a pair of calls to blendEquationSeparate and blendFuncSeparate. The params object should specify compatible terms, namely { srcRGB: a, dstRGB: b, srcAlpha: c, dstAlpha: d, modeRGB: e, modeAlpha: f }. You should set abcdef using either direct calls to a gl context (ie. gl.SRC_ALPHA) or by using predefined strings.
+        *
+        * The predefined string parameters for blendEquationSeparate are:
+        *
+        * FUNC_ADD, FUNC_SUBTRACT, and FUNC_REVERSE_SUBTRACT.
+        *
+        * The predefined string parameters for blendFuncSeparate are:
+        *
+        * ZERO, ONE, SRC_COLOR, ONE_MINUS_SRC_COLOR, DST_COLOR, ONE_MINUS_DST_COLOR, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, DST_ALPHA, ONE_MINUS_DST_ALPHA, SRC_ALPHA_SATURATE, CONSTANT_COLOR, ONE_MINUS_CONSTANT_COLOR, CONSTANT_ALPHA, and ONE_MINUS_CONSTANT_ALPHA.
+        *
+        * @method readConfig
+        * @param params {Object}
+        * @public
+        */
+        public readConfig(params: any): void;
+        /**
+        * Formats a parameter into a GL context-compatible number. This recognises valid constant names, such as "SRC_ALPHA" or "REVERSE_AND_SUBTRACT", with some tolerance for case. It does not check for valid numeric codes.
+        * @method makeConstant
+        * @param code {String}
+        * @return {number}
+        * @private
+        */
+        private makeConstant(code);
+        /**
+        * Sets a blend mode by name. Name is case-tolerant.
+        *
+        * These are shortcuts to setting the blend function parameters manually. A listing of valid modes follows. Each is listed with the parameters modeRGB, modeAlpha, srcRGB, dstRGB, srcAlpha, and dstAlpha, constants used in the gl calls "blendEquationSeparate(modeRGB, modeAlpha)" and "blendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha". This is very technical, and will probably only be useful if you are developing your own shaders for Kiwi.js.
+        *
+        * "NORMAL" or any non-recognised string will draw as normal, blending colour via alpha. FUNC_ADD, FUNC_ADD, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE.
+        *
+        * "ADD" or "ADDITIVE" will add pixels to the background, creating a lightening effect. FUNC_ADD, FUNC_ADD, SRC_ALPHA, ONE, ONE, ONE.
+        *
+        * "SUBTRACT" or "SUBTRACTIVE" will subtract pixels from the background, creating an eerie dark effect. FUNC_REVERSE_SUBTRACT, FUNC_ADD, SRC_ALPHA, ONE, ONE, ONE.
+        *
+        * "ERASE" or "ERASER" will erase the game canvas itself, allowing the page background to show through. You can later draw over this erased region. FUNC_REVERSE_SUBTRACT, FUNC_REVERSE_SUBTRACT, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE.
+        *
+        * "BLACK" or "BLACKEN" will turn all colour black, but preserve alpha. FUNC_ADD, FUNC_ADD, ZERO, ONE_MINUS_SRC_ALPHA, ONE, ONE.
+        *
+        * Blend modes as seen in Adobe Photoshop are not reliably available via WebGL blend modes. Such blend modes require shaders to create.
+        * @method setMode
+        * @param mode {String}
+        * @public
+        */
+        public setMode(mode: string): void;
+        /**
+        * Compares against another GLBlendMode
+        * @method isIdentical
+        * @return {Boolean} Is this GLBlendMode identical to the passed GLBlendMode?
+        * @param blendMode {Kiwi.Renderers.GLBlendMode}
+        * @public
+        */
+        public isIdentical(blendMode: GLBlendMode): boolean;
+        /**
+        * Sets the blend mode on the video card
+        * @method apply
+        * @param gl {WebGLRenderingContext}
+        * @public
+        */
+        public apply(gl: WebGLRenderingContext): void;
     }
 }
 /**
@@ -20429,144 +20697,4 @@ declare module Kiwi {
     }
     var Plugins: {};
     var extend: Function;
-}
-/**
-*
-* @module Kiwi
-* @submodule Renderers
-* @namespace Kiwi.Renderers
-*
-*/
-declare module Kiwi.Renderers {
-    /**
-    * The Blend Mode object for recording and applying GL blend functions on a renderer.
-    * @class GLBlendMode
-    * @constructor
-    * @namespace Kiwi.Renderers
-    * @param gl {WebGLRenderingContext}
-    * @param params {Object}
-    * @return {Kiwi.Renderers.GLBlendMode}
-    * @ since 1.1.0
-    */
-    class GLBlendMode {
-        constructor(gl: WebGLRenderingContext, params: any);
-        /**
-        * Target WebGL rendering context.
-        * @property gl
-        * @type WebGLRenderingContext
-        * @public
-        */
-        public gl: WebGLRenderingContext;
-        /**
-        * Dirty flag indicates whether this object has been altered and needs to be processed.
-        * @property dirty
-        * @type boolean
-        * @public
-        */
-        public dirty: boolean;
-        /**
-        * Source RGB factor used in WebGL blendfunc.
-        * @property _srcRGB
-        * @type number
-        * @private
-        */
-        private _srcRGB;
-        /**
-        * Destination RGB factor used in WebGL blendfunc.
-        * @property _dstRGB
-        * @type number
-        * @private
-        */
-        private _dstRGB;
-        /**
-        * Source alpha factor used in WebGL blendfunc.
-        * @property _srcAlpha
-        * @type number
-        * @private
-        */
-        private _srcAlpha;
-        /**
-        * Destination alpha factor used in WebGL blendfunc.
-        * @property _dstAlpha
-        * @type number
-        * @private
-        */
-        private _dstAlpha;
-        /**
-        * RGB mode used in WebGL blendfunc.
-        * @property _modeRGB
-        * @type number
-        * @private
-        */
-        private _modeRGB;
-        /**
-        * Alpha mode used in WebGL blendfunc.
-        * @property _modeAlpha
-        * @type number
-        * @private
-        */
-        private _modeAlpha;
-        /**
-        * Set a blend mode from a param object.
-        *
-        * This is the main method for configuring blend modes on a renderer. It resolves to a pair of calls to blendEquationSeparate and blendFuncSeparate. The params object should specify compatible terms, namely { srcRGB: a, dstRGB: b, srcAlpha: c, dstAlpha: d, modeRGB: e, modeAlpha: f }. You should set abcdef using either direct calls to a gl context (ie. gl.SRC_ALPHA) or by using predefined strings.
-        *
-        * The predefined string parameters for blendEquationSeparate are:
-        *
-        * FUNC_ADD, FUNC_SUBTRACT, and FUNC_REVERSE_SUBTRACT.
-        *
-        * The predefined string parameters for blendFuncSeparate are:
-        *
-        * ZERO, ONE, SRC_COLOR, ONE_MINUS_SRC_COLOR, DST_COLOR, ONE_MINUS_DST_COLOR, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, DST_ALPHA, ONE_MINUS_DST_ALPHA, SRC_ALPHA_SATURATE, CONSTANT_COLOR, ONE_MINUS_CONSTANT_COLOR, CONSTANT_ALPHA, and ONE_MINUS_CONSTANT_ALPHA.
-        *
-        * @method readConfig
-        * @param params {Object}
-        * @public
-        */
-        public readConfig(params: any): void;
-        /**
-        * Formats a parameter into a GL context-compatible number. This recognises valid constant names, such as "SRC_ALPHA" or "REVERSE_AND_SUBTRACT", with some tolerance for case. It does not check for valid numeric codes.
-        * @method makeConstant
-        * @param code {String}
-        * @return {number}
-        * @private
-        */
-        private makeConstant(code);
-        /**
-        * Sets a blend mode by name. Name is case-tolerant.
-        *
-        * These are shortcuts to setting the blend function parameters manually. A listing of valid modes follows. Each is listed with the parameters modeRGB, modeAlpha, srcRGB, dstRGB, srcAlpha, and dstAlpha, constants used in the gl calls "blendEquationSeparate(modeRGB, modeAlpha)" and "blendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha". This is very technical, and will probably only be useful if you are developing your own shaders for Kiwi.js.
-        *
-        * "NORMAL" or any non-recognised string will draw as normal, blending colour via alpha. FUNC_ADD, FUNC_ADD, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE.
-        *
-        * "ADD" or "ADDITIVE" will add pixels to the background, creating a lightening effect. FUNC_ADD, FUNC_ADD, SRC_ALPHA, ONE, ONE, ONE.
-        *
-        * "SUBTRACT" or "SUBTRACTIVE" will subtract pixels from the background, creating an eerie dark effect. FUNC_REVERSE_SUBTRACT, FUNC_ADD, SRC_ALPHA, ONE, ONE, ONE.
-        *
-        * "ERASE" or "ERASER" will erase the game canvas itself, allowing the page background to show through. You can later draw over this erased region. FUNC_REVERSE_SUBTRACT, FUNC_REVERSE_SUBTRACT, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE.
-        *
-        * "BLACK" or "BLACKEN" will turn all colour black, but preserve alpha. FUNC_ADD, FUNC_ADD, ZERO, ONE_MINUS_SRC_ALPHA, ONE, ONE.
-        *
-        * Blend modes as seen in Adobe Photoshop are not reliably available via WebGL blend modes. Such blend modes require shaders to create.
-        * @method setMode
-        * @param mode {String}
-        * @public
-        */
-        public setMode(mode: string): void;
-        /**
-        * Compares against another GLBlendMode
-        * @method isIdentical
-        * @return {Boolean} Is this GLBlendMode identical to the passed GLBlendMode?
-        * @param blendMode {Kiwi.Renderers.GLBlendMode}
-        * @public
-        */
-        public isIdentical(blendMode: GLBlendMode): boolean;
-        /**
-        * Sets the blend mode on the video card
-        * @method apply
-        * @param gl {WebGLRenderingContext}
-        * @public
-        */
-        public apply(gl: WebGLRenderingContext): void;
-    }
 }

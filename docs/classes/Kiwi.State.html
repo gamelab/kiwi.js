@@ -577,6 +577,13 @@ There can only ever be a single State active at a given time.</p>
                                 
                             </li>
                         
+                            <li class="index-item method public inherited">
+                                <a href="#method_addTags">addTags</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public">
                                 <a href="#method_addTextureAtlas">addTextureAtlas</a>
 
@@ -718,6 +725,13 @@ There can only ever be a single State active at a given time.</p>
                             </li>
                         
                             <li class="index-item method public inherited">
+                                <a href="#method_getChildrenByTag">getChildrenByTag</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
                                 <a href="#method_getFirstAlive">getFirstAlive</a>
 
                                 
@@ -726,6 +740,13 @@ There can only ever be a single State active at a given time.</p>
                         
                             <li class="index-item method public inherited">
                                 <a href="#method_getFirstDead">getFirstDead</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_hasTag">hasTag</a>
 
                                 
                                 
@@ -836,6 +857,13 @@ There can only ever be a single State active at a given time.</p>
                                 
                             </li>
                         
+                            <li class="index-item method public inherited">
+                                <a href="#method_removeTag">removeTag</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public deprecated inherited">
                                 <a href="#method_render">render</a>
 
@@ -927,6 +955,13 @@ There can only ever be a single State active at a given time.</p>
                         
                             <li class="index-item property private inherited">
                                 <a href="#property__parent">_parent</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private inherited">
+                                <a href="#property__tags">_tags</a>
 
                                 
                                 
@@ -1394,7 +1429,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l295"><code>src&#x2F;core&#x2F;Group.ts:295</code></a>
+        <a href="../files/src_core_Group.ts.html#l303"><code>src&#x2F;core&#x2F;Group.ts:303</code></a>
         
         </p>
 
@@ -1506,7 +1541,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l359"><code>src&#x2F;core&#x2F;Group.ts:359</code></a>
+        <a href="../files/src_core_Group.ts.html#l369"><code>src&#x2F;core&#x2F;Group.ts:369</code></a>
         
         </p>
 
@@ -1634,7 +1669,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l318"><code>src&#x2F;core&#x2F;Group.ts:318</code></a>
+        <a href="../files/src_core_Group.ts.html#l328"><code>src&#x2F;core&#x2F;Group.ts:328</code></a>
         
         </p>
 
@@ -1762,7 +1797,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l338"><code>src&#x2F;core&#x2F;Group.ts:338</code></a>
+        <a href="../files/src_core_Group.ts.html#l348"><code>src&#x2F;core&#x2F;Group.ts:348</code></a>
         
         </p>
 
@@ -2544,6 +2579,97 @@ There can only ever be a single State active at a given time.</p>
 </div>
 
                 
+                    <div id="method_addTags" class="method item public inherited">
+    <h3 class="name"><code>addTags</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_addTags">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1053"><code>src&#x2F;core&#x2F;Group.ts:1053</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
+You can pass multiple strings to add multiple tags.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The tag that you would like to add to this Entity.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_addTextureAtlas" class="method item public">
     <h3 class="name"><code>addTextureAtlas</code></h3>
 
@@ -2929,7 +3055,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l686"><code>src&#x2F;core&#x2F;Group.ts:686</code></a>
+        <a href="../files/src_core_Group.ts.html#l827"><code>src&#x2F;core&#x2F;Group.ts:827</code></a>
         
         </p>
 
@@ -3114,7 +3240,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l914"><code>src&#x2F;core&#x2F;Group.ts:914</code></a>
+        <a href="../files/src_core_Group.ts.html#l975"><code>src&#x2F;core&#x2F;Group.ts:975</code></a>
         
         </p>
 
@@ -3508,7 +3634,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l862"><code>src&#x2F;core&#x2F;Group.ts:862</code></a>
+        <a href="../files/src_core_Group.ts.html#l955"><code>src&#x2F;core&#x2F;Group.ts:955</code></a>
         
         </p>
 
@@ -3578,7 +3704,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l842"><code>src&#x2F;core&#x2F;Group.ts:842</code></a>
+        <a href="../files/src_core_Group.ts.html#l935"><code>src&#x2F;core&#x2F;Group.ts:935</code></a>
         
         </p>
 
@@ -3928,7 +4054,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l630"><code>src&#x2F;core&#x2F;Group.ts:630</code></a>
+        <a href="../files/src_core_Group.ts.html#l771"><code>src&#x2F;core&#x2F;Group.ts:771</code></a>
         
         </p>
 
@@ -4063,7 +4189,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l646"><code>src&#x2F;core&#x2F;Group.ts:646</code></a>
+        <a href="../files/src_core_Group.ts.html#l787"><code>src&#x2F;core&#x2F;Group.ts:787</code></a>
         
         </p>
 
@@ -4190,7 +4316,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l380"><code>src&#x2F;core&#x2F;Group.ts:380</code></a>
+        <a href="../files/src_core_Group.ts.html#l491"><code>src&#x2F;core&#x2F;Group.ts:491</code></a>
         
         </p>
 
@@ -4296,7 +4422,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l416"><code>src&#x2F;core&#x2F;Group.ts:416</code></a>
+        <a href="../files/src_core_Group.ts.html#l527"><code>src&#x2F;core&#x2F;Group.ts:527</code></a>
         
         </p>
 
@@ -4402,7 +4528,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l397"><code>src&#x2F;core&#x2F;Group.ts:397</code></a>
+        <a href="../files/src_core_Group.ts.html#l508"><code>src&#x2F;core&#x2F;Group.ts:508</code></a>
         
         </p>
 
@@ -4508,7 +4634,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l435"><code>src&#x2F;core&#x2F;Group.ts:435</code></a>
+        <a href="../files/src_core_Group.ts.html#l546"><code>src&#x2F;core&#x2F;Group.ts:546</code></a>
         
         </p>
 
@@ -4569,6 +4695,111 @@ Returns the number of Objects removed.</p>
 </div>
 
                 
+                    <div id="method_getChildrenByTag" class="method item public inherited">
+    <h3 class="name"><code>getChildrenByTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Array</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_getChildrenByTag">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l626"><code>src&#x2F;core&#x2F;Group.ts:626</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Returns an array of children which contain the tag which is passed.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Array</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_getFirstAlive" class="method item public inherited">
     <h3 class="name"><code>getFirstAlive</code></h3>
 
@@ -4604,7 +4835,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l807"><code>src&#x2F;core&#x2F;Group.ts:807</code></a>
+        <a href="../files/src_core_Group.ts.html#l559"><code>src&#x2F;core&#x2F;Group.ts:559</code></a>
         
         </p>
 
@@ -4674,7 +4905,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l824"><code>src&#x2F;core&#x2F;Group.ts:824</code></a>
+        <a href="../files/src_core_Group.ts.html#l576"><code>src&#x2F;core&#x2F;Group.ts:576</code></a>
         
         </p>
 
@@ -4699,6 +4930,111 @@ Returns the number of Objects removed.</p>
                 
                     
                         <span class="type">Object</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_hasTag" class="method item public inherited">
+    <h3 class="name"><code>hasTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_hasTag">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1088"><code>src&#x2F;core&#x2F;Group.ts:1088</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Checks to see if this Entity has a Tag based upon a string which you pass.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
                     
                 
             </div>
@@ -5479,7 +5815,7 @@ When overriding make sure you include a super call at the end of the method.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l448"><code>src&#x2F;core&#x2F;Group.ts:448</code></a>
+        <a href="../files/src_core_Group.ts.html#l398"><code>src&#x2F;core&#x2F;Group.ts:398</code></a>
         
         </p>
 
@@ -5600,7 +5936,7 @@ When overriding make sure you include a super call at the end of the method.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l476"><code>src&#x2F;core&#x2F;Group.ts:476</code></a>
+        <a href="../files/src_core_Group.ts.html#l426"><code>src&#x2F;core&#x2F;Group.ts:426</code></a>
         
         </p>
 
@@ -5718,7 +6054,7 @@ When overriding make sure you include a super call at the end of the method.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l494"><code>src&#x2F;core&#x2F;Group.ts:494</code></a>
+        <a href="../files/src_core_Group.ts.html#l444"><code>src&#x2F;core&#x2F;Group.ts:444</code></a>
         
         </p>
 
@@ -5856,7 +6192,7 @@ When overriding make sure you include a super call at the end of the method.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l794"><code>src&#x2F;core&#x2F;Group.ts:794</code></a>
+        <a href="../files/src_core_Group.ts.html#l470"><code>src&#x2F;core&#x2F;Group.ts:470</code></a>
         
         </p>
 
@@ -6010,6 +6346,96 @@ This is an INTERNAL Kiwi method and DEVS shouldn&#39;t really need to worry abou
 </div>
 
                 
+                    <div id="method_removeTag" class="method item public inherited">
+    <h3 class="name"><code>removeTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_removeTag">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1072"><code>src&#x2F;core&#x2F;Group.ts:1072</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Removes a Tag from this Entity.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The tag that you would like to remove from this Entity.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_render" class="method item public deprecated inherited">
     <h3 class="name"><code>render</code></h3>
 
@@ -6053,7 +6479,7 @@ This is an INTERNAL Kiwi method and DEVS shouldn&#39;t really need to worry abou
             
         
         
-        <a href="../files/src_core_Group.ts.html#l782"><code>src&#x2F;core&#x2F;Group.ts:782</code></a>
+        <a href="../files/src_core_Group.ts.html#l923"><code>src&#x2F;core&#x2F;Group.ts:923</code></a>
         
         </p>
 
@@ -6151,7 +6577,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l597"><code>src&#x2F;core&#x2F;Group.ts:597</code></a>
+        <a href="../files/src_core_Group.ts.html#l738"><code>src&#x2F;core&#x2F;Group.ts:738</code></a>
         
         </p>
 
@@ -6281,7 +6707,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l666"><code>src&#x2F;core&#x2F;Group.ts:666</code></a>
+        <a href="../files/src_core_Group.ts.html#l807"><code>src&#x2F;core&#x2F;Group.ts:807</code></a>
         
         </p>
 
@@ -6411,7 +6837,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l520"><code>src&#x2F;core&#x2F;Group.ts:520</code></a>
+        <a href="../files/src_core_Group.ts.html#l661"><code>src&#x2F;core&#x2F;Group.ts:661</code></a>
         
         </p>
 
@@ -6596,7 +7022,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l541"><code>src&#x2F;core&#x2F;Group.ts:541</code></a>
+        <a href="../files/src_core_Group.ts.html#l682"><code>src&#x2F;core&#x2F;Group.ts:682</code></a>
         
         </p>
 
@@ -6724,7 +7150,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l569"><code>src&#x2F;core&#x2F;Group.ts:569</code></a>
+        <a href="../files/src_core_Group.ts.html#l710"><code>src&#x2F;core&#x2F;Group.ts:710</code></a>
         
         </p>
 
@@ -6888,7 +7314,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l757"><code>src&#x2F;core&#x2F;Group.ts:757</code></a>
+        <a href="../files/src_core_Group.ts.html#l898"><code>src&#x2F;core&#x2F;Group.ts:898</code></a>
         
         </p>
 
@@ -6934,7 +7360,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1020"><code>src&#x2F;core&#x2F;Group.ts:1020</code></a>
+        <a href="../files/src_core_Group.ts.html#l1155"><code>src&#x2F;core&#x2F;Group.ts:1155</code></a>
         
         </p>
 
@@ -7044,6 +7470,53 @@ This method never gets called as the render is only worried about rendering enti
 </div>
 
                 
+                    <div id="property__tags" class="property item private inherited">
+    <h3 class="name"><code>_tags</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property__tags">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1043"><code>src&#x2F;core&#x2F;Group.ts:1043</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.
+By default Entitys contain no tags.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property__visible" class="property item private inherited">
     <h3 class="name"><code>_visible</code></h3>
     <span class="type">Boolean</span>
@@ -7066,7 +7539,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l949"><code>src&#x2F;core&#x2F;Group.ts:949</code></a>
+        <a href="../files/src_core_Group.ts.html#l1010"><code>src&#x2F;core&#x2F;Group.ts:1010</code></a>
         
         </p>
 
@@ -7116,7 +7589,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l925"><code>src&#x2F;core&#x2F;Group.ts:925</code></a>
+        <a href="../files/src_core_Group.ts.html#l986"><code>src&#x2F;core&#x2F;Group.ts:986</code></a>
         
         </p>
 
@@ -7162,7 +7635,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l766"><code>src&#x2F;core&#x2F;Group.ts:766</code></a>
+        <a href="../files/src_core_Group.ts.html#l907"><code>src&#x2F;core&#x2F;Group.ts:907</code></a>
         
         </p>
 
@@ -7537,7 +8010,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
             
         
         
-        <a href="../files/src_core_Group.ts.html#l734"><code>src&#x2F;core&#x2F;Group.ts:734</code></a>
+        <a href="../files/src_core_Group.ts.html#l875"><code>src&#x2F;core&#x2F;Group.ts:875</code></a>
         
         </p>
 
@@ -8038,7 +8511,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l959"><code>src&#x2F;core&#x2F;Group.ts:959</code></a>
+        <a href="../files/src_core_Group.ts.html#l1020"><code>src&#x2F;core&#x2F;Group.ts:1020</code></a>
         
         </p>
 
@@ -8088,7 +8561,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l934"><code>src&#x2F;core&#x2F;Group.ts:934</code></a>
+        <a href="../files/src_core_Group.ts.html#l995"><code>src&#x2F;core&#x2F;Group.ts:995</code></a>
         
         </p>
 

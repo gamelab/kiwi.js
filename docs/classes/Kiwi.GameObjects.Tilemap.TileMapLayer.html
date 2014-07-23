@@ -722,6 +722,13 @@ A TileMapLayer should not be directly created, but instead should be created thr
                                 
                             </li>
                         
+                            <li class="index-item method public inherited">
+                                <a href="#method_addTags">addTags</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public">
                                 <a href="#method_chartToScreen">chartToScreen</a>
 
@@ -800,6 +807,13 @@ A TileMapLayer should not be directly created, but instead should be created thr
                             </li>
                         
                             <li class="index-item method public inherited">
+                                <a href="#method_hasTag">hasTag</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
                                 <a href="#method_objType">objType</a>
 
                                 
@@ -808,6 +822,13 @@ A TileMapLayer should not be directly created, but instead should be created thr
                         
                             <li class="index-item method public">
                                 <a href="#method_randomizeTiles">randomizeTiles</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_removeTag">removeTag</a>
 
                                 
                                 
@@ -958,6 +979,13 @@ A TileMapLayer should not be directly created, but instead should be created thr
                         
                             <li class="index-item property private">
                                 <a href="#property__startY">_startY</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private inherited">
+                                <a href="#property__tags">_tags</a>
 
                                 
                                 
@@ -1387,6 +1415,97 @@ All coordinates calculated are stored as temporary properties (maxX/Y, startX/Y)
 </div>
 
                 
+                    <div id="method_addTags" class="method item public inherited">
+    <h3 class="name"><code>addTags</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Entity.html#method_addTags">Kiwi.Entity</a>:
+            
+        
+        
+        <a href="../files/src_core_Entity.ts.html#l365"><code>src&#x2F;core&#x2F;Entity.ts:365</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
+You can pass multiple strings to add multiple tags.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The tag that you would like to add to this Entity.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_chartToScreen" class="method item public">
     <h3 class="name"><code>chartToScreen</code></h3>
 
@@ -1693,7 +1812,7 @@ Note: This is for use in ISOMETRIC Tilemaps.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l516"><code>src&#x2F;core&#x2F;Entity.ts:516</code></a>
+        <a href="../files/src_core_Entity.ts.html#l581"><code>src&#x2F;core&#x2F;Entity.ts:581</code></a>
         
         </p>
 
@@ -2897,6 +3016,111 @@ Coordinates passed are in tiles.</p>
 </div>
 
                 
+                    <div id="method_hasTag" class="method item public inherited">
+    <h3 class="name"><code>hasTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Entity.html#method_hasTag">Kiwi.Entity</a>:
+            
+        
+        
+        <a href="../files/src_core_Entity.ts.html#l400"><code>src&#x2F;core&#x2F;Entity.ts:400</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Checks to see if this Entity has a Tag based upon a string which you pass.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_objType" class="method item public">
     <h3 class="name"><code>objType</code></h3>
 
@@ -3155,6 +3379,96 @@ Default tile types used are everyone avaiable.</p>
 </div>
 
                 
+                    <div id="method_removeTag" class="method item public inherited">
+    <h3 class="name"><code>removeTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Entity.html#method_removeTag">Kiwi.Entity</a>:
+            
+        
+        
+        <a href="../files/src_core_Entity.ts.html#l384"><code>src&#x2F;core&#x2F;Entity.ts:384</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Removes a Tag from this Entity.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The tag that you would like to remove from this Entity.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_render" class="method item public">
     <h3 class="name"><code>render</code></h3>
 
@@ -3298,7 +3612,7 @@ Default tile types used are everyone avaiable.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l502"><code>src&#x2F;core&#x2F;Entity.ts:502</code></a>
+        <a href="../files/src_core_Entity.ts.html#l567"><code>src&#x2F;core&#x2F;Entity.ts:567</code></a>
         
         </p>
 
@@ -4298,7 +4612,7 @@ Can be used to override a tile that may already exist at the location.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l356"><code>src&#x2F;core&#x2F;Entity.ts:356</code></a>
+        <a href="../files/src_core_Entity.ts.html#l421"><code>src&#x2F;core&#x2F;Entity.ts:421</code></a>
         
         </p>
 
@@ -4344,7 +4658,7 @@ Can be used to override a tile that may already exist at the location.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l181"><code>src&#x2F;core&#x2F;Entity.ts:181</code></a>
+        <a href="../files/src_core_Entity.ts.html#l180"><code>src&#x2F;core&#x2F;Entity.ts:180</code></a>
         
         </p>
 
@@ -4388,7 +4702,7 @@ Can be used to override a tile that may already exist at the location.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l254"><code>src&#x2F;core&#x2F;Entity.ts:254</code></a>
+        <a href="../files/src_core_Entity.ts.html#l253"><code>src&#x2F;core&#x2F;Entity.ts:253</code></a>
         
         </p>
 
@@ -4434,7 +4748,7 @@ Can be used to override a tile that may already exist at the location.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l426"><code>src&#x2F;core&#x2F;Entity.ts:426</code></a>
+        <a href="../files/src_core_Entity.ts.html#l491"><code>src&#x2F;core&#x2F;Entity.ts:491</code></a>
         
         </p>
 
@@ -4525,7 +4839,7 @@ Can be used to override a tile that may already exist at the location.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l335"><code>src&#x2F;core&#x2F;Entity.ts:335</code></a>
+        <a href="../files/src_core_Entity.ts.html#l334"><code>src&#x2F;core&#x2F;Entity.ts:334</code></a>
         
         </p>
 
@@ -4569,7 +4883,7 @@ Can be used to override a tile that may already exist at the location.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l404"><code>src&#x2F;core&#x2F;Entity.ts:404</code></a>
+        <a href="../files/src_core_Entity.ts.html#l469"><code>src&#x2F;core&#x2F;Entity.ts:469</code></a>
         
         </p>
 
@@ -4709,7 +5023,7 @@ Is updated each frame, via the _calculateBoundaries method.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l55"><code>src&#x2F;core&#x2F;Entity.ts:55</code></a>
+        <a href="../files/src_core_Entity.ts.html#l54"><code>src&#x2F;core&#x2F;Entity.ts:54</code></a>
         
         </p>
 
@@ -4827,6 +5141,53 @@ Is updated each frame, via the _calculateBoundaries method.</p>
 </div>
 
                 
+                    <div id="property__tags" class="property item private inherited">
+    <h3 class="name"><code>_tags</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Entity.html#property__tags">Kiwi.Entity</a>:
+            
+        
+        
+        <a href="../files/src_core_Entity.ts.html#l355"><code>src&#x2F;core&#x2F;Entity.ts:355</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.
+By default Entitys contain no tags.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property__temptype" class="property item private">
     <h3 class="name"><code>_temptype</code></h3>
     <span class="type">TileType</span>
@@ -4896,7 +5257,7 @@ Is updated each frame, via the _calculateBoundaries method.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l205"><code>src&#x2F;core&#x2F;Entity.ts:205</code></a>
+        <a href="../files/src_core_Entity.ts.html#l204"><code>src&#x2F;core&#x2F;Entity.ts:204</code></a>
         
         </p>
 
@@ -4944,7 +5305,7 @@ Is updated each frame, via the _calculateBoundaries method.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l379"><code>src&#x2F;core&#x2F;Entity.ts:379</code></a>
+        <a href="../files/src_core_Entity.ts.html#l444"><code>src&#x2F;core&#x2F;Entity.ts:444</code></a>
         
         </p>
 
@@ -4992,7 +5353,7 @@ Is updated each frame, via the _calculateBoundaries method.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l365"><code>src&#x2F;core&#x2F;Entity.ts:365</code></a>
+        <a href="../files/src_core_Entity.ts.html#l430"><code>src&#x2F;core&#x2F;Entity.ts:430</code></a>
         
         </p>
 
@@ -5037,7 +5398,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l189"><code>src&#x2F;core&#x2F;Entity.ts:189</code></a>
+        <a href="../files/src_core_Entity.ts.html#l188"><code>src&#x2F;core&#x2F;Entity.ts:188</code></a>
         
         </p>
 
@@ -5128,7 +5489,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l263"><code>src&#x2F;core&#x2F;Entity.ts:263</code></a>
+        <a href="../files/src_core_Entity.ts.html#l262"><code>src&#x2F;core&#x2F;Entity.ts:262</code></a>
         
         </p>
 
@@ -5175,7 +5536,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l434"><code>src&#x2F;core&#x2F;Entity.ts:434</code></a>
+        <a href="../files/src_core_Entity.ts.html#l499"><code>src&#x2F;core&#x2F;Entity.ts:499</code></a>
         
         </p>
 
@@ -5219,7 +5580,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l294"><code>src&#x2F;core&#x2F;Entity.ts:294</code></a>
+        <a href="../files/src_core_Entity.ts.html#l293"><code>src&#x2F;core&#x2F;Entity.ts:293</code></a>
         
         </p>
 
@@ -5462,7 +5823,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l447"><code>src&#x2F;core&#x2F;Entity.ts:447</code></a>
+        <a href="../files/src_core_Entity.ts.html#l512"><code>src&#x2F;core&#x2F;Entity.ts:512</code></a>
         
         </p>
 
@@ -5506,7 +5867,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l343"><code>src&#x2F;core&#x2F;Entity.ts:343</code></a>
+        <a href="../files/src_core_Entity.ts.html#l342"><code>src&#x2F;core&#x2F;Entity.ts:342</code></a>
         
         </p>
 
@@ -5550,7 +5911,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l302"><code>src&#x2F;core&#x2F;Entity.ts:302</code></a>
+        <a href="../files/src_core_Entity.ts.html#l301"><code>src&#x2F;core&#x2F;Entity.ts:301</code></a>
         
         </p>
 
@@ -5688,7 +6049,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l318"><code>src&#x2F;core&#x2F;Entity.ts:318</code></a>
+        <a href="../files/src_core_Entity.ts.html#l317"><code>src&#x2F;core&#x2F;Entity.ts:317</code></a>
         
         </p>
 
@@ -5732,7 +6093,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l412"><code>src&#x2F;core&#x2F;Entity.ts:412</code></a>
+        <a href="../files/src_core_Entity.ts.html#l477"><code>src&#x2F;core&#x2F;Entity.ts:477</code></a>
         
         </p>
 
@@ -5777,7 +6138,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l326"><code>src&#x2F;core&#x2F;Entity.ts:326</code></a>
+        <a href="../files/src_core_Entity.ts.html#l325"><code>src&#x2F;core&#x2F;Entity.ts:325</code></a>
         
         </p>
 
@@ -5873,7 +6234,7 @@ TileMaps can be either &#39;orthogonal&#39; (normal) or &#39;isometric&#39;.</p>
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l63"><code>src&#x2F;core&#x2F;Entity.ts:63</code></a>
+        <a href="../files/src_core_Entity.ts.html#l62"><code>src&#x2F;core&#x2F;Entity.ts:62</code></a>
         
         </p>
 
@@ -6031,7 +6392,7 @@ Note: That tilemap layers a immovable and collisions with tiles are set on the i
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l132"><code>src&#x2F;core&#x2F;Entity.ts:132</code></a>
+        <a href="../files/src_core_Entity.ts.html#l131"><code>src&#x2F;core&#x2F;Entity.ts:131</code></a>
         
         </p>
 
@@ -6075,7 +6436,7 @@ Note: That tilemap layers a immovable and collisions with tiles are set on the i
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l145"><code>src&#x2F;core&#x2F;Entity.ts:145</code></a>
+        <a href="../files/src_core_Entity.ts.html#l144"><code>src&#x2F;core&#x2F;Entity.ts:144</code></a>
         
         </p>
 
@@ -6119,7 +6480,7 @@ Note: That tilemap layers a immovable and collisions with tiles are set on the i
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l158"><code>src&#x2F;core&#x2F;Entity.ts:158</code></a>
+        <a href="../files/src_core_Entity.ts.html#l157"><code>src&#x2F;core&#x2F;Entity.ts:157</code></a>
         
         </p>
 
@@ -6163,7 +6524,7 @@ Note: That tilemap layers a immovable and collisions with tiles are set on the i
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l105"><code>src&#x2F;core&#x2F;Entity.ts:105</code></a>
+        <a href="../files/src_core_Entity.ts.html#l104"><code>src&#x2F;core&#x2F;Entity.ts:104</code></a>
         
         </p>
 
@@ -6207,7 +6568,7 @@ Note: That tilemap layers a immovable and collisions with tiles are set on the i
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l118"><code>src&#x2F;core&#x2F;Entity.ts:118</code></a>
+        <a href="../files/src_core_Entity.ts.html#l117"><code>src&#x2F;core&#x2F;Entity.ts:117</code></a>
         
         </p>
 
@@ -6251,7 +6612,7 @@ Note: That tilemap layers a immovable and collisions with tiles are set on the i
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l310"><code>src&#x2F;core&#x2F;Entity.ts:310</code></a>
+        <a href="../files/src_core_Entity.ts.html#l309"><code>src&#x2F;core&#x2F;Entity.ts:309</code></a>
         
         </p>
 
@@ -6483,7 +6844,7 @@ Note: That tilemap layers a immovable and collisions with tiles are set on the i
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l47"><code>src&#x2F;core&#x2F;Entity.ts:47</code></a>
+        <a href="../files/src_core_Entity.ts.html#l46"><code>src&#x2F;core&#x2F;Entity.ts:46</code></a>
         
         </p>
 
@@ -6527,7 +6888,7 @@ Note: That tilemap layers a immovable and collisions with tiles are set on the i
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l214"><code>src&#x2F;core&#x2F;Entity.ts:214</code></a>
+        <a href="../files/src_core_Entity.ts.html#l213"><code>src&#x2F;core&#x2F;Entity.ts:213</code></a>
         
         </p>
 
@@ -6669,7 +7030,7 @@ Note: That tilemap layers a immovable and collisions with tiles are set on the i
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l389"><code>src&#x2F;core&#x2F;Entity.ts:389</code></a>
+        <a href="../files/src_core_Entity.ts.html#l454"><code>src&#x2F;core&#x2F;Entity.ts:454</code></a>
         
         </p>
 
@@ -6717,7 +7078,7 @@ Note: That tilemap layers a immovable and collisions with tiles are set on the i
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l78"><code>src&#x2F;core&#x2F;Entity.ts:78</code></a>
+        <a href="../files/src_core_Entity.ts.html#l77"><code>src&#x2F;core&#x2F;Entity.ts:77</code></a>
         
         </p>
 
@@ -6761,7 +7122,7 @@ Note: That tilemap layers a immovable and collisions with tiles are set on the i
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l91"><code>src&#x2F;core&#x2F;Entity.ts:91</code></a>
+        <a href="../files/src_core_Entity.ts.html#l90"><code>src&#x2F;core&#x2F;Entity.ts:90</code></a>
         
         </p>
 
