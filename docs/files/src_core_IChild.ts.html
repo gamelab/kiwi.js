@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/core/IChild.ts - Kiwi.js</title>
+    <title>src\core\IChild.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -346,7 +346,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/core/IChild.ts</h1>
+                        <h1 class="file-heading">File: src\core\IChild.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -376,7 +376,7 @@ module Kiwi {
         * @public
         * @deprecated Only Kiwi.Entity and inheritors are rendered.
         */
-        render(camera:Kiwi.Camera);
+        render(camera: Kiwi.Camera);
 
         /**
         * Update the entity. Automatically called every frame.
@@ -553,6 +553,34 @@ module Kiwi {
         * @public
         */
         destroy(...params: any[]);
+
+        /**
+        * Adds a new Tag to this IChild. Useful for identifying large amounts of the same type of GameObjects.
+        * @method addTag
+        * @param tag {string}
+        * @since 1.1.0
+        * @public
+        */
+        addTag(...params: any[]);
+        
+        /**
+        * Removes a Tag from this IChild.
+        * @method removeTag
+        * @param tag {string}
+        * @since 1.1.0
+        * @public
+        */
+        removeTag(...params: any[]);
+        
+        /**
+        * Checks to see if this IChild has a Tag based upon a string which you pass.
+        * @method hasTag
+        * @param tag {string}
+        * @since 1.1.0
+        * @public
+        */
+        hasTag(tag: string): boolean;
+
     }
 
 }

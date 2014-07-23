@@ -38,7 +38,6 @@ module Kiwi {
             this.transform.x = x;
             this.transform.y = y; 
 
-            
         }
 
         public glRenderer: Kiwi.Renderers.Renderer;
@@ -352,6 +351,72 @@ module Kiwi {
         public get exists():boolean {
             return this._exists;
         }
+
+        /**
+        * Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.
+        * By default Entitys contain no tags.
+        * @property _tags
+        * @type Array
+        * @since 1.1.0
+        * @private
+        */
+        private _tags: string[] = [];
+
+        /**
+        * Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
+        * You can pass multiple strings to add multiple tags.
+        * @method addTags
+        * @param tag {string} The tag that you would like to add to this Entity.
+        * @since 1.1.0
+        * @public
+        */
+        public addTag() {
+
+            //Loop through the arguments
+            for (var i = 0; i < arguments.length; i++) {
+                if (this._tags.indexOf(arguments[i]) == -1) {
+                    this._tags.push(arguments[i]);
+                }
+            }
+            
+        }
+
+        /**
+        * Removes a Tag from this Entity.
+        * @method removeTag
+        * @param tag {string} The tag that you would like to remove from this Entity.
+        * @since 1.1.0
+        * @public
+        */
+        public removeTag() {
+
+            for (var i = 0; i < arguments.length; i++) {
+                var index = this._tags.indexOf(arguments[i]);
+                if (index !== -1) this._tags.splice(index, 1);
+            }
+
+        }
+
+        /**
+        * Checks to see if this Entity has a Tag based upon a string which you pass.
+        * @method hasTag
+        * @param tag {string} 
+        * @since 1.1.0
+        * @return {boolean}
+        * @public 
+        */
+        public hasTag(tag: string): boolean {
+
+            var len = this._tags.length;
+            while (len--) {
+                if (this._tags[len] === tag) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
 
         /**
 		* An active Entity is one that has its update method called by its parent. 

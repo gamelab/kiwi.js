@@ -352,13 +352,13 @@
 
     
         <div class="extends">
-            Extends <a href="../classes/Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a>
+            Extends <a href="..\classes\Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a>
         </div>
     
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_gameobjects_Textfield.ts.html#l10"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:10</code></a>
+            Defined in: <a href="../files/src_gameobjects_Textfield.ts.html#l10"><code>src\gameobjects\Textfield.ts:10</code></a>
         </div>
     
 
@@ -470,7 +470,7 @@
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l10"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:10</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l10"><code>src\gameobjects\Textfield.ts:10</code></a>
         
         </p>
 
@@ -493,7 +493,7 @@
                 <li class="param">
                     
                         <code class="param-name">state</code>
-                        <span class="type"><a href="../classes/Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
+                        <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
                     
 
                     
@@ -682,6 +682,13 @@
                             </li>
                         
                             <li class="index-item method public inherited">
+                                <a href="#method_addTags">addTags</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
                                 <a href="#method_destroy">destroy</a>
 
                                 
@@ -689,7 +696,21 @@
                             </li>
                         
                             <li class="index-item method public inherited">
+                                <a href="#method_hasTag">hasTag</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
                                 <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_removeTag">removeTag</a>
 
                                 
                                 
@@ -826,6 +847,13 @@
                         
                             <li class="index-item property private inherited">
                                 <a href="#property__parent">_parent</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private inherited">
+                                <a href="#property__tags">_tags</a>
 
                                 
                                 
@@ -1162,7 +1190,7 @@
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l290"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:290</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l290"><code>src\gameobjects\Textfield.ts:290</code></a>
         
         </p>
 
@@ -1178,6 +1206,97 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_addTags" class="method item public inherited">
+    <h3 class="name"><code>addTags</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Entity.html#method_addTags">Kiwi.Entity</a>:
+            
+        
+        
+        <a href="../files/src_core_Entity.ts.html#l365"><code>src\core\Entity.ts:365</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
+You can pass multiple strings to add multiple tags.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The tag that you would like to add to this Entity.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -1223,11 +1342,11 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#method_destroy">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#method_destroy">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l516"><code>src&#x2F;core&#x2F;Entity.ts:516</code></a>
+        <a href="../files/src_core_Entity.ts.html#l581"><code>src\core\Entity.ts:581</code></a>
         
         </p>
 
@@ -1275,6 +1394,111 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
 </div>
 
                 
+                    <div id="method_hasTag" class="method item public inherited">
+    <h3 class="name"><code>hasTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Entity.html#method_hasTag">Kiwi.Entity</a>:
+            
+        
+        
+        <a href="../files/src_core_Entity.ts.html#l400"><code>src\core\Entity.ts:400</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Checks to see if this Entity has a Tag based upon a string which you pass.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_objType" class="method item public">
     <h3 class="name"><code>objType</code></h3>
 
@@ -1305,7 +1529,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
     <div class="meta">
         
             <p>Inherited from
-            <a href="../classes/Kiwi.Entity.html#method_objType">
+            <a href="..\classes\Kiwi.Entity.html#method_objType">
                 Kiwi.Entity
             </a>
             
@@ -1313,7 +1537,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l62"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:62</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l62"><code>src\gameobjects\Textfield.ts:62</code></a>
         
         </p>
 
@@ -1342,6 +1566,96 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
                 
             </div>
         </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_removeTag" class="method item public inherited">
+    <h3 class="name"><code>removeTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Entity.html#method_removeTag">Kiwi.Entity</a>:
+            
+        
+        
+        <a href="../files/src_core_Entity.ts.html#l384"><code>src\core\Entity.ts:384</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Removes a Tag from this Entity.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The tag that you would like to remove from this Entity.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
     
 
     
@@ -1384,7 +1698,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
     <div class="meta">
         
             <p>Inherited from
-            <a href="../classes/Kiwi.Entity.html#method_render">
+            <a href="..\classes\Kiwi.Entity.html#method_render">
                 Kiwi.Entity
             </a>
             
@@ -1392,7 +1706,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l351"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:351</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l351"><code>src\gameobjects\Textfield.ts:351</code></a>
         
         </p>
 
@@ -1416,7 +1730,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
                 <li class="param">
                     
                         <code class="param-name">UNKNOWN</code>
-                        <span class="type"><a href="../classes/Kiwi.Camera.html" class="crosslink">Kiwi.Camera</a></span>
+                        <span class="type"><a href="..\classes\Kiwi.Camera.html" class="crosslink">Kiwi.Camera</a></span>
                     
 
                     
@@ -1486,7 +1800,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
     <div class="meta">
         
             <p>Inherited from
-            <a href="../classes/Kiwi.Entity.html#method_renderGL">
+            <a href="..\classes\Kiwi.Entity.html#method_renderGL">
                 Kiwi.Entity
             </a>
             
@@ -1494,7 +1808,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l401"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:401</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l401"><code>src\gameobjects\Textfield.ts:401</code></a>
         
         </p>
 
@@ -1533,7 +1847,7 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
                 <li class="param">
                     
                         <code class="param-name">camera</code>
-                        <span class="type"><a href="../classes/Kiwi.Camera.html" class="crosslink">Kiwi.Camera</a></span>
+                        <span class="type"><a href="..\classes\Kiwi.Camera.html" class="crosslink">Kiwi.Camera</a></span>
                     
 
                     
@@ -1597,11 +1911,11 @@ This is so that the canvas doesn&#39;t render it every frame as it can be costly
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#method_update">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#method_update">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l480"><code>src&#x2F;core&#x2F;Entity.ts:480</code></a>
+        <a href="../files/src_core_Entity.ts.html#l545"><code>src\core\Entity.ts:545</code></a>
         
         </p>
 
@@ -1651,11 +1965,11 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property__active">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property__active">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l356"><code>src&#x2F;core&#x2F;Entity.ts:356</code></a>
+        <a href="../files/src_core_Entity.ts.html#l421"><code>src\core\Entity.ts:421</code></a>
         
         </p>
 
@@ -1704,7 +2018,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l125"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:125</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l125"><code>src\gameobjects\Textfield.ts:125</code></a>
         
         </p>
 
@@ -1748,11 +2062,11 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property__alpha">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property__alpha">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l181"><code>src&#x2F;core&#x2F;Entity.ts:181</code></a>
+        <a href="../files/src_core_Entity.ts.html#l180"><code>src\core\Entity.ts:180</code></a>
         
         </p>
 
@@ -1799,7 +2113,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l135"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:135</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l135"><code>src\gameobjects\Textfield.ts:135</code></a>
         
         </p>
 
@@ -1846,7 +2160,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l266"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:266</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l266"><code>src\gameobjects\Textfield.ts:266</code></a>
         
         </p>
 
@@ -1886,11 +2200,11 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property__cellIndex">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property__cellIndex">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l254"><code>src&#x2F;core&#x2F;Entity.ts:254</code></a>
+        <a href="../files/src_core_Entity.ts.html#l253"><code>src\core\Entity.ts:253</code></a>
         
         </p>
 
@@ -1932,11 +2246,11 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property__clock">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property__clock">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l426"><code>src&#x2F;core&#x2F;Entity.ts:426</code></a>
+        <a href="../files/src_core_Entity.ts.html#l491"><code>src\core\Entity.ts:491</code></a>
         
         </p>
 
@@ -1983,7 +2297,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l274"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:274</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l274"><code>src\gameobjects\Textfield.ts:274</code></a>
         
         </p>
 
@@ -2023,11 +2337,11 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property__exists">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property__exists">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l335"><code>src&#x2F;core&#x2F;Entity.ts:335</code></a>
+        <a href="../files/src_core_Entity.ts.html#l334"><code>src\core\Entity.ts:334</code></a>
         
         </p>
 
@@ -2074,7 +2388,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l98"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:98</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l98"><code>src\gameobjects\Textfield.ts:98</code></a>
         
         </p>
 
@@ -2123,7 +2437,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l107"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:107</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l107"><code>src\gameobjects\Textfield.ts:107</code></a>
         
         </p>
 
@@ -2172,7 +2486,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l89"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:89</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l89"><code>src\gameobjects\Textfield.ts:89</code></a>
         
         </p>
 
@@ -2221,7 +2535,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l80"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:80</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l80"><code>src\gameobjects\Textfield.ts:80</code></a>
         
         </p>
 
@@ -2263,11 +2577,11 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property__inputEnabled">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property__inputEnabled">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l404"><code>src&#x2F;core&#x2F;Entity.ts:404</code></a>
+        <a href="../files/src_core_Entity.ts.html#l469"><code>src\core\Entity.ts:469</code></a>
         
         </p>
 
@@ -2291,7 +2605,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
                 
                     <div id="property__parent" class="property item private inherited">
     <h3 class="name"><code>_parent</code></h3>
-    <span class="type"><a href="../classes/Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
+    <span class="type"><a href="..\classes\Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
 
     
 
@@ -2307,11 +2621,11 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property__parent">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property__parent">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l55"><code>src&#x2F;core&#x2F;Entity.ts:55</code></a>
+        <a href="../files/src_core_Entity.ts.html#l54"><code>src\core\Entity.ts:54</code></a>
         
         </p>
 
@@ -2322,6 +2636,53 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
 
     <div class="description">
         <p>The group that this entity belongs to. If added onto the state then this is the state.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__tags" class="property item private inherited">
+    <h3 class="name"><code>_tags</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Kiwi.Entity.html#property__tags">Kiwi.Entity</a>:
+            
+        
+        
+        <a href="../files/src_core_Entity.ts.html#l355"><code>src\core\Entity.ts:355</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.
+By default Entitys contain no tags.</p>
 
     </div>
 
@@ -2356,7 +2717,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l282"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:282</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l282"><code>src\gameobjects\Textfield.ts:282</code></a>
         
         </p>
 
@@ -2403,7 +2764,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l72"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:72</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l72"><code>src\gameobjects\Textfield.ts:72</code></a>
         
         </p>
 
@@ -2450,7 +2811,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l116"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:116</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l116"><code>src\gameobjects\Textfield.ts:116</code></a>
         
         </p>
 
@@ -2492,11 +2853,11 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property__visible">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property__visible">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l205"><code>src&#x2F;core&#x2F;Entity.ts:205</code></a>
+        <a href="../files/src_core_Entity.ts.html#l204"><code>src\core\Entity.ts:204</code></a>
         
         </p>
 
@@ -2540,11 +2901,11 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property__willRender">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property__willRender">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l379"><code>src&#x2F;core&#x2F;Entity.ts:379</code></a>
+        <a href="../files/src_core_Entity.ts.html#l444"><code>src\core\Entity.ts:444</code></a>
         
         </p>
 
@@ -2588,11 +2949,11 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_active">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_active">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l365"><code>src&#x2F;core&#x2F;Entity.ts:365</code></a>
+        <a href="../files/src_core_Entity.ts.html#l430"><code>src\core\Entity.ts:430</code></a>
         
         </p>
 
@@ -2633,11 +2994,11 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_alpha">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_alpha">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l189"><code>src&#x2F;core&#x2F;Entity.ts:189</code></a>
+        <a href="../files/src_core_Entity.ts.html#l188"><code>src\core\Entity.ts:188</code></a>
         
         </p>
 
@@ -2661,7 +3022,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
                 
                     <div id="property_atlas" class="property item public inherited">
     <h3 class="name"><code>atlas</code></h3>
-    <span class="type"><a href="../classes/Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
+    <span class="type"><a href="..\classes\Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
 
     
 
@@ -2677,11 +3038,11 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_atlas">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_atlas">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l246"><code>src&#x2F;core&#x2F;Entity.ts:246</code></a>
+        <a href="../files/src_core_Entity.ts.html#l245"><code>src\core\Entity.ts:245</code></a>
         
         </p>
 
@@ -2721,11 +3082,11 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_cellIndex">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_cellIndex">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l263"><code>src&#x2F;core&#x2F;Entity.ts:263</code></a>
+        <a href="../files/src_core_Entity.ts.html#l262"><code>src\core\Entity.ts:262</code></a>
         
         </p>
 
@@ -2752,7 +3113,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
                 
                     <div id="property_clock" class="property item public inherited">
     <h3 class="name"><code>clock</code></h3>
-    <span class="type"><a href="../classes/Kiwi.Time.Clock.html" class="crosslink">Kiwi.Time.Clock</a></span>
+    <span class="type"><a href="..\classes\Kiwi.Time.Clock.html" class="crosslink">Kiwi.Time.Clock</a></span>
 
     
 
@@ -2768,11 +3129,11 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_clock">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_clock">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l434"><code>src&#x2F;core&#x2F;Entity.ts:434</code></a>
+        <a href="../files/src_core_Entity.ts.html#l499"><code>src\core\Entity.ts:499</code></a>
         
         </p>
 
@@ -2819,7 +3180,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l158"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:158</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l158"><code>src\gameobjects\Textfield.ts:158</code></a>
         
         </p>
 
@@ -2843,7 +3204,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
                 
                     <div id="property_components" class="property item public inherited">
     <h3 class="name"><code>components</code></h3>
-    <span class="type"><a href="../classes/Kiwi.ComponentManager.html" class="crosslink">Kiwi.ComponentManager</a></span>
+    <span class="type"><a href="..\classes\Kiwi.ComponentManager.html" class="crosslink">Kiwi.ComponentManager</a></span>
 
     
 
@@ -2859,11 +3220,11 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_components">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_components">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l294"><code>src&#x2F;core&#x2F;Entity.ts:294</code></a>
+        <a href="../files/src_core_Entity.ts.html#l293"><code>src\core\Entity.ts:293</code></a>
         
         </p>
 
@@ -2902,7 +3263,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
     <div class="meta">
         
             <p>Inherited from
-            <a href="../classes/Kiwi.Entity.html#property_dirty">
+            <a href="..\classes\Kiwi.Entity.html#property_dirty">
                 Kiwi.Entity
             </a>
             
@@ -2910,7 +3271,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l447"><code>src&#x2F;core&#x2F;Entity.ts:447</code></a>
+        <a href="../files/src_core_Entity.ts.html#l512"><code>src\core\Entity.ts:512</code></a>
         
         </p>
 
@@ -2950,11 +3311,11 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_exists">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_exists">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l343"><code>src&#x2F;core&#x2F;Entity.ts:343</code></a>
+        <a href="../files/src_core_Entity.ts.html#l342"><code>src\core\Entity.ts:342</code></a>
         
         </p>
 
@@ -3001,7 +3362,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l202"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:202</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l202"><code>src\gameobjects\Textfield.ts:202</code></a>
         
         </p>
 
@@ -3048,7 +3409,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l187"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:187</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l187"><code>src\gameobjects\Textfield.ts:187</code></a>
         
         </p>
 
@@ -3095,7 +3456,7 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l173"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:173</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l173"><code>src\gameobjects\Textfield.ts:173</code></a>
         
         </p>
 
@@ -3135,11 +3496,11 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_game">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_game">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l302"><code>src&#x2F;core&#x2F;Entity.ts:302</code></a>
+        <a href="../files/src_core_Entity.ts.html#l301"><code>src\core\Entity.ts:301</code></a>
         
         </p>
 
@@ -3179,11 +3540,11 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_height">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_height">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l237"><code>src&#x2F;core&#x2F;Entity.ts:237</code></a>
+        <a href="../files/src_core_Entity.ts.html#l236"><code>src\core\Entity.ts:236</code></a>
         
         </p>
 
@@ -3225,11 +3586,11 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_id">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_id">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l318"><code>src&#x2F;core&#x2F;Entity.ts:318</code></a>
+        <a href="../files/src_core_Entity.ts.html#l317"><code>src\core\Entity.ts:317</code></a>
         
         </p>
 
@@ -3269,11 +3630,11 @@ E.g. If you had a spritesheet with 3 frames/cells and you wanted the second fram
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_inputEnabled">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_inputEnabled">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l412"><code>src&#x2F;core&#x2F;Entity.ts:412</code></a>
+        <a href="../files/src_core_Entity.ts.html#l477"><code>src\core\Entity.ts:477</code></a>
         
         </p>
 
@@ -3314,11 +3675,11 @@ This method should be over-ridden to handle specific game object implementations
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_name">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_name">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l326"><code>src&#x2F;core&#x2F;Entity.ts:326</code></a>
+        <a href="../files/src_core_Entity.ts.html#l325"><code>src\core\Entity.ts:325</code></a>
         
         </p>
 
@@ -3360,11 +3721,11 @@ This method should be over-ridden to handle specific game object implementations
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_parent">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_parent">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l63"><code>src&#x2F;core&#x2F;Entity.ts:63</code></a>
+        <a href="../files/src_core_Entity.ts.html#l62"><code>src\core\Entity.ts:62</code></a>
         
         </p>
 
@@ -3390,7 +3751,7 @@ This method should be over-ridden to handle specific game object implementations
             <li class="param">
                 
                     <code class="param-name">val</code>
-                    <span class="type"><a href="../classes/Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
+                    <span class="type"><a href="..\classes\Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
                 
 
                 <div class="param-description">
@@ -3423,11 +3784,11 @@ This method should be over-ridden to handle specific game object implementations
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_rotation">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_rotation">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l132"><code>src&#x2F;core&#x2F;Entity.ts:132</code></a>
+        <a href="../files/src_core_Entity.ts.html#l131"><code>src\core\Entity.ts:131</code></a>
         
         </p>
 
@@ -3467,11 +3828,11 @@ This method should be over-ridden to handle specific game object implementations
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_rotPointX">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_rotPointX">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l145"><code>src&#x2F;core&#x2F;Entity.ts:145</code></a>
+        <a href="../files/src_core_Entity.ts.html#l144"><code>src\core\Entity.ts:144</code></a>
         
         </p>
 
@@ -3511,11 +3872,11 @@ This method should be over-ridden to handle specific game object implementations
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_rotPointY">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_rotPointY">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l158"><code>src&#x2F;core&#x2F;Entity.ts:158</code></a>
+        <a href="../files/src_core_Entity.ts.html#l157"><code>src\core\Entity.ts:157</code></a>
         
         </p>
 
@@ -3555,11 +3916,11 @@ This method should be over-ridden to handle specific game object implementations
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_scaleX">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_scaleX">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l105"><code>src&#x2F;core&#x2F;Entity.ts:105</code></a>
+        <a href="../files/src_core_Entity.ts.html#l104"><code>src\core\Entity.ts:104</code></a>
         
         </p>
 
@@ -3599,11 +3960,11 @@ This method should be over-ridden to handle specific game object implementations
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_scaleY">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_scaleY">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l118"><code>src&#x2F;core&#x2F;Entity.ts:118</code></a>
+        <a href="../files/src_core_Entity.ts.html#l117"><code>src\core\Entity.ts:117</code></a>
         
         </p>
 
@@ -3643,11 +4004,11 @@ This method should be over-ridden to handle specific game object implementations
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_state">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_state">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l310"><code>src&#x2F;core&#x2F;Entity.ts:310</code></a>
+        <a href="../files/src_core_Entity.ts.html#l309"><code>src\core\Entity.ts:309</code></a>
         
         </p>
 
@@ -3694,7 +4055,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l143"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:143</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l143"><code>src\gameobjects\Textfield.ts:143</code></a>
         
         </p>
 
@@ -3745,7 +4106,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l217"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:217</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l217"><code>src\gameobjects\Textfield.ts:217</code></a>
         
         </p>
 
@@ -3796,7 +4157,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l237"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:237</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l237"><code>src\gameobjects\Textfield.ts:237</code></a>
         
         </p>
 
@@ -3847,7 +4208,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l227"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:227</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l227"><code>src\gameobjects\Textfield.ts:227</code></a>
         
         </p>
 
@@ -3871,7 +4232,7 @@ This method should be over-ridden to handle specific game object implementations
                 
                     <div id="property_transform" class="property item public inherited">
     <h3 class="name"><code>transform</code></h3>
-    <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
+    <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
 
     
 
@@ -3887,11 +4248,11 @@ This method should be over-ridden to handle specific game object implementations
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_transform">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_transform">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l47"><code>src&#x2F;core&#x2F;Entity.ts:47</code></a>
+        <a href="../files/src_core_Entity.ts.html#l46"><code>src\core\Entity.ts:46</code></a>
         
         </p>
 
@@ -3931,11 +4292,11 @@ This method should be over-ridden to handle specific game object implementations
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_visible">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_visible">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l214"><code>src&#x2F;core&#x2F;Entity.ts:214</code></a>
+        <a href="../files/src_core_Entity.ts.html#l213"><code>src\core\Entity.ts:213</code></a>
         
         </p>
 
@@ -3977,11 +4338,11 @@ This method should be over-ridden to handle specific game object implementations
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_width">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_width">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l228"><code>src&#x2F;core&#x2F;Entity.ts:228</code></a>
+        <a href="../files/src_core_Entity.ts.html#l227"><code>src\core\Entity.ts:227</code></a>
         
         </p>
 
@@ -4025,11 +4386,11 @@ This method should be over-ridden to handle specific game object implementations
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_willRender">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_willRender">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l389"><code>src&#x2F;core&#x2F;Entity.ts:389</code></a>
+        <a href="../files/src_core_Entity.ts.html#l454"><code>src\core\Entity.ts:454</code></a>
         
         </p>
 
@@ -4073,11 +4434,11 @@ This method should be over-ridden to handle specific game object implementations
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_x">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_x">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l78"><code>src&#x2F;core&#x2F;Entity.ts:78</code></a>
+        <a href="../files/src_core_Entity.ts.html#l77"><code>src\core\Entity.ts:77</code></a>
         
         </p>
 
@@ -4117,11 +4478,11 @@ This method should be over-ridden to handle specific game object implementations
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_y">Kiwi.Entity</a>:
+                <a href="..\classes\Kiwi.Entity.html#property_y">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_core_Entity.ts.html#l91"><code>src&#x2F;core&#x2F;Entity.ts:91</code></a>
+        <a href="../files/src_core_Entity.ts.html#l90"><code>src\core\Entity.ts:90</code></a>
         
         </p>
 

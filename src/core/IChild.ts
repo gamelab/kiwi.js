@@ -24,7 +24,7 @@ module Kiwi {
         * @public
         * @deprecated Only Kiwi.Entity and inheritors are rendered.
         */
-        render(camera:Kiwi.Camera);
+        render(camera: Kiwi.Camera);
 
         /**
         * Update the entity. Automatically called every frame.
@@ -201,6 +201,34 @@ module Kiwi {
         * @public
         */
         destroy(...params: any[]);
+
+        /**
+        * Adds a new Tag to this IChild. Useful for identifying large amounts of the same type of GameObjects.
+        * @method addTag
+        * @param tag {string}
+        * @since 1.1.0
+        * @public
+        */
+        addTag(...params: any[]);
+        
+        /**
+        * Removes a Tag from this IChild.
+        * @method removeTag
+        * @param tag {string}
+        * @since 1.1.0
+        * @public
+        */
+        removeTag(...params: any[]);
+        
+        /**
+        * Checks to see if this IChild has a Tag based upon a string which you pass.
+        * @method hasTag
+        * @param tag {string}
+        * @since 1.1.0
+        * @public
+        */
+        hasTag(tag: string): boolean;
+
     }
 
 }

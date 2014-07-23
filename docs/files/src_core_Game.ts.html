@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/core/Game.ts - Kiwi.js</title>
+    <title>src\core\Game.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -346,7 +346,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/core/Game.ts</h1>
+                        <h1 class="file-heading">File: src\core\Game.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -807,6 +807,34 @@ module Kiwi {
         private _lastTime: number;
 
         /**
+        * The number of frames since the game was launched.
+        * @property _frame
+        * @type number
+        * @private
+        * @since 1.1.0
+        */
+        private _frame: number = 0;
+
+        /**
+        * The number of frames since the game was launched.
+        * 
+        * Use this to drive cyclic animations. You may manually reset it in a Kiwi.State.create() function to restart the count from 0.
+        *
+        * The largest exact integer value of a JavaScript number is 2^53, or 9007199254740992. At 60 frames per second, this will take 4,760,273 years to become inaccurate.
+        * @property frame
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get frame(): number {
+            return( this._frame );
+        }
+        public set frame( value: number ) {
+            this._frame = Kiwi.Utils.GameMath.truncate( value );
+        }
+
+
+        /**
         * The current frameRate that the update/render loops are running at. Note that this may not be an  accurate representation.
         * @property frameRate
         * @return string
@@ -883,7 +911,8 @@ module Kiwi {
                 this.cameras.update();
                 if (this._deviceTargetOption !== Kiwi.TARGET_COCOON) this.huds.update();
                 this.states.update();
-                this.pluginManager.update();    
+                this.pluginManager.update();
+                this._frame++;
 
                 if (this.states.current !== null) {
                     this.cameras.render();
