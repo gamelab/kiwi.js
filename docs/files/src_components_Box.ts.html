@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\components\Box.ts - Kiwi.js</title>
+    <title>src/components/Box.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -346,7 +346,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\components\Box.ts</h1>
+                        <h1 class="file-heading">File: src/components/Box.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -362,11 +362,17 @@ module Kiwi.Components {
     /**
     * The Box Component is used to handle the various &#x27;bounds&#x27; that each GameObject has. 
     * There are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) depending on what you are wanting:
+    *
     * RawBounds: The bounding box of the GameObject before rotation/scale.
+    * 
     * RawHitbox: The hitbox of the GameObject before rotation/scale. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.
+    *
     * Bounds: The bounding box of the GameObject after rotation/scale.
+    *
     * Hitbox: The hitbox of the GameObject after rotation/scale. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.
+    *
     * WorldBounds: The bounding box of the Entity using its world coordinates and after rotation/scale.
+    *
     * WorldHitbox: The hitbox of the Entity using its world coordinates and after rotation/scale.
     *
     * @class Box
@@ -387,7 +393,6 @@ module Kiwi.Components {
             super(parent, &#x27;Box&#x27;);
             
             this.entity = parent;
-            this.dirty = true;
 
             this._rawBounds = new Kiwi.Geom.Rectangle(x,y,width,height);
             this._rawCenter = new Kiwi.Geom.Point(x + width / 2, y + height / 2);
@@ -438,6 +443,7 @@ module Kiwi.Components {
         * @property dirty
         * @type boolean
         * @public
+        * @deprecated in version 1.1.0 because the box always needed updating
         */
         public dirty: boolean;
 
@@ -463,7 +469,7 @@ module Kiwi.Components {
         */
         public get hitboxOffset(): Kiwi.Geom.Point {
 
-            if (this.dirty &amp;&amp; this.autoUpdate == true &amp;&amp; this.entity.atlas !== null) {
+            if (this.autoUpdate == true &amp;&amp; this.entity.atlas !== null) {
                 this._hitboxOffset.x = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x;
                 this._hitboxOffset.y = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y;
 
@@ -492,23 +498,19 @@ module Kiwi.Components {
         * @public
         */
         public get rawHitbox(): Kiwi.Geom.Rectangle {
-            if (this.dirty) {
 
-                this._rawHitbox.x = this.rawBounds.x + this.hitboxOffset.x;
-                this._rawHitbox.y = this.rawBounds.y + this.hitboxOffset.y;
+            this._rawHitbox.x = this.rawBounds.x + this.hitboxOffset.x;
+            this._rawHitbox.y = this.rawBounds.y + this.hitboxOffset.y;
 
+            //If the hitbox has not already been set, then update the width/height based upon the current cell that the entity has.
+            if (this.autoUpdate == true) {
+                var atlas = this.entity.atlas;
 
-                //If the hitbox has not already been set, then update the width/height based upon the current cell that the entity has.
-                if (this.autoUpdate == true) {
-                    var atlas = this.entity.atlas;
+                if (atlas !== null) {
+                    this._rawHitbox.width = atlas.cells[this.entity.cellIndex].hitboxes[0].w;
+                    this._rawHitbox.height = atlas.cells[this.entity.cellIndex].hitboxes[0].h;
 
-                    if (atlas !== null) {
-                        this._rawHitbox.width = atlas.cells[this.entity.cellIndex].hitboxes[0].w;
-                        this._rawHitbox.height = atlas.cells[this.entity.cellIndex].hitboxes[0].h;
-
-                    }
                 }
-
             }
             
             return this._rawHitbox;
@@ -541,9 +543,7 @@ module Kiwi.Components {
         * @public
         */
         public get hitbox(): Kiwi.Geom.Rectangle {
-            if (this.dirty) {
-                this._transformedHitbox = this._rotateHitbox(this.rawHitbox.clone());
-            }
+            this._transformedHitbox = this._rotateHitbox(this.rawHitbox.clone());
 
             return this._transformedHitbox;
         }
@@ -573,10 +573,7 @@ module Kiwi.Components {
         * @public
         */
         public get worldHitbox(): Kiwi.Geom.Rectangle {
-            
-            if (this.dirty) {
-                this._worldHitbox = this._rotateHitbox(this.rawHitbox.clone(), true);
-            }
+            this._worldHitbox = this._rotateHitbox(this.rawHitbox.clone(), true);
 
             return this._worldHitbox;
         }
@@ -603,12 +600,11 @@ module Kiwi.Components {
         * @public
         */
         public get rawBounds(): Kiwi.Geom.Rectangle {
-            if (this.dirty) {
-                this._rawBounds.x = this.entity.x;
-                this._rawBounds.y = this.entity.y;
-                this._rawBounds.width = this.entity.width;
-                this._rawBounds.height = this.entity.height;
-            }
+            this._rawBounds.x = this.entity.x;
+            this._rawBounds.y = this.entity.y;
+            this._rawBounds.width = this.entity.width;
+            this._rawBounds.height = this.entity.height;
+
             return this._rawBounds;
         }
     
@@ -632,10 +628,9 @@ module Kiwi.Components {
         * @public
         */
         public get rawCenter(): Kiwi.Geom.Point {
-            if (this.dirty) {
-                this._rawCenter.x = this.rawBounds.x + this.rawBounds.width / 2,
-                this._rawCenter.y = this.rawBounds.y + this.rawBounds.height / 2;
-            }
+            this._rawCenter.x = this.rawBounds.x + this.rawBounds.width / 2;
+            this._rawCenter.y = this.rawBounds.y + this.rawBounds.height / 2;
+
             return this._rawCenter;
         }
     
@@ -659,13 +654,11 @@ module Kiwi.Components {
         * @public
         */
         public get center(): Kiwi.Geom.Point {
-            if (this.dirty) {
-                var t: Kiwi.Geom.Transform = this.entity.transform;
-                var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
-                m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY)
-                this._transformedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - t.rotPointX, this.entity.height / 2 - t.rotPointY));
+            var t: Kiwi.Geom.Transform = this.entity.transform;
+            var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
+            m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY)
+            this._transformedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - t.rotPointX, this.entity.height / 2 - t.rotPointY));
 
-            }
             return this._transformedCenter;
         }
 
@@ -697,9 +690,8 @@ module Kiwi.Components {
         * @public
         */
         public get bounds(): Kiwi.Geom.Rectangle {
-            if (this.dirty) {
-                this._transformedBounds = this._rotateRect(this.rawBounds.clone()); 
-            }
+            this._transformedBounds = this._rotateRect(this.rawBounds.clone()); 
+            
             return this._transformedBounds;
         }
 
@@ -711,9 +703,8 @@ module Kiwi.Components {
         * @public
         */
         public get worldBounds(): Kiwi.Geom.Rectangle {
-            if (this.dirty) {
-                this._worldBounds = this._rotateRect(this.rawBounds.clone(), true);
-            }
+            this._worldBounds = this._rotateRect(this.rawBounds.clone(), true);
+            
             return this._worldBounds;
         }
 

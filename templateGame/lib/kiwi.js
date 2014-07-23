@@ -7410,11 +7410,17 @@ var Kiwi;
         /**
         * The Box Component is used to handle the various 'bounds' that each GameObject has.
         * There are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) depending on what you are wanting:
+        *
         * RawBounds: The bounding box of the GameObject before rotation/scale.
+        *
         * RawHitbox: The hitbox of the GameObject before rotation/scale. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.
+        *
         * Bounds: The bounding box of the GameObject after rotation/scale.
+        *
         * Hitbox: The hitbox of the GameObject after rotation/scale. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.
+        *
         * WorldBounds: The bounding box of the Entity using its world coordinates and after rotation/scale.
+        *
         * WorldHitbox: The hitbox of the Entity using its world coordinates and after rotation/scale.
         *
         * @class Box
@@ -7449,7 +7455,6 @@ var Kiwi;
                 this.autoUpdate = true;
 
                 this.entity = parent;
-                this.dirty = true;
 
                 this._rawBounds = new Kiwi.Geom.Rectangle(x, y, width, height);
                 this._rawCenter = new Kiwi.Geom.Point(x + width / 2, y + height / 2);
@@ -7480,7 +7485,7 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.dirty && this.autoUpdate == true && this.entity.atlas !== null) {
+                    if (this.autoUpdate == true && this.entity.atlas !== null) {
                         this._hitboxOffset.x = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x;
                         this._hitboxOffset.y = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y;
                     }
@@ -7501,18 +7506,16 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.dirty) {
-                        this._rawHitbox.x = this.rawBounds.x + this.hitboxOffset.x;
-                        this._rawHitbox.y = this.rawBounds.y + this.hitboxOffset.y;
+                    this._rawHitbox.x = this.rawBounds.x + this.hitboxOffset.x;
+                    this._rawHitbox.y = this.rawBounds.y + this.hitboxOffset.y;
 
-                        //If the hitbox has not already been set, then update the width/height based upon the current cell that the entity has.
-                        if (this.autoUpdate == true) {
-                            var atlas = this.entity.atlas;
+                    //If the hitbox has not already been set, then update the width/height based upon the current cell that the entity has.
+                    if (this.autoUpdate == true) {
+                        var atlas = this.entity.atlas;
 
-                            if (atlas !== null) {
-                                this._rawHitbox.width = atlas.cells[this.entity.cellIndex].hitboxes[0].w;
-                                this._rawHitbox.height = atlas.cells[this.entity.cellIndex].hitboxes[0].h;
-                            }
+                        if (atlas !== null) {
+                            this._rawHitbox.width = atlas.cells[this.entity.cellIndex].hitboxes[0].w;
+                            this._rawHitbox.height = atlas.cells[this.entity.cellIndex].hitboxes[0].h;
                         }
                     }
 
@@ -7530,9 +7533,7 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.dirty) {
-                        this._transformedHitbox = this._rotateHitbox(this.rawHitbox.clone());
-                    }
+                    this._transformedHitbox = this._rotateHitbox(this.rawHitbox.clone());
 
                     return this._transformedHitbox;
                 },
@@ -7561,9 +7562,7 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.dirty) {
-                        this._worldHitbox = this._rotateHitbox(this.rawHitbox.clone(), true);
-                    }
+                    this._worldHitbox = this._rotateHitbox(this.rawHitbox.clone(), true);
 
                     return this._worldHitbox;
                 },
@@ -7580,12 +7579,11 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.dirty) {
-                        this._rawBounds.x = this.entity.x;
-                        this._rawBounds.y = this.entity.y;
-                        this._rawBounds.width = this.entity.width;
-                        this._rawBounds.height = this.entity.height;
-                    }
+                    this._rawBounds.x = this.entity.x;
+                    this._rawBounds.y = this.entity.y;
+                    this._rawBounds.width = this.entity.width;
+                    this._rawBounds.height = this.entity.height;
+
                     return this._rawBounds;
                 },
                 enumerable: true,
@@ -7601,9 +7599,9 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.dirty) {
-                        this._rawCenter.x = this.rawBounds.x + this.rawBounds.width / 2, this._rawCenter.y = this.rawBounds.y + this.rawBounds.height / 2;
-                    }
+                    this._rawCenter.x = this.rawBounds.x + this.rawBounds.width / 2;
+                    this._rawCenter.y = this.rawBounds.y + this.rawBounds.height / 2;
+
                     return this._rawCenter;
                 },
                 enumerable: true,
@@ -7619,12 +7617,11 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.dirty) {
-                        var t = this.entity.transform;
-                        var m = t.getConcatenatedMatrix();
-                        m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
-                        this._transformedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - t.rotPointX, this.entity.height / 2 - t.rotPointY));
-                    }
+                    var t = this.entity.transform;
+                    var m = t.getConcatenatedMatrix();
+                    m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
+                    this._transformedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - t.rotPointX, this.entity.height / 2 - t.rotPointY));
+
                     return this._transformedCenter;
                 },
                 enumerable: true,
@@ -7640,9 +7637,8 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.dirty) {
-                        this._transformedBounds = this._rotateRect(this.rawBounds.clone());
-                    }
+                    this._transformedBounds = this._rotateRect(this.rawBounds.clone());
+
                     return this._transformedBounds;
                 },
                 enumerable: true,
@@ -7658,9 +7654,8 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.dirty) {
-                        this._worldBounds = this._rotateRect(this.rawBounds.clone(), true);
-                    }
+                    this._worldBounds = this._rotateRect(this.rawBounds.clone(), true);
+
                     return this._worldBounds;
                 },
                 enumerable: true,
@@ -29556,7 +29551,7 @@ var Kiwi;
 
             /**
             * Returns true if the number given is odd.
-            * @method isOff
+            * @method isOdd
             * @param n {number} The number to check
             * @return {boolean} True if the given number is odd. False if the given number is even.
             * @static
@@ -29572,7 +29567,7 @@ var Kiwi;
 
             /**
             * Returns true if the number given is even.
-            * @method isEvent
+            * @method isEven
             * @param n {number} The number to check
             * @return {boolean} True if the given number is even. False if the given number is odd.
             * @static
@@ -29638,8 +29633,8 @@ var Kiwi;
             /**
             * Interpolates between neighbouring values in an array using linear interpolation only. For example, linearInterpolation( [ 1,5,4 ], 0.5 ) = 5, and linearInterpolation( [ 1, 2 ], 0.3 ) = 1.3.
             * @method linearInterpolation
-            * @param {Array} v
-            * @param {number} k
+            * @param v {Array} An array of values through which to interpolate
+            * @param k {number} The position to interpolate, in the range 0-1
             * @return {number}
             * @static
             * @public
@@ -29659,9 +29654,9 @@ var Kiwi;
 
             /**
             * Interpolates between values in an array using Bezier curves. This treats the values in the array as control points on a spline. Unlike Catmull-Rom splines, the value is not guaranteed to intersect precisely with these points.
-            * @method Bezier
-            * @param {Array} v
-            * @param {number} k
+            * @method bezierInterpolation
+            * @param v {Array} An array of values through which to interpolate
+            * @param k {number} The position to interpolate, in the range 0-1
             * @return {number}
             * @static
             * @public
@@ -29679,9 +29674,9 @@ var Kiwi;
 
             /**
             * Interpolates between values in an array using Catmull-Rom splines. This treats the values in the array as control points on a spline. Unlike Bezier curves, the value will intersect with every point in the array.
-            * @method CatmullRom
-            * @param {Any} v
-            * @param {Any} k
+            * @method catmullRomInterpolation
+            * @param v {Array} An array of values through which to interpolate
+            * @param k {Number} The position to interpolate, in the range 0-1
             * @return {number}
             * @static
             * @public
@@ -29709,7 +29704,7 @@ var Kiwi;
 
             /**
             * Simple linear interpolation, identical to interpolateFloat.
-            * @method Linear
+            * @method linear
             * @param {Any} p0
             * @param {Any} p1
             * @param {Any} t
@@ -29723,7 +29718,7 @@ var Kiwi;
 
             /**
             * Bernstein polynomial for constructing Bezier curves. Returns n! / i! / (n-i)!
-            * @method Bernstein
+            * @method bernstein
             * @param {Any} n
             * @param {Any} i
             * @return {number}
@@ -29735,8 +29730,8 @@ var Kiwi;
             };
 
             /**
-            * Function used to construct a Catmull-Rom interpolation.
-            * @method CatmullRom
+            * Function used to construct a Catmull-Rom interpolation: see catmullRomInterpolation()
+            * @method catmullRom
             * @param {Any} p0
             * @param {Any} p1
             * @param {Any} p2
