@@ -1140,11 +1140,8 @@ module Kiwi {
                 delete this.transform;
                 if (this.components) this.components.removeAll();
                 delete this.components;
-                delete this.name;
-                delete this.members;
                 delete this.game;
                 delete this.state;
-                delete this._tempRemoveChildren;
 
             } else {
                 this._tempRemoveChildren = destroyChildren;
