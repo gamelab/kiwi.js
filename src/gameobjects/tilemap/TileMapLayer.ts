@@ -174,32 +174,18 @@ module Kiwi.GameObjects.Tilemap {
         public get cellIndex():number {
             return null;
         }
-        public set cellIndex( val: number ) {
-            
-        }
+        public set cellIndex( val: number ) {}
 
-        /**
-        * Override function to prevent unwanted inherited behaviour. Do not call.
-        * @method scaleToWidth
-        * @param value {Number}
-        * @public
-        * @deprecated Not functional on this object.
-        * @since 1.1.0
-        */
+        // Methods altered because TileMapLayer has its own width and height properties:
         public scaleToWidth(value: number) {
-
+            this.scale = value / this.widthInPixels;
         }
-
-        /**
-        * Override function to prevent unwanted inherited behaviour. Do not call.
-        * @method scaleToHeight
-        * @param value {Number}
-        * @public
-        * @deprecated Not functional on this object.
-        * @since 1.1.0
-        */
         public scaleToHeight(value: number) {
-            
+            this.scale = value / this.heightInPixels;
+        }
+        public centerAnchorPoint() {
+            this.anchorPointX = this.widthInPixels * 0.5;
+            this.anchorPointY = this.heightInPixels * 0.5;
         }
 
         /**

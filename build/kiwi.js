@@ -2727,6 +2727,17 @@ var Kiwi;
             this.scale = value / this.height;
         };
 
+        /**
+        * Center the anchor point. Moves the anchor point (rotPointX and Y) to precisely halfway along the width and height properties of this Entity.
+        * @method centerAnchorPoint
+        * @public
+        * @since 1.1.0
+        */
+        Entity.prototype.centerAnchorPoint = function () {
+            this.anchorPointX = this.width * 0.5;
+            this.anchorPointY = this.height * 0.5;
+        };
+
         Object.defineProperty(Entity.prototype, "cellIndex", {
             /**
             * Used as a reference to a single Cell in the atlas that is to be rendered.
@@ -6572,26 +6583,16 @@ var Kiwi;
                     configurable: true
                 });
 
-                /**
-                * Override function to prevent unwanted inherited behaviour. Do not call.
-                * @method scaleToWidth
-                * @param value {Number}
-                * @public
-                * @deprecated Not functional on this object.
-                * @since 1.1.0
-                */
+                // Methods altered because TileMapLayer has its own width and height properties:
                 TileMapLayer.prototype.scaleToWidth = function (value) {
+                    this.scale = value / this.widthInPixels;
                 };
-
-                /**
-                * Override function to prevent unwanted inherited behaviour. Do not call.
-                * @method scaleToHeight
-                * @param value {Number}
-                * @public
-                * @deprecated Not functional on this object.
-                * @since 1.1.0
-                */
                 TileMapLayer.prototype.scaleToHeight = function (value) {
+                    this.scale = value / this.heightInPixels;
+                };
+                TileMapLayer.prototype.centerAnchorPoint = function () {
+                    this.anchorPointX = this.widthInPixels * 0.5;
+                    this.anchorPointY = this.heightInPixels * 0.5;
                 };
 
                 /**

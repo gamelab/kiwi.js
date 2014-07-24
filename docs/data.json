@@ -12348,6 +12348,19 @@
         {
             "file": "src/core/Entity.ts",
             "line": 332,
+            "description": "Center the anchor point. Moves the anchor point (rotPointX and Y) to precisely halfway along the width and height properties of this Entity.",
+            "itemtype": "method",
+            "name": "centerAnchorPoint",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Entity",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Entity.ts",
+            "line": 343,
             "description": "The texture atlas that is to be used on this entity.",
             "itemtype": "property",
             "name": "atlas",
@@ -12360,7 +12373,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 340,
+            "line": 351,
             "description": "Holds the current cell that is being used by the entity.",
             "itemtype": "property",
             "name": "_cellIndex",
@@ -12374,7 +12387,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 349,
+            "line": 360,
             "description": "Used as a reference to a single Cell in the atlas that is to be rendered. \n\nE.g. If you had a spritesheet with 3 frames/cells and you wanted the second frame to be displayed you would change this value to 1",
             "itemtype": "property",
             "name": "cellIndex",
@@ -12388,7 +12401,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 381,
+            "line": 392,
             "description": "The Component Manager",
             "itemtype": "property",
             "name": "components",
@@ -12401,7 +12414,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 389,
+            "line": 400,
             "description": "The game this Entity belongs to",
             "itemtype": "property",
             "name": "game",
@@ -12414,7 +12427,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 397,
+            "line": 408,
             "description": "The state this Entity belongs to (either the current game state or a persistent world state)",
             "itemtype": "property",
             "name": "state",
@@ -12427,7 +12440,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 405,
+            "line": 416,
             "description": "A unique identifier for this Entity within the game used internally by the framework. See the name property for a friendly version.",
             "itemtype": "property",
             "name": "id",
@@ -12440,7 +12453,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 413,
+            "line": 424,
             "description": "A name for this Entity. This is not checked for uniqueness within the Game, but is very useful for debugging",
             "itemtype": "property",
             "name": "name",
@@ -12454,7 +12467,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 422,
+            "line": 433,
             "description": "If an Entity no longer exists it is cleared for garbage collection or pool re-allocation",
             "itemtype": "property",
             "name": "_exists",
@@ -12467,7 +12480,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 430,
+            "line": 441,
             "description": "Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool.",
             "itemtype": "property",
             "name": "exists",
@@ -12480,7 +12493,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 443,
+            "line": 454,
             "description": "Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.\nBy default Entitys contain no tags.",
             "itemtype": "property",
             "name": "_tags",
@@ -12494,7 +12507,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 453,
+            "line": 464,
             "description": "Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.\nYou can pass multiple strings to add multiple tags.",
             "itemtype": "method",
             "name": "addTags",
@@ -12514,7 +12527,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 472,
+            "line": 483,
             "description": "Removes a Tag from this Entity.",
             "itemtype": "method",
             "name": "removeTag",
@@ -12534,7 +12547,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 488,
+            "line": 499,
             "description": "Checks to see if this Entity has a Tag based upon a string which you pass.",
             "itemtype": "method",
             "name": "hasTag",
@@ -12558,7 +12571,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 509,
+            "line": 520,
             "description": "An active Entity is one that has its update method called by its parent.",
             "itemtype": "property",
             "name": "_active",
@@ -12572,7 +12585,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 518,
+            "line": 529,
             "description": "Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.\nThis method should be over-ridden to handle specific dom/canvas/webgl implementations.",
             "itemtype": "property",
             "name": "active",
@@ -12585,7 +12598,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 532,
+            "line": 543,
             "description": "Controls whether render is automatically called by the parent.",
             "itemtype": "property",
             "name": "_willRender",
@@ -12601,7 +12614,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 542,
+            "line": 553,
             "description": "Toggles if this Entity will be rendered.",
             "itemtype": "property",
             "name": "willRender",
@@ -12617,7 +12630,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 557,
+            "line": 568,
             "description": "Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)",
             "itemtype": "property",
             "name": "_inputEnabled",
@@ -12630,7 +12643,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 565,
+            "line": 576,
             "description": "Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)\nThis method should be over-ridden to handle specific game object implementations.",
             "itemtype": "property",
             "name": "inputEnabled",
@@ -12643,7 +12656,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 579,
+            "line": 590,
             "description": "The clock that this entity use's for time based calculations. This generated by the state on instatiation.",
             "itemtype": "property",
             "name": "_clock",
@@ -12656,7 +12669,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 587,
+            "line": 598,
             "description": "The Clock used to update this all of this Entities components (defaults to the Game MasterClock)",
             "itemtype": "property",
             "name": "clock",
@@ -12669,7 +12682,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 600,
+            "line": 611,
             "description": "A value used by components to control if the Entity needs re-rendering",
             "itemtype": "property",
             "name": "dirty",
@@ -12682,7 +12695,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 608,
+            "line": 619,
             "description": "A value used by components to control if the Entity needs re-rendering",
             "itemtype": "property",
             "name": "dirty",
@@ -12695,7 +12708,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 623,
+            "line": 634,
             "description": "The type of this object.",
             "itemtype": "method",
             "name": "objType",
@@ -12711,7 +12724,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 633,
+            "line": 644,
             "description": "This isn't called until the Entity has been added to a Group or a State.\nNote: If added to a Group, who is not 'active' (so the Groups update loop doesn't run) then each member will not execute either.",
             "itemtype": "method",
             "name": "update",
@@ -12723,7 +12736,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 643,
+            "line": 654,
             "description": "Renders the entity using the canvas renderer. \nThis isn't called until the Entity has been added to a Group/State which is active.\nThis functionality is handled by the sub classes.",
             "itemtype": "method",
             "name": "render",
@@ -12742,7 +12755,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 655,
+            "line": 666,
             "description": "Renders the entity using the canvas renderer. \nThis isn't called until the Entity has been added to a Group/State which is active.\nThis functionality is handled by the sub classes.",
             "itemtype": "method",
             "name": "renderGL",
@@ -12773,7 +12786,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 669,
+            "line": 680,
             "description": "Used to completely destroy this entity and of its components. Used for garbage collection and developers can also use it as needed.",
             "itemtype": "method",
             "name": "destroy",
@@ -21177,53 +21190,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 181,
-            "description": "Override function to prevent unwanted inherited behaviour. Do not call.",
-            "itemtype": "method",
-            "name": "scaleToWidth",
-            "params": [
-                {
-                    "name": "value",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "access": "public",
-            "tagname": "",
-            "deprecated": true,
-            "deprecationMessage": "Not functional on this object.",
-            "since": "1.1.0",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 193,
-            "description": "Override function to prevent unwanted inherited behaviour. Do not call.",
-            "itemtype": "method",
-            "name": "scaleToHeight",
-            "params": [
-                {
-                    "name": "value",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "access": "public",
-            "tagname": "",
-            "deprecated": true,
-            "deprecationMessage": "Not functional on this object.",
-            "since": "1.1.0",
-            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
-            "module": "GameObjects",
-            "submodule": "Tilemap",
-            "namespace": "Kiwi.GameObjects.Tilemap"
-        },
-        {
-            "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 205,
+            "line": 191,
             "description": "A list containing all the types of tiles found on this TileMapLayer.",
             "itemtype": "property",
             "name": "_data",
@@ -21237,7 +21204,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 213,
+            "line": 199,
             "description": "Returns the total number of tiles. Either for a particular type if passed, otherwise of any type if not passed.",
             "itemtype": "method",
             "name": "countTiles",
@@ -21262,7 +21229,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 232,
+            "line": 218,
             "description": "The orientation of the of tilemap. \nTileMaps can be either 'orthogonal' (normal) or 'isometric'.",
             "itemtype": "property",
             "name": "orientation",
@@ -21277,7 +21244,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 243,
+            "line": 229,
             "description": "-----------------------\n Getting Tiles\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -21286,7 +21253,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 250,
+            "line": 236,
             "description": "A list containing all of the types of tiles found on this TileMapLayer. This is READ ONLY.",
             "itemtype": "property",
             "name": "tileData",
@@ -21300,7 +21267,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 260,
+            "line": 246,
             "description": "Returns the index of the tile based on the x and y coordinates of the tile passed. \nIf no tile is a the coordinates given then -1 is returned instead.\nCoordinates are in tiles not pixels.",
             "itemtype": "method",
             "name": "getIndexFromXY",
@@ -21329,7 +21296,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 278,
+            "line": 264,
             "description": "Returns the TileType for a tile that is at a particular set of coordinates passed. \nIf no tile is found the null is returned instead.\nCoordinates passed are in tiles.",
             "itemtype": "method",
             "name": "getTileFromXY",
@@ -21358,7 +21325,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 293,
+            "line": 279,
             "description": "Returns the index of the tile based on the x and y pixel coordinates that are passed. \nIf no tile is a the coordinates given then -1 is returned instead.\nCoordinates are in pixels not tiles and use the world coordinates of the tilemap.\nNote: Currently only working for ORTHOGONAL TileMaps.",
             "itemtype": "method",
             "name": "getIndexFromCoords",
@@ -21387,7 +21354,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 319,
+            "line": 305,
             "description": "Returns the TileType for a tile that is at a particular coordinate passed. \nIf no tile is found then null is returned instead.\nCoordinates passed are in pixels and use the world coordinates of the tilemap.\nNote: Currently only working for ORTHOGONAL TileMaps.",
             "itemtype": "method",
             "name": "getTileFromCoords",
@@ -21416,7 +21383,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 336,
+            "line": 322,
             "description": "Returns the indexes of every tile of a type you pass.",
             "itemtype": "method",
             "name": "getIndexsByType",
@@ -21440,7 +21407,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 352,
+            "line": 338,
             "description": "-----------------------\n Tiles Manipulation\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -21449,7 +21416,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 358,
+            "line": 344,
             "description": "Sets the tile to be used at the coordinates provided. \nCan be used to override a tile that may already exist at the location.",
             "itemtype": "method",
             "name": "setTile",
@@ -21483,7 +21450,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 379,
+            "line": 365,
             "description": "Sets the tile to be used at the index provided.\nCan be used to override a tile that may already exist at the location.",
             "itemtype": "method",
             "name": "setTileByIndex",
@@ -21508,7 +21475,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 391,
+            "line": 377,
             "description": "Randomizes the types of tiles used in an area of the layer. You can choose which types of tiles to use, and the area.\nDefault tile types used are everyone avaiable.",
             "itemtype": "method",
             "name": "randomizeTiles",
@@ -21557,7 +21524,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 423,
+            "line": 409,
             "description": "Makes all of the tiles in the area specified a single type that is passed.",
             "itemtype": "method",
             "name": "fill",
@@ -21605,7 +21572,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 446,
+            "line": 432,
             "description": "Replaces all tiles of typeA to typeB in the area specified. If no area is specified then it is on the whole layer.",
             "itemtype": "method",
             "name": "replaceTiles",
@@ -21658,7 +21625,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 470,
+            "line": 456,
             "description": "Swaps all the tiles that are typeA -> typeB and typeB -> typeA inside the area specified. If no area is specified then it is on the whole layer.",
             "itemtype": "method",
             "name": "swapTiles",
@@ -21711,7 +21678,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 496,
+            "line": 482,
             "description": "-----------------------\n Get Tiles By Collision Methods\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -21720,7 +21687,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 502,
+            "line": 488,
             "description": "Returns the tiles which overlap with a provided entities hitbox component. \nOnly collidable tiles on ANY side will be returned unless you pass a particular side.\nNote: Only designed to work with ORTHOGONAL types of tilemaps, results maybe unexpected for other types of tilemaps.",
             "itemtype": "method",
             "name": "getOverlappingTiles",
@@ -21751,7 +21718,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 553,
+            "line": 539,
             "description": "Returns the tiles which can collide with other objects (on ANY side unless otherwise specified) within an area provided.\nBy default the area is the whole tilemap.",
             "itemtype": "method",
             "name": "getCollidableTiles",
@@ -21805,7 +21772,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 611,
+            "line": 597,
             "description": "The update loop that is executed when this TileMapLayer is add to the Stage.",
             "itemtype": "method",
             "name": "update",
@@ -21818,7 +21785,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 622,
+            "line": 608,
             "description": "-----------------------\n Temp Properties used During Rendering\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -21827,7 +21794,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 628,
+            "line": 614,
             "description": "Used whilst rendering to calculate the number of tiles to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_maxX",
@@ -21841,7 +21808,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 637,
+            "line": 623,
             "description": "Used whilst rendering to calculate the number of tiles to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_maxY",
@@ -21855,7 +21822,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 646,
+            "line": 632,
             "description": "Used whilst rendering to calculate which is the first tile to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_startX",
@@ -21869,7 +21836,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 655,
+            "line": 641,
             "description": "Used whilst rendering to calculate which is the first tile to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_startY",
@@ -21883,7 +21850,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 664,
+            "line": 650,
             "description": "Temporary property that holds the tileType of the current tile being rendered.",
             "itemtype": "property",
             "name": "_temptype",
@@ -21897,7 +21864,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 672,
+            "line": 658,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner1",
@@ -21912,7 +21879,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 680,
+            "line": 666,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner2",
@@ -21927,7 +21894,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 688,
+            "line": 674,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner3",
@@ -21942,7 +21909,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 696,
+            "line": 682,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner4",
@@ -21957,7 +21924,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 705,
+            "line": 691,
             "description": "Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen. \nAll coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).",
             "itemtype": "method",
             "name": "_calculateBoundaries",
@@ -21982,7 +21949,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 769,
+            "line": 755,
             "description": "ChartToScreen maps a point in the game tile coordinates into screen pixel\ncoordinates that indicate where the tile should be drawn.\nNote: This is for use in ISOMETRIC Tilemaps.",
             "itemtype": "method",
             "name": "chartToScreen",
@@ -22016,7 +21983,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 786,
+            "line": 772,
             "description": "ScreenToChart maps a point in screen coordinates into the game tile chart\ncoordinates for the tile on which the screen point falls on.\nThis is for use in ISOMETRIC Tilemaps.",
             "itemtype": "method",
             "name": "screenToChart",
@@ -22050,7 +22017,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 804,
+            "line": 790,
             "description": "The render loop which is used when using the Canvas renderer.",
             "itemtype": "method",
             "name": "render",
@@ -47551,19 +47518,19 @@
         },
         {
             "message": "Missing item type\n-----------------------\n Getting Tiles\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:243"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:229"
         },
         {
             "message": "Missing item type\n-----------------------\n Tiles Manipulation\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:352"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:338"
         },
         {
             "message": "Missing item type\n-----------------------\n Get Tiles By Collision Methods\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:496"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:482"
         },
         {
             "message": "Missing item type\n-----------------------\n Temp Properties used During Rendering\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:622"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:608"
         },
         {
             "message": "Missing item type\nChanges the alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.",

@@ -327,7 +327,18 @@ module Kiwi {
         */
         public scaleToHeight(value: number) {
             this.scale = value / this.height;
-        } 
+        }
+
+        /**
+        * Center the anchor point. Moves the anchor point (rotPointX and Y) to precisely halfway along the width and height properties of this Entity.
+        * @method centerAnchorPoint
+        * @public
+        * @since 1.1.0
+        */
+        public centerAnchorPoint() {
+            this.anchorPointX = this.width * 0.5;
+            this.anchorPointY = this.height * 0.5;
+        }
         
         /**
         * The texture atlas that is to be used on this entity.

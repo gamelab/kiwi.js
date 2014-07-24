@@ -1850,6 +1850,13 @@ declare module Kiwi {
         */
         public scaleToHeight(value: number): void;
         /**
+        * Center the anchor point. Moves the anchor point (rotPointX and Y) to precisely halfway along the width and height properties of this Entity.
+        * @method centerAnchorPoint
+        * @public
+        * @since 1.1.0
+        */
+        public centerAnchorPoint(): void;
+        /**
         * The texture atlas that is to be used on this entity.
         * @property atlas
         * @type Kiwi.Textures.TextureAtlas
@@ -4358,24 +4365,9 @@ declare module Kiwi.GameObjects.Tilemap {
         * @since 1.1.0
         */
         public cellIndex : number;
-        /**
-        * Override function to prevent unwanted inherited behaviour. Do not call.
-        * @method scaleToWidth
-        * @param value {Number}
-        * @public
-        * @deprecated Not functional on this object.
-        * @since 1.1.0
-        */
         public scaleToWidth(value: number): void;
-        /**
-        * Override function to prevent unwanted inherited behaviour. Do not call.
-        * @method scaleToHeight
-        * @param value {Number}
-        * @public
-        * @deprecated Not functional on this object.
-        * @since 1.1.0
-        */
         public scaleToHeight(value: number): void;
+        public centerAnchorPoint(): void;
         /**
         * A list containing all the types of tiles found on this TileMapLayer.
         * @property _data
