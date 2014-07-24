@@ -12076,6 +12076,34 @@
         {
             "file": "src/core/Entity.ts",
             "line": 104,
+            "description": "X coordinate of this Entity in world space; that is, after inheriting parent transforms. This is just aliased to the transform property. Property is READ-ONLY.",
+            "itemtype": "property",
+            "name": "worldX",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Entity",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Entity.ts",
+            "line": 115,
+            "description": "Y coordinate of this Entity in world space; that is, after inheriting parent transforms. This is just aliased to the transform property. Property is READ-ONLY.",
+            "itemtype": "property",
+            "name": "worldY",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Entity",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Entity.ts",
+            "line": 126,
             "description": "Scale X of this Entity. This is just aliased to the transform property.",
             "itemtype": "property",
             "name": "scaleX",
@@ -12088,7 +12116,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 117,
+            "line": 139,
             "description": "Scale Y coordinate of this Entity. This is just aliased to the transform property.",
             "itemtype": "property",
             "name": "scaleY",
@@ -12101,7 +12129,21 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 131,
+            "line": 153,
+            "description": "Scale both axes of this Entity. This is just aliased to the transform property. This is WRITE-ONLY.",
+            "itemtype": "property",
+            "name": "scale",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Entity",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Entity.ts",
+            "line": 164,
             "description": "Rotation of this Entity. This is just aliased to the transform property.",
             "itemtype": "property",
             "name": "rotation",
@@ -12114,7 +12156,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 144,
+            "line": 177,
             "description": "The rotation point on the x-axis. This is just aliased to the rotPointX on the transform object.",
             "itemtype": "property",
             "name": "rotPointX",
@@ -12127,7 +12169,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 157,
+            "line": 190,
             "description": "The rotation point on the y-axis. This is just aliased to the rotPointY on the transform object.",
             "itemtype": "property",
             "name": "rotPointY",
@@ -12140,7 +12182,35 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 170,
+            "line": 203,
+            "description": "The anchor point on the x-axis. This is just aliased to the rotPointX on the transform object.",
+            "itemtype": "property",
+            "name": "anchorPointX",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Entity",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Entity.ts",
+            "line": 217,
+            "description": "The anchor point on the y-axis. This is just aliased to the rotPointY on the transform object.",
+            "itemtype": "property",
+            "name": "anchorPointY",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Entity",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Entity.ts",
+            "line": 231,
             "description": "Returns the type of child that this is.",
             "type": "Number",
             "return": {
@@ -12155,7 +12225,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 180,
+            "line": 241,
             "description": "The alpha of this entity.",
             "itemtype": "property",
             "name": "_alpha",
@@ -12168,7 +12238,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 188,
+            "line": 249,
             "description": "Alpha of this entity. A number between 0 (invisible) and 1 (completely visible).",
             "itemtype": "property",
             "name": "alpha",
@@ -12181,7 +12251,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 204,
+            "line": 265,
             "description": "A boolean that indicates whether or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.",
             "itemtype": "property",
             "name": "_visible",
@@ -12195,7 +12265,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 213,
+            "line": 274,
             "description": "Set the visibility of this entity. True or False.",
             "itemtype": "property",
             "name": "visible",
@@ -12209,8 +12279,8 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 227,
-            "description": "The width of the entity in pixels.",
+            "line": 288,
+            "description": "The width of the entity in pixels, pre-transform.\n\nTo obtain the actual width, multiply width by scaleX.",
             "itemtype": "property",
             "name": "width",
             "type": "number",
@@ -12223,8 +12293,8 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 236,
-            "description": "The height of the entity in pixels.",
+            "line": 299,
+            "description": "The height of the entity in pixels, pre-transform.\n\nTo obtain the actual height, multiply height by scaleY.",
             "itemtype": "property",
             "name": "height",
             "type": "number",
@@ -12237,7 +12307,47 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 245,
+            "line": 310,
+            "description": "Scale to desired width, preserving aspect ratio. This function changes the scale, not the width. If the width changes, for example, as part of an animation sequence, the Entity will retain the new scale.",
+            "itemtype": "method",
+            "name": "scaleToWidth",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The desired width in pixels.",
+                    "type": "Number"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Entity",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Entity.ts",
+            "line": 321,
+            "description": "Scale to desired height, preserving aspect ratio. This function changes the scale, not the height. If the height changes, for example, as part of an animation sequence, the Entity will retain the new scale.",
+            "itemtype": "method",
+            "name": "scaleToHeight",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The desired height in pixels.",
+                    "type": "Number"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Entity",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Entity.ts",
+            "line": 332,
             "description": "The texture atlas that is to be used on this entity.",
             "itemtype": "property",
             "name": "atlas",
@@ -12250,7 +12360,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 253,
+            "line": 340,
             "description": "Holds the current cell that is being used by the entity.",
             "itemtype": "property",
             "name": "_cellIndex",
@@ -12264,8 +12374,8 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 262,
-            "description": "Used as a reference to a single Cell in the atlas that is to be rendered. \nE.g. If you had a spritesheet with 3 frames/cells and you wanted the second frame to be displayed you would change this value to 1",
+            "line": 349,
+            "description": "Used as a reference to a single Cell in the atlas that is to be rendered. \n\nE.g. If you had a spritesheet with 3 frames/cells and you wanted the second frame to be displayed you would change this value to 1",
             "itemtype": "property",
             "name": "cellIndex",
             "type": "number",
@@ -12278,7 +12388,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 293,
+            "line": 381,
             "description": "The Component Manager",
             "itemtype": "property",
             "name": "components",
@@ -12291,7 +12401,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 301,
+            "line": 389,
             "description": "The game this Entity belongs to",
             "itemtype": "property",
             "name": "game",
@@ -12304,7 +12414,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 309,
+            "line": 397,
             "description": "The state this Entity belongs to (either the current game state or a persistent world state)",
             "itemtype": "property",
             "name": "state",
@@ -12317,7 +12427,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 317,
+            "line": 405,
             "description": "A unique identifier for this Entity within the game used internally by the framework. See the name property for a friendly version.",
             "itemtype": "property",
             "name": "id",
@@ -12330,7 +12440,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 325,
+            "line": 413,
             "description": "A name for this Entity. This is not checked for uniqueness within the Game, but is very useful for debugging",
             "itemtype": "property",
             "name": "name",
@@ -12344,7 +12454,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 334,
+            "line": 422,
             "description": "If an Entity no longer exists it is cleared for garbage collection or pool re-allocation",
             "itemtype": "property",
             "name": "_exists",
@@ -12357,7 +12467,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 342,
+            "line": 430,
             "description": "Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool.",
             "itemtype": "property",
             "name": "exists",
@@ -12370,7 +12480,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 355,
+            "line": 443,
             "description": "Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.\nBy default Entitys contain no tags.",
             "itemtype": "property",
             "name": "_tags",
@@ -12384,7 +12494,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 365,
+            "line": 453,
             "description": "Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.\nYou can pass multiple strings to add multiple tags.",
             "itemtype": "method",
             "name": "addTags",
@@ -12404,7 +12514,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 384,
+            "line": 472,
             "description": "Removes a Tag from this Entity.",
             "itemtype": "method",
             "name": "removeTag",
@@ -12424,7 +12534,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 400,
+            "line": 488,
             "description": "Checks to see if this Entity has a Tag based upon a string which you pass.",
             "itemtype": "method",
             "name": "hasTag",
@@ -12448,7 +12558,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 421,
+            "line": 509,
             "description": "An active Entity is one that has its update method called by its parent.",
             "itemtype": "property",
             "name": "_active",
@@ -12462,7 +12572,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 430,
+            "line": 518,
             "description": "Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.\nThis method should be over-ridden to handle specific dom/canvas/webgl implementations.",
             "itemtype": "property",
             "name": "active",
@@ -12475,7 +12585,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 444,
+            "line": 532,
             "description": "Controls whether render is automatically called by the parent.",
             "itemtype": "property",
             "name": "_willRender",
@@ -12491,7 +12601,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 454,
+            "line": 542,
             "description": "Toggles if this Entity will be rendered.",
             "itemtype": "property",
             "name": "willRender",
@@ -12507,7 +12617,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 469,
+            "line": 557,
             "description": "Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)",
             "itemtype": "property",
             "name": "_inputEnabled",
@@ -12520,7 +12630,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 477,
+            "line": 565,
             "description": "Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)\nThis method should be over-ridden to handle specific game object implementations.",
             "itemtype": "property",
             "name": "inputEnabled",
@@ -12533,7 +12643,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 491,
+            "line": 579,
             "description": "The clock that this entity use's for time based calculations. This generated by the state on instatiation.",
             "itemtype": "property",
             "name": "_clock",
@@ -12546,7 +12656,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 499,
+            "line": 587,
             "description": "The Clock used to update this all of this Entities components (defaults to the Game MasterClock)",
             "itemtype": "property",
             "name": "clock",
@@ -12559,7 +12669,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 512,
+            "line": 600,
             "description": "A value used by components to control if the Entity needs re-rendering",
             "itemtype": "property",
             "name": "dirty",
@@ -12572,7 +12682,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 520,
+            "line": 608,
             "description": "A value used by components to control if the Entity needs re-rendering",
             "itemtype": "property",
             "name": "dirty",
@@ -12585,7 +12695,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 535,
+            "line": 623,
             "description": "The type of this object.",
             "itemtype": "method",
             "name": "objType",
@@ -12601,7 +12711,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 545,
+            "line": 633,
             "description": "This isn't called until the Entity has been added to a Group or a State.\nNote: If added to a Group, who is not 'active' (so the Groups update loop doesn't run) then each member will not execute either.",
             "itemtype": "method",
             "name": "update",
@@ -12613,7 +12723,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 555,
+            "line": 643,
             "description": "Renders the entity using the canvas renderer. \nThis isn't called until the Entity has been added to a Group/State which is active.\nThis functionality is handled by the sub classes.",
             "itemtype": "method",
             "name": "render",
@@ -12632,7 +12742,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 567,
+            "line": 655,
             "description": "Renders the entity using the canvas renderer. \nThis isn't called until the Entity has been added to a Group/State which is active.\nThis functionality is handled by the sub classes.",
             "itemtype": "method",
             "name": "renderGL",
@@ -12663,7 +12773,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 581,
+            "line": 669,
             "description": "Used to completely destroy this entity and of its components. Used for garbage collection and developers can also use it as needed.",
             "itemtype": "method",
             "name": "destroy",
@@ -13215,7 +13325,105 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 173,
+            "line": 134,
+            "description": "The X coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.",
+            "itemtype": "property",
+            "name": "worldX",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Group",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Group.ts",
+            "line": 145,
+            "description": "The Y coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.",
+            "itemtype": "property",
+            "name": "worldY",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Group",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Group.ts",
+            "line": 182,
+            "description": "The scale of this group. This is just aliased to the transform property. This is WRITE-ONLY.",
+            "itemtype": "property",
+            "name": "scale",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Group",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Group.ts",
+            "line": 206,
+            "description": "The rotation offset of this group in the X axis. This is just aliased to the transform property.",
+            "itemtype": "property",
+            "name": "rotPointX",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Group",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Group.ts",
+            "line": 220,
+            "description": "The rotation offset of this group in the Y axis. This is just aliased to the transform property.",
+            "itemtype": "property",
+            "name": "rotPointY",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Group",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Group.ts",
+            "line": 234,
+            "description": "The anchor point offset of this group in the X axis. This is just aliased to the transform property, and is in turn an alias of rotPointX.",
+            "itemtype": "property",
+            "name": "anchorPointX",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Group",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Group.ts",
+            "line": 248,
+            "description": "The anchor point offset of this group in the Y axis. This is just aliased to the transform property, and is in turn an alias of rotPointY.",
+            "itemtype": "property",
+            "name": "anchorPointY",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Group",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Group.ts",
+            "line": 262,
             "description": "The Component Manager",
             "itemtype": "property",
             "name": "components",
@@ -13228,7 +13436,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 181,
+            "line": 270,
             "description": "The game this Group belongs to",
             "itemtype": "property",
             "name": "game",
@@ -13241,7 +13449,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 189,
+            "line": 278,
             "description": "The State that this Group belongs to",
             "itemtype": "property",
             "name": "state",
@@ -13254,7 +13462,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 197,
+            "line": 286,
             "description": "A unique identifier for this Group within the game used internally by the framework. See the name property for a friendly version.",
             "itemtype": "property",
             "name": "id",
@@ -13267,7 +13475,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 205,
+            "line": 294,
             "description": "The collection of children belonging to this group",
             "itemtype": "property",
             "name": "members",
@@ -13280,7 +13488,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 213,
+            "line": 302,
             "description": "Returns the total number of children in this Group. Doesn't distinguish between alive and dead children.",
             "itemtype": "method",
             "name": "numChildren",
@@ -13296,7 +13504,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 223,
+            "line": 312,
             "description": "An indication of whether or not this group is 'dirty' and thus needs to be re-rendered or not.",
             "itemtype": "property",
             "name": "_dirty",
@@ -13309,7 +13517,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 231,
+            "line": 320,
             "description": "Sets all children of the Group to be dirty.",
             "itemtype": "property",
             "name": "dirty",
@@ -13322,7 +13530,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 250,
+            "line": 339,
             "description": "Checks if the given entity is in this group",
             "itemtype": "method",
             "name": "contains",
@@ -13345,7 +13553,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 261,
+            "line": 350,
             "description": "Checks to see if the given object is contained in this group as a descendant",
             "itemtype": "method",
             "name": "containsDescendant",
@@ -13368,7 +13576,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 279,
+            "line": 368,
             "description": "Checks to see if one child is an ansector of another child.",
             "itemtype": "method",
             "name": "containsAncestor",
@@ -13396,7 +13604,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 296,
+            "line": 385,
             "description": "-------------------------\nAdd Children methods\n-------------------------",
             "class": "Kiwi.Group",
             "module": "Kiwi",
@@ -13404,7 +13612,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 303,
+            "line": 392,
             "description": "Adds an Entity to this Group. The Entity must not already be in this Group.",
             "itemtype": "method",
             "name": "addChild",
@@ -13427,7 +13635,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 328,
+            "line": 417,
             "description": "Adds an Entity to this Group in the specific location. The Entity must not already be in this Group and it must be supported by the Group.",
             "itemtype": "method",
             "name": "addChildAt",
@@ -13455,7 +13663,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 348,
+            "line": 437,
             "description": "Adds an Entity to this Group before another child. The Entity must not already be in this Group and it must be supported by the Group.",
             "itemtype": "method",
             "name": "addChildBefore",
@@ -13483,7 +13691,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 369,
+            "line": 458,
             "description": "Adds an Entity to this Group after another child. The Entity must not already be in this Group and it must be supported by the Group..",
             "itemtype": "method",
             "name": "addChildAfter",
@@ -13511,7 +13719,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 391,
+            "line": 480,
             "description": "--------------------\nRemove Children Methods\n--------------------",
             "class": "Kiwi.Group",
             "module": "Kiwi",
@@ -13519,7 +13727,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 398,
+            "line": 487,
             "description": "Removes an Entity from this Group if it is a child of it.",
             "itemtype": "method",
             "name": "removeChild",
@@ -13549,7 +13757,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 426,
+            "line": 515,
             "description": "Removes the Entity from this Group at the given position.",
             "itemtype": "method",
             "name": "removeChildAt",
@@ -13570,7 +13778,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 444,
+            "line": 533,
             "description": "Removes all Entities from this Group within the given range.",
             "itemtype": "method",
             "name": "removeChildren",
@@ -13603,7 +13811,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 470,
+            "line": 559,
             "description": "Removes the first Entity from this Group marked as 'alive'",
             "itemtype": "method",
             "name": "removeFirstAlive",
@@ -13628,7 +13836,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 484,
+            "line": 573,
             "description": "-------------------\nGet Children Methods\n-------------------",
             "class": "Kiwi.Group",
             "module": "Kiwi",
@@ -13636,7 +13844,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 491,
+            "line": 580,
             "description": "Get the child at a specific position in this Group by its index.",
             "itemtype": "method",
             "name": "getChildAt",
@@ -13659,7 +13867,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 508,
+            "line": 597,
             "description": "Get a child from this Group by its name.",
             "itemtype": "method",
             "name": "getChildByName",
@@ -13682,7 +13890,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 527,
+            "line": 616,
             "description": "Get a child from this Group by its UUID.",
             "itemtype": "method",
             "name": "getChildByID",
@@ -13705,7 +13913,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 546,
+            "line": 635,
             "description": "Returns the index position of the Entity or -1 if not found.",
             "itemtype": "method",
             "name": "getChildIndex",
@@ -13728,7 +13936,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 559,
+            "line": 648,
             "description": "Returns the first Entity from this Group marked as 'alive' or null if no members are alive",
             "itemtype": "method",
             "name": "getFirstAlive",
@@ -13744,7 +13952,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 576,
+            "line": 665,
             "description": "Returns the first member of the Group which is not 'alive', returns null if all members are alive.",
             "itemtype": "method",
             "name": "getFirstDead",
@@ -13760,7 +13968,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 594,
+            "line": 683,
             "description": "Returns a member at random from the group.",
             "params": [
                 {
@@ -13786,7 +13994,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 626,
+            "line": 715,
             "description": "Returns an array of children which contain the tag which is passed.",
             "itemtype": "method",
             "name": "getChildrenByTag",
@@ -13810,7 +14018,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 654,
+            "line": 743,
             "description": "--------------------\nChild Depth Sorting Methods\n--------------------",
             "class": "Kiwi.Group",
             "module": "Kiwi",
@@ -13818,7 +14026,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 661,
+            "line": 750,
             "description": "Sets a new position of an existing Entity within the Group.",
             "itemtype": "method",
             "name": "setChildIndex",
@@ -13846,7 +14054,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 682,
+            "line": 771,
             "description": "Swaps the position of two existing Entities that are a direct child of this group.",
             "itemtype": "method",
             "name": "swapChildren",
@@ -13874,7 +14082,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 710,
+            "line": 799,
             "description": "Swaps the position of two existing Entities within the Group based on their index.",
             "itemtype": "method",
             "name": "swapChildrenAt",
@@ -13902,7 +14110,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 738,
+            "line": 827,
             "description": "Replaces a child Entity in this Group with a new one.",
             "itemtype": "method",
             "name": "replaceChild",
@@ -13930,7 +14138,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 771,
+            "line": 860,
             "description": "Loops through each member in the group and run a method on for each one.",
             "itemtype": "method",
             "name": "forEach",
@@ -13961,7 +14169,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 787,
+            "line": 876,
             "description": "Loop through each member of the groups that is alive.",
             "itemtype": "method",
             "name": "forEachAlive",
@@ -13992,7 +14200,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 807,
+            "line": 896,
             "description": "Sets a property on every member. If componentName is null the property is set on the entity itself, otherwise it is set on the named component. Uses runtime string property lookups. Not optimal for large groups if speed is an issue.",
             "itemtype": "method",
             "name": "setAll",
@@ -14021,7 +14229,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 827,
+            "line": 916,
             "description": "Calls a function on every member. If componentName is null the function is called on the entity itself, otherwise it is called on the named component. Uses runtime string property lookups. Not optimal for large groups if speed is an issue.",
             "itemtype": "method",
             "name": "callAll",
@@ -14050,7 +14258,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 847,
+            "line": 936,
             "description": "The update loop for this group.",
             "itemtype": "method",
             "name": "update",
@@ -14062,7 +14270,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 875,
+            "line": 964,
             "description": "If an Entity no longer exists it is cleared for garbage collection or pool re-allocation",
             "itemtype": "property",
             "name": "exists",
@@ -14075,7 +14283,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 883,
+            "line": 972,
             "description": "Toggles the exitence of this Group. An Entity that no longer exists can be garbage collected or re-allocated in a pool\nThis method should be over-ridden to handle specific canvas/webgl implementations.",
             "itemtype": "property",
             "name": "exists",
@@ -14088,7 +14296,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 898,
+            "line": 987,
             "description": "An active Entity is one that has its update method called by its parent.",
             "itemtype": "property",
             "name": "_active",
@@ -14102,7 +14310,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 907,
+            "line": 996,
             "description": "Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.\nThis method should be over-ridden to handle specific dom/canvas/webgl implementations.",
             "itemtype": "property",
             "name": "active",
@@ -14116,7 +14324,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 923,
+            "line": 1012,
             "description": "The render method that is required by the IChild. \nThis method never gets called as the render is only worried about rendering entities.",
             "itemtype": "method",
             "name": "render",
@@ -14136,7 +14344,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 935,
+            "line": 1024,
             "description": "Returns the number of member which are marked as 'alive'",
             "itemtype": "method",
             "name": "countLiving",
@@ -14152,7 +14360,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 955,
+            "line": 1044,
             "description": "Returns the number of member which are not marked as 'alive'",
             "itemtype": "method",
             "name": "countDead",
@@ -14168,7 +14376,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 975,
+            "line": 1064,
             "description": "Clear all children from this Group",
             "itemtype": "method",
             "name": "clear",
@@ -14180,7 +14388,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 986,
+            "line": 1075,
             "description": "Controls whether render is automatically called by the parent.",
             "itemtype": "property",
             "name": "_willRender",
@@ -14195,7 +14403,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 995,
+            "line": 1084,
             "description": "Controls whether render is automatically called by the parent.",
             "itemtype": "property",
             "name": "willRender",
@@ -14214,7 +14422,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1010,
+            "line": 1099,
             "description": "A boolean that indicates whether or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.",
             "itemtype": "property",
             "name": "_visible",
@@ -14229,7 +14437,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1020,
+            "line": 1109,
             "description": "Set the visibility of this entity. True or False.",
             "itemtype": "property",
             "name": "visible",
@@ -14244,7 +14452,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1036,
+            "line": 1125,
             "description": "---------------\nTagging System\n---------------",
             "class": "Kiwi.Group",
             "module": "Kiwi",
@@ -14252,7 +14460,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1043,
+            "line": 1132,
             "description": "Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.\nBy default Entitys contain no tags.",
             "itemtype": "property",
             "name": "_tags",
@@ -14266,7 +14474,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1053,
+            "line": 1142,
             "description": "Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.\nYou can pass multiple strings to add multiple tags.",
             "itemtype": "method",
             "name": "addTags",
@@ -14286,7 +14494,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1072,
+            "line": 1161,
             "description": "Removes a Tag from this Entity.",
             "itemtype": "method",
             "name": "removeTag",
@@ -14306,7 +14514,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1088,
+            "line": 1177,
             "description": "Checks to see if this Entity has a Tag based upon a string which you pass.",
             "itemtype": "method",
             "name": "hasTag",
@@ -14330,7 +14538,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1109,
+            "line": 1198,
             "description": "Removes all children and destroys the Group.",
             "itemtype": "method",
             "name": "destroy",
@@ -14358,7 +14566,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1155,
+            "line": 1241,
             "description": "A temporary property that holds a boolean indicating whether or not the group's children should be destroyed or not.",
             "itemtype": "property",
             "name": "_destroyRemoveChildren",
@@ -14605,6 +14813,34 @@
         {
             "file": "src/core/IChild.ts",
             "line": 173,
+            "description": "The X coordinate of this object in world space - that is, after inheriting transforms from parents. This is just aliased to the transform property.",
+            "itemtype": "property",
+            "name": "worldX",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.IChild",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/IChild.ts",
+            "line": 182,
+            "description": "The Y coordinate of this object in world space - that is, after inheriting transforms from parents. This is just aliased to the transform property.",
+            "itemtype": "property",
+            "name": "worldY",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.IChild",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/IChild.ts",
+            "line": 191,
             "description": "The rotation of this object. This is just aliased to the transform property.",
             "itemtype": "property",
             "name": "rotation",
@@ -14617,7 +14853,7 @@
         },
         {
             "file": "src/core/IChild.ts",
-            "line": 181,
+            "line": 199,
             "description": "The Scale X of this object. This is just aliased to the transform property.",
             "itemtype": "property",
             "name": "scaleX",
@@ -14630,7 +14866,7 @@
         },
         {
             "file": "src/core/IChild.ts",
-            "line": 189,
+            "line": 207,
             "description": "The Scale Y of this object. This is just aliased to the transform property.",
             "itemtype": "property",
             "name": "scaleY",
@@ -14643,7 +14879,77 @@
         },
         {
             "file": "src/core/IChild.ts",
-            "line": 197,
+            "line": 215,
+            "description": "The scale of this object. This is just aliased to the transform property.",
+            "itemtype": "property",
+            "name": "scale",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.IChild",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/IChild.ts",
+            "line": 224,
+            "description": "The rotation offset of this object on the X axis. This is just aliased to the transform property.",
+            "itemtype": "property",
+            "name": "rotPointX",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.IChild",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/IChild.ts",
+            "line": 233,
+            "description": "The rotation offset of this object on the Y axis. This is just aliased to the transform property.",
+            "itemtype": "property",
+            "name": "rotPointY",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.IChild",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/IChild.ts",
+            "line": 242,
+            "description": "The anchor point offset of this object on the X axis. This is an alias of the rotPointX property on the transform.",
+            "itemtype": "property",
+            "name": "anchorPointX",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.IChild",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/IChild.ts",
+            "line": 251,
+            "description": "The anchor point offset of this object on the Y axis. This is an alias of the rotPointY property on the transform.",
+            "itemtype": "property",
+            "name": "anchorPointY",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.IChild",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/IChild.ts",
+            "line": 260,
             "description": "Call this to clean up the object for deletion and garbage collection.",
             "itemtype": "method",
             "name": "destroy",
@@ -14664,7 +14970,7 @@
         },
         {
             "file": "src/core/IChild.ts",
-            "line": 205,
+            "line": 268,
             "description": "Adds a new Tag to this IChild. Useful for identifying large amounts of the same type of GameObjects.",
             "itemtype": "method",
             "name": "addTag",
@@ -14684,7 +14990,7 @@
         },
         {
             "file": "src/core/IChild.ts",
-            "line": 214,
+            "line": 277,
             "description": "Removes a Tag from this IChild.",
             "itemtype": "method",
             "name": "removeTag",
@@ -14704,7 +15010,7 @@
         },
         {
             "file": "src/core/IChild.ts",
-            "line": 223,
+            "line": 286,
             "description": "Checks to see if this IChild has a Tag based upon a string which you pass.",
             "itemtype": "method",
             "name": "hasTag",
@@ -16952,7 +17258,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 471,
+            "line": 467,
             "description": "Recursively goes through a child given and runs the destroy method on all that are passed.",
             "itemtype": "method",
             "name": "_destroyChildren",
@@ -20855,6 +21161,69 @@
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
             "line": 164,
+            "description": "Override function to prevent unwanted inherited behaviour. Do not call.\n\nBecause TileMapLayer extends Entity, it has a cellIndex parameter. However, it does not use a single atlas index, so this parameter is meaningless. It has deliberately been set to do nothing.",
+            "itemtype": "property",
+            "name": "cellIndex",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "deprecated": true,
+            "deprecationMessage": "Not functional on this object.",
+            "since": "1.1.0",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src/gameobjects/tilemap/TileMapLayer.ts",
+            "line": 181,
+            "description": "Override function to prevent unwanted inherited behaviour. Do not call.",
+            "itemtype": "method",
+            "name": "scaleToWidth",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "deprecated": true,
+            "deprecationMessage": "Not functional on this object.",
+            "since": "1.1.0",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src/gameobjects/tilemap/TileMapLayer.ts",
+            "line": 193,
+            "description": "Override function to prevent unwanted inherited behaviour. Do not call.",
+            "itemtype": "method",
+            "name": "scaleToHeight",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "deprecated": true,
+            "deprecationMessage": "Not functional on this object.",
+            "since": "1.1.0",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src/gameobjects/tilemap/TileMapLayer.ts",
+            "line": 205,
             "description": "A list containing all the types of tiles found on this TileMapLayer.",
             "itemtype": "property",
             "name": "_data",
@@ -20868,7 +21237,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 172,
+            "line": 213,
             "description": "Returns the total number of tiles. Either for a particular type if passed, otherwise of any type if not passed.",
             "itemtype": "method",
             "name": "countTiles",
@@ -20893,7 +21262,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 191,
+            "line": 232,
             "description": "The orientation of the of tilemap. \nTileMaps can be either 'orthogonal' (normal) or 'isometric'.",
             "itemtype": "property",
             "name": "orientation",
@@ -20908,7 +21277,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 202,
+            "line": 243,
             "description": "-----------------------\n Getting Tiles\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -20917,7 +21286,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 209,
+            "line": 250,
             "description": "A list containing all of the types of tiles found on this TileMapLayer. This is READ ONLY.",
             "itemtype": "property",
             "name": "tileData",
@@ -20931,7 +21300,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 219,
+            "line": 260,
             "description": "Returns the index of the tile based on the x and y coordinates of the tile passed. \nIf no tile is a the coordinates given then -1 is returned instead.\nCoordinates are in tiles not pixels.",
             "itemtype": "method",
             "name": "getIndexFromXY",
@@ -20960,7 +21329,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 237,
+            "line": 278,
             "description": "Returns the TileType for a tile that is at a particular set of coordinates passed. \nIf no tile is found the null is returned instead.\nCoordinates passed are in tiles.",
             "itemtype": "method",
             "name": "getTileFromXY",
@@ -20989,7 +21358,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 252,
+            "line": 293,
             "description": "Returns the index of the tile based on the x and y pixel coordinates that are passed. \nIf no tile is a the coordinates given then -1 is returned instead.\nCoordinates are in pixels not tiles and use the world coordinates of the tilemap.\nNote: Currently only working for ORTHOGONAL TileMaps.",
             "itemtype": "method",
             "name": "getIndexFromCoords",
@@ -21018,7 +21387,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 278,
+            "line": 319,
             "description": "Returns the TileType for a tile that is at a particular coordinate passed. \nIf no tile is found then null is returned instead.\nCoordinates passed are in pixels and use the world coordinates of the tilemap.\nNote: Currently only working for ORTHOGONAL TileMaps.",
             "itemtype": "method",
             "name": "getTileFromCoords",
@@ -21047,7 +21416,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 295,
+            "line": 336,
             "description": "Returns the indexes of every tile of a type you pass.",
             "itemtype": "method",
             "name": "getIndexsByType",
@@ -21071,7 +21440,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 311,
+            "line": 352,
             "description": "-----------------------\n Tiles Manipulation\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -21080,7 +21449,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 317,
+            "line": 358,
             "description": "Sets the tile to be used at the coordinates provided. \nCan be used to override a tile that may already exist at the location.",
             "itemtype": "method",
             "name": "setTile",
@@ -21114,7 +21483,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 338,
+            "line": 379,
             "description": "Sets the tile to be used at the index provided.\nCan be used to override a tile that may already exist at the location.",
             "itemtype": "method",
             "name": "setTileByIndex",
@@ -21139,7 +21508,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 350,
+            "line": 391,
             "description": "Randomizes the types of tiles used in an area of the layer. You can choose which types of tiles to use, and the area.\nDefault tile types used are everyone avaiable.",
             "itemtype": "method",
             "name": "randomizeTiles",
@@ -21188,7 +21557,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 382,
+            "line": 423,
             "description": "Makes all of the tiles in the area specified a single type that is passed.",
             "itemtype": "method",
             "name": "fill",
@@ -21236,7 +21605,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 405,
+            "line": 446,
             "description": "Replaces all tiles of typeA to typeB in the area specified. If no area is specified then it is on the whole layer.",
             "itemtype": "method",
             "name": "replaceTiles",
@@ -21289,7 +21658,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 429,
+            "line": 470,
             "description": "Swaps all the tiles that are typeA -> typeB and typeB -> typeA inside the area specified. If no area is specified then it is on the whole layer.",
             "itemtype": "method",
             "name": "swapTiles",
@@ -21342,7 +21711,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 455,
+            "line": 496,
             "description": "-----------------------\n Get Tiles By Collision Methods\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -21351,7 +21720,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 461,
+            "line": 502,
             "description": "Returns the tiles which overlap with a provided entities hitbox component. \nOnly collidable tiles on ANY side will be returned unless you pass a particular side.\nNote: Only designed to work with ORTHOGONAL types of tilemaps, results maybe unexpected for other types of tilemaps.",
             "itemtype": "method",
             "name": "getOverlappingTiles",
@@ -21382,7 +21751,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 512,
+            "line": 553,
             "description": "Returns the tiles which can collide with other objects (on ANY side unless otherwise specified) within an area provided.\nBy default the area is the whole tilemap.",
             "itemtype": "method",
             "name": "getCollidableTiles",
@@ -21436,7 +21805,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 570,
+            "line": 611,
             "description": "The update loop that is executed when this TileMapLayer is add to the Stage.",
             "itemtype": "method",
             "name": "update",
@@ -21449,7 +21818,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 581,
+            "line": 622,
             "description": "-----------------------\n Temp Properties used During Rendering\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -21458,7 +21827,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 587,
+            "line": 628,
             "description": "Used whilst rendering to calculate the number of tiles to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_maxX",
@@ -21472,7 +21841,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 596,
+            "line": 637,
             "description": "Used whilst rendering to calculate the number of tiles to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_maxY",
@@ -21486,7 +21855,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 605,
+            "line": 646,
             "description": "Used whilst rendering to calculate which is the first tile to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_startX",
@@ -21500,7 +21869,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 614,
+            "line": 655,
             "description": "Used whilst rendering to calculate which is the first tile to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_startY",
@@ -21514,7 +21883,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 623,
+            "line": 664,
             "description": "Temporary property that holds the tileType of the current tile being rendered.",
             "itemtype": "property",
             "name": "_temptype",
@@ -21528,7 +21897,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 631,
+            "line": 672,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner1",
@@ -21543,7 +21912,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 639,
+            "line": 680,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner2",
@@ -21558,7 +21927,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 647,
+            "line": 688,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner3",
@@ -21573,7 +21942,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 655,
+            "line": 696,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner4",
@@ -21588,7 +21957,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 664,
+            "line": 705,
             "description": "Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen. \nAll coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).",
             "itemtype": "method",
             "name": "_calculateBoundaries",
@@ -21613,7 +21982,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 728,
+            "line": 769,
             "description": "ChartToScreen maps a point in the game tile coordinates into screen pixel\ncoordinates that indicate where the tile should be drawn.\nNote: This is for use in ISOMETRIC Tilemaps.",
             "itemtype": "method",
             "name": "chartToScreen",
@@ -21647,7 +22016,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 745,
+            "line": 786,
             "description": "ScreenToChart maps a point in screen coordinates into the game tile chart\ncoordinates for the tile on which the screen point falls on.\nThis is for use in ISOMETRIC Tilemaps.",
             "itemtype": "method",
             "name": "screenToChart",
@@ -21681,7 +22050,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 763,
+            "line": 804,
             "description": "The render loop which is used when using the Canvas renderer.",
             "itemtype": "method",
             "name": "render",
@@ -22351,7 +22720,7 @@
         },
         {
             "file": "src/gameobjects/Textfield.ts",
-            "line": 351,
+            "line": 355,
             "description": "Called by the Layer to which this Game Object is attached",
             "itemtype": "method",
             "name": "render",
@@ -22371,7 +22740,7 @@
         },
         {
             "file": "src/gameobjects/Textfield.ts",
-            "line": 401,
+            "line": 405,
             "description": "Renders the GameObject using WebGL.",
             "itemtype": "method",
             "name": "renderGL",
@@ -26988,11 +27357,11 @@
         {
             "file": "src/geom/Transform.ts",
             "line": 172,
-            "description": "Return the Rotation value from the x axis.",
+            "description": "Return the rotation offset from the x axis.",
             "itemtype": "property",
             "name": "rotPointX",
             "return": {
-                "description": "The registration value from the x axis.",
+                "description": "The rotation offset from the x axis.",
                 "type": "Number"
             },
             "access": "public",
@@ -27007,7 +27376,7 @@
             "line": 186,
             "description": "Rotation offset on Y axis.",
             "itemtype": "property",
-            "name": "_rotY",
+            "name": "_rotPointY",
             "type": "Number",
             "access": "private",
             "tagname": "",
@@ -27019,11 +27388,11 @@
         {
             "file": "src/geom/Transform.ts",
             "line": 194,
-            "description": "Return the rotation value from the y axis.",
+            "description": "Return the rotation offset from the y axis.",
             "access": "public",
             "tagname": "",
             "return": {
-                "description": "The rotation value from the y axis.",
+                "description": "The rotation offset from the y axis.",
                 "type": "Number"
             },
             "class": "Kiwi.Geom.Transform",
@@ -27034,6 +27403,38 @@
         {
             "file": "src/geom/Transform.ts",
             "line": 208,
+            "description": "Return the anchor point value from the X axis. (Aliases to rotPointX.)",
+            "access": "public",
+            "tagname": "",
+            "return": {
+                "description": "The anchor point offset from the X axis.",
+                "type": "Number"
+            },
+            "since": "1.1.0",
+            "class": "Kiwi.Geom.Transform",
+            "module": "Kiwi",
+            "submodule": "Geom",
+            "namespace": "Kiwi.Geom"
+        },
+        {
+            "file": "src/geom/Transform.ts",
+            "line": 222,
+            "description": "Return the anchor point value from the Y axis. (Aliases to rotPointY.)",
+            "access": "public",
+            "tagname": "",
+            "return": {
+                "description": "The anchor point offset from the Y axis.",
+                "type": "Number"
+            },
+            "since": "1.1.0",
+            "class": "Kiwi.Geom.Transform",
+            "module": "Kiwi",
+            "submodule": "Geom",
+            "namespace": "Kiwi.Geom"
+        },
+        {
+            "file": "src/geom/Transform.ts",
+            "line": 236,
             "description": "A 3x3 transformation matrix object that can be use this tranform to manipulate points or the context transformation.",
             "itemtype": "property",
             "name": "_matrix",
@@ -27047,7 +27448,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 216,
+            "line": 244,
             "description": "Return the Matrix being used by this Transform",
             "itemtype": "property",
             "name": "matrix",
@@ -27062,7 +27463,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 227,
+            "line": 255,
             "description": "The most recently calculated matrix from getConcatenatedMatrix.",
             "itemtype": "property",
             "name": "_cachedConcatenatedMatrix",
@@ -27076,7 +27477,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 235,
+            "line": 263,
             "description": "Return the x of this transform translated to world space.",
             "itemtype": "property",
             "name": "worldX",
@@ -27093,7 +27494,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 247,
+            "line": 275,
             "description": "Return the y of this transform translated to world space.",
             "itemtype": "property",
             "name": "worldY",
@@ -27110,7 +27511,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 260,
+            "line": 288,
             "description": "The parent transform. If set to null there is no parent. Otherwise this is used by getConcatenatedMatrix to offset the current transforms by the another matrix",
             "itemtype": "property",
             "name": "_parent",
@@ -27124,7 +27525,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 268,
+            "line": 296,
             "description": "Return the parent Transform, if any.",
             "itemtype": "property",
             "name": "parent",
@@ -27141,7 +27542,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 285,
+            "line": 313,
             "description": "Set the X and Y values of the transform.",
             "itemtype": "method",
             "name": "setPosition",
@@ -27170,7 +27571,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 302,
+            "line": 330,
             "description": "Set the X and Y values of the transform from a point.",
             "itemtype": "method",
             "name": "setPositionPoint",
@@ -27194,7 +27595,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 319,
+            "line": 347,
             "description": "Translate the X and Y value of the transform by point components.",
             "itemtype": "method",
             "name": "translatePositionFromPoint",
@@ -27216,7 +27617,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 335,
+            "line": 363,
             "description": "Return a Point representing the X and Y values of the transform. If none is given a new Point objected will be created.",
             "itemtype": "method",
             "name": "getPostionPoint",
@@ -27233,7 +27634,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 347,
+            "line": 375,
             "description": "Set the X and Y scale value of the transform.",
             "itemtype": "method",
             "name": "scale",
@@ -27257,7 +27658,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 362,
+            "line": 390,
             "description": "Set the core properties of the transform",
             "itemtype": "method",
             "name": "setTransform",
@@ -27311,7 +27712,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 394,
+            "line": 422,
             "description": "Return the parent matrix of the transform. If there is no parent then null is returned.",
             "itemtype": "method",
             "name": "getParentMatrix",
@@ -27328,7 +27729,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 410,
+            "line": 438,
             "description": "Return the transformation matrix that concatenates this transform with all ancestor transforms.\nIf there is no parent then this will return a matrix the same as this transforms matrix.",
             "itemtype": "method",
             "name": "getConcatenatedMatrix",
@@ -27345,7 +27746,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 434,
+            "line": 462,
             "description": "Return the x of this transform translated to a camera space",
             "itemtype": "method",
             "name": "getCameraY",
@@ -27372,7 +27773,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 461,
+            "line": 489,
             "description": "Apply this matrix to a an object with x and y properties representing a point and return the transformed point.",
             "itemtype": "method",
             "name": "transformPoint",
@@ -27396,7 +27797,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 476,
+            "line": 504,
             "description": "Copy another transforms data to this transform. A clone of the source matrix is created for the matrix property.",
             "itemtype": "method",
             "name": "copyFrom",
@@ -27420,7 +27821,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 497,
+            "line": 525,
             "description": "Copy this transforms data to the destination Transform. A clone of this transforms matrix is created in the destination Transform Matrix.",
             "itemtype": "method",
             "name": "copyTo",
@@ -27444,7 +27845,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 512,
+            "line": 540,
             "description": "Return a clone of this transform.",
             "itemtype": "method",
             "name": "clone",
@@ -27468,7 +27869,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 527,
+            "line": 555,
             "description": "Recursively check that a transform does not appear as its own ancestor",
             "itemtype": "method",
             "name": "checkAncestor",
@@ -27492,7 +27893,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 550,
+            "line": 578,
             "description": "Return a string represention of this object.",
             "itemtype": "method",
             "name": "toString",
@@ -38946,7 +39347,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 449,
+            "line": 452,
             "description": "Decodes the audio data to make it playable. By default the audio should already have been decoded when it was loaded.",
             "itemtype": "method",
             "name": "_decode",
@@ -38959,7 +39360,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 474,
+            "line": 477,
             "description": "Used to control the current volume for this sound. 0 is silent, 1 is full volume.",
             "itemtype": "property",
             "name": "volume",
@@ -38973,7 +39374,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 509,
+            "line": 512,
             "description": "Mutes the sound and makes it 'silent'. \nThis will not stop the sound from playing, or events from being dispatched due when the sound has finished/is looping.",
             "itemtype": "property",
             "name": "mute",
@@ -38987,7 +39388,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 539,
+            "line": 542,
             "description": "Adds a new marker to the audio which will then allow for that section of audio to be played.",
             "itemtype": "method",
             "name": "addMarker",
@@ -39024,7 +39425,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 553,
+            "line": 556,
             "description": "Removes a currently existing marker from this audio.",
             "itemtype": "method",
             "name": "removeMarker",
@@ -39044,7 +39445,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 571,
+            "line": 574,
             "description": "Plays the current sound/audio from the start.",
             "itemtype": "method",
             "name": "play",
@@ -39072,7 +39473,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 655,
+            "line": 658,
             "description": "Stop the sound from playing.",
             "itemtype": "method",
             "name": "stop",
@@ -39085,7 +39486,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 683,
+            "line": 686,
             "description": "Pauses the sound so that you can resume it from at point to paused it at.",
             "itemtype": "method",
             "name": "pause",
@@ -39098,7 +39499,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 696,
+            "line": 699,
             "description": "Plays the sound from when you paused the sound.",
             "itemtype": "method",
             "name": "resume",
@@ -39111,7 +39512,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 731,
+            "line": 734,
             "description": "The update loop that gets executed every frame.",
             "itemtype": "method",
             "name": "update",
@@ -39124,7 +39525,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 798,
+            "line": 801,
             "description": "This method handles the destruction of all of the properties when this audio is not longer needed. \nYou call this method when you want this method to be removed on the next garbage collection cycle.",
             "itemtype": "method",
             "name": "destroy",
@@ -47034,7 +47435,7 @@
         },
         {
             "message": "param name missing: {Kiwi.Camera}",
-            "line": " src/gameobjects/Textfield.ts:351"
+            "line": " src/gameobjects/Textfield.ts:355"
         },
         {
             "message": "replacing incorrect tag: propery with property",
@@ -47074,31 +47475,31 @@
         },
         {
             "message": "Missing item type\nReturns the type of child that this is.",
-            "line": " src/core/Entity.ts:170"
+            "line": " src/core/Entity.ts:231"
         },
         {
             "message": "Missing item type\n-------------------------\nAdd Children methods\n-------------------------",
-            "line": " src/core/Group.ts:296"
+            "line": " src/core/Group.ts:385"
         },
         {
             "message": "Missing item type\n--------------------\nRemove Children Methods\n--------------------",
-            "line": " src/core/Group.ts:391"
+            "line": " src/core/Group.ts:480"
         },
         {
             "message": "Missing item type\n-------------------\nGet Children Methods\n-------------------",
-            "line": " src/core/Group.ts:484"
+            "line": " src/core/Group.ts:573"
         },
         {
             "message": "Missing item type\nReturns a member at random from the group.",
-            "line": " src/core/Group.ts:594"
+            "line": " src/core/Group.ts:683"
         },
         {
             "message": "Missing item type\n--------------------\nChild Depth Sorting Methods\n--------------------",
-            "line": " src/core/Group.ts:654"
+            "line": " src/core/Group.ts:743"
         },
         {
             "message": "Missing item type\n---------------\nTagging System\n---------------",
-            "line": " src/core/Group.ts:1036"
+            "line": " src/core/Group.ts:1125"
         },
         {
             "message": "Missing item type\nIf the callbacks should propagate or not.",
@@ -47150,19 +47551,19 @@
         },
         {
             "message": "Missing item type\n-----------------------\n Getting Tiles\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:202"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:243"
         },
         {
             "message": "Missing item type\n-----------------------\n Tiles Manipulation\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:311"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:352"
         },
         {
             "message": "Missing item type\n-----------------------\n Get Tiles By Collision Methods\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:455"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:496"
         },
         {
             "message": "Missing item type\n-----------------------\n Temp Properties used During Rendering\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:581"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:622"
         },
         {
             "message": "Missing item type\nChanges the alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.",
@@ -47201,8 +47602,16 @@
             "line": " src/geom/Rectangle.ts:24"
         },
         {
-            "message": "Missing item type\nReturn the rotation value from the y axis.",
+            "message": "Missing item type\nReturn the rotation offset from the y axis.",
             "line": " src/geom/Transform.ts:194"
+        },
+        {
+            "message": "Missing item type\nReturn the anchor point value from the X axis. (Aliases to rotPointX.)",
+            "line": " src/geom/Transform.ts:208"
+        },
+        {
+            "message": "Missing item type\nReturn the anchor point value from the Y axis. (Aliases to rotPointY.)",
+            "line": " src/geom/Transform.ts:222"
         },
         {
             "message": "Missing item type\nGet the game that this pointer belongs to.",

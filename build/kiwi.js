@@ -2361,7 +2361,9 @@ var Kiwi;
             */
             this._alpha = 1;
             /**
-            * The width of the entity in pixels.
+            * The width of the entity in pixels, pre-transform.
+            *
+            * To obtain the actual width, multiply width by scaleX.
             * @property width
             * @type number
             * @default 0
@@ -2369,7 +2371,9 @@ var Kiwi;
             */
             this.width = 0;
             /**
-            * The height of the entity in pixels.
+            * The height of the entity in pixels, pre-transform.
+            *
+            * To obtain the actual height, multiply height by scaleY.
             * @property height
             * @type number
             * @default 0
@@ -2484,6 +2488,36 @@ var Kiwi;
         });
 
 
+        Object.defineProperty(Entity.prototype, "worldX", {
+            /**
+            * X coordinate of this Entity in world space; that is, after inheriting parent transforms. This is just aliased to the transform property. Property is READ-ONLY.
+            * @property worldX
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return (this.transform.worldX);
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Entity.prototype, "worldY", {
+            /**
+            * Y coordinate of this Entity in world space; that is, after inheriting parent transforms. This is just aliased to the transform property. Property is READ-ONLY.
+            * @property worldY
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return (this.transform.worldY);
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         Object.defineProperty(Entity.prototype, "scaleX", {
             /**
             * Scale X of this Entity. This is just aliased to the transform property.
@@ -2518,6 +2552,21 @@ var Kiwi;
             configurable: true
         });
 
+
+        Object.defineProperty(Entity.prototype, "scale", {
+            /**
+            * Scale both axes of this Entity. This is just aliased to the transform property. This is WRITE-ONLY.
+            * @property scale
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            set: function (value) {
+                this.transform.scale = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
 
         Object.defineProperty(Entity.prototype, "rotation", {
             /**
@@ -2565,6 +2614,42 @@ var Kiwi;
             },
             set: function (value) {
                 this.transform.rotPointY = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Entity.prototype, "anchorPointX", {
+            /**
+            * The anchor point on the x-axis. This is just aliased to the rotPointX on the transform object.
+            * @property anchorPointX
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return this.transform.anchorPointX;
+            },
+            set: function (value) {
+                this.transform.anchorPointX = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Entity.prototype, "anchorPointY", {
+            /**
+            * The anchor point on the y-axis. This is just aliased to the rotPointY on the transform object.
+            * @property anchorPointY
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return this.transform.anchorPointY;
+            },
+            set: function (value) {
+                this.transform.anchorPointY = value;
             },
             enumerable: true,
             configurable: true
@@ -2620,9 +2705,32 @@ var Kiwi;
             configurable: true
         });
 
+        /**
+        * Scale to desired width, preserving aspect ratio. This function changes the scale, not the width. If the width changes, for example, as part of an animation sequence, the Entity will retain the new scale.
+        * @method scaleToWidth
+        * @param value {Number} The desired width in pixels.
+        * @public
+        * @since 1.1.0
+        */
+        Entity.prototype.scaleToWidth = function (value) {
+            this.scale = value / this.width;
+        };
+
+        /**
+        * Scale to desired height, preserving aspect ratio. This function changes the scale, not the height. If the height changes, for example, as part of an animation sequence, the Entity will retain the new scale.
+        * @method scaleToHeight
+        * @param value {Number} The desired height in pixels.
+        * @public
+        * @since 1.1.0
+        */
+        Entity.prototype.scaleToHeight = function (value) {
+            this.scale = value / this.height;
+        };
+
         Object.defineProperty(Entity.prototype, "cellIndex", {
             /**
             * Used as a reference to a single Cell in the atlas that is to be rendered.
+            *
             * E.g. If you had a spritesheet with 3 frames/cells and you wanted the second frame to be displayed you would change this value to 1
             * @property cellIndex
             * @type number
@@ -3151,6 +3259,36 @@ var Kiwi;
             configurable: true
         });
 
+        Object.defineProperty(Group.prototype, "worldX", {
+            /**
+            * The X coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.
+            * @property worldX
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return this.transform.worldX;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Group.prototype, "worldY", {
+            /**
+            * The Y coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.
+            * @property worldY
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return this.transform.worldY;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         Object.defineProperty(Group.prototype, "scaleX", {
             /*
             * The Scale X of this group. This is just aliased to the transform property.
@@ -3185,6 +3323,21 @@ var Kiwi;
             configurable: true
         });
 
+        Object.defineProperty(Group.prototype, "scale", {
+            /**
+            * The scale of this group. This is just aliased to the transform property. This is WRITE-ONLY.
+            * @property scale
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            set: function (value) {
+                this.transform.scale = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         Object.defineProperty(Group.prototype, "rotation", {
             /*
             * The rotation of this group. This is just aliased to the transform property.
@@ -3197,6 +3350,78 @@ var Kiwi;
             },
             set: function (value) {
                 this.transform.rotation = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Group.prototype, "rotPointX", {
+            /**
+            * The rotation offset of this group in the X axis. This is just aliased to the transform property.
+            * @property rotPointX
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return this.transform.rotPointX;
+            },
+            set: function (value) {
+                this.transform.rotPointX = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Group.prototype, "rotPointY", {
+            /**
+            * The rotation offset of this group in the Y axis. This is just aliased to the transform property.
+            * @property rotPointY
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return this.transform.rotPointY;
+            },
+            set: function (value) {
+                this.transform.rotPointY = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Group.prototype, "anchorPointX", {
+            /**
+            * The anchor point offset of this group in the X axis. This is just aliased to the transform property, and is in turn an alias of rotPointX.
+            * @property anchorPointX
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return this.transform.anchorPointX;
+            },
+            set: function (value) {
+                this.transform.anchorPointX = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Group.prototype, "anchorPointY", {
+            /**
+            * The anchor point offset of this group in the Y axis. This is just aliased to the transform property, and is in turn an alias of rotPointY.
+            * @property anchorPointY
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return this.transform.anchorPointY;
+            },
+            set: function (value) {
+                this.transform.anchorPointY = value;
             },
             enumerable: true,
             configurable: true
@@ -5569,6 +5794,10 @@ var Kiwi;
                 //Draw the text.
                 this._ctx.fillText(this._text, 0, 0);
 
+                // Update inherited components
+                this.width = this._alignWidth;
+                this.height = this._canvas.height;
+
                 //Update the cell and dirty/undirtyfiy
                 this.atlas.cells[0] = { x: 0, y: 0, w: this._canvas.width, h: this._canvas.height };
                 this._tempDirty = false;
@@ -6322,6 +6551,48 @@ var Kiwi;
                     enumerable: true,
                     configurable: true
                 });
+
+                Object.defineProperty(TileMapLayer.prototype, "cellIndex", {
+                    /**
+                    * Override function to prevent unwanted inherited behaviour. Do not call.
+                    *
+                    * Because TileMapLayer extends Entity, it has a cellIndex parameter. However, it does not use a single atlas index, so this parameter is meaningless. It has deliberately been set to do nothing.
+                    * @property cellIndex
+                    * @type number
+                    * @public
+                    * @deprecated Not functional on this object.
+                    * @since 1.1.0
+                    */
+                    get: function () {
+                        return null;
+                    },
+                    set: function (val) {
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                /**
+                * Override function to prevent unwanted inherited behaviour. Do not call.
+                * @method scaleToWidth
+                * @param value {Number}
+                * @public
+                * @deprecated Not functional on this object.
+                * @since 1.1.0
+                */
+                TileMapLayer.prototype.scaleToWidth = function (value) {
+                };
+
+                /**
+                * Override function to prevent unwanted inherited behaviour. Do not call.
+                * @method scaleToHeight
+                * @param value {Number}
+                * @public
+                * @deprecated Not functional on this object.
+                * @since 1.1.0
+                */
+                TileMapLayer.prototype.scaleToHeight = function (value) {
+                };
 
                 /**
                 * Returns the total number of tiles. Either for a particular type if passed, otherwise of any type if not passed.
@@ -22562,7 +22833,7 @@ var Kiwi;
                 this._rotPointX = 0;
                 /**
                 * Rotation offset on Y axis.
-                * @property _rotY
+                * @property _rotPointY
                 * @type Number
                 * @private
                 **/
@@ -22681,9 +22952,9 @@ var Kiwi;
                     return this._rotPointX;
                 },
                 /**
-                * Return the Rotation value from the x axis.
+                * Return the rotation offset from the x axis.
                 * @property rotPointX
-                * @return {Number} The registration value from the x axis.
+                * @return {Number} The rotation offset from the x axis.
                 * @public
                 */
                 set: function (value) {
@@ -22699,10 +22970,46 @@ var Kiwi;
                     return this._rotPointY;
                 },
                 /**
-                * Return the rotation value from the y axis.
-                * @public rotY
-                * @return {Number} The rotation value from the y axis.
+                * Return the rotation offset from the y axis.
+                * @public rotPointY
+                * @return {Number} The rotation offset from the y axis.
                 * @public
+                */
+                set: function (value) {
+                    this._rotPointY = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Transform.prototype, "anchorPointX", {
+                get: function () {
+                    return (this.rotPointX);
+                },
+                /**
+                * Return the anchor point value from the X axis. (Aliases to rotPointX.)
+                * @public anchorPointX
+                * @return {Number} The anchor point offset from the X axis.
+                * @public
+                * @since 1.1.0
+                */
+                set: function (value) {
+                    this.rotPointX = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Transform.prototype, "anchorPointY", {
+                get: function () {
+                    return (this._rotPointY);
+                },
+                /**
+                * Return the anchor point value from the Y axis. (Aliases to rotPointY.)
+                * @public anchorPointY
+                * @return {Number} The anchor point offset from the Y axis.
+                * @public
+                * @since 1.1.0
                 */
                 set: function (value) {
                     this._rotPointY = value;

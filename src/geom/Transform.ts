@@ -170,9 +170,9 @@ module Kiwi.Geom {
         private _rotPointX: number = 0;
 
         /** 
-        * Return the Rotation value from the x axis.
+        * Return the rotation offset from the x axis.
         * @property rotPointX
-        * @return {Number} The registration value from the x axis.
+        * @return {Number} The rotation offset from the x axis.
         * @public
         */
         public set rotPointX(value: number) {
@@ -185,16 +185,16 @@ module Kiwi.Geom {
 
         /** 
         * Rotation offset on Y axis.
-        * @property _rotY
+        * @property _rotPointY
         * @type Number
         * @private
         **/
         private _rotPointY: number = 0;
 
         /** 
-        * Return the rotation value from the y axis.
-        * @public rotY
-        * @return {Number} The rotation value from the y axis.
+        * Return the rotation offset from the y axis.
+        * @public rotPointY
+        * @return {Number} The rotation offset from the y axis.
         * @public
         */
         public set rotPointY(value: number) {
@@ -203,6 +203,34 @@ module Kiwi.Geom {
 
         public get rotPointY(): number {
             return this._rotPointY;
+        }
+
+        /**
+        * Return the anchor point value from the X axis. (Aliases to rotPointX.)
+        * @public anchorPointX
+        * @return {Number} The anchor point offset from the X axis.
+        * @public
+        * @since 1.1.0
+        */
+        public set anchorPointX(value: number) {
+            this.rotPointX = value;
+        }
+        public get anchorPointX(): number {
+            return( this.rotPointX );
+        }
+
+        /**
+        * Return the anchor point value from the Y axis. (Aliases to rotPointY.)
+        * @public anchorPointY
+        * @return {Number} The anchor point offset from the Y axis.
+        * @public
+        * @since 1.1.0
+        */
+        public set anchorPointY(value: number) {
+            this._rotPointY = value;
+        }
+        public get anchorPointY(): number {
+            return( this._rotPointY );
         }
 
         /** 

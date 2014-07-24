@@ -162,6 +162,47 @@ module Kiwi.GameObjects.Tilemap {
         }
 
         /**
+        * Override function to prevent unwanted inherited behaviour. Do not call.
+        *
+        * Because TileMapLayer extends Entity, it has a cellIndex parameter. However, it does not use a single atlas index, so this parameter is meaningless. It has deliberately been set to do nothing.
+        * @property cellIndex
+        * @type number
+        * @public
+        * @deprecated Not functional on this object.
+        * @since 1.1.0
+        */
+        public get cellIndex():number {
+            return null;
+        }
+        public set cellIndex( val: number ) {
+            
+        }
+
+        /**
+        * Override function to prevent unwanted inherited behaviour. Do not call.
+        * @method scaleToWidth
+        * @param value {Number}
+        * @public
+        * @deprecated Not functional on this object.
+        * @since 1.1.0
+        */
+        public scaleToWidth(value: number) {
+
+        }
+
+        /**
+        * Override function to prevent unwanted inherited behaviour. Do not call.
+        * @method scaleToHeight
+        * @param value {Number}
+        * @public
+        * @deprecated Not functional on this object.
+        * @since 1.1.0
+        */
+        public scaleToHeight(value: number) {
+            
+        }
+
+        /**
         * A list containing all the types of tiles found on this TileMapLayer.
         * @property _data
         * @type number[]

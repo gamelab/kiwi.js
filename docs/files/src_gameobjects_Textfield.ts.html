@@ -692,6 +692,10 @@ module Kiwi.GameObjects {
             //Draw the text.
             this._ctx.fillText(this._text, 0, 0);
 
+            // Update inherited components
+            this.width = this._alignWidth;
+            this.height = this._canvas.height;
+
             
 
             //Update the cell and dirty/undirtyfiy

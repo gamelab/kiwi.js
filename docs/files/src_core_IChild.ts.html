@@ -523,6 +523,24 @@ module Kiwi {
         y: number;
 
         /**
+        * The X coordinate of this object in world space - that is, after inheriting transforms from parents. This is just aliased to the transform property.
+        * @property worldX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        worldX: number;
+
+        /**
+        * The Y coordinate of this object in world space - that is, after inheriting transforms from parents. This is just aliased to the transform property.
+        * @property worldY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        worldY: number;
+
+        /**
         * The rotation of this object. This is just aliased to the transform property.
         * @property rotation
         * @type number
@@ -545,6 +563,51 @@ module Kiwi {
         * @public
         */
         scaleY: number;
+
+        /**
+        * The scale of this object. This is just aliased to the transform property.
+        * @property scale
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        scale: number;
+
+        /**
+        * The rotation offset of this object on the X axis. This is just aliased to the transform property.
+        * @property rotPointX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        rotPointX: number;
+
+        /**
+        * The rotation offset of this object on the Y axis. This is just aliased to the transform property.
+        * @property rotPointY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        rotPointY: number;
+
+        /**
+        * The anchor point offset of this object on the X axis. This is an alias of the rotPointX property on the transform.
+        * @property anchorPointX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        anchorPointX: number;
+
+        /**
+        * The anchor point offset of this object on the Y axis. This is an alias of the rotPointY property on the transform.
+        * @property anchorPointY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        anchorPointY: number;
 
         /**
         * Call this to clean up the object for deletion and garbage collection.

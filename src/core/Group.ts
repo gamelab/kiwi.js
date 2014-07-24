@@ -131,6 +131,28 @@ module Kiwi {
             this.transform.y = value;
         }
 
+        /**
+        * The X coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.
+        * @property worldX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get worldX(): number {
+            return this.transform.worldX;
+        }
+
+        /**
+        * The Y coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.
+        * @property worldY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get worldY(): number {
+            return this.transform.worldY;
+        }
+
         /*
         * The Scale X of this group. This is just aliased to the transform property.
         * @property scaleX
@@ -157,6 +179,17 @@ module Kiwi {
             this.transform.scaleY = value;
         }
 
+        /**
+        * The scale of this group. This is just aliased to the transform property. This is WRITE-ONLY.
+        * @property scale
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public set scale(value: number) {
+            this.transform.scale = value;
+        }
+
         /*
         * The rotation of this group. This is just aliased to the transform property.
         * @property rotation
@@ -168,6 +201,62 @@ module Kiwi {
         }
         public set rotation(value: number) {
             this.transform.rotation = value;
+        }
+
+        /**
+        * The rotation offset of this group in the X axis. This is just aliased to the transform property.
+        * @property rotPointX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get rotPointX(): number {
+            return this.transform.rotPointX;
+        }
+        public set rotPointX(value: number) {
+            this.transform.rotPointX = value;
+        }
+
+        /**
+        * The rotation offset of this group in the Y axis. This is just aliased to the transform property.
+        * @property rotPointY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get rotPointY(): number {
+            return this.transform.rotPointY;
+        }
+        public set rotPointY(value: number) {
+            this.transform.rotPointY = value;
+        }
+
+        /**
+        * The anchor point offset of this group in the X axis. This is just aliased to the transform property, and is in turn an alias of rotPointX.
+        * @property anchorPointX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get anchorPointX(): number {
+            return this.transform.anchorPointX;
+        }
+        public set anchorPointX(value: number) {
+            this.transform.anchorPointX = value;
+        }
+
+        /**
+        * The anchor point offset of this group in the Y axis. This is just aliased to the transform property, and is in turn an alias of rotPointY.
+        * @property anchorPointY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get anchorPointY(): number {
+            return this.transform.anchorPointY;
+        }
+        public set anchorPointY(value: number) {
+            this.transform.anchorPointY = value;
         }
 
         /**

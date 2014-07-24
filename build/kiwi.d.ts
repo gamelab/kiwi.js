@@ -1534,6 +1534,22 @@ declare module Kiwi {
         */
         y: number;
         /**
+        * The X coordinate of this object in world space - that is, after inheriting transforms from parents. This is just aliased to the transform property.
+        * @property worldX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        worldX: number;
+        /**
+        * The Y coordinate of this object in world space - that is, after inheriting transforms from parents. This is just aliased to the transform property.
+        * @property worldY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        worldY: number;
+        /**
         * The rotation of this object. This is just aliased to the transform property.
         * @property rotation
         * @type number
@@ -1554,6 +1570,46 @@ declare module Kiwi {
         * @public
         */
         scaleY: number;
+        /**
+        * The scale of this object. This is just aliased to the transform property.
+        * @property scale
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        scale: number;
+        /**
+        * The rotation offset of this object on the X axis. This is just aliased to the transform property.
+        * @property rotPointX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        rotPointX: number;
+        /**
+        * The rotation offset of this object on the Y axis. This is just aliased to the transform property.
+        * @property rotPointY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        rotPointY: number;
+        /**
+        * The anchor point offset of this object on the X axis. This is an alias of the rotPointX property on the transform.
+        * @property anchorPointX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        anchorPointX: number;
+        /**
+        * The anchor point offset of this object on the Y axis. This is an alias of the rotPointY property on the transform.
+        * @property anchorPointY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        anchorPointY: number;
         /**
         * Call this to clean up the object for deletion and garbage collection.
         * @method destroy
@@ -1646,6 +1702,22 @@ declare module Kiwi {
         */
         public y : number;
         /**
+        * X coordinate of this Entity in world space; that is, after inheriting parent transforms. This is just aliased to the transform property. Property is READ-ONLY.
+        * @property worldX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public worldX : number;
+        /**
+        * Y coordinate of this Entity in world space; that is, after inheriting parent transforms. This is just aliased to the transform property. Property is READ-ONLY.
+        * @property worldY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public worldY : number;
+        /**
         * Scale X of this Entity. This is just aliased to the transform property.
         * @property scaleX
         * @type Number
@@ -1659,6 +1731,14 @@ declare module Kiwi {
         * @public
         */
         public scaleY : number;
+        /**
+        * Scale both axes of this Entity. This is just aliased to the transform property. This is WRITE-ONLY.
+        * @property scale
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public scale : number;
         /**
         * Rotation of this Entity. This is just aliased to the transform property.
         * @property rotation
@@ -1680,6 +1760,22 @@ declare module Kiwi {
         * @public
         */
         public rotPointY : number;
+        /**
+        * The anchor point on the x-axis. This is just aliased to the rotPointX on the transform object.
+        * @property anchorPointX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public anchorPointX : number;
+        /**
+        * The anchor point on the y-axis. This is just aliased to the rotPointY on the transform object.
+        * @property anchorPointY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public anchorPointY : number;
         /**
         * Returns the type of child that this is.
         * @type Number
@@ -1718,7 +1814,9 @@ declare module Kiwi {
         */
         public visible : boolean;
         /**
-        * The width of the entity in pixels.
+        * The width of the entity in pixels, pre-transform.
+        *
+        * To obtain the actual width, multiply width by scaleX.
         * @property width
         * @type number
         * @default 0
@@ -1726,13 +1824,31 @@ declare module Kiwi {
         */
         public width: number;
         /**
-        * The height of the entity in pixels.
+        * The height of the entity in pixels, pre-transform.
+        *
+        * To obtain the actual height, multiply height by scaleY.
         * @property height
         * @type number
         * @default 0
         * @public
         */
         public height: number;
+        /**
+        * Scale to desired width, preserving aspect ratio. This function changes the scale, not the width. If the width changes, for example, as part of an animation sequence, the Entity will retain the new scale.
+        * @method scaleToWidth
+        * @param value {Number} The desired width in pixels.
+        * @public
+        * @since 1.1.0
+        */
+        public scaleToWidth(value: number): void;
+        /**
+        * Scale to desired height, preserving aspect ratio. This function changes the scale, not the height. If the height changes, for example, as part of an animation sequence, the Entity will retain the new scale.
+        * @method scaleToHeight
+        * @param value {Number} The desired height in pixels.
+        * @public
+        * @since 1.1.0
+        */
+        public scaleToHeight(value: number): void;
         /**
         * The texture atlas that is to be used on this entity.
         * @property atlas
@@ -1750,6 +1866,7 @@ declare module Kiwi {
         private _cellIndex;
         /**
         * Used as a reference to a single Cell in the atlas that is to be rendered.
+        *
         * E.g. If you had a spritesheet with 3 frames/cells and you wanted the second frame to be displayed you would change this value to 1
         * @property cellIndex
         * @type number
@@ -2123,9 +2240,65 @@ declare module Kiwi {
         * @public
         */
         public y : number;
+        /**
+        * The X coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.
+        * @property worldX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public worldX : number;
+        /**
+        * The Y coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.
+        * @property worldY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public worldY : number;
         public scaleX : number;
         public scaleY : number;
+        /**
+        * The scale of this group. This is just aliased to the transform property. This is WRITE-ONLY.
+        * @property scale
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public scale : number;
         public rotation : number;
+        /**
+        * The rotation offset of this group in the X axis. This is just aliased to the transform property.
+        * @property rotPointX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public rotPointX : number;
+        /**
+        * The rotation offset of this group in the Y axis. This is just aliased to the transform property.
+        * @property rotPointY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public rotPointY : number;
+        /**
+        * The anchor point offset of this group in the X axis. This is just aliased to the transform property, and is in turn an alias of rotPointX.
+        * @property anchorPointX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public anchorPointX : number;
+        /**
+        * The anchor point offset of this group in the Y axis. This is just aliased to the transform property, and is in turn an alias of rotPointY.
+        * @property anchorPointY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public anchorPointY : number;
         /**
         * The Component Manager
         * @property components
@@ -4174,6 +4347,35 @@ declare module Kiwi.GameObjects.Tilemap {
         * @public
         */
         public heightInPixels : number;
+        /**
+        * Override function to prevent unwanted inherited behaviour. Do not call.
+        *
+        * Because TileMapLayer extends Entity, it has a cellIndex parameter. However, it does not use a single atlas index, so this parameter is meaningless. It has deliberately been set to do nothing.
+        * @property cellIndex
+        * @type number
+        * @public
+        * @deprecated Not functional on this object.
+        * @since 1.1.0
+        */
+        public cellIndex : number;
+        /**
+        * Override function to prevent unwanted inherited behaviour. Do not call.
+        * @method scaleToWidth
+        * @param value {Number}
+        * @public
+        * @deprecated Not functional on this object.
+        * @since 1.1.0
+        */
+        public scaleToWidth(value: number): void;
+        /**
+        * Override function to prevent unwanted inherited behaviour. Do not call.
+        * @method scaleToHeight
+        * @param value {Number}
+        * @public
+        * @deprecated Not functional on this object.
+        * @since 1.1.0
+        */
+        public scaleToHeight(value: number): void;
         /**
         * A list containing all the types of tiles found on this TileMapLayer.
         * @property _data
@@ -15165,26 +15367,42 @@ declare module Kiwi.Geom {
         **/
         private _rotPointX;
         /**
-        * Return the Rotation value from the x axis.
+        * Return the rotation offset from the x axis.
         * @property rotPointX
-        * @return {Number} The registration value from the x axis.
+        * @return {Number} The rotation offset from the x axis.
         * @public
         */
         public rotPointX : number;
         /**
         * Rotation offset on Y axis.
-        * @property _rotY
+        * @property _rotPointY
         * @type Number
         * @private
         **/
         private _rotPointY;
         /**
-        * Return the rotation value from the y axis.
-        * @public rotY
-        * @return {Number} The rotation value from the y axis.
+        * Return the rotation offset from the y axis.
+        * @public rotPointY
+        * @return {Number} The rotation offset from the y axis.
         * @public
         */
         public rotPointY : number;
+        /**
+        * Return the anchor point value from the X axis. (Aliases to rotPointX.)
+        * @public anchorPointX
+        * @return {Number} The anchor point offset from the X axis.
+        * @public
+        * @since 1.1.0
+        */
+        public anchorPointX : number;
+        /**
+        * Return the anchor point value from the Y axis. (Aliases to rotPointY.)
+        * @public anchorPointY
+        * @return {Number} The anchor point offset from the Y axis.
+        * @public
+        * @since 1.1.0
+        */
+        public anchorPointY : number;
         /**
         * A 3x3 transformation matrix object that can be use this tranform to manipulate points or the context transformation.
         * @property _matrix
