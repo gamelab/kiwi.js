@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Kiwi.Animations.Tweens.Easing.Quartic - Kiwi.js</title>
+    <title>Kiwi.Renderers.GLBlendMode - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -346,7 +346,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Kiwi.Animations.Tweens.Easing.Quartic Class</h1>
+                        <h1>Kiwi.Renderers.GLBlendMode Class</h1>
 <div class="box meta">
     
 
@@ -354,14 +354,14 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_animations_tweens_easing_Quartic.ts.html#l11"><code>src&#x2F;animations&#x2F;tweens&#x2F;easing&#x2F;Quartic.ts:11</code></a>
+            Defined in: <a href="../files/src_render_GLBlendMode.ts.html#l10"><code>src&#x2F;render&#x2F;GLBlendMode.ts:10</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/Easing.html">Easing</a><br>
-            Parent Module: <a href="../modules/Tweens.html">Tweens</a>
+            Module: <a href="../modules/Renderers.html">Renderers</a><br>
+            Parent Module: <a href="../modules/Kiwi.html">Kiwi</a>
         
     
 
@@ -371,9 +371,137 @@
 
 
 <div class="box intro">
+    <p>The Blend Mode object for recording and applying GL blend functions on a renderer.</p>
+
+</div>
+
+
+    <div class="constructor">
+        <h2>Constructor</h2>
+        <div id="method_Kiwi.Renderers.GLBlendMode" class="method item">
+    <h3 class="name"><code>Kiwi.Renderers.GLBlendMode</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Kiwi.Renderers.GLBlendMode.html" class="crosslink">Kiwi.Renderers.GLBlendMode</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLBlendMode.ts.html#l10"><code>src&#x2F;render&#x2F;GLBlendMode.ts:10</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Kiwi.Renderers.GLBlendMode.html" class="crosslink">Kiwi.Renderers.GLBlendMode</a></span>:
+                    
+                
+            </div>
+        </div>
+    
+
     
 </div>
 
+    </div>
 
 
 <div id="classdocs" class="tabview">
@@ -383,6 +511,8 @@
         
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
         
+        
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
         
         
         
@@ -399,35 +529,36 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method public">
-                                <a href="#method_In">In</a>
-
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_InOut">InOut</a>
-
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_objType">objType</a>
+                                <a href="#method_apply">apply</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_Out">Out</a>
+                                <a href="#method_isIdentical">isIdentical</a>
 
                                 
-                                    <span class="flag static">static</span>
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_makeConstant">makeConstant</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_readConfig">readConfig</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_setMode">setMode</a>
+
                                 
                                 
                             </li>
@@ -436,6 +567,70 @@
                 </div>
             
 
+            
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                        
+                            <li class="index-item property private">
+                                <a href="#property__dstAlpha">_dstAlpha</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__dstRGB">_dstRGB</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__modeAlpha">_modeAlpha</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__modeRGB">_modeRGB</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__srcAlpha">_srcAlpha</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__srcRGB">_srcRGB</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_dirty">dirty</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_gl">gl</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
             
 
             
@@ -448,8 +643,8 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_In" class="method item public">
-    <h3 class="name"><code>In</code></h3>
+                    <div id="method_apply" class="method item public">
+    <h3 class="name"><code>apply</code></h3>
 
     
         <div class="args">
@@ -457,7 +652,7 @@
             
                 <li class="arg">
                     
-                        <code>k</code>
+                        <code>gl</code>
                     
                 </li>
             
@@ -465,10 +660,6 @@
         </div>
     
 
-    
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
     
 
     
@@ -479,8 +670,6 @@
 
     
 
-    
-        <span class="flag static">static</span>
     
 
     
@@ -498,7 +687,7 @@
             
         
         
-        <a href="../files/src_animations_tweens_easing_Quartic.ts.html#l29"><code>src&#x2F;animations&#x2F;tweens&#x2F;easing&#x2F;Quartic.ts:29</code></a>
+        <a href="../files/src_render_GLBlendMode.ts.html#l324"><code>src&#x2F;render&#x2F;GLBlendMode.ts:324</code></a>
         
         </p>
 
@@ -509,7 +698,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Sets the blend mode on the video card</p>
+
     </div>
 
     
@@ -520,8 +710,102 @@
             
                 <li class="param">
                     
-                        <code class="param-name">k</code>
-                        <span class="type">Any</span>
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_isIdentical" class="method item public">
+    <h3 class="name"><code>isIdentical</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>blendMode</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLBlendMode.ts.html#l304"><code>src&#x2F;render&#x2F;GLBlendMode.ts:304</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Compares against another GLBlendMode</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">blendMode</code>
+                        <span class="type"><a href="../classes/Kiwi.Renderers.GLBlendMode.html" class="crosslink">Kiwi.Renderers.GLBlendMode</a></span>
                     
 
                     
@@ -544,8 +828,10 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">String</span>:
+                        <span class="type">Boolean</span>:
                     
+                    <p>Is this GLBlendMode identical to the passed GLBlendMode?</p>
+
                 
             </div>
         </div>
@@ -555,8 +841,8 @@
 </div>
 
                 
-                    <div id="method_InOut" class="method item public">
-    <h3 class="name"><code>InOut</code></h3>
+                    <div id="method_makeConstant" class="method item private">
+    <h3 class="name"><code>makeConstant</code></h3>
 
     
         <div class="args">
@@ -564,7 +850,7 @@
             
                 <li class="arg">
                     
-                        <code>k</code>
+                        <code>code</code>
                     
                 </li>
             
@@ -574,20 +860,18 @@
 
     
         <span class="returns-inline">
-            <span class="type">String</span>
+            <span class="type">Number</span>
         </span>
     
 
     
 
     
-        <span class="flag public">public</span>
+        <span class="flag private">private</span>
     
 
     
 
-    
-        <span class="flag static">static</span>
     
 
     
@@ -605,7 +889,7 @@
             
         
         
-        <a href="../files/src_animations_tweens_easing_Quartic.ts.html#l57"><code>src&#x2F;animations&#x2F;tweens&#x2F;easing&#x2F;Quartic.ts:57</code></a>
+        <a href="../files/src_render_GLBlendMode.ts.html#l149"><code>src&#x2F;render&#x2F;GLBlendMode.ts:149</code></a>
         
         </p>
 
@@ -616,7 +900,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Formats a parameter into a GL context-compatible number. This recognises valid constant names, such as &quot;SRC_ALPHA&quot; or &quot;REVERSE_AND_SUBTRACT&quot;, with some tolerance for case. It does not check for valid numeric codes.</p>
+
     </div>
 
     
@@ -627,8 +912,8 @@
             
                 <li class="param">
                     
-                        <code class="param-name">k</code>
-                        <span class="type">Any</span>
+                        <code class="param-name">code</code>
+                        <span class="type">String</span>
                     
 
                     
@@ -651,7 +936,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">String</span>:
+                        <span class="type">Number</span>:
                     
                 
             </div>
@@ -662,81 +947,8 @@
 </div>
 
                 
-                    <div id="method_objType" class="method item public">
-    <h3 class="name"><code>objType</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animations_tweens_easing_Quartic.ts.html#l19"><code>src&#x2F;animations&#x2F;tweens&#x2F;easing&#x2F;Quartic.ts:19</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The type of object that this is.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">String</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_Out" class="method item public">
-    <h3 class="name"><code>Out</code></h3>
+                    <div id="method_readConfig" class="method item public">
+    <h3 class="name"><code>readConfig</code></h3>
 
     
         <div class="args">
@@ -744,7 +956,7 @@
             
                 <li class="arg">
                     
-                        <code>k</code>
+                        <code>params</code>
                     
                 </li>
             
@@ -753,10 +965,6 @@
     
 
     
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-    
 
     
 
@@ -766,8 +974,6 @@
 
     
 
-    
-        <span class="flag static">static</span>
     
 
     
@@ -785,7 +991,7 @@
             
         
         
-        <a href="../files/src_animations_tweens_easing_Quartic.ts.html#l43"><code>src&#x2F;animations&#x2F;tweens&#x2F;easing&#x2F;Quartic.ts:43</code></a>
+        <a href="../files/src_render_GLBlendMode.ts.html#l104"><code>src&#x2F;render&#x2F;GLBlendMode.ts:104</code></a>
         
         </p>
 
@@ -796,7 +1002,13 @@
     </div>
 
     <div class="description">
-        
+        <p>Set a blend mode from a param object.</p>
+<p>This is the main method for configuring blend modes on a renderer. It resolves to a pair of calls to blendEquationSeparate and blendFuncSeparate. The params object should specify compatible terms, namely { srcRGB: a, dstRGB: b, srcAlpha: c, dstAlpha: d, modeRGB: e, modeAlpha: f }. You should set abcdef using either direct calls to a gl context (ie. gl.SRC_ALPHA) or by using predefined strings.</p>
+<p>The predefined string parameters for blendEquationSeparate are:</p>
+<p>FUNC_ADD, FUNC_SUBTRACT, and FUNC_REVERSE_SUBTRACT.</p>
+<p>The predefined string parameters for blendFuncSeparate are:</p>
+<p>ZERO, ONE, SRC_COLOR, ONE_MINUS_SRC_COLOR, DST_COLOR, ONE_MINUS_DST_COLOR, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, DST_ALPHA, ONE_MINUS_DST_ALPHA, SRC_ALPHA_SATURATE, CONSTANT_COLOR, ONE_MINUS_CONSTANT_COLOR, CONSTANT_ALPHA, and ONE_MINUS_CONSTANT_ALPHA.</p>
+
     </div>
 
     
@@ -807,8 +1019,8 @@
             
                 <li class="param">
                     
-                        <code class="param-name">k</code>
-                        <span class="type">Any</span>
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
                     
 
                     
@@ -825,17 +1037,102 @@
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
 
-            <div class="returns-description">
+    
+</div>
+
                 
+                    <div id="method_setMode" class="method item public">
+    <h3 class="name"><code>setMode</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
                     
-                        <span class="type">String</span>:
+                        <code>mode</code>
                     
-                
-            </div>
+                </li>
+            
+            </ul><span class="paren">)</span>
         </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLBlendMode.ts.html#l232"><code>src&#x2F;render&#x2F;GLBlendMode.ts:232</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Sets a blend mode by name. Name is case-tolerant.</p>
+<p>These are shortcuts to setting the blend function parameters manually. A listing of valid modes follows. Each is listed with the parameters modeRGB, modeAlpha, srcRGB, dstRGB, srcAlpha, and dstAlpha, constants used in the gl calls &quot;blendEquationSeparate(modeRGB, modeAlpha)&quot; and &quot;blendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha&quot;. This is very technical, and will probably only be useful if you are developing your own shaders for Kiwi.js.</p>
+<p>&quot;NORMAL&quot; or any non-recognised string will draw as normal, blending colour via alpha. FUNC_ADD, FUNC_ADD, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE.</p>
+<p>&quot;ADD&quot; or &quot;ADDITIVE&quot; will add pixels to the background, creating a lightening effect. FUNC_ADD, FUNC_ADD, SRC_ALPHA, ONE, ONE, ONE.</p>
+<p>&quot;SUBTRACT&quot; or &quot;SUBTRACTIVE&quot; will subtract pixels from the background, creating an eerie dark effect. FUNC_REVERSE_SUBTRACT, FUNC_ADD, SRC_ALPHA, ONE, ONE, ONE.</p>
+<p>&quot;ERASE&quot; or &quot;ERASER&quot; will erase the game canvas itself, allowing the page background to show through. You can later draw over this erased region. FUNC_REVERSE_SUBTRACT, FUNC_REVERSE_SUBTRACT, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE.</p>
+<p>&quot;BLACK&quot; or &quot;BLACKEN&quot; will turn all colour black, but preserve alpha. FUNC_ADD, FUNC_ADD, ZERO, ONE_MINUS_SRC_ALPHA, ONE, ONE.</p>
+<p>Blend modes as seen in Adobe Photoshop are not reliably available via WebGL blend modes. Such blend modes require shaders to create.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">mode</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
     
 
     
@@ -845,6 +1142,388 @@
             </div>
         
 
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property__dstAlpha" class="property item private">
+    <h3 class="name"><code>_dstAlpha</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLBlendMode.ts.html#l80"><code>src&#x2F;render&#x2F;GLBlendMode.ts:80</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Destination alpha factor used in WebGL blendfunc.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__dstRGB" class="property item private">
+    <h3 class="name"><code>_dstRGB</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLBlendMode.ts.html#l64"><code>src&#x2F;render&#x2F;GLBlendMode.ts:64</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Destination RGB factor used in WebGL blendfunc.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__modeAlpha" class="property item private">
+    <h3 class="name"><code>_modeAlpha</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLBlendMode.ts.html#l96"><code>src&#x2F;render&#x2F;GLBlendMode.ts:96</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Alpha mode used in WebGL blendfunc.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__modeRGB" class="property item private">
+    <h3 class="name"><code>_modeRGB</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLBlendMode.ts.html#l88"><code>src&#x2F;render&#x2F;GLBlendMode.ts:88</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>RGB mode used in WebGL blendfunc.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__srcAlpha" class="property item private">
+    <h3 class="name"><code>_srcAlpha</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLBlendMode.ts.html#l72"><code>src&#x2F;render&#x2F;GLBlendMode.ts:72</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Source alpha factor used in WebGL blendfunc.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__srcRGB" class="property item private">
+    <h3 class="name"><code>_srcRGB</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLBlendMode.ts.html#l56"><code>src&#x2F;render&#x2F;GLBlendMode.ts:56</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Source RGB factor used in WebGL blendfunc.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_dirty" class="property item public">
+    <h3 class="name"><code>dirty</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLBlendMode.ts.html#l48"><code>src&#x2F;render&#x2F;GLBlendMode.ts:48</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Dirty flag indicates whether this object has been altered and needs to be processed.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_gl" class="property item public">
+    <h3 class="name"><code>gl</code></h3>
+    <span class="type">WebGLRenderingContext</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLBlendMode.ts.html#l40"><code>src&#x2F;render&#x2F;GLBlendMode.ts:40</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Target WebGL rendering context.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
         
 
         

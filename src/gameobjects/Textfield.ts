@@ -55,8 +55,8 @@ module Kiwi.GameObjects {
             this.state.textureLibrary.add(this.atlas);
             this.atlas.dirty = true;
 
-            // Render text
-            this._renderText();
+            // Track actual text width - not canvas width (which rounds up to powers of 2), necessary for proper alignment
+            this._alignWidth = 0;
         }
 
         /**
@@ -121,6 +121,16 @@ module Kiwi.GameObjects {
         * @private
         */
         private _textAlign: string;
+
+        /**
+        * The pixel width of the text. Used internally for alignment purposes.
+        * @property _alignWidth
+        * @type number
+        * @default 0
+        * @private
+        * @since 1.1.0
+        */
+        private _alignWidth: number;
 
         /**
         * The baseline of the text to be rendered.
@@ -295,6 +305,9 @@ module Kiwi.GameObjects {
             var _measurements: TextMetrics = this._ctx.measureText(this._text);   //when you measure the text for some reason it resets the values?! 
             var width = _measurements.width;
             var height = this._fontSize * 1.3; //Need to find a better way to calculate
+            
+            // Cache alignment width
+            this._alignWidth = width;
 
 
             //Is the width base2?
@@ -316,6 +329,8 @@ module Kiwi.GameObjects {
             this._canvas.width = width;  
             this._canvas.height = height;
 
+            //Clear the canvas
+            this._ctx.clearRect(0, 0, width, height);
             
             //Reapply the styles....cause it unapplies after a measurement...?!?
             this._ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
@@ -324,6 +339,10 @@ module Kiwi.GameObjects {
 
             //Draw the text.
             this._ctx.fillText(this._text, 0, 0);
+
+            // Update inherited components
+            this.width = this._alignWidth;
+            this.height = this._canvas.height;
 
             
 
@@ -362,10 +381,10 @@ module Kiwi.GameObjects {
                         x = 0;
                         break;
                     case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                        x = this._canvas.width * 0.5;
+                        x = this._alignWidth * 0.5;
                         break;
                     case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
-                        x = this._canvas.width;
+                        x = this._alignWidth;
                         break;
                 }
 
@@ -413,10 +432,10 @@ module Kiwi.GameObjects {
                     x = 0;
                     break;
                 case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                    x = -(this._canvas.width * 0.5);
+                    x = -(this._alignWidth * 0.5);
                     break;
                 case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
-                    x = -(this._canvas.width);
+                    x = -(this._alignWidth);
                     break;
             }
 

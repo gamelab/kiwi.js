@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\time\MasterClock.ts - Kiwi.js</title>
+    <title>src/time/MasterClock.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.1</em>
+            <em>API Docs for: 1.1.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -195,6 +195,8 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLBlendMode.html">Kiwi.Renderers.GLBlendMode</a></li>
+            
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
                 <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
@@ -344,7 +346,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\time\MasterClock.ts</h1>
+                        <h1 class="file-heading">File: src/time/MasterClock.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -420,6 +422,24 @@ module Kiwi.Time {
         public delta: number = 0;
 
         /**
+        * The rate at which ideal frames are passing. Multiply per-frame iterations by this factor to create smooth movement. For example, if the ideal fps is 60, but you&#x27;re only getting 45, rate will equal 1.333.
+        * @property rate
+        * @type Number
+        * @public
+        * @since 1.1.0
+        */
+        public rate = 1;
+
+        /**
+        * The ideal frame delta in milliseconds. This is automatically adjusted when the game sets a new frameRate.
+        * @property idealDelta
+        * @type Number
+        * @public
+        * @since 1.1.0
+        */
+        public idealDelta = 1000/60.0;
+
+        /**
         * The time that has elapsed since the game started. In milliseconds.
         * @method elapsed
         * @return {Number}
@@ -457,11 +477,8 @@ module Kiwi.Time {
 
     	    this.time = this.now;
 
-            //  Lock the delta at 0.1 minimum to minimise fps tunneling
-    	    if (this.delta &gt; 0.1) //shouldn&#x27;t it be the opposite then?!
-    	    {
-    	        this.delta = 0.1;
-    	    }
+            this.rate = this.delta / this.idealDelta;
+
             //  Apply time scaling
 
         }

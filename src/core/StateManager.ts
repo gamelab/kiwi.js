@@ -220,6 +220,7 @@ module Kiwi {
                 this.current.destroy(true); //Destroy ALL IChildren ever created on that state.
                 this._game.fileStore.removeStateFiles(this.current); //Clear the fileStore of not global files.
                 this.current.config.reset(); //Reset the config setting
+                this._game.cameras.zeroAllCameras(); // Reset cameras
             } 
 
 
@@ -327,21 +328,9 @@ module Kiwi {
             //Rebuild the Libraries before the preload is executed
             this.rebuildLibraries();
 
-            
-            if (this.current.config.hasPreloader === true) //Perhaps it will. Just maybe.
-            {
-                this._game.loader.init( (percent, bytes, file) => this.onLoadProgress(percent, bytes, file), () => this.onLoadComplete());
-                this.current.preload();
-                this._game.loader.startLoad();
-            }
-            else
-            {
-
-                this.current.config.isReady = true;
-                this.callCreate();
-
-            }
-
+            this._game.loader.init( (percent, bytes, file) => this.onLoadProgress(percent, bytes, file), () => this.onLoadComplete());
+            this.current.preload();
+            this._game.loader.startLoad();
         }
 
         /**

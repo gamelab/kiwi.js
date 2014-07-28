@@ -64,6 +64,7 @@
 /// <reference path="render/GLTextureWrapper.ts" />
 /// <reference path="render/GLTextureManager.ts" />
 /// <reference path="render/GLArrayBuffer.ts" />
+/// <reference path="render/GLBlendMode.ts" />
 /// <reference path="render/GLElementArrayBuffer.ts" />
 /// <reference path="render/renderers/Renderer.ts" />
 /// <reference path="render/renderers/TextureAtlasRenderer.ts" />
@@ -145,7 +146,7 @@ module Kiwi {
     * @type string
     * @public
     */
-    export var VERSION: string = "1.0.1";
+    export var VERSION: string = "1.1.0";
     
     //DIFFERENT RENDERER STATIC VARIABLES
     /**
@@ -167,6 +168,17 @@ module Kiwi {
     * @public
     */
     export var RENDERER_WEBGL: number = 1;
+
+    /**
+    * A Static property that contains the number associated with RENDERER AUTODETECTION
+    * @property RENDERER_AUTO
+    * @static
+    * @type number
+    * @default 2
+    * @public
+    * @since 1.1.0
+    */
+    export var RENDERER_AUTO: number = 2;
     
     // DEVICE TARGET STATIC VARIABLES
     /**

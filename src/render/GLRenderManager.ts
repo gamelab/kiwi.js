@@ -35,6 +35,7 @@ module Kiwi.Renderers {
             if (typeof mat4 === "undefined") {
                 throw "ERROR: gl-matrix.js is missing";
             }
+            this._currentBlendMode = new Kiwi.Renderers.GLBlendMode(this._game.stage.gl, {mode:"DEFAULT"} );
         }
 
         /**
@@ -102,6 +103,15 @@ module Kiwi.Renderers {
         * @private
         */
         private _currentRenderer: Renderer = null;
+
+        /**
+        * The current blend mode.
+        * @property _currentBlendMode
+        * @type Kiwi.Renderers.GLBlendMode
+        * @private
+        * @since 1.1.0
+        */
+        private _currentBlendMode: GLBlendMode;
         
         /**
         * Tally of number of entities rendered per frame 
@@ -194,8 +204,37 @@ module Kiwi.Renderers {
 
 
         /**
+        * Adds a cloned renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. The cloneID is the name for the cloned renderer.
+        *
+        * If a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.
+        *
+        * Cloned shared renderers are useful if some items in your scene will use a special shader or blend mode, but others will not. You can subsequently access the clones with a normal requestSharedRenderer() call. You should use this instead of requestRendererInstance() whenever possible, because shared renderers are more efficient than instances.
+        *
+        * @method addSharedRendererClone
+        * @param {String} rendererID
+        * @param {String} cloneID
+        * @param {Object} params
+        * @return {Boolean} success
+        * @public
+        * @since 1.1.0
+        */
+        public addSharedRendererClone(rendererID: string, cloneID: string, params: any = null): boolean {
+            if (typeof params === "undefined") { params = null; }
+            //does renderer exist?
+            if (Kiwi.Renderers[rendererID]) {
+                //already added?
+                if (!(cloneID in this._sharedRenderers)) {
+                    this._sharedRenderers[cloneID] = new Kiwi.Renderers[rendererID](this._game.stage.gl, this._shaderManager, params);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        /**
 	    * Requests a shared renderer. A game object that wants to use a shared renderer uses this method to obtain a reference to the shared renderer instance.
-	    * @method addSharedRenderer
+	    * @method requestSharedRenderer
         * @param {String} rendererID
         * @param {Object} params
         * @return {Kiwi.Renderers.Renderer} A shared renderer or null if none found.
@@ -270,7 +309,7 @@ module Kiwi.Renderers {
                         
             //set default gl state
             gl.enable(gl.BLEND);
-            gl.blendFuncSeparate( gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE );
+            this._switchBlendMode(gl, this._currentBlendMode);
 
             //shader manager
             this._shaderManager.init(gl, "TextureAtlasShader");
@@ -295,18 +334,19 @@ module Kiwi.Renderers {
         
         /**
         * Performs initialisation required when switching to a different state. Called when a state has been switched to.
-        * The textureManager is told to rebuild its cache of textures from the states textuer library.
+        * The textureManager is told to clear its contents from video memory, then rebuild its cache of textures from the state's texture library.
         * @method initState
         * @public
         */
 
         public initState(state: Kiwi.State) {
+            this._textureManager.clearTextures(this._game.stage.gl);
             this._textureManager.uploadTextureLibrary(this._game.stage.gl, state.textureLibrary);
         }
 
         /**
         * Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.
-        * @method initState
+        * @method endState
         * @param state {Kiwi.State}
         * @public
         */
@@ -331,7 +371,14 @@ module Kiwi.Renderers {
                
             //clear stage every frame
             var col = this._game.stage.normalizedColor;
-            gl.clearColor(col.r, col.g, col.b, col.a);
+            // Colour must be multiplied by alpha to create consistent results.
+            // This is probably due to browsers implementing an inferior blendfunc:
+            // ONE, ONE_MINUS_SRC_ALPHA is most common, and gives bad results with alphas.
+            // When this is used on a partially transparent game canvas, it does not blend correctly.
+            // Without being able to override the browser's own object renderer, this is a necessary kludge.
+            // The "clean" solution is as follows:
+            // gl.clearColor(col.r, col.g, col.b, col.a);
+            gl.clearColor(col.r * col.a, col.g * col.a, col.b * col.a, col.a);
             gl.clear(gl.COLOR_BUFFER_BIT);
             
             // Stop drawing if there is nothing to draw
@@ -450,17 +497,8 @@ module Kiwi.Renderers {
         * @public
         */
         public renderBatches(gl: WebGLRenderingContext, camera) {
-            
-            for (var i = 0; i < this._batches.length; i++) {
-                var batch = this._batches[i];
-                //if first is batch then they all are
-                if (batch[0].isBatchRenderer) {
-                    this.renderBatch(gl, batch, camera);
-                } else {
-                    this.renderEntity(gl,batch[0].entity,camera);
-                }
-
-            }
+            for (var i = 0; i < this._batches.length; i++)
+                this.renderBatch( gl, this._batches[i], camera );
         }
 
         /**
@@ -471,14 +509,30 @@ module Kiwi.Renderers {
         * @param {Kiwi.Camera} camera
         * @public
         */
-        public renderBatch(gl: WebGLRenderingContext, batch: any, camera) {
-            this.setupGLState(gl, batch[0].entity);
-            this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
-            for (var i = 0; i < batch.length; i++) {
-                batch[i].entity.renderGL(gl, camera);
+        public renderBatch(gl, batch, camera) {
+            // Acquire renderer
+            var rendererSwitched = false;
+            if (batch[0].entity.glRenderer !== this._currentRenderer) {
+                rendererSwitched = true;
+                this._switchRenderer(gl, batch[0].entity);
             }
-            if( batch[0].texture.dirty )
-                batch[0].texture.refreshTextureGL(gl);
+
+            // Clear renderer for fresh data
+            this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
+
+            // Call render functions
+            for( var i = 0;  i < batch.length;  i++ )
+                batch[i].entity.renderGL(gl, camera);
+
+            // Upload textures
+            if( batch[0].entity.atlas !== this._currentTextureAtlas  ||  batch[0].entity.atlas.dirty ||  (rendererSwitched  &&  batch[0].entity.atlas == this._currentTextureAtlas) )
+                this._switchTexture(gl, batch[0].entity);
+
+            // Manage blend mode
+            if(!this._currentBlendMode.isIdentical( batch[0].entity.glRenderer.blendMode )  ||  this._currentBlendMode.dirty )
+                this._switchBlendMode(gl, batch[0].entity.glRenderer.blendMode);
+
+            // Render
             this._currentRenderer.draw(gl);
         }
 
@@ -489,14 +543,10 @@ module Kiwi.Renderers {
         * @param {Kiwi.Entity} entity
         * @param {Kiwi.Camera} camera
         * @public
+        * @deprecated Used internally; should not be called from external functions
         */
         public renderEntity(gl: WebGLRenderingContext, entity: any, camera) {
-            this.setupGLState(gl, entity);
-            this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
-            entity.renderGL(gl, camera);
-            if( entity.atlas.dirty )
-                entity.atlas.refreshTextureGL(gl);
-            this._currentRenderer.draw(gl);
+            this.renderBatch( gl, [entity], camera );
         }
 
         /**
@@ -504,6 +554,7 @@ module Kiwi.Renderers {
         * @method setupGLState
         * @param {WebGLRenderingContext} gl
         * @public
+        * @deprecated Used internally; should not be called from external functions.
         */
         public setupGLState(gl:WebGLRenderingContext,entity) {
             if (entity.atlas !== this._currentTextureAtlas) this._switchTexture(gl, entity);
@@ -520,7 +571,7 @@ module Kiwi.Renderers {
         private _switchRenderer(gl: WebGLRenderingContext, entity: Entity) {
             if (this._currentRenderer) this._currentRenderer.disable(gl);
             this._currentRenderer = entity.glRenderer;
-            this._currentRenderer.enable(gl, { camMatrix: this.camMatrix, stageResolution: this._stageResolution,textureAtlas:this._currentTextureAtlas });
+            this._currentRenderer.enable(gl, { camMatrix: this.camMatrix, stageResolution: this._stageResolution });
         }
         
         /**
@@ -534,8 +585,20 @@ module Kiwi.Renderers {
             this._currentTextureAtlas = entity.atlas;
             if (this._currentRenderer) this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
             this._textureManager.useTexture(gl, entity.atlas.glTextureWrapper);
+            this._currentTextureAtlas.refreshTextureGL( gl );
+        }
 
-               
+        /**
+        * Switch blend mode to a new set of constants
+        * @method _switchBlendMode
+        * @param gl {WebGLRenderingContext}
+        * @param blendMode {Kiwi.Renderers.GLBlendMode}
+        * @private
+        * @since 1.1.0
+        */
+        private _switchBlendMode(gl: WebGLRenderingContext, blendMode: GLBlendMode) {
+            this._currentBlendMode = blendMode;
+            this._currentBlendMode.apply(gl);
         }
         
     }

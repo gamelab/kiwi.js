@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\core\Camera.ts - Kiwi.js</title>
+    <title>src/core/Camera.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.1</em>
+            <em>API Docs for: 1.1.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -195,6 +195,8 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLBlendMode.html">Kiwi.Renderers.GLBlendMode</a></li>
+            
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
                 <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
@@ -344,7 +346,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\core\Camera.ts</h1>
+                        <h1 class="file-heading">File: src/core/Camera.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -497,6 +499,7 @@ module Kiwi {
         * @property _dirty
         * @type boolean
         * @private
+        * @deprecated As of 1.1.0, no use has been found for this property.
 		*/
         private _dirty: boolean;
 
@@ -505,6 +508,7 @@ module Kiwi {
         * @property dirty
         * @type boolean
         * @public
+        * @deprecated As of 1.1.0, no use has been found for this property.
         */
         public get dirty(): boolean {
             return this._dirty;

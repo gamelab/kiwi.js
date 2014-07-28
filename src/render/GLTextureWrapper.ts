@@ -141,7 +141,7 @@ module Kiwi.Renderers {
         * @public
         */
         public refreshTexture(gl: WebGLRenderingContext) {
-            
+            this.numBytes = this.image.width * this.image.height * 4;
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
         }
 
@@ -152,7 +152,6 @@ module Kiwi.Renderers {
         * @public
         */
         public deleteTexture(gl: WebGLRenderingContext) :boolean{
-            gl.bindTexture(gl.TEXTURE_2D, this.texture);
             gl.deleteTexture(this.texture);
             this._uploaded = false;
             this._created = false;

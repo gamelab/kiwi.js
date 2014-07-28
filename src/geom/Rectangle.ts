@@ -373,12 +373,13 @@ module Kiwi.Geom {
 
         /**
         * Copies all the rectangle data from this Rectangle object into the destination Rectangle object.
+        * Creates a new rectangle if one was not passed.
         * @method copyTo
         * @param target {Rectangle} The destination rectangle object to copy in to
         * @return {Rectangle} The destination rectangle object
         * @public
         **/
-        public copyTo(target: Rectangle): Rectangle {
+        public copyTo(target: Rectangle = new Rectangle()): Rectangle {
 
             return target.copyFrom(this);
 

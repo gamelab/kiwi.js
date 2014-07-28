@@ -25,6 +25,7 @@ module Kiwi.Renderers {
             this.shaderManager = shaderManager;
             this._isBatchRenderer = isBatchRenderer;
             this.loaded = true;
+            this.blendMode = new Kiwi.Renderers.GLBlendMode(gl, {mode:"NORMAL"} );
         }
 
         /**
@@ -129,6 +130,16 @@ module Kiwi.Renderers {
         * @public
         */
         public shaderPair: Kiwi.Shaders.ShaderPair;
+
+
+        /**
+        * This renderer's blend mode data.
+        * @property blendMode
+        * @type Kiwi.Renderers.GLBlendMode
+        * @public
+        * @since 1.1.0
+        */
+        public blendMode: Kiwi.Renderers.GLBlendMode;
 
 
         /**

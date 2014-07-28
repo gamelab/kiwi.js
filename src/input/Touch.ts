@@ -332,7 +332,7 @@ module Kiwi.Input {
         /**
         * The developer defined maximum number of touch events.
         * By default this is set to 10 but this can be set to be lower.
-        * @property _maxTouchEvents
+        * @property _maxPointers
         * @type number
         * @default 10
         * @private
@@ -342,6 +342,7 @@ module Kiwi.Input {
         /**
         * Sets the maximum number of point of contact that are allowed on the game stage at one point.
         * The maximum number of points that are allowed is 10, and the minimum is 0.
+        * @property maximumPointers
         * @type number
         * @public
         */
@@ -402,26 +403,33 @@ module Kiwi.Input {
         * @private
         */
         private _deregisterFinger(event, id) {
+
+            var finger = null;
             for (var f = 0; f < this._fingers.length; f++) {
                 if (this._fingers[f].active && this._fingers[f].id === id) {
                     this._fingers[f].stop(event);
                     this.latestFinger = this._fingers[f];
-
-                    this.touchUp.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]);
-
+                    finger = this._fingers[f];
                     this.isDown = false;
                     this.isUp = true;
                     break;
                 }
             }
 
+
             //Loop through the fingers and check to see that none of them are down.
             for (var i = 0; i < this._fingers.length; i++) {
-                if (this._fingers[i].active) {
+                if (this._fingers[i].active === true) {
                     this.isDown = true;
                     this.isUp = false;
                 }
             }
+
+            if (finger !== null) {
+                this.touchUp.dispatch(finger.x, finger.y, finger.timeDown, finger.timeUp, finger.duration, finger);
+            }
+
+            console.log('Down?' + this.isDown);
         }
 
         

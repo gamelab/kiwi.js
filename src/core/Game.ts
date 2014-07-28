@@ -74,6 +74,9 @@ module Kiwi {
                 console.log('  Kiwi.Game: Targeted device not specified. Defaulting to BROWSER'); 
             }
 
+            var renderDefault = Kiwi.RENDERER_WEBGL;
+            var renderFallback = Kiwi.RENDERER_CANVAS;
+            // Optimise renderer request
             if (options.renderer !== 'undefined' && typeof options.renderer === 'number') {
                 switch (options.renderer) {
                     case Kiwi.RENDERER_CANVAS:
@@ -85,19 +88,39 @@ module Kiwi {
                             this._renderOption = options.renderer;
                             console.log('  Kiwi.Game: Rendering using WEBGL.');
                         } else {
-                            this._renderOption = Kiwi.RENDERER_CANVAS;
+                            this._renderOption = renderFallback;
                             console.log('  Kiwi.Game: WEBGL renderer requested but device does not support WEBGL. Rendering using CANVAS.');
                         }
                         break;
+                    case Kiwi.RENDERER_AUTO:
+                        if (Kiwi.DEVICE.webGL) {
+                            this._renderOption = renderDefault;
+                            console.log('  Kiwi.Game: Renderer auto-detected WEBGL.');
+                        } else {
+                            this._renderOption = renderFallback;
+                            console.log('  Kiwi.Game: Renderer auto-detected CANVAS.');
+                        }
+                        break;
                     default:
-                        this._renderOption = Kiwi.RENDERER_CANVAS;
-                        console.log('  Kiwi.Game: Renderer specified, but is not a valid option. Defaulting to CANVAS.');
+                        if (Kiwi.DEVICE.webGL) {
+                            this._renderOption = renderDefault;
+                            console.log('  Kiwi.Game: Renderer specified, but is not a valid option. Defaulting to WEBGL.');
+                        } else {
+                            this._renderOption = renderFallback;
+                            console.log('  Kiwi.Game: Renderer specified, but is not a valid option. WEBGL renderer sought by default but device does not support WEBGL. Defaulting to CANVAS.');
+                        }
                         break;
                 }
             } else {
-                this._renderOption = Kiwi.RENDERER_CANVAS;
-                console.log('  Kiwi.Game: Renderer not specified. Defaulting to CANVAS');
+                if (Kiwi.DEVICE.webGL) {
+                    this._renderOption = renderDefault;
+                    console.log('  Kiwi.Game: Renderer not specified. Defaulting to WEBGL.');
+                } else {
+                    this._renderOption = renderFallback;
+                    console.log('  Kiwi.Game: Renderer not specified. WEBGL renderer sought by default but device does not support WEBGL. Defaulting to CANVAS.');
+                }
             }
+            
             
             this.id = Kiwi.GameManager.register(this);
             this._startup = new Kiwi.System.Bootstrap();
@@ -147,12 +170,7 @@ module Kiwi {
 
             this.stage = new Kiwi.Stage(this, name, width, height, options.scaleType);
 
-
-            if (this._renderOption === Kiwi.RENDERER_CANVAS) {
-                this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
-            } else {
-                this.renderer = new Kiwi.Renderers.GLRenderManager(this);
-            }
+            this.renderer = null;
            
             this.cameras = new Kiwi.CameraManager(this);
 
@@ -437,6 +455,47 @@ module Kiwi {
         private _lastTime: number;
 
         /**
+        * The number of frames since the game was launched.
+        * @property _frame
+        * @type number
+        * @private
+        * @since 1.1.0
+        */
+        private _frame: number = 0;
+
+        /**
+        * The number of frames since the game was launched.
+        * 
+        * Use this to drive cyclic animations. You may manually reset it in a Kiwi.State.create() function to restart the count from 0.
+        *
+        * The largest exact integer value of a JavaScript number is 2^53, or 9007199254740992. At 60 frames per second, this will take 4,760,273 years to become inaccurate.
+        * @property frame
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get frame(): number {
+            return( this._frame );
+        }
+        public set frame( value: number ) {
+            this._frame = Kiwi.Utils.GameMath.truncate( value );
+        }
+
+        /**
+        * The number of ideal frames since the game was launched.
+        *
+        * Use this to drive cyclic animations. This will be smoother than using the frame parameter. It is derived from the total time elapsed since the game launched.
+        * @property idealFrame
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get idealFrame(): number {
+            return (this.time.elapsed() / (1000 / this._frameRate) );
+        }
+
+
+        /**
         * The current frameRate that the update/render loops are running at. Note that this may not be an  accurate representation.
         * @property frameRate
         * @return string
@@ -447,13 +506,10 @@ module Kiwi {
             return this._frameRate;
         }
         public set frameRate(value: number) {
-
-            //cannot exceed 60. The raf will stop this anyway.
-            if (value > 60) value = 60;
-
-            if (value >= 0) {
+            if (value > 0) {
                 this._frameRate = value;
                 this._interval = 1000 / this._frameRate;
+                this.time.setMasterInterval( this._interval );
             }
         }
 
@@ -467,7 +523,13 @@ module Kiwi {
 
      
             this.stage.boot(this._startup);
+
+            if(!this.stage.renderer)    console.error("Could not create rendering context");
+            if(this._renderOption === Kiwi.RENDERER_WEBGL  &&  this.stage.ctx)
+                this._renderOption = Kiwi.RENDERER_CANVAS;  // Adapt to fallback if WebGL failed
+            this.renderer = this.stage.renderer;
             this.renderer.boot();
+            
             this.cameras.boot();
             if (this._deviceTargetOption !== Kiwi.TARGET_COCOON) this.huds.boot();
             
@@ -483,12 +545,12 @@ module Kiwi {
 
             this._lastTime = Date.now();
             
-            this.raf = new Kiwi.Utils.RequestAnimationFrame(() => this._loop());
+            this.raf = new Kiwi.Utils.RequestAnimationFrame( () => this._loop() );
             this.raf.start();
 
             if (this.bootCallbackOption) {
                 console.log("  Kiwi.Game: invoked boot callback");
-                this.bootCallbackOption();
+                this.bootCallbackOption( this );
             }
         }
         
@@ -510,7 +572,8 @@ module Kiwi {
                 this.cameras.update();
                 if (this._deviceTargetOption !== Kiwi.TARGET_COCOON) this.huds.update();
                 this.states.update();
-                this.pluginManager.update();    
+                this.pluginManager.update();
+                this._frame++;
 
                 if (this.states.current !== null) {
                     this.cameras.render();

@@ -10,11 +10,17 @@ module Kiwi.Components {
     /**
     * The Box Component is used to handle the various 'bounds' that each GameObject has. 
     * There are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) depending on what you are wanting:
+    *
     * RawBounds: The bounding box of the GameObject before rotation/scale.
+    * 
     * RawHitbox: The hitbox of the GameObject before rotation/scale. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.
+    *
     * Bounds: The bounding box of the GameObject after rotation/scale.
+    *
     * Hitbox: The hitbox of the GameObject after rotation/scale. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.
+    *
     * WorldBounds: The bounding box of the Entity using its world coordinates and after rotation/scale.
+    *
     * WorldHitbox: The hitbox of the Entity using its world coordinates and after rotation/scale.
     *
     * @class Box
@@ -35,7 +41,6 @@ module Kiwi.Components {
             super(parent, 'Box');
             
             this.entity = parent;
-            this.dirty = true;
 
             this._rawBounds = new Kiwi.Geom.Rectangle(x,y,width,height);
             this._rawCenter = new Kiwi.Geom.Point(x + width / 2, y + height / 2);
@@ -86,6 +91,7 @@ module Kiwi.Components {
         * @property dirty
         * @type boolean
         * @public
+        * @deprecated in version 1.1.0 because the box always needed updating
         */
         public dirty: boolean;
 
@@ -111,7 +117,7 @@ module Kiwi.Components {
         */
         public get hitboxOffset(): Kiwi.Geom.Point {
 
-            if (this.dirty && this.autoUpdate == true && this.entity.atlas !== null) {
+            if (this.autoUpdate == true && this.entity.atlas !== null) {
                 this._hitboxOffset.x = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x;
                 this._hitboxOffset.y = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y;
 
@@ -140,23 +146,19 @@ module Kiwi.Components {
         * @public
         */
         public get rawHitbox(): Kiwi.Geom.Rectangle {
-            if (this.dirty) {
 
-                this._rawHitbox.x = this.rawBounds.x + this.hitboxOffset.x;
-                this._rawHitbox.y = this.rawBounds.y + this.hitboxOffset.y;
+            this._rawHitbox.x = this.rawBounds.x + this.hitboxOffset.x;
+            this._rawHitbox.y = this.rawBounds.y + this.hitboxOffset.y;
 
+            //If the hitbox has not already been set, then update the width/height based upon the current cell that the entity has.
+            if (this.autoUpdate == true) {
+                var atlas = this.entity.atlas;
 
-                //If the hitbox has not already been set, then update the width/height based upon the current cell that the entity has.
-                if (this.autoUpdate == true) {
-                    var atlas = this.entity.atlas;
+                if (atlas !== null) {
+                    this._rawHitbox.width = atlas.cells[this.entity.cellIndex].hitboxes[0].w;
+                    this._rawHitbox.height = atlas.cells[this.entity.cellIndex].hitboxes[0].h;
 
-                    if (atlas !== null) {
-                        this._rawHitbox.width = atlas.cells[this.entity.cellIndex].hitboxes[0].w;
-                        this._rawHitbox.height = atlas.cells[this.entity.cellIndex].hitboxes[0].h;
-
-                    }
                 }
-
             }
             
             return this._rawHitbox;
@@ -189,9 +191,7 @@ module Kiwi.Components {
         * @public
         */
         public get hitbox(): Kiwi.Geom.Rectangle {
-            if (this.dirty) {
-                this._transformedHitbox = this._rotateHitbox(this.rawHitbox.clone());
-            }
+            this._transformedHitbox = this._rotateHitbox(this.rawHitbox.clone());
 
             return this._transformedHitbox;
         }
@@ -221,10 +221,7 @@ module Kiwi.Components {
         * @public
         */
         public get worldHitbox(): Kiwi.Geom.Rectangle {
-            
-            if (this.dirty) {
-                this._worldHitbox = this._rotateHitbox(this.rawHitbox.clone(), true);
-            }
+            this._worldHitbox = this._rotateHitbox(this.rawHitbox.clone(), true);
 
             return this._worldHitbox;
         }
@@ -251,12 +248,11 @@ module Kiwi.Components {
         * @public
         */
         public get rawBounds(): Kiwi.Geom.Rectangle {
-            if (this.dirty) {
-                this._rawBounds.x = this.entity.x;
-                this._rawBounds.y = this.entity.y;
-                this._rawBounds.width = this.entity.width;
-                this._rawBounds.height = this.entity.height;
-            }
+            this._rawBounds.x = this.entity.x;
+            this._rawBounds.y = this.entity.y;
+            this._rawBounds.width = this.entity.width;
+            this._rawBounds.height = this.entity.height;
+
             return this._rawBounds;
         }
     
@@ -280,10 +276,9 @@ module Kiwi.Components {
         * @public
         */
         public get rawCenter(): Kiwi.Geom.Point {
-            if (this.dirty) {
-                this._rawCenter.x = this.rawBounds.x + this.rawBounds.width / 2,
-                this._rawCenter.y = this.rawBounds.y + this.rawBounds.height / 2;
-            }
+            this._rawCenter.x = this.rawBounds.x + this.rawBounds.width / 2;
+            this._rawCenter.y = this.rawBounds.y + this.rawBounds.height / 2;
+
             return this._rawCenter;
         }
     
@@ -307,13 +302,11 @@ module Kiwi.Components {
         * @public
         */
         public get center(): Kiwi.Geom.Point {
-            if (this.dirty) {
-                var t: Kiwi.Geom.Transform = this.entity.transform;
-                var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
-                m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY)
-                this._transformedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - t.rotPointX, this.entity.height / 2 - t.rotPointY));
+            var t: Kiwi.Geom.Transform = this.entity.transform;
+            var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
+            m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY)
+            this._transformedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - t.rotPointX, this.entity.height / 2 - t.rotPointY));
 
-            }
             return this._transformedCenter;
         }
 
@@ -345,9 +338,8 @@ module Kiwi.Components {
         * @public
         */
         public get bounds(): Kiwi.Geom.Rectangle {
-            if (this.dirty) {
-                this._transformedBounds = this._rotateRect(this.rawBounds.clone()); 
-            }
+            this._transformedBounds = this._rotateRect(this.rawBounds.clone()); 
+            
             return this._transformedBounds;
         }
 
@@ -359,9 +351,8 @@ module Kiwi.Components {
         * @public
         */
         public get worldBounds(): Kiwi.Geom.Rectangle {
-            if (this.dirty) {
-                this._worldBounds = this._rotateRect(this.rawBounds.clone(), true);
-            }
+            this._worldBounds = this._rotateRect(this.rawBounds.clone(), true);
+            
             return this._worldBounds;
         }
 
@@ -429,29 +420,30 @@ module Kiwi.Components {
         /**
         * Draws the various bounds on a context that is passed. Useful for debugging and using in combination with the debug canvas.
         * @method draw
-        * @param {CanvasRenderingContext2D} ctx
+        * @param ctx {CanvasRenderingContext2D} Context of the canvas that this box component is to be rendered on top of.
+        * @param [camera] {Kiwi.Camera} A camera that should be taken into account before rendered. This is the default camera by default.
         * @public
         */
-        public draw(ctx: CanvasRenderingContext2D) {
+        public draw(ctx: CanvasRenderingContext2D, camera: Kiwi.Camera = this.game.cameras.defaultCamera) {
             var t: Kiwi.Geom.Transform = this.entity.transform;
+            var ct: Kiwi.Geom.Transform = camera.transform;
             
             // Draw raw bounds and raw center
             ctx.strokeStyle = "red";
-            ctx.strokeRect(this.rawBounds.x, this.rawBounds.y, this.rawBounds.width, this.rawBounds.height);
-            ctx.fillRect(this.rawCenter.x - 1, this.rawCenter.y - 1, 3, 3);
-            ctx.strokeRect(t.x + t.rotPointX - 3 , t.y + t.rotPointY - 3, 7, 7);
+            ctx.fillRect(this.rawCenter.x + ct.x - 1, this.rawCenter.y + ct.y - 1, 3, 3);
+            ctx.strokeRect(t.x + ct.x + t.rotPointX - 3, t.y + ct.y + t.rotPointY - 3, 7, 7);
             
             // Draw bounds
             ctx.strokeStyle = "blue";
-            ctx.strokeRect(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
+            ctx.strokeRect(this.bounds.x + ct.x, this.bounds.y + ct.y, this.bounds.width, this.bounds.height);
             
             // Draw hitbox
             ctx.strokeStyle = "green";
-            ctx.strokeRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
+            ctx.strokeRect(this.hitbox.x + ct.x, this.hitbox.y + ct.y, this.hitbox.width, this.hitbox.height);
             
             // Draw raw hitbox
             ctx.strokeStyle = "white";
-            ctx.strokeRect(this.rawHitbox.x, this.rawHitbox.y, this.rawHitbox.width, this.rawHitbox.height);
+            ctx.strokeRect(this.rawHitbox.x + ct.x, this.rawHitbox.y + ct.y, this.rawHitbox.width, this.rawHitbox.height);
             
             // Draw world bounds
 			ctx.strokeStyle = "purple";

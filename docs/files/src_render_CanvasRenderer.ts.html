@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\render\CanvasRenderer.ts - Kiwi.js</title>
+    <title>src/render/CanvasRenderer.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.1</em>
+            <em>API Docs for: 1.1.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -195,6 +195,8 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLBlendMode.html">Kiwi.Renderers.GLBlendMode</a></li>
+            
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
                 <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
@@ -344,7 +346,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\render\CanvasRenderer.ts</h1>
+                        <h1 class="file-heading">File: src/render/CanvasRenderer.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -475,7 +477,12 @@ module Kiwi.Renderers {
             var root: IChild[] = this._game.states.current.members;
             
             //clear 
-            this._game.stage.ctx.fillStyle = &#x27;#&#x27; + this._game.stage.color;
+            var fillCol = this._game.stage.rgbaColor;
+            // If there is an alpha, clear the canvas before fill
+            if(fillCol.a &lt; 255) {
+                this._game.stage.ctx.clearRect(0,0, this._game.stage.canvas.width, this._game.stage.canvas.height);
+            }
+            this._game.stage.ctx.fillStyle = &quot;rgba(&quot; + fillCol.r + &quot;,&quot; + fillCol.g + &quot;,&quot; + fillCol.b + &quot;,&quot; + fillCol.a / 255 + &quot;)&quot;;
             this._game.stage.ctx.fillRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
             
             // Stop drawing if there is nothing to draw

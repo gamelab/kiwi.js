@@ -125,7 +125,12 @@ module Kiwi.Renderers {
             var root: IChild[] = this._game.states.current.members;
             
             //clear 
-            this._game.stage.ctx.fillStyle = '#' + this._game.stage.color;
+            var fillCol = this._game.stage.rgbaColor;
+            // If there is an alpha, clear the canvas before fill
+            if(fillCol.a < 255) {
+                this._game.stage.ctx.clearRect(0,0, this._game.stage.canvas.width, this._game.stage.canvas.height);
+            }
+            this._game.stage.ctx.fillStyle = "rgba(" + fillCol.r + "," + fillCol.g + "," + fillCol.b + "," + fillCol.a / 255 + ")";
             this._game.stage.ctx.fillRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
             
             // Stop drawing if there is nothing to draw

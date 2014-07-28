@@ -405,7 +405,9 @@ module Kiwi.System {
 
             if (typeof window['Blob'] !== 'undefined') this.blob = true;
 
+            // Check availability of rendering contexts
             this.canvas = !!window['CanvasRenderingContext2D'];
+            this.webGL = !!window['WebGLRenderingContext'];
 
             try
             {
@@ -418,7 +420,6 @@ module Kiwi.System {
 
             this.file = !!window['File'] && !!window['FileReader'] && !!window['FileList'] && !!window['Blob'];
             this.fileSystem = !!window['requestFileSystem'];
-            this.webGL = !!window['WebGLRenderingContext'];
             this.worker = !!window['Worker'];
 
             if ('ontouchstart' in document.documentElement ||

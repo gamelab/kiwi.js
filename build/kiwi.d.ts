@@ -220,6 +220,36 @@ declare module Kiwi {
         */
         private _lastTime;
         /**
+        * The number of frames since the game was launched.
+        * @property _frame
+        * @type number
+        * @private
+        * @since 1.1.0
+        */
+        private _frame;
+        /**
+        * The number of frames since the game was launched.
+        *
+        * Use this to drive cyclic animations. You may manually reset it in a Kiwi.State.create() function to restart the count from 0.
+        *
+        * The largest exact integer value of a JavaScript number is 2^53, or 9007199254740992. At 60 frames per second, this will take 4,760,273 years to become inaccurate.
+        * @property frame
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public frame : number;
+        /**
+        * The number of ideal frames since the game was launched.
+        *
+        * Use this to drive cyclic animations. This will be smoother than using the frame parameter. It is derived from the total time elapsed since the game launched.
+        * @property idealFrame
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public idealFrame : number;
+        /**
         * The current frameRate that the update/render loops are running at. Note that this may not be an  accurate representation.
         * @property frameRate
         * @return string
@@ -494,7 +524,10 @@ declare module Kiwi {
         public _color: string;
         /**
         * Sets the background color of the stage via a hex value.
+        *
         * The hex colour code should not contain a hashtag '#'.
+        *
+        * The hex value can optionally contain an alpha term, which defaults to full ("ff", "255" or "1.0" depending on context). For example, both "ff0000" and "ff0000ff" will evaluate to an opaque red.
         *
         * @property color
         * @type string
@@ -503,6 +536,7 @@ declare module Kiwi {
         public color : string;
         /**
         * Allows the setting of the background color of the stage through component RGB colour values.
+        *
         * This property is an Object Literal with 'r', 'g', 'b' colour streams of values between 0 and 255.
         *
         * @property rgbColor
@@ -510,6 +544,19 @@ declare module Kiwi {
         * @public
         */
         public rgbColor : any;
+        /**
+        * Allows the setting of the background color of the stage through component RGBA colour values.
+        *
+        * This property is an Object Literal with 'r', 'g', 'b', 'a' colour streams of values between 0 and 255.
+        *
+        * Note that the alpha value is from 0-255, not 0-1. This is to preserve compatibility with hex-style color values, e.g. "ff0000ff".
+        *
+        * @property rgbaColor
+        * @type Object
+        * @public
+        * @since 1.1.0
+        */
+        public rgbaColor : any;
         /**
         * Stores the normalized background color of the stage as a RGBA values between 0 and 1.
         * @property _normalizedColor
@@ -567,6 +614,23 @@ declare module Kiwi {
         * @public
         */
         public container: HTMLDivElement;
+        /**
+        * Stores the renderer created after context detection.
+        * @property _renderer
+        * @type any
+        * @private
+        * @since 1.1.0
+        */
+        private _renderer;
+        /**
+        * Get the renderer associated with the canvas context. This is either a GLRenderManager or a CanvasRenderer. If the Kiwi.RENDERER_WEBGL renderer was requested but could not be created, it will fall back to CanvasRenderer.
+        * This is READ ONLY.
+        * @property renderer
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public renderer : any;
         /**
         * Is executed when the DOM has loaded and the game is just starting.
         * This is a internal method used by the core of Kiwi itself.
@@ -1029,10 +1093,25 @@ declare module Kiwi {
         public render(): boolean;
         /**
         * Removes all cameras in the camera Manager except the default camera. Does nothing if in multi camera mode.
-        * @method removeAll - note should not remove default
+        * @method removeAll
         * @public
         */
         public removeAll(): void;
+        /**
+        * Returns all cameras to origin. Called when starting a new state.
+        * @method zeroAllCameras
+        * @public
+        * @since 1.1.0
+        */
+        public zeroAllCameras(): void;
+        /**
+        * Returns camera to origin.
+        * @method zeroCamera
+        * @param camera {Kiwi.Camera}
+        * @public
+        * @since 1.1.0
+        */
+        public zeroCamera(camera: Camera): void;
     }
 }
 /**
@@ -1338,32 +1417,257 @@ declare module Kiwi {
     /**
     * A IChild is an Interface (defined as a class as the documentation does not support Interfaces just yet),
     * which outlines the methods/properties that objects which are intended to be added as a child of a Stage or Group must have in order to work.
+    * As Javascript does not use Interfaces, the IChild does not appear directly in the library. It describes common elements of Kiwi.Group and Kiwi.Entity.
     *
     * @class IChild
     * @namespace Kiwi
     */
     interface IChild {
+        /**
+        * Renders the entity.
+        *
+        * @method render
+        * @param camera {Kiwi.Camera}
+        * @public
+        * @deprecated Only Kiwi.Entity and inheritors are rendered.
+        */
         render(camera: Camera): any;
+        /**
+        * Update the entity. Automatically called every frame.
+        *
+        * @method update
+        * @public
+        */
         update(): any;
+        /**
+        * Represents the type of child that this is.
+        *
+        * @method childType
+        * @return number
+        * @public
+        */
         childType(): number;
+        /**
+        * Unique identifier instantiated on creation.
+        *
+        * @property id
+        * @type string
+        * @public
+        */
         id: string;
+        /**
+        * A name for this object. This is not necessary or necessarily unique, but is handy for identifying objects.
+        *
+        * @property name
+        * @type string
+        * @public
+        */
         name: string;
+        /**
+        * The game this object belongs to
+        *
+        * @property game
+        * @type Kiwi.Game
+        * @public
+        */
         game: Game;
+        /**
+        * The State that this object belongs to
+        *
+        * @property state
+        * @type Kiwi.State
+        * @public
+        */
         state: State;
+        /**
+        * The Component Manager
+        *
+        * @property components
+        * @type Kiwi.ComponentManager
+        * @public
+        */
         components: ComponentManager;
+        /**
+        * An indication of whether or not this object is 'dirty' and thus needs to be re-rendered in some manner.
+        *
+        * @property dirty
+        * @type boolean
+        * @public
+        */
         dirty: boolean;
+        /**
+        * Toggles the active state. An active object has its update method called by its parent.
+        *
+        * @property active
+        * @type boolean
+        * @public
+        */
         active: boolean;
+        /**
+        * Toggles the exitence of this object. An object that no longer exists can be garbage collected or re-allocated in a pool
+        * This method should be over-ridden to handle specific canvas/webgl implementations.
+        *
+        * @property exists
+        * @type boolean
+        * @public
+        */
         exists: boolean;
+        /**
+        * Controls whether this object's render methods are called by its parent.
+        *
+        * @property willRender
+        * @type boolean
+        * @public
+        * @deprecated Use visible instead
+        */
         willRender: boolean;
+        /**
+        * Controls whether this object's render methods are called by its parent.
+        *
+        * @property visible
+        * @type boolean
+        * @public
+        * @since 1.0.1
+        */
         visible: boolean;
+        /**
+        * Sets the parent of this object. It is recommended to update transforms when you set this.
+        *
+        * @property parent
+        * @type Kiwi.Group
+        * @public
+        */
         parent: Group;
+        /**
+        * The transform for this object.
+        * Transform handles the calculation of coordinates/rotation/scale etc in the game world.
+        * @property transform
+        * @type Kiwi.Geom.Transform
+        * @public
+        */
         transform: Geom.Transform;
+        /**
+        * The X coordinate of this object. This is just aliased to the transform property.
+        * @property x
+        * @type number
+        * @public
+        */
         x: number;
+        /**
+        * The Y coordinate of this object. This is just aliased to the transform property.
+        * @property y
+        * @type number
+        * @public
+        */
         y: number;
+        /**
+        * The X coordinate of this object in world space - that is, after inheriting transforms from parents. This is just aliased to the transform property.
+        * @property worldX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        worldX: number;
+        /**
+        * The Y coordinate of this object in world space - that is, after inheriting transforms from parents. This is just aliased to the transform property.
+        * @property worldY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        worldY: number;
+        /**
+        * The rotation of this object. This is just aliased to the transform property.
+        * @property rotation
+        * @type number
+        * @public
+        */
         rotation: number;
+        /**
+        * The Scale X of this object. This is just aliased to the transform property.
+        * @property scaleX
+        * @type number
+        * @public
+        */
         scaleX: number;
+        /**
+        * The Scale Y of this object. This is just aliased to the transform property.
+        * @property scaleY
+        * @type number
+        * @public
+        */
         scaleY: number;
+        /**
+        * The scale of this object. This is just aliased to the transform property.
+        * @property scale
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        scale: number;
+        /**
+        * The rotation offset of this object on the X axis. This is just aliased to the transform property.
+        * @property rotPointX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        rotPointX: number;
+        /**
+        * The rotation offset of this object on the Y axis. This is just aliased to the transform property.
+        * @property rotPointY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        rotPointY: number;
+        /**
+        * The anchor point offset of this object on the X axis. This is an alias of the rotPointX property on the transform.
+        * @property anchorPointX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        anchorPointX: number;
+        /**
+        * The anchor point offset of this object on the Y axis. This is an alias of the rotPointY property on the transform.
+        * @property anchorPointY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        anchorPointY: number;
+        /**
+        * Call this to clean up the object for deletion and garbage collection.
+        * @method destroy
+        * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
+        * @public
+        */
         destroy(...params: any[]): any;
+        /**
+        * Adds a new Tag to this IChild. Useful for identifying large amounts of the same type of GameObjects.
+        * @method addTag
+        * @param tag {string}
+        * @since 1.1.0
+        * @public
+        */
+        addTag(...params: any[]): any;
+        /**
+        * Removes a Tag from this IChild.
+        * @method removeTag
+        * @param tag {string}
+        * @since 1.1.0
+        * @public
+        */
+        removeTag(...params: any[]): any;
+        /**
+        * Checks to see if this IChild has a Tag based upon a string which you pass.
+        * @method hasTag
+        * @param tag {string}
+        * @since 1.1.0
+        * @public
+        */
+        hasTag(tag: string): boolean;
     }
 }
 /**
@@ -1425,6 +1729,22 @@ declare module Kiwi {
         */
         public y : number;
         /**
+        * X coordinate of this Entity in world space; that is, after inheriting parent transforms. This is just aliased to the transform property. Property is READ-ONLY.
+        * @property worldX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public worldX : number;
+        /**
+        * Y coordinate of this Entity in world space; that is, after inheriting parent transforms. This is just aliased to the transform property. Property is READ-ONLY.
+        * @property worldY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public worldY : number;
+        /**
         * Scale X of this Entity. This is just aliased to the transform property.
         * @property scaleX
         * @type Number
@@ -1438,6 +1758,14 @@ declare module Kiwi {
         * @public
         */
         public scaleY : number;
+        /**
+        * Scale both axes of this Entity. This is just aliased to the transform property. This is WRITE-ONLY.
+        * @property scale
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public scale : number;
         /**
         * Rotation of this Entity. This is just aliased to the transform property.
         * @property rotation
@@ -1459,6 +1787,22 @@ declare module Kiwi {
         * @public
         */
         public rotPointY : number;
+        /**
+        * The anchor point on the x-axis. This is just aliased to the rotPointX on the transform object.
+        * @property anchorPointX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public anchorPointX : number;
+        /**
+        * The anchor point on the y-axis. This is just aliased to the rotPointY on the transform object.
+        * @property anchorPointY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public anchorPointY : number;
         /**
         * Returns the type of child that this is.
         * @type Number
@@ -1489,15 +1833,17 @@ declare module Kiwi {
         */
         private _visible;
         /**
-        * Set the visiblity of this entity. True or False.
-        * @property visibility
+        * Set the visibility of this entity. True or False.
+        * @property visible
         * @type boolean
         * @default true
         * @public
         */
         public visible : boolean;
         /**
-        * The width of the entity in pixels.
+        * The width of the entity in pixels, pre-transform.
+        *
+        * To obtain the actual width, multiply width by scaleX.
         * @property width
         * @type number
         * @default 0
@@ -1505,13 +1851,38 @@ declare module Kiwi {
         */
         public width: number;
         /**
-        * The height of the entity in pixels.
+        * The height of the entity in pixels, pre-transform.
+        *
+        * To obtain the actual height, multiply height by scaleY.
         * @property height
         * @type number
         * @default 0
         * @public
         */
         public height: number;
+        /**
+        * Scale to desired width, preserving aspect ratio. This function changes the scale, not the width. If the width changes, for example, as part of an animation sequence, the Entity will retain the new scale.
+        * @method scaleToWidth
+        * @param value {Number} The desired width in pixels.
+        * @public
+        * @since 1.1.0
+        */
+        public scaleToWidth(value: number): void;
+        /**
+        * Scale to desired height, preserving aspect ratio. This function changes the scale, not the height. If the height changes, for example, as part of an animation sequence, the Entity will retain the new scale.
+        * @method scaleToHeight
+        * @param value {Number} The desired height in pixels.
+        * @public
+        * @since 1.1.0
+        */
+        public scaleToHeight(value: number): void;
+        /**
+        * Center the anchor point. Moves the anchor point (rotPointX and Y) to precisely halfway along the width and height properties of this Entity.
+        * @method centerAnchorPoint
+        * @public
+        * @since 1.1.0
+        */
+        public centerAnchorPoint(): void;
         /**
         * The texture atlas that is to be used on this entity.
         * @property atlas
@@ -1529,6 +1900,7 @@ declare module Kiwi {
         private _cellIndex;
         /**
         * Used as a reference to a single Cell in the atlas that is to be rendered.
+        *
         * E.g. If you had a spritesheet with 3 frames/cells and you wanted the second frame to be displayed you would change this value to 1
         * @property cellIndex
         * @type number
@@ -1587,6 +1959,41 @@ declare module Kiwi {
         */
         public exists : boolean;
         /**
+        * Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.
+        * By default Entitys contain no tags.
+        * @property _tags
+        * @type Array
+        * @since 1.1.0
+        * @private
+        */
+        private _tags;
+        /**
+        * Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
+        * You can pass multiple strings to add multiple tags.
+        * @method addTags
+        * @param tag {string} The tag that you would like to add to this Entity.
+        * @since 1.1.0
+        * @public
+        */
+        public addTag(): void;
+        /**
+        * Removes a Tag from this Entity.
+        * @method removeTag
+        * @param tag {string} The tag that you would like to remove from this Entity.
+        * @since 1.1.0
+        * @public
+        */
+        public removeTag(): void;
+        /**
+        * Checks to see if this Entity has a Tag based upon a string which you pass.
+        * @method hasTag
+        * @param tag {string}
+        * @since 1.1.0
+        * @return {boolean}
+        * @public
+        */
+        public hasTag(tag: string): boolean;
+        /**
         * An active Entity is one that has its update method called by its parent.
         * @property _active
         * @type boolean
@@ -1608,6 +2015,7 @@ declare module Kiwi {
         * @type boolean
         * @default true
         * @private
+        * @deprecated Use _visible instead
         */
         private _willRender;
         /**
@@ -1616,6 +2024,7 @@ declare module Kiwi {
         * @type boolean
         * @default true
         * @public
+        * @deprecated Use visible instead
         */
         public willRender : boolean;
         /**
@@ -1865,9 +2274,65 @@ declare module Kiwi {
         * @public
         */
         public y : number;
+        /**
+        * The X coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.
+        * @property worldX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public worldX : number;
+        /**
+        * The Y coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.
+        * @property worldY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public worldY : number;
         public scaleX : number;
         public scaleY : number;
+        /**
+        * The scale of this group. This is just aliased to the transform property. This is WRITE-ONLY.
+        * @property scale
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public scale : number;
         public rotation : number;
+        /**
+        * The rotation offset of this group in the X axis. This is just aliased to the transform property.
+        * @property rotPointX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public rotPointX : number;
+        /**
+        * The rotation offset of this group in the Y axis. This is just aliased to the transform property.
+        * @property rotPointY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public rotPointY : number;
+        /**
+        * The anchor point offset of this group in the X axis. This is just aliased to the transform property, and is in turn an alias of rotPointX.
+        * @property anchorPointX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public anchorPointX : number;
+        /**
+        * The anchor point offset of this group in the Y axis. This is just aliased to the transform property, and is in turn an alias of rotPointY.
+        * @property anchorPointY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public anchorPointY : number;
         /**
         * The Component Manager
         * @property components
@@ -1950,6 +2415,11 @@ declare module Kiwi {
         */ 
         public containsAncestor(descendant: IChild, ancestor: Group): boolean;
         /**
+        * -------------------------
+        * Add Children methods
+        * -------------------------
+        **/
+        /**
         * Adds an Entity to this Group. The Entity must not already be in this Group.
         * @method addChild
         * @param child {object} The child to be added.
@@ -1985,6 +2455,50 @@ declare module Kiwi {
         */
         public addChildAfter(child: IChild, beforeChild: IChild): IChild;
         /**
+        * --------------------
+        * Remove Children Methods
+        * --------------------
+        **/
+        /**
+        * Removes an Entity from this Group if it is a child of it.
+        * @method removeChild
+        * @param child {object} The child to be removed.
+        * @param [destroy=false] {boolean} If the entity that gets removed should be destroyed as well.
+        * @return {object} The child.
+        * @public
+        */
+        public removeChild(child: IChild, destroy?: boolean): IChild;
+        /**
+        * Removes the Entity from this Group at the given position.
+        * @method removeChildAt
+        * @param index {Number} The index of the child to be removed.
+        * @return {object} The child, or null.
+        */
+        public removeChildAt(index: number): IChild;
+        /**
+        * Removes all Entities from this Group within the given range.
+        * @method removeChildren
+        * @param begin {Number} The begining index.
+        * @param end {Number} The last index of the range.
+        * @param destroy {Number} If the children should be destroyed as well.
+        * @return {Number} The number of removed entities.
+        * @public
+        */
+        public removeChildren(begin?: number, end?: number, destroy?: boolean): number;
+        /**
+        * Removes the first Entity from this Group marked as 'alive'
+        * @method removeFirstAlive
+        * @param [destroy=false] {boolean} If the entity should run the destroy method when it is removed.
+        * @return {object} The Entity that was removed from this Group if alive, otherwise null
+        * @public
+        */
+        public removeFirstAlive(destroy?: boolean): IChild;
+        /**
+        * -------------------
+        * Get Children Methods
+        * -------------------
+        **/
+        /**
         * Get the child at a specific position in this Group by its index.
         * @method getChildAt
         * @param index {Number} The index of the child
@@ -2017,31 +2531,41 @@ declare module Kiwi {
         */
         public getChildIndex(child: IChild): number;
         /**
-        * Removes an Entity from this Group if it is a child of it.
-        * @method removeChild
-        * @param child {object} The child to be removed.
-        * @param [destroy=false] {boolean} If the entity that gets removed should be destroyed as well.
-        * @return {object} The child.
+        * Returns the first Entity from this Group marked as 'alive' or null if no members are alive
+        * @method getFirstAlive
+        * @return {object}
         * @public
         */
-        public removeChild(child: IChild, destroy?: boolean): IChild;
+        public getFirstAlive(): IChild;
         /**
-        * Removes the Entity from this Group at the given position.
-        * @method removeChildAt
-        * @param index {Number} The index of the child to be removed.
-        * @return {object} The child, or null.
-        */
-        public removeChildAt(index: number): IChild;
-        /**
-        * Removes all Entities from this Group within the given range.
-        * @method removeChildren
-        * @param begin {Number} The begining index.
-        * @param end {Number} The last index of the range.
-        * @param destroy {Number} If the children should be destroyed as well.
-        * @return {Number} The number of removed entities.
+        * Returns the first member of the Group which is not 'alive', returns null if all members are alive.
+        * @method getFirstDead
+        * @return {object}
         * @public
         */
-        public removeChildren(begin?: number, end?: number, destroy?: boolean): number;
+        public getFirstDead(): IChild;
+        /**
+        * Returns a member at random from the group.
+        * @param {Number}	StartIndex	Optional offset off the front of the array. Default value is 0, or the beginning of the array.
+        * @param {Number}	Length		Optional restriction on the number of values you want to randomly select from.
+        * @return {object}	A child from the members list.
+        * @public
+        */
+        public getRandom(start?: number, length?: number): IChild;
+        /**
+        * Returns an array of children which contain the tag which is passed.
+        * @method getChildrenByTag
+        * @param tag {string}
+        * @return {Array}
+        * @public
+        * @since 1.1.0
+        */
+        public getChildrenByTag(tag: string): IChild[];
+        /**
+        * --------------------
+        * Child Depth Sorting Methods
+        * --------------------
+        **/
         /**
         * Sets a new position of an existing Entity within the Group.
         * @method setChildIndex
@@ -2158,30 +2682,9 @@ declare module Kiwi {
         * @method render
         * @param camera {Kiwi.Camera}
         * @public
+        * @deprecated
         */
         public render(camera: Camera): void;
-        /**
-        * Removes the first Entity from this Group marked as 'alive'
-        * @method removeFirstAlive
-        * @param [destroy=false] {boolean} If the entity should run the destroy method when it is removed.
-        * @return {object} The Entity that was removed from this Group if alive, otherwise null
-        * @public
-        */
-        public removeFirstAlive(destroy?: boolean): IChild;
-        /**
-        * Returns the first Entity from this Group marked as 'alive' or null if no members are alive
-        * @method getFirstAlive
-        * @return {object}
-        * @public
-        */
-        public getFirstAlive(): IChild;
-        /**
-        * Returns the first member of the Group which is not 'alive', returns null if all members are alive.
-        * @method getFirstDead
-        * @return {object}
-        * @public
-        */
-        public getFirstDead(): IChild;
         /**
         * Returns the number of member which are marked as 'alive'
         * @method countLiving
@@ -2197,14 +2700,6 @@ declare module Kiwi {
         */
         public countDead(): number;
         /**
-        * Returns a member at random from the group.
-        * @param {Number}	StartIndex	Optional offset off the front of the array. Default value is 0, or the beginning of the array.
-        * @param {Number}	Length		Optional restriction on the number of values you want to randomly select from.
-        * @return {object}	A child from the members list.
-        * @public
-        */
-        public getRandom(start?: number, length?: number): IChild;
-        /**
         * Clear all children from this Group
         * @method clear
         * @public
@@ -2215,14 +2710,16 @@ declare module Kiwi {
         * @property _willRender
         * @type Boolean
         * @private
+        * @deprecated Use _visible instead
         */
         private _willRender;
         /**
-        * Controls whether render is automatically caleld by the parent.
+        * Controls whether render is automatically called by the parent.
         * @property willRender
         * @type boolean
         * @return {boolean}
         * @public
+        * @deprecated Use visible instead
         */
         public willRender : boolean;
         /**
@@ -2231,16 +2728,58 @@ declare module Kiwi {
         * @type boolean
         * @default true
         * @private
+        * @since 1.0.1
         */
         private _visible;
         /**
-        * Set the visiblity of this entity. True or False.
-        * @property visibility
+        * Set the visibility of this entity. True or False.
+        * @property visible
         * @type boolean
         * @default true
         * @public
+        * @since 1.0.1
         */
         public visible : boolean;
+        /**
+        * ---------------
+        * Tagging System
+        * ---------------
+        **/
+        /**
+        * Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.
+        * By default Entitys contain no tags.
+        * @property _tags
+        * @type Array
+        * @since 1.1.0
+        * @private
+        */
+        private _tags;
+        /**
+        * Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
+        * You can pass multiple strings to add multiple tags.
+        * @method addTags
+        * @param tag {string} The tag that you would like to add to this Entity.
+        * @since 1.1.0
+        * @public
+        */
+        public addTag(): void;
+        /**
+        * Removes a Tag from this Entity.
+        * @method removeTag
+        * @param tag {string} The tag that you would like to remove from this Entity.
+        * @since 1.1.0
+        * @public
+        */
+        public removeTag(): void;
+        /**
+        * Checks to see if this Entity has a Tag based upon a string which you pass.
+        * @method hasTag
+        * @param tag {string}
+        * @since 1.1.0
+        * @return {boolean}
+        * @public
+        */
+        public hasTag(tag: string): boolean;
         /**
         * Removes all children and destroys the Group.
         * @method destroy
@@ -2657,6 +3196,7 @@ declare module Kiwi {
         * @property _dirty
         * @type boolean
         * @private
+        * @deprecated As of 1.1.0, no use has been found for this property.
         */
         private _dirty;
         /**
@@ -2664,6 +3204,7 @@ declare module Kiwi {
         * @property dirty
         * @type boolean
         * @public
+        * @deprecated As of 1.1.0, no use has been found for this property.
         */
         public dirty : boolean;
         /**
@@ -3244,6 +3785,15 @@ declare module Kiwi.GameObjects {
         * @private
         */
         private _textAlign;
+        /**
+        * The pixel width of the text. Used internally for alignment purposes.
+        * @property _alignWidth
+        * @type number
+        * @default 0
+        * @private
+        * @since 1.1.0
+        */
+        private _alignWidth;
         /**
         * The baseline of the text to be rendered.
         * @property _baseline
@@ -3832,6 +4382,20 @@ declare module Kiwi.GameObjects.Tilemap {
         */
         public heightInPixels : number;
         /**
+        * Override function to prevent unwanted inherited behaviour. Do not call.
+        *
+        * Because TileMapLayer extends Entity, it has a cellIndex parameter. However, it does not use a single atlas index, so this parameter is meaningless. It has deliberately been set to do nothing.
+        * @property cellIndex
+        * @type number
+        * @public
+        * @deprecated Not functional on this object.
+        * @since 1.1.0
+        */
+        public cellIndex : number;
+        public scaleToWidth(value: number): void;
+        public scaleToHeight(value: number): void;
+        public centerAnchorPoint(): void;
+        /**
         * A list containing all the types of tiles found on this TileMapLayer.
         * @property _data
         * @type number[]
@@ -4076,6 +4640,38 @@ declare module Kiwi.GameObjects.Tilemap {
         * @private
         */
         private _temptype;
+        /**
+        * Corner values used internally.
+        * @property corner1
+        * @type {Kiwi.Geom.Point}
+        * @private
+        * @since 1.1.0
+        */
+        private _corner1;
+        /**
+        * Corner values used internally.
+        * @property corner2
+        * @type {Kiwi.Geom.Point}
+        * @private
+        * @since 1.1.0
+        */
+        private _corner2;
+        /**
+        * Corner values used internally.
+        * @property corner3
+        * @type {Kiwi.Geom.Point}
+        * @private
+        * @since 1.1.0
+        */
+        private _corner3;
+        /**
+        * Corner values used internally.
+        * @property corner4
+        * @type {Kiwi.Geom.Point}
+        * @private
+        * @since 1.1.0
+        */
+        private _corner4;
         /**
         * Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen.
         * All coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).
@@ -4405,11 +5001,17 @@ declare module Kiwi.Components {
     /**
     * The Box Component is used to handle the various 'bounds' that each GameObject has.
     * There are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) depending on what you are wanting:
+    *
     * RawBounds: The bounding box of the GameObject before rotation/scale.
+    *
     * RawHitbox: The hitbox of the GameObject before rotation/scale. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.
+    *
     * Bounds: The bounding box of the GameObject after rotation/scale.
+    *
     * Hitbox: The hitbox of the GameObject after rotation/scale. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.
+    *
     * WorldBounds: The bounding box of the Entity using its world coordinates and after rotation/scale.
+    *
     * WorldHitbox: The hitbox of the Entity using its world coordinates and after rotation/scale.
     *
     * @class Box
@@ -4455,6 +5057,7 @@ declare module Kiwi.Components {
         * @property dirty
         * @type boolean
         * @public
+        * @deprecated in version 1.1.0 because the box always needed updating
         */
         public dirty: boolean;
         /**
@@ -4616,10 +5219,11 @@ declare module Kiwi.Components {
         /**
         * Draws the various bounds on a context that is passed. Useful for debugging and using in combination with the debug canvas.
         * @method draw
-        * @param {CanvasRenderingContext2D} ctx
+        * @param ctx {CanvasRenderingContext2D} Context of the canvas that this box component is to be rendered on top of.
+        * @param [camera] {Kiwi.Camera} A camera that should be taken into account before rendered. This is the default camera by default.
         * @public
         */
-        public draw(ctx: CanvasRenderingContext2D): void;
+        public draw(ctx: CanvasRenderingContext2D, camera?: Camera): void;
         /**
         * Method which takes four Points and then converts it into a Rectangle, which represents the area those points covered.
         * The points passed can be maybe in any order, as the are checked for validity first.
@@ -7459,7 +8063,9 @@ declare module Kiwi.Textures {
         * Will reload the texture into video memory for WebGL rendering.
         *
         * @method refreshTextureGL
+        * @param glContext {WebGLRenderingContext}
         * @public
+        * @since 1.0.1
         */
         public refreshTextureGL(glContext: any): void;
         /**
@@ -8827,6 +9433,14 @@ declare module Kiwi.Renderers {
         */
         private _currentRenderer;
         /**
+        * The current blend mode.
+        * @property _currentBlendMode
+        * @type Kiwi.Renderers.GLBlendMode
+        * @private
+        * @since 1.1.0
+        */
+        private _currentBlendMode;
+        /**
         * Tally of number of entities rendered per frame
         * @property _entityCount
         * @type number
@@ -8892,8 +9506,24 @@ declare module Kiwi.Renderers {
         */
         public addSharedRenderer(rendererID: string, params?: any): boolean;
         /**
+        * Adds a cloned renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. The cloneID is the name for the cloned renderer.
+        *
+        * If a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.
+        *
+        * Cloned shared renderers are useful if some items in your scene will use a special shader or blend mode, but others will not. You can subsequently access the clones with a normal requestSharedRenderer() call. You should use this instead of requestRendererInstance() whenever possible, because shared renderers are more efficient than instances.
+        *
+        * @method addSharedRendererClone
+        * @param {String} rendererID
+        * @param {String} cloneID
+        * @param {Object} params
+        * @return {Boolean} success
+        * @public
+        * @since 1.1.0
+        */
+        public addSharedRendererClone(rendererID: string, cloneID: string, params?: any): boolean;
+        /**
         * Requests a shared renderer. A game object that wants to use a shared renderer uses this method to obtain a reference to the shared renderer instance.
-        * @method addSharedRenderer
+        * @method requestSharedRenderer
         * @param {String} rendererID
         * @param {Object} params
         * @return {Kiwi.Renderers.Renderer} A shared renderer or null if none found.
@@ -8915,14 +9545,14 @@ declare module Kiwi.Renderers {
         private _init();
         /**
         * Performs initialisation required when switching to a different state. Called when a state has been switched to.
-        * The textureManager is told to rebuild its cache of textures from the states textuer library.
+        * The textureManager is told to clear its contents from video memory, then rebuild its cache of textures from the state's texture library.
         * @method initState
         * @public
         */
         public initState(state: State): void;
         /**
         * Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.
-        * @method initState
+        * @method endState
         * @param state {Kiwi.State}
         * @public
         */
@@ -8973,7 +9603,7 @@ declare module Kiwi.Renderers {
         * @param {Kiwi.Camera} camera
         * @public
         */
-        public renderBatch(gl: WebGLRenderingContext, batch: any, camera: any): void;
+        public renderBatch(gl: any, batch: any, camera: any): void;
         /**
         * Calls the render function on a single entity
         * @method renderEntity
@@ -8981,6 +9611,7 @@ declare module Kiwi.Renderers {
         * @param {Kiwi.Entity} entity
         * @param {Kiwi.Camera} camera
         * @public
+        * @deprecated Used internally; should not be called from external functions
         */
         public renderEntity(gl: WebGLRenderingContext, entity: any, camera: any): void;
         /**
@@ -8988,6 +9619,7 @@ declare module Kiwi.Renderers {
         * @method setupGLState
         * @param {WebGLRenderingContext} gl
         * @public
+        * @deprecated Used internally; should not be called from external functions.
         */
         public setupGLState(gl: WebGLRenderingContext, entity: any): void;
         /**
@@ -9006,6 +9638,15 @@ declare module Kiwi.Renderers {
         * @private
         */
         private _switchTexture(gl, entity);
+        /**
+        * Switch blend mode to a new set of constants
+        * @method _switchBlendMode
+        * @param gl {WebGLRenderingContext}
+        * @param blendMode {Kiwi.Renderers.GLBlendMode}
+        * @private
+        * @since 1.1.0
+        */
+        private _switchBlendMode(gl, blendMode);
     }
 }
 /**
@@ -9068,12 +9709,14 @@ declare module Kiwi.Shaders {
         /**
         * Provides a reference to a ShaderPair. If the requested ShaderPair exists as a property on the _shaderPairs object it will be returned if already loaded,
         * otherwise it will be loaded, then returned.
+        *
         * If the request is not on the list, the Kiwi.Shaders object will  be checked for a property name that matches shaderID and a new ShaderPair
         * will be instantiated, loaded, and set for use.
         
-        * @method init
+        * @method requestShader
         * @param {WebGLRenderingContext} gl
         * @param {String} shaderID
+        * @param {boolean} use
         * @return {Kiwi.Shaders.ShaderPair} a ShaderPair instance - null on fail
         * @public
         */
@@ -9459,6 +10102,146 @@ declare module Kiwi.Renderers {
 *
 * @module Kiwi
 * @submodule Renderers
+* @namespace Kiwi.Renderers
+*
+*/
+declare module Kiwi.Renderers {
+    /**
+    * The Blend Mode object for recording and applying GL blend functions on a renderer.
+    * @class GLBlendMode
+    * @constructor
+    * @namespace Kiwi.Renderers
+    * @param gl {WebGLRenderingContext}
+    * @param params {Object}
+    * @return {Kiwi.Renderers.GLBlendMode}
+    * @ since 1.1.0
+    */
+    class GLBlendMode {
+        constructor(gl: WebGLRenderingContext, params: any);
+        /**
+        * Target WebGL rendering context.
+        * @property gl
+        * @type WebGLRenderingContext
+        * @public
+        */
+        public gl: WebGLRenderingContext;
+        /**
+        * Dirty flag indicates whether this object has been altered and needs to be processed.
+        * @property dirty
+        * @type boolean
+        * @public
+        */
+        public dirty: boolean;
+        /**
+        * Source RGB factor used in WebGL blendfunc.
+        * @property _srcRGB
+        * @type number
+        * @private
+        */
+        private _srcRGB;
+        /**
+        * Destination RGB factor used in WebGL blendfunc.
+        * @property _dstRGB
+        * @type number
+        * @private
+        */
+        private _dstRGB;
+        /**
+        * Source alpha factor used in WebGL blendfunc.
+        * @property _srcAlpha
+        * @type number
+        * @private
+        */
+        private _srcAlpha;
+        /**
+        * Destination alpha factor used in WebGL blendfunc.
+        * @property _dstAlpha
+        * @type number
+        * @private
+        */
+        private _dstAlpha;
+        /**
+        * RGB mode used in WebGL blendfunc.
+        * @property _modeRGB
+        * @type number
+        * @private
+        */
+        private _modeRGB;
+        /**
+        * Alpha mode used in WebGL blendfunc.
+        * @property _modeAlpha
+        * @type number
+        * @private
+        */
+        private _modeAlpha;
+        /**
+        * Set a blend mode from a param object.
+        *
+        * This is the main method for configuring blend modes on a renderer. It resolves to a pair of calls to blendEquationSeparate and blendFuncSeparate. The params object should specify compatible terms, namely { srcRGB: a, dstRGB: b, srcAlpha: c, dstAlpha: d, modeRGB: e, modeAlpha: f }. You should set abcdef using either direct calls to a gl context (ie. gl.SRC_ALPHA) or by using predefined strings.
+        *
+        * The predefined string parameters for blendEquationSeparate are:
+        *
+        * FUNC_ADD, FUNC_SUBTRACT, and FUNC_REVERSE_SUBTRACT.
+        *
+        * The predefined string parameters for blendFuncSeparate are:
+        *
+        * ZERO, ONE, SRC_COLOR, ONE_MINUS_SRC_COLOR, DST_COLOR, ONE_MINUS_DST_COLOR, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, DST_ALPHA, ONE_MINUS_DST_ALPHA, SRC_ALPHA_SATURATE, CONSTANT_COLOR, ONE_MINUS_CONSTANT_COLOR, CONSTANT_ALPHA, and ONE_MINUS_CONSTANT_ALPHA.
+        *
+        * @method readConfig
+        * @param params {Object}
+        * @public
+        */
+        public readConfig(params: any): void;
+        /**
+        * Formats a parameter into a GL context-compatible number. This recognises valid constant names, such as "SRC_ALPHA" or "REVERSE_AND_SUBTRACT", with some tolerance for case. It does not check for valid numeric codes.
+        * @method makeConstant
+        * @param code {String}
+        * @return {number}
+        * @private
+        */
+        private makeConstant(code);
+        /**
+        * Sets a blend mode by name. Name is case-tolerant.
+        *
+        * These are shortcuts to setting the blend function parameters manually. A listing of valid modes follows. Each is listed with the parameters modeRGB, modeAlpha, srcRGB, dstRGB, srcAlpha, and dstAlpha, constants used in the gl calls "blendEquationSeparate(modeRGB, modeAlpha)" and "blendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha". This is very technical, and will probably only be useful if you are developing your own shaders for Kiwi.js.
+        *
+        * "NORMAL" or any non-recognised string will draw as normal, blending colour via alpha. FUNC_ADD, FUNC_ADD, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE.
+        *
+        * "ADD" or "ADDITIVE" will add pixels to the background, creating a lightening effect. FUNC_ADD, FUNC_ADD, SRC_ALPHA, ONE, ONE, ONE.
+        *
+        * "SUBTRACT" or "SUBTRACTIVE" will subtract pixels from the background, creating an eerie dark effect. FUNC_REVERSE_SUBTRACT, FUNC_ADD, SRC_ALPHA, ONE, ONE, ONE.
+        *
+        * "ERASE" or "ERASER" will erase the game canvas itself, allowing the page background to show through. You can later draw over this erased region. FUNC_REVERSE_SUBTRACT, FUNC_REVERSE_SUBTRACT, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE.
+        *
+        * "BLACK" or "BLACKEN" will turn all colour black, but preserve alpha. FUNC_ADD, FUNC_ADD, ZERO, ONE_MINUS_SRC_ALPHA, ONE, ONE.
+        *
+        * Blend modes as seen in Adobe Photoshop are not reliably available via WebGL blend modes. Such blend modes require shaders to create.
+        * @method setMode
+        * @param mode {String}
+        * @public
+        */
+        public setMode(mode: string): void;
+        /**
+        * Compares against another GLBlendMode
+        * @method isIdentical
+        * @return {Boolean} Is this GLBlendMode identical to the passed GLBlendMode?
+        * @param blendMode {Kiwi.Renderers.GLBlendMode}
+        * @public
+        */
+        public isIdentical(blendMode: GLBlendMode): boolean;
+        /**
+        * Sets the blend mode on the video card
+        * @method apply
+        * @param gl {WebGLRenderingContext}
+        * @public
+        */
+        public apply(gl: WebGLRenderingContext): void;
+    }
+}
+/**
+*
+* @module Kiwi
+* @submodule Renderers
 *
 */
 declare module Kiwi.Renderers {
@@ -9640,6 +10423,14 @@ declare module Kiwi.Renderers {
         */
         public shaderPair: Shaders.ShaderPair;
         /**
+        * This renderer's blend mode data.
+        * @property blendMode
+        * @type Kiwi.Renderers.GLBlendMode
+        * @public
+        * @since 1.1.0
+        */
+        public blendMode: GLBlendMode;
+        /**
         * Returns whether this is a batch renderer.
         * @property texture2DVert
         * @type Array
@@ -9683,6 +10474,14 @@ declare module Kiwi.Renderers {
         * @public
         */
         public shaderPair: Shaders.TextureAtlasShader;
+        /**
+        * The reference to the shaderPair.
+        * @property _shaderPairName
+        * @type String
+        * @private
+        * @since 1.1.0
+        */
+        private _shaderPairName;
         /**
         * The maximum number of items that can be rendered by the renderer (not enforced)
         * @property _maxItems
@@ -9756,6 +10555,14 @@ declare module Kiwi.Renderers {
         * @public
         */
         public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array): void;
+        /**
+        * Sets shader pair by name
+        * @method setShaderPair
+        * @param shaderPair {String}
+        * @public
+        * @since 1.1.0
+        */
+        public setShaderPair: (shaderPair: string) => void;
         /**
         * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
         * @method _collateVertexAttributeArrays
@@ -12086,7 +12893,7 @@ declare module Kiwi.Input {
         /**
         * The developer defined maximum number of touch events.
         * By default this is set to 10 but this can be set to be lower.
-        * @property _maxTouchEvents
+        * @property _maxPointers
         * @type number
         * @default 10
         * @private
@@ -12100,6 +12907,7 @@ declare module Kiwi.Input {
         /**
         * Sets the maximum number of point of contact that are allowed on the game stage at one point.
         * The maximum number of points that are allowed is 10, and the minimum is 0.
+        * @property maximumPointers
         * @type number
         * @public
         */
@@ -13789,6 +14597,7 @@ declare module Kiwi.Geom {
         * @Param rotPointX {Number} Rotation point offset on x axis.
         * @Param rotPointY {Number} Rotation point offset on y axis.
         * @return {Object} This object.
+        * @since 1.0.1
         */
         public setFromOffsetTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number, rotPointX: number, rotPointY: number): Matrix;
         /**
@@ -14340,12 +15149,13 @@ declare module Kiwi.Geom {
         public copyFrom(source: Rectangle): Rectangle;
         /**
         * Copies all the rectangle data from this Rectangle object into the destination Rectangle object.
+        * Creates a new rectangle if one was not passed.
         * @method copyTo
         * @param target {Rectangle} The destination rectangle object to copy in to
         * @return {Rectangle} The destination rectangle object
         * @public
         **/
-        public copyTo(target: Rectangle): Rectangle;
+        public copyTo(target?: Rectangle): Rectangle;
         /**
         * Determines whether the object specified in the toCompare parameter is equal to this Rectangle object. This method compares the x, y, width, and height properties of an object against the same properties of this Rectangle object.
         * @method equals
@@ -14576,26 +15386,42 @@ declare module Kiwi.Geom {
         **/
         private _rotPointX;
         /**
-        * Return the Rotation value from the x axis.
+        * Return the rotation offset from the x axis.
         * @property rotPointX
-        * @return {Number} The registration value from the x axis.
+        * @return {Number} The rotation offset from the x axis.
         * @public
         */
         public rotPointX : number;
         /**
         * Rotation offset on Y axis.
-        * @property _rotY
+        * @property _rotPointY
         * @type Number
         * @private
         **/
         private _rotPointY;
         /**
-        * Return the rotation value from the y axis.
-        * @public rotY
-        * @return {Number} The rotation value from the y axis.
+        * Return the rotation offset from the y axis.
+        * @public rotPointY
+        * @return {Number} The rotation offset from the y axis.
         * @public
         */
         public rotPointY : number;
+        /**
+        * Return the anchor point value from the X axis. (Aliases to rotPointX.)
+        * @public anchorPointX
+        * @return {Number} The anchor point offset from the X axis.
+        * @public
+        * @since 1.1.0
+        */
+        public anchorPointX : number;
+        /**
+        * Return the anchor point value from the Y axis. (Aliases to rotPointY.)
+        * @public anchorPointY
+        * @return {Number} The anchor point offset from the Y axis.
+        * @public
+        * @since 1.1.0
+        */
+        public anchorPointY : number;
         /**
         * A 3x3 transformation matrix object that can be use this tranform to manipulate points or the context transformation.
         * @property _matrix
@@ -17706,6 +18532,14 @@ declare module Kiwi.Time {
         */
         private _clocks;
         /**
+        * Frame rate factor, derived from master clock
+        * @property rate
+        * @type Number
+        * @public
+        * @since 1.1.10
+        */
+        public rate: number;
+        /**
         * The MasterClock for this manager.
         * @property master
         * @type Kiwi.Time.MasterClock
@@ -17756,12 +18590,28 @@ declare module Kiwi.Time {
         */
         public now(): number;
         /**
+        * Returns the elapsed time. Based on the master clock.
+        * @method elapsed
+        * @return {Number}
+        * @public
+        * @since 1.1.0
+        */
+        public elapsed(): number;
+        /**
         * Returns the delta of the master clock.
         * @method delta
         * @return {Number}
         * @public
         */
         public delta(): number;
+        /**
+        * Sets the interval on the master clock.
+        * @method setMasterInterval
+        * @param interval {Number} The ideal frame interval in milliseconds.
+        * @public
+        * @since 1.1.0
+        */
+        public setMasterInterval(interval: number): void;
     }
 }
 /**
@@ -17819,6 +18669,22 @@ declare module Kiwi.Time {
         * @public
         */
         public delta: number;
+        /**
+        * The rate at which ideal frames are passing. Multiply per-frame iterations by this factor to create smooth movement. For example, if the ideal fps is 60, but you're only getting 45, rate will equal 1.333.
+        * @property rate
+        * @type Number
+        * @public
+        * @since 1.1.0
+        */
+        public rate: number;
+        /**
+        * The ideal frame delta in milliseconds. This is automatically adjusted when the game sets a new frameRate.
+        * @property idealDelta
+        * @type Number
+        * @public
+        * @since 1.1.0
+        */
+        public idealDelta: number;
         /**
         * The time that has elapsed since the game started. In milliseconds.
         * @method elapsed
@@ -18547,7 +19413,7 @@ declare module Kiwi.Utils {
         */
         public objType(): string;
         /**
-        * Holds the value for PI. Only up to 15 decimal places.
+        * Holds the value for PI. Only up to 16 significant figures.
         * @property PI
         * @type number
         * @default 3.141592653589793
@@ -18557,7 +19423,7 @@ declare module Kiwi.Utils {
         */
         static PI: number;
         /**
-        * Holds the value for PI / 2 OR 90 degrees. Only up to 16 decimal places.
+        * Holds the value for PI / 2 OR 90 degrees. Only up to 17 significant figures.
         * @property PI_2
         * @type number
         * @default 1.5707963267948965
@@ -18567,7 +19433,7 @@ declare module Kiwi.Utils {
         */
         static PI_2: number;
         /**
-        * Holds the value for PI / 4 OR 45 degrees. Only up to 16 decimal places.
+        * Holds the value for PI / 4 OR 45 degrees. Only up to 16 significant figures.
         * @property PI_4
         * @type number
         * @default 0.7853981633974483
@@ -18577,7 +19443,7 @@ declare module Kiwi.Utils {
         */
         static PI_4: number;
         /**
-        * Holds the value for PI / 8 OR 22.5 degrees. Only up to 17 decimal places
+        * Holds the value for PI / 8 OR 22.5 degrees. Only up to 17 significant figures.
         * @property PI_8
         * @type number
         * @default 0.39269908169872413
@@ -18587,7 +19453,7 @@ declare module Kiwi.Utils {
         */
         static PI_8: number;
         /**
-        * Holds the value for PI / 16 OR 11.25 degrees. Only up to 17 decimal places
+        * Holds the value for PI / 16 OR 11.25 degrees. Only up to 17 significant figures.
         * @property PI_16
         * @type number
         * @default 0.19634954084936206
@@ -18597,7 +19463,7 @@ declare module Kiwi.Utils {
         */
         static PI_16: number;
         /**
-        * Holds the value for 2 * PI OR 180 degrees. Only up to 15 decimal places
+        * Holds the value for 2 * PI OR 180 degrees. Only up to 15 significant figures.
         * @property TWO_PI
         * @type number
         * @default 6.283185307179586
@@ -18607,7 +19473,7 @@ declare module Kiwi.Utils {
         */
         static TWO_PI: number;
         /**
-        * Holds the value for 3 * PI_2 OR 270 degrees. Only up to 17 decimal places.
+        * Holds the value for 3 * PI_2 OR 270 degrees. Only up to 17 significant figures.
         * @property THREE_PI_2
         * @type number
         * @default 4.7123889803846895
@@ -18617,7 +19483,7 @@ declare module Kiwi.Utils {
         */
         static THREE_PI_2: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for "e": Euler's number or Napier's constant, to 15 significant figures. This is a mathematically useful number.
         * @property E
         * @type number
         * @default 2.71828182845905
@@ -18627,7 +19493,7 @@ declare module Kiwi.Utils {
         */
         static E: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for the natural logarithm of 10: ln(10). Accurate to 16 significant figures.
         * @property LN10
         * @type number
         * @default 2.302585092994046
@@ -18637,7 +19503,7 @@ declare module Kiwi.Utils {
         */
         static LN10: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for the natural logarithm of 2: ln(10). Accurate to 16 significant figures.
         * @property LN2
         * @type number
         * @default 0.6931471805599453
@@ -18647,7 +19513,7 @@ declare module Kiwi.Utils {
         */
         static LN2: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for the base 10 logarithm of e (Euler's number). Accurate to 16 significant figures.
         * @property LOG10E
         * @type number
         * @default 0.4342944819032518
@@ -18657,7 +19523,7 @@ declare module Kiwi.Utils {
         */
         static LOG10E: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for the base 2 logarithm of e (Euler's number). Accurate to 19 significant figures.
         * @property LOG2E
         * @type number
         * @default 1.442695040888963387
@@ -18667,7 +19533,7 @@ declare module Kiwi.Utils {
         */
         static LOG2E: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for the square root of 0.5 (1/2). Accurate to 16 significant figures.
         * @property SQRT1_2
         * @type number
         * @default 0.7071067811865476
@@ -18677,7 +19543,7 @@ declare module Kiwi.Utils {
         */
         static SQRT1_2: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for the square root of 2. Accurate to 17 significant figures. This is the diagonal distance across a square with side length of 1.
         * @property SQRT2
         * @type number
         * @default 1.4142135623730951
@@ -18707,7 +19573,7 @@ declare module Kiwi.Utils {
         */
         static RAD_TO_DEG: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for 2 to the power of 16 (2^16 = 65536). This is the number of values available in 2 bytes.
         * @property B_16
         * @type number
         * @default 65536
@@ -18717,7 +19583,7 @@ declare module Kiwi.Utils {
         */
         static B_16: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for 2 to the power of 31 (2^31 = 2147483648). This is the number of values available to 31-bit memory addressing.
         * @property B_31
         * @type number
         * @default 2147483648
@@ -18727,7 +19593,7 @@ declare module Kiwi.Utils {
         */
         static B_31: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for 2 to the power of 32 (2^32 = 4294967296). This is the number of values available in 4 bytes, such as certain forms of RGBA colour.
         * @property B_32
         * @type number
         * @default 4294967296
@@ -18737,7 +19603,7 @@ declare module Kiwi.Utils {
         */
         static B_32: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for 2 to the power of 48 (2^48 = 281474976710656). 48-bit colour has 16 bits per channel.
         * @property B_48
         * @type number
         * @default 281474976710656
@@ -18747,7 +19613,7 @@ declare module Kiwi.Utils {
         */
         static B_48: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for 2 to the power of 53 (2^53 = 9007199254740992). This is the largest accurate double-precision floating point whole number.
         * @property B_53
         * @type number
         * @default 9007199254740992
@@ -18757,7 +19623,7 @@ declare module Kiwi.Utils {
         */
         static B_53: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for 2 to the power of 64 (2^64 = 18446744073709551616). This number cannot be accurately represented as a double-precision floating point whole number as it is greater than Kiwi.Utils.GameMath.B_53. It is represented as 18446744073709552000 in memory.
         * @property B_64
         * @type number
         * @default 18446744073709551616
@@ -18797,7 +19663,7 @@ declare module Kiwi.Utils {
         */
         static ONE_SIXTH: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value of cos(pi / 3). This is the length of the shortest side of a triangle with angles in degrees 30, 60, and 90.
         * @property COS_PI_3
         * @type number
         * @default 0.86602540378443864676372317075294
@@ -18807,7 +19673,7 @@ declare module Kiwi.Utils {
         */
         static COS_PI_3: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value of sin(2 * pi / 3). This is the length of the second-shortest side of a triangle with andles in degrees 30, 60, and 90.
         * @property SIN_2PI_3
         * @type number
         * @default 0.03654595
@@ -18817,7 +19683,11 @@ declare module Kiwi.Utils {
         */
         static SIN_2PI_3: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Holds the value for 4 * (Math.sqrt(2) - 1) / 3.0 (approximately 0.5522847).
+        *
+        * This is useful for making circular arcs with Bezier curves. For an arc segment of 90 degrees (PI / 2 radians) or less, you can construct a nice approximation using CIRCLE_ALPHA. If the magic number k = CIRCLE_ALPHA, construct an arc using the following points: [1,0], [1,k], [k,1], [0,1].
+        *
+        * For angles that are smaller by scale n, scale k by n, and displace k along tangents of the arc. For more information, see this article by Hans Muller: http://hansmuller-flex.blogspot.com/2011/04/approximating-circular-arc-with-cubic.html
         * @property CIRCLE_ALPHA
         * @type number
         * @default 0.5522847498307933984022516322796
@@ -18847,7 +19717,7 @@ declare module Kiwi.Utils {
         */
         static OFF: boolean;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Maximum relative error for integers.
         * @property SHORT_EPSILON
         * @type number
         * @default 0.1
@@ -18857,7 +19727,7 @@ declare module Kiwi.Utils {
         */
         static SHORT_EPSILON: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Maximum relative error for percentages (where 1% == 0.01).
         * @property PERC_EPSILON
         * @type number
         * @default 0.001
@@ -18867,7 +19737,7 @@ declare module Kiwi.Utils {
         */
         static PERC_EPSILON: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Average relative error for single float values.
         * @property EPSILON
         * @type number
         * @default 0.0001
@@ -18877,7 +19747,7 @@ declare module Kiwi.Utils {
         */
         static EPSILON: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Maximum relative error for 8-digit decimal values.
         * @property LONG_EPSILON
         * @type number
         * @default 0.00000001
@@ -18887,7 +19757,7 @@ declare module Kiwi.Utils {
         */
         static LONG_EPSILON: number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Computes the maximum relative error for this machine.
         * @method computeMachineEpsilon
         * @return {Number}
         * @static
@@ -18895,7 +19765,7 @@ declare module Kiwi.Utils {
         */
         static computeMachineEpsilon(): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Computes whether two numbers are identical to the limits of the computer's precision, as specified by the epsilon value.
         * @method fuzzyEqual
         * @param a {number}
         * @param b {number}
@@ -18906,7 +19776,7 @@ declare module Kiwi.Utils {
         */
         static fuzzyEqual(a: number, b: number, epsilon?: number): boolean;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Computes whether the first parameter is less than the second parameter, to the limits of the computer's precision, as specified by the epsilon value.
         * @method fuzzyLessThan
         * @param a {number}
         * @param b {number}
@@ -18917,7 +19787,7 @@ declare module Kiwi.Utils {
         */
         static fuzzyLessThan(a: number, b: number, epsilon?: number): boolean;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Computes whether the first parameter is greater than the second parameter, to the limits of the computer's precision, as specified by the epsilon value.
         * @method fuzzyGreaterThan
         * @param a {number}
         * @param b {number}
@@ -18928,7 +19798,7 @@ declare module Kiwi.Utils {
         */
         static fuzzyGreaterThan(a: number, b: number, epsilon?: number): boolean;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Computes the integer ceiling of the first parameter, minus a rounding margin defined by epsilon.
         * @method fuzzyCeil
         * @param val {number}
         * @param [epsilon=0.0001] {number}
@@ -18938,7 +19808,7 @@ declare module Kiwi.Utils {
         */
         static fuzzyCeil(val: number, epsilon?: number): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Computes the integer floor of the first parameter, plus a rounding margin defined by epsilon.
         * @method fuzzyFloor
         * @param val {number}
         * @param [epsilion=0.0001] {number}
@@ -18948,7 +19818,7 @@ declare module Kiwi.Utils {
         */
         static fuzzyFloor(val: number, epsilon?: number): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Computes the mean of any number of parameters. For example, average(1,2,3) returns 2.
         * @method average
         * @param [args]* {Any[]}
         * @return {Number}
@@ -18957,7 +19827,9 @@ declare module Kiwi.Utils {
         */
         static average(...args: any[]): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Computes whether value and target are sufficiently close as to be within the computer's margin of error, as defined by epsilon. Returns the target if they are sufficiently close; returns the value if they are not.
+        *
+        * In other words, slam prevents the target from exceeding epsilon.
         * @method slam
         * @param value {number}
         * @param target {number}
@@ -18989,7 +19861,7 @@ declare module Kiwi.Utils {
         */
         static sign(n: number): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Truncates a value by removing all decimal data.
         * @method truncate
         * @param n {number}
         * @return {number}
@@ -18998,7 +19870,7 @@ declare module Kiwi.Utils {
         */
         static truncate(n: number): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Removes all non-decimal data from the value.
         * @method shear
         * @param n {number}
         * @return {number}
@@ -19104,7 +19976,8 @@ declare module Kiwi.Utils {
         */
         static roundTo(value: number, place?: number, base?: number): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Round down to some place comparative to a 'base', default is 10 for decimal place.
+        * 'place' is represented by the power applied to 'base' to get that place
         * @method floorTo
         * @param value {number}
         * @param [place=0] {number}
@@ -19115,7 +19988,8 @@ declare module Kiwi.Utils {
         */
         static floorTo(value: number, place?: number, base?: number): number;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Round down to some place comparative to a 'base', default is 10 for decimal place.
+        * 'place' is represented by the power applied to 'base' to get that place
         * @method ceilTo
         * @param value {number}
         * @param [place=0] {number}
@@ -19392,7 +20266,7 @@ declare module Kiwi.Utils {
         static randomSign(): number;
         /**
         * Returns true if the number given is odd.
-        * @method isOff
+        * @method isOdd
         * @param n {number} The number to check
         * @return {boolean} True if the given number is odd. False if the given number is even.
         * @static
@@ -19401,7 +20275,7 @@ declare module Kiwi.Utils {
         static isOdd(n: number): boolean;
         /**
         * Returns true if the number given is even.
-        * @method isEvent
+        * @method isEven
         * @param n {number} The number to check
         * @return {boolean} True if the given number is even. False if the given number is odd.
         * @static
@@ -19430,38 +20304,38 @@ declare module Kiwi.Utils {
         */
         static angleLimit(angle: number, min: number, max: number): number;
         /**
-        * [DESCRIPTION REQUIRED]
-        * @method linear
-        * @param {Any} v
-        * @param {Any} k
+        * Interpolates between neighbouring values in an array using linear interpolation only. For example, linearInterpolation( [ 1,5,4 ], 0.5 ) = 5, and linearInterpolation( [ 1, 2 ], 0.3 ) = 1.3.
+        * @method linearInterpolation
+        * @param v {Array} An array of values through which to interpolate
+        * @param k {number} The position to interpolate, in the range 0-1
         * @return {number}
         * @static
         * @public
         */
         static linearInterpolation(v: any, k: any): number;
         /**
-        * [DESCRIPTION REQUIRED]
-        * @method Bezier
-        * @param {Any} v
-        * @param {Any} k
+        * Interpolates between values in an array using Bezier curves. This treats the values in the array as control points on a spline. Unlike Catmull-Rom splines, the value is not guaranteed to intersect precisely with these points.
+        * @method bezierInterpolation
+        * @param v {Array} An array of values through which to interpolate
+        * @param k {number} The position to interpolate, in the range 0-1
         * @return {number}
         * @static
         * @public
         */
         static bezierInterpolation(v: any, k: any): number;
         /**
-        * [DESCRIPTION REQUIRED]
-        * @method CatmullRom
-        * @param {Any} v
-        * @param {Any} k
+        * Interpolates between values in an array using Catmull-Rom splines. This treats the values in the array as control points on a spline. Unlike Bezier curves, the value will intersect with every point in the array.
+        * @method catmullRomInterpolation
+        * @param v {Array} An array of values through which to interpolate
+        * @param k {Number} The position to interpolate, in the range 0-1
         * @return {number}
         * @static
         * @public
         */
         static catmullRomInterpolation(v: any, k: any): number;
         /**
-        * [DESCRIPTION REQUIRED]
-        * @method Linear
+        * Simple linear interpolation, identical to interpolateFloat.
+        * @method linear
         * @param {Any} p0
         * @param {Any} p1
         * @param {Any} t
@@ -19471,8 +20345,8 @@ declare module Kiwi.Utils {
         */
         static linear(p0: any, p1: any, t: any): number;
         /**
-        * [DESCRIPTION REQUIRED]
-        * @method Bernstein
+        * Bernstein polynomial for constructing Bezier curves. Returns n! / i! / (n-i)!
+        * @method bernstein
         * @param {Any} n
         * @param {Any} i
         * @return {number}
@@ -19481,8 +20355,8 @@ declare module Kiwi.Utils {
         */
         static bernstein(n: any, i: any): number;
         /**
-        * [DESCRIPTION REQUIRED]
-        * @method CatmullRom
+        * Function used to construct a Catmull-Rom interpolation: see catmullRomInterpolation()
+        * @method catmullRom
         * @param {Any} p0
         * @param {Any} p1
         * @param {Any} p2
@@ -19494,7 +20368,7 @@ declare module Kiwi.Utils {
         */
         static catmullRom(p0: any, p1: any, p2: any, p3: any, t: any): any;
         /**
-        * [DESCRIPTION REQUIRED]
+        * Returns the difference between a and b.
         * @method difference
         * @param a {number}
         * @param b {number}
@@ -19919,6 +20793,16 @@ declare module Kiwi {
     * @public
     */
     var RENDERER_WEBGL: number;
+    /**
+    * A Static property that contains the number associated with RENDERER AUTODETECTION
+    * @property RENDERER_AUTO
+    * @static
+    * @type number
+    * @default 2
+    * @public
+    * @since 1.1.0
+    */
+    var RENDERER_AUTO: number;
     /**
     * Contains the number associated with the targetting of browsers.
     * @property TARGET_BROWSER

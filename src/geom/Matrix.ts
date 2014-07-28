@@ -100,6 +100,7 @@ module Kiwi.Geom {
 	    * @Param rotPointX {Number} Rotation point offset on x axis.
 	    * @Param rotPointY {Number} Rotation point offset on y axis.
 	    * @return {Object} This object.
+        * @since 1.0.1
 	    */
           public setFromOffsetTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number, rotPointX: number, rotPointY: number) {
             this.identity();

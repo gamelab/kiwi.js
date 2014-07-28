@@ -148,7 +148,9 @@ module Kiwi.Textures {
         * Will reload the texture into video memory for WebGL rendering.
         * 
         * @method refreshTextureGL
+        * @param glContext {WebGLRenderingContext}
         * @public
+        * @since 1.0.1
         */
         public refreshTextureGL( glContext ) {
             if(this.glTextureWrapper)

@@ -76,12 +76,14 @@ module Kiwi.Shaders {
         /**
 	    * Provides a reference to a ShaderPair. If the requested ShaderPair exists as a property on the _shaderPairs object it will be returned if already loaded,
         * otherwise it will be loaded, then returned.
+        *
         * If the request is not on the list, the Kiwi.Shaders object will  be checked for a property name that matches shaderID and a new ShaderPair
         * will be instantiated, loaded, and set for use.
 
-	    * @method init
+	    * @method requestShader
         * @param {WebGLRenderingContext} gl
         * @param {String} shaderID
+        * @param {boolean} use
         * @return {Kiwi.Shaders.ShaderPair} a ShaderPair instance - null on fail
         * @public
 	    */
@@ -99,7 +101,7 @@ module Kiwi.Shaders {
                 return shader;
             } else {
                 //not in list, does it exist?
-                if (this.shaderExists) {
+                if ( this.shaderExists(gl, shaderID) ) {
                     shader = this._addShader(gl, shaderID);
                     this._loadShader(gl, shader);
                     if(use)

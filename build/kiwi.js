@@ -139,6 +139,14 @@ var Kiwi;
             * @private
             */
             this._delta = 0;
+            /**
+            * The number of frames since the game was launched.
+            * @property _frame
+            * @type number
+            * @private
+            * @since 1.1.0
+            */
+            this._frame = 0;
             console.log('Kiwi.Game: ' + name + ' is booting, using Kiwi.js version ' + Kiwi.VERSION);
 
             if (Kiwi.DEVICE === null) {
@@ -190,6 +198,10 @@ var Kiwi;
                 console.log('  Kiwi.Game: Targeted device not specified. Defaulting to BROWSER');
             }
 
+            var renderDefault = Kiwi.RENDERER_WEBGL;
+            var renderFallback = Kiwi.RENDERER_CANVAS;
+
+            // Optimise renderer request
             if (options.renderer !== 'undefined' && typeof options.renderer === 'number') {
                 switch (options.renderer) {
                     case Kiwi.RENDERER_CANVAS:
@@ -201,18 +213,37 @@ var Kiwi;
                             this._renderOption = options.renderer;
                             console.log('  Kiwi.Game: Rendering using WEBGL.');
                         } else {
-                            this._renderOption = Kiwi.RENDERER_CANVAS;
+                            this._renderOption = renderFallback;
                             console.log('  Kiwi.Game: WEBGL renderer requested but device does not support WEBGL. Rendering using CANVAS.');
                         }
                         break;
+                    case Kiwi.RENDERER_AUTO:
+                        if (Kiwi.DEVICE.webGL) {
+                            this._renderOption = renderDefault;
+                            console.log('  Kiwi.Game: Renderer auto-detected WEBGL.');
+                        } else {
+                            this._renderOption = renderFallback;
+                            console.log('  Kiwi.Game: Renderer auto-detected CANVAS.');
+                        }
+                        break;
                     default:
-                        this._renderOption = Kiwi.RENDERER_CANVAS;
-                        console.log('  Kiwi.Game: Renderer specified, but is not a valid option. Defaulting to CANVAS.');
+                        if (Kiwi.DEVICE.webGL) {
+                            this._renderOption = renderDefault;
+                            console.log('  Kiwi.Game: Renderer specified, but is not a valid option. Defaulting to WEBGL.');
+                        } else {
+                            this._renderOption = renderFallback;
+                            console.log('  Kiwi.Game: Renderer specified, but is not a valid option. WEBGL renderer sought by default but device does not support WEBGL. Defaulting to CANVAS.');
+                        }
                         break;
                 }
             } else {
-                this._renderOption = Kiwi.RENDERER_CANVAS;
-                console.log('  Kiwi.Game: Renderer not specified. Defaulting to CANVAS');
+                if (Kiwi.DEVICE.webGL) {
+                    this._renderOption = renderDefault;
+                    console.log('  Kiwi.Game: Renderer not specified. Defaulting to WEBGL.');
+                } else {
+                    this._renderOption = renderFallback;
+                    console.log('  Kiwi.Game: Renderer not specified. WEBGL renderer sought by default but device does not support WEBGL. Defaulting to CANVAS.');
+                }
             }
 
             this.id = Kiwi.GameManager.register(this);
@@ -259,11 +290,7 @@ var Kiwi;
 
             this.stage = new Kiwi.Stage(this, name, width, height, options.scaleType);
 
-            if (this._renderOption === Kiwi.RENDERER_CANVAS) {
-                this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
-            } else {
-                this.renderer = new Kiwi.Renderers.GLRenderManager(this);
-            }
+            this.renderer = null;
 
             this.cameras = new Kiwi.CameraManager(this);
 
@@ -371,6 +398,45 @@ var Kiwi;
             return "Game";
         };
 
+        Object.defineProperty(Game.prototype, "frame", {
+            /**
+            * The number of frames since the game was launched.
+            *
+            * Use this to drive cyclic animations. You may manually reset it in a Kiwi.State.create() function to restart the count from 0.
+            *
+            * The largest exact integer value of a JavaScript number is 2^53, or 9007199254740992. At 60 frames per second, this will take 4,760,273 years to become inaccurate.
+            * @property frame
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return (this._frame);
+            },
+            set: function (value) {
+                this._frame = Kiwi.Utils.GameMath.truncate(value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Game.prototype, "idealFrame", {
+            /**
+            * The number of ideal frames since the game was launched.
+            *
+            * Use this to drive cyclic animations. This will be smoother than using the frame parameter. It is derived from the total time elapsed since the game launched.
+            * @property idealFrame
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return (this.time.elapsed() / (1000 / this._frameRate));
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         Object.defineProperty(Game.prototype, "frameRate", {
             /**
             * The current frameRate that the update/render loops are running at. Note that this may not be an  accurate representation.
@@ -382,13 +448,10 @@ var Kiwi;
                 return this._frameRate;
             },
             set: function (value) {
-                //cannot exceed 60. The raf will stop this anyway.
-                if (value > 60)
-                    value = 60;
-
-                if (value >= 0) {
+                if (value > 0) {
                     this._frameRate = value;
                     this._interval = 1000 / this._frameRate;
+                    this.time.setMasterInterval(this._interval);
                 }
             },
             enumerable: true,
@@ -404,7 +467,14 @@ var Kiwi;
         Game.prototype._start = function () {
             var _this = this;
             this.stage.boot(this._startup);
+
+            if (!this.stage.renderer)
+                console.error("Could not create rendering context");
+            if (this._renderOption === Kiwi.RENDERER_WEBGL && this.stage.ctx)
+                this._renderOption = Kiwi.RENDERER_CANVAS; // Adapt to fallback if WebGL failed
+            this.renderer = this.stage.renderer;
             this.renderer.boot();
+
             this.cameras.boot();
             if (this._deviceTargetOption !== Kiwi.TARGET_COCOON)
                 this.huds.boot();
@@ -428,7 +498,7 @@ var Kiwi;
 
             if (this.bootCallbackOption) {
                 console.log("  Kiwi.Game: invoked boot callback");
-                this.bootCallbackOption();
+                this.bootCallbackOption(this);
             }
         };
 
@@ -450,6 +520,7 @@ var Kiwi;
                     this.huds.update();
                 this.states.update();
                 this.pluginManager.update();
+                this._frame++;
 
                 if (this.states.current !== null) {
                     this.cameras.render();
@@ -530,6 +601,8 @@ var Kiwi;
 
             this.onResize = new Kiwi.Signal();
             this.onWindowResize = new Kiwi.Signal();
+
+            this._renderer = null;
         }
         /**
         * Returns the type of this object.
@@ -701,7 +774,10 @@ var Kiwi;
         Object.defineProperty(Stage.prototype, "color", {
             /**
             * Sets the background color of the stage via a hex value.
+            *
             * The hex colour code should not contain a hashtag '#'.
+            *
+            * The hex value can optionally contain an alpha term, which defaults to full ("ff", "255" or "1.0" depending on context). For example, both "ff0000" and "ff0000ff" will evaluate to an opaque red.
             *
             * @property color
             * @type string
@@ -714,12 +790,25 @@ var Kiwi;
                 this._color = val;
                 var bigint = parseInt(val, 16);
 
-                var r = (bigint >> 16) & 255;
-                var g = (bigint >> 8) & 255;
-                var b = bigint & 255;
+                var r = 255;
+                var g = 255;
+                var b = 255;
+                var a = 255;
+
+                if (val.length == 6) {
+                    r = (bigint >> 16) & 255;
+                    g = (bigint >> 8) & 255;
+                    b = bigint & 255;
+                    a = 255;
+                } else if (val.length == 8) {
+                    r = (bigint >> 24) & 255;
+                    g = (bigint >> 16) & 255;
+                    b = (bigint >> 8) & 255;
+                    a = bigint & 255;
+                }
 
                 //Converts the colour to normalized values.
-                this._normalizedColor = { r: r / 255, g: g / 255, b: b / 255, a: 1 };
+                this._normalizedColor = { r: r / 255, g: g / 255, b: b / 255, a: a / 255 };
             },
             enumerable: true,
             configurable: true
@@ -729,6 +818,7 @@ var Kiwi;
         Object.defineProperty(Stage.prototype, "rgbColor", {
             /**
             * Allows the setting of the background color of the stage through component RGB colour values.
+            *
             * This property is an Object Literal with 'r', 'g', 'b' colour streams of values between 0 and 255.
             *
             * @property rgbColor
@@ -746,6 +836,31 @@ var Kiwi;
         });
 
 
+        Object.defineProperty(Stage.prototype, "rgbaColor", {
+            /**
+            * Allows the setting of the background color of the stage through component RGBA colour values.
+            *
+            * This property is an Object Literal with 'r', 'g', 'b', 'a' colour streams of values between 0 and 255.
+            *
+            * Note that the alpha value is from 0-255, not 0-1. This is to preserve compatibility with hex-style color values, e.g. "ff0000ff".
+            *
+            * @property rgbaColor
+            * @type Object
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return { r: this._normalizedColor.r * 255, g: this._normalizedColor.g * 255, b: this._normalizedColor.b * 255, a: this._normalizedColor.a * 255 };
+            },
+            set: function (val) {
+                this.color = this.componentToHex(val.r) + this.componentToHex(val.g) + this.componentToHex(val.b) + this.componentToHex(val.a);
+                ;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
         Object.defineProperty(Stage.prototype, "normalizedColor", {
             /**
             * Get the normalized background color of the stage. Returns a object with rgba values, each being between 0 and 1.
@@ -756,6 +871,22 @@ var Kiwi;
             */
             get: function () {
                 return this._normalizedColor;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Stage.prototype, "renderer", {
+            /**
+            * Get the renderer associated with the canvas context. This is either a GLRenderManager or a CanvasRenderer. If the Kiwi.RENDERER_WEBGL renderer was requested but could not be created, it will fall back to CanvasRenderer.
+            * This is READ ONLY.
+            * @property renderer
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return this._renderer;
             },
             enumerable: true,
             configurable: true
@@ -862,7 +993,7 @@ var Kiwi;
             this.canvas.width = this.width;
             this.canvas.height = this.height;
 
-            //Get 2D or GL Context - Should add in error checking here
+            //Get 2D or GL Context; do error detection and fallback to valid rendering context
             if (this._game.renderOption === Kiwi.RENDERER_CANVAS) {
                 this.ctx = this.canvas.getContext("2d");
                 this.ctx.fillStyle = '#fff';
@@ -872,14 +1003,29 @@ var Kiwi;
                 if (!this.gl) {
                     this.gl = this.canvas.getContext("experimental-webgl");
                     if (!this.gl) {
-                        console.error("Kiwi.Stage: WebGL rendering is not available despite the device apparently supporting it.");
+                        console.warn("Kiwi.Stage: WebGL rendering is not available despite the device apparently supporting it. Reverting to CANVAS.");
+
+                        // Reset to canvas mode
+                        this.ctx = this.canvas.getContext("2d");
+                        this.ctx.fillStyle = '#fff';
+                        this.gl = null;
                     } else {
                         console.warn("Kiwi.Stage: 'webgl' context is not available. Using 'experimental-webgl'");
                     }
                 }
-                this.gl.clearColor(1, 1, 1, 1);
-                this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-                this.ctx = null;
+                if (this.gl) {
+                    this.gl.clearColor(1, 1, 1, 1);
+                    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+                    this.ctx = null;
+                }
+            }
+
+            // Create render manager
+            // This is reported back to the Kiwi.Game that created the Stage.
+            if (this.ctx) {
+                this._renderer = new Kiwi.Renderers.CanvasRenderer(this._game);
+            } else if (this.gl) {
+                this._renderer = new Kiwi.Renderers.GLRenderManager(this._game);
             }
 
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
@@ -1670,11 +1816,41 @@ var Kiwi;
 
         /**
         * Removes all cameras in the camera Manager except the default camera. Does nothing if in multi camera mode.
-        * @method removeAll - note should not remove default
+        * @method removeAll
         * @public
         */
         CameraManager.prototype.removeAll = function () {
             this._cameras = [];
+        };
+
+        /**
+        * Returns all cameras to origin. Called when starting a new state.
+        * @method zeroAllCameras
+        * @public
+        * @since 1.1.0
+        */
+        CameraManager.prototype.zeroAllCameras = function () {
+            for (var i = 0; i < this._cameras.length; i++) {
+                this.zeroCamera(this._cameras[i]);
+            }
+            this.zeroCamera(this.defaultCamera);
+        };
+
+        /**
+        * Returns camera to origin.
+        * @method zeroCamera
+        * @param camera {Kiwi.Camera}
+        * @public
+        * @since 1.1.0
+        */
+        CameraManager.prototype.zeroCamera = function (camera) {
+            camera.transform.x = 0;
+            camera.transform.y = 0;
+            camera.transform.rotation = 0;
+            camera.transform.scaleX = 1;
+            camera.transform.scaleY = 1;
+            camera.transform.rotPointX = camera.width / 2;
+            camera.transform.rotPointY = camera.height / 2;
         };
         return CameraManager;
     })();
@@ -1974,6 +2150,7 @@ var Kiwi;
                 this.current.destroy(true); //Destroy ALL IChildren ever created on that state.
                 this._game.fileStore.removeStateFiles(this.current); //Clear the fileStore of not global files.
                 this.current.config.reset(); //Reset the config setting
+                this._game.cameras.zeroAllCameras(); // Reset cameras
             }
 
             //Set the current state, reset the key
@@ -2068,18 +2245,13 @@ var Kiwi;
             //Rebuild the Libraries before the preload is executed
             this.rebuildLibraries();
 
-            if (this.current.config.hasPreloader === true) {
-                this._game.loader.init(function (percent, bytes, file) {
-                    return _this.onLoadProgress(percent, bytes, file);
-                }, function () {
-                    return _this.onLoadComplete();
-                });
-                this.current.preload();
-                this._game.loader.startLoad();
-            } else {
-                this.current.config.isReady = true;
-                this.callCreate();
-            }
+            this._game.loader.init(function (percent, bytes, file) {
+                return _this.onLoadProgress(percent, bytes, file);
+            }, function () {
+                return _this.onLoadComplete();
+            });
+            this.current.preload();
+            this._game.loader.startLoad();
         };
 
         /**
@@ -2248,15 +2420,9 @@ var Kiwi;
             */
             this._alpha = 1;
             /**
-            * A boolean that indicates whether or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.
-            * @property _visible
-            * @type boolean
-            * @default true
-            * @private
-            */
-            this._visible = true;
-            /**
-            * The width of the entity in pixels.
+            * The width of the entity in pixels, pre-transform.
+            *
+            * To obtain the actual width, multiply width by scaleX.
             * @property width
             * @type number
             * @default 0
@@ -2264,7 +2430,9 @@ var Kiwi;
             */
             this.width = 0;
             /**
-            * The height of the entity in pixels.
+            * The height of the entity in pixels, pre-transform.
+            *
+            * To obtain the actual height, multiply height by scaleY.
             * @property height
             * @type number
             * @default 0
@@ -2295,6 +2463,15 @@ var Kiwi;
             */
             this.name = '';
             /**
+            * Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.
+            * By default Entitys contain no tags.
+            * @property _tags
+            * @type Array
+            * @since 1.1.0
+            * @private
+            */
+            this._tags = [];
+            /**
             * The clock that this entity use's for time based calculations. This generated by the state on instatiation.
             * @property _clock
             * @type Kiwi.Clock
@@ -2310,7 +2487,7 @@ var Kiwi;
 
             this._exists = true;
             this._active = true;
-            this._willRender = true;
+            this._visible = true;
             this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
             this.transform = new Kiwi.Geom.Transform();
             this.transform.x = x;
@@ -2370,6 +2547,36 @@ var Kiwi;
         });
 
 
+        Object.defineProperty(Entity.prototype, "worldX", {
+            /**
+            * X coordinate of this Entity in world space; that is, after inheriting parent transforms. This is just aliased to the transform property. Property is READ-ONLY.
+            * @property worldX
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return (this.transform.worldX);
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Entity.prototype, "worldY", {
+            /**
+            * Y coordinate of this Entity in world space; that is, after inheriting parent transforms. This is just aliased to the transform property. Property is READ-ONLY.
+            * @property worldY
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return (this.transform.worldY);
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         Object.defineProperty(Entity.prototype, "scaleX", {
             /**
             * Scale X of this Entity. This is just aliased to the transform property.
@@ -2404,6 +2611,21 @@ var Kiwi;
             configurable: true
         });
 
+
+        Object.defineProperty(Entity.prototype, "scale", {
+            /**
+            * Scale both axes of this Entity. This is just aliased to the transform property. This is WRITE-ONLY.
+            * @property scale
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            set: function (value) {
+                this.transform.scale = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
 
         Object.defineProperty(Entity.prototype, "rotation", {
             /**
@@ -2456,6 +2678,42 @@ var Kiwi;
             configurable: true
         });
 
+        Object.defineProperty(Entity.prototype, "anchorPointX", {
+            /**
+            * The anchor point on the x-axis. This is just aliased to the rotPointX on the transform object.
+            * @property anchorPointX
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return this.transform.anchorPointX;
+            },
+            set: function (value) {
+                this.transform.anchorPointX = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Entity.prototype, "anchorPointY", {
+            /**
+            * The anchor point on the y-axis. This is just aliased to the rotPointY on the transform object.
+            * @property anchorPointY
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return this.transform.anchorPointY;
+            },
+            set: function (value) {
+                this.transform.anchorPointY = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         /**
         * Returns the type of child that this is.
         * @type Number
@@ -2493,8 +2751,8 @@ var Kiwi;
                 return this._visible;
             },
             /**
-            * Set the visiblity of this entity. True or False.
-            * @property visibility
+            * Set the visibility of this entity. True or False.
+            * @property visible
             * @type boolean
             * @default true
             * @public
@@ -2506,9 +2764,43 @@ var Kiwi;
             configurable: true
         });
 
+        /**
+        * Scale to desired width, preserving aspect ratio. This function changes the scale, not the width. If the width changes, for example, as part of an animation sequence, the Entity will retain the new scale.
+        * @method scaleToWidth
+        * @param value {Number} The desired width in pixels.
+        * @public
+        * @since 1.1.0
+        */
+        Entity.prototype.scaleToWidth = function (value) {
+            this.scale = value / this.width;
+        };
+
+        /**
+        * Scale to desired height, preserving aspect ratio. This function changes the scale, not the height. If the height changes, for example, as part of an animation sequence, the Entity will retain the new scale.
+        * @method scaleToHeight
+        * @param value {Number} The desired height in pixels.
+        * @public
+        * @since 1.1.0
+        */
+        Entity.prototype.scaleToHeight = function (value) {
+            this.scale = value / this.height;
+        };
+
+        /**
+        * Center the anchor point. Moves the anchor point (rotPointX and Y) to precisely halfway along the width and height properties of this Entity.
+        * @method centerAnchorPoint
+        * @public
+        * @since 1.1.0
+        */
+        Entity.prototype.centerAnchorPoint = function () {
+            this.anchorPointX = this.width * 0.5;
+            this.anchorPointY = this.height * 0.5;
+        };
+
         Object.defineProperty(Entity.prototype, "cellIndex", {
             /**
             * Used as a reference to a single Cell in the atlas that is to be rendered.
+            *
             * E.g. If you had a spritesheet with 3 frames/cells and you wanted the second frame to be displayed you would change this value to 1
             * @property cellIndex
             * @type number
@@ -2556,6 +2848,56 @@ var Kiwi;
             configurable: true
         });
 
+        /**
+        * Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
+        * You can pass multiple strings to add multiple tags.
+        * @method addTags
+        * @param tag {string} The tag that you would like to add to this Entity.
+        * @since 1.1.0
+        * @public
+        */
+        Entity.prototype.addTag = function () {
+            for (var i = 0; i < arguments.length; i++) {
+                if (this._tags.indexOf(arguments[i]) == -1) {
+                    this._tags.push(arguments[i]);
+                }
+            }
+        };
+
+        /**
+        * Removes a Tag from this Entity.
+        * @method removeTag
+        * @param tag {string} The tag that you would like to remove from this Entity.
+        * @since 1.1.0
+        * @public
+        */
+        Entity.prototype.removeTag = function () {
+            for (var i = 0; i < arguments.length; i++) {
+                var index = this._tags.indexOf(arguments[i]);
+                if (index !== -1)
+                    this._tags.splice(index, 1);
+            }
+        };
+
+        /**
+        * Checks to see if this Entity has a Tag based upon a string which you pass.
+        * @method hasTag
+        * @param tag {string}
+        * @since 1.1.0
+        * @return {boolean}
+        * @public
+        */
+        Entity.prototype.hasTag = function (tag) {
+            var len = this._tags.length;
+            while (len--) {
+                if (this._tags[len] === tag) {
+                    return true;
+                }
+            }
+
+            return false;
+        };
+
         Object.defineProperty(Entity.prototype, "active", {
             get: function () {
                 return this._active;
@@ -2584,6 +2926,7 @@ var Kiwi;
             * @type boolean
             * @default true
             * @public
+            * @deprecated Use visible instead
             */
             set: function (value) {
                 this._willRender = value;
@@ -2872,6 +3215,20 @@ var Kiwi;
             */
             this._dirty = true;
             /**
+            * ---------------
+            * Tagging System
+            * ---------------
+            **/
+            /**
+            * Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.
+            * By default Entitys contain no tags.
+            * @property _tags
+            * @type Array
+            * @since 1.1.0
+            * @private
+            */
+            this._tags = [];
+            /**
             * A temporary property that holds a boolean indicating whether or not the group's children should be destroyed or not.
             * @property _destroyRemoveChildren
             * @type boolean
@@ -2892,7 +3249,6 @@ var Kiwi;
 
             this._exists = true;
             this._active = true;
-            this._willRender = true;
             this._visible = true;
 
             this.transform = new Kiwi.Geom.Transform();
@@ -2973,6 +3329,36 @@ var Kiwi;
             configurable: true
         });
 
+        Object.defineProperty(Group.prototype, "worldX", {
+            /**
+            * The X coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.
+            * @property worldX
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return this.transform.worldX;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Group.prototype, "worldY", {
+            /**
+            * The Y coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.
+            * @property worldY
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return this.transform.worldY;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         Object.defineProperty(Group.prototype, "scaleX", {
             /*
             * The Scale X of this group. This is just aliased to the transform property.
@@ -3007,6 +3393,21 @@ var Kiwi;
             configurable: true
         });
 
+        Object.defineProperty(Group.prototype, "scale", {
+            /**
+            * The scale of this group. This is just aliased to the transform property. This is WRITE-ONLY.
+            * @property scale
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            set: function (value) {
+                this.transform.scale = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         Object.defineProperty(Group.prototype, "rotation", {
             /*
             * The rotation of this group. This is just aliased to the transform property.
@@ -3019,6 +3420,78 @@ var Kiwi;
             },
             set: function (value) {
                 this.transform.rotation = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Group.prototype, "rotPointX", {
+            /**
+            * The rotation offset of this group in the X axis. This is just aliased to the transform property.
+            * @property rotPointX
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return this.transform.rotPointX;
+            },
+            set: function (value) {
+                this.transform.rotPointX = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Group.prototype, "rotPointY", {
+            /**
+            * The rotation offset of this group in the Y axis. This is just aliased to the transform property.
+            * @property rotPointY
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return this.transform.rotPointY;
+            },
+            set: function (value) {
+                this.transform.rotPointY = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Group.prototype, "anchorPointX", {
+            /**
+            * The anchor point offset of this group in the X axis. This is just aliased to the transform property, and is in turn an alias of rotPointX.
+            * @property anchorPointX
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return this.transform.anchorPointX;
+            },
+            set: function (value) {
+                this.transform.anchorPointX = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Group.prototype, "anchorPointY", {
+            /**
+            * The anchor point offset of this group in the Y axis. This is just aliased to the transform property, and is in turn an alias of rotPointY.
+            * @property anchorPointY
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return this.transform.anchorPointY;
+            },
+            set: function (value) {
+                this.transform.anchorPointY = value;
             },
             enumerable: true,
             configurable: true
@@ -3104,6 +3577,11 @@ var Kiwi;
         };
 
         /**
+        * -------------------------
+        * Add Children methods
+        * -------------------------
+        **/
+        /**
         * Adds an Entity to this Group. The Entity must not already be in this Group.
         * @method addChild
         * @param child {object} The child to be added.
@@ -3111,6 +3589,7 @@ var Kiwi;
         * @public
         */
         Group.prototype.addChild = function (child) {
+            //Implement feature where you can pass as many children to be added. Modify this script to work via the 'arguments' property
             //make sure you aren't adding a state or itself
             if (child.childType() === Kiwi.STATE || child == this)
                 return;
@@ -3186,65 +3665,10 @@ var Kiwi;
         };
 
         /**
-        * Get the child at a specific position in this Group by its index.
-        * @method getChildAt
-        * @param index {Number} The index of the child
-        * @return {object} The child, if found or null if not.
-        * @public
-        */
-        Group.prototype.getChildAt = function (index) {
-            if (this.members[index]) {
-                return this.members[index];
-            } else {
-                return null;
-            }
-        };
-
-        /**
-        * Get a child from this Group by its name.
-        * @method getChildByName
-        * @param name {String} The name of the child
-        * @return {object} The child, if found or null if not.
-        * @public
-        */
-        Group.prototype.getChildByName = function (name) {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].name === name) {
-                    return this.members[i];
-                }
-            }
-
-            return null;
-        };
-
-        /**
-        * Get a child from this Group by its UUID.
-        * @method getChildByID
-        * @param id {String} The ID of the child.
-        * @return {object} The child, if found or null if not.
-        * @public
-        */
-        Group.prototype.getChildByID = function (id) {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].id === id) {
-                    return this.members[i];
-                }
-            }
-
-            return null;
-        };
-
-        /**
-        * Returns the index position of the Entity or -1 if not found.
-        * @method getChildIndex
-        * @param child {object} The child.
-        * @return {Number} The index of the child or -1 if not found.
-        * @public
-        */
-        Group.prototype.getChildIndex = function (child) {
-            return this.members.indexOf(child);
-        };
-
+        * --------------------
+        * Remove Children Methods
+        * --------------------
+        **/
         /**
         * Removes an Entity from this Group if it is a child of it.
         * @method removeChild
@@ -3315,6 +3739,175 @@ var Kiwi;
             return removed.length;
         };
 
+        /**
+        * Removes the first Entity from this Group marked as 'alive'
+        * @method removeFirstAlive
+        * @param [destroy=false] {boolean} If the entity should run the destroy method when it is removed.
+        * @return {object} The Entity that was removed from this Group if alive, otherwise null
+        * @public
+        */
+        Group.prototype.removeFirstAlive = function (destroy) {
+            if (typeof destroy === "undefined") { destroy = false; }
+            return this.removeChild(this.getFirstAlive(), destroy);
+        };
+
+        /**
+        * -------------------
+        * Get Children Methods
+        * -------------------
+        **/
+        /**
+        * Get the child at a specific position in this Group by its index.
+        * @method getChildAt
+        * @param index {Number} The index of the child
+        * @return {object} The child, if found or null if not.
+        * @public
+        */
+        Group.prototype.getChildAt = function (index) {
+            if (this.members[index]) {
+                return this.members[index];
+            } else {
+                return null;
+            }
+        };
+
+        /**
+        * Get a child from this Group by its name.
+        * @method getChildByName
+        * @param name {String} The name of the child
+        * @return {object} The child, if found or null if not.
+        * @public
+        */
+        Group.prototype.getChildByName = function (name) {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].name === name) {
+                    return this.members[i];
+                }
+            }
+
+            return null;
+        };
+
+        /**
+        * Get a child from this Group by its UUID.
+        * @method getChildByID
+        * @param id {String} The ID of the child.
+        * @return {object} The child, if found or null if not.
+        * @public
+        */
+        Group.prototype.getChildByID = function (id) {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].id === id) {
+                    return this.members[i];
+                }
+            }
+
+            return null;
+        };
+
+        /**
+        * Returns the index position of the Entity or -1 if not found.
+        * @method getChildIndex
+        * @param child {object} The child.
+        * @return {Number} The index of the child or -1 if not found.
+        * @public
+        */
+        Group.prototype.getChildIndex = function (child) {
+            return this.members.indexOf(child);
+        };
+
+        /**
+        * Returns the first Entity from this Group marked as 'alive' or null if no members are alive
+        * @method getFirstAlive
+        * @return {object}
+        * @public
+        */
+        Group.prototype.getFirstAlive = function () {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].exists === true) {
+                    return this.members[i];
+                }
+            }
+
+            return null;
+        };
+
+        /**
+        * Returns the first member of the Group which is not 'alive', returns null if all members are alive.
+        * @method getFirstDead
+        * @return {object}
+        * @public
+        */
+        Group.prototype.getFirstDead = function () {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].exists === false) {
+                    return this.members[i];
+                }
+            }
+
+            return null;
+        };
+
+        /**
+        * Returns a member at random from the group.
+        * @param {Number}	StartIndex	Optional offset off the front of the array. Default value is 0, or the beginning of the array.
+        * @param {Number}	Length		Optional restriction on the number of values you want to randomly select from.
+        * @return {object}	A child from the members list.
+        * @public
+        */
+        Group.prototype.getRandom = function (start, length) {
+            if (typeof start === "undefined") { start = 0; }
+            if (typeof length === "undefined") { length = 0; }
+            if (this.members.length === 0) {
+                return null;
+            }
+
+            if (length === 0) {
+                length = this.members.length;
+            }
+
+            if (start < 0 || start > length) {
+                start = 0;
+            }
+
+            var rnd = start + (Math.random() * (start + length));
+
+            if (rnd > this.members.length) {
+                return this.members[this.members.length - 1];
+            } else {
+                return this.members[rnd];
+            }
+        };
+
+        /**
+        * Returns an array of children which contain the tag which is passed.
+        * @method getChildrenByTag
+        * @param tag {string}
+        * @return {Array}
+        * @public
+        * @since 1.1.0
+        */
+        Group.prototype.getChildrenByTag = function (tag) {
+            var children = [];
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].hasTag(tag)) {
+                    children.push(this.members[i]);
+                }
+
+                if (this.members[i].childType() == Kiwi.GROUP) {
+                    children = children.concat(this.members[i].getChildrenByTag(tag));
+                }
+            }
+
+            return children;
+        };
+
+        /**
+        * --------------------
+        * Child Depth Sorting Methods
+        * --------------------
+        **/
         /**
         * Sets a new position of an existing Entity within the Group.
         * @method setChildIndex
@@ -3572,52 +4165,9 @@ var Kiwi;
         * @method render
         * @param camera {Kiwi.Camera}
         * @public
+        * @deprecated
         */
         Group.prototype.render = function (camera) {
-        };
-
-        /**
-        * Removes the first Entity from this Group marked as 'alive'
-        * @method removeFirstAlive
-        * @param [destroy=false] {boolean} If the entity should run the destroy method when it is removed.
-        * @return {object} The Entity that was removed from this Group if alive, otherwise null
-        * @public
-        */
-        Group.prototype.removeFirstAlive = function (destroy) {
-            if (typeof destroy === "undefined") { destroy = false; }
-            return this.removeChild(this.getFirstAlive(), destroy);
-        };
-
-        /**
-        * Returns the first Entity from this Group marked as 'alive' or null if no members are alive
-        * @method getFirstAlive
-        * @return {object}
-        * @public
-        */
-        Group.prototype.getFirstAlive = function () {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].exists === true) {
-                    return this.members[i];
-                }
-            }
-
-            return null;
-        };
-
-        /**
-        * Returns the first member of the Group which is not 'alive', returns null if all members are alive.
-        * @method getFirstDead
-        * @return {object}
-        * @public
-        */
-        Group.prototype.getFirstDead = function () {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].exists === false) {
-                    return this.members[i];
-                }
-            }
-
-            return null;
         };
 
         /**
@@ -3657,37 +4207,6 @@ var Kiwi;
         };
 
         /**
-        * Returns a member at random from the group.
-        * @param {Number}	StartIndex	Optional offset off the front of the array. Default value is 0, or the beginning of the array.
-        * @param {Number}	Length		Optional restriction on the number of values you want to randomly select from.
-        * @return {object}	A child from the members list.
-        * @public
-        */
-        Group.prototype.getRandom = function (start, length) {
-            if (typeof start === "undefined") { start = 0; }
-            if (typeof length === "undefined") { length = 0; }
-            if (this.members.length === 0) {
-                return null;
-            }
-
-            if (length === 0) {
-                length = this.members.length;
-            }
-
-            if (start < 0 || start > length) {
-                start = 0;
-            }
-
-            var rnd = start + (Math.random() * (start + length));
-
-            if (rnd > this.members.length) {
-                return this.members[this.members.length - 1];
-            } else {
-                return this.members[rnd];
-            }
-        };
-
-        /**
         * Clear all children from this Group
         * @method clear
         * @public
@@ -3701,11 +4220,12 @@ var Kiwi;
                 return this._willRender;
             },
             /**
-            * Controls whether render is automatically caleld by the parent.
+            * Controls whether render is automatically called by the parent.
             * @property willRender
             * @type boolean
             * @return {boolean}
             * @public
+            * @deprecated Use visible instead
             */
             set: function (value) {
                 this._willRender = value;
@@ -3719,11 +4239,12 @@ var Kiwi;
                 return this._visible;
             },
             /**
-            * Set the visiblity of this entity. True or False.
-            * @property visibility
+            * Set the visibility of this entity. True or False.
+            * @property visible
             * @type boolean
             * @default true
             * @public
+            * @since 1.0.1
             */
             set: function (value) {
                 this._visible = value;
@@ -3731,6 +4252,56 @@ var Kiwi;
             enumerable: true,
             configurable: true
         });
+
+        /**
+        * Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
+        * You can pass multiple strings to add multiple tags.
+        * @method addTags
+        * @param tag {string} The tag that you would like to add to this Entity.
+        * @since 1.1.0
+        * @public
+        */
+        Group.prototype.addTag = function () {
+            for (var i = 0; i < arguments.length; i++) {
+                if (this._tags.indexOf(arguments[i]) == -1) {
+                    this._tags.push(arguments[i]);
+                }
+            }
+        };
+
+        /**
+        * Removes a Tag from this Entity.
+        * @method removeTag
+        * @param tag {string} The tag that you would like to remove from this Entity.
+        * @since 1.1.0
+        * @public
+        */
+        Group.prototype.removeTag = function () {
+            for (var i = 0; i < arguments.length; i++) {
+                var index = this._tags.indexOf(arguments[i]);
+                if (index !== -1)
+                    this._tags.splice(index, 1);
+            }
+        };
+
+        /**
+        * Checks to see if this Entity has a Tag based upon a string which you pass.
+        * @method hasTag
+        * @param tag {string}
+        * @since 1.1.0
+        * @return {boolean}
+        * @public
+        */
+        Group.prototype.hasTag = function (tag) {
+            var len = this._tags.length;
+            while (len--) {
+                if (this._tags[len] === tag) {
+                    return true;
+                }
+            }
+
+            return false;
+        };
 
         /**
         * Removes all children and destroys the Group.
@@ -3766,11 +4337,8 @@ var Kiwi;
                 if (this.components)
                     this.components.removeAll();
                 delete this.components;
-                delete this.name;
-                delete this.members;
                 delete this.game;
                 delete this.state;
-                delete this._tempRemoveChildren;
             } else {
                 this._tempRemoveChildren = destroyChildren;
             }
@@ -4149,15 +4717,12 @@ var Kiwi;
             if (typeof deleteAll === "undefined") { deleteAll = true; }
             if (deleteAll == true) {
                 for (var i = 0; i < this._trackingList.length; i++) {
-                    //If the item is a group then we don't want it to destory it's children, as this method will do that eventually anyway.
+                    //If the item is a group then we don't want it to destroy it's children, as this method will do that eventually anyway.
                     this._trackingList[i].destroy(true, false);
                 }
                 this._trackingList = [];
 
-                for (var i = 0; i < this.members.length; i++) {
-                    this._destroyChildren(this.members[i]); //Shouldnt need this as they should already be dead
-                    delete this.members[i];
-                }
+                // While it is possible to set a member on another state and push it to this state, thus avoiding the tracking list, that member will be destroyed when this state loads, so we do not need to destroy remaining members - simply clear the list.
                 this.members = [];
             }
         };
@@ -4271,6 +4836,7 @@ var Kiwi;
             * @property dirty
             * @type boolean
             * @public
+            * @deprecated As of 1.1.0, no use has been found for this property.
             */
             get: function () {
                 return this._dirty;
@@ -5122,8 +5688,8 @@ var Kiwi;
                 this.state.textureLibrary.add(this.atlas);
                 this.atlas.dirty = true;
 
-                // Render text
-                this._renderText();
+                // Track actual text width - not canvas width (which rounds up to powers of 2), necessary for proper alignment
+                this._alignWidth = 0;
             }
             /**
             * Returns the type of object that this is
@@ -5264,6 +5830,9 @@ var Kiwi;
                 var width = _measurements.width;
                 var height = this._fontSize * 1.3;
 
+                // Cache alignment width
+                this._alignWidth = width;
+
                 //Is the width base2?
                 if (Kiwi.Utils.Common.base2Sizes.indexOf(width) == -1) {
                     var i = 0;
@@ -5284,6 +5853,9 @@ var Kiwi;
                 this._canvas.width = width;
                 this._canvas.height = height;
 
+                //Clear the canvas
+                this._ctx.clearRect(0, 0, width, height);
+
                 //Reapply the styles....cause it unapplies after a measurement...?!?
                 this._ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
                 this._ctx.fillStyle = this._fontColor;
@@ -5291,6 +5863,10 @@ var Kiwi;
 
                 //Draw the text.
                 this._ctx.fillText(this._text, 0, 0);
+
+                // Update inherited components
+                this.width = this._alignWidth;
+                this.height = this._canvas.height;
 
                 //Update the cell and dirty/undirtyfiy
                 this.atlas.cells[0] = { x: 0, y: 0, w: this._canvas.width, h: this._canvas.height };
@@ -5326,10 +5902,10 @@ var Kiwi;
                             x = 0;
                             break;
                         case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                            x = this._canvas.width * 0.5;
+                            x = this._alignWidth * 0.5;
                             break;
                         case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
-                            x = this._canvas.width;
+                            x = this._alignWidth;
                             break;
                     }
 
@@ -5371,10 +5947,10 @@ var Kiwi;
                         x = 0;
                         break;
                     case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                        x = -(this._canvas.width * 0.5);
+                        x = -(this._alignWidth * 0.5);
                         break;
                     case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
-                        x = -(this._canvas.width);
+                        x = -(this._alignWidth);
                         break;
                 }
 
@@ -5990,6 +6566,11 @@ var Kiwi;
                     this.width = w;
                     this.height = h;
 
+                    this._corner1 = new Kiwi.Geom.Point(0, 0);
+                    this._corner2 = new Kiwi.Geom.Point(0, 0);
+                    this._corner3 = new Kiwi.Geom.Point(0, 0);
+                    this._corner4 = new Kiwi.Geom.Point(0, 0);
+
                     this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, null));
                     this.physics.immovable = true;
                 }
@@ -6040,6 +6621,38 @@ var Kiwi;
                     enumerable: true,
                     configurable: true
                 });
+
+                Object.defineProperty(TileMapLayer.prototype, "cellIndex", {
+                    /**
+                    * Override function to prevent unwanted inherited behaviour. Do not call.
+                    *
+                    * Because TileMapLayer extends Entity, it has a cellIndex parameter. However, it does not use a single atlas index, so this parameter is meaningless. It has deliberately been set to do nothing.
+                    * @property cellIndex
+                    * @type number
+                    * @public
+                    * @deprecated Not functional on this object.
+                    * @since 1.1.0
+                    */
+                    get: function () {
+                        return null;
+                    },
+                    set: function (val) {
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                // Methods altered because TileMapLayer has its own width and height properties:
+                TileMapLayer.prototype.scaleToWidth = function (value) {
+                    this.scale = value / this.widthInPixels;
+                };
+                TileMapLayer.prototype.scaleToHeight = function (value) {
+                    this.scale = value / this.heightInPixels;
+                };
+                TileMapLayer.prototype.centerAnchorPoint = function () {
+                    this.anchorPointX = this.widthInPixels * 0.5;
+                    this.anchorPointY = this.heightInPixels * 0.5;
+                };
 
                 /**
                 * Returns the total number of tiles. Either for a particular type if passed, otherwise of any type if not passed.
@@ -6459,35 +7072,50 @@ var Kiwi;
                 TileMapLayer.prototype._calculateBoundaries = function (camera, matrix) {
                     //If we are calculating the coordinates for 'regular' then we can do that rather easy
                     if (this.orientation == Tilemap.ORTHOGONAL) {
-                        // Translation Stuff
-                        var sx = 1 / this.scaleX;
-                        var sy = 1 / this.scaleY;
+                        // Account for camera and object transformation
+                        // Initialise corners...
+                        this._corner1.setTo(0, 0);
+                        this._corner2.setTo(this.game.stage.width, 0);
+                        this._corner3.setTo(this.game.stage.width, this.game.stage.height);
+                        this._corner4.setTo(0, this.game.stage.height);
 
-                        // Work out how many tiles we can fit into our camera and round it up for the edges
-                        this._maxX = Math.min(Math.ceil(camera.width / this.tileWidth) + 1, this.width) * sx;
-                        this._maxY = Math.min(Math.ceil(camera.height / this.tileHeight) + 1, this.height) * sy;
+                        // Transform corners by camera...
+                        this._corner1 = camera.transformPoint(this._corner1);
+                        this._corner2 = camera.transformPoint(this._corner2);
+                        this._corner3 = camera.transformPoint(this._corner3);
+                        this._corner4 = camera.transformPoint(this._corner4);
 
-                        // And now work out where in the tilemap the camera actually is
-                        this._startX = Math.floor((-camera.transform.x - this.transform.worldX) / this.tileWidth * sx);
-                        this._startY = Math.floor((-camera.transform.y - this.transform.worldY) / this.tileHeight * sy);
+                        // Transform corners by object...
+                        var m = matrix.clone();
+                        m.invert();
+                        this._corner1 = m.transformPoint(this._corner1);
+                        this._corner2 = m.transformPoint(this._corner2);
+                        this._corner3 = m.transformPoint(this._corner3);
+                        this._corner4 = m.transformPoint(this._corner4);
 
-                        // Boundaries check for the start
-                        if (this._startX < 0)
-                            this._startX = 0;
-                        if (this._startY < 0)
-                            this._startY = 0;
+                        // Find min/max values in X and Y...
+                        this._startX = Math.min(this._corner1.x, this._corner2.x, this._corner3.x, this._corner4.x);
+                        this._startY = Math.min(this._corner1.y, this._corner2.y, this._corner3.y, this._corner4.y);
+                        this._maxX = Math.max(this._corner1.x, this._corner2.x, this._corner3.x, this._corner4.x);
+                        this._maxY = Math.max(this._corner1.y, this._corner2.y, this._corner3.y, this._corner4.y);
 
-                        // Check for the Maximum
-                        if (this._maxX > this.width)
-                            this._maxX = this.width;
-                        if (this._maxY > this.height)
-                            this._maxY = this.height;
+                        // Convert to tile units...
+                        this._startX /= this.tileWidth;
+                        this._startY /= this.tileHeight;
+                        this._maxX /= this.tileWidth;
+                        this._maxY /= this.tileHeight;
 
-                        // Width/Height
-                        if (this._startX + this._maxX > this.width)
-                            this._maxX = this.width - this._startX;
-                        if (this._startY + this._maxY > this.height)
-                            this._maxY = this.height - this._startY;
+                        // Truncate units...
+                        this._startX = Math.floor(this._startX);
+                        this._startY = Math.floor(this._startY);
+                        this._maxX = Math.ceil(this._maxX);
+                        this._maxY = Math.ceil(this._maxY);
+
+                        // Clamp values to tilemap range...
+                        this._startX = Kiwi.Utils.GameMath.clamp(this._startX, this.width);
+                        this._startY = Kiwi.Utils.GameMath.clamp(this._startY, this.height);
+                        this._maxX = Kiwi.Utils.GameMath.clamp(this._maxX, this.width);
+                        this._maxY = Kiwi.Utils.GameMath.clamp(this._maxY, this.height);
 
                         return;
                     }
@@ -6566,8 +7194,8 @@ var Kiwi;
 
                     this._calculateBoundaries(camera, m);
 
-                    for (var y = this._startY; y < this._startY + this._maxY; y++) {
-                        for (var x = this._startX; x < this._startX + this._maxX; x++) {
+                    for (var y = this._startY; y < this._maxY; y++) {
+                        for (var x = this._startX; x < this._maxX; x++) {
                             if ((this._temptype = this.getTileFromXY(x, y)) && this._temptype.cellIndex !== -1) {
                                 var cell = this.atlas.cells[this._temptype.cellIndex];
 
@@ -6618,11 +7246,11 @@ var Kiwi;
                     var t = this.transform;
                     var m = t.getConcatenatedMatrix();
 
-                    //Find which ones we need to render. Needs to be updated for Rotation.
+                    //Find which ones we need to render.
                     this._calculateBoundaries(camera, m);
 
-                    for (var y = this._startY; y < this._startY + this._maxY; y++) {
-                        for (var x = this._startX; x < this._startX + this._maxX; x++) {
+                    for (var y = this._startY; y < this._maxY; y++) {
+                        for (var x = this._startX; x < this._maxX; x++) {
                             //Get the tile type
                             this._temptype = this.getTileFromXY(x, y);
 
@@ -7107,11 +7735,17 @@ var Kiwi;
         /**
         * The Box Component is used to handle the various 'bounds' that each GameObject has.
         * There are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) depending on what you are wanting:
+        *
         * RawBounds: The bounding box of the GameObject before rotation/scale.
+        *
         * RawHitbox: The hitbox of the GameObject before rotation/scale. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.
+        *
         * Bounds: The bounding box of the GameObject after rotation/scale.
+        *
         * Hitbox: The hitbox of the GameObject after rotation/scale. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.
+        *
         * WorldBounds: The bounding box of the Entity using its world coordinates and after rotation/scale.
+        *
         * WorldHitbox: The hitbox of the Entity using its world coordinates and after rotation/scale.
         *
         * @class Box
@@ -7146,7 +7780,6 @@ var Kiwi;
                 this.autoUpdate = true;
 
                 this.entity = parent;
-                this.dirty = true;
 
                 this._rawBounds = new Kiwi.Geom.Rectangle(x, y, width, height);
                 this._rawCenter = new Kiwi.Geom.Point(x + width / 2, y + height / 2);
@@ -7177,7 +7810,7 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.dirty && this.autoUpdate == true && this.entity.atlas !== null) {
+                    if (this.autoUpdate == true && this.entity.atlas !== null) {
                         this._hitboxOffset.x = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x;
                         this._hitboxOffset.y = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y;
                     }
@@ -7198,18 +7831,16 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.dirty) {
-                        this._rawHitbox.x = this.rawBounds.x + this.hitboxOffset.x;
-                        this._rawHitbox.y = this.rawBounds.y + this.hitboxOffset.y;
+                    this._rawHitbox.x = this.rawBounds.x + this.hitboxOffset.x;
+                    this._rawHitbox.y = this.rawBounds.y + this.hitboxOffset.y;
 
-                        //If the hitbox has not already been set, then update the width/height based upon the current cell that the entity has.
-                        if (this.autoUpdate == true) {
-                            var atlas = this.entity.atlas;
+                    //If the hitbox has not already been set, then update the width/height based upon the current cell that the entity has.
+                    if (this.autoUpdate == true) {
+                        var atlas = this.entity.atlas;
 
-                            if (atlas !== null) {
-                                this._rawHitbox.width = atlas.cells[this.entity.cellIndex].hitboxes[0].w;
-                                this._rawHitbox.height = atlas.cells[this.entity.cellIndex].hitboxes[0].h;
-                            }
+                        if (atlas !== null) {
+                            this._rawHitbox.width = atlas.cells[this.entity.cellIndex].hitboxes[0].w;
+                            this._rawHitbox.height = atlas.cells[this.entity.cellIndex].hitboxes[0].h;
                         }
                     }
 
@@ -7227,9 +7858,7 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.dirty) {
-                        this._transformedHitbox = this._rotateHitbox(this.rawHitbox.clone());
-                    }
+                    this._transformedHitbox = this._rotateHitbox(this.rawHitbox.clone());
 
                     return this._transformedHitbox;
                 },
@@ -7258,9 +7887,7 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.dirty) {
-                        this._worldHitbox = this._rotateHitbox(this.rawHitbox.clone(), true);
-                    }
+                    this._worldHitbox = this._rotateHitbox(this.rawHitbox.clone(), true);
 
                     return this._worldHitbox;
                 },
@@ -7277,12 +7904,11 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.dirty) {
-                        this._rawBounds.x = this.entity.x;
-                        this._rawBounds.y = this.entity.y;
-                        this._rawBounds.width = this.entity.width;
-                        this._rawBounds.height = this.entity.height;
-                    }
+                    this._rawBounds.x = this.entity.x;
+                    this._rawBounds.y = this.entity.y;
+                    this._rawBounds.width = this.entity.width;
+                    this._rawBounds.height = this.entity.height;
+
                     return this._rawBounds;
                 },
                 enumerable: true,
@@ -7298,9 +7924,9 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.dirty) {
-                        this._rawCenter.x = this.rawBounds.x + this.rawBounds.width / 2, this._rawCenter.y = this.rawBounds.y + this.rawBounds.height / 2;
-                    }
+                    this._rawCenter.x = this.rawBounds.x + this.rawBounds.width / 2;
+                    this._rawCenter.y = this.rawBounds.y + this.rawBounds.height / 2;
+
                     return this._rawCenter;
                 },
                 enumerable: true,
@@ -7316,12 +7942,11 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.dirty) {
-                        var t = this.entity.transform;
-                        var m = t.getConcatenatedMatrix();
-                        m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
-                        this._transformedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - t.rotPointX, this.entity.height / 2 - t.rotPointY));
-                    }
+                    var t = this.entity.transform;
+                    var m = t.getConcatenatedMatrix();
+                    m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
+                    this._transformedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - t.rotPointX, this.entity.height / 2 - t.rotPointY));
+
                     return this._transformedCenter;
                 },
                 enumerable: true,
@@ -7337,9 +7962,8 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.dirty) {
-                        this._transformedBounds = this._rotateRect(this.rawBounds.clone());
-                    }
+                    this._transformedBounds = this._rotateRect(this.rawBounds.clone());
+
                     return this._transformedBounds;
                 },
                 enumerable: true,
@@ -7355,9 +7979,8 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.dirty) {
-                        this._worldBounds = this._rotateRect(this.rawBounds.clone(), true);
-                    }
+                    this._worldBounds = this._rotateRect(this.rawBounds.clone(), true);
+
                     return this._worldBounds;
                 },
                 enumerable: true,
@@ -7414,29 +8037,31 @@ var Kiwi;
             /**
             * Draws the various bounds on a context that is passed. Useful for debugging and using in combination with the debug canvas.
             * @method draw
-            * @param {CanvasRenderingContext2D} ctx
+            * @param ctx {CanvasRenderingContext2D} Context of the canvas that this box component is to be rendered on top of.
+            * @param [camera] {Kiwi.Camera} A camera that should be taken into account before rendered. This is the default camera by default.
             * @public
             */
-            Box.prototype.draw = function (ctx) {
+            Box.prototype.draw = function (ctx, camera) {
+                if (typeof camera === "undefined") { camera = this.game.cameras.defaultCamera; }
                 var t = this.entity.transform;
+                var ct = camera.transform;
 
                 // Draw raw bounds and raw center
                 ctx.strokeStyle = "red";
-                ctx.strokeRect(this.rawBounds.x, this.rawBounds.y, this.rawBounds.width, this.rawBounds.height);
-                ctx.fillRect(this.rawCenter.x - 1, this.rawCenter.y - 1, 3, 3);
-                ctx.strokeRect(t.x + t.rotPointX - 3, t.y + t.rotPointY - 3, 7, 7);
+                ctx.fillRect(this.rawCenter.x + ct.x - 1, this.rawCenter.y + ct.y - 1, 3, 3);
+                ctx.strokeRect(t.x + ct.x + t.rotPointX - 3, t.y + ct.y + t.rotPointY - 3, 7, 7);
 
                 // Draw bounds
                 ctx.strokeStyle = "blue";
-                ctx.strokeRect(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
+                ctx.strokeRect(this.bounds.x + ct.x, this.bounds.y + ct.y, this.bounds.width, this.bounds.height);
 
                 // Draw hitbox
                 ctx.strokeStyle = "green";
-                ctx.strokeRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
+                ctx.strokeRect(this.hitbox.x + ct.x, this.hitbox.y + ct.y, this.hitbox.width, this.hitbox.height);
 
                 // Draw raw hitbox
                 ctx.strokeStyle = "white";
-                ctx.strokeRect(this.rawHitbox.x, this.rawHitbox.y, this.rawHitbox.width, this.rawHitbox.height);
+                ctx.strokeRect(this.rawHitbox.x + ct.x, this.rawHitbox.y + ct.y, this.rawHitbox.width, this.rawHitbox.height);
 
                 // Draw world bounds
                 ctx.strokeStyle = "purple";
@@ -11678,7 +12303,9 @@ var Kiwi;
                 if (typeof window['Blob'] !== 'undefined')
                     this.blob = true;
 
+                // Check availability of rendering contexts
                 this.canvas = !!window['CanvasRenderingContext2D'];
+                this.webGL = !!window['WebGLRenderingContext'];
 
                 try  {
                     this.localStorage = !!localStorage.getItem;
@@ -11688,7 +12315,6 @@ var Kiwi;
 
                 this.file = !!window['File'] && !!window['FileReader'] && !!window['FileList'] && !!window['Blob'];
                 this.fileSystem = !!window['requestFileSystem'];
-                this.webGL = !!window['WebGLRenderingContext'];
                 this.worker = !!window['Worker'];
 
                 if ('ontouchstart' in document.documentElement || (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 0) || (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 0)) {
@@ -11929,7 +12555,9 @@ var Kiwi;
             * Will reload the texture into video memory for WebGL rendering.
             *
             * @method refreshTextureGL
+            * @param glContext {WebGLRenderingContext}
             * @public
+            * @since 1.0.1
             */
             TextureAtlas.prototype.refreshTextureGL = function (glContext) {
                 if (this.glTextureWrapper)
@@ -13954,7 +14582,13 @@ var Kiwi;
                 var root = this._game.states.current.members;
 
                 //clear
-                this._game.stage.ctx.fillStyle = '#' + this._game.stage.color;
+                var fillCol = this._game.stage.rgbaColor;
+
+                // If there is an alpha, clear the canvas before fill
+                if (fillCol.a < 255) {
+                    this._game.stage.ctx.clearRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
+                }
+                this._game.stage.ctx.fillStyle = "rgba(" + fillCol.r + "," + fillCol.g + "," + fillCol.b + "," + fillCol.a / 255 + ")";
                 this._game.stage.ctx.fillRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
 
                 // Stop drawing if there is nothing to draw
@@ -14068,6 +14702,7 @@ var Kiwi;
                 if (typeof mat4 === "undefined") {
                     throw "ERROR: gl-matrix.js is missing";
                 }
+                this._currentBlendMode = new Kiwi.Renderers.GLBlendMode(this._game.stage.gl, { mode: "DEFAULT" });
             }
             /**
             * Initialises all WebGL rendering services
@@ -14126,8 +14761,40 @@ var Kiwi;
             };
 
             /**
+            * Adds a cloned renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. The cloneID is the name for the cloned renderer.
+            *
+            * If a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.
+            *
+            * Cloned shared renderers are useful if some items in your scene will use a special shader or blend mode, but others will not. You can subsequently access the clones with a normal requestSharedRenderer() call. You should use this instead of requestRendererInstance() whenever possible, because shared renderers are more efficient than instances.
+            *
+            * @method addSharedRendererClone
+            * @param {String} rendererID
+            * @param {String} cloneID
+            * @param {Object} params
+            * @return {Boolean} success
+            * @public
+            * @since 1.1.0
+            */
+            GLRenderManager.prototype.addSharedRendererClone = function (rendererID, cloneID, params) {
+                if (typeof params === "undefined") { params = null; }
+                if (typeof params === "undefined") {
+                    params = null;
+                }
+
+                //does renderer exist?
+                if (Kiwi.Renderers[rendererID]) {
+                    //already added?
+                    if (!(cloneID in this._sharedRenderers)) {
+                        this._sharedRenderers[cloneID] = new Kiwi.Renderers[rendererID](this._game.stage.gl, this._shaderManager, params);
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+            /**
             * Requests a shared renderer. A game object that wants to use a shared renderer uses this method to obtain a reference to the shared renderer instance.
-            * @method addSharedRenderer
+            * @method requestSharedRenderer
             * @param {String} rendererID
             * @param {Object} params
             * @return {Kiwi.Renderers.Renderer} A shared renderer or null if none found.
@@ -14201,7 +14868,7 @@ var Kiwi;
 
                 //set default gl state
                 gl.enable(gl.BLEND);
-                gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE);
+                this._switchBlendMode(gl, this._currentBlendMode);
 
                 //shader manager
                 this._shaderManager.init(gl, "TextureAtlasShader");
@@ -14225,17 +14892,18 @@ var Kiwi;
 
             /**
             * Performs initialisation required when switching to a different state. Called when a state has been switched to.
-            * The textureManager is told to rebuild its cache of textures from the states textuer library.
+            * The textureManager is told to clear its contents from video memory, then rebuild its cache of textures from the state's texture library.
             * @method initState
             * @public
             */
             GLRenderManager.prototype.initState = function (state) {
+                this._textureManager.clearTextures(this._game.stage.gl);
                 this._textureManager.uploadTextureLibrary(this._game.stage.gl, state.textureLibrary);
             };
 
             /**
             * Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.
-            * @method initState
+            * @method endState
             * @param state {Kiwi.State}
             * @public
             */
@@ -14258,7 +14926,15 @@ var Kiwi;
 
                 //clear stage every frame
                 var col = this._game.stage.normalizedColor;
-                gl.clearColor(col.r, col.g, col.b, col.a);
+
+                // Colour must be multiplied by alpha to create consistent results.
+                // This is probably due to browsers implementing an inferior blendfunc:
+                // ONE, ONE_MINUS_SRC_ALPHA is most common, and gives bad results with alphas.
+                // When this is used on a partially transparent game canvas, it does not blend correctly.
+                // Without being able to override the browser's own object renderer, this is a necessary kludge.
+                // The "clean" solution is as follows:
+                // gl.clearColor(col.r, col.g, col.b, col.a);
+                gl.clearColor(col.r * col.a, col.g * col.a, col.b * col.a, col.a);
                 gl.clear(gl.COLOR_BUFFER_BIT);
 
                 // Stop drawing if there is nothing to draw
@@ -14369,16 +15045,8 @@ var Kiwi;
             * @public
             */
             GLRenderManager.prototype.renderBatches = function (gl, camera) {
-                for (var i = 0; i < this._batches.length; i++) {
-                    var batch = this._batches[i];
-
-                    //if first is batch then they all are
-                    if (batch[0].isBatchRenderer) {
-                        this.renderBatch(gl, batch, camera);
-                    } else {
-                        this.renderEntity(gl, batch[0].entity, camera);
-                    }
-                }
+                for (var i = 0; i < this._batches.length; i++)
+                    this.renderBatch(gl, this._batches[i], camera);
             };
 
             /**
@@ -14390,13 +15058,28 @@ var Kiwi;
             * @public
             */
             GLRenderManager.prototype.renderBatch = function (gl, batch, camera) {
-                this.setupGLState(gl, batch[0].entity);
-                this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
-                for (var i = 0; i < batch.length; i++) {
-                    batch[i].entity.renderGL(gl, camera);
+                // Acquire renderer
+                var rendererSwitched = false;
+                if (batch[0].entity.glRenderer !== this._currentRenderer) {
+                    rendererSwitched = true;
+                    this._switchRenderer(gl, batch[0].entity);
                 }
-                if (batch[0].texture.dirty)
-                    batch[0].texture.refreshTextureGL(gl);
+
+                // Clear renderer for fresh data
+                this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
+
+                for (var i = 0; i < batch.length; i++)
+                    batch[i].entity.renderGL(gl, camera);
+
+                // Upload textures
+                if (batch[0].entity.atlas !== this._currentTextureAtlas || batch[0].entity.atlas.dirty || (rendererSwitched && batch[0].entity.atlas == this._currentTextureAtlas))
+                    this._switchTexture(gl, batch[0].entity);
+
+                // Manage blend mode
+                if (!this._currentBlendMode.isIdentical(batch[0].entity.glRenderer.blendMode) || this._currentBlendMode.dirty)
+                    this._switchBlendMode(gl, batch[0].entity.glRenderer.blendMode);
+
+                // Render
                 this._currentRenderer.draw(gl);
             };
 
@@ -14407,14 +15090,10 @@ var Kiwi;
             * @param {Kiwi.Entity} entity
             * @param {Kiwi.Camera} camera
             * @public
+            * @deprecated Used internally; should not be called from external functions
             */
             GLRenderManager.prototype.renderEntity = function (gl, entity, camera) {
-                this.setupGLState(gl, entity);
-                this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
-                entity.renderGL(gl, camera);
-                if (entity.atlas.dirty)
-                    entity.atlas.refreshTextureGL(gl);
-                this._currentRenderer.draw(gl);
+                this.renderBatch(gl, [entity], camera);
             };
 
             /**
@@ -14422,6 +15101,7 @@ var Kiwi;
             * @method setupGLState
             * @param {WebGLRenderingContext} gl
             * @public
+            * @deprecated Used internally; should not be called from external functions.
             */
             GLRenderManager.prototype.setupGLState = function (gl, entity) {
                 if (entity.atlas !== this._currentTextureAtlas)
@@ -14441,7 +15121,7 @@ var Kiwi;
                 if (this._currentRenderer)
                     this._currentRenderer.disable(gl);
                 this._currentRenderer = entity.glRenderer;
-                this._currentRenderer.enable(gl, { camMatrix: this.camMatrix, stageResolution: this._stageResolution, textureAtlas: this._currentTextureAtlas });
+                this._currentRenderer.enable(gl, { camMatrix: this.camMatrix, stageResolution: this._stageResolution });
             };
 
             /**
@@ -14456,6 +15136,20 @@ var Kiwi;
                 if (this._currentRenderer)
                     this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
                 this._textureManager.useTexture(gl, entity.atlas.glTextureWrapper);
+                this._currentTextureAtlas.refreshTextureGL(gl);
+            };
+
+            /**
+            * Switch blend mode to a new set of constants
+            * @method _switchBlendMode
+            * @param gl {WebGLRenderingContext}
+            * @param blendMode {Kiwi.Renderers.GLBlendMode}
+            * @private
+            * @since 1.1.0
+            */
+            GLRenderManager.prototype._switchBlendMode = function (gl, blendMode) {
+                this._currentBlendMode = blendMode;
+                this._currentBlendMode.apply(gl);
             };
             return GLRenderManager;
         })();
@@ -14535,12 +15229,14 @@ var Kiwi;
             /**
             * Provides a reference to a ShaderPair. If the requested ShaderPair exists as a property on the _shaderPairs object it will be returned if already loaded,
             * otherwise it will be loaded, then returned.
+            *
             * If the request is not on the list, the Kiwi.Shaders object will  be checked for a property name that matches shaderID and a new ShaderPair
             * will be instantiated, loaded, and set for use.
             
-            * @method init
+            * @method requestShader
             * @param {WebGLRenderingContext} gl
             * @param {String} shaderID
+            * @param {boolean} use
             * @return {Kiwi.Shaders.ShaderPair} a ShaderPair instance - null on fail
             * @public
             */
@@ -14559,7 +15255,7 @@ var Kiwi;
                     return shader;
                 } else {
                     //not in list, does it exist?
-                    if (this.shaderExists) {
+                    if (this.shaderExists(gl, shaderID)) {
                         shader = this._addShader(gl, shaderID);
                         this._loadShader(gl, shader);
                         if (use)
@@ -14748,6 +15444,7 @@ var Kiwi;
             * @public
             */
             GLTextureWrapper.prototype.refreshTexture = function (gl) {
+                this.numBytes = this.image.width * this.image.height * 4;
                 gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
             };
 
@@ -14758,7 +15455,6 @@ var Kiwi;
             * @public
             */
             GLTextureWrapper.prototype.deleteTexture = function (gl) {
-                gl.bindTexture(gl.TEXTURE_2D, this.texture);
                 gl.deleteTexture(this.texture);
                 this._uploaded = false;
                 this._created = false;
@@ -14898,8 +15594,8 @@ var Kiwi;
             */
             GLTextureManager.prototype.clearTextures = function (gl) {
                 for (var i = 0; i < this._textureWrapperCache.length; i++) {
-                    //delete it from g mem
-                    this._textureWrapperCache[i].deleteTexture(gl);
+                    // Delete from graphics memory
+                    this._deleteTexture(gl, i);
 
                     //kill the reference on the atlas
                     this._textureWrapperCache[i].textureAtlas.glTextureWrapper = null;
@@ -15137,6 +15833,281 @@ var Kiwi;
 *
 * @module Kiwi
 * @submodule Renderers
+* @namespace Kiwi.Renderers
+*
+*/
+var Kiwi;
+(function (Kiwi) {
+    (function (Renderers) {
+        /**
+        * The Blend Mode object for recording and applying GL blend functions on a renderer.
+        * @class GLBlendMode
+        * @constructor
+        * @namespace Kiwi.Renderers
+        * @param gl {WebGLRenderingContext}
+        * @param params {Object}
+        * @return {Kiwi.Renderers.GLBlendMode}
+        * @ since 1.1.0
+        */
+        var GLBlendMode = (function () {
+            function GLBlendMode(gl, params) {
+                this.gl = gl;
+
+                this.dirty = true;
+
+                // Set default parameters
+                this._srcRGB = gl.SRC_ALPHA;
+                this._dstRGB = gl.ONE_MINUS_SRC_ALPHA;
+                this._srcAlpha = gl.ONE;
+                this._dstAlpha = gl.ONE;
+                this._modeRGB = gl.FUNC_ADD;
+                this._modeAlpha = gl.FUNC_ADD;
+
+                // Process params
+                if (typeof params === "undefined") {
+                    params = null;
+                }
+                if (params)
+                    this.readConfig(params);
+            }
+            /**
+            * Set a blend mode from a param object.
+            *
+            * This is the main method for configuring blend modes on a renderer. It resolves to a pair of calls to blendEquationSeparate and blendFuncSeparate. The params object should specify compatible terms, namely { srcRGB: a, dstRGB: b, srcAlpha: c, dstAlpha: d, modeRGB: e, modeAlpha: f }. You should set abcdef using either direct calls to a gl context (ie. gl.SRC_ALPHA) or by using predefined strings.
+            *
+            * The predefined string parameters for blendEquationSeparate are:
+            *
+            * FUNC_ADD, FUNC_SUBTRACT, and FUNC_REVERSE_SUBTRACT.
+            *
+            * The predefined string parameters for blendFuncSeparate are:
+            *
+            * ZERO, ONE, SRC_COLOR, ONE_MINUS_SRC_COLOR, DST_COLOR, ONE_MINUS_DST_COLOR, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, DST_ALPHA, ONE_MINUS_DST_ALPHA, SRC_ALPHA_SATURATE, CONSTANT_COLOR, ONE_MINUS_CONSTANT_COLOR, CONSTANT_ALPHA, and ONE_MINUS_CONSTANT_ALPHA.
+            *
+            * @method readConfig
+            * @param params {Object}
+            * @public
+            */
+            GLBlendMode.prototype.readConfig = function (params) {
+                if (params.mode !== undefined)
+                    this.setMode(params.mode);
+                else {
+                    // Expecting a series of constants in "number" type from a GL object, or valid string names corresponding to same.
+                    // Sanitise input - do not change unspecified values
+                    params.srcRGB = this.makeConstant(params.srcRGB);
+                    if (typeof params.srcRGB !== "undefined")
+                        this._srcRGB = params.srcRGB;
+                    params.dstRGB = this.makeConstant(params.dstRGB);
+                    if (typeof params.dstRGB !== "undefined")
+                        this._dstRGB = params.dstRGB;
+                    params.srcAlpha = this.makeConstant(params.srcAlpha);
+                    if (typeof params.srcAlpha !== "undefined")
+                        this._srcAlpha = params.srcAlpha;
+                    params.dstAlpha = this.makeConstant(params.dstAlpha);
+                    if (typeof params.dstAlpha !== "undefined")
+                        this._dstAlpha = params.dstAlpha;
+                    params.modeRGB = this.makeConstant(params.modeRGB);
+                    if (typeof params.modeRGB !== "undefined")
+                        this._modeRGB = params.modeRGB;
+                    params.modeAlpha = this.makeConstant(params.modeAlpha);
+                    if (typeof params.modeAlpha !== "undefined")
+                        this._modeAlpha = params.modeAlpha;
+                }
+                this.dirty = true;
+            };
+
+            /**
+            * Formats a parameter into a GL context-compatible number. This recognises valid constant names, such as "SRC_ALPHA" or "REVERSE_AND_SUBTRACT", with some tolerance for case. It does not check for valid numeric codes.
+            * @method makeConstant
+            * @param code {String}
+            * @return {number}
+            * @private
+            */
+            GLBlendMode.prototype.makeConstant = function (code) {
+                // Numbers are assumed to be correct.
+                if (typeof code == "number")
+                    return (code);
+
+                if (typeof code == "string")
+                    code = code.toUpperCase();
+
+                switch (code) {
+                    case "ZERO":
+                        code = this.gl.ZERO;
+                        break;
+                    case "ONE":
+                        code = this.gl.ONE;
+                        break;
+                    case "SRC_COLOR":
+                    case "SRC_COLOUR":
+                        code = this.gl.SRC_COLOR;
+                        break;
+                    case "ONE_MINUS_SRC_COLOR":
+                    case "ONE_MINUS_SRC_COLOUR":
+                        code = this.gl.ONE_MINUS_SRC_COLOR;
+                        break;
+                    case "DST_COLOR":
+                    case "DST_COLOUR":
+                        code = this.gl.DST_COLOR;
+                        break;
+                    case "ONE_MINUS_DST_COLOR":
+                    case "ONE_MINUS_DST_COLOUR":
+                        code = this.gl.ONE_MINUS_DST_COLOR;
+                        break;
+                    case "SRC_ALPHA":
+                        code = this.gl.SRC_ALPHA;
+                        break;
+                    case "ONE_MINUS_SRC_ALPHA":
+                        code = this.gl.ONE_MINUS_SRC_ALPHA;
+                        break;
+                    case "DST_ALPHA":
+                        code = this.gl.DST_ALPHA;
+                        break;
+                    case "ONE_MINUS_DST_ALPHA":
+                        code = this.gl.ONE_MINUS_DST_ALPHA;
+                        break;
+                    case "SRC_ALPHA_SATURATE":
+                        code = this.gl.SRC_ALPHA_SATURATE;
+                        break;
+                    case "CONSTANT_COLOR":
+                    case "CONSTANT_COLOUR":
+                        code = this.gl.CONSTANT_COLOR;
+                        break;
+                    case "ONE_MINUS_CONSTANT_COLOR":
+                    case "ONE_MINUS_CONSTANT_COLOUR":
+                        code = this.gl.ONE_MINUS_CONSTANT_COLOR;
+                        break;
+                    case "CONSTANT_ALPHA":
+                        code = this.gl.CONSTANT_ALPHA;
+                        break;
+                    case "ONE_MINUS_CONSTANT_ALPHA":
+                        code = this.gl.ONE_MINUS_CONSTANT_ALPHA;
+                        break;
+                    case "FUNC_ADD":
+                        code = this.gl.FUNC_ADD;
+                        break;
+                    case "FUNC_SUBTRACT":
+                        code = this.gl.FUNC_SUBTRACT;
+                        break;
+                    case "FUNC_REVERSE_SUBTRACT":
+                        code = this.gl.FUNC_REVERSE_SUBTRACT;
+                        break;
+                    default:
+                        code = undefined;
+                        break;
+                }
+                return (code);
+            };
+
+            /**
+            * Sets a blend mode by name. Name is case-tolerant.
+            *
+            * These are shortcuts to setting the blend function parameters manually. A listing of valid modes follows. Each is listed with the parameters modeRGB, modeAlpha, srcRGB, dstRGB, srcAlpha, and dstAlpha, constants used in the gl calls "blendEquationSeparate(modeRGB, modeAlpha)" and "blendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha". This is very technical, and will probably only be useful if you are developing your own shaders for Kiwi.js.
+            *
+            * "NORMAL" or any non-recognised string will draw as normal, blending colour via alpha. FUNC_ADD, FUNC_ADD, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE.
+            *
+            * "ADD" or "ADDITIVE" will add pixels to the background, creating a lightening effect. FUNC_ADD, FUNC_ADD, SRC_ALPHA, ONE, ONE, ONE.
+            *
+            * "SUBTRACT" or "SUBTRACTIVE" will subtract pixels from the background, creating an eerie dark effect. FUNC_REVERSE_SUBTRACT, FUNC_ADD, SRC_ALPHA, ONE, ONE, ONE.
+            *
+            * "ERASE" or "ERASER" will erase the game canvas itself, allowing the page background to show through. You can later draw over this erased region. FUNC_REVERSE_SUBTRACT, FUNC_REVERSE_SUBTRACT, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE.
+            *
+            * "BLACK" or "BLACKEN" will turn all colour black, but preserve alpha. FUNC_ADD, FUNC_ADD, ZERO, ONE_MINUS_SRC_ALPHA, ONE, ONE.
+            *
+            * Blend modes as seen in Adobe Photoshop are not reliably available via WebGL blend modes. Such blend modes require shaders to create.
+            * @method setMode
+            * @param mode {String}
+            * @public
+            */
+            GLBlendMode.prototype.setMode = function (mode) {
+                mode = mode.toUpperCase();
+                switch (mode) {
+                    case "ADDITIVE":
+                    case "ADD":
+                        this._srcRGB = this.gl.SRC_ALPHA;
+                        this._dstRGB = this.gl.ONE;
+                        this._srcAlpha = this.gl.ONE;
+                        this._dstAlpha = this.gl.ONE;
+                        this._modeRGB = this.gl.FUNC_ADD;
+                        this._modeAlpha = this.gl.FUNC_ADD;
+                        break;
+                    case "SUBTRACT":
+                    case "SUBTRACTIVE":
+                        this._srcRGB = this.gl.SRC_ALPHA;
+                        this._dstRGB = this.gl.ONE;
+                        this._srcAlpha = this.gl.ONE;
+                        this._dstAlpha = this.gl.ONE;
+                        this._modeRGB = this.gl.FUNC_REVERSE_SUBTRACT;
+                        this._modeAlpha = this.gl.FUNC_ADD;
+                        break;
+                    case "ERASE":
+                    case "ERASER":
+                        this._srcRGB = this.gl.SRC_ALPHA;
+                        this._dstRGB = this.gl.ONE_MINUS_SRC_ALPHA;
+                        this._srcAlpha = this.gl.ONE;
+                        this._dstAlpha = this.gl.ONE;
+                        this._modeRGB = this.gl.FUNC_REVERSE_SUBTRACT;
+                        this._modeAlpha = this.gl.FUNC_REVERSE_SUBTRACT;
+                        break;
+                    case "BLACK":
+                    case "BLACKEN":
+                        this._srcRGB = this.gl.ZERO;
+                        this._dstRGB = this.gl.ONE_MINUS_SRC_ALPHA;
+                        this._srcAlpha = this.gl.ONE;
+                        this._dstAlpha = this.gl.ONE;
+                        this._modeRGB = this.gl.FUNC_ADD;
+                        this._modeAlpha = this.gl.FUNC_ADD;
+                        break;
+                    case "NORMAL":
+                    default:
+                        this._srcRGB = this.gl.SRC_ALPHA;
+                        this._dstRGB = this.gl.ONE_MINUS_SRC_ALPHA;
+                        this._srcAlpha = this.gl.ONE;
+                        this._dstAlpha = this.gl.ONE;
+                        this._modeRGB = this.gl.FUNC_ADD;
+                        this._modeAlpha = this.gl.FUNC_ADD;
+                        break;
+                }
+                this.dirty = true;
+            };
+
+            /**
+            * Compares against another GLBlendMode
+            * @method isIdentical
+            * @return {Boolean} Is this GLBlendMode identical to the passed GLBlendMode?
+            * @param blendMode {Kiwi.Renderers.GLBlendMode}
+            * @public
+            */
+            GLBlendMode.prototype.isIdentical = function (blendMode) {
+                if (this == blendMode)
+                    return (true);
+                if (this._srcRGB == blendMode._srcRGB && this._dstRGB == blendMode._dstRGB && this._srcAlpha == blendMode._srcAlpha && this._dstAlpha == blendMode._dstAlpha && this._modeRGB == blendMode._modeRGB && this._modeAlpha == blendMode._modeAlpha)
+                    return (true);
+                return (false);
+            };
+
+            /**
+            * Sets the blend mode on the video card
+            * @method apply
+            * @param gl {WebGLRenderingContext}
+            * @public
+            */
+            GLBlendMode.prototype.apply = function (gl) {
+                gl.blendEquationSeparate(this._modeRGB, this._modeAlpha);
+                gl.blendFuncSeparate(this._srcRGB, this._dstRGB, this._srcAlpha, this._dstAlpha);
+
+                // Remove dirty flag
+                this.dirty = false;
+            };
+            return GLBlendMode;
+        })();
+        Renderers.GLBlendMode = GLBlendMode;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Renderers
 *
 */
 var Kiwi;
@@ -15252,6 +16223,7 @@ var Kiwi;
                 this.shaderManager = shaderManager;
                 this._isBatchRenderer = isBatchRenderer;
                 this.loaded = true;
+                this.blendMode = new Kiwi.Renderers.GLBlendMode(gl, { mode: "NORMAL" });
             }
             /**
             * Enables the renderer (for override)
@@ -15352,17 +16324,37 @@ var Kiwi;
                 if (typeof params === "undefined") { params = null; }
                 _super.call(this, gl, shaderManager, true);
                 /**
+                * The reference to the shaderPair.
+                * @property _shaderPairName
+                * @type String
+                * @private
+                * @since 1.1.0
+                */
+                this._shaderPairName = "TextureAtlasShader";
+                /**
                 * The maximum number of items that can be rendered by the renderer (not enforced)
                 * @property _maxItems
                 * @type number
                 * @private
                 */
                 this._maxItems = 1000;
+                /**
+                * Sets shader pair by name
+                * @method setShaderPair
+                * @param shaderPair {String}
+                * @public
+                * @since 1.1.0
+                */
+                this.setShaderPair = function (shaderPair) {
+                    if (typeof shaderPair == "string")
+                        this._shaderPairName = shaderPair;
+                };
                 var bufferItemSize = 5;
                 this._vertexBuffer = new Renderers.GLArrayBuffer(gl, bufferItemSize);
                 var vertsPerQuad = 6;
                 this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * vertsPerQuad));
-                this.shaderPair = this.shaderManager.requestShader(gl, "TextureAtlasShader");
+
+                this.shaderPair = this.shaderManager.requestShader(gl, this._shaderPairName);
             }
             /**
             * Enables the renderer ready for drawing
@@ -15373,7 +16365,8 @@ var Kiwi;
             */
             TextureAtlasRenderer.prototype.enable = function (gl, params) {
                 if (typeof params === "undefined") { params = null; }
-                this.shaderPair = this.shaderManager.requestShader(gl, "TextureAtlasShader");
+                //this.shaderPair = <Kiwi.Shaders.TextureAtlasShader>this.shaderManager.requestShader(gl, "TextureAtlasShader", true);
+                this.shaderPair = this.shaderManager.requestShader(gl, this._shaderPairName, true);
 
                 //Texture
                 gl.uniform1i(this.shaderPair.uniforms.uSampler.location, 0);
@@ -15381,8 +16374,6 @@ var Kiwi;
                 //Other uniforms
                 gl.uniform2fv(this.shaderPair.uniforms.uResolution.location, params.stageResolution);
                 gl.uniformMatrix3fv(this.shaderPair.uniforms.uCamMatrix.location, false, params.camMatrix);
-
-                this.updateTextureSize(gl, new Float32Array([params.textureAtlas.glTextureWrapper.image.width, params.textureAtlas.glTextureWrapper.image.height]));
             };
 
             /**
@@ -17014,7 +18005,7 @@ var Kiwi;
                 /*
                 * Add the fingers/cursors to the list of 'pointers'
                 */
-                this._pointers = this.touch.fingers;
+                this._pointers = this.touch.fingers.slice();
                 this._pointers.push(this.mouse.cursor);
 
                 this.isDown = false;
@@ -17595,7 +18586,7 @@ var Kiwi;
                 /**
                 * The developer defined maximum number of touch events.
                 * By default this is set to 10 but this can be set to be lower.
-                * @property _maxTouchEvents
+                * @property _maxPointers
                 * @type number
                 * @default 10
                 * @private
@@ -17792,6 +18783,7 @@ var Kiwi;
                 /**
                 * Sets the maximum number of point of contact that are allowed on the game stage at one point.
                 * The maximum number of points that are allowed is 10, and the minimum is 0.
+                * @property maximumPointers
                 * @type number
                 * @public
                 */
@@ -17845,13 +18837,12 @@ var Kiwi;
             * @private
             */
             Touch.prototype._deregisterFinger = function (event, id) {
+                var finger = null;
                 for (var f = 0; f < this._fingers.length; f++) {
                     if (this._fingers[f].active && this._fingers[f].id === id) {
                         this._fingers[f].stop(event);
                         this.latestFinger = this._fingers[f];
-
-                        this.touchUp.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]);
-
+                        finger = this._fingers[f];
                         this.isDown = false;
                         this.isUp = true;
                         break;
@@ -17859,11 +18850,17 @@ var Kiwi;
                 }
 
                 for (var i = 0; i < this._fingers.length; i++) {
-                    if (this._fingers[i].active) {
+                    if (this._fingers[i].active === true) {
                         this.isDown = true;
                         this.isUp = false;
                     }
                 }
+
+                if (finger !== null) {
+                    this.touchUp.dispatch(finger.x, finger.y, finger.timeDown, finger.timeUp, finger.duration, finger);
+                }
+
+                console.log('Down?' + this.isDown);
             };
 
             /**
@@ -19410,7 +20407,7 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    return Math.atan2(this.x2 - this.x1, this.y2 - this.y1);
+                    return Math.atan2(this.y2 - this.y1, this.x2 - this.x1);
                 },
                 enumerable: true,
                 configurable: true
@@ -20280,7 +21277,7 @@ var Kiwi;
                 * @return {Number}
                 */
                 get: function () {
-                    return Math.atan2(this.x2 - this.x1, this.y2 - this.y1);
+                    return Math.atan2(this.y2 - this.y1, this.x2 - this.x1);
                 },
                 enumerable: true,
                 configurable: true
@@ -20528,6 +21525,7 @@ var Kiwi;
             * @Param rotPointX {Number} Rotation point offset on x axis.
             * @Param rotPointY {Number} Rotation point offset on y axis.
             * @return {Object} This object.
+            * @since 1.0.1
             */
             Matrix.prototype.setFromOffsetTransform = function (tx, ty, scaleX, scaleY, rotation, rotPointX, rotPointY) {
                 this.identity();
@@ -21568,12 +22566,14 @@ var Kiwi;
 
             /**
             * Copies all the rectangle data from this Rectangle object into the destination Rectangle object.
+            * Creates a new rectangle if one was not passed.
             * @method copyTo
             * @param target {Rectangle} The destination rectangle object to copy in to
             * @return {Rectangle} The destination rectangle object
             * @public
             **/
             Rectangle.prototype.copyTo = function (target) {
+                if (typeof target === "undefined") { target = new Rectangle(); }
                 return target.copyFrom(this);
             };
 
@@ -21907,7 +22907,7 @@ var Kiwi;
                 this._rotPointX = 0;
                 /**
                 * Rotation offset on Y axis.
-                * @property _rotY
+                * @property _rotPointY
                 * @type Number
                 * @private
                 **/
@@ -22026,9 +23026,9 @@ var Kiwi;
                     return this._rotPointX;
                 },
                 /**
-                * Return the Rotation value from the x axis.
+                * Return the rotation offset from the x axis.
                 * @property rotPointX
-                * @return {Number} The registration value from the x axis.
+                * @return {Number} The rotation offset from the x axis.
                 * @public
                 */
                 set: function (value) {
@@ -22044,10 +23044,46 @@ var Kiwi;
                     return this._rotPointY;
                 },
                 /**
-                * Return the rotation value from the y axis.
-                * @public rotY
-                * @return {Number} The rotation value from the y axis.
+                * Return the rotation offset from the y axis.
+                * @public rotPointY
+                * @return {Number} The rotation offset from the y axis.
                 * @public
+                */
+                set: function (value) {
+                    this._rotPointY = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Transform.prototype, "anchorPointX", {
+                get: function () {
+                    return (this.rotPointX);
+                },
+                /**
+                * Return the anchor point value from the X axis. (Aliases to rotPointX.)
+                * @public anchorPointX
+                * @return {Number} The anchor point offset from the X axis.
+                * @public
+                * @since 1.1.0
+                */
+                set: function (value) {
+                    this.rotPointX = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Transform.prototype, "anchorPointY", {
+                get: function () {
+                    return (this._rotPointY);
+                },
+                /**
+                * Return the anchor point value from the Y axis. (Aliases to rotPointY.)
+                * @public anchorPointY
+                * @return {Number} The anchor point offset from the Y axis.
+                * @public
+                * @since 1.1.0
                 */
                 set: function (value) {
                     this._rotPointY = value;
@@ -25756,8 +26792,11 @@ var Kiwi;
                 if (this._usingAudioTag) {
                     //clone the audio node
                     this._sound = this._file.data.cloneNode(true);
-                    this._sound.play();
-                    this._sound.pause();
+
+                    if (this._game.deviceTargetOption == Kiwi.TARGET_BROWSER) {
+                        this._sound.play();
+                        this._sound.pause();
+                    }
                 } else {
                     this._sound = this._file.data;
                 }
@@ -26763,6 +27802,14 @@ var Kiwi;
                 * @private
                 */
                 this._clocks = [];
+                /**
+                * Frame rate factor, derived from master clock
+                * @property rate
+                * @type Number
+                * @public
+                * @since 1.1.10
+                */
+                this.rate = 1;
                 this._game = game;
             }
             /**
@@ -26829,6 +27876,8 @@ var Kiwi;
                 for (var i = 0; i < this._clocks.length; i++) {
                     this._clocks[i].update();
                 }
+
+                this.rate = this.master.rate;
             };
 
             /**
@@ -26842,6 +27891,17 @@ var Kiwi;
             };
 
             /**
+            * Returns the elapsed time. Based on the master clock.
+            * @method elapsed
+            * @return {Number}
+            * @public
+            * @since 1.1.0
+            */
+            ClockManager.prototype.elapsed = function () {
+                return this.master.elapsed();
+            };
+
+            /**
             * Returns the delta of the master clock.
             * @method delta
             * @return {Number}
@@ -26849,6 +27909,17 @@ var Kiwi;
             */
             ClockManager.prototype.delta = function () {
                 return this.master.delta;
+            };
+
+            /**
+            * Sets the interval on the master clock.
+            * @method setMasterInterval
+            * @param interval {Number} The ideal frame interval in milliseconds.
+            * @public
+            * @since 1.1.0
+            */
+            ClockManager.prototype.setMasterInterval = function (interval) {
+                this.master.idealDelta = interval;
             };
             return ClockManager;
         })();
@@ -26899,6 +27970,22 @@ var Kiwi;
                 * @public
                 */
                 this.delta = 0;
+                /**
+                * The rate at which ideal frames are passing. Multiply per-frame iterations by this factor to create smooth movement. For example, if the ideal fps is 60, but you're only getting 45, rate will equal 1.333.
+                * @property rate
+                * @type Number
+                * @public
+                * @since 1.1.0
+                */
+                this.rate = 1;
+                /**
+                * The ideal frame delta in milliseconds. This is automatically adjusted when the game sets a new frameRate.
+                * @property idealDelta
+                * @type Number
+                * @public
+                * @since 1.1.0
+                */
+                this.idealDelta = 1000 / 60.0;
                 this._started = Date.now();
                 this.time = this._started;
             }
@@ -26945,10 +28032,7 @@ var Kiwi;
 
                 this.time = this.now;
 
-                //  Lock the delta at 0.1 minimum to minimise fps tunneling
-                if (this.delta > 0.1) {
-                    this.delta = 0.1;
-                }
+                this.rate = this.delta / this.idealDelta;
                 //  Apply time scaling
             };
 
@@ -27992,7 +29076,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Computes the maximum relative error for this machine.
             * @method computeMachineEpsilon
             * @return {Number}
             * @static
@@ -28007,7 +29091,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Computes whether two numbers are identical to the limits of the computer's precision, as specified by the epsilon value.
             * @method fuzzyEqual
             * @param a {number}
             * @param b {number}
@@ -28022,7 +29106,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Computes whether the first parameter is less than the second parameter, to the limits of the computer's precision, as specified by the epsilon value.
             * @method fuzzyLessThan
             * @param a {number}
             * @param b {number}
@@ -28037,7 +29121,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Computes whether the first parameter is greater than the second parameter, to the limits of the computer's precision, as specified by the epsilon value.
             * @method fuzzyGreaterThan
             * @param a {number}
             * @param b {number}
@@ -28052,7 +29136,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Computes the integer ceiling of the first parameter, minus a rounding margin defined by epsilon.
             * @method fuzzyCeil
             * @param val {number}
             * @param [epsilon=0.0001] {number}
@@ -28066,7 +29150,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Computes the integer floor of the first parameter, plus a rounding margin defined by epsilon.
             * @method fuzzyFloor
             * @param val {number}
             * @param [epsilion=0.0001] {number}
@@ -28080,7 +29164,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Computes the mean of any number of parameters. For example, average(1,2,3) returns 2.
             * @method average
             * @param [args]* {Any[]}
             * @return {Number}
@@ -28102,7 +29186,9 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Computes whether value and target are sufficiently close as to be within the computer's margin of error, as defined by epsilon. Returns the target if they are sufficiently close; returns the value if they are not.
+            *
+            * In other words, slam prevents the target from exceeding epsilon.
             * @method slam
             * @param value {number}
             * @param target {number}
@@ -28154,7 +29240,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Truncates a value by removing all decimal data.
             * @method truncate
             * @param n {number}
             * @return {number}
@@ -28166,7 +29252,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Removes all non-decimal data from the value.
             * @method shear
             * @param n {number}
             * @return {number}
@@ -28377,7 +29463,8 @@ var Kiwi;
             * because we are rounding 100011.1011011011011011 which rounds up.
             */
             /**
-            * [DESCRIPTION REQUIRED]
+            * Round down to some place comparative to a 'base', default is 10 for decimal place.
+            * 'place' is represented by the power applied to 'base' to get that place
             * @method floorTo
             * @param value {number}
             * @param [place=0] {number}
@@ -28394,7 +29481,8 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Round down to some place comparative to a 'base', default is 10 for decimal place.
+            * 'place' is represented by the power applied to 'base' to get that place
             * @method ceilTo
             * @param value {number}
             * @param [place=0] {number}
@@ -28849,7 +29937,7 @@ var Kiwi;
 
             /**
             * Returns true if the number given is odd.
-            * @method isOff
+            * @method isOdd
             * @param n {number} The number to check
             * @return {boolean} True if the given number is odd. False if the given number is even.
             * @static
@@ -28865,7 +29953,7 @@ var Kiwi;
 
             /**
             * Returns true if the number given is even.
-            * @method isEvent
+            * @method isEven
             * @param n {number} The number to check
             * @return {boolean} True if the given number is even. False if the given number is odd.
             * @static
@@ -28929,10 +30017,10 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
-            * @method linear
-            * @param {Any} v
-            * @param {Any} k
+            * Interpolates between neighbouring values in an array using linear interpolation only. For example, linearInterpolation( [ 1,5,4 ], 0.5 ) = 5, and linearInterpolation( [ 1, 2 ], 0.3 ) = 1.3.
+            * @method linearInterpolation
+            * @param v {Array} An array of values through which to interpolate
+            * @param k {number} The position to interpolate, in the range 0-1
             * @return {number}
             * @static
             * @public
@@ -28951,10 +30039,10 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
-            * @method Bezier
-            * @param {Any} v
-            * @param {Any} k
+            * Interpolates between values in an array using Bezier curves. This treats the values in the array as control points on a spline. Unlike Catmull-Rom splines, the value is not guaranteed to intersect precisely with these points.
+            * @method bezierInterpolation
+            * @param v {Array} An array of values through which to interpolate
+            * @param k {number} The position to interpolate, in the range 0-1
             * @return {number}
             * @static
             * @public
@@ -28971,10 +30059,10 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
-            * @method CatmullRom
-            * @param {Any} v
-            * @param {Any} k
+            * Interpolates between values in an array using Catmull-Rom splines. This treats the values in the array as control points on a spline. Unlike Bezier curves, the value will intersect with every point in the array.
+            * @method catmullRomInterpolation
+            * @param v {Array} An array of values through which to interpolate
+            * @param k {Number} The position to interpolate, in the range 0-1
             * @return {number}
             * @static
             * @public
@@ -29001,8 +30089,8 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
-            * @method Linear
+            * Simple linear interpolation, identical to interpolateFloat.
+            * @method linear
             * @param {Any} p0
             * @param {Any} p1
             * @param {Any} t
@@ -29015,8 +30103,8 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
-            * @method Bernstein
+            * Bernstein polynomial for constructing Bezier curves. Returns n! / i! / (n-i)!
+            * @method bernstein
             * @param {Any} n
             * @param {Any} i
             * @return {number}
@@ -29028,8 +30116,8 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
-            * @method CatmullRom
+            * Function used to construct a Catmull-Rom interpolation: see catmullRomInterpolation()
+            * @method catmullRom
             * @param {Any} p0
             * @param {Any} p1
             * @param {Any} p2
@@ -29045,7 +30133,7 @@ var Kiwi;
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Returns the difference between a and b.
             * @method difference
             * @param a {number}
             * @param b {number}
@@ -29828,6 +30916,7 @@ var Kiwi;
 /// <reference path="render/GLTextureWrapper.ts" />
 /// <reference path="render/GLTextureManager.ts" />
 /// <reference path="render/GLArrayBuffer.ts" />
+/// <reference path="render/GLBlendMode.ts" />
 /// <reference path="render/GLElementArrayBuffer.ts" />
 /// <reference path="render/renderers/Renderer.ts" />
 /// <reference path="render/renderers/TextureAtlasRenderer.ts" />
@@ -29900,7 +30989,7 @@ var Kiwi;
     * @type string
     * @public
     */
-    Kiwi.VERSION = "1.0.1";
+    Kiwi.VERSION = "1.1.0";
 
     //DIFFERENT RENDERER STATIC VARIABLES
     /**
@@ -29922,6 +31011,17 @@ var Kiwi;
     * @public
     */
     Kiwi.RENDERER_WEBGL = 1;
+
+    /**
+    * A Static property that contains the number associated with RENDERER AUTODETECTION
+    * @property RENDERER_AUTO
+    * @static
+    * @type number
+    * @default 2
+    * @public
+    * @since 1.1.0
+    */
+    Kiwi.RENDERER_AUTO = 2;
 
     // DEVICE TARGET STATIC VARIABLES
     /**

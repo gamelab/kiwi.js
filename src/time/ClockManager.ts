@@ -53,6 +53,15 @@ module Kiwi.Time {
         private _clocks: Clock[] = [];
 
         /**
+        * Frame rate factor, derived from master clock
+        * @property rate
+        * @type Number
+        * @public
+        * @since 1.1.10
+        */
+        public rate: number = 1;
+
+        /**
         * The MasterClock for this manager.
         * @property master
         * @type Kiwi.Time.MasterClock
@@ -132,6 +141,7 @@ module Kiwi.Time {
                 this._clocks[i].update();
             }
 
+            this.rate = this.master.rate;
         }
 
         /**
@@ -147,6 +157,17 @@ module Kiwi.Time {
         }
 
         /**
+        * Returns the elapsed time. Based on the master clock.
+        * @method elapsed
+        * @return {Number}
+        * @public
+        * @since 1.1.0
+        */
+        public elapsed(): number {
+            return this.master.elapsed();
+        }
+
+        /**
         * Returns the delta of the master clock.
         * @method delta
         * @return {Number}
@@ -156,6 +177,17 @@ module Kiwi.Time {
 
             return this.master.delta;
 
+        }
+
+        /**
+        * Sets the interval on the master clock.
+        * @method setMasterInterval
+        * @param interval {Number} The ideal frame interval in milliseconds.
+        * @public
+        * @since 1.1.0
+        */
+        public setMasterInterval(interval:number) {
+            this.master.idealDelta = interval;
         }
 
     }

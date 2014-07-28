@@ -81,17 +81,12 @@ module.exports = function(grunt) {
       templateGame: {
         src: './build/kiwi.js',
         dest: './templateGame/lib/kiwi.js'
-      },
-
-      example: {
-        src: './build/kiwi.js',
-        dest: './examples/kiwi.js'
       }
     }
   });
 
-  grunt.registerTask("default", ["ts:build", "tslint", "concat:build", "uglify:build", "copy:templateGame", "copy:example"]);
-  grunt.registerTask("full", ["ts:build", "concat:build", "uglify:build", "yuidoc:compile", "copy:templateGame", "copy:example", "copy:doclogo", "copy:docstyles"]);
+  grunt.registerTask("default", ["ts:build", "tslint", "concat:build", "uglify:build", "copy:templateGame"]);
+  grunt.registerTask("full", ["ts:build", "concat:build", "uglify:build", "yuidoc:compile", "copy:templateGame", "copy:doclogo", "copy:docstyles"]);
   grunt.registerTask("docs", ["yuidoc:compile", "copy:doclogo", "copy:docstyles"]);
   grunt.registerTask("join", ["concat:build"]);
 

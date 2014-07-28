@@ -32,13 +32,12 @@ module Kiwi {
              
             this._exists = true;
             this._active = true;
-            this._willRender = true;
+            this._visible = true;
             this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this); 
             this.transform = new Kiwi.Geom.Transform();
             this.transform.x = x;
             this.transform.y = y; 
 
-            
         }
 
         public glRenderer: Kiwi.Renderers.Renderer;
@@ -101,6 +100,28 @@ module Kiwi {
         public set y(value: number) {
             this.transform.y = value;
         }
+
+        /**
+        * X coordinate of this Entity in world space; that is, after inheriting parent transforms. This is just aliased to the transform property. Property is READ-ONLY.
+        * @property worldX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get worldX(): number {
+            return( this.transform.worldX );
+        }
+
+        /**
+        * Y coordinate of this Entity in world space; that is, after inheriting parent transforms. This is just aliased to the transform property. Property is READ-ONLY.
+        * @property worldY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get worldY(): number {
+            return( this.transform.worldY );
+        }
         
         /**
         * Scale X of this Entity. This is just aliased to the transform property.
@@ -127,6 +148,17 @@ module Kiwi {
         
         public set scaleY(value: number) {
             this.transform.scaleY = value;
+        }
+
+        /**
+        * Scale both axes of this Entity. This is just aliased to the transform property. This is WRITE-ONLY.
+        * @property scale
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public set scale(value: number) {
+            this.transform.scale = value;
         }
         
         /**
@@ -166,6 +198,34 @@ module Kiwi {
         }
         public set rotPointY(value: number) {
             this.transform.rotPointY = value;
+        }
+
+        /**
+        * The anchor point on the x-axis. This is just aliased to the rotPointX on the transform object.
+        * @property anchorPointX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get anchorPointX(): number {
+            return this.transform.anchorPointX;
+        }
+        public set anchorPointX(value: number) {
+            this.transform.anchorPointX = value;
+        }
+
+        /**
+        * The anchor point on the y-axis. This is just aliased to the rotPointY on the transform object.
+        * @property anchorPointY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get anchorPointY(): number {
+            return this.transform.anchorPointY;
+        }
+        public set anchorPointY(value: number) {
+            this.transform.anchorPointY = value;
         }
 
         /**
@@ -209,11 +269,11 @@ module Kiwi {
         * @default true
         * @private
         */
-        private _visible: boolean = true;
+        private _visible: boolean;
         
         /**
-        * Set the visiblity of this entity. True or False.
-        * @property visibility
+        * Set the visibility of this entity. True or False.
+        * @property visible
         * @type boolean
         * @default true
         * @public
@@ -226,7 +286,9 @@ module Kiwi {
         }
         
         /**
-        * The width of the entity in pixels.
+        * The width of the entity in pixels, pre-transform.
+        *
+        * To obtain the actual width, multiply width by scaleX.
         * @property width
         * @type number
         * @default 0 
@@ -235,13 +297,48 @@ module Kiwi {
         public width: number = 0;   //If bounds are implemented then getters and setters here would be nice.
         
         /**
-        * The height of the entity in pixels.
+        * The height of the entity in pixels, pre-transform.
+        *
+        * To obtain the actual height, multiply height by scaleY.
         * @property height
         * @type number
         * @default 0
         * @public
         */
-        public height: number = 0;  
+        public height: number = 0;
+
+        /**
+        * Scale to desired width, preserving aspect ratio. This function changes the scale, not the width. If the width changes, for example, as part of an animation sequence, the Entity will retain the new scale.
+        * @method scaleToWidth
+        * @param value {Number} The desired width in pixels.
+        * @public
+        * @since 1.1.0
+        */
+        public scaleToWidth(value: number) {
+            this.scale = value / this.width;
+        }
+
+        /**
+        * Scale to desired height, preserving aspect ratio. This function changes the scale, not the height. If the height changes, for example, as part of an animation sequence, the Entity will retain the new scale.
+        * @method scaleToHeight
+        * @param value {Number} The desired height in pixels.
+        * @public
+        * @since 1.1.0
+        */
+        public scaleToHeight(value: number) {
+            this.scale = value / this.height;
+        }
+
+        /**
+        * Center the anchor point. Moves the anchor point (rotPointX and Y) to precisely halfway along the width and height properties of this Entity.
+        * @method centerAnchorPoint
+        * @public
+        * @since 1.1.0
+        */
+        public centerAnchorPoint() {
+            this.anchorPointX = this.width * 0.5;
+            this.anchorPointY = this.height * 0.5;
+        }
         
         /**
         * The texture atlas that is to be used on this entity.
@@ -262,6 +359,7 @@ module Kiwi {
         
         /**
         * Used as a reference to a single Cell in the atlas that is to be rendered. 
+        * 
         * E.g. If you had a spritesheet with 3 frames/cells and you wanted the second frame to be displayed you would change this value to 1
         * @property cellIndex
         * @type number
@@ -354,6 +452,72 @@ module Kiwi {
         }
 
         /**
+        * Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.
+        * By default Entitys contain no tags.
+        * @property _tags
+        * @type Array
+        * @since 1.1.0
+        * @private
+        */
+        private _tags: string[] = [];
+
+        /**
+        * Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
+        * You can pass multiple strings to add multiple tags.
+        * @method addTags
+        * @param tag {string} The tag that you would like to add to this Entity.
+        * @since 1.1.0
+        * @public
+        */
+        public addTag() {
+
+            //Loop through the arguments
+            for (var i = 0; i < arguments.length; i++) {
+                if (this._tags.indexOf(arguments[i]) == -1) {
+                    this._tags.push(arguments[i]);
+                }
+            }
+            
+        }
+
+        /**
+        * Removes a Tag from this Entity.
+        * @method removeTag
+        * @param tag {string} The tag that you would like to remove from this Entity.
+        * @since 1.1.0
+        * @public
+        */
+        public removeTag() {
+
+            for (var i = 0; i < arguments.length; i++) {
+                var index = this._tags.indexOf(arguments[i]);
+                if (index !== -1) this._tags.splice(index, 1);
+            }
+
+        }
+
+        /**
+        * Checks to see if this Entity has a Tag based upon a string which you pass.
+        * @method hasTag
+        * @param tag {string} 
+        * @since 1.1.0
+        * @return {boolean}
+        * @public 
+        */
+        public hasTag(tag: string): boolean {
+
+            var len = this._tags.length;
+            while (len--) {
+                if (this._tags[len] === tag) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
+        /**
 		* An active Entity is one that has its update method called by its parent. 
         * @property _active
         * @type boolean
@@ -382,6 +546,7 @@ module Kiwi {
         * @type boolean
         * @default true
         * @private
+        * @deprecated Use _visible instead
 		*/
 		private _willRender: boolean;
 
@@ -391,6 +556,7 @@ module Kiwi {
         * @type boolean
         * @default true
         * @public
+        * @deprecated Use visible instead
 		*/
         public set willRender(value: boolean) {
             this._willRender = value;

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.1</em>
+            <em>API Docs for: 1.1.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -195,6 +195,8 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLBlendMode.html">Kiwi.Renderers.GLBlendMode</a></li>
+            
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
                 <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
@@ -352,7 +354,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_core_Group.ts.html#l9"><code>src\core\Group.ts:9</code></a>
+            Defined in: <a href="../files/src_core_Group.ts.html#l9"><code>src&#x2F;core&#x2F;Group.ts:9</code></a>
         </div>
     
 
@@ -401,7 +403,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
+            <span class="type"><a href="../classes/Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
         </span>
     
 
@@ -428,7 +430,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l9"><code>src\core\Group.ts:9</code></a>
+        <a href="../files/src_core_Group.ts.html#l9"><code>src&#x2F;core&#x2F;Group.ts:9</code></a>
         
         </p>
 
@@ -451,7 +453,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                 <li class="param">
                     
                         <code class="param-name">state</code>
-                        <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
+                        <span class="type"><a href="../classes/Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
                     
 
                     
@@ -492,7 +494,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>:
                     
                 
             </div>
@@ -552,6 +554,13 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                         
                             <li class="index-item method public">
                                 <a href="#method_addChildBefore">addChildBefore</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_addTags">addTags</a>
 
                                 
                                 
@@ -656,6 +665,13 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                             </li>
                         
                             <li class="index-item method public">
+                                <a href="#method_getChildrenByTag">getChildrenByTag</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_getFirstAlive">getFirstAlive</a>
 
                                 
@@ -664,6 +680,13 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                         
                             <li class="index-item method public">
                                 <a href="#method_getFirstDead">getFirstDead</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_hasTag">hasTag</a>
 
                                 
                                 
@@ -712,9 +735,18 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                             </li>
                         
                             <li class="index-item method public">
+                                <a href="#method_removeTag">removeTag</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public deprecated">
                                 <a href="#method_render">render</a>
 
                                 
+                                
+                                    <span class="flag deprecated">deprecated</span>
                                 
                             </li>
                         
@@ -799,21 +831,44 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__visible">_visible</a>
+                                <a href="#property__tags">_tags</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
+                                <a href="#property__visible">_visible</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private deprecated">
                                 <a href="#property__willRender">_willRender</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_active">active</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_active">active</a>
+                                <a href="#property_anchorPointX">anchorPointX</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_anchorPointY">anchorPointY</a>
 
                                 
                                 
@@ -833,14 +888,14 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                                 
                             </li>
                         
-                            <li class="index-item property public">
+                            <li class="index-item property private">
                                 <a href="#property_exists">exists</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property private">
+                            <li class="index-item property public">
                                 <a href="#property_exists">exists</a>
 
                                 
@@ -883,6 +938,27 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                             </li>
                         
                             <li class="index-item property public">
+                                <a href="#property_rotPointX">rotPointX</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_rotPointY">rotPointY</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_scale">scale</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
                                 <a href="#property_state">state</a>
 
                                 
@@ -897,14 +973,30 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_visibility">visibility</a>
+                                <a href="#property_visible">visible</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public deprecated">
+                                <a href="#property_willRender">willRender</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_worldX">worldX</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_willRender">willRender</a>
+                                <a href="#property_worldY">worldY</a>
 
                                 
                                 
@@ -986,7 +1078,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l296"><code>src\core\Group.ts:296</code></a>
+        <a href="../files/src_core_Group.ts.html#l392"><code>src&#x2F;core&#x2F;Group.ts:392</code></a>
         
         </p>
 
@@ -1101,7 +1193,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l360"><code>src\core\Group.ts:360</code></a>
+        <a href="../files/src_core_Group.ts.html#l458"><code>src&#x2F;core&#x2F;Group.ts:458</code></a>
         
         </p>
 
@@ -1232,7 +1324,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l319"><code>src\core\Group.ts:319</code></a>
+        <a href="../files/src_core_Group.ts.html#l417"><code>src&#x2F;core&#x2F;Group.ts:417</code></a>
         
         </p>
 
@@ -1363,7 +1455,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l339"><code>src\core\Group.ts:339</code></a>
+        <a href="../files/src_core_Group.ts.html#l437"><code>src&#x2F;core&#x2F;Group.ts:437</code></a>
         
         </p>
 
@@ -1440,6 +1532,100 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
 </div>
 
                 
+                    <div id="method_addTags" class="method item public">
+    <h3 class="name"><code>addTags</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1142"><code>src&#x2F;core&#x2F;Group.ts:1142</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
+You can pass multiple strings to add multiple tags.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The tag that you would like to add to this Entity.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_callAll" class="method item public">
     <h3 class="name"><code>callAll</code></h3>
 
@@ -1496,7 +1682,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l687"><code>src\core\Group.ts:687</code></a>
+        <a href="../files/src_core_Group.ts.html#l916"><code>src&#x2F;core&#x2F;Group.ts:916</code></a>
         
         </p>
 
@@ -1609,7 +1795,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l914"><code>src\core\Group.ts:914</code></a>
+        <a href="../files/src_core_Group.ts.html#l1064"><code>src&#x2F;core&#x2F;Group.ts:1064</code></a>
         
         </p>
 
@@ -1680,7 +1866,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l251"><code>src\core\Group.ts:251</code></a>
+        <a href="../files/src_core_Group.ts.html#l339"><code>src&#x2F;core&#x2F;Group.ts:339</code></a>
         
         </p>
 
@@ -1795,7 +1981,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l280"><code>src\core\Group.ts:280</code></a>
+        <a href="../files/src_core_Group.ts.html#l368"><code>src&#x2F;core&#x2F;Group.ts:368</code></a>
         
         </p>
 
@@ -1918,7 +2104,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l262"><code>src\core\Group.ts:262</code></a>
+        <a href="../files/src_core_Group.ts.html#l350"><code>src&#x2F;core&#x2F;Group.ts:350</code></a>
         
         </p>
 
@@ -2015,7 +2201,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l862"><code>src\core\Group.ts:862</code></a>
+        <a href="../files/src_core_Group.ts.html#l1044"><code>src&#x2F;core&#x2F;Group.ts:1044</code></a>
         
         </p>
 
@@ -2088,7 +2274,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l842"><code>src\core\Group.ts:842</code></a>
+        <a href="../files/src_core_Group.ts.html#l1024"><code>src&#x2F;core&#x2F;Group.ts:1024</code></a>
         
         </p>
 
@@ -2173,7 +2359,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l970"><code>src\core\Group.ts:970</code></a>
+        <a href="../files/src_core_Group.ts.html#l1198"><code>src&#x2F;core&#x2F;Group.ts:1198</code></a>
         
         </p>
 
@@ -2294,7 +2480,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l631"><code>src\core\Group.ts:631</code></a>
+        <a href="../files/src_core_Group.ts.html#l860"><code>src&#x2F;core&#x2F;Group.ts:860</code></a>
         
         </p>
 
@@ -2432,7 +2618,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l647"><code>src\core\Group.ts:647</code></a>
+        <a href="../files/src_core_Group.ts.html#l876"><code>src&#x2F;core&#x2F;Group.ts:876</code></a>
         
         </p>
 
@@ -2562,7 +2748,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l381"><code>src\core\Group.ts:381</code></a>
+        <a href="../files/src_core_Group.ts.html#l580"><code>src&#x2F;core&#x2F;Group.ts:580</code></a>
         
         </p>
 
@@ -2671,7 +2857,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l417"><code>src\core\Group.ts:417</code></a>
+        <a href="../files/src_core_Group.ts.html#l616"><code>src&#x2F;core&#x2F;Group.ts:616</code></a>
         
         </p>
 
@@ -2780,7 +2966,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l398"><code>src\core\Group.ts:398</code></a>
+        <a href="../files/src_core_Group.ts.html#l597"><code>src&#x2F;core&#x2F;Group.ts:597</code></a>
         
         </p>
 
@@ -2889,7 +3075,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l436"><code>src\core\Group.ts:436</code></a>
+        <a href="../files/src_core_Group.ts.html#l635"><code>src&#x2F;core&#x2F;Group.ts:635</code></a>
         
         </p>
 
@@ -2950,6 +3136,114 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
 </div>
 
                 
+                    <div id="method_getChildrenByTag" class="method item public">
+    <h3 class="name"><code>getChildrenByTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Array</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l715"><code>src&#x2F;core&#x2F;Group.ts:715</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Returns an array of children which contain the tag which is passed.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Array</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_getFirstAlive" class="method item public">
     <h3 class="name"><code>getFirstAlive</code></h3>
 
@@ -2988,7 +3282,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l807"><code>src\core\Group.ts:807</code></a>
+        <a href="../files/src_core_Group.ts.html#l648"><code>src&#x2F;core&#x2F;Group.ts:648</code></a>
         
         </p>
 
@@ -3061,7 +3355,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l824"><code>src\core\Group.ts:824</code></a>
+        <a href="../files/src_core_Group.ts.html#l665"><code>src&#x2F;core&#x2F;Group.ts:665</code></a>
         
         </p>
 
@@ -3086,6 +3380,114 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                 
                     
                         <span class="type">Object</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_hasTag" class="method item public">
+    <h3 class="name"><code>hasTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1177"><code>src&#x2F;core&#x2F;Group.ts:1177</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Checks to see if this Entity has a Tag based upon a string which you pass.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
                     
                 
             </div>
@@ -3134,7 +3536,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l214"><code>src\core\Group.ts:214</code></a>
+        <a href="../files/src_core_Group.ts.html#l302"><code>src&#x2F;core&#x2F;Group.ts:302</code></a>
         
         </p>
 
@@ -3209,7 +3611,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l46"><code>src\core\Group.ts:46</code></a>
+        <a href="../files/src_core_Group.ts.html#l45"><code>src&#x2F;core&#x2F;Group.ts:45</code></a>
         
         </p>
 
@@ -3300,7 +3702,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l449"><code>src\core\Group.ts:449</code></a>
+        <a href="../files/src_core_Group.ts.html#l487"><code>src&#x2F;core&#x2F;Group.ts:487</code></a>
         
         </p>
 
@@ -3424,7 +3826,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l477"><code>src\core\Group.ts:477</code></a>
+        <a href="../files/src_core_Group.ts.html#l515"><code>src&#x2F;core&#x2F;Group.ts:515</code></a>
         
         </p>
 
@@ -3545,7 +3947,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l495"><code>src\core\Group.ts:495</code></a>
+        <a href="../files/src_core_Group.ts.html#l533"><code>src&#x2F;core&#x2F;Group.ts:533</code></a>
         
         </p>
 
@@ -3686,7 +4088,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l794"><code>src\core\Group.ts:794</code></a>
+        <a href="../files/src_core_Group.ts.html#l559"><code>src&#x2F;core&#x2F;Group.ts:559</code></a>
         
         </p>
 
@@ -3748,8 +4150,8 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
 </div>
 
                 
-                    <div id="method_render" class="method item public">
-    <h3 class="name"><code>render</code></h3>
+                    <div id="method_removeTag" class="method item public">
+    <h3 class="name"><code>removeTag</code></h3>
 
     
         <div class="args">
@@ -3757,7 +4159,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
                 <li class="arg">
                     
-                        <code>camera</code>
+                        <code>tag</code>
                     
                 </li>
             
@@ -3792,7 +4194,102 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l783"><code>src\core\Group.ts:783</code></a>
+        <a href="../files/src_core_Group.ts.html#l1161"><code>src&#x2F;core&#x2F;Group.ts:1161</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Removes a Tag from this Entity.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The tag that you would like to remove from this Entity.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_render" class="method item public deprecated">
+    <h3 class="name"><code>render</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>camera</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+        <span class="flag deprecated">deprecated</span>
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1012"><code>src&#x2F;core&#x2F;Group.ts:1012</code></a>
         
         </p>
 
@@ -3817,7 +4314,7 @@ This method never gets called as the render is only worried about rendering enti
                 <li class="param">
                     
                         <code class="param-name">camera</code>
-                        <span class="type"><a href="..\classes\Kiwi.Camera.html" class="crosslink">Kiwi.Camera</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Camera.html" class="crosslink">Kiwi.Camera</a></span>
                     
 
                     
@@ -3893,7 +4390,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l598"><code>src\core\Group.ts:598</code></a>
+        <a href="../files/src_core_Group.ts.html#l827"><code>src&#x2F;core&#x2F;Group.ts:827</code></a>
         
         </p>
 
@@ -4026,7 +4523,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l667"><code>src\core\Group.ts:667</code></a>
+        <a href="../files/src_core_Group.ts.html#l896"><code>src&#x2F;core&#x2F;Group.ts:896</code></a>
         
         </p>
 
@@ -4159,7 +4656,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l521"><code>src\core\Group.ts:521</code></a>
+        <a href="../files/src_core_Group.ts.html#l750"><code>src&#x2F;core&#x2F;Group.ts:750</code></a>
         
         </p>
 
@@ -4290,7 +4787,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l542"><code>src\core\Group.ts:542</code></a>
+        <a href="../files/src_core_Group.ts.html#l771"><code>src&#x2F;core&#x2F;Group.ts:771</code></a>
         
         </p>
 
@@ -4421,7 +4918,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l570"><code>src\core\Group.ts:570</code></a>
+        <a href="../files/src_core_Group.ts.html#l799"><code>src&#x2F;core&#x2F;Group.ts:799</code></a>
         
         </p>
 
@@ -4532,7 +5029,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l707"><code>src\core\Group.ts:707</code></a>
+        <a href="../files/src_core_Group.ts.html#l936"><code>src&#x2F;core&#x2F;Group.ts:936</code></a>
         
         </p>
 
@@ -4588,7 +5085,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l758"><code>src\core\Group.ts:758</code></a>
+        <a href="../files/src_core_Group.ts.html#l987"><code>src&#x2F;core&#x2F;Group.ts:987</code></a>
         
         </p>
 
@@ -4637,7 +5134,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1016"><code>src\core\Group.ts:1016</code></a>
+        <a href="../files/src_core_Group.ts.html#l1241"><code>src&#x2F;core&#x2F;Group.ts:1241</code></a>
         
         </p>
 
@@ -4684,7 +5181,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l224"><code>src\core\Group.ts:224</code></a>
+        <a href="../files/src_core_Group.ts.html#l312"><code>src&#x2F;core&#x2F;Group.ts:312</code></a>
         
         </p>
 
@@ -4708,7 +5205,7 @@ This method never gets called as the render is only worried about rendering enti
                 
                     <div id="property__parent" class="property item private">
     <h3 class="name"><code>_parent</code></h3>
-    <span class="type"><a href="..\classes\Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
+    <span class="type"><a href="../classes/Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
 
     
 
@@ -4731,7 +5228,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l84"><code>src\core\Group.ts:84</code></a>
+        <a href="../files/src_core_Group.ts.html#l83"><code>src&#x2F;core&#x2F;Group.ts:83</code></a>
         
         </p>
 
@@ -4742,6 +5239,56 @@ This method never gets called as the render is only worried about rendering enti
 
     <div class="description">
         <p>The parent group of this group.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__tags" class="property item private">
+    <h3 class="name"><code>_tags</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1132"><code>src&#x2F;core&#x2F;Group.ts:1132</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.
+By default Entitys contain no tags.</p>
 
     </div>
 
@@ -4778,12 +5325,14 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l947"><code>src\core\Group.ts:947</code></a>
+        <a href="../files/src_core_Group.ts.html#l1099"><code>src&#x2F;core&#x2F;Group.ts:1099</code></a>
         
         </p>
 
         
 
+        
+            <p>Available since 1.0.1</p>
         
     </div>
 
@@ -4802,10 +5351,12 @@ This method never gets called as the render is only worried about rendering enti
 </div>
 
                 
-                    <div id="property__willRender" class="property item private">
+                    <div id="property__willRender" class="property item private deprecated">
     <h3 class="name"><code>_willRender</code></h3>
     <span class="type">Boolean</span>
 
+    
+        <span class="flag deprecated" title="Use _visible instead">deprecated</span>
     
 
     
@@ -4827,10 +5378,12 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l925"><code>src\core\Group.ts:925</code></a>
+        <a href="../files/src_core_Group.ts.html#l1075"><code>src&#x2F;core&#x2F;Group.ts:1075</code></a>
         
         </p>
 
+        
+            <p>Deprecated: Use _visible instead</p>
         
 
         
@@ -4874,7 +5427,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l767"><code>src\core\Group.ts:767</code></a>
+        <a href="../files/src_core_Group.ts.html#l996"><code>src&#x2F;core&#x2F;Group.ts:996</code></a>
         
         </p>
 
@@ -4899,9 +5452,9 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
 </div>
 
                 
-                    <div id="property_components" class="property item public">
-    <h3 class="name"><code>components</code></h3>
-    <span class="type"><a href="..\classes\Kiwi.ComponentManager.html" class="crosslink">Kiwi.ComponentManager</a></span>
+                    <div id="property_anchorPointX" class="property item public">
+    <h3 class="name"><code>anchorPointX</code></h3>
+    <span class="type">Number</span>
 
     
 
@@ -4924,7 +5477,105 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Group.ts.html#l174"><code>src\core\Group.ts:174</code></a>
+        <a href="../files/src_core_Group.ts.html#l234"><code>src&#x2F;core&#x2F;Group.ts:234</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>The anchor point offset of this group in the X axis. This is just aliased to the transform property, and is in turn an alias of rotPointX.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_anchorPointY" class="property item public">
+    <h3 class="name"><code>anchorPointY</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l248"><code>src&#x2F;core&#x2F;Group.ts:248</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>The anchor point offset of this group in the Y axis. This is just aliased to the transform property, and is in turn an alias of rotPointY.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_components" class="property item public">
+    <h3 class="name"><code>components</code></h3>
+    <span class="type"><a href="../classes/Kiwi.ComponentManager.html" class="crosslink">Kiwi.ComponentManager</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l262"><code>src&#x2F;core&#x2F;Group.ts:262</code></a>
         
         </p>
 
@@ -4971,7 +5622,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Group.ts.html#l232"><code>src\core\Group.ts:232</code></a>
+        <a href="../files/src_core_Group.ts.html#l320"><code>src&#x2F;core&#x2F;Group.ts:320</code></a>
         
         </p>
 
@@ -4982,54 +5633,6 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
 
     <div class="description">
         <p>Sets all children of the Group to be dirty.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_exists" class="property item public">
-    <h3 class="name"><code>exists</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_Group.ts.html#l743"><code>src\core\Group.ts:743</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Toggles the exitence of this Group. An Entity that no longer exists can be garbage collected or re-allocated in a pool
-This method should be over-ridden to handle specific canvas/webgl implementations.</p>
 
     </div>
 
@@ -5066,7 +5669,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l735"><code>src\core\Group.ts:735</code></a>
+        <a href="../files/src_core_Group.ts.html#l964"><code>src&#x2F;core&#x2F;Group.ts:964</code></a>
         
         </p>
 
@@ -5088,9 +5691,9 @@ This method should be over-ridden to handle specific canvas/webgl implementation
 </div>
 
                 
-                    <div id="property_game" class="property item public">
-    <h3 class="name"><code>game</code></h3>
-    <span class="type"><a href="..\classes\Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
+                    <div id="property_exists" class="property item public">
+    <h3 class="name"><code>exists</code></h3>
+    <span class="type">Boolean</span>
 
     
 
@@ -5113,7 +5716,55 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l182"><code>src\core\Group.ts:182</code></a>
+        <a href="../files/src_core_Group.ts.html#l972"><code>src&#x2F;core&#x2F;Group.ts:972</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Toggles the exitence of this Group. An Entity that no longer exists can be garbage collected or re-allocated in a pool
+This method should be over-ridden to handle specific canvas/webgl implementations.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_game" class="property item public">
+    <h3 class="name"><code>game</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l270"><code>src&#x2F;core&#x2F;Group.ts:270</code></a>
         
         </p>
 
@@ -5160,7 +5811,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l198"><code>src\core\Group.ts:198</code></a>
+        <a href="../files/src_core_Group.ts.html#l286"><code>src&#x2F;core&#x2F;Group.ts:286</code></a>
         
         </p>
 
@@ -5207,7 +5858,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l206"><code>src\core\Group.ts:206</code></a>
+        <a href="../files/src_core_Group.ts.html#l294"><code>src&#x2F;core&#x2F;Group.ts:294</code></a>
         
         </p>
 
@@ -5254,7 +5905,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l66"><code>src\core\Group.ts:66</code></a>
+        <a href="../files/src_core_Group.ts.html#l65"><code>src&#x2F;core&#x2F;Group.ts:65</code></a>
         
         </p>
 
@@ -5280,7 +5931,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
                 
                     <div id="property_parent" class="property item public">
     <h3 class="name"><code>parent</code></h3>
-    <span class="type"><a href="..\classes\Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
+    <span class="type"><a href="../classes/Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
 
     
 
@@ -5303,7 +5954,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l92"><code>src\core\Group.ts:92</code></a>
+        <a href="../files/src_core_Group.ts.html#l91"><code>src&#x2F;core&#x2F;Group.ts:91</code></a>
         
         </p>
 
@@ -5325,9 +5976,9 @@ This method should be over-ridden to handle specific canvas/webgl implementation
 </div>
 
                 
-                    <div id="property_state" class="property item public">
-    <h3 class="name"><code>state</code></h3>
-    <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
+                    <div id="property_rotPointX" class="property item public">
+    <h3 class="name"><code>rotPointX</code></h3>
+    <span class="type">Number</span>
 
     
 
@@ -5350,7 +6001,154 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l190"><code>src\core\Group.ts:190</code></a>
+        <a href="../files/src_core_Group.ts.html#l206"><code>src&#x2F;core&#x2F;Group.ts:206</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>The rotation offset of this group in the X axis. This is just aliased to the transform property.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_rotPointY" class="property item public">
+    <h3 class="name"><code>rotPointY</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l220"><code>src&#x2F;core&#x2F;Group.ts:220</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>The rotation offset of this group in the Y axis. This is just aliased to the transform property.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_scale" class="property item public">
+    <h3 class="name"><code>scale</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l182"><code>src&#x2F;core&#x2F;Group.ts:182</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>The scale of this group. This is just aliased to the transform property. This is WRITE-ONLY.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_state" class="property item public">
+    <h3 class="name"><code>state</code></h3>
+    <span class="type"><a href="../classes/Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l278"><code>src&#x2F;core&#x2F;Group.ts:278</code></a>
         
         </p>
 
@@ -5374,7 +6172,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
                 
                     <div id="property_transform" class="property item public">
     <h3 class="name"><code>transform</code></h3>
-    <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
+    <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
 
     
 
@@ -5397,7 +6195,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l75"><code>src\core\Group.ts:75</code></a>
+        <a href="../files/src_core_Group.ts.html#l74"><code>src&#x2F;core&#x2F;Group.ts:74</code></a>
         
         </p>
 
@@ -5420,8 +6218,8 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
 </div>
 
                 
-                    <div id="property_visibility" class="property item public">
-    <h3 class="name"><code>visibility</code></h3>
+                    <div id="property_visible" class="property item public">
+    <h3 class="name"><code>visible</code></h3>
     <span class="type">Boolean</span>
 
     
@@ -5445,17 +6243,19 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l956"><code>src\core\Group.ts:956</code></a>
+        <a href="../files/src_core_Group.ts.html#l1109"><code>src&#x2F;core&#x2F;Group.ts:1109</code></a>
         
         </p>
 
         
 
         
+            <p>Available since 1.0.1</p>
+        
     </div>
 
     <div class="description">
-        <p>Set the visiblity of this entity. True or False.</p>
+        <p>Set the visibility of this entity. True or False.</p>
 
     </div>
 
@@ -5469,9 +6269,60 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
 </div>
 
                 
-                    <div id="property_willRender" class="property item public">
+                    <div id="property_willRender" class="property item public deprecated">
     <h3 class="name"><code>willRender</code></h3>
     <span class="type">Boolean</span>
+
+    
+        <span class="flag deprecated" title="Use visible instead">deprecated</span>
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1084"><code>src&#x2F;core&#x2F;Group.ts:1084</code></a>
+        
+        </p>
+
+        
+            <p>Deprecated: Use visible instead</p>
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Controls whether render is automatically called by the parent.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_worldX" class="property item public">
+    <h3 class="name"><code>worldX</code></h3>
+    <span class="type">Number</span>
 
     
 
@@ -5494,17 +6345,68 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l933"><code>src\core\Group.ts:933</code></a>
+        <a href="../files/src_core_Group.ts.html#l134"><code>src&#x2F;core&#x2F;Group.ts:134</code></a>
         
         </p>
 
         
 
         
+            <p>Available since 1.1.0</p>
+        
     </div>
 
     <div class="description">
-        <p>Controls whether render is automatically caleld by the parent.</p>
+        <p>The X coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_worldY" class="property item public">
+    <h3 class="name"><code>worldY</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l145"><code>src&#x2F;core&#x2F;Group.ts:145</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>The Y coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.</p>
 
     </div>
 
@@ -5541,7 +6443,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l109"><code>src\core\Group.ts:109</code></a>
+        <a href="../files/src_core_Group.ts.html#l108"><code>src&#x2F;core&#x2F;Group.ts:108</code></a>
         
         </p>
 
@@ -5588,7 +6490,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l122"><code>src\core\Group.ts:122</code></a>
+        <a href="../files/src_core_Group.ts.html#l121"><code>src&#x2F;core&#x2F;Group.ts:121</code></a>
         
         </p>
 

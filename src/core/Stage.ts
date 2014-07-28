@@ -46,6 +46,8 @@ module Kiwi {
 
             this.onResize = new Kiwi.Signal();
             this.onWindowResize = new Kiwi.Signal();
+
+            this._renderer = null;
         }
 
         /**
@@ -358,9 +360,12 @@ module Kiwi {
         public _color: string;
         
         /**
-        * Sets the background color of the stage via a hex value. 
+        * Sets the background color of the stage via a hex value.
+        *
         * The hex colour code should not contain a hashtag '#'.
-        * 
+        *
+        * The hex value can optionally contain an alpha term, which defaults to full ("ff", "255" or "1.0" depending on context). For example, both "ff0000" and "ff0000ff" will evaluate to an opaque red.
+        *
         * @property color
         * @type string
         * @public
@@ -373,17 +378,32 @@ module Kiwi {
             this._color = val;
             var bigint = parseInt(val, 16);
 
-            var r = (bigint >> 16) & 255;
-            var g = (bigint >> 8) & 255;
-            var b = bigint & 255;
+            var r = 255;
+            var g = 255;
+            var b = 255;
+            var a = 255;
+
+            if(val.length == 6) {
+                r = (bigint >> 16) & 255;
+                g = (bigint >> 8) & 255;
+                b = bigint & 255;
+                a = 255;
+            }
+            else if (val.length == 8) {
+                r = (bigint >> 24) & 255;
+                g = (bigint >> 16) & 255;
+                b = (bigint >> 8) & 255;
+                a = bigint & 255;
+            }
 
             //Converts the colour to normalized values.
-            this._normalizedColor = { r: r / 255, g: g / 255, b: b / 255, a: 1 };
+            this._normalizedColor = { r: r / 255, g: g / 255, b: b / 255, a: a / 255 };
         }
 
         /**
-        * Allows the setting of the background color of the stage through component RGB colour values. 
-        * This property is an Object Literal with 'r', 'g', 'b' colour streams of values between 0 and 255. 
+        * Allows the setting of the background color of the stage through component RGB colour values.
+        *
+        * This property is an Object Literal with 'r', 'g', 'b' colour streams of values between 0 and 255.
         *
         * @property rgbColor
         * @type Object
@@ -396,6 +416,27 @@ module Kiwi {
         public set rgbColor(val: any) {
             this.color = this.componentToHex(val.r) + this.componentToHex(val.g) + this.componentToHex(val.b);
         }
+
+        /**
+        * Allows the setting of the background color of the stage through component RGBA colour values.
+        *
+        * This property is an Object Literal with 'r', 'g', 'b', 'a' colour streams of values between 0 and 255.
+        * 
+        * Note that the alpha value is from 0-255, not 0-1. This is to preserve compatibility with hex-style color values, e.g. "ff0000ff".
+        *
+        * @property rgbaColor
+        * @type Object
+        * @public
+        * @since 1.1.0
+        */
+        public get rgbaColor():any {
+            return { r: this._normalizedColor.r * 255, g: this._normalizedColor.g * 255, b: this._normalizedColor.b * 255, a: this._normalizedColor.a * 255 };
+        }
+
+        public set rgbaColor(val: any) {
+            this.color = this.componentToHex(val.r) + this.componentToHex(val.g) + this.componentToHex(val.b) + this.componentToHex(val.a);;
+        }
+
 
         /**
         * Stores the normalized background color of the stage as a RGBA values between 0 and 1.
@@ -468,6 +509,28 @@ module Kiwi {
         * @public
         */
         public container:HTMLDivElement = null;
+
+
+        /**
+        * Stores the renderer created after context detection.
+        * @property _renderer
+        * @type any
+        * @private
+        * @since 1.1.0
+        */
+        private _renderer: any;
+
+        /**
+        * Get the renderer associated with the canvas context. This is either a GLRenderManager or a CanvasRenderer. If the Kiwi.RENDERER_WEBGL renderer was requested but could not be created, it will fall back to CanvasRenderer.
+        * This is READ ONLY.
+        * @property renderer
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get renderer(): any {
+            return this._renderer;
+        }
          
 
         /**
@@ -578,29 +641,42 @@ module Kiwi {
             this.canvas.height = this.height;
             
 
-            //Get 2D or GL Context - Should add in error checking here
-
+            //Get 2D or GL Context; do error detection and fallback to valid rendering context
             if (this._game.renderOption === Kiwi.RENDERER_CANVAS) {
                 this.ctx = this.canvas.getContext("2d");
                 this.ctx.fillStyle = '#fff';
                 this.gl = null;
-
             } else if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
                 this.gl = this.canvas.getContext("webgl");
                 if (!this.gl) {
                     this.gl = this.canvas.getContext("experimental-webgl");
                     if (!this.gl) {
-                        console.error("Kiwi.Stage: WebGL rendering is not available despite the device apparently supporting it."); 
+                        console.warn("Kiwi.Stage: WebGL rendering is not available despite the device apparently supporting it. Reverting to CANVAS.");
+                        // Reset to canvas mode
+                        this.ctx = this.canvas.getContext("2d");
+                        this.ctx.fillStyle = '#fff';
+                        this.gl = null;
                     } else {
-                        console.warn ("Kiwi.Stage: 'webgl' context is not available. Using 'experimental-webgl'");
+                        console.warn("Kiwi.Stage: 'webgl' context is not available. Using 'experimental-webgl'");
                     }
                 }
-                this.gl.clearColor(1, 1, 1, 1);
-                this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-                this.ctx = null;
+                if(this.gl) // That is, WebGL was properly supported and created
+                {
+                    this.gl.clearColor(1, 1, 1, 1);
+                    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+                    this.ctx = null;
+                }
+            }
 
-            } 
+            // Create render manager
+            // This is reported back to the Kiwi.Game that created the Stage.
+            if(this.ctx) {
+                this._renderer = new Kiwi.Renderers.CanvasRenderer(this._game);
+            } else if(this.gl) {
+                this._renderer = new Kiwi.Renderers.GLRenderManager(this._game);
+            }
             
+
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.container.appendChild(this.canvas);
             } else {

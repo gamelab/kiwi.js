@@ -36,7 +36,6 @@ module Kiwi {
 
             this._exists = true;
             this._active = true;
-            this._willRender = true;
             this._visible = true;
 
             this.transform = new Kiwi.Geom.Transform();
@@ -132,6 +131,28 @@ module Kiwi {
             this.transform.y = value;
         }
 
+        /**
+        * The X coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.
+        * @property worldX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get worldX(): number {
+            return this.transform.worldX;
+        }
+
+        /**
+        * The Y coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.
+        * @property worldY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get worldY(): number {
+            return this.transform.worldY;
+        }
+
         /*
         * The Scale X of this group. This is just aliased to the transform property.
         * @property scaleX
@@ -158,6 +179,17 @@ module Kiwi {
             this.transform.scaleY = value;
         }
 
+        /**
+        * The scale of this group. This is just aliased to the transform property. This is WRITE-ONLY.
+        * @property scale
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public set scale(value: number) {
+            this.transform.scale = value;
+        }
+
         /*
         * The rotation of this group. This is just aliased to the transform property.
         * @property rotation
@@ -169,6 +201,62 @@ module Kiwi {
         }
         public set rotation(value: number) {
             this.transform.rotation = value;
+        }
+
+        /**
+        * The rotation offset of this group in the X axis. This is just aliased to the transform property.
+        * @property rotPointX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get rotPointX(): number {
+            return this.transform.rotPointX;
+        }
+        public set rotPointX(value: number) {
+            this.transform.rotPointX = value;
+        }
+
+        /**
+        * The rotation offset of this group in the Y axis. This is just aliased to the transform property.
+        * @property rotPointY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get rotPointY(): number {
+            return this.transform.rotPointY;
+        }
+        public set rotPointY(value: number) {
+            this.transform.rotPointY = value;
+        }
+
+        /**
+        * The anchor point offset of this group in the X axis. This is just aliased to the transform property, and is in turn an alias of rotPointX.
+        * @property anchorPointX
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get anchorPointX(): number {
+            return this.transform.anchorPointX;
+        }
+        public set anchorPointX(value: number) {
+            this.transform.anchorPointX = value;
+        }
+
+        /**
+        * The anchor point offset of this group in the Y axis. This is just aliased to the transform property, and is in turn an alias of rotPointY.
+        * @property anchorPointY
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get anchorPointY(): number {
+            return this.transform.anchorPointY;
+        }
+        public set anchorPointY(value: number) {
+            this.transform.anchorPointY = value;
         }
 
         /**
@@ -293,6 +381,14 @@ module Kiwi {
             return descendant.parent.containsAncestor(descendant.parent, ancestor); //keep going up the chain.
         }
 
+
+        /**
+        * -------------------------
+        * Add Children methods
+        * -------------------------
+        **/
+
+
         /**
         * Adds an Entity to this Group. The Entity must not already be in this Group.
         * @method addChild
@@ -301,6 +397,8 @@ module Kiwi {
         * @public
         */
         public addChild(child: Kiwi.IChild): Kiwi.IChild {              
+
+            //Implement feature where you can pass as many children to be added. Modify this script to work via the 'arguments' property
 
             //make sure you aren't adding a state or itself
             if (child.childType() === Kiwi.STATE || child == this) return;
@@ -378,73 +476,13 @@ module Kiwi {
 
         }
 
-        /**
-        * Get the child at a specific position in this Group by its index.
-        * @method getChildAt
-        * @param index {Number} The index of the child
-        * @return {object} The child, if found or null if not.
-        * @public
-        */
-        public getChildAt(index: number): Kiwi.IChild {
-
-            if (this.members[index]) {
-                return this.members[index];
-            } else {
-                return null;
-            }
-
-        }
 
         /**
-        * Get a child from this Group by its name.
-        * @method getChildByName
-        * @param name {String} The name of the child
-        * @return {object} The child, if found or null if not.
-        * @public
-        */
-        public getChildByName(name: string): Kiwi.IChild {              //make recursive!!
+        * --------------------
+        * Remove Children Methods
+        * --------------------
+        **/
 
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].name === name) {
-                    return this.members[i];
-                }
-            }
-
-            return null;
-
-        }
-
-        /**
-        * Get a child from this Group by its UUID.
-        * @method getChildByID
-        * @param id {String} The ID of the child.
-        * @return {object} The child, if found or null if not.
-        * @public
-        */
-        public getChildByID(id: string): Kiwi.IChild {                  //make recursive!!
-
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].id === id) {
-                    return this.members[i];
-                }
-            }
-
-            return null;
-
-        }
-
-        /**
-        * Returns the index position of the Entity or -1 if not found.
-        * @method getChildIndex
-        * @param child {object} The child.
-        * @return {Number} The index of the child or -1 if not found.
-        * @public
-        */
-        public getChildIndex(child: Kiwi.IChild): number {              
-
-            return this.members.indexOf(child);
-
-        }
 
         /**
         * Removes an Entity from this Group if it is a child of it.
@@ -517,6 +555,197 @@ module Kiwi {
 
             return removed.length;
         }
+
+        /**
+        * Removes the first Entity from this Group marked as 'alive'
+        * @method removeFirstAlive
+        * @param [destroy=false] {boolean} If the entity should run the destroy method when it is removed.
+        * @return {object} The Entity that was removed from this Group if alive, otherwise null
+        * @public
+        */
+        public removeFirstAlive(destroy: boolean = false): Kiwi.IChild {
+
+            return this.removeChild(this.getFirstAlive(), destroy);
+
+        }
+
+
+        /**
+        * -------------------
+        * Get Children Methods
+        * -------------------
+        **/
+
+
+        /**
+        * Get the child at a specific position in this Group by its index.
+        * @method getChildAt
+        * @param index {Number} The index of the child
+        * @return {object} The child, if found or null if not.
+        * @public
+        */
+        public getChildAt(index: number): Kiwi.IChild {
+
+            if (this.members[index]) {
+                return this.members[index];
+            } else {
+                return null;
+            }
+
+        }
+
+        /**
+        * Get a child from this Group by its name.
+        * @method getChildByName
+        * @param name {String} The name of the child
+        * @return {object} The child, if found or null if not.
+        * @public
+        */
+        public getChildByName(name: string): Kiwi.IChild {              //make recursive!!
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].name === name) {
+                    return this.members[i];
+                }
+            }
+
+            return null;
+
+        }
+
+        /**
+        * Get a child from this Group by its UUID.
+        * @method getChildByID
+        * @param id {String} The ID of the child.
+        * @return {object} The child, if found or null if not.
+        * @public
+        */
+        public getChildByID(id: string): Kiwi.IChild {                  //make recursive!!
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].id === id) {
+                    return this.members[i];
+                }
+            }
+
+            return null;
+
+        }
+
+        /**
+        * Returns the index position of the Entity or -1 if not found.
+        * @method getChildIndex
+        * @param child {object} The child.
+        * @return {Number} The index of the child or -1 if not found.
+        * @public
+        */
+        public getChildIndex(child: Kiwi.IChild): number {
+
+            return this.members.indexOf(child);
+
+        }
+
+        /**
+        * Returns the first Entity from this Group marked as 'alive' or null if no members are alive
+        * @method getFirstAlive
+        * @return {object}
+        * @public
+        */
+        public getFirstAlive(): Kiwi.IChild {
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].exists === true) {
+                    return this.members[i];
+                }
+            }
+
+            return null;
+        }
+
+        /**
+        * Returns the first member of the Group which is not 'alive', returns null if all members are alive.
+        * @method getFirstDead
+        * @return {object}
+        * @public
+        */
+        public getFirstDead(): Kiwi.IChild {
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].exists === false) {
+                    return this.members[i];
+                }
+            }
+
+            return null;
+
+        }
+
+        /**
+        * Returns a member at random from the group.
+        * @param {Number}	StartIndex	Optional offset off the front of the array. Default value is 0, or the beginning of the array.
+        * @param {Number}	Length		Optional restriction on the number of values you want to randomly select from.
+        * @return {object}	A child from the members list.
+        * @public
+        */
+        public getRandom(start: number = 0, length: number = 0): Kiwi.IChild {
+
+            if (this.members.length === 0) {
+                return null;
+            }
+
+            if (length === 0) {
+                length = this.members.length;
+            }
+
+            if (start < 0 || start > length) {
+                start = 0;
+            }
+
+            var rnd = start + (Math.random() * (start + length));
+
+            if (rnd > this.members.length) {
+                return this.members[this.members.length - 1];
+
+            } else {
+                return this.members[rnd];
+            }
+
+        }
+
+        /**
+        * Returns an array of children which contain the tag which is passed.
+        * @method getChildrenByTag
+        * @param tag {string}
+        * @return {Array}
+        * @public
+        * @since 1.1.0
+        */
+        public getChildrenByTag(tag: string): IChild[]{
+
+            var children = [];
+
+            for (var i = 0; i < this.members.length; i++) {
+
+                if (this.members[i].hasTag(tag)) {
+                    children.push(this.members[i]);
+                }
+
+                if (this.members[i].childType() == Kiwi.GROUP) {
+                    children = children.concat( (<Kiwi.Group>this.members[i] ).getChildrenByTag(tag) );
+                } 
+                
+            }
+
+            return children;
+        }
+
+        
+        /**
+        * --------------------
+        * Child Depth Sorting Methods
+        * --------------------
+        **/
+
         
         /**
         * Sets a new position of an existing Entity within the Group.
@@ -786,57 +1015,10 @@ module Kiwi {
         * @method render
         * @param camera {Kiwi.Camera}
         * @public
+        * @deprecated
         */
         public render(camera:Kiwi.Camera) {
 
-        }
-
-        /**
-        * Removes the first Entity from this Group marked as 'alive'
-        * @method removeFirstAlive
-        * @param [destroy=false] {boolean} If the entity should run the destroy method when it is removed.
-        * @return {object} The Entity that was removed from this Group if alive, otherwise null
-        * @public
-        */
-        public removeFirstAlive(destroy:boolean = false): Kiwi.IChild { 
-
-            return this.removeChild(this.getFirstAlive(), destroy);
-        
-        }
-
-        /**
-        * Returns the first Entity from this Group marked as 'alive' or null if no members are alive
-        * @method getFirstAlive
-        * @return {object}
-        * @public
-		*/
-        public getFirstAlive(): Kiwi.IChild { 
-        
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].exists === true) {
-                    return this.members[i];
-                }
-            }
-
-            return null;
-        }
-
-        /**
-        * Returns the first member of the Group which is not 'alive', returns null if all members are alive.
-        * @method getFirstDead
-        * @return {object}
-        * @public
-		*/
-        public getFirstDead():Kiwi.IChild { 
-        
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].exists === false) {
-                    return this.members[i];
-                }
-            }
-
-            return null;
-        
         }
         
         /**
@@ -878,38 +1060,6 @@ module Kiwi {
             return total;
         
         }
-        
-		/**
-		* Returns a member at random from the group.
-		* @param {Number}	StartIndex	Optional offset off the front of the array. Default value is 0, or the beginning of the array.
-		* @param {Number}	Length		Optional restriction on the number of values you want to randomly select from.
-		* @return {object}	A child from the members list.
-        * @public
-		*/
-        public getRandom(start: number = 0, length: number = 0): Kiwi.IChild { 
-        
-            if (this.members.length === 0) {
-                return null;
-            }
-
-            if (length === 0) {
-                length = this.members.length;
-            }
-
-            if (start < 0 || start > length) {
-                start = 0;
-            }
-
-            var rnd = start + (Math.random() * (start + length));
-
-            if (rnd > this.members.length) {
-                return this.members[this.members.length - 1];
-
-            } else {
-                return this.members[rnd];
-            }
-            
-        }
 
         /**
 	    * Clear all children from this Group
@@ -927,15 +1077,17 @@ module Kiwi {
         * @property _willRender
         * @type Boolean
         * @private
+        * @deprecated Use _visible instead
 		*/
 		private _willRender: boolean;
 
         /**
-        * Controls whether render is automatically caleld by the parent.
+        * Controls whether render is automatically called by the parent.
         * @property willRender
         * @type boolean
         * @return {boolean}
         * @public
+        * @deprecated Use visible instead
         */
         public set willRender(value: boolean) {
             this._willRender = value;
@@ -950,15 +1102,17 @@ module Kiwi {
         * @type boolean
         * @default true
         * @private
+        * @since 1.0.1
         */
         private _visible: boolean;
         
         /**
-        * Set the visiblity of this entity. True or False.
-        * @property visibility
+        * Set the visibility of this entity. True or False.
+        * @property visible
         * @type boolean
         * @default true
         * @public
+        * @since 1.0.1
         */
         public set visible(value: boolean) {
             this._visible = value;
@@ -966,6 +1120,80 @@ module Kiwi {
         public get visible(): boolean {
             return this._visible;
         }
+
+        
+        /**
+        * ---------------
+        * Tagging System
+        * ---------------
+        **/
+
+        
+        /**
+        * Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.
+        * By default Entitys contain no tags.
+        * @property _tags
+        * @type Array
+        * @since 1.1.0
+        * @private
+        */
+        private _tags: string[] = [];
+
+        /**
+        * Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
+        * You can pass multiple strings to add multiple tags.
+        * @method addTags
+        * @param tag {string} The tag that you would like to add to this Entity.
+        * @since 1.1.0
+        * @public
+        */
+        public addTag() {
+
+            //Loop through the arguments
+            for (var i = 0; i < arguments.length; i++) {
+                if (this._tags.indexOf(arguments[i]) == -1) {
+                    this._tags.push(arguments[i]);
+                }
+            }
+
+        }
+
+        /**
+        * Removes a Tag from this Entity.
+        * @method removeTag
+        * @param tag {string} The tag that you would like to remove from this Entity.
+        * @since 1.1.0
+        * @public
+        */
+        public removeTag() {
+
+            for (var i = 0; i < arguments.length; i++) {
+                var index = this._tags.indexOf(arguments[i]);
+                if (index !== -1) this._tags.splice(index, 1);
+            }
+
+        }
+
+        /**
+        * Checks to see if this Entity has a Tag based upon a string which you pass.
+        * @method hasTag
+        * @param tag {string} 
+        * @since 1.1.0
+        * @return {boolean}
+        * @public 
+        */
+        public hasTag(tag: string): boolean {
+
+            var len = this._tags.length;
+            while (len--) {
+                if (this._tags[len] === tag) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
 
         /**
 		* Removes all children and destroys the Group. 
@@ -1001,11 +1229,8 @@ module Kiwi {
                 delete this.transform;
                 if (this.components) this.components.removeAll();
                 delete this.components;
-                delete this.name;
-                delete this.members;
                 delete this.game;
                 delete this.state;
-                delete this._tempRemoveChildren;
 
             } else {
                 this._tempRemoveChildren = destroyChildren;

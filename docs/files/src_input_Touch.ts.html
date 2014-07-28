@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\input\Touch.ts - Kiwi.js</title>
+    <title>src/input/Touch.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.1</em>
+            <em>API Docs for: 1.1.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -195,6 +195,8 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLBlendMode.html">Kiwi.Renderers.GLBlendMode</a></li>
+            
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
                 <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
@@ -344,7 +346,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\input\Touch.ts</h1>
+                        <h1 class="file-heading">File: src/input/Touch.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -682,7 +684,7 @@ module Kiwi.Input {
         /**
         * The developer defined maximum number of touch events.
         * By default this is set to 10 but this can be set to be lower.
-        * @property _maxTouchEvents
+        * @property _maxPointers
         * @type number
         * @default 10
         * @private
@@ -692,6 +694,7 @@ module Kiwi.Input {
         /**
         * Sets the maximum number of point of contact that are allowed on the game stage at one point.
         * The maximum number of points that are allowed is 10, and the minimum is 0.
+        * @property maximumPointers
         * @type number
         * @public
         */
@@ -752,26 +755,33 @@ module Kiwi.Input {
         * @private
         */
         private _deregisterFinger(event, id) {
+
+            var finger = null;
             for (var f = 0; f &lt; this._fingers.length; f++) {
                 if (this._fingers[f].active &amp;&amp; this._fingers[f].id === id) {
                     this._fingers[f].stop(event);
                     this.latestFinger = this._fingers[f];
-
-                    this.touchUp.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]);
-
+                    finger = this._fingers[f];
                     this.isDown = false;
                     this.isUp = true;
                     break;
                 }
             }
 
+
             //Loop through the fingers and check to see that none of them are down.
             for (var i = 0; i &lt; this._fingers.length; i++) {
-                if (this._fingers[i].active) {
+                if (this._fingers[i].active === true) {
                     this.isDown = true;
                     this.isUp = false;
                 }
             }
+
+            if (finger !== null) {
+                this.touchUp.dispatch(finger.x, finger.y, finger.timeDown, finger.timeUp, finger.duration, finger);
+            }
+
+            console.log(&#x27;Down?&#x27; + this.isDown);
         }
 
         

@@ -127,7 +127,7 @@ module Kiwi.Input {
             /*
             * Add the fingers/cursors to the list of 'pointers'
             */
-            this._pointers = this.touch.fingers;
+            this._pointers = this.touch.fingers.slice();
             this._pointers.push(this.mouse.cursor);
 
 

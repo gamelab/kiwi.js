@@ -78,6 +78,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Kiwi.PluginManager",
         "Kiwi.Renderers.CanvasRenderer",
         "Kiwi.Renderers.GLArrayBuffer",
+        "Kiwi.Renderers.GLBlendMode",
         "Kiwi.Renderers.GLElementArrayBuffer",
         "Kiwi.Renderers.GLRenderManager",
         "Kiwi.Renderers.GLTextureManager",

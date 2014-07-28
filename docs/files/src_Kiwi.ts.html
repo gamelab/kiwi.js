@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\Kiwi.ts - Kiwi.js</title>
+    <title>src/Kiwi.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.1</em>
+            <em>API Docs for: 1.1.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -195,6 +195,8 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLBlendMode.html">Kiwi.Renderers.GLBlendMode</a></li>
+            
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
                 <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
@@ -344,7 +346,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\Kiwi.ts</h1>
+                        <h1 class="file-heading">File: src/Kiwi.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -414,6 +416,7 @@
 /// &lt;reference path=&quot;render/GLTextureWrapper.ts&quot; /&gt;
 /// &lt;reference path=&quot;render/GLTextureManager.ts&quot; /&gt;
 /// &lt;reference path=&quot;render/GLArrayBuffer.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/GLBlendMode.ts&quot; /&gt;
 /// &lt;reference path=&quot;render/GLElementArrayBuffer.ts&quot; /&gt;
 /// &lt;reference path=&quot;render/renderers/Renderer.ts&quot; /&gt;
 /// &lt;reference path=&quot;render/renderers/TextureAtlasRenderer.ts&quot; /&gt;
@@ -495,7 +498,7 @@ module Kiwi {
     * @type string
     * @public
     */
-    export var VERSION: string = &quot;1.0.1&quot;;
+    export var VERSION: string = &quot;1.1.0&quot;;
     
     //DIFFERENT RENDERER STATIC VARIABLES
     /**
@@ -517,6 +520,17 @@ module Kiwi {
     * @public
     */
     export var RENDERER_WEBGL: number = 1;
+
+    /**
+    * A Static property that contains the number associated with RENDERER AUTODETECTION
+    * @property RENDERER_AUTO
+    * @static
+    * @type number
+    * @default 2
+    * @public
+    * @since 1.1.0
+    */
+    export var RENDERER_AUTO: number = 2;
     
     // DEVICE TARGET STATIC VARIABLES
     /**

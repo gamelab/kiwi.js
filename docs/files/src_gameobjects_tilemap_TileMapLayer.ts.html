@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\gameobjects\tilemap\TileMapLayer.ts - Kiwi.js</title>
+    <title>src/gameobjects/tilemap/TileMapLayer.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.1</em>
+            <em>API Docs for: 1.1.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -195,6 +195,8 @@
             
                 <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
             
+                <li><a href="../classes/Kiwi.Renderers.GLBlendMode.html">Kiwi.Renderers.GLBlendMode</a></li>
+            
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
             
                 <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
@@ -344,7 +346,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\gameobjects\tilemap\TileMapLayer.ts</h1>
+                        <h1 class="file-heading">File: src/gameobjects/tilemap/TileMapLayer.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -396,6 +398,11 @@ module Kiwi.GameObjects.Tilemap {
             this.tileHeight = th;
             this.width = w;
             this.height = h;
+
+            this._corner1 = new Kiwi.Geom.Point(0,0);
+            this._corner2 = new Kiwi.Geom.Point(0,0);
+            this._corner3 = new Kiwi.Geom.Point(0,0);
+            this._corner4 = new Kiwi.Geom.Point(0,0);
 
             this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, null));
             this.physics.immovable = true;
@@ -504,6 +511,33 @@ module Kiwi.GameObjects.Tilemap {
         */
         public get heightInPixels(): number {
             return this.height * this.tilemap.tileHeight;
+        }
+
+        /**
+        * Override function to prevent unwanted inherited behaviour. Do not call.
+        *
+        * Because TileMapLayer extends Entity, it has a cellIndex parameter. However, it does not use a single atlas index, so this parameter is meaningless. It has deliberately been set to do nothing.
+        * @property cellIndex
+        * @type number
+        * @public
+        * @deprecated Not functional on this object.
+        * @since 1.1.0
+        */
+        public get cellIndex():number {
+            return null;
+        }
+        public set cellIndex( val: number ) {}
+
+        // Methods altered because TileMapLayer has its own width and height properties:
+        public scaleToWidth(value: number) {
+            this.scale = value / this.widthInPixels;
+        }
+        public scaleToHeight(value: number) {
+            this.scale = value / this.heightInPixels;
+        }
+        public centerAnchorPoint() {
+            this.anchorPointX = this.widthInPixels * 0.5;
+            this.anchorPointY = this.heightInPixels * 0.5;
         }
 
         /**
@@ -974,6 +1008,39 @@ module Kiwi.GameObjects.Tilemap {
         private _temptype: TileType;
 
         /**
+        * Corner values used internally.
+        * @property corner1
+        * @type {Kiwi.Geom.Point}
+        * @private
+        * @since 1.1.0
+        */
+        private _corner1: Kiwi.Geom.Point;
+        /**
+        * Corner values used internally.
+        * @property corner2
+        * @type {Kiwi.Geom.Point}
+        * @private
+        * @since 1.1.0
+        */
+        private _corner2: Kiwi.Geom.Point;
+        /**
+        * Corner values used internally.
+        * @property corner3
+        * @type {Kiwi.Geom.Point}
+        * @private
+        * @since 1.1.0
+        */
+        private _corner3: Kiwi.Geom.Point;
+        /**
+        * Corner values used internally.
+        * @property corner4
+        * @type {Kiwi.Geom.Point}
+        * @private
+        * @since 1.1.0
+        */
+        private _corner4: Kiwi.Geom.Point;
+
+        /**
         * Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen. 
         * All coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).
         *
@@ -986,29 +1053,44 @@ module Kiwi.GameObjects.Tilemap {
 
             //If we are calculating the coordinates for &#x27;regular&#x27; then we can do that rather easy
             if (this.orientation == ORTHOGONAL) {
-                // Translation Stuff
-                var sx = 1 / this.scaleX;
-                var sy = 1 / this.scaleY;
-
-                // Work out how many tiles we can fit into our camera and round it up for the edges
-                this._maxX = Math.min(Math.ceil(camera.width / this.tileWidth) + 1, this.width) * sx;
-                this._maxY = Math.min(Math.ceil(camera.height / this.tileHeight) + 1, this.height) * sy;
-
-                // And now work out where in the tilemap the camera actually is
-                this._startX = Math.floor((-camera.transform.x - this.transform.worldX) / this.tileWidth * sx);
-                this._startY = Math.floor((-camera.transform.y - this.transform.worldY) / this.tileHeight * sy);
-
-                // Boundaries check for the start 
-                if (this._startX &lt; 0) this._startX = 0;
-                if (this._startY &lt; 0) this._startY = 0;
-
-                // Check for the Maximum
-                if (this._maxX &gt; this.width) this._maxX = this.width;
-                if (this._maxY &gt; this.height) this._maxY = this.height;
-
-                // Width/Height
-                if (this._startX + this._maxX &gt; this.width) this._maxX = this.width - this._startX;
-                if (this._startY + this._maxY &gt; this.height) this._maxY = this.height - this._startY;
+                // Account for camera and object transformation
+                // Initialise corners...
+                this._corner1.setTo(0, 0);
+                this._corner2.setTo(this.game.stage.width, 0);
+                this._corner3.setTo(this.game.stage.width, this.game.stage.height);
+                this._corner4.setTo(0, this.game.stage.height);
+                // Transform corners by camera...
+                this._corner1 = camera.transformPoint(this._corner1);
+                this._corner2 = camera.transformPoint(this._corner2);
+                this._corner3 = camera.transformPoint(this._corner3);
+                this._corner4 = camera.transformPoint(this._corner4);
+                // Transform corners by object...
+                var m = matrix.clone();
+                m.invert();
+                this._corner1 = m.transformPoint(this._corner1);
+                this._corner2 = m.transformPoint(this._corner2);
+                this._corner3 = m.transformPoint(this._corner3);
+                this._corner4 = m.transformPoint(this._corner4);
+                // Find min/max values in X and Y...
+                this._startX = Math.min(this._corner1.x, this._corner2.x, this._corner3.x, this._corner4.x);
+                this._startY = Math.min(this._corner1.y, this._corner2.y, this._corner3.y, this._corner4.y);
+                this._maxX = Math.max(this._corner1.x, this._corner2.x, this._corner3.x, this._corner4.x);
+                this._maxY = Math.max(this._corner1.y, this._corner2.y, this._corner3.y, this._corner4.y);
+                // Convert to tile units...
+                this._startX /= this.tileWidth;
+                this._startY /= this.tileHeight;
+                this._maxX /= this.tileWidth;
+                this._maxY /= this.tileHeight;
+                // Truncate units...
+                this._startX = Math.floor(this._startX);
+                this._startY = Math.floor(this._startY);
+                this._maxX = Math.ceil(this._maxX);
+                this._maxY = Math.ceil(this._maxY);
+                // Clamp values to tilemap range...
+                this._startX = Kiwi.Utils.GameMath.clamp(this._startX, this.width);
+                this._startY = Kiwi.Utils.GameMath.clamp(this._startY, this.height);
+                this._maxX = Kiwi.Utils.GameMath.clamp(this._maxX, this.width);
+                this._maxY = Kiwi.Utils.GameMath.clamp(this._maxY, this.height);
 
                 return;
             } 
@@ -1087,8 +1169,8 @@ module Kiwi.GameObjects.Tilemap {
 
             this._calculateBoundaries(camera, m);
             
-            for (var y = this._startY; y &lt; this._startY + this._maxY; y++) {
-                for (var x = this._startX; x &lt; this._startX + this._maxX; x++) {
+            for (var y = this._startY; y &lt; this._maxY; y++) {
+                for (var x = this._startX; x &lt; this._maxX; x++) {
 
                     if ( (this._temptype = this.getTileFromXY(x, y)) &amp;&amp; this._temptype.cellIndex !== -1 ) {
 
@@ -1165,12 +1247,12 @@ module Kiwi.GameObjects.Tilemap {
             var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix(); 
 
 
-            //Find which ones we need to render. Needs to be updated for Rotation.
+            //Find which ones we need to render.
             this._calculateBoundaries(camera, m);
 
             //Loop through the tiles.
-            for (var y = this._startY; y &lt; this._startY + this._maxY; y++) {
-                for (var x = this._startX; x &lt; this._startX + this._maxX; x++) {
+            for (var y = this._startY; y &lt; this._maxY; y++) {
+                for (var x = this._startX; x &lt; this._maxX; x++) {
                     
 
                     //Get the tile type
