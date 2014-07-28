@@ -13204,7 +13204,21 @@
         },
         {
             "file": "src/core/Game.ts",
-            "line": 485,
+            "line": 484,
+            "description": "The number of ideal frames since the game was launched.\n\nUse this to drive cyclic animations. This will be smoother than using the frame parameter. It is derived from the total time elapsed since the game launched.",
+            "itemtype": "property",
+            "name": "idealFrame",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Game",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Game.ts",
+            "line": 498,
             "description": "The current frameRate that the update/render loops are running at. Note that this may not be an  accurate representation.",
             "itemtype": "property",
             "name": "frameRate",
@@ -13219,7 +13233,7 @@
         },
         {
             "file": "src/core/Game.ts",
-            "line": 503,
+            "line": 516,
             "description": "The start method gets executed when the game is ready to be booted, and handles the start-up of the managers.\nOnce the managers have started up the start loop will then begin to create the game loop.",
             "itemtype": "method",
             "name": "start",
@@ -13231,7 +13245,7 @@
         },
         {
             "file": "src/core/Game.ts",
-            "line": 544,
+            "line": 557,
             "description": "The game loop.",
             "itemtype": "method",
             "name": "_loop",
@@ -16241,7 +16255,7 @@
         {
             "file": "src/core/Stage.ts",
             "line": 362,
-            "description": "Sets the background color of the stage via a hex value. \nThe hex colour code should not contain a hashtag '#'.",
+            "description": "Sets the background color of the stage via a hex value.\n\nThe hex colour code should not contain a hashtag '#'.\n\nThe hex value can optionally contain an alpha term, which defaults to full (\"ff\", \"255\" or \"1.0\" depending on context). For example, both \"ff0000\" and \"ff0000ff\" will evaluate to an opaque red.",
             "itemtype": "property",
             "name": "color",
             "type": "string",
@@ -16253,8 +16267,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 386,
-            "description": "Allows the setting of the background color of the stage through component RGB colour values. \nThis property is an Object Literal with 'r', 'g', 'b' colour streams of values between 0 and 255.",
+            "line": 403,
+            "description": "Allows the setting of the background color of the stage through component RGB colour values.\n\nThis property is an Object Literal with 'r', 'g', 'b' colour streams of values between 0 and 255.",
             "itemtype": "property",
             "name": "rgbColor",
             "type": "Object",
@@ -16266,7 +16280,21 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 402,
+            "line": 420,
+            "description": "Allows the setting of the background color of the stage through component RGBA colour values.\n\nThis property is an Object Literal with 'r', 'g', 'b', 'a' colour streams of values between 0 and 255.\n\nNote that the alpha value is from 0-255, not 0-1. This is to preserve compatibility with hex-style color values, e.g. \"ff0000ff\".",
+            "itemtype": "property",
+            "name": "rgbaColor",
+            "type": "Object",
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Stage",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Stage.ts",
+            "line": 441,
             "description": "Stores the normalized background color of the stage as a RGBA values between 0 and 1.",
             "itemtype": "property",
             "name": "_normalizedColor",
@@ -16279,7 +16307,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 410,
+            "line": 449,
             "description": "Get the normalized background color of the stage. Returns a object with rgba values, each being between 0 and 1.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "normalizedColor",
@@ -16292,7 +16320,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 421,
+            "line": 460,
             "description": "The webgl rendering context.",
             "itemtype": "property",
             "name": "gl",
@@ -16305,7 +16333,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 430,
+            "line": 469,
             "description": "The canvas rendering context.",
             "itemtype": "property",
             "name": "ctx",
@@ -16318,7 +16346,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 439,
+            "line": 478,
             "description": "The canvas element that is being rendered on.",
             "itemtype": "property",
             "name": "canvas",
@@ -16331,7 +16359,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 448,
+            "line": 487,
             "description": "The debugging canvas.",
             "itemtype": "property",
             "name": "debugCanvas",
@@ -16344,7 +16372,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 457,
+            "line": 496,
             "description": "The debug canvas rendering context.",
             "itemtype": "property",
             "name": "dctx",
@@ -16357,7 +16385,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 466,
+            "line": 505,
             "description": "The parent div in which the layers and input live",
             "itemtype": "property",
             "name": "container",
@@ -16370,7 +16398,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 475,
+            "line": 514,
             "description": "Stores the renderer created after context detection.",
             "itemtype": "property",
             "name": "_renderer",
@@ -16384,7 +16412,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 484,
+            "line": 523,
             "description": "Get the renderer associated with the canvas context. This is either a GLRenderManager or a CanvasRenderer. If the Kiwi.RENDERER_WEBGL renderer was requested but could not be created, it will fall back to CanvasRenderer.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "renderer",
@@ -16398,7 +16426,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 497,
+            "line": 536,
             "description": "Is executed when the DOM has loaded and the game is just starting. \nThis is a internal method used by the core of Kiwi itself.",
             "itemtype": "method",
             "name": "boot",
@@ -16417,7 +16445,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 530,
+            "line": 569,
             "description": "Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser\nBased on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js",
             "itemtype": "method",
             "name": "getOffsetPoint",
@@ -16445,7 +16473,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 552,
+            "line": 591,
             "description": "Method that is fired when the window is resized.",
             "itemtype": "method",
             "name": "_windowResized",
@@ -16464,7 +16492,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 565,
+            "line": 604,
             "description": "Used to calculate the new offset and the scale of the stage currently is at.",
             "itemtype": "method",
             "name": "_calculateContainerScale",
@@ -16476,7 +16504,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 579,
+            "line": 618,
             "description": "Handles the creation of the canvas that the game will use and retrieves the context for the renderer.",
             "itemtype": "method",
             "name": "_createComponsiteCanvas",
@@ -16488,7 +16516,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 650,
+            "line": 689,
             "description": "Set the stage width and height for rendering purposes.\nThis will not effect that 'scaleType' that it has been set to.",
             "itemtype": "method",
             "name": "resize",
@@ -16512,7 +16540,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 674,
+            "line": 713,
             "description": "Sets the background color of the stage through component RGB colour values. \nEach parameter pass is a number between 0 and 255. This method also returns a Object Literal with 'r', 'g', 'b' properties.",
             "itemtype": "method",
             "name": "setRGBColor",
@@ -16545,7 +16573,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 691,
+            "line": 730,
             "description": "Converts a component colour value into its hex equivalent. Used when setting rgb colour values.",
             "itemtype": "method",
             "name": "componentToHex",
@@ -16568,7 +16596,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 705,
+            "line": 744,
             "description": "Creates a debug canvas and adds it above the regular game canvas.\nThe debug canvas is not created by default (even with debugging on) and rendering/clearing of the canvas is upto the developer. \nThe context for rendering can be access via the 'dctx' property and you can use the 'clearDebugCanvas' method to clear the canvas.",
             "itemtype": "method",
             "name": "createDebugCanvas",
@@ -16580,7 +16608,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 739,
+            "line": 778,
             "description": "Clears the debug canvas and fills with either the color passed. \nIf not colour is passed then Red at 20% opacity is used.",
             "itemtype": "method",
             "name": "clearDebugCanvas",
@@ -16601,7 +16629,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 753,
+            "line": 792,
             "description": "Toggles the visibility of the debug canvas.",
             "itemtype": "method",
             "name": "toggleDebugCanvas",
@@ -16613,7 +16641,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 762,
+            "line": 801,
             "description": "Handles the scaling/sizing based upon the scaleType property.",
             "itemtype": "method",
             "name": "_scaleContainer",
@@ -37914,7 +37942,7 @@
             "line": 347,
             "description": "Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.",
             "itemtype": "method",
-            "name": "initState",
+            "name": "endState",
             "params": [
                 {
                     "name": "state",
@@ -37951,7 +37979,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 420,
+            "line": 427,
             "description": "Creates a new render sequence",
             "itemtype": "method",
             "name": "collateRenderSequence",
@@ -37964,7 +37992,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 431,
+            "line": 438,
             "description": "Adds a child to the render sequence (may be a group with children of it's own)",
             "itemtype": "method",
             "name": "collateChild",
@@ -37977,7 +38005,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 456,
+            "line": 463,
             "description": "Sorts the render sequence into batches. Each batch requires the same renderer/shader/texture combination.",
             "itemtype": "method",
             "name": "collateBatches",
@@ -37990,7 +38018,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 485,
+            "line": 492,
             "description": "Renders all the batches",
             "itemtype": "method",
             "name": "renderBatches",
@@ -38015,7 +38043,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 497,
+            "line": 504,
             "description": "Renders a single batch",
             "itemtype": "method",
             "name": "renderBatch",
@@ -38045,7 +38073,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 532,
+            "line": 539,
             "description": "Calls the render function on a single entity",
             "itemtype": "method",
             "name": "renderEntity",
@@ -38077,7 +38105,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 545,
+            "line": 552,
             "description": "Ensures the atlas and renderer needed for a batch is setup",
             "itemtype": "method",
             "name": "setupGLState",
@@ -38099,7 +38127,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 557,
+            "line": 564,
             "description": "Switch renderer to the one needed by the entity that needs rendering",
             "itemtype": "method",
             "name": "_switchRenderer",
@@ -38124,7 +38152,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 570,
+            "line": 577,
             "description": "Switch texture to the one needed by the entity that needs rendering",
             "itemtype": "method",
             "name": "_switchTexture",
@@ -38149,7 +38177,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 584,
+            "line": 591,
             "description": "Switch blend mode to a new set of constants",
             "itemtype": "method",
             "name": "_switchBlendMode",
@@ -42338,6 +42366,24 @@
         {
             "file": "src/time/ClockManager.ts",
             "line": 159,
+            "description": "Returns the elapsed time. Based on the master clock.",
+            "itemtype": "method",
+            "name": "elapsed",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Time.ClockManager",
+            "module": "Kiwi",
+            "submodule": "Time",
+            "namespace": "Kiwi.Time"
+        },
+        {
+            "file": "src/time/ClockManager.ts",
+            "line": 170,
             "description": "Returns the delta of the master clock.",
             "itemtype": "method",
             "name": "delta",
@@ -42354,7 +42400,7 @@
         },
         {
             "file": "src/time/ClockManager.ts",
-            "line": 171,
+            "line": 182,
             "description": "Sets the interval on the master clock.",
             "itemtype": "method",
             "name": "setMasterInterval",

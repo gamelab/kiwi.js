@@ -240,6 +240,16 @@ declare module Kiwi {
         */
         public frame : number;
         /**
+        * The number of ideal frames since the game was launched.
+        *
+        * Use this to drive cyclic animations. This will be smoother than using the frame parameter. It is derived from the total time elapsed since the game launched.
+        * @property idealFrame
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public idealFrame : number;
+        /**
         * The current frameRate that the update/render loops are running at. Note that this may not be an  accurate representation.
         * @property frameRate
         * @return string
@@ -514,7 +524,10 @@ declare module Kiwi {
         public _color: string;
         /**
         * Sets the background color of the stage via a hex value.
+        *
         * The hex colour code should not contain a hashtag '#'.
+        *
+        * The hex value can optionally contain an alpha term, which defaults to full ("ff", "255" or "1.0" depending on context). For example, both "ff0000" and "ff0000ff" will evaluate to an opaque red.
         *
         * @property color
         * @type string
@@ -523,6 +536,7 @@ declare module Kiwi {
         public color : string;
         /**
         * Allows the setting of the background color of the stage through component RGB colour values.
+        *
         * This property is an Object Literal with 'r', 'g', 'b' colour streams of values between 0 and 255.
         *
         * @property rgbColor
@@ -530,6 +544,19 @@ declare module Kiwi {
         * @public
         */
         public rgbColor : any;
+        /**
+        * Allows the setting of the background color of the stage through component RGBA colour values.
+        *
+        * This property is an Object Literal with 'r', 'g', 'b', 'a' colour streams of values between 0 and 255.
+        *
+        * Note that the alpha value is from 0-255, not 0-1. This is to preserve compatibility with hex-style color values, e.g. "ff0000ff".
+        *
+        * @property rgbaColor
+        * @type Object
+        * @public
+        * @since 1.1.0
+        */
+        public rgbaColor : any;
         /**
         * Stores the normalized background color of the stage as a RGBA values between 0 and 1.
         * @property _normalizedColor
@@ -9525,7 +9552,7 @@ declare module Kiwi.Renderers {
         public initState(state: State): void;
         /**
         * Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.
-        * @method initState
+        * @method endState
         * @param state {Kiwi.State}
         * @public
         */
@@ -18562,6 +18589,14 @@ declare module Kiwi.Time {
         * @public
         */
         public now(): number;
+        /**
+        * Returns the elapsed time. Based on the master clock.
+        * @method elapsed
+        * @return {Number}
+        * @public
+        * @since 1.1.0
+        */
+        public elapsed(): number;
         /**
         * Returns the delta of the master clock.
         * @method delta

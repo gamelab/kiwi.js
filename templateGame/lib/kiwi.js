@@ -420,6 +420,23 @@ var Kiwi;
             configurable: true
         });
 
+        Object.defineProperty(Game.prototype, "idealFrame", {
+            /**
+            * The number of ideal frames since the game was launched.
+            *
+            * Use this to drive cyclic animations. This will be smoother than using the frame parameter. It is derived from the total time elapsed since the game launched.
+            * @property idealFrame
+            * @type number
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return (this.time.elapsed() / (1000 / this._frameRate));
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         Object.defineProperty(Game.prototype, "frameRate", {
             /**
             * The current frameRate that the update/render loops are running at. Note that this may not be an  accurate representation.
@@ -757,7 +774,10 @@ var Kiwi;
         Object.defineProperty(Stage.prototype, "color", {
             /**
             * Sets the background color of the stage via a hex value.
+            *
             * The hex colour code should not contain a hashtag '#'.
+            *
+            * The hex value can optionally contain an alpha term, which defaults to full ("ff", "255" or "1.0" depending on context). For example, both "ff0000" and "ff0000ff" will evaluate to an opaque red.
             *
             * @property color
             * @type string
@@ -770,12 +790,25 @@ var Kiwi;
                 this._color = val;
                 var bigint = parseInt(val, 16);
 
-                var r = (bigint >> 16) & 255;
-                var g = (bigint >> 8) & 255;
-                var b = bigint & 255;
+                var r = 255;
+                var g = 255;
+                var b = 255;
+                var a = 255;
+
+                if (val.length == 6) {
+                    r = (bigint >> 16) & 255;
+                    g = (bigint >> 8) & 255;
+                    b = bigint & 255;
+                    a = 255;
+                } else if (val.length == 8) {
+                    r = (bigint >> 24) & 255;
+                    g = (bigint >> 16) & 255;
+                    b = (bigint >> 8) & 255;
+                    a = bigint & 255;
+                }
 
                 //Converts the colour to normalized values.
-                this._normalizedColor = { r: r / 255, g: g / 255, b: b / 255, a: 1 };
+                this._normalizedColor = { r: r / 255, g: g / 255, b: b / 255, a: a / 255 };
             },
             enumerable: true,
             configurable: true
@@ -785,6 +818,7 @@ var Kiwi;
         Object.defineProperty(Stage.prototype, "rgbColor", {
             /**
             * Allows the setting of the background color of the stage through component RGB colour values.
+            *
             * This property is an Object Literal with 'r', 'g', 'b' colour streams of values between 0 and 255.
             *
             * @property rgbColor
@@ -796,6 +830,31 @@ var Kiwi;
             },
             set: function (val) {
                 this.color = this.componentToHex(val.r) + this.componentToHex(val.g) + this.componentToHex(val.b);
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Stage.prototype, "rgbaColor", {
+            /**
+            * Allows the setting of the background color of the stage through component RGBA colour values.
+            *
+            * This property is an Object Literal with 'r', 'g', 'b', 'a' colour streams of values between 0 and 255.
+            *
+            * Note that the alpha value is from 0-255, not 0-1. This is to preserve compatibility with hex-style color values, e.g. "ff0000ff".
+            *
+            * @property rgbaColor
+            * @type Object
+            * @public
+            * @since 1.1.0
+            */
+            get: function () {
+                return { r: this._normalizedColor.r * 255, g: this._normalizedColor.g * 255, b: this._normalizedColor.b * 255, a: this._normalizedColor.a * 255 };
+            },
+            set: function (val) {
+                this.color = this.componentToHex(val.r) + this.componentToHex(val.g) + this.componentToHex(val.b) + this.componentToHex(val.a);
+                ;
             },
             enumerable: true,
             configurable: true
@@ -14523,7 +14582,13 @@ var Kiwi;
                 var root = this._game.states.current.members;
 
                 //clear
-                this._game.stage.ctx.fillStyle = '#' + this._game.stage.color;
+                var fillCol = this._game.stage.rgbaColor;
+
+                // If there is an alpha, clear the canvas before fill
+                if (fillCol.a < 255) {
+                    this._game.stage.ctx.clearRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
+                }
+                this._game.stage.ctx.fillStyle = "rgba(" + fillCol.r + "," + fillCol.g + "," + fillCol.b + "," + fillCol.a / 255 + ")";
                 this._game.stage.ctx.fillRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
 
                 // Stop drawing if there is nothing to draw
@@ -14838,7 +14903,7 @@ var Kiwi;
 
             /**
             * Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.
-            * @method initState
+            * @method endState
             * @param state {Kiwi.State}
             * @public
             */
@@ -14861,7 +14926,15 @@ var Kiwi;
 
                 //clear stage every frame
                 var col = this._game.stage.normalizedColor;
-                gl.clearColor(col.r, col.g, col.b, col.a);
+
+                // Colour must be multiplied by alpha to create consistent results.
+                // This is probably due to browsers implementing an inferior blendfunc:
+                // ONE, ONE_MINUS_SRC_ALPHA is most common, and gives bad results with alphas.
+                // When this is used on a partially transparent game canvas, it does not blend correctly.
+                // Without being able to override the browser's own object renderer, this is a necessary kludge.
+                // The "clean" solution is as follows:
+                // gl.clearColor(col.r, col.g, col.b, col.a);
+                gl.clearColor(col.r * col.a, col.g * col.a, col.b * col.a, col.a);
                 gl.clear(gl.COLOR_BUFFER_BIT);
 
                 // Stop drawing if there is nothing to draw
@@ -27815,6 +27888,17 @@ var Kiwi;
             */
             ClockManager.prototype.now = function () {
                 return this.master.now;
+            };
+
+            /**
+            * Returns the elapsed time. Based on the master clock.
+            * @method elapsed
+            * @return {Number}
+            * @public
+            * @since 1.1.0
+            */
+            ClockManager.prototype.elapsed = function () {
+                return this.master.elapsed();
             };
 
             /**

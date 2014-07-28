@@ -360,9 +360,12 @@ module Kiwi {
         public _color: string;
         
         /**
-        * Sets the background color of the stage via a hex value. 
+        * Sets the background color of the stage via a hex value.
+        *
         * The hex colour code should not contain a hashtag '#'.
-        * 
+        *
+        * The hex value can optionally contain an alpha term, which defaults to full ("ff", "255" or "1.0" depending on context). For example, both "ff0000" and "ff0000ff" will evaluate to an opaque red.
+        *
         * @property color
         * @type string
         * @public
@@ -375,17 +378,32 @@ module Kiwi {
             this._color = val;
             var bigint = parseInt(val, 16);
 
-            var r = (bigint >> 16) & 255;
-            var g = (bigint >> 8) & 255;
-            var b = bigint & 255;
+            var r = 255;
+            var g = 255;
+            var b = 255;
+            var a = 255;
+
+            if(val.length == 6) {
+                r = (bigint >> 16) & 255;
+                g = (bigint >> 8) & 255;
+                b = bigint & 255;
+                a = 255;
+            }
+            else if (val.length == 8) {
+                r = (bigint >> 24) & 255;
+                g = (bigint >> 16) & 255;
+                b = (bigint >> 8) & 255;
+                a = bigint & 255;
+            }
 
             //Converts the colour to normalized values.
-            this._normalizedColor = { r: r / 255, g: g / 255, b: b / 255, a: 1 };
+            this._normalizedColor = { r: r / 255, g: g / 255, b: b / 255, a: a / 255 };
         }
 
         /**
-        * Allows the setting of the background color of the stage through component RGB colour values. 
-        * This property is an Object Literal with 'r', 'g', 'b' colour streams of values between 0 and 255. 
+        * Allows the setting of the background color of the stage through component RGB colour values.
+        *
+        * This property is an Object Literal with 'r', 'g', 'b' colour streams of values between 0 and 255.
         *
         * @property rgbColor
         * @type Object
@@ -398,6 +416,27 @@ module Kiwi {
         public set rgbColor(val: any) {
             this.color = this.componentToHex(val.r) + this.componentToHex(val.g) + this.componentToHex(val.b);
         }
+
+        /**
+        * Allows the setting of the background color of the stage through component RGBA colour values.
+        *
+        * This property is an Object Literal with 'r', 'g', 'b', 'a' colour streams of values between 0 and 255.
+        * 
+        * Note that the alpha value is from 0-255, not 0-1. This is to preserve compatibility with hex-style color values, e.g. "ff0000ff".
+        *
+        * @property rgbaColor
+        * @type Object
+        * @public
+        * @since 1.1.0
+        */
+        public get rgbaColor():any {
+            return { r: this._normalizedColor.r * 255, g: this._normalizedColor.g * 255, b: this._normalizedColor.b * 255, a: this._normalizedColor.a * 255 };
+        }
+
+        public set rgbaColor(val: any) {
+            this.color = this.componentToHex(val.r) + this.componentToHex(val.g) + this.componentToHex(val.b) + this.componentToHex(val.a);;
+        }
+
 
         /**
         * Stores the normalized background color of the stage as a RGBA values between 0 and 1.

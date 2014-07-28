@@ -509,6 +509,17 @@ module Kiwi.Time {
         }
 
         /**
+        * Returns the elapsed time. Based on the master clock.
+        * @method elapsed
+        * @return {Number}
+        * @public
+        * @since 1.1.0
+        */
+        public elapsed(): number {
+            return this.master.elapsed();
+        }
+
+        /**
         * Returns the delta of the master clock.
         * @method delta
         * @return {Number}

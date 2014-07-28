@@ -346,7 +346,7 @@ module Kiwi.Renderers {
 
         /**
         * Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.
-        * @method initState
+        * @method endState
         * @param state {Kiwi.State}
         * @public
         */
@@ -371,7 +371,14 @@ module Kiwi.Renderers {
                
             //clear stage every frame
             var col = this._game.stage.normalizedColor;
-            gl.clearColor(col.r, col.g, col.b, col.a);
+            // Colour must be multiplied by alpha to create consistent results.
+            // This is probably due to browsers implementing an inferior blendfunc:
+            // ONE, ONE_MINUS_SRC_ALPHA is most common, and gives bad results with alphas.
+            // When this is used on a partially transparent game canvas, it does not blend correctly.
+            // Without being able to override the browser's own object renderer, this is a necessary kludge.
+            // The "clean" solution is as follows:
+            // gl.clearColor(col.r, col.g, col.b, col.a);
+            gl.clearColor(col.r * col.a, col.g * col.a, col.b * col.a, col.a);
             gl.clear(gl.COLOR_BUFFER_BIT);
             
             // Stop drawing if there is nothing to draw

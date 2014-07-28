@@ -833,6 +833,19 @@ module Kiwi {
             this._frame = Kiwi.Utils.GameMath.truncate( value );
         }
 
+        /**
+        * The number of ideal frames since the game was launched.
+        *
+        * Use this to drive cyclic animations. This will be smoother than using the frame parameter. It is derived from the total time elapsed since the game launched.
+        * @property idealFrame
+        * @type number
+        * @public
+        * @since 1.1.0
+        */
+        public get idealFrame(): number {
+            return (this.time.elapsed() / (1000 / this._frameRate) );
+        }
+
 
         /**
         * The current frameRate that the update/render loops are running at. Note that this may not be an  accurate representation.
