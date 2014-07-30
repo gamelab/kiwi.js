@@ -551,14 +551,7 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method public">
-                                <a href="#method_disable">disable</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_disable">disable</a>
+                                <a href="#method_clear">clear</a>
 
                                 
                                 
@@ -573,6 +566,13 @@
                         
                             <li class="index-item method public">
                                 <a href="#method_draw">draw</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_enable">enable</a>
 
                                 
                                 
@@ -617,6 +617,13 @@
                             </li>
                         
                             <li class="index-item property public">
+                                <a href="#property_isBatchRenderer">isBatchRenderer</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
                                 <a href="#property_loaded">loaded</a>
 
                                 
@@ -640,14 +647,7 @@
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_texture2DVert">texture2DVert</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_texture2DVert">texture2DVert</a>
+                                <a href="#property_shaderPair">shaderPair</a>
 
                                 
                                 
@@ -667,8 +667,8 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_disable" class="method item public">
-    <h3 class="name"><code>disable</code></h3>
+                    <div id="method_clear" class="method item public">
+    <h3 class="name"><code>clear</code></h3>
 
     
         <div class="args">
@@ -717,7 +717,7 @@
             
         
         
-        <a href="../files/src_render_renderers_Renderer.ts.html#l64"><code>src&#x2F;render&#x2F;renderers&#x2F;Renderer.ts:64</code></a>
+        <a href="../files/src_render_renderers_Renderer.ts.html#l86"><code>src&#x2F;render&#x2F;renderers&#x2F;Renderer.ts:86</code></a>
         
         </p>
 
@@ -741,7 +741,7 @@
                 <li class="param">
                     
                         <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingCotext</span>
+                        <span class="type">WebGLRenderingContext</span>
                     
 
                     
@@ -853,119 +853,7 @@
                 <li class="param">
                     
                         <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingCotext</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[params=null]</code>
-                        <span class="type">Object</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_disable" class="method item public">
-    <h3 class="name"><code>disable</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>gl</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[params=null]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_renderers_Renderer.ts.html#l86"><code>src&#x2F;render&#x2F;renderers&#x2F;Renderer.ts:86</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Enables the renderer (for override)</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingCotext</span>
+                        <span class="type">WebGLRenderingContext</span>
                     
 
                     
@@ -1071,7 +959,119 @@
                 <li class="param">
                     
                         <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingCotext</span>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_enable" class="method item public">
+    <h3 class="name"><code>enable</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[params=null]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l64"><code>src&#x2F;render&#x2F;renderers&#x2F;Renderer.ts:64</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Enables the renderer (for override)</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[params=null]</code>
+                        <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
@@ -1167,7 +1167,7 @@
                 <li class="param">
                     
                         <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingCotext</span>
+                        <span class="type">WebGLRenderingContext</span>
                     
 
                     
@@ -1278,7 +1278,7 @@
                 <li class="param">
                     
                         <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingCotext</span>
+                        <span class="type">WebGLRenderingContext</span>
                     
 
                     
@@ -1408,6 +1408,53 @@
 
     <div class="description">
         <p>The camera matrix</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_isBatchRenderer" class="property item public">
+    <h3 class="name"><code>isBatchRenderer</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l145"><code>src&#x2F;render&#x2F;renderers&#x2F;Renderer.ts:145</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns whether this is a batch renderer.</p>
 
     </div>
 
@@ -1561,9 +1608,9 @@
 </div>
 
                 
-                    <div id="property_texture2DVert" class="property item public">
-    <h3 class="name"><code>texture2DVert</code></h3>
-    <span class="type">Array</span>
+                    <div id="property_shaderPair" class="property item public">
+    <h3 class="name"><code>shaderPair</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Shaders.ShaderPair.html" class="crosslink">Kiwi.Shaders.ShaderPair</a></span>
 
     
 
@@ -1597,53 +1644,6 @@
 
     <div class="description">
         <p>The shader pair used by the renderer</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_texture2DVert" class="property item public">
-    <h3 class="name"><code>texture2DVert</code></h3>
-    <span class="type">Array</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_renderers_Renderer.ts.html#l145"><code>src&#x2F;render&#x2F;renderers&#x2F;Renderer.ts:145</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns whether this is a batch renderer.</p>
 
     </div>
 

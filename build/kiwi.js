@@ -12552,6 +12552,46 @@ var Kiwi;
             });
 
             /**
+            * Creates a GLTextureWrapper to allow the atlas to communicate efficiently with the video card. This is mostly an internal method.
+            *
+            * If you are extending TextureAtlas to incorporate multiple textures, you will need to override this method.
+            * @method createGLTextureWrapper
+            * @param gl {WebGLRenderingContext} The rendering context.
+            * @param textureManager {Kiwi.Renderers.GLTextureManager} The texture manager.
+            * @public
+            * @since 1.1.0
+            */
+            TextureAtlas.prototype.createGLTextureWrapper = function (gl, textureManager) {
+                // Create a default texture wrapper
+                this.glTextureWrapper = new Kiwi.Renderers.GLTextureWrapper(gl, this);
+
+                // If this were a multi-texture atlas, we would reassign wrapper values here
+                // Register wrapper/s to texture manager
+                textureManager.registerTextureWrapper(gl, this.glTextureWrapper);
+            };
+
+            /**
+            * Sends the texture to the video card.
+            * @method enableGL
+            * @param gl {WebGLRenderingContext}
+            * @param renderer {Renderer}
+            * @param textureManager {GLTextureManager}
+            * @public
+            * @since 1.1.0
+            */
+            TextureAtlas.prototype.enableGL = function (gl, renderer, textureManager) {
+                // Set resolution uniforms
+                renderer.updateTextureSize(gl, new Float32Array([this.image.width, this.image.height]));
+
+                // Upload texture
+                textureManager.useTexture(gl, this.glTextureWrapper);
+
+                // If necessary, refresh the texture
+                if (this.dirty)
+                    this.refreshTextureGL(gl);
+            };
+
+            /**
             * Will reload the texture into video memory for WebGL rendering.
             *
             * @method refreshTextureGL
@@ -15133,10 +15173,7 @@ var Kiwi;
             */
             GLRenderManager.prototype._switchTexture = function (gl, entity) {
                 this._currentTextureAtlas = entity.atlas;
-                if (this._currentRenderer)
-                    this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
-                this._textureManager.useTexture(gl, entity.atlas.glTextureWrapper);
-                this._currentTextureAtlas.refreshTextureGL(gl);
+                entity.atlas.enableGL(gl, this._currentRenderer, this._textureManager);
             };
 
             /**
@@ -15340,7 +15377,7 @@ var Kiwi;
         * @class GLTextureWrapper
         * @constructor
         * @param gl {WebGLRenderingContext}
-        * @param [_image] {HTMLImageElement}
+        * @param atlas {Kiwi.Textures.TextureAtlas} The wrapper will default to wrapping atlas.image.
         * @return {Kiwi.Renderers.GLTextureWrapper}
         */
         var GLTextureWrapper = (function () {
@@ -15359,8 +15396,8 @@ var Kiwi;
                 */
                 this._uploaded = false;
                 this.textureAtlas = atlas;
-                this.image = atlas.image;
-                this._numBytes = this.image.width * this.image.height * 4;
+                this._image = atlas.image;
+                this._numBytes = this._image.width * this._image.height * 4;
                 this.createTexture(gl);
                 if (upload)
                     this.uploadTexture(gl);
@@ -15384,6 +15421,19 @@ var Kiwi;
             Object.defineProperty(GLTextureWrapper.prototype, "uploaded", {
                 get: function () {
                     return this._uploaded;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(GLTextureWrapper.prototype, "image", {
+                get: function () {
+                    return (this._image);
+                },
+                set: function (image) {
+                    this._image = image;
+                    this._numBytes = this._image.width * this._image.height * 4;
+                    this._uploaded = false;
                 },
                 enumerable: true,
                 configurable: true
@@ -15419,7 +15469,7 @@ var Kiwi;
                 } else {
                     gl.bindTexture(gl.TEXTURE_2D, this.texture);
                     gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, 0);
-                    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
+                    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this._image);
                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 
@@ -15444,8 +15494,8 @@ var Kiwi;
             * @public
             */
             GLTextureWrapper.prototype.refreshTexture = function (gl) {
-                this.numBytes = this.image.width * this.image.height * 4;
-                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
+                this.numBytes = this._image.width * this._image.height * 4;
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this._image);
             };
 
             /**
@@ -15566,21 +15616,34 @@ var Kiwi;
             GLTextureManager.prototype.uploadTextureLibrary = function (gl, textureLibrary) {
                 this._textureWrapperCache = new Array();
                 for (var tex in textureLibrary.textures) {
-                    this.uploadTexture(gl, textureLibrary.textures[tex]);
+                    // Tell the atlas to prepare its wrappers
+                    textureLibrary.textures[tex].createGLTextureWrapper(gl, this);
                 }
             };
 
+            /**
+            * Uploads a single texture to video memory
+            * @method uploadTexture
+            * @param gl {WebGLRenderingContext}
+            * @param textureAtlas {Kiwi.Textures.TextureAtlas}
+            * @public
+            */
             GLTextureManager.prototype.uploadTexture = function (gl, textureAtlas) {
-                //create a glTexture
-                var glTextureWrapper = new Renderers.GLTextureWrapper(gl, textureAtlas);
+                textureAtlas.createGLTextureWrapper(gl, this);
+            };
 
-                //store a refence to it
+            /**
+            * Adds a texture wrapper to the manager. This both adds the wrapper to the manager cache, and attempts to upload the attached texture to video memory.
+            * @method registerTextureWrapper
+            * @param gl {WebGLRenderingContext}
+            * @param glTextureWrapper {GLTextureWrapper}
+            * @public
+            * @since 1.1.0
+            */
+            GLTextureManager.prototype.registerTextureWrapper = function (gl, glTextureWrapper) {
                 this._addTextureToCache(glTextureWrapper);
 
-                //create reference on atlas to avoid lookups when switching
-                textureAtlas.glTextureWrapper = glTextureWrapper;
-
-                //only upload it if it fits
+                // Only upload it if it fits
                 if (!this._uploadTexture(gl, glTextureWrapper)) {
                     console.log("...skipped uploading texture due to allocated texture memory exceeded");
                 }
@@ -15608,11 +15671,14 @@ var Kiwi;
             * @method useTexture
             * @param gl {WebGLRenderingContext}
             * @param glTextureWrapper {GLTextureWrappery}
-            * @param textureSizeUniform {number}
+            * @param [textureUnit=0] {number} Optional parameter for multitexturing. You can have up to 32 textures available to a shader at one time, in the range 0-31. If you don't need multiple textures, this is perfectly safe to ignore.
             * @return boolean
             * @public
             */
-            GLTextureManager.prototype.useTexture = function (gl, glTextureWrapper) {
+            GLTextureManager.prototype.useTexture = function (gl, glTextureWrapper, textureUnit) {
+                if (typeof textureUnit === "undefined") { textureUnit = 0; }
+                textureUnit = Kiwi.Utils.GameMath.clamp(Kiwi.Utils.GameMath.truncate(textureUnit), 31); // Convert to integer in range 0-31.
+
                 if (!glTextureWrapper.created || !glTextureWrapper.uploaded) {
                     if (!this._uploadTexture(gl, glTextureWrapper)) {
                         this._freeSpace(gl, glTextureWrapper.numBytes);
@@ -15623,6 +15689,17 @@ var Kiwi;
 
                 //use texture
                 if (glTextureWrapper.created && glTextureWrapper.uploaded) {
+                    // Determine target texture unit
+                    // This could be determined as:
+                    //   var targetTextureUnit = "TEXTURE" + textureUnit;
+                    //   gl.activeTexture(gl[targetTextureUnit]);
+                    // But because the Khronos WebGL spec defines
+                    // the glenums of TEXTURE0-31 to be consecutive,
+                    // this should be safe and fast:
+                    var targetTextureUnit = gl.TEXTURE0 + textureUnit;
+                    gl.activeTexture(targetTextureUnit);
+
+                    // Bind texture to unit
                     gl.bindTexture(gl.TEXTURE_2D, glTextureWrapper.texture);
 
                     //gl.uniform2fv(textureSizeUniform, new Float32Array([glTextureWrapper.image.width, glTextureWrapper.image.height]));
@@ -15633,53 +15710,35 @@ var Kiwi;
             };
 
             /**
-            * Attemps to free space for to uplaod a texture.
-            * 1: Try and find texture that is same size to remove
-            * 2: Find next smallest to remove (not yet implemented)
-            * 3: Sequentially remove until there is room (not yet implemented)
+            * Attempts to free space in video memory.
+            *
+            * This removes textures sequentially, starting from the first cached texture. This may remove textures that are in use. These should automatically re-upload into the last position. After a few frames, this will push in-use textures to the safe end of the queue.
+            *
+            * If there are too many textures in use to fit in memory, they will all be cycled every frame, even if it would be more efficient to swap out one or two very large textures and preserve several smaller ones. This is an issue with this implementation and should be fixed.
+            *
+            * This behaviour was changed in v1.1.0. Previous versions used a different memory freeing algorithm.
             * @method _freeSpace
             * @param gl {WebGLRenderingContext}
             * @param numBytesToRemove {number}
             * @return boolean
-            * @public
+            * @private
             */
             GLTextureManager.prototype._freeSpace = function (gl, numBytesToRemove) {
-                // console.log("Attempting to free texture space");
-                var nextSmallest = 99999999999;
-                var nextSmalletIndex = -1;
+                // Sequential remover
+                var bytesRemoved = 0;
                 for (var i = 0; i < this._textureWrapperCache.length; i++) {
-                    var numTextureBytes = this._textureWrapperCache[i].numBytes;
-                    if (numTextureBytes === numBytesToRemove && this._textureWrapperCache[i].uploaded) {
-                        //  console.log("..found one same size");
+                    // Scrub uploaded textures
+                    if (this._textureWrapperCache[i].uploaded) {
+                        bytesRemoved += this._textureWrapperCache[i].numBytes;
                         this._deleteTexture(gl, i);
-                        return true;
-                    } else if (numTextureBytes > numBytesToRemove && numTextureBytes < nextSmallest) {
-                        nextSmallest = numTextureBytes;
-                        nextSmalletIndex = i;
                     }
+
+                    // Break on reaching or exceeding free target
+                    if (numBytesToRemove <= bytesRemoved)
+                        return true;
                 }
 
-                /*
-                //have we found a larger one to remove
-                if (nextSmalletIndex !== -1) {
-                this.removeTextureAt(gl,nextSmalletIndex);
-                return true;
-                } else {
-                //remove sequentially till there is enough space - is not optimal for space
-                var numBytesRemoved: number = 0;
-                var i = 0;
-                
-                do {
-                this.removeTextureAt(gl,i);
-                numBytesRemoved += this.textureWrapperCache[i].numBytes;
-                i++
-                } while (numBytesRemoved < numBytesToRemove);
-                return true;
-                
-                
-                }
-                */
-                return true;
+                return false;
             };
             GLTextureManager.DEFAULT_MAX_TEX_MEM_MB = 1024;
             return GLTextureManager;
@@ -16215,8 +16274,8 @@ var Kiwi;
                 this.loaded = false;
                 /**
                 * Returns whether this is a batch renderer.
-                * @property texture2DVert
-                * @type Array
+                * @property isBatchRenderer
+                * @type boolean
                 * @public
                 */
                 this._isBatchRenderer = false;
@@ -16227,8 +16286,8 @@ var Kiwi;
             }
             /**
             * Enables the renderer (for override)
-            * @method disable
-            * @param gl {WebGLRenderingCotext}
+            * @method enable
+            * @param gl {WebGLRenderingContext}
             * @param [params=null] {object}
             * @public
             */
@@ -16239,7 +16298,7 @@ var Kiwi;
             /**
             * Enables the renderer (for override)
             * @method disable
-            * @param gl {WebGLRenderingCotext}
+            * @param gl {WebGLRenderingContext}
             * @param [params=null] {object}
             * @public
             */
@@ -16248,8 +16307,8 @@ var Kiwi;
 
             /**
             * Enables the renderer (for override)
-            * @method disable
-            * @param gl {WebGLRenderingCotext}
+            * @method clear
+            * @param gl {WebGLRenderingContext}
             * @param [params=null] {object}
             * @public
             */
@@ -16259,7 +16318,7 @@ var Kiwi;
             /**
             * Draw to the draw or frame buffer (for override)
             * @method draw
-            * @param gl {WebGLRenderingCotext}
+            * @param gl {WebGLRenderingContext}
             * @public
             */
             Renderer.prototype.draw = function (gl) {
@@ -16268,7 +16327,7 @@ var Kiwi;
             /**
             * Updates the stage resolution uniforms (for override)
             * @method updateStageResolution
-            * @param gl {WebGLRenderingCotext}
+            * @param gl {WebGLRenderingContext}
             * @param res {Float32Array}
             * @public
             */
@@ -16278,7 +16337,7 @@ var Kiwi;
             /**
             * Updates the texture size uniforms (for override)
             * @method updateTextureSize
-            * @param gl {WebGLRenderingCotext}
+            * @param gl {WebGLRenderingContext}
             * @param size {Float32Array}
             * @public
             */
@@ -16359,7 +16418,7 @@ var Kiwi;
             /**
             * Enables the renderer ready for drawing
             * @method enable
-            * @param gl {WebGLRenderingCotext}
+            * @param gl {WebGLRenderingContext}
             * @param [params=null] {object}
             * @public
             */
@@ -16379,7 +16438,7 @@ var Kiwi;
             /**
             * Disables the renderer
             * @method disable
-            * @param gl {WebGLRenderingCotext}
+            * @param gl {WebGLRenderingContext}
             * @public
             */
             TextureAtlasRenderer.prototype.disable = function (gl) {
@@ -16390,7 +16449,7 @@ var Kiwi;
             /**
             * Clears the vertex buffer.
             * @method clear
-            * @param gl {WebGLRenderingCotext}
+            * @param gl {WebGLRenderingContext}
             * @public
             */
             TextureAtlasRenderer.prototype.clear = function (gl, params) {
@@ -16401,7 +16460,7 @@ var Kiwi;
             /**
             * Makes a draw call, this is where things actually get rendered to the draw buffer (or a framebuffer).
             * @method draw
-            * @param gl {WebGLRenderingCotext}
+            * @param gl {WebGLRenderingContext}
             * @public
             */
             TextureAtlasRenderer.prototype.draw = function (gl) {
@@ -16434,7 +16493,7 @@ var Kiwi;
             /**
             * Updates the stage resolution uniforms
             * @method updateStageResolution
-            * @param gl {WebGLRenderingCotext}
+            * @param gl {WebGLRenderingContext}
             * @param res {Float32Array}
             * @public
             */
@@ -16445,7 +16504,7 @@ var Kiwi;
             /**
             * Updates the texture size uniforms
             * @method updateTextureSize
-            * @param gl {WebGLRenderingCotext}
+            * @param gl {WebGLRenderingContext}
             * @param size {Float32Array}
             * @public
             */

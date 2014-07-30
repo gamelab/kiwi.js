@@ -8060,6 +8060,27 @@ declare module Kiwi.Textures {
         public type : number;
         public glTextureWrapper: Renderers.GLTextureWrapper;
         /**
+        * Creates a GLTextureWrapper to allow the atlas to communicate efficiently with the video card. This is mostly an internal method.
+        *
+        * If you are extending TextureAtlas to incorporate multiple textures, you will need to override this method.
+        * @method createGLTextureWrapper
+        * @param gl {WebGLRenderingContext} The rendering context.
+        * @param textureManager {Kiwi.Renderers.GLTextureManager} The texture manager.
+        * @public
+        * @since 1.1.0
+        */
+        public createGLTextureWrapper(gl: WebGLRenderingContext, textureManager: Renderers.GLTextureManager): void;
+        /**
+        * Sends the texture to the video card.
+        * @method enableGL
+        * @param gl {WebGLRenderingContext}
+        * @param renderer {Renderer}
+        * @param textureManager {GLTextureManager}
+        * @public
+        * @since 1.1.0
+        */
+        public enableGL(gl: WebGLRenderingContext, renderer: Renderers.Renderer, textureManager: Renderers.GLTextureManager): void;
+        /**
         * Will reload the texture into video memory for WebGL rendering.
         *
         * @method refreshTextureGL
@@ -9770,7 +9791,7 @@ declare module Kiwi.Renderers {
     * @class GLTextureWrapper
     * @constructor
     * @param gl {WebGLRenderingContext}
-    * @param [_image] {HTMLImageElement}
+    * @param atlas {Kiwi.Textures.TextureAtlas} The wrapper will default to wrapping atlas.image.
     * @return {Kiwi.Renderers.GLTextureWrapper}
     */
     class GLTextureWrapper {
@@ -9810,12 +9831,13 @@ declare module Kiwi.Renderers {
         */
         public texture: WebGLTexture;
         /**
-        *
+        * The image wrapped by this wrapper.
         * @property image
         * @type HTMLImageElement
         * @public
         */
-        public image: HTMLImageElement;
+        private _image;
+        public image : HTMLImageElement;
         /**
         * Creates a webgl texture object
         * @method createTexture
@@ -9940,7 +9962,23 @@ declare module Kiwi.Renderers {
         * @public
         */
         public uploadTextureLibrary(gl: WebGLRenderingContext, textureLibrary: Textures.TextureLibrary): void;
+        /**
+        * Uploads a single texture to video memory
+        * @method uploadTexture
+        * @param gl {WebGLRenderingContext}
+        * @param textureAtlas {Kiwi.Textures.TextureAtlas}
+        * @public
+        */
         public uploadTexture(gl: WebGLRenderingContext, textureAtlas: Textures.TextureAtlas): void;
+        /**
+        * Adds a texture wrapper to the manager. This both adds the wrapper to the manager cache, and attempts to upload the attached texture to video memory.
+        * @method registerTextureWrapper
+        * @param gl {WebGLRenderingContext}
+        * @param glTextureWrapper {GLTextureWrapper}
+        * @public
+        * @since 1.1.0
+        */
+        public registerTextureWrapper(gl: WebGLRenderingContext, glTextureWrapper: GLTextureWrapper): void;
         /**
         * Removes all textures from video memory and clears the wrapper cache
         * @method clearTextures
@@ -9953,21 +9991,24 @@ declare module Kiwi.Renderers {
         * @method useTexture
         * @param gl {WebGLRenderingContext}
         * @param glTextureWrapper {GLTextureWrappery}
-        * @param textureSizeUniform {number}
+        * @param [textureUnit=0] {number} Optional parameter for multitexturing. You can have up to 32 textures available to a shader at one time, in the range 0-31. If you don't need multiple textures, this is perfectly safe to ignore.
         * @return boolean
         * @public
         */
-        public useTexture(gl: WebGLRenderingContext, glTextureWrapper: GLTextureWrapper): boolean;
+        public useTexture(gl: WebGLRenderingContext, glTextureWrapper: GLTextureWrapper, textureUnit?: number): boolean;
         /**
-        * Attemps to free space for to uplaod a texture.
-        * 1: Try and find texture that is same size to remove
-        * 2: Find next smallest to remove (not yet implemented)
-        * 3: Sequentially remove until there is room (not yet implemented)
+        * Attempts to free space in video memory.
+        *
+        * This removes textures sequentially, starting from the first cached texture. This may remove textures that are in use. These should automatically re-upload into the last position. After a few frames, this will push in-use textures to the safe end of the queue.
+        *
+        * If there are too many textures in use to fit in memory, they will all be cycled every frame, even if it would be more efficient to swap out one or two very large textures and preserve several smaller ones. This is an issue with this implementation and should be fixed.
+        *
+        * This behaviour was changed in v1.1.0. Previous versions used a different memory freeing algorithm.
         * @method _freeSpace
         * @param gl {WebGLRenderingContext}
         * @param numBytesToRemove {number}
         * @return boolean
-        * @public
+        * @private
         */
         private _freeSpace(gl, numBytesToRemove);
     }
@@ -10370,8 +10411,8 @@ declare module Kiwi.Renderers {
         public shaderManager: Shaders.ShaderManager;
         /**
         * Enables the renderer (for override)
-        * @method disable
-        * @param gl {WebGLRenderingCotext}
+        * @method enable
+        * @param gl {WebGLRenderingContext}
         * @param [params=null] {object}
         * @public
         */
@@ -10379,15 +10420,15 @@ declare module Kiwi.Renderers {
         /**
         * Enables the renderer (for override)
         * @method disable
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @param [params=null] {object}
         * @public
         */
         public disable(gl: WebGLRenderingContext): void;
         /**
         * Enables the renderer (for override)
-        * @method disable
-        * @param gl {WebGLRenderingCotext}
+        * @method clear
+        * @param gl {WebGLRenderingContext}
         * @param [params=null] {object}
         * @public
         */
@@ -10395,14 +10436,14 @@ declare module Kiwi.Renderers {
         /**
         * Draw to the draw or frame buffer (for override)
         * @method draw
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @public
         */
         public draw(gl: WebGLRenderingContext): void;
         /**
         * Updates the stage resolution uniforms (for override)
         * @method updateStageResolution
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @param res {Float32Array}
         * @public
         */
@@ -10410,15 +10451,15 @@ declare module Kiwi.Renderers {
         /**
         * Updates the texture size uniforms (for override)
         * @method updateTextureSize
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @param size {Float32Array}
         * @public
         */
         public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array): void;
         /**
         * The shader pair used by the renderer
-        * @property texture2DVert
-        * @type Array
+        * @property shaderPair
+        * @type {Kiwi.Shaders.ShaderPair}
         * @public
         */
         public shaderPair: Shaders.ShaderPair;
@@ -10432,8 +10473,8 @@ declare module Kiwi.Renderers {
         public blendMode: GLBlendMode;
         /**
         * Returns whether this is a batch renderer.
-        * @property texture2DVert
-        * @type Array
+        * @property isBatchRenderer
+        * @type boolean
         * @public
         */
         private _isBatchRenderer;
@@ -10506,7 +10547,7 @@ declare module Kiwi.Renderers {
         /**
         * Enables the renderer ready for drawing
         * @method enable
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @param [params=null] {object}
         * @public
         */
@@ -10514,21 +10555,21 @@ declare module Kiwi.Renderers {
         /**
         * Disables the renderer
         * @method disable
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @public
         */
         public disable(gl: WebGLRenderingContext): void;
         /**
         * Clears the vertex buffer.
         * @method clear
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @public
         */
         public clear(gl: WebGLRenderingContext, params: any): void;
         /**
         * Makes a draw call, this is where things actually get rendered to the draw buffer (or a framebuffer).
         * @method draw
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @public
         */
         public draw(gl: WebGLRenderingContext): void;
@@ -10542,7 +10583,7 @@ declare module Kiwi.Renderers {
         /**
         * Updates the stage resolution uniforms
         * @method updateStageResolution
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @param res {Float32Array}
         * @public
         */
@@ -10550,7 +10591,7 @@ declare module Kiwi.Renderers {
         /**
         * Updates the texture size uniforms
         * @method updateTextureSize
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @param size {Float32Array}
         * @public
         */

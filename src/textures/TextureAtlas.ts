@@ -145,6 +145,45 @@ module Kiwi.Textures {
         public glTextureWrapper: Kiwi.Renderers.GLTextureWrapper;
 
         /**
+        * Creates a GLTextureWrapper to allow the atlas to communicate efficiently with the video card. This is mostly an internal method.
+        *
+        * If you are extending TextureAtlas to incorporate multiple textures, you will need to override this method.
+        * @method createGLTextureWrapper
+        * @param gl {WebGLRenderingContext} The rendering context.
+        * @param textureManager {Kiwi.Renderers.GLTextureManager} The texture manager.
+        * @public
+        * @since 1.1.0
+        */
+        public createGLTextureWrapper( gl: WebGLRenderingContext, textureManager: Kiwi.Renderers.GLTextureManager ) {
+            // Create a default texture wrapper
+            this.glTextureWrapper = new Kiwi.Renderers.GLTextureWrapper(gl, this);
+            // If this were a multi-texture atlas, we would reassign wrapper values here
+
+            // Register wrapper/s to texture manager
+            textureManager.registerTextureWrapper( gl, this.glTextureWrapper );
+        }
+
+
+        /**
+        * Sends the texture to the video card.
+        * @method enableGL
+        * @param gl {WebGLRenderingContext}
+        * @param renderer {Renderer}
+        * @param textureManager {GLTextureManager}
+        * @public
+        * @since 1.1.0
+        */
+        public enableGL( gl: WebGLRenderingContext, renderer: Kiwi.Renderers.Renderer, textureManager: Kiwi.Renderers.GLTextureManager ) {
+            // Set resolution uniforms
+            renderer.updateTextureSize(gl, new Float32Array([this.image.width, this.image.height]));
+            // Upload texture
+            textureManager.useTexture(gl, this.glTextureWrapper);
+            // If necessary, refresh the texture
+            if(this.dirty)
+                this.refreshTextureGL( gl );
+        }
+
+        /**
         * Will reload the texture into video memory for WebGL rendering.
         * 
         * @method refreshTextureGL

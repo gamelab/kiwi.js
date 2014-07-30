@@ -488,7 +488,7 @@
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method private">
                                 <a href="#method__freeSpace">_freeSpace</a>
 
                                 
@@ -504,6 +504,20 @@
                         
                             <li class="index-item method public">
                                 <a href="#method_clearTextures">clearTextures</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_registerTextureWrapper">registerTextureWrapper</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_uploadTexture">uploadTexture</a>
 
                                 
                                 
@@ -792,7 +806,7 @@
 </div>
 
                 
-                    <div id="method__freeSpace" class="method item public">
+                    <div id="method__freeSpace" class="method item private">
     <h3 class="name"><code>_freeSpace</code></h3>
 
     
@@ -824,7 +838,7 @@
     
 
     
-        <span class="flag public">public</span>
+        <span class="flag private">private</span>
     
 
     
@@ -846,7 +860,7 @@
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l208"><code>src&#x2F;render&#x2F;GLTextureManager.ts:208</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l230"><code>src&#x2F;render&#x2F;GLTextureManager.ts:230</code></a>
         
         </p>
 
@@ -857,10 +871,10 @@
     </div>
 
     <div class="description">
-        <p>Attemps to free space for to uplaod a texture.
-1: Try and find texture that is same size to remove
-2: Find next smallest to remove (not yet implemented)
-3: Sequentially remove until there is room (not yet implemented)</p>
+        <p>Attempts to free space in video memory.</p>
+<p>This removes textures sequentially, starting from the first cached texture. This may remove textures that are in use. These should automatically re-upload into the last position. After a few frames, this will push in-use textures to the safe end of the queue.</p>
+<p>If there are too many textures in use to fit in memory, they will all be cycled every frame, even if it would be more efficient to swap out one or two very large textures and preserve several smaller ones. This is an issue with this implementation and should be fixed.</p>
+<p>This behaviour was changed in v1.1.0. Previous versions used a different memory freeing algorithm.</p>
 
     </div>
 
@@ -1093,7 +1107,7 @@
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l159"><code>src&#x2F;render&#x2F;GLTextureManager.ts:159</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l171"><code>src&#x2F;render&#x2F;GLTextureManager.ts:171</code></a>
         
         </p>
 
@@ -1118,6 +1132,230 @@
                     
                         <code class="param-name">gl</code>
                         <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_registerTextureWrapper" class="method item public">
+    <h3 class="name"><code>registerTextureWrapper</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>glTextureWrapper</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureManager.ts.html#l155"><code>src&#x2F;render&#x2F;GLTextureManager.ts:155</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Adds a texture wrapper to the manager. This both adds the wrapper to the manager cache, and attempts to upload the attached texture to video memory.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">glTextureWrapper</code>
+                        <span class="type">GLTextureWrapper</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_uploadTexture" class="method item public">
+    <h3 class="name"><code>uploadTexture</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>textureAtlas</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureManager.ts.html#l144"><code>src&#x2F;render&#x2F;GLTextureManager.ts:144</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Uploads a single texture to video memory</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">textureAtlas</code>
+                        <span class="type"><a href="../classes/Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
                     
 
                     
@@ -1271,7 +1509,7 @@
             
                 <li class="arg">
                     
-                        <code>textureSizeUniform</code>
+                        <code class="optional">[textureUnit=0]</code>
                     
                 </li>
             
@@ -1310,7 +1548,7 @@
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l177"><code>src&#x2F;render&#x2F;GLTextureManager.ts:177</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l189"><code>src&#x2F;render&#x2F;GLTextureManager.ts:189</code></a>
         
         </p>
 
@@ -1363,14 +1601,16 @@
             
                 <li class="param">
                     
-                        <code class="param-name">textureSizeUniform</code>
+                        <code class="param-name optional">[textureUnit=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>Optional parameter for multitexturing. You can have up to 32 textures available to a shader at one time, in the range 0-31. If you don&#39;t need multiple textures, this is perfectly safe to ignore.</p>
+
                     </div>
 
                     

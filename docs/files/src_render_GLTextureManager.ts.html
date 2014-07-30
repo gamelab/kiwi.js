@@ -488,21 +488,33 @@ module Kiwi.Renderers {
         public uploadTextureLibrary(gl: WebGLRenderingContext, textureLibrary: Kiwi.Textures.TextureLibrary) {
             this._textureWrapperCache = new Array();
             for (var tex in textureLibrary.textures) {
-                this.uploadTexture(gl, textureLibrary.textures[tex]);
-
+                // Tell the atlas to prepare its wrappers
+                textureLibrary.textures[tex].createGLTextureWrapper( gl, this );
             }
         }
 
-
+        /**
+        * Uploads a single texture to video memory
+        * @method uploadTexture
+        * @param gl {WebGLRenderingContext}
+        * @param textureAtlas {Kiwi.Textures.TextureAtlas}
+        * @public
+        */
         public uploadTexture(gl: WebGLRenderingContext, textureAtlas: Kiwi.Textures.TextureAtlas) {
-            //create a glTexture
-            var glTextureWrapper = new GLTextureWrapper(gl, textureAtlas );
-            //store a refence to it
-            this._addTextureToCache(glTextureWrapper);
-            //create reference on atlas to avoid lookups when switching
-            textureAtlas.glTextureWrapper = glTextureWrapper;
+            textureAtlas.createGLTextureWrapper( gl, this );
+        }
 
-            //only upload it if it fits
+        /**
+        * Adds a texture wrapper to the manager. This both adds the wrapper to the manager cache, and attempts to upload the attached texture to video memory.
+        * @method registerTextureWrapper
+        * @param gl {WebGLRenderingContext}
+        * @param glTextureWrapper {GLTextureWrapper}
+        * @public
+        * @since 1.1.0
+        */
+        public registerTextureWrapper( gl: WebGLRenderingContext, glTextureWrapper: GLTextureWrapper ) {
+            this._addTextureToCache( glTextureWrapper );
+            // Only upload it if it fits
             if (!this._uploadTexture(gl, glTextureWrapper)) {
                 console.log(&quot;...skipped uploading texture due to allocated texture memory exceeded&quot;);
             }
@@ -531,11 +543,12 @@ module Kiwi.Renderers {
         * @method useTexture
         * @param gl {WebGLRenderingContext}
         * @param glTextureWrapper {GLTextureWrappery}
-        * @param textureSizeUniform {number}
+        * @param [textureUnit=0] {number} Optional parameter for multitexturing. You can have up to 32 textures available to a shader at one time, in the range 0-31. If you don&#x27;t need multiple textures, this is perfectly safe to ignore.
         * @return boolean
         * @public
         */
-        public useTexture(gl:WebGLRenderingContext,glTextureWrapper: GLTextureWrapper):boolean {
+        public useTexture(gl:WebGLRenderingContext,glTextureWrapper: GLTextureWrapper, textureUnit: number = 0):boolean {
+            textureUnit = Kiwi.Utils.GameMath.clamp( Kiwi.Utils.GameMath.truncate(textureUnit), 31);    // Convert to integer in range 0-31.
             
             if (!glTextureWrapper.created || !glTextureWrapper.uploaded) {
                 if(!this._uploadTexture(gl, glTextureWrapper)) {
@@ -547,66 +560,54 @@ module Kiwi.Renderers {
                 
             //use texture
             if (glTextureWrapper.created &amp;&amp; glTextureWrapper.uploaded) {
-                
+                // Determine target texture unit
+                // This could be determined as:
+                //   var targetTextureUnit = &quot;TEXTURE&quot; + textureUnit;
+                //   gl.activeTexture(gl[targetTextureUnit]);
+                // But because the Khronos WebGL spec defines 
+                // the glenums of TEXTURE0-31 to be consecutive,
+                // this should be safe and fast:
+                var targetTextureUnit = gl.TEXTURE0 + textureUnit;
+                gl.activeTexture(targetTextureUnit);
+                // Bind texture to unit
                 gl.bindTexture(gl.TEXTURE_2D, glTextureWrapper.texture);
+
                 //gl.uniform2fv(textureSizeUniform, new Float32Array([glTextureWrapper.image.width, glTextureWrapper.image.height]));
                 return true;
-
             }
             
             return false;
         }
         
         /**
-        * Attemps to free space for to uplaod a texture.
-        * 1: Try and find texture that is same size to remove
-        * 2: Find next smallest to remove (not yet implemented)
-        * 3: Sequentially remove until there is room (not yet implemented)
+        * Attempts to free space in video memory.
+        *
+        * This removes textures sequentially, starting from the first cached texture. This may remove textures that are in use. These should automatically re-upload into the last position. After a few frames, this will push in-use textures to the safe end of the queue.
+        *
+        * If there are too many textures in use to fit in memory, they will all be cycled every frame, even if it would be more efficient to swap out one or two very large textures and preserve several smaller ones. This is an issue with this implementation and should be fixed.
+        *
+        * This behaviour was changed in v1.1.0. Previous versions used a different memory freeing algorithm.
         * @method _freeSpace
         * @param gl {WebGLRenderingContext}
         * @param numBytesToRemove {number}
         * @return boolean
-        * @public
+        * @private
         */
-       
-
         private _freeSpace(gl: WebGLRenderingContext, numBytesToRemove: number): boolean {
-           // console.log(&quot;Attempting to free texture space&quot;);
-            var nextSmallest: number = 99999999999;
-            var nextSmalletIndex: number = -1; 
-            for (var i = 0; i &lt; this._textureWrapperCache.length; i++) {
-                var numTextureBytes: number = this._textureWrapperCache[i].numBytes; 
-                if (numTextureBytes === numBytesToRemove &amp;&amp; this._textureWrapperCache[i].uploaded) {
-                  //  console.log(&quot;..found one same size&quot;);
-                    this._deleteTexture(gl,i);
-                    return true;
-                } else if (numTextureBytes &gt; numBytesToRemove &amp;&amp; numTextureBytes &lt; nextSmallest ) {
-                    nextSmallest = numTextureBytes;
-                    nextSmalletIndex = i;
+            // Sequential remover
+            var bytesRemoved = 0;
+            for( var i = 0;  i &lt; this._textureWrapperCache.length;  i++ ) {
+                // Scrub uploaded textures
+                if(this._textureWrapperCache[i].uploaded) {
+                    bytesRemoved += this._textureWrapperCache[i].numBytes;
+                    this._deleteTexture(gl, i);
                 }
+                // Break on reaching or exceeding free target
+                if( numBytesToRemove &lt;= bytesRemoved )
+                    return true;
             }
-            /*
-            //have we found a larger one to remove
-            if (nextSmalletIndex !== -1) {
-                this.removeTextureAt(gl,nextSmalletIndex);
-                return true;
-            } else {
-                //remove sequentially till there is enough space - is not optimal for space
-                var numBytesRemoved: number = 0;
-                var i = 0;
-
-                do {
-                    this.removeTextureAt(gl,i);
-                    numBytesRemoved += this.textureWrapperCache[i].numBytes;
-                    i++
-                } while (numBytesRemoved &lt; numBytesToRemove); 
-                return true;
-                
-
-            }
-            */
                         
-            return true;
+            return false;
         }
 
     }

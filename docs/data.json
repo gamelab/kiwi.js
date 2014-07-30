@@ -5002,10 +5002,9 @@
                     "type": "WebGLRenderingContext"
                 },
                 {
-                    "name": "_image",
-                    "description": "",
-                    "type": "HTMLImageElement",
-                    "optional": true
+                    "name": "atlas",
+                    "description": "The wrapper will default to wrapping atlas.image.",
+                    "type": "Kiwi.Textures.TextureAtlas"
                 }
             ],
             "return": {
@@ -36012,12 +36011,12 @@
             "line": 64,
             "description": "Enables the renderer (for override)",
             "itemtype": "method",
-            "name": "disable",
+            "name": "enable",
             "params": [
                 {
                     "name": "gl",
                     "description": "",
-                    "type": "WebGLRenderingCotext"
+                    "type": "WebGLRenderingContext"
                 },
                 {
                     "name": "params",
@@ -36044,7 +36043,7 @@
                 {
                     "name": "gl",
                     "description": "",
-                    "type": "WebGLRenderingCotext"
+                    "type": "WebGLRenderingContext"
                 },
                 {
                     "name": "params",
@@ -36066,12 +36065,12 @@
             "line": 86,
             "description": "Enables the renderer (for override)",
             "itemtype": "method",
-            "name": "disable",
+            "name": "clear",
             "params": [
                 {
                     "name": "gl",
                     "description": "",
-                    "type": "WebGLRenderingCotext"
+                    "type": "WebGLRenderingContext"
                 },
                 {
                     "name": "params",
@@ -36098,7 +36097,7 @@
                 {
                     "name": "gl",
                     "description": "",
-                    "type": "WebGLRenderingCotext"
+                    "type": "WebGLRenderingContext"
                 }
             ],
             "access": "public",
@@ -36118,7 +36117,7 @@
                 {
                     "name": "gl",
                     "description": "",
-                    "type": "WebGLRenderingCotext"
+                    "type": "WebGLRenderingContext"
                 },
                 {
                     "name": "res",
@@ -36143,7 +36142,7 @@
                 {
                     "name": "gl",
                     "description": "",
-                    "type": "WebGLRenderingCotext"
+                    "type": "WebGLRenderingContext"
                 },
                 {
                     "name": "size",
@@ -36163,8 +36162,8 @@
             "line": 126,
             "description": "The shader pair used by the renderer",
             "itemtype": "property",
-            "name": "texture2DVert",
-            "type": "Array",
+            "name": "shaderPair",
+            "type": "{Kiwi.Shaders.ShaderPair}",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Renderers.Renderer",
@@ -36192,8 +36191,8 @@
             "line": 145,
             "description": "Returns whether this is a batch renderer.",
             "itemtype": "property",
-            "name": "texture2DVert",
-            "type": "Array",
+            "name": "isBatchRenderer",
+            "type": "boolean",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Renderers.Renderer",
@@ -36297,7 +36296,7 @@
                 {
                     "name": "gl",
                     "description": "",
-                    "type": "WebGLRenderingCotext"
+                    "type": "WebGLRenderingContext"
                 },
                 {
                     "name": "params",
@@ -36324,7 +36323,7 @@
                 {
                     "name": "gl",
                     "description": "",
-                    "type": "WebGLRenderingCotext"
+                    "type": "WebGLRenderingContext"
                 }
             ],
             "access": "public",
@@ -36344,7 +36343,7 @@
                 {
                     "name": "gl",
                     "description": "",
-                    "type": "WebGLRenderingCotext"
+                    "type": "WebGLRenderingContext"
                 }
             ],
             "access": "public",
@@ -36364,7 +36363,7 @@
                 {
                     "name": "gl",
                     "description": "",
-                    "type": "WebGLRenderingCotext"
+                    "type": "WebGLRenderingContext"
                 }
             ],
             "access": "public",
@@ -36404,7 +36403,7 @@
                 {
                     "name": "gl",
                     "description": "",
-                    "type": "WebGLRenderingCotext"
+                    "type": "WebGLRenderingContext"
                 },
                 {
                     "name": "res",
@@ -36429,7 +36428,7 @@
                 {
                     "name": "gl",
                     "description": "",
-                    "type": "WebGLRenderingCotext"
+                    "type": "WebGLRenderingContext"
                 },
                 {
                     "name": "size",
@@ -38177,7 +38176,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 591,
+            "line": 589,
             "description": "Switch blend mode to a new set of constants",
             "itemtype": "method",
             "name": "_switchBlendMode",
@@ -38581,7 +38580,58 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 159,
+            "line": 144,
+            "description": "Uploads a single texture to video memory",
+            "itemtype": "method",
+            "name": "uploadTexture",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "textureAtlas",
+                    "description": "",
+                    "type": "Kiwi.Textures.TextureAtlas"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Renderers.GLTextureManager",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLTextureManager.ts",
+            "line": 155,
+            "description": "Adds a texture wrapper to the manager. This both adds the wrapper to the manager cache, and attempts to upload the attached texture to video memory.",
+            "itemtype": "method",
+            "name": "registerTextureWrapper",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "glTextureWrapper",
+                    "description": "",
+                    "type": "GLTextureWrapper"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Renderers.GLTextureManager",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLTextureManager.ts",
+            "line": 171,
             "description": "Removes all textures from video memory and clears the wrapper cache",
             "itemtype": "method",
             "name": "clearTextures",
@@ -38601,7 +38651,7 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 177,
+            "line": 189,
             "description": "Binds the texture ready for use, uploads it if it isn't already",
             "itemtype": "method",
             "name": "useTexture",
@@ -38617,9 +38667,11 @@
                     "type": "GLTextureWrappery"
                 },
                 {
-                    "name": "textureSizeUniform",
-                    "description": "",
-                    "type": "Number"
+                    "name": "textureUnit",
+                    "description": "Optional parameter for multitexturing. You can have up to 32 textures available to a shader at one time, in the range 0-31. If you don't need multiple textures, this is perfectly safe to ignore.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
                 }
             ],
             "return": {
@@ -38634,8 +38686,8 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 208,
-            "description": "Attemps to free space for to uplaod a texture.\n1: Try and find texture that is same size to remove\n2: Find next smallest to remove (not yet implemented)\n3: Sequentially remove until there is room (not yet implemented)",
+            "line": 230,
+            "description": "Attempts to free space in video memory.\n\nThis removes textures sequentially, starting from the first cached texture. This may remove textures that are in use. These should automatically re-upload into the last position. After a few frames, this will push in-use textures to the safe end of the queue.\n\nIf there are too many textures in use to fit in memory, they will all be cycled every frame, even if it would be more efficient to swap out one or two very large textures and preserve several smaller ones. This is an issue with this implementation and should be fixed.\n\nThis behaviour was changed in v1.1.0. Previous versions used a different memory freeing algorithm.",
             "itemtype": "method",
             "name": "_freeSpace",
             "params": [
@@ -38653,7 +38705,7 @@
             "return": {
                 "description": "boolean"
             },
-            "access": "public",
+            "access": "private",
             "tagname": "",
             "class": "Kiwi.Renderers.GLTextureManager",
             "module": "Kiwi",
@@ -38724,6 +38776,7 @@
         {
             "file": "src/render/GLTextureWrapper.ts",
             "line": 79,
+            "description": "The image wrapped by this wrapper.",
             "itemtype": "property",
             "name": "image",
             "type": "HTMLImageElement",
@@ -38736,7 +38789,7 @@
         },
         {
             "file": "src/render/GLTextureWrapper.ts",
-            "line": 90,
+            "line": 98,
             "description": "Creates a webgl texture object",
             "itemtype": "method",
             "name": "createTexture",
@@ -38756,7 +38809,7 @@
         },
         {
             "file": "src/render/GLTextureWrapper.ts",
-            "line": 103,
+            "line": 111,
             "description": "Uploads a webgl texture object to video memory",
             "itemtype": "method",
             "name": "uploadTexture",
@@ -38776,7 +38829,7 @@
         },
         {
             "file": "src/render/GLTextureWrapper.ts",
-            "line": 137,
+            "line": 145,
             "description": "Re-uploads a webgl texture object to video memory",
             "itemtype": "method",
             "name": "refreshTexture",
@@ -38796,7 +38849,7 @@
         },
         {
             "file": "src/render/GLTextureWrapper.ts",
-            "line": 148,
+            "line": 156,
             "description": "Deletes a webgl texture",
             "itemtype": "method",
             "name": "deleteTexture",
@@ -41272,6 +41325,63 @@
         {
             "file": "src/textures/TextureAtlas.ts",
             "line": 147,
+            "description": "Creates a GLTextureWrapper to allow the atlas to communicate efficiently with the video card. This is mostly an internal method.\n\nIf you are extending TextureAtlas to incorporate multiple textures, you will need to override this method.",
+            "itemtype": "method",
+            "name": "createGLTextureWrapper",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "The rendering context.",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "textureManager",
+                    "description": "The texture manager.",
+                    "type": "Kiwi.Renderers.GLTextureManager"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Textures.TextureAtlas",
+            "module": "Kiwi",
+            "submodule": "Textures",
+            "namespace": "Kiwi.Textures"
+        },
+        {
+            "file": "src/textures/TextureAtlas.ts",
+            "line": 167,
+            "description": "Sends the texture to the video card.",
+            "itemtype": "method",
+            "name": "enableGL",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "renderer",
+                    "description": "",
+                    "type": "Renderer"
+                },
+                {
+                    "name": "textureManager",
+                    "description": "",
+                    "type": "GLTextureManager"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.0",
+            "class": "Kiwi.Textures.TextureAtlas",
+            "module": "Kiwi",
+            "submodule": "Textures",
+            "namespace": "Kiwi.Textures"
+        },
+        {
+            "file": "src/textures/TextureAtlas.ts",
+            "line": 186,
             "description": "Will reload the texture into video memory for WebGL rendering.",
             "itemtype": "method",
             "name": "refreshTextureGL",
@@ -41292,7 +41402,7 @@
         },
         {
             "file": "src/textures/TextureAtlas.ts",
-            "line": 163,
+            "line": 202,
             "description": "Will populate this texture atlas with information based on a JSON file that was passed.",
             "itemtype": "method",
             "name": "readJSON",

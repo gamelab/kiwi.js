@@ -63,8 +63,8 @@ module Kiwi.Renderers {
 
         /**
         * Enables the renderer (for override)
-        * @method disable
-        * @param gl {WebGLRenderingCotext}
+        * @method enable
+        * @param gl {WebGLRenderingContext}
         * @param [params=null] {object}
         * @public
         */
@@ -75,7 +75,7 @@ module Kiwi.Renderers {
         /**
         * Enables the renderer (for override)
         * @method disable
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @param [params=null] {object}
         * @public
         */
@@ -85,8 +85,8 @@ module Kiwi.Renderers {
 
         /**
         * Enables the renderer (for override)
-        * @method disable
-        * @param gl {WebGLRenderingCotext}
+        * @method clear
+        * @param gl {WebGLRenderingContext}
         * @param [params=null] {object}
         * @public
         */
@@ -96,7 +96,7 @@ module Kiwi.Renderers {
         /**
         * Draw to the draw or frame buffer (for override)
         * @method draw
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @public
         */
         public draw(gl: WebGLRenderingContext) {
@@ -105,7 +105,7 @@ module Kiwi.Renderers {
         /**
         * Updates the stage resolution uniforms (for override)
         * @method updateStageResolution
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @param res {Float32Array}
         * @public
         */
@@ -115,7 +115,7 @@ module Kiwi.Renderers {
          /**
         * Updates the texture size uniforms (for override)
         * @method updateTextureSize
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @param size {Float32Array}
         * @public
         */
@@ -125,8 +125,8 @@ module Kiwi.Renderers {
 
         /**
         * The shader pair used by the renderer
-        * @property texture2DVert
-        * @type Array
+        * @property shaderPair
+        * @type {Kiwi.Shaders.ShaderPair}
         * @public
         */
         public shaderPair: Kiwi.Shaders.ShaderPair;
@@ -144,8 +144,8 @@ module Kiwi.Renderers {
 
         /**
         * Returns whether this is a batch renderer.
-        * @property texture2DVert
-        * @type Array
+        * @property isBatchRenderer
+        * @type boolean
         * @public
         */
         private _isBatchRenderer: boolean = false;

@@ -367,15 +367,15 @@ module Kiwi.Renderers {
     * @class GLTextureWrapper
     * @constructor
     * @param gl {WebGLRenderingContext}
-    * @param [_image] {HTMLImageElement}
+    * @param atlas {Kiwi.Textures.TextureAtlas} The wrapper will default to wrapping atlas.image.
     * @return {Kiwi.Renderers.GLTextureWrapper}
     */
     export class GLTextureWrapper {
 
         constructor(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas,upload:boolean = false) {
             this.textureAtlas = atlas;
-            this.image = atlas.image;
-            this._numBytes = this.image.width * this.image.height * 4;
+            this._image = atlas.image;
+            this._numBytes = this._image.width * this._image.height * 4;
             this.createTexture(gl);
             if (upload) this.uploadTexture(gl);
        
@@ -429,12 +429,20 @@ module Kiwi.Renderers {
         public texture: WebGLTexture;
         
         /**
-        *
+        * The image wrapped by this wrapper.
         * @property image
         * @type HTMLImageElement
         * @public
         */
-        public image: HTMLImageElement;
+        private _image: HTMLImageElement;
+        public get image(): HTMLImageElement {
+            return( this._image );
+        }
+        public set image(image: HTMLImageElement) {
+            this._image = image;
+            this._numBytes = this._image.width * this._image.height * 4;
+            this._uploaded = false;
+        }
 
         //force : if true then other textures will be removed until there is room.
 
@@ -469,7 +477,7 @@ module Kiwi.Renderers {
             } else {
                 gl.bindTexture(gl.TEXTURE_2D, this.texture);
                 gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, 0);
-                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this._image);
                 gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
                 gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
             
@@ -493,8 +501,8 @@ module Kiwi.Renderers {
         * @public
         */
         public refreshTexture(gl: WebGLRenderingContext) {
-            this.numBytes = this.image.width * this.image.height * 4;
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
+            this.numBytes = this._image.width * this._image.height * 4;
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this._image);
         }
 
         /**

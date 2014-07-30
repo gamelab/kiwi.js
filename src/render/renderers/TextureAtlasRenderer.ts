@@ -83,7 +83,7 @@ module Kiwi.Renderers {
         /**
         * Enables the renderer ready for drawing
         * @method enable
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @param [params=null] {object}
         * @public
         */
@@ -103,7 +103,7 @@ module Kiwi.Renderers {
         /**
         * Disables the renderer
         * @method disable
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @public
         */
         public disable(gl: WebGLRenderingContext) {
@@ -114,7 +114,7 @@ module Kiwi.Renderers {
         /**
         * Clears the vertex buffer.
         * @method clear
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @public
         */
         public clear(gl: WebGLRenderingContext, params: any) {
@@ -125,7 +125,7 @@ module Kiwi.Renderers {
         /**
         * Makes a draw call, this is where things actually get rendered to the draw buffer (or a framebuffer).
         * @method draw
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @public
         */
         public draw(gl: WebGLRenderingContext) {
@@ -160,7 +160,7 @@ module Kiwi.Renderers {
         /**
         * Updates the stage resolution uniforms
         * @method updateStageResolution
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @param res {Float32Array}
         * @public
         */
@@ -171,7 +171,7 @@ module Kiwi.Renderers {
         /**
         * Updates the texture size uniforms
         * @method updateTextureSize
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @param size {Float32Array}
         * @public
         */

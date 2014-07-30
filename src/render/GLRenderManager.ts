@@ -583,9 +583,7 @@ module Kiwi.Renderers {
         */
         private _switchTexture(gl: WebGLRenderingContext, entity: Entity) {
             this._currentTextureAtlas = entity.atlas;
-            if (this._currentRenderer) this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
-            this._textureManager.useTexture(gl, entity.atlas.glTextureWrapper);
-            this._currentTextureAtlas.refreshTextureGL( gl );
+            entity.atlas.enableGL(gl, this._currentRenderer, this._textureManager);
         }
 
         /**
