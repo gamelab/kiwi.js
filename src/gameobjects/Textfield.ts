@@ -392,8 +392,8 @@ module Kiwi.GameObjects {
                 //Draw the Image
                 var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
 
-                ctx.transform(m.a, m.b, m.c, m.d, (m.tx - x), m.ty);
-                ctx.drawImage(this._canvas, 0, 0, this._canvas.width, this._canvas.height, -t.rotPointX, -t.rotPointY, this._canvas.width, this._canvas.height);
+                ctx.transform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+                ctx.drawImage(this._canvas, 0, 0, this._canvas.width, this._canvas.height, -t.rotPointX - x, -t.rotPointY, this._canvas.width, this._canvas.height);
                 
 
                 ctx.restore();
