@@ -1,4 +1,10 @@
-Kiwi.js 1.0.1
+Caution: This branch is still under development!
+================================================
+* If you are seeing this, the readme is not finished.
+* Finalise new features.
+* Double-check contributors section.
+
+Kiwi.js 1.1.0
 ============
 
 ![Splash](http://kiwi-js.s3.amazonaws.com/wounds-with-friends.jpg) 
@@ -7,7 +13,7 @@ Kiwi.js is the worlds easiest to use Open Source HTML5 game framework for making
 
 Our focus is blazingly fast WebGL rendering and complimentary tools to make professional quality serious games. We use [CocoonJS](https://www.ludei.com/) for publishing games and App creation. 
 
-Version: 1.0.1 "Iwatani"
+Version: 1.1.0 "Iwatani"
 
 - Visit the [Official Website](http://www.kiwijs.org/documentation/getting-started/)
 - Follow us on [Twitter](http://www.twitter.com/kiwijsengine)
@@ -38,6 +44,60 @@ Our [Official Documentation Codex](http://www.kiwijs.org/documentation/getting-s
 
 ## Release Notes for this Version
 
+### v1.1.0
+
+#### New Features
+* So much good stuff.
+* Numerous aliases added to transformable objects. Transform sprites, groups, etc using these handy properties:
+  * x, y
+  * rotation
+  * anchorPointX, anchorPointY (offset the point about which the object rotates and scales)
+  * rotPointX, rotPointY (identical to anchorPoint)
+  * scale, scaleX, scaleY (scale sets both scaleX and scaleY, but cannot be read back)
+  * worldX, worldY (read-only; useful for objects inside groups)
+  * `scaleToWidth( value )` or `scaleToHeight( value )` methods set the scale to fit Sprites, StaticImages, TextFields and TileMapLayers into a set width or height.
+  * `centerAnchorPoint()` method moves the anchor point to the middle of a Sprite, StaticImage, TextField and TileMapLayers.
+  * Because camera transformation is a more advanced topic, these aliases have not been applied to the camera.
+* WebGL is now selected as default renderer. Go to full speed without wasting time on configs.
+* Rectangle.copyTo method will now return a new Rectangle if called without a parameter.
+* Tagging system for game objects (Groups, Sprites, StaticImages, TextFields, and TileMapLayers):
+  * `addTag()` and `removeTag()` methods accept any number of Strings as parameters
+  * `hasTag()` method checks for tags
+  * `Group.getChildrenByTag` method available
+* Substantial revision of the WebGL rendering engine to support future features.
+  * Game objects can now safely perform canvas texturing operations during `renderGL()`.
+  * GLBlendMode object added. Now you can set blend modes in WebGL quickly and safely.
+  * Texture management revised to support multi-texture shaders.
+  * Runtime GPU memory management uses a new algorithm, although we do need to do more work on this.
+  * Vast profusion of new shader options opens up.
+* When switching States, all cameras are reset to default.
+  * CameraManager now has functions `zeroCamera( camera )` and `zeroAllCameras()`.
+* New time-related properties on Kiwi.Game objects for your convenience:
+  * `game.frame` tells you how many frames have been rendered since the game launched.
+  * `game.idealFrame` tells you how many frames _should_ have rendered since the game launched. Use this to drive smooth cyclic animations.
+  * `game.time.rate` tells you how long the last frame took to render, relative to how long it _should_ have taken at the current framerate. For example, this should ideally always be 1.0, but if your 60fps game is running at 30fps, it will be 2.0. Use this to create smooth movement, multiplying distances by game.time.rate.
+  * `game.framerate` now cannot be 0.
+  * MasterClock drives several of these properties behind the scenes.
+* `Stage.color` now accepts RGBA input (as well as RGB values). This allows you to make a transparent game over other page content.
+
+#### Bug fixes
+* TileMapLayer objects now render correctly with scaled and rotated cameras. Technically you can also scale and rotate TileMapLayers, but this does not yet update physics, so you should only use it for cosmetic objects.
+* Touch input no longer assumes 11 fingers, preventing a bug where touch was always down. Thanks to @ic5y for the catch.
+* TextField now aligns text correctly in all situations, including a bug where Group scaling in Canvas mode would incorrectly position text; and updates properly in CocoonJS.
+* WebGL now properly clears video memory when swapping states, preventing eventual instability. Garbage collection was optimised during State transitions.
+* Fixed bug where some Geom objects accidentally swapped x and y while doing geometry. Note: `Math.atan2` takes arguments in the order `y, x`. Yes, it's silly. Yes, you have to do it.
+* Numerous small corrections to documentation: API reference is much more accurate.
+
+#### Deprecations and Removals
+* Examples have been moved to a new repo, reducing the size of Kiwi.js repo downloads.
+* Deprecated `willRender` flag on all objects. It now maps to `visible`, which serves the same purpose.
+* Deprecated `dirty` flag on Box and Camera objects. It didn't do anything and at worst was an unnecessary check.
+
+
+## Release Notes for Previous Versions
+
+### v1.0.1
+
 ####Bug Fixes and Changes 
 * Thanks to @zzarcon the Grunt file now has more clarity.
 * @tjwudi has pushed up numerious fixes to the Documentation!
@@ -59,7 +119,7 @@ Our [Official Documentation Codex](http://www.kiwijs.org/documentation/getting-s
 ####Powerful Rendering
 Kiwi uses a custom built WebGL rendering system for targetting modern mobile and desktop browsers as well as mobile apps through [CocoonJS](https://www.ludei.com/).
 
-Not only is Kiwi lightning quick but it is also extendable, meaning that fellow contributors can easily write there own powerful rendering Plugins and Add-ons using WebGL Shaders. For instance our WebGL Particle Plugin creates stunning special FX using this systmem.
+Not only is Kiwi lightning quick but it is also extendable, meaning that fellow contributors can easily write their own powerful rendering Plugins and Add-ons using WebGL Shaders. For instance our WebGL Particle Plugin creates stunning special FX using this system.
 
 Of course, you can render to canvas too, which means older browsers, and mobile browsers, don't miss out.
 
@@ -76,7 +136,7 @@ It's easy to load in images, sound and data. You can decide when you want it to 
 Gameobjects are objects that get rendered in your game. Whether they're frame-based sprites, webGL particles, static images or textfields, they all can be moved in the game world and placed in the scene graph.
 
 ####Entity/Component system
-Each gameobject is an "Entity" and can have "components" attached to it. Components are small pieces of code that do something useful. For instance the arcade physics system is implmented as a component. If you want your game object to use physics, simply attach a physics component to it. Some of the standard gameobjects have components such as animation already attached. You can also write your own components.
+Each gameobject is an "Entity" and can have "components" attached to it. Components are small pieces of code that do something useful. For instance the arcade physics system is implemented as a component. If you want your game object to use physics, simply attach a physics component to it. Some of the standard gameobjects have components such as animation already attached. You can also write your own components.
 
 ####Scenegraph (Grouping objects)
 The scenegraph represents all of the gameobjects that visible in your gameworld. You can group objects, and place groups within groups. You can animate and move your objects and groups and they'll behave in a consistent manner depending on how they are nested.
@@ -94,7 +154,7 @@ Your game world is viewed through a controllable camera, which you can move and 
 Kiwi.js has support for tilemaps, including multiple tile layers. The Tiled map data format is supported, including isometric tiles. You can programatically generate tile maps, and once a tile map is created you can easily manipulate the data to change the tilemap dynamically.
 
 ####Audio
-Kiwi.js supports the WebAudio api, and falls back to using <audio> tag when it is not available. Audio sprites are also supported, unless of course your device happens to be some weird futuristic gheto blaster.
+Kiwi.js supports the WebAudio api, and falls back to using `<audio>` tag when it is not available. Audio sprites are also supported, unless of course your device happens to be some weird futuristic ghetto blaster.
 
 ####Monitization
 As fellow game developers we know what it is like to be hungry, shivering on the corner holding a can of change in one hand and a damp “will code for cash” cardboard sign in the other. 
@@ -143,9 +203,8 @@ A more advanced, but still simple, way to create a blank game is to use the [Kiw
 
 
 ###Viewing the examples
-The `/examples` folder contains a number of basic examples for you to try and to view the source code. In the next minor version of Kiwi.js these will be moved to a separate repo.
 
-You will need to use a php web server to open the index file in the examples folder. This is a temporary arrangement, and when the examples are moved this will no longer be the case.
+We have a throng of examples. So many, in fact, that one kiwi got tired carrying them all. As generous souls, we put them in their own repo. Check out the [examples repo](https://github.com/gamelab/examples) and look in `tutorials/core`.
 
 
 
@@ -159,7 +218,6 @@ Note: If you just want to use the framework, the kiwi.js and kiwi.min.js files a
 * src - The kiwi.js framework source code
 * docs - API documentation on the Kiwi.JS framework.
 * docstyles - Used to store assets for building docs.
-* examples - These examples are soon to moved to a new repo and updated (See more info below)
 * templateGame - An example TemplateGame to help you on your way to developing a Kiwi.JS game.  
 
 ###Files
@@ -222,7 +280,7 @@ Grunt will also create a min.js version and also output a kiwi.d.ts definition f
 You don't need to build the library to use it. The repo has prebuilt files in the `/build` folder.
 
 Kiwi.js is currently using Typescript 1.0.0
-Either - use Visual Studio/TS extension. There are csproj files for both the main project and also the examples.
+Either - use Visual Studio/TS extension. There are csproj files for the main project.
 
 ##Extending Kiwi.js
 
@@ -230,7 +288,7 @@ You want Plugins? [We got Plugins!](http://www.kiwijs.org/documentation/kiwi-js-
 
 The concept of Plugins, and how they might apply to game creation, is something we're very interested in. Years of working in the open source space and hacking open source tools has provided us with the qualifications necessary to create a system that works for you.
 
-We built from the ground up as a plugable system. You can add multiple plugins to your game, or write plugins yourself. Soon, you'll even be able to sell your own plugins in the Kiwi.js marketplace.
+We built Kiwi.js from the ground up as a plugable system. You can add multiple plugins to your game, or write plugins yourself. Soon, you'll even be able to sell your own plugins in the Kiwi.js marketplace.
 
 Kiwi.js is built in such a way that your plugins can do very simple or very powerful things. For example:
 
@@ -260,7 +318,7 @@ Here are some of the features planned for future release.
 
 ####Version 2.0 "Bushnell"
 
-- Multiplayer capability (yup, thats right!)
+- Multiplayer capability (yup, that's right!)
 - WebGL lighting
 - Tools!
 - New Physics engine 
@@ -290,10 +348,11 @@ A massive shoutout to our contributors!
 - Zach Frieberg
 - Locky Reid
 - Ido Yehieli
+- Benjamin D. Richards
 
 *Kiwi.js also uses code from a number of open source projects. Effort has been made to clearly identify authors in the code comments. If you notice and missing or incorrect attribution please let us know.*
 
 
 ##License
 
-* MIT
+* MIT (see `license.txt` for details)
