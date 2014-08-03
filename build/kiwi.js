@@ -18050,14 +18050,16 @@ var Kiwi;
 
                 this.mouse = new Kiwi.Input.Mouse(this.game);
                 this.mouse.boot();
-                this.mouse.onDown.add(this._onDownEvent, this);
-                this.mouse.onUp.add(this._onUpEvent, this);
 
                 this.keyboard = new Kiwi.Input.Keyboard(this.game);
                 this.keyboard.boot();
 
                 this.touch = new Kiwi.Input.Touch(this.game);
                 this.touch.boot();
+
+                this.mouse.onDown.add(this._onDownEvent, this);
+                this.mouse.onUp.add(this._onUpEvent, this);
+
                 this.touch.touchDown.add(this._onDownEvent, this);
                 this.touch.touchUp.add(this._onUpEvent, this);
 
@@ -18676,6 +18678,48 @@ var Kiwi;
                 configurable: true
             });
 
+            Object.defineProperty(Touch.prototype, "onDown", {
+                /**
+                * A Kiwi Signal that dispatches an event when a user presses down on the stage.
+                * @property onDown
+                * @type Signal
+                * @public
+                */
+                get: function () {
+                    return this.touchDown;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Touch.prototype, "onUp", {
+                /**
+                * A Kiwi Signal that dispatches an event when a user releases a finger off of the stage.
+                * @property onUp
+                * @type Signal
+                * @public
+                */
+                get: function () {
+                    return this.touchUp;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Touch.prototype, "onCancel", {
+                /**
+                * A Kiwi Signal that dispatches an event when a touch event is cancelled for the some reason.
+                * @property onCancel
+                * @type Signal
+                * @public
+                */
+                get: function () {
+                    return this.touchCancel;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             /**
             * An internal Kiwi method that runs when the DOM is loaded and the touch manager can now 'boot' up.
             * @method boot
@@ -19016,6 +19060,9 @@ var Kiwi;
             * @private
             */
             Touch.prototype.onTouchStart = function (event) {
+                //Stop corresponding mouse events from firing.
+                event.preventDefault();
+
                 for (var i = 0; i < event.changedTouches.length; i++) {
                     this._registerFinger(event.changedTouches[i], event.changedTouches[i].identifier);
                 }
@@ -19029,6 +19076,8 @@ var Kiwi;
             * @private
             */
             Touch.prototype.onTouchCancel = function (event) {
+                event.preventDefault();
+
                 for (var i = 0; i < event.changedTouches.length; i++) {
                     this._cancelFinger(event.changedTouches[i], event.changedTouches[i].identifier);
                 }
@@ -19041,6 +19090,9 @@ var Kiwi;
             * @private
             */
             Touch.prototype.onTouchEnter = function (event) {
+                //Stop corresponding mouse events from firing.
+                event.preventDefault();
+
                 for (var i = 0; i < event.changedTouches.length; i++) {
                     this._enterFinger(event.changedTouches[i], event.changedTouches[i].identifier);
                 }
@@ -19054,6 +19106,9 @@ var Kiwi;
             * @private
             */
             Touch.prototype.onTouchLeave = function (event) {
+                //Stops corresponding mouse events from firing
+                event.preventDefault();
+
                 for (var i = 0; i < event.changedTouches.length; i++) {
                     this._leaveFinger(event.changedTouches[i], event.changedTouches[i].identifier);
                 }
@@ -19066,6 +19121,9 @@ var Kiwi;
             * @private
             */
             Touch.prototype.onTouchMove = function (event) {
+                //Stop cooresponding mouse events from firing
+                event.preventDefault();
+
                 for (var i = 0; i < event.changedTouches.length; i++) {
                     this._moveFinger(event.changedTouches[i], event.changedTouches[i].identifier);
                 }
@@ -19079,6 +19137,9 @@ var Kiwi;
             * @private
             */
             Touch.prototype.onTouchEnd = function (event) {
+                //Stop cooresponding mouse events from firing
+                event.preventDefault();
+
                 for (var i = 0; i < event.changedTouches.length; i++) {
                     this._deregisterFinger(event.changedTouches[i], event.changedTouches[i].identifier);
                 }

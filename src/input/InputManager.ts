@@ -113,14 +113,16 @@ module Kiwi.Input {
 
             this.mouse = new Kiwi.Input.Mouse(this.game);
             this.mouse.boot();
-            this.mouse.onDown.add(this._onDownEvent, this);
-            this.mouse.onUp.add(this._onUpEvent, this);
 
             this.keyboard = new Kiwi.Input.Keyboard(this.game);
             this.keyboard.boot();
 
             this.touch = new Kiwi.Input.Touch(this.game);
             this.touch.boot();
+
+            this.mouse.onDown.add(this._onDownEvent, this);
+            this.mouse.onUp.add(this._onUpEvent, this);
+
             this.touch.touchDown.add(this._onDownEvent, this);
             this.touch.touchUp.add(this._onUpEvent, this);
 

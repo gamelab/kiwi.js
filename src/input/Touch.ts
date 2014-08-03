@@ -186,24 +186,57 @@ module Kiwi.Input {
         * @property touchDown
         * @type Signal
         * @public
+        * @deprecated
         */
         public touchDown: Kiwi.Signal;
+
+        /**
+        * A Kiwi Signal that dispatches an event when a user presses down on the stage.
+        * @property onDown
+        * @type Signal
+        * @public
+        */
+        public get onDown(): Kiwi.Signal {
+            return this.touchDown;
+        }
         
         /**
         * A Kiwi Signal that dispatches an event when a user releases a finger off of the stage.
         * @property touchUp
         * @type Signal
         * @public
+        * @deprecated
         */
         public touchUp: Kiwi.Signal;
 
         /**
-        * A Kiwi Signal that dispatches an event when a touch event is cancelled for the some reason.
-        * @property touchCancel
-        * @tpye Signal
+        * A Kiwi Signal that dispatches an event when a user releases a finger off of the stage.
+        * @property onUp
+        * @type Signal
         * @public
         */
+        public get onUp(): Kiwi.Signal {
+            return this.touchUp;
+        }
+
+        /**
+        * A Kiwi Signal that dispatches an event when a touch event is cancelled for the some reason.
+        * @property touchCancel
+        * @type Signal
+        * @public
+        * @deprecated
+        */
         public touchCancel: Kiwi.Signal;
+
+        /**
+        * A Kiwi Signal that dispatches an event when a touch event is cancelled for the some reason.
+        * @property onCancel
+        * @type Signal
+        * @public
+        */
+        public get onCancel(): Kiwi.Signal {
+            return this.touchCancel;
+        }
 
         /** 
         * An internal Kiwi method that runs when the DOM is loaded and the touch manager can now 'boot' up.
@@ -532,6 +565,9 @@ module Kiwi.Input {
         * @private
         */
         private onTouchStart(event) {
+
+            //Stop corresponding mouse events from firing.
+            event.preventDefault();
             
             for (var i = 0; i < event.changedTouches.length; i++) {
                 this._registerFinger(event.changedTouches[i], event.changedTouches[i].identifier);
@@ -548,6 +584,8 @@ module Kiwi.Input {
         */
         private onTouchCancel(event) {
 
+            event.preventDefault();
+
             for (var i = 0; i < event.changedTouches.length; i++) {
                 this._cancelFinger(event.changedTouches[i], event.changedTouches[i].identifier);
             }
@@ -561,6 +599,9 @@ module Kiwi.Input {
         * @private
         */
         private onTouchEnter(event) {
+
+            //Stop corresponding mouse events from firing.
+            event.preventDefault();
 
             // For touch enter and leave its a list of the touch points that have entered or left the target
             for (var i = 0; i < event.changedTouches.length; i++) {
@@ -578,6 +619,9 @@ module Kiwi.Input {
         */
         private onTouchLeave(event) {
 
+            //Stops corresponding mouse events from firing
+            event.preventDefault();
+
             // For touch enter and leave its a list of the touch points that have entered or left the target 
             for (var i = 0; i < event.changedTouches.length; i++) {
                 this._leaveFinger(event.changedTouches[i], event.changedTouches[i].identifier);
@@ -593,6 +637,9 @@ module Kiwi.Input {
         */
         private onTouchMove(event) {
 
+            //Stop cooresponding mouse events from firing
+            event.preventDefault();
+
             for (var i = 0; i < event.changedTouches.length; i++) {
                 this._moveFinger(event.changedTouches[i], event.changedTouches[i].identifier);
             }
@@ -607,6 +654,9 @@ module Kiwi.Input {
         * @private
         */
         private onTouchEnd(event) {
+
+            //Stop cooresponding mouse events from firing
+            event.preventDefault();
 
             for (var i = 0; i < event.changedTouches.length; i++) {
                 this._deregisterFinger(event.changedTouches[i], event.changedTouches[i].identifier);
