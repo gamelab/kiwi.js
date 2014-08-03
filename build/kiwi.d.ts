@@ -12841,22 +12841,46 @@ declare module Kiwi.Input {
         * @property touchDown
         * @type Signal
         * @public
+        * @deprecated
         */
         public touchDown: Signal;
+        /**
+        * A Kiwi Signal that dispatches an event when a user presses down on the stage.
+        * @property onDown
+        * @type Signal
+        * @public
+        */
+        public onDown : Signal;
         /**
         * A Kiwi Signal that dispatches an event when a user releases a finger off of the stage.
         * @property touchUp
         * @type Signal
         * @public
+        * @deprecated
         */
         public touchUp: Signal;
         /**
-        * A Kiwi Signal that dispatches an event when a touch event is cancelled for the some reason.
-        * @property touchCancel
-        * @tpye Signal
+        * A Kiwi Signal that dispatches an event when a user releases a finger off of the stage.
+        * @property onUp
+        * @type Signal
         * @public
         */
+        public onUp : Signal;
+        /**
+        * A Kiwi Signal that dispatches an event when a touch event is cancelled for the some reason.
+        * @property touchCancel
+        * @type Signal
+        * @public
+        * @deprecated
+        */
         public touchCancel: Signal;
+        /**
+        * A Kiwi Signal that dispatches an event when a touch event is cancelled for the some reason.
+        * @property onCancel
+        * @type Signal
+        * @public
+        */
+        public onCancel : Signal;
         /**
         * An internal Kiwi method that runs when the DOM is loaded and the touch manager can now 'boot' up.
         * @method boot
