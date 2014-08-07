@@ -462,7 +462,6 @@ module Kiwi.Input {
                 this.touchUp.dispatch(finger.x, finger.y, finger.timeDown, finger.timeUp, finger.duration, finger);
             }
 
-            console.log('Down?' + this.isDown);
         }
 
         

@@ -7213,7 +7213,7 @@ declare module Kiwi.Files {
         * Set this to NULL if you want it to not timeout.
         * @property timeOutDelay
         * @type Number
-        * @default 2000
+        * @default 4000
         * @public
         */
         public timeOutDelay: number;

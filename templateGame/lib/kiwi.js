@@ -10748,7 +10748,7 @@ var Kiwi;
                 * Set this to NULL if you want it to not timeout.
                 * @property timeOutDelay
                 * @type Number
-                * @default 2000
+                * @default 4000
                 * @public
                 */
                 this.timeOutDelay = 4000;
@@ -18962,8 +18962,6 @@ var Kiwi;
                 if (finger !== null) {
                     this.touchUp.dispatch(finger.x, finger.y, finger.timeDown, finger.timeUp, finger.duration, finger);
                 }
-
-                console.log('Down?' + this.isDown);
             };
 
             /**

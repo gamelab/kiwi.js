@@ -18885,7 +18885,7 @@
             "itemtype": "property",
             "name": "timeOutDelay",
             "type": "Number",
-            "default": "2000",
+            "default": "4000",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Files.File",
@@ -35593,7 +35593,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 469,
+            "line": 468,
             "description": "This method is in charge of cancelling (removing) a \"finger\".\nYou have to pass this method a id which is used to idenfied the finger that was cancelled.",
             "itemtype": "method",
             "name": "_cancelFinger",
@@ -35618,7 +35618,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 496,
+            "line": 495,
             "description": "This method is in charge of creating and assigning (removing) a \"finger\" when it has entered the dom element.\nYou have to pass this method a id which is used to idenfied the finger that was cancelled.",
             "itemtype": "method",
             "name": "_enterFinger",
@@ -35643,7 +35643,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 517,
+            "line": 516,
             "description": "This method is in charge of removing an assigned \"finger\" when it has left the DOM Elemetn.\nYou have to pass this method a id which is used to idenfied the finger that left.",
             "itemtype": "method",
             "name": "_leaveFinger",
@@ -35668,7 +35668,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 534,
+            "line": 533,
             "description": "This method is in charge of updating the coordinates of a \"finger\" when it has moved..\nYou have to pass this method a id which is used to idenfied the finger that moved.",
             "itemtype": "method",
             "name": "_moveFinger",
@@ -35693,7 +35693,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 553,
+            "line": 552,
             "description": "-------------------\n Touch Events\n-------------------",
             "class": "Kiwi.Input.Touch",
             "module": "Kiwi",
@@ -35702,7 +35702,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 560,
+            "line": 559,
             "description": "This method runs when the a touch start event is fired by the browser and then assigns the event to a pointer that is currently not active.\nhttps://developer.mozilla.org/en-US/docs/DOM/TouchList",
             "itemtype": "method",
             "name": "onTouchStart",
@@ -35722,7 +35722,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 578,
+            "line": 577,
             "description": "Doesn't appear to be supported by most browsers yet but if it was it would fire events when a touch is canceled.\nhttp://www.w3.org/TR/touch-events/#dfn-touchcancel",
             "itemtype": "method",
             "name": "onTouchCancel",
@@ -35742,7 +35742,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 595,
+            "line": 594,
             "description": "Doesn't appear to be supported by most browsers yet. But if it was would fire events when touch events enter an element.",
             "itemtype": "method",
             "name": "onTouchEnter",
@@ -35762,7 +35762,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 613,
+            "line": 612,
             "description": "Doesn't appear to be supported by most browsers yet. Would fire events when a 'finger' leaves an element.     \nWould be handly for when an finger 'leaves' the stage.",
             "itemtype": "method",
             "name": "onTouchLeave",
@@ -35782,7 +35782,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 632,
+            "line": 631,
             "description": "When a touch pointer moves. This method updates the appropriate pointer.",
             "itemtype": "method",
             "name": "onTouchMove",
@@ -35802,7 +35802,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 649,
+            "line": 648,
             "description": "When a touch event gets released.\nhttps://developer.mozilla.org/en-US/docs/DOM/TouchList",
             "itemtype": "method",
             "name": "onTouchEnd",
@@ -35822,7 +35822,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 668,
+            "line": 667,
             "description": "-------------------\n Pointer Events\n-------------------",
             "class": "Kiwi.Input.Touch",
             "module": "Kiwi",
@@ -35831,7 +35831,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 675,
+            "line": 674,
             "description": "Event that is fired when a pointer is initially pressed.",
             "itemtype": "method",
             "name": "onPointerStart",
@@ -35851,7 +35851,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 687,
+            "line": 686,
             "description": "Event that is fired by a pointer event listener upon a pointer canceling for some reason.",
             "itemtype": "method",
             "name": "onPointerCancel",
@@ -35871,7 +35871,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 699,
+            "line": 698,
             "description": "Event that is fired by a pointer event listener upon a pointer entering the DOM Element the event listener is attached to.",
             "itemtype": "method",
             "name": "onPointerEnter",
@@ -35891,7 +35891,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 711,
+            "line": 710,
             "description": "Event that is fired by a pointer event listener upon a pointer being leaving the DOM Element the event listener is attached to.",
             "itemtype": "method",
             "name": "onPointerLeave",
@@ -35911,7 +35911,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 723,
+            "line": 722,
             "description": "Event that is fired by a pointer event listener upon a pointer moving.",
             "itemtype": "method",
             "name": "onPointerMove",
@@ -35929,7 +35929,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 734,
+            "line": 733,
             "description": "Event that is fired by a pointer event listener upon a pointer being released.",
             "itemtype": "method",
             "name": "onPointerEnd",
@@ -35949,7 +35949,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 747,
+            "line": 746,
             "description": "-----------------\n Normal Methods \n-----------------",
             "class": "Kiwi.Input.Touch",
             "module": "Kiwi",
@@ -35958,7 +35958,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 754,
+            "line": 753,
             "description": "The update loop fro the touch manager.",
             "itemtype": "method",
             "name": "update",
@@ -35971,7 +35971,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 772,
+            "line": 771,
             "description": "This method removes all of the event listeners and thus 'stops' the touch manager.",
             "itemtype": "method",
             "name": "stop",
@@ -35984,7 +35984,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 801,
+            "line": 800,
             "description": "Resets all of the fingers/pointers to their default states.",
             "itemtype": "method",
             "name": "reset",
@@ -38649,7 +38649,7 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src/render/GLTextureManager.ts",
+            "file": "src\\render\\GLTextureManager.ts",
             "line": 155,
             "description": "Adds a texture wrapper to the manager. This both adds the wrapper to the manager cache, and attempts to upload the attached texture to video memory.",
             "itemtype": "method",
@@ -38675,7 +38675,7 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src/render/GLTextureManager.ts",
+            "file": "src\\render\\GLTextureManager.ts",
             "line": 171,
             "description": "Removes all textures from video memory and clears the wrapper cache",
             "itemtype": "method",
@@ -41394,7 +41394,7 @@
             "namespace": "Kiwi.Textures"
         },
         {
-            "file": "src/textures/TextureAtlas.ts",
+            "file": "src\\textures\\TextureAtlas.ts",
             "line": 167,
             "description": "Sends the texture to the video card.",
             "itemtype": "method",
@@ -41425,7 +41425,7 @@
             "namespace": "Kiwi.Textures"
         },
         {
-            "file": "src/textures/TextureAtlas.ts",
+            "file": "src\\textures\\TextureAtlas.ts",
             "line": 186,
             "description": "Will reload the texture into video memory for WebGL rendering.",
             "itemtype": "method",
@@ -47795,15 +47795,15 @@
         },
         {
             "message": "Missing item type\n-------------------\n Touch Events\n-------------------",
-            "line": " src\\input\\Touch.ts:553"
+            "line": " src\\input\\Touch.ts:552"
         },
         {
             "message": "Missing item type\n-------------------\n Pointer Events\n-------------------",
-            "line": " src\\input\\Touch.ts:668"
+            "line": " src\\input\\Touch.ts:667"
         },
         {
             "message": "Missing item type\n-----------------\n Normal Methods \n-----------------",
-            "line": " src\\input\\Touch.ts:747"
+            "line": " src\\input\\Touch.ts:746"
         },
         {
             "message": "Missing item type\nGet the number of rows.",
