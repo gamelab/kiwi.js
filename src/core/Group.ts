@@ -596,17 +596,23 @@ module Kiwi {
         }
 
         /**
-        * Get a child from this Group by its name.
+        * Get a child from this Group by its name. By default this will also check sub-groups.
         * @method getChildByName
-        * @param name {String} The name of the child
+        * @param name {String} The name of the child.
+        * @param recurse {Boolean} Whether to search child groups for the child. Default TRUE.
         * @return {object} The child, if found or null if not.
         * @public
         */
-        public getChildByName(name: string): Kiwi.IChild {              //make recursive!!
-
+        public getChildByName(name: string, recurse: boolean = true): Kiwi.IChild {
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].name === name) {
                     return this.members[i];
+                }
+                else if(this.members[i].objType() == "Group"  &&  recurse) {
+                    var groupResponse = (<Kiwi.Group>this.members[i]).getChildByName( name );
+                    if(groupResponse !== null) {
+                        return groupResponse;
+                    }
                 }
             }
 
@@ -615,17 +621,23 @@ module Kiwi {
         }
 
         /**
-        * Get a child from this Group by its UUID.
+        * Get a child from this Group by its UUID. By default this will also check sub-groups.
         * @method getChildByID
         * @param id {String} The ID of the child.
+        * @param recurse {Boolean} Whether to search child groups for the child. Default TRUE.
         * @return {object} The child, if found or null if not.
         * @public
         */
-        public getChildByID(id: string): Kiwi.IChild {                  //make recursive!!
-
+        public getChildByID(id: string, recurse: boolean = true): Kiwi.IChild {
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].id === id) {
                     return this.members[i];
+                }
+                else if(this.members[i].objType() == "Group"  &&  recurse) {
+                    var groupResponse = (<Kiwi.Group>this.members[i]).getChildByID( id );
+                    if(groupResponse !== null) {
+                        return groupResponse;
+                    }
                 }
             }
 

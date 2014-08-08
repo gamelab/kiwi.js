@@ -3773,16 +3773,23 @@ var Kiwi;
         };
 
         /**
-        * Get a child from this Group by its name.
+        * Get a child from this Group by its name. By default this will also check sub-groups.
         * @method getChildByName
-        * @param name {String} The name of the child
+        * @param name {String} The name of the child.
+        * @param recurse {Boolean} Whether to search child groups for the child. Default TRUE.
         * @return {object} The child, if found or null if not.
         * @public
         */
-        Group.prototype.getChildByName = function (name) {
+        Group.prototype.getChildByName = function (name, recurse) {
+            if (typeof recurse === "undefined") { recurse = true; }
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].name === name) {
                     return this.members[i];
+                } else if (this.members[i].objType() == "Group" && recurse) {
+                    var groupResponse = this.members[i].getChildByName(name);
+                    if (groupResponse !== null) {
+                        return groupResponse;
+                    }
                 }
             }
 
@@ -3790,16 +3797,23 @@ var Kiwi;
         };
 
         /**
-        * Get a child from this Group by its UUID.
+        * Get a child from this Group by its UUID. By default this will also check sub-groups.
         * @method getChildByID
         * @param id {String} The ID of the child.
+        * @param recurse {Boolean} Whether to search child groups for the child. Default TRUE.
         * @return {object} The child, if found or null if not.
         * @public
         */
-        Group.prototype.getChildByID = function (id) {
+        Group.prototype.getChildByID = function (id, recurse) {
+            if (typeof recurse === "undefined") { recurse = true; }
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].id === id) {
                     return this.members[i];
+                } else if (this.members[i].objType() == "Group" && recurse) {
+                    var groupResponse = this.members[i].getChildByID(id);
+                    if (groupResponse !== null) {
+                        return groupResponse;
+                    }
                 }
             }
 

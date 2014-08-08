@@ -1668,6 +1668,14 @@ declare module Kiwi {
         * @public
         */
         hasTag(tag: string): boolean;
+        /**
+        * Describes the type of this object.
+        * @method objType
+        * @returns string
+        * @public
+        * @since 1.1.0
+        */
+        objType(): string;
     }
 }
 /**
@@ -2508,21 +2516,23 @@ declare module Kiwi {
         */
         public getChildAt(index: number): IChild;
         /**
-        * Get a child from this Group by its name.
+        * Get a child from this Group by its name. By default this will also check sub-groups.
         * @method getChildByName
-        * @param name {String} The name of the child
+        * @param name {String} The name of the child.
+        * @param recurse {Boolean} Whether to search child groups for the child. Default TRUE.
         * @return {object} The child, if found or null if not.
         * @public
         */
-        public getChildByName(name: string): IChild;
+        public getChildByName(name: string, recurse?: boolean): IChild;
         /**
-        * Get a child from this Group by its UUID.
+        * Get a child from this Group by its UUID. By default this will also check sub-groups.
         * @method getChildByID
         * @param id {String} The ID of the child.
+        * @param recurse {Boolean} Whether to search child groups for the child. Default TRUE.
         * @return {object} The child, if found or null if not.
         * @public
         */
-        public getChildByID(id: string): IChild;
+        public getChildByID(id: string, recurse?: boolean): IChild;
         /**
         * Returns the index position of the Entity or -1 if not found.
         * @method getChildIndex
