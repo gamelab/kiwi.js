@@ -514,7 +514,7 @@ module Kiwi {
                     console.log(&#x27;  Kiwi.StateManager: &#x27; + tempState.config.name + &#x27; was successfully added.&#x27;);
 
                 if (switchTo === true) {
-                    this.setCurrentState(tempState.config.name);
+                    this.switchState( tempState.config.name );
                 }
 
                 return true;

@@ -2099,7 +2099,7 @@ var Kiwi;
                     console.log('  Kiwi.StateManager: ' + tempState.config.name + ' was successfully added.');
 
                 if (switchTo === true) {
-                    this.setCurrentState(tempState.config.name);
+                    this.switchState(tempState.config.name);
                 }
 
                 return true;
@@ -5151,6 +5151,17 @@ var Kiwi;
         */
         Signal.prototype.halt = function () {
             this._shouldPropagate = false;
+        };
+
+        /**
+        * Resume propagation of the event, resuming the dispatch to next listeners on the queue.
+        * <p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p>
+        * @see Signal.prototype.disable
+        * @method resume
+        * @public
+        */
+        Signal.prototype.resume = function () {
+            this._shouldPropagate = true;
         };
 
         /**

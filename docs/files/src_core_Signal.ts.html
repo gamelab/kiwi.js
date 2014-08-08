@@ -658,6 +658,19 @@ module Kiwi {
         }
 
         /**
+        * Resume propagation of the event, resuming the dispatch to next listeners on the queue.
+        * &lt;p&gt;&lt;strong&gt;IMPORTANT:&lt;/strong&gt; should be called only during signal dispatch, calling it before/after dispatch won&#x27;t affect signal broadcast.&lt;/p&gt;
+        * @see Signal.prototype.disable
+        * @method resume
+        * @public
+        */
+        public resume() {
+
+            this._shouldPropagate = true;
+
+        }
+
+        /**
         * Dispatch/Broadcast Signal to all listeners added to the queue.
         * @method dispatch
         * @param [params]* {any} Parameters that should be passed to each handler.

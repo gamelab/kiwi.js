@@ -15596,6 +15596,21 @@
         {
             "file": "src\\core\\Signal.ts",
             "line": 308,
+            "description": "Resume propagation of the event, resuming the dispatch to next listeners on the queue.\n<p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p>",
+            "see": [
+                "Signal.prototype.disable"
+            ],
+            "itemtype": "method",
+            "name": "resume",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Signal",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src\\core\\Signal.ts",
+            "line": 321,
             "description": "Dispatch/Broadcast Signal to all listeners added to the queue.",
             "itemtype": "method",
             "name": "dispatch",
@@ -15616,7 +15631,7 @@
         },
         {
             "file": "src\\core\\Signal.ts",
-            "line": 345,
+            "line": 358,
             "description": "Forget memorized arguments. See Signal.memorize",
             "itemtype": "method",
             "name": "forget",
@@ -15628,7 +15643,7 @@
         },
         {
             "file": "src\\core\\Signal.ts",
-            "line": 356,
+            "line": 369,
             "description": "Remove all bindings from signal and destroy any reference to external objects (destroy Signal object).\n<p><strong>IMPORTANT:</strong> calling any method on the signal instance after calling dispose will throw errors.</p>",
             "itemtype": "method",
             "name": "dispose",

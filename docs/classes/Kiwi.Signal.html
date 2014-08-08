@@ -466,6 +466,13 @@ Released under the MIT license
                             </li>
                         
                             <li class="index-item method public">
+                                <a href="#method_resume">resume</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_validateListener">validateListener</a>
 
                                 
@@ -799,7 +806,7 @@ If none match then this method returns -1.</p>
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l308"><code>src\core\Signal.ts:308</code></a>
+        <a href="../files/src_core_Signal.ts.html#l321"><code>src\core\Signal.ts:321</code></a>
         
         </p>
 
@@ -883,7 +890,7 @@ If none match then this method returns -1.</p>
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l356"><code>src\core\Signal.ts:356</code></a>
+        <a href="../files/src_core_Signal.ts.html#l369"><code>src\core\Signal.ts:369</code></a>
         
         </p>
 
@@ -940,7 +947,7 @@ If none match then this method returns -1.</p>
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l345"><code>src\core\Signal.ts:345</code></a>
+        <a href="../files/src_core_Signal.ts.html#l358"><code>src\core\Signal.ts:358</code></a>
         
         </p>
 
@@ -1217,6 +1224,63 @@ If none match then this method returns -1.</p>
     <div class="description">
         <p>Remove all listeners from the Signal.</p>
 
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_resume" class="method item public">
+    <h3 class="name"><code>resume</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Signal.ts.html#l308"><code>src\core\Signal.ts:308</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Resume propagation of the event, resuming the dispatch to next listeners on the queue.</p>
+<p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won&#39;t affect signal broadcast.</p>
     </div>
 
     
