@@ -2491,6 +2491,7 @@ declare module Kiwi {
         * @param [destroy=false] {boolean} If the entity should run the destroy method when it is removed.
         * @return {object} The Entity that was removed from this Group if alive, otherwise null
         * @public
+        * @deprecated in v1.1.0
         */
         public removeFirstAlive(destroy?: boolean): IChild;
         /**
@@ -2535,6 +2536,7 @@ declare module Kiwi {
         * @method getFirstAlive
         * @return {object}
         * @public
+        * @deprecated in v1.1.0
         */
         public getFirstAlive(): IChild;
         /**
@@ -2542,6 +2544,7 @@ declare module Kiwi {
         * @method getFirstDead
         * @return {object}
         * @public
+        * @deprecated in v1.1.0
         */
         public getFirstDead(): IChild;
         /**

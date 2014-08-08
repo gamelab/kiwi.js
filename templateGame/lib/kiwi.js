@@ -3745,6 +3745,7 @@ var Kiwi;
         * @param [destroy=false] {boolean} If the entity should run the destroy method when it is removed.
         * @return {object} The Entity that was removed from this Group if alive, otherwise null
         * @public
+        * @deprecated in v1.1.0
         */
         Group.prototype.removeFirstAlive = function (destroy) {
             if (typeof destroy === "undefined") { destroy = false; }
@@ -3821,6 +3822,7 @@ var Kiwi;
         * @method getFirstAlive
         * @return {object}
         * @public
+        * @deprecated in v1.1.0
         */
         Group.prototype.getFirstAlive = function () {
             for (var i = 0; i < this.members.length; i++) {
@@ -3837,6 +3839,7 @@ var Kiwi;
         * @method getFirstDead
         * @return {object}
         * @public
+        * @deprecated in v1.1.0
         */
         Group.prototype.getFirstDead = function () {
             for (var i = 0; i < this.members.length; i++) {
