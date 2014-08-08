@@ -1,11 +1,3 @@
-Caution: This branch is still under development!
-================================================
-* If you are seeing this, the readme is not finished.
-* Finalise new features.
-X Double-check contributors section.
-X Link to blueprints
-X New codename?
-
 Kiwi.js 1.1.0
 =============
 
@@ -89,12 +81,16 @@ Our [Official Documentation Codex](http://www.kiwijs.org/documentation/getting-s
 * WebGL now properly clears video memory when swapping states, preventing eventual instability. Garbage collection was optimised during State transitions.
 * Fixed bug where some Geom objects accidentally swapped x and y while doing geometry. Note: `Math.atan2` takes arguments in the order `y, x`. Yes, it's silly. Yes, you have to do it.
 * MasterClock now reports a correct delta, rather than always returning 0.1ms.
+* CocoonJS input now works properly. You are required to have no DOM elements in your HTML body for this to work.
+* Touch input now no longer reports two `onUp` events per touch. Issue may still persist on default Android browser.
+* Prevent switching a State while another State is loading.
 * Numerous small corrections to documentation: API reference is much more accurate.
 
 #### Deprecations and Removals
 * Examples have been moved to a new repo, reducing the size of Kiwi.js repo downloads.
 * Deprecated `willRender` flag on all objects. It now maps to `visible`, which serves the same purpose.
 * Deprecated `dirty` flag on Box and Camera objects. It didn't do anything and at worst was an unnecessary check.
+* Deprecated `removeFirstAlive`, `getFirstAlive`, and `getFirstDead` methods on Group objects. They still function, but are of extremely limited use.
 
 
 ## Release Notes for Previous Versions
