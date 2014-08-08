@@ -2,10 +2,12 @@ Caution: This branch is still under development!
 ================================================
 * If you are seeing this, the readme is not finished.
 * Finalise new features.
-* Double-check contributors section.
+X Double-check contributors section.
+X Link to blueprints
+X New codename?
 
 Kiwi.js 1.1.0
-============
+=============
 
 ![Splash](http://kiwi-js.s3.amazonaws.com/wounds-with-friends.jpg) 
 
@@ -13,7 +15,7 @@ Kiwi.js is the worlds easiest to use Open Source HTML5 game framework for making
 
 Our focus is blazingly fast WebGL rendering and complimentary tools to make professional quality serious games. We use [CocoonJS](https://www.ludei.com/) for publishing games and App creation. 
 
-Version: 1.1.0 "Iwatani"
+Version: 1.1.0 "Shigeru"
 
 - Visit the [Official Website](http://www.kiwijs.org/documentation/getting-started/)
 - Follow us on [Twitter](http://www.twitter.com/kiwijsengine)
@@ -86,6 +88,7 @@ Our [Official Documentation Codex](http://www.kiwijs.org/documentation/getting-s
 * TextField now aligns text correctly in all situations, including a bug where Group scaling in Canvas mode would incorrectly position text; and updates properly in CocoonJS.
 * WebGL now properly clears video memory when swapping states, preventing eventual instability. Garbage collection was optimised during State transitions.
 * Fixed bug where some Geom objects accidentally swapped x and y while doing geometry. Note: `Math.atan2` takes arguments in the order `y, x`. Yes, it's silly. Yes, you have to do it.
+* MasterClock now reports a correct delta, rather than always returning 0.1ms.
 * Numerous small corrections to documentation: API reference is much more accurate.
 
 #### Deprecations and Removals
@@ -179,14 +182,15 @@ Kiwi.js is part of a larger ecosystem of products which will enable you to creat
 There are several ways to get started, starting from scratch is the generally accepted way to go about this, but if you want to get up and running even faster, Kiwi.js "Blueprint" games will help get your game building experience off to a flying start.
 
 Choose from any of the following:
-- HTML5 match-three game
-- HTML5 top-down game
-- HTML5 dressup game
-- HTML5 breakout game
-- HTML5 roguelike game
+- [HTML5 match-three game](http://www.kiwijs.org/documentation/blueprints/html5-match-three-game-blueprint/)
+- [HTML5 hidden object](http://www.kiwijs.org/documentation/blueprints/hidden-object-blueprint/)
+- [HTML5 dressup game](http://www.kiwijs.org/documentation/blueprints/dress-up-blueprint/)
+- [HTML5 breakout game](https://github.com/gamelab/Match-Three-Blueprint)
+- [HTML5 roguelike game](http://www.kiwijs.org/?p=4109)
+- [HTML5 distance flyer game](http://www.kiwijs.org/documentation/blueprints/distance-flyer-blueprint/)
+- HTML5 top-down game (in dev coming soon)
 - HTML5 platform game (in dev coming soon)
 - HTML5 crossword (in dev coming soon)
-- HTML5 hidden object (in dev coming soon)
 - HTML5 tower defense (in dev coming soon)
 - HTML5 poker game (in dev coming soon)
 
@@ -340,15 +344,22 @@ https://github.com/gamelab/kiwi.js/issues/new
 
 ##Community
 
-A massive shoutout to our contributors!
+A massive shoutout to our contributors on Github!
 
-- Ross Kettle
-- Ben Harding
-- Phil Wickliffe
-- Zach Frieberg
-- Locky Reid
-- Ido Yehieli
-- Benjamin D. Richards
+- Ross Kettle @rosskettle
+- Ben Harding @BenjaminHarding
+- Phil Wickliffe @stupidlikeafox
+- Zach Frieberg @zacharyf1991
+- Locky Reid @lockyreid
+- Ido Yehieli @tametick
+- Ellison Leão @ellisonleao
+- Kevin Johnson @cavemanpi
+- Dan Milward @danmilward
+- Julien Castelain @julien
+- Benjamin D. Richards @BenjaminDRichards
+- @ic5y
+- Hector Zarco Garcia @zzarcon
+- John Wu @tjwudi
 
 *Kiwi.js also uses code from a number of open source projects. Effort has been made to clearly identify authors in the code comments. If you notice and missing or incorrect attribution please let us know.*
 
