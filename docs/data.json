@@ -13878,14 +13878,14 @@
             "name": "getAllChildren",
             "params": [
                 {
-                    "name": "destinationArray",
-                    "description": "Optional: The array in which to store the results.",
-                    "type": "Array"
-                },
-                {
                     "name": "getGroups",
                     "description": "Optional: Whether to include Groups in the results. When false, will only collect GameObjects.",
                     "type": "Boolean"
+                },
+                {
+                    "name": "destinationArray",
+                    "description": "Optional: The array in which to store the results.",
+                    "type": "Array"
                 }
             ],
             "return": {

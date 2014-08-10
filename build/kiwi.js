@@ -3760,20 +3760,20 @@ var Kiwi;
         /**
         * Get all children of this Group. By default, this will search the entire sub-graph, including children of children etc.
         * @method getAllChildren
-        * @param destinationArray {Array} Optional: The array in which to store the results.
         * @param getGroups {boolean} Optional: Whether to include Groups in the results. When false, will only collect GameObjects.
+        * @param destinationArray {Array} Optional: The array in which to store the results.
         * @return {Array}
         * @since 1.1.0
         */
-        Group.prototype.getAllChildren = function (destinationArray, getGroups) {
-            if (typeof destinationArray === "undefined") { destinationArray = []; }
+        Group.prototype.getAllChildren = function (getGroups, destinationArray) {
             if (typeof getGroups === "undefined") { getGroups = true; }
+            if (typeof destinationArray === "undefined") { destinationArray = []; }
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].objType() == "Group") {
                     if (getGroups) {
                         destinationArray.push(this.members[i]);
                     }
-                    this.members[i].getAllChildren(destinationArray);
+                    this.members[i].getAllChildren(getGroups, destinationArray);
                 } else {
                     destinationArray.push(this.members[i]);
                 }

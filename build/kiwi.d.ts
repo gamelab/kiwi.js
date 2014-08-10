@@ -2510,12 +2510,12 @@ declare module Kiwi {
         /**
         * Get all children of this Group. By default, this will search the entire sub-graph, including children of children etc.
         * @method getAllChildren
-        * @param destinationArray {Array} Optional: The array in which to store the results.
         * @param getGroups {boolean} Optional: Whether to include Groups in the results. When false, will only collect GameObjects.
+        * @param destinationArray {Array} Optional: The array in which to store the results.
         * @return {Array}
         * @since 1.1.0
         */
-        public getAllChildren(destinationArray?: IChild[], getGroups?: boolean): IChild[];
+        public getAllChildren(getGroups?: boolean, destinationArray?: IChild[]): IChild[];
         /**
         * Get the child at a specific position in this Group by its index.
         * @method getChildAt
