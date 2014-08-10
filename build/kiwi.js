@@ -3903,21 +3903,41 @@ var Kiwi;
                 return null;
             }
 
+            /*
+            if (length === 0) {
+            length = this.members.length;
+            }
+            
+            if (start < 0 || start > length) {
+            start = 0;
+            }
+            
+            var rnd = start + (Math.random() * (start + length));
+            
+            if (rnd > this.members.length) {
+            return this.members[this.members.length - 1];
+            
+            } else {
+            return this.members[rnd];
+            }
+            */
+            // Comply start to viable range
+            start = Kiwi.Utils.GameMath.clamp(start, this.members.length - 1);
+
+            // Comply length to fit
             if (length === 0) {
                 length = this.members.length;
             }
-
-            if (start < 0 || start > length) {
-                start = 0;
+            if (this.members.length <= start + length) {
+                length = this.members.length - start - 1;
             }
 
-            var rnd = start + (Math.random() * (start + length));
+            // Create and truncate random index
+            var rnd = start + Math.random() * length;
+            rnd = Math.floor(rnd);
 
-            if (rnd > this.members.length) {
-                return this.members[this.members.length - 1];
-            } else {
-                return this.members[rnd];
-            }
+            // Return
+            return this.members[rnd];
         };
 
         /**

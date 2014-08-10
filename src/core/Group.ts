@@ -730,7 +730,7 @@ module Kiwi {
             if (this.members.length === 0) {
                 return null;
             }
-
+            /*
             if (length === 0) {
                 length = this.members.length;
             }
@@ -747,7 +747,25 @@ module Kiwi {
             } else {
                 return this.members[rnd];
             }
+            */
 
+            // Comply start to viable range
+            start = Kiwi.Utils.GameMath.clamp(start, this.members.length - 1);
+
+            // Comply length to fit
+            if(length === 0) {
+                length = this.members.length;
+            }
+            if(this.members.length <= start + length) {
+                length = this.members.length - start - 1;
+            }
+
+            // Create and truncate random index
+            var rnd = start + Math.random() * length;
+            rnd = Math.floor(rnd);
+
+            // Return
+            return this.members[rnd];
         }
 
         /**
