@@ -13872,7 +13872,34 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 581,
+            "line": 580,
+            "description": "Get all children of this Group. By default, this will search the entire sub-graph, including children of children etc.",
+            "itemtype": "method",
+            "name": "getAllChildren",
+            "params": [
+                {
+                    "name": "destinationArray",
+                    "description": "Optional: The array in which to store the results.",
+                    "type": "Array"
+                },
+                {
+                    "name": "getGroups",
+                    "description": "Optional: Whether to include Groups in the results. When false, will only collect GameObjects.",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "since": "1.1.0",
+            "class": "Kiwi.Group",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Group.ts",
+            "line": 604,
             "description": "Get the child at a specific position in this Group by its index.",
             "itemtype": "method",
             "name": "getChildAt",
@@ -13895,8 +13922,8 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 598,
-            "description": "Get a child from this Group by its name. By default this will also check sub-groups.",
+            "line": 621,
+            "description": "Get a child from this Group by its name. By default this will not check sub-groups, but if you supply the correct flag it will check the entire scene graph under this object.",
             "itemtype": "method",
             "name": "getChildByName",
             "params": [
@@ -13907,7 +13934,7 @@
                 },
                 {
                     "name": "recurse",
-                    "description": "Whether to search child groups for the child. Default TRUE.",
+                    "description": "Whether to search child groups for the child. Default FALSE.",
                     "type": "Boolean"
                 }
             ],
@@ -13923,8 +13950,8 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 623,
-            "description": "Get a child from this Group by its UUID. By default this will also check sub-groups.",
+            "line": 646,
+            "description": "Get a child from this Group by its UUID. By default this will not check sub-groups, but if you supply the correct flag it will check the entire scene graph under this object.",
             "itemtype": "method",
             "name": "getChildByID",
             "params": [
@@ -13935,7 +13962,7 @@
                 },
                 {
                     "name": "recurse",
-                    "description": "Whether to search child groups for the child. Default TRUE.",
+                    "description": "Whether to search child groups for the child. Default FALSE.",
                     "type": "Boolean"
                 }
             ],
@@ -13951,7 +13978,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 648,
+            "line": 671,
             "description": "Returns the index position of the Entity or -1 if not found.",
             "itemtype": "method",
             "name": "getChildIndex",
@@ -13974,7 +14001,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 661,
+            "line": 684,
             "description": "Returns the first Entity from this Group marked as 'alive' or null if no members are alive",
             "itemtype": "method",
             "name": "getFirstAlive",
@@ -13992,7 +14019,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 679,
+            "line": 702,
             "description": "Returns the first member of the Group which is not 'alive', returns null if all members are alive.",
             "itemtype": "method",
             "name": "getFirstDead",
@@ -14010,7 +14037,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 698,
+            "line": 721,
             "description": "Returns a member at random from the group.",
             "params": [
                 {
@@ -14036,7 +14063,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 730,
+            "line": 753,
             "description": "Returns an array of children which contain the tag which is passed.",
             "itemtype": "method",
             "name": "getChildrenByTag",
@@ -14060,7 +14087,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 758,
+            "line": 781,
             "description": "--------------------\nChild Depth Sorting Methods\n--------------------",
             "class": "Kiwi.Group",
             "module": "Kiwi",
@@ -14068,7 +14095,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 765,
+            "line": 788,
             "description": "Sets a new position of an existing Entity within the Group.",
             "itemtype": "method",
             "name": "setChildIndex",
@@ -14096,7 +14123,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 786,
+            "line": 809,
             "description": "Swaps the position of two existing Entities that are a direct child of this group.",
             "itemtype": "method",
             "name": "swapChildren",
@@ -14124,7 +14151,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 814,
+            "line": 837,
             "description": "Swaps the position of two existing Entities within the Group based on their index.",
             "itemtype": "method",
             "name": "swapChildrenAt",
@@ -14152,7 +14179,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 842,
+            "line": 865,
             "description": "Replaces a child Entity in this Group with a new one.",
             "itemtype": "method",
             "name": "replaceChild",
@@ -14180,7 +14207,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 875,
+            "line": 898,
             "description": "Loops through each member in the group and run a method on for each one.",
             "itemtype": "method",
             "name": "forEach",
@@ -14211,7 +14238,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 891,
+            "line": 914,
             "description": "Loop through each member of the groups that is alive.",
             "itemtype": "method",
             "name": "forEachAlive",
@@ -14242,7 +14269,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 911,
+            "line": 934,
             "description": "Sets a property on every member. If componentName is null the property is set on the entity itself, otherwise it is set on the named component. Uses runtime string property lookups. Not optimal for large groups if speed is an issue.",
             "itemtype": "method",
             "name": "setAll",
@@ -14271,7 +14298,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 931,
+            "line": 954,
             "description": "Calls a function on every member. If componentName is null the function is called on the entity itself, otherwise it is called on the named component. Uses runtime string property lookups. Not optimal for large groups if speed is an issue.",
             "itemtype": "method",
             "name": "callAll",
@@ -14300,7 +14327,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 951,
+            "line": 974,
             "description": "The update loop for this group.",
             "itemtype": "method",
             "name": "update",
@@ -14312,7 +14339,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 979,
+            "line": 1002,
             "description": "If an Entity no longer exists it is cleared for garbage collection or pool re-allocation",
             "itemtype": "property",
             "name": "exists",
@@ -14325,7 +14352,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 987,
+            "line": 1010,
             "description": "Toggles the exitence of this Group. An Entity that no longer exists can be garbage collected or re-allocated in a pool\nThis method should be over-ridden to handle specific canvas/webgl implementations.",
             "itemtype": "property",
             "name": "exists",
@@ -14338,7 +14365,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1002,
+            "line": 1025,
             "description": "An active Entity is one that has its update method called by its parent.",
             "itemtype": "property",
             "name": "_active",
@@ -14352,7 +14379,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1011,
+            "line": 1034,
             "description": "Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.\nThis method should be over-ridden to handle specific dom/canvas/webgl implementations.",
             "itemtype": "property",
             "name": "active",
@@ -14366,7 +14393,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1027,
+            "line": 1050,
             "description": "The render method that is required by the IChild. \nThis method never gets called as the render is only worried about rendering entities.",
             "itemtype": "method",
             "name": "render",
@@ -14386,7 +14413,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1039,
+            "line": 1062,
             "description": "Returns the number of member which are marked as 'alive'",
             "itemtype": "method",
             "name": "countLiving",
@@ -14402,7 +14429,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1059,
+            "line": 1082,
             "description": "Returns the number of member which are not marked as 'alive'",
             "itemtype": "method",
             "name": "countDead",
@@ -14418,7 +14445,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1079,
+            "line": 1102,
             "description": "Clear all children from this Group",
             "itemtype": "method",
             "name": "clear",
@@ -14430,7 +14457,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1090,
+            "line": 1113,
             "description": "Controls whether render is automatically called by the parent.",
             "itemtype": "property",
             "name": "_willRender",
@@ -14445,7 +14472,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1099,
+            "line": 1122,
             "description": "Controls whether render is automatically called by the parent.",
             "itemtype": "property",
             "name": "willRender",
@@ -14464,7 +14491,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1114,
+            "line": 1137,
             "description": "A boolean that indicates whether or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.",
             "itemtype": "property",
             "name": "_visible",
@@ -14479,7 +14506,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1124,
+            "line": 1147,
             "description": "Set the visibility of this entity. True or False.",
             "itemtype": "property",
             "name": "visible",
@@ -14494,7 +14521,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1140,
+            "line": 1163,
             "description": "---------------\nTagging System\n---------------",
             "class": "Kiwi.Group",
             "module": "Kiwi",
@@ -14502,7 +14529,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1147,
+            "line": 1170,
             "description": "Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.\nBy default Entitys contain no tags.",
             "itemtype": "property",
             "name": "_tags",
@@ -14516,7 +14543,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1157,
+            "line": 1180,
             "description": "Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.\nYou can pass multiple strings to add multiple tags.",
             "itemtype": "method",
             "name": "addTags",
@@ -14536,7 +14563,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1176,
+            "line": 1199,
             "description": "Removes a Tag from this Entity.",
             "itemtype": "method",
             "name": "removeTag",
@@ -14556,7 +14583,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1192,
+            "line": 1215,
             "description": "Checks to see if this Entity has a Tag based upon a string which you pass.",
             "itemtype": "method",
             "name": "hasTag",
@@ -14580,7 +14607,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1213,
+            "line": 1236,
             "description": "Removes all children and destroys the Group.",
             "itemtype": "method",
             "name": "destroy",
@@ -14608,7 +14635,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1256,
+            "line": 1279,
             "description": "A temporary property that holds a boolean indicating whether or not the group's children should be destroyed or not.",
             "itemtype": "property",
             "name": "_destroyRemoveChildren",
@@ -47706,15 +47733,15 @@
         },
         {
             "message": "Missing item type\nReturns a member at random from the group.",
-            "line": " src/core/Group.ts:698"
+            "line": " src/core/Group.ts:721"
         },
         {
             "message": "Missing item type\n--------------------\nChild Depth Sorting Methods\n--------------------",
-            "line": " src/core/Group.ts:758"
+            "line": " src/core/Group.ts:781"
         },
         {
             "message": "Missing item type\n---------------\nTagging System\n---------------",
-            "line": " src/core/Group.ts:1140"
+            "line": " src/core/Group.ts:1163"
         },
         {
             "message": "Missing item type\nIf the callbacks should propagate or not.",

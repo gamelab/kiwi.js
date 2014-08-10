@@ -696,6 +696,13 @@ There can only ever be a single State active at a given time.</p>
                                 
                             </li>
                         
+                            <li class="index-item method inherited">
+                                <a href="#method_getAllChildren">getAllChildren</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public inherited">
                                 <a href="#method_getChildAt">getChildAt</a>
 
@@ -2675,7 +2682,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1157"><code>src&#x2F;core&#x2F;Group.ts:1157</code></a>
+        <a href="../files/src_core_Group.ts.html#l1180"><code>src&#x2F;core&#x2F;Group.ts:1180</code></a>
         
         </p>
 
@@ -3110,7 +3117,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l931"><code>src&#x2F;core&#x2F;Group.ts:931</code></a>
+        <a href="../files/src_core_Group.ts.html#l954"><code>src&#x2F;core&#x2F;Group.ts:954</code></a>
         
         </p>
 
@@ -3295,7 +3302,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1079"><code>src&#x2F;core&#x2F;Group.ts:1079</code></a>
+        <a href="../files/src_core_Group.ts.html#l1102"><code>src&#x2F;core&#x2F;Group.ts:1102</code></a>
         
         </p>
 
@@ -3689,7 +3696,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1059"><code>src&#x2F;core&#x2F;Group.ts:1059</code></a>
+        <a href="../files/src_core_Group.ts.html#l1082"><code>src&#x2F;core&#x2F;Group.ts:1082</code></a>
         
         </p>
 
@@ -3759,7 +3766,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1039"><code>src&#x2F;core&#x2F;Group.ts:1039</code></a>
+        <a href="../files/src_core_Group.ts.html#l1062"><code>src&#x2F;core&#x2F;Group.ts:1062</code></a>
         
         </p>
 
@@ -4109,7 +4116,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l875"><code>src&#x2F;core&#x2F;Group.ts:875</code></a>
+        <a href="../files/src_core_Group.ts.html#l898"><code>src&#x2F;core&#x2F;Group.ts:898</code></a>
         
         </p>
 
@@ -4244,7 +4251,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l891"><code>src&#x2F;core&#x2F;Group.ts:891</code></a>
+        <a href="../files/src_core_Group.ts.html#l914"><code>src&#x2F;core&#x2F;Group.ts:914</code></a>
         
         </p>
 
@@ -4326,6 +4333,132 @@ Returns the number of Objects removed.</p>
 </div>
 
                 
+                    <div id="method_getAllChildren" class="method item inherited">
+    <h3 class="name"><code>getAllChildren</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>destinationArray</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>getGroups</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Array</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_getAllChildren">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l580"><code>src&#x2F;core&#x2F;Group.ts:580</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Get all children of this Group. By default, this will search the entire sub-graph, including children of children etc.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">destinationArray</code>
+                        <span class="type">Array</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Optional: The array in which to store the results.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">getGroups</code>
+                        <span class="type">Boolean</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Optional: Whether to include Groups in the results. When false, will only collect GameObjects.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Array</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_getChildAt" class="method item public inherited">
     <h3 class="name"><code>getChildAt</code></h3>
 
@@ -4371,7 +4504,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l581"><code>src&#x2F;core&#x2F;Group.ts:581</code></a>
+        <a href="../files/src_core_Group.ts.html#l604"><code>src&#x2F;core&#x2F;Group.ts:604</code></a>
         
         </p>
 
@@ -4483,7 +4616,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l623"><code>src&#x2F;core&#x2F;Group.ts:623</code></a>
+        <a href="../files/src_core_Group.ts.html#l646"><code>src&#x2F;core&#x2F;Group.ts:646</code></a>
         
         </p>
 
@@ -4494,7 +4627,7 @@ Returns the number of Objects removed.</p>
     </div>
 
     <div class="description">
-        <p>Get a child from this Group by its UUID. By default this will also check sub-groups.</p>
+        <p>Get a child from this Group by its UUID. By default this will not check sub-groups, but if you supply the correct flag it will check the entire scene graph under this object.</p>
 
     </div>
 
@@ -4529,7 +4662,7 @@ Returns the number of Objects removed.</p>
                     
 
                     <div class="param-description">
-                        <p>Whether to search child groups for the child. Default TRUE.</p>
+                        <p>Whether to search child groups for the child. Default FALSE.</p>
 
                     </div>
 
@@ -4611,7 +4744,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l598"><code>src&#x2F;core&#x2F;Group.ts:598</code></a>
+        <a href="../files/src_core_Group.ts.html#l621"><code>src&#x2F;core&#x2F;Group.ts:621</code></a>
         
         </p>
 
@@ -4622,7 +4755,7 @@ Returns the number of Objects removed.</p>
     </div>
 
     <div class="description">
-        <p>Get a child from this Group by its name. By default this will also check sub-groups.</p>
+        <p>Get a child from this Group by its name. By default this will not check sub-groups, but if you supply the correct flag it will check the entire scene graph under this object.</p>
 
     </div>
 
@@ -4657,7 +4790,7 @@ Returns the number of Objects removed.</p>
                     
 
                     <div class="param-description">
-                        <p>Whether to search child groups for the child. Default TRUE.</p>
+                        <p>Whether to search child groups for the child. Default FALSE.</p>
 
                     </div>
 
@@ -4733,7 +4866,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l648"><code>src&#x2F;core&#x2F;Group.ts:648</code></a>
+        <a href="../files/src_core_Group.ts.html#l671"><code>src&#x2F;core&#x2F;Group.ts:671</code></a>
         
         </p>
 
@@ -4839,7 +4972,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l730"><code>src&#x2F;core&#x2F;Group.ts:730</code></a>
+        <a href="../files/src_core_Group.ts.html#l753"><code>src&#x2F;core&#x2F;Group.ts:753</code></a>
         
         </p>
 
@@ -4936,7 +5069,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l661"><code>src&#x2F;core&#x2F;Group.ts:661</code></a>
+        <a href="../files/src_core_Group.ts.html#l684"><code>src&#x2F;core&#x2F;Group.ts:684</code></a>
         
         </p>
 
@@ -5010,7 +5143,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l679"><code>src&#x2F;core&#x2F;Group.ts:679</code></a>
+        <a href="../files/src_core_Group.ts.html#l702"><code>src&#x2F;core&#x2F;Group.ts:702</code></a>
         
         </p>
 
@@ -5092,7 +5225,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1192"><code>src&#x2F;core&#x2F;Group.ts:1192</code></a>
+        <a href="../files/src_core_Group.ts.html#l1215"><code>src&#x2F;core&#x2F;Group.ts:1215</code></a>
         
         </p>
 
@@ -6498,7 +6631,7 @@ This is an INTERNAL Kiwi method and DEVS shouldn&#39;t really need to worry abou
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1176"><code>src&#x2F;core&#x2F;Group.ts:1176</code></a>
+        <a href="../files/src_core_Group.ts.html#l1199"><code>src&#x2F;core&#x2F;Group.ts:1199</code></a>
         
         </p>
 
@@ -6590,7 +6723,7 @@ This is an INTERNAL Kiwi method and DEVS shouldn&#39;t really need to worry abou
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1027"><code>src&#x2F;core&#x2F;Group.ts:1027</code></a>
+        <a href="../files/src_core_Group.ts.html#l1050"><code>src&#x2F;core&#x2F;Group.ts:1050</code></a>
         
         </p>
 
@@ -6688,7 +6821,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l842"><code>src&#x2F;core&#x2F;Group.ts:842</code></a>
+        <a href="../files/src_core_Group.ts.html#l865"><code>src&#x2F;core&#x2F;Group.ts:865</code></a>
         
         </p>
 
@@ -6818,7 +6951,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l911"><code>src&#x2F;core&#x2F;Group.ts:911</code></a>
+        <a href="../files/src_core_Group.ts.html#l934"><code>src&#x2F;core&#x2F;Group.ts:934</code></a>
         
         </p>
 
@@ -6948,7 +7081,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l765"><code>src&#x2F;core&#x2F;Group.ts:765</code></a>
+        <a href="../files/src_core_Group.ts.html#l788"><code>src&#x2F;core&#x2F;Group.ts:788</code></a>
         
         </p>
 
@@ -7133,7 +7266,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l786"><code>src&#x2F;core&#x2F;Group.ts:786</code></a>
+        <a href="../files/src_core_Group.ts.html#l809"><code>src&#x2F;core&#x2F;Group.ts:809</code></a>
         
         </p>
 
@@ -7261,7 +7394,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l814"><code>src&#x2F;core&#x2F;Group.ts:814</code></a>
+        <a href="../files/src_core_Group.ts.html#l837"><code>src&#x2F;core&#x2F;Group.ts:837</code></a>
         
         </p>
 
@@ -7425,7 +7558,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1002"><code>src&#x2F;core&#x2F;Group.ts:1002</code></a>
+        <a href="../files/src_core_Group.ts.html#l1025"><code>src&#x2F;core&#x2F;Group.ts:1025</code></a>
         
         </p>
 
@@ -7471,7 +7604,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1256"><code>src&#x2F;core&#x2F;Group.ts:1256</code></a>
+        <a href="../files/src_core_Group.ts.html#l1279"><code>src&#x2F;core&#x2F;Group.ts:1279</code></a>
         
         </p>
 
@@ -7603,7 +7736,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1147"><code>src&#x2F;core&#x2F;Group.ts:1147</code></a>
+        <a href="../files/src_core_Group.ts.html#l1170"><code>src&#x2F;core&#x2F;Group.ts:1170</code></a>
         
         </p>
 
@@ -7650,7 +7783,7 @@ By default Entitys contain no tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1114"><code>src&#x2F;core&#x2F;Group.ts:1114</code></a>
+        <a href="../files/src_core_Group.ts.html#l1137"><code>src&#x2F;core&#x2F;Group.ts:1137</code></a>
         
         </p>
 
@@ -7700,7 +7833,7 @@ By default Entitys contain no tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1090"><code>src&#x2F;core&#x2F;Group.ts:1090</code></a>
+        <a href="../files/src_core_Group.ts.html#l1113"><code>src&#x2F;core&#x2F;Group.ts:1113</code></a>
         
         </p>
 
@@ -7746,7 +7879,7 @@ By default Entitys contain no tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1011"><code>src&#x2F;core&#x2F;Group.ts:1011</code></a>
+        <a href="../files/src_core_Group.ts.html#l1034"><code>src&#x2F;core&#x2F;Group.ts:1034</code></a>
         
         </p>
 
@@ -8213,7 +8346,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
             
         
         
-        <a href="../files/src_core_Group.ts.html#l979"><code>src&#x2F;core&#x2F;Group.ts:979</code></a>
+        <a href="../files/src_core_Group.ts.html#l1002"><code>src&#x2F;core&#x2F;Group.ts:1002</code></a>
         
         </p>
 
@@ -8852,7 +8985,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1124"><code>src&#x2F;core&#x2F;Group.ts:1124</code></a>
+        <a href="../files/src_core_Group.ts.html#l1147"><code>src&#x2F;core&#x2F;Group.ts:1147</code></a>
         
         </p>
 
@@ -8902,7 +9035,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1099"><code>src&#x2F;core&#x2F;Group.ts:1099</code></a>
+        <a href="../files/src_core_Group.ts.html#l1122"><code>src&#x2F;core&#x2F;Group.ts:1122</code></a>
         
         </p>
 

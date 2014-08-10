@@ -577,6 +577,29 @@ module Kiwi {
         * -------------------
         **/
 
+        /**
+        * Get all children of this Group. By default, this will search the entire sub-graph, including children of children etc.
+        * @method getAllChildren
+        * @param destinationArray {Array} Optional: The array in which to store the results.
+        * @param getGroups {boolean} Optional: Whether to include Groups in the results. When false, will only collect GameObjects.
+        * @return {Array}
+        * @since 1.1.0
+        */
+        public getAllChildren(destinationArray: IChild[] = [], getGroups: boolean = true): IChild[] {
+            for( var i = 0;  i < this.members.length;  i++) {
+                if(this.members[i].objType() == "Group") {
+                    if(getGroups) {
+                        destinationArray.push(this.members[i]);
+                    }
+                    (<Kiwi.Group>this.members[i]).getAllChildren(destinationArray);
+                }
+                else {
+                    destinationArray.push(this.members[i]);
+                }
+            }
+            return destinationArray;
+        }
+
 
         /**
         * Get the child at a specific position in this Group by its index.
@@ -596,20 +619,20 @@ module Kiwi {
         }
 
         /**
-        * Get a child from this Group by its name. By default this will also check sub-groups.
+        * Get a child from this Group by its name. By default this will not check sub-groups, but if you supply the correct flag it will check the entire scene graph under this object.
         * @method getChildByName
         * @param name {String} The name of the child.
-        * @param recurse {Boolean} Whether to search child groups for the child. Default TRUE.
+        * @param recurse {Boolean} Whether to search child groups for the child. Default FALSE.
         * @return {object} The child, if found or null if not.
         * @public
         */
-        public getChildByName(name: string, recurse: boolean = true): Kiwi.IChild {
+        public getChildByName(name: string, recurse: boolean = false): Kiwi.IChild {
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].name === name) {
                     return this.members[i];
                 }
                 else if(this.members[i].objType() == "Group"  &&  recurse) {
-                    var groupResponse = (<Kiwi.Group>this.members[i]).getChildByName( name );
+                    var groupResponse = (<Kiwi.Group>this.members[i]).getChildByName( name, true );
                     if(groupResponse !== null) {
                         return groupResponse;
                     }
@@ -621,20 +644,20 @@ module Kiwi {
         }
 
         /**
-        * Get a child from this Group by its UUID. By default this will also check sub-groups.
+        * Get a child from this Group by its UUID. By default this will not check sub-groups, but if you supply the correct flag it will check the entire scene graph under this object.
         * @method getChildByID
         * @param id {String} The ID of the child.
-        * @param recurse {Boolean} Whether to search child groups for the child. Default TRUE.
+        * @param recurse {Boolean} Whether to search child groups for the child. Default FALSE.
         * @return {object} The child, if found or null if not.
         * @public
         */
-        public getChildByID(id: string, recurse: boolean = true): Kiwi.IChild {
+        public getChildByID(id: string, recurse: boolean = false): Kiwi.IChild {
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].id === id) {
                     return this.members[i];
                 }
                 else if(this.members[i].objType() == "Group"  &&  recurse) {
-                    var groupResponse = (<Kiwi.Group>this.members[i]).getChildByID( id );
+                    var groupResponse = (<Kiwi.Group>this.members[i]).getChildByID( id, true );
                     if(groupResponse !== null) {
                         return groupResponse;
                     }
