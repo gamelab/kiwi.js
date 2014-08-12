@@ -10633,7 +10633,7 @@ declare module Kiwi.Renderers {
         * @public
         * @since 1.1.0
         */
-        public setShaderPair: (shaderPair: string) => void;
+        public setShaderPair(shaderPair: string): void;
         /**
         * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
         * @method _collateVertexAttributeArrays

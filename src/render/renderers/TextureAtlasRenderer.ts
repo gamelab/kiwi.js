@@ -186,7 +186,7 @@ module Kiwi.Renderers {
         * @public
         * @since 1.1.0
         */
-        public setShaderPair = function(shaderPair: string) {
+        public setShaderPair(shaderPair: string) {
             if(typeof shaderPair == "string")
                 this._shaderPairName = shaderPair;
         }

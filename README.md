@@ -58,6 +58,9 @@ Our [Official Documentation Codex](http://www.kiwijs.org/documentation/getting-s
   * `addTag()` and `removeTag()` methods accept any number of Strings as parameters
   * `hasTag()` method checks for tags
   * `Group.getChildrenByTag` method available
+* Group member selections enhanced:
+  * `getAllChildren()` method available
+  * `getChildByName()` and `getChildByID()` have the option to examine sub-groups
 * Substantial revision of the WebGL rendering engine to support future features.
   * Game objects can now safely perform canvas texturing operations during `renderGL()`.
   * GLBlendMode object added. Now you can set blend modes in WebGL quickly and safely.
@@ -85,6 +88,7 @@ Our [Official Documentation Codex](http://www.kiwijs.org/documentation/getting-s
 * Touch input now no longer reports two `onUp` events per touch. Issue may still persist on default Android browser.
 * Prevent switching a State while another State is loading.
 * Numerous small corrections to documentation: API reference is much more accurate.
+* `Group.getRandom()` now returns proper results. 
 
 #### Deprecations and Removals
 * Examples have been moved to a new repo, reducing the size of Kiwi.js repo downloads.
@@ -314,14 +318,14 @@ Stay tuned for more updates and more tools!
 
 ##Roadmap
 
-Here are some of the features planned for future release.
-
-####Version 2.0 "Bushnell"
+Here are some of the features planned for future releases.
 
 - Multiplayer capability (yup, that's right!)
 - WebGL lighting
-- Tools!
-- New Physics engine 
+- Productivity tools!
+- Advanced physics engine
+- Multiple cameras with filters
+- A whole new world!
 
 ##Contributing
 

@@ -16469,17 +16469,6 @@ var Kiwi;
                 * @private
                 */
                 this._maxItems = 1000;
-                /**
-                * Sets shader pair by name
-                * @method setShaderPair
-                * @param shaderPair {String}
-                * @public
-                * @since 1.1.0
-                */
-                this.setShaderPair = function (shaderPair) {
-                    if (typeof shaderPair == "string")
-                        this._shaderPairName = shaderPair;
-                };
                 var bufferItemSize = 5;
                 this._vertexBuffer = new Renderers.GLArrayBuffer(gl, bufferItemSize);
                 var vertsPerQuad = 6;
@@ -16582,6 +16571,18 @@ var Kiwi;
             */
             TextureAtlasRenderer.prototype.updateTextureSize = function (gl, size) {
                 gl.uniform2fv(this.shaderPair.uniforms.uTextureSize.location, size);
+            };
+
+            /**
+            * Sets shader pair by name
+            * @method setShaderPair
+            * @param shaderPair {String}
+            * @public
+            * @since 1.1.0
+            */
+            TextureAtlasRenderer.prototype.setShaderPair = function (shaderPair) {
+                if (typeof shaderPair == "string")
+                    this._shaderPairName = shaderPair;
             };
 
             /**
