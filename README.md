@@ -87,8 +87,10 @@ Our [Official Documentation Codex](http://www.kiwijs.org/documentation/getting-s
 * CocoonJS input now works properly. You are required to have no DOM elements in your HTML body for this to work.
 * Touch input now no longer reports two `onUp` events per touch. Issue may still persist on default Android browser.
 * Prevent switching a State while another State is loading.
-* Numerous small corrections to documentation: API reference is much more accurate.
 * `Group.getRandom()` now returns proper results. 
+* Groups now correctly respect child position when the group has a non-zero anchor point.
+* Stage offset is correctly calculated, allowing for correct input positions.
+* Numerous small corrections to documentation: API reference is much more accurate.
 
 #### Deprecations and Removals
 * Examples have been moved to a new repo, reducing the size of Kiwi.js repo downloads.
