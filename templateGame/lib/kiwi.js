@@ -23461,7 +23461,17 @@ var Kiwi;
             */
             Transform.prototype.getParentMatrix = function () {
                 if (this._parent) {
-                    return this._parent.getConcatenatedMatrix();
+                    // Obtain raw matrix; this includes anchor point offset
+                    var matrix = this._parent.getConcatenatedMatrix();
+
+                    // Remove anchor point offset
+                    if (this._parent.anchorPointX != 0 || this._parent.anchorPointY != 0) {
+                        matrix = matrix.clone();
+                        var inverseOffset = new Kiwi.Geom.Matrix();
+                        inverseOffset.translate(-this._parent.anchorPointX, -this._parent.anchorPointY);
+                        matrix.appendMatrix(inverseOffset);
+                    }
+                    return matrix;
                 }
 
                 return null;

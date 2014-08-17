@@ -27797,7 +27797,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 438,
+            "line": 446,
             "description": "Return the transformation matrix that concatenates this transform with all ancestor transforms.\nIf there is no parent then this will return a matrix the same as this transforms matrix.",
             "itemtype": "method",
             "name": "getConcatenatedMatrix",
@@ -27814,7 +27814,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 462,
+            "line": 470,
             "description": "Return the x of this transform translated to a camera space",
             "itemtype": "method",
             "name": "getCameraY",
@@ -27841,7 +27841,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 489,
+            "line": 497,
             "description": "Apply this matrix to a an object with x and y properties representing a point and return the transformed point.",
             "itemtype": "method",
             "name": "transformPoint",
@@ -27865,7 +27865,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 504,
+            "line": 512,
             "description": "Copy another transforms data to this transform. A clone of the source matrix is created for the matrix property.",
             "itemtype": "method",
             "name": "copyFrom",
@@ -27889,7 +27889,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 525,
+            "line": 533,
             "description": "Copy this transforms data to the destination Transform. A clone of this transforms matrix is created in the destination Transform Matrix.",
             "itemtype": "method",
             "name": "copyTo",
@@ -27913,7 +27913,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 540,
+            "line": 548,
             "description": "Return a clone of this transform.",
             "itemtype": "method",
             "name": "clone",
@@ -27937,7 +27937,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 555,
+            "line": 563,
             "description": "Recursively check that a transform does not appear as its own ancestor",
             "itemtype": "method",
             "name": "checkAncestor",
@@ -27961,7 +27961,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 578,
+            "line": 586,
             "description": "Return a string represention of this object.",
             "itemtype": "method",
             "name": "toString",
