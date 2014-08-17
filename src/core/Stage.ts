@@ -23,7 +23,7 @@ module Kiwi {
     */
     export class Stage {
          
-        constructor(game: Kiwi.Game, name: string, width: number, height: number,scaleType:number) {
+        constructor(game: Kiwi.Game, name: string, width: number, height: number, scaleType:number) {
 
             this._game = game;
 
@@ -547,7 +547,7 @@ module Kiwi {
 
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
 
-                this.offset = this.getOffsetPoint(this.container);
+                this.offset = this.getOffsetPoint( this.container );
 
                 this._x = this.offset.x;
                 this._y = this.offset.y;
@@ -607,8 +607,9 @@ module Kiwi {
         * @private
         */
         private _calculateContainerScale() {
-            this.offset = this.getOffsetPoint(this.container);
+
             this._scaleContainer();
+            this.offset = this.getOffsetPoint(this.container);
 
             this._scale.x = this._width / this.container.clientWidth;
             this._scale.y = this._height / this.container.clientHeight;
