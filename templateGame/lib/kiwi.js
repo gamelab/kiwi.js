@@ -964,8 +964,8 @@ var Kiwi;
         * @private
         */
         Stage.prototype._calculateContainerScale = function () {
-            this.offset = this.getOffsetPoint(this.container);
             this._scaleContainer();
+            this.offset = this.getOffsetPoint(this.container);
 
             this._scale.x = this._width / this.container.clientWidth;
             this._scale.y = this._height / this.container.clientHeight;
