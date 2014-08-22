@@ -1,4 +1,8 @@
-Kiwi.js 1.1.0
+WORK IN PROGRESS
+================
+* Remove this header for release
+
+Kiwi.js 1.1.1
 =============
 
 ![Splash](http://kiwi-js.s3.amazonaws.com/wounds-with-friends.jpg) 
@@ -7,7 +11,7 @@ Kiwi.js is the worlds easiest to use Open Source HTML5 game framework for making
 
 Our focus is blazingly fast WebGL rendering and complimentary tools to make professional quality serious games. We use [CocoonJS](https://www.ludei.com/) for publishing games and App creation. 
 
-Version: 1.1.0 "Shigeru"
+Version: 1.1.1 "Shigeru"
 
 - Visit the [Official Website](http://www.kiwijs.org/documentation/getting-started/)
 - Follow us on [Twitter](http://www.twitter.com/kiwijsengine)
@@ -38,9 +42,19 @@ Our [Official Documentation Codex](http://www.kiwijs.org/documentation/getting-s
 
 ## Release Notes for this Version
 
+### v1.1.1
+
+#### Bug Fixes
+
+* Blend modes now work correctly in CocoonJS when `deviceTarget: Kiwi.TARGET_COCOON` is set.
+
+
+## Release Notes for Previous Versions
+
 ### v1.1.0
 
 #### New Features
+
 * So much good stuff.
 * Numerous aliases added to transformable objects. Transform sprites, groups, etc using these handy properties:
   * x, y
@@ -78,6 +92,7 @@ Our [Official Documentation Codex](http://www.kiwijs.org/documentation/getting-s
 * `Stage.color` now accepts RGBA input (as well as RGB values). This allows you to make a transparent game over other page content.
 
 #### Bug fixes
+
 * TileMapLayer objects now render correctly with scaled and rotated cameras. Technically you can also scale and rotate TileMapLayers, but this does not yet update physics, so you should only use it for cosmetic objects.
 * Touch input no longer assumes 11 fingers, preventing a bug where touch was always down. Thanks to @ic5y for the catch.
 * TextField now aligns text correctly in all situations, including a bug where Group scaling in Canvas mode would incorrectly position text; and updates properly in CocoonJS.
@@ -93,17 +108,16 @@ Our [Official Documentation Codex](http://www.kiwijs.org/documentation/getting-s
 * Numerous small corrections to documentation: API reference is much more accurate.
 
 #### Deprecations and Removals
+
 * Examples have been moved to a new repo, reducing the size of Kiwi.js repo downloads.
 * Deprecated `willRender` flag on all objects. It now maps to `visible`, which serves the same purpose.
 * Deprecated `dirty` flag on Box and Camera objects. It didn't do anything and at worst was an unnecessary check.
 * Deprecated `removeFirstAlive`, `getFirstAlive`, and `getFirstDead` methods on Group objects. They still function, but are of extremely limited use.
 
-
-## Release Notes for Previous Versions
-
 ### v1.0.1
 
-####Bug Fixes and Changes 
+#### Bug Fixes and Changes 
+
 * Thanks to @zzarcon the Grunt file now has more clarity.
 * @tjwudi has pushed up numerious fixes to the Documentation!
 * Bug fix where multiple debug canvases could be generated from subsequent 'createDebugCanvas' calls. 

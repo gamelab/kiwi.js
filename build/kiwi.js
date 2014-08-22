@@ -15077,6 +15077,12 @@ var Kiwi;
                 mat3.scale(this.camMatrix, this.camMatrix, scale);
                 mat3.translate(this.camMatrix, this.camMatrix, rotOffset);
 
+                // Mandate blend mode in CocoonJS
+                // This must be called per-frame, because CocoonJS seems to interfere with blend modes on a per-frame basis.
+                if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
+                    this._switchBlendMode(gl, this._currentBlendMode);
+                }
+
                 this.collateRenderSequence();
                 this.collateBatches();
                 this.renderBatches(gl, camera);
