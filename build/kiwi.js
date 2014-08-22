@@ -31196,7 +31196,7 @@ var Kiwi;
     * @type string
     * @public
     */
-    Kiwi.VERSION = "1.1.0";
+    Kiwi.VERSION = "1.1.1";
 
     //DIFFERENT RENDERER STATIC VARIABLES
     /**
