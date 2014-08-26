@@ -527,7 +527,11 @@ declare module Kiwi {
         *
         * The hex colour code should not contain a hashtag '#'.
         *
+        * The default value is "ffffff" or pure white.
+        *
         * The hex value can optionally contain an alpha term, which defaults to full ("ff", "255" or "1.0" depending on context). For example, both "ff0000" and "ff0000ff" will evaluate to an opaque red.
+        *
+        * Note for users of CocoonJS: When using the WebGL renderer, the stage color will fill all parts of the screen outside the canvas. Kiwi.js will automatically set the color to "000000" or pure black when using CocoonJS. If you change it, and your game does not fill the entire screen, the empty portions of the screen will also change color.
         *
         * @property color
         * @type string
@@ -656,6 +660,14 @@ declare module Kiwi {
         * @private
         */
         private _windowResized(event);
+        /**
+        * Method that is fired when the device is reoriented.
+        * @method _orientationChanged
+        * @param event {UIEvent}
+        * @private
+        * @since 1.1.1
+        */
+        private _orientationChanged(event);
         /**
         * Used to calculate the new offset and the scale of the stage currently is at.
         * @method _calculateContainerScale
@@ -9594,6 +9606,19 @@ declare module Kiwi.Renderers {
         */
         public requestRendererInstance(rendererID: string, params?: any): Renderer;
         private _init();
+        /**
+        * Scales the viewport according to a scale mode and space dimensions.
+        *
+        * This is used internally for compatibility with CocoonJS and should not be called.
+        * @method scaleViewport
+        * @param gl {WebGLRenderingContext}
+        * @param mode {number} The scale mode; should be either Kiwi.Stage.SCALE_FIT, Kiwi.Stage.SCALE_STRETCH, or Kiwi.Stage.SCALE_NONE. Defaults to Kiwi.Stage.SCALE_NONE.
+        * @param width {number} Width of the target space.
+        * @param height {number} Height of the target space.
+        * @public
+        * @since 1.1.1
+        */
+        public scaleViewport(gl: WebGLRenderingContext, mode: number, width: number, height: number): void;
         /**
         * Performs initialisation required when switching to a different state. Called when a state has been switched to.
         * The textureManager is told to clear its contents from video memory, then rebuild its cache of textures from the state's texture library.

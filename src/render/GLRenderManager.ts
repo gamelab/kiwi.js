@@ -305,7 +305,13 @@ module Kiwi.Renderers {
            
             //init stage and viewport
             this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
-            gl.viewport(0, 0, this._game.stage.width, this._game.stage.height);
+            // Manually override scaling under CocoonJS
+            if( this._game.deviceTargetOption === Kiwi.TARGET_COCOON ) {
+                this.scaleViewport( gl, this._game.stage.scaleType, window.innerWidth, window.innerHeight );
+            }
+            else {
+                this.scaleViewport( gl, Kiwi.Stage.SCALE_NONE, this._game.stage.width, this._game.stage.height );
+            }
                         
             //set default gl state
             gl.enable(gl.BLEND);
@@ -322,7 +328,13 @@ module Kiwi.Renderers {
                 this._stageResolution = new Float32Array([width, height]);
                 if (this.currentRenderer) this._currentRenderer.updateStageResolution(gl, this._stageResolution);
                 //this.filters.updateFilterResolution(gl,width, height);
-                gl.viewport(0, 0, width,height);
+                // Manually override scaling under CocoonJS
+                if( this._game.deviceTargetOption === Kiwi.TARGET_COCOON ) {
+                    this.scaleViewport( gl, this._game.stage.scaleType, window.innerWidth, window.innerHeight );
+                }
+                else {
+                    this.scaleViewport( gl, Kiwi.Stage.SCALE_NONE, width, height );
+                }
             },this);
 
            /* if (this.filtersEnabled && !this.filters.isEmpty) {
@@ -330,6 +342,53 @@ module Kiwi.Renderers {
             }*/
 
        }
+
+        /**
+        * Scales the viewport according to a scale mode and space dimensions.
+        *
+        * This is used internally for compatibility with CocoonJS and should not be called.
+        * @method scaleViewport
+        * @param gl {WebGLRenderingContext}
+        * @param mode {number} The scale mode; should be either Kiwi.Stage.SCALE_FIT, Kiwi.Stage.SCALE_STRETCH, or Kiwi.Stage.SCALE_NONE. Defaults to Kiwi.Stage.SCALE_NONE.
+        * @param width {number} Width of the target space.
+        * @param height {number} Height of the target space.
+        * @public
+        * @since 1.1.1
+        */
+        public scaleViewport( gl:WebGLRenderingContext, mode:number, width:number, height:number ) {
+            var offset = new Kiwi.Geom.Point(0, 0);
+            switch( mode ) {
+                case Kiwi.Stage.SCALE_FIT:
+                    // Compute aspect ratios
+                    var arStage = this._game.stage.width / this._game.stage.height;
+                    var arSpace = width / height;
+                    if(arStage < arSpace) {
+                        // Width is too wide
+                        var newWidth = height * arStage;
+                        offset.x = (width - newWidth) / 2;
+                        // Compress target space
+                        width = newWidth;
+                    }
+                    else {
+                        // Height is too wide
+                        var newHeight = width / arStage;
+                        offset.y = (height - newHeight) / 2;
+                        // Compress target space
+                        height = newHeight;
+                    }
+                    break;
+                case Kiwi.Stage.SCALE_STRETCH:
+                    break;
+                case Kiwi.Stage.SCALE_NONE:
+                    width = this._game.stage.width;
+                    height = this._game.stage.height;
+                    break;
+                default:
+                    break;
+            }
+
+            gl.viewport(offset.x, offset.y, width, height);
+        }
 
         
         /**

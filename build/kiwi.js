@@ -596,6 +596,11 @@ var Kiwi;
             this._height = height;
             this.color = 'ffffff';
 
+            // CocoonJS should be black instead
+            if (game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                this.color = '000000';
+            }
+
             this._scale = new Kiwi.Geom.Point(1, 1);
             this._scaleType = scaleType;
 
@@ -777,7 +782,11 @@ var Kiwi;
             *
             * The hex colour code should not contain a hashtag '#'.
             *
+            * The default value is "ffffff" or pure white.
+            *
             * The hex value can optionally contain an alpha term, which defaults to full ("ff", "255" or "1.0" depending on context). For example, both "ff0000" and "ff0000ff" will evaluate to an opaque red.
+            *
+            * Note for users of CocoonJS: When using the WebGL renderer, the stage color will fill all parts of the screen outside the canvas. Kiwi.js will automatically set the color to "000000" or pure black when using CocoonJS. If you change it, and your game does not fill the entire screen, the empty portions of the screen will also change color.
             *
             * @property color
             * @type string
@@ -901,6 +910,8 @@ var Kiwi;
         */
         Stage.prototype.boot = function (dom) {
             var _this = this;
+            var self = this;
+
             this.domReady = true;
             this.container = dom.container;
 
@@ -919,6 +930,11 @@ var Kiwi;
 
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
                 this._scaleContainer();
+
+                // Detect reorientation/resize
+                window.addEventListener("orientationchange", function (event) {
+                    return self._orientationChanged(event);
+                }, true);
             } else {
                 this._calculateContainerScale();
             }
@@ -956,6 +972,17 @@ var Kiwi;
 
             //Dispatch window resize event
             this.onWindowResize.dispatch();
+        };
+
+        /**
+        * Method that is fired when the device is reoriented.
+        * @method _orientationChanged
+        * @param event {UIEvent}
+        * @private
+        * @since 1.1.1
+        */
+        Stage.prototype._orientationChanged = function (event) {
+            this.onResize.dispatch(window.innerWidth, window.innerHeight);
         };
 
         /**
@@ -14976,7 +15003,13 @@ var Kiwi;
 
                 //init stage and viewport
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
-                gl.viewport(0, 0, this._game.stage.width, this._game.stage.height);
+
+                // Manually override scaling under CocoonJS
+                if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                    this.scaleViewport(gl, this._game.stage.scaleType, window.innerWidth, window.innerHeight);
+                } else {
+                    this.scaleViewport(gl, Kiwi.Stage.SCALE_NONE, this._game.stage.width, this._game.stage.height);
+                }
 
                 //set default gl state
                 gl.enable(gl.BLEND);
@@ -14995,11 +15028,64 @@ var Kiwi;
                         this._currentRenderer.updateStageResolution(gl, this._stageResolution);
 
                     //this.filters.updateFilterResolution(gl,width, height);
-                    gl.viewport(0, 0, width, height);
+                    // Manually override scaling under CocoonJS
+                    if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                        this.scaleViewport(gl, this._game.stage.scaleType, window.innerWidth, window.innerHeight);
+                    } else {
+                        this.scaleViewport(gl, Kiwi.Stage.SCALE_NONE, width, height);
+                    }
                 }, this);
                 /* if (this.filtersEnabled && !this.filters.isEmpty) {
                 this.filters.enableFrameBuffers(gl);
                 }*/
+            };
+
+            /**
+            * Scales the viewport according to a scale mode and space dimensions.
+            *
+            * This is used internally for compatibility with CocoonJS and should not be called.
+            * @method scaleViewport
+            * @param gl {WebGLRenderingContext}
+            * @param mode {number} The scale mode; should be either Kiwi.Stage.SCALE_FIT, Kiwi.Stage.SCALE_STRETCH, or Kiwi.Stage.SCALE_NONE. Defaults to Kiwi.Stage.SCALE_NONE.
+            * @param width {number} Width of the target space.
+            * @param height {number} Height of the target space.
+            * @public
+            * @since 1.1.1
+            */
+            GLRenderManager.prototype.scaleViewport = function (gl, mode, width, height) {
+                var offset = new Kiwi.Geom.Point(0, 0);
+                switch (mode) {
+                    case Kiwi.Stage.SCALE_FIT:
+                        // Compute aspect ratios
+                        var arStage = this._game.stage.width / this._game.stage.height;
+                        var arSpace = width / height;
+                        if (arStage < arSpace) {
+                            // Width is too wide
+                            var newWidth = height * arStage;
+                            offset.x = (width - newWidth) / 2;
+
+                            // Compress target space
+                            width = newWidth;
+                        } else {
+                            // Height is too wide
+                            var newHeight = width / arStage;
+                            offset.y = (height - newHeight) / 2;
+
+                            // Compress target space
+                            height = newHeight;
+                        }
+                        break;
+                    case Kiwi.Stage.SCALE_STRETCH:
+                        break;
+                    case Kiwi.Stage.SCALE_NONE:
+                        width = this._game.stage.width;
+                        height = this._game.stage.height;
+                        break;
+                    default:
+                        break;
+                }
+
+                gl.viewport(offset.x, offset.y, width, height);
             };
 
             /**

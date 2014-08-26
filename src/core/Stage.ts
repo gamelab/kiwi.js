@@ -40,6 +40,10 @@ module Kiwi {
             this._width = width;
             this._height = height;
             this.color = 'ffffff';
+            // CocoonJS should be black instead
+            if(game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                this.color = '000000';
+            }
 
             this._scale = new Kiwi.Geom.Point(1, 1);
             this._scaleType = scaleType;
@@ -364,7 +368,11 @@ module Kiwi {
         *
         * The hex colour code should not contain a hashtag '#'.
         *
+        * The default value is "ffffff" or pure white.
+        *
         * The hex value can optionally contain an alpha term, which defaults to full ("ff", "255" or "1.0" depending on context). For example, both "ff0000" and "ff0000ff" will evaluate to an opaque red.
+        *
+        * Note for users of CocoonJS: When using the WebGL renderer, the stage color will fill all parts of the screen outside the canvas. Kiwi.js will automatically set the color to "000000" or pure black when using CocoonJS. If you change it, and your game does not fill the entire screen, the empty portions of the screen will also change color.
         *
         * @property color
         * @type string
@@ -541,6 +549,7 @@ module Kiwi {
         * @public
         */
         public boot(dom: Kiwi.System.Bootstrap) {
+            var self = this;
              
             this.domReady = true;
             this.container = dom.container;
@@ -561,6 +570,10 @@ module Kiwi {
 
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
                 this._scaleContainer();
+                // Detect reorientation/resize
+                window.addEventListener("orientationchange", function( event:UIEvent ) {
+                    return self._orientationChanged(event);
+                }, true);
             } else {
                 this._calculateContainerScale();
             }
@@ -599,6 +612,17 @@ module Kiwi {
 
             //Dispatch window resize event
             this.onWindowResize.dispatch();
+        }
+
+        /**
+        * Method that is fired when the device is reoriented.
+        * @method _orientationChanged
+        * @param event {UIEvent}
+        * @private
+        * @since 1.1.1
+        */
+        private _orientationChanged(event:UIEvent) {
+            this.onResize.dispatch(window.innerWidth, window.innerHeight);
         }
 
         /**
@@ -839,7 +863,7 @@ module Kiwi {
             }
 
             if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
-
+                // This has no effect in WebGL, and is thus handled separately.
                 switch (this._scaleType) {
                     case Kiwi.Stage.SCALE_FIT:
                         this.canvas.style.cssText = 'idtkscale:ScaleAspectFit';
