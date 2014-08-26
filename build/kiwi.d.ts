@@ -13550,6 +13550,27 @@ declare module Kiwi.Input {
         */
         public button: number;
         /**
+        * Indicates if the "preventDefault" method should be executed whenever a 'down' mouse event occurs.
+        * @property preventDown
+        * @type boolean
+        * @public
+        */
+        public preventDown: boolean;
+        /**
+        * Indicates if the "preventDefault" method should be executed whenever a 'up' mouse event occurs.
+        * @property preventUp
+        * @type boolean
+        * @public
+        */
+        public preventUp: boolean;
+        /**
+        * Indicates if the "preventDefault" method should be executed whenever a 'wheel' mouse event occurs.
+        * @property preventWheel
+        * @type boolean
+        * @public
+        */
+        public preventWheel: boolean;
+        /**
         * Gets executed when the mouse cursor gets initally pressed.
         * @method start
         * @param {event} event

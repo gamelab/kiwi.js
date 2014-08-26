@@ -319,7 +319,6 @@ module Kiwi.Input {
         * @private
         */
         private onMouseDown(event: MouseEvent) { 
-            event.preventDefault();
             this._cursor.start(event); 
             this.onDown.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor); 
         }
@@ -342,7 +341,6 @@ module Kiwi.Input {
         * @private
         */
         private onMouseUp(event: MouseEvent) {
-            event.preventDefault();
             this._cursor.stop(event);
             this.onUp.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor); 
         }
@@ -354,7 +352,6 @@ module Kiwi.Input {
         * @private
         */
         private onMouseWheel(event: WheelEvent) {
-            event.preventDefault();
             this._cursor.wheel(event);
             this.onWheel.dispatch(this._cursor.wheelDeltaX, this._cursor.wheelDeltaY, this._cursor);
         }

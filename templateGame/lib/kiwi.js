@@ -18685,7 +18685,6 @@ var Kiwi;
             * @private
             */
             Mouse.prototype.onMouseDown = function (event) {
-                event.preventDefault();
                 this._cursor.start(event);
                 this.onDown.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor);
             };
@@ -18708,7 +18707,6 @@ var Kiwi;
             * @private
             */
             Mouse.prototype.onMouseUp = function (event) {
-                event.preventDefault();
                 this._cursor.stop(event);
                 this.onUp.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor);
             };
@@ -18720,7 +18718,6 @@ var Kiwi;
             * @private
             */
             Mouse.prototype.onMouseWheel = function (event) {
-                event.preventDefault();
                 this._cursor.wheel(event);
                 this.onWheel.dispatch(this._cursor.wheelDeltaX, this._cursor.wheelDeltaY, this._cursor);
             };
@@ -19826,6 +19823,27 @@ var Kiwi;
                 * @public
                 */
                 this.wheelDeltaY = 0;
+                /**
+                * Indicates if the "preventDefault" method should be executed whenever a 'down' mouse event occurs.
+                * @property preventDown
+                * @type boolean
+                * @public
+                */
+                this.preventDown = true;
+                /**
+                * Indicates if the "preventDefault" method should be executed whenever a 'up' mouse event occurs.
+                * @property preventUp
+                * @type boolean
+                * @public
+                */
+                this.preventUp = true;
+                /**
+                * Indicates if the "preventDefault" method should be executed whenever a 'wheel' mouse event occurs.
+                * @property preventWheel
+                * @type boolean
+                * @public
+                */
+                this.preventWheel = true;
             }
             /**
             * The type of object this class is.
@@ -19844,6 +19862,9 @@ var Kiwi;
             * @public
             */
             MouseCursor.prototype.start = function (event) {
+                if (this.preventDown)
+                    event.preventDefault();
+
                 this.ctrlKey = event.ctrlKey;
                 this.shiftKey = event.shiftKey;
                 this.altKey = event.altKey;
@@ -19859,6 +19880,9 @@ var Kiwi;
             * @public
             */
             MouseCursor.prototype.stop = function (event) {
+                if (this.preventUp)
+                    event.preventDefault();
+
                 this.move(event);
                 _super.prototype.stop.call(this, event);
             };
@@ -19870,6 +19894,9 @@ var Kiwi;
             * @public
             */
             MouseCursor.prototype.wheel = function (event) {
+                if (this.preventWheel)
+                    event.preventDefault();
+
                 if (event['wheelDeltaX']) {
                     this.wheelDeltaX = event['wheelDeltaX'];
                 } else {

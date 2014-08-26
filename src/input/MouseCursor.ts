@@ -75,7 +75,31 @@ module Kiwi.Input {
         * @public
         */
         public button: number;
-        
+
+        /**
+        * Indicates if the "preventDefault" method should be executed whenever a 'down' mouse event occurs.
+        * @property preventDown
+        * @type boolean
+        * @public
+        */
+        public preventDown: boolean = true;
+
+        /**
+        * Indicates if the "preventDefault" method should be executed whenever a 'up' mouse event occurs.
+        * @property preventUp
+        * @type boolean
+        * @public
+        */
+        public preventUp: boolean = true;
+
+        /**
+        * Indicates if the "preventDefault" method should be executed whenever a 'wheel' mouse event occurs.
+        * @property preventWheel
+        * @type boolean
+        * @public
+        */
+        public preventWheel: boolean = true;
+
         /**
         * Gets executed when the mouse cursor gets initally pressed.
         * @method start
@@ -83,6 +107,8 @@ module Kiwi.Input {
         * @public
         */
         public start(event) {
+
+            if (this.preventDown)  event.preventDefault();
             
             this.ctrlKey = event.ctrlKey;
             this.shiftKey = event.shiftKey;
@@ -99,6 +125,9 @@ module Kiwi.Input {
         * @public
         */
         public stop(event) {
+
+            if (this.preventUp)  event.preventDefault();
+
             this.move(event);
             super.stop(event);
         }
@@ -110,6 +139,9 @@ module Kiwi.Input {
         * @public
         */
         public wheel(event) { 
+
+            if (this.preventWheel)  event.preventDefault();
+
             if (event['wheelDeltaX']) {
                 this.wheelDeltaX = event['wheelDeltaX'];
             } else {
