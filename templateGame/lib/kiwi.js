@@ -18685,6 +18685,7 @@ var Kiwi;
             * @private
             */
             Mouse.prototype.onMouseDown = function (event) {
+                event.preventDefault();
                 this._cursor.start(event);
                 this.onDown.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor);
             };
@@ -18696,6 +18697,7 @@ var Kiwi;
             * @private
             */
             Mouse.prototype.onMouseMove = function (event) {
+                event.preventDefault();
                 this._cursor.move(event);
             };
 
@@ -18706,6 +18708,7 @@ var Kiwi;
             * @private
             */
             Mouse.prototype.onMouseUp = function (event) {
+                event.preventDefault();
                 this._cursor.stop(event);
                 this.onUp.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor);
             };
@@ -18717,6 +18720,7 @@ var Kiwi;
             * @private
             */
             Mouse.prototype.onMouseWheel = function (event) {
+                event.preventDefault();
                 this._cursor.wheel(event);
                 this.onWheel.dispatch(this._cursor.wheelDeltaX, this._cursor.wheelDeltaY, this._cursor);
             };
