@@ -594,7 +594,8 @@ module Kiwi.Renderers {
                 this._switchTexture(gl, batch[0].entity);
 
             // Manage blend mode
-            if(!this._currentBlendMode.isIdentical( batch[0].entity.glRenderer.blendMode )  ||  this._currentBlendMode.dirty )
+            // We must always apply BlendMode under CocoonJS, because some (but not all) operations on other canvases may silently change the blend mode and not change it back.
+            if( !this._currentBlendMode.isIdentical( batch[0].entity.glRenderer.blendMode )  ||  this._currentBlendMode.dirty  ||  this._game.deviceTargetOption === Kiwi.TARGET_COCOON )
                 this._switchBlendMode(gl, batch[0].entity.glRenderer.blendMode);
 
             // Render
