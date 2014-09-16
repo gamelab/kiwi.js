@@ -60,9 +60,10 @@ module Kiwi.Geom {
          * @return {Kiwi.Geom.Point} The new Cartesian Point object.
          * @public
          **/
-        public polar(distance: number,angle: number):Point {
-            this.x = distance * Math.cos(angle * Math.PI / 180);
-            this.y = distance * Math.sin(angle * Math.PI / 180);
+        public polar(distance: number, angle: number): Point {
+            //Note: Would be badarse if it did this based on the current x/y coordinates
+            this.x = distance * Math.cos(angle); 
+            this.y = distance * Math.sin(angle);
             return this;
         }   
 
@@ -224,7 +225,8 @@ module Kiwi.Geom {
         */
         public angleTo(target: Point): number {
 
-            return Math.atan2(target.x - this.x, target.y - this.y);
+            //Y then X ....cause JavaScript :P
+            return Math.atan2(target.y - this.y, target.x - this.x);
 
         }
 
@@ -236,8 +238,9 @@ module Kiwi.Geom {
         * @return {Number} angle to point.
         */
         public angleToXY(x: number, y: number): number {
-
-            return Math.atan2(x - this.x, y - this.y);
+            
+            //Y then X ....cause JavaScript :P
+            return Math.atan2(y - this.y, x - this.x);
 
         }
         public distanceTo(target: Point, round: boolean = false): number {
@@ -313,7 +316,7 @@ module Kiwi.Geom {
          * @return {Kiwi.Geom.Point} The new Cartesian Point object.
          **/
         static polar(length: number, angle: number): Point {
-            return new Point(length * Math.cos(angle * Math.PI / 180), length * Math.sin(angle * Math.PI / 180));
+            return new Point(length * Math.cos(angle), length * Math.sin(angle));
                    
         }
 

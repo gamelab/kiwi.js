@@ -22196,8 +22196,9 @@ var Kiwi;
             * @public
             **/
             Point.prototype.polar = function (distance, angle) {
-                this.x = distance * Math.cos(angle * Math.PI / 180);
-                this.y = distance * Math.sin(angle * Math.PI / 180);
+                //Note: Would be badarse if it did this based on the current x/y coordinates
+                this.x = distance * Math.cos(angle);
+                this.y = distance * Math.sin(angle);
                 return this;
             };
 
@@ -22343,7 +22344,8 @@ var Kiwi;
             * @public
             */
             Point.prototype.angleTo = function (target) {
-                return Math.atan2(target.x - this.x, target.y - this.y);
+                //Y then X ....cause JavaScript :P
+                return Math.atan2(target.y - this.y, target.x - this.x);
             };
 
             /**
@@ -22354,7 +22356,8 @@ var Kiwi;
             * @return {Number} angle to point.
             */
             Point.prototype.angleToXY = function (x, y) {
-                return Math.atan2(x - this.x, y - this.y);
+                //Y then X ....cause JavaScript :P
+                return Math.atan2(y - this.y, x - this.x);
             };
             Point.prototype.distanceTo = function (target, round) {
                 if (typeof round === "undefined") { round = false; }
@@ -22417,7 +22420,7 @@ var Kiwi;
             * @return {Kiwi.Geom.Point} The new Cartesian Point object.
             **/
             Point.polar = function (length, angle) {
-                return new Point(length * Math.cos(angle * Math.PI / 180), length * Math.sin(angle * Math.PI / 180));
+                return new Point(length * Math.cos(angle), length * Math.sin(angle));
             };
 
             /**
