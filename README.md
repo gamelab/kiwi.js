@@ -1,7 +1,3 @@
-WORK IN PROGRESS
-================
-* Remove this header for release
-
 Kiwi.js 1.1.1
 =============
 
