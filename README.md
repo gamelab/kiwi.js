@@ -46,7 +46,12 @@ Our [Official Documentation Codex](http://www.kiwijs.org/documentation/getting-s
 
 #### Bug Fixes
 
-* Blend modes now work correctly in CocoonJS when `deviceTarget: Kiwi.TARGET_COCOON` is set.
+* Blend modes now work correctly in CocoonJS when `deviceTarget: Kiwi.TARGET_COCOON` is set. Fixing a number of bugs.
+* Methods on an number of Geometric Objects (such as the 'angleTo' method on Points) have been fixed.
+* Mouse events (down, up, scrollwheel and move) now prevent the default action from being taken. 
+* For CocoonJS the default stage colour is now '#000000'. This is because even if your game doesn't fill the entire game, the WebGL renderer will use this colour to fill all parts outside of the screen. 
+
+More details on the problems solved can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.js) under the [1.1.1 milestone](https://github.com/gamelab/kiwi.js/issues?q=milestone%3Av1.1.1+is%3Aclosed)
 
 
 ## Release Notes for Previous Versions

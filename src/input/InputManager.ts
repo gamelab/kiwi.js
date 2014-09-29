@@ -87,7 +87,7 @@ module Kiwi.Input {
         /**
         * An array containing all of the pointers that are active on the stage.
         * @property _pointers
-        * @type Pointer[]
+        * @type Array
         * @private
         */
         private _pointers: Kiwi.Input.Pointer[];
@@ -95,8 +95,8 @@ module Kiwi.Input {
 
         /**
         * Returns all of the pointers that can be used on the Input Manager. This is READ only.
-        * @property pointer
-        * @type Pointer[]
+        * @property pointers
+        * @type Array
         * @public
         */
         public get pointers(): Kiwi.Input.Pointer[] {

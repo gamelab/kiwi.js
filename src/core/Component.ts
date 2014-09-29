@@ -76,6 +76,7 @@ module Kiwi {
         * @property dirty
         * @type boolean
         * @default false
+        * @deprecated
         * @public
         */
         public dirty: boolean = false;
