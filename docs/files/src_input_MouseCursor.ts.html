@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.1.0</em>
+            <em>API Docs for: 1.1.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -427,7 +427,31 @@ module Kiwi.Input {
         * @public
         */
         public button: number;
-        
+
+        /**
+        * Indicates if the &quot;preventDefault&quot; method should be executed whenever a &#x27;down&#x27; mouse event occurs.
+        * @property preventDown
+        * @type boolean
+        * @public
+        */
+        public preventDown: boolean = true;
+
+        /**
+        * Indicates if the &quot;preventDefault&quot; method should be executed whenever a &#x27;up&#x27; mouse event occurs.
+        * @property preventUp
+        * @type boolean
+        * @public
+        */
+        public preventUp: boolean = true;
+
+        /**
+        * Indicates if the &quot;preventDefault&quot; method should be executed whenever a &#x27;wheel&#x27; mouse event occurs.
+        * @property preventWheel
+        * @type boolean
+        * @public
+        */
+        public preventWheel: boolean = true;
+
         /**
         * Gets executed when the mouse cursor gets initally pressed.
         * @method start
@@ -435,6 +459,8 @@ module Kiwi.Input {
         * @public
         */
         public start(event) {
+
+            if (this.preventDown)  event.preventDefault();
             
             this.ctrlKey = event.ctrlKey;
             this.shiftKey = event.shiftKey;
@@ -451,6 +477,9 @@ module Kiwi.Input {
         * @public
         */
         public stop(event) {
+
+            if (this.preventUp)  event.preventDefault();
+
             this.move(event);
             super.stop(event);
         }
@@ -462,6 +491,9 @@ module Kiwi.Input {
         * @public
         */
         public wheel(event) { 
+
+            if (this.preventWheel)  event.preventDefault();
+
             if (event[&#x27;wheelDeltaX&#x27;]) {
                 this.wheelDeltaX = event[&#x27;wheelDeltaX&#x27;];
             } else {

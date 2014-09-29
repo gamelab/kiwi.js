@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.1.0</em>
+            <em>API Docs for: 1.1.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -658,6 +658,13 @@ Runs the recursive scene graph rendering sequence every frame.</p>
                                 
                             </li>
                         
+                            <li class="index-item method public">
+                                <a href="#method_scaleViewport">scaleViewport</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public deprecated">
                                 <a href="#method_setupGLState">setupGLState</a>
 
@@ -878,7 +885,7 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l589"><code>src\render\GLRenderManager.ts:589</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l655"><code>src\render\GLRenderManager.ts:655</code></a>
         
         </p>
 
@@ -991,7 +998,7 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l564"><code>src\render\GLRenderManager.ts:564</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l630"><code>src\render\GLRenderManager.ts:630</code></a>
         
         </p>
 
@@ -1102,7 +1109,7 @@ Instantiates the default shared renderer (TextureAtlasRenderer)</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l577"><code>src\render\GLRenderManager.ts:577</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l643"><code>src\render\GLRenderManager.ts:643</code></a>
         
         </p>
 
@@ -1649,7 +1656,7 @@ If a match is found and an instance does not already exist, then a renderer is i
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l463"><code>src\render\GLRenderManager.ts:463</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l528"><code>src\render\GLRenderManager.ts:528</code></a>
         
         </p>
 
@@ -1706,7 +1713,7 @@ If a match is found and an instance does not already exist, then a renderer is i
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l438"><code>src\render\GLRenderManager.ts:438</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l503"><code>src\render\GLRenderManager.ts:503</code></a>
         
         </p>
 
@@ -1763,7 +1770,7 @@ If a match is found and an instance does not already exist, then a renderer is i
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l427"><code>src\render\GLRenderManager.ts:427</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l492"><code>src\render\GLRenderManager.ts:492</code></a>
         
         </p>
 
@@ -1830,7 +1837,7 @@ If a match is found and an instance does not already exist, then a renderer is i
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l347"><code>src\render\GLRenderManager.ts:347</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l406"><code>src\render\GLRenderManager.ts:406</code></a>
         
         </p>
 
@@ -1910,7 +1917,7 @@ If a match is found and an instance does not already exist, then a renderer is i
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l335"><code>src\render\GLRenderManager.ts:335</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l394"><code>src\render\GLRenderManager.ts:394</code></a>
         
         </p>
 
@@ -2051,7 +2058,7 @@ The textureManager is told to clear its contents from video memory, then rebuild
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l359"><code>src\render\GLRenderManager.ts:359</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l418"><code>src\render\GLRenderManager.ts:418</code></a>
         
         </p>
 
@@ -2156,7 +2163,7 @@ Initiates recursive render of scene graph starting at the root.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l504"><code>src\render\GLRenderManager.ts:504</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l569"><code>src\render\GLRenderManager.ts:569</code></a>
         
         </p>
 
@@ -2282,7 +2289,7 @@ Initiates recursive render of scene graph starting at the root.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l492"><code>src\render\GLRenderManager.ts:492</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l557"><code>src\render\GLRenderManager.ts:557</code></a>
         
         </p>
 
@@ -2401,7 +2408,7 @@ Initiates recursive render of scene graph starting at the root.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l539"><code>src\render\GLRenderManager.ts:539</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l605"><code>src\render\GLRenderManager.ts:605</code></a>
         
         </p>
 
@@ -2741,6 +2748,165 @@ batch rendering use this technique.</p>
 </div>
 
                 
+                    <div id="method_scaleViewport" class="method item public">
+    <h3 class="name"><code>scaleViewport</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>mode</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>width</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>height</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l346"><code>src\render\GLRenderManager.ts:346</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.1</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Scales the viewport according to a scale mode and space dimensions.</p>
+<p>This is used internally for compatibility with CocoonJS and should not be called.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">mode</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The scale mode; should be either Kiwi.Stage.SCALE_FIT, Kiwi.Stage.SCALE_STRETCH, or Kiwi.Stage.SCALE_NONE. Defaults to Kiwi.Stage.SCALE_NONE.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">width</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Width of the target space.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">height</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Height of the target space.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_setupGLState" class="method item public deprecated">
     <h3 class="name"><code>setupGLState</code></h3>
 
@@ -2787,7 +2953,7 @@ batch rendering use this technique.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l552"><code>src\render\GLRenderManager.ts:552</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l618"><code>src\render\GLRenderManager.ts:618</code></a>
         
         </p>
 

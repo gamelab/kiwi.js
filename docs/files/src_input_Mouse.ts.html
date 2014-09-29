@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.1.0</em>
+            <em>API Docs for: 1.1.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -681,7 +681,8 @@ module Kiwi.Input {
         * @param {MouseEvent} event. 
         * @private
         */
-        private onMouseMove(event:MouseEvent) {
+        private onMouseMove(event: MouseEvent) {
+            event.preventDefault();
             this._cursor.move(event);
         }
 
@@ -691,7 +692,7 @@ module Kiwi.Input {
         * @param {MouseEvent} event. 
         * @private
         */
-        private onMouseUp(event: MouseEvent) { 
+        private onMouseUp(event: MouseEvent) {
             this._cursor.stop(event);
             this.onUp.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor); 
         }

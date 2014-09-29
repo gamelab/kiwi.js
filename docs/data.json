@@ -2,7 +2,7 @@
     "project": {
         "name": "Kiwi.js",
         "description": "Kiwi.js is a Javascript/Typescript library for creating HTML5 games.",
-        "version": "1.1.0",
+        "version": "1.1.1",
         "url": "http://kiwijs.org/"
     },
     "files": {
@@ -11626,6 +11626,7 @@
             "name": "dirty",
             "type": "boolean",
             "default": "false",
+            "deprecated": true,
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Component",
@@ -11634,7 +11635,7 @@
         },
         {
             "file": "src\\core\\Component.ts",
-            "line": 83,
+            "line": 84,
             "description": "Components can preUpdate, that is update before the parent updates. This is to be overriden by subclasses.",
             "itemtype": "method",
             "name": "preUpdate",
@@ -11646,7 +11647,7 @@
         },
         {
             "file": "src\\core\\Component.ts",
-            "line": 90,
+            "line": 91,
             "description": "If the component is being added to a State rather than a Game Object then over-ride its update method to perform required tasks.",
             "itemtype": "method",
             "name": "update",
@@ -11658,7 +11659,7 @@
         },
         {
             "file": "src\\core\\Component.ts",
-            "line": 97,
+            "line": 98,
             "description": "Components can postUpdate, that is run an update after the parent has updated. This is to be overriden by subclasses.",
             "itemtype": "method",
             "name": "postUpdate",
@@ -11670,7 +11671,7 @@
         },
         {
             "file": "src\\core\\Component.ts",
-            "line": 104,
+            "line": 105,
             "description": "Destroys this component and all of the properties that exist on it.",
             "itemtype": "method",
             "name": "destroy",
@@ -15940,7 +15941,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 53,
+            "line": 57,
             "description": "Returns the type of this object.",
             "itemtype": "method",
             "name": "objType",
@@ -15956,7 +15957,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 63,
+            "line": 67,
             "description": "The default width of the stage.",
             "itemtype": "property",
             "name": "DEFAULT_WIDTH",
@@ -15971,7 +15972,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 73,
+            "line": 77,
             "description": "The default height of the stage.",
             "itemtype": "property",
             "name": "DEFAULT_HEIGHT",
@@ -15986,7 +15987,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 84,
+            "line": 88,
             "description": "The default scaling method used on Kiwi Games. \nThis scaling method will set the containers width/height to static values.",
             "itemtype": "property",
             "name": "SCALE_NONE",
@@ -16001,7 +16002,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 95,
+            "line": 99,
             "description": "Scale Fit will scale the stages width to fit its parents width.\nThe height is then calculated to maintain the aspect ratio of the width/height of the Stage.",
             "itemtype": "property",
             "name": "SCALE_FIT",
@@ -16016,7 +16017,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 106,
+            "line": 110,
             "description": "Stretch will make the stage scale to fit its parents width/height (by using max/min height of 100%).\nIf the parent doesn't have a height set then the height will be the height of the stage.",
             "itemtype": "property",
             "name": "SCALE_STRETCH",
@@ -16031,7 +16032,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 117,
+            "line": 121,
             "description": "Private property that holds the scaling method that should be applied to the container element.",
             "itemtype": "property",
             "name": "_scaleType",
@@ -16045,7 +16046,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 126,
+            "line": 130,
             "description": "Holds type of scaling that should be applied the container element.",
             "itemtype": "property",
             "name": "scaleType",
@@ -16059,7 +16060,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 143,
+            "line": 147,
             "description": "The alpha of the stage.",
             "itemtype": "property",
             "name": "_alpha",
@@ -16073,7 +16074,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 152,
+            "line": 156,
             "description": "Sets the alpha of the container element. 0 = invisible, 1 = fully visible.\nNote: Because the alpha value is applied to the container, it will not work in CocoonJS.",
             "itemtype": "property",
             "name": "alpha",
@@ -16087,7 +16088,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 173,
+            "line": 177,
             "description": "The X coordinate of the stage.",
             "itemtype": "property",
             "name": "_x",
@@ -16100,7 +16101,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 181,
+            "line": 185,
             "description": "The X coordinate of the stage. This number should be the same as the stages left property.",
             "itemtype": "property",
             "name": "x",
@@ -16113,7 +16114,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 199,
+            "line": 203,
             "description": "The Y coordinate of the stage.",
             "itemtype": "property",
             "name": "_y",
@@ -16126,7 +16127,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 207,
+            "line": 211,
             "description": "Get the Y coordinate of the stage. This number should be the same as the stages top property.",
             "itemtype": "property",
             "name": "y",
@@ -16139,7 +16140,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 225,
+            "line": 229,
             "description": "The width of the stage.",
             "itemtype": "property",
             "name": "_width",
@@ -16152,7 +16153,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 233,
+            "line": 237,
             "description": "The width of the stage. This is READ ONLY. See the 'resize' method if you need to modify this value.",
             "itemtype": "property",
             "name": "width",
@@ -16166,7 +16167,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 244,
+            "line": 248,
             "description": "The height of the stage",
             "itemtype": "property",
             "name": "_height",
@@ -16179,7 +16180,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 252,
+            "line": 256,
             "description": "The height of the stage. This is READ ONLY. See the 'resize' method if you need to modify this value.",
             "itemtype": "property",
             "name": "height",
@@ -16193,7 +16194,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 263,
+            "line": 267,
             "description": "A Signal that dispatches an event when the stage gets resized.",
             "itemtype": "property",
             "name": "onResize",
@@ -16206,7 +16207,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 272,
+            "line": 276,
             "description": "A Signal which dispatches events when the window is resized. \nUseful to detect if the screen is now in a 'landscape' or 'portrait' view on Mobile/Cocoon devices.",
             "itemtype": "property",
             "name": "onWindowResize",
@@ -16219,7 +16220,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 281,
+            "line": 285,
             "description": "Calculates and returns the amount that the container has been scale by.  \nMainly used for re-calculating input coordinates. \nNote: For COCOONJS this returns 1 since COCOONJS translates the scale itself.\nThis property is READ ONLY.",
             "itemtype": "property",
             "name": "scale",
@@ -16233,7 +16234,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 297,
+            "line": 301,
             "description": "Calculates and returns the amount that the container has been scale by on the X axis.",
             "itemtype": "property",
             "name": "scaleX",
@@ -16247,7 +16248,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 308,
+            "line": 312,
             "description": "Calculates and returns the amount that the container has been scale by on the Y axis.",
             "itemtype": "property",
             "name": "scaleY",
@@ -16261,7 +16262,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 319,
+            "line": 323,
             "description": "A point which determines the offset of this Stage",
             "itemtype": "property",
             "name": "offset",
@@ -16274,7 +16275,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 327,
+            "line": 331,
             "description": "The game this Stage belongs to",
             "itemtype": "property",
             "name": "_game",
@@ -16287,7 +16288,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 335,
+            "line": 339,
             "description": "The title of your stage",
             "itemtype": "property",
             "name": "name",
@@ -16300,7 +16301,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 343,
+            "line": 347,
             "description": "Whether or not this Stage is DOM ready.",
             "itemtype": "property",
             "name": "domReady",
@@ -16313,7 +16314,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 351,
+            "line": 355,
             "description": "The background color of the stage. \nThis must be a valid 6 character hex color string such as \"ffffff\".",
             "itemtype": "property",
             "name": "_color",
@@ -16327,8 +16328,8 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 362,
-            "description": "Sets the background color of the stage via a hex value.\n\nThe hex colour code should not contain a hashtag '#'.\n\nThe hex value can optionally contain an alpha term, which defaults to full (\"ff\", \"255\" or \"1.0\" depending on context). For example, both \"ff0000\" and \"ff0000ff\" will evaluate to an opaque red.",
+            "line": 366,
+            "description": "Sets the background color of the stage via a hex value.\n\nThe hex colour code should not contain a hashtag '#'.\n\nThe default value is \"ffffff\" or pure white.\n\nThe hex value can optionally contain an alpha term, which defaults to full (\"ff\", \"255\" or \"1.0\" depending on context). For example, both \"ff0000\" and \"ff0000ff\" will evaluate to an opaque red.\n\nNote for users of CocoonJS: When using the WebGL renderer, the stage color will fill all parts of the screen outside the canvas. Kiwi.js will automatically set the color to \"000000\" or pure black when using CocoonJS. If you change it, and your game does not fill the entire screen, the empty portions of the screen will also change color.",
             "itemtype": "property",
             "name": "color",
             "type": "string",
@@ -16340,7 +16341,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 403,
+            "line": 411,
             "description": "Allows the setting of the background color of the stage through component RGB colour values.\n\nThis property is an Object Literal with 'r', 'g', 'b' colour streams of values between 0 and 255.",
             "itemtype": "property",
             "name": "rgbColor",
@@ -16353,7 +16354,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 420,
+            "line": 428,
             "description": "Allows the setting of the background color of the stage through component RGBA colour values.\n\nThis property is an Object Literal with 'r', 'g', 'b', 'a' colour streams of values between 0 and 255.\n\nNote that the alpha value is from 0-255, not 0-1. This is to preserve compatibility with hex-style color values, e.g. \"ff0000ff\".",
             "itemtype": "property",
             "name": "rgbaColor",
@@ -16367,7 +16368,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 441,
+            "line": 449,
             "description": "Stores the normalized background color of the stage as a RGBA values between 0 and 1.",
             "itemtype": "property",
             "name": "_normalizedColor",
@@ -16380,7 +16381,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 449,
+            "line": 457,
             "description": "Get the normalized background color of the stage. Returns a object with rgba values, each being between 0 and 1.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "normalizedColor",
@@ -16393,7 +16394,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 460,
+            "line": 468,
             "description": "The webgl rendering context.",
             "itemtype": "property",
             "name": "gl",
@@ -16406,7 +16407,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 469,
+            "line": 477,
             "description": "The canvas rendering context.",
             "itemtype": "property",
             "name": "ctx",
@@ -16419,7 +16420,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 478,
+            "line": 486,
             "description": "The canvas element that is being rendered on.",
             "itemtype": "property",
             "name": "canvas",
@@ -16432,7 +16433,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 487,
+            "line": 495,
             "description": "The debugging canvas.",
             "itemtype": "property",
             "name": "debugCanvas",
@@ -16445,7 +16446,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 496,
+            "line": 504,
             "description": "The debug canvas rendering context.",
             "itemtype": "property",
             "name": "dctx",
@@ -16458,7 +16459,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 505,
+            "line": 513,
             "description": "The parent div in which the layers and input live",
             "itemtype": "property",
             "name": "container",
@@ -16471,7 +16472,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 514,
+            "line": 522,
             "description": "Stores the renderer created after context detection.",
             "itemtype": "property",
             "name": "_renderer",
@@ -16485,7 +16486,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 523,
+            "line": 531,
             "description": "Get the renderer associated with the canvas context. This is either a GLRenderManager or a CanvasRenderer. If the Kiwi.RENDERER_WEBGL renderer was requested but could not be created, it will fall back to CanvasRenderer.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "renderer",
@@ -16499,7 +16500,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 536,
+            "line": 544,
             "description": "Is executed when the DOM has loaded and the game is just starting. \nThis is a internal method used by the core of Kiwi itself.",
             "itemtype": "method",
             "name": "boot",
@@ -16518,7 +16519,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 569,
+            "line": 582,
             "description": "Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser\nBased on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js",
             "itemtype": "method",
             "name": "getOffsetPoint",
@@ -16546,7 +16547,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 591,
+            "line": 604,
             "description": "Method that is fired when the window is resized.",
             "itemtype": "method",
             "name": "_windowResized",
@@ -16565,7 +16566,27 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 604,
+            "line": 617,
+            "description": "Method that is fired when the device is reoriented.",
+            "itemtype": "method",
+            "name": "_orientationChanged",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "UIEvent"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "since": "1.1.1",
+            "class": "Kiwi.Stage",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src\\core\\Stage.ts",
+            "line": 628,
             "description": "Used to calculate the new offset and the scale of the stage currently is at.",
             "itemtype": "method",
             "name": "_calculateContainerScale",
@@ -16577,7 +16598,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 619,
+            "line": 643,
             "description": "Handles the creation of the canvas that the game will use and retrieves the context for the renderer.",
             "itemtype": "method",
             "name": "_createComponsiteCanvas",
@@ -16589,7 +16610,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 690,
+            "line": 714,
             "description": "Set the stage width and height for rendering purposes.\nThis will not effect that 'scaleType' that it has been set to.",
             "itemtype": "method",
             "name": "resize",
@@ -16613,7 +16634,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 714,
+            "line": 738,
             "description": "Sets the background color of the stage through component RGB colour values. \nEach parameter pass is a number between 0 and 255. This method also returns a Object Literal with 'r', 'g', 'b' properties.",
             "itemtype": "method",
             "name": "setRGBColor",
@@ -16646,7 +16667,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 731,
+            "line": 755,
             "description": "Converts a component colour value into its hex equivalent. Used when setting rgb colour values.",
             "itemtype": "method",
             "name": "componentToHex",
@@ -16669,7 +16690,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 745,
+            "line": 769,
             "description": "Creates a debug canvas and adds it above the regular game canvas.\nThe debug canvas is not created by default (even with debugging on) and rendering/clearing of the canvas is upto the developer. \nThe context for rendering can be access via the 'dctx' property and you can use the 'clearDebugCanvas' method to clear the canvas.",
             "itemtype": "method",
             "name": "createDebugCanvas",
@@ -16681,7 +16702,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 779,
+            "line": 803,
             "description": "Clears the debug canvas and fills with either the color passed. \nIf not colour is passed then Red at 20% opacity is used.",
             "itemtype": "method",
             "name": "clearDebugCanvas",
@@ -16702,7 +16723,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 793,
+            "line": 817,
             "description": "Toggles the visibility of the debug canvas.",
             "itemtype": "method",
             "name": "toggleDebugCanvas",
@@ -16714,7 +16735,7 @@
         },
         {
             "file": "src\\core\\Stage.ts",
-            "line": 802,
+            "line": 826,
             "description": "Handles the scaling/sizing based upon the scaleType property.",
             "itemtype": "method",
             "name": "_scaleContainer",
@@ -25592,7 +25613,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 69,
+            "line": 70,
             "description": "Adds the coordinates of another point to the coordinates of this point to create a new point.",
             "itemtype": "method",
             "name": "add",
@@ -25621,7 +25642,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 83,
+            "line": 84,
             "description": "Adds the given values to the coordinates of this point and returns it",
             "itemtype": "method",
             "name": "addTo",
@@ -25650,7 +25671,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 97,
+            "line": 98,
             "description": "Adds the given values to the coordinates of this point and returns it",
             "itemtype": "method",
             "name": "subtractFrom",
@@ -25679,7 +25700,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 111,
+            "line": 112,
             "description": "Inverts the x and y values of this point",
             "itemtype": "method",
             "name": "invert",
@@ -25696,7 +25717,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 123,
+            "line": 124,
             "description": "Clamps this Point object to be between the given min and max",
             "itemtype": "method",
             "name": "clamp",
@@ -25725,7 +25746,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 139,
+            "line": 140,
             "description": "Clamps the x value of this Point object to be between the given min and max",
             "itemtype": "method",
             "name": "clampX",
@@ -25754,7 +25775,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 155,
+            "line": 156,
             "description": "Clamps the y value of this Point object to be between the given min and max",
             "itemtype": "method",
             "name": "clampY",
@@ -25783,7 +25804,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 172,
+            "line": 173,
             "description": "Creates a copy of this Point.",
             "itemtype": "method",
             "name": "clone",
@@ -25807,7 +25828,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 185,
+            "line": 186,
             "description": "Copies the point data from the source Point object into this Point object.",
             "itemtype": "method",
             "name": "copyFrom",
@@ -25829,7 +25850,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 197,
+            "line": 198,
             "description": "Copies the point data from this Point object to the given target Point object.",
             "itemtype": "method",
             "name": "copyTo",
@@ -25851,7 +25872,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 209,
+            "line": 210,
             "description": "Returns the distance from this Point object to the given Point object.",
             "itemtype": "method",
             "name": "distanceTo",
@@ -25880,7 +25901,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 218,
+            "line": 219,
             "description": "Get the angle from this Point object to given Point object.",
             "itemtype": "method",
             "name": "angleTo",
@@ -25904,7 +25925,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 231,
+            "line": 233,
             "description": "Get the angle from this Point object to given X,Y coordinates.",
             "itemtype": "method",
             "name": "angleTo",
@@ -25931,7 +25952,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 259,
+            "line": 262,
             "description": "Returns the distance from this Point object to the given Point object.",
             "itemtype": "method",
             "name": "distanceToXY",
@@ -25965,7 +25986,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 284,
+            "line": 287,
             "description": "Returns the distance between the two Point objects.",
             "itemtype": "method",
             "name": "distanceBetween",
@@ -25997,7 +26018,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 308,
+            "line": 311,
             "description": "Creates a new point with cartesian coordinates from a pair of polar coordinates",
             "itemtype": "method",
             "name": "polar",
@@ -26024,7 +26045,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 320,
+            "line": 323,
             "description": "Returns true if the distance between this point and a target point is greater than or equal a specified distance.\nThis avoids using a costly square root operation",
             "itemtype": "method",
             "name": "distanceCompare",
@@ -26053,7 +26074,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 342,
+            "line": 345,
             "description": "Determines whether this Point object and the given point object are equal. They are equal if they have the same x and y values.",
             "itemtype": "method",
             "name": "equals",
@@ -26077,7 +26098,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 362,
+            "line": 365,
             "description": "Determines a point between two specified points. The parameter f determines where the new interpolated point is located relative to the two end points specified by parameters pt1 and pt2.\nThe closer the value of the parameter f is to 1.0, the closer the interpolated point is to the first point (parameter pt1). The closer the value of the parameter f is to 0, the closer the interpolated point is to the second point (parameter pt2).",
             "itemtype": "method",
             "name": "interpolate",
@@ -26111,7 +26132,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 380,
+            "line": 383,
             "description": "Offsets the Point object by the specified amount. The value of dx is added to the original value of x to create the new x value.\nThe value of dy is added to the original value of y to create the new y value.",
             "itemtype": "method",
             "name": "offset",
@@ -26140,7 +26161,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 400,
+            "line": 403,
             "description": "Sets the x and y values of this Point object to the given coordinates.",
             "itemtype": "method",
             "name": "setTo",
@@ -26169,7 +26190,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 417,
+            "line": 420,
             "description": "Subtracts the coordinates of another point from the coordinates of this point to create a new point.",
             "itemtype": "method",
             "name": "subtract",
@@ -26198,7 +26219,7 @@
         },
         {
             "file": "src\\geom\\Point.ts",
-            "line": 437,
+            "line": 440,
             "description": "Returns a string representation of this object.",
             "itemtype": "method",
             "name": "toString",
@@ -31569,7 +31590,7 @@
             "description": "An array containing all of the pointers that are active on the stage.",
             "itemtype": "property",
             "name": "_pointers",
-            "type": "Pointer[]",
+            "type": "Array",
             "access": "private",
             "tagname": "",
             "class": "Kiwi.Input.InputManager",
@@ -31582,8 +31603,8 @@
             "line": 96,
             "description": "Returns all of the pointers that can be used on the Input Manager. This is READ only.",
             "itemtype": "property",
-            "name": "pointer",
-            "type": "Pointer[]",
+            "name": "pointers",
+            "type": "Array",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Input.InputManager",
@@ -34355,7 +34376,7 @@
         },
         {
             "file": "src\\input\\Mouse.ts",
-            "line": 336,
+            "line": 337,
             "description": "Method that gets fired when the mouse is released on the stage.",
             "itemtype": "method",
             "name": "onMouseUp",
@@ -34375,7 +34396,7 @@
         },
         {
             "file": "src\\input\\Mouse.ts",
-            "line": 347,
+            "line": 348,
             "description": "Method that gets fired when the mousewheel is moved.",
             "itemtype": "method",
             "name": "onMouseWheel",
@@ -34395,7 +34416,7 @@
         },
         {
             "file": "src\\input\\Mouse.ts",
-            "line": 358,
+            "line": 359,
             "description": "Returns a boolean indicating if the mouse was 'justPressed' within a certain timeframe. The default timeframe is 200 milliseconds.",
             "itemtype": "method",
             "name": "justPressed",
@@ -34421,7 +34442,7 @@
         },
         {
             "file": "src\\input\\Mouse.ts",
-            "line": 369,
+            "line": 370,
             "description": "Returns a boolean indicating if the mouse was 'justReleased' within a certain timeframe. The default timeframe is 200 milliseconds.",
             "itemtype": "method",
             "name": "justReleased",
@@ -34447,7 +34468,7 @@
         },
         {
             "file": "src\\input\\Mouse.ts",
-            "line": 380,
+            "line": 381,
             "description": "Runs the Reset method on the MouseCursor.",
             "itemtype": "method",
             "name": "reset",
@@ -34563,6 +34584,48 @@
         {
             "file": "src\\input\\MouseCursor.ts",
             "line": 79,
+            "description": "Indicates if the \"preventDefault\" method should be executed whenever a 'down' mouse event occurs.",
+            "itemtype": "property",
+            "name": "preventDown",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Input.MouseCursor",
+            "module": "Kiwi",
+            "submodule": "Input",
+            "namespace": "Kiwi.Input"
+        },
+        {
+            "file": "src\\input\\MouseCursor.ts",
+            "line": 87,
+            "description": "Indicates if the \"preventDefault\" method should be executed whenever a 'up' mouse event occurs.",
+            "itemtype": "property",
+            "name": "preventUp",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Input.MouseCursor",
+            "module": "Kiwi",
+            "submodule": "Input",
+            "namespace": "Kiwi.Input"
+        },
+        {
+            "file": "src\\input\\MouseCursor.ts",
+            "line": 95,
+            "description": "Indicates if the \"preventDefault\" method should be executed whenever a 'wheel' mouse event occurs.",
+            "itemtype": "property",
+            "name": "preventWheel",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Input.MouseCursor",
+            "module": "Kiwi",
+            "submodule": "Input",
+            "namespace": "Kiwi.Input"
+        },
+        {
+            "file": "src\\input\\MouseCursor.ts",
+            "line": 103,
             "description": "Gets executed when the mouse cursor gets initally pressed.",
             "itemtype": "method",
             "name": "start",
@@ -34582,7 +34645,7 @@
         },
         {
             "file": "src\\input\\MouseCursor.ts",
-            "line": 95,
+            "line": 121,
             "description": "Gets executed when the mouse cursor gets initally released.",
             "itemtype": "method",
             "name": "stop",
@@ -34602,7 +34665,7 @@
         },
         {
             "file": "src\\input\\MouseCursor.ts",
-            "line": 106,
+            "line": 135,
             "description": "When the mouse wheel event fires and the mouse's delta changes.",
             "itemtype": "method",
             "name": "wheel",
@@ -38044,7 +38107,43 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 335,
+            "line": 346,
+            "description": "Scales the viewport according to a scale mode and space dimensions.\n\nThis is used internally for compatibility with CocoonJS and should not be called.",
+            "itemtype": "method",
+            "name": "scaleViewport",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "mode",
+                    "description": "The scale mode; should be either Kiwi.Stage.SCALE_FIT, Kiwi.Stage.SCALE_STRETCH, or Kiwi.Stage.SCALE_NONE. Defaults to Kiwi.Stage.SCALE_NONE.",
+                    "type": "Number"
+                },
+                {
+                    "name": "width",
+                    "description": "Width of the target space.",
+                    "type": "Number"
+                },
+                {
+                    "name": "height",
+                    "description": "Height of the target space.",
+                    "type": "Number"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "since": "1.1.1",
+            "class": "Kiwi.Renderers.GLRenderManager",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src\\render\\GLRenderManager.ts",
+            "line": 394,
             "description": "Performs initialisation required when switching to a different state. Called when a state has been switched to.\nThe textureManager is told to clear its contents from video memory, then rebuild its cache of textures from the state's texture library.",
             "itemtype": "method",
             "name": "initState",
@@ -38057,7 +38156,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 347,
+            "line": 406,
             "description": "Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.",
             "itemtype": "method",
             "name": "endState",
@@ -38077,7 +38176,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 359,
+            "line": 418,
             "description": "Manages rendering of the scene graph - called once per frame.\nSets up per frame gl uniforms such as the view matrix and camera offset.\nClears the current renderer ready for a new batch. \nInitiates recursive render of scene graph starting at the root.",
             "itemtype": "method",
             "name": "render",
@@ -38097,7 +38196,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 427,
+            "line": 492,
             "description": "Creates a new render sequence",
             "itemtype": "method",
             "name": "collateRenderSequence",
@@ -38110,7 +38209,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 438,
+            "line": 503,
             "description": "Adds a child to the render sequence (may be a group with children of it's own)",
             "itemtype": "method",
             "name": "collateChild",
@@ -38123,7 +38222,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 463,
+            "line": 528,
             "description": "Sorts the render sequence into batches. Each batch requires the same renderer/shader/texture combination.",
             "itemtype": "method",
             "name": "collateBatches",
@@ -38136,7 +38235,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 492,
+            "line": 557,
             "description": "Renders all the batches",
             "itemtype": "method",
             "name": "renderBatches",
@@ -38161,7 +38260,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 504,
+            "line": 569,
             "description": "Renders a single batch",
             "itemtype": "method",
             "name": "renderBatch",
@@ -38191,7 +38290,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 539,
+            "line": 605,
             "description": "Calls the render function on a single entity",
             "itemtype": "method",
             "name": "renderEntity",
@@ -38223,7 +38322,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 552,
+            "line": 618,
             "description": "Ensures the atlas and renderer needed for a batch is setup",
             "itemtype": "method",
             "name": "setupGLState",
@@ -38245,7 +38344,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 564,
+            "line": 630,
             "description": "Switch renderer to the one needed by the entity that needs rendering",
             "itemtype": "method",
             "name": "_switchRenderer",
@@ -38270,7 +38369,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 577,
+            "line": 643,
             "description": "Switch texture to the one needed by the entity that needs rendering",
             "itemtype": "method",
             "name": "_switchTexture",
@@ -38295,7 +38394,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 589,
+            "line": 655,
             "description": "Switch blend mode to a new set of constants",
             "itemtype": "method",
             "name": "_switchBlendMode",

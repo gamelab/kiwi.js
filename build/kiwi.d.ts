@@ -2193,6 +2193,7 @@ declare module Kiwi {
         * @property dirty
         * @type boolean
         * @default false
+        * @deprecated
         * @public
         */
         public dirty: boolean;
@@ -12425,14 +12426,14 @@ declare module Kiwi.Input {
         /**
         * An array containing all of the pointers that are active on the stage.
         * @property _pointers
-        * @type Pointer[]
+        * @type Array
         * @private
         */
         private _pointers;
         /**
         * Returns all of the pointers that can be used on the Input Manager. This is READ only.
-        * @property pointer
-        * @type Pointer[]
+        * @property pointers
+        * @type Array
         * @public
         */
         public pointers : Pointer[];
