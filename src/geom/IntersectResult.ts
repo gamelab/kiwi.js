@@ -10,6 +10,11 @@ module Kiwi.Geom {
     * A Lightweight object to hold the results of an Intersection. 
     * Used in combination with the STATIC methods on the Intersect class.
     *
+    * If you are using the Intersect methods a lot, you may want to consider
+    * creating a IntersectResult class a reusing it (by passing it to the methods on the Intersect class)
+    * instead of having new IntersectResults created.
+    * 
+    *
     * @class IntersectResult
     * @namespace Kiwi.Geom
     * @constructor
@@ -19,7 +24,7 @@ module Kiwi.Geom {
         /**
         * The type of object this is.
         * @method objType
-        * @return {String}
+        * @return {String} "IntersectResult"
         * @public
         */
         public objType() {
@@ -32,6 +37,7 @@ module Kiwi.Geom {
         * @property result
         * @type boolean
         * @default false
+        * @public
         */
         public result: boolean = false;
 
@@ -41,6 +47,7 @@ module Kiwi.Geom {
         * and a Intersection occured.
         * @property x
         * @type Number
+        * @public
         */
         public x: number;
 
@@ -50,6 +57,7 @@ module Kiwi.Geom {
         * and a Intersection occured.
         * @property y
         * @type Number
+        * @public
         */
         public y: number;
 
@@ -57,6 +65,7 @@ module Kiwi.Geom {
         * [CURRENTLY NOT IN USE]
         * @property x1
         * @type Number
+        * @public
         */
         public x1: number;
 
@@ -64,6 +73,7 @@ module Kiwi.Geom {
         * [CURRENTLY NOT IN USE]
         * @property y1
         * @type Number
+        * @public
         */
         public y1: number;
 
@@ -71,6 +81,7 @@ module Kiwi.Geom {
         * [CURRENTLY NOT IN USE]
         * @property x2
         * @type Number
+        * @public
         */
         public x2: number;
 
@@ -78,6 +89,7 @@ module Kiwi.Geom {
         * [CURRENTLY NOT IN USE]
         * @property y2
         * @type Number
+        * @public
         */
         public y2: number;
 
@@ -85,6 +97,7 @@ module Kiwi.Geom {
         * [CURRENTLY NOT IN USE]
         * @property width
         * @type Number
+        * @public
         */
         public width: number;
 
@@ -92,6 +105,7 @@ module Kiwi.Geom {
         * [CURRENTLY NOT IN USE]
         * @property height
         * @type Number
+        * @public
         */
         public height: number;
 
@@ -104,6 +118,7 @@ module Kiwi.Geom {
         * @param {Number} [y2=0]
         * @param {Number} [width=0]
         * @param {Number} [height=0]
+        * @public
         */
         public setTo(x1: number, y1: number, x2: number = 0, y2: number = 0, width: number = 0, height: number = 0) {
 

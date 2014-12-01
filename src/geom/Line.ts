@@ -7,18 +7,18 @@
 module Kiwi.Geom {
 
     /**
-    * A Kiwi Line object has two meanings depending on the situation you need. 
+    * A Line object has two meanings depending on the situation you need. 
     * Either an infinte line through space (this is the usual meaning of a Line) 
     * OR it can be a Line Segment which just exists between the TWO points you specify. 
     *
     * @class Line
     * @namespace Kiwi.Geom
     * @constructor
-    * @param [x1 = 0] {Number} x1 x component of first point.
-    * @param [y1 = 0]{Number} y1 y component of first point.
-    * @param [x2 = 0]{Number} x2 x component of second point.
-    * @param [y2 = 0]{Number} y2 y component of second point.
-    * @return {Line} This Object
+    * @param [x1=0] {Number} Starting location of the line on the x-axis.
+    * @param [y1=0] {Number} Starting location of the line on the y-axis.
+    * @param [x2=0] {Number} End location of the line on the x-axis.
+    * @param [y2=0] {Number} End location of the line on the y-axis.
+    * @return {Kiwi.Geom.Line} This Object
     *
     */
     export class Line {
@@ -32,7 +32,7 @@ module Kiwi.Geom {
         /**
         * Returns the type of this object
         * @method objType
-        * @return {string} The type of this object
+        * @return {string} "Line"
         * @public
         */
         public objType() {
@@ -40,7 +40,7 @@ module Kiwi.Geom {
         }
 
         /**
-        * X position of first point in your line.
+        * X position of first point on the line.
         * @property x1
         * @type Number
         * @public
@@ -48,7 +48,7 @@ module Kiwi.Geom {
         public x1: number = 0;
 
         /**
-        * Y position of first point in your line.
+        * Y position of first point on the line.
         * @property y1
         * @type Number
         * @public
@@ -64,7 +64,7 @@ module Kiwi.Geom {
         public x2: number = 0;
 
         /**
-        * X position of second point.
+        * Y position of second point.
         * @property y2
         * @type Number
         * @public
@@ -73,10 +73,11 @@ module Kiwi.Geom {
 
         /**
         * Makes a clone of this Line. 
-        * The clone will either be a new Line Object, 
+        * The clone can either be a new Line Object, 
         * Otherwise you can pass a existing Line Object that you want to be a clone of this one.
+        *
         * @method clone
-        * @param [output = Line] {Kiwi.Geom.Line}
+        * @param [output=Line] {Kiwi.Geom.Line}
         * @return {Kiwi.Geom.Line}
         * @public
         */
@@ -115,10 +116,10 @@ module Kiwi.Geom {
         /**
         * Used to set all components on the line.
         * @method setTo
-        * @param [x1 = 0]{Number} X component of first point.
-        * @param [y1 = 0]{Number} Y component of first point.
-        * @param [x2 = 0]{Number} X component of second point.
-        * @param [y2 = 0]{Number} Y component of second point.
+        * @param [x1=0]{Number} X component of first point.
+        * @param [y1=0]{Number} Y component of first point.
+        * @param [x2=0]{Number} X component of second point.
+        * @param [y2=0]{Number} Y component of second point.
         * @return {Kiwi.Geom.Line}
         * @public
         */
@@ -137,6 +138,7 @@ module Kiwi.Geom {
         * Get the length of the Line as a Line Segment.
         * @property length
         * @type number
+        * @readOnly
         * @public
         */
         public get length(): number {
@@ -148,7 +150,7 @@ module Kiwi.Geom {
         /**
         * Get the y of a point on the line for a given x.
         * @method getY
-        * @param {Number} x
+        * @param x {Number} 
         * @return {Number}
         * @public
         */
@@ -163,7 +165,9 @@ module Kiwi.Geom {
         /**
         * Get the angle of the line.
         * @property angle 
-        * @return {Number}
+        * @type Number
+        * @readOnly
+        * @public
         */
         public get angle(): number {
 
@@ -174,7 +178,8 @@ module Kiwi.Geom {
         /**
         * Get the slope of the line (y/x).
         * @property slope
-        * @return {Number}
+        * @type Number
+        * @readOnly
         * @public
         */
         public get slope(): number {
@@ -186,7 +191,8 @@ module Kiwi.Geom {
         /**
         * Get the perpendicular slope of the line (x/y).
         * @propery perpSlope
-        * @return {Number}
+        * @type Number
+        * @readOnly
         * @public
         */
         public get perpSlope(): number {
@@ -198,8 +204,9 @@ module Kiwi.Geom {
         /**
         * Get the y intercept for the line.
         * @property yIntercept
-        * @return {Number}
-        * @property
+        * @type Number
+        * @readOnly
+        * @public
         */
         public get yIntercept(): number {
 
@@ -231,8 +238,8 @@ module Kiwi.Geom {
         /**
         * Check if the point is both on the line and within the line segment.
         * @method isPointOnLineSegment
-        * @param {Number} x
-        * @param {Number} y
+        * @param x {Number}
+        * @param y {Number}
         * @return {boolean}
         * @public
         */
@@ -257,6 +264,8 @@ module Kiwi.Geom {
         /**
         * Check to see if this Line object intersects at any point with a passed Line.
         * Note: Both are treated as extending infinately through space.
+        * Functions as an alias for the 'Kiwi.Geom.Intersect.lineToLine' method.
+        *
         * @method intersectLineLine
         * @param line {Kiwi.Geom.Line} The line you want to check for a Intersection with.
         * @return {Kiwi.Geom.IntersectResult} The Intersect Result containing the collision information.
@@ -268,39 +277,28 @@ module Kiwi.Geom {
 
         /**
         * Get a line perpendicular to the line passing through a given point.
+        *
         * @method perp
         * @param x {Number} 
         * @param y {Number} 
-        * @param [output = Line] {Kiwi.Geom.Line} 
+        * @param [output] {Kiwi.Geom.Line} The line object that the result should be output to. Creates a new Line if one is not passed. 
         * @return {Kiwi.Geom.Line}
         * @public
         */
-        public perp(x: number, y: number, output?: Line): Line {
+        public perp(x: number, y: number, output: Line=new Line): Line {
 
-            if (this.y1 === this.y2)
-            {
-                if (output)
-                {
-                    output.setTo(x, y, x, this.y1);
-                }
-                else
-                {
-                    return new Line(x, y, x, this.y1);
-                }
+            if (this.y1 === this.y2) {
+                
+                output.setTo(x, y, x, this.y1);
             }
 
             var yInt: number = (y - this.perpSlope * x);
 
             var pt: any = this.intersectLineLine({ x1: x, y1: y, x2: 0, y2: yInt });
 
-            if (output)
-            {
-                output.setTo(x, y, pt.x, pt.y);
-            }
-            else
-            {
-                return new Line(x, y, pt.x, pt.y);
-            }
+            output.setTo(x, y, pt.x, pt.y);
+
+            return output;
 
         }
 

@@ -14,10 +14,10 @@ module Kiwi.Geom {
     * @class AABB
     * @namespace Kiwi.Geom
     * @constructor
-    * @param cx {Number}
-    * @param cy {Number}
-    * @param width {Number}
-    * @param height {Number}
+    * @param cx {Number} The centeral position on the x-axis.
+    * @param cy {Number} The centeral position on the y-axis.
+    * @param width {Number} The width of the box.
+    * @param height {Number} The height of the box.
     * @return {Kiwi.Geom.AABB}
     */
     export class AABB {
@@ -41,7 +41,7 @@ module Kiwi.Geom {
         }
 
         /**
-        *
+        * The centeral location of the box on the x-axis.
         * @property cx
         * @type Number
         * @public
@@ -49,7 +49,7 @@ module Kiwi.Geom {
         public cx: number = 0;
 
         /**
-        *
+        * The centeral location of the box on the y-axis.
         * @property cy
         * @type Number
         * @public
@@ -76,6 +76,7 @@ module Kiwi.Geom {
         * Returns the full height. This is read only.
         * @property height
         * @type number
+        * @readOnly
         * @public
         */
         public get height():number {
@@ -86,6 +87,7 @@ module Kiwi.Geom {
         * Returns the full width. This is read only.
         * @property width
         * @type number
+        * @readOnly
         * @public
         */
         public get width():number {
@@ -93,7 +95,7 @@ module Kiwi.Geom {
         }
 
         /**
-        * Draws the object to a canvas
+        * Draws the object to a canvas context passed. 
         * @method draw
         * @param ctx {CanvasRenderingContext2D} The context you want this drawn to.
         * @return {Kiwi.Geom.AABB}
@@ -112,8 +114,8 @@ module Kiwi.Geom {
         /**
         * Sets the position of the object.
         * @method setPosition
-        * @param cx {Number}
-        * @param cy {Number}
+        * @param cx {Number} Its new x-axis location.
+        * @param cy {Number} Its new y-axis location.
         * @return {Kiwi.Geom.AABB}
         * @public
         */
@@ -125,8 +127,9 @@ module Kiwi.Geom {
 
         /**
         * Sets the position of the object by a point that you pass.
+        * 
         * @method setPositionPoint
-        * @param {Point} pos
+        * @param pos {Kiwi.Geom.Point} 
         * @return {Kiwi.Geom.AABB}
         * @public
         */
@@ -138,6 +141,7 @@ module Kiwi.Geom {
 
         /**
         * Returns this object but as a new Rectangle.
+        * 
         * @method toRect
         * @return {Kiwi.Geom.Rectangle}
         * @public

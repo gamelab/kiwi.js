@@ -20027,23 +20027,23 @@ var Kiwi;
         * @class AABB
         * @namespace Kiwi.Geom
         * @constructor
-        * @param cx {Number}
-        * @param cy {Number}
-        * @param width {Number}
-        * @param height {Number}
+        * @param cx {Number} The centeral position on the x-axis.
+        * @param cy {Number} The centeral position on the y-axis.
+        * @param width {Number} The width of the box.
+        * @param height {Number} The height of the box.
         * @return {Kiwi.Geom.AABB}
         */
         var AABB = (function () {
             function AABB(cx, cy, width, height) {
                 /**
-                *
+                * The centeral location of the box on the x-axis.
                 * @property cx
                 * @type Number
                 * @public
                 */
                 this.cx = 0;
                 /**
-                *
+                * The centeral location of the box on the y-axis.
                 * @property cy
                 * @type Number
                 * @public
@@ -20083,6 +20083,7 @@ var Kiwi;
                 * Returns the full height. This is read only.
                 * @property height
                 * @type number
+                * @readOnly
                 * @public
                 */
                 get: function () {
@@ -20097,6 +20098,7 @@ var Kiwi;
                 * Returns the full width. This is read only.
                 * @property width
                 * @type number
+                * @readOnly
                 * @public
                 */
                 get: function () {
@@ -20107,7 +20109,7 @@ var Kiwi;
             });
 
             /**
-            * Draws the object to a canvas
+            * Draws the object to a canvas context passed.
             * @method draw
             * @param ctx {CanvasRenderingContext2D} The context you want this drawn to.
             * @return {Kiwi.Geom.AABB}
@@ -20126,8 +20128,8 @@ var Kiwi;
             /**
             * Sets the position of the object.
             * @method setPosition
-            * @param cx {Number}
-            * @param cy {Number}
+            * @param cx {Number} Its new x-axis location.
+            * @param cy {Number} Its new y-axis location.
             * @return {Kiwi.Geom.AABB}
             * @public
             */
@@ -20139,8 +20141,9 @@ var Kiwi;
 
             /**
             * Sets the position of the object by a point that you pass.
+            *
             * @method setPositionPoint
-            * @param {Point} pos
+            * @param pos {Kiwi.Geom.Point}
             * @return {Kiwi.Geom.AABB}
             * @public
             */
@@ -20152,6 +20155,7 @@ var Kiwi;
 
             /**
             * Returns this object but as a new Rectangle.
+            *
             * @method toRect
             * @return {Kiwi.Geom.Rectangle}
             * @public
@@ -20195,9 +20199,9 @@ var Kiwi;
         * @class Circle
         * @namespace Kiwi.Geom
         * @constructor
-        * @param [x = 0] {Number} The x coordinate of the center of the circle.
-        * @param [y = 0] {Number} The y coordinate of the center of the circle.
-        * @param [diameter = 0] {number} The diameter of the circle.
+        * @param [x=0] {Number} The x coordinate of the center of the circle.
+        * @param [y=0] {Number} The y coordinate of the center of the circle.
+        * @param [diameter=0] {number} The diameter of the circle.
         * @return {Kiwi.Geom.Circle} This circle object
         *
         */
@@ -20243,7 +20247,7 @@ var Kiwi;
             /**
             * The type of this object.
             * @method objType
-            * @return {String}
+            * @return {String} "Circle"
             * @public
             */
             Circle.prototype.objType = function () {
@@ -20255,7 +20259,10 @@ var Kiwi;
                     return this._diameter;
                 },
                 /**
-                * The diameter of the circle. The largest distance between any two points on the circle. The same as the radius * 2.
+                * The diameter of the circle.
+                * The largest distance between any two points on the circle.
+                * The same as the radius * 2.
+                *
                 * @property diameter
                 * @type number
                 * @public
@@ -20275,7 +20282,10 @@ var Kiwi;
                     return this._radius;
                 },
                 /**
-                * The radius of the circle. The length of a line extending from the center of the circle to any point on the circle itself. The same as half the diameter.
+                * The radius of the circle.
+                * The length of a line extending from the center of the circle to any point on the circle itself.
+                * The same as half the diameter.
+                *
                 * @property radius
                 * @type number
                 * @public
@@ -20295,6 +20305,7 @@ var Kiwi;
                 * The circumference of the circle. This is READ ONLY.
                 * @property circumference
                 * @type number
+                * @readOnly
                 * @public
                 */
                 get: function () {
@@ -20309,7 +20320,9 @@ var Kiwi;
                     return this.y + this._radius;
                 },
                 /**
-                * The sum of the y and radius properties. Changing the bottom property of a Circle object has no effect on the x and y properties, but does change the diameter.
+                * The sum of the y and radius properties.
+                * Changing the bottom property of a Circle object has no effect on the x and y properties,
+                * but does change the diameter.
                 * @property bottom
                 * @type number
                 * @public
@@ -20333,7 +20346,10 @@ var Kiwi;
                     return this.x - this._radius;
                 },
                 /**
-                * The x coordinate of the leftmost point of the circle. Changing the left property of a Circle object has no effect on the x and y properties. However it does affect the diameter, whereas changing the x value does not affect the diameter property.
+                * The x coordinate of the leftmost point of the circle.
+                * Changing the left property of a Circle object has no effect on the x and y properties.
+                * However it does affect the diameter, whereas changing the x value does not affect the diameter property.
+                *
                 * @property left
                 * @type number
                 * @public
@@ -20357,7 +20373,10 @@ var Kiwi;
                     return this.x + this._radius;
                 },
                 /**
-                * The x coordinate of the rightmost point of the circle. Changing the right property of a Circle object has no effect on the x and y properties. However it does affect the diameter, whereas changing the x value does not affect the diameter property.
+                * The x coordinate of the rightmost point of the circle.
+                * Changing the right property of a Circle object has no effect on the x and y properties.
+                * However it does affect the diameter, whereas changing the x value does not affect the diameter property.
+                *
                 * @property right
                 * @type number
                 * @public
@@ -20382,7 +20401,10 @@ var Kiwi;
                     return this.y - this._radius;
                 },
                 /**
-                * The sum of the y minus the radius property. Changing the top property of a Circle object has no effect on the x and y properties, but does change the diameter.
+                * The sum of the y minus the radius property.
+                * Changing the top property of a Circle object has no effect on the x and y properties,
+                * but does change the diameter.
+                *
                 * @property top
                 * @type number
                 * @public
@@ -20406,6 +20428,7 @@ var Kiwi;
                 * Gets the area of this Circle. Note this is READ ONLY.
                 * @property area
                 * @type number
+                * @readOnly
                 * @public
                 */
                 get: function () {
@@ -20421,7 +20444,7 @@ var Kiwi;
 
             Object.defineProperty(Circle.prototype, "isEmpty", {
                 /**
-                * Determines whether or not this Circle object is empty. This is READ ONLY.
+                * Determines whether or not this Circle object is empty.
                 * @method isEmpty
                 * @return {boolean} A value of true if the Circle objects diameter is less than or equal to 0; otherwise false.
                 * @public
@@ -20438,9 +20461,9 @@ var Kiwi;
             });
 
             /**
-            * Returns a new Circle object with the same values for the x, y, width, and height properties as the original Circle object.
+            * Returns a new Circle object with the same values for the x, y, diameter, and radius properties as the original Circle object.
             * @method clone
-            * @param [output = Circle] {Kiwi.Geom.Circle} If given the values will be set into the object, otherwise a brand new Circle object will be created and returned.
+            * @param [output=Circle] {Kiwi.Geom.Circle} If given the values will be set into the object, otherwise a brand new Circle object will be created and returned.
             * @return {Kiwi.Geom.Circle}
             * @public
             */
@@ -20450,7 +20473,7 @@ var Kiwi;
             };
 
             /**
-            * Copies all of circle data from the source Circle object into the calling Circle object.
+            * Copies all of circle data from a Circle object passed (the source) into this Circle object.
             * @method copyFrom
             * @param source {Kiwi.Geom.Circle} The source circle object to copy from
             * @return {Kiwi.Geom.Circle} This circle object
@@ -20461,10 +20484,10 @@ var Kiwi;
             };
 
             /**
-            * Copies all of circle data from this Circle object into the destination Circle object.
+            * Copies all of circle data from this Circle object into a passed Circle object (destination).
             * @method copyTo
-            * @param circle {Circle} The destination circle object to copy in to
-            * @return {Circle} The destination circle object
+            * @param circle {Kiwi.Geom.Circle} The destination circle object to copy in to
+            * @return {Kiwi.Geom.Circle} The destination circle object
             * @public
             */
             Circle.prototype.copyTo = function (target) {
@@ -20472,7 +20495,9 @@ var Kiwi;
             };
 
             /**
-            * Returns the distance from the center of this Circle object to the given object (can be Circle, Point or anything with x/y values)
+            * Returns the distance from the center of this Circle object to the passed object.
+            * The passed object can be a Circle, Point, or anything with x/y values.
+            *
             * @method distanceTo
             * @param target {Any} The destination Point object.
             * @param [round=false] {boolean} Round the distance to the nearest integer (default false)
@@ -20492,7 +20517,9 @@ var Kiwi;
             };
 
             /**
-            * Determines whether the object specified in the toCompare parameter is equal to this Circle object. This method compares the x, y and diameter properties of an object against the same properties of this Circle object.
+            * Determines whether a Circle passed is equal to this Circle.
+            * They are considered 'equal' if both circles have the same values for x, y, and diameter properties.
+            *
             * @method equals
             * @param toCompare {Kiwi.Geom.Circle} The circle to compare to this Circle object.
             * @return {boolean} A value of true if the object has exactly the same values for the x, y and diameter properties as this Circle object; otherwise false.
@@ -20507,7 +20534,9 @@ var Kiwi;
             };
 
             /**
-            * Determines whether the Circle object specified in the toIntersect parameter intersects with this Circle object. This method checks the radius distances between the two Circle objects to see if they intersect.
+            * Determines whether a Circle passed intersects with this Circle.
+            * Returns a boolean indicating if the two circles intersect.
+            *
             * @method intersects
             * @param toIntersect {Kiwi.Geom.Circle} The Circle object to compare against to see if it intersects with this Circle object.
             * @return {boolean} A value of true if the specified object intersects with this Circle object; otherwise false.
@@ -20523,10 +20552,11 @@ var Kiwi;
 
             /**
             * Returns a Point object containing the coordinates of a point on the circumference of this Circle based on the given angle.
+            *
             * @method circumferencePoint
             * @param angle {Number} The angle in radians (unless asDegrees is true) to return the point from.
             * @param [asDegress=false] {boolean} Is the given angle in radians (false) or degrees (true)?
-            * @param [output=Point] {Kiwi.Geom.Point} An optional Point object to put the result in to. If none specified a new Point object will be created.
+            * @param [output] {Kiwi.Geom.Point} A Point object to put the result in to. If none specified a new Point object will be created.
             * @return {Kiwi.Geom.Point} The Point object holding the result.
             * @public
             */
@@ -20562,7 +20592,9 @@ var Kiwi;
             };
 
             /**
-            * Adjusts the location of the Circle object using a Point object as a parameter. This method is similar to the Circle.offset() method, except that it takes a Point object as a parameter.
+            * Adjusts the location of the Circle object using a Point object as a parameter.
+            * This method is similar to the 'offset' method, except that it takes a Point object as a parameter.
+            *
             * @method offsetPoint
             * @param {Kiwi.Geom.Point} point A Point object to use to offset this Circle object.
             * @return {Kiwi.Geom.Circle} This Circle object.
@@ -20574,6 +20606,7 @@ var Kiwi;
 
             /**
             * Sets the members of Circle to the specified values.
+            *
             * @method setTo
             * @param x {Number} The x coordinate of the center of the circle.
             * @param y {Number} The y coordinate of the center of the circle.
@@ -20619,10 +20652,10 @@ var Kiwi;
         * @class Ray
         * @namespace Kiwi.Geom
         * @constructor
-        * @param [x1 = 0] {Number} x1
-        * @param [y1 = 0] {Number} y1
-        * @param [x2 = 0] {Number} x2
-        * @param [y2 = 0] {Number} y2
+        * @param [x1=0] {Number} Starting location of the ray on the x-axis.
+        * @param [y1=0] {Number} Starting location of the ray on the y-axis.
+        * @param [x2=0] {Number} End location of the ray on the x-axis. Used to calculate direction so it isn't really the 'end' location.
+        * @param [y2=0] {Number} End location of the ray on the y-axis. Used to calculate direction so it isn't really the 'end' location.
         * @return {Kiwi.Geom.Ray} This Object
         *
         */
@@ -20636,6 +20669,7 @@ var Kiwi;
                 * The x component of the initial point of the ray
                 * @property x1
                 * @type Number
+                * @default 0
                 * @public
                 */
                 this.x1 = 0;
@@ -20643,6 +20677,7 @@ var Kiwi;
                 * The y component of the initial point of the ray
                 * @property y1
                 * @type Number
+                * @default 0
                 * @public
                 */
                 this.y1 = 0;
@@ -20650,6 +20685,7 @@ var Kiwi;
                 * The x component of the direction point of the ray
                 * @property x2
                 * @type Number
+                * @default 0
                 * @public
                 */
                 this.x2 = 0;
@@ -20657,6 +20693,7 @@ var Kiwi;
                 * The y component of the direction point of the ray
                 * @property y2
                 * @type Number
+                * @default 0
                 * @public
                 */
                 this.y2 = 0;
@@ -20665,7 +20702,7 @@ var Kiwi;
             /**
             * The type of this object.
             * @method objType
-            * @return {String}
+            * @return {String} "Ray"
             * @public
             */
             Ray.prototype.objType = function () {
@@ -20675,8 +20712,9 @@ var Kiwi;
             /**
             * Makes a copy of this Ray either as a new Ray object or,
             * makes a passed Ray a copy of this one.
+            *
             * @method clone
-            * @param [output = Ray] {Kiwi.Geom.Ray}
+            * @param [output] {Kiwi.Geom.Ray}
             * @return {Kiwi.Geom.Ray}
             * @public
             */
@@ -20710,10 +20748,10 @@ var Kiwi;
             /**
             * Sets the origin and the direction of this Ray.
             * @method setTo
-            * @param x1{Number}
-            * @param y1{Number}
-            * @param x2{Number}
-            * @param y2{Number}
+            * @param [x1=0] {Number}
+            * @param [y1=0] {Number}
+            * @param [x2=0] {Number}
+            * @param [y2=0] {Number}
             * @return {Kiwi.Geom.Ray}
             * @public
             */
@@ -20734,7 +20772,8 @@ var Kiwi;
                 /**
                 * Get the angle of the ray.
                 * @property angle
-                * @return {Number}
+                * @type Number
+                * @readOnly
                 * @public
                 */
                 get: function () {
@@ -20748,7 +20787,8 @@ var Kiwi;
                 /**
                 * Get the slope of the ray.
                 * @property slope
-                * @return {Number}
+                * @type Number
+                * @readOnly
                 * @public
                 */
                 get: function () {
@@ -20761,9 +20801,9 @@ var Kiwi;
             Object.defineProperty(Ray.prototype, "yIntercept", {
                 /**
                 *
-                * @method yIntercept
                 * @property yIntercept
-                * @return {Number}
+                * @type Number
+                * @readOnly
                 * @public
                 */
                 get: function () {
@@ -20776,9 +20816,10 @@ var Kiwi;
             /**
             * Check if the Ray passes through a point.
             * @method isPointOnRay
-            * @param {Number} x
-            * @param {Number} y
+            * @param x {Number}
+            * @param y {Number}
             * @return {boolean}
+            * @public
             */
             Ray.prototype.isPointOnRay = function (x, y) {
                 if ((x - this.x1) * (this.y2 - this.y1) === (this.x2 - this.x1) * (y - this.y1)) {
@@ -20794,6 +20835,7 @@ var Kiwi;
             * Get a string representation of the ray.
             * @method toString
             * @return {String}
+            * @public
             */
             Ray.prototype.toString = function () {
                 return "[{Ray (x1=" + this.x1 + " y1=" + this.y1 + " x2=" + this.x2 + " y2=" + this.y2 + ")}]";
@@ -20813,7 +20855,14 @@ var Kiwi;
 (function (Kiwi) {
     (function (Geom) {
         /**
-        * Contains a collection of STATIC methods to help determine and return intersection between geometric objects.
+        * Contains a collection of STATIC methods for determining intersections between geometric objects.
+        *
+        * May methods contained here store the results of the intersections in a 'IntersectResult' Object,
+        * which is either created for you (by the methods which require it) OR you can pass one to use instead.
+        *
+        * If you are using the Intersect methods a lot, you may want to consider
+        * creating a IntersectResult class a reusing it (by passing it to the methods on the Intersect class)
+        * instead of having new IntersectResults created.
         *
         * @class Intersect
         * @namespace Kiwi.Geom
@@ -20825,7 +20874,7 @@ var Kiwi;
             /**
             * The type of this object.
             * @method objType
-            * @return {String}
+            * @return {String} "Intersect"
             * @public
             */
             Intersect.prototype.objType = function () {
@@ -20847,13 +20896,14 @@ var Kiwi;
             * @return {Number} The distance between the two points.
             * @public
             * @static
-            **/
+            */
             Intersect.distance = function (x1, y1, x2, y2) {
                 return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
             };
 
             /**
             * Returns the distance squared between two sets of coordinates that you specify.
+            *
             * @method distanceSquared
             * @param x1 {Number} The x position of the first coordinate.
             * @param y1 {Number} The y position of the first coordinate.
@@ -20875,10 +20925,11 @@ var Kiwi;
             /**
             * Check to see if any two Lines intersect at any point.
             * Both lines are treated as if they extend infintely through space.
+            *
             * @method lineToLine
-            * @param line1 {Line} The first line object to check
-            * @param line2 {Line} The second line object to check
-            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. (One is created if none given)
+            * @param line1 {Kiwi.Geom.Line} The first line object to check.
+            * @param line2 {Kiwi.Geom.Line} The second line object to check.
+            * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
             * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
             * @public
             * @static
@@ -20900,10 +20951,11 @@ var Kiwi;
             * Check to see if a Line and a Line Segment intersect at any point.
             * Note: The first line passed is treated as if it extends infinately though space,
             * The second is treated as if it only exists between its two points.
+            *
             * @method lineToLineSegment
             * @param line1 {Kiwi.Geom.Line} The first line to check. This is the one that will extend through space infinately.
             * @param seg {Kiwi.Geom.Line} The second line to check. This is the one that will only exist between its two coordinates.
-            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
             * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection.
             * @public
             * @static
@@ -20931,17 +20983,18 @@ var Kiwi;
             };
 
             /**
-            * Checks to see if a Line that is passed, intersects at any point another Line that is made by passing a set of coordinates to this method.
+            * Checks to see if a Line that is passed, intersects at any point with a Line that is made by passing a set of coordinates to this method.
             * Note: The first line will extend infinately through space.
             * And the second line will only exist between the two points passed.
+            *
             * @method lineToRawSegment
             * @param line {Kiwi.Geom.Line} The line object that extends infinatly through space.
             * @param x1 {number} The x coordinate of the first point in the second line.
             * @param y1 {number} The y coordinate of the first point in the second line.
             * @param x2 {number} The x coordinate of the second point in the second line.
             * @param y2 {number} The y coordinate of the second point in the second line.
-            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+            * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
             * @static
             * @public
             */
@@ -20969,10 +21022,11 @@ var Kiwi;
             /**
             * Checks to see if a Line and Ray object intersects at any point.
             * Note: The line in this case extends infinately through space.
+            *
             * @method lineToRay
             * @param line1 {Kiwi.Geom.Line} The Line object that extends infinatly through space.
             * @param ray {Kiwi.Geom.Ray} The Ray object that you want to check it against.
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
             * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
             * @public
             * @static
@@ -21001,10 +21055,11 @@ var Kiwi;
             /**
             * Checks to see if a Line and a Circle intersect at any point.
             * Note: The line passed is assumed to extend infinately through space.
+            *
             * @method lineToCircle
             * @param line {Kiwi.Geom.Line} The Line object that you want to check it against.
             * @param circle {Kiwi.Geom.Circle} The Circle object to check.
-            * @param [output=Intersect] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @param [output] {IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
             * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
             * @public
             * @static
@@ -21022,10 +21077,11 @@ var Kiwi;
             /**
             * Check if the Line intersects with each side of a Rectangle.
             * Note: The Line is assumned to extend infinately through space.
+            *
             * @method lineToRectangle
             * @param line {Kiwi.Geom.Line} The Line object to check
             * @param rectangle {Kiwi.Geom.Rectangle} The Rectangle object to check
-            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
             * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
             * @public
             * @static
@@ -21067,10 +21123,11 @@ var Kiwi;
             /**
             * Checks to see if two Line Segments intersect at any point in space.
             * Note: Both lines are treated as if they only exist between their two line coordinates.
+            *
             * @method lineSegmentToLineSegment
             * @param line1 {Kiwi.Geom.Line} The first line object to check.
             * @param line2 {Kiwi.Geom.Line} The second line object to check.
-            * @param [output=IntersectResult]{Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @param [output]{Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
             * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y.
             * @public
             * @static
@@ -21091,10 +21148,11 @@ var Kiwi;
             /**
             * Check if the Line Segment intersects with the Ray.
             * Note: The Line only exists between its two points.
+            *
             * @method lineSegmentToRay
             * @param line1 {Kiwi.Geom.Line} The Line object to check.
             * @param ray {Kiwi.Geom.Line} The Ray object to check.
-            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
             * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
             * @public
             * @static
@@ -21115,10 +21173,11 @@ var Kiwi;
             /**
             * Check if the Line Segment intersects with the Circle.
             * Note the Line only exists between its point points.
+            *
             * @method lineSegmentToCircle
             * @param seg {Kiwi.Geom.Line} The Line object to check
             * @param circle {Kiwi.Geom.Circle} The Circle object to check
-            * @param [ouput=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @param [ouput] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
             * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
             * @public
             * @static
@@ -21150,10 +21209,11 @@ var Kiwi;
             /**
             * Check if the Line Segment intersects with any side of a Rectangle.
             * Note: The Line only exists between its two points.
+            *
             * @method lineSegmentToCircle
             * @param seg {Kiwi.Geom.Line} The Line object to check.
             * @param rect {Kiwi.Geom.Rectangle} The Rectangle object to check.
-            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given).
+            * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
             * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y.
             * @public
             * @static
@@ -21200,10 +21260,11 @@ var Kiwi;
             **/
             /**
             * Check to see if a Ray intersects at any point with a Rectangle.
+            *
             * @method rayToRectangle
             * @param ray {Kiwi.Geom.Ray} The Ray object to check.
             * @param rect {Kiwi.Geom.Rectangle} The Rectangle to check.
-            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
             * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
             * @public
             * @static
@@ -21219,6 +21280,7 @@ var Kiwi;
             /**
             * Check whether a Ray intersects a Line segment, returns the parametric value where the intersection occurs.
             * Note: The Line only exists between its two points.
+            *
             * @method rayToLineSegment
             * @static
             * @param rayx1 {Number} The origin point of the ray on the x axis.
@@ -21229,7 +21291,7 @@ var Kiwi;
             * @param liney1 {Number} The y of the first point of the line segment.
             * @param linex2 {Number} The x of the second point of the line segment.
             * @param liney2 {Number} The y of the second point of the line segment.
-            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
             * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection stored in x
             * @public
             */
@@ -21264,10 +21326,11 @@ var Kiwi;
             **/
             /**
             * Check if the two given Circle objects intersect at any point.
+            *
             * @method circleToCircle
             * @param circle1 {Kiwi.Geom.Circle} The first circle object to check.
             * @param circle2 {Kiwi.Geom.Circle} The second circle object to check.
-            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
             * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
             * @public
             * @static
@@ -21281,10 +21344,11 @@ var Kiwi;
 
             /**
             * Check if a Circle and a Rectangle intersect with each other at any point.
+            *
             * @method circleToRectangle
             * @param circle {Kiwi.Geom.Circle} The circle object to check.
             * @param rect {Kiwi.Geom.Rectangle} The Rectangle object to check.
-            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
             * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
             * @public
             * @static
@@ -21302,10 +21366,11 @@ var Kiwi;
 
             /**
             * Check if the given Point is found within the given Circle.
+            *
             * @method circleContainsPoint
             * @param circle {Kiwi.Geom.Circle} The circle object to check
             * @param point {Kiwi.Geom.Point} The point object to check
-            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
             * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
             * @public
             * @static
@@ -21324,10 +21389,11 @@ var Kiwi;
             **/
             /**
             * Determines whether the specified point is contained within a given Rectangle object.
+            *
             * @method pointToRectangle
             * @param point {Kiwi.Geom.Point} The point object being checked.
             * @param rect {Kiwi.Geom.Rectangle} The rectangle object being checked.
-            * @param [output=Intersect] {Kiwi.Geom.IntersectResult}  An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @param [output] {Kiwi.Geom.IntersectResult}  An optional IntersectResult object to store the intersection values in. One is created if none given.
             * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y/result
             * @public
             * @static
@@ -21343,10 +21409,11 @@ var Kiwi;
 
             /**
             * Check whether two axis aligned rectangles intersect. Return the intersecting rectangle dimensions if they do.
+            *
             * @method rectangleToRectangle
             * @param rect1 {Kiwi.Geom.Rectangle} The first Rectangle object.
             * @param rect2 {Kiwi.Geom.Rectangle} The second Rectangle object.
-            * @param [output=IntersectResult] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
             * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y/width/height
             * @public
             * @static
@@ -21387,6 +21454,11 @@ var Kiwi;
         * A Lightweight object to hold the results of an Intersection.
         * Used in combination with the STATIC methods on the Intersect class.
         *
+        * If you are using the Intersect methods a lot, you may want to consider
+        * creating a IntersectResult class a reusing it (by passing it to the methods on the Intersect class)
+        * instead of having new IntersectResults created.
+        *
+        *
         * @class IntersectResult
         * @namespace Kiwi.Geom
         * @constructor
@@ -21399,13 +21471,14 @@ var Kiwi;
                 * @property result
                 * @type boolean
                 * @default false
+                * @public
                 */
                 this.result = false;
             }
             /**
             * The type of object this is.
             * @method objType
-            * @return {String}
+            * @return {String} "IntersectResult"
             * @public
             */
             IntersectResult.prototype.objType = function () {
@@ -21421,6 +21494,7 @@ var Kiwi;
             * @param {Number} [y2=0]
             * @param {Number} [width=0]
             * @param {Number} [height=0]
+            * @public
             */
             IntersectResult.prototype.setTo = function (x1, y1, x2, y2, width, height) {
                 if (typeof x2 === "undefined") { x2 = 0; }
@@ -21454,18 +21528,18 @@ var Kiwi;
 (function (Kiwi) {
     (function (Geom) {
         /**
-        * A Kiwi Line object has two meanings depending on the situation you need.
+        * A Line object has two meanings depending on the situation you need.
         * Either an infinte line through space (this is the usual meaning of a Line)
         * OR it can be a Line Segment which just exists between the TWO points you specify.
         *
         * @class Line
         * @namespace Kiwi.Geom
         * @constructor
-        * @param [x1 = 0] {Number} x1 x component of first point.
-        * @param [y1 = 0]{Number} y1 y component of first point.
-        * @param [x2 = 0]{Number} x2 x component of second point.
-        * @param [y2 = 0]{Number} y2 y component of second point.
-        * @return {Line} This Object
+        * @param [x1=0] {Number} Starting location of the line on the x-axis.
+        * @param [y1=0] {Number} Starting location of the line on the y-axis.
+        * @param [x2=0] {Number} End location of the line on the x-axis.
+        * @param [y2=0] {Number} End location of the line on the y-axis.
+        * @return {Kiwi.Geom.Line} This Object
         *
         */
         var Line = (function () {
@@ -21475,14 +21549,14 @@ var Kiwi;
                 if (typeof x2 === "undefined") { x2 = 0; }
                 if (typeof y2 === "undefined") { y2 = 0; }
                 /**
-                * X position of first point in your line.
+                * X position of first point on the line.
                 * @property x1
                 * @type Number
                 * @public
                 */
                 this.x1 = 0;
                 /**
-                * Y position of first point in your line.
+                * Y position of first point on the line.
                 * @property y1
                 * @type Number
                 * @public
@@ -21496,7 +21570,7 @@ var Kiwi;
                 */
                 this.x2 = 0;
                 /**
-                * X position of second point.
+                * Y position of second point.
                 * @property y2
                 * @type Number
                 * @public
@@ -21507,7 +21581,7 @@ var Kiwi;
             /**
             * Returns the type of this object
             * @method objType
-            * @return {string} The type of this object
+            * @return {string} "Line"
             * @public
             */
             Line.prototype.objType = function () {
@@ -21516,10 +21590,11 @@ var Kiwi;
 
             /**
             * Makes a clone of this Line.
-            * The clone will either be a new Line Object,
+            * The clone can either be a new Line Object,
             * Otherwise you can pass a existing Line Object that you want to be a clone of this one.
+            *
             * @method clone
-            * @param [output = Line] {Kiwi.Geom.Line}
+            * @param [output=Line] {Kiwi.Geom.Line}
             * @return {Kiwi.Geom.Line}
             * @public
             */
@@ -21553,10 +21628,10 @@ var Kiwi;
             /**
             * Used to set all components on the line.
             * @method setTo
-            * @param [x1 = 0]{Number} X component of first point.
-            * @param [y1 = 0]{Number} Y component of first point.
-            * @param [x2 = 0]{Number} X component of second point.
-            * @param [y2 = 0]{Number} Y component of second point.
+            * @param [x1=0]{Number} X component of first point.
+            * @param [y1=0]{Number} Y component of first point.
+            * @param [x2=0]{Number} X component of second point.
+            * @param [y2=0]{Number} Y component of second point.
             * @return {Kiwi.Geom.Line}
             * @public
             */
@@ -21578,6 +21653,7 @@ var Kiwi;
                 * Get the length of the Line as a Line Segment.
                 * @property length
                 * @type number
+                * @readOnly
                 * @public
                 */
                 get: function () {
@@ -21590,7 +21666,7 @@ var Kiwi;
             /**
             * Get the y of a point on the line for a given x.
             * @method getY
-            * @param {Number} x
+            * @param x {Number}
             * @return {Number}
             * @public
             */
@@ -21605,7 +21681,9 @@ var Kiwi;
                 /**
                 * Get the angle of the line.
                 * @property angle
-                * @return {Number}
+                * @type Number
+                * @readOnly
+                * @public
                 */
                 get: function () {
                     return Math.atan2(this.y2 - this.y1, this.x2 - this.x1);
@@ -21618,7 +21696,8 @@ var Kiwi;
                 /**
                 * Get the slope of the line (y/x).
                 * @property slope
-                * @return {Number}
+                * @type Number
+                * @readOnly
                 * @public
                 */
                 get: function () {
@@ -21632,7 +21711,8 @@ var Kiwi;
                 /**
                 * Get the perpendicular slope of the line (x/y).
                 * @propery perpSlope
-                * @return {Number}
+                * @type Number
+                * @readOnly
                 * @public
                 */
                 get: function () {
@@ -21646,8 +21726,9 @@ var Kiwi;
                 /**
                 * Get the y intercept for the line.
                 * @property yIntercept
-                * @return {Number}
-                * @property
+                * @type Number
+                * @readOnly
+                * @public
                 */
                 get: function () {
                     return (this.y1 - this.slope * this.x1);
@@ -21675,8 +21756,8 @@ var Kiwi;
             /**
             * Check if the point is both on the line and within the line segment.
             * @method isPointOnLineSegment
-            * @param {Number} x
-            * @param {Number} y
+            * @param x {Number}
+            * @param y {Number}
             * @return {boolean}
             * @public
             */
@@ -21696,6 +21777,8 @@ var Kiwi;
             /**
             * Check to see if this Line object intersects at any point with a passed Line.
             * Note: Both are treated as extending infinately through space.
+            * Functions as an alias for the 'Kiwi.Geom.Intersect.lineToLine' method.
+            *
             * @method intersectLineLine
             * @param line {Kiwi.Geom.Line} The line you want to check for a Intersection with.
             * @return {Kiwi.Geom.IntersectResult} The Intersect Result containing the collision information.
@@ -21707,31 +21790,27 @@ var Kiwi;
 
             /**
             * Get a line perpendicular to the line passing through a given point.
+            *
             * @method perp
             * @param x {Number}
             * @param y {Number}
-            * @param [output = Line] {Kiwi.Geom.Line}
+            * @param [output] {Kiwi.Geom.Line} The line object that the result should be output to. Creates a new Line if one is not passed.
             * @return {Kiwi.Geom.Line}
             * @public
             */
             Line.prototype.perp = function (x, y, output) {
+                if (typeof output === "undefined") { output = new Line; }
                 if (this.y1 === this.y2) {
-                    if (output) {
-                        output.setTo(x, y, x, this.y1);
-                    } else {
-                        return new Line(x, y, x, this.y1);
-                    }
+                    output.setTo(x, y, x, this.y1);
                 }
 
                 var yInt = (y - this.perpSlope * x);
 
                 var pt = this.intersectLineLine({ x1: x, y1: y, x2: 0, y2: yInt });
 
-                if (output) {
-                    output.setTo(x, y, pt.x, pt.y);
-                } else {
-                    return new Line(x, y, pt.x, pt.y);
-                }
+                output.setTo(x, y, pt.x, pt.y);
+
+                return output;
             };
 
             /**
@@ -21768,12 +21847,12 @@ var Kiwi;
         * @class Matrix
         * @namespace Kiwi.Geom
         * @constructor
-        * @param [a = 1] {Number}  position 0,0 of the matrix, affects scaling and rotation.
-        * @param [b = 0] {Number}  position 0,1 of the matrix, affects scaling and rotation.
-        * @param [c = 0] {Number}  position 1,0 of the matrix, affects scaling and rotation.
-        * @param [d = 1] {Number}  position 1,1 of the matrix, affects scaling and rotation.
-        * @param [tx = 0] {Number}  position 2,0 of the matrix, affects translation on x axis.
-        * @param [ty = 0] {Number}  position 2,1 of the matrix, affects translation on y axis.
+        * @param [a=1] {Number}  position 0,0 of the matrix, affects scaling and rotation.
+        * @param [b=0] {Number}  position 0,1 of the matrix, affects scaling and rotation.
+        * @param [c=0] {Number}  position 1,0 of the matrix, affects scaling and rotation.
+        * @param [d=1] {Number}  position 1,1 of the matrix, affects scaling and rotation.
+        * @param [tx=0] {Number}  position 2,0 of the matrix, affects translation on x axis.
+        * @param [ty=0] {Number}  position 2,1 of the matrix, affects translation on y axis.
         * @return (Object) This object.
         *
         */
@@ -21785,14 +21864,62 @@ var Kiwi;
                 if (typeof d === "undefined") { d = 1; }
                 if (typeof tx === "undefined") { tx = 0; }
                 if (typeof ty === "undefined") { ty = 0; }
+                /**
+                * Position 0,0 of the matrix, affects scaling and rotation
+                * @property a
+                * @type Number
+                * @default 1
+                * @public
+                */
                 this.a = 1;
+                /**
+                * Position 0,1 of the matrix, affects scaling and rotation.
+                * @property b
+                * @type Number
+                * @default 0
+                * @public
+                */
                 this.b = 0;
+                /**
+                * Position 1,0 of the matrix, affects scaling and rotation.
+                * @property c
+                * @type Number
+                * @default 0
+                * @public
+                */
                 this.c = 0;
+                /**
+                * Position 1,1 of the matrix, affects scaling and rotation.
+                * @property d
+                * @type Number
+                * @default 1
+                * @public
+                */
                 this.d = 1;
+                /**
+                * Position 2,0 of the matrix, affects translation on x axis.
+                * @property tx
+                * @type Number
+                * @default 0
+                * @public
+                */
                 this.tx = 0;
+                /**
+                * Position 2,1 of the matrix, affects translation on y axis.
+                * @property ty
+                * @type Number
+                * @default 0
+                * @public
+                */
                 this.ty = 0;
                 this.setTo(a, b, c, d, tx, ty);
             }
+            /**
+            * The type of object this is.
+            * @method objType
+            * @return {String} "Matrix"
+            * @public
+            */
             Matrix.prototype.objType = function () {
                 return "Matrix";
             };
@@ -21800,13 +21927,14 @@ var Kiwi;
             /**
             * Set all matrix values
             * @method setTo
-            * @param [a = 1] {Number} position 0,0 of the matrix, affects scaling and rotation.
-            * @param [b = 0] {Number} position 0,1 of the matrix, affects scaling and rotation.
-            * @param [c = 0] {Number} position 1,0 of the matrix, affects scaling and rotation.
-            * @param [d = 1] {Number} position 1,1 of the matrix, affects scaling and rotation.
-            * @param [tx = 0] {Number} position 2,0 of the matrix, affects translation on x axis.
-            * @param [ty = 0] {Number} position 2,1 of the matrix, affects translation on y axis.
-            * @return (Object) This object.
+            * @param [a=1] {Number} position 0,0 of the matrix, affects scaling and rotation.
+            * @param [b=0] {Number} position 0,1 of the matrix, affects scaling and rotation.
+            * @param [c=0] {Number} position 1,0 of the matrix, affects scaling and rotation.
+            * @param [d=1] {Number} position 1,1 of the matrix, affects scaling and rotation.
+            * @param [tx=0] {Number} position 2,0 of the matrix, affects translation on x axis.
+            * @param [ty=0] {Number} position 2,1 of the matrix, affects translation on y axis.
+            * @return {Kiwi.Geom.Matrix} This object.
+            * @public
             */
             Matrix.prototype.setTo = function (a, b, c, d, tx, ty) {
                 if (typeof a === "undefined") { a = 1; }
@@ -21828,12 +21956,13 @@ var Kiwi;
             /**
             * Set matrix values from transform values
             * @method setFromTransform
-            * @Param tx {Number} tx. Translation on x axis.
-            * @Param ty {Number} ty. Translation on y axis.
-            * @Param scaleX {Number} scaleX. Scale on x axis.
-            * @Param scaleY {Number} scaleY. Scale on y axis.
-            * @Param rotation {Number} rotation.
-            * @return {Object} This object.
+            * @param tx {Number} Translation on x axis.
+            * @param ty {Number} Translation on y axis.
+            * @param scaleX {Number} scaleX. Scale on x axis.
+            * @param scaleY {Number} scaleY. Scale on y axis.
+            * @param rotation {Number} rotation.
+            * @return {Kiwi.Geom.Matrix} This object.
+            * @public
             */
             Matrix.prototype.setFromTransform = function (tx, ty, scaleX, scaleY, rotation) {
                 this.identity();
@@ -21848,14 +21977,15 @@ var Kiwi;
             /**
             * Set matrix values from transform values, with rotation point data included
             * @method setFromOffsetTransform
-            * @Param tx {Number} tx. Translation on x axis.
-            * @Param ty {Number} ty. Translation on y axis.
-            * @Param scaleX {Number} scaleX. Scale on x axis.
-            * @Param scaleY {Number} scaleY. Scale on y axis.
-            * @Param rotation {Number} rotation.
-            * @Param rotPointX {Number} Rotation point offset on x axis.
-            * @Param rotPointY {Number} Rotation point offset on y axis.
-            * @return {Object} This object.
+            * @param tx {Number} tx. Translation on x axis.
+            * @param ty {Number} ty. Translation on y axis.
+            * @param scaleX {Number} scaleX. Scale on x axis.
+            * @param scaleY {Number} scaleY. Scale on y axis.
+            * @param rotation {Number} rotation.
+            * @param rotPointX {Number} Rotation point offset on x axis.
+            * @param rotPointY {Number} Rotation point offset on y axis.
+            * @return {Kiwi.Geom.Matrix} This object.
+            * @public
             * @since 1.0.1
             */
             Matrix.prototype.setFromOffsetTransform = function (tx, ty, scaleX, scaleY, rotation, rotPointX, rotPointY) {
@@ -21871,13 +22001,14 @@ var Kiwi;
             /**
             * Prepend values to this matrix, paramters supplied individually.
             * @method prepend
-            * @param [a = 1]{Number} position 0,0 of the matrix, affects scaling and rotation.
-            * @param [b = 0]{Number} position 0,1 of the matrix, affects scaling and rotation.
-            * @param [c = 0]{Number} position 1,0 of the matrix, affects scaling and rotation.
-            * @param [d = 0]{Number} position 1,1 of the matrix, affects scaling and rotation.
-            * @param [tx = 0]{Number} position 2,0 of the matrix, affects translation on x axis.
-            * @param [ty = 0]{Number} position 2,1 of the matrix, affects translation on y axis.
-            * @return {Object} This object.
+            * @param [a=1]{Number} position 0,0 of the matrix, affects scaling and rotation.
+            * @param [b=0]{Number} position 0,1 of the matrix, affects scaling and rotation.
+            * @param [c=0]{Number} position 1,0 of the matrix, affects scaling and rotation.
+            * @param [d=0]{Number} position 1,1 of the matrix, affects scaling and rotation.
+            * @param [tx=0]{Number} position 2,0 of the matrix, affects translation on x axis.
+            * @param [ty=0]{Number} position 2,1 of the matrix, affects translation on y axis.
+            * @return {Kiwi.Geom.Matrix} This object.
+            * @public
             */
             Matrix.prototype.prepend = function (a, b, c, d, tx, ty) {
                 if (typeof a === "undefined") { a = 1; }
@@ -21903,8 +22034,9 @@ var Kiwi;
             /**
             * Prepend a matrix to this matrix.
             * @method prependMatrix
-            * @param {Object} m. The matrix to prepend.
-            * @return {Object} This object.
+            * @param m {Kiwi.Geom.Matrix} The matrix to prepend.
+            * @return {Kiwi.Geom.Matrix} This object.
+            * @public
             */
             Matrix.prototype.prependMatrix = function (m) {
                 var tx1 = this.tx;
@@ -21924,13 +22056,14 @@ var Kiwi;
             /**
             * Append values to this matrix, paramters supplied individually.
             * @method append
-            * @param [a = 1]{Number} position 0,0 of the matrix, affects scaling and rotation.
-            * @param [b = 0]{Number} position 0,1 of the matrix, affects scaling and rotation.
-            * @param [c = 0]{Number} position 1,0 of the matrix, affects scaling and rotation.
-            * @param [d = 1]{Number} position 1,1 of the matrix, affects scaling and rotation.
-            * @param [tx = 0]{Number} position 2,0 of the matrix, affects translation on x axis.
-            * @param [ty = 0]{Number} position 2,1 of the matrix, affects translation on y axis.
-            * @return {Object} This object.
+            * @param [a=1]{Number} position 0,0 of the matrix, affects scaling and rotation.
+            * @param [b=0]{Number} position 0,1 of the matrix, affects scaling and rotation.
+            * @param [c=0]{Number} position 1,0 of the matrix, affects scaling and rotation.
+            * @param [d=1]{Number} position 1,1 of the matrix, affects scaling and rotation.
+            * @param [tx=0]{Number} position 2,0 of the matrix, affects translation on x axis.
+            * @param [ty=0]{Number} position 2,1 of the matrix, affects translation on y axis.
+            * @return {Kiwi.Geom.Matrix} This object.
+            * @public
             */
             Matrix.prototype.append = function (a, b, c, d, tx, ty) {
                 if (typeof a === "undefined") { a = 1; }
@@ -21956,8 +22089,9 @@ var Kiwi;
             /**
             * Append a matrix to this matrix.
             * @method appendMatrix
-            * @param m {Object} The matrix to append.
-            * @return {Object} This object.
+            * @param m {Kiwi.Geom.Matrix} The matrix to append.
+            * @return {Kiwi.Geom.Matrix} This object.
+            * @public
             */
             Matrix.prototype.appendMatrix = function (m) {
                 var a1 = this.a;
@@ -21975,11 +22109,12 @@ var Kiwi;
             };
 
             /**
-            * Set the tx and ty elements of the matrix
+            * Set the tx and ty elements of the matrix.
             * @method setPosition
             * @param x {Number} Translation on x axis.
             * @param y {Number} Translation on y axis.
-            * @return  {Object} This object.
+            * @return {Kiwi.Geom.Matrix} This object.
+            * @public
             */
             Matrix.prototype.setPosition = function (x, y) {
                 this.tx = x;
@@ -21989,9 +22124,10 @@ var Kiwi;
 
             /**
             * Set the tx and ty elements of the matrix from an object with x and y properties.
-            * @method setPositionVector
+            * @method setPositionPoint
             * @param p {Number} The object from which to copy the x and y properties from.
-            * @return  {Object} This object.
+            * @return {Kiwi.Geom.Matrix} This object.
+            * @public
             */
             Matrix.prototype.setPositionPoint = function (p) {
                 this.tx = p.x;
@@ -22002,7 +22138,8 @@ var Kiwi;
             /**
             * Get the x and y position of the matrix as an object with x and y properties
             * @method setPositionVector
-            * @return {Object} An object constructed from a literal with x and y properties.
+            * @return {Kiwi.Geom.Point} An object constructed from a literal with x and y properties.
+            * @public
             */
             Matrix.prototype.getPosition = function (output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.Point; }
@@ -22012,7 +22149,8 @@ var Kiwi;
             /**
             * Set the matrix to the identity matrix - when appending or prepending this matrix to another there will be no change in the resulting matrix
             * @method identity
-            * @return {Object} This object.
+            * @return {Kiwi.Geom.Matrix} This object.
+            * @public
             */
             Matrix.prototype.identity = function () {
                 this.a = 1;
@@ -22027,8 +22165,9 @@ var Kiwi;
             /**
             * Rotate the matrix by "radians" degrees
             * @method rotate
-            * @param radians{Number} radians.
-            * @return {Object} This object.
+            * @param radians {Number} The angle (in radians) to rotate this matrix by.
+            * @return {Kiwi.Geom.Matrix} This object.
+            * @public
             */
             Matrix.prototype.rotate = function (radians) {
                 var cos = Math.cos(radians);
@@ -22048,11 +22187,13 @@ var Kiwi;
             };
 
             /**
-            * Translate the matrix
-            * @method transalte
-            * @Param tx {Number} tx. The amount to translate on the x axis.
-            * @Param ty {Number} ty. The amount to translate on the y axis.
-            * @return {Object} This object.
+            * Translate the matrix by the amount passed.
+            *
+            * @method translate
+            * @param tx {Number} The amount to translate on the x axis.
+            * @param ty {Number} The amount to translate on the y axis.
+            * @return {Kiwi.Geom.Matrix} This object.
+            * @public
             */
             Matrix.prototype.translate = function (tx, ty) {
                 this.tx += tx;
@@ -22061,11 +22202,13 @@ var Kiwi;
             };
 
             /**
-            * Scale the matrix
+            * Scales the matrix by the amount passed.
+            *
             * @method scale
-            * @Param {Number} scaleX. The amount to scale on the x axis.
-            * @Param {Number} scaleY. The amount to scale on the y axis.
-            * @return {Object} This object.
+            * @param scaleX {Number} The amount to scale on the x axis.
+            * @param scaleY {Number} The amount to scale on the y axis.
+            * @return {Kiwi.Geom.Matrix} This object.
+            * @public
             */
             Matrix.prototype.scale = function (scaleX, scaleY) {
                 this.a *= scaleX;
@@ -22077,7 +22220,8 @@ var Kiwi;
             * Apply this matrix to a an object with x and y properties representing a point and return the transformed point.
             * @method transformPoint
             * @param pt {Object} The point to be translated.
-            * @return {Object} The translated point.
+            * @return {Kiwi.Geom.Matrix} This object.
+            * @public
             */
             Matrix.prototype.transformPoint = function (pt) {
                 var x = pt.x;
@@ -22089,8 +22233,9 @@ var Kiwi;
 
             /**
             * Invert this matrix so that it represents the opposite of it's orginal tranformaation.
-            * @method transformPoint
-            * @return {Object} This object.
+            * @method invert
+            * @return {Kiwi.Geom.Matrix} This object.
+            * @public
             */
             Matrix.prototype.invert = function () {
                 var a1 = this.a;
@@ -22112,8 +22257,9 @@ var Kiwi;
             /**
             * Copy another matrix to this matrix.
             * @method copyFrom
-            * @param m {Object} The matrixto be copied from.
-            * @return {Object} This object.
+            * @param m {Kiwi.Geom.Matrix} The matrixto be copied from.
+            * @return {Kiwi.Geom.Matrix} This object.
+            * @public
             */
             Matrix.prototype.copyFrom = function (m) {
                 this.a = m.a;
@@ -22129,8 +22275,9 @@ var Kiwi;
             /**
             * Copy this matrix to another matrix.
             * @method copyTo
-            * @param m {Object} The matrix to copy to.
-            * @return {Object} This object.
+            * @param m {Kiwi.Geom.Matrix} The matrix to copy to.
+            * @return {Kiwi.Geom.Matrix} This object.
+            * @public
             */
             Matrix.prototype.copyTo = function (m) {
                 m.a = this.a;
@@ -22143,9 +22290,10 @@ var Kiwi;
             };
 
             /**
-            * Clone this matrix
+            * Clone this matrix and returns a new Matrix object.
             * @method clone
-            * @return {Object} The new clone of this matrix.
+            * @return {Kiwi.Geom.Matrix}
+            * @public
             */
             Matrix.prototype.clone = function () {
                 return new Kiwi.Geom.Matrix(this.a, this.b, this.c, this.d, this.tx, this.ty);
@@ -22155,8 +22303,9 @@ var Kiwi;
                 /**
                 * Returns a string representation of this object.
                 * @method toString
-                * @return {string} a string representation of the instance.
-                **/
+                * @return {string} A string representation of the instance.
+                * @public
+                */
                 get: function () {
                     return "[{Matrix (a=" + this.a + " b=" + this.b + " c=" + this.c + " d=" + this.d + " tx=" + this.tx + " ty=" + this.ty + ")}]";
                 },
@@ -22183,8 +22332,8 @@ var Kiwi;
         * @class Point
         * @constructor
         * @namespace Kiwi.Geom
-        * @param x {Number} x One-liner. Default is ?.
-        * @param y {Number} y One-liner. Default is ?.
+        * @param [x=0] {Number} Position of this point on the x-axis.
+        * @param [y=0] {Number} Position of this point on the y-axis.
         *
         */
         var Point = (function () {
@@ -22196,7 +22345,7 @@ var Kiwi;
             /**
             * The type of this object.
             * @method objType
-            * @return {String}
+            * @return {String} "Point"
             * @public
             */
             Point.prototype.objType = function () {
@@ -22206,11 +22355,11 @@ var Kiwi;
             /**
             * Converts a pair of polar coordinates to a Cartesian point coordinate and sets them on the point instance.
             * @method polar
-            * @param length {Number}  The length coordinate of the polar pair.
-            * @param angle {Number}  The angle, in radians, of the polar pair.
+            * @param length {Number} The length coordinate of the polar pair.
+            * @param angle {Number} The angle, in radians, of the polar pair.
             * @return {Kiwi.Geom.Point} The new Cartesian Point object.
             * @public
-            **/
+            */
             Point.prototype.polar = function (distance, angle) {
                 //Note: Would be badarse if it did this based on the current x/y coordinates
                 this.x = distance * Math.cos(angle);
@@ -22221,11 +22370,11 @@ var Kiwi;
             /**
             * Adds the coordinates of another point to the coordinates of this point to create a new point.
             * @method add
-            * @param toAdd {Kiwi.Geom.Point}  - The point to be added.
+            * @param toAdd {Kiwi.Geom.Point} The point to be added.
             * @param output {Kiwi.Geom.Point}
             * @return {Kiwi.Geom.Point} The new Point object.
             * @public
-            **/
+            */
             Point.prototype.add = function (toAdd, output) {
                 if (typeof output === "undefined") { output = new Point; }
                 return output.setTo(this.x + toAdd.x, this.y + toAdd.y);
@@ -22234,11 +22383,11 @@ var Kiwi;
             /**
             * Adds the given values to the coordinates of this point and returns it
             * @method addTo
-            * @param x {Number} - The amount to add to the x value of the point
-            * @param y {Number} - The amount to add to the x value of the point
+            * @param x {Number} The amount to add to the x value of the point
+            * @param y {Number} The amount to add to the x value of the point
             * @return {Kiwi.Geom.Point} This Point object.
             * @public
-            **/
+            */
             Point.prototype.addTo = function (x, y) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
@@ -22248,11 +22397,11 @@ var Kiwi;
             /**
             * Adds the given values to the coordinates of this point and returns it
             * @method subtractFrom
-            * @param x {Number} - The amount to subtract from the x value of the point
-            * @param y {Number} - The amount to subtract from the x value of the point
+            * @param x {Number} The amount to subtract from the x value of the point
+            * @param y {Number} The amount to subtract from the x value of the point
             * @return {Kiwi.Geom.Point} This Point object.
             * @public
-            **/
+            */
             Point.prototype.subtractFrom = function (x, y) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
@@ -22264,19 +22413,19 @@ var Kiwi;
             * @method invert
             * @return {Kiwi.Geom.Point} This Point object.
             * @public
-            **/
+            */
             Point.prototype.invert = function () {
                 return this.setTo(this.y, this.x);
             };
 
             /**
-            * Clamps this Point object to be between the given min and max
+            * Clamps this Point object to be between the given min and max.
             * @method clamp
-            * @param min {number} The minimum value to clamp this Point to
-            * @param max {number} The maximum value to clamp this Point to
-            * @return {Point} This Point object.
+            * @param min {number} The minimum value to clamp this Point to.
+            * @param max {number} The maximum value to clamp this Point to.
+            * @return {Kiwi.Geom.Point} This Point object.
             * @public
-            **/
+            */
             Point.prototype.clamp = function (min, max) {
                 this.clampX(min, max);
                 this.clampY(min, max);
@@ -22288,9 +22437,9 @@ var Kiwi;
             * @method clampX
             * @param min {Number} The minimum value to clamp this Point to
             * @param max {Number} The maximum value to clamp this Point to
-            * @return {Point} This Point object.
+            * @return {Kiwi.Geom.Point} This Point object.
             * @public
-            **/
+            */
             Point.prototype.clampX = function (min, max) {
                 this.x = Math.max(Math.min(this.x, max), min);
 
@@ -22304,7 +22453,7 @@ var Kiwi;
             * @param max {Number} The maximum value to clamp this Point to
             * @return {Kiwi.Geom.Point} This Point object.
             * @public
-            **/
+            */
             Point.prototype.clampY = function (min, max) {
                 this.x = Math.max(Math.min(this.x, max), min);
                 this.y = Math.max(Math.min(this.y, max), min);
@@ -22315,10 +22464,10 @@ var Kiwi;
             /**
             * Creates a copy of this Point.
             * @method clone
-            * @param [output = Point]{Kiwi.Geom.Point} Optional Point object. If given the values will be set into this object, otherwise a brand new Point object will be created and returned.
-            * @return {Kiwi.Geom.Point} The new Point object.
+            * @param [output] {Kiwi.Geom.Point} Optional Point object. If given the values will be set into this object, otherwise a new Point object will be created.
+            * @return {Kiwi.Geom.Point}
             * @public
-            **/
+            */
             Point.prototype.clone = function (output) {
                 if (typeof output === "undefined") { output = new Point; }
                 return output.setTo(this.x, this.y);
@@ -22329,7 +22478,8 @@ var Kiwi;
             * @method copyFrom
             * @param source {Kiwi.Geom.Point} The point to copy from.
             * @return {Kiwi.Geom.Point} This Point object. Useful for chaining method calls.
-            **/
+            * @public
+            */
             Point.prototype.copyFrom = function (source) {
                 return this.setTo(source.x, source.y);
             };
@@ -22339,19 +22489,12 @@ var Kiwi;
             * @method copyTo
             * @param target {Kiwi.Geom.Point} target - The point to copy to.
             * @return {Kiwi.Geom.Point} The target Point object.
-            **/
+            * @public
+            */
             Point.prototype.copyTo = function (target) {
                 return target.setTo(this.x, this.y);
             };
 
-            /**
-            * Returns the distance from this Point object to the given Point object.
-            * @method distanceTo
-            * @param target {Kiwi.Geom.Point} The destination Point object.
-            * @param round {boolean} Round the distance to the nearest integer (default false)
-            * @return {Number} The distance between this Point object and the destination Point object.
-            * @public
-            **/
             /**
             * Get the angle from this Point object to given Point object.
             * @method angleTo
@@ -22375,6 +22518,15 @@ var Kiwi;
                 //Y then X ....cause JavaScript :P
                 return Math.atan2(y - this.y, x - this.x);
             };
+
+            /**
+            * Returns the distance from this Point object to the given Point object.
+            * @method distanceTo
+            * @param target {Kiwi.Geom.Point} The destination Point object.
+            * @param round {boolean} Round the distance to the nearest integer (default false)
+            * @return {Number} The distance between this Point object and the destination Point object.
+            * @public
+            */
             Point.prototype.distanceTo = function (target, round) {
                 if (typeof round === "undefined") { round = false; }
                 var dx = this.x - target.x;
@@ -22390,12 +22542,12 @@ var Kiwi;
             /**
             * Returns the distance from this Point object to the given Point object.
             * @method distanceToXY
-            * @param x {Number} x - The x value.
-            * @param y {Number} y - The y value.
-            * @param [round = Boolean] {boolean} round - Round the distance to the nearest integer (default false)
+            * @param x {Number} The x value.
+            * @param y {Number} The y value.
+            * @param [round=false] {boolean} Round the distance to the nearest integer (default false)
             * @return {Number} The distance between this Point object and the x/y values.
             * @public
-            **/
+            */
             Point.prototype.distanceToXY = function (x, y, round) {
                 if (typeof round === "undefined") { round = false; }
                 var dx = this.x - x;
@@ -22411,11 +22563,12 @@ var Kiwi;
             /**
             * Returns the distance between the two Point objects.
             * @method distanceBetween
-            * @param pointA {Kiwi.Geom.Point} pointA - The first Point object.
-            * @param pointB {Kiwi.Geom.Point} pointB - The second Point object.
-            * @param [round = Boolean] {boolean} round - Round the distance to the nearest integer (default false)
+            * @param pointA {Kiwi.Geom.Point} The first Point object.
+            * @param pointB {Kiwi.Geom.Point} The second Point object.
+            * @param [round=false] {boolean} Round the distance to the nearest integer (default false)
             * @return {Number} The distance between the two Point objects.
-            **/
+            * @public
+            */
             Point.distanceBetween = function (pointA, pointB, round) {
                 if (typeof round === "undefined") { round = false; }
                 var dx = pointA.x - pointB.x;
@@ -22434,7 +22587,8 @@ var Kiwi;
             * @param length {Number} The length coordinate of the polar pair.
             * @param angle {Number} The angle, in radians, of the polar pair.
             * @return {Kiwi.Geom.Point} The new Cartesian Point object.
-            **/
+            * @public
+            */
             Point.polar = function (length, angle) {
                 return new Point(length * Math.cos(angle), length * Math.sin(angle));
             };
@@ -22445,9 +22599,9 @@ var Kiwi;
             * @method distanceCompare
             * @param target {Kiwi.Geom.Point} The Point object to use for comparison.
             * @param distance {Number} The distance to use for comparison.
-            * @return {boolean} True if distance is >= specified distance.
+            * @return {Boolean} True if distance is >= specified distance.
             * @public
-            **/
+            */
             Point.prototype.distanceCompare = function (target, distance) {
                 if (this.distanceTo(target) >= distance) {
                     return true;
@@ -22462,7 +22616,7 @@ var Kiwi;
             * @param point {Kiwi.Geom.Point} The point to compare against.
             * @return {boolean} A value of true if the object is equal to this Point object; false if it is not equal.
             * @public
-            **/
+            */
             Point.prototype.equals = function (toCompare) {
                 if (this.x === toCompare.x && this.y === toCompare.y) {
                     return true;
@@ -22472,15 +22626,20 @@ var Kiwi;
             };
 
             /**
-            * Determines a point between two specified points. The parameter f determines where the new interpolated point is located relative to the two end points specified by parameters pt1 and pt2.
-            * The closer the value of the parameter f is to 1.0, the closer the interpolated point is to the first point (parameter pt1). The closer the value of the parameter f is to 0, the closer the interpolated point is to the second point (parameter pt2).
+            * Determines a point between two specified points.
+            * The parameter f determines where the new interpolated point is located relative to the two end points specified by parameters pt1 and pt2.
+            *
+            * The closer the value of the parameter f is to 1.0,
+            * the closer the interpolated point is to the first point (parameter pt1).
+            * The closer the value of the parameter f is to 0, the closer the interpolated point is to the second point (parameter pt2).
+            *
             * @method interpolate
             * @param pointA{Kiwi.Geom.Point} The first Point object.
             * @param pointB {Kiwi.Geom.Point} The second Point object.
             * @param f {Number} The level of interpolation between the two points. Indicates where the new point will be, along the line between pt1 and pt2. If f=1, pt1 is returned; if f=0, pt2 is returned.
             * @return {Kiwi.Geom.Point} The new interpolated Point object.
             * @public
-            **/
+            */
             Point.interpolate = function (pointA, pointB, f) {
                 var xDiff = pointB.x - pointA.x;
                 var yDiff = pointB.y - pointA.y;
@@ -22490,12 +22649,13 @@ var Kiwi;
             /**
             * Offsets the Point object by the specified amount. The value of dx is added to the original value of x to create the new x value.
             * The value of dy is added to the original value of y to create the new y value.
+            *
             * @method offset
             * @param dx {Number} The amount by which to offset the horizontal coordinate, x.
             * @param dy {Number} The amount by which to offset the vertical coordinate, y.
             * @return {Kiwi.Geom.Point} This Point object. Useful for chaining method calls.
             * @public
-            **/
+            */
             Point.prototype.offset = function (dx, dy) {
                 this.x += dx;
                 this.y += dy;
@@ -22510,7 +22670,7 @@ var Kiwi;
             * @param y {Number} The vertical position of this point.
             * @return {Kiwi.Geom.Point} This Point object. Useful for chaining method calls.
             * @public
-            **/
+            */
             Point.prototype.setTo = function (x, y) {
                 this.x = x;
                 this.y = y;
@@ -22525,7 +22685,7 @@ var Kiwi;
             * @param output {Kiwi.Geom.Point} Optional Point object. If given the values will be set into this object, otherwise a brand new Point object will be created and returned.
             * @return {Kiwi.Geom.Point} The new Point object.
             * @public
-            **/
+            */
             Point.prototype.subtract = function (point, output) {
                 if (typeof output === "undefined") { output = new Point; }
                 return output.setTo(this.x - point.x, this.y - point.y);
@@ -22540,7 +22700,7 @@ var Kiwi;
             * @method toString
             * @return {String} a string representation of the instance.
             * @public
-            **/
+            */
             Point.prototype.toString = function () {
                 return '[{Point (x=' + this.x + ' y=' + this.y + ')}]';
             };
@@ -22564,10 +22724,10 @@ var Kiwi;
         * @class Rectangle
         * @namespace Kiwi.Geom
         * @constructor
-        * @param [x = 0] {Number} The x coordinate of the top-left corner of the rectangle.
-        * @param [y = 0] {Number} The y coordinate of the top-left corner of the rectangle.
-        * @param [width = 0] {Number} width The width of the rectangle in pixels.
-        * @param [height = 0] {Number} height The height of the rectangle in pixels.
+        * @param [x=0] {Number} The x coordinate of the top-left corner of the rectangle.
+        * @param [y=0] {Number} The y coordinate of the top-left corner of the rectangle.
+        * @param [width=0] {Number} width The width of the rectangle in pixels.
+        * @param [height=0] {Number} height The height of the rectangle in pixels.
         * @return {Kiwi.Geom.Rectangle} This rectangle object
         *
         */
@@ -22584,36 +22744,40 @@ var Kiwi;
                 * The x coordinate of the top-left corner of the rectangle
                 * @property x
                 * @type Number
+                * @default 0
                 * @public
-                **/
+                */
                 this.x = 0;
                 /**
                 * The y coordinate of the top-left corner of the rectangle
                 * @property y
                 * @type Number
+                * @default 0
                 * @public
-                **/
+                */
                 this.y = 0;
                 /**
                 * The width of the rectangle in pixels
                 * @property width
                 * @type Number
+                * @default 0
                 * @public
-                **/
+                */
                 this.width = 0;
                 /**
                 * The height of the rectangle in pixels
                 * @property height
                 * @type Number
+                * @default 0
                 * @public
-                **/
+                */
                 this.height = 0;
                 this.setTo(x, y, width, height);
             }
             /**
             * The type of this object.
             * @method objType
-            * @return {String}
+            * @return {String} "Rectangle"
             * @public
             */
             Rectangle.prototype.objType = function () {
@@ -22626,11 +22790,14 @@ var Kiwi;
                     return this.y + this.height;
                 },
                 /**
-                * The sum of the y and height properties. Changing the bottom property of a Rectangle object has no effect on the x, y and width properties, but does change the height property.
+                * The sum of the y and height properties.
+                * Changing the bottom property of a Rectangle object has no effect on the x, y and width properties,
+                * but does change the height property.
+                *
                 * @property bottom
-                * @return {Number}
+                * @type Number
                 * @public
-                **/
+                */
                 set: function (value) {
                     if (value) {
                         if (value < this.y) {
@@ -22648,9 +22815,10 @@ var Kiwi;
                 /**
                 * Returns a Point containing the location of the center of the Rectangle, relative to the top left edge
                 * @property center
-                * @return {Kiwi.Geom.Point}
+                * @type Kiwi.Geom.Point
+                * @readOnly
                 * @public
-                **/
+                */
                 get: function () {
                     var output = new Geom.Point();
                     return output.setTo(Math.round(this.width / 2), Math.round(this.height / 2));
@@ -22668,7 +22836,7 @@ var Kiwi;
                 /**
                 * Returns a Point containing the location of the Rectangle's bottom-right corner, determined by the values of the right and bottom properties.
                 * @property bottomRight
-                * @return {Kiwi.Geom.Point}
+                * @type Kiwi.Geom.Point
                 * @public
                 */
                 set: function (value) {
@@ -22689,7 +22857,7 @@ var Kiwi;
                 /**
                 * The x coordinate of the top-left corner of the rectangle. Changing the left property of a Rectangle object has no effect on the y and height properties. However it does affect the width property, whereas changing the x value does not affect the width property.
                 * @property left
-                * @return {Number}
+                * @type Number
                 * @public
                 */
                 set: function (value) {
@@ -22719,7 +22887,7 @@ var Kiwi;
                 /**
                 * The sum of the x and width properties. Changing the right property of a Rectangle object has no effect on the x, y and height properties. However it does affect the width property.
                 * @property right
-                * @return {Number}
+                * @type Number
                 * @public
                 */
                 set: function (value) {
@@ -22739,7 +22907,8 @@ var Kiwi;
                 /**
                 * The size of the Rectangle object, expressed as a Point object with the values of the width and height properties.
                 * @property size
-                * @return {Kiwi.Geom.Point} The size of the Rectangle object
+                * @type Kiwi.Geom.Point
+                * @readOnly
                 * @public
                 */
                 get: function () {
@@ -22754,7 +22923,8 @@ var Kiwi;
                 /**
                 * The volume of the Rectangle object in pixels, derived from width * height
                 * @property volume
-                * @return {Number}
+                * @type Number
+                * @readOnly
                 * @return
                 */
                 get: function () {
@@ -22768,7 +22938,8 @@ var Kiwi;
                 /**
                 * The perimeter size of the Rectangle object in pixels. This is the sum of all 4 sides.
                 * @property perimeter
-                * @return {Number}
+                * @type Number
+                * @readOnly
                 * @public
                 */
                 get: function () {
@@ -22784,7 +22955,10 @@ var Kiwi;
                     return this.y;
                 },
                 /**
-                * The y coordinate of the top-left corner of the rectangle. Changing the top property of a Rectangle object has no effect on the x and width properties. However it does affect the height property, whereas changing the y value does not affect the height property.
+                * The y coordinate of the top-left corner of the rectangle.
+                * Changing the top property of a Rectangle object has no effect on the x and width properties.
+                * However it does affect the height property, whereas changing the y value does not affect the height property.
+                *
                 * @method top
                 * @return {Number}
                 * @public
@@ -22817,7 +22991,7 @@ var Kiwi;
                 /**
                 * The location of the Rectangle object's top-left corner, determined by the x and y coordinates of the point.
                 * @property topLeft
-                * @return {Kiwi.Geom.Point}
+                * @type Kiwi.Geom.Point
                 * @public
                 */
                 set: function (value) {
@@ -22833,10 +23007,10 @@ var Kiwi;
             /**
             * Returns a new Rectangle object with the same values for the x, y, width, and height properties as the original Rectangle object.
             * @method clone
-            * @param [output = Rectangle] {Kiwi.Geom.Rectangle} Optional Rectangle object. If given the values will be set into the object, otherwise a brand new Rectangle object will be created and returned.
+            * @param [output] {Kiwi.Geom.Rectangle} Optional Rectangle object. If given the values will be set into the object, otherwise a brand new Rectangle object will be created and returned.
             * @return {Kiwi.Geom.Rectangle}
             * @public
-            **/
+            */
             Rectangle.prototype.clone = function (output) {
                 if (typeof output === "undefined") { output = new Rectangle; }
                 return output.setTo(this.x, this.y, this.width, this.height);
@@ -22848,7 +23022,8 @@ var Kiwi;
             * @param {Number} x The x coordinate of the point to test.
             * @param {Number} y The y coordinate of the point to test.
             * @return {boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
-            **/
+            * @public
+            */
             Rectangle.prototype.contains = function (x, y) {
                 if (x >= this.x && x <= this.right && y >= this.y && y <= this.bottom) {
                     return true;
@@ -22858,22 +23033,27 @@ var Kiwi;
             };
 
             /**
-            * Determines whether the specified point is contained within the rectangular region defined by this Rectangle object. This method is similar to the Rectangle.contains() method, except that it takes a Point object as a parameter.
+            * Determines whether the specified point is contained within the rectangular region defined by this Rectangle object.
+            * This method is similar to the Rectangle.contains() method, except that it takes a Point object as a parameter.
+            *
             * @method containsPoint
             * @param {Kiwi.Geom.Point} point The point object being checked. Can be Kiwi.Geom.Point or any object with .x and .y values.
             * @return {boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
-            **/
+            * @public
+            */
             Rectangle.prototype.containsPoint = function (point) {
                 return this.contains(point.x, point.y);
             };
 
             /**
-            * Determines whether the Rectangle object specified by the rect parameter is contained within this Rectangle object. A Rectangle object is said to contain another if the second Rectangle object falls entirely within the boundaries of the first.
+            * Determines whether the Rectangle object specified by the rect parameter is contained within this Rectangle object.
+            * A Rectangle object is said to contain another if the second Rectangle object falls entirely within the boundaries of the first.
+            *
             * @method containsRect
             * @param rect {Kiwi.Geom.Rectangle} The rectangle object being checked.
             * @return {boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
             * @public
-            **/
+            */
             Rectangle.prototype.containsRect = function (rect) {
                 //	If the given rect has a larger volume than this one then it can never contain it
                 if (rect.volume > this.volume) {
@@ -22889,11 +23069,12 @@ var Kiwi;
 
             /**
             * Copies all of rectangle data from the source Rectangle object into the calling Rectangle object.
+            *
             * @method copyFrom
             * @param source {Kiwi.Geom.Rectangle} The source rectangle object to copy from
             * @return {Kiwi.Geom.Rectangle} This rectangle object
             * @public
-            **/
+            */
             Rectangle.prototype.copyFrom = function (source) {
                 return this.setTo(source.x, source.y, source.width, source.height);
             };
@@ -22901,23 +23082,26 @@ var Kiwi;
             /**
             * Copies all the rectangle data from this Rectangle object into the destination Rectangle object.
             * Creates a new rectangle if one was not passed.
+            *
             * @method copyTo
-            * @param target {Rectangle} The destination rectangle object to copy in to
-            * @return {Rectangle} The destination rectangle object
+            * @param [target] {Kiwi.Geom.Rectangle} The destination rectangle object to copy in to. Creates a new rectangle if one is not passed.
+            * @return {Kiwi.Geom.Rectangle} The destination rectangle object
             * @public
-            **/
+            */
             Rectangle.prototype.copyTo = function (target) {
                 if (typeof target === "undefined") { target = new Rectangle(); }
                 return target.copyFrom(this);
             };
 
             /**
-            * Determines whether the object specified in the toCompare parameter is equal to this Rectangle object. This method compares the x, y, width, and height properties of an object against the same properties of this Rectangle object.
+            * Determines whether the object specified in the toCompare parameter is equal to this Rectangle object.
+            * This method compares the x, y, width, and height properties of an object against the same properties of this Rectangle object.
+            *
             * @method equals
-            * @param  toCompare {Rectangle} toCompare The rectangle to compare to this Rectangle object.
+            * @param  toCompare {Kiwi.Geom.Rectangle} toCompare The rectangle to compare to this Rectangle object.
             * @return {boolean} A value of true if the object has exactly the same values for the x, y, width, and height properties as this Rectangle object; otherwise false.
             * @public
-            **/
+            */
             Rectangle.prototype.equals = function (toCompare) {
                 if (this.x === toCompare.x && this.y === toCompare.y && this.width === toCompare.width && this.height === toCompare.height) {
                     return true;
@@ -22927,13 +23111,18 @@ var Kiwi;
             };
 
             /**
-            * Increases the size of the Rectangle object by the specified amounts, in pixels. The center point of the Rectangle object stays the same, and its size increases to the left and right by the dx value, and to the top and the bottom by the dy value.
+            * Increases the size of the Rectangle object by the specified amounts, in pixels.
+            *
+            * The center point of the Rectangle object stays the same,
+            * and its size increases to the left and right by the dx value,
+            * and to the top and the bottom by the dy value.
+            *
             * @method inflate
             * @param dx {Number} dx The amount to be added to the left side of this Rectangle.
             * @param dy {Number} dy The amount to be added to the bottom side of this Rectangle.
             * @return {Kiwi.Geom.Rectangle} This Rectangle object.
             * @public
-            **/
+            */
             Rectangle.prototype.inflate = function (dx, dy) {
                 if (!isNaN(dx) && !isNaN(dy)) {
                     this.x -= dx;
@@ -22948,22 +23137,27 @@ var Kiwi;
 
             /**
             * Increases the size of the Rectangle object. This method is similar to the Rectangle.inflate() method except it takes a Point object as a parameter.
+            *
             * @method inflatePoint
             * @param point {Kiwi.Geom.Point} The x property of this Point object is used to increase the horizontal dimension of the Rectangle object. The y property is used to increase the vertical dimension of the Rectangle object.
             * @return {Kiwi.Geom.Rectangle} This Rectangle object.
             * @public
-            **/
+            */
             Rectangle.prototype.inflatePoint = function (point) {
                 return this.inflate(point.x, point.y);
             };
 
             /**
-            * If the Rectangle object specified in the toIntersect parameter intersects with this Rectangle object, returns the area of intersection as a Rectangle object. If the rectangles do not intersect, this method returns an empty Rectangle object with its properties set to 0.
+            * If the Rectangle object specified in the toIntersect parameter intersects with this Rectangle object,
+            * returns the area of intersection as a Rectangle object.
+            * If the rectangles do not intersect, this method returns an empty Rectangle object with its properties set to 0.
+            *
             * @method intersection
             * @param toIntersect {Kiwi.Geom.Rectangle} The Rectangle object to compare against to see if it intersects with this Rectangle object.
-            * @param output {Kiwi.Geom.Rectangle} Optional Rectangle object. If given the intersection values will be set into this object, otherwise a brand new Rectangle object will be created and returned.
+            * @param [output] {Kiwi.Geom.Rectangle} Optional Rectangle object. If given the intersection values will be set into this object, otherwise a brand new Rectangle object will be created and returned.
             * @return {Kiwi.Geom.Rectangle} A Rectangle object that equals the area of intersection. If the rectangles do not intersect, this method returns an empty Rectangle object; that is, a rectangle with its x, y, width, and height properties set to 0.
-            **/
+            * @public
+            */
             Rectangle.prototype.intersection = function (toIntersect, output) {
                 if (typeof output === "undefined") { output = new Rectangle; }
                 if (this.intersects(toIntersect) === true) {
@@ -22977,7 +23171,9 @@ var Kiwi;
             };
 
             /**
-            * Determines whether the object specified in the toIntersect parameter intersects with this Rectangle object. This method checks the x, y, width, and height properties of the specified Rectangle object to see if it intersects with this Rectangle object.
+            * Determines whether the object specified in the toIntersect parameter intersects with this Rectangle object.
+            * This method checks the x, y, width, and height properties of the specified Rectangle object to see if it intersects with this Rectangle object.
+            *
             * @method intersects
             * @param toIntersect {Kiwi.Geom.Rectangle} The Rectangle object to compare against to see if it intersects with this Rectangle object.
             * @return {boolean} A value of true if the specified object intersects with this Rectangle object; otherwise false.
@@ -23005,12 +23201,13 @@ var Kiwi;
 
             /**
             * Checks for overlaps between this Rectangle and the given Rectangle. Returns an object with boolean values for each check.
+            *
             * @method overlap
             * @param rect {Kiwi.Geom.Rectangle}
             * @return {Object} An object containing the overlapping details between the two Rectangles
             * @todo Move to an IntersectResult? Do not want to be generating all of these values each time this is called
             * @public
-            **/
+            */
             Rectangle.prototype.overlap = function (rect) {
                 var result = { top: false, bottom: false, left: false, right: false, contains: false, contained: false };
                 var interRect = this.intersection(rect);
@@ -23038,7 +23235,7 @@ var Kiwi;
             * @method isEmpty
             * @return {boolean} A value of true if the Rectangle object's width or height is less than or equal to 0; otherwise false.
             * @public
-            **/
+            */
             Rectangle.prototype.isEmpty = function () {
                 if (this.width < 1 || this.height < 1) {
                     return true;
@@ -23049,12 +23246,13 @@ var Kiwi;
 
             /**
             * Adjusts the location of the Rectangle object, as determined by its top-left corner, by the specified amounts.
+            *
             * @method offset
             * @param dx {Number} Moves the x value of the Rectangle object by this amount.
             * @param dy {Number} Moves the y value of the Rectangle object by this amount.
             * @return {Kiwi.Geom.Rectangle} This Rectangle object.
             * @public
-            **/
+            */
             Rectangle.prototype.offset = function (dx, dy) {
                 if (!isNaN(dx) && !isNaN(dy)) {
                     this.x += dx;
@@ -23065,33 +23263,41 @@ var Kiwi;
             };
 
             /**
-            * Adjusts the location of the Rectangle object using a Point object as a parameter. This method is similar to the Rectangle.offset() method, except that it takes a Point object as a parameter.
+            * Adjusts the location of the Rectangle object using a Point object as a parameter.
+            * This method is similar to the Rectangle.offset() method, except that it takes a Point object as a parameter.
+            *
             * @method offsetPoint
             * @param point {Kiwi.Geom.Point} A Point object to use to offset this Rectangle object.
             * @return {Kiwi.Geom.Rectangle} This Rectangle object.
-            **/
+            * @public
+            */
             Rectangle.prototype.offsetPoint = function (point) {
                 return this.offset(point.x, point.y);
             };
 
             /**
-            * Sets all of the Rectangle object's properties to 0. A Rectangle object is empty if its width or height is less than or equal to 0.
+            * Sets all of the Rectangle object's properties to 0.
+            * A Rectangle object is empty if its width or height is less than or equal to 0.
+            *
             * @method setEmpty
             * @return {Kiwi.Geom.Rectangle} This rectangle object
-            **/
+            * @public
+            */
             Rectangle.prototype.setEmpty = function () {
                 return this.setTo(0, 0, 0, 0);
             };
 
             /**
             * Sets the properties of Rectangle to the specified values.
+            *
             * @method setTo
             * @param x {Number} x The x coordinate of the top-left corner of the rectangle.
             * @param y {Number} y The y coordinate of the top-left corner of the rectangle.
             * @param width {Number} width The width of the rectangle in pixels.
             * @param height {Number} height The height of the rectangle in pixels.
             * @return {Kiwi.Geom.Rectangle} This rectangle object
-            **/
+            * @public
+            */
             Rectangle.prototype.setTo = function (x, y, width, height) {
                 if (!isNaN(x) && !isNaN(y) && !isNaN(width) && !isNaN(height)) {
                     this.x = x;
@@ -23111,25 +23317,28 @@ var Kiwi;
 
             /**
             * Adds two rectangles together to create a new Rectangle object, by filling in the horizontal and vertical space between the two rectangles.
+            *
             * @method union
-            * @param toUnion{Kiwi.Geom.Rectangle} toUnion A Rectangle object to add to this Rectangle object.
-            * @param [output = Rectangle] {Kiwi.Geom.Rectangle} output Optional Rectangle object. If given the new values will be set into this object, otherwise a brand new Rectangle object will be created and returned.
+            * @param toUnion {Kiwi.Geom.Rectangle} toUnion A Rectangle object to add to this Rectangle object.
+            * @param [output] {Kiwi.Geom.Rectangle} output Optional Rectangle object. If given the new values will be set into this object, otherwise a new Rectangle object will be created.
             * @return {Kiwi.Geom.Rectangle} A Rectangle object that is the union of the two rectangles.
-            **/
+            * @public
+            */
             Rectangle.prototype.union = function (toUnion, output) {
                 if (typeof output === "undefined") { output = new Rectangle; }
                 return output.setTo(Math.min(toUnion.x, this.x), Math.min(toUnion.y, this.y), Math.max(toUnion.right, this.right), Math.max(toUnion.bottom, this.bottom));
             };
 
             /**
-            * [DESCRIPTION REQUIRED]
+            * Scales this Rectangle by values passed.
+            *
             * @method scale
             * @param x {number}
             * @param y {number}
             * @param translation {Kiwi.Geom.Point}
             * @return {Kiwi.Geom.Rectangle}
             * @public
-            **/
+            */
             Rectangle.prototype.scale = function (x, y, translation) {
                 var trans = new Kiwi.Geom.Transform;
                 trans.scaleX = x;
@@ -23151,7 +23360,7 @@ var Kiwi;
             * Returns a string representation of this object.
             * @method toString
             * @return {String} a string representation of the instance.
-            **/
+            */
             Rectangle.prototype.toString = function () {
                 return "[{Rectangle (x=" + this.x + " y=" + this.y + " width=" + this.width + " height=" + this.height + " isEmpty=" + this.isEmpty() + ")}]";
             };
@@ -23178,13 +23387,13 @@ var Kiwi;
         * @class Transform
         * @namespace Kiwi.Geom
         * @constructor
-        * @param x {Number} x. X position of the transform.
-        * @param y {Number} y. Y position of the transform.
-        * @param scaleX {Number} scaleX. X scaling of the transform.
-        * @param scaleY {Number} scaleY. Y scaling of the transform.
-        * @param rotation {Number} rotation. Rotation of the transform in radians.
-        * @param rotX {Number} rotX. rotationPoint offset on X axis.
-        * @param rotY {Number} rotY. rotationPoint offset on Y axis.
+        * @param [x=0] {Number} X position of the transform.
+        * @param [y=0] {Number} Y position of the transform.
+        * @param [scaleX=1] {Number} X scaling of the transform.
+        * @param [scaleY=1] {Number} Y scaling of the transform.
+        * @param [rotation=0] {Number} Rotation of the transform in radians.
+        * @param [rotX=0] {Number} rotationPoint offset on X axis.
+        * @param [rotY=0] {Number} rotationPoint offset on Y axis.
         * @return {Transform} This object.
         *
         */
@@ -23201,51 +23410,66 @@ var Kiwi;
                 * X position of the transform
                 * @property _x
                 * @type Number
+                * @default 0
                 * @private
-                **/
+                */
                 this._x = 0;
                 /**
                 * Y position of the transform
                 * @property _y
                 * @type Number
+                * @default 0
                 * @private
-                **/
+                */
                 this._y = 0;
                 /**
                 * X scaleof the transform
                 * @property _scaleX
                 * @type Number
+                * @default 1
                 * @private
-                **/
+                */
                 this._scaleX = 1;
                 /**
                 * Y scale of the transform
                 * @property _scaleY
                 * @type Number
+                * @default 1
                 * @private
-                **/
+                */
                 this._scaleY = 1;
                 /**
                 * Rotation of the transform in radians.
                 * @property _rotation
                 * @type Number
+                * @default 0
                 * @private
-                **/
+                */
                 this._rotation = 0;
                 /**
                 * Rotation offset on X axis.
                 * @property _rotPointX
                 * @type Number
+                * @default 0
                 * @private
-                **/
+                */
                 this._rotPointX = 0;
                 /**
                 * Rotation offset on Y axis.
                 * @property _rotPointY
                 * @type Number
+                * @default 0
                 * @private
-                **/
+                */
                 this._rotPointY = 0;
+                /**
+                * The parent transform. If set to null there is no parent. Otherwise this is used by getConcatenatedMatrix to offset the current transforms by the another matrix
+                * @property _parent
+                * @type Kiwi.Geom.Transform
+                * @default null
+                * @private
+                */
+                this._parent = null;
                 this.setTransform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY);
 
                 this._matrix = new Geom.Matrix();
@@ -23257,7 +23481,7 @@ var Kiwi;
             /**
             * The type of this object.
             * @method objType
-            * @return {String}
+            * @return {String} "Transform"
             * @public
             */
             Transform.prototype.objType = function () {
@@ -23272,7 +23496,7 @@ var Kiwi;
                 * Return the X value of the transform.
                 * @property x
                 * @type Number
-                * @return {Number} The X value of the transform.
+                * @public
                 */
                 set: function (value) {
                     this._x = value;
@@ -23289,7 +23513,6 @@ var Kiwi;
                 * Return the Y value of the transform.
                 * @property y
                 * @type Number
-                * @return {Number} The Y value of the transform.
                 * @public
                 */
                 set: function (value) {
@@ -23308,7 +23531,6 @@ var Kiwi;
                 * Return the X scale value of the transform.
                 * @property scaleX
                 * @type Number
-                * @return {Number} The X value of the transform.
                 * @public
                 */
                 set: function (value) {
@@ -23326,7 +23548,6 @@ var Kiwi;
                 * Return the Y scale value of the transform.
                 * @property scaleY
                 * @type Number
-                * @return {Number} The Y value of the transform.
                 * @public
                 */
                 set: function (value) {
@@ -23344,7 +23565,7 @@ var Kiwi;
                 /**
                 * Return the rotation value of the transform in radians.
                 * @property rotation
-                * @return {Number} The rotation value of the transform.
+                * @type Number
                 * @public
                 */
                 set: function (value) {
@@ -23362,7 +23583,8 @@ var Kiwi;
                 /**
                 * Return the rotation offset from the x axis.
                 * @property rotPointX
-                * @return {Number} The rotation offset from the x axis.
+                * @type Number
+                * @default 0
                 * @public
                 */
                 set: function (value) {
@@ -23379,8 +23601,8 @@ var Kiwi;
                 },
                 /**
                 * Return the rotation offset from the y axis.
-                * @public rotPointY
-                * @return {Number} The rotation offset from the y axis.
+                * @property rotPointY
+                * @type Number
                 * @public
                 */
                 set: function (value) {
@@ -23396,8 +23618,8 @@ var Kiwi;
                 },
                 /**
                 * Return the anchor point value from the X axis. (Aliases to rotPointX.)
-                * @public anchorPointX
-                * @return {Number} The anchor point offset from the X axis.
+                * @property anchorPointX
+                * @type Number
                 * @public
                 * @since 1.1.0
                 */
@@ -23414,8 +23636,8 @@ var Kiwi;
                 },
                 /**
                 * Return the anchor point value from the Y axis. (Aliases to rotPointY.)
-                * @public anchorPointY
-                * @return {Number} The anchor point offset from the Y axis.
+                * @property anchorPointY
+                * @type Number
                 * @public
                 * @since 1.1.0
                 */
@@ -23430,7 +23652,9 @@ var Kiwi;
                 /**
                 * Return the Matrix being used by this Transform
                 * @property matrix
-                * @return {Kiwi.Geom.Matrix} The Matrix being used by this Transform
+                * @type Kiwi.Geom.Matrix
+                * @readOnly
+                * @public
                 */
                 get: function () {
                     return this._matrix;
@@ -23443,7 +23667,8 @@ var Kiwi;
                 /**
                 * Return the x of this transform translated to world space.
                 * @property worldX
-                * @return {Number} x coordinate in world space
+                * @type Number
+                * @readOnly
                 * @public
                 */
                 get: function () {
@@ -23457,7 +23682,8 @@ var Kiwi;
                 /**
                 * Return the y of this transform translated to world space.
                 * @property worldY
-                * @return {Number} y coordinate in world space
+                * @type Number
+                * @readOnly
                 * @public
                 */
                 get: function () {
@@ -23473,9 +23699,10 @@ var Kiwi;
                     return this._parent;
                 },
                 /**
-                * Return the parent Transform, if any.
+                * Return the parent Transform. If the transform does not have a parent this null is returned.
                 * @property parent
-                * @return {Kiwi.Geom.Transform} The parent Transform, or null.
+                * @type Kiwi.Geom.Transform
+                * @default null
                 * @public
                 */
                 set: function (value) {
@@ -23490,8 +23717,8 @@ var Kiwi;
             /**
             * Set the X and Y values of the transform.
             * @method setPosition
-            * @param x {Number} x.
-            * @param y {Number} y.
+            * @param x {Number}
+            * @param y {Number}
             * @return {Kiwi.Geom.Transform} This object.
             * @public
             */
@@ -23523,6 +23750,7 @@ var Kiwi;
             * @method translatePositionFromPoint
             * @param point {Kiwi.Geom.Point} point.
             * @return {Kiwi.Geom.Transform} This object.
+            * @public
             */
             Transform.prototype.translatePositionFromPoint = function (point) {
                 this._x += point.x;
@@ -23533,8 +23761,11 @@ var Kiwi;
             };
 
             /**
-            * Return a Point representing the X and Y values of the transform. If none is given a new Point objected will be created.
+            * Return a Point representing the X and Y values of the transform.
+            * If no point is given a new Point objected will be created.
+            *
             * @method getPostionPoint
+            * @param [output] {Kiwi.Geom.Point} The Point to output the coordinates into. Creates a new Point if none given.
             * @return {Kiwi.Geom.Point} A point representing the X and Y values of the transform.
             * @public
             */
@@ -23546,30 +23777,32 @@ var Kiwi;
             Object.defineProperty(Transform.prototype, "scale", {
                 /**
                 * Set the X and Y scale value of the transform.
-                * @method scale
-                * @param value {Number}
-                * @return {Kiwi.Geom.Transform} This object.
+                * This property is set only.
+                * In the future this will be looked into and updated as needed.
+                *
+                * @property scale
+                * @type Number
                 * @public
                 */
                 set: function (value) {
                     this._scaleX = value;
                     this._scaleY = value;
-                    //this.owner.dirty = true;
                 },
                 enumerable: true,
                 configurable: true
             });
 
             /**
-            * Set the core properties of the transform
+            * Set the core properties of the transform.
+            *
             * @method setTransform
-            * @param x {Number} x. X position of the transform.
-            * @param y {Number} y. Y position of the transform.
-            * @param scaleX {Number} scaleX. X scaling of the transform.
-            * @param scaleY {Number} scaleY. Y scaling of the transform.
-            * @param rotation {Number} rotation. Rotation of the transform in radians.
-            * @param rotX{Number} rotX. Rotation offset on X axis.
-            * @param rotY{Number} rotY. Rotation offset on Y axis.
+            * @param [x=0] {Number} X position of the transform.
+            * @param [y=0] {Number} Y position of the transform.
+            * @param [scaleX=1] {Number} X scaling of the transform.
+            * @param [scaleY=1] {Number} Y scaling of the transform.
+            * @param [rotation=0] {Number} Rotation of the transform in radians.
+            * @param [rotX=0] {Number} rotationPoint offset on X axis.
+            * @param [rotY=0] {Number} rotationPoint offset on Y axis.
             * @return {Kiwi.Geom.Transform} This object.
             * @public
             */
@@ -23589,10 +23822,6 @@ var Kiwi;
                 this._rotPointX = rotPointX;
                 this._rotPointY = rotPointY;
 
-                //if (this.owner)
-                //{
-                //    this.owner.dirty = true;
-                //}
                 return this;
             };
 
@@ -23643,35 +23872,9 @@ var Kiwi;
             };
 
             /**
-            * Return the x of this transform translated to a camera space
-            * @method getCameraX
-            * @param camera {Object} the camera
-            * @return {Number} x coordinate in the camera space
-            
-            public getCameraX ( camera:Camera ):number
-            {
-            var mat = this.getConcatenatedMatrix();
-            mat.prependMatrix(camera.transform.getConcatenatedMatrix());
-            return mat.tx;
-            }
-            
-            /**
-            * Return the y of this transform translated to a camera space
-            * @method getCameraY
-            * @param camera {Object} the camera
-            * @return {Number} y coordinate in the camera space
-            
-            public getCameraY ( camera:Camera ):number
-            {
-            var mat = this.getConcatenatedMatrix();
-            mat.prependMatrix(camera.transform.getConcatenatedMatrix());
-            return mat.ty;
-            }
-            */
-            /**
             * Apply this matrix to a an object with x and y properties representing a point and return the transformed point.
             * @method transformPoint
-            * @param point {Kiwi.Geom.Point} point
+            * @param point {Kiwi.Geom.Point}
             * @return {Kiwi.Geom.Point}
             * @public
             */
@@ -23693,14 +23896,15 @@ var Kiwi;
 
                 this.parent = source.parent;
 
-                //this.owner = source.owner;
                 this._matrix = source.matrix.clone();
 
                 return this;
             };
 
             /**
-            * Copy this transforms data to the destination Transform. A clone of this transforms matrix is created in the destination Transform Matrix.
+            * Copy this transforms data to the destination Transform.
+            * A clone of this transforms matrix is created in the destination Transform Matrix.
+            *
             * @method copyTo
             * @param destination {Kiwi.Geom.Transform} The tranform to copy to.
             * @return {Kiwi.Geom.Transform} This object.
@@ -23714,8 +23918,9 @@ var Kiwi;
 
             /**
             * Return a clone of this transform.
+            *
             * @method clone
-            * @param output {Kiwi.Geom.Transform} A Transform to copy the clone in to. If none is given a new Transform object will be made.
+            * @param [output] {Kiwi.Geom.Transform} A Transform to copy the clone in to. If none is given a new Transform object will be made.
             * @return {Kiwi.Geom.Transform} A clone of this object.
             * @public
             */
@@ -23729,7 +23934,7 @@ var Kiwi;
             /**
             * Recursively check that a transform does not appear as its own ancestor
             * @method checkAncestor
-            * @param transform{Kiwi.Geom.Transform} The Transform to check.
+            * @param transform {Kiwi.Geom.Transform} The Transform to check.
             * @return {boolean} Returns true if the given transform is the same as this or an ancestor, otherwise false.
             * @public
             */
@@ -23779,8 +23984,8 @@ var Kiwi;
         * @class Vector2
         * @namespace Kiwi.Geom
         * @constructor
-        * @param {Number} x The x component of the vector.
-        * @param {Number} y The y component of the vector.
+        * @param [x=0] {Number} The x component of the vector.
+        * @param [y=0] {Number} The y component of the vector.
         * @return {Kiwi.Geom.Vector2}
         */
         var Vector2 = (function () {
@@ -23792,7 +23997,7 @@ var Kiwi;
             /**
             * The type of this object.
             * @method objType
-            * @return {String}
+            * @return {String} "Vector2"
             * @public
             */
             Vector2.prototype.objType = function () {
@@ -23803,8 +24008,9 @@ var Kiwi;
             * Generate a Vector2 from an angle
             * @method fromAngle
             * @param angle {Number} The angle to generate the Vector2 from.
+            * @return {Kiwi.Geom.Vector2} A new Vector2
             * @static
-            * @return {Kiwi.Geom.Vector2} A new Vector2.
+            * @public
             */
             Vector2.fromAngle = function (angle) {
                 return new Vector2(Math.cos(angle), Math.sin(angle));
@@ -23814,8 +24020,8 @@ var Kiwi;
             * Generate a random Vector2 within a given radius.
             * @method randomRadius
             * @param radius {Number} The size of the radius to use.
+            * @return {Kiwi.Geom.Vector2} A new Vector2
             * @static
-            * @return {Kiwi.Geom.Vector2} A new Vector2.
             * @public
             */
             Vector2.randomRadius = function (radius) {
@@ -23826,8 +24032,8 @@ var Kiwi;
             * Generate a Vector2 from a point.
             * @method fromPoint
             * @param point {Kiwi.Geom.Point} point.
+            * @return {Kiwi.Geom.Vector2} A new Vector2
             * @static
-            * @return {Kiwi.Geom.Vector2} A new Vector2.
             * @public
             */
             Vector2.fromPoint = function (point) {
@@ -23837,8 +24043,9 @@ var Kiwi;
             /**
             * Add each component of another Vector2 to this vectors components.
             * @method add
-            * @param {Kiwi.Geom.Vector2} Vector2 to add.
-            * @return {Kiwi.Geom.Vector2} A new Vector2 containing the product.
+            * @param {Kiwi.Geom.Vector2} Vector2 to add
+            * @return {Kiwi.Geom.Vector2} A new Vector2 containing the product
+            * @public
             */
             Vector2.prototype.add = function (vector2) {
                 return new Vector2(this.x + vector2.x, this.y + vector2.y);
@@ -23847,8 +24054,8 @@ var Kiwi;
             /**
             * Add only the x component of another Vector2 to this vector.
             * @method addX
-            * @param vector2 {Kiwi.Geom.Vector2} Vector2 to add.
-            * @return {Vector2} A new Vector2 containing the result.
+            * @param vector2 {Kiwi.Geom.Vector2} Vector2 to add
+            * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result
             * @public
             */
             Vector2.prototype.addX = function (vector2) {
@@ -23858,8 +24065,9 @@ var Kiwi;
             /**
             * Add only the y component of another Vector2 to this vector.
             * @method addY
-            * @param vector2 {Kiwi.Geom.Vector2} Vector2 to add.
-            * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result.
+            * @param vector2 {Kiwi.Geom.Vector2} Vector2 to add
+            * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result
+            * @public
             */
             Vector2.prototype.addY = function (vector2) {
                 return new Vector2(this.x, this.y + vector2.y);
@@ -23868,8 +24076,8 @@ var Kiwi;
             /**
             * Subtract each component of another Vector2 from this vectors components.
             * @method subtract
-            * @param vector2 {Kiwi.Geom.Vector2} Vector2 to subtract.
-            * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result.
+            * @param vector2 {Kiwi.Geom.Vector2} Vector2 to subtract
+            * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result
             * @public
             */
             Vector2.prototype.subtract = function (vector2) {
@@ -23879,8 +24087,8 @@ var Kiwi;
             /**
             * Multiply each component of another Vector2 with this vectors components.
             * @method multiply
-            * @param vector2 {Kiwi.Geom.Vector2} Vector2 to multiply.
-            * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result.
+            * @param vector2 {Kiwi.Geom.Vector2} Vector2 to multiply
+            * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result
             * @public
             */
             Vector2.prototype.multiply = function (vector2) {
@@ -23890,8 +24098,8 @@ var Kiwi;
             /**
             * Multiply each component of this vector with a scalar number.
             * @method multiplyScalar
-            * @param scalar {Number} Scalar to multiply.
-            * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result.
+            * @param scalar {Number} Scalar to multiply
+            * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result
             * @public
             */
             Vector2.prototype.multiplyScalar = function (scalar) {
@@ -23901,7 +24109,7 @@ var Kiwi;
             /**
             * Calculate the dot product if a Vector2 with this Vector2.
             * @method dot
-            * @param vector2{Kiwi.Geom.Vector2} Vector2 to dot with this Vector2.
+            * @param vector2 {Kiwi.Geom.Vector2} Vector2 to dot with this Vector2.
             * @return {Number} Result of dot product.
             * @public
             */
@@ -23943,7 +24151,7 @@ var Kiwi;
             /**
             * Reduce each component of the Vector to the closest lower round value.
             * @method floor
-            * @return {Vector2} a rounded down Vector2.
+            * @return {Kiwi.Geom.Vector2} a rounded down Vector2.
             * @public
             */
             Vector2.prototype.floor = function () {
@@ -23973,8 +24181,8 @@ var Kiwi;
             /**
             * Clamp the vector between a maximum and minimum Vector2 range component-wise.
             * @method clamp
-            * @param min {Kiwi.Geom.Vector2} min. Minimum values for Vector2.
-            * @param max {Kiwi.Geom.Vector2} max. Maximum values for Vector2.
+            * @param min {Kiwi.Geom.Vector2} Minimum values for Vector2.
+            * @param max {Kiwi.Geom.Vector2} Maximum values for Vector2.
             * @return {Kiwi.Geom.Vector2} a clamped Vector2.
             * @public
             */
@@ -24038,16 +24246,13 @@ var Kiwi;
             /**
             * Get a clone of this Vector2.
             * @method clone
-            * @param output {Kiwi.Geom.Vector2} vector2. A vector2 that will be cloned to. Optional.
+            * @param [output] {Kiwi.Geom.Vector2} Optional. A vector2 that will be cloned to. One will be created if none passed.
             * @return {Kiwi.Geom.Vector2} Either a new cloned Vector2 or the output vector with cloned components.
             * @public
             */
             Vector2.prototype.clone = function (output) {
-                if (output) {
-                    return output.setTo(this.x, this.y);
-                } else {
-                    return new Vector2(this.x, this.y);
-                }
+                if (typeof output === "undefined") { output = new Vector2; }
+                return output.setTo(this.x, this.y);
             };
 
             /**

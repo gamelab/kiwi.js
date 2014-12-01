@@ -17,12 +17,12 @@ module Kiwi.Geom {
     * @class Matrix
     * @namespace Kiwi.Geom
     * @constructor
-    * @param [a = 1] {Number}  position 0,0 of the matrix, affects scaling and rotation.
-    * @param [b = 0] {Number}  position 0,1 of the matrix, affects scaling and rotation.
-    * @param [c = 0] {Number}  position 1,0 of the matrix, affects scaling and rotation.
-    * @param [d = 1] {Number}  position 1,1 of the matrix, affects scaling and rotation.
-    * @param [tx = 0] {Number}  position 2,0 of the matrix, affects translation on x axis.
-    * @param [ty = 0] {Number}  position 2,1 of the matrix, affects translation on y axis.
+    * @param [a=1] {Number}  position 0,0 of the matrix, affects scaling and rotation.
+    * @param [b=0] {Number}  position 0,1 of the matrix, affects scaling and rotation.
+    * @param [c=0] {Number}  position 1,0 of the matrix, affects scaling and rotation.
+    * @param [d=1] {Number}  position 1,1 of the matrix, affects scaling and rotation.
+    * @param [tx=0] {Number}  position 2,0 of the matrix, affects translation on x axis.
+    * @param [ty=0] {Number}  position 2,1 of the matrix, affects translation on y axis.
     * @return (Object) This object.
     * 
     */
@@ -34,27 +34,81 @@ module Kiwi.Geom {
 
         }
 
+        /**
+        * The type of object this is.
+        * @method objType
+        * @return {String} "Matrix"
+        * @public
+        */ 
         public objType() {
             return "Matrix";
         }
 
+        /**
+        * Position 0,0 of the matrix, affects scaling and rotation
+        * @property a
+        * @type Number
+        * @default 1
+        * @public
+        */
         public a: number = 1;
+
+        /**
+        * Position 0,1 of the matrix, affects scaling and rotation.
+        * @property b
+        * @type Number
+        * @default 0
+        * @public
+        */
         public b: number = 0;
+
+        /**
+        * Position 1,0 of the matrix, affects scaling and rotation.
+        * @property c
+        * @type Number
+        * @default 0
+        * @public
+        */
         public c: number = 0;
+
+        /**
+        * Position 1,1 of the matrix, affects scaling and rotation.
+        * @property d
+        * @type Number
+        * @default 1
+        * @public
+        */
         public d: number = 1;
+
+        /**
+        * Position 2,0 of the matrix, affects translation on x axis.
+        * @property tx
+        * @type Number
+        * @default 0
+        * @public
+        */
         public tx: number = 0;
+
+        /**
+        * Position 2,1 of the matrix, affects translation on y axis.
+        * @property ty
+        * @type Number
+        * @default 0
+        * @public
+        */
         public ty: number = 0;
 
         /** 
         * Set all matrix values 
         * @method setTo
-        * @param [a = 1] {Number} position 0,0 of the matrix, affects scaling and rotation.
-        * @param [b = 0] {Number} position 0,1 of the matrix, affects scaling and rotation.
-        * @param [c = 0] {Number} position 1,0 of the matrix, affects scaling and rotation.
-        * @param [d = 1] {Number} position 1,1 of the matrix, affects scaling and rotation.
-        * @param [tx = 0] {Number} position 2,0 of the matrix, affects translation on x axis.
-        * @param [ty = 0] {Number} position 2,1 of the matrix, affects translation on y axis.
-        * @return (Object) This object.
+        * @param [a=1] {Number} position 0,0 of the matrix, affects scaling and rotation.
+        * @param [b=0] {Number} position 0,1 of the matrix, affects scaling and rotation.
+        * @param [c=0] {Number} position 1,0 of the matrix, affects scaling and rotation.
+        * @param [d=1] {Number} position 1,1 of the matrix, affects scaling and rotation.
+        * @param [tx=0] {Number} position 2,0 of the matrix, affects translation on x axis.
+        * @param [ty=0] {Number} position 2,1 of the matrix, affects translation on y axis.
+        * @return {Kiwi.Geom.Matrix} This object.
+        * @public
         */
         public setTo(a: number = 1, b: number = 0, c: number = 0, d: number = 1, tx: number = 0, ty: number = 0): Matrix {
 
@@ -72,12 +126,13 @@ module Kiwi.Geom {
         /** 
 	    * Set matrix values from transform values
 	    * @method setFromTransform
-	    * @Param tx {Number} tx. Translation on x axis.
-	    * @Param ty {Number} ty. Translation on y axis.
-	    * @Param scaleX {Number} scaleX. Scale on x axis.
-	    * @Param scaleY {Number} scaleY. Scale on y axis.
-	    * @Param rotation {Number} rotation. 
-	    * @return {Object} This object.
+	    * @param tx {Number} Translation on x axis.
+	    * @param ty {Number} Translation on y axis.
+	    * @param scaleX {Number} scaleX. Scale on x axis.
+	    * @param scaleY {Number} scaleY. Scale on y axis.
+	    * @param rotation {Number} rotation. 
+        * @return {Kiwi.Geom.Matrix} This object.
+        * @public
 	    */
           public setFromTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number) {
             this.identity();
@@ -92,14 +147,15 @@ module Kiwi.Geom {
         /** 
 	    * Set matrix values from transform values, with rotation point data included
 	    * @method setFromOffsetTransform
-	    * @Param tx {Number} tx. Translation on x axis.
-	    * @Param ty {Number} ty. Translation on y axis.
-	    * @Param scaleX {Number} scaleX. Scale on x axis.
-	    * @Param scaleY {Number} scaleY. Scale on y axis.
-	    * @Param rotation {Number} rotation. 
-	    * @Param rotPointX {Number} Rotation point offset on x axis.
-	    * @Param rotPointY {Number} Rotation point offset on y axis.
-	    * @return {Object} This object.
+	    * @param tx {Number} tx. Translation on x axis.
+	    * @param ty {Number} ty. Translation on y axis.
+	    * @param scaleX {Number} scaleX. Scale on x axis.
+	    * @param scaleY {Number} scaleY. Scale on y axis.
+	    * @param rotation {Number} rotation. 
+	    * @param rotPointX {Number} Rotation point offset on x axis.
+	    * @param rotPointY {Number} Rotation point offset on y axis.
+        * @return {Kiwi.Geom.Matrix} This object.
+        * @public
         * @since 1.0.1
 	    */
           public setFromOffsetTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number, rotPointX: number, rotPointY: number) {
@@ -115,13 +171,14 @@ module Kiwi.Geom {
         /** 
         * Prepend values to this matrix, paramters supplied individually.
         * @method prepend
-        * @param [a = 1]{Number} position 0,0 of the matrix, affects scaling and rotation.
-        * @param [b = 0]{Number} position 0,1 of the matrix, affects scaling and rotation.
-        * @param [c = 0]{Number} position 1,0 of the matrix, affects scaling and rotation.
-        * @param [d = 0]{Number} position 1,1 of the matrix, affects scaling and rotation.
-        * @param [tx = 0]{Number} position 2,0 of the matrix, affects translation on x axis.
-        * @param [ty = 0]{Number} position 2,1 of the matrix, affects translation on y axis.
-        * @return {Object} This object.
+        * @param [a=1]{Number} position 0,0 of the matrix, affects scaling and rotation.
+        * @param [b=0]{Number} position 0,1 of the matrix, affects scaling and rotation.
+        * @param [c=0]{Number} position 1,0 of the matrix, affects scaling and rotation.
+        * @param [d=0]{Number} position 1,1 of the matrix, affects scaling and rotation.
+        * @param [tx=0]{Number} position 2,0 of the matrix, affects translation on x axis.
+        * @param [ty=0]{Number} position 2,1 of the matrix, affects translation on y axis.
+        * @return {Kiwi.Geom.Matrix} This object.
+        * @public
         */
         public prepend(a: number = 1, b: number = 0, c: number = 0, d: number = 1, tx: number = 0, ty: number = 0): Matrix {
             var tx1 = this.tx;
@@ -142,8 +199,9 @@ module Kiwi.Geom {
         /** 
         * Prepend a matrix to this matrix.
         * @method prependMatrix
-        * @param {Object} m. The matrix to prepend.
-        * @return {Object} This object.
+        * @param m {Kiwi.Geom.Matrix} The matrix to prepend.
+        * @return {Kiwi.Geom.Matrix} This object.
+        * @public
         */
         public prependMatrix(m: Matrix): Matrix {
             var tx1 = this.tx;
@@ -164,13 +222,14 @@ module Kiwi.Geom {
         /** 
 	    * Append values to this matrix, paramters supplied individually.
 	    * @method append
-	    * @param [a = 1]{Number} position 0,0 of the matrix, affects scaling and rotation.
-	    * @param [b = 0]{Number} position 0,1 of the matrix, affects scaling and rotation.
-	    * @param [c = 0]{Number} position 1,0 of the matrix, affects scaling and rotation.
-	    * @param [d = 1]{Number} position 1,1 of the matrix, affects scaling and rotation.
-	    * @param [tx = 0]{Number} position 2,0 of the matrix, affects translation on x axis.
-	    * @param [ty = 0]{Number} position 2,1 of the matrix, affects translation on y axis.
-	    * @return {Object} This object.
+	    * @param [a=1]{Number} position 0,0 of the matrix, affects scaling and rotation.
+	    * @param [b=0]{Number} position 0,1 of the matrix, affects scaling and rotation.
+	    * @param [c=0]{Number} position 1,0 of the matrix, affects scaling and rotation.
+	    * @param [d=1]{Number} position 1,1 of the matrix, affects scaling and rotation.
+	    * @param [tx=0]{Number} position 2,0 of the matrix, affects translation on x axis.
+	    * @param [ty=0]{Number} position 2,1 of the matrix, affects translation on y axis.
+        * @return {Kiwi.Geom.Matrix} This object.
+        * @public
 	    */
         public append(a: number = 1, b: number = 0, c: number = 0, d: number = 1, tx: number = 0, ty: number = 0): Matrix {
             var a1 = this.a;
@@ -190,8 +249,9 @@ module Kiwi.Geom {
         /** 
         * Append a matrix to this matrix.
         * @method appendMatrix
-        * @param m {Object} The matrix to append.
-        * @return {Object} This object.
+        * @param m {Kiwi.Geom.Matrix} The matrix to append.
+        * @return {Kiwi.Geom.Matrix} This object.
+        * @public
         */
         public appendMatrix(m: Matrix): Matrix {
             var a1 = this.a;
@@ -209,11 +269,12 @@ module Kiwi.Geom {
         }
 
         /** 
-        * Set the tx and ty elements of the matrix
+        * Set the tx and ty elements of the matrix.
         * @method setPosition
         * @param x {Number} Translation on x axis.
         * @param y {Number} Translation on y axis.
-        * @return  {Object} This object.
+        * @return {Kiwi.Geom.Matrix} This object.
+        * @public
         */
         public setPosition(x: number, y: number): Matrix {
             this.tx = x;
@@ -223,9 +284,10 @@ module Kiwi.Geom {
 
         /** 
 	    * Set the tx and ty elements of the matrix from an object with x and y properties.
-	    * @method setPositionVector
+	    * @method setPositionPoint
 	    * @param p {Number} The object from which to copy the x and y properties from.
-	    * @return  {Object} This object.
+        * @return {Kiwi.Geom.Matrix} This object.
+        * @public
 	    */
         public setPositionPoint(p: any): Matrix {
             this.tx = p.x;
@@ -236,7 +298,8 @@ module Kiwi.Geom {
         /** 
 	    * Get the x and y position of the matrix as an object with x and y properties
 	    * @method setPositionVector
-	    * @return {Object} An object constructed from a literal with x and y properties.
+	    * @return {Kiwi.Geom.Point} An object constructed from a literal with x and y properties.
+        * @public
 	    */
         public getPosition(output: Kiwi.Geom.Point = new Kiwi.Geom.Point): Kiwi.Geom.Point {
             return output.setTo(this.tx, this.ty);
@@ -245,7 +308,8 @@ module Kiwi.Geom {
         /** 
 	    * Set the matrix to the identity matrix - when appending or prepending this matrix to another there will be no change in the resulting matrix
 	    * @method identity
-	    * @return {Object} This object.
+        * @return {Kiwi.Geom.Matrix} This object.
+        * @public
 	    */
         public identity(): Matrix {
             this.a = 1;
@@ -260,8 +324,9 @@ module Kiwi.Geom {
         /** 
 	    * Rotate the matrix by "radians" degrees
 	    * @method rotate
-	    * @param radians{Number} radians. 
-	    * @return {Object} This object.
+	    * @param radians {Number} The angle (in radians) to rotate this matrix by. 
+        * @return {Kiwi.Geom.Matrix} This object.
+        * @public
         */
         public rotate(radians: number): Matrix {
             var cos = Math.cos(radians);
@@ -282,11 +347,13 @@ module Kiwi.Geom {
         }
 
         /** 
-	    * Translate the matrix
-	    * @method transalte
-	    * @Param tx {Number} tx. The amount to translate on the x axis.
-	    * @Param ty {Number} ty. The amount to translate on the y axis.
-	    * @return {Object} This object.
+	    * Translate the matrix by the amount passed.
+        * 
+	    * @method translate
+	    * @param tx {Number} The amount to translate on the x axis.
+	    * @param ty {Number} The amount to translate on the y axis.
+        * @return {Kiwi.Geom.Matrix} This object.
+        * @public
 	    */
         public translate(tx: number, ty: number): Matrix {
             this.tx += tx;
@@ -295,11 +362,13 @@ module Kiwi.Geom {
         }
 
         /** 
-	    * Scale the matrix
+	    * Scales the matrix by the amount passed.
+        *
 	    * @method scale
-	    * @Param {Number} scaleX. The amount to scale on the x axis.
-	    * @Param {Number} scaleY. The amount to scale on the y axis.
-	    * @return {Object} This object.
+	    * @param scaleX {Number} The amount to scale on the x axis.
+	    * @param scaleY {Number} The amount to scale on the y axis.
+        * @return {Kiwi.Geom.Matrix} This object.
+        * @public
 	    */
         public scale(scaleX: number, scaleY: number): Matrix {
             this.a *= scaleX;
@@ -311,7 +380,8 @@ module Kiwi.Geom {
 	    * Apply this matrix to a an object with x and y properties representing a point and return the transformed point.
 	    * @method transformPoint
 	    * @param pt {Object} The point to be translated.
-	    * @return {Object} The translated point.
+        * @return {Kiwi.Geom.Matrix} This object.
+        * @public
 	    */
         public transformPoint(pt: any) {
             var x = pt.x;
@@ -323,8 +393,9 @@ module Kiwi.Geom {
 
         /** 
 	    * Invert this matrix so that it represents the opposite of it's orginal tranformaation.
-	    * @method transformPoint
-	    * @return {Object} This object.
+	    * @method invert
+        * @return {Kiwi.Geom.Matrix} This object.
+        * @public
 	    */
         public invert(): Matrix {
             var a1 = this.a;
@@ -344,11 +415,12 @@ module Kiwi.Geom {
         }
 
         /** 
-	     * Copy another matrix to this matrix.
-	     * @method copyFrom
-	     * @param m {Object} The matrixto be copied from.
-	     * @return {Object} This object.
-	     */
+	    * Copy another matrix to this matrix.
+	    * @method copyFrom
+	    * @param m {Kiwi.Geom.Matrix} The matrixto be copied from.
+        * @return {Kiwi.Geom.Matrix} This object.
+        * @public
+	    */
         public copyFrom(m: Matrix): Matrix {
             this.a = m.a;
             this.b = m.b;
@@ -363,8 +435,9 @@ module Kiwi.Geom {
         /** 
         * Copy this matrix to another matrix.
         * @method copyTo
-        * @param m {Object} The matrix to copy to.
-        * @return {Object} This object.
+        * @param m {Kiwi.Geom.Matrix} The matrix to copy to.
+        * @return {Kiwi.Geom.Matrix} This object.
+        * @public
         */
         public copyTo(m: Matrix): Matrix {
             m.a = this.a;
@@ -377,19 +450,21 @@ module Kiwi.Geom {
         }
 
         /** 
-	    * Clone this matrix
+	    * Clone this matrix and returns a new Matrix object.
 	    * @method clone
-	    * @return {Object} The new clone of this matrix.
+        * @return {Kiwi.Geom.Matrix} 
+        * @public
 	    */
         public clone(): Matrix {
             return new Kiwi.Geom.Matrix(this.a, this.b, this.c, this.d, this.tx, this.ty);
         }
 
         /**
-	     * Returns a string representation of this object.
-	     * @method toString
-	     * @return {string} a string representation of the instance.
-	     **/
+	    * Returns a string representation of this object.
+	    * @method toString
+	    * @return {string} A string representation of the instance.
+        * @public
+	    */
         public get toString(): string {
 
             return "[{Matrix (a=" + this.a + " b=" + this.b + " c=" + this.c + " d=" + this.d + " tx=" + this.tx + " ty=" + this.ty + ")}]";

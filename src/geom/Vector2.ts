@@ -12,8 +12,8 @@ module Kiwi.Geom {
     * @class Vector2
     * @namespace Kiwi.Geom
     * @constructor
-    * @param {Number} x The x component of the vector.
-    * @param {Number} y The y component of the vector.
+    * @param [x=0] {Number} The x component of the vector.
+    * @param [y=0] {Number} The y component of the vector.
     * @return {Kiwi.Geom.Vector2}
     */
     export class Vector2 {
@@ -25,7 +25,7 @@ module Kiwi.Geom {
         /**
         * The type of this object.
         * @method objType
-        * @return {String}
+        * @return {String} "Vector2"
         * @public
         */
         public objType() {
@@ -36,22 +36,25 @@ module Kiwi.Geom {
         * The x component of this Vector2.
         * @property x
         * @type Number
-        **/
+        * @public
+        */
         public x: number;
         
         /**
         * The y component of this Vector2.
         * @property y
         * @type Number
-        **/
+        * @public
+        */
         public y: number;
 
         /**
         * Generate a Vector2 from an angle
         * @method fromAngle
         * @param angle {Number} The angle to generate the Vector2 from.
+        * @return {Kiwi.Geom.Vector2} A new Vector2
         * @static
-        * @return {Kiwi.Geom.Vector2} A new Vector2.
+        * @public
         */
         public static fromAngle(angle:number): Vector2 {
              return new Vector2(Math.cos(angle), Math.sin(angle));
@@ -61,8 +64,8 @@ module Kiwi.Geom {
         * Generate a random Vector2 within a given radius.
         * @method randomRadius
         * @param radius {Number} The size of the radius to use.
+        * @return {Kiwi.Geom.Vector2} A new Vector2
         * @static
-        * @return {Kiwi.Geom.Vector2} A new Vector2.
         * @public
         */
         public static randomRadius(radius:number): Vector2 {
@@ -77,8 +80,8 @@ module Kiwi.Geom {
         * Generate a Vector2 from a point.
         * @method fromPoint
         * @param point {Kiwi.Geom.Point} point. 
+        * @return {Kiwi.Geom.Vector2} A new Vector2
         * @static
-        * @return {Kiwi.Geom.Vector2} A new Vector2.
         * @public
         */
         public static fromPoint(point: Point): Vector2 {
@@ -88,8 +91,9 @@ module Kiwi.Geom {
         /**
         * Add each component of another Vector2 to this vectors components.
         * @method add
-        * @param {Kiwi.Geom.Vector2} Vector2 to add.
-        * @return {Kiwi.Geom.Vector2} A new Vector2 containing the product.
+        * @param {Kiwi.Geom.Vector2} Vector2 to add
+        * @return {Kiwi.Geom.Vector2} A new Vector2 containing the product
+        * @public
         */
         public add(vector2: Vector2): Vector2 {
             return new Vector2(this.x + vector2.x, this.y + vector2.y);
@@ -98,8 +102,8 @@ module Kiwi.Geom {
         /**
         * Add only the x component of another Vector2 to this vector.
         * @method addX
-        * @param vector2 {Kiwi.Geom.Vector2} Vector2 to add.
-        * @return {Vector2} A new Vector2 containing the result.
+        * @param vector2 {Kiwi.Geom.Vector2} Vector2 to add
+        * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result
         * @public
         */
         public addX(vector2: Vector2): Vector2 {
@@ -109,8 +113,9 @@ module Kiwi.Geom {
         /**
         * Add only the y component of another Vector2 to this vector.
         * @method addY
-        * @param vector2 {Kiwi.Geom.Vector2} Vector2 to add.
-        * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result.
+        * @param vector2 {Kiwi.Geom.Vector2} Vector2 to add
+        * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result
+        * @public
         */
         public addY(vector2: Vector2): Vector2 {
             return new Vector2(this.x, this.y + vector2.y);
@@ -119,8 +124,8 @@ module Kiwi.Geom {
         /**
         * Subtract each component of another Vector2 from this vectors components.
         * @method subtract
-        * @param vector2 {Kiwi.Geom.Vector2} Vector2 to subtract.
-        * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result.
+        * @param vector2 {Kiwi.Geom.Vector2} Vector2 to subtract
+        * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result
         * @public
         */
         public subtract (vector2:Vector2):Vector2 {
@@ -130,8 +135,8 @@ module Kiwi.Geom {
         /**
         * Multiply each component of another Vector2 with this vectors components.
         * @method multiply
-        * @param vector2 {Kiwi.Geom.Vector2} Vector2 to multiply.
-        * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result.
+        * @param vector2 {Kiwi.Geom.Vector2} Vector2 to multiply
+        * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result
         * @public
         */
         public multiply (vector2:Vector2):Vector2 {
@@ -141,8 +146,8 @@ module Kiwi.Geom {
         /**
         * Multiply each component of this vector with a scalar number.
         * @method multiplyScalar
-        * @param scalar {Number} Scalar to multiply.
-        * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result.
+        * @param scalar {Number} Scalar to multiply
+        * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result
         * @public
         */
         public multiplyScalar (scalar:number):Vector2 {
@@ -152,7 +157,7 @@ module Kiwi.Geom {
         /**
 	    * Calculate the dot product if a Vector2 with this Vector2.
         * @method dot
-	    * @param vector2{Kiwi.Geom.Vector2} Vector2 to dot with this Vector2.
+	    * @param vector2 {Kiwi.Geom.Vector2} Vector2 to dot with this Vector2.
 	    * @return {Number} Result of dot product.
         * @public
 	    */
@@ -194,7 +199,7 @@ module Kiwi.Geom {
         /**
 	    * Reduce each component of the Vector to the closest lower round value.
         * @method floor
-	    * @return {Vector2} a rounded down Vector2.
+	    * @return {Kiwi.Geom.Vector2} a rounded down Vector2.
         * @public
 	    */
         public floor(): Vector2 {
@@ -224,8 +229,8 @@ module Kiwi.Geom {
         /**
 	    * Clamp the vector between a maximum and minimum Vector2 range component-wise.
         * @method clamp
-        * @param min {Kiwi.Geom.Vector2} min. Minimum values for Vector2.
-        * @param max {Kiwi.Geom.Vector2} max. Maximum values for Vector2.
+        * @param min {Kiwi.Geom.Vector2} Minimum values for Vector2.
+        * @param max {Kiwi.Geom.Vector2} Maximum values for Vector2.
 	    * @return {Kiwi.Geom.Vector2} a clamped Vector2.
         * @public
 	    */
@@ -292,17 +297,13 @@ module Kiwi.Geom {
         /**
 	    * Get a clone of this Vector2.
         * @method clone
-        * @param output {Kiwi.Geom.Vector2} vector2. A vector2 that will be cloned to. Optional.
+        * @param [output] {Kiwi.Geom.Vector2} Optional. A vector2 that will be cloned to. One will be created if none passed.
         * @return {Kiwi.Geom.Vector2} Either a new cloned Vector2 or the output vector with cloned components.
         * @public
 	    */
-        public clone(output?: Vector2): Vector2 {
-            if (output) {
-                return output.setTo(this.x, this.y);
-            }
-            else {
-                return new Vector2(this.x, this.y);
-            }
+        public clone(output: Vector2= new Vector2): Vector2 {
+
+            return output.setTo(this.x, this.y);
 
         }
 

@@ -12,10 +12,10 @@ module Kiwi.Geom {
     * @class Ray
     * @namespace Kiwi.Geom
     * @constructor
-    * @param [x1 = 0] {Number} x1
-    * @param [y1 = 0] {Number} y1
-    * @param [x2 = 0] {Number} x2
-    * @param [y2 = 0] {Number} y2
+    * @param [x1=0] {Number} Starting location of the ray on the x-axis.
+    * @param [y1=0] {Number} Starting location of the ray on the y-axis.
+    * @param [x2=0] {Number} End location of the ray on the x-axis. Used to calculate direction so it isn't really the 'end' location.
+    * @param [y2=0] {Number} End location of the ray on the y-axis. Used to calculate direction so it isn't really the 'end' location.
     * @return {Kiwi.Geom.Ray} This Object
     *
     */
@@ -29,7 +29,7 @@ module Kiwi.Geom {
         /**
         * The type of this object.
         * @method objType
-        * @return {String}
+        * @return {String} "Ray"
         * @public
         */
         public objType() {
@@ -40,6 +40,7 @@ module Kiwi.Geom {
         * The x component of the initial point of the ray
         * @property x1
         * @type Number
+        * @default 0
         * @public
         */
         public x1: number = 0;
@@ -48,6 +49,7 @@ module Kiwi.Geom {
         * The y component of the initial point of the ray
         * @property y1
         * @type Number
+        * @default 0
         * @public
         */
         public y1: number = 0;
@@ -56,6 +58,7 @@ module Kiwi.Geom {
         * The x component of the direction point of the ray
         * @property x2
         * @type Number
+        * @default 0
         * @public
         */
         public x2: number = 0;
@@ -64,6 +67,7 @@ module Kiwi.Geom {
         * The y component of the direction point of the ray
         * @property y2
         * @type Number
+        * @default 0
         * @public
         */
         public y2: number = 0;
@@ -71,8 +75,9 @@ module Kiwi.Geom {
         /**
         * Makes a copy of this Ray either as a new Ray object or,
         * makes a passed Ray a copy of this one. 
+        *
         * @method clone
-        * @param [output = Ray] {Kiwi.Geom.Ray} 
+        * @param [output] {Kiwi.Geom.Ray} 
         * @return {Kiwi.Geom.Ray}
         * @public
         */
@@ -111,10 +116,10 @@ module Kiwi.Geom {
         /**
         * Sets the origin and the direction of this Ray.
         * @method setTo
-        * @param x1{Number} 
-        * @param y1{Number} 
-        * @param x2{Number} 
-        * @param y2{Number} 
+        * @param [x1=0] {Number} 
+        * @param [y1=0] {Number} 
+        * @param [x2=0] {Number} 
+        * @param [y2=0] {Number} 
         * @return {Kiwi.Geom.Ray}
         * @public
         */
@@ -132,7 +137,8 @@ module Kiwi.Geom {
         /**
         * Get the angle of the ray.
         * @property angle
-        * @return {Number}
+        * @type Number
+        * @readOnly
         * @public
         */
         public get angle(): number {
@@ -144,7 +150,8 @@ module Kiwi.Geom {
         /**
         * Get the slope of the ray.
         * @property slope
-        * @return {Number}
+        * @type Number
+        * @readOnly
         * @public
         */
         public get slope(): number {
@@ -154,10 +161,10 @@ module Kiwi.Geom {
         }
 
         /**
-        *
-        * @method yIntercept
+        * 
         * @property yIntercept
-        * @return {Number}
+        * @type Number
+        * @readOnly
         * @public
         */
         public get yIntercept(): number {
@@ -169,9 +176,10 @@ module Kiwi.Geom {
         /**
         * Check if the Ray passes through a point.
         * @method isPointOnRay
-        * @param {Number} x
-        * @param {Number} y
+        * @param x {Number}
+        * @param y {Number}
         * @return {boolean}
+        * @public
         */
         public isPointOnRay(x: number, y: number): boolean {
 
@@ -193,6 +201,7 @@ module Kiwi.Geom {
         * Get a string representation of the ray.
         * @method toString
         * @return {String}
+        * @public
         */
         public toString(): string {
 

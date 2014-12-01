@@ -13,9 +13,9 @@ module Kiwi.Geom {
     * @class Circle
     * @namespace Kiwi.Geom
     * @constructor
-    * @param [x = 0] {Number} The x coordinate of the center of the circle.
-    * @param [y = 0] {Number} The y coordinate of the center of the circle.
-    * @param [diameter = 0] {number} The diameter of the circle.
+    * @param [x=0] {Number} The x coordinate of the center of the circle.
+    * @param [y=0] {Number} The y coordinate of the center of the circle.
+    * @param [diameter=0] {number} The diameter of the circle.
     * @return {Kiwi.Geom.Circle} This circle object
     *
     */
@@ -30,7 +30,7 @@ module Kiwi.Geom {
         /**
         * The type of this object.
         * @method objType
-        * @return {String}
+        * @return {String} "Circle"
         * @public
         */
         public objType() {
@@ -74,7 +74,10 @@ module Kiwi.Geom {
         public y: number = 0;
 
         /**
-        * The diameter of the circle. The largest distance between any two points on the circle. The same as the radius * 2.
+        * The diameter of the circle. 
+        * The largest distance between any two points on the circle. 
+        * The same as the radius * 2.
+        *
         * @property diameter
         * @type number
         * @public
@@ -95,8 +98,11 @@ module Kiwi.Geom {
         }
 
 	    /**
-	    * The radius of the circle. The length of a line extending from the center of the circle to any point on the circle itself. The same as half the diameter.
-	    * @property radius
+	    * The radius of the circle. 
+        * The length of a line extending from the center of the circle to any point on the circle itself. 
+        * The same as half the diameter.
+	    *
+        * @property radius
 	    * @type number
         * @public
 	    */
@@ -119,6 +125,7 @@ module Kiwi.Geom {
 	    * The circumference of the circle. This is READ ONLY.
 	    * @property circumference
 	    * @type number
+        * @readOnly
         * @public
 	    */
         public get circumference(): number {
@@ -128,7 +135,9 @@ module Kiwi.Geom {
         }
 
         /**
-        * The sum of the y and radius properties. Changing the bottom property of a Circle object has no effect on the x and y properties, but does change the diameter.
+        * The sum of the y and radius properties. 
+        * Changing the bottom property of a Circle object has no effect on the x and y properties,
+        * but does change the diameter.
         * @property bottom
         * @type number
         * @public
@@ -156,7 +165,10 @@ module Kiwi.Geom {
         }
 
         /**
-        * The x coordinate of the leftmost point of the circle. Changing the left property of a Circle object has no effect on the x and y properties. However it does affect the diameter, whereas changing the x value does not affect the diameter property.
+        * The x coordinate of the leftmost point of the circle. 
+        * Changing the left property of a Circle object has no effect on the x and y properties. 
+        * However it does affect the diameter, whereas changing the x value does not affect the diameter property.
+        *
         * @property left
         * @type number
         * @public
@@ -184,7 +196,10 @@ module Kiwi.Geom {
         }
 
         /**
-        * The x coordinate of the rightmost point of the circle. Changing the right property of a Circle object has no effect on the x and y properties. However it does affect the diameter, whereas changing the x value does not affect the diameter property.
+        * The x coordinate of the rightmost point of the circle. 
+        * Changing the right property of a Circle object has no effect on the x and y properties. 
+        * However it does affect the diameter, whereas changing the x value does not affect the diameter property.
+        *
         * @property right
         * @type number
         * @public
@@ -212,7 +227,10 @@ module Kiwi.Geom {
         }
 
         /**
-        * The sum of the y minus the radius property. Changing the top property of a Circle object has no effect on the x and y properties, but does change the diameter.
+        * The sum of the y minus the radius property.
+        * Changing the top property of a Circle object has no effect on the x and y properties,
+        * but does change the diameter.
+        *
         * @property top
         * @type number
         * @public
@@ -244,6 +262,7 @@ module Kiwi.Geom {
 	    * Gets the area of this Circle. Note this is READ ONLY.
 	    * @property area
         * @type number
+        * @readOnly
         * @public
         */
         public get area(): number {
@@ -260,7 +279,7 @@ module Kiwi.Geom {
         }
 
         /**
-	    * Determines whether or not this Circle object is empty. This is READ ONLY.
+	    * Determines whether or not this Circle object is empty. 
 	    * @method isEmpty
 	    * @return {boolean} A value of true if the Circle objects diameter is less than or equal to 0; otherwise false.
         * @public
@@ -277,9 +296,9 @@ module Kiwi.Geom {
         }
           
 	    /**
-	    * Returns a new Circle object with the same values for the x, y, width, and height properties as the original Circle object.
+	    * Returns a new Circle object with the same values for the x, y, diameter, and radius properties as the original Circle object.
 	    * @method clone
-	    * @param [output = Circle] {Kiwi.Geom.Circle} If given the values will be set into the object, otherwise a brand new Circle object will be created and returned.
+	    * @param [output=Circle] {Kiwi.Geom.Circle} If given the values will be set into the object, otherwise a brand new Circle object will be created and returned.
 	    * @return {Kiwi.Geom.Circle}
         * @public
 	    */
@@ -290,7 +309,7 @@ module Kiwi.Geom {
         }
 
 	    /**
-	    * Copies all of circle data from the source Circle object into the calling Circle object.
+	    * Copies all of circle data from a Circle object passed (the source) into this Circle object.
 	    * @method copyFrom
 	    * @param source {Kiwi.Geom.Circle} The source circle object to copy from
 	    * @return {Kiwi.Geom.Circle} This circle object
@@ -303,10 +322,10 @@ module Kiwi.Geom {
         }
 
 	    /**
-	    * Copies all of circle data from this Circle object into the destination Circle object.
+	    * Copies all of circle data from this Circle object into a passed Circle object (destination).
 	    * @method copyTo
-	    * @param circle {Circle} The destination circle object to copy in to
-	    * @return {Circle} The destination circle object
+	    * @param circle {Kiwi.Geom.Circle} The destination circle object to copy in to
+	    * @return {Kiwi.Geom.Circle} The destination circle object
         * @public
 	    */
         public copyTo(target: Circle) {
@@ -316,8 +335,10 @@ module Kiwi.Geom {
         }
 
 	    /**
-	    * Returns the distance from the center of this Circle object to the given object (can be Circle, Point or anything with x/y values)
-	    * @method distanceTo
+	    * Returns the distance from the center of this Circle object to the passed object.
+        * The passed object can be a Circle, Point, or anything with x/y values.
+	    *
+        * @method distanceTo
 	    * @param target {Any} The destination Point object.
 	    * @param [round=false] {boolean} Round the distance to the nearest integer (default false)
 	    * @return {Number} The distance between this Point object and the destination Point object.
@@ -340,7 +361,9 @@ module Kiwi.Geom {
         }
 
 	    /**
-	    * Determines whether the object specified in the toCompare parameter is equal to this Circle object. This method compares the x, y and diameter properties of an object against the same properties of this Circle object.
+	    * Determines whether a Circle passed is equal to this Circle.
+        * They are considered 'equal' if both circles have the same values for x, y, and diameter properties.  
+        *
 	    * @method equals
 	    * @param toCompare {Kiwi.Geom.Circle} The circle to compare to this Circle object.
 	    * @return {boolean} A value of true if the object has exactly the same values for the x, y and diameter properties as this Circle object; otherwise false.
@@ -358,7 +381,9 @@ module Kiwi.Geom {
         }
 
 	    /**
-	    * Determines whether the Circle object specified in the toIntersect parameter intersects with this Circle object. This method checks the radius distances between the two Circle objects to see if they intersect.
+	    * Determines whether a Circle passed intersects with this Circle. 
+        * Returns a boolean indicating if the two circles intersect.
+        *
 	    * @method intersects
 	    * @param toIntersect {Kiwi.Geom.Circle} The Circle object to compare against to see if it intersects with this Circle object.
 	    * @return {boolean} A value of true if the specified object intersects with this Circle object; otherwise false.
@@ -377,10 +402,11 @@ module Kiwi.Geom {
 
 	    /**
 	    * Returns a Point object containing the coordinates of a point on the circumference of this Circle based on the given angle.
+        *
 	    * @method circumferencePoint
 	    * @param angle {Number} The angle in radians (unless asDegrees is true) to return the point from.
 	    * @param [asDegress=false] {boolean} Is the given angle in radians (false) or degrees (true)?
-	    * @param [output=Point] {Kiwi.Geom.Point} An optional Point object to put the result in to. If none specified a new Point object will be created.
+	    * @param [output] {Kiwi.Geom.Point} A Point object to put the result in to. If none specified a new Point object will be created.
 	    * @return {Kiwi.Geom.Point} The Point object holding the result.
         * @public
 	    */
@@ -420,7 +446,9 @@ module Kiwi.Geom {
         }
 
 	    /**
-	    * Adjusts the location of the Circle object using a Point object as a parameter. This method is similar to the Circle.offset() method, except that it takes a Point object as a parameter.
+	    * Adjusts the location of the Circle object using a Point object as a parameter. 
+        * This method is similar to the 'offset' method, except that it takes a Point object as a parameter.
+        *
 	    * @method offsetPoint
 	    * @param {Kiwi.Geom.Point} point A Point object to use to offset this Circle object.
 	    * @return {Kiwi.Geom.Circle} This Circle object.
@@ -434,6 +462,7 @@ module Kiwi.Geom {
 
 	    /**
 	    * Sets the members of Circle to the specified values.
+        *
 	    * @method setTo
 	    * @param x {Number} The x coordinate of the center of the circle.
 	    * @param y {Number} The y coordinate of the center of the circle.
