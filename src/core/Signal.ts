@@ -13,13 +13,14 @@ module Kiwi {
     *
     * @class Signal
     * @namespace Kiwi
-    *
+    * @constructor
+    * 
     * @author Miller Medeiros, JS Signals
     */
     export class Signal {
 
         /**
-		* A list of all of the signal bindings that are on this signal.
+		* A list of all of the signal bindings that have been attached.
         * @property _bindings
         * @type Array
         * @private
@@ -38,6 +39,7 @@ module Kiwi {
          * Signals Version Number
          * @property VERSION
          * @type String
+         * @default '1.0.0'
          * @final
          * @static
          * @public
@@ -45,9 +47,7 @@ module Kiwi {
         public static VERSION: string = '1.0.0';
 
         /**
-         * If Signal should keep record of previously dispatched parameters and
-         * automatically execute listener during `add()`/`addOnce()` if Signal was
-         * already dispatched before.
+         * If Signal should keep record of previously dispatched parameters.
          * @property memorize
          * @type boolean
          * @default false
@@ -65,7 +65,8 @@ module Kiwi {
 
         /**
         * If Signal is active and should broadcast events.
-        * <p><strong>IMPORTANT:</strong> Setting this property during a dispatch will only affect the next dispatch, if you want to stop the propagation of a signal use `halt()` instead.</p>
+        * Note: Setting this property during a dispatch will only affect the next dispatch, 
+        * if you want to stop the propagation of a signal use `halt()` instead.
         * @property active
         * @type boolean
         * @default true
@@ -86,11 +87,12 @@ module Kiwi {
 
         /**
 		* Validates a event listener an is used to check to see if it is valid or not.
+        * An event listener is not valid if it is not a function.
         * If a event listener is not valid, then a Error is thrown. 
         * 
         * @method validateListener
-        * @param listener {Any} 
-        * @param fnName {Any} 
+        * @param listener {Any} The event listener to be validated.
+        * @param fnName {Any} The name of the function. 
         * @public
     	*/
         public validateListener(listener, fnName) {
@@ -106,6 +108,7 @@ module Kiwi {
         * Internal Code which handles the registeration of a new callback (known as a "listener").
         * Creates a new SignalBinding for the Signal and then adds the binding to the list by its priority level.
         * 
+        * @method _registerListener
         * @param listener {Function} The method that is to be dispatched.
         * @param isOnce {boolean} If the method should only be dispatched a single time or not.
         * @param listenerContext {Object} The context that the callback should be executed with when called.
@@ -192,10 +195,13 @@ module Kiwi {
         }
 
         /**
-        * Check if listener has already been attached to Signal.
+        * Accepts a function and returns a boolean indicating if the function 
+        * has already been attached to this Signal.
+        *
+        * @method has
         * @param listener {Function} The method you are checking for.
         * @param [context=null] {Any} The context of the listener.
-        * @return {boolean} if Signal has the specified listener.
+        * @return {boolean} If this Signal already has the specified listener.
         * @public
         */
         public has(listener, context:any = null): boolean {
@@ -205,10 +211,12 @@ module Kiwi {
         }
 
         /**
-        * Add a new listener/callback to this Signal.
+        * Adds a new listener/callback to this Signal. 
+        * The listener attached will be executed whenever this Signal dispatches an event. 
         * 
+        * @method add
         * @param listener {Function} Signal handler function.
-        * @param [listenerContext=null] {Any} Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+        * @param [listenerContext=null] {Any} Context on which listener will be executed. (object that should represent the `this` variable inside listener function).
         * @param [priority=0] {Number} The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
         * @return {Kiwi.SignalBinding} An Object representing the binding between the Signal and listener.
         * @public
@@ -224,6 +232,7 @@ module Kiwi {
         /**
         * Add listener to the signal that should be removed after first execution (will be executed only once).
         *
+        * @method addOnce
         * @param listener {Function} Signal handler function.
         * @param [listenerContext=null] {Any} Context on which listener will be executed (object that should represent the `this` variable inside listener function).
         * @param [priority=0] {Number} The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
@@ -240,6 +249,8 @@ module Kiwi {
 
         /**
         * Remove a single listener from the dispatch queue.
+        *
+        * @metho remove
         * @param listener {Function} Handler function that should be removed.
         * @param [context=null] {Any} Execution context (since you can add the same handler multiple times if executing in a different context).
         * @return {Function} Listener handler function.
@@ -294,8 +305,8 @@ module Kiwi {
 
         /**
         * Stop propagation of the event, blocking the dispatch to next listeners on the queue.
-        * <p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p>
-        * @see Signal.prototype.disable
+        * Note: should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.
+        *
         * @method halt
         * @public
         */
@@ -307,8 +318,8 @@ module Kiwi {
 
         /**
         * Resume propagation of the event, resuming the dispatch to next listeners on the queue.
-        * <p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p>
-        * @see Signal.prototype.disable
+        * Note: should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.
+        *
         * @method resume
         * @public
         */
@@ -319,7 +330,9 @@ module Kiwi {
         }
 
         /**
-        * Dispatch/Broadcast Signal to all listeners added to the queue.
+        * Dispatch/Broadcast to all listeners added to this Signal.
+        * Parameters passed to this method will also be passed to each handler.
+        * 
         * @method dispatch
         * @param [params]* {any} Parameters that should be passed to each handler.
         * @public
@@ -351,12 +364,14 @@ module Kiwi {
 
             //execute all callbacks until end of the list or until a callback returns `false` or stops propagation
             //reverse loop since listeners with higher priority will be added at the end of the list
-            do { n--; } while (bindings[n] && this._shouldPropagate && bindings[n].execute(paramsArr) !== false);
+            do {
+                n--;
+            } while (bindings[n] && this._shouldPropagate && bindings[n].execute(paramsArr) !== false);
 
         }
 
         /**
-        * Forget memorized arguments. See Signal.memorize
+        * Forget memorized arguments. See the 'memorize' property.
         * @method forget
         * @public
         */
@@ -368,7 +383,7 @@ module Kiwi {
 
         /**
         * Remove all bindings from signal and destroy any reference to external objects (destroy Signal object).
-        * <p><strong>IMPORTANT:</strong> calling any method on the signal instance after calling dispose will throw errors.</p>
+        * Note: calling any method on the signal instance after calling dispose will throw errors.
         * @method dispose
         * @public
         */

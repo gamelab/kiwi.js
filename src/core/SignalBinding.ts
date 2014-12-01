@@ -21,11 +21,11 @@ module Kiwi {
     * @constructor
     * @internal
     * @name SignalBinding
-    * @param {Kiwi.Signal} Signal Reference to Signal object that listener is currently bound to.
-    * @param {Function} listener Handler function bound to the signal.
-    * @param {boolean} isOnce If binding should be executed just once.
-    * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-    * @param {Number} [priority=0] The priority level of the event listener. (default = 0).
+    * @param signal {Kiwi.Signal} Reference to Signal object that listener is currently bound to.
+    * @param listener {Function} Handler function bound to the signal.
+    * @param isOnce {boolean} If binding should be executed just once.
+    * @param [listenerContext] {Object} Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+    * @param [priority=0] {Number} The priority level of the event listener. (default = 0).
     * @return {Kiwi.SignalBinding} 
     */
     export class SignalBinding {
@@ -110,9 +110,11 @@ module Kiwi {
 
         /**
         * Call listener passing arbitrary parameters.
-        * <p>If binding was added using `Signal.addOnce()` it will be automatically removed from signal dispatch queue, this method is used internally for the signal dispatch.</p>
+        * If this binding was added using `Signal.addOnce()` it will be automatically removed from signal dispatch queue,
+        * this method is used internally for the signal dispatch.
+        *
         * @method execute
-        * @param {Array} [paramsArr]* Array of parameters that should be passed to the listener
+        * @param [paramsArr]* {Array} Array of parameters that should be passed to the listener
         * @return {*} Value returned by the listener.
         * @public
         */
@@ -138,8 +140,9 @@ module Kiwi {
         }
 
         /**
-        * Detach binding from signal.
-        * - alias to: mySignal.remove(myBinding.getListener());
+        * Detach this binding from the Signal it is attached to. 
+        * Alias for 'Signal.remove()'
+        * 
         * @method detach
         * @return {Function|null} Handler function bound to the signal or `null` if binding was previously detached.
         * @public
