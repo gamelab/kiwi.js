@@ -392,37 +392,37 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="arg">
                     
-                        <code>[a</code>
+                        <code class="optional">[a=1]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>[b</code>
+                        <code class="optional">[b=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>[c</code>
+                        <code class="optional">[c=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>[d</code>
+                        <code class="optional">[d=1]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>[tx</code>
+                        <code class="optional">[tx=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>[ty</code>
+                        <code class="optional">[ty=0]</code>
                     
                 </li>
             
@@ -481,14 +481,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[a</code>
+                        <code class="param-name optional">[a=1]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 1]   position 0,0 of the matrix, affects scaling and rotation.</p>
+                        <p>position 0,0 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -497,14 +498,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[b</code>
+                        <code class="param-name optional">[b=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0]   position 0,1 of the matrix, affects scaling and rotation.</p>
+                        <p>position 0,1 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -513,14 +515,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[c</code>
+                        <code class="param-name optional">[c=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0]   position 1,0 of the matrix, affects scaling and rotation.</p>
+                        <p>position 1,0 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -529,14 +532,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[d</code>
+                        <code class="param-name optional">[d=1]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 1]   position 1,1 of the matrix, affects scaling and rotation.</p>
+                        <p>position 1,1 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -545,14 +549,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[tx</code>
+                        <code class="param-name optional">[tx=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0]   position 2,0 of the matrix, affects translation on x axis.</p>
+                        <p>position 2,0 of the matrix, affects translation on x axis.</p>
 
                     </div>
 
@@ -561,14 +566,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[ty</code>
+                        <code class="param-name optional">[ty=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0]   position 2,1 of the matrix, affects translation on y axis.</p>
+                        <p>position 2,1 of the matrix, affects translation on y axis.</p>
 
                     </div>
 
@@ -607,6 +613,8 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
         
         
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+        
         
         
     </ul>
@@ -621,141 +629,200 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 
                     <ul class="index-list methods">
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_append">append</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_appendMatrix">appendMatrix</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_clone">clone</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_copyFrom">copyFrom</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_copyTo">copyTo</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_identity">identity</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
+                                <a href="#method_invert">invert</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_prepend">prepend</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_prependMatrix">prependMatrix</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_rotate">rotate</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_scale">scale</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_setFromOffsetTransform">setFromOffsetTransform</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_setFromTransform">setFromTransform</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_setPosition">setPosition</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
+                                <a href="#method_setPositionPoint">setPositionPoint</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_setPositionVector">setPositionVector</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_setPositionVector">setPositionVector</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_setTo">setTo</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_toString">toString</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_transalte">transalte</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_transformPoint">transformPoint</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_transformPoint">transformPoint</a>
+                            <li class="index-item method public">
+                                <a href="#method_translate">translate</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                        
+                            <li class="index-item property public">
+                                <a href="#property_a">a</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_b">b</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_c">c</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_d">d</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_tx">tx</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_ty">ty</a>
 
                                 
                                 
@@ -768,8 +835,6 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
 
             
-
-            
         </div>
 
         
@@ -777,7 +842,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_append" class="method item">
+                    <div id="method_append" class="method item public">
     <h3 class="name"><code>append</code></h3>
 
     
@@ -786,37 +851,37 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="arg">
                     
-                        <code>[a</code>
+                        <code class="optional">[a=1]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>[b</code>
+                        <code class="optional">[b=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>[c</code>
+                        <code class="optional">[c=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>[d</code>
+                        <code class="optional">[d=1]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>[tx</code>
+                        <code class="optional">[tx=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>[ty</code>
+                        <code class="optional">[ty=0]</code>
                     
                 </li>
             
@@ -826,12 +891,14 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 
     
         <span class="returns-inline">
-            <span class="type">Object</span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -853,7 +920,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
         
         
-        <a href="../files/src_geom_Matrix.ts.html#l164"><code>src\geom\Matrix.ts:164</code></a>
+        <a href="../files/src_geom_Matrix.ts.html#l222"><code>src\geom\Matrix.ts:222</code></a>
         
         </p>
 
@@ -876,14 +943,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[a</code>
+                        <code class="param-name optional">[a=1]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 1] position 0,0 of the matrix, affects scaling and rotation.</p>
+                        <p>position 0,0 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -892,14 +960,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[b</code>
+                        <code class="param-name optional">[b=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0] position 0,1 of the matrix, affects scaling and rotation.</p>
+                        <p>position 0,1 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -908,14 +977,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[c</code>
+                        <code class="param-name optional">[c=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0] position 1,0 of the matrix, affects scaling and rotation.</p>
+                        <p>position 1,0 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -924,14 +994,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[d</code>
+                        <code class="param-name optional">[d=1]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 1] position 1,1 of the matrix, affects scaling and rotation.</p>
+                        <p>position 1,1 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -940,14 +1011,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[tx</code>
+                        <code class="param-name optional">[tx=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0] position 2,0 of the matrix, affects translation on x axis.</p>
+                        <p>position 2,0 of the matrix, affects translation on x axis.</p>
 
                     </div>
 
@@ -956,14 +1028,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[ty</code>
+                        <code class="param-name optional">[ty=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0] position 2,1 of the matrix, affects translation on y axis.</p>
+                        <p>position 2,1 of the matrix, affects translation on y axis.</p>
 
                     </div>
 
@@ -981,7 +1054,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             <div class="returns-description">
                 
                     
-                        <span class="type">Object</span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
                     
                     <p>This object.</p>
 
@@ -994,7 +1067,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 </div>
 
                 
-                    <div id="method_appendMatrix" class="method item">
+                    <div id="method_appendMatrix" class="method item public">
     <h3 class="name"><code>appendMatrix</code></h3>
 
     
@@ -1013,12 +1086,14 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 
     
         <span class="returns-inline">
-            <span class="type">Object</span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1040,7 +1115,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
         
         
-        <a href="../files/src_geom_Matrix.ts.html#l190"><code>src\geom\Matrix.ts:190</code></a>
+        <a href="../files/src_geom_Matrix.ts.html#l249"><code>src\geom\Matrix.ts:249</code></a>
         
         </p>
 
@@ -1064,7 +1139,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
                 <li class="param">
                     
                         <code class="param-name">m</code>
-                        <span class="type">Object</span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
                     
 
                     
@@ -1088,7 +1163,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             <div class="returns-description">
                 
                     
-                        <span class="type">Object</span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
                     
                     <p>This object.</p>
 
@@ -1101,7 +1176,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 </div>
 
                 
-                    <div id="method_clone" class="method item">
+                    <div id="method_clone" class="method item public">
     <h3 class="name"><code>clone</code></h3>
 
     
@@ -1110,12 +1185,14 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 
     
         <span class="returns-inline">
-            <span class="type">Object</span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1137,7 +1214,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
         
         
-        <a href="../files/src_geom_Matrix.ts.html#l379"><code>src\geom\Matrix.ts:379</code></a>
+        <a href="../files/src_geom_Matrix.ts.html#l452"><code>src\geom\Matrix.ts:452</code></a>
         
         </p>
 
@@ -1148,7 +1225,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
     </div>
 
     <div class="description">
-        <p>Clone this matrix</p>
+        <p>Clone this matrix and returns a new Matrix object.</p>
 
     </div>
 
@@ -1161,10 +1238,8 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             <div class="returns-description">
                 
                     
-                        <span class="type">Object</span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
                     
-                    <p>The new clone of this matrix.</p>
-
                 
             </div>
         </div>
@@ -1174,7 +1249,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 </div>
 
                 
-                    <div id="method_copyFrom" class="method item">
+                    <div id="method_copyFrom" class="method item public">
     <h3 class="name"><code>copyFrom</code></h3>
 
     
@@ -1193,12 +1268,14 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 
     
         <span class="returns-inline">
-            <span class="type">Object</span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1220,7 +1297,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
         
         
-        <a href="../files/src_geom_Matrix.ts.html#l346"><code>src\geom\Matrix.ts:346</code></a>
+        <a href="../files/src_geom_Matrix.ts.html#l417"><code>src\geom\Matrix.ts:417</code></a>
         
         </p>
 
@@ -1244,7 +1321,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
                 <li class="param">
                     
                         <code class="param-name">m</code>
-                        <span class="type">Object</span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
                     
 
                     
@@ -1268,7 +1345,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             <div class="returns-description">
                 
                     
-                        <span class="type">Object</span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
                     
                     <p>This object.</p>
 
@@ -1281,7 +1358,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 </div>
 
                 
-                    <div id="method_copyTo" class="method item">
+                    <div id="method_copyTo" class="method item public">
     <h3 class="name"><code>copyTo</code></h3>
 
     
@@ -1300,12 +1377,14 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 
     
         <span class="returns-inline">
-            <span class="type">Object</span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1327,7 +1406,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
         
         
-        <a href="../files/src_geom_Matrix.ts.html#l363"><code>src\geom\Matrix.ts:363</code></a>
+        <a href="../files/src_geom_Matrix.ts.html#l435"><code>src\geom\Matrix.ts:435</code></a>
         
         </p>
 
@@ -1351,7 +1430,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
                 <li class="param">
                     
                         <code class="param-name">m</code>
-                        <span class="type">Object</span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
                     
 
                     
@@ -1375,7 +1454,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             <div class="returns-description">
                 
                     
-                        <span class="type">Object</span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
                     
                     <p>This object.</p>
 
@@ -1388,7 +1467,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 </div>
 
                 
-                    <div id="method_identity" class="method item">
+                    <div id="method_identity" class="method item public">
     <h3 class="name"><code>identity</code></h3>
 
     
@@ -1397,12 +1476,14 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 
     
         <span class="returns-inline">
-            <span class="type">Object</span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1424,7 +1505,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
         
         
-        <a href="../files/src_geom_Matrix.ts.html#l245"><code>src\geom\Matrix.ts:245</code></a>
+        <a href="../files/src_geom_Matrix.ts.html#l308"><code>src\geom\Matrix.ts:308</code></a>
         
         </p>
 
@@ -1448,7 +1529,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             <div class="returns-description">
                 
                     
-                        <span class="type">Object</span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
                     
                     <p>This object.</p>
 
@@ -1461,61 +1542,23 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 </div>
 
                 
-                    <div id="method_prepend" class="method item">
-    <h3 class="name"><code>prepend</code></h3>
+                    <div id="method_invert" class="method item public">
+    <h3 class="name"><code>invert</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>[a</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>[b</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>[c</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>[d</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>[tx</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>[ty</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
         <span class="returns-inline">
-            <span class="type">Object</span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1537,7 +1580,197 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
         
         
-        <a href="../files/src_geom_Matrix.ts.html#l115"><code>src\geom\Matrix.ts:115</code></a>
+        <a href="../files/src_geom_Matrix.ts.html#l394"><code>src\geom\Matrix.ts:394</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Invert this matrix so that it represents the opposite of it&#39;s orginal tranformaation.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
+                    
+                    <p>This object.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Matrix.ts.html#l37"><code>src\geom\Matrix.ts:37</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The type of object this is.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                    <p>&quot;Matrix&quot;</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_prepend" class="method item public">
+    <h3 class="name"><code>prepend</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code class="optional">[a=1]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[b=0]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[c=0]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[d=0]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[tx=0]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[ty=0]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Matrix.ts.html#l171"><code>src\geom\Matrix.ts:171</code></a>
         
         </p>
 
@@ -1560,14 +1793,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[a</code>
+                        <code class="param-name optional">[a=1]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 1] position 0,0 of the matrix, affects scaling and rotation.</p>
+                        <p>position 0,0 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -1576,14 +1810,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[b</code>
+                        <code class="param-name optional">[b=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0] position 0,1 of the matrix, affects scaling and rotation.</p>
+                        <p>position 0,1 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -1592,14 +1827,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[c</code>
+                        <code class="param-name optional">[c=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0] position 1,0 of the matrix, affects scaling and rotation.</p>
+                        <p>position 1,0 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -1608,14 +1844,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[d</code>
+                        <code class="param-name optional">[d=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0] position 1,1 of the matrix, affects scaling and rotation.</p>
+                        <p>position 1,1 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -1624,14 +1861,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[tx</code>
+                        <code class="param-name optional">[tx=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0] position 2,0 of the matrix, affects translation on x axis.</p>
+                        <p>position 2,0 of the matrix, affects translation on x axis.</p>
 
                     </div>
 
@@ -1640,14 +1878,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[ty</code>
+                        <code class="param-name optional">[ty=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0] position 2,1 of the matrix, affects translation on y axis.</p>
+                        <p>position 2,1 of the matrix, affects translation on y axis.</p>
 
                     </div>
 
@@ -1665,7 +1904,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             <div class="returns-description">
                 
                     
-                        <span class="type">Object</span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
                     
                     <p>This object.</p>
 
@@ -1678,7 +1917,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 </div>
 
                 
-                    <div id="method_prependMatrix" class="method item">
+                    <div id="method_prependMatrix" class="method item public">
     <h3 class="name"><code>prependMatrix</code></h3>
 
     
@@ -1687,7 +1926,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="arg">
                     
-                        <code>m.</code>
+                        <code>m</code>
                     
                 </li>
             
@@ -1697,12 +1936,14 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 
     
         <span class="returns-inline">
-            <span class="type">Object</span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1724,7 +1965,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
         
         
-        <a href="../files/src_geom_Matrix.ts.html#l142"><code>src\geom\Matrix.ts:142</code></a>
+        <a href="../files/src_geom_Matrix.ts.html#l199"><code>src\geom\Matrix.ts:199</code></a>
         
         </p>
 
@@ -1747,8 +1988,8 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">m.</code>
-                        <span class="type">Object</span>
+                        <code class="param-name">m</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
                     
 
                     
@@ -1772,7 +2013,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             <div class="returns-description">
                 
                     
-                        <span class="type">Object</span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
                     
                     <p>This object.</p>
 
@@ -1785,7 +2026,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 </div>
 
                 
-                    <div id="method_rotate" class="method item">
+                    <div id="method_rotate" class="method item public">
     <h3 class="name"><code>rotate</code></h3>
 
     
@@ -1804,12 +2045,14 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 
     
         <span class="returns-inline">
-            <span class="type">Object</span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1831,7 +2074,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
         
         
-        <a href="../files/src_geom_Matrix.ts.html#l260"><code>src\geom\Matrix.ts:260</code></a>
+        <a href="../files/src_geom_Matrix.ts.html#l324"><code>src\geom\Matrix.ts:324</code></a>
         
         </p>
 
@@ -1861,7 +2104,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
                     
 
                     <div class="param-description">
-                        <p>radians.</p>
+                        <p>The angle (in radians) to rotate this matrix by.</p>
 
                     </div>
 
@@ -1879,7 +2122,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             <div class="returns-description">
                 
                     
-                        <span class="type">Object</span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
                     
                     <p>This object.</p>
 
@@ -1892,7 +2135,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 </div>
 
                 
-                    <div id="method_scale" class="method item">
+                    <div id="method_scale" class="method item public">
     <h3 class="name"><code>scale</code></h3>
 
     
@@ -1901,13 +2144,13 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="arg">
                     
-                        <code>scaleX.</code>
+                        <code>scaleX</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>scaleY.</code>
+                        <code>scaleY</code>
                     
                 </li>
             
@@ -1917,12 +2160,14 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 
     
         <span class="returns-inline">
-            <span class="type">Object</span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1944,7 +2189,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
         
         
-        <a href="../files/src_geom_Matrix.ts.html#l297"><code>src\geom\Matrix.ts:297</code></a>
+        <a href="../files/src_geom_Matrix.ts.html#l364"><code>src\geom\Matrix.ts:364</code></a>
         
         </p>
 
@@ -1955,7 +2200,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
     </div>
 
     <div class="description">
-        <p>Scale the matrix</p>
+        <p>Scales the matrix by the amount passed.</p>
 
     </div>
 
@@ -1967,7 +2212,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">scaleX.</code>
+                        <code class="param-name">scaleX</code>
                         <span class="type">Number</span>
                     
 
@@ -1983,7 +2228,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">scaleY.</code>
+                        <code class="param-name">scaleY</code>
                         <span class="type">Number</span>
                     
 
@@ -2008,7 +2253,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             <div class="returns-description">
                 
                     
-                        <span class="type">Object</span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
                     
                     <p>This object.</p>
 
@@ -2021,7 +2266,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 </div>
 
                 
-                    <div id="method_setFromOffsetTransform" class="method item">
+                    <div id="method_setFromOffsetTransform" class="method item public">
     <h3 class="name"><code>setFromOffsetTransform</code></h3>
 
     
@@ -2076,12 +2321,14 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 
     
         <span class="returns-inline">
-            <span class="type">Object</span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2103,7 +2350,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
         
         
-        <a href="../files/src_geom_Matrix.ts.html#l92"><code>src\geom\Matrix.ts:92</code></a>
+        <a href="../files/src_geom_Matrix.ts.html#l147"><code>src\geom\Matrix.ts:147</code></a>
         
         </p>
 
@@ -2249,7 +2496,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             <div class="returns-description">
                 
                     
-                        <span class="type">Object</span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
                     
                     <p>This object.</p>
 
@@ -2262,7 +2509,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 </div>
 
                 
-                    <div id="method_setFromTransform" class="method item">
+                    <div id="method_setFromTransform" class="method item public">
     <h3 class="name"><code>setFromTransform</code></h3>
 
     
@@ -2305,12 +2552,14 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 
     
         <span class="returns-inline">
-            <span class="type">Object</span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2332,7 +2581,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
         
         
-        <a href="../files/src_geom_Matrix.ts.html#l72"><code>src\geom\Matrix.ts:72</code></a>
+        <a href="../files/src_geom_Matrix.ts.html#l126"><code>src\geom\Matrix.ts:126</code></a>
         
         </p>
 
@@ -2362,7 +2611,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
                     
 
                     <div class="param-description">
-                        <p>tx. Translation on x axis.</p>
+                        <p>Translation on x axis.</p>
 
                     </div>
 
@@ -2378,7 +2627,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
                     
 
                     <div class="param-description">
-                        <p>ty. Translation on y axis.</p>
+                        <p>Translation on y axis.</p>
 
                     </div>
 
@@ -2444,7 +2693,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             <div class="returns-description">
                 
                     
-                        <span class="type">Object</span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
                     
                     <p>This object.</p>
 
@@ -2457,7 +2706,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 </div>
 
                 
-                    <div id="method_setPosition" class="method item">
+                    <div id="method_setPosition" class="method item public">
     <h3 class="name"><code>setPosition</code></h3>
 
     
@@ -2482,12 +2731,14 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 
     
         <span class="returns-inline">
-            <span class="type">Object</span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2509,7 +2760,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
         
         
-        <a href="../files/src_geom_Matrix.ts.html#l211"><code>src\geom\Matrix.ts:211</code></a>
+        <a href="../files/src_geom_Matrix.ts.html#l271"><code>src\geom\Matrix.ts:271</code></a>
         
         </p>
 
@@ -2520,7 +2771,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
     </div>
 
     <div class="description">
-        <p>Set the tx and ty elements of the matrix</p>
+        <p>Set the tx and ty elements of the matrix.</p>
 
     </div>
 
@@ -2573,7 +2824,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             <div class="returns-description">
                 
                     
-                        <span class="type">Object</span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
                     
                     <p>This object.</p>
 
@@ -2586,81 +2837,8 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 </div>
 
                 
-                    <div id="method_setPositionVector" class="method item">
-    <h3 class="name"><code>setPositionVector</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Object</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Matrix.ts.html#l236"><code>src\geom\Matrix.ts:236</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Get the x and y position of the matrix as an object with x and y properties</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Object</span>:
-                    
-                    <p>An object constructed from a literal with x and y properties.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_setPositionVector" class="method item">
-    <h3 class="name"><code>setPositionVector</code></h3>
+                    <div id="method_setPositionPoint" class="method item public">
+    <h3 class="name"><code>setPositionPoint</code></h3>
 
     
         <div class="args">
@@ -2678,12 +2856,14 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 
     
         <span class="returns-inline">
-            <span class="type">Object</span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2705,7 +2885,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
         
         
-        <a href="../files/src_geom_Matrix.ts.html#l224"><code>src\geom\Matrix.ts:224</code></a>
+        <a href="../files/src_geom_Matrix.ts.html#l285"><code>src\geom\Matrix.ts:285</code></a>
         
         </p>
 
@@ -2753,7 +2933,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             <div class="returns-description">
                 
                     
-                        <span class="type">Object</span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
                     
                     <p>This object.</p>
 
@@ -2766,61 +2946,23 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 </div>
 
                 
-                    <div id="method_setTo" class="method item">
-    <h3 class="name"><code>setTo</code></h3>
+                    <div id="method_setPositionVector" class="method item public">
+    <h3 class="name"><code>setPositionVector</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>[a</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>[b</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>[c</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>[d</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>[tx</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>[ty</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2842,7 +2984,122 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
         
         
-        <a href="../files/src_geom_Matrix.ts.html#l48"><code>src\geom\Matrix.ts:48</code></a>
+        <a href="../files/src_geom_Matrix.ts.html#l298"><code>src\geom\Matrix.ts:298</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Get the x and y position of the matrix as an object with x and y properties</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>:
+                    
+                    <p>An object constructed from a literal with x and y properties.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_setTo" class="method item public">
+    <h3 class="name"><code>setTo</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code class="optional">[a=1]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[b=0]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[c=0]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[d=1]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[tx=0]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[ty=0]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Matrix.ts.html#l101"><code>src\geom\Matrix.ts:101</code></a>
         
         </p>
 
@@ -2865,14 +3122,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[a</code>
+                        <code class="param-name optional">[a=1]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 1]  position 0,0 of the matrix, affects scaling and rotation.</p>
+                        <p>position 0,0 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -2881,14 +3139,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[b</code>
+                        <code class="param-name optional">[b=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0]  position 0,1 of the matrix, affects scaling and rotation.</p>
+                        <p>position 0,1 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -2897,14 +3156,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[c</code>
+                        <code class="param-name optional">[c=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0]  position 1,0 of the matrix, affects scaling and rotation.</p>
+                        <p>position 1,0 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -2913,14 +3173,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[d</code>
+                        <code class="param-name optional">[d=1]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 1]  position 1,1 of the matrix, affects scaling and rotation.</p>
+                        <p>position 1,1 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -2929,14 +3190,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[tx</code>
+                        <code class="param-name optional">[tx=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0]  position 2,0 of the matrix, affects translation on x axis.</p>
+                        <p>position 2,0 of the matrix, affects translation on x axis.</p>
 
                     </div>
 
@@ -2945,14 +3207,15 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
                 <li class="param">
                     
-                        <code class="param-name">[ty</code>
+                        <code class="param-name optional">[ty=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0]  position 2,1 of the matrix, affects translation on y axis.</p>
+                        <p>position 2,1 of the matrix, affects translation on y axis.</p>
 
                     </div>
 
@@ -2970,7 +3233,9 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             <div class="returns-description">
                 
                     
-                    <p>(Object) This object.</p>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
+                    
+                    <p>This object.</p>
 
                 
             </div>
@@ -2981,7 +3246,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 </div>
 
                 
-                    <div id="method_toString" class="method item">
+                    <div id="method_toString" class="method item public">
     <h3 class="name"><code>toString</code></h3>
 
     
@@ -2996,6 +3261,8 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -3017,7 +3284,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
         
         
-        <a href="../files/src_geom_Matrix.ts.html#l388"><code>src\geom\Matrix.ts:388</code></a>
+        <a href="../files/src_geom_Matrix.ts.html#l462"><code>src\geom\Matrix.ts:462</code></a>
         
         </p>
 
@@ -3043,7 +3310,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
                     
                         <span class="type">String</span>:
                     
-                    <p>a string representation of the instance.</p>
+                    <p>A string representation of the instance.</p>
 
                 
             </div>
@@ -3054,209 +3321,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 </div>
 
                 
-                    <div id="method_transalte" class="method item">
-    <h3 class="name"><code>transalte</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>tx</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>ty</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Object</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Matrix.ts.html#l284"><code>src\geom\Matrix.ts:284</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Translate the matrix</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">tx</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>tx. The amount to translate on the x axis.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">ty</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>ty. The amount to translate on the y axis.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Object</span>:
-                    
-                    <p>This object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_transformPoint" class="method item">
-    <h3 class="name"><code>transformPoint</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Object</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Matrix.ts.html#l324"><code>src\geom\Matrix.ts:324</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Invert this matrix so that it represents the opposite of it&#39;s orginal tranformaation.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Object</span>:
-                    
-                    <p>This object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_transformPoint" class="method item">
+                    <div id="method_transformPoint" class="method item public">
     <h3 class="name"><code>transformPoint</code></h3>
 
     
@@ -3275,12 +3340,14 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 
     
         <span class="returns-inline">
-            <span class="type">Object</span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -3302,7 +3369,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             
         
         
-        <a href="../files/src_geom_Matrix.ts.html#l310"><code>src\geom\Matrix.ts:310</code></a>
+        <a href="../files/src_geom_Matrix.ts.html#l379"><code>src\geom\Matrix.ts:379</code></a>
         
         </p>
 
@@ -3350,9 +3417,140 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             <div class="returns-description">
                 
                     
-                        <span class="type">Object</span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
                     
-                    <p>The translated point.</p>
+                    <p>This object.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_translate" class="method item public">
+    <h3 class="name"><code>translate</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tx</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>ty</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Matrix.ts.html#l349"><code>src\geom\Matrix.ts:349</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Translate the matrix by the amount passed.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tx</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The amount to translate on the x axis.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">ty</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The amount to translate on the y axis.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
+                    
+                    <p>This object.</p>
 
                 
             </div>
@@ -3366,6 +3564,306 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
             </div>
         
 
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property_a" class="property item public">
+    <h3 class="name"><code>a</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Matrix.ts.html#l47"><code>src\geom\Matrix.ts:47</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Position 0,0 of the matrix, affects scaling and rotation</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 1</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_b" class="property item public">
+    <h3 class="name"><code>b</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Matrix.ts.html#l56"><code>src\geom\Matrix.ts:56</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Position 0,1 of the matrix, affects scaling and rotation.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_c" class="property item public">
+    <h3 class="name"><code>c</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Matrix.ts.html#l65"><code>src\geom\Matrix.ts:65</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Position 1,0 of the matrix, affects scaling and rotation.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_d" class="property item public">
+    <h3 class="name"><code>d</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Matrix.ts.html#l74"><code>src\geom\Matrix.ts:74</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Position 1,1 of the matrix, affects scaling and rotation.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 1</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_tx" class="property item public">
+    <h3 class="name"><code>tx</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Matrix.ts.html#l83"><code>src\geom\Matrix.ts:83</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Position 2,0 of the matrix, affects translation on x axis.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_ty" class="property item public">
+    <h3 class="name"><code>ty</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Matrix.ts.html#l92"><code>src\geom\Matrix.ts:92</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Position 2,1 of the matrix, affects translation on y axis.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
         
 
         

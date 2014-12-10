@@ -371,7 +371,7 @@
 
 
 <div class="box intro">
-    <p>A Kiwi Line object has two meanings depending on the situation you need. 
+    <p>A Line object has two meanings depending on the situation you need. 
 Either an infinte line through space (this is the usual meaning of a Line) 
 OR it can be a Line Segment which just exists between the TWO points you specify.</p>
 
@@ -389,25 +389,25 @@ OR it can be a Line Segment which just exists between the TWO points you specify
             
                 <li class="arg">
                     
-                        <code>[x1</code>
+                        <code class="optional">[x1=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>[y1</code>
+                        <code class="optional">[y1=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>[x2</code>
+                        <code class="optional">[x2=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>[y2</code>
+                        <code class="optional">[y2=0]</code>
                     
                 </li>
             
@@ -417,7 +417,7 @@ OR it can be a Line Segment which just exists between the TWO points you specify
 
     
         <span class="returns-inline">
-            <span class="type">Line</span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
         </span>
     
 
@@ -466,14 +466,15 @@ OR it can be a Line Segment which just exists between the TWO points you specify
             
                 <li class="param">
                     
-                        <code class="param-name">[x1</code>
+                        <code class="param-name optional">[x1=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0]  x1 x component of first point.</p>
+                        <p>Starting location of the line on the x-axis.</p>
 
                     </div>
 
@@ -482,14 +483,15 @@ OR it can be a Line Segment which just exists between the TWO points you specify
             
                 <li class="param">
                     
-                        <code class="param-name">[y1</code>
+                        <code class="param-name optional">[y1=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0] y1 y component of first point.</p>
+                        <p>Starting location of the line on the y-axis.</p>
 
                     </div>
 
@@ -498,14 +500,15 @@ OR it can be a Line Segment which just exists between the TWO points you specify
             
                 <li class="param">
                     
-                        <code class="param-name">[x2</code>
+                        <code class="param-name optional">[x2=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0] x2 x component of second point.</p>
+                        <p>End location of the line on the x-axis.</p>
 
                     </div>
 
@@ -514,14 +517,15 @@ OR it can be a Line Segment which just exists between the TWO points you specify
             
                 <li class="param">
                     
-                        <code class="param-name">[y2</code>
+                        <code class="param-name optional">[y2=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0] y2 y component of second point.</p>
+                        <p>End location of the line on the y-axis.</p>
 
                     </div>
 
@@ -539,7 +543,7 @@ OR it can be a Line Segment which just exists between the TWO points you specify
             <div class="returns-description">
                 
                     
-                        <span class="type">Line</span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>:
                     
                     <p>This Object</p>
 
@@ -665,7 +669,7 @@ OR it can be a Line Segment which just exists between the TWO points you specify
 
                     <ul class="index-list properties">
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_angle">angle</a>
 
                                 
@@ -721,8 +725,8 @@ OR it can be a Line Segment which just exists between the TWO points you specify
                                 
                             </li>
                         
-                            <li class="index-item property">
-                                <a href="#property_"></a>
+                            <li class="index-item property public">
+                                <a href="#property_yIntercept">yIntercept</a>
 
                                 
                                 
@@ -751,7 +755,7 @@ OR it can be a Line Segment which just exists between the TWO points you specify
             
                 <li class="arg">
                     
-                        <code>[output</code>
+                        <code class="optional">[output=Line]</code>
                     
                 </li>
             
@@ -761,7 +765,7 @@ OR it can be a Line Segment which just exists between the TWO points you specify
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
         </span>
     
 
@@ -802,7 +806,7 @@ OR it can be a Line Segment which just exists between the TWO points you specify
 
     <div class="description">
         <p>Makes a clone of this Line. 
-The clone will either be a new Line Object, 
+The clone can either be a new Line Object, 
 Otherwise you can pass a existing Line Object that you want to be a clone of this one.</p>
 
     </div>
@@ -815,15 +819,15 @@ Otherwise you can pass a existing Line Object that you want to be a clone of thi
             
                 <li class="param">
                     
-                        <code class="param-name">[output</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                        <code class="param-name optional">[output=Line]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= Line]</p>
-
+                         
                     </div>
 
                     
@@ -840,7 +844,7 @@ Otherwise you can pass a existing Line Object that you want to be a clone of thi
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>:
                     
                 
             </div>
@@ -870,7 +874,7 @@ Otherwise you can pass a existing Line Object that you want to be a clone of thi
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
         </span>
     
 
@@ -899,7 +903,7 @@ Otherwise you can pass a existing Line Object that you want to be a clone of thi
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l89"><code>src\geom\Line.ts:89</code></a>
+        <a href="../files/src_geom_Line.ts.html#l90"><code>src\geom\Line.ts:90</code></a>
         
         </p>
 
@@ -923,7 +927,7 @@ Otherwise you can pass a existing Line Object that you want to be a clone of thi
                 <li class="param">
                     
                         <code class="param-name">source</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
                     
 
                     
@@ -947,7 +951,7 @@ Otherwise you can pass a existing Line Object that you want to be a clone of thi
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>:
                     
                 
             </div>
@@ -977,7 +981,7 @@ Otherwise you can pass a existing Line Object that you want to be a clone of thi
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
         </span>
     
 
@@ -1006,7 +1010,7 @@ Otherwise you can pass a existing Line Object that you want to be a clone of thi
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l102"><code>src\geom\Line.ts:102</code></a>
+        <a href="../files/src_geom_Line.ts.html#l103"><code>src\geom\Line.ts:103</code></a>
         
         </p>
 
@@ -1030,7 +1034,7 @@ Otherwise you can pass a existing Line Object that you want to be a clone of thi
                 <li class="param">
                     
                         <code class="param-name">target</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
                     
 
                     
@@ -1054,7 +1058,7 @@ Otherwise you can pass a existing Line Object that you want to be a clone of thi
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>:
                     
                 
             </div>
@@ -1113,7 +1117,7 @@ Otherwise you can pass a existing Line Object that you want to be a clone of thi
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l148"><code>src\geom\Line.ts:148</code></a>
+        <a href="../files/src_geom_Line.ts.html#l150"><code>src\geom\Line.ts:150</code></a>
         
         </p>
 
@@ -1190,7 +1194,7 @@ Otherwise you can pass a existing Line Object that you want to be a clone of thi
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
         </span>
     
 
@@ -1219,7 +1223,7 @@ Otherwise you can pass a existing Line Object that you want to be a clone of thi
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l257"><code>src\geom\Line.ts:257</code></a>
+        <a href="../files/src_geom_Line.ts.html#l264"><code>src\geom\Line.ts:264</code></a>
         
         </p>
 
@@ -1231,7 +1235,8 @@ Otherwise you can pass a existing Line Object that you want to be a clone of thi
 
     <div class="description">
         <p>Check to see if this Line object intersects at any point with a passed Line.
-Note: Both are treated as extending infinately through space.</p>
+Note: Both are treated as extending infinately through space.
+Functions as an alias for the &#39;Kiwi.Geom.Intersect.lineToLine&#39; method.</p>
 
     </div>
 
@@ -1244,7 +1249,7 @@ Note: Both are treated as extending infinately through space.</p>
                 <li class="param">
                     
                         <code class="param-name">line</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
                     
 
                     
@@ -1268,7 +1273,7 @@ Note: Both are treated as extending infinately through space.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
                     
                     <p>The Intersect Result containing the collision information.</p>
 
@@ -1335,7 +1340,7 @@ Note: Both are treated as extending infinately through space.</p>
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l210"><code>src\geom\Line.ts:210</code></a>
+        <a href="../files/src_geom_Line.ts.html#l217"><code>src\geom\Line.ts:217</code></a>
         
         </p>
 
@@ -1462,7 +1467,7 @@ Note: Both are treated as extending infinately through space.</p>
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l231"><code>src\geom\Line.ts:231</code></a>
+        <a href="../files/src_geom_Line.ts.html#l238"><code>src\geom\Line.ts:238</code></a>
         
         </p>
 
@@ -1599,7 +1604,7 @@ Note: Both are treated as extending infinately through space.</p>
                     
                         <span class="type">String</span>:
                     
-                    <p>The type of this object</p>
+                    <p>&quot;Line&quot;</p>
 
                 
             </div>
@@ -1631,7 +1636,7 @@ Note: Both are treated as extending infinately through space.</p>
             
                 <li class="arg">
                     
-                        <code>[output</code>
+                        <code class="optional">[output]</code>
                     
                 </li>
             
@@ -1641,7 +1646,7 @@ Note: Both are treated as extending infinately through space.</p>
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
         </span>
     
 
@@ -1670,7 +1675,7 @@ Note: Both are treated as extending infinately through space.</p>
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l269"><code>src\geom\Line.ts:269</code></a>
+        <a href="../files/src_geom_Line.ts.html#l278"><code>src\geom\Line.ts:278</code></a>
         
         </p>
 
@@ -1723,14 +1728,15 @@ Note: Both are treated as extending infinately through space.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">[output</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                        <code class="param-name optional">[output]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= Line]</p>
+                        <p>The line object that the result should be output to. Creates a new Line if one is not passed.</p>
 
                     </div>
 
@@ -1748,7 +1754,7 @@ Note: Both are treated as extending infinately through space.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>:
                     
                 
             </div>
@@ -1768,25 +1774,25 @@ Note: Both are treated as extending infinately through space.</p>
             
                 <li class="arg">
                     
-                        <code>[x1</code>
+                        <code class="optional">[x1=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>[y1</code>
+                        <code class="optional">[y1=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>[x2</code>
+                        <code class="optional">[x2=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>[y2</code>
+                        <code class="optional">[y2=0]</code>
                     
                 </li>
             
@@ -1796,7 +1802,7 @@ Note: Both are treated as extending infinately through space.</p>
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
         </span>
     
 
@@ -1825,7 +1831,7 @@ Note: Both are treated as extending infinately through space.</p>
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l115"><code>src\geom\Line.ts:115</code></a>
+        <a href="../files/src_geom_Line.ts.html#l116"><code>src\geom\Line.ts:116</code></a>
         
         </p>
 
@@ -1848,14 +1854,15 @@ Note: Both are treated as extending infinately through space.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">[x1</code>
+                        <code class="param-name optional">[x1=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0] X component of first point.</p>
+                        <p>X component of first point.</p>
 
                     </div>
 
@@ -1864,14 +1871,15 @@ Note: Both are treated as extending infinately through space.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">[y1</code>
+                        <code class="param-name optional">[y1=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0] Y component of first point.</p>
+                        <p>Y component of first point.</p>
 
                     </div>
 
@@ -1880,14 +1888,15 @@ Note: Both are treated as extending infinately through space.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">[x2</code>
+                        <code class="param-name optional">[x2=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0] X component of second point.</p>
+                        <p>X component of second point.</p>
 
                     </div>
 
@@ -1896,14 +1905,15 @@ Note: Both are treated as extending infinately through space.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">[y2</code>
+                        <code class="param-name optional">[y2=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>= 0] Y component of second point.</p>
+                        <p>Y component of second point.</p>
 
                     </div>
 
@@ -1921,7 +1931,7 @@ Note: Both are treated as extending infinately through space.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>:
                     
                 
             </div>
@@ -1970,7 +1980,7 @@ Note: Both are treated as extending infinately through space.</p>
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l307"><code>src\geom\Line.ts:307</code></a>
+        <a href="../files/src_geom_Line.ts.html#l305"><code>src\geom\Line.ts:305</code></a>
         
         </p>
 
@@ -2013,12 +2023,14 @@ Note: Both are treated as extending infinately through space.</p>
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_angle" class="property item">
+                    <div id="property_angle" class="property item public">
     <h3 class="name"><code>angle</code></h3>
-    <span class="type">Unknown</span>
+    <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2036,7 +2048,7 @@ Note: Both are treated as extending infinately through space.</p>
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l163"><code>src\geom\Line.ts:163</code></a>
+        <a href="../files/src_geom_Line.ts.html#l165"><code>src\geom\Line.ts:165</code></a>
         
         </p>
 
@@ -2083,7 +2095,7 @@ Note: Both are treated as extending infinately through space.</p>
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l136"><code>src\geom\Line.ts:136</code></a>
+        <a href="../files/src_geom_Line.ts.html#l137"><code>src\geom\Line.ts:137</code></a>
         
         </p>
 
@@ -2107,7 +2119,7 @@ Note: Both are treated as extending infinately through space.</p>
                 
                     <div id="property_perpSlope" class="property item public">
     <h3 class="name"><code>perpSlope</code></h3>
-    <span class="type">Unknown</span>
+    <span class="type">Number</span>
 
     
 
@@ -2130,7 +2142,7 @@ Note: Both are treated as extending infinately through space.</p>
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l186"><code>src\geom\Line.ts:186</code></a>
+        <a href="../files/src_geom_Line.ts.html#l191"><code>src\geom\Line.ts:191</code></a>
         
         </p>
 
@@ -2154,7 +2166,7 @@ Note: Both are treated as extending infinately through space.</p>
                 
                     <div id="property_slope" class="property item public">
     <h3 class="name"><code>slope</code></h3>
-    <span class="type">Unknown</span>
+    <span class="type">Number</span>
 
     
 
@@ -2177,7 +2189,7 @@ Note: Both are treated as extending infinately through space.</p>
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l174"><code>src\geom\Line.ts:174</code></a>
+        <a href="../files/src_geom_Line.ts.html#l178"><code>src\geom\Line.ts:178</code></a>
         
         </p>
 
@@ -2234,7 +2246,7 @@ Note: Both are treated as extending infinately through space.</p>
     </div>
 
     <div class="description">
-        <p>X position of first point in your line.</p>
+        <p>X position of first point on the line.</p>
 
     </div>
 
@@ -2328,7 +2340,7 @@ Note: Both are treated as extending infinately through space.</p>
     </div>
 
     <div class="description">
-        <p>Y position of first point in your line.</p>
+        <p>Y position of first point on the line.</p>
 
     </div>
 
@@ -2375,7 +2387,7 @@ Note: Both are treated as extending infinately through space.</p>
     </div>
 
     <div class="description">
-        <p>X position of second point.</p>
+        <p>Y position of second point.</p>
 
     </div>
 
@@ -2387,12 +2399,14 @@ Note: Both are treated as extending infinately through space.</p>
 </div>
 
                 
-                    <div id="property_" class="property item">
-    <h3 class="name"><code></code></h3>
-    <span class="type">Unknown</span>
+                    <div id="property_yIntercept" class="property item public">
+    <h3 class="name"><code>yIntercept</code></h3>
+    <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2410,7 +2424,7 @@ Note: Both are treated as extending infinately through space.</p>
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l198"><code>src\geom\Line.ts:198</code></a>
+        <a href="../files/src_geom_Line.ts.html#l204"><code>src\geom\Line.ts:204</code></a>
         
         </p>
 

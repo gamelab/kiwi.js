@@ -392,43 +392,43 @@
             
                 <li class="arg">
                     
-                        <code>x</code>
+                        <code class="optional">[x=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>y</code>
+                        <code class="optional">[y=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>scaleX</code>
+                        <code class="optional">[scaleX=1]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>scaleY</code>
+                        <code class="optional">[scaleY=1]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>rotation</code>
+                        <code class="optional">[rotation=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>rotX</code>
+                        <code class="optional">[rotX=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>rotY</code>
+                        <code class="optional">[rotY=0]</code>
                     
                 </li>
             
@@ -487,14 +487,15 @@
             
                 <li class="param">
                     
-                        <code class="param-name">x</code>
+                        <code class="param-name optional">[x=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>x. X position of the transform.</p>
+                        <p>X position of the transform.</p>
 
                     </div>
 
@@ -503,14 +504,15 @@
             
                 <li class="param">
                     
-                        <code class="param-name">y</code>
+                        <code class="param-name optional">[y=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>y. Y position of the transform.</p>
+                        <p>Y position of the transform.</p>
 
                     </div>
 
@@ -519,14 +521,15 @@
             
                 <li class="param">
                     
-                        <code class="param-name">scaleX</code>
+                        <code class="param-name optional">[scaleX=1]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>scaleX. X scaling of the transform.</p>
+                        <p>X scaling of the transform.</p>
 
                     </div>
 
@@ -535,14 +538,15 @@
             
                 <li class="param">
                     
-                        <code class="param-name">scaleY</code>
+                        <code class="param-name optional">[scaleY=1]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>scaleY. Y scaling of the transform.</p>
+                        <p>Y scaling of the transform.</p>
 
                     </div>
 
@@ -551,14 +555,15 @@
             
                 <li class="param">
                     
-                        <code class="param-name">rotation</code>
+                        <code class="param-name optional">[rotation=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>rotation. Rotation of the transform in radians.</p>
+                        <p>Rotation of the transform in radians.</p>
 
                     </div>
 
@@ -567,14 +572,15 @@
             
                 <li class="param">
                     
-                        <code class="param-name">rotX</code>
+                        <code class="param-name optional">[rotX=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>rotX. rotationPoint offset on X axis.</p>
+                        <p>rotationPoint offset on X axis.</p>
 
                     </div>
 
@@ -583,14 +589,15 @@
             
                 <li class="param">
                     
-                        <code class="param-name">rotY</code>
+                        <code class="param-name optional">[rotY=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>rotY. rotationPoint offset on Y axis.</p>
+                        <p>rotationPoint offset on Y axis.</p>
 
                     </div>
 
@@ -675,13 +682,6 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_getCameraY">getCameraY</a>
-
-                                
-                                
-                            </li>
-                        
                             <li class="index-item method public">
                                 <a href="#method_getConcatenatedMatrix">getConcatenatedMatrix</a>
 
@@ -705,13 +705,6 @@
                         
                             <li class="index-item method public">
                                 <a href="#method_objType">objType</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_scale">scale</a>
 
                                 
                                 
@@ -752,7 +745,7 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_translatePositionFromPoint">translatePositionFromPoint</a>
 
                                 
@@ -776,7 +769,7 @@
                                 
                             </li>
                         
-                            <li class="index-item property protected">
+                            <li class="index-item property private">
                                 <a href="#property__matrix">_matrix</a>
 
                                 
@@ -839,7 +832,21 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
+                                <a href="#property_anchorPointX">anchorPointX</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_anchorPointY">anchorPointY</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
                                 <a href="#property_matrix">matrix</a>
 
                                 
@@ -862,6 +869,20 @@
                         
                             <li class="index-item property public">
                                 <a href="#property_rotPointX">rotPointX</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_rotPointY">rotPointY</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_scale">scale</a>
 
                                 
                                 
@@ -895,7 +916,7 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_x">x</a>
 
                                 
@@ -971,7 +992,7 @@
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l563"><code>src\geom\Transform.ts:563</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l551"><code>src\geom\Transform.ts:551</code></a>
         
         </p>
 
@@ -995,7 +1016,7 @@
                 <li class="param">
                     
                         <code class="param-name">transform</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
                     
 
                     
@@ -1041,7 +1062,7 @@
             
                 <li class="arg">
                     
-                        <code>output</code>
+                        <code class="optional">[output]</code>
                     
                 </li>
             
@@ -1051,7 +1072,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
         </span>
     
 
@@ -1080,7 +1101,7 @@
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l548"><code>src\geom\Transform.ts:548</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l535"><code>src\geom\Transform.ts:535</code></a>
         
         </p>
 
@@ -1103,8 +1124,9 @@
             
                 <li class="param">
                     
-                        <code class="param-name">output</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
+                        <code class="param-name optional">[output]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
@@ -1128,7 +1150,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>:
                     
                     <p>A clone of this object.</p>
 
@@ -1160,7 +1182,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
         </span>
     
 
@@ -1189,7 +1211,7 @@
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l512"><code>src\geom\Transform.ts:512</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l499"><code>src\geom\Transform.ts:499</code></a>
         
         </p>
 
@@ -1213,7 +1235,7 @@
                 <li class="param">
                     
                         <code class="param-name">transform</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
                     
 
                     
@@ -1237,7 +1259,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>:
                     
                     <p>This object.</p>
 
@@ -1269,7 +1291,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
         </span>
     
 
@@ -1298,7 +1320,7 @@
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l533"><code>src\geom\Transform.ts:533</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l518"><code>src\geom\Transform.ts:518</code></a>
         
         </p>
 
@@ -1309,7 +1331,8 @@
     </div>
 
     <div class="description">
-        <p>Copy this transforms data to the destination Transform. A clone of this transforms matrix is created in the destination Transform Matrix.</p>
+        <p>Copy this transforms data to the destination Transform. 
+A clone of this transforms matrix is created in the destination Transform Matrix.</p>
 
     </div>
 
@@ -1322,7 +1345,7 @@
                 <li class="param">
                     
                         <code class="param-name">destination</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
                     
 
                     
@@ -1346,144 +1369,9 @@
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>:
                     
                     <p>This object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_getCameraY" class="method item">
-    <h3 class="name"><code>getCameraY</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>camera</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>camera</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Transform.ts.html#l470"><code>src\geom\Transform.ts:470</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Return the x of this transform translated to a camera space</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">camera</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>the camera</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">camera</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>the camera</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                    <p>y coordinate in the camera space</p>
-<pre><code>    public getCameraY ( camera:Camera ):number
-    {
-        var mat = this.getConcatenatedMatrix();
-        mat.prependMatrix(camera.transform.getConcatenatedMatrix());
-          return mat.ty;
-   }</code></pre>
 
                 
             </div>
@@ -1503,7 +1391,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
         </span>
     
 
@@ -1532,7 +1420,7 @@
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l446"><code>src\geom\Transform.ts:446</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l459"><code>src\geom\Transform.ts:459</code></a>
         
         </p>
 
@@ -1557,7 +1445,7 @@ If there is no parent then this will return a matrix the same as this transforms
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
                     
                     <p>The concatenated matrix.</p>
 
@@ -1579,7 +1467,7 @@ If there is no parent then this will return a matrix the same as this transforms
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
         </span>
     
 
@@ -1608,7 +1496,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l422"><code>src\geom\Transform.ts:422</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l435"><code>src\geom\Transform.ts:435</code></a>
         
         </p>
 
@@ -1632,7 +1520,7 @@ If there is no parent then this will return a matrix the same as this transforms
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
                     
                     <p>The parent transform matrix.</p>
 
@@ -1649,12 +1537,22 @@ If there is no parent then this will return a matrix the same as this transforms
     <h3 class="name"><code>getPostionPoint</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code class="optional">[output]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
         </span>
     
 
@@ -1683,7 +1581,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l363"><code>src\geom\Transform.ts:363</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l375"><code>src\geom\Transform.ts:375</code></a>
         
         </p>
 
@@ -1694,10 +1592,36 @@ If there is no parent then this will return a matrix the same as this transforms
     </div>
 
     <div class="description">
-        <p>Return a Point representing the X and Y values of the transform. If none is given a new Point objected will be created.</p>
+        <p>Return a Point representing the X and Y values of the transform.
+If no point is given a new Point objected will be created.</p>
 
     </div>
 
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[output]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The Point to output the coordinates into. Creates a new Point if none given.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -1707,7 +1631,7 @@ If there is no parent then this will return a matrix the same as this transforms
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>:
                     
                     <p>A point representing the X and Y values of the transform.</p>
 
@@ -1758,7 +1682,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l41"><code>src\geom\Transform.ts:41</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l42"><code>src\geom\Transform.ts:42</code></a>
         
         </p>
 
@@ -1784,113 +1708,7 @@ If there is no parent then this will return a matrix the same as this transforms
                     
                         <span class="type">String</span>:
                     
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_scale" class="method item public">
-    <h3 class="name"><code>scale</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>value</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Transform.ts.html#l375"><code>src\geom\Transform.ts:375</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Set the X and Y scale value of the transform.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">value</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>:
-                    
-                    <p>This object.</p>
+                    <p>&quot;Transform&quot;</p>
 
                 
             </div>
@@ -1926,7 +1744,7 @@ If there is no parent then this will return a matrix the same as this transforms
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
         </span>
     
 
@@ -1955,7 +1773,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l313"><code>src\geom\Transform.ts:313</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l324"><code>src\geom\Transform.ts:324</code></a>
         
         </p>
 
@@ -1985,8 +1803,7 @@ If there is no parent then this will return a matrix the same as this transforms
                     
 
                     <div class="param-description">
-                        <p>x.</p>
-
+                         
                     </div>
 
                     
@@ -2001,8 +1818,7 @@ If there is no parent then this will return a matrix the same as this transforms
                     
 
                     <div class="param-description">
-                        <p>y.</p>
-
+                         
                     </div>
 
                     
@@ -2019,7 +1835,7 @@ If there is no parent then this will return a matrix the same as this transforms
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>:
                     
                     <p>This object.</p>
 
@@ -2051,7 +1867,7 @@ If there is no parent then this will return a matrix the same as this transforms
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
         </span>
     
 
@@ -2080,7 +1896,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l330"><code>src\geom\Transform.ts:330</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l341"><code>src\geom\Transform.ts:341</code></a>
         
         </p>
 
@@ -2104,7 +1920,7 @@ If there is no parent then this will return a matrix the same as this transforms
                 <li class="param">
                     
                         <code class="param-name">point</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
                     
 
                     
@@ -2128,7 +1944,7 @@ If there is no parent then this will return a matrix the same as this transforms
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>:
                     
                     <p>This object.</p>
 
@@ -2150,43 +1966,43 @@ If there is no parent then this will return a matrix the same as this transforms
             
                 <li class="arg">
                     
-                        <code>x</code>
+                        <code class="optional">[x=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>y</code>
+                        <code class="optional">[y=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>scaleX</code>
+                        <code class="optional">[scaleX=1]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>scaleY</code>
+                        <code class="optional">[scaleY=1]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>rotation</code>
+                        <code class="optional">[rotation=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>rotX</code>
+                        <code class="optional">[rotX=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>rotY</code>
+                        <code class="optional">[rotY=0]</code>
                     
                 </li>
             
@@ -2196,7 +2012,7 @@ If there is no parent then this will return a matrix the same as this transforms
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
         </span>
     
 
@@ -2225,7 +2041,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l390"><code>src\geom\Transform.ts:390</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l406"><code>src\geom\Transform.ts:406</code></a>
         
         </p>
 
@@ -2236,7 +2052,7 @@ If there is no parent then this will return a matrix the same as this transforms
     </div>
 
     <div class="description">
-        <p>Set the core properties of the transform</p>
+        <p>Set the core properties of the transform.</p>
 
     </div>
 
@@ -2248,14 +2064,15 @@ If there is no parent then this will return a matrix the same as this transforms
             
                 <li class="param">
                     
-                        <code class="param-name">x</code>
+                        <code class="param-name optional">[x=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>x. X position of the transform.</p>
+                        <p>X position of the transform.</p>
 
                     </div>
 
@@ -2264,14 +2081,15 @@ If there is no parent then this will return a matrix the same as this transforms
             
                 <li class="param">
                     
-                        <code class="param-name">y</code>
+                        <code class="param-name optional">[y=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>y. Y position of the transform.</p>
+                        <p>Y position of the transform.</p>
 
                     </div>
 
@@ -2280,14 +2098,15 @@ If there is no parent then this will return a matrix the same as this transforms
             
                 <li class="param">
                     
-                        <code class="param-name">scaleX</code>
+                        <code class="param-name optional">[scaleX=1]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>scaleX. X scaling of the transform.</p>
+                        <p>X scaling of the transform.</p>
 
                     </div>
 
@@ -2296,14 +2115,15 @@ If there is no parent then this will return a matrix the same as this transforms
             
                 <li class="param">
                     
-                        <code class="param-name">scaleY</code>
+                        <code class="param-name optional">[scaleY=1]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>scaleY. Y scaling of the transform.</p>
+                        <p>Y scaling of the transform.</p>
 
                     </div>
 
@@ -2312,14 +2132,15 @@ If there is no parent then this will return a matrix the same as this transforms
             
                 <li class="param">
                     
-                        <code class="param-name">rotation</code>
+                        <code class="param-name optional">[rotation=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>rotation. Rotation of the transform in radians.</p>
+                        <p>Rotation of the transform in radians.</p>
 
                     </div>
 
@@ -2328,14 +2149,15 @@ If there is no parent then this will return a matrix the same as this transforms
             
                 <li class="param">
                     
-                        <code class="param-name">rotX</code>
+                        <code class="param-name optional">[rotX=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>rotX. Rotation offset on X axis.</p>
+                        <p>rotationPoint offset on X axis.</p>
 
                     </div>
 
@@ -2344,14 +2166,15 @@ If there is no parent then this will return a matrix the same as this transforms
             
                 <li class="param">
                     
-                        <code class="param-name">rotY</code>
+                        <code class="param-name optional">[rotY=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>rotY. Rotation offset on Y axis.</p>
+                        <p>rotationPoint offset on Y axis.</p>
 
                     </div>
 
@@ -2369,7 +2192,7 @@ If there is no parent then this will return a matrix the same as this transforms
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>:
                     
                     <p>This object.</p>
 
@@ -2420,7 +2243,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l586"><code>src\geom\Transform.ts:586</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l574"><code>src\geom\Transform.ts:574</code></a>
         
         </p>
 
@@ -2476,7 +2299,7 @@ If there is no parent then this will return a matrix the same as this transforms
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
         </span>
     
 
@@ -2505,7 +2328,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l497"><code>src\geom\Transform.ts:497</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l484"><code>src\geom\Transform.ts:484</code></a>
         
         </p>
 
@@ -2529,14 +2352,13 @@ If there is no parent then this will return a matrix the same as this transforms
                 <li class="param">
                     
                         <code class="param-name">point</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>point</p>
-
+                         
                     </div>
 
                     
@@ -2553,7 +2375,7 @@ If there is no parent then this will return a matrix the same as this transforms
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>:
                     
                 
             </div>
@@ -2564,7 +2386,7 @@ If there is no parent then this will return a matrix the same as this transforms
 </div>
 
                 
-                    <div id="method_translatePositionFromPoint" class="method item">
+                    <div id="method_translatePositionFromPoint" class="method item public">
     <h3 class="name"><code>translatePositionFromPoint</code></h3>
 
     
@@ -2583,12 +2405,14 @@ If there is no parent then this will return a matrix the same as this transforms
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2610,7 +2434,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l347"><code>src\geom\Transform.ts:347</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l358"><code>src\geom\Transform.ts:358</code></a>
         
         </p>
 
@@ -2634,7 +2458,7 @@ If there is no parent then this will return a matrix the same as this transforms
                 <li class="param">
                     
                         <code class="param-name">point</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
                     
 
                     
@@ -2658,7 +2482,7 @@ If there is no parent then this will return a matrix the same as this transforms
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>:
                     
                     <p>This object.</p>
 
@@ -2681,7 +2505,7 @@ If there is no parent then this will return a matrix the same as this transforms
                 
                     <div id="property__cachedConcatenatedMatrix" class="property item private">
     <h3 class="name"><code>_cachedConcatenatedMatrix</code></h3>
-    <span class="type"><a href="..\classes\Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
+    <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
 
     
 
@@ -2704,7 +2528,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l255"><code>src\geom\Transform.ts:255</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l263"><code>src\geom\Transform.ts:263</code></a>
         
         </p>
 
@@ -2726,14 +2550,14 @@ If there is no parent then this will return a matrix the same as this transforms
 </div>
 
                 
-                    <div id="property__matrix" class="property item protected">
+                    <div id="property__matrix" class="property item private">
     <h3 class="name"><code>_matrix</code></h3>
-    <span class="type">Object</span>
+    <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
 
     
 
     
-        <span class="flag protected">protected</span>
+        <span class="flag private">private</span>
     
 
     
@@ -2751,7 +2575,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l236"><code>src\geom\Transform.ts:236</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l242"><code>src\geom\Transform.ts:242</code></a>
         
         </p>
 
@@ -2775,7 +2599,7 @@ If there is no parent then this will return a matrix the same as this transforms
                 
                     <div id="property__parent" class="property item private">
     <h3 class="name"><code>_parent</code></h3>
-    <span class="type"><a href="..\classes\Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
+    <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
 
     
 
@@ -2798,7 +2622,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l288"><code>src\geom\Transform.ts:288</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l298"><code>src\geom\Transform.ts:298</code></a>
         
         </p>
 
@@ -2812,6 +2636,8 @@ If there is no parent then this will return a matrix the same as this transforms
 
     </div>
 
+    
+        <p><strong>Default:</strong> null</p>
     
 
     
@@ -2845,7 +2671,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l142"><code>src\geom\Transform.ts:142</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l144"><code>src\geom\Transform.ts:144</code></a>
         
         </p>
 
@@ -2859,6 +2685,8 @@ If there is no parent then this will return a matrix the same as this transforms
 
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -2892,7 +2720,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l164"><code>src\geom\Transform.ts:164</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l167"><code>src\geom\Transform.ts:167</code></a>
         
         </p>
 
@@ -2906,6 +2734,8 @@ If there is no parent then this will return a matrix the same as this transforms
 
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -2939,7 +2769,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l186"><code>src\geom\Transform.ts:186</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l191"><code>src\geom\Transform.ts:191</code></a>
         
         </p>
 
@@ -2953,6 +2783,8 @@ If there is no parent then this will return a matrix the same as this transforms
 
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -2986,7 +2818,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l97"><code>src\geom\Transform.ts:97</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l99"><code>src\geom\Transform.ts:99</code></a>
         
         </p>
 
@@ -3000,6 +2832,8 @@ If there is no parent then this will return a matrix the same as this transforms
 
     </div>
 
+    
+        <p><strong>Default:</strong> 1</p>
     
 
     
@@ -3033,7 +2867,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l120"><code>src\geom\Transform.ts:120</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l122"><code>src\geom\Transform.ts:122</code></a>
         
         </p>
 
@@ -3047,6 +2881,8 @@ If there is no parent then this will return a matrix the same as this transforms
 
     </div>
 
+    
+        <p><strong>Default:</strong> 1</p>
     
 
     
@@ -3080,7 +2916,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l51"><code>src\geom\Transform.ts:51</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l52"><code>src\geom\Transform.ts:52</code></a>
         
         </p>
 
@@ -3094,6 +2930,8 @@ If there is no parent then this will return a matrix the same as this transforms
 
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -3127,7 +2965,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l74"><code>src\geom\Transform.ts:74</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l76"><code>src\geom\Transform.ts:76</code></a>
         
         </p>
 
@@ -3142,6 +2980,8 @@ If there is no parent then this will return a matrix the same as this transforms
     </div>
 
     
+        <p><strong>Default:</strong> 0</p>
+    
 
     
 
@@ -3149,12 +2989,14 @@ If there is no parent then this will return a matrix the same as this transforms
 </div>
 
                 
-                    <div id="property_matrix" class="property item">
-    <h3 class="name"><code>matrix</code></h3>
-    <span class="type">Unknown</span>
+                    <div id="property_anchorPointX" class="property item public">
+    <h3 class="name"><code>anchorPointX</code></h3>
+    <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -3172,7 +3014,105 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l244"><code>src\geom\Transform.ts:244</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l214"><code>src\geom\Transform.ts:214</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Return the anchor point value from the X axis. (Aliases to rotPointX.)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_anchorPointY" class="property item public">
+    <h3 class="name"><code>anchorPointY</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Transform.ts.html#l228"><code>src\geom\Transform.ts:228</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Return the anchor point value from the Y axis. (Aliases to rotPointY.)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_matrix" class="property item public">
+    <h3 class="name"><code>matrix</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Transform.ts.html#l250"><code>src\geom\Transform.ts:250</code></a>
         
         </p>
 
@@ -3196,7 +3136,7 @@ If there is no parent then this will return a matrix the same as this transforms
                 
                     <div id="property_parent" class="property item public">
     <h3 class="name"><code>parent</code></h3>
-    <span class="type">Unknown</span>
+    <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
 
     
 
@@ -3219,7 +3159,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l296"><code>src\geom\Transform.ts:296</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l307"><code>src\geom\Transform.ts:307</code></a>
         
         </p>
 
@@ -3229,10 +3169,12 @@ If there is no parent then this will return a matrix the same as this transforms
     </div>
 
     <div class="description">
-        <p>Return the parent Transform, if any.</p>
+        <p>Return the parent Transform. If the transform does not have a parent this null is returned.</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> null</p>
     
 
     
@@ -3243,7 +3185,7 @@ If there is no parent then this will return a matrix the same as this transforms
                 
                     <div id="property_rotation" class="property item public">
     <h3 class="name"><code>rotation</code></h3>
-    <span class="type">Unknown</span>
+    <span class="type">Number</span>
 
     
 
@@ -3266,7 +3208,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l150"><code>src\geom\Transform.ts:150</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l153"><code>src\geom\Transform.ts:153</code></a>
         
         </p>
 
@@ -3290,7 +3232,7 @@ If there is no parent then this will return a matrix the same as this transforms
                 
                     <div id="property_rotPointX" class="property item public">
     <h3 class="name"><code>rotPointX</code></h3>
-    <span class="type">Unknown</span>
+    <span class="type">Number</span>
 
     
 
@@ -3313,7 +3255,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l172"><code>src\geom\Transform.ts:172</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l176"><code>src\geom\Transform.ts:176</code></a>
         
         </p>
 
@@ -3324,6 +3266,104 @@ If there is no parent then this will return a matrix the same as this transforms
 
     <div class="description">
         <p>Return the rotation offset from the x axis.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_rotPointY" class="property item public">
+    <h3 class="name"><code>rotPointY</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Transform.ts.html#l200"><code>src\geom\Transform.ts:200</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Return the rotation offset from the y axis.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_scale" class="property item public">
+    <h3 class="name"><code>scale</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Transform.ts.html#l390"><code>src\geom\Transform.ts:390</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Set the X and Y scale value of the transform.
+This property is set only. 
+In the future this will be looked into and updated as needed.</p>
 
     </div>
 
@@ -3360,7 +3400,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l105"><code>src\geom\Transform.ts:105</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l108"><code>src\geom\Transform.ts:108</code></a>
         
         </p>
 
@@ -3407,7 +3447,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l128"><code>src\geom\Transform.ts:128</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l131"><code>src\geom\Transform.ts:131</code></a>
         
         </p>
 
@@ -3431,7 +3471,7 @@ If there is no parent then this will return a matrix the same as this transforms
                 
                     <div id="property_worldX" class="property item public">
     <h3 class="name"><code>worldX</code></h3>
-    <span class="type">Unknown</span>
+    <span class="type">Number</span>
 
     
 
@@ -3454,7 +3494,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l263"><code>src\geom\Transform.ts:263</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l271"><code>src\geom\Transform.ts:271</code></a>
         
         </p>
 
@@ -3478,7 +3518,7 @@ If there is no parent then this will return a matrix the same as this transforms
                 
                     <div id="property_worldY" class="property item public">
     <h3 class="name"><code>worldY</code></h3>
-    <span class="type">Unknown</span>
+    <span class="type">Number</span>
 
     
 
@@ -3501,7 +3541,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l275"><code>src\geom\Transform.ts:275</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l284"><code>src\geom\Transform.ts:284</code></a>
         
         </p>
 
@@ -3523,12 +3563,14 @@ If there is no parent then this will return a matrix the same as this transforms
 </div>
 
                 
-                    <div id="property_x" class="property item">
+                    <div id="property_x" class="property item public">
     <h3 class="name"><code>x</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -3546,7 +3588,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l59"><code>src\geom\Transform.ts:59</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l61"><code>src\geom\Transform.ts:61</code></a>
         
         </p>
 
@@ -3593,7 +3635,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l82"><code>src\geom\Transform.ts:82</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l85"><code>src\geom\Transform.ts:85</code></a>
         
         </p>
 

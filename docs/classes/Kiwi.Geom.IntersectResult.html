@@ -373,6 +373,9 @@
 <div class="box intro">
     <p>A Lightweight object to hold the results of an Intersection. 
 Used in combination with the STATIC methods on the Intersect class.</p>
+<p>If you are using the Intersect methods a lot, you may want to consider
+creating a IntersectResult class a reusing it (by passing it to the methods on the Intersect class)
+instead of having new IntersectResults created.</p>
 
 </div>
 
@@ -466,7 +469,7 @@ Used in combination with the STATIC methods on the Intersect class.</p>
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_setTo">setTo</a>
 
                                 
@@ -483,63 +486,63 @@ Used in combination with the STATIC methods on the Intersect class.</p>
 
                     <ul class="index-list properties">
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_height">height</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_result">result</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_width">width</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_x">x</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_x1">x1</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_x2">x2</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_y">y</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_y1">y1</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_y2">y2</a>
 
                                 
@@ -598,7 +601,7 @@ Used in combination with the STATIC methods on the Intersect class.</p>
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l19"><code>src\geom\IntersectResult.ts:19</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l24"><code>src\geom\IntersectResult.ts:24</code></a>
         
         </p>
 
@@ -624,6 +627,8 @@ Used in combination with the STATIC methods on the Intersect class.</p>
                     
                         <span class="type">String</span>:
                     
+                    <p>&quot;IntersectResult&quot;</p>
+
                 
             </div>
         </div>
@@ -633,7 +638,7 @@ Used in combination with the STATIC methods on the Intersect class.</p>
 </div>
 
                 
-                    <div id="method_setTo" class="method item">
+                    <div id="method_setTo" class="method item public">
     <h3 class="name"><code>setTo</code></h3>
 
     
@@ -685,6 +690,8 @@ Used in combination with the STATIC methods on the Intersect class.</p>
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -705,7 +712,7 @@ Used in combination with the STATIC methods on the Intersect class.</p>
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l98"><code>src\geom\IntersectResult.ts:98</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l112"><code>src\geom\IntersectResult.ts:112</code></a>
         
         </p>
 
@@ -838,12 +845,14 @@ Used in combination with the STATIC methods on the Intersect class.</p>
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_height" class="property item">
+                    <div id="property_height" class="property item public">
     <h3 class="name"><code>height</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -861,7 +870,7 @@ Used in combination with the STATIC methods on the Intersect class.</p>
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l91"><code>src\geom\IntersectResult.ts:91</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l104"><code>src\geom\IntersectResult.ts:104</code></a>
         
         </p>
 
@@ -883,12 +892,14 @@ Used in combination with the STATIC methods on the Intersect class.</p>
 </div>
 
                 
-                    <div id="property_result" class="property item">
+                    <div id="property_result" class="property item public">
     <h3 class="name"><code>result</code></h3>
     <span class="type">Boolean</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -906,7 +917,7 @@ Used in combination with the STATIC methods on the Intersect class.</p>
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l29"><code>src\geom\IntersectResult.ts:29</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l34"><code>src\geom\IntersectResult.ts:34</code></a>
         
         </p>
 
@@ -931,12 +942,14 @@ TRUE means an Intersection did occur and FALSE means not.</p>
 </div>
 
                 
-                    <div id="property_width" class="property item">
+                    <div id="property_width" class="property item public">
     <h3 class="name"><code>width</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -954,7 +967,7 @@ TRUE means an Intersection did occur and FALSE means not.</p>
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l84"><code>src\geom\IntersectResult.ts:84</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l96"><code>src\geom\IntersectResult.ts:96</code></a>
         
         </p>
 
@@ -976,12 +989,14 @@ TRUE means an Intersection did occur and FALSE means not.</p>
 </div>
 
                 
-                    <div id="property_x" class="property item">
+                    <div id="property_x" class="property item public">
     <h3 class="name"><code>x</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -999,7 +1014,7 @@ TRUE means an Intersection did occur and FALSE means not.</p>
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l38"><code>src\geom\IntersectResult.ts:38</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l44"><code>src\geom\IntersectResult.ts:44</code></a>
         
         </p>
 
@@ -1023,13 +1038,15 @@ and a Intersection occured.</p>
 </div>
 
                 
-                    <div id="property_x1" class="property item">
+                    <div id="property_x1" class="property item public">
     <h3 class="name"><code>x1</code></h3>
     <span class="type">Number</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1046,7 +1063,7 @@ and a Intersection occured.</p>
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l56"><code>src\geom\IntersectResult.ts:56</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l64"><code>src\geom\IntersectResult.ts:64</code></a>
         
         </p>
 
@@ -1068,13 +1085,15 @@ and a Intersection occured.</p>
 </div>
 
                 
-                    <div id="property_x2" class="property item">
+                    <div id="property_x2" class="property item public">
     <h3 class="name"><code>x2</code></h3>
     <span class="type">Number</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1091,7 +1110,7 @@ and a Intersection occured.</p>
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l70"><code>src\geom\IntersectResult.ts:70</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l80"><code>src\geom\IntersectResult.ts:80</code></a>
         
         </p>
 
@@ -1113,12 +1132,14 @@ and a Intersection occured.</p>
 </div>
 
                 
-                    <div id="property_y" class="property item">
+                    <div id="property_y" class="property item public">
     <h3 class="name"><code>y</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1136,7 +1157,7 @@ and a Intersection occured.</p>
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l47"><code>src\geom\IntersectResult.ts:47</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l54"><code>src\geom\IntersectResult.ts:54</code></a>
         
         </p>
 
@@ -1160,12 +1181,14 @@ and a Intersection occured.</p>
 </div>
 
                 
-                    <div id="property_y1" class="property item">
+                    <div id="property_y1" class="property item public">
     <h3 class="name"><code>y1</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1183,7 +1206,7 @@ and a Intersection occured.</p>
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l63"><code>src\geom\IntersectResult.ts:63</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l72"><code>src\geom\IntersectResult.ts:72</code></a>
         
         </p>
 
@@ -1205,12 +1228,14 @@ and a Intersection occured.</p>
 </div>
 
                 
-                    <div id="property_y2" class="property item">
+                    <div id="property_y2" class="property item public">
     <h3 class="name"><code>y2</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1228,7 +1253,7 @@ and a Intersection occured.</p>
             
         
         
-        <a href="../files/src_geom_IntersectResult.ts.html#l77"><code>src\geom\IntersectResult.ts:77</code></a>
+        <a href="../files/src_geom_IntersectResult.ts.html#l88"><code>src\geom\IntersectResult.ts:88</code></a>
         
         </p>
 

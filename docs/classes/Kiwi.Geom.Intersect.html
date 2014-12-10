@@ -371,7 +371,12 @@
 
 
 <div class="box intro">
-    <p>Contains a collection of STATIC methods to help determine and return intersection between geometric objects.</p>
+    <p>Contains a collection of STATIC methods for determining intersections between geometric objects.</p>
+<p>May methods contained here store the results of the intersections in a &#39;IntersectResult&#39; Object, 
+which is either created for you (by the methods which require it) OR you can pass one to use instead. </p>
+<p>If you are using the Intersect methods a lot, you may want to consider
+creating a IntersectResult class a reusing it (by passing it to the methods on the Intersect class)
+instead of having new IntersectResults created.</p>
 
 </div>
 
@@ -614,7 +619,7 @@
             
                 <li class="arg">
                     
-                        <code class="optional">[output=IntersectResult]</code>
+                        <code class="optional">[output]</code>
                     
                 </li>
             
@@ -624,7 +629,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
         </span>
     
 
@@ -655,7 +660,7 @@
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l549"><code>src\geom\Intersect.ts:549</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l571"><code>src\geom\Intersect.ts:571</code></a>
         
         </p>
 
@@ -679,7 +684,7 @@
                 <li class="param">
                     
                         <code class="param-name">circle</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Circle.html" class="crosslink">Kiwi.Geom.Circle</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Circle.html" class="crosslink">Kiwi.Geom.Circle</a></span>
                     
 
                     
@@ -695,7 +700,7 @@
                 <li class="param">
                     
                         <code class="param-name">point</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
                     
 
                     
@@ -710,15 +715,15 @@
             
                 <li class="param">
                     
-                        <code class="param-name optional">[output=IntersectResult]</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+                        <code class="param-name optional">[output]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>An optional IntersectResult object to store the intersection values in (one is created if none given)</p>
+                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
 
                     </div>
 
@@ -736,7 +741,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
                     
                     <p>An IntersectResult object containing the results of this intersection</p>
 
@@ -770,7 +775,7 @@
             
                 <li class="arg">
                     
-                        <code class="optional">[output=IntersectResult]</code>
+                        <code class="optional">[output]</code>
                     
                 </li>
             
@@ -780,7 +785,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
         </span>
     
 
@@ -811,7 +816,7 @@
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l509"><code>src\geom\Intersect.ts:509</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l529"><code>src\geom\Intersect.ts:529</code></a>
         
         </p>
 
@@ -835,7 +840,7 @@
                 <li class="param">
                     
                         <code class="param-name">circle1</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Circle.html" class="crosslink">Kiwi.Geom.Circle</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Circle.html" class="crosslink">Kiwi.Geom.Circle</a></span>
                     
 
                     
@@ -851,7 +856,7 @@
                 <li class="param">
                     
                         <code class="param-name">circle2</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Circle.html" class="crosslink">Kiwi.Geom.Circle</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Circle.html" class="crosslink">Kiwi.Geom.Circle</a></span>
                     
 
                     
@@ -866,15 +871,15 @@
             
                 <li class="param">
                     
-                        <code class="param-name optional">[output=IntersectResult]</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+                        <code class="param-name optional">[output]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>An optional IntersectResult object to store the intersection values in (one is created if none given)</p>
+                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
 
                     </div>
 
@@ -892,7 +897,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
                     
                     <p>An IntersectResult object containing the results of this intersection</p>
 
@@ -926,7 +931,7 @@
             
                 <li class="arg">
                     
-                        <code class="optional">[output=IntersectResult]</code>
+                        <code class="optional">[output]</code>
                     
                 </li>
             
@@ -936,7 +941,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
         </span>
     
 
@@ -967,7 +972,7 @@
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l527"><code>src\geom\Intersect.ts:527</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l548"><code>src\geom\Intersect.ts:548</code></a>
         
         </p>
 
@@ -991,7 +996,7 @@
                 <li class="param">
                     
                         <code class="param-name">circle</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Circle.html" class="crosslink">Kiwi.Geom.Circle</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Circle.html" class="crosslink">Kiwi.Geom.Circle</a></span>
                     
 
                     
@@ -1007,7 +1012,7 @@
                 <li class="param">
                     
                         <code class="param-name">rect</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
                     
 
                     
@@ -1022,15 +1027,15 @@
             
                 <li class="param">
                     
-                        <code class="param-name optional">[output=IntersectResult]</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+                        <code class="param-name optional">[output]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>An optional IntersectResult object to store the intersection values in (one is created if none given)</p>
+                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
 
                     </div>
 
@@ -1048,7 +1053,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
                     
                     <p>An IntersectResult object containing the results of this intersection</p>
 
@@ -1129,7 +1134,7 @@
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l34"><code>src\geom\Intersect.ts:34</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l41"><code>src\geom\Intersect.ts:41</code></a>
         
         </p>
 
@@ -1306,7 +1311,7 @@
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l49"><code>src\geom\Intersect.ts:49</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l56"><code>src\geom\Intersect.ts:56</code></a>
         
         </p>
 
@@ -1436,7 +1441,7 @@
             
                 <li class="arg">
                     
-                        <code class="optional">[output=IntersectResult]</code>
+                        <code class="optional">[output]</code>
                     
                 </li>
             
@@ -1446,7 +1451,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
         </span>
     
 
@@ -1477,7 +1482,7 @@
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l378"><code>src\geom\Intersect.ts:378</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l395"><code>src\geom\Intersect.ts:395</code></a>
         
         </p>
 
@@ -1502,7 +1507,7 @@ Note: The Line only exists between its two points.</p>
                 <li class="param">
                     
                         <code class="param-name">seg</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
                     
 
                     
@@ -1518,7 +1523,7 @@ Note: The Line only exists between its two points.</p>
                 <li class="param">
                     
                         <code class="param-name">rect</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
                     
 
                     
@@ -1533,15 +1538,15 @@ Note: The Line only exists between its two points.</p>
             
                 <li class="param">
                     
-                        <code class="param-name optional">[output=IntersectResult]</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+                        <code class="param-name optional">[output]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>An optional IntersectResult object to store the intersection values in (one is created if none given).</p>
+                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
 
                     </div>
 
@@ -1559,7 +1564,7 @@ Note: The Line only exists between its two points.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
                     
                     <p>An IntersectResult object containing the results of this intersection in x/y.</p>
 
@@ -1593,7 +1598,7 @@ Note: The Line only exists between its two points.</p>
             
                 <li class="arg">
                     
-                        <code class="optional">[ouput=IntersectResult]</code>
+                        <code class="optional">[ouput]</code>
                     
                 </li>
             
@@ -1603,7 +1608,7 @@ Note: The Line only exists between its two points.</p>
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
         </span>
     
 
@@ -1634,7 +1639,7 @@ Note: The Line only exists between its two points.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l337"><code>src\geom\Intersect.ts:337</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l353"><code>src\geom\Intersect.ts:353</code></a>
         
         </p>
 
@@ -1659,7 +1664,7 @@ Note the Line only exists between its point points.</p>
                 <li class="param">
                     
                         <code class="param-name">seg</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
                     
 
                     
@@ -1675,7 +1680,7 @@ Note the Line only exists between its point points.</p>
                 <li class="param">
                     
                         <code class="param-name">circle</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Circle.html" class="crosslink">Kiwi.Geom.Circle</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Circle.html" class="crosslink">Kiwi.Geom.Circle</a></span>
                     
 
                     
@@ -1690,15 +1695,15 @@ Note the Line only exists between its point points.</p>
             
                 <li class="param">
                     
-                        <code class="param-name optional">[ouput=IntersectResult]</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+                        <code class="param-name optional">[ouput]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>An optional IntersectResult object to store the intersection values in (one is created if none given)</p>
+                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
 
                     </div>
 
@@ -1716,7 +1721,7 @@ Note the Line only exists between its point points.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
                     
                     <p>An IntersectResult object containing the results of this intersection in x/y</p>
 
@@ -1750,7 +1755,7 @@ Note the Line only exists between its point points.</p>
             
                 <li class="arg">
                     
-                        <code class="optional">[output=IntersectResult]</code>
+                        <code class="optional">[output]</code>
                     
                 </li>
             
@@ -1760,7 +1765,7 @@ Note the Line only exists between its point points.</p>
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
         </span>
     
 
@@ -1791,7 +1796,7 @@ Note the Line only exists between its point points.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l282"><code>src\geom\Intersect.ts:282</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l296"><code>src\geom\Intersect.ts:296</code></a>
         
         </p>
 
@@ -1816,7 +1821,7 @@ Note: Both lines are treated as if they only exist between their two line coordi
                 <li class="param">
                     
                         <code class="param-name">line1</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
                     
 
                     
@@ -1832,7 +1837,7 @@ Note: Both lines are treated as if they only exist between their two line coordi
                 <li class="param">
                     
                         <code class="param-name">line2</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
                     
 
                     
@@ -1847,15 +1852,15 @@ Note: Both lines are treated as if they only exist between their two line coordi
             
                 <li class="param">
                     
-                        <code class="param-name optional">[output=IntersectResult]</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+                        <code class="param-name optional">[output]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>An optional IntersectResult object to store the intersection values in (one is created if none given)</p>
+                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
 
                     </div>
 
@@ -1873,7 +1878,7 @@ Note: Both lines are treated as if they only exist between their two line coordi
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
                     
                     <p>An IntersectResult object containing the results of this intersection in x/y.</p>
 
@@ -1907,7 +1912,7 @@ Note: Both lines are treated as if they only exist between their two line coordi
             
                 <li class="arg">
                     
-                        <code class="optional">[output=IntersectResult]</code>
+                        <code class="optional">[output]</code>
                     
                 </li>
             
@@ -1917,7 +1922,7 @@ Note: Both lines are treated as if they only exist between their two line coordi
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
         </span>
     
 
@@ -1948,7 +1953,7 @@ Note: Both lines are treated as if they only exist between their two line coordi
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l309"><code>src\geom\Intersect.ts:309</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l324"><code>src\geom\Intersect.ts:324</code></a>
         
         </p>
 
@@ -1973,7 +1978,7 @@ Note: The Line only exists between its two points.</p>
                 <li class="param">
                     
                         <code class="param-name">line1</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
                     
 
                     
@@ -1989,7 +1994,7 @@ Note: The Line only exists between its two points.</p>
                 <li class="param">
                     
                         <code class="param-name">ray</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
                     
 
                     
@@ -2004,15 +2009,15 @@ Note: The Line only exists between its two points.</p>
             
                 <li class="param">
                     
-                        <code class="param-name optional">[output=IntersectResult]</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+                        <code class="param-name optional">[output]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>An optional IntersectResult object to store the intersection values in (one is created if none given)</p>
+                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
 
                     </div>
 
@@ -2030,7 +2035,7 @@ Note: The Line only exists between its two points.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
                     
                     <p>An IntersectResult object containing the results of this intersection in x/y</p>
 
@@ -2064,7 +2069,7 @@ Note: The Line only exists between its two points.</p>
             
                 <li class="arg">
                     
-                        <code class="optional">[output=Intersect]</code>
+                        <code class="optional">[output]</code>
                     
                 </li>
             
@@ -2074,7 +2079,7 @@ Note: The Line only exists between its two points.</p>
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
         </span>
     
 
@@ -2105,7 +2110,7 @@ Note: The Line only exists between its two points.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l209"><code>src\geom\Intersect.ts:209</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l221"><code>src\geom\Intersect.ts:221</code></a>
         
         </p>
 
@@ -2130,7 +2135,7 @@ Note: The line passed is assumed to extend infinately through space.</p>
                 <li class="param">
                     
                         <code class="param-name">line</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
                     
 
                     
@@ -2146,7 +2151,7 @@ Note: The line passed is assumed to extend infinately through space.</p>
                 <li class="param">
                     
                         <code class="param-name">circle</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Circle.html" class="crosslink">Kiwi.Geom.Circle</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Circle.html" class="crosslink">Kiwi.Geom.Circle</a></span>
                     
 
                     
@@ -2161,7 +2166,7 @@ Note: The line passed is assumed to extend infinately through space.</p>
             
                 <li class="param">
                     
-                        <code class="param-name optional">[output=Intersect]</code>
+                        <code class="param-name optional">[output]</code>
                         <span class="type">IntersectResult</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
@@ -2169,7 +2174,7 @@ Note: The line passed is assumed to extend infinately through space.</p>
                     
 
                     <div class="param-description">
-                        <p>An optional IntersectResult object to store the intersection values in (one is created if none given)</p>
+                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
 
                     </div>
 
@@ -2187,7 +2192,7 @@ Note: The line passed is assumed to extend infinately through space.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
                     
                     <p>An IntersectResult object containing the results of this intersection</p>
 
@@ -2221,7 +2226,7 @@ Note: The line passed is assumed to extend infinately through space.</p>
             
                 <li class="arg">
                     
-                        <code class="optional">[output=IntersectResult]</code>
+                        <code class="optional">[output]</code>
                     
                 </li>
             
@@ -2231,7 +2236,7 @@ Note: The line passed is assumed to extend infinately through space.</p>
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
         </span>
     
 
@@ -2262,7 +2267,7 @@ Note: The line passed is assumed to extend infinately through space.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l70"><code>src\geom\Intersect.ts:70</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l78"><code>src\geom\Intersect.ts:78</code></a>
         
         </p>
 
@@ -2287,13 +2292,13 @@ Both lines are treated as if they extend infintely through space.</p>
                 <li class="param">
                     
                         <code class="param-name">line1</code>
-                        <span class="type">Line</span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The first line object to check</p>
+                        <p>The first line object to check.</p>
 
                     </div>
 
@@ -2303,13 +2308,13 @@ Both lines are treated as if they extend infintely through space.</p>
                 <li class="param">
                     
                         <code class="param-name">line2</code>
-                        <span class="type">Line</span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The second line object to check</p>
+                        <p>The second line object to check.</p>
 
                     </div>
 
@@ -2318,15 +2323,15 @@ Both lines are treated as if they extend infintely through space.</p>
             
                 <li class="param">
                     
-                        <code class="param-name optional">[output=IntersectResult]</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+                        <code class="param-name optional">[output]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>An optional IntersectResult object to store the intersection values in. (One is created if none given)</p>
+                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
 
                     </div>
 
@@ -2344,7 +2349,7 @@ Both lines are treated as if they extend infintely through space.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
                     
                     <p>An IntersectResult object containing the results of this intersection in x/y</p>
 
@@ -2378,7 +2383,7 @@ Both lines are treated as if they extend infintely through space.</p>
             
                 <li class="arg">
                     
-                        <code class="optional">[output=IntersectResult]</code>
+                        <code class="optional">[output]</code>
                     
                 </li>
             
@@ -2388,7 +2393,7 @@ Both lines are treated as if they extend infintely through space.</p>
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
         </span>
     
 
@@ -2419,7 +2424,7 @@ Both lines are treated as if they extend infintely through space.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l95"><code>src\geom\Intersect.ts:95</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l104"><code>src\geom\Intersect.ts:104</code></a>
         
         </p>
 
@@ -2445,7 +2450,7 @@ The second is treated as if it only exists between its two points.</p>
                 <li class="param">
                     
                         <code class="param-name">line1</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
                     
 
                     
@@ -2461,7 +2466,7 @@ The second is treated as if it only exists between its two points.</p>
                 <li class="param">
                     
                         <code class="param-name">seg</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
                     
 
                     
@@ -2476,15 +2481,15 @@ The second is treated as if it only exists between its two points.</p>
             
                 <li class="param">
                     
-                        <code class="param-name optional">[output=IntersectResult]</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+                        <code class="param-name optional">[output]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>An optional IntersectResult object to store the intersection values in (one is created if none given)</p>
+                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
 
                     </div>
 
@@ -2502,7 +2507,7 @@ The second is treated as if it only exists between its two points.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
                     
                     <p>An IntersectResult object containing the results of this intersection.</p>
 
@@ -2554,7 +2559,7 @@ The second is treated as if it only exists between its two points.</p>
             
                 <li class="arg">
                     
-                        <code class="optional">[output=IntersectResult]</code>
+                        <code class="optional">[output]</code>
                     
                 </li>
             
@@ -2564,7 +2569,7 @@ The second is treated as if it only exists between its two points.</p>
 
     
         <span class="returns-inline">
-            <span class="type">IntersectResult</span>
+            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
         </span>
     
 
@@ -2595,7 +2600,7 @@ The second is treated as if it only exists between its two points.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l133"><code>src\geom\Intersect.ts:133</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l143"><code>src\geom\Intersect.ts:143</code></a>
         
         </p>
 
@@ -2606,7 +2611,7 @@ The second is treated as if it only exists between its two points.</p>
     </div>
 
     <div class="description">
-        <p>Checks to see if a Line that is passed, intersects at any point another Line that is made by passing a set of coordinates to this method. 
+        <p>Checks to see if a Line that is passed, intersects at any point with a Line that is made by passing a set of coordinates to this method. 
 Note: The first line will extend infinately through space. 
 And the second line will only exist between the two points passed.</p>
 
@@ -2621,7 +2626,7 @@ And the second line will only exist between the two points passed.</p>
                 <li class="param">
                     
                         <code class="param-name">line</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
                     
 
                     
@@ -2700,15 +2705,15 @@ And the second line will only exist between the two points passed.</p>
             
                 <li class="param">
                     
-                        <code class="param-name optional">[output=IntersectResult]</code>
-                        <span class="type">IntersectResult</span>
+                        <code class="param-name optional">[output]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>An optional IntersectResult object to store the intersection values in (one is created if none given)</p>
+                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
 
                     </div>
 
@@ -2726,7 +2731,7 @@ And the second line will only exist between the two points passed.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">IntersectResult</span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
                     
                     <p>An IntersectResult object containing the results of this intersection in x/y</p>
 
@@ -2760,7 +2765,7 @@ And the second line will only exist between the two points passed.</p>
             
                 <li class="arg">
                     
-                        <code>An</code>
+                        <code class="optional">[output]</code>
                     
                 </li>
             
@@ -2770,7 +2775,7 @@ And the second line will only exist between the two points passed.</p>
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
         </span>
     
 
@@ -2801,7 +2806,7 @@ And the second line will only exist between the two points passed.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l173"><code>src\geom\Intersect.ts:173</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l184"><code>src\geom\Intersect.ts:184</code></a>
         
         </p>
 
@@ -2826,7 +2831,7 @@ Note: The line in this case extends infinately through space.</p>
                 <li class="param">
                     
                         <code class="param-name">line1</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
                     
 
                     
@@ -2842,7 +2847,7 @@ Note: The line in this case extends infinately through space.</p>
                 <li class="param">
                     
                         <code class="param-name">ray</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Ray.html" class="crosslink">Kiwi.Geom.Ray</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Ray.html" class="crosslink">Kiwi.Geom.Ray</a></span>
                     
 
                     
@@ -2857,14 +2862,15 @@ Note: The line in this case extends infinately through space.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">An</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+                        <code class="param-name optional">[output]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>optional IntersectResult object to store the intersection values in (one is created if none given)</p>
+                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
 
                     </div>
 
@@ -2882,7 +2888,7 @@ Note: The line in this case extends infinately through space.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
                     
                     <p>An IntersectResult object containing the results of this intersection in x/y</p>
 
@@ -2916,7 +2922,7 @@ Note: The line in this case extends infinately through space.</p>
             
                 <li class="arg">
                     
-                        <code class="optional">[output=IntersectResult]</code>
+                        <code class="optional">[output]</code>
                     
                 </li>
             
@@ -2926,7 +2932,7 @@ Note: The line in this case extends infinately through space.</p>
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
         </span>
     
 
@@ -2957,7 +2963,7 @@ Note: The line in this case extends infinately through space.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l232"><code>src\geom\Intersect.ts:232</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l245"><code>src\geom\Intersect.ts:245</code></a>
         
         </p>
 
@@ -2982,7 +2988,7 @@ Note: The Line is assumned to extend infinately through space.</p>
                 <li class="param">
                     
                         <code class="param-name">line</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
                     
 
                     
@@ -2998,7 +3004,7 @@ Note: The Line is assumned to extend infinately through space.</p>
                 <li class="param">
                     
                         <code class="param-name">rectangle</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
                     
 
                     
@@ -3013,15 +3019,15 @@ Note: The Line is assumned to extend infinately through space.</p>
             
                 <li class="param">
                     
-                        <code class="param-name optional">[output=IntersectResult]</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+                        <code class="param-name optional">[output]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>An optional IntersectResult object to store the intersection values in (one is created if none given)</p>
+                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
 
                     </div>
 
@@ -3039,7 +3045,7 @@ Note: The Line is assumned to extend infinately through space.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
                     
                     <p>An IntersectResult object containing the results of this intersection</p>
 
@@ -3090,7 +3096,7 @@ Note: The Line is assumned to extend infinately through space.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l18"><code>src\geom\Intersect.ts:18</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l25"><code>src\geom\Intersect.ts:25</code></a>
         
         </p>
 
@@ -3116,6 +3122,8 @@ Note: The Line is assumned to extend infinately through space.</p>
                     
                         <span class="type">String</span>:
                     
+                    <p>&quot;Intersect&quot;</p>
+
                 
             </div>
         </div>
@@ -3146,7 +3154,7 @@ Note: The Line is assumned to extend infinately through space.</p>
             
                 <li class="arg">
                     
-                        <code class="optional">[output=Intersect]</code>
+                        <code class="optional">[output]</code>
                     
                 </li>
             
@@ -3156,7 +3164,7 @@ Note: The Line is assumned to extend infinately through space.</p>
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
         </span>
     
 
@@ -3187,7 +3195,7 @@ Note: The Line is assumned to extend infinately through space.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l573"><code>src\geom\Intersect.ts:573</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l596"><code>src\geom\Intersect.ts:596</code></a>
         
         </p>
 
@@ -3211,7 +3219,7 @@ Note: The Line is assumned to extend infinately through space.</p>
                 <li class="param">
                     
                         <code class="param-name">point</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
                     
 
                     
@@ -3227,7 +3235,7 @@ Note: The Line is assumned to extend infinately through space.</p>
                 <li class="param">
                     
                         <code class="param-name">rect</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
                     
 
                     
@@ -3242,15 +3250,15 @@ Note: The Line is assumned to extend infinately through space.</p>
             
                 <li class="param">
                     
-                        <code class="param-name optional">[output=Intersect]</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+                        <code class="param-name optional">[output]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>An optional IntersectResult object to store the intersection values in (one is created if none given)</p>
+                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
 
                     </div>
 
@@ -3268,7 +3276,7 @@ Note: The Line is assumned to extend infinately through space.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
                     
                     <p>An IntersectResult object containing the results of this intersection in x/y/result</p>
 
@@ -3338,7 +3346,7 @@ Note: The Line is assumned to extend infinately through space.</p>
             
                 <li class="arg">
                     
-                        <code class="optional">[output=IntersectResult]</code>
+                        <code class="optional">[output]</code>
                     
                 </li>
             
@@ -3348,7 +3356,7 @@ Note: The Line is assumned to extend infinately through space.</p>
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
         </span>
     
 
@@ -3379,7 +3387,7 @@ Note: The Line is assumned to extend infinately through space.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l457"><code>src\geom\Intersect.ts:457</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l476"><code>src\geom\Intersect.ts:476</code></a>
         
         </p>
 
@@ -3531,15 +3539,15 @@ Note: The Line only exists between its two points.</p>
             
                 <li class="param">
                     
-                        <code class="param-name optional">[output=IntersectResult]</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+                        <code class="param-name optional">[output]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>An optional IntersectResult object to store the intersection values in (one is created if none given)</p>
+                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
 
                     </div>
 
@@ -3557,7 +3565,7 @@ Note: The Line only exists between its two points.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
                     
                     <p>An IntersectResult object containing the results of this intersection stored in x</p>
 
@@ -3591,7 +3599,7 @@ Note: The Line only exists between its two points.</p>
             
                 <li class="arg">
                     
-                        <code class="optional">[output=IntersectResult]</code>
+                        <code class="optional">[output]</code>
                     
                 </li>
             
@@ -3601,7 +3609,7 @@ Note: The Line only exists between its two points.</p>
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
         </span>
     
 
@@ -3632,7 +3640,7 @@ Note: The Line only exists between its two points.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l438"><code>src\geom\Intersect.ts:438</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l456"><code>src\geom\Intersect.ts:456</code></a>
         
         </p>
 
@@ -3656,7 +3664,7 @@ Note: The Line only exists between its two points.</p>
                 <li class="param">
                     
                         <code class="param-name">ray</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Ray.html" class="crosslink">Kiwi.Geom.Ray</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Ray.html" class="crosslink">Kiwi.Geom.Ray</a></span>
                     
 
                     
@@ -3672,7 +3680,7 @@ Note: The Line only exists between its two points.</p>
                 <li class="param">
                     
                         <code class="param-name">rect</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
                     
 
                     
@@ -3687,15 +3695,15 @@ Note: The Line only exists between its two points.</p>
             
                 <li class="param">
                     
-                        <code class="param-name optional">[output=IntersectResult]</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+                        <code class="param-name optional">[output]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>An optional IntersectResult object to store the intersection values in (one is created if none given)</p>
+                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
 
                     </div>
 
@@ -3713,7 +3721,7 @@ Note: The Line only exists between its two points.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
                     
                     <p>An IntersectResult object containing the results of this intersection</p>
 
@@ -3747,7 +3755,7 @@ Note: The Line only exists between its two points.</p>
             
                 <li class="arg">
                     
-                        <code class="optional">[output=IntersectResult]</code>
+                        <code class="optional">[output]</code>
                     
                 </li>
             
@@ -3757,7 +3765,7 @@ Note: The Line only exists between its two points.</p>
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
         </span>
     
 
@@ -3788,7 +3796,7 @@ Note: The Line only exists between its two points.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l593"><code>src\geom\Intersect.ts:593</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l617"><code>src\geom\Intersect.ts:617</code></a>
         
         </p>
 
@@ -3812,7 +3820,7 @@ Note: The Line only exists between its two points.</p>
                 <li class="param">
                     
                         <code class="param-name">rect1</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
                     
 
                     
@@ -3828,7 +3836,7 @@ Note: The Line only exists between its two points.</p>
                 <li class="param">
                     
                         <code class="param-name">rect2</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
                     
 
                     
@@ -3843,15 +3851,15 @@ Note: The Line only exists between its two points.</p>
             
                 <li class="param">
                     
-                        <code class="param-name optional">[output=IntersectResult]</code>
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+                        <code class="param-name optional">[output]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>An optional IntersectResult object to store the intersection values in (one is created if none given)</p>
+                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
 
                     </div>
 
@@ -3869,7 +3877,7 @@ Note: The Line only exists between its two points.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
                     
                     <p>An IntersectResult object containing the results of this intersection in x/y/width/height</p>
 

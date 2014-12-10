@@ -807,7 +807,7 @@ module Kiwi.Sound {
         */
         public destroy() {
             if (this._game) {
-                this._game.audio.remove(this);
+                this._game.audio.remove(this, false);
             }
             if (this.onLoop) this.onLoop.dispose();
             if (this.onStop) this.onStop.dispose();

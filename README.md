@@ -1,4 +1,4 @@
-Kiwi.js 1.1.1
+Kiwi.js 1.2.0 (Work In Progress)
 =============
 
 ![Splash](http://kiwi-js.s3.amazonaws.com/wounds-with-friends.jpg) 

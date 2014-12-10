@@ -382,9 +382,14 @@ module Kiwi.Sound {
             for (var i = 0; i < this._sounds.length; i++) {
 
                 if (sound.id == this._sounds[i].id) {
-                    if(this.usingWebAudio) this._sounds[i].gainNode.disconnect();
-                    if (destroy == true) this._sounds[i].destroy();
+
+
+                    if (this.usingWebAudio) sound.gainNode.disconnect();
+
+                    if (destroy == true) sound.destroy();
+
                     this._sounds.splice(i, 1, 0);
+
                     return;
                 }
 
