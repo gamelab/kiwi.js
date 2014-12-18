@@ -2,7 +2,7 @@
     "project": {
         "name": "Kiwi.js",
         "description": "Kiwi.js is a Javascript/Typescript library for creating HTML5 games.",
-        "version": "1.1.1",
+        "version": "1.2.0",
         "url": "http://kiwijs.org/"
     },
     "files": {
@@ -34365,7 +34365,7 @@
             "line": 101,
             "description": "A Signal that dispatches events mouse wheel moves.",
             "itemtype": "property",
-            "name": "mouseWheel",
+            "name": "onWheel",
             "type": "Kiwi.Signal",
             "access": "public",
             "tagname": "",
@@ -40555,7 +40555,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 395,
+            "line": 400,
             "description": "Plays all of the sounds listed in the AudioManager.",
             "itemtype": "method",
             "name": "playAll",
@@ -40568,7 +40568,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 410,
+            "line": 415,
             "description": "Stops all of the sounds that are listed in the AudioManager from playing.",
             "itemtype": "method",
             "name": "stopAll",
@@ -40581,7 +40581,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 427,
+            "line": 432,
             "description": "Pauses all of the sounds listed in the AudioManager.",
             "itemtype": "method",
             "name": "pauseAll",
@@ -40594,7 +40594,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 445,
+            "line": 450,
             "description": "Resumes all of the sounds listed in the AudioManager.",
             "itemtype": "method",
             "name": "resumeAll",
@@ -40607,7 +40607,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 463,
+            "line": 468,
             "description": "The update loop that is executed every frame.",
             "itemtype": "method",
             "name": "update",

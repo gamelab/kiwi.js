@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.1.1</em>
+            <em>API Docs for: 1.2.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -734,9 +734,14 @@ module Kiwi.Sound {
             for (var i = 0; i &lt; this._sounds.length; i++) {
 
                 if (sound.id == this._sounds[i].id) {
-                    if(this.usingWebAudio) this._sounds[i].gainNode.disconnect();
-                    if (destroy == true) this._sounds[i].destroy();
+
+
+                    if (this.usingWebAudio) sound.gainNode.disconnect();
+
+                    if (destroy == true) sound.destroy();
+
                     this._sounds.splice(i, 1, 0);
+
                     return;
                 }
 

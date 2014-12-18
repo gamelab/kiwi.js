@@ -100,7 +100,7 @@ module Kiwi.Input {
 
         /**
         * A Signal that dispatches events mouse wheel moves.
-        * @property mouseWheel 
+        * @property onWheel 
         * @type Kiwi.Signal
         * @public
         */
