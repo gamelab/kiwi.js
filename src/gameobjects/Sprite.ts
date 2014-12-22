@@ -120,13 +120,11 @@ module Kiwi.GameObjects {
             super.update();
 
             if (this._isAnimated) {
-                this.animation.update();
                 this.width = this.atlas.cells[this.cellIndex].w;
                 this.height = this.atlas.cells[this.cellIndex].h;
 
             }    
 
-            this.input.update();
         }
 
         /**

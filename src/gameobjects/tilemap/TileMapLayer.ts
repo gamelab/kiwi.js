@@ -602,7 +602,6 @@ module Kiwi.GameObjects.Tilemap {
         public update() {
             super.update();
 
-            this.physics.update();
         }
         
         /**

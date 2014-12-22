@@ -648,7 +648,11 @@ module Kiwi {
         * @public
         */
         public update() {
-            
+
+            this.components.preUpdate();
+            this.components.update();
+            this.components.postUpdate();
+
         }
 
         /**

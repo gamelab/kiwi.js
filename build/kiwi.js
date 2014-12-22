@@ -3032,6 +3032,9 @@ var Kiwi;
         * @public
         */
         Entity.prototype.update = function () {
+            this.components.preUpdate();
+            this.components.update();
+            this.components.postUpdate();
         };
 
         /**
@@ -5570,12 +5573,9 @@ var Kiwi;
                 _super.prototype.update.call(this);
 
                 if (this._isAnimated) {
-                    this.animation.update();
                     this.width = this.atlas.cells[this.cellIndex].w;
                     this.height = this.atlas.cells[this.cellIndex].h;
                 }
-
-                this.input.update();
             };
 
             /**
@@ -7171,8 +7171,6 @@ var Kiwi;
                 */
                 TileMapLayer.prototype.update = function () {
                     _super.prototype.update.call(this);
-
-                    this.physics.update();
                 };
 
                 /**

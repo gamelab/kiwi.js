@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.1.1</em>
+            <em>API Docs for: 1.2.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -1159,7 +1159,7 @@ module Kiwi.Sound {
         */
         public destroy() {
             if (this._game) {
-                this._game.audio.remove(this);
+                this._game.audio.remove(this, false);
             }
             if (this.onLoop) this.onLoop.dispose();
             if (this.onStop) this.onStop.dispose();

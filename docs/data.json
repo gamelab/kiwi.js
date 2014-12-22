@@ -2,7 +2,7 @@
     "project": {
         "name": "Kiwi.js",
         "description": "Kiwi.js is a Javascript/Typescript library for creating HTML5 games.",
-        "version": "1.1.1",
+        "version": "1.2.0",
         "url": "http://kiwijs.org/"
     },
     "files": {
@@ -12801,7 +12801,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 654,
+            "line": 658,
             "description": "Renders the entity using the canvas renderer. \nThis isn't called until the Entity has been added to a Group/State which is active.\nThis functionality is handled by the sub classes.",
             "itemtype": "method",
             "name": "render",
@@ -12820,7 +12820,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 666,
+            "line": 670,
             "description": "Renders the entity using the canvas renderer. \nThis isn't called until the Entity has been added to a Group/State which is active.\nThis functionality is handled by the sub classes.",
             "itemtype": "method",
             "name": "renderGL",
@@ -12851,7 +12851,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 680,
+            "line": 684,
             "description": "Used to completely destroy this entity and of its components. Used for garbage collection and developers can also use it as needed.",
             "itemtype": "method",
             "name": "destroy",
@@ -21976,7 +21976,7 @@
         },
         {
             "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 608,
+            "line": 607,
             "description": "-----------------------\n Temp Properties used During Rendering\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -21985,7 +21985,7 @@
         },
         {
             "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 614,
+            "line": 613,
             "description": "Used whilst rendering to calculate the number of tiles to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_maxX",
@@ -21999,7 +21999,7 @@
         },
         {
             "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 623,
+            "line": 622,
             "description": "Used whilst rendering to calculate the number of tiles to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_maxY",
@@ -22013,7 +22013,7 @@
         },
         {
             "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 632,
+            "line": 631,
             "description": "Used whilst rendering to calculate which is the first tile to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_startX",
@@ -22027,7 +22027,7 @@
         },
         {
             "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 641,
+            "line": 640,
             "description": "Used whilst rendering to calculate which is the first tile to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_startY",
@@ -22041,7 +22041,7 @@
         },
         {
             "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 650,
+            "line": 649,
             "description": "Temporary property that holds the tileType of the current tile being rendered.",
             "itemtype": "property",
             "name": "_temptype",
@@ -22055,7 +22055,7 @@
         },
         {
             "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 658,
+            "line": 657,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner1",
@@ -22070,7 +22070,7 @@
         },
         {
             "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 666,
+            "line": 665,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner2",
@@ -22085,7 +22085,7 @@
         },
         {
             "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 674,
+            "line": 673,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner3",
@@ -22100,7 +22100,7 @@
         },
         {
             "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 682,
+            "line": 681,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner4",
@@ -22115,7 +22115,7 @@
         },
         {
             "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 691,
+            "line": 690,
             "description": "Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen. \nAll coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).",
             "itemtype": "method",
             "name": "_calculateBoundaries",
@@ -22140,7 +22140,7 @@
         },
         {
             "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 755,
+            "line": 754,
             "description": "ChartToScreen maps a point in the game tile coordinates into screen pixel\ncoordinates that indicate where the tile should be drawn.\nNote: This is for use in ISOMETRIC Tilemaps.",
             "itemtype": "method",
             "name": "chartToScreen",
@@ -22174,7 +22174,7 @@
         },
         {
             "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 772,
+            "line": 771,
             "description": "ScreenToChart maps a point in screen coordinates into the game tile chart\ncoordinates for the tile on which the screen point falls on.\nThis is for use in ISOMETRIC Tilemaps.",
             "itemtype": "method",
             "name": "screenToChart",
@@ -22208,7 +22208,7 @@
         },
         {
             "file": "src\\gameobjects\\tilemap\\TileMapLayer.ts",
-            "line": 790,
+            "line": 789,
             "description": "The render loop which is used when using the Canvas renderer.",
             "itemtype": "method",
             "name": "render",
@@ -22416,7 +22416,7 @@
         },
         {
             "file": "src\\gameobjects\\Sprite.ts",
-            "line": 132,
+            "line": 130,
             "description": "Renders the GameObject using Canvas.",
             "itemtype": "method",
             "name": "render",
@@ -22436,7 +22436,7 @@
         },
         {
             "file": "src\\gameobjects\\Sprite.ts",
-            "line": 166,
+            "line": 164,
             "description": "Renders the GameObject using WebGL.",
             "itemtype": "method",
             "name": "renderGL",
@@ -40555,7 +40555,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 395,
+            "line": 400,
             "description": "Plays all of the sounds listed in the AudioManager.",
             "itemtype": "method",
             "name": "playAll",
@@ -40568,7 +40568,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 410,
+            "line": 415,
             "description": "Stops all of the sounds that are listed in the AudioManager from playing.",
             "itemtype": "method",
             "name": "stopAll",
@@ -40581,7 +40581,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 427,
+            "line": 432,
             "description": "Pauses all of the sounds listed in the AudioManager.",
             "itemtype": "method",
             "name": "pauseAll",
@@ -40594,7 +40594,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 445,
+            "line": 450,
             "description": "Resumes all of the sounds listed in the AudioManager.",
             "itemtype": "method",
             "name": "resumeAll",
@@ -40607,7 +40607,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 463,
+            "line": 468,
             "description": "The update loop that is executed every frame.",
             "itemtype": "method",
             "name": "update",
@@ -48171,7 +48171,7 @@
         },
         {
             "message": "Missing item type\n-----------------------\n Temp Properties used During Rendering\n-----------------------",
-            "line": " src\\gameobjects\\tilemap\\TileMapLayer.ts:608"
+            "line": " src\\gameobjects\\tilemap\\TileMapLayer.ts:607"
         },
         {
             "message": "Missing item type\nChanges the alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.",
