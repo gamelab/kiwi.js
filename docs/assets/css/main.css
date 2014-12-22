@@ -98,7 +98,7 @@ code, kbd, pre, samp {
     line-height: 1.35;
 }
 
-p code, p kbd, p samp {
+p code, p kbd, p samp, li code {
     background: #FCFBFA;
     border: 1px solid #EFEEED;
     padding: 0 3px;
@@ -345,11 +345,13 @@ ul li p {
 }
 
 #hd {
-    background: rgb(5, 16, 41);
+    background: whiteSmoke;
+    background: -moz-linear-gradient(top,#DCDBD9 0,#F6F5F3 100%);
+    background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#DCDBD9),color-stop(100%,#F6F5F3));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dcdbd9',endColorstr='#F6F5F3',GradientType=0);
     border-bottom: 1px solid #DFDFDF;
     padding: 0 15px 1px 20px;
     margin-bottom: 15px;
-    color: white;
 }
 
 #hd img {

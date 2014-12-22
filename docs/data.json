@@ -34365,7 +34365,7 @@
             "line": 101,
             "description": "A Signal that dispatches events mouse wheel moves.",
             "itemtype": "property",
-            "name": "mouseWheel",
+            "name": "onWheel",
             "type": "Kiwi.Signal",
             "access": "public",
             "tagname": "",
