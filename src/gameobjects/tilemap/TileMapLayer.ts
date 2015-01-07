@@ -509,8 +509,11 @@ module Kiwi.GameObjects.Tilemap {
             if (b.left > this.transform.worldX + this.widthInPixels || b.right < this.transform.worldX || b.bottom < this.transform.worldY || b.top > this.transform.worldY + this.heightInPixels)
                 return [];
 
-            var nx = b.x - this.transform.worldX;
-            var ny = b.y - this.transform.worldY;
+            var worldX = this.transform.worldX;
+            var worldY = this.transform.worldY;
+
+            var nx = b.x - worldX;
+            var ny = b.y - worldY;
 
             //Get starting location and now many tiles from there we will check. 
             var x = Kiwi.Utils.GameMath.snapToFloor(nx, this.tileWidth) / this.tileWidth;
@@ -525,7 +528,7 @@ module Kiwi.GameObjects.Tilemap {
             for (var i = 0; i < tiles.length; i++) {
                 var t = tiles[i];
 
-                if (t.x > b.right || t.x + this.tileWidth < b.left || t.y > b.bottom || t.y + this.tileHeight < t.top) {
+                if (t.x + worldX > b.right || t.x + this.tileWidth + worldX < b.left || t.y + worldY > b.bottom || t.y + this.tileHeight + worldY < t.top) {
                     tiles.splice(i, 1);
                     i--;
                 } 

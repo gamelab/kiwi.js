@@ -12618,7 +12618,7 @@ declare module Kiwi.Input {
         public onUp: Signal;
         /**
         * A Signal that dispatches events mouse wheel moves.
-        * @property mouseWheel
+        * @property onWheel
         * @type Kiwi.Signal
         * @public
         */
