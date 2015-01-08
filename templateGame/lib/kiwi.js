@@ -27062,7 +27062,7 @@ var Kiwi;
                         if (destroy == true)
                             sound.destroy();
 
-                        this._sounds.splice(i, 1, 0);
+                        this._sounds.splice(i, 1);
 
                         return;
                     }
