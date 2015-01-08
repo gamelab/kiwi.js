@@ -2458,7 +2458,7 @@ declare module Kiwi {
         */
         public addChildAt(child: IChild, index: number): IChild;
         /**
-        * Adds an Entity to this Group before another child. The Entity must not already be in this Group and it must be supported by the Group.
+        * Adds an Entity to this Group before another child.
         * @method addChildBefore
         * @param child {object} The child to be added.
         * @param beforeChild {Entity} The child before which the child will be added.
@@ -2467,14 +2467,14 @@ declare module Kiwi {
         */
         public addChildBefore(child: IChild, beforeChild: IChild): IChild;
         /**
-        * Adds an Entity to this Group after another child. The Entity must not already be in this Group and it must be supported by the Group..
+        * Adds an Entity to this Group after another child.
         * @method addChildAfter
         * @param child {object} The child to be added.
         * @param beforeChild {object} The child after which the child will be added.
         * @return {object} The child.
         * @public
         */
-        public addChildAfter(child: IChild, beforeChild: IChild): IChild;
+        public addChildAfter(child: IChild, afterChild: IChild): IChild;
         /**
         * --------------------
         * Remove Children Methods

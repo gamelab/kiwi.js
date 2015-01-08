@@ -435,17 +435,20 @@ module Kiwi {
         }
 
         /**
-        * Adds an Entity to this Group before another child. The Entity must not already be in this Group and it must be supported by the Group.
+        * Adds an Entity to this Group before another child. 
         * @method addChildBefore
         * @param child {object} The child to be added.
         * @param beforeChild {Entity} The child before which the child will be added.
         * @return {object} The child.
         * @public
         */
-        public addChildBefore(child: Kiwi.IChild, beforeChild: Kiwi.IChild): Kiwi.IChild {                      //REWORK
+        public addChildBefore(child: Kiwi.IChild, beforeChild: Kiwi.IChild): Kiwi.IChild {                      
 
-            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
-                var index: number = this.getChildIndex(beforeChild);
+            if (beforeChild.transform.parent === this.transform) {
+
+                if (child.parent !== null) child.parent.removeChild(child);
+
+                var index: number = this.getChildIndex( beforeChild );
 
                 this.members.splice(index, 0, child);
                 child.parent = this;
@@ -456,17 +459,20 @@ module Kiwi {
         }
 
         /**
-        * Adds an Entity to this Group after another child. The Entity must not already be in this Group and it must be supported by the Group..
+        * Adds an Entity to this Group after another child. 
         * @method addChildAfter
         * @param child {object} The child to be added.
         * @param beforeChild {object} The child after which the child will be added.
         * @return {object} The child.
         * @public
         */
-        public addChildAfter(child: Kiwi.IChild, beforeChild: Kiwi.IChild): Kiwi.IChild {
+        public addChildAfter(child: Kiwi.IChild, afterChild: Kiwi.IChild): Kiwi.IChild {
            
-            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) { //REWORK
-                var index: number = this.getChildIndex(beforeChild) + 1;
+            if (afterChild.transform.parent === this.transform) {
+
+                if (child.parent !== null) child.parent.removeChild(child);
+
+                var index: number = this.getChildIndex(afterChild) + 1;
 
                 this.members.splice(index, 0, child);
                 child.parent = this;

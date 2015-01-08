@@ -3658,7 +3658,7 @@ var Kiwi;
         };
 
         /**
-        * Adds an Entity to this Group before another child. The Entity must not already be in this Group and it must be supported by the Group.
+        * Adds an Entity to this Group before another child.
         * @method addChildBefore
         * @param child {object} The child to be added.
         * @param beforeChild {Entity} The child before which the child will be added.
@@ -3666,7 +3666,10 @@ var Kiwi;
         * @public
         */
         Group.prototype.addChildBefore = function (child, beforeChild) {
-            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
+            if (beforeChild.transform.parent === this.transform) {
+                if (child.parent !== null)
+                    child.parent.removeChild(child);
+
                 var index = this.getChildIndex(beforeChild);
 
                 this.members.splice(index, 0, child);
@@ -3677,16 +3680,19 @@ var Kiwi;
         };
 
         /**
-        * Adds an Entity to this Group after another child. The Entity must not already be in this Group and it must be supported by the Group..
+        * Adds an Entity to this Group after another child.
         * @method addChildAfter
         * @param child {object} The child to be added.
         * @param beforeChild {object} The child after which the child will be added.
         * @return {object} The child.
         * @public
         */
-        Group.prototype.addChildAfter = function (child, beforeChild) {
-            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
-                var index = this.getChildIndex(beforeChild) + 1;
+        Group.prototype.addChildAfter = function (child, afterChild) {
+            if (afterChild.transform.parent === this.transform) {
+                if (child.parent !== null)
+                    child.parent.removeChild(child);
+
+                var index = this.getChildIndex(afterChild) + 1;
 
                 this.members.splice(index, 0, child);
                 child.parent = this;
