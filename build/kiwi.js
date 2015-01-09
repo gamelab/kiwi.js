@@ -27632,6 +27632,9 @@ var Kiwi;
                         this._sound.buffer = this._buffer;
                         this._sound.connect(this.gainNode);
 
+                        if (this._loop)
+                            this._sound.loop = true;
+
                         if (this._sound.start === undefined) {
                             this._sound.noteGrainOn(0, this._markers[this._currentMarker].start + (this._currentTime / 1000), this.duration / 1000);
                         } else {
