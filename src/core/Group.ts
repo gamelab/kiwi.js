@@ -1204,17 +1204,17 @@ module Kiwi {
         /**
         * Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
         * You can pass multiple strings to add multiple tags.
-        * @method addTags
+        * @method addTag
         * @param tag {string} The tag that you would like to add to this Entity.
         * @since 1.1.0
         * @public
         */
-        public addTag() {
+        public addTag(...args: any[]) {
 
             //Loop through the arguments
-            for (var i = 0; i < arguments.length; i++) {
-                if (this._tags.indexOf(arguments[i]) == -1) {
-                    this._tags.push(arguments[i]);
+            for (var i = 0; i < args.length; i++) {
+                if (this._tags.indexOf(args[i]) == -1) {
+                    this._tags.push(args[i]);
                 }
             }
 
@@ -1227,10 +1227,10 @@ module Kiwi {
         * @since 1.1.0
         * @public
         */
-        public removeTag() {
+        public removeTag(...args: any[]) {
 
-            for (var i = 0; i < arguments.length; i++) {
-                var index = this._tags.indexOf(arguments[i]);
+            for (var i = 0; i < args.length; i++) {
+                var index = this._tags.indexOf(args[i]);
                 if (index !== -1) this._tags.splice(index, 1);
             }
 

@@ -581,9 +581,9 @@ module Kiwi.Sound {
         */
         public play(marker: string= this._currentMarker, forceRestart: boolean = false) {
 
-            if (this.isPlaying && forceRestart == false || this._game.audio.noAudio) return;
+            if (this.isPlaying && !forceRestart || this._game.audio.noAudio) return;
 
-            if (forceRestart === true && this._pending === false) this.stop();
+            if (forceRestart  && !this._pending ) this.stop();
 
             if (typeof this._markers[marker] == "undefined") return;
 

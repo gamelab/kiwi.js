@@ -1990,12 +1990,12 @@ declare module Kiwi {
         /**
         * Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
         * You can pass multiple strings to add multiple tags.
-        * @method addTags
+        * @method addTag
         * @param tag {string} The tag that you would like to add to this Entity.
         * @since 1.1.0
         * @public
         */
-        public addTag(): void;
+        public addTag(...args: any[]): void;
         /**
         * Removes a Tag from this Entity.
         * @method removeTag
@@ -2003,7 +2003,7 @@ declare module Kiwi {
         * @since 1.1.0
         * @public
         */
-        public removeTag(): void;
+        public removeTag(...args: any[]): void;
         /**
         * Checks to see if this Entity has a Tag based upon a string which you pass.
         * @method hasTag
@@ -2792,12 +2792,12 @@ declare module Kiwi {
         /**
         * Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
         * You can pass multiple strings to add multiple tags.
-        * @method addTags
+        * @method addTag
         * @param tag {string} The tag that you would like to add to this Entity.
         * @since 1.1.0
         * @public
         */
-        public addTag(): void;
+        public addTag(...args: any[]): void;
         /**
         * Removes a Tag from this Entity.
         * @method removeTag
@@ -2805,7 +2805,7 @@ declare module Kiwi {
         * @since 1.1.0
         * @public
         */
-        public removeTag(): void;
+        public removeTag(...args: any[]): void;
         /**
         * Checks to see if this Entity has a Tag based upon a string which you pass.
         * @method hasTag

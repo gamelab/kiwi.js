@@ -2878,15 +2878,19 @@ var Kiwi;
         /**
         * Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
         * You can pass multiple strings to add multiple tags.
-        * @method addTags
+        * @method addTag
         * @param tag {string} The tag that you would like to add to this Entity.
         * @since 1.1.0
         * @public
         */
         Entity.prototype.addTag = function () {
-            for (var i = 0; i < arguments.length; i++) {
-                if (this._tags.indexOf(arguments[i]) == -1) {
-                    this._tags.push(arguments[i]);
+            var args = [];
+            for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                args[_i] = arguments[_i + 0];
+            }
+            for (var i = 0; i < args.length; i++) {
+                if (this._tags.indexOf(args[i]) == -1) {
+                    this._tags.push(args[i]);
                 }
             }
         };
@@ -2899,8 +2903,12 @@ var Kiwi;
         * @public
         */
         Entity.prototype.removeTag = function () {
-            for (var i = 0; i < arguments.length; i++) {
-                var index = this._tags.indexOf(arguments[i]);
+            var args = [];
+            for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                args[_i] = arguments[_i + 0];
+            }
+            for (var i = 0; i < args.length; i++) {
+                var index = this._tags.indexOf(args[i]);
                 if (index !== -1)
                     this._tags.splice(index, 1);
             }
@@ -4354,15 +4362,19 @@ var Kiwi;
         /**
         * Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
         * You can pass multiple strings to add multiple tags.
-        * @method addTags
+        * @method addTag
         * @param tag {string} The tag that you would like to add to this Entity.
         * @since 1.1.0
         * @public
         */
         Group.prototype.addTag = function () {
-            for (var i = 0; i < arguments.length; i++) {
-                if (this._tags.indexOf(arguments[i]) == -1) {
-                    this._tags.push(arguments[i]);
+            var args = [];
+            for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                args[_i] = arguments[_i + 0];
+            }
+            for (var i = 0; i < args.length; i++) {
+                if (this._tags.indexOf(args[i]) == -1) {
+                    this._tags.push(args[i]);
                 }
             }
         };
@@ -4375,8 +4387,12 @@ var Kiwi;
         * @public
         */
         Group.prototype.removeTag = function () {
-            for (var i = 0; i < arguments.length; i++) {
-                var index = this._tags.indexOf(arguments[i]);
+            var args = [];
+            for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                args[_i] = arguments[_i + 0];
+            }
+            for (var i = 0; i < args.length; i++) {
+                var index = this._tags.indexOf(args[i]);
                 if (index !== -1)
                     this._tags.splice(index, 1);
             }
@@ -27499,10 +27515,10 @@ var Kiwi;
             Audio.prototype.play = function (marker, forceRestart) {
                 if (typeof marker === "undefined") { marker = this._currentMarker; }
                 if (typeof forceRestart === "undefined") { forceRestart = false; }
-                if (this.isPlaying && forceRestart == false || this._game.audio.noAudio)
+                if (this.isPlaying && !forceRestart || this._game.audio.noAudio)
                     return;
 
-                if (forceRestart === true && this._pending === false)
+                if (forceRestart && !this._pending)
                     this.stop();
 
                 if (typeof this._markers[marker] == "undefined")
