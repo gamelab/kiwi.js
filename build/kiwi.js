@@ -31347,6 +31347,369 @@ var Kiwi;
     })(Kiwi.Utils || (Kiwi.Utils = {}));
     var Utils = Kiwi.Utils;
 })(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    /**
+    *
+    * @module Kiwi
+    *
+    */
+    (function (Utils) {
+        /**
+        *
+        * @class Log
+        * @static
+        */
+        var Log = (function () {
+            function Log() {
+            }
+            Object.defineProperty(Log, "lastMessageTime", {
+                /**
+                * The time (in milliseconds) of the last recording.
+                *
+                * @property lastMessageTime
+                * @type Number
+                * @readOnly
+                * @static
+                * @public
+                */
+                get: function () {
+                    if (this.recordings.length > 0) {
+                        return this.recordings[this.recordings.length - 1].time;
+                    }
+                    return 0;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Log, "numRecordings", {
+                /**
+                * The number of recordings that have been saved.
+                * Same as the recordings length, and won't go above the 'maxRecordings'.
+                *
+                * @property numRecordings
+                * @type Number
+                * @readOnly
+                * @static
+                * @public
+                */
+                get: function () {
+                    return this.recordings.length;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            /**
+            * Saves a message to the 'recordings' array.
+            * That message can then be retrieved later using the 'show' methods.
+            *
+            * @method recordMessage
+            * @param message {String}
+            * @param [tags=[]] {String}
+            * @param [logMethod=console.log] {String}
+            * @static
+            * @public
+            */
+            Log.record = function (messages, tags, logMethod) {
+                if (typeof tags === "undefined") { tags = []; }
+                if (typeof logMethod === "undefined") { logMethod = console.log; }
+                if (this.recording) {
+                    var recording = {
+                        messages: messages,
+                        time: Date.now(),
+                        tags: tags,
+                        logMethod: logMethod
+                    };
+
+                    if (this.recordings.push(recording) > this.maxRecordings) {
+                        this.recordings.shift();
+                    }
+                }
+            };
+
+            /**
+            * Removes recordings from the list. Goes from the oldest to newest.
+            * By not passing any parameters, the entire log will be cleared.
+            *
+            * @method clearRecordings
+            * @param [start=0] {Number}
+            * @param [end] {Number}
+            * @static
+            * @private
+            */
+            Log.clearRecordings = function (start, end) {
+                if (typeof start === "undefined") { start = 0; }
+                if (typeof end === "undefined") { end = this.recordings.length; }
+                this.recordings.splice(start, end);
+            };
+
+            /**
+            * Executes a particular array of messages using a method passed.
+            * Takes into account the 'display' property before executing.
+            *
+            * @method _execute
+            * @param method {Any} The method that should be used to log the messages. Generally a console method.
+            * @param context {Any} The context that the method should be executed in. Generally set to the console.
+            * @param messages {Array}
+            * @param [force=false] {Array}
+            * @static
+            * @private
+            */
+            Log._execute = function (method, context, messages, force) {
+                if (typeof force === "undefined") { force = false; }
+                if (this.display || force) {
+                    method.apply(context, messages);
+                }
+            };
+
+            /**
+            * Accepts an array of strings and returns a new array consisting of all elements considered as a tag.
+            *
+            * @method getTagsFromArray
+            * @param strings {Array}
+            * @return {Array} Elements of the array considered as tags
+            * @static
+            * @public
+            */
+            Log.getTagsFromArray = function (array) {
+                var i = 0, tags = [];
+
+                while (i < array.length) {
+                    if (array[i].charAt(0) === '#') {
+                        tags.push(array[i]);
+                    }
+                    i++;
+                }
+
+                return tags;
+            };
+
+            /**
+            * Logs a message using the 'console.log' method.
+            *
+            * @method log
+            * @param [..args] {Any}
+            * @static
+            * @public
+            */
+            Log.log = function () {
+                var args = [];
+                for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                    args[_i] = arguments[_i + 0];
+                }
+                if (!this.enabled) {
+                    return;
+                }
+
+                this.record(args, this.getTagsFromArray(args), console.log);
+                this._execute(console.log, console, args);
+            };
+
+            /**
+            * Logs a message using the 'console.warn' method.
+            *
+            * @method warn
+            * @param [..args] {Any}
+            * @static
+            * @public
+            */
+            Log.warn = function () {
+                var args = [];
+                for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                    args[_i] = arguments[_i + 0];
+                }
+                if (!this.enabled) {
+                    return;
+                }
+
+                this.record(args, this.getTagsFromArray(args), console.warn);
+                this._execute(console.warn, console, args);
+            };
+
+            /**
+            * Logs a message using the 'console.error' method.
+            *
+            * @method error
+            * @param [..args] {Any}
+            * @static
+            * @public
+            */
+            Log.error = function () {
+                var args = [];
+                for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                    args[_i] = arguments[_i + 0];
+                }
+                if (!this.enabled) {
+                    return;
+                }
+
+                this.record(args, this.getTagsFromArray(args), console.error);
+                this._execute(console.error, console, args);
+            };
+
+            /**
+            * Method that displays a particular recording passed.
+            *
+            * @method _show
+            * @param recording {Object}
+            * @param tags {Any}
+            * @return {Boolean} If the recording was displayed or not.
+            * @static
+            * @private
+            */
+            Log._show = function (recording, tags) {
+                if (!recording.logMethod) {
+                    return false;
+                }
+
+                //Check that the tags match
+                var n = tags.length;
+                while (n--) {
+                    if (recording.tags.indexOf(tags[n]) == -1) {
+                        return false;
+                    }
+                }
+
+                this._execute(recording.logMethod, console, recording.messages, true);
+                return true;
+            };
+
+            /**
+            * Displays the last recording matching the tags passed.
+            *
+            * @method showLast
+            * @static
+            * @public
+            */
+            Log.showLast = function () {
+                var args = [];
+                for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                    args[_i] = arguments[_i + 0];
+                }
+                var i = this.recordings.length;
+
+                while (i--) {
+                    if (this._show(this.recordings[i], args)) {
+                        return;
+                    }
+                }
+            };
+
+            /**
+            * Displays all recording.
+            *
+            * @method showAll
+            * @static
+            * @public
+            */
+            Log.showAll = function () {
+                var args = [];
+                for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                    args[_i] = arguments[_i + 0];
+                }
+                for (var i = 0; i < this.recordings.length; i++) {
+                    this._show(this.recordings[i], args);
+                }
+            };
+
+            /**
+            * Displays all logs recorded.
+            *
+            * @method showLogs
+            * @static
+            * @public
+            */
+            Log.showLogs = function () {
+                var args = [];
+                for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                    args[_i] = arguments[_i + 0];
+                }
+                for (var i = 0; i < this.recordings.length; i++) {
+                    if (this.recordings[i].logMethod === console.log) {
+                        this._show(this.recordings[i], args);
+                    }
+                }
+            };
+
+            /**
+            * Displays all errors recorded.
+            *
+            * @method showErrors
+            * @static
+            * @public
+            */
+            Log.showErrors = function () {
+                var args = [];
+                for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                    args[_i] = arguments[_i + 0];
+                }
+                for (var i = 0; i < this.recordings.length; i++) {
+                    if (this.recordings[i].logMethod === console.error) {
+                        this._show(this.recordings[i], args);
+                    }
+                }
+            };
+
+            /**
+            * Displays all warnings recorded.
+            *
+            * @method showWarnings
+            * @static
+            * @public
+            */
+            Log.showWarnings = function () {
+                var args = [];
+                for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                    args[_i] = arguments[_i + 0];
+                }
+                for (var i = 0; i < this.recordings.length; i++) {
+                    if (this.recordings[i].logMethod === console.warn) {
+                        this._show(this.recordings[i], args);
+                    }
+                }
+            };
+
+            /**
+            * Displays a series of recordings within a time period passed.
+            * Time recorded is in milliseconds
+            *
+            * @method showTimePeriod
+            * @param [start=0] {Number}
+            * @param [end=Infinity] {Number}
+            * @param [tags] {Array} An tags that the recordings must have
+            * @static
+            * @public
+            */
+            Log.showTimePeriod = function (start, end, tags) {
+                if (typeof start === "undefined") { start = 0; }
+                if (typeof end === "undefined") { end = Infinity; }
+                if (typeof tags === "undefined") { tags = []; }
+                var recording;
+
+                for (var i = 0; i < this.recordings.length; i++) {
+                    recording = this.recordings[i];
+                    if (start < recording.time && end > recording.time) {
+                        this._show(recording, tags);
+                    }
+                }
+            };
+            Log.enabled = true;
+
+            Log.recording = true;
+
+            Log.display = true;
+
+            Log.maxRecordings = Infinity;
+
+            Log.recordings = [];
+            return Log;
+        })();
+        Utils.Log = Log;
+    })(Kiwi.Utils || (Kiwi.Utils = {}));
+    var Utils = Kiwi.Utils;
+})(Kiwi || (Kiwi = {}));
 /**
 *
 * @module Kiwi
@@ -31551,6 +31914,7 @@ var Kiwi;
 /// <reference path="utils/GameMath.ts" />
 /// <reference path="utils/RandomDataGenerator.ts" />
 /// <reference path="utils/RequestAnimationFrame.ts" />
+/// <reference path="utils/Log.ts" />
 /// <reference path="utils/Version.ts" />
 /**
 * Module - Kiwi (Core)
@@ -31757,6 +32121,8 @@ var Kiwi;
         return GameManager;
     })();
     Kiwi.GameManager = GameManager;
+
+    Kiwi.Log = Kiwi.Utils.Log;
 
     Kiwi.Plugins = {};
 

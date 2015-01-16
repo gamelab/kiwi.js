@@ -21094,6 +21094,228 @@ declare module Kiwi.Utils {
 /**
 *
 * @module Kiwi
+*
+*/
+declare module Kiwi.Utils {
+    /**
+    *
+    * @class Log
+    * @static
+    */
+    class Log {
+        /**
+        * If the log, warn, or error messages should function at all.
+        * When set to false messages won't display or be recorded.
+        *
+        * @property enabled
+        * @type Boolean
+        * @default true
+        * @static
+        * @public
+        */
+        static enabled: boolean;
+        /**
+        * If messages should be recorded or not.
+        *
+        * @property record
+        * @type Boolean
+        * @default true
+        * @static
+        * @public
+        */
+        static recording: boolean;
+        /**
+        * If the log, warn, and error methods should display when executed or not.
+        * You may want to set this to 'false' when releasing a game.
+        *
+        * @property display
+        * @type Boolean
+        * @default true
+        * @static
+        * @public
+        */
+        static display: boolean;
+        /**
+        * The maximum number of recordings to be kept at once.
+        *
+        * @property maxRecordings
+        * @type Number
+        * @default Infinity
+        * @static
+        * @public
+        */
+        static maxRecordings: number;
+        /**
+        * A list containing all messages recorded.
+        *
+        * @property recordings
+        * @type Array
+        * @static
+        * @private
+        */
+        private static recordings;
+        /**
+        * The time (in milliseconds) of the last recording.
+        *
+        * @property lastMessageTime
+        * @type Number
+        * @readOnly
+        * @static
+        * @public
+        */
+        static lastMessageTime : number;
+        /**
+        * The number of recordings that have been saved.
+        * Same as the recordings length, and won't go above the 'maxRecordings'.
+        *
+        * @property numRecordings
+        * @type Number
+        * @readOnly
+        * @static
+        * @public
+        */
+        static numRecordings : number;
+        /**
+        * Saves a message to the 'recordings' array.
+        * That message can then be retrieved later using the 'show' methods.
+        *
+        * @method recordMessage
+        * @param message {String}
+        * @param [tags=[]] {String}
+        * @param [logMethod=console.log] {String}
+        * @static
+        * @public
+        */
+        static record(messages: string[], tags?: string[], logMethod?: any): void;
+        /**
+        * Removes recordings from the list. Goes from the oldest to newest.
+        * By not passing any parameters, the entire log will be cleared.
+        *
+        * @method clearRecordings
+        * @param [start=0] {Number}
+        * @param [end] {Number}
+        * @static
+        * @private
+        */
+        static clearRecordings(start?: number, end?: number): void;
+        /**
+        * Executes a particular array of messages using a method passed.
+        * Takes into account the 'display' property before executing.
+        *
+        * @method _execute
+        * @param method {Any} The method that should be used to log the messages. Generally a console method.
+        * @param context {Any} The context that the method should be executed in. Generally set to the console.
+        * @param messages {Array}
+        * @param [force=false] {Array}
+        * @static
+        * @private
+        */
+        private static _execute(method, context, messages, force?);
+        /**
+        * Accepts an array of strings and returns a new array consisting of all elements considered as a tag.
+        *
+        * @method getTagsFromArray
+        * @param strings {Array}
+        * @return {Array} Elements of the array considered as tags
+        * @static
+        * @public
+        */
+        static getTagsFromArray(array: string[]): any[];
+        /**
+        * Logs a message using the 'console.log' method.
+        *
+        * @method log
+        * @param [..args] {Any}
+        * @static
+        * @public
+        */
+        static log(...args: any[]): void;
+        /**
+        * Logs a message using the 'console.warn' method.
+        *
+        * @method warn
+        * @param [..args] {Any}
+        * @static
+        * @public
+        */
+        static warn(...args: any[]): void;
+        /**
+        * Logs a message using the 'console.error' method.
+        *
+        * @method error
+        * @param [..args] {Any}
+        * @static
+        * @public
+        */
+        static error(...args: any[]): void;
+        /**
+        * Method that displays a particular recording passed.
+        *
+        * @method _show
+        * @param recording {Object}
+        * @param tags {Any}
+        * @return {Boolean} If the recording was displayed or not.
+        * @static
+        * @private
+        */
+        private static _show(recording, tags);
+        /**
+        * Displays the last recording matching the tags passed.
+        *
+        * @method showLast
+        * @static
+        * @public
+        */
+        static showLast(...args: any[]): void;
+        /**
+        * Displays all recording.
+        *
+        * @method showAll
+        * @static
+        * @public
+        */
+        static showAll(...args: any[]): void;
+        /**
+        * Displays all logs recorded.
+        *
+        * @method showLogs
+        * @static
+        * @public
+        */
+        static showLogs(...args: any[]): void;
+        /**
+        * Displays all errors recorded.
+        *
+        * @method showErrors
+        * @static
+        * @public
+        */
+        static showErrors(...args: any[]): void;
+        /**
+        * Displays all warnings recorded.
+        *
+        * @method showWarnings
+        * @static
+        * @public
+        */
+        static showWarnings(...args: any[]): void;
+        /**
+        * Displays a series of recordings within a time period passed.
+        * Time recorded is in milliseconds
+        *
+        * @method showTimePeriod
+        * @param [start=0] {Number}
+        * @param [end=Infinity] {Number}
+        * @param [tags] {Array} An tags that the recordings must have
+        * @static
+        * @public
+        */
+        static showTimePeriod(start?: number, end?: number, tags?: string[]): void;
+    }
+}
+/**
+*
+* @module Kiwi
 * @submodule Utils
 */
 declare module Kiwi.Utils {
@@ -21319,6 +21541,7 @@ declare module Kiwi {
         */
         static total(): number;
     }
+    var Log: Utils.Log;
     var Plugins: {};
     var extend: Function;
 }

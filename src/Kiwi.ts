@@ -128,6 +128,7 @@
 /// <reference path="utils/GameMath.ts" />
 /// <reference path="utils/RandomDataGenerator.ts" />
 /// <reference path="utils/RequestAnimationFrame.ts" />
+/// <reference path="utils/Log.ts" />
 /// <reference path="utils/Version.ts" />
 
 /**
@@ -345,6 +346,8 @@ module Kiwi {
         }
 
     }
+
+    export var Log: Kiwi.Utils.Log = Kiwi.Utils.Log;
 
     export var Plugins = {};
 
