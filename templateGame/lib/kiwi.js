@@ -327,15 +327,6 @@ var Kiwi;
             this.pluginManager = new Kiwi.PluginManager(this, options.plugins);
 
             if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                if (domParent !== '') {
-                    if (document.getElementById(domParent))
-                        Kiwi.Log.log('  Kiwi.Game: Game being created inside ' + domParent + '.', '#dom');
-                    else
-                        Kiwi.Log.log('  Kiwi.Game: The element "' + domParent + '" could not be found. Appending the game to the body.', '#dom');
-                } else {
-                    Kiwi.Log.log('  Kiwi.Game: No DOM parent specified. Appending the game to the body.', '#dom');
-                }
-
                 this._startup.boot(domParent, function () {
                     return _this._start();
                 });
@@ -6128,7 +6119,7 @@ var Kiwi;
 
         /**
         * Alias of the 'Kiwi.GameObjects.Textfield'.
-        * This will continue to be an alais until we can deprecate the existing version.
+        * This will continue to be an alias until we can deprecate the existing version.
         *
         * @class TextField
         * @namespace Kiwi.GameObjects
@@ -12051,15 +12042,21 @@ var Kiwi;
                     if (this._createContainer === true) {
                         //  No domParent was given so we create our own container for the game with a unique ID
                         if (this._domParent === '') {
+                            Kiwi.Log.log('  Kiwi.Game: No DOM parent specified. Appending the game to the body.', '#dom');
                             this.container = document.createElement('div');
                             this._setupContainer('KiwiGame' + Date.now().toString());
                             document.body.appendChild(this.container);
                         } else {
-                            //  Does the container exist?
-                            if (document.getElementById(this._domParent)) {
+                            if (document.querySelector(this._domParent)) {
+                                Kiwi.Log.log("  Kiwi.Game: Game being created inside '" + this._domParent + "'.", '#dom');
+                                this.container = document.querySelector(this._domParent);
+                                this._setupContainer();
+                            } else if (document.getElementById(this._domParent)) {
+                                Kiwi.Log.log("  Kiwi.Game: Game being created inside '" + this._domParent + "'.", '#dom');
                                 this.container = document.getElementById(this._domParent);
                                 this._setupContainer();
                             } else {
+                                Kiwi.Log.log("  Kiwi.Game: The element '" + this._domParent + "' could not be found. Appending the game to the body.", '#dom');
                                 this.container = document.createElement('div');
                                 this._setupContainer(this._domParent);
                                 document.body.appendChild(this.container);

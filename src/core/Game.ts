@@ -206,12 +206,6 @@ module Kiwi {
             this.pluginManager = new Kiwi.PluginManager(this, options.plugins);
 
             if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                if (domParent !== '') {
-                    if (document.getElementById(domParent)) Kiwi.Log.log('  Kiwi.Game: Game being created inside ' + domParent + '.', '#dom');
-                    else Kiwi.Log.log('  Kiwi.Game: The element "' + domParent + '" could not be found. Appending the game to the body.', '#dom');
-                } else {
-                    Kiwi.Log.log('  Kiwi.Game: No DOM parent specified. Appending the game to the body.', '#dom');
-                }
 
                 this._startup.boot( domParent, () => this._start() );
             } else {

@@ -3994,7 +3994,7 @@ declare module Kiwi.GameObjects {
     }
     /**
     * Alias of the 'Kiwi.GameObjects.Textfield'.
-    * This will continue to be an alais until we can deprecate the existing version.
+    * This will continue to be an alias until we can deprecate the existing version.
     *
     * @class TextField
     * @namespace Kiwi.GameObjects

@@ -125,25 +125,35 @@ module Kiwi.System {
 
                 this.isReady = true;
 
+
                 if (this._createContainer === true)
                 {
                     //  No domParent was given so we create our own container for the game with a unique ID
                     if (this._domParent === '')
                     {
+                        Kiwi.Log.log('  Kiwi.Game: No DOM parent specified. Appending the game to the body.', '#dom');
                         this.container = <HTMLDivElement> document.createElement('div');
                         this._setupContainer( 'KiwiGame' + Date.now().toString() );
                         document.body.appendChild(this.container);
                     }
                     else
                     {
-                        //  Does the container exist?
-                        if (document.getElementById(this._domParent))
+                        
+                        if ( document.querySelector(this._domParent) )
                         {
+                            Kiwi.Log.log("  Kiwi.Game: Game being created inside '" + this._domParent + "'.", '#dom');
+                            this.container = <HTMLDivElement> document.querySelector(this._domParent);
+                            this._setupContainer(); 
+                        }
+                        else if (document.getElementById(this._domParent))
+                        {
+                            Kiwi.Log.log("  Kiwi.Game: Game being created inside '" + this._domParent + "'.", '#dom');
                             this.container = <HTMLDivElement> document.getElementById(this._domParent);
                             this._setupContainer();
                         }
                         else
                         {
+                            Kiwi.Log.log("  Kiwi.Game: The element '" + this._domParent + "' could not be found. Appending the game to the body.", '#dom');
                             this.container = <HTMLDivElement> document.createElement('div');
                             this._setupContainer(this._domParent);
                             document.body.appendChild(this.container);
