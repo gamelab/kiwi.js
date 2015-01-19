@@ -113,7 +113,7 @@ module Kiwi.Input {
             this.ctrlKey = event.ctrlKey;
             this.shiftKey = event.shiftKey;
             this.altKey = event.altKey;
-            this.button - event.button;
+            this.button = event.button;
 
             super.start(event);
         }

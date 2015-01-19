@@ -299,6 +299,7 @@ var Kiwi;
                         break;
                 }
             } else {
+                Kiwi.Log.log('  Kiwi.Game: Stage scaling not specified, defaulting to NONE.', '#scaling');
                 options.scaleType = 0;
             }
 
@@ -5701,11 +5702,11 @@ var Kiwi;
             /**
             * Returns the type of object that this is.
             * @method objType
-            * @return {string}
+            * @return {string} "StaticImage"
             * @public
             */
             StaticImage.prototype.objType = function () {
-                return "Sprite";
+                return "StaticImage";
             };
 
             /**
@@ -7843,8 +7844,8 @@ var Kiwi;
             */
             AnimationManager.prototype.updateCellIndex = function () {
                 if (typeof this.currentAnimation !== "undefined") {
-                    this.onUpdate.dispatch(this.currentAnimation);
                     this.entity.cellIndex = this.currentAnimation.currentCell;
+                    this.onUpdate.dispatch(this.currentAnimation);
                 }
             };
 
@@ -19897,7 +19898,7 @@ var Kiwi;
                 this.ctrlKey = event.ctrlKey;
                 this.shiftKey = event.shiftKey;
                 this.altKey = event.altKey;
-                this.button - event.button;
+                this.button = event.button;
 
                 _super.prototype.start.call(this, event);
             };
@@ -29431,13 +29432,13 @@ var Kiwi;
 
             /**
             * Default function to convert an object to a string.
-            * @method defaultTostring
+            * @method defaultToString
             * @param item {Any}
             * @return {Any}
             * @static
             * @public
             */
-            Common.defaultTostring = function (item) {
+            Common.defaultToString = function (item) {
                 if (item === null) {
                     return 'KIWI_NULL';
                 } else if (Kiwi.Utils.Common.isUndefined(item)) {
@@ -29447,6 +29448,21 @@ var Kiwi;
                 } else {
                     return item.toString();
                 }
+            };
+
+            /**
+            * Returns a boolean indicating whether x is between two parameters passed.
+            *
+            * @method isBetween
+            * @param x {Number} The values to be checked
+            * @param min {Number} The minimum value
+            * @param max {Number} The maximum value
+            * @return {Boolean}
+            * @static
+            * @public
+            */
+            Common.isBetween = function (x, min, max) {
+                return (x > min && x < max);
             };
 
             /**

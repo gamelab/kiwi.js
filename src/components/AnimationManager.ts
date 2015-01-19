@@ -426,8 +426,8 @@ module Kiwi.Components {
         */
         public updateCellIndex() {
             if (typeof this.currentAnimation !== "undefined") {
-                this.onUpdate.dispatch(this.currentAnimation);
                 this.entity.cellIndex = this.currentAnimation.currentCell;
+                this.onUpdate.dispatch(this.currentAnimation);
             }
         }
         

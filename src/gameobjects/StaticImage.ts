@@ -53,11 +53,11 @@ module Kiwi.GameObjects {
         /**
         * Returns the type of object that this is.
         * @method objType
-        * @return {string}
+        * @return {string} "StaticImage"
         * @public
         */
         public objType(): string {
-            return "Sprite";
+            return "StaticImage";
         }
 
         /** 

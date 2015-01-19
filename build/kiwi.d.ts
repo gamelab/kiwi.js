@@ -3749,7 +3749,7 @@ declare module Kiwi.GameObjects {
         /**
         * Returns the type of object that this is.
         * @method objType
-        * @return {string}
+        * @return {string} "StaticImage"
         * @public
         */
         public objType(): string;
@@ -19696,13 +19696,25 @@ declare module Kiwi.Utils {
         static defaultEquals(a: any, b: any): boolean;
         /**
         * Default function to convert an object to a string.
-        * @method defaultTostring
+        * @method defaultToString
         * @param item {Any}
         * @return {Any}
         * @static
         * @public
         */
-        static defaultTostring(item: any): any;
+        static defaultToString(item: any): any;
+        /**
+        * Returns a boolean indicating whether x is between two parameters passed.
+        *
+        * @method isBetween
+        * @param x {Number} The values to be checked
+        * @param min {Number} The minimum value
+        * @param max {Number} The maximum value
+        * @return {Boolean}
+        * @static
+        * @public
+        */
+        static isBetween(x: any, min: any, max: any): boolean;
         /**
         * Checks if the given argument is a function.
         * @method isFunction
