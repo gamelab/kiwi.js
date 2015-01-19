@@ -282,7 +282,7 @@ var Kiwi;
 
             Kiwi.Log.log('  Kiwi.Game: Stage Dimensions: ' + width + 'x' + height, '#dimensions');
 
-            if (options.scaleType !== 'undefined') {
+            if (!Kiwi.Utils.Common.isUndefined(options.scaleType)) {
                 switch (options.scaleType) {
                     case Kiwi.Stage.SCALE_FIT:
                         Kiwi.Log.log('  Kiwi.Game: Stage scaling set to FIT.', '#scaling');
@@ -27338,6 +27338,21 @@ var Kiwi;
             Audio.prototype.objType = function () {
                 return "Audio";
             };
+
+            Object.defineProperty(Audio.prototype, "loop", {
+                /**
+                * READ ONLY: Returns a boolean indicating if the current audio marker playing is/will loop.
+                * @property loop
+                * @readOnly
+                * @type Boolean
+                * @public
+                */
+                get: function () {
+                    return this._loop;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             /**
             * Retrieves the audio data from the file store.

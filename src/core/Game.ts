@@ -159,7 +159,7 @@ module Kiwi {
             Kiwi.Log.log('  Kiwi.Game: Stage Dimensions: ' + width + 'x' + height, '#dimensions');
 
             
-            if (options.scaleType !== 'undefined') {
+            if ( !Kiwi.Utils.Common.isUndefined( options.scaleType ) ) {
 
                 switch (options.scaleType) {
                     case Kiwi.Stage.SCALE_FIT:
@@ -178,6 +178,7 @@ module Kiwi {
                 }
 
             } else {
+                Kiwi.Log.log('  Kiwi.Game: Stage scaling not specified, defaulting to NONE.', '#scaling');
                 options.scaleType = 0;
             }
 

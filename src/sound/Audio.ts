@@ -228,6 +228,17 @@ module Kiwi.Sound {
         private _loop: boolean;
 
         /**
+        * READ ONLY: Returns a boolean indicating if the current audio marker playing is/will loop.
+        * @property loop
+        * @readOnly
+        * @type Boolean
+        * @public
+        */
+        public get loop():boolean {
+            return this._loop;
+        }
+
+        /**
         * The key that was used to get the audio from the AudioLibrary.
         * @property key
         * @type string
