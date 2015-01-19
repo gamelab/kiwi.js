@@ -6125,6 +6125,16 @@ var Kiwi;
             return Textfield;
         })(Kiwi.Entity);
         GameObjects.Textfield = Textfield;
+
+        /**
+        * Alias of the 'Kiwi.GameObjects.Textfield'.
+        * This will continue to be an alais until we can deprecate the existing version.
+        *
+        * @class TextField
+        * @namespace Kiwi.GameObjects
+        * @extends Kiwi.GameObjects.Textfield
+        */
+        GameObjects.TextField = Kiwi.GameObjects.Textfield;
     })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
     var GameObjects = Kiwi.GameObjects;
 })(Kiwi || (Kiwi = {}));

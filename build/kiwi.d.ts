@@ -3992,6 +3992,15 @@ declare module Kiwi.GameObjects {
         */
         public renderGL(gl: WebGLRenderingContext, camera: Camera, params?: any): void;
     }
+    /**
+    * Alias of the 'Kiwi.GameObjects.Textfield'.
+    * This will continue to be an alais until we can deprecate the existing version.
+    *
+    * @class TextField
+    * @namespace Kiwi.GameObjects
+    * @extends Kiwi.GameObjects.Textfield
+    */
+    var TextField: typeof Textfield;
 }
 /**
 *
