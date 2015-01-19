@@ -180,7 +180,6 @@ module Kiwi.Shaders {
         public applyUniform(gl: WebGLRenderingContext, name: string) {
             var u = this.uniforms[name]
             if (this.uniforms[name].dirty) {
-                console.log(name);
                 gl["uniform" + u.type](u.location, u.value);
                 this.uniforms[name].dirty = false;
             }

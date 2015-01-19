@@ -356,7 +356,6 @@ module Kiwi {
         */
         public containsDescendant(child: Kiwi.IChild): boolean {
             for (var i = 0; i < this.members.length; i++) {
-                console.log(i);
                 var curMember: any = this.members[i];
                 if (curMember.id == child.id || curMember.childType() == Kiwi.Group && curMember.containsDesendant(child)) {
                     return true;

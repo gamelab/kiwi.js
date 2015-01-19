@@ -249,7 +249,7 @@ module Kiwi.Renderers {
                 if (this.addSharedRenderer(rendererID,params)) {
                     return this._sharedRenderers[rendererID];
                 } else {
-                    console.log("no renderer called " + rendererID);
+                    Kiwi.Log.log("No renderer called " + rendererID, '#renderer', '#webgl');
                 }
             }
             //failed request
@@ -275,7 +275,7 @@ module Kiwi.Renderers {
                 var renderer = new Kiwi.Renderers[rendererID](this._game.stage.gl, this._shaderManager, params); 
                 return renderer
             } else {
-                console.log("No renderer with id " + rendererID + " exists");
+                Kiwi.Log.log("No renderer with id " + rendererID + " exists", '#renderer', '#webgl');
             }
             return null; //fail
         } 
@@ -300,7 +300,7 @@ module Kiwi.Renderers {
         * @private
         */
         private _init() {
-            console.log("Intialising WebGL");
+            Kiwi.Log.log("Intialising WebGL", '#renderer', '#webgl');
             var gl: WebGLRenderingContext = this._game.stage.gl;
            
             //init stage and viewport
@@ -412,7 +412,7 @@ module Kiwi.Renderers {
 
         public endState(state: Kiwi.State) {
             this._textureManager.clearTextures(this._game.stage.gl);
-            console.log("ending WebGL on State");
+            Kiwi.Log.log("Ending WebGL on State", '#renderer', '#webgl');
         }
         
         /**
@@ -442,7 +442,6 @@ module Kiwi.Renderers {
             
             // Stop drawing if there is nothing to draw
             if (this._game.states.current.members.length == 0) {
-                console.log("nothing to render");
                 return;
             }
                                        

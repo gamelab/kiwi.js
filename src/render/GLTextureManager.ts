@@ -164,7 +164,7 @@ module Kiwi.Renderers {
             this._addTextureToCache( glTextureWrapper );
             // Only upload it if it fits
             if (!this._uploadTexture(gl, glTextureWrapper)) {
-                console.log("...skipped uploading texture due to allocated texture memory exceeded");
+                Kiwi.Log.log("...skipped uploading texture due to allocated texture memory exceeded.", '#renderer', '#webgl');
             }
         }
 

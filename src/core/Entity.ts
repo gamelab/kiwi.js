@@ -383,7 +383,7 @@ module Kiwi {
 
                 } else {
 
-                    if (this.game.debug) console.error('Could not the set the cellIndex of a Entity, to cell that does not exist on its TextureAtlas.');
+                    Kiwi.Log.error('Could not the set the cellIndex of a Entity, to cell that does not exist on its TextureAtlas.', '#entity', "#cellIndex");
 
                 }
             }

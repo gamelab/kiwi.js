@@ -15,6 +15,19 @@ var Kiwi;
     * @param [name='KiwiGame'] {String} The name of the game that is being created.
     * @param [state=null] {Any} The state to load initially. This can either be the name of a state, but preferably this would be the state object itself.
     * @param [options] {Object} Any special options for the game. E.g. Is DEBUG_ON or DEBUG_OFF, RENDERER_CANVAS or RENDERER_WEBGL, TARGET_BROWSER or TARGET_COCOON
+    *   @param [options.debug=Kiwi.DEBUG_ON] {Number} If debugging is enabled or not.
+    *   @param [options.bootCallback=null] {Function} A callback to be executed when the game reaches the boot stage.
+    *   @param [options.deviceTarget=Kiwi.TARGET_BROWSER] {Number} The type of device Kiwi is being used on.
+    *   @param [options.renderer=Kiwi.RENDERER_AUTO] {Number} The renderer Kiwi should use.
+    *   @param [options.width=Kiwi.Stage.DEFAULT_WIDTH] {Number} The width of this instance of Kiwi.
+    *   @param [options.height=Kiwi.Stage.DEFAULT_HEIGHT] {Number} The height of this instance of Kiwi.
+    *   @param [options.scaleType=Kiwi.Stage.SCALE_NONE] {Number} The type of scaling that should be applied to Kiwi.
+    *   @param [options.plugins=[]] {Array} A list of the names of plugins that are to be used with this game.
+    *   @param [options.log] {Object} Default state of the Log properties
+    *       @param [options.log.recording=true] {Boolean} If the logs should be recorded.
+    *       @param [options.log.display=true] {Boolean} If the logs should be displayed or not.
+    *       @param [options.log.enabled=true] {Boolean} If the Logger is enabled at all.
+    *       @param [options.log.maxRecordings=Infinity] {Number} The maximum number of recordings to have at a single time.
     * @return {Kiwi.Game}
     *
     */
@@ -147,7 +160,8 @@ var Kiwi;
             * @since 1.1.0
             */
             this._frame = 0;
-            console.log('Kiwi.Game: ' + name + ' is booting, using Kiwi.js version ' + Kiwi.VERSION);
+            Kiwi.Log.setDefaultsFromParams(options.log);
+            Kiwi.Log.log('Kiwi.Game: ' + name + ' is booting using Kiwi.js ' + Kiwi.VERSION, '#version');
 
             if (Kiwi.DEVICE === null) {
                 Kiwi.DEVICE = new Kiwi.System.Device();
@@ -157,20 +171,20 @@ var Kiwi;
                 switch (options.debug) {
                     case Kiwi.DEBUG_ON:
                         this._debugOption = options.debug;
-                        console.log('  Kiwi.Game: Debugging turned ON.');
+                        Kiwi.Log.log('  Kiwi.Game: Debugging turned ON.', '#debugging');
                         break;
                     case Kiwi.DEBUG_OFF:
                         this._debugOption = options.debug;
-                        console.log('  Kiwi.Game: Debugging turned OFF.');
+                        Kiwi.Log.log('  Kiwi.Game: Debugging turned OFF.', '#debugging');
                         break;
                     default:
                         this._debugOption = Kiwi.DEBUG_ON;
-                        console.error('  Kiwi.Game: Debug option passed, but is not a valid option. Turned ON by default.');
+                        Kiwi.Log.error('  Kiwi.Game: Debug option passed, but is not a valid option. Turned ON by default.', '#debugging');
                         break;
                 }
             } else {
                 this._debugOption = Kiwi.DEBUG_ON;
-                console.log('  Kiwi.Game: Debug option not specified. Turned ON by default.');
+                Kiwi.Log.log('  Kiwi.Game: Debug option not specified. Turned ON by default.', '#debugging');
             }
 
             if (options.bootCallback !== 'undefined') {
@@ -182,20 +196,20 @@ var Kiwi;
                 switch (options.deviceTarget) {
                     case Kiwi.TARGET_BROWSER:
                         this._deviceTargetOption = options.deviceTarget;
-                        console.log('  Kiwi.Game: Targeting BROWSERS.');
+                        Kiwi.Log.log('  Kiwi.Game: Targeting BROWSERS.', '#target');
                         break;
                     case Kiwi.TARGET_COCOON:
                         this._deviceTargetOption = options.deviceTarget;
-                        console.log('  Kiwi.Game: Targeting COCOONJS.');
+                        Kiwi.Log.log('  Kiwi.Game: Targeting COCOONJS.', '#target');
                         break;
                     default:
                         this._deviceTargetOption = Kiwi.TARGET_BROWSER;
-                        console.error('  Kiwi.Game: Target device specified, but is not a valid option. Defaulting to BROWSER.');
+                        Kiwi.Log.error('  Kiwi.Game: Target device specified, but is not a valid option. Defaulting to BROWSER.', '#target');
                         break;
                 }
             } else {
                 this._deviceTargetOption = Kiwi.TARGET_BROWSER;
-                console.log('  Kiwi.Game: Targeted device not specified. Defaulting to BROWSER');
+                Kiwi.Log.log('  Kiwi.Game: Targeted device not specified. Defaulting to BROWSER.', '#target');
             }
 
             var renderDefault = Kiwi.RENDERER_WEBGL;
@@ -206,43 +220,43 @@ var Kiwi;
                 switch (options.renderer) {
                     case Kiwi.RENDERER_CANVAS:
                         this._renderOption = options.renderer;
-                        console.log('  Kiwi.Game: Rendering using CANVAS.');
+                        Kiwi.Log.log('  Kiwi.Game: Rendering using CANVAS.', '#renderer', '#canvas');
                         break;
                     case Kiwi.RENDERER_WEBGL:
                         if (Kiwi.DEVICE.webGL) {
                             this._renderOption = options.renderer;
-                            console.log('  Kiwi.Game: Rendering using WEBGL.');
+                            Kiwi.Log.log('  Kiwi.Game: Rendering using WEBGL.', '#renderer', '#webgl');
                         } else {
                             this._renderOption = renderFallback;
-                            console.log('  Kiwi.Game: WEBGL renderer requested but device does not support WEBGL. Rendering using CANVAS.');
+                            Kiwi.Log.log('  Kiwi.Game: WEBGL renderer requested but device does not support WEBGL. Rendering using CANVAS.', '#renderer', '#canvas');
                         }
                         break;
                     case Kiwi.RENDERER_AUTO:
                         if (Kiwi.DEVICE.webGL) {
                             this._renderOption = renderDefault;
-                            console.log('  Kiwi.Game: Renderer auto-detected WEBGL.');
+                            Kiwi.Log.log('  Kiwi.Game: Renderer auto-detected WEBGL.', '#renderer', '#webgl');
                         } else {
                             this._renderOption = renderFallback;
-                            console.log('  Kiwi.Game: Renderer auto-detected CANVAS.');
+                            Kiwi.Log.log('  Kiwi.Game: Renderer auto-detected CANVAS.', '#renderer', '#canvas');
                         }
                         break;
                     default:
                         if (Kiwi.DEVICE.webGL) {
                             this._renderOption = renderDefault;
-                            console.log('  Kiwi.Game: Renderer specified, but is not a valid option. Defaulting to WEBGL.');
+                            Kiwi.Log.log('  Kiwi.Game: Renderer specified, but is not a valid option. Defaulting to WEBGL.', '#renderer', '#webgl');
                         } else {
                             this._renderOption = renderFallback;
-                            console.log('  Kiwi.Game: Renderer specified, but is not a valid option. WEBGL renderer sought by default but device does not support WEBGL. Defaulting to CANVAS.');
+                            Kiwi.Log.log('  Kiwi.Game: Renderer specified, but is not a valid option. WEBGL renderer sought by default but device does not support WEBGL. Defaulting to CANVAS.', '#renderer', '#canvas');
                         }
                         break;
                 }
             } else {
                 if (Kiwi.DEVICE.webGL) {
                     this._renderOption = renderDefault;
-                    console.log('  Kiwi.Game: Renderer not specified. Defaulting to WEBGL.');
+                    Kiwi.Log.log('  Kiwi.Game: Renderer not specified. Defaulting to WEBGL.', '#renderer', '#webgl');
                 } else {
                     this._renderOption = renderFallback;
-                    console.log('  Kiwi.Game: Renderer not specified. WEBGL renderer sought by default but device does not support WEBGL. Defaulting to CANVAS.');
+                    Kiwi.Log.log('  Kiwi.Game: Renderer not specified. WEBGL renderer sought by default but device does not support WEBGL. Defaulting to CANVAS.', '#renderer', '#canvas');
                 }
             }
 
@@ -266,21 +280,21 @@ var Kiwi;
                 height = options.height;
             }
 
-            console.log('  Kiwi.Game: Stage Dimensions: ' + width + 'x' + height);
+            Kiwi.Log.log('  Kiwi.Game: Stage Dimensions: ' + width + 'x' + height, '#dimensions');
 
             if (options.scaleType !== 'undefined') {
                 switch (options.scaleType) {
                     case Kiwi.Stage.SCALE_FIT:
-                        console.log('  Kiwi.Game: Stage scaling set to FIT.');
+                        Kiwi.Log.log('  Kiwi.Game: Stage scaling set to FIT.', '#scaling');
                         break;
                     case Kiwi.Stage.SCALE_STRETCH:
-                        console.log('  Kiwi.Game: Stage scaling set to STRETCH.');
+                        Kiwi.Log.log('  Kiwi.Game: Stage scaling set to STRETCH.', '#scaling');
                         break;
                     case Kiwi.Stage.SCALE_NONE:
-                        console.log('  Kiwi.Game: Stage scaling set to NONE.');
+                        Kiwi.Log.log('  Kiwi.Game: Stage scaling set to NONE.', '#scaling');
                         break;
                     default:
-                        console.log('  Kiwi.Game: Stage specified, but is not a valid option. Set to NONE.');
+                        Kiwi.Log.log('  Kiwi.Game: Stage specified, but is not a valid option. Set to NONE.', '#scaling');
                         options.scaleType = 0;
                         break;
                 }
@@ -307,7 +321,7 @@ var Kiwi;
             if (state !== null) {
                 this.states.addState(state, true);
             } else {
-                console.log('  Kiwi.Game: Default State not passed.');
+                Kiwi.Log.log('  Kiwi.Game: Default State not passed.', '#state');
             }
 
             this.pluginManager = new Kiwi.PluginManager(this, options.plugins);
@@ -315,20 +329,20 @@ var Kiwi;
             if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 if (domParent !== '') {
                     if (document.getElementById(domParent))
-                        console.log('  Kiwi.Game: Game being created inside ' + domParent + '.');
+                        Kiwi.Log.log('  Kiwi.Game: Game being created inside ' + domParent + '.', '#dom');
                     else
-                        console.log('  Kiwi.Game: The element "' + domParent + '" could not be found. Appending the game to the body.');
+                        Kiwi.Log.log('  Kiwi.Game: The element "' + domParent + '" could not be found. Appending the game to the body.', '#dom');
                 } else {
-                    console.log('  Kiwi.Game: No DOM parent specified. Appending the game to the body.');
+                    Kiwi.Log.log('  Kiwi.Game: No DOM parent specified. Appending the game to the body.', '#dom');
                 }
 
                 this._startup.boot(domParent, function () {
                     return _this._start();
                 });
             } else {
-                if (domParent !== '')
-                    console.log('  Kiwi.Game: Not Targetting a BROWSER. DOM Parent parameter ignored.');
-
+                if (domParent !== '') {
+                    Kiwi.Log.log('  Kiwi.Game: Not Targetting a BROWSER. DOM Parent parameter ignored.', '#dom');
+                }
                 this._start();
             }
         }
@@ -469,7 +483,7 @@ var Kiwi;
             this.stage.boot(this._startup);
 
             if (!this.stage.renderer)
-                console.error("Could not create rendering context");
+                Kiwi.Log.error("  Kiwi.Game: Could not create rendering context", '#renderer');
             if (this._renderOption === Kiwi.RENDERER_WEBGL && this.stage.ctx)
                 this._renderOption = Kiwi.RENDERER_CANVAS; // Adapt to fallback if WebGL failed
             this.renderer = this.stage.renderer;
@@ -497,7 +511,7 @@ var Kiwi;
             this.raf.start();
 
             if (this.bootCallbackOption) {
-                console.log("  Kiwi.Game: invoked boot callback");
+                Kiwi.Log.log("  Kiwi.Game: invoked boot callback", '#boot');
                 this.bootCallbackOption(this);
             }
         };
@@ -1030,14 +1044,14 @@ var Kiwi;
                 if (!this.gl) {
                     this.gl = this.canvas.getContext("experimental-webgl");
                     if (!this.gl) {
-                        console.warn("Kiwi.Stage: WebGL rendering is not available despite the device apparently supporting it. Reverting to CANVAS.");
+                        Kiwi.Log.warn("Kiwi.Stage: WebGL rendering is not available despite the device apparently supporting it. Reverting to CANVAS.", '#renderer');
 
                         // Reset to canvas mode
                         this.ctx = this.canvas.getContext("2d");
                         this.ctx.fillStyle = '#fff';
                         this.gl = null;
                     } else {
-                        console.warn("Kiwi.Stage: 'webgl' context is not available. Using 'experimental-webgl'");
+                        Kiwi.Log.warn("Kiwi.Stage: 'webgl' context is not available. Using 'experimental-webgl'", '#renderer');
                     }
                 }
                 if (this.gl) {
@@ -1127,7 +1141,7 @@ var Kiwi;
 
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
                 //Not supported in CocoonJS only because we cannot add it to the container (as a container does not exist) and position will be hard.
-                console.log('Debug canvas not supported in cocoon, creating canvas and context anyway');
+                Kiwi.Log.log('Debug canvas not supported in cocoon, creating canvas and context anyway', '#debug-canvas');
             }
 
             this.debugCanvas = document.createElement("canvas");
@@ -1548,7 +1562,7 @@ var Kiwi;
         * @static
         */
         PluginManager.register = function (plugin) {
-            console.log("Kiwi.PluginManager: Attempting to register plugin :" + plugin.name);
+            Kiwi.Log.log("Kiwi.PluginManager: Attempting to register plugin : " + plugin.name, '#plugin');
             if (this._availablePlugins.indexOf(plugin) == -1) {
                 //check if plugin with same name is registered
                 var uniqueName = true;
@@ -1560,12 +1574,12 @@ var Kiwi;
 
                 if (uniqueName) {
                     this._availablePlugins.push(plugin);
-                    console.log("  Kiwi.PluginManager: Registered plugin " + plugin.name + ": version " + plugin.version);
+                    Kiwi.Log.log("  Kiwi.PluginManager: Registered plugin " + plugin.name + ": version " + plugin.version, '#plugin');
                 } else {
-                    console.log("  Kiwi.PluginManager: A plugin with the same name has already been registered. Ignoring this plugin.");
+                    Kiwi.Log.warn("  Kiwi.PluginManager: A plugin with the same name has already been registered. Ignoring this plugin.", '#plugin');
                 }
             } else {
-                console.log("  Kiwi.PluginManager: This plugin has already been registered. Ignoring second registration.");
+                Kiwi.Log.warn("  Kiwi.PluginManager: This plugin has already been registered. Ignoring second registration.", '#plugin');
             }
         };
 
@@ -1592,38 +1606,41 @@ var Kiwi;
         */
         PluginManager.prototype.validatePlugins = function () {
             var validPlugins = new Array();
-            console.log("Kiwi.PluginManager: Validating Plugins");
+            Kiwi.Log.log("Kiwi.PluginManager: Validating Plugins", '#plugins');
+
             for (var i = 0; i < this._plugins.length; i++) {
                 var plugin = this._plugins[i];
+
                 if (typeof plugin == 'string' || plugin instanceof String) {
                     if (Kiwi.Plugins.hasOwnProperty(plugin) && this.pluginIsRegistered(plugin)) {
                         validPlugins.push(plugin);
-                        console.log("  Kiwi.PluginManager: Plugin '" + plugin + "' appears to be valid.");
-                        console.log("  Kiwi.PluginManager: Name:" + Kiwi.Plugins[plugin].name);
-                        console.log("  Kiwi.PluginManager: Version:" + Kiwi.Plugins[plugin].version);
+                        Kiwi.Log.log("  Kiwi.PluginManager: Plugin '" + plugin + "' appears to be valid.", '#plugin');
+                        Kiwi.Log.log("  Kiwi.PluginManager: Name:" + Kiwi.Plugins[plugin].name, '#plugin');
+                        Kiwi.Log.log("  Kiwi.PluginManager: Version:" + Kiwi.Plugins[plugin].version, '#plugin');
 
                         //test for kiwi version compatiblity
                         if (typeof Kiwi.Plugins[plugin].minimumKiwiVersion !== "undefined") {
-                            console.log("  Kiwi.PluginManager: " + plugin + " requires minimum Kiwi version " + Kiwi.Plugins[plugin].minimumKiwiVersion);
+                            Kiwi.Log.log("  Kiwi.PluginManager: " + plugin + " requires minimum Kiwi version " + Kiwi.Plugins[plugin].minimumKiwiVersion, '#plugin');
                             var parsedKiwiVersion = Kiwi.Utils.Version.parseVersion(Kiwi.VERSION);
                             var parsedPluginMinVersion = Kiwi.Utils.Version.parseVersion(Kiwi.Plugins[plugin].minimumKiwiVersion);
+
                             if (parsedKiwiVersion.majorVersion > parsedPluginMinVersion.majorVersion) {
-                                console.warn("  Kiwi.PluginManager: This major version of Kiwi is greater than that required by '" + plugin + "'. It is unknown whether this plugin will work with this version of Kiwi");
+                                Kiwi.Log.warn("  Kiwi.PluginManager: This major version of Kiwi is greater than that required by '" + plugin + "'. It is unknown whether this plugin will work with this version of Kiwi", '#plugin');
                             } else {
                                 if (Kiwi.Utils.Version.greaterOrEqual(Kiwi.VERSION, Kiwi.Plugins[plugin].minimumKiwiVersion)) {
-                                    console.log("  Kiwi.PluginManager: Kiwi version meets minimum version requirements for '" + plugin + "'.");
+                                    Kiwi.Log.log("  Kiwi.PluginManager: Kiwi version meets minimum version requirements for '" + plugin + "'.", '#plugin');
                                 } else {
-                                    console.warn("  Kiwi.PluginManager: Kiwi version (" + Kiwi.VERSION + ") does not meet minimum version requirements for the plugin (" + Kiwi.Plugins[plugin].minimumKiwiVersion + ").");
+                                    Kiwi.Log.warn("  Kiwi.PluginManager: Kiwi version (" + Kiwi.VERSION + ") does not meet minimum version requirements for the plugin (" + Kiwi.Plugins[plugin].minimumKiwiVersion + ").", '#plugin');
                                 }
                             }
                         } else {
-                            console.warn("  Kiwi.PluginManager: '" + plugin + "' is missing the minimumKiwiVersion property. It is unknown whether '" + plugin + "' will work with this version of Kiwi");
+                            Kiwi.Log.warn("  Kiwi.PluginManager: '" + plugin + "' is missing the minimumKiwiVersion property. It is unknown whether '" + plugin + "' will work with this version of Kiwi", '#plugin');
                         }
                     } else {
-                        console.log("  Kiwi.PluginManager: Plugin '" + plugin + "' appears to be invalid. No property with that name exists on the Kiwi.Plugins object or the Plugin is not registered. Check that the js file containing the plugin has been included. This plugin will be ignored");
+                        Kiwi.Log.log("  Kiwi.PluginManager: Plugin '" + plugin + "' appears to be invalid. No property with that name exists on the Kiwi.Plugins object or the Plugin is not registered. Check that the js file containing the plugin has been included. This plugin will be ignored", '#plugin');
                     }
                 } else {
-                    console.log("  Kiwi.PluginManager: The supplied plugin name at index " + i + "is not a string and will be ignored");
+                    Kiwi.Log.log("  Kiwi.PluginManager: The supplied plugin name at index " + i + "is not a string and will be ignored", '#plugin');
                 }
             }
             this._plugins = validPlugins;
@@ -1635,18 +1652,18 @@ var Kiwi;
 
                 if (typeof plugin.pluginDependencies !== "undefined") {
                     if (plugin.pluginDependencies.length === 0) {
-                        console.log("  Kiwi.PluginManager: '" + pluginName + "' does not depend on any other plugins.");
+                        Kiwi.Log.log("  Kiwi.PluginManager: '" + pluginName + "' does not depend on any other plugins.", '#plugin');
                     } else {
-                        console.log("  Kiwi.PluginManager: '" + pluginName + "' depends on the following plugins:");
+                        Kiwi.Log.log("  Kiwi.PluginManager: '" + pluginName + "' depends on the following plugins:", '#plugin', '#dependencies');
                         for (var j = 0; j < plugin.pluginDependencies.length; j++) {
-                            console.log(plugin.pluginDependencies[j].name, plugin.pluginDependencies[j].minimumVersion);
+                            Kiwi.Log.log(plugin.pluginDependencies[j].name, plugin.pluginDependencies[j].minimumVersion, '#plugin', '#dependencies');
                             if (!this.validMinimumPluginVersionExists(plugin.pluginDependencies[j].name, plugin.pluginDependencies[j].minimumVersion)) {
-                                console.warn("  Kiwi.PluginManager: '" + plugin.pluginDependencies[j].name + " hasn't been added to this game via the config, doesn't exist, or does not meet minimum version requirement ( " + plugin.pluginDependencies[j].minimumVersion + ").");
+                                Kiwi.Log.warn("  Kiwi.PluginManager: '" + plugin.pluginDependencies[j].name + " hasn't been added to this game via the config, doesn't exist, or does not meet minimum version requirement ( " + plugin.pluginDependencies[j].minimumVersion + ").", '#plugin', '#dependencies');
                             }
                         }
                     }
                 } else {
-                    console.log("  Kiwi.PluginManager: '" + pluginName + "' does not depend on any other plugins.");
+                    Kiwi.Log.log("  Kiwi.PluginManager: '" + pluginName + "' does not depend on any other plugins.", '#plugin', '#dependencies');
                 }
             }
         };
@@ -1708,7 +1725,7 @@ var Kiwi;
                 if ("boot" in this._bootObjects[i]) {
                     this._bootObjects[i].boot.call(this._bootObjects[i]);
                 } else {
-                    console.warn("Kiwi.PluginManager: Warning! No boot function found on boot object");
+                    Kiwi.Log.warn("Kiwi.PluginManager: Warning! No boot function found on boot object.", '#plugin');
                 }
             }
         };
@@ -2091,7 +2108,7 @@ var Kiwi;
         */
         StateManager.prototype.addState = function (state, switchTo) {
             if (typeof switchTo === "undefined") { switchTo = false; }
-            console.log('Kiwi.StateManager: Adding state');
+            Kiwi.Log.log('Kiwi.StateManager: Adding state.', '#state');
             var tempState;
 
             //What type is the state that was passed.
@@ -2105,9 +2122,7 @@ var Kiwi;
 
             //Does a state with that name already exist?
             if (tempState.config.name && this.checkKeyExists(tempState.config.name) === true) {
-                if (this._game.debug)
-                    console.error('  Kiwi.StateManager: Could not add ' + tempState.config.name + ' as a State with that name already exists.');
-
+                Kiwi.Log.error('  Kiwi.StateManager: Could not add ' + tempState.config.name + ' as a State with that name already exists.', '#state');
                 return false;
             }
 
@@ -2115,15 +2130,12 @@ var Kiwi;
 
             //Is it a valid state?
             if (this.checkValidState(tempState) === false) {
-                if (this._game.debug)
-                    console.error('  Kiwi.StateManager: ' + tempState.config.name + ' isn\'t a valid state. Make sure you are using the Kiwi.State class!');
+                Kiwi.Log.error('  Kiwi.StateManager: ' + tempState.config.name + ' isn\'t a valid state. Make sure you are using the Kiwi.State class!', '#state');
 
                 return false;
             } else {
                 this._states.push(tempState);
-
-                if (this._game.debug)
-                    console.log('  Kiwi.StateManager: ' + tempState.config.name + ' was successfully added.');
+                Kiwi.Log.log('  Kiwi.StateManager: ' + tempState.config.name + ' was successfully added.', '#state');
 
                 if (switchTo === true) {
                     this.switchState(tempState.config.name);
@@ -2156,8 +2168,7 @@ var Kiwi;
                 return false;
             }
 
-            if (this._game.debug)
-                console.log('Kiwi.StateManager: Switching to "' + key + '" State.');
+            Kiwi.Log.log('Kiwi.StateManager: Switching to "' + key + '" State.', '#state');
 
             this._newStateKey = key;
             return true;
@@ -2208,8 +2219,7 @@ var Kiwi;
             if (typeof createParams === "undefined") { createParams = null; }
             //  If we have a current state that isn't yet ready (preload hasn't finished) then abort now
             if (this.current !== null && this.current.config.isReady === false) {
-                if (this._game.debug)
-                    console.error('Kiwi.StateManager: Cannot change to a new state till the current state has finished loading!');
+                Kiwi.Log.error('Kiwi.StateManager: Cannot change to a new state till the current state has finished loading!', '#state');
 
                 return false;
             }
@@ -2288,8 +2298,7 @@ var Kiwi;
         * @private
         */
         StateManager.prototype.callCreate = function () {
-            if (this._game.debug)
-                console.log("Kiwi.StateManager: Calling " + this.current.name + ":Create");
+            Kiwi.Log.log("Kiwi.StateManager: Calling " + this.current.name + ":Create", '#state');
 
             //Execute the create with params if there are some there.
             if (this.current.config.createParams) {
@@ -2848,8 +2857,7 @@ var Kiwi;
                         this.width = cell.w;
                         this.height = cell.h;
                     } else {
-                        if (this.game.debug)
-                            console.error('Could not the set the cellIndex of a Entity, to cell that does not exist on its TextureAtlas.');
+                        Kiwi.Log.error('Could not the set the cellIndex of a Entity, to cell that does not exist on its TextureAtlas.', '#entity', "#cellIndex");
                     }
                 }
             },
@@ -3589,7 +3597,6 @@ var Kiwi;
         */
         Group.prototype.containsDescendant = function (child) {
             for (var i = 0; i < this.members.length; i++) {
-                console.log(i);
                 var curMember = this.members[i];
                 if (curMember.id == child.id || curMember.childType() == Kiwi.Group && curMember.containsDesendant(child)) {
                     return true;
@@ -5045,6 +5052,7 @@ var Kiwi;
             this.memorize = false;
             /**
             * If the callbacks should propagate or not.
+            * @property _shouldPropagate
             * @type boolean
             * @default true
             * @private
@@ -5220,7 +5228,7 @@ var Kiwi;
         /**
         * Remove a single listener from the dispatch queue.
         *
-        * @metho remove
+        * @method remove
         * @param listener {Function} Handler function that should be removed.
         * @param [context=null] {Any} Execution context (since you can add the same handler multiple times if executing in a different context).
         * @return {Function} Listener handler function.
@@ -5543,7 +5551,7 @@ var Kiwi;
 
                 //Texture atlas error check
                 if (typeof atlas == "undefined") {
-                    console.error('A Texture Atlas was not passed when instantiating a new Sprite.');
+                    Kiwi.Log.error('A Texture Atlas was not passed when instantiating a new Sprite.', '#sprite', '#texture');
                     this.visible = false;
                     this.active = false;
                     return;
@@ -5683,7 +5691,7 @@ var Kiwi;
 
                 //Texture atlas error check.
                 if (typeof atlas == "undefined") {
-                    console.error('A Texture Atlas was not passed when instantiating a new Static Image.');
+                    Kiwi.Log.error('A Texture Atlas was not passed when instantiating a new Static Image.', '#static-image', '#texture');
                     this.visible = false;
                     this.active = false;
                     return;
@@ -6263,7 +6271,7 @@ var Kiwi;
                     if (tileMapData !== undefined && atlas !== undefined) {
                         this.createFromFileStore(tileMapData, atlas, startingCell);
                     } else if (tileMapData !== undefined || atlas !== undefined) {
-                        console.log('You must pass BOTH the TileMapDataKey and TextureAtlas inorder to create a TileMap from the File Store.');
+                        Kiwi.Log.warn('You must pass BOTH the TileMapDataKey and TextureAtlas inorder to create a TileMap from the File Store.', '#tilemap');
                     }
                 }
                 Object.defineProperty(TileMap.prototype, "widthInPixels", {
@@ -6312,7 +6320,7 @@ var Kiwi;
                     switch (typeof tileMapData) {
                         case 'string':
                             if (this.game.fileStore.exists(tileMapData) == false) {
-                                console.error('The JSON file you have told to use for a TileMap does not exist.');
+                                Kiwi.Log.error('The JSON file you have told to use for a TileMap does not exist.', '#tilemap', '#json');
                                 return false;
                             }
 
@@ -6324,7 +6332,7 @@ var Kiwi;
                             break;
 
                         default:
-                            console.error('The type of TileMapData passed could not be idenified. Please either pass a name of JSON file to use OR an object to be used.');
+                            Kiwi.Log.error('The type of TileMapData passed could not be idenified. Please either pass a name of JSON file to use OR an object to be used.', '#tilemap');
                     }
 
                     //Get the map information
@@ -6568,7 +6576,7 @@ var Kiwi;
                 * @public
                 */
                 TileMap.prototype.createNewObjectLayer = function () {
-                    console.log("OBJECT GROUP layers are currently not supported.");
+                    Kiwi.Log.log("OBJECT GROUP layers are currently not supported.", '#tilemap');
                 };
 
                 /**
@@ -6577,7 +6585,7 @@ var Kiwi;
                 * @public
                 */
                 TileMap.prototype.createNewImageLayer = function () {
-                    console.log("IMAGE layers are currently not supported.");
+                    Kiwi.Log.log("IMAGE layers are currently not supported.", '#tilemap');
                 };
 
                 /**
@@ -10340,8 +10348,7 @@ var Kiwi;
                     this._fileList.push(file);
                     return true;
                 } else {
-                    if (this._game.debug)
-                        console.error('Kiwi.Loader: Audio Format not supported on this Device/Browser.');
+                    Kiwi.Log.error('Kiwi.Loader: Audio Format not supported on this Device/Browser.', '#audio', '#unsupported');
                     return false;
                 }
             };
@@ -10520,9 +10527,7 @@ var Kiwi;
                 if (this._loadList.length === 0) {
                     //  All files loaded
                     this._complete = true;
-                    if (this._game.debug) {
-                        console.log("All files have loaded");
-                    }
+                    Kiwi.Log.log("All files have loaded", '#loading', '#complete');
 
                     if (this._onCompleteCallback) {
                         this._onCompleteCallback();
@@ -10661,18 +10666,13 @@ var Kiwi;
             */
             DataLibrary.prototype.rebuild = function (fileStore, state) {
                 this.clear();
-                if (this._game.debug) {
-                    console.log("Kiwi.DataLibrary: Rebuilding Data Library");
-                }
+                Kiwi.Log.log("Kiwi.DataLibrary: Rebuilding Data Library", '#rebuild');
 
                 var fileStoreKeys = fileStore.keys;
                 for (var i = 0; i < fileStoreKeys.length; i++) {
                     var file = this._game.fileStore.getFile(fileStoreKeys[i]);
                     if (file.isData) {
-                        if (this._game.debug) {
-                            console.log("  Kiwi.DataLibrary: Adding Data: " + file.fileName);
-                        }
-                        ;
+                        Kiwi.Log.log("  Kiwi.DataLibrary: Adding Data: " + file.fileName, '#rebuild', '#adding');
                         state.dataLibrary.add(file);
                     }
                 }
@@ -11112,9 +11112,7 @@ var Kiwi;
                 if (typeof onCompleteCallback === "undefined") { onCompleteCallback = null; }
                 if (typeof onProgressCallback === "undefined") { onProgressCallback = null; }
                 if (typeof customFileStore === "undefined") { customFileStore = null; }
-                if (this._game.debug) {
-                    console.log("Kiwi.File: Attempting to load: " + this.fileName);
-                }
+                Kiwi.Log.log("Kiwi.File: Attempting to load: " + this.fileName, '#loading');
 
                 this.onCompleteCallback = onCompleteCallback;
                 this.onProgressCallback = onProgressCallback;
@@ -11290,8 +11288,7 @@ var Kiwi;
                 this.stop();
 
                 //Image loaded successfully...bit of a assumtion but hey...its a tag loader.
-                if (this._game.debug)
-                    console.log('Kiwi.File: Successfully Loaded: ' + this.fileName);
+                Kiwi.Log.log('Kiwi.File: Successfully Loaded: ' + this.fileName, '#loading', '#successful');
 
                 if (this._saveToFileStore === true) {
                     this._fileStore.addFile(this.key, this);
@@ -11374,8 +11371,7 @@ var Kiwi;
             * @private
             */
             File.prototype.xhrOnAbort = function (event) {
-                if (this._game.debug)
-                    console.log('Kiwi.File: ' + this.fileName + ' loading was aborted.');
+                Kiwi.Log.log('Kiwi.File: ' + this.fileName + ' loading was aborted.', '#loading', '#aborted');
 
                 this.error = event;
             };
@@ -11387,8 +11383,7 @@ var Kiwi;
             * @private
             */
             File.prototype.xhrOnError = function (event) {
-                if (this._game.debug)
-                    console.log('Kiwi.File: Error during load: ' + this.fileName);
+                Kiwi.Log.log('Kiwi.File: Error during load: ' + this.fileName, '#loading', '#error');
 
                 this.error = event;
             };
@@ -11400,8 +11395,7 @@ var Kiwi;
             * @private
             */
             File.prototype.xhrOnTimeout = function (event) {
-                if (this._game.debug)
-                    console.log('Kiwi.File: Timed out: ' + this.fileName);
+                Kiwi.Log.log('Kiwi.File: Timed out: ' + this.fileName, '#loading', '#timeout');
 
                 this.hasTimedOut = true;
                 this.timedOut = Date.now();
@@ -11445,8 +11439,7 @@ var Kiwi;
                     this.success = true;
                     this.hasError = false;
 
-                    if (this._game.debug)
-                        console.log('Kiwi.File: Successfully Loaded: ' + this.fileName);
+                    Kiwi.Log.log('Kiwi.File: Successfully Loaded: ' + this.fileName, '#loading', '#successful');
 
                     //Get the head information of the file.
                     this.fileType = this._xhr.getResponseHeader('Content-Type');
@@ -11464,13 +11457,11 @@ var Kiwi;
                         this.success = false;
                         this.hasError = true;
 
-                        if (this._game.debug)
-                            console.error('Kiwi.File: ' + this.fileName + ' wasn\'t loaded.');
+                        Kiwi.Log.error('Kiwi.File: ' + this.fileName + ' wasn\'t loaded.', '#loading', '#successful');
 
                         this.parseComplete();
                     } else {
-                        if (this._game.debug)
-                            console.log('Kiwi.File: ' + 'Retrying to load: ' + this.fileName);
+                        Kiwi.Log.log('Kiwi.File: ' + 'Retrying to load: ' + this.fileName, '#loading', '#retry');
 
                         this.xhrLoader();
                     }
@@ -12850,7 +12841,7 @@ var Kiwi;
 
                 if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
                     if (Kiwi.Utils.Common.base2Sizes.indexOf(atlas.image.width) == -1 || Kiwi.Utils.Common.base2Sizes.indexOf(atlas.image.height) == -1) {
-                        console.log("Kiwi.TextureLibrary: Warning:Image is not of base2 size and may not render correctly.");
+                        Kiwi.Log.log("Kiwi.TextureLibrary: Warning:Image is not of base2 size and may not render correctly.", '#texture', '#base2');
                     }
                     var renderManager = this._game.renderer;
                     renderManager.addTexture(this._game.stage.gl, atlas);
@@ -12912,8 +12903,7 @@ var Kiwi;
                             imageFile.metadata.height = imageFile.data.height;
                     }
 
-                    if (this._game.debug)
-                        console.log('Kiwi.TextureLibrary: ' + imageFile.fileName + ' has been rebuilt to be base2.');
+                    Kiwi.Log.log('Kiwi.TextureLibrary: ' + imageFile.fileName + ' has been rebuilt to be base2.', '#texture', '#base2');
 
                     //Assign the new image to the data
                     imageFile.data = newImg;
@@ -12977,18 +12967,13 @@ var Kiwi;
             */
             TextureLibrary.prototype.rebuild = function (fileStore, state) {
                 this.clear();
-                if (this._game.debug) {
-                    console.log("Kiwi.TextureLibrary: Rebuilding Texture Library");
-                }
+                Kiwi.Log.log("Kiwi.TextureLibrary: Rebuilding Texture Library", '#texture', '#rebuild');
 
                 var fileStoreKeys = fileStore.keys;
                 for (var i = 0; i < fileStoreKeys.length; i++) {
                     var file = this._game.fileStore.getFile(fileStoreKeys[i]);
                     if (file.isTexture) {
-                        if (this._game.debug) {
-                            console.log("  Kiwi.TextureLibrary: Adding Texture: " + file.fileName);
-                        }
-                        ;
+                        Kiwi.Log.log("  Kiwi.TextureLibrary: Adding Texture: " + file.fileName, '#texture', '#added');
                         state.textureLibrary.addFromFile(file);
                     }
                 }
@@ -14771,7 +14756,6 @@ var Kiwi;
 
                 // Stop drawing if there is nothing to draw
                 if (root.length == 0) {
-                    console.log("nothing to render");
                     return;
                 }
 
@@ -14987,7 +14971,7 @@ var Kiwi;
                     if (this.addSharedRenderer(rendererID, params)) {
                         return this._sharedRenderers[rendererID];
                     } else {
-                        console.log("no renderer called " + rendererID);
+                        Kiwi.Log.log("No renderer called " + rendererID, '#renderer', '#webgl');
                     }
                 }
 
@@ -15012,7 +14996,7 @@ var Kiwi;
                     var renderer = new Kiwi.Renderers[rendererID](this._game.stage.gl, this._shaderManager, params);
                     return renderer;
                 } else {
-                    console.log("No renderer with id " + rendererID + " exists");
+                    Kiwi.Log.log("No renderer with id " + rendererID + " exists", '#renderer', '#webgl');
                 }
                 return null;
             };
@@ -15037,7 +15021,7 @@ var Kiwi;
             * @private
             */
             GLRenderManager.prototype._init = function () {
-                console.log("Intialising WebGL");
+                Kiwi.Log.log("Intialising WebGL", '#renderer', '#webgl');
                 var gl = this._game.stage.gl;
 
                 //init stage and viewport
@@ -15146,7 +15130,7 @@ var Kiwi;
             */
             GLRenderManager.prototype.endState = function (state) {
                 this._textureManager.clearTextures(this._game.stage.gl);
-                console.log("ending WebGL on State");
+                Kiwi.Log.log("Ending WebGL on State", '#renderer', '#webgl');
             };
 
             /**
@@ -15176,7 +15160,6 @@ var Kiwi;
 
                 // Stop drawing if there is nothing to draw
                 if (this._game.states.current.members.length == 0) {
-                    console.log("nothing to render");
                     return;
                 }
 
@@ -15503,7 +15486,7 @@ var Kiwi;
                             this._useShader(gl, shader);
                         return shader;
                     } else {
-                        console.log("Shader " + shaderID + " does not exist");
+                        Kiwi.Log.log("Shader " + shaderID + " does not exist.", '#renderer', '#webgl');
                     }
                 }
 
@@ -15669,7 +15652,7 @@ var Kiwi;
                 }
 
                 if (this.uploaded) {
-                    console.log("...not uploading:the image is already uploaded");
+                    Kiwi.Log.log("...not uploading:the image is already uploaded.", '#renderer', '#webgl');
                 } else {
                     gl.bindTexture(gl.TEXTURE_2D, this.texture);
                     gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, 0);
@@ -15849,7 +15832,7 @@ var Kiwi;
 
                 // Only upload it if it fits
                 if (!this._uploadTexture(gl, glTextureWrapper)) {
-                    console.log("...skipped uploading texture due to allocated texture memory exceeded");
+                    Kiwi.Log.log("...skipped uploading texture due to allocated texture memory exceeded.", '#renderer', '#webgl');
                 }
             };
 
@@ -16874,7 +16857,6 @@ var Kiwi;
             ShaderPair.prototype.applyUniform = function (gl, name) {
                 var u = this.uniforms[name];
                 if (this.uniforms[name].dirty) {
-                    console.log(name);
                     gl["uniform" + u.type](u.location, u.value);
                     this.uniforms[name].dirty = false;
                 }
@@ -26873,7 +26855,7 @@ var Kiwi;
                     this._locked = true;
                     this._game.input.onUp.addOnce(this._unlocked, this);
 
-                    console.log('Kiwi.AudioManager: Audio is currently Locked until at touch event.');
+                    Kiwi.Log.log('Kiwi.AudioManager: Audio is currently Locked until at touch event.', '#audio', '#locked');
                 } else {
                     this._locked = false;
                 }
@@ -26911,7 +26893,7 @@ var Kiwi;
             * @private
             */
             AudioManager.prototype._unlocked = function () {
-                console.log('Kiwi.AudioManager: Audio now Unlocked');
+                Kiwi.Log.log('Kiwi.AudioManager: Audio now Unlocked.', '#audio', '#unlocked');
 
                 if (this.usingAudioTag) {
                     this._locked = false;
@@ -27262,8 +27244,7 @@ var Kiwi;
 
                 //If audio isn't supported OR the file does not exist
                 if (this._game.audio.noAudio || this._game.fileStore.exists(this.key) === false) {
-                    if (this._game.debugOption)
-                        console.log('Could not play Audio. Either the browser doesn\'t support audio or the Audio file was not found on the filestore');
+                    Kiwi.Log.log('Could not play Audio. Either the browser doesn\'t support audio or the Audio file was not found on the filestore.', '#audio', '#notfound');
                     return;
                 }
 
@@ -27828,18 +27809,13 @@ var Kiwi;
             */
             AudioLibrary.prototype.rebuild = function (fileStore, state) {
                 this.clear();
-                if (this._game.debug) {
-                    console.log("Kiwi.AudioLibrary: Rebuilding Audio Library");
-                }
+                Kiwi.Log.log("Kiwi.AudioLibrary: Rebuilding Audio Library.", '#audio', '#rebuild');
 
                 var fileStoreKeys = fileStore.keys;
                 for (var i = 0; i < fileStoreKeys.length; i++) {
                     var file = this._game.fileStore.getFile(fileStoreKeys[i]);
                     if (file.isAudio) {
-                        if (this._game.debug) {
-                            console.log("  Kiwi.AudioLibrary: Adding Audio: " + file.fileName);
-                        }
-                        ;
+                        Kiwi.Log.log("  Kiwi.AudioLibrary: Adding Audio: " + file.fileName, '#audio', '#added');
                         state.audioLibrary.add(file);
                     }
                 }
@@ -31352,25 +31328,121 @@ var Kiwi;
     /**
     *
     * @module Kiwi
+    * @submodule Utils.
     *
     */
     (function (Utils) {
         /**
+        * A utilty class used to add management functionality to common console methods.
+        * You can use this class by either creating a new instance, or using the instance at the namespace 'Kiwi.Log'.
+        *
+        * log/error/warn methods contained on this class function just like their 'console' equivalents except that:
+        * - You can assign a tag to message by adding a '#' symbol to the front of a parameter. Example: this.log('Hi', '#welcome');
+        * - Messages can have multiple tags. Example: this.log('Hi', '#welcome', '#greeting');
+        * - Messages are recorded (by default) and can then search through any messages saved.
+        *
+        * You can use the 'show' commands to search through recordings and find specific messages.
+        *
         *
         * @class Log
-        * @static
+        * @namespace Kiwi.Utils
+        * @constructor
+        * @param [params] {Object}
+        *   @param [options.recording=true] {Boolean} If the logs should be recorded.
+        *   @param [options.display=true] {Boolean} If the logs should be displayed or not.
+        *   @param [options.enabled=true] {Boolean} If the Logger is enabled at all.
+        *   @param [options.maxRecordings=Infinity] {Number} The maximum number of recordings to have at a single time.
         */
         var Log = (function () {
-            function Log() {
+            function Log(params) {
+                if (typeof params === "undefined") { params = {}; }
+                /**
+                * If the log, warn, or error messages should function at all.
+                * When set to false messages won't display or be recorded.
+                *
+                * @property enabled
+                * @type Boolean
+                * @default true
+                * @public
+                */
+                this.enabled = true;
+                /**
+                * If messages should be recorded or not.
+                *
+                * @property record
+                * @type Boolean
+                * @default true
+                * @public
+                */
+                this.recording = true;
+                /**
+                * If the log, warn, and error methods should display when executed or not.
+                * You may want to set this to 'false' when releasing a game.
+                *
+                * @property display
+                * @type Boolean
+                * @default true
+                * @public
+                */
+                this.display = true;
+                /**
+                * The maximum number of recordings to be kept at once.
+                *
+                * @property maxRecordings
+                * @type Number
+                * @default Infinity
+                * @public
+                */
+                this.maxRecordings = Infinity;
+                /**
+                * A list containing all messages recorded.
+                *
+                * @property recordings
+                * @type Array
+                * @private
+                */
+                this.recordings = [];
+                this.setDefaultsFromParams(params);
             }
-            Object.defineProperty(Log, "lastMessageTime", {
+            /**
+            * Sets the log properties based on a object passed.
+            * This method is used to set the properties on the Log based on
+            * gameoptions passed at game creation.
+            *
+            * @method setDefaultsFromParams
+            * @param [params] {Object}
+            *   @param [options.recording=true] {Boolean} If the logs should be recorded.
+            *   @param [options.display=true] {Boolean} If the logs should be displayed or not.
+            *   @param [options.enabled=true] {Boolean} If the Logger is enabled at all.
+            *   @param [options.maxRecordings=Infinity] {Number} The maximum number of recordings to have at a single time.
+            * @public
+            */
+            Log.prototype.setDefaultsFromParams = function (params) {
+                if (typeof params === "undefined") { params = {}; }
+                if (!Kiwi.Utils.Common.isUndefined(params.enabled)) {
+                    this.enabled = params.enabled;
+                }
+
+                if (!Kiwi.Utils.Common.isUndefined(params.recording)) {
+                    this.recording = params.recording;
+                }
+
+                if (!Kiwi.Utils.Common.isUndefined(params.display)) {
+                    this.display = params.display;
+                }
+
+                if (!Kiwi.Utils.Common.isUndefined(params.maxRecordings)) {
+                    this.maxRecordings = params.maxRecordings;
+                }
+            };
+
+            Object.defineProperty(Log.prototype, "lastMessageTime", {
                 /**
                 * The time (in milliseconds) of the last recording.
                 *
                 * @property lastMessageTime
                 * @type Number
                 * @readOnly
-                * @static
                 * @public
                 */
                 get: function () {
@@ -31383,7 +31455,7 @@ var Kiwi;
                 configurable: true
             });
 
-            Object.defineProperty(Log, "numRecordings", {
+            Object.defineProperty(Log.prototype, "numRecordings", {
                 /**
                 * The number of recordings that have been saved.
                 * Same as the recordings length, and won't go above the 'maxRecordings'.
@@ -31391,7 +31463,6 @@ var Kiwi;
                 * @property numRecordings
                 * @type Number
                 * @readOnly
-                * @static
                 * @public
                 */
                 get: function () {
@@ -31409,10 +31480,9 @@ var Kiwi;
             * @param message {String}
             * @param [tags=[]] {String}
             * @param [logMethod=console.log] {String}
-            * @static
             * @public
             */
-            Log.record = function (messages, tags, logMethod) {
+            Log.prototype.record = function (messages, tags, logMethod) {
                 if (typeof tags === "undefined") { tags = []; }
                 if (typeof logMethod === "undefined") { logMethod = console.log; }
                 if (this.recording) {
@@ -31436,10 +31506,9 @@ var Kiwi;
             * @method clearRecordings
             * @param [start=0] {Number}
             * @param [end] {Number}
-            * @static
             * @private
             */
-            Log.clearRecordings = function (start, end) {
+            Log.prototype.clearRecordings = function (start, end) {
                 if (typeof start === "undefined") { start = 0; }
                 if (typeof end === "undefined") { end = this.recordings.length; }
                 this.recordings.splice(start, end);
@@ -31454,10 +31523,9 @@ var Kiwi;
             * @param context {Any} The context that the method should be executed in. Generally set to the console.
             * @param messages {Array}
             * @param [force=false] {Array}
-            * @static
             * @private
             */
-            Log._execute = function (method, context, messages, force) {
+            Log.prototype._execute = function (method, context, messages, force) {
                 if (typeof force === "undefined") { force = false; }
                 if (this.display || force) {
                     method.apply(context, messages);
@@ -31470,10 +31538,9 @@ var Kiwi;
             * @method getTagsFromArray
             * @param strings {Array}
             * @return {Array} Elements of the array considered as tags
-            * @static
             * @public
             */
-            Log.getTagsFromArray = function (array) {
+            Log.prototype.getTagsFromArray = function (array) {
                 var i = 0, tags = [];
 
                 while (i < array.length) {
@@ -31488,13 +31555,13 @@ var Kiwi;
 
             /**
             * Logs a message using the 'console.log' method.
+            * Arguments starting with a '#' symbol are given that value as a tag.
             *
             * @method log
-            * @param [..args] {Any}
-            * @static
+            * @param [..args] {Any} The data you would like to log.
             * @public
             */
-            Log.log = function () {
+            Log.prototype.log = function () {
                 var args = [];
                 for (var _i = 0; _i < (arguments.length - 0); _i++) {
                     args[_i] = arguments[_i + 0];
@@ -31509,13 +31576,13 @@ var Kiwi;
 
             /**
             * Logs a message using the 'console.warn' method.
+            * Arguments starting with a '#' symbol are given that value as a tag.
             *
             * @method warn
-            * @param [..args] {Any}
-            * @static
+            * @param [..args] {Any} The data you would like to log.
             * @public
             */
-            Log.warn = function () {
+            Log.prototype.warn = function () {
                 var args = [];
                 for (var _i = 0; _i < (arguments.length - 0); _i++) {
                     args[_i] = arguments[_i + 0];
@@ -31530,13 +31597,13 @@ var Kiwi;
 
             /**
             * Logs a message using the 'console.error' method.
+            * Arguments starting with a '#' symbol are given that value as a tag.
             *
             * @method error
-            * @param [..args] {Any}
-            * @static
+            * @param [..args] {Any} The data you would like to log.
             * @public
             */
-            Log.error = function () {
+            Log.prototype.error = function () {
                 var args = [];
                 for (var _i = 0; _i < (arguments.length - 0); _i++) {
                     args[_i] = arguments[_i + 0];
@@ -31554,12 +31621,11 @@ var Kiwi;
             *
             * @method _show
             * @param recording {Object}
-            * @param tags {Any}
+            * @param tags {Array}
             * @return {Boolean} If the recording was displayed or not.
-            * @static
             * @private
             */
-            Log._show = function (recording, tags) {
+            Log.prototype._show = function (recording, tags) {
                 if (!recording.logMethod) {
                     return false;
                 }
@@ -31580,10 +31646,10 @@ var Kiwi;
             * Displays the last recording matching the tags passed.
             *
             * @method showLast
-            * @static
+            * @param [...args] {Any} Any tags that the recordings must have.
             * @public
             */
-            Log.showLast = function () {
+            Log.prototype.showLast = function () {
                 var args = [];
                 for (var _i = 0; _i < (arguments.length - 0); _i++) {
                     args[_i] = arguments[_i + 0];
@@ -31598,13 +31664,13 @@ var Kiwi;
             };
 
             /**
-            * Displays all recording.
+            * Displays all recordings.
             *
             * @method showAll
-            * @static
+            * @param [...args] {Any} Any tags that the recordings must have.
             * @public
             */
-            Log.showAll = function () {
+            Log.prototype.showAll = function () {
                 var args = [];
                 for (var _i = 0; _i < (arguments.length - 0); _i++) {
                     args[_i] = arguments[_i + 0];
@@ -31618,10 +31684,10 @@ var Kiwi;
             * Displays all logs recorded.
             *
             * @method showLogs
-            * @static
+            * @param [...args] {Any} Any tags that the recordings must have.
             * @public
             */
-            Log.showLogs = function () {
+            Log.prototype.showLogs = function () {
                 var args = [];
                 for (var _i = 0; _i < (arguments.length - 0); _i++) {
                     args[_i] = arguments[_i + 0];
@@ -31637,10 +31703,10 @@ var Kiwi;
             * Displays all errors recorded.
             *
             * @method showErrors
-            * @static
+            * @param [...args] {Any} Any tags that the recordings must have.
             * @public
             */
-            Log.showErrors = function () {
+            Log.prototype.showErrors = function () {
                 var args = [];
                 for (var _i = 0; _i < (arguments.length - 0); _i++) {
                     args[_i] = arguments[_i + 0];
@@ -31656,10 +31722,10 @@ var Kiwi;
             * Displays all warnings recorded.
             *
             * @method showWarnings
-            * @static
+            * @param [...args] {Any} Any tags that the recordings must have.
             * @public
             */
-            Log.showWarnings = function () {
+            Log.prototype.showWarnings = function () {
                 var args = [];
                 for (var _i = 0; _i < (arguments.length - 0); _i++) {
                     args[_i] = arguments[_i + 0];
@@ -31678,11 +31744,10 @@ var Kiwi;
             * @method showTimePeriod
             * @param [start=0] {Number}
             * @param [end=Infinity] {Number}
-            * @param [tags] {Array} An tags that the recordings must have
-            * @static
+            * @param [tags] {Array} An tags that the recordings must have.
             * @public
             */
-            Log.showTimePeriod = function (start, end, tags) {
+            Log.prototype.showTimePeriod = function (start, end, tags) {
                 if (typeof start === "undefined") { start = 0; }
                 if (typeof end === "undefined") { end = Infinity; }
                 if (typeof tags === "undefined") { tags = []; }
@@ -31695,15 +31760,6 @@ var Kiwi;
                     }
                 }
             };
-            Log.enabled = true;
-
-            Log.recording = true;
-
-            Log.display = true;
-
-            Log.maxRecordings = Infinity;
-
-            Log.recordings = [];
             return Log;
         })();
         Utils.Log = Log;
@@ -31925,6 +31981,15 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     /**
+    *
+    * @property Log
+    * @static
+    * @type Kiwi.Utils.Log
+    * @public
+    */
+    Kiwi.Log = new Kiwi.Utils.Log();
+
+    /**
     * The version of Kiwi that is currently being used.
     * @property VERSION
     * @static
@@ -32121,8 +32186,6 @@ var Kiwi;
         return GameManager;
     })();
     Kiwi.GameManager = GameManager;
-
-    Kiwi.Log = Kiwi.Utils.Log;
 
     Kiwi.Plugins = {};
 

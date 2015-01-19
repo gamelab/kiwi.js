@@ -139,7 +139,16 @@
 */
 
 module Kiwi {
-
+    
+    /**
+    * 
+    * @property Log
+    * @static
+    * @type Kiwi.Utils.Log
+    * @public
+    */
+    export var Log: Kiwi.Utils.Log = new Kiwi.Utils.Log();
+    
     /**
     * The version of Kiwi that is currently being used.
     * @property VERSION
@@ -347,7 +356,6 @@ module Kiwi {
 
     }
 
-    export var Log: Kiwi.Utils.Log = Kiwi.Utils.Log;
 
     export var Plugins = {};
 

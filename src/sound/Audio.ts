@@ -44,7 +44,7 @@ module Kiwi.Sound {
 
             //If audio isn't supported OR the file does not exist
             if (this._game.audio.noAudio || this._game.fileStore.exists(this.key) === false) {
-                if(this._game.debugOption) console.log('Could not play Audio. Either the browser doesn\'t support audio or the Audio file was not found on the filestore');
+                Kiwi.Log.log('Could not play Audio. Either the browser doesn\'t support audio or the Audio file was not found on the filestore.', '#audio', '#notfound');
                 return;
             }
 

@@ -121,7 +121,7 @@ module Kiwi {
         * @public
         */
         public addState(state: any, switchTo:boolean = false): boolean {
-            console.log('Kiwi.StateManager: Adding state');
+            Kiwi.Log.log('Kiwi.StateManager: Adding state.', '#state');
             var tempState;
 
             //What type is the state that was passed.
@@ -138,9 +138,7 @@ module Kiwi {
             //Does a state with that name already exist?
             if (tempState.config.name && this.checkKeyExists(tempState.config.name) === true) {
 
-                if (this._game.debug)
-                    console.error('  Kiwi.StateManager: Could not add ' + tempState.config.name + ' as a State with that name already exists.');
-
+                Kiwi.Log.error('  Kiwi.StateManager: Could not add ' + tempState.config.name + ' as a State with that name already exists.', '#state');
                 return false;
             }
 
@@ -149,17 +147,14 @@ module Kiwi {
             //Is it a valid state?
             if (this.checkValidState(tempState) === false) {
 
-                if (this._game.debug)
-                    console.error('  Kiwi.StateManager: ' + tempState.config.name + ' isn\'t a valid state. Make sure you are using the Kiwi.State class!');
+                Kiwi.Log.error('  Kiwi.StateManager: ' + tempState.config.name + ' isn\'t a valid state. Make sure you are using the Kiwi.State class!', '#state');
 
                 return false;
 
             } else {
 
                 this._states.push(tempState);
-
-                if (this._game.debug)
-                    console.log('  Kiwi.StateManager: ' + tempState.config.name + ' was successfully added.');
+                Kiwi.Log.log('  Kiwi.StateManager: ' + tempState.config.name + ' was successfully added.', '#state');
 
                 if (switchTo === true) {
                     this.switchState( tempState.config.name );
@@ -196,8 +191,7 @@ module Kiwi {
                 return false;
             }
 
-            if (this._game.debug)
-                console.log('Kiwi.StateManager: Switching to "' + key + '" State.'); 
+            Kiwi.Log.log('Kiwi.StateManager: Switching to "' + key + '" State.', '#state'); 
 
             this._newStateKey = key;
             return true;
@@ -253,8 +247,7 @@ module Kiwi {
             //  If we have a current state that isn't yet ready (preload hasn't finished) then abort now
             if (this.current !== null && this.current.config.isReady === false) {
 
-                if(this._game.debug)
-                    console.error('Kiwi.StateManager: Cannot change to a new state till the current state has finished loading!');
+                Kiwi.Log.error('Kiwi.StateManager: Cannot change to a new state till the current state has finished loading!', '#state');
 
                 return false;
             }
@@ -341,8 +334,7 @@ module Kiwi {
         */
         private callCreate() {
 
-            if (this._game.debug)
-                console.log("Kiwi.StateManager: Calling " + this.current.name + ":Create");
+            Kiwi.Log.log("Kiwi.StateManager: Calling " + this.current.name + ":Create", '#state');
 
             //Execute the create with params if there are some there.
             if (this.current.config.createParams) {

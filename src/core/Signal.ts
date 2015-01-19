@@ -36,27 +36,28 @@ module Kiwi {
         private _prevParams = null;
 
         /**
-         * Signals Version Number
-         * @property VERSION
-         * @type String
-         * @default '1.0.0'
-         * @final
-         * @static
-         * @public
-         */
+        * Signals Version Number
+        * @property VERSION
+        * @type String
+        * @default '1.0.0'
+        * @final
+        * @static
+        * @public
+        */
         public static VERSION: string = '1.0.0';
 
         /**
-         * If Signal should keep record of previously dispatched parameters.
-         * @property memorize
-         * @type boolean
-         * @default false
-         * @public
-         */
+        * If Signal should keep record of previously dispatched parameters.
+        * @property memorize
+        * @type boolean
+        * @default false
+        * @public
+        */
         public memorize: boolean = false;
 
         /**
         * If the callbacks should propagate or not. 
+        * @property _shouldPropagate
         * @type boolean
         * @default true
         * @private
@@ -250,7 +251,7 @@ module Kiwi {
         /**
         * Remove a single listener from the dispatch queue.
         *
-        * @metho remove
+        * @method remove
         * @param listener {Function} Handler function that should be removed.
         * @param [context=null] {Any} Execution context (since you can add the same handler multiple times if executing in a different context).
         * @return {Function} Listener handler function.

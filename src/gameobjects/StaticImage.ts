@@ -32,7 +32,7 @@ module Kiwi.GameObjects {
 
             //Texture atlas error check.
             if (typeof atlas == "undefined") {
-                console.error('A Texture Atlas was not passed when instantiating a new Static Image.');
+                Kiwi.Log.error('A Texture Atlas was not passed when instantiating a new Static Image.', '#static-image', '#texture');
                 this.visible = false;
                 this.active = false;
                 return;

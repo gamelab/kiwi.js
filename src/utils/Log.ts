@@ -2,16 +2,70 @@
 /**
 * 
 * @module Kiwi
+* @submodule Utils.
 *
 */
 module Kiwi.Utils {
 
     /**
+    * A utilty class used to add management functionality to common console methods. 
+    * You can use this class by either creating a new instance, or using the instance at the namespace 'Kiwi.Log'.
+    * 
+    * log/error/warn methods contained on this class function just like their 'console' equivalents except that:
+    * - You can assign a tag to message by adding a '#' symbol to the front of a parameter. Example: this.log('Hi', '#welcome'); 
+    * - Messages can have multiple tags. Example: this.log('Hi', '#welcome', '#greeting');
+    * - Messages are recorded (by default) and can then search through any messages saved.
+    *
+    * You can use the 'show' commands to search through recordings and find specific messages. 
+    *
     * 
     * @class Log
-    * @static
+    * @namespace Kiwi.Utils
+    * @constructor
+    * @param [params] {Object}
+    *   @param [options.recording=true] {Boolean} If the logs should be recorded.
+    *   @param [options.display=true] {Boolean} If the logs should be displayed or not.
+    *   @param [options.enabled=true] {Boolean} If the Logger is enabled at all.
+    *   @param [options.maxRecordings=Infinity] {Number} The maximum number of recordings to have at a single time.
     */
     export class Log {
+
+        constructor(params: any= {}) {
+            this.setDefaultsFromParams(params);
+        }
+
+        /**
+        * Sets the log properties based on a object passed. 
+        * This method is used to set the properties on the Log based on 
+        * gameoptions passed at game creation.
+        * 
+        * @method setDefaultsFromParams
+        * @param [params] {Object}
+        *   @param [options.recording=true] {Boolean} If the logs should be recorded.
+        *   @param [options.display=true] {Boolean} If the logs should be displayed or not.
+        *   @param [options.enabled=true] {Boolean} If the Logger is enabled at all.
+        *   @param [options.maxRecordings=Infinity] {Number} The maximum number of recordings to have at a single time.
+        * @public
+        */
+        public setDefaultsFromParams(params: any= {}) {
+
+            if (!Kiwi.Utils.Common.isUndefined(params.enabled)) {
+                this.enabled = params.enabled;
+            }
+
+            if (!Kiwi.Utils.Common.isUndefined(params.recording)) {
+                this.recording = params.recording;
+            }
+
+            if (!Kiwi.Utils.Common.isUndefined(params.display)) {
+                this.display = params.display;
+            }
+
+            if (!Kiwi.Utils.Common.isUndefined(params.maxRecordings)) {
+                this.maxRecordings = params.maxRecordings;
+            }
+
+        }
 
         /**
         * If the log, warn, or error messages should function at all.
@@ -20,10 +74,9 @@ module Kiwi.Utils {
         * @property enabled
         * @type Boolean
         * @default true 
-        * @static
         * @public
         */
-        public static enabled: boolean = true;
+        public enabled: boolean = true;
         
         /**
         * If messages should be recorded or not.
@@ -31,10 +84,9 @@ module Kiwi.Utils {
         * @property record
         * @type Boolean
         * @default true 
-        * @static
         * @public
         */
-        public static recording: boolean = true;
+        public recording: boolean = true;
         
         /**
         * If the log, warn, and error methods should display when executed or not.
@@ -43,10 +95,9 @@ module Kiwi.Utils {
         * @property display
         * @type Boolean
         * @default true 
-        * @static
         * @public
         */
-        public static display: boolean = true;
+        public display: boolean = true;
         
         /**
         * The maximum number of recordings to be kept at once.
@@ -54,20 +105,18 @@ module Kiwi.Utils {
         * @property maxRecordings
         * @type Number
         * @default Infinity 
-        * @static
         * @public
         */
-        public static maxRecordings: number = Infinity;
+        public maxRecordings: number = Infinity;
         
         /**
         * A list containing all messages recorded.
         *
         * @property recordings
         * @type Array
-        * @static
         * @private 
         */
-        private static recordings: any[] = [];
+        private recordings: any[] = [];
         
         /**
         * The time (in milliseconds) of the last recording.
@@ -75,10 +124,9 @@ module Kiwi.Utils {
         * @property lastMessageTime
         * @type Number
         * @readOnly
-        * @static
         * @public
         */
-        public static get lastMessageTime():number {
+        public get lastMessageTime():number {
             if (this.recordings.length > 0) {
                 return this.recordings[this.recordings.length - 1].time;
             }
@@ -92,10 +140,9 @@ module Kiwi.Utils {
         * @property numRecordings
         * @type Number
         * @readOnly
-        * @static
         * @public
         */
-        public static get numRecordings():number {
+        public get numRecordings():number {
             return this.recordings.length;
         }
 
@@ -108,10 +155,9 @@ module Kiwi.Utils {
         * @param message {String}
         * @param [tags=[]] {String}
         * @param [logMethod=console.log] {String} 
-        * @static
         * @public
         */
-        public static record(messages: string[], tags:string[]=[], logMethod:any=console.log) {
+        public record(messages: string[], tags:string[]=[], logMethod:any=console.log) {
 
             if (this.recording) {
 
@@ -137,10 +183,9 @@ module Kiwi.Utils {
         * @method clearRecordings
         * @param [start=0] {Number} 
         * @param [end] {Number} 
-        * @static
         * @private
         */
-        public static clearRecordings(start: number=0, end: number=this.recordings.length) {
+        public clearRecordings(start: number=0, end: number=this.recordings.length) {
 
             this.recordings.splice(start, end);
 
@@ -155,10 +200,9 @@ module Kiwi.Utils {
         * @param context {Any} The context that the method should be executed in. Generally set to the console. 
         * @param messages {Array} 
         * @param [force=false] {Array}  
-        * @static
         * @private
         */
-        private static _execute(method:any, context: any, messages:string[], force:boolean=false) {
+        private _execute(method:any, context: any, messages:string[], force:boolean=false) {
 
             if (this.display || force) {
                 method.apply(context, messages);
@@ -172,10 +216,9 @@ module Kiwi.Utils {
         * @method getTagsFromArray
         * @param strings {Array} 
         * @return {Array} Elements of the array considered as tags
-        * @static
         * @public
         */
-        public static getTagsFromArray(array: string[]) {
+        public getTagsFromArray(array: string[]) {
 
             var i = 0,
                 tags = [];
@@ -193,13 +236,13 @@ module Kiwi.Utils {
         
         /**
         * Logs a message using the 'console.log' method.
+        * Arguments starting with a '#' symbol are given that value as a tag.
         * 
         * @method log
-        * @param [..args] {Any}
-        * @static
+        * @param [..args] {Any} The data you would like to log.
         * @public
         */
-        public static log(...args:any[]) {
+        public log(...args:any[]) {
 
             if (!this.enabled) {
                 return;
@@ -213,13 +256,13 @@ module Kiwi.Utils {
 
         /**
         * Logs a message using the 'console.warn' method.
+        * Arguments starting with a '#' symbol are given that value as a tag.
         * 
         * @method warn
-        * @param [..args] {Any}
-        * @static
+        * @param [..args] {Any} The data you would like to log.
         * @public
         */
-        public static warn(...args: any[]) {
+        public warn(...args: any[]) {
 
             if (!this.enabled) {
                 return;
@@ -232,13 +275,13 @@ module Kiwi.Utils {
         
         /**
         * Logs a message using the 'console.error' method.
+        * Arguments starting with a '#' symbol are given that value as a tag.
         *
         * @method error
-        * @param [..args] {Any}
-        * @static
+        * @param [..args] {Any} The data you would like to log.
         * @public
         */
-        public static error(...args: any[]) {
+        public error(...args: any[]) {
 
             if (!this.enabled) {
                 return;
@@ -255,12 +298,11 @@ module Kiwi.Utils {
         *
         * @method _show
         * @param recording {Object}
-        * @param tags {Any}
+        * @param tags {Array}
         * @return {Boolean} If the recording was displayed or not.
-        * @static
         * @private
         */
-        private static _show( recording, tags:string[] ) {
+        private _show( recording, tags:string[] ) {
 
             if (!recording.logMethod) {
                 return false;
@@ -286,10 +328,10 @@ module Kiwi.Utils {
         * Displays the last recording matching the tags passed.
         * 
         * @method showLast
-        * @static
+        * @param [...args] {Any} Any tags that the recordings must have.
         * @public
         */
-        public static showLast(...args:any[]) {
+        public showLast(...args:any[]) {
             var i = this.recordings.length;
             
             while(i--) {
@@ -301,13 +343,13 @@ module Kiwi.Utils {
 
 
         /**
-        * Displays all recording.
+        * Displays all recordings.
         * 
         * @method showAll
-        * @static
+        * @param [...args] {Any} Any tags that the recordings must have.
         * @public
         */
-        public static showAll(...args: any[]) {
+        public showAll(...args: any[]) {
             for (var i = 0; i < this.recordings.length; i++) {
                 this._show(this.recordings[i], args );
             }
@@ -318,10 +360,10 @@ module Kiwi.Utils {
         * Displays all logs recorded.
         * 
         * @method showLogs
-        * @static
+        * @param [...args] {Any} Any tags that the recordings must have.
         * @public
         */
-        public static showLogs(...args: any[]) {
+        public showLogs(...args: any[]) {
             for (var i = 0; i < this.recordings.length; i++) {
                 if (this.recordings[i].logMethod === console.log) {
                     this._show(this.recordings[i], args);
@@ -334,10 +376,10 @@ module Kiwi.Utils {
         * Displays all errors recorded.
         * 
         * @method showErrors
-        * @static
+        * @param [...args] {Any} Any tags that the recordings must have.
         * @public
         */
-        public static showErrors(...args: any[]) {
+        public showErrors(...args: any[]) {
             for (var i = 0; i < this.recordings.length; i++) {
                 if (this.recordings[i].logMethod === console.error) {
                     this._show(this.recordings[i], args);
@@ -350,10 +392,10 @@ module Kiwi.Utils {
         * Displays all warnings recorded.
         *
         * @method showWarnings
-        * @static
+        * @param [...args] {Any} Any tags that the recordings must have.
         * @public
         */
-        public static showWarnings(...args: any[]) {
+        public showWarnings(...args: any[]) {
             for (var i = 0; i < this.recordings.length; i++) {
                 if (this.recordings[i].logMethod === console.warn) {
                     this._show(this.recordings[i], args);
@@ -368,11 +410,10 @@ module Kiwi.Utils {
         * @method showTimePeriod
         * @param [start=0] {Number}
         * @param [end=Infinity] {Number}
-        * @param [tags] {Array} An tags that the recordings must have
-        * @static
+        * @param [tags] {Array} An tags that the recordings must have.
         * @public
         */
-        public static showTimePeriod(start: number=0, end: number=Infinity, tags:string[]=[]) {
+        public showTimePeriod(start: number=0, end: number=Infinity, tags:string[]=[]) {
 
             var recording;
 

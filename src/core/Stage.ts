@@ -676,13 +676,13 @@ module Kiwi {
                 if (!this.gl) {
                     this.gl = this.canvas.getContext("experimental-webgl");
                     if (!this.gl) {
-                        console.warn("Kiwi.Stage: WebGL rendering is not available despite the device apparently supporting it. Reverting to CANVAS.");
+                        Kiwi.Log.warn("Kiwi.Stage: WebGL rendering is not available despite the device apparently supporting it. Reverting to CANVAS.", '#renderer');
                         // Reset to canvas mode
                         this.ctx = this.canvas.getContext("2d");
                         this.ctx.fillStyle = '#fff';
                         this.gl = null;
                     } else {
-                        console.warn("Kiwi.Stage: 'webgl' context is not available. Using 'experimental-webgl'");
+                        Kiwi.Log.warn("Kiwi.Stage: 'webgl' context is not available. Using 'experimental-webgl'", '#renderer');
                     }
                 }
                 if(this.gl) // That is, WebGL was properly supported and created
@@ -780,7 +780,7 @@ module Kiwi {
             
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
                 //Not supported in CocoonJS only because we cannot add it to the container (as a container does not exist) and position will be hard.
-                console.log('Debug canvas not supported in cocoon, creating canvas and context anyway');                
+                Kiwi.Log.log('Debug canvas not supported in cocoon, creating canvas and context anyway', '#debug-canvas');                
             } 
 
             this.debugCanvas = <HTMLCanvasElement>document.createElement("canvas");
