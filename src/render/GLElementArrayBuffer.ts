@@ -8,7 +8,7 @@
 module Kiwi.Renderers {
 
     /**
-    * Encapsulates a WebGL E;ement Array Buffer
+    * Encapsulates a WebGL Element Array Buffer
     * @class GLElementArrayBuffer
     * @constructor
     * @namespace Kiwi.Renderers

@@ -14,6 +14,7 @@ module Kiwi.Renderers {
         * The Renderer object for rendering Texture Atlases
         * @class TextureAtlasRenderer
         * @constructor
+        * @extends Kiwi.Renderers.Renderer
         * @namespace Kiwi.Renderers
         * @param gl {WebGLRenderingContext} 
         * @param shaderManager {Kiwi.Shaders.ShaderManager}
@@ -192,8 +193,8 @@ module Kiwi.Renderers {
         }
 
         /**
-        * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
-        * @method _collateVertexAttributeArrays
+        * Collates all xy and uv coordinates into a buffer ready for upload to video memory
+        * @method addToBatch
         * @param gl {WebGLRenderingContext}
         * @param entity {Kiwi.Entity}
         * @param camera {Camera}

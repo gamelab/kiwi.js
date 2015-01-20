@@ -300,7 +300,7 @@ module Kiwi.Renderers {
         * @private
         */
         private _init() {
-            console.log("Intialising WebGL");
+            console.log("Initialising WebGL");
             var gl: WebGLRenderingContext = this._game.stage.gl;
            
             //init stage and viewport
