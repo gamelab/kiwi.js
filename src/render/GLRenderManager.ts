@@ -300,13 +300,10 @@ module Kiwi.Renderers {
         * @private
         */
         private _init() {
-<<<<<<< HEAD
-            console.log("Initialising WebGL");
-=======
             Kiwi.Log.log("Initialising WebGL", '#renderer', '#webgl');
->>>>>>> 307e20eb1aeb3430d8d50c27f60e67c971625fc8
+
             var gl: WebGLRenderingContext = this._game.stage.gl;
-           
+
             //init stage and viewport
             this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
             // Manually override scaling under CocoonJS
@@ -316,7 +313,7 @@ module Kiwi.Renderers {
             else {
                 this.scaleViewport( gl, Kiwi.Stage.SCALE_NONE, this._game.stage.width, this._game.stage.height );
             }
-                        
+
             //set default gl state
             gl.enable(gl.BLEND);
             this._switchBlendMode(gl, this._currentBlendMode);

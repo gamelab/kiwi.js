@@ -36,6 +36,7 @@ module Kiwi.Geom {
             this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
 
             this._cachedConcatenatedMatrix = this.getConcatenatedMatrix();
+            this._concatMatrix = new Matrix();
 
         }
 
@@ -269,6 +270,14 @@ module Kiwi.Geom {
         private _cachedConcatenatedMatrix: Matrix;
 
         /** 
+        * Temporary matrix used in concatenation operations
+        * @property _concatMatrix
+        * @type Kiwi.Geom.Matrix
+        * @private
+        */
+        private _concatMatrix: Matrix;
+
+        /** 
         * Return the x of this transform translated to world space.
         * @property worldX
         * @type Number
@@ -320,6 +329,85 @@ module Kiwi.Geom {
         public get parent(): Transform {
             return this._parent;
         }
+
+
+        /**
+        * Private copy.
+        * Whether the Transform is locked. In locked mode, the Transform
+        * will not update its matrix, saving on computation.
+        * However, it will still follow its parent.
+        * @property _locked
+        * @type boolean
+        * @default false
+        * @private
+        * @since 1.2.0
+        */
+        private _locked: boolean = false;
+
+        /**
+        * Whether the Transform is locked. In locked mode, the Transform
+        * will not update its matrix, saving on computation.
+        * However, it will still follow its parent.
+        * When locked is set to true, it will set the matrix according to
+        * current transform values.
+        * @property locked
+        * @type boolean
+        * @default false
+        * @public
+        * @since 1.2.0
+        */
+        public set locked( value: boolean ) {
+            this._locked = value;
+            if ( this._locked ) {
+                this._matrix.setFromOffsetTransform(
+                    this.x, this.y,
+                    this.scaleX, this.scaleY,
+                    this.rotation,
+                    this.anchorPointX, this.anchorPointY );
+            }
+        }
+        public get locked(): boolean {
+            return this._locked;
+        }
+
+
+        /**
+        * Private copy.
+        * Whether to ignore its parent when concatenating matrices.
+        * If true, it won't compute parent matrices.
+        * This can save computation, but prevents it from following
+        * its parent's transforms.
+        * Use this to save some processor cycles if the transform isn't
+        * following a parent and the state does not transform.
+        * @property _ignoreParent
+        * @type boolean
+        * @default false
+        * @private
+        * @since 1.2.0
+        */
+        private _ignoreParent: boolean = false;
+
+        /**
+        * Whether to ignore its parent when concatenating matrices.
+        * If true, it won't compute parent matrices.
+        * This can save computation, but prevents it from following
+        * its parent's transforms.
+        * Use this to save some processor cycles if the transform isn't
+        * following a parent and the state does not transform.
+        * @property ignoreParent
+        * @type boolean
+        * @default false
+        * @private
+        * @since 1.2.0
+        */
+        public set ignoreParent( value: boolean ) {
+            this._ignoreParent = value;
+        }
+
+        public get ignoreParent(): boolean {
+            return this._ignoreParent;
+        }
+
 
         /** 
         * Set the X and Y values of the transform.
@@ -433,51 +521,74 @@ module Kiwi.Geom {
         }
 
         /** 
-        * Return the parent matrix of the transform. If there is no parent then null is returned.
+        * Return the parent matrix of the transform.
+        * If there is no parent then null is returned.
         * @method getParentMatrix
-        * @return {Kiwi.Geom.Matrix} The parent transform matrix.
+        * @return {Kiwi.Geom.Matrix} Parent transform matrix
         * @public
         */
         public getParentMatrix(): Matrix {
 
             if (this._parent) {
-                // Obtain raw matrix; this includes anchor point offset
-                var matrix = this._parent.getConcatenatedMatrix();
-                // Remove anchor point offset
-                if( this._parent.anchorPointX != 0  ||  this._parent.anchorPointY != 0 ) {
-                    matrix = matrix.clone();
-                    var inverseOffset = new Kiwi.Geom.Matrix();
-                    inverseOffset.translate( -this._parent.anchorPointX, -this._parent.anchorPointY );
-                    matrix.appendMatrix( inverseOffset );
-                }
-                return matrix;
+                return this._parent.getConcatenatedMatrix();
             }
 
             return null;
         }
 
         /** 
-        * Return the transformation matrix that concatenates this transform with all ancestor transforms.
-        * If there is no parent then this will return a matrix the same as this transforms matrix.
+        * Return the transformation matrix that concatenates this transform
+        * with all ancestor transforms. If there is no parent then this will
+        * return a matrix the same as this transform's matrix.
         * @method getConcatenatedMatrix
         * @return {Kiwi.Geom.Matrix} The concatenated matrix.
         * @public
         */
         public getConcatenatedMatrix(): Matrix {
 
-            this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
+            // this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
 
-            var parentMatrix = this.getParentMatrix();
+            // var parentMatrix = this.getParentMatrix();
 
-            if (parentMatrix) {
-                var matrix = this._matrix.clone();
-                matrix.prependMatrix(parentMatrix);
-                this._cachedConcatenatedMatrix.copyFrom(matrix);
-                return matrix;
+            // if (parentMatrix) {
+            //     var matrix = this._matrix.clone();
+            //     matrix.prependMatrix(parentMatrix);
+            //     this._cachedConcatenatedMatrix.copyFrom(matrix);
+            //     return matrix;
+            // }
+
+            // return this._matrix;
+
+            var parentMatrix;
+
+            if ( !this._locked ) {
+                if ( this._parent ) {
+                    this._matrix.setFromOffsetTransform(
+                        this.x, this.y,
+                        this.scaleX, this.scaleY,
+                        this.rotation,
+                        this.anchorPointX - this._parent.anchorPointX,
+                        this.anchorPointY - this._parent.anchorPointY );
+                } else {
+                    this._matrix.setFromOffsetTransform(
+                        this.x, this.y,
+                        this.scaleX, this.scaleY,
+                        this.rotation,
+                        this.anchorPointX,
+                        this.anchorPointY );
+                }
+            }
+
+            if ( !this._ignoreParent ) {
+                parentMatrix = this.getParentMatrix();
+                if ( parentMatrix ) {
+                    this._concatMatrix.copyFrom( this._matrix );
+                    this._concatMatrix.prependMatrix( parentMatrix );
+                    return this._concatMatrix;
+                }
             }
 
             return this._matrix;
-
         }
 
 

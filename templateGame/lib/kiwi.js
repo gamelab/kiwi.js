@@ -15032,7 +15032,8 @@ var Kiwi;
             * @private
             */
             GLRenderManager.prototype._init = function () {
-                Kiwi.Log.log("Intialising WebGL", '#renderer', '#webgl');
+                Kiwi.Log.log("Initialising WebGL", '#renderer', '#webgl');
+
                 var gl = this._game.stage.gl;
 
                 //init stage and viewport
@@ -16020,7 +16021,7 @@ var Kiwi;
             /**
             * Creates the array buffer.
             * @method createBuffer
-            * @param gl {WebGLRenderingCotext}
+            * @param gl {WebGLRenderingContext}
             * @return {WebGLBuffer}
             * @public
             */
@@ -16033,7 +16034,7 @@ var Kiwi;
             /**
             * Uploads the array buffer.
             * @method uploadBuffer
-            * @param gl {WebGLRenderingCotext}
+            * @param gl {WebGLRenderingContext}
             * @param items {Array}
             * @return {boolean}
             * @public
@@ -16051,7 +16052,7 @@ var Kiwi;
             /**
             * Deletes the array buffer.
             * @method deleteBuffer
-            * @param gl {WebGLRenderingCotext}
+            * @param gl {WebGLRenderingContext}
             * @return {boolean}
             * @public
             */
@@ -16371,7 +16372,7 @@ var Kiwi;
 (function (Kiwi) {
     (function (Renderers) {
         /**
-        * Encapsulates a WebGL E;ement Array Buffer
+        * Encapsulates a WebGL Element Array Buffer
         * @class GLElementArrayBuffer
         * @constructor
         * @namespace Kiwi.Renderers
@@ -16571,6 +16572,7 @@ var Kiwi;
             * The Renderer object for rendering Texture Atlases
             * @class TextureAtlasRenderer
             * @constructor
+            * @extends Kiwi.Renderers.Renderer
             * @namespace Kiwi.Renderers
             * @param gl {WebGLRenderingContext}
             * @param shaderManager {Kiwi.Shaders.ShaderManager}
@@ -16712,8 +16714,8 @@ var Kiwi;
             };
 
             /**
-            * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
-            * @method _collateVertexAttributeArrays
+            * Collates all xy and uv coordinates into a buffer ready for upload to video memory
+            * @method addToBatch
             * @param gl {WebGLRenderingContext}
             * @param entity {Kiwi.Entity}
             * @param camera {Camera}
@@ -21891,7 +21893,7 @@ var Kiwi;
         * by Transform objects to represent translation, scale and rotation transformations, and to determine where objects are in world space or camera space.
         * Objects such as entities and groups may be nested, and their associated transforms may represent how they are scaled, translated and rotated relative to a parent
         * transform.
-        * By concatenating an object's transformation matrix with it's ancestors matrices, it is possible to determine the absolute position of the object in world space.
+        * By concatenating an object's transformation matrix with its ancestors matrices, it is possible to determine the absolute position of the object in world space.
         * See http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics for an in depth discussion of 2d tranformation matrices.
         *
         * @class Matrix
@@ -22104,7 +22106,7 @@ var Kiwi;
             };
 
             /**
-            * Append values to this matrix, paramters supplied individually.
+            * Append values to this matrix, parameters supplied individually.
             * @method append
             * @param [a=1]{Number} position 0,0 of the matrix, affects scaling and rotation.
             * @param [b=0]{Number} position 0,1 of the matrix, affects scaling and rotation.
@@ -22187,7 +22189,7 @@ var Kiwi;
 
             /**
             * Get the x and y position of the matrix as an object with x and y properties
-            * @method setPositionVector
+            * @method getPosition
             * @return {Kiwi.Geom.Point} An object constructed from a literal with x and y properties.
             * @public
             */
@@ -22282,7 +22284,7 @@ var Kiwi;
             };
 
             /**
-            * Invert this matrix so that it represents the opposite of it's orginal tranformaation.
+            * Invert this matrix so that it represents the opposite of its orginal tranformaation.
             * @method invert
             * @return {Kiwi.Geom.Matrix} This object.
             * @public
@@ -23520,6 +23522,33 @@ var Kiwi;
                 * @private
                 */
                 this._parent = null;
+                /**
+                * Private copy.
+                * Whether the Transform is locked. In locked mode, the Transform
+                * will not update its matrix, saving on computation.
+                * However, it will still follow its parent.
+                * @property _locked
+                * @type boolean
+                * @default false
+                * @private
+                * @since 1.2.0
+                */
+                this._locked = false;
+                /**
+                * Private copy.
+                * Whether to ignore its parent when concatenating matrices.
+                * If true, it won't compute parent matrices.
+                * This can save computation, but prevents it from following
+                * its parent's transforms.
+                * Use this to save some processor cycles if the transform isn't
+                * following a parent and the state does not transform.
+                * @property _ignoreParent
+                * @type boolean
+                * @default false
+                * @private
+                * @since 1.2.0
+                */
+                this._ignoreParent = false;
                 this.setTransform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY);
 
                 this._matrix = new Geom.Matrix();
@@ -23527,6 +23556,7 @@ var Kiwi;
                 this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
 
                 this._cachedConcatenatedMatrix = this.getConcatenatedMatrix();
+                this._concatMatrix = new Geom.Matrix();
             }
             /**
             * The type of this object.
@@ -23764,6 +23794,57 @@ var Kiwi;
                 configurable: true
             });
 
+            Object.defineProperty(Transform.prototype, "locked", {
+                get: function () {
+                    return this._locked;
+                },
+                /**
+                * Whether the Transform is locked. In locked mode, the Transform
+                * will not update its matrix, saving on computation.
+                * However, it will still follow its parent.
+                * When locked is set to true, it will set the matrix according to
+                * current transform values.
+                * @property locked
+                * @type boolean
+                * @default false
+                * @public
+                * @since 1.2.0
+                */
+                set: function (value) {
+                    this._locked = value;
+                    if (this._locked) {
+                        this._matrix.setFromOffsetTransform(this.x, this.y, this.scaleX, this.scaleY, this.rotation, this.anchorPointX, this.anchorPointY);
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "ignoreParent", {
+                get: function () {
+                    return this._ignoreParent;
+                },
+                /**
+                * Whether to ignore its parent when concatenating matrices.
+                * If true, it won't compute parent matrices.
+                * This can save computation, but prevents it from following
+                * its parent's transforms.
+                * Use this to save some processor cycles if the transform isn't
+                * following a parent and the state does not transform.
+                * @property ignoreParent
+                * @type boolean
+                * @default false
+                * @private
+                * @since 1.2.0
+                */
+                set: function (value) {
+                    this._ignoreParent = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             /**
             * Set the X and Y values of the transform.
             * @method setPosition
@@ -23876,46 +23957,55 @@ var Kiwi;
             };
 
             /**
-            * Return the parent matrix of the transform. If there is no parent then null is returned.
+            * Return the parent matrix of the transform.
+            * If there is no parent then null is returned.
             * @method getParentMatrix
-            * @return {Kiwi.Geom.Matrix} The parent transform matrix.
+            * @return {Kiwi.Geom.Matrix} Parent transform matrix
             * @public
             */
             Transform.prototype.getParentMatrix = function () {
                 if (this._parent) {
-                    // Obtain raw matrix; this includes anchor point offset
-                    var matrix = this._parent.getConcatenatedMatrix();
-
-                    // Remove anchor point offset
-                    if (this._parent.anchorPointX != 0 || this._parent.anchorPointY != 0) {
-                        matrix = matrix.clone();
-                        var inverseOffset = new Kiwi.Geom.Matrix();
-                        inverseOffset.translate(-this._parent.anchorPointX, -this._parent.anchorPointY);
-                        matrix.appendMatrix(inverseOffset);
-                    }
-                    return matrix;
+                    return this._parent.getConcatenatedMatrix();
                 }
 
                 return null;
             };
 
             /**
-            * Return the transformation matrix that concatenates this transform with all ancestor transforms.
-            * If there is no parent then this will return a matrix the same as this transforms matrix.
+            * Return the transformation matrix that concatenates this transform
+            * with all ancestor transforms. If there is no parent then this will
+            * return a matrix the same as this transform's matrix.
             * @method getConcatenatedMatrix
             * @return {Kiwi.Geom.Matrix} The concatenated matrix.
             * @public
             */
             Transform.prototype.getConcatenatedMatrix = function () {
-                this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
+                // this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
+                // var parentMatrix = this.getParentMatrix();
+                // if (parentMatrix) {
+                //     var matrix = this._matrix.clone();
+                //     matrix.prependMatrix(parentMatrix);
+                //     this._cachedConcatenatedMatrix.copyFrom(matrix);
+                //     return matrix;
+                // }
+                // return this._matrix;
+                var parentMatrix;
 
-                var parentMatrix = this.getParentMatrix();
+                if (!this._locked) {
+                    if (this._parent) {
+                        this._matrix.setFromOffsetTransform(this.x, this.y, this.scaleX, this.scaleY, this.rotation, this.anchorPointX - this._parent.anchorPointX, this.anchorPointY - this._parent.anchorPointY);
+                    } else {
+                        this._matrix.setFromOffsetTransform(this.x, this.y, this.scaleX, this.scaleY, this.rotation, this.anchorPointX, this.anchorPointY);
+                    }
+                }
 
-                if (parentMatrix) {
-                    var matrix = this._matrix.clone();
-                    matrix.prependMatrix(parentMatrix);
-                    this._cachedConcatenatedMatrix.copyFrom(matrix);
-                    return matrix;
+                if (!this._ignoreParent) {
+                    parentMatrix = this.getParentMatrix();
+                    if (parentMatrix) {
+                        this._concatMatrix.copyFrom(this._matrix);
+                        this._concatMatrix.prependMatrix(parentMatrix);
+                        return this._concatMatrix;
+                    }
                 }
 
                 return this._matrix;
