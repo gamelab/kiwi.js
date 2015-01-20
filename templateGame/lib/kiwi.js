@@ -13092,6 +13092,9 @@ var Kiwi;
 
                 for (var y = 0; y < this.rows; y++) {
                     for (var x = 0; x < this.cols; x++) {
+                        if (i >= this.numCells)
+                            continue;
+
                         cells.push({
                             x: dx,
                             y: dy,
@@ -19785,6 +19788,40 @@ var Kiwi;
                     return false;
                 }
             };
+
+            Object.defineProperty(Pointer.prototype, "pressed", {
+                /**
+                * READ ONLY: Indicates if this pointer was pressed on the last frame or not.
+                * This is only true on the frame that the point was 'justPressed' and is not a constant like 'isDown'
+                *
+                * @property pressed
+                * @type boolean
+                * @readOnly
+                * @public
+                */
+                get: function () {
+                    return (this.timeDown >= this._game.time.now() - this._game.time.delta());
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Pointer.prototype, "released", {
+                /**
+                * READ ONLY: Indicates if this pointer was released on the last frame or not.
+                * This is only true on the frame that the point was 'justReleased' and is not a constant like 'isUp'
+                *
+                * @property released
+                * @type boolean
+                * @readOnly
+                * @public
+                */
+                get: function () {
+                    return (this.timeUp >= this._game.time.now() - this._game.time.delta());
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             /**
             * Resets the pointer properties to the default ones. Assumes that the pointer is no longer down.

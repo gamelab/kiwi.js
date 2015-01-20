@@ -348,6 +348,34 @@ module Kiwi.Input {
             }
 
         }
+
+        /**
+        * READ ONLY: Indicates if this pointer was pressed on the last frame or not. 
+        * This is only true on the frame that the point was 'justPressed' and is not a constant like 'isDown'
+        *
+        * @property pressed
+        * @type boolean
+        * @readOnly
+        * @public
+        */
+        public get pressed():boolean {
+            return ( this.timeDown >= this._game.time.now() - this._game.time.delta() );
+        }
+        
+
+        /**
+        * READ ONLY: Indicates if this pointer was released on the last frame or not. 
+        * This is only true on the frame that the point was 'justReleased' and is not a constant like 'isUp'
+        *
+        * @property released
+        * @type boolean
+        * @readOnly
+        * @public
+        */
+        public get released(): boolean {
+            return ( this.timeUp >= this._game.time.now() - this._game.time.delta() );
+        }
+
         
         /**
         * Resets the pointer properties to the default ones. Assumes that the pointer is no longer down.

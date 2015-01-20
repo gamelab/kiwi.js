@@ -13510,6 +13510,26 @@ declare module Kiwi.Input {
         */
         public justReleased(duration?: number): boolean;
         /**
+        * READ ONLY: Indicates if this pointer was pressed on the last frame or not.
+        * This is only true on the frame that the point was 'justPressed' and is not a constant like 'isDown'
+        *
+        * @property pressed
+        * @type boolean
+        * @readOnly
+        * @public
+        */
+        public pressed : boolean;
+        /**
+        * READ ONLY: Indicates if this pointer was released on the last frame or not.
+        * This is only true on the frame that the point was 'justReleased' and is not a constant like 'isUp'
+        *
+        * @property released
+        * @type boolean
+        * @readOnly
+        * @public
+        */
+        public released : boolean;
+        /**
         * Resets the pointer properties to the default ones. Assumes that the pointer is no longer down.
         * @method reset
         * @public
