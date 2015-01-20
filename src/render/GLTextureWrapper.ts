@@ -121,7 +121,7 @@ module Kiwi.Renderers {
             }
 
             if (this.uploaded) {
-                console.log("...not uploading:the image is already uploaded"); 
+                Kiwi.Log.log("...not uploading:the image is already uploaded.", '#renderer', '#webgl'); 
             } else {
                 gl.bindTexture(gl.TEXTURE_2D, this.texture);
                 gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, 0);

@@ -149,6 +149,7 @@
     <Content Include="geom\Point.ts" />
     <Content Include="geom\Rectangle.ts" />
     <Content Include="render\GLBlendMode.ts" />
+    <TypeScriptCompile Include="utils\Log.ts" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

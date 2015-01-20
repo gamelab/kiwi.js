@@ -95,15 +95,14 @@ module Kiwi.Files {
        */
         public rebuild(fileStore: Kiwi.Files.FileStore, state: Kiwi.State) {
             this.clear();
-            if (this._game.debug) {
-                console.log("Kiwi.DataLibrary: Rebuilding Data Library");
-            }
+            Kiwi.Log.log("Kiwi.DataLibrary: Rebuilding Data Library", '#rebuild');
+            
 
             var fileStoreKeys = fileStore.keys;
             for (var i = 0; i < fileStoreKeys.length; i++) {
                 var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
                 if (file.isData) {
-                    if (this._game.debug) { console.log("  Kiwi.DataLibrary: Adding Data: " + file.fileName) };
+                    Kiwi.Log.log("  Kiwi.DataLibrary: Adding Data: " + file.fileName, '#rebuild', '#adding');
                     state.dataLibrary.add(file);
                 }
             }

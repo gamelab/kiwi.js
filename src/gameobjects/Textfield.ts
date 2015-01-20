@@ -466,4 +466,14 @@ module Kiwi.GameObjects {
         }
     }
 
+    /**
+    * Alias of the 'Kiwi.GameObjects.Textfield'. 
+    * This will continue to be an alias until we can deprecate the existing version.
+    *
+    * @class TextField
+    * @namespace Kiwi.GameObjects
+    * @extends Kiwi.GameObjects.Textfield
+    */
+    export var TextField = Kiwi.GameObjects.Textfield;
+
 }

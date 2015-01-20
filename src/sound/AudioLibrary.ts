@@ -71,15 +71,13 @@ module Kiwi.Sound {
         */
         public rebuild(fileStore:Kiwi.Files.FileStore,state:Kiwi.State) {
             this.clear();
-            if (this._game.debug) {
-                console.log("Kiwi.AudioLibrary: Rebuilding Audio Library");
-            }
+            Kiwi.Log.log("Kiwi.AudioLibrary: Rebuilding Audio Library.", '#audio', '#rebuild');
 
             var fileStoreKeys = fileStore.keys;
             for (var i = 0; i < fileStoreKeys.length; i++) {
                 var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
                 if (file.isAudio) {
-                    if (this._game.debug) { console.log("  Kiwi.AudioLibrary: Adding Audio: " + file.fileName) };
+                    Kiwi.Log.log("  Kiwi.AudioLibrary: Adding Audio: " + file.fileName, '#audio', '#added');
                     state.audioLibrary.add(file);
                 } 
             }        

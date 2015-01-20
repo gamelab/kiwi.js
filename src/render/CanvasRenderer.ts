@@ -135,7 +135,6 @@ module Kiwi.Renderers {
             
             // Stop drawing if there is nothing to draw
             if ( root.length == 0 ) {
-                console.log("nothing to render");
                 return;
             }
             

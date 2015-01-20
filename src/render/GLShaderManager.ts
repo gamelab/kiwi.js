@@ -108,7 +108,7 @@ module Kiwi.Shaders {
                         this._useShader(gl, shader);
                     return shader;
                 } else {
-                    console.log("Shader " + shaderID + " does not exist");
+                    Kiwi.Log.log("Shader " + shaderID + " does not exist.", '#renderer', '#webgl');
                 }
             }
             //unsuccessful request

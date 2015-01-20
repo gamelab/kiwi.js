@@ -128,6 +128,7 @@
 /// <reference path="utils/GameMath.ts" />
 /// <reference path="utils/RandomDataGenerator.ts" />
 /// <reference path="utils/RequestAnimationFrame.ts" />
+/// <reference path="utils/Log.ts" />
 /// <reference path="utils/Version.ts" />
 
 /**
@@ -138,7 +139,16 @@
 */
 
 module Kiwi {
-
+    
+    /**
+    * 
+    * @property Log
+    * @static
+    * @type Kiwi.Utils.Log
+    * @public
+    */
+    export var Log: Kiwi.Utils.Log = new Kiwi.Utils.Log();
+    
     /**
     * The version of Kiwi that is currently being used.
     * @property VERSION
@@ -345,6 +355,7 @@ module Kiwi {
         }
 
     }
+
 
     export var Plugins = {};
 

@@ -14,6 +14,19 @@ declare module Kiwi {
     * @param [name='KiwiGame'] {String} The name of the game that is being created.
     * @param [state=null] {Any} The state to load initially. This can either be the name of a state, but preferably this would be the state object itself.
     * @param [options] {Object} Any special options for the game. E.g. Is DEBUG_ON or DEBUG_OFF, RENDERER_CANVAS or RENDERER_WEBGL, TARGET_BROWSER or TARGET_COCOON
+    *   @param [options.debug=Kiwi.DEBUG_ON] {Number} If debugging is enabled or not.
+    *   @param [options.bootCallback=null] {Function} A callback to be executed when the game reaches the boot stage.
+    *   @param [options.deviceTarget=Kiwi.TARGET_BROWSER] {Number} The type of device Kiwi is being used on.
+    *   @param [options.renderer=Kiwi.RENDERER_AUTO] {Number} The renderer Kiwi should use.
+    *   @param [options.width=Kiwi.Stage.DEFAULT_WIDTH] {Number} The width of this instance of Kiwi.
+    *   @param [options.height=Kiwi.Stage.DEFAULT_HEIGHT] {Number} The height of this instance of Kiwi.
+    *   @param [options.scaleType=Kiwi.Stage.SCALE_NONE] {Number} The type of scaling that should be applied to Kiwi.
+    *   @param [options.plugins=[]] {Array} A list of the names of plugins that are to be used with this game.
+    *   @param [options.log] {Object} Default state of the Log properties
+    *       @param [options.log.recording=true] {Boolean} If the logs should be recorded.
+    *       @param [options.log.display=true] {Boolean} If the logs should be displayed or not.
+    *       @param [options.log.enabled=true] {Boolean} If the Logger is enabled at all.
+    *       @param [options.log.maxRecordings=Infinity] {Number} The maximum number of recordings to have at a single time.
     * @return {Kiwi.Game}
     *
     */
@@ -1990,12 +2003,12 @@ declare module Kiwi {
         /**
         * Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
         * You can pass multiple strings to add multiple tags.
-        * @method addTags
+        * @method addTag
         * @param tag {string} The tag that you would like to add to this Entity.
         * @since 1.1.0
         * @public
         */
-        public addTag(): void;
+        public addTag(...args: any[]): void;
         /**
         * Removes a Tag from this Entity.
         * @method removeTag
@@ -2003,7 +2016,7 @@ declare module Kiwi {
         * @since 1.1.0
         * @public
         */
-        public removeTag(): void;
+        public removeTag(...args: any[]): void;
         /**
         * Checks to see if this Entity has a Tag based upon a string which you pass.
         * @method hasTag
@@ -2792,12 +2805,12 @@ declare module Kiwi {
         /**
         * Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
         * You can pass multiple strings to add multiple tags.
-        * @method addTags
+        * @method addTag
         * @param tag {string} The tag that you would like to add to this Entity.
         * @since 1.1.0
         * @public
         */
-        public addTag(): void;
+        public addTag(...args: any[]): void;
         /**
         * Removes a Tag from this Entity.
         * @method removeTag
@@ -2805,7 +2818,7 @@ declare module Kiwi {
         * @since 1.1.0
         * @public
         */
-        public removeTag(): void;
+        public removeTag(...args: any[]): void;
         /**
         * Checks to see if this Entity has a Tag based upon a string which you pass.
         * @method hasTag
@@ -3318,6 +3331,7 @@ declare module Kiwi {
         public memorize: boolean;
         /**
         * If the callbacks should propagate or not.
+        * @property _shouldPropagate
         * @type boolean
         * @default true
         * @private
@@ -3420,7 +3434,7 @@ declare module Kiwi {
         /**
         * Remove a single listener from the dispatch queue.
         *
-        * @metho remove
+        * @method remove
         * @param listener {Function} Handler function that should be removed.
         * @param [context=null] {Any} Execution context (since you can add the same handler multiple times if executing in a different context).
         * @return {Function} Listener handler function.
@@ -3735,7 +3749,7 @@ declare module Kiwi.GameObjects {
         /**
         * Returns the type of object that this is.
         * @method objType
-        * @return {string}
+        * @return {string} "StaticImage"
         * @public
         */
         public objType(): string;
@@ -3978,6 +3992,15 @@ declare module Kiwi.GameObjects {
         */
         public renderGL(gl: WebGLRenderingContext, camera: Camera, params?: any): void;
     }
+    /**
+    * Alias of the 'Kiwi.GameObjects.Textfield'.
+    * This will continue to be an alias until we can deprecate the existing version.
+    *
+    * @class TextField
+    * @namespace Kiwi.GameObjects
+    * @extends Kiwi.GameObjects.Textfield
+    */
+    var TextField: typeof Textfield;
 }
 /**
 *
@@ -13487,6 +13510,26 @@ declare module Kiwi.Input {
         */
         public justReleased(duration?: number): boolean;
         /**
+        * READ ONLY: Indicates if this pointer was pressed on the last frame or not.
+        * This is only true on the frame that the point was 'justPressed' and is not a constant like 'isDown'
+        *
+        * @property pressed
+        * @type boolean
+        * @readOnly
+        * @public
+        */
+        public pressed : boolean;
+        /**
+        * READ ONLY: Indicates if this pointer was released on the last frame or not.
+        * This is only true on the frame that the point was 'justReleased' and is not a constant like 'isUp'
+        *
+        * @property released
+        * @type boolean
+        * @readOnly
+        * @public
+        */
+        public released : boolean;
+        /**
         * Resets the pointer properties to the default ones. Assumes that the pointer is no longer down.
         * @method reset
         * @public
@@ -18237,6 +18280,14 @@ declare module Kiwi.Sound {
         */
         private _loop;
         /**
+        * READ ONLY: Returns a boolean indicating if the current audio marker playing is/will loop.
+        * @property loop
+        * @readOnly
+        * @type Boolean
+        * @public
+        */
+        public loop : boolean;
+        /**
         * The key that was used to get the audio from the AudioLibrary.
         * @property key
         * @type string
@@ -19665,13 +19716,25 @@ declare module Kiwi.Utils {
         static defaultEquals(a: any, b: any): boolean;
         /**
         * Default function to convert an object to a string.
-        * @method defaultTostring
+        * @method defaultToString
         * @param item {Any}
         * @return {Any}
         * @static
         * @public
         */
-        static defaultTostring(item: any): any;
+        static defaultToString(item: any): any;
+        /**
+        * Returns a boolean indicating whether x is between two parameters passed.
+        *
+        * @method isBetween
+        * @param x {Number} The values to be checked
+        * @param min {Number} The minimum value
+        * @param max {Number} The maximum value
+        * @return {Boolean}
+        * @static
+        * @public
+        */
+        static isBetween(x: any, min: any, max: any): boolean;
         /**
         * Checks if the given argument is a function.
         * @method isFunction
@@ -21094,6 +21157,247 @@ declare module Kiwi.Utils {
 /**
 *
 * @module Kiwi
+* @submodule Utils.
+*
+*/
+declare module Kiwi.Utils {
+    /**
+    * A utilty class used to add management functionality to common console methods.
+    * You can use this class by either creating a new instance, or using the instance at the namespace 'Kiwi.Log'.
+    *
+    * log/error/warn methods contained on this class function just like their 'console' equivalents except that:
+    * - You can assign a tag to message by adding a '#' symbol to the front of a parameter. Example: this.log('Hi', '#welcome');
+    * - Messages can have multiple tags. Example: this.log('Hi', '#welcome', '#greeting');
+    * - Messages are recorded (by default) and can then search through any messages saved.
+    *
+    * You can use the 'show' commands to search through recordings and find specific messages.
+    *
+    *
+    * @class Log
+    * @namespace Kiwi.Utils
+    * @constructor
+    * @param [params] {Object}
+    *   @param [options.recording=true] {Boolean} If the logs should be recorded.
+    *   @param [options.display=true] {Boolean} If the logs should be displayed or not.
+    *   @param [options.enabled=true] {Boolean} If the Logger is enabled at all.
+    *   @param [options.maxRecordings=Infinity] {Number} The maximum number of recordings to have at a single time.
+    */
+    class Log {
+        constructor(params?: any);
+        /**
+        * Sets the log properties based on a object passed.
+        * This method is used to set the properties on the Log based on
+        * gameoptions passed at game creation.
+        *
+        * @method setDefaultsFromParams
+        * @param [params] {Object}
+        *   @param [options.recording=true] {Boolean} If the logs should be recorded.
+        *   @param [options.display=true] {Boolean} If the logs should be displayed or not.
+        *   @param [options.enabled=true] {Boolean} If the Logger is enabled at all.
+        *   @param [options.maxRecordings=Infinity] {Number} The maximum number of recordings to have at a single time.
+        * @public
+        */
+        public setDefaultsFromParams(params?: any): void;
+        /**
+        * If the log, warn, or error messages should function at all.
+        * When set to false messages won't display or be recorded.
+        *
+        * @property enabled
+        * @type Boolean
+        * @default true
+        * @public
+        */
+        public enabled: boolean;
+        /**
+        * If messages should be recorded or not.
+        *
+        * @property record
+        * @type Boolean
+        * @default true
+        * @public
+        */
+        public recording: boolean;
+        /**
+        * If the log, warn, and error methods should display when executed or not.
+        * You may want to set this to 'false' when releasing a game.
+        *
+        * @property display
+        * @type Boolean
+        * @default true
+        * @public
+        */
+        public display: boolean;
+        /**
+        * The maximum number of recordings to be kept at once.
+        *
+        * @property maxRecordings
+        * @type Number
+        * @default Infinity
+        * @public
+        */
+        public maxRecordings: number;
+        /**
+        * A list containing all messages recorded.
+        *
+        * @property recordings
+        * @type Array
+        * @private
+        */
+        private recordings;
+        /**
+        * The time (in milliseconds) of the last recording.
+        *
+        * @property lastMessageTime
+        * @type Number
+        * @readOnly
+        * @public
+        */
+        public lastMessageTime : number;
+        /**
+        * The number of recordings that have been saved.
+        * Same as the recordings length, and won't go above the 'maxRecordings'.
+        *
+        * @property numRecordings
+        * @type Number
+        * @readOnly
+        * @public
+        */
+        public numRecordings : number;
+        /**
+        * Saves a message to the 'recordings' array.
+        * That message can then be retrieved later using the 'show' methods.
+        *
+        * @method recordMessage
+        * @param message {String}
+        * @param [tags=[]] {String}
+        * @param [logMethod=console.log] {String}
+        * @public
+        */
+        public record(messages: string[], tags?: string[], logMethod?: any): void;
+        /**
+        * Removes recordings from the list. Goes from the oldest to newest.
+        * By not passing any parameters, the entire log will be cleared.
+        *
+        * @method clearRecordings
+        * @param [start=0] {Number}
+        * @param [end] {Number}
+        * @private
+        */
+        public clearRecordings(start?: number, end?: number): void;
+        /**
+        * Executes a particular array of messages using a method passed.
+        * Takes into account the 'display' property before executing.
+        *
+        * @method _execute
+        * @param method {Any} The method that should be used to log the messages. Generally a console method.
+        * @param context {Any} The context that the method should be executed in. Generally set to the console.
+        * @param messages {Array}
+        * @param [force=false] {Array}
+        * @private
+        */
+        private _execute(method, context, messages, force?);
+        /**
+        * Accepts an array of strings and returns a new array consisting of all elements considered as a tag.
+        *
+        * @method getTagsFromArray
+        * @param strings {Array}
+        * @return {Array} Elements of the array considered as tags
+        * @public
+        */
+        public getTagsFromArray(array: string[]): any[];
+        /**
+        * Logs a message using the 'console.log' method.
+        * Arguments starting with a '#' symbol are given that value as a tag.
+        *
+        * @method log
+        * @param [..args] {Any} The data you would like to log.
+        * @public
+        */
+        public log(...args: any[]): void;
+        /**
+        * Logs a message using the 'console.warn' method.
+        * Arguments starting with a '#' symbol are given that value as a tag.
+        *
+        * @method warn
+        * @param [..args] {Any} The data you would like to log.
+        * @public
+        */
+        public warn(...args: any[]): void;
+        /**
+        * Logs a message using the 'console.error' method.
+        * Arguments starting with a '#' symbol are given that value as a tag.
+        *
+        * @method error
+        * @param [..args] {Any} The data you would like to log.
+        * @public
+        */
+        public error(...args: any[]): void;
+        /**
+        * Method that displays a particular recording passed.
+        *
+        * @method _show
+        * @param recording {Object}
+        * @param tags {Array}
+        * @return {Boolean} If the recording was displayed or not.
+        * @private
+        */
+        private _show(recording, tags);
+        /**
+        * Displays the last recording matching the tags passed.
+        *
+        * @method showLast
+        * @param [...args] {Any} Any tags that the recordings must have.
+        * @public
+        */
+        public showLast(...args: any[]): void;
+        /**
+        * Displays all recordings.
+        *
+        * @method showAll
+        * @param [...args] {Any} Any tags that the recordings must have.
+        * @public
+        */
+        public showAll(...args: any[]): void;
+        /**
+        * Displays all logs recorded.
+        *
+        * @method showLogs
+        * @param [...args] {Any} Any tags that the recordings must have.
+        * @public
+        */
+        public showLogs(...args: any[]): void;
+        /**
+        * Displays all errors recorded.
+        *
+        * @method showErrors
+        * @param [...args] {Any} Any tags that the recordings must have.
+        * @public
+        */
+        public showErrors(...args: any[]): void;
+        /**
+        * Displays all warnings recorded.
+        *
+        * @method showWarnings
+        * @param [...args] {Any} Any tags that the recordings must have.
+        * @public
+        */
+        public showWarnings(...args: any[]): void;
+        /**
+        * Displays a series of recordings within a time period passed.
+        * Time recorded is in milliseconds
+        *
+        * @method showTimePeriod
+        * @param [start=0] {Number}
+        * @param [end=Infinity] {Number}
+        * @param [tags] {Array} An tags that the recordings must have.
+        * @public
+        */
+        public showTimePeriod(start?: number, end?: number, tags?: string[]): void;
+    }
+}
+/**
+*
+* @module Kiwi
 * @submodule Utils
 */
 declare module Kiwi.Utils {
@@ -21146,6 +21450,14 @@ declare module Kiwi.Utils {
 * @main Kiwi
 */
 declare module Kiwi {
+    /**
+    *
+    * @property Log
+    * @static
+    * @type Kiwi.Utils.Log
+    * @public
+    */
+    var Log: Utils.Log;
     /**
     * The version of Kiwi that is currently being used.
     * @property VERSION

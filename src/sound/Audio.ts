@@ -44,7 +44,7 @@ module Kiwi.Sound {
 
             //If audio isn't supported OR the file does not exist
             if (this._game.audio.noAudio || this._game.fileStore.exists(this.key) === false) {
-                if(this._game.debugOption) console.log('Could not play Audio. Either the browser doesn\'t support audio or the Audio file was not found on the filestore');
+                Kiwi.Log.log('Could not play Audio. Either the browser doesn\'t support audio or the Audio file was not found on the filestore.', '#audio', '#notfound');
                 return;
             }
 
@@ -226,6 +226,17 @@ module Kiwi.Sound {
         * @private
         */
         private _loop: boolean;
+
+        /**
+        * READ ONLY: Returns a boolean indicating if the current audio marker playing is/will loop.
+        * @property loop
+        * @readOnly
+        * @type Boolean
+        * @public
+        */
+        public get loop():boolean {
+            return this._loop;
+        }
 
         /**
         * The key that was used to get the audio from the AudioLibrary.
@@ -581,9 +592,9 @@ module Kiwi.Sound {
         */
         public play(marker: string= this._currentMarker, forceRestart: boolean = false) {
 
-            if (this.isPlaying && forceRestart == false || this._game.audio.noAudio) return;
+            if (this.isPlaying && !forceRestart || this._game.audio.noAudio) return;
 
-            if (forceRestart === true && this._pending === false) this.stop();
+            if (forceRestart  && !this._pending ) this.stop();
 
             if (typeof this._markers[marker] == "undefined") return;
 

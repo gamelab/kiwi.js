@@ -73,13 +73,13 @@ module Kiwi.Utils {
 
         /**
         * Default function to convert an object to a string.
-        * @method defaultTostring
+        * @method defaultToString
         * @param item {Any}
         * @return {Any}
         * @static
         * @public
         */
-        public static defaultTostring(item) {
+        public static defaultToString(item) {
 
             if (item === null)
             {
@@ -97,6 +97,23 @@ module Kiwi.Utils {
             {
                 return item.toString();
             }
+
+        }
+
+        /**
+        * Returns a boolean indicating whether x is between two parameters passed.
+        *
+        * @method isBetween
+        * @param x {Number} The values to be checked
+        * @param min {Number} The minimum value 
+        * @param max {Number} The maximum value
+        * @return {Boolean} 
+        * @static
+        * @public
+        */
+        public static isBetween(x, min, max):boolean {
+
+            return (x > min && x < max);
 
         }
 

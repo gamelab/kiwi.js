@@ -35,7 +35,7 @@ module Kiwi.GameObjects.Tilemap {
             if (tileMapData !== undefined && atlas !== undefined) {
                 this.createFromFileStore(tileMapData, atlas, startingCell);
             } else if (tileMapData !== undefined || atlas !== undefined) {
-                console.log('You must pass BOTH the TileMapDataKey and TextureAtlas inorder to create a TileMap from the File Store.');
+                Kiwi.Log.warn('You must pass BOTH the TileMapDataKey and TextureAtlas inorder to create a TileMap from the File Store.', '#tilemap');
             }
 
         }
@@ -167,7 +167,7 @@ module Kiwi.GameObjects.Tilemap {
             switch (typeof tileMapData) {
                 case 'string':
                     if (this.game.fileStore.exists(tileMapData) == false) {
-                        console.error('The JSON file you have told to use for a TileMap does not exist.');
+                        Kiwi.Log.error('The JSON file you have told to use for a TileMap does not exist.', '#tilemap', '#json');
                         return false;
                     }   
 
@@ -179,7 +179,7 @@ module Kiwi.GameObjects.Tilemap {
                     break;
 
                 default:
-                    console.error('The type of TileMapData passed could not be idenified. Please either pass a name of JSON file to use OR an object to be used.');                    
+                    Kiwi.Log.error('The type of TileMapData passed could not be idenified. Please either pass a name of JSON file to use OR an object to be used.', '#tilemap');                    
             }
 
             //Get the map information
@@ -444,7 +444,7 @@ module Kiwi.GameObjects.Tilemap {
         * @public
         */
         public createNewObjectLayer() {
-            console.log("OBJECT GROUP layers are currently not supported.");
+            Kiwi.Log.log("OBJECT GROUP layers are currently not supported.", '#tilemap');
         }
 
         
@@ -454,7 +454,7 @@ module Kiwi.GameObjects.Tilemap {
         * @public
         */
         public createNewImageLayer() {
-            console.log("IMAGE layers are currently not supported.");
+            Kiwi.Log.log("IMAGE layers are currently not supported.", '#tilemap');
         }
 
         /**

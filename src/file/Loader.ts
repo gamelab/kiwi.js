@@ -335,7 +335,7 @@ module Kiwi.Files {
                 this._fileList.push(file);
                 return true;
             } else {
-                if(this._game.debug) console.error('Kiwi.Loader: Audio Format not supported on this Device/Browser.');
+                Kiwi.Log.error('Kiwi.Loader: Audio Format not supported on this Device/Browser.', '#audio', '#unsupported');
                 return false;
             }
 
@@ -544,9 +544,8 @@ module Kiwi.Files {
             {
                 //  All files loaded
                 this._complete = true;
-                if (this._game.debug) {
-                    console.log("All files have loaded");
-                }
+                Kiwi.Log.log("All files have loaded", '#loading', '#complete');
+                
                 
                 if (this._onCompleteCallback)
                 {

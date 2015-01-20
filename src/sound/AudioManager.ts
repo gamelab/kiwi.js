@@ -171,7 +171,7 @@ module Kiwi.Sound {
                 this._locked = true;
                 this._game.input.onUp.addOnce(this._unlocked, this);
                 
-                console.log('Kiwi.AudioManager: Audio is currently Locked until at touch event.');
+                Kiwi.Log.log('Kiwi.AudioManager: Audio is currently Locked until at touch event.', '#audio', '#locked');
             } else {
                 this._locked = false;
             }
@@ -214,7 +214,7 @@ module Kiwi.Sound {
         * @private
         */
         private _unlocked() {
-            console.log('Kiwi.AudioManager: Audio now Unlocked');
+            Kiwi.Log.log('Kiwi.AudioManager: Audio now Unlocked.', '#audio', '#unlocked');
 
             if (this.usingAudioTag) {
                 this._locked = false;
