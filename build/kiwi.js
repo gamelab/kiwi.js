@@ -14071,7 +14071,9 @@ var Kiwi;
             * @class TweenManager
             * @namespace Kiwi.Animations.Tweens
             * @constructor
-            * @param game {Kiwi.Game}
+            * @param game {Kiwi.Game} Current game
+            * @param [clock] {Kiwi.Time.Clock} Clock to use for tweens.
+            *   Defaults to game.time.clock.
             * @return {Kiwi.Animations.TweenManager}
             *
             * @author     sole / http://soledadpenades.com
@@ -14086,9 +14088,10 @@ var Kiwi;
             *
             */
             var TweenManager = (function () {
-                function TweenManager(game) {
+                function TweenManager(game, clock) {
                     this._game = game;
                     this._tweens = [];
+                    this.clock = clock || this._game.time.clock;
                 }
                 /**
                 * The type of object that this is.
@@ -14127,7 +14130,10 @@ var Kiwi;
                 * @public
                 */
                 TweenManager.prototype.create = function (object) {
-                    return new Kiwi.Animations.Tween(object, this._game);
+                    var tween = new Kiwi.Animations.Tween(object, this._game);
+                    this.validateClock();
+                    tween.manager = this;
+                    return tween;
                 };
 
                 /**
@@ -14139,9 +14145,9 @@ var Kiwi;
                 */
                 TweenManager.prototype.add = function (tween) {
                     tween.setParent(this._game);
-
+                    tween.manager = this;
+                    this.validateClock();
                     this._tweens.push(tween);
-
                     return tween;
                 };
 
@@ -14163,19 +14169,18 @@ var Kiwi;
                 /**
                 * The update loop.
                 * @method update
+                * @return {boolean} Whether anything was updated
                 * @public
                 */
                 TweenManager.prototype.update = function () {
+                    var i = 0, numTweens = this._tweens.length;
+
                     if (this._tweens.length === 0) {
                         return false;
                     }
 
-                    //  See if we can merge the length into the while block
-                    var i = 0;
-                    var numTweens = this._tweens.length;
-
                     while (i < numTweens) {
-                        if (this._tweens[i].update(this._game.time.now())) {
+                        if (this._tweens[i].update(this.clock.elapsed() * 1000)) {
                             i++;
                         } else {
                             this._tweens.splice(i, 1);
@@ -14184,6 +14189,21 @@ var Kiwi;
                     }
 
                     return true;
+                };
+
+                /**
+                * Validate clock; if no valid clock is found, set one from game
+                * @method validateClock
+                * @public
+                * @since 1.2.0
+                */
+                TweenManager.prototype.validateClock = function () {
+                    if (!this.clock) {
+                        this.clock = this._game.time.clock;
+                        if (!this.clock) {
+                            Kiwi.Log.error("Tween manager could not find valid clock!");
+                        }
+                    }
                 };
                 return TweenManager;
             })();
@@ -14401,6 +14421,25 @@ var Kiwi;
                 return "Tween";
             };
 
+            Object.defineProperty(Tween.prototype, "manager", {
+                /**
+                * The manager that this tween belongs to.
+                * @property manager
+                * @type Kiwi.Animations.Tweens.TweenManager
+                * @private
+                * @since 1.2.0
+                */
+                get: function () {
+                    return this._manager;
+                },
+                set: function (value) {
+                    this._manager = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
             /**
             * Sets up the various properties that define this tween.
             * The ending position/properties for this tween, how long the tween should go for, easing method to use and if should start right way.
@@ -14439,6 +14478,8 @@ var Kiwi;
             * @public
             */
             Tween.prototype.start = function () {
+                var property;
+
                 if (this._game === null || this._object === null) {
                     return;
                 }
@@ -14451,7 +14492,7 @@ var Kiwi;
 
                 this._onCompleteCalled = false;
 
-                this._startTime = this._game.time.now() + this._delayTime;
+                this._startTime = this._manager.clock.elapsed() * 1000 + this._delayTime;
 
                 for (var property in this._valuesEnd) {
                     // This prevents the interpolation of null values or of non-existing properties
@@ -14470,7 +14511,7 @@ var Kiwi;
                     }
 
                     //  Check if property is a function
-                    if (typeof this._object[property] === 'function') {
+                    if (typeof this._object[property] === "function") {
                         this._valuesStart[property] = this._object[property]();
                     } else {
                         this._valuesStart[property] = this._object[property];
@@ -14600,11 +14641,12 @@ var Kiwi;
             * The update loop is executed every frame whilst the tween is running.
             * @method update
             * @param time {Number}
+            * @return {boolean} Whether the Tween is still running
             * @public
             */
             Tween.prototype.update = function (time) {
-                if (time < this._startTime) {
-                    return true;
+                if (time < this._startTime - this._delayTime) {
+                    return false;
                 }
 
                 if (this._onStartCallbackFired === false) {
@@ -14616,7 +14658,7 @@ var Kiwi;
                 }
 
                 var elapsed = (time - this._startTime) / this._duration;
-                elapsed = elapsed > 1 ? 1 : elapsed;
+                elapsed = elapsed > 1 ? 1 : elapsed < 0 ? 0 : elapsed;
 
                 var value = this._easingFunction(elapsed);
 
@@ -14628,7 +14670,7 @@ var Kiwi;
                     if (end instanceof Array) {
                         this._object[property] = this._interpolationFunction(end, value);
                     } else {
-                        if (typeof this._object[property] === 'function') {
+                        if (typeof this._object[property] === "function") {
                             this._object[property](start + (end - start) * value);
                         } else {
                             this._object[property] = start + (end - start) * value;
@@ -14640,10 +14682,10 @@ var Kiwi;
                     this._onUpdateCallback.call(this._onUpdateContext, this._object, value);
                 }
 
-                if (elapsed == 1) {
+                if (elapsed === 1) {
                     this.isRunning = false;
 
-                    if (this._onCompleteCallback !== null && this._onCompleteCalled == false) {
+                    if (this._onCompleteCallback !== null && this._onCompleteCalled === false) {
                         this._onCompleteCalled = true;
                         this._onCompleteCallback.call(this._onCompleteContext, this._object);
                     }

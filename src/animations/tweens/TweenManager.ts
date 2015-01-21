@@ -17,7 +17,9 @@ module Kiwi.Animations.Tweens {
     * @class TweenManager
     * @namespace Kiwi.Animations.Tweens
     * @constructor
-    * @param game {Kiwi.Game}
+    * @param game {Kiwi.Game} Current game
+    * @param [clock] {Kiwi.Time.Clock} Clock to use for tweens.
+    *   Defaults to game.time.clock.
     * @return {Kiwi.Animations.TweenManager}
     * 
     * @author     sole / http://soledadpenades.com
@@ -33,10 +35,11 @@ module Kiwi.Animations.Tweens {
     */
     export class TweenManager {
          
-        constructor(game: Kiwi.Game) {
+        constructor( game: Kiwi.Game, clock?: Kiwi.Time.Clock ) {
              
             this._game = game;
             this._tweens = [];
+            this.clock = clock || this._game.time.clock;
 
         }
 
@@ -65,6 +68,15 @@ module Kiwi.Animations.Tweens {
         * @private
         */
         private _tweens: Kiwi.Animations.Tween[];
+
+        /**
+        * Clock used by tweens
+        * @property clock
+        * @type Kiwi.Time.Clock
+        * @public
+        * @since 1.2.0
+        */
+        public clock: Kiwi.Time.Clock;
 
         /** 
         * Returns all of tweens that are on the manager.
@@ -97,9 +109,10 @@ module Kiwi.Animations.Tweens {
         * @public
         */
         public create(object:any): Kiwi.Animations.Tween {
-
-            return new Kiwi.Animations.Tween(object, this._game);
-
+            var tween = new Kiwi.Animations.Tween(object, this._game);
+            this.validateClock();
+            tween.manager = this;
+            return tween;
         }
 
         /** 
@@ -110,11 +123,10 @@ module Kiwi.Animations.Tweens {
         * @public
         */
         public add(tween: Kiwi.Animations.Tween): Kiwi.Animations.Tween {
-
             tween.setParent(this._game);
-
+            tween.manager = this;
+            this.validateClock();
             this._tweens.push(tween);
-
             return tween;
 
         }
@@ -140,34 +152,42 @@ module Kiwi.Animations.Tweens {
         /** 
         * The update loop.
         * @method update
+        * @return {boolean} Whether anything was updated
         * @public
         */
         public update() {
+            var i = 0,
+                numTweens = this._tweens.length;
 
-            if (this._tweens.length === 0)
-            {
+            if ( this._tweens.length === 0 ) {
                 return false;
             }
 
-            //  See if we can merge the length into the while block
-            var i = 0;
-            var numTweens = this._tweens.length;
-
-            while (i < numTweens)
-            {
-                if (this._tweens[i].update(this._game.time.now()))
-                {
+            while ( i < numTweens ) {
+                if ( this._tweens[ i ].update( this.clock.elapsed() * 1000 ) ) {
                     i++;
-                }
-                else
-                {
-                    this._tweens.splice(i, 1);
+                } else {
+                    this._tweens.splice( i, 1 );
                     numTweens--;
                 }
             }
 
             return true;
+        }
 
+        /**
+        * Validate clock; if no valid clock is found, set one from game
+        * @method validateClock
+        * @public
+        * @since 1.2.0
+        */
+        public validateClock() {
+            if ( !this.clock ) {
+                this.clock = this._game.time.clock;
+                if ( !this.clock ) {
+                    Kiwi.Log.error( "Tween manager could not find valid clock!" );
+                }
+            }
         }
 
     }

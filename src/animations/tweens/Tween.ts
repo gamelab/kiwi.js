@@ -74,6 +74,21 @@ module Kiwi.Animations {
         */
         private _manager: Kiwi.Animations.Tweens.TweenManager = null;
 
+        /**
+        * The manager that this tween belongs to.
+        * @property manager
+        * @type Kiwi.Animations.Tweens.TweenManager
+        * @private
+        * @since 1.2.0
+        */
+        public get manager(): Kiwi.Animations.Tweens.TweenManager {
+            return this._manager;
+        }
+
+        public set manager( value: Kiwi.Animations.Tweens.TweenManager ) {
+            this._manager = value;
+        }
+
         /** 
         * The object that this tween is affecting.
         * @property _object
@@ -268,8 +283,9 @@ module Kiwi.Animations {
         * @public
         */
 	    public start() {
+            var property;
 
-	        if (this._game === null || this._object === null)
+            if (this._game === null || this._object === null)
 	        {
 	            return;
 	        }
@@ -282,37 +298,29 @@ module Kiwi.Animations {
 
             this._onCompleteCalled = false;
 
-	        this._startTime = this._game.time.now() + this._delayTime;
+	        this._startTime = this._manager.clock.elapsed() * 1000 + this._delayTime;
 
-	        for (var property in this._valuesEnd)
-	        {
+	        for ( var property in this._valuesEnd ) {
 	            // This prevents the interpolation of null values or of non-existing properties
-	            if (this._object[property] === null || !(property in this._object))
-	            { 
+	            if ( this._object[ property ] === null || !( property in this._object ) ) {
 	                continue;
 	            }
 
 	            // check if an Array was provided as property value
-	            if (this._valuesEnd[property] instanceof Array)
-	            {
-	                if (this._valuesEnd[property].length === 0)
-	                {
+	            if ( this._valuesEnd[ property ] instanceof Array ) {
+	                if ( this._valuesEnd[ property ].length === 0 ) {
 	                    continue;
 	                }
-                     
 
 	                // create a local copy of the Array with the start value at the front
-	                this._valuesEnd[property] = [this._object[property]].concat(this._valuesEnd[property]);
+	                this._valuesEnd[ property ] = [ this._object[ property ] ].concat(this._valuesEnd[ property ]);
 	            }
 
                 //  Check if property is a function
-	            if (typeof this._object[property] === 'function')
-	            { 
-	                this._valuesStart[property] = this._object[property]();
-	            }
-	            else
-	            { 
-	                this._valuesStart[property] = this._object[property];
+	            if ( typeof this._object[ property ] === "function" ) {
+	                this._valuesStart[ property ] = this._object[ property ]();
+	            } else {
+	                this._valuesStart[ property ] = this._object[ property ];
 	            }
 
 	        }
@@ -460,78 +468,71 @@ module Kiwi.Animations {
         * The update loop is executed every frame whilst the tween is running.
         * @method update
         * @param time {Number}
+        * @return {boolean} Whether the Tween is still running
         * @public
         */
-	    public update(time) {
+	    public update( time: number ) {
 
-	        if (time < this._startTime)
-	        {
-	            return true;
-	        }
+            if ( time < this._startTime - this._delayTime ) {
+                return false;
+            }
 
-	        if (this._onStartCallbackFired === false)
-	        {
-	            if (this._onStartCallback !== null)
-	            {
-	                this._onStartCallback.call(this._onStartContext, this._object);
-	            }
+            if ( this._onStartCallbackFired === false ) {
+                if ( this._onStartCallback !== null ) {
+                    this._onStartCallback.call( this._onStartContext,
+                        this._object );
+                }
 
-	            this._onStartCallbackFired = true;
-	        }
+                this._onStartCallbackFired = true;
+            }
 
-	        var elapsed = (time - this._startTime) / this._duration;
-	        elapsed = elapsed > 1 ? 1 : elapsed;
+            var elapsed = ( time - this._startTime ) / this._duration;
+            elapsed = elapsed > 1 ? 1 :
+                elapsed < 0 ? 0 :
+                elapsed;
 
-	        var value = this._easingFunction(elapsed);
+            var value = this._easingFunction( elapsed );
 
-	        for (var property in this._valuesStart)
-	        {
-	            var start = this._valuesStart[property];
-	            var end = this._valuesEnd[property];
+            for ( var property in this._valuesStart ) {
+                var start = this._valuesStart[ property ];
+                var end = this._valuesEnd[ property ];
 
                 //  Add checks for object, array, numeric up front
-	            if (end instanceof Array)
-	            {
-	                this._object[property] = this._interpolationFunction(end, value);
-	            }
-                else
-	            {
-	                if (typeof this._object[property] === 'function')
-	                {
-    	                this._object[property](start + (end - start) * value); 
-	                }
-	                else
-	                {
-    	                this._object[property] = start + (end - start) * value;
-	                }
-	            }
-	        }
+                if ( end instanceof Array ) {
+                    this._object[ property ] =
+                        this._interpolationFunction( end, value );
+                } else {
+                    if ( typeof this._object[ property ] === "function" ) {
+                        this._object[ property ]( start + ( end - start ) * value );
+                    } else {
+                        this._object[ property ] = start + ( end - start ) * value;
+                    }
+                }
+            }
 
-	        if (this._onUpdateCallback !== null)
-	        {
-	            this._onUpdateCallback.call(this._onUpdateContext, this._object, value);
-	        }
+            if ( this._onUpdateCallback !== null ) {
+                this._onUpdateCallback.call( this._onUpdateContext,
+                    this._object, value );
+            }
 
-	        if (elapsed == 1)
-	        {
-    	        this.isRunning = false;
+            if ( elapsed === 1 ) {
+                this.isRunning = false;
 
-	            if (this._onCompleteCallback !== null && this._onCompleteCalled == false)
-	            {
-	                this._onCompleteCalled = true;
-	                this._onCompleteCallback.call(this._onCompleteContext, this._object);
-	            }
+                if ( this._onCompleteCallback !== null &&
+                        this._onCompleteCalled === false ) {
+                    this._onCompleteCalled = true;
+                    this._onCompleteCallback.call(
+                        this._onCompleteContext, this._object );
+                }
 
-	            for (var i = 0; i < this._chainedTweens.length; i++)
-	            {
-	                this._chainedTweens[i].start();
-	            }
+                for ( var i = 0; i < this._chainedTweens.length; i++ ) {
+                    this._chainedTweens[ i ].start();
+                }
 
-	            return false;
+                return false;
+            }
 
-	        }
-
-	        return true;
+            return true;
 
 	    }
 

@@ -9020,7 +9020,9 @@ declare module Kiwi.Animations.Tweens {
     * @class TweenManager
     * @namespace Kiwi.Animations.Tweens
     * @constructor
-    * @param game {Kiwi.Game}
+    * @param game {Kiwi.Game} Current game
+    * @param [clock] {Kiwi.Time.Clock} Clock to use for tweens.
+    *   Defaults to game.time.clock.
     * @return {Kiwi.Animations.TweenManager}
     *
     * @author     sole / http://soledadpenades.com
@@ -9035,7 +9037,7 @@ declare module Kiwi.Animations.Tweens {
     *
     */
     class TweenManager {
-        constructor(game: Game);
+        constructor(game: Game, clock?: Time.Clock);
         /**
         * The type of object that this is.
         * @method objType
@@ -9057,6 +9059,14 @@ declare module Kiwi.Animations.Tweens {
         * @private
         */
         private _tweens;
+        /**
+        * Clock used by tweens
+        * @property clock
+        * @type Kiwi.Time.Clock
+        * @public
+        * @since 1.2.0
+        */
+        public clock: Time.Clock;
         /**
         * Returns all of tweens that are on the manager.
         * @method getAll
@@ -9097,9 +9107,17 @@ declare module Kiwi.Animations.Tweens {
         /**
         * The update loop.
         * @method update
+        * @return {boolean} Whether anything was updated
         * @public
         */
         public update(): boolean;
+        /**
+        * Validate clock; if no valid clock is found, set one from game
+        * @method validateClock
+        * @public
+        * @since 1.2.0
+        */
+        public validateClock(): void;
     }
 }
 /**
@@ -9157,6 +9175,14 @@ declare module Kiwi.Animations {
         * @private
         */
         private _manager;
+        /**
+        * The manager that this tween belongs to.
+        * @property manager
+        * @type Kiwi.Animations.Tweens.TweenManager
+        * @private
+        * @since 1.2.0
+        */
+        public manager : Tweens.TweenManager;
         /**
         * The object that this tween is affecting.
         * @property _object
@@ -9380,9 +9406,10 @@ declare module Kiwi.Animations {
         * The update loop is executed every frame whilst the tween is running.
         * @method update
         * @param time {Number}
+        * @return {boolean} Whether the Tween is still running
         * @public
         */
-        public update(time: any): boolean;
+        public update(time: number): boolean;
     }
 }
 interface IRenderManager {
