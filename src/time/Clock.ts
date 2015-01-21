@@ -39,6 +39,8 @@ module Kiwi.Time {
                 this.units = 1;
             }
 
+            this._lastMasterElapsed = this.master.elapsed();
+            this._currentMasterElapsed = this.master.elapsed();
         }
 
         /**
@@ -101,33 +103,69 @@ module Kiwi.Time {
 
         }
 
+
+        /**
+        * Rate at which time passes on this clock.
+        * 1 is normal speed. 0 is no speed. -1 is backwards.
+        * This mostly affects timers, animations and tweens.
+        * @property timeScale
+        * @type number
+        * @default 1.0
+        * @public
+        * @since 1.2.0
+        */
+        public timeScale: number = 1.0;
+
+        /**
+        * Clock units elapsed since the clock was most recently started,
+        * not including paused time.
+        * @property _elapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _elapsed: number = 0;
+
+        /**
+        * Master time on last frame
+        * @property _lastMasterElapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _lastMasterElapsed: number;
+
+        /**
+        * Master time on current frame
+        * @property _currentMasterElapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _currentMasterElapsed: number;
+
+
+        /**
+        * Rate of time passage, as modified by time scale and frame rate.
+        * Under ideal conditions this should be 1.
+        * If the frame rate drops, this will rise. Multiply transformations
+        * by rate to get smooth change over time.
+        * @property rate
+        * @type number
+        * @public
+        * @since 1.2.0
+        */
+        public rate: number = 1;
+
+
         /**
         * The number of clock units elapsed since the clock was most recently started (not including time spent paused)
         * @method elapsed
         * @return {Number} number of clock units.
         * @public
         */
-        public elapsed():number {
-
-            if (this._elapsedState === 0)
-            {
-                return (this._timeLastStarted) ? ((this.master.elapsed() - this._timeLastStarted) - this._totalPaused) / this.units : null;
-            
-            }
-            else if (this._elapsedState === 1)
-            {
-                return (this._timeLastPaused - this._timeLastStarted - this._totalPaused) / this.units;
-            }
-            else if (this._elapsedState === 2)
-            {
-                //  Same as zero!
-                return (this._timeLastStarted) ? ((this.master.elapsed() - this._timeLastStarted) - this._totalPaused) / this.units : null;
-            }
-            else if (this._elapsedState === 3)
-            {
-                return (this._timeLastStopped - this._timeLastStarted - this._totalPaused) / this.units;
-            }
-
+        public elapsed(): number {
+            return this._elapsed;
         }
 
         /**
@@ -431,12 +469,27 @@ module Kiwi.Time {
         * @public
         */
         public update() {
+            var frameLength = this._currentMasterElapsed - this._lastMasterElapsed;
 
             for (var i = 0; i < this.timers.length; i++)
             {
                 this.timers[i].update();
             }
 
+            // Compute difference between last master value and this
+            // Scale that difference by timeScale
+            // If clock is running, add that value to the current time
+            this._lastMasterElapsed = this._currentMasterElapsed;
+            this._currentMasterElapsed = this.master.elapsed();
+            if ( this._elapsedState === 0 || this._elapsedState === 2 ) {
+                this._elapsed += this.timeScale * frameLength / this.units;
+            } else if ( this._elapsedState === 1 ) {
+                this._totalPaused += frameLength;
+            }
+
+            // Compute time governance properties
+            // These should really be properties hereafter
+            this.rate = this.timeScale * frameLength / this.master.idealDelta;
         }
 
         /**

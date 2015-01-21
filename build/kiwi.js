@@ -28040,6 +28040,37 @@ var Kiwi;
                 */
                 this._timeLastStarted = null;
                 /**
+                * Rate at which time passes on this clock.
+                * 1 is normal speed. 0 is no speed. -1 is backwards.
+                * This mostly affects timers, animations and tweens.
+                * @property timeScale
+                * @type number
+                * @default 1.0
+                * @public
+                * @since 1.2.0
+                */
+                this.timeScale = 1.0;
+                /**
+                * Clock units elapsed since the clock was most recently started,
+                * not including paused time.
+                * @property _elapsed
+                * @type number
+                * @private
+                * @since 1.2.0
+                */
+                this._elapsed = 0;
+                /**
+                * Rate of time passage, as modified by time scale and frame rate.
+                * Under ideal conditions this should be 1.
+                * If the frame rate drops, this will rise. Multiply transformations
+                * by rate to get smooth change over time.
+                * @property rate
+                * @type number
+                * @public
+                * @since 1.2.0
+                */
+                this.rate = 1;
+                /**
                 * The time the clock was most recently stopped relative to the master clock.
                 * @property _timeLastStopped
                 * @type Number
@@ -28144,6 +28175,9 @@ var Kiwi;
                 if (this.units < 1) {
                     this.units = 1;
                 }
+
+                this._lastMasterElapsed = this.master.elapsed();
+                this._currentMasterElapsed = this.master.elapsed();
             }
             /**
             * The type of object that this is.
@@ -28182,16 +28216,7 @@ var Kiwi;
             * @public
             */
             Clock.prototype.elapsed = function () {
-                if (this._elapsedState === 0) {
-                    return (this._timeLastStarted) ? ((this.master.elapsed() - this._timeLastStarted) - this._totalPaused) / this.units : null;
-                } else if (this._elapsedState === 1) {
-                    return (this._timeLastPaused - this._timeLastStarted - this._totalPaused) / this.units;
-                } else if (this._elapsedState === 2) {
-                    //  Same as zero!
-                    return (this._timeLastStarted) ? ((this.master.elapsed() - this._timeLastStarted) - this._totalPaused) / this.units : null;
-                } else if (this._elapsedState === 3) {
-                    return (this._timeLastStopped - this._timeLastStarted - this._totalPaused) / this.units;
-                }
+                return this._elapsed;
             };
 
             /**
@@ -28367,9 +28392,26 @@ var Kiwi;
             * @public
             */
             Clock.prototype.update = function () {
+                var frameLength = this._currentMasterElapsed - this._lastMasterElapsed;
+
                 for (var i = 0; i < this.timers.length; i++) {
                     this.timers[i].update();
                 }
+
+                // Compute difference between last master value and this
+                // Scale that difference by timeScale
+                // If clock is running, add that value to the current time
+                this._lastMasterElapsed = this._currentMasterElapsed;
+                this._currentMasterElapsed = this.master.elapsed();
+                if (this._elapsedState === 0 || this._elapsedState === 2) {
+                    this._elapsed += this.timeScale * frameLength / this.units;
+                } else if (this._elapsedState === 1) {
+                    this._totalPaused += frameLength;
+                }
+
+                // Compute time governance properties
+                // These should really be properties hereafter
+                this.rate = this.timeScale * frameLength / this.master.idealDelta;
             };
 
             /**

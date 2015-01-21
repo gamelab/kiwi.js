@@ -18746,6 +18746,53 @@ declare module Kiwi.Time {
         */
         public started(): number;
         /**
+        * Rate at which time passes on this clock.
+        * 1 is normal speed. 0 is no speed. -1 is backwards.
+        * This mostly affects timers, animations and tweens.
+        * @property timeScale
+        * @type number
+        * @default 1.0
+        * @public
+        * @since 1.2.0
+        */
+        public timeScale: number;
+        /**
+        * Clock units elapsed since the clock was most recently started,
+        * not including paused time.
+        * @property _elapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _elapsed;
+        /**
+        * Master time on last frame
+        * @property _lastMasterElapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _lastMasterElapsed;
+        /**
+        * Master time on current frame
+        * @property _currentMasterElapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _currentMasterElapsed;
+        /**
+        * Rate of time passage, as modified by time scale and frame rate.
+        * Under ideal conditions this should be 1.
+        * If the frame rate drops, this will rise. Multiply transformations
+        * by rate to get smooth change over time.
+        * @property rate
+        * @type number
+        * @public
+        * @since 1.2.0
+        */
+        public rate: number;
+        /**
         * The number of clock units elapsed since the clock was most recently started (not including time spent paused)
         * @method elapsed
         * @return {Number} number of clock units.
