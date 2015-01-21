@@ -145,10 +145,13 @@
     <Content Include="Kiwi.js">
       <DependentUpon>Kiwi.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="file\DataFile.ts" />
     <TypeScriptCompile Include="Kiwi.ts" />
     <Content Include="geom\Point.ts" />
     <Content Include="geom\Rectangle.ts" />
     <Content Include="render\GLBlendMode.ts" />
+    <TypeScriptCompile Include="file\AudioFile.ts" />
+    <TypeScriptCompile Include="file\TextureFile.ts" />
     <TypeScriptCompile Include="utils\Log.ts" />
   </ItemGroup>
   <ItemGroup />

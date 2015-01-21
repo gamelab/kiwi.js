@@ -77,7 +77,7 @@ module Kiwi.Sound {
             for (var i = 0; i < fileStoreKeys.length; i++) {
                 var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
                 if (file.isAudio) {
-                    Kiwi.Log.log("  Kiwi.AudioLibrary: Adding Audio: " + file.fileName, '#audio', '#added');
+                    Kiwi.Log.log("  Kiwi.AudioLibrary: Adding Audio: " + file.name, '#audio', '#added');
                     state.audioLibrary.add(file);
                 } 
             }        

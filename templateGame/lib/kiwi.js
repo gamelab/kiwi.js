@@ -2270,17 +2270,13 @@ var Kiwi;
         * @private
         */
         StateManager.prototype.checkPreload = function () {
-            var _this = this;
             //Rebuild the Libraries before the preload is executed
             this.rebuildLibraries();
 
-            this._game.loader.init(function (percent, bytes, file) {
-                return _this.onLoadProgress(percent, bytes, file);
-            }, function () {
-                return _this.onLoadComplete();
-            });
+            this._game.loader.onQueueProgress.add(this.onLoadProgress, this);
+            this._game.loader.onQueueComplete.add(this.onLoadComplete, this);
             this.current.preload();
-            this._game.loader.startLoad();
+            this._game.loader.start();
         };
 
         /**
@@ -2346,6 +2342,8 @@ var Kiwi;
         */
         StateManager.prototype.onLoadComplete = function () {
             this.current.loadComplete();
+            this._game.loader.onQueueProgress.remove(this.onLoadProgress, this);
+            this._game.loader.onQueueComplete.remove(this.onLoadComplete, this);
 
             //Rebuild the Libraries again to have access the new files that were loaded.
             this.rebuildLibraries();
@@ -4698,7 +4696,7 @@ var Kiwi;
         */
         State.prototype.addImage = function (key, url, storeAsGlobal, width, height, offsetX, offsetY) {
             if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-            this.game.loader.addImage(key, url, width, height, offsetX, offsetY, storeAsGlobal);
+            return this.game.loader.addImage(key, url, width, height, offsetX, offsetY, storeAsGlobal);
         };
 
         /**
@@ -4721,7 +4719,7 @@ var Kiwi;
         */
         State.prototype.addSpriteSheet = function (key, url, frameWidth, frameHeight, storeAsGlobal, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
             if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-            this.game.loader.addSpriteSheet(key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY, storeAsGlobal);
+            return this.game.loader.addSpriteSheet(key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY, storeAsGlobal);
         };
 
         /**
@@ -4737,7 +4735,7 @@ var Kiwi;
         */
         State.prototype.addTextureAtlas = function (key, imageURL, jsonID, jsonURL, storeAsGlobal) {
             if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-            this.game.loader.addTextureAtlas(key, imageURL, jsonID, jsonURL, storeAsGlobal);
+            return this.game.loader.addTextureAtlas(key, imageURL, jsonID, jsonURL, storeAsGlobal);
         };
 
         /**
@@ -4751,7 +4749,7 @@ var Kiwi;
         */
         State.prototype.addJSON = function (key, url, storeAsGlobal) {
             if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-            this.game.loader.addJSON(key, url, storeAsGlobal);
+            return this.game.loader.addJSON(key, url, storeAsGlobal);
         };
 
         /**
@@ -4764,7 +4762,7 @@ var Kiwi;
         */
         State.prototype.addAudio = function (key, url, storeAsGlobal) {
             if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-            this.game.loader.addAudio(key, url, storeAsGlobal);
+            return this.game.loader.addAudio(key, url, storeAsGlobal);
         };
 
         /**
@@ -10100,119 +10098,149 @@ var Kiwi;
         */
         var Loader = (function () {
             function Loader(game) {
-                /**
-                * If a real byte value calculation will be made prior to the load (much smoother progress bar but costs HEAD calls x total file count)
-                * @property _calculateBytes
-                * @type boolean
-                * @default true
-                * @private
-                */
-                this._calculateBytes = true;
-                /**
-                * Total number of files to be loaded
-                * @property _fileTotal
-                * @type Number
-                * @private
-                */
-                this._fileTotal = 0;
-                /**
-                * The most recently loaded file (out of the total)
-                * @property _currentFile
-                * @type Number
-                * @private
-                */
-                this._currentFile = 0;
-                /**
-                * Total file size (in bytes) of all files to be loaded - only set if calculateBytes is true
-                * @property _bytesTotal
-                * @type Number
-                * @private
-                */
-                this._bytesTotal = 0;
-                /**
-                * Total number of bytes loaded so far (out of _bytesTotal)
-                * @property _bytesLoaded
-                * @type Number
-                * @private
-                */
-                this._bytesLoaded = 0;
-                /**
-                * Total number of bytes loaded from last completed file
-                * @property _bytesCurrent
-                * @type Number
-                * @private
-                */
-                this._bytesCurrent = 0;
-                /**
-                * When using the tag loader we don't have a byte total, just a X of files total - this holds the percentage each file from that total is worth
-                * @property _fileChunk
-                * @type Number
-                * @private
-                */
-                this._fileChunk = 0;
-                /**
-                * The total % of the current queue that has been loaded
-                * @property _percentLoaded
-                * @type Number
-                * @private
-                */
-                this._percentLoaded = 0;
-                /**
-                * Everything in the queue loaded?
-                * @property _complete
-                * @type boolean
-                * @private
-                */
-                this._complete = false;
-                this._game = game;
+                this.game = game;
             }
-            /**
-            * The type of object that this is.
-            * @method objType
-            * @return {String} "Loader"
-            * @public
-            */
             Loader.prototype.objType = function () {
                 return "Loader";
             };
 
-            /**
-            * The boot method is executed when the DOM has successfully loaded and we can now start the game.
-            * @method boot
-            * @public
-            */
             Loader.prototype.boot = function () {
-                this._fileList = [];
-                this._loadList = [];
+                this._fileQueue = [];
+
+                this._tagList = [];
+
+                this._xhrList = [];
+
+                this.onQueueComplete = new Kiwi.Signal();
+
+                this.onQueueProgress = new Kiwi.Signal();
             };
 
+            //Starts loading all the files which are on the file queue
+            Loader.prototype.start = function () {
+                //Any files to load?
+                if (this._fileQueue.length <= 0) {
+                    console.log('No files to load in the file queue.');
+                    this.onQueueComplete.dispatch();
+                    return;
+                }
+
+                //There are files to load
+                var i = 0, file;
+
+                while (i < this._fileQueue.length) {
+                    this.addFileToList(this._fileQueue[i]);
+                    i++;
+                }
+
+                this.xhrStartLoading();
+                this.tagStartLoading();
+            };
+
+            Loader.prototype.addFileToList = function (file) {
+                if (file.useTagLoader) {
+                    //Push into the tag loader queue
+                    console.log('Using Tag Loader');
+                    this._tagList.push(file);
+                } else {
+                    //Push into the xhr queue
+                    console.log('Using XHR Loader');
+                    this._xhrList.push(file);
+                }
+            };
+
+            Loader.prototype.fileQueueUpdate = function (file) {
+                var index = this._fileQueue.indexOf(file);
+
+                if (index == -1) {
+                    console.log('Did not find the file in the file queue');
+                    return;
+                }
+
+                //File is in the file queue
+                //Remove the file
+                this._fileQueue.splice(index, 1);
+
+                //Any files left in the queue to load?
+                if (this._fileQueue.length <= 0) {
+                    this.onQueueComplete.dispatch();
+                } else {
+                    this.onQueueProgress.dispatch();
+                }
+            };
+
+            //XHR Loader
+            Loader.prototype.xhrStartLoading = function () {
+                //Any files to load?
+                if (this._xhrList.length <= 0) {
+                    console.log('No files in XHR list to load');
+                    return false;
+                }
+
+                //Is the current one loading?
+                if (this._xhrList[0].loading) {
+                    console.log('File is currently loading');
+                    return false;
+                }
+
+                //Attempt to load the file!
+                this._xhrList[0].onComplete.addOnce(this.xhrFileComplete, this);
+                this._xhrList[0].load();
+                return true;
+            };
+
+            Loader.prototype.xhrFileComplete = function (file) {
+                //Remove from the XHR queue
+                var index = this._xhrList.indexOf(file);
+                if (index === -1) {
+                    console.log('Something has gone wrong? No file has been found');
+                    return;
+                }
+
+                this._xhrList.splice(index, 1);
+
+                //Start loading
+                if (this.xhrStartLoading()) {
+                    //File is now loading
+                } else {
+                    //Loading has been completed
+                    console.log('XHR Loading Complete');
+                }
+
+                this.fileQueueUpdate(file);
+            };
+
+            //Tag Loading
+            Loader.prototype.tagStartLoading = function () {
+                //Loop through all of the files
+                var i = 0, file;
+
+                while (i < this._tagList.length) {
+                    file = this._tagList[i];
+                    file.onComplete.add(this.tagFileComplete, this);
+                    file.load();
+
+                    i++;
+                }
+            };
+
+            Loader.prototype.tagFileComplete = function (file) {
+                var index = this._tagList.indexOf(file);
+                if (index === -1) {
+                    console.log('Something has gone wrong? No file has been found');
+                    return;
+                }
+
+                this._tagList.splice(index, 1);
+                this.fileQueueUpdate(file);
+            };
+
+            //File Queue
             /**
-            * Initialise the properities that are needed on this loader.
-            * @method init
-            * @param [progress=null] {Any} Progress callback method.
-            * @param [complete=null] {Any} Complete callback method.
-            * @param [calculateBytes=false] {boolean}
-            * @public
+            * -----------------------------
+            * File Addition Methods
+            * -----------------------------
             */
-            Loader.prototype.init = function (progress, complete, calculateBytes) {
-                if (typeof progress === "undefined") { progress = null; }
-                if (typeof complete === "undefined") { complete = null; }
-                if (typeof calculateBytes === "undefined") { calculateBytes = false; }
-                this._fileList.length = 0;
-                this._loadList.length = 0;
-
-                this._calculateBytes = calculateBytes;
-                this._complete = false;
-
-                if (progress !== null) {
-                    this._onProgressCallback = progress;
-                }
-
-                if (complete !== null) {
-                    this._onCompleteCallback = complete;
-                }
-            };
-
             /**
             * Creates a new file for an image and adds a the file to loading queue.
             * @method addImage
@@ -10223,14 +10251,26 @@ var Kiwi;
             * @param [offsetX] {number} An offset on the x axis of the cell.
             * @param [offsetY] {number} An offset of the y axis of the cell.
             * @param [storeAsGlobal=true] {boolean} If the image should be stored globally or not.
+            * @return {Kiwi.Files.File}
             * @public
             */
             Loader.prototype.addImage = function (key, url, width, height, offsetX, offsetY, storeAsGlobal) {
                 if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-                var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.IMAGE, url, key, true, storeAsGlobal);
+                var params = {
+                    type: Kiwi.Files.File.IMAGE
+                };
+
+                params.fileStore = this.game.fileStore;
+                if (!storeAsGlobal && this.game.states.current) {
+                    params.state = this.game.states.current;
+                }
+
+                var file = new Kiwi.Files.TextureFile(this.game, key, url, params);
                 file.metadata = { width: width, height: height, offsetX: offsetX, offsetY: offsetY };
 
-                this._fileList.push(file);
+                this._fileQueue.push(file);
+
+                return file;
             };
 
             /**
@@ -10248,15 +10288,26 @@ var Kiwi;
             * @param [cellOffsetX] {number} The spacing between each cell on the x axis.
             * @param [cellOffsetY] {number} The spacing between each cell on the y axis.
             * @param [storeAsGlobal=true] {boolean}
+            * @return {Kiwi.Files.File}
             * @public
             */
             Loader.prototype.addSpriteSheet = function (key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY, storeAsGlobal) {
                 if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-                var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.SPRITE_SHEET, url, key, true, storeAsGlobal);
+                var params = {
+                    type: Kiwi.Files.File.SPRITE_SHEET
+                };
 
+                params.fileStore = this.game.fileStore;
+                if (!storeAsGlobal && this.game.states.current) {
+                    params.state = this.game.states.current;
+                }
+
+                var file = new Kiwi.Files.TextureFile(this.game, key, url, params);
                 file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight, numCells: numCells, rows: rows, cols: cols, sheetOffsetX: sheetOffsetX, sheetOffsetY: sheetOffsetY, cellOffsetX: cellOffsetX, cellOffsetY: cellOffsetY };
 
-                this._fileList.push(file);
+                this._fileQueue.push(file);
+
+                return file;
             };
 
             /**
@@ -10267,17 +10318,35 @@ var Kiwi;
             * @param jsonID {String} A key for the JSON file.
             * @param jsonURL {String} The url of the json file to load.
             * @param [storeAsGlobal=true] {Boolean} If hte files should be stored globally or not.
+            * @return {Kiwi.Files.File}
             * @public
             */
             Loader.prototype.addTextureAtlas = function (key, imageURL, jsonID, jsonURL, storeAsGlobal) {
                 if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-                var imageFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXTURE_ATLAS, imageURL, key, true, storeAsGlobal);
-                var jsonFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, jsonURL, jsonID, true, storeAsGlobal);
+                var textureParams = {
+                    type: Kiwi.Files.File.TEXTURE_ATLAS
+                };
+                var jsonParams = {
+                    type: Kiwi.Files.File.JSON
+                };
+
+                textureParams.fileStore = this.game.fileStore;
+                jsonParams.fileStore = this.game.fileStore;
+
+                if (!storeAsGlobal && this.game.states.current) {
+                    textureParams.state = this.game.states.current;
+                    jsonParams.state = this.game.states.current;
+                }
+
+                var imageFile = new Kiwi.Files.TextureFile(this.game, key, imageURL, textureParams);
+                var jsonFile = new Kiwi.Files.DataFile(this.game, jsonID, jsonURL, jsonParams);
 
                 imageFile.metadata = { jsonID: jsonID };
                 jsonFile.metadata = { imageID: key };
 
-                this._fileList.push(imageFile, jsonFile);
+                this._fileQueue.push(imageFile, jsonFile);
+
+                return imageFile;
             };
 
             /**
@@ -10290,7 +10359,8 @@ var Kiwi;
             * @param key {String} The key for the audio file.
             * @param url {String} The url of the audio to load. You can pass an array of URLs, in which case the first supported audio filetype in the array will be loaded.
             * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
-            * @param [onlyIfSupported=true] {Boolean} If the audio file should only be loaded if Kiwi detects that the audio file could be played. Set this to fa
+            * @param [onlyIfSupported=true] {Boolean} If the audio file should only be loaded if Kiwi detects that the audio file could be played.
+            * @return {Kiwi.Files.File}
             * @public
             */
             Loader.prototype.addAudio = function (key, url, storeAsGlobal, onlyIfSupported) {
@@ -10298,7 +10368,7 @@ var Kiwi;
                 if (typeof onlyIfSupported === "undefined") { onlyIfSupported = true; }
                 //If it is a string then try to load that file
                 if (Kiwi.Utils.Common.isString(url)) {
-                    this.attemptToAddAudio(key, url, storeAsGlobal, onlyIfSupported);
+                    return this.attemptToAddAudio(key, url, storeAsGlobal, onlyIfSupported);
                 } else if (Kiwi.Utils.Common.isArray(url)) {
                     for (var i = 0; i < url.length; i++) {
                         //Is the url passed not a string?
@@ -10306,10 +10376,14 @@ var Kiwi;
                             continue;
 
                         //Attempt to load it, and if successful, breakout
-                        if (this.attemptToAddAudio(key, url[i], storeAsGlobal, onlyIfSupported) == true)
-                            break;
+                        var file = this.attemptToAddAudio(key, url[i], storeAsGlobal, onlyIfSupported);
+                        if (file) {
+                            return file;
+                        }
                     }
                 }
+
+                return null;
             };
 
             /**
@@ -10319,14 +10393,24 @@ var Kiwi;
             * @param key {String} The key for the audio file.
             * @param url {String} The url of the audio to load.
             * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
-            * @param [onlyIfSupported=true] {Boolean} If the audio file should only be loaded if Kiwi detects that the audio file could be played. Set this to fa
+            * @param [onlyIfSupported=true] {Boolean} If the audio file should only be loaded if Kiwi detects that the audio file could be played.
+            * @return {Kiwi.Files.File}
             * @private
             */
             Loader.prototype.attemptToAddAudio = function (key, url, storeAsGlobal, onlyIfSupported) {
-                var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, key, true, storeAsGlobal);
+                var params = {
+                    type: Kiwi.Files.File.AUDIO
+                };
+
+                params.fileStore = this.game.fileStore;
+                if (!storeAsGlobal && this.game.states.current) {
+                    params.state = this.game.states.current;
+                }
+
+                var file = new Kiwi.Files.AudioFile(this.game, key, url, params);
                 var support = false;
 
-                switch (file.fileExtension) {
+                switch (file.extension) {
                     case 'mp3':
                         support = Kiwi.DEVICE.mp3;
                         break;
@@ -10347,11 +10431,11 @@ var Kiwi;
                 }
 
                 if (support == true || onlyIfSupported == false) {
-                    this._fileList.push(file);
-                    return true;
+                    this._fileQueue.push(file);
+                    return file;
                 } else {
                     Kiwi.Log.error('Kiwi.Loader: Audio Format not supported on this Device/Browser.', '#audio', '#unsupported');
-                    return false;
+                    return null;
                 }
             };
 
@@ -10361,11 +10445,23 @@ var Kiwi;
             * @param key {String} The key for the file.
             * @param url {String} The url to the json file.
             * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
+            * @return {Kiwi.Files.File}
             * @public
             */
             Loader.prototype.addJSON = function (key, url, storeAsGlobal) {
                 if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, url, key, true, storeAsGlobal));
+                var params = {
+                    type: Kiwi.Files.File.JSON
+                };
+
+                params.fileStore = this.game.fileStore;
+                if (!storeAsGlobal && this.game.states.current) {
+                    params.state = this.game.states.current;
+                }
+
+                var file = new Kiwi.Files.DataFile(this.game, key, url, params);
+                this._fileQueue.push(file);
+                return file;
             };
 
             /**
@@ -10374,11 +10470,12 @@ var Kiwi;
             * @param key {String} The key for the file.
             * @param url {String} The url to the xml file.
             * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
+            * @return {Kiwi.Files.File}
             * @public
             */
             Loader.prototype.addXML = function (key, url, storeAsGlobal) {
                 if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.XML, url, key, true, storeAsGlobal));
+                //
             };
 
             /**
@@ -10387,11 +10484,11 @@ var Kiwi;
             * @param key {String} The key for the file.
             * @param url {String} The url to the Binary file.
             * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
+            * @return {Kiwi.Files.File}
             * @public
             */
             Loader.prototype.addBinaryFile = function (key, url, storeAsGlobal) {
                 if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.BINARY_DATA, url, key, true, storeAsGlobal));
             };
 
             /**
@@ -10400,193 +10497,11 @@ var Kiwi;
             * @param key {String} The key for the file.
             * @param url {String} The url to the text file.
             * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
+            * @return {Kiwi.Files.File}
             * @public
             */
             Loader.prototype.addTextFile = function (key, url, storeAsGlobal) {
                 if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXT_DATA, url, key, true, storeAsGlobal));
-            };
-
-            /**
-            * Loops through all of the files that need to be loaded and start the load event on them.
-            * @method startLoad
-            * @public
-            */
-            Loader.prototype.startLoad = function () {
-                if (this._fileList.length === 0) {
-                    this._onCompleteCallback();
-                } else {
-                    this._onProgressCallback(0, 0, null);
-
-                    this._fileTotal = this._fileList.length;
-                    this._bytesLoaded = 0;
-                    this._bytesTotal = 0;
-                    this._bytesCurrent = 0;
-                    this._currentFile = 0;
-                    this._fileChunk = 0;
-                    this._percentLoaded = 0;
-
-                    if (this._calculateBytes === true) {
-                        this.getNextFileSize();
-                    } else {
-                        this._fileChunk = Math.floor(100 / this._fileTotal);
-                        this._loadList = this._fileList;
-
-                        this.nextFile();
-                    }
-                }
-            };
-
-            /**
-            * Calculates the size of the new file that is to be loaded.
-            * @method getNextFileSize
-            * @private
-            */
-            Loader.prototype.getNextFileSize = function () {
-                var _this = this;
-                if (this._fileList.length === 0) {
-                    var tempFile = this._fileList.shift();
-
-                    tempFile.getFileDetails(function (file) {
-                        return _this.addToBytesTotal(file);
-                    });
-                } else {
-                    this.nextFile();
-                }
-            };
-
-            /**
-            * Adds the number of bytes that a File is to the total number of bytes loaded.
-            * @method addToBytesTotal
-            * @param file {Kiwi.Files.File}
-            * @private
-            */
-            Loader.prototype.addToBytesTotal = function (file) {
-                this._bytesTotal += file.fileSize;
-
-                this._loadList.push(file);
-
-                this.getNextFileSize();
-            };
-
-            /**
-            * Starts the loading of the next file in the list.
-            * @method nextFile
-            * @private
-            */
-            Loader.prototype.nextFile = function () {
-                var _this = this;
-                this._currentFile++;
-
-                var tempFile = this._loadList.shift();
-
-                tempFile.load(function (f) {
-                    return _this.fileLoadComplete(f);
-                }, function (f) {
-                    return _this.fileLoadProgress(f);
-                });
-            };
-
-            /**
-            * Executed whilst a file is being loaded.
-            * @method fileLoadProgress
-            * @param file {Kiwi.Files.File}
-            * @private
-            */
-            Loader.prototype.fileLoadProgress = function (file) {
-                if (this._calculateBytes === true) {
-                    this._bytesCurrent = file.bytesLoaded;
-
-                    if (this._onProgressCallback) {
-                        //  Send: the percentage complete (overall), the bytes total (overall) and the file currently being loaded
-                        this._onProgressCallback(this.getPercentLoaded(), this.getBytesLoaded(), file);
-                    }
-                }
-            };
-
-            /**
-            * Executed when a file has been successfully loaded. This method then decides whether loading is complete or we need to load the next file.
-            * @method fileLoadComplete
-            * @param file {Kiwi.Files.File}
-            * @private
-            */
-            Loader.prototype.fileLoadComplete = function (file) {
-                if (this._calculateBytes === true) {
-                    this._bytesLoaded += file.bytesTotal;
-                    this._bytesCurrent = 0;
-
-                    if (this._onProgressCallback) {
-                        //  Send: the percentage complete (overall), the bytes total (overall) and the file currently being loaded
-                        this._onProgressCallback(this.getPercentLoaded(), this._bytesLoaded, file);
-                    }
-                } else {
-                    if (this._onProgressCallback) {
-                        //  Send: the percentage complete (overall)
-                        this._onProgressCallback(this.getPercentLoaded(), 0, file);
-                    }
-                }
-
-                if (this._loadList.length === 0) {
-                    //  All files loaded
-                    this._complete = true;
-                    Kiwi.Log.log("All files have loaded", '#loading', '#complete');
-
-                    if (this._onCompleteCallback) {
-                        this._onCompleteCallback();
-                    }
-                } else {
-                    this.nextFile();
-                }
-            };
-
-            /**
-            * Returns the total number of bytes that have been loaded so far.
-            * @method getBytesLoaded
-            * @return {Number}
-            * @public
-            */
-            Loader.prototype.getBytesLoaded = function () {
-                return this._bytesLoaded + this._bytesCurrent;
-            };
-
-            /**
-            * Returns a percentage of the amount that has been loaded so far.
-            * @method getPercentLoaded
-            * @return {Number}
-            * @public
-            */
-            Loader.prototype.getPercentLoaded = function () {
-                if (this._calculateBytes === true) {
-                    return Math.round((this.getBytesLoaded() / this._bytesTotal) * 100);
-                } else {
-                    return Math.round((this._currentFile / this._fileTotal) * 100);
-                }
-            };
-
-            /**
-            * If true (and xhr/blob is available) the loader will get the bytes total of each file in the queue to give a much more accurate progress report during load
-            If false the loader will use the file number as the progress value, i.e. if there are 4 files in the queue progress will get called 4 times (25, 50, 75, 100)
-            * @method calculateBytes
-            * @param [value] {boolean}
-            * @return {boolean}
-            * @public
-            */
-            Loader.prototype.calculateBytes = function (value) {
-                if (value) {
-                    this._calculateBytes = value;
-                }
-
-                return this._calculateBytes;
-            };
-
-            /**
-            * Returns a boolean indicating if everything in the loading que has been loaded or not.
-            * @method complete
-            * @return {boolean}
-            * @public
-            */
-            Loader.prototype.complete = function () {
-                return this._complete;
             };
             return Loader;
         })();
@@ -10674,7 +10589,7 @@ var Kiwi;
                 for (var i = 0; i < fileStoreKeys.length; i++) {
                     var file = this._game.fileStore.getFile(fileStoreKeys[i]);
                     if (file.isData) {
-                        Kiwi.Log.log("  Kiwi.DataLibrary: Adding Data: " + file.fileName, '#rebuild', '#adding');
+                        Kiwi.Log.log("  Kiwi.DataLibrary: Adding Data: " + file.name, '#rebuild', '#adding');
                         state.dataLibrary.add(file);
                     }
                 }
@@ -10696,26 +10611,22 @@ var Kiwi;
     (function (Files) {
         /**
         * Handles the loading of an external data file via a tag loader OR xhr + arraybuffer, and optionally saves to the file store.
-        * Also can contain information about the file (like file size, last modified, e.t.c.) either after it has been loaded
-        * OR if you use the 'getFileDetails' method and the properties will then be set.
+        * Also can contain information about the file (like file size, last modified, e.t.c.)
         *
         * @class File
         * @namespace Kiwi.Files
         * @constructor
-        * @param game {Kiwi.Game} The game that this file belongs to.
-        * @param dataType {Number} The type of file that is being loaded. For this you can use the STATIC properties that are located on this class for quick code completion.
-        * @param path {String} The location of the file that is to be loaded.
-        * @param [name=''] {String} A name for the file. If no name is specified then the files name will be used.
-        * @param [saveToFileStore=true] {Boolean} If the file should be saved on the file store or not.
-        * @param [storeAsGlobal=true] {Boolean} If this file should be stored as a global file, or if it should be destroyed when this state gets switched out.
+        
         * @return {Kiwi.Files.File}
         *
         */
         var File = (function () {
-            function File(game, dataType, path, name, saveToFileStore, storeAsGlobal) {
-                if (typeof name === "undefined") { name = ''; }
-                if (typeof saveToFileStore === "undefined") { saveToFileStore = true; }
-                if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+            function File(game, key, url, params) {
+                if (typeof params === "undefined") { params = {}; }
+                this.useTagLoader = false;
+                this.timeOutDelay = Kiwi.Files.File.TIMEOUT_DELAY;
+                this.attemptCounter = 0;
+                this.maxLoadAttempts = Kiwi.Files.File.MAX_LOAD_ATTEMPTS;
                 /**
                 * The XMLHttpRequest object. This only has a value if the xhr method of load is being used, otherwise this is null.
                 * @property _xhr
@@ -10723,49 +10634,12 @@ var Kiwi;
                 * @private
                 */
                 this._xhr = null;
+                this.responseType = 'text';
                 /**
-                * Used to determine if this file should be saved to the file store or not.
-                * @property _saveToFileStore
-                * @type boolean
-                * @default true
-                * @private
-                */
-                this._saveToFileStore = true;
-                /**
-                * If when loading the file in we have loaded the file in using a tag loader (older browsers) or we are using the an XHR loader + array buffer.
-                * By default we use the tag loader and only used the second method if the browser supports it.
-                * @property _useTagLoader
-                * @type boolean
-                * @default true
-                * @private
-                */
-                this._useTagLoader = true;
-                /**
-                * The size of the file that was/is being loaded.
-                * Only has a value when the file was loaded by the XHR method OR you request the file information before hand using 'getFileDetails'.
-                * @property fileSize
-                * @type Number
-                * @default 0
-                * @public
-                */
-                this.fileSize = 0;
-                /**
-                * The Entity Tag that is assigned to the file. O
-                * Only has a value when either using the XHR loader OR when requesting the file details.
-                * @property ETag
-                * @type String
-                * @public
-                */
-                this.ETag = '';
-                /**
-                * The last date/time that this file was last modified.
-                * Only has a value when using the XHR method of loading OR when requesting the file details.
-                * @property lastModified
-                * @type String
-                * @default ''
-                * @public
-                */
-                this.lastModified = '';
+                * -----------------
+                * Loading Status
+                * -----------------
+                **/
                 /**
                 * The time at which the loading started. Only has a value when the XHR method of loading is in use.
                 * @property timeStarted
@@ -10806,28 +10680,13 @@ var Kiwi;
                 */
                 this.success = false;
                 /**
-                * A method that is to be executed when this file has finished loading.
-                * @property onCompleteCallback
-                * @type Any
-                * @default null
+                * Indication if the file is currently being loaded or not.
+                * @property loading
+                * @type boolean
                 * @public
                 */
-                this.onCompleteCallback = null;
-                /**
-                * A method that is to be executed while this file is loading.
-                * @property onProgressCallback
-                * @type Any
-                * @default null
-                * @public
-                */
-                this.onProgressCallback = null;
-                /**
-                * The time at which progress in loading the file was last occurred.
-                * @property lastProgress
-                * @type Number
-                * @public
-                */
-                this.lastProgress = 0;
+                this.loading = false;
+                this.complete = false;
                 /**
                 * The amount of percent loaded the file is. This is out of 100.
                 * @property percentLoaded
@@ -10835,160 +10694,52 @@ var Kiwi;
                 * @public
                 */
                 this.percentLoaded = 0;
-                /*
-                *-----------------------
-                * XHR Loading
-                *-----------------------
-                */
-                /**
-                * The status of this file that is being loaded.
-                * Only used/has a value when the file was/is being loaded by the XHR method.
-                * @property status
-                * @type Number
-                * @default 0
-                * @public
-                */
-                this.status = 0;
-                /**
-                * The status piece of text that the XHR returns.
-                * @property statusText
-                * @type String
-                * @default ''
-                * @public
-                */
-                this.statusText = '';
-                /**
-                * The number of bytes that have currently been loaded.
-                * This can used to create progress bars but only has a value when using the XHR method of loading.
-                * @property bytesLoaded
-                * @type Number
-                * @default 0
-                * @public
-                */
-                this.bytesLoaded = 0;
-                /**
-                * The total number of bytes that the file consists off.
-                * Only has a value when using the XHR method of loading.
-                * @property bytesTotal
-                * @type Number
-                * @default 0
-                * @public
-                */
-                this.bytesTotal = 0;
-                /**
-                * The ready state of the XHR loader whilst loading.
-                * @property readyState
-                * @type Number
-                * @default 0
-                * @public
-                */
-                this.readyState = 0;
-                /**
-                * The default number of milliseconds that the XHR should wait before timing out.
-                * Set this to NULL if you want it to not timeout.
-                * @property timeOutDelay
-                * @type Number
-                * @default 4000
-                * @public
-                */
-                this.timeOutDelay = 4000;
-                /**
-                * If this file has timeout when it was loading.
-                * @property hasTimedOut
-                * @type boolean
-                * @default false
-                * @public
-                */
-                this.hasTimedOut = false;
-                /**
-                * If the file timed out or not.
-                * @property timedOut
-                * @type Number
-                * @default 0
-                * @public
-                */
-                this.timedOut = 0;
-                /**
-                * The number of attempts at loading there have currently been at loading the file.
-                * This is only used with XHR methods of loading.
-                * @property attemptCounter
-                * @type Number
-                * @public
-                */
-                this.attemptCounter = 0;
-                /**
-                * The maximum attempts at loading the file that there is allowed.
-                * Only used with XHR methods of loading.
-                * @property maxLoadAttempts
-                * @type Number
-                * @default 2
-                * @public
-                */
-                this.maxLoadAttempts = 2;
-                /*
-                *--------------------
-                * File Details - Head Information
-                *--------------------
-                */
-                /**
-                * The maximum number of load attempts when requesting the file details that will be preformed.
-                * @property maxHeadLoadAttempts
-                * @type number
-                * @default 1
-                * @public
-                */
-                this.maxHeadLoadAttempts = 1;
-                this._game = game;
+                this.game = game;
 
-                this.dataType = dataType;
+                this.key = key;
 
-                this.fileURL = path;
+                this.assignFileDetails(url);
 
-                if (path.lastIndexOf('/') > -1) {
-                    this.fileName = path.substr(path.lastIndexOf('/') + 1);
-                    this.filePath = path.substr(0, path.lastIndexOf('/') + 1);
+                this.onComplete = new Kiwi.Signal;
+
+                this.onProgress = new Kiwi.Signal;
+
+                this.fileStore = params.fileStore || null;
+                this.ownerState = params.state || null;
+
+                if (Kiwi.Utils.Common.isUndefined(params.type)) {
+                    this.dataType = File.UNKNOWN;
                 } else {
-                    this.filePath = '';
-                    this.fileName = path;
+                    this.dataType = params.type;
+                }
+
+                if (params.tags && Kiwi.Utils.Common.isArray(params.tags)) {
+                    for (var i = 0; i < params.tags.length; i++) {
+                        this.addTag(params.tags[i]);
+                    }
+                }
+            }
+            /**
+            *
+            * @method assignFileDetails
+            * @param url {String}
+            * @private
+            */
+            File.prototype.assignFileDetails = function (url) {
+                this.URL = url;
+
+                if (url.lastIndexOf('/') > -1) {
+                    this.name = url.substr(url.lastIndexOf('/') + 1);
+                    this.path = url.substr(0, url.lastIndexOf('/') + 1);
+                } else {
+                    this.path = '';
+                    this.name = url;
                 }
 
                 //  Not safe if there is a query string after the file extension
-                this.fileExtension = path.substr(path.lastIndexOf('.') + 1).toLowerCase();
+                this.extension = url.substr(url.lastIndexOf('.') + 1).toLowerCase();
+            };
 
-                if (Kiwi.DEVICE.blob) {
-                    this._useTagLoader = true;
-                } else {
-                    this._useTagLoader = true;
-                }
-
-                if (this.dataType === Kiwi.Files.File.AUDIO) {
-                    if (this._game.audio.usingAudioTag === true) {
-                        this._useTagLoader = true;
-                    } else {
-                        this._useTagLoader = false;
-                    }
-                }
-
-                if (this.dataType === Kiwi.Files.File.JSON) {
-                    this._useTagLoader = false;
-                }
-
-                this._saveToFileStore = saveToFileStore;
-                this._fileStore = this._game.fileStore;
-
-                // Null state owner indicates global storage
-                if (this._game.states.current && !storeAsGlobal) {
-                    this.ownerState = this._game.states.current;
-                } else {
-                    this.ownerState = null;
-                }
-
-                if (this.key === '') {
-                    this.key = this.fileName;
-                } else {
-                    this.key = name;
-                }
-            }
             /**
             * Returns the type of this object
             * @method objType
@@ -10997,6 +10748,152 @@ var Kiwi;
             */
             File.prototype.objType = function () {
                 return "File";
+            };
+
+            /**
+            *
+            * @method load
+            * @public
+            */
+            File.prototype.load = function () {
+                //Start Loading!!!
+                this.start();
+
+                this.attemptCounter++;
+
+                if (this.useTagLoader) {
+                    this.tagLoader();
+                } else {
+                    this.xhrLoader();
+                }
+            };
+
+            /**
+            *
+            * @method loadSuccess
+            * @public
+            */
+            File.prototype.loadSuccess = function () {
+                //If already completed skip
+                if (this.complete) {
+                    return;
+                }
+
+                this.success = true;
+                this.hasError = false;
+                this.stop();
+
+                if (this.fileStore) {
+                    this.fileStore.addFile(this.key, this);
+                }
+
+                this.onComplete.dispatch(this);
+            };
+
+            /**
+            *
+            * @method loadError
+            * @public
+            */
+            File.prototype.loadError = function (reason) {
+                //Try again?
+                if (this.attemptCounter >= this.maxLoadAttempts) {
+                    //Failed
+                    this.hasError = true;
+                    this.success = false;
+                    this.error = reason;
+                    this.stop();
+                    this.onComplete.dispatch(this);
+                } else {
+                    //Try Again
+                    this.load();
+                }
+            };
+
+            /**
+            * ---------------
+            * Tag Loading
+            * ---------------
+            **/
+            File.prototype.tagLoader = function () {
+                //Up to extended files for support
+                console.log("File does not contain a tag loader method. Skipping");
+                this.loadError(null);
+            };
+
+            File.prototype.tagOnError = function (event) {
+                console.log("Tag Error");
+                this.loadError(null);
+            };
+
+            File.prototype.tagOnLoad = function (event) {
+                console.log("Tag Success");
+                this.loadSuccess();
+            };
+
+            /**
+            * ---------------
+            * XHR Loading
+            * ---------------
+            **/
+            File.prototype.xhrLoader = function () {
+                this._xhr = new XMLHttpRequest();
+                this._xhr.open('GET', this.URL, true);
+
+                //if (this.timeOutDelay !== null) {
+                //    this._xhr.timeout = this.timeOutDelay;
+                //}
+                this._xhr.responseType = this.responseType;
+
+                var _this = this;
+                this._xhr.onload = function (event) {
+                    _this.xhrOnLoad(event);
+                };
+                this._xhr.onerror = function (event) {
+                    _this.xhrOnError(event);
+                };
+
+                this._xhr.send();
+            };
+
+            File.prototype.xhrOnError = function (event) {
+                console.log('on error');
+                this.loadError(event);
+            };
+
+            File.prototype.xhrOnLoad = function (event) {
+                console.log('on load');
+                this.processXHR(this._xhr.response);
+            };
+
+            File.prototype.processXHR = function (response) {
+                this.data = response;
+                this.loadSuccess();
+            };
+
+            /**
+            * Is executed when this file starts loading.
+            * Gets the time and initalised properties that are used across both loading methods.
+            * @method start
+            * @private
+            */
+            File.prototype.start = function () {
+                this.loading = true;
+                this.timeStarted = Date.now();
+                this.percentLoaded = 0;
+            };
+
+            /**
+            * Is executed when this file stops loading. Used across all loading methods.
+            * @method stop
+            * @private
+            */
+            File.prototype.stop = function () {
+                this.loading = false;
+                this.complete = true;
+                this.percentLoaded = 100;
+                this.timeFinished = Date.now();
+                this.duration = this.timeFinished - this.timeStarted;
             };
 
             /**
@@ -11039,11 +10936,6 @@ var Kiwi;
             };
 
             Object.defineProperty(File.prototype, "isTexture", {
-                /*
-                *----------------
-                * Type Identification
-                *----------------
-                */
                 /**
                 * An indication of if this file is texture. This is READ ONLY.
                 * @property isTexture
@@ -11093,637 +10985,10 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
+            File.TIMEOUT_DELAY = 4000;
 
-            /*
-            *-----------------
-            * General Loading
-            *-----------------
-            */
-            /**
-            * Starts the loading process for this file.
-            *
-            * @method load
-            * @param [onCompleteCallback=null] {Any} The callback method to execute when this file has loaded.
-            * @param [onProgressCallback=null] {Any} The callback method to execute while this file is loading.
-            * @param [customFileStore=null] {Any} A custom filestore that is file should be added to.
-            * @param [maxLoadAttempts] {Number} The maximum amount of times to try and load this file.
-            * @param [timeout] {Number} The timeout to use when loading the file. Overrides the default timeout if passed otherwise uses the default 2000 milliseconds.
-            * @public
-            */
-            File.prototype.load = function (onCompleteCallback, onProgressCallback, customFileStore, maxLoadAttempts, timeout) {
-                if (typeof onCompleteCallback === "undefined") { onCompleteCallback = null; }
-                if (typeof onProgressCallback === "undefined") { onProgressCallback = null; }
-                if (typeof customFileStore === "undefined") { customFileStore = null; }
-                Kiwi.Log.log("Kiwi.File: Attempting to load: " + this.fileName, '#loading');
+            File.MAX_LOAD_ATTEMPTS = 2;
 
-                this.onCompleteCallback = onCompleteCallback;
-                this.onProgressCallback = onProgressCallback;
-
-                if (maxLoadAttempts != undefined)
-                    this.maxLoadAttempts = maxLoadAttempts;
-                if (timeout != undefined)
-                    this.timeOutDelay = timeout;
-
-                //Should the file be saved in a custom file store?
-                if (customFileStore !== null) {
-                    this._fileStore = customFileStore;
-                    this._saveToFileStore = true;
-                }
-
-                //Start the load.
-                this.start();
-
-                //Load using the appropriate
-                if (this._useTagLoader === true) {
-                    this.tagLoader();
-                } else {
-                    this.xhrLoader();
-                }
-            };
-
-            /**
-            * Is executed when this file starts loading.
-            * Gets the time and initalised properties that are used across both loading methods.
-            * @method start
-            * @private
-            */
-            File.prototype.start = function () {
-                this.timeStarted = Date.now();
-                this.lastProgress = Date.now();
-                this.percentLoaded = 0;
-                this.attemptCounter = 0;
-            };
-
-            /**
-            * Is executed when this file stops loading. Used across all loading methods.
-            * @method stop
-            * @private
-            */
-            File.prototype.stop = function () {
-                this.percentLoaded = 100;
-                this.timeFinished = Date.now();
-                this.duration = this.timeFinished - this.timeStarted;
-            };
-
-            /*
-            *-----------------
-            * Tag Loader Methods
-            *-----------------
-            */
-            /**
-            * Handles the loading of the file when using the tag loader method.
-            * Only supports the IMAGES and AUDIO files.
-            * @method tagLoader
-            * @private
-            */
-            File.prototype.tagLoader = function () {
-                var _this = this;
-                //Is the file a image?
-                if (this.dataType === Kiwi.Files.File.IMAGE || this.dataType === Kiwi.Files.File.SPRITE_SHEET || this.dataType === Kiwi.Files.File.TEXTURE_ATLAS) {
-                    this.data = new Image();
-                    this.data.src = this.fileURL;
-                    this.data.onload = function (event) {
-                        return _this.tagLoaderOnLoad(event);
-                    };
-                    this.data.onerror = function (event) {
-                        return _this.tagLoaderOnError(event);
-                    }; //To be remade
-                    this.data.onreadystatechange = function (event) {
-                        return _this.tagLoaderOnReadyStateChange(event);
-                    };
-                    //Is the file a piece of audio?
-                } else if (this.dataType === Kiwi.Files.File.AUDIO) {
-                    //Create the audio Element
-                    this.data = document.createElement('audio');
-                    this.data.src = this.fileURL;
-                    this.data.preload = 'auto';
-
-                    //Is the audio currently locked?
-                    //This would mainly be due to iOS waiting for a touch/mouse event to fire.
-                    if (this._game.audio.locked) {
-                        this.tagLoaderAudioLocked();
-                    } else {
-                        this.data.addEventListener('canplaythrough', function () {
-                            return _this.tagLoaderProgressThrough(null);
-                        }, false);
-
-                        //If targetting Cocoon we can use the load method to force the audio loading.
-                        if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
-                            this.data.load();
-                            //Otherwise we tell the browser to play the audio in 'mute' to force loading.
-                        } else {
-                            this.data.volume = 0;
-                            this.data.play();
-                        }
-                    }
-                }
-            };
-
-            /**
-            * Is executed when the tag loader changes its ready state.
-            * @method tagLoaderOnReadyStateChange
-            * @param event {Any}
-            * @private
-            */
-            File.prototype.tagLoaderOnReadyStateChange = function (event) {
-            };
-
-            /**
-            * Is executed when the tag loader encounters a error that stops it from loading.
-            * @method tagLoaderOnError
-            * @param event {Any}
-            * @private
-            */
-            File.prototype.tagLoaderOnError = function (event) {
-                this.hasError = true;
-                this.error = event;
-
-                if (this.onCompleteCallback) {
-                    this.onCompleteCallback(this);
-                }
-            };
-
-            /**
-            * Is executed when an audio file can play the whole way through with stopping to load.
-            * @method tagLoaderProgressThrough
-            * @param event {Any}
-            * @private
-            */
-            File.prototype.tagLoaderProgressThrough = function (event) {
-                var _this = this;
-                //Has it not fully loaded yet?
-                //Work arround as the tag will constantly fire.
-                if (this.percentLoaded !== 100) {
-                    if (this.dataType === Kiwi.Files.File.AUDIO) {
-                        this.data.removeEventListener('canplaythrough', function () {
-                            return _this.tagLoaderProgressThrough(null);
-                        }); //Remove will not work due to the nameless function.
-
-                        //Stop the audio and reset it to the default settings.
-                        this.data.pause();
-                        this.data.currentTime = 0;
-                        this.data.volume = 1;
-                    }
-
-                    this.tagLoaderOnLoad(null);
-                }
-            };
-
-            /**
-            * Is executed when iOS (or another device) is being used and the audio is 'locked'.
-            * 'Fakes' the loading and tells the rest of the game to carry on.
-            * @method tagLoaderIOSLoad
-            * @private
-            */
-            File.prototype.tagLoaderAudioLocked = function () {
-                this.percentLoaded = 100;
-                this.tagLoaderOnLoad(null);
-            };
-
-            /**
-            * Is executed when the file has successfully loaded.
-            * @method tagLoaderOnLoad
-            * @param event {Any}
-            * @private
-            */
-            File.prototype.tagLoaderOnLoad = function (event) {
-                this.stop();
-
-                //Image loaded successfully...bit of a assumtion but hey...its a tag loader.
-                Kiwi.Log.log('Kiwi.File: Successfully Loaded: ' + this.fileName, '#loading', '#successful');
-
-                if (this._saveToFileStore === true) {
-                    this._fileStore.addFile(this.key, this);
-                }
-
-                if (this.onCompleteCallback) {
-                    this.onCompleteCallback(this);
-                }
-            };
-
-            /**
-            * Sets up a XHR loader based on the properties of this file.
-            * @method xhrLoader
-            * @private
-            */
-            File.prototype.xhrLoader = function () {
-                var _this = this;
-                this.attemptCounter++;
-
-                //Open a request
-                this._xhr = new XMLHttpRequest();
-                this._xhr.open('GET', this.fileURL, true);
-                if (this.timeOutDelay !== null)
-                    this._xhr.timeout = this.timeOutDelay;
-                this._xhr.responseType = 'arraybuffer';
-
-                //Assignment of callbacks
-                this._xhr.onloadstart = function (event) {
-                    return _this.xhrOnLoadStart(event);
-                };
-                this._xhr.onprogress = function (event) {
-                    return _this.xhrOnProgress(event);
-                };
-                this._xhr.ontimeout = function (event) {
-                    return _this.xhrOnTimeout(event);
-                };
-                this._xhr.onabort = function (event) {
-                    return _this.xhrOnAbort(event);
-                };
-                this._xhr.onload = function (event) {
-                    return _this.xhrOnLoad(event);
-                };
-                this._xhr.onreadystatechange = function (event) {
-                    return _this.xhrOnReadyStateChange(event);
-                };
-
-                //Go!
-                this._xhr.send();
-            };
-
-            /**
-            * Is executed when the XHR loader has changed its ready state.
-            * @method xhrOnReadyStateChange
-            * @param event {Any}
-            * @private
-            */
-            File.prototype.xhrOnReadyStateChange = function (event) {
-                this.readyState = event.target.readyState;
-
-                if (this.readyState === 4) {
-                    this.xhrOnLoad(event);
-                }
-            };
-
-            /**
-            * Is executed when the XHR loader starts to load the file.
-            * @method xhrOnLoadStart
-            * @param event {Any}
-            * @private
-            */
-            File.prototype.xhrOnLoadStart = function (event) {
-                this.timeStarted = event.timeStamp;
-                this.lastProgress = event.timeStamp;
-            };
-
-            /**
-            * Runs when the XHR loader aborts the load for some reason.
-            * @method xhrOnAbort
-            * @param {Any} event
-            * @private
-            */
-            File.prototype.xhrOnAbort = function (event) {
-                Kiwi.Log.log('Kiwi.File: ' + this.fileName + ' loading was aborted.', '#loading', '#aborted');
-
-                this.error = event;
-            };
-
-            /**
-            * Runs when the XHR loader encounters a error.
-            * @method xhrOnError
-            * @param event {Any}
-            * @private
-            */
-            File.prototype.xhrOnError = function (event) {
-                Kiwi.Log.log('Kiwi.File: Error during load: ' + this.fileName, '#loading', '#error');
-
-                this.error = event;
-            };
-
-            /**
-            * Is executed when the xhr
-            * @method xhrOnTimeout
-            * @param event {Any}
-            * @private
-            */
-            File.prototype.xhrOnTimeout = function (event) {
-                Kiwi.Log.log('Kiwi.File: Timed out: ' + this.fileName, '#loading', '#timeout');
-
-                this.hasTimedOut = true;
-                this.timedOut = Date.now();
-                this.error = event;
-            };
-
-            /**
-            * Is execute whilst loading of the file is occuring. Updates the number of bytes that have been loaded and percentage loaded.
-            * @method xhrOnProgress
-            * @param event {Any}
-            * @private
-            */
-            File.prototype.xhrOnProgress = function (event) {
-                this.bytesLoaded = parseInt(event.loaded);
-                this.bytesTotal = parseInt(event.totalSize);
-                this.percentLoaded = Math.round((this.bytesLoaded / this.bytesTotal) * 100);
-
-                if (this.onProgressCallback) {
-                    this.onProgressCallback(this);
-                }
-            };
-
-            /**
-            * Once the file has finished downloading (or pulled from the browser cache) this onload event fires.
-            * @method xhrOnLoad
-            * @param event {Event} The XHR event.
-            * @private
-            */
-            File.prototype.xhrOnLoad = function (event) {
-                //Stop re-processing of the file if it was already processed.
-                //Received from the ready state.
-                if (this.timeFinished > 0)
-                    return;
-
-                this.status = this._xhr.status;
-                this.statusText = this._xhr.statusText;
-
-                //Was the loading a success?
-                if (this._xhr.status === 200) {
-                    this.stop();
-                    this.success = true;
-                    this.hasError = false;
-
-                    Kiwi.Log.log('Kiwi.File: Successfully Loaded: ' + this.fileName, '#loading', '#successful');
-
-                    //Get the head information of the file.
-                    this.fileType = this._xhr.getResponseHeader('Content-Type');
-                    this.bytesTotal = parseInt(this._xhr.getResponseHeader('Content-Length'));
-                    this.lastModified = this._xhr.getResponseHeader('Last-Modified');
-                    this.ETag = this._xhr.getResponseHeader('ETag');
-                    this.buffer = this._xhr.response;
-
-                    //Start processing of the file.
-                    this.processFile();
-                    //Failed to load.
-                } else {
-                    //Should we try to load the file again?
-                    if (this.attemptCounter >= this.maxLoadAttempts) {
-                        this.success = false;
-                        this.hasError = true;
-
-                        Kiwi.Log.error('Kiwi.File: ' + this.fileName + ' wasn\'t loaded.', '#loading', '#successful');
-
-                        this.parseComplete();
-                    } else {
-                        Kiwi.Log.log('Kiwi.File: ' + 'Retrying to load: ' + this.fileName, '#loading', '#retry');
-
-                        this.xhrLoader();
-                    }
-                }
-            };
-
-            /*
-            *-----------------
-            * Processing of the File (via XHR Loading Method)
-            *-----------------
-            */
-            /**
-            * Handles the processing of the files information when it was loaded via the xhr + arraybuffer method.
-            * Is only executed when the loading was a success
-            * @method processFile
-            * @private
-            */
-            File.prototype.processFile = function () {
-                switch (this.dataType) {
-                    case Kiwi.Files.File.IMAGE:
-                    case Kiwi.Files.File.SPRITE_SHEET:
-                    case Kiwi.Files.File.TEXTURE_ATLAS:
-                        this.createBlob();
-                        break;
-
-                    case Kiwi.Files.File.JSON:
-                        //Loop through each character of the dataview, which is slower than a whole array but avoids the size issue.
-                        this.data = '';
-                        var uintArray = new Uint8Array(this.buffer);
-                        for (var i = 0; i < uintArray.length; i++) {
-                            this.data += String.fromCharCode(uintArray[i]);
-                        }
-                        this.parseComplete();
-
-                        break;
-
-                    case Kiwi.Files.File.AUDIO:
-                        //Are we using web audio? (Not needed really as audio tags use Tag Loader.
-                        if (this._game.audio.usingWebAudio) {
-                            this.data = {
-                                raw: this._xhr.response,
-                                decoded: false,
-                                buffer: null
-                            };
-
-                            //Decode that Audio
-                            var that = this;
-                            this._game.audio.context.decodeAudioData(this.data.raw, function (buffer) {
-                                if (buffer) {
-                                    that.data.buffer = buffer;
-                                    that.data.decoded = true;
-                                    that.parseComplete();
-                                }
-                            });
-                        }
-                        break;
-
-                    default:
-                        this.parseComplete();
-                }
-            };
-
-            /*
-            *--------------------
-            * Create Blob Functionality
-            *--------------------
-            */
-            /**
-            * Creates a new Binary Large Object for the data that was loaded through the XHR.
-            * @method createBlob
-            * @private
-            */
-            File.prototype.createBlob = function () {
-                var _this = this;
-                this.data = document.createElement('img');
-                this.data.onload = function () {
-                    return _this.revoke();
-                };
-
-                var imageType = '';
-
-                if (this.fileExtension === 'jpg' || this.fileExtension === 'jpeg') {
-                    imageType = 'image/jpeg';
-                } else if (this.fileExtension === 'png') {
-                    imageType = 'image/png';
-                } else if (this.fileExtension === 'gif') {
-                    imageType = 'image/gif';
-                }
-
-                //  Until they fix the TypeScript lib.d we have to use window array access
-                //  Need to find a way to tell if this suports constuctor values like below, otherwise it just errors Chrome < 20 etc
-                //if (typeof window['Blob'] !== 'undefined')
-                //{
-                var blob = new window['Blob']([this.buffer], { type: imageType });
-
-                //}
-                //else
-                //{
-                //var BlobBuilder = window['BlobBuilder'] || window['WebKitBlobBuilder'] || window['MozBlobBuilder'] || window['MSBlobBuilder'];
-                //var builder = new BlobBuilder;
-                //builder.append([this.buffer]); // needs appendABV check
-                //var blob = builder.getBlob(imageType);
-                //}
-                if (window['URL']) {
-                    this.data.src = window['URL'].createObjectURL(blob);
-                } else if (window['webkitURL']) {
-                    this.data.src = window['webkitURL'].createObjectURL(blob);
-                }
-            };
-
-            /**
-            * Revokes the object url that was added to the window when creating the image.
-            * Also tells the File that the loading is now complete.
-            * @method revoke
-            * @private
-            */
-            File.prototype.revoke = function () {
-                if (window['URL']) {
-                    window['URL'].revokeObjectURL(this.data.src);
-                } else if (window['webkitURL']) {
-                    window['webkitURL'].revokeObjectURL(this.data.src);
-                }
-
-                this.parseComplete();
-            };
-
-            /**
-            * Executed when this file has completed loading (this could be due to it failing or succeeding).
-            * @method parseComplete
-            * @private
-            */
-            File.prototype.parseComplete = function () {
-                if (this._saveToFileStore === true) {
-                    this._fileStore.addFile(this.key, this);
-                }
-
-                if (this.onCompleteCallback) {
-                    this.onCompleteCallback(this);
-                }
-            };
-
-            /**
-            * Attempts to make the file send a XHR HEAD request to get information about the file that is going to be downloaded.
-            * This is particularly useful when you are wanting to check how large a file is before loading all of the content.
-            * @method getFileDetails
-            * @param [callback=null] {Any} The callback to send this FileInfo object to.
-            * @param [maxLoadAttempts=1] {number} The maximum amount of load attempts. Only set this if it is different from the default.
-            * @param [timeout=this.timeOutDelay] {number} The timeout delay. By default this is the same as the timeout delay property set on this file.
-            * @private
-            */
-            File.prototype.getFileDetails = function (callback, maxLoadAttempts, timeout) {
-                if (typeof callback === "undefined") { callback = null; }
-                if (typeof timeout === "undefined") { timeout = this.timeOutDelay; }
-                this.onCompleteCallback = callback;
-                if (this.maxHeadLoadAttempts !== undefined)
-                    this.maxHeadLoadAttempts = maxLoadAttempts;
-
-                //Start the XHR Request for the HEAD information. Reset the attempt counter.
-                this.attemptCounter = 0;
-                this.sendXHRHeadRequest(timeout);
-            };
-
-            /**
-            * Sends a XHR request for the HEAD information of this file.
-            * Useful as it can will contain the information about the file before loading the actual file.
-            * @method sendXHRHeadRequest
-            * @param timeout {Number} The timeout delay.
-            * @private
-            */
-            File.prototype.sendXHRHeadRequest = function (timeout) {
-                var _this = this;
-                this.attemptCounter++;
-
-                this._xhr = new XMLHttpRequest();
-                this._xhr.open('HEAD', this.fileURL, false);
-                this._xhr.onload = function (event) {
-                    return _this.getXHRResponseHeaders(event);
-                };
-                this._xhr.ontimeout = function (event) {
-                    return _this.xhrHeadOnTimeout(event);
-                };
-                this._xhr.onerror = function (event) {
-                    return _this.xhrHeadOnError(event);
-                };
-                if (this.timeOutDelay !== null)
-                    this._xhr.timeout = timeout;
-                this._xhr.send();
-            };
-
-            /**
-            * Is executed when the XHR head request timed out.
-            * @method xhrHeadOnTimeout
-            * @param event {Any}
-            * @private
-            */
-            File.prototype.xhrHeadOnTimeout = function (event) {
-                this.hasTimedOut = true;
-                this.timedOut = Date.now();
-                this.error = event;
-                //The onload will fire after, thus trying again automatically.
-            };
-
-            /**
-            * Is executed when this XHR head request has a error.
-            * @method xhrHeadOnError
-            * @param event {Any} The event containing the reason why this event failed.
-            * @private
-            */
-            File.prototype.xhrHeadOnError = function (event) {
-                this.hasError = true;
-                this.error = event;
-                this.status = this._xhr.status;
-                this.statusText = this._xhr.statusText;
-                //The onload will fire after, thus trying again automatically.
-            };
-
-            /**
-            * Process the response headers received.
-            * @method getResponseHeaders
-            * @param event {Any} The XHR event.
-            * @private
-            */
-            File.prototype.getXHRResponseHeaders = function (event) {
-                this.status = this._xhr.status;
-                this.statusText = this._xhr.statusText;
-
-                if (this._xhr.status === 200) {
-                    //Get the file information...
-                    this.fileType = this._xhr.getResponseHeader('Content-Type');
-                    this.fileSize = parseInt(this._xhr.getResponseHeader('Content-Length'));
-                    this.lastModified = this._xhr.getResponseHeader('Last-Modified');
-                    this.ETag = this._xhr.getResponseHeader('ETag');
-
-                    //Complete the request
-                    this.completeXHRHeadRequest(true);
-                } else {
-                    this.completeXHRHeadRequest(false);
-                }
-            };
-
-            /**
-            * Used to finialise the XHR Head Request (used with get File Details).
-            * When passed an outcome this method will see if it can 'try again' otherwise it will just finish the attempt.
-            * @method completeXHRHeadRequest
-            * @param outcome {Boolean} If the outcome was a success or not.
-            * @private
-            */
-            File.prototype.completeXHRHeadRequest = function (outcome) {
-                //If the outcome was not good and we can try again then do it!
-                if (outcome == false && this.attemptCounter < this.maxLoadAttempts) {
-                    this.sendXHRHeadRequest(this.timeOutDelay);
-                    return;
-                }
-
-                //Execute the on complete callback.
-                if (this.onCompleteCallback) {
-                    this.attemptCounter = 0;
-                    this.onCompleteCallback(this);
-                }
-            };
             File.IMAGE = 0;
 
             File.SPRITE_SHEET = 1;
@@ -11739,6 +11004,8 @@ var Kiwi;
             File.BINARY_DATA = 6;
 
             File.TEXT_DATA = 7;
+
+            File.UNKNOWN = 8;
             return File;
         })();
         Files.File = File;
@@ -12911,7 +12178,7 @@ var Kiwi;
                             imageFile.metadata.height = imageFile.data.height;
                     }
 
-                    Kiwi.Log.log('Kiwi.TextureLibrary: ' + imageFile.fileName + ' has been rebuilt to be base2.', '#texture', '#base2');
+                    Kiwi.Log.log('Kiwi.TextureLibrary: ' + imageFile.name + ' has been rebuilt to be base2.', '#texture', '#base2');
 
                     //Assign the new image to the data
                     imageFile.data = newImg;
@@ -12981,7 +12248,7 @@ var Kiwi;
                 for (var i = 0; i < fileStoreKeys.length; i++) {
                     var file = this._game.fileStore.getFile(fileStoreKeys[i]);
                     if (file.isTexture) {
-                        Kiwi.Log.log("  Kiwi.TextureLibrary: Adding Texture: " + file.fileName, '#texture', '#added');
+                        Kiwi.Log.log("  Kiwi.TextureLibrary: Adding Texture: " + file.name, '#texture', '#added');
                         state.textureLibrary.addFromFile(file);
                     }
                 }
@@ -27875,7 +27142,7 @@ var Kiwi;
                 for (var i = 0; i < fileStoreKeys.length; i++) {
                     var file = this._game.fileStore.getFile(fileStoreKeys[i]);
                     if (file.isAudio) {
-                        Kiwi.Log.log("  Kiwi.AudioLibrary: Adding Audio: " + file.fileName, '#audio', '#added');
+                        Kiwi.Log.log("  Kiwi.AudioLibrary: Adding Audio: " + file.name, '#audio', '#added');
                         state.audioLibrary.add(file);
                     }
                 }
@@ -32274,6 +31541,202 @@ var Kiwi;
         __.prototype = b.prototype;
         d.prototype = new __();
     };
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Files) {
+        var AudioFile = (function (_super) {
+            __extends(AudioFile, _super);
+            function AudioFile(game, key, url, optionalParams) {
+                if (typeof optionalParams === "undefined") { optionalParams = {}; }
+                _super.call(this, game, key, url, optionalParams);
+
+                if (this.game.audio.usingAudioTag) {
+                    this.useTagLoader = true;
+                } else {
+                    this.useTagLoader = false;
+                }
+
+                this.responseType = 'arraybuffer';
+            }
+            /**
+            * Returns the type of this object
+            * @method objType
+            * @return {String} "File"
+            * @public
+            */
+            AudioFile.prototype.objType = function () {
+                return "AudioFile";
+            };
+
+            AudioFile.prototype.tagLoader = function () {
+                this.data = document.createElement('audio');
+                this.data.src = this.URL;
+                this.data.preload = 'auto';
+
+                if (this.game.audio.locked) {
+                    //Nothing else to do...
+                    this.tagOnLoad(null);
+                } else {
+                    var _this = this;
+                    var func = function (event) {
+                        _this.data.removeEventListener('canplaythrough', func, false);
+                        _this.data.pause();
+                        _this.data.currentTime = 0;
+                        _this.data.volume = 1;
+                        _this.tagOnLoad(event);
+                    };
+
+                    this.data.addEventListener('canplaythrough', func, false);
+
+                    //If targetting Cocoon we can use the load method to force the audio loading.
+                    if (this.game.deviceTargetOption == Kiwi.TARGET_COCOON) {
+                        this.data.load();
+                        //Otherwise we tell the browser to play the audio in 'mute' to force loading.
+                    } else {
+                        this.data.volume = 0;
+                        this.data.play();
+                    }
+                }
+            };
+
+            AudioFile.prototype.processXHR = function (response) {
+                this.data = {
+                    raw: response,
+                    decoded: false,
+                    buffer: null
+                };
+
+                var _this = this;
+                this.game.audio.context.decodeAudioData(this.data.raw, function (buffer) {
+                    if (buffer) {
+                        _this.data.buffer = buffer;
+                        _this.data.decoded = true;
+                        _this.loadSuccess();
+                    }
+                });
+            };
+            return AudioFile;
+        })(Kiwi.Files.File);
+        Files.AudioFile = AudioFile;
+    })(Kiwi.Files || (Kiwi.Files = {}));
+    var Files = Kiwi.Files;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Files) {
+        var DataFile = (function (_super) {
+            __extends(DataFile, _super);
+            function DataFile(game, key, url, optionalParams) {
+                if (typeof optionalParams === "undefined") { optionalParams = {}; }
+                _super.call(this, game, key, url, optionalParams);
+
+                this.useTagLoader = false;
+                this.responseType = 'text';
+            }
+            /**
+            * Returns the type of this object
+            * @method objType
+            * @return {String} "File"
+            * @public
+            */
+            DataFile.prototype.objType = function () {
+                return "DataFile";
+            };
+            return DataFile;
+        })(Kiwi.Files.File);
+        Files.DataFile = DataFile;
+    })(Kiwi.Files || (Kiwi.Files = {}));
+    var Files = Kiwi.Files;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Files) {
+        var TextureFile = (function (_super) {
+            __extends(TextureFile, _super);
+            function TextureFile(game, key, url, optionalParams) {
+                if (typeof optionalParams === "undefined") { optionalParams = {}; }
+                _super.call(this, game, key, url, optionalParams);
+
+                if (Kiwi.DEVICE.blob) {
+                    this.useTagLoader = true;
+                } else {
+                    this.useTagLoader = true;
+                }
+            }
+            /**
+            * Returns the type of this object
+            * @method objType
+            * @return {String} "File"
+            * @public
+            */
+            TextureFile.prototype.objType = function () {
+                return "TextureFile";
+            };
+
+            TextureFile.prototype.tagLoader = function () {
+                this.data = new Image();
+                this.data.src = this.URL;
+
+                var _this = this;
+                this.data.onload = function (event) {
+                    _this.tagOnLoad(event);
+                };
+                this.data.onerror = function (event) {
+                    _this.tagOnError(event);
+                };
+            };
+
+            TextureFile.prototype.processXHR = function (response) {
+                this.data = document.createElement('img');
+
+                var imageType = '';
+
+                switch (this.extension) {
+                    case 'jpg':
+                    case 'jpeg':
+                        imageType = 'image/jpeg';
+                        break;
+
+                    case 'png':
+                        imageType = 'image/png';
+                        break;
+
+                    case 'gif':
+                        imageType = 'image/gif';
+                        break;
+                }
+
+                //  Until they fix the TypeScript lib.d we have to use window array access
+                var blob = new window['Blob']([response], { type: imageType });
+
+                if (window['URL']) {
+                    this.data.src = window['URL'].createObjectURL(blob);
+                } else if (window['webkitURL']) {
+                    this.data.src = window['webkitURL'].createObjectURL(blob);
+                }
+
+                this.loadSuccess();
+            };
+
+            /**
+            * Revokes the object url that was added to the window when creating the image.
+            * Also tells the File that the loading is now complete.
+            * @method revoke
+            * @private
+            */
+            TextureFile.prototype.revoke = function () {
+                if (window['URL']) {
+                    window['URL'].revokeObjectURL(this.data.src);
+                } else if (window['webkitURL']) {
+                    window['webkitURL'].revokeObjectURL(this.data.src);
+                }
+            };
+            return TextureFile;
+        })(Kiwi.Files.File);
+        Files.TextureFile = TextureFile;
+    })(Kiwi.Files || (Kiwi.Files = {}));
+    var Files = Kiwi.Files;
 })(Kiwi || (Kiwi = {}));
 
 /**
