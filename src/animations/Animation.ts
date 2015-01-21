@@ -34,6 +34,7 @@ module Kiwi.Animations {
             this._clock = clock;
             this._parent = parent;
 
+            this._lastFrameElapsed = this._clock.elapsed();
         }
 
         /**
@@ -264,6 +265,15 @@ module Kiwi.Animations {
         }
 
         /**
+        * Clock time on last frame, used to compute current animation frame.
+        * @property _lastFrameElapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _lastFrameElapsed: number;
+
+        /**
         * An Internal method used to start the animation.
         * @method _start
         * @param [index=null] {number} The index of the frame in the sequence that is to play. If left as null if just starts from where it left off.
@@ -355,42 +365,62 @@ module Kiwi.Animations {
         }
 
         /**
-        * The update loop. Returns a boolean indicating whether the animation has gone to a new frame or not.
+        * The update loop.
+        * 
         * @method update
         * @public
         */
         public update() {
-            if (this._isPlaying) {
-                if (this._clock.elapsed() >= this._tick) {
+            var frameDelta;
 
-                    this._tick = this._clock.elapsed() + this._speed;
-                    //Would it be a valid frame?
-                    if (this._validateFrame(this._frameIndex + ((this._reverse == true) ? -1 : 1))) {
-                        
-                        this._frameIndex += (this._reverse == true) ? -1 : 1;
-                        this._parent.updateCellIndex();
-                        if(this._onUpdate !== null) this._onUpdate.dispatch();
-                    
-                    } else {
+            if ( this._isPlaying ) {
 
-                        //Is it looping?
-                        if (this._loop) {
-                            if (this._reverse) {
-                                this._frameIndex = this.length - 1;
-                            } else {
-                                this._frameIndex = 0;
+                // How many frames do we move, ahead or behind?
+                frameDelta = ( this._clock.elapsed() -
+                    this._lastFrameElapsed ) / this._speed;
+                if ( this._reverse ) {
+                    frameDelta *= -1;
+                }
+
+                // Round delta, towards zero
+                if ( frameDelta > 0 ) {
+                    frameDelta = Math.floor( frameDelta );
+                } else {
+                    frameDelta = Math.ceil( frameDelta );
+                }
+
+                if ( frameDelta !== 0 ) {
+                    this._frameIndex += frameDelta;
+                    this._lastFrameElapsed = this._clock.elapsed();
+
+                    // Loop check
+                    if ( this._loop ) {
+                        if ( this._frameIndex > this.length - 1 ) {
+                            while ( this._frameIndex > this.length - 1 ) {
+                                this._frameIndex -= this.length;
+                                if ( this._onLoop != null ) {
+                                    this._onLoop.dispatch();
+                                }
                             }
-                            this._parent.updateCellIndex();
-                            if(this._onLoop !== null) this._onLoop.dispatch();
-
-                            //Not Looping, stop animation.
-                        } else {
-                            //Execute the stop on the parent to allow the isPlaying boolean to remain consistent
-                            this._parent.stop();
+                        } else if ( this._frameIndex < 0 ) {
+                            while ( this._frameIndex < 0 ) {
+                                this._frameIndex += this.length;
+                                if ( this._onLoop != null ) {
+                                    this._onLoop.dispatch();
+                                }
+                            }
                         }
-
+                    } else {
+                        // Execute the stop on the parent 
+                        // to allow the isPlaying boolean to remain consistent
+                        this._parent.stop();
+                        return;
                     }
 
+                    this._parent.updateCellIndex();
+                    if ( this._onUpdate !== null ) {
+                        this._onUpdate.dispatch();
+                    }
                 }
             }
         }

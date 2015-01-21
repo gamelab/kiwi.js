@@ -471,8 +471,7 @@ module Kiwi.Time {
         public update() {
             var frameLength = this._currentMasterElapsed - this._lastMasterElapsed;
 
-            for (var i = 0; i < this.timers.length; i++)
-            {
+            for (var i = 0; i < this.timers.length; i++) {
                 this.timers[i].update();
             }
 

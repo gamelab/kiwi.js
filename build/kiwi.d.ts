@@ -11100,6 +11100,14 @@ declare module Kiwi.Animations {
         private _onLoop;
         public onLoop : Signal;
         /**
+        * Clock time on last frame, used to compute current animation frame.
+        * @property _lastFrameElapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _lastFrameElapsed;
+        /**
         * An Internal method used to start the animation.
         * @method _start
         * @param [index=null] {number} The index of the frame in the sequence that is to play. If left as null if just starts from where it left off.
@@ -11150,7 +11158,8 @@ declare module Kiwi.Animations {
         */
         public prevFrame(): void;
         /**
-        * The update loop. Returns a boolean indicating whether the animation has gone to a new frame or not.
+        * The update loop.
+        *
         * @method update
         * @public
         */

@@ -17097,6 +17097,8 @@ var Kiwi;
                 this._loop = sequence.loop;
                 this._clock = clock;
                 this._parent = parent;
+
+                this._lastFrameElapsed = this._clock.elapsed();
             }
             /**
             * The type of object that this is.
@@ -17345,37 +17347,59 @@ var Kiwi;
             };
 
             /**
-            * The update loop. Returns a boolean indicating whether the animation has gone to a new frame or not.
+            * The update loop.
+            *
             * @method update
             * @public
             */
             Animation.prototype.update = function () {
-                if (this._isPlaying) {
-                    if (this._clock.elapsed() >= this._tick) {
-                        this._tick = this._clock.elapsed() + this._speed;
+                var frameDelta;
 
-                        //Would it be a valid frame?
-                        if (this._validateFrame(this._frameIndex + ((this._reverse == true) ? -1 : 1))) {
-                            this._frameIndex += (this._reverse == true) ? -1 : 1;
-                            this._parent.updateCellIndex();
-                            if (this._onUpdate !== null)
-                                this._onUpdate.dispatch();
-                        } else {
-                            //Is it looping?
-                            if (this._loop) {
-                                if (this._reverse) {
-                                    this._frameIndex = this.length - 1;
-                                } else {
-                                    this._frameIndex = 0;
+                if (this._isPlaying) {
+                    // How many frames do we move, ahead or behind?
+                    frameDelta = (this._clock.elapsed() - this._lastFrameElapsed) / this._speed;
+                    if (this._reverse) {
+                        frameDelta *= -1;
+                    }
+
+                    // Round delta, towards zero
+                    if (frameDelta > 0) {
+                        frameDelta = Math.floor(frameDelta);
+                    } else {
+                        frameDelta = Math.ceil(frameDelta);
+                    }
+
+                    if (frameDelta !== 0) {
+                        this._frameIndex += frameDelta;
+                        this._lastFrameElapsed = this._clock.elapsed();
+
+                        // Loop check
+                        if (this._loop) {
+                            if (this._frameIndex > this.length - 1) {
+                                while (this._frameIndex > this.length - 1) {
+                                    this._frameIndex -= this.length;
+                                    if (this._onLoop != null) {
+                                        this._onLoop.dispatch();
+                                    }
                                 }
-                                this._parent.updateCellIndex();
-                                if (this._onLoop !== null)
-                                    this._onLoop.dispatch();
-                                //Not Looping, stop animation.
-                            } else {
-                                //Execute the stop on the parent to allow the isPlaying boolean to remain consistent
-                                this._parent.stop();
+                            } else if (this._frameIndex < 0) {
+                                while (this._frameIndex < 0) {
+                                    this._frameIndex += this.length;
+                                    if (this._onLoop != null) {
+                                        this._onLoop.dispatch();
+                                    }
+                                }
                             }
+                        } else {
+                            // Execute the stop on the parent
+                            // to allow the isPlaying boolean to remain consistent
+                            this._parent.stop();
+                            return;
+                        }
+
+                        this._parent.updateCellIndex();
+                        if (this._onUpdate !== null) {
+                            this._onUpdate.dispatch();
                         }
                     }
                 }
