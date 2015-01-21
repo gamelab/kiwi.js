@@ -28019,7 +28019,6 @@ var Kiwi;
         * @param name {String} The name of the clock.
         * @param [units=1000] {Number} The units that this clock is to operate in.
         * @return {Kiwi.Time.Clock} This Clock object.
-        *
         */
         var Clock = (function () {
             function Clock(manager, master, name, units) {
@@ -28301,25 +28300,22 @@ var Kiwi;
             */
             Clock.prototype.removeTimer = function (timer, timerName) {
                 if (typeof timer === "undefined") { timer = null; }
-                if (typeof timerName === "undefined") { timerName = ''; }
+                if (typeof timerName === "undefined") { timerName = ""; }
+                var index;
+
                 //  Timer object given?
                 if (timer !== null) {
-                    if (this.timers[timer.name]) {
-                        delete this.timers[timer.name];
-
+                    index = this.timers.indexOf(timer);
+                    if (index !== -1) {
+                        this.timers.splice(index, 1);
                         return true;
-                    } else {
-                        return false;
                     }
-                }
-
-                if (timerName !== '') {
-                    if (this.timers[timerName]) {
-                        delete this.timers[timerName];
-
-                        return true;
-                    } else {
-                        return false;
+                } else if (timerName !== "") {
+                    for (index = 0; index < this.timers.length; index++) {
+                        if (this.timers[index].name === timerName) {
+                            this.timers.splice(index, 1);
+                            return true;
+                        }
                     }
                 }
 

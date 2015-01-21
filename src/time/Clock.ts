@@ -24,7 +24,6 @@ module Kiwi.Time {
     * @param name {String} The name of the clock.
     * @param [units=1000] {Number} The units that this clock is to operate in.
     * @return {Kiwi.Time.Clock} This Clock object.
-    * 
     */
     export class Clock {
          
@@ -36,8 +35,7 @@ module Kiwi.Time {
             this.units = units;
             this.timers = [];
 
-            if (this.units < 1)
-            {
+            if (this.units < 1) {
                 this.units = 1;
             }
 
@@ -356,39 +354,26 @@ module Kiwi.Time {
         * @return {boolean} True if the Timer was successfully removed, false if not.
         * @public
         */
-        public removeTimer(timer: Timer = null, timerName:string = ''): boolean {
+        public removeTimer(timer: Timer = null, timerName:string = ""): boolean {
+            var index;
 
             //  Timer object given?
-            if (timer !== null)
-            {
-                if (this.timers[timer.name])
-                {
-                    delete this.timers[timer.name];
-
+            if ( timer !== null ) {
+                index = this.timers.indexOf( timer );
+                if ( index !== -1 ) {
+                    this.timers.splice( index, 1 );
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
-            }
-
-            if (timerName !== '')
-            {
-                if (this.timers[timerName])
-                {
-                    delete this.timers[timerName];
-
-                    return true;
-                }
-                else
-                {
-                    return false;
+            } else if ( timerName !== "" ) {
+                for ( index = 0; index < this.timers.length; index++ ) {
+                    if ( this.timers[ index ].name === timerName ) {
+                        this.timers.splice( index, 1 );
+                        return true;
+                    }
                 }
             }
 
             return false;
-
         }
 
         /**

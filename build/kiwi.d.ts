@@ -18698,7 +18698,6 @@ declare module Kiwi.Time {
     * @param name {String} The name of the clock.
     * @param [units=1000] {Number} The units that this clock is to operate in.
     * @return {Kiwi.Time.Clock} This Clock object.
-    *
     */
     class Clock {
         constructor(manager: ClockManager, master: MasterClock, name: string, units?: number);
