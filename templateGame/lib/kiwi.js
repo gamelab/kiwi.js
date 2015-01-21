@@ -10104,12 +10104,36 @@ var Kiwi;
                 return "Loader";
             };
 
+            Object.defineProperty(Loader.prototype, "percentLoaded", {
+                get: function () {
+                    if (this._loadingList.length === 0) {
+                        return 100;
+                    }
+
+                    var i = 0;
+                    var complete = 0;
+
+                    while (i < this._loadingList.length) {
+                        if (this._loadingList[i].complete) {
+                            complete++;
+                        }
+
+                        i++;
+                    }
+
+                    console.log(this._loadingList.length, complete);
+                    return (complete / this._loadingList.length) * 100;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             Loader.prototype.boot = function () {
-                this._fileQueue = [];
+                this._loadingList = [];
 
-                this._tagList = [];
+                this._loadingParallel = [];
 
-                this._xhrList = [];
+                this._loadingQueue = [];
 
                 this.onQueueComplete = new Kiwi.Signal();
 
@@ -10119,8 +10143,8 @@ var Kiwi;
             //Starts loading all the files which are on the file queue
             Loader.prototype.start = function () {
                 //Any files to load?
-                if (this._fileQueue.length <= 0) {
-                    console.log('No files to load in the file queue.');
+                if (this._loadingList.length <= 0) {
+                    Kiwi.Log.log('Kiwi.Files.Loader: No files are to load have been found.');
                     this.onQueueComplete.dispatch();
                     return;
                 }
@@ -10128,81 +10152,102 @@ var Kiwi;
                 //There are files to load
                 var i = 0, file;
 
-                while (i < this._fileQueue.length) {
-                    this.addFileToList(this._fileQueue[i]);
+                while (i < this._loadingList.length) {
+                    this.sortFile(this._loadingList[i]);
                     i++;
                 }
 
-                this.xhrStartLoading();
-                this.tagStartLoading();
+                this.startLoadingQueue();
+                this.startLoadingParallel();
             };
 
-            Loader.prototype.addFileToList = function (file) {
-                if (file.useTagLoader) {
+            Loader.prototype.addFile = function (file) {
+                if (file.loading || file.complete) {
+                    Kiwi.Log.warn('Kiwi.Files.Loader: File could not be added as it is currently loading or has already loaded.');
+                    return;
+                }
+
+                this._loadingList.push(file);
+            };
+
+            Loader.prototype.removeFile = function (file) {
+                var index = this._loadingList.indexOf(file);
+
+                if (index === -1) {
+                    return false;
+                }
+
+                if (file.loading) {
+                    Kiwi.Log.warn('Kiwi.Files.Loader: Cannot remove the file from the list as it is currently loading.');
+                    return false;
+                }
+
+                this._loadingList.splice(index, 1);
+                return true;
+            };
+
+            Loader.prototype.clearQueue = function () {
+                this._loadingList.length = 0;
+            };
+
+            Loader.prototype.sortFile = function (file) {
+                if (file.loadInParallel) {
                     //Push into the tag loader queue
                     console.log('Using Tag Loader');
-                    this._tagList.push(file);
+                    this._loadingParallel.push(file);
                 } else {
                     //Push into the xhr queue
                     console.log('Using XHR Loader');
-                    this._xhrList.push(file);
+                    this._loadingQueue.push(file);
                 }
             };
 
             Loader.prototype.fileQueueUpdate = function (file) {
-                var index = this._fileQueue.indexOf(file);
+                //Get the number of files in the queue that have been loaded
+                var percent = this.percentLoaded;
 
-                if (index == -1) {
-                    console.log('Did not find the file in the file queue');
-                    return;
-                }
-
-                //File is in the file queue
-                //Remove the file
-                this._fileQueue.splice(index, 1);
-
-                //Any files left in the queue to load?
-                if (this._fileQueue.length <= 0) {
+                //If it is 100 percent
+                if (percent === 100) {
+                    //Clear the file queue and dispatch the loaded event
+                    this._loadingList.length = 0;
                     this.onQueueComplete.dispatch();
                 } else {
-                    this.onQueueProgress.dispatch();
+                    this.onQueueProgress.dispatch(percent);
                 }
             };
 
             //XHR Loader
-            Loader.prototype.xhrStartLoading = function () {
+            Loader.prototype.startLoadingQueue = function () {
                 //Any files to load?
-                if (this._xhrList.length <= 0) {
-                    console.log('No files in XHR list to load');
+                if (this._loadingQueue.length <= 0) {
+                    Kiwi.Log.log('Kiwi.Files.Loader: No queued files to load.', '#loading');
                     return false;
                 }
 
                 //Is the current one loading?
-                if (this._xhrList[0].loading) {
-                    console.log('File is currently loading');
+                if (this._loadingQueue[0].loading) {
+                    console.log('Kiwi.Files.Loader: File is currently loading');
                     return false;
                 }
 
                 //Attempt to load the file!
-                this._xhrList[0].onComplete.addOnce(this.xhrFileComplete, this);
-                this._xhrList[0].load();
+                this._loadingQueue[0].onComplete.addOnce(this.queueFileComplete, this);
+                this._loadingQueue[0].load();
                 return true;
             };
 
-            Loader.prototype.xhrFileComplete = function (file) {
+            Loader.prototype.queueFileComplete = function (file) {
                 //Remove from the XHR queue
-                var index = this._xhrList.indexOf(file);
+                var index = this._loadingQueue.indexOf(file);
                 if (index === -1) {
                     console.log('Something has gone wrong? No file has been found');
                     return;
                 }
 
-                this._xhrList.splice(index, 1);
+                this._loadingQueue.splice(index, 1);
 
                 //Start loading
-                if (this.xhrStartLoading()) {
-                    //File is now loading
-                } else {
+                if (!this.startLoadingQueue()) {
                     //Loading has been completed
                     console.log('XHR Loading Complete');
                 }
@@ -10211,27 +10256,27 @@ var Kiwi;
             };
 
             //Tag Loading
-            Loader.prototype.tagStartLoading = function () {
+            Loader.prototype.startLoadingParallel = function () {
                 //Loop through all of the files
                 var i = 0, file;
 
-                while (i < this._tagList.length) {
-                    file = this._tagList[i];
-                    file.onComplete.add(this.tagFileComplete, this);
+                while (i < this._loadingParallel.length) {
+                    file = this._loadingParallel[i];
+                    file.onComplete.add(this.parallelFileComplete, this);
                     file.load();
 
                     i++;
                 }
             };
 
-            Loader.prototype.tagFileComplete = function (file) {
-                var index = this._tagList.indexOf(file);
+            Loader.prototype.parallelFileComplete = function (file) {
+                var index = this._loadingParallel.indexOf(file);
                 if (index === -1) {
                     console.log('Something has gone wrong? No file has been found');
                     return;
                 }
 
-                this._tagList.splice(index, 1);
+                this._loadingParallel.splice(index, 1);
                 this.fileQueueUpdate(file);
             };
 
@@ -10257,18 +10302,25 @@ var Kiwi;
             Loader.prototype.addImage = function (key, url, width, height, offsetX, offsetY, storeAsGlobal) {
                 if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
                 var params = {
-                    type: Kiwi.Files.File.IMAGE
+                    type: Kiwi.Files.File.IMAGE,
+                    key: key,
+                    url: url,
+                    metadata: {
+                        width: width,
+                        height: height,
+                        offsetX: offsetX,
+                        offsetY: offsetY
+                    }
                 };
 
                 params.fileStore = this.game.fileStore;
+
                 if (!storeAsGlobal && this.game.states.current) {
                     params.state = this.game.states.current;
                 }
 
-                var file = new Kiwi.Files.TextureFile(this.game, key, url, params);
-                file.metadata = { width: width, height: height, offsetX: offsetX, offsetY: offsetY };
-
-                this._fileQueue.push(file);
+                var file = new Kiwi.Files.TextureFile(this.game, params);
+                this.addFile(file);
 
                 return file;
             };
@@ -10294,7 +10346,20 @@ var Kiwi;
             Loader.prototype.addSpriteSheet = function (key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY, storeAsGlobal) {
                 if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
                 var params = {
-                    type: Kiwi.Files.File.SPRITE_SHEET
+                    type: Kiwi.Files.File.SPRITE_SHEET,
+                    key: key,
+                    url: url,
+                    metadata: {
+                        frameWidth: frameWidth,
+                        frameHeight: frameHeight,
+                        numCells: numCells,
+                        rows: rows,
+                        cols: cols,
+                        sheetOffsetX: sheetOffsetX,
+                        sheetOffsetY: sheetOffsetY,
+                        cellOffsetX: cellOffsetX,
+                        cellOffsetY: cellOffsetY
+                    }
                 };
 
                 params.fileStore = this.game.fileStore;
@@ -10302,10 +10367,8 @@ var Kiwi;
                     params.state = this.game.states.current;
                 }
 
-                var file = new Kiwi.Files.TextureFile(this.game, key, url, params);
-                file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight, numCells: numCells, rows: rows, cols: cols, sheetOffsetX: sheetOffsetX, sheetOffsetY: sheetOffsetY, cellOffsetX: cellOffsetX, cellOffsetY: cellOffsetY };
-
-                this._fileQueue.push(file);
+                var file = new Kiwi.Files.TextureFile(this.game, params);
+                this.addFile(file);
 
                 return file;
             };
@@ -10324,10 +10387,20 @@ var Kiwi;
             Loader.prototype.addTextureAtlas = function (key, imageURL, jsonID, jsonURL, storeAsGlobal) {
                 if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
                 var textureParams = {
-                    type: Kiwi.Files.File.TEXTURE_ATLAS
+                    type: Kiwi.Files.File.TEXTURE_ATLAS,
+                    key: key,
+                    url: imageURL,
+                    metadata: {
+                        jsonID: jsonID
+                    }
                 };
                 var jsonParams = {
-                    type: Kiwi.Files.File.JSON
+                    type: Kiwi.Files.File.JSON,
+                    key: jsonID,
+                    url: jsonURL,
+                    metadata: {
+                        imageID: key
+                    }
                 };
 
                 textureParams.fileStore = this.game.fileStore;
@@ -10338,13 +10411,11 @@ var Kiwi;
                     jsonParams.state = this.game.states.current;
                 }
 
-                var imageFile = new Kiwi.Files.TextureFile(this.game, key, imageURL, textureParams);
-                var jsonFile = new Kiwi.Files.DataFile(this.game, jsonID, jsonURL, jsonParams);
+                var imageFile = new Kiwi.Files.TextureFile(this.game, textureParams);
+                var jsonFile = new Kiwi.Files.DataFile(this.game, jsonParams);
 
-                imageFile.metadata = { jsonID: jsonID };
-                jsonFile.metadata = { imageID: key };
-
-                this._fileQueue.push(imageFile, jsonFile);
+                this.addFile(imageFile);
+                this.addFile(jsonFile);
 
                 return imageFile;
             };
@@ -10399,7 +10470,9 @@ var Kiwi;
             */
             Loader.prototype.attemptToAddAudio = function (key, url, storeAsGlobal, onlyIfSupported) {
                 var params = {
-                    type: Kiwi.Files.File.AUDIO
+                    type: Kiwi.Files.File.AUDIO,
+                    key: key,
+                    url: url
                 };
 
                 params.fileStore = this.game.fileStore;
@@ -10407,7 +10480,7 @@ var Kiwi;
                     params.state = this.game.states.current;
                 }
 
-                var file = new Kiwi.Files.AudioFile(this.game, key, url, params);
+                var file = new Kiwi.Files.AudioFile(this.game, params);
                 var support = false;
 
                 switch (file.extension) {
@@ -10431,7 +10504,7 @@ var Kiwi;
                 }
 
                 if (support == true || onlyIfSupported == false) {
-                    this._fileQueue.push(file);
+                    this.addFile(file);
                     return file;
                 } else {
                     Kiwi.Log.error('Kiwi.Loader: Audio Format not supported on this Device/Browser.', '#audio', '#unsupported');
@@ -10451,7 +10524,9 @@ var Kiwi;
             Loader.prototype.addJSON = function (key, url, storeAsGlobal) {
                 if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
                 var params = {
-                    type: Kiwi.Files.File.JSON
+                    type: Kiwi.Files.File.JSON,
+                    key: key,
+                    url: url
                 };
 
                 params.fileStore = this.game.fileStore;
@@ -10459,8 +10534,8 @@ var Kiwi;
                     params.state = this.game.states.current;
                 }
 
-                var file = new Kiwi.Files.DataFile(this.game, key, url, params);
-                this._fileQueue.push(file);
+                var file = new Kiwi.Files.DataFile(this.game, params);
+                this.addFile(file);
                 return file;
             };
 
@@ -10502,6 +10577,92 @@ var Kiwi;
             */
             Loader.prototype.addTextFile = function (key, url, storeAsGlobal) {
                 if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+            };
+
+            /**
+            * -----------------------
+            * Deprecated - Functionality exists. Maps to its equalvent
+            * -----------------------
+            **/
+            /**
+            * Initialise the properities that are needed on this loader.
+            * @method init
+            * @param [progress=null] {Any} Progress callback method.
+            * @param [complete=null] {Any} Complete callback method.
+            * @param [calculateBytes=false] {boolean}
+            * @public
+            */
+            Loader.prototype.init = function (progress, complete, calculateBytes) {
+                if (typeof progress === "undefined") { progress = null; }
+                if (typeof complete === "undefined") { complete = null; }
+                if (typeof calculateBytes === "undefined") { calculateBytes = null; }
+                if (calculateBytes !== null) {
+                    Kiwi.Log.error('Calculating the number of bytes file have to load is currently not supported.');
+                }
+
+                if (progress !== null) {
+                    this.onQueueProgress.addOnce(progress);
+                }
+
+                if (complete !== null) {
+                    this.onQueueComplete.addOnce(complete);
+                }
+            };
+
+            /**
+            * Loops through all of the files that need to be loaded and start the load event on them.
+            * @method startLoad
+            * @public
+            */
+            Loader.prototype.startLoad = function () {
+                this.start();
+            };
+
+            /**
+            * Returns a percentage of the amount that has been loaded so far.
+            * @method getPercentLoaded
+            * @return {Number}
+            * @public
+            */
+            Loader.prototype.getPercentLoaded = function () {
+                return this.percentLoaded;
+            };
+
+            /**
+            * Returns a boolean indicating if everything in the loading que has been loaded or not.
+            * @method complete
+            * @return {boolean}
+            * @public
+            */
+            Loader.prototype.complete = function () {
+                return (this.percentLoaded === 100);
+            };
+
+            /**
+            * -----------------------
+            * Deprecated - Functionality no longer exists
+            * -----------------------
+            **/
+            /**
+            * Returns a percentage of the amount that has been loaded so far.
+            * @method getPercentLoaded
+            * @return {Number}
+            * @public
+            */
+            Loader.prototype.getBytesLoaded = function () {
+                return 0;
+            };
+
+            /**
+            * If true (and xhr/blob is available) the loader will get the bytes total of each file in the queue to give a much more accurate progress report during load
+            If false the loader will use the file number as the progress value, i.e. if there are 4 files in the queue progress will get called 4 times (25, 50, 75, 100)
+            * @method calculateBytes
+            * @param [value] {boolean}
+            * @return {boolean}
+            * @public
+            */
+            Loader.prototype.calculateBytes = function (value) {
+                return false;
             };
             return Loader;
         })();
@@ -10621,8 +10782,13 @@ var Kiwi;
         *
         */
         var File = (function () {
-            function File(game, key, url, params) {
-                if (typeof params === "undefined") { params = {}; }
+            function File(game, params) {
+                /**
+                * ---------------
+                * Generic Properties
+                * ---------------
+                **/
+                this.loadInParallel = false;
                 this.useTagLoader = false;
                 this.timeOutDelay = Kiwi.Files.File.TIMEOUT_DELAY;
                 this.attemptCounter = 0;
@@ -10634,6 +10800,13 @@ var Kiwi;
                 * @private
                 */
                 this._xhr = null;
+                /**
+                *
+                * @property responseType
+                * @type String
+                * @default 'text'
+                * @public
+                */
                 this.responseType = 'text';
                 /**
                 * -----------------
@@ -10686,6 +10859,13 @@ var Kiwi;
                 * @public
                 */
                 this.loading = false;
+                /**
+                * Indicates if the file attempted to load before or not.
+                * @property complete
+                * @type boolean
+                * @default false
+                * @public
+                */
                 this.complete = false;
                 /**
                 * The amount of percent loaded the file is. This is out of 100.
@@ -10694,18 +10874,166 @@ var Kiwi;
                 * @public
                 */
                 this.percentLoaded = 0;
+                /**
+                * The number of bytes that have currently been loaded.
+                * This can used to create progress bars but only has a value when using the XHR method of loading.
+                * @property bytesLoaded
+                * @type Number
+                * @default 0
+                * @public
+                */
+                this.bytesLoaded = 0;
+                /**
+                * The total number of bytes that the file consists off.
+                * Only has a value when using the XHR method of loading.
+                * @property bytesTotal
+                * @type Number
+                * @default 0
+                * @public
+                */
+                this.bytesTotal = 0;
+                /**
+                * --------------------
+                * XHR Header Information
+                * --------------------
+                **/
+                /**
+                * The maximum number of load attempts when requesting the file details that will be preformed.
+                * @property maxHeadLoadAttempts
+                * @type number
+                * @default 1
+                * @public
+                */
+                this.maxHeadLoadAttempts = 1;
+                this.detailsReceived = false;
+                /**
+                * The size of the file that was/is being loaded.
+                * Only has a value when the file was loaded by the XHR method OR you request the file information before hand using 'getFileDetails'.
+                * @property fileSize
+                * @type Number
+                * @default 0
+                * @public
+                */
+                this.fileSize = 0;
+                /**
+                * The Entity Tag that is assigned to the file. O
+                * Only has a value when either using the XHR loader OR when requesting the file details.
+                * @property ETag
+                * @type String
+                * @public
+                */
+                this.ETag = '';
+                /**
+                * The last date/time that this file was last modified.
+                * Only has a value when using the XHR method of loading OR when requesting the file details.
+                * @property lastModified
+                * @type String
+                * @default ''
+                * @public
+                */
+                this.lastModified = '';
+                /**
+                * A method that is to be executed when this file has finished loading.
+                * @property onCompleteCallback
+                * @type Any
+                * @default null
+                * @public
+                */
+                this.onCompleteCallback = null;
+                /**
+                * A method that is to be executed while this file is loading.
+                * @property onProgressCallback
+                * @type Any
+                * @default null
+                * @public
+                */
+                this.onProgressCallback = null;
+                /**
+                * The time at which progress in loading the file was last occurred.
+                * @property lastProgress
+                * @type Number
+                * @public
+                */
+                this.lastProgress = 0;
+                /**
+                * The status of this file that is being loaded.
+                * Only used/has a value when the file was/is being loaded by the XHR method.
+                * @property status
+                * @type Number
+                * @default 0
+                * @public
+                */
+                this.status = 0;
+                /**
+                * The status piece of text that the XHR returns.
+                * @property statusText
+                * @type String
+                * @default ''
+                * @public
+                */
+                this.statusText = '';
+                /**
+                * The ready state of the XHR loader whilst loading.
+                * @property readyState
+                * @type Number
+                * @default 0
+                * @public
+                */
+                this.readyState = 0;
+                /**
+                * If this file has timeout when it was loading.
+                * @property hasTimedOut
+                * @type boolean
+                * @default false
+                * @public
+                */
+                this.hasTimedOut = false;
+                /**
+                * If the file timed out or not.
+                * @property timedOut
+                * @type Number
+                * @default 0
+                * @public
+                */
+                this.timedOut = 0;
                 this.game = game;
-
-                this.key = key;
-
-                this.assignFileDetails(url);
 
                 this.onComplete = new Kiwi.Signal;
 
                 this.onProgress = new Kiwi.Signal;
 
+                if (Kiwi.Utils.Common.isNumeric(params)) {
+                    //Deprecate
+                    this.parseParamsOld(params, arguments[2], arguments[3], arguments[4], arguments[5]);
+                } else {
+                    this.key = params.key;
+
+                    this.assignFileDetails(params.url);
+
+                    this.parseParams(params);
+                }
+            }
+            File.prototype.parseParamsOld = function (dataType, url, name, saveToFileStore, storeAsGlobal) {
+                if (typeof name === "undefined") { name = ''; }
+                if (typeof saveToFileStore === "undefined") { saveToFileStore = true; }
+                if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+                this.dataType = dataType;
+
+                this.assignFileDetails(url);
+
+                if (saveToFileStore) {
+                    this.fileStore = this.game.fileStore;
+                }
+
+                if (this.game.states.current && !storeAsGlobal) {
+                    this.ownerState = this.game.states.current;
+                }
+            };
+
+            File.prototype.parseParams = function (params) {
                 this.fileStore = params.fileStore || null;
                 this.ownerState = params.state || null;
+                this.metadata = params.metadata || {};
 
                 if (Kiwi.Utils.Common.isUndefined(params.type)) {
                     this.dataType = File.UNKNOWN;
@@ -10718,7 +11046,8 @@ var Kiwi;
                         this.addTag(params.tags[i]);
                     }
                 }
-            }
+            };
+
             /**
             *
             * @method assignFileDetails
@@ -10755,10 +11084,27 @@ var Kiwi;
             * @method load
             * @public
             */
-            File.prototype.load = function () {
-                //Start Loading!!!
-                this.start();
+            File.prototype.load = function (onCompleteCallback, onProgressCallback, customFileStore, maxLoadAttempts, timeout) {
+                //Set the variables based on the parameters passed
+                //To be deprecated
+                if (onCompleteCallback)
+                    this.onCompleteCallback = onCompleteCallback;
+                if (onProgressCallback)
+                    this.onProgressCallback = onProgressCallback;
+                if (customFileStore)
+                    this.fileStore = customFileStore;
+                if (typeof maxLoadAttempts !== "undefined")
+                    this.maxLoadAttempts = maxLoadAttempts;
+                if (typeof timeout !== "undefined")
+                    this.timeOutDelay = timeout;
 
+                //Start Loading!!!
+                this.attemptCounter = 0;
+                this._load();
+            };
+
+            File.prototype._load = function () {
+                this.start();
                 this.attemptCounter++;
 
                 if (this.useTagLoader) {
@@ -10770,8 +11116,19 @@ var Kiwi;
 
             /**
             *
+            * @method loadProgress
+            * @private
+            */
+            File.prototype.loadProgress = function () {
+                this.onProgress.dispatch(this);
+                if (this.onProgressCallback)
+                    this.onProgressCallback(this);
+            };
+
+            /**
+            *
             * @method loadSuccess
-            * @public
+            * @private
             */
             File.prototype.loadSuccess = function () {
                 //If already completed skip
@@ -10788,6 +11145,8 @@ var Kiwi;
                 }
 
                 this.onComplete.dispatch(this);
+                if (this.onCompleteCallback)
+                    this.onCompleteCallback(this);
             };
 
             /**
@@ -10804,9 +11163,11 @@ var Kiwi;
                     this.error = reason;
                     this.stop();
                     this.onComplete.dispatch(this);
+                    if (this.onCompleteCallback)
+                        this.onCompleteCallback(this);
                 } else {
                     //Try Again
-                    this.load();
+                    this._load();
                 }
             };
 
@@ -10840,17 +11201,34 @@ var Kiwi;
                 this._xhr = new XMLHttpRequest();
                 this._xhr.open('GET', this.URL, true);
 
-                //if (this.timeOutDelay !== null) {
-                //    this._xhr.timeout = this.timeOutDelay;
-                //}
+                if (this.timeOutDelay !== null) {
+                    this._xhr.timeout = this.timeOutDelay;
+                }
+
                 this._xhr.responseType = this.responseType;
 
                 var _this = this;
+
                 this._xhr.onload = function (event) {
                     _this.xhrOnLoad(event);
                 };
                 this._xhr.onerror = function (event) {
                     _this.xhrOnError(event);
+                };
+                this._xhr.onprogress = function (event) {
+                    _this.xhrOnProgress(event);
+                };
+
+                //Events to deprecate
+                this._xhr.onreadystatechange = function (event) {
+                    _this.readyState = _this._xhr.readyState;
+                };
+                this._xhr.onloadstart = function (event) {
+                    _this.timeStarted = event.timeStamp;
+                    _this.lastProgress = event.timeStamp;
+                };
+                this._xhr.ontimeout = function (event) {
+                    _this.hasTimedOut = true;
                 };
 
                 this._xhr.send();
@@ -10861,9 +11239,30 @@ var Kiwi;
                 this.loadError(event);
             };
 
+            File.prototype.xhrOnProgress = function (event) {
+                this.bytesLoaded = parseInt(event.loaded);
+                this.bytesTotal = parseInt(event.total);
+                this.percentLoaded = Math.round((this.bytesLoaded / this.bytesTotal) * 100);
+
+                this.onProgress.dispatch(this);
+                if (this.onProgressCallback) {
+                    this.onProgressCallback(this);
+                }
+            };
+
             File.prototype.xhrOnLoad = function (event) {
-                console.log('on load');
-                this.processXHR(this._xhr.response);
+                //Deprecate
+                this.status = this._xhr.status;
+                this.statusText = this._xhr.statusText;
+
+                // Easiest to just see if the response isn't null, and thus has data or not.
+                if (this._xhr.response) {
+                    this.getXHRHeaderInfo();
+                    this.buffer = this._xhr.response; //Deprecate
+                    this.processXHR(this._xhr.response);
+                } else {
+                    this.loadError(event);
+                }
             };
 
             File.prototype.processXHR = function (response) {
@@ -10894,6 +11293,82 @@ var Kiwi;
                 this.percentLoaded = 100;
                 this.timeFinished = Date.now();
                 this.duration = this.timeFinished - this.timeStarted;
+            };
+
+            File.prototype.getXHRHeaderInfo = function () {
+                if (!this._xhr) {
+                    return;
+                }
+
+                this.status = this._xhr.status;
+                this.statusText = this._xhr.statusText;
+
+                //Get the file information...
+                this.fileType = this._xhr.getResponseHeader('Content-Type');
+                this.fileSize = parseInt(this._xhr.getResponseHeader('Content-Length'));
+                this.lastModified = this._xhr.getResponseHeader('Last-Modified');
+                this.ETag = this._xhr.getResponseHeader('ETag');
+                this.detailsReceived = true;
+            };
+
+            File.prototype.loadDetails = function (callback, context) {
+                if (typeof callback === "undefined") { callback = null; }
+                if (typeof context === "undefined") { context = null; }
+                //Can't continue if regular loading is progressing.
+                if (this.loading) {
+                    Kiwi.Log.error('Kiwi.Files.File: Cannot get the file details whilst the file is already loading');
+                    return;
+                }
+
+                if (callback)
+                    this.headCompleteCallback = callback;
+                if (context)
+                    this.headCompleteContext = context;
+
+                this.attemptCounter = 0;
+                this._xhrHeadRequest();
+            };
+
+            File.prototype._xhrHeadRequest = function () {
+                this.attemptCounter++;
+
+                this._xhr = new XMLHttpRequest();
+                this._xhr.open('HEAD', this.fileURL, false);
+                if (this.timeOutDelay !== null)
+                    this._xhr.timeout = this.timeOutDelay;
+
+                var _this = this;
+                this._xhr.onload = function () {
+                    _this.xhrHeadOnLoad(event);
+                };
+
+                this._xhr.onerror = function () {
+                    _this.xhrHeadOnError(event);
+                };
+
+                this._xhr.send();
+            };
+
+            File.prototype.xhrHeadOnError = function (event) {
+                if (this.attemptCounter < this.maxHeadLoadAttempts) {
+                    this._xhrHeadRequest();
+                } else {
+                    if (this.headCompleteCallback) {
+                        this.headCompleteCallback.call(this.headCompleteContext, false);
+                    }
+                }
+            };
+
+            File.prototype.xhrHeadOnLoad = function (event) {
+                if (this._xhr.status === 200) {
+                    this.getXHRHeaderInfo();
+
+                    if (this.headCompleteCallback) {
+                        this.headCompleteCallback.call(this.headCompleteContext, false);
+                    }
+                } else {
+                    this.xhrHeadOnError(null);
+                }
             };
 
             /**
@@ -10985,6 +11460,101 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
+
+            Object.defineProperty(File.prototype, "fileName", {
+                /**
+                * ------------------
+                * Deprecated
+                * ------------------
+                **/
+                /**
+                * The name of the file being loaded.
+                * @property fileName
+                * @type String
+                * @public
+                */
+                get: function () {
+                    return this.name;
+                },
+                set: function (val) {
+                    this.name = val;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(File.prototype, "filePath", {
+                /**
+                * The location of where the file is placed without the file itself (So without the files name).
+                * Example: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'
+                * @property filePath
+                * @type String
+                * @public
+                */
+                get: function () {
+                    return this.path;
+                },
+                set: function (val) {
+                    this.path = val;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(File.prototype, "fileExtension", {
+                /**
+                * The location of where the file is placed without the file itself (So without the files name).
+                * Example: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'
+                * @property filePath
+                * @type String
+                * @public
+                */
+                get: function () {
+                    return this.extension;
+                },
+                set: function (val) {
+                    this.extension = val;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(File.prototype, "fileURL", {
+                /**
+                * The full filepath including the file itself.
+                * @property fileURL
+                * @type String
+                * @public
+                */
+                get: function () {
+                    return this.URL;
+                },
+                set: function (val) {
+                    this.URL = val;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            /**
+            * Attempts to make the file send a XHR HEAD request to get information about the file that is going to be downloaded.
+            * This is particularly useful when you are wanting to check how large a file is before loading all of the content.
+            * @method getFileDetails
+            * @param [callback=null] {Any} The callback to send this FileInfo object to.
+            * @param [maxLoadAttempts=1] {number} The maximum amount of load attempts. Only set this if it is different from the default.
+            * @param [timeout=this.timeOutDelay] {number} The timeout delay. By default this is the same as the timeout delay property set on this file.
+            * @private
+            */
+            File.prototype.getFileDetails = function (callback, maxLoadAttempts, timeout) {
+                if (typeof callback === "undefined") { callback = null; }
+                if (typeof timeout === "undefined") { timeout = null; }
+                if (maxLoadAttempts)
+                    this.maxHeadLoadAttempts = maxLoadAttempts;
+                if (timeout)
+                    this.timeOutDelay = timeout;
+
+                this.loadDetails(callback, null);
+            };
             File.TIMEOUT_DELAY = 4000;
 
             File.MAX_LOAD_ATTEMPTS = 2;
@@ -12359,9 +12929,7 @@ var Kiwi;
 
                 for (var y = 0; y < this.rows; y++) {
                     for (var x = 0; x < this.cols; x++) {
-                        if (i >= this.numCells)
-                            continue;
-
+                        ///if (i >= this.numCells) continue;
                         cells.push({
                             x: dx,
                             y: dy,
@@ -31547,12 +32115,13 @@ var Kiwi;
     (function (Files) {
         var AudioFile = (function (_super) {
             __extends(AudioFile, _super);
-            function AudioFile(game, key, url, optionalParams) {
-                if (typeof optionalParams === "undefined") { optionalParams = {}; }
-                _super.call(this, game, key, url, optionalParams);
+            function AudioFile(game, params) {
+                if (typeof params === "undefined") { params = {}; }
+                _super.call(this, game, params);
 
                 if (this.game.audio.usingAudioTag) {
                     this.useTagLoader = true;
+                    this.loadInParallel = true;
                 } else {
                     this.useTagLoader = false;
                 }
@@ -31627,11 +32196,12 @@ var Kiwi;
     (function (Files) {
         var DataFile = (function (_super) {
             __extends(DataFile, _super);
-            function DataFile(game, key, url, optionalParams) {
-                if (typeof optionalParams === "undefined") { optionalParams = {}; }
-                _super.call(this, game, key, url, optionalParams);
+            function DataFile(game, params) {
+                if (typeof params === "undefined") { params = {}; }
+                _super.call(this, game, params);
 
                 this.useTagLoader = false;
+                this.loadInParallel = false;
                 this.responseType = 'text';
             }
             /**
@@ -31654,14 +32224,16 @@ var Kiwi;
     (function (Files) {
         var TextureFile = (function (_super) {
             __extends(TextureFile, _super);
-            function TextureFile(game, key, url, optionalParams) {
-                if (typeof optionalParams === "undefined") { optionalParams = {}; }
-                _super.call(this, game, key, url, optionalParams);
+            function TextureFile(game, params) {
+                if (typeof params === "undefined") { params = {}; }
+                _super.call(this, game, params);
 
                 if (Kiwi.DEVICE.blob) {
                     this.useTagLoader = true;
+                    this.loadInParallel = true;
                 } else {
                     this.useTagLoader = true;
+                    this.loadInParallel = true;
                 }
             }
             /**

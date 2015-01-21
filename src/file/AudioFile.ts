@@ -3,11 +3,12 @@ module Kiwi.Files {
 
     export class AudioFile extends Kiwi.Files.File {
 
-        constructor(game: Kiwi.Game, key: string, url: string, optionalParams: {}= {}) {
-            super(game, key, url, optionalParams);
+        constructor(game: Kiwi.Game, params: {}= {}) {
+            super(game, params);
 
             if (this.game.audio.usingAudioTag) {
                 this.useTagLoader = true;
+                this.loadInParallel = true;
             } else {
                 this.useTagLoader = false;
             }
@@ -74,7 +75,7 @@ module Kiwi.Files {
                 buffer: null
             };
 
-            var _this = this;
+            var _this:any = this;
             this.game.audio.context.decodeAudioData(this.data.raw, function (buffer) {
                 if (buffer) {
                     _this.data.buffer = buffer;

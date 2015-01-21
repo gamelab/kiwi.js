@@ -31,26 +31,49 @@ module Kiwi.Files {
 
         public game: Kiwi.Game;
 
-        //List of files to be loaded via tag systems
-        private _tagList: Kiwi.Files.File[];
+        //List of files that are loading at the same time
+        private _loadingParallel: Kiwi.Files.File[];
         
-        //List of files that are waiting to be loaded via xhr methods
-        private _xhrList: Kiwi.Files.File[];
+        //List of files that are waiting to be loaded one after another
+        private _loadingQueue: Kiwi.Files.File[];
 
         //List of files that are to be loaded...
-        private _fileQueue: Kiwi.Files.File[];
+        private _loadingList: Kiwi.Files.File[];
 
         public onQueueComplete: Kiwi.Signal;
 
         public onQueueProgress: Kiwi.Signal;
 
+        public get percentLoaded(): number {
+
+            if (this._loadingList.length === 0) {
+                return 100;
+            }
+
+            var i = 0;
+            var complete = 0;
+
+            while (i < this._loadingList.length ) {
+
+                if (this._loadingList[i].complete) {
+                    complete++;
+                }
+
+                i++;
+            }
+
+            console.log(this._loadingList.length, complete);
+            return (complete / this._loadingList.length) * 100;
+
+        }
+
         public boot() {
 
-            this._fileQueue = [];
+            this._loadingList = [];
 
-            this._tagList = [];
+            this._loadingParallel = [];
 
-            this._xhrList = [];
+            this._loadingQueue = [];
 
             this.onQueueComplete = new Kiwi.Signal();
 
@@ -62,8 +85,8 @@ module Kiwi.Files {
         public start() {
 
             //Any files to load?
-            if (this._fileQueue.length <= 0) {
-                console.log('No files to load in the file queue.');
+            if (this._loadingList.length <= 0) {
+                Kiwi.Log.log('Kiwi.Files.Loader: No files are to load have been found.');
                 this.onQueueComplete.dispatch();
                 return;
             }
@@ -72,28 +95,59 @@ module Kiwi.Files {
             var i = 0,
                 file: Kiwi.Files.File;
 
-            while (i < this._fileQueue.length) {
+            while (i < this._loadingList.length) {
 
-                this.addFileToList(this._fileQueue[i]);
+                this.sortFile( this._loadingList[i] );
                 i++;
             }
 
-            this.xhrStartLoading();
-            this.tagStartLoading();
+            this.startLoadingQueue();
+            this.startLoadingParallel();
 
         }
 
-        private addFileToList(file) {
+        public addFile(file: Kiwi.Files.File) {
 
-            if (file.useTagLoader) {
+            if (file.loading || file.complete) {
+                Kiwi.Log.warn('Kiwi.Files.Loader: File could not be added as it is currently loading or has already loaded.');
+                return;
+            } 
+
+            this._loadingList.push(file);
+        }
+
+        public removeFile(file: Kiwi.Files.File): boolean {
+
+            var index = this._loadingList.indexOf(file);
+
+            if (index === -1) {
+                return false;
+            } 
+
+            if (file.loading) {
+                Kiwi.Log.warn('Kiwi.Files.Loader: Cannot remove the file from the list as it is currently loading.');
+                return false;
+            }
+
+            this._loadingList.splice(index, 1);
+            return true;
+        }
+
+        public clearQueue() {
+            this._loadingList.length = 0;
+        }
+
+        private sortFile(file:Kiwi.Files.File) {
+
+            if (file.loadInParallel) {
                 //Push into the tag loader queue
                 console.log('Using Tag Loader');
-                this._tagList.push(file);
+                this._loadingParallel.push(file);
 
             } else {
                 //Push into the xhr queue
                 console.log('Using XHR Loader');
-                this._xhrList.push(file);
+                this._loadingQueue.push(file);
 
             }
 
@@ -101,64 +155,57 @@ module Kiwi.Files {
 
         private fileQueueUpdate(file) {
 
-            var index = this._fileQueue.indexOf(file);
+            //Get the number of files in the queue that have been loaded
+            var percent = this.percentLoaded;
 
-            if (index == -1) {
-                console.log('Did not find the file in the file queue');
-                return;
-            }
-
-            //File is in the file queue
-
-            //Remove the file
-            this._fileQueue.splice(index, 1);
-
-            //Any files left in the queue to load?
-            if (this._fileQueue.length <= 0) {
+            //If it is 100 percent
+            if (percent === 100) {
+                //Clear the file queue and dispatch the loaded event
+                this._loadingList.length = 0;
                 this.onQueueComplete.dispatch();
+
             } else {
-                this.onQueueProgress.dispatch();
+                this.onQueueProgress.dispatch(percent);
+
             }
 
         }
 
         //XHR Loader
 
-        private xhrStartLoading():boolean {
+        private startLoadingQueue():boolean {
 
             //Any files to load?
-            if ( this._xhrList.length <= 0 ) {
-                console.log('No files in XHR list to load');
+            if ( this._loadingQueue.length <= 0 ) {
+                Kiwi.Log.log('Kiwi.Files.Loader: No queued files to load.', '#loading');
                 return false; 
             }
 
             //Is the current one loading?
-            if ( this._xhrList[0].loading ) {
-                console.log('File is currently loading');
+            if (this._loadingQueue[0].loading ) {
+                console.log('Kiwi.Files.Loader: File is currently loading');
                 return false;
             }
 
             //Attempt to load the file!
-            this._xhrList[0].onComplete.addOnce(this.xhrFileComplete, this);
-            this._xhrList[0].load();
+            this._loadingQueue[0].onComplete.addOnce(this.queueFileComplete, this);
+            this._loadingQueue[0].load();
             return true;
         }
 
-        private xhrFileComplete(file) {
+        private queueFileComplete(file) {
 
             //Remove from the XHR queue
-            var index = this._xhrList.indexOf(file);
+            var index = this._loadingQueue.indexOf(file);
             if (index === -1) {
                 console.log('Something has gone wrong? No file has been found');
                 return;
             }
 
-            this._xhrList.splice(index, 1);
+            this._loadingQueue.splice(index, 1);
 
             //Start loading 
-            if (this.xhrStartLoading() ) {
-                //File is now loading
-            } else {
+            if ( !this.startLoadingQueue() ) {
                 //Loading has been completed
                 console.log('XHR Loading Complete');
             }
@@ -168,16 +215,16 @@ module Kiwi.Files {
 
         //Tag Loading
 
-        private tagStartLoading() {
+        private startLoadingParallel() {
 
             //Loop through all of the files
             var i = 0,
                 file: Kiwi.Files.File;
 
-            while (i < this._tagList.length) {
+            while (i < this._loadingParallel.length) {
 
-                file = this._tagList[i];
-                file.onComplete.add(this.tagFileComplete, this);
+                file = this._loadingParallel[i];
+                file.onComplete.add(this.parallelFileComplete, this);
                 file.load();
 
                 i++;
@@ -185,20 +232,19 @@ module Kiwi.Files {
             
         }
 
-        private tagFileComplete(file) {
+        private parallelFileComplete(file) {
 
-            var index = this._tagList.indexOf(file);
+            var index = this._loadingParallel.indexOf(file);
             if (index === -1) {
                 console.log('Something has gone wrong? No file has been found');
                 return;
             }
 
-            this._tagList.splice(index, 1);
+            this._loadingParallel.splice(index, 1);
             this.fileQueueUpdate(file);
         }
 
         //File Queue
-
 
         /**
         * -----------------------------
@@ -223,18 +269,25 @@ module Kiwi.Files {
         public addImage(key: string, url: string, width?: number, height?: number, offsetX?: number, offsetY?: number, storeAsGlobal: boolean = true): Kiwi.Files.File {
 
             var params: any = {
-                type: Kiwi.Files.File.IMAGE
+                type: Kiwi.Files.File.IMAGE,
+                key: key,
+                url: url,
+                metadata: {
+                    width: width,
+                    height: height,
+                    offsetX: offsetX,
+                    offsetY: offsetY
+                }
             };
             
             params.fileStore = this.game.fileStore;
+
             if (!storeAsGlobal && this.game.states.current) {
                 params.state = this.game.states.current;
             }
 
-            var file: Kiwi.Files.File = new Kiwi.Files.TextureFile(this.game, key, url, params);
-            file.metadata = { width: width, height: height, offsetX: offsetX, offsetY: offsetY };
-
-            this._fileQueue.push(file);
+            var file: Kiwi.Files.File = new Kiwi.Files.TextureFile(this.game, params);
+            this.addFile(file);
 
             return file;
         }
@@ -260,7 +313,20 @@ module Kiwi.Files {
         public addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number, storeAsGlobal: boolean = true) {
 
             var params: any = {
-                type: Kiwi.Files.File.SPRITE_SHEET
+                type: Kiwi.Files.File.SPRITE_SHEET,
+                key: key,
+                url: url,
+                metadata: {
+                    frameWidth: frameWidth,
+                    frameHeight: frameHeight,
+                    numCells: numCells,
+                    rows: rows,
+                    cols: cols,
+                    sheetOffsetX: sheetOffsetX,
+                    sheetOffsetY: sheetOffsetY,
+                    cellOffsetX: cellOffsetX,
+                    cellOffsetY: cellOffsetY
+                }
             };
 
             params.fileStore = this.game.fileStore;
@@ -268,10 +334,8 @@ module Kiwi.Files {
                 params.state = this.game.states.current;
             }
 
-            var file = new Kiwi.Files.TextureFile(this.game, key, url, params);
-            file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight, numCells: numCells, rows: rows, cols: cols, sheetOffsetX: sheetOffsetX, sheetOffsetY: sheetOffsetY, cellOffsetX: cellOffsetX, cellOffsetY: cellOffsetY };
-
-            this._fileQueue.push(file);
+            var file = new Kiwi.Files.TextureFile(this.game, params);
+            this.addFile(file);
 
             return file;
         }
@@ -290,10 +354,20 @@ module Kiwi.Files {
         public addTextureAtlas(key: string, imageURL: string, jsonID: string, jsonURL: string, storeAsGlobal: boolean = true) {
 
             var textureParams: any = {
-                type: Kiwi.Files.File.TEXTURE_ATLAS
+                type: Kiwi.Files.File.TEXTURE_ATLAS,
+                key: key,
+                url: imageURL,
+                metadata: {
+                    jsonID: jsonID
+                }
             };
             var jsonParams: any = {
-                type: Kiwi.Files.File.JSON
+                type: Kiwi.Files.File.JSON,
+                key: jsonID,
+                url: jsonURL,
+                metadata: {
+                    imageID: key
+                }
             };
 
             textureParams.fileStore = this.game.fileStore;
@@ -304,15 +378,11 @@ module Kiwi.Files {
                 jsonParams.state = this.game.states.current;
             }
 
-            var imageFile = new Kiwi.Files.TextureFile(this.game, key, imageURL, textureParams);
-            var jsonFile = new Kiwi.Files.DataFile(this.game, jsonID, jsonURL, jsonParams);
+            var imageFile = new Kiwi.Files.TextureFile(this.game, textureParams);
+            var jsonFile = new Kiwi.Files.DataFile(this.game, jsonParams);
 
-
-            imageFile.metadata = { jsonID: jsonID };
-            jsonFile.metadata = { imageID: key };
-
-
-            this._fileQueue.push(imageFile, jsonFile);
+            this.addFile(imageFile);
+            this.addFile(jsonFile);
 
             return imageFile;
         }
@@ -370,7 +440,9 @@ module Kiwi.Files {
         private attemptToAddAudio(key: string, url: any, storeAsGlobal: boolean, onlyIfSupported: boolean): Kiwi.Files.File {
 
             var params: any = {
-                type: Kiwi.Files.File.AUDIO
+                type: Kiwi.Files.File.AUDIO,
+                key: key,
+                url: url
             };
 
             params.fileStore = this.game.fileStore;
@@ -378,7 +450,7 @@ module Kiwi.Files {
                 params.state = this.game.states.current;
             }
 
-            var file = new Kiwi.Files.AudioFile(this.game, key, url, params);
+            var file = new Kiwi.Files.AudioFile(this.game, params);
             var support = false;
 
             switch (file.extension) {
@@ -402,7 +474,7 @@ module Kiwi.Files {
             }
 
             if (support == true || onlyIfSupported == false) {
-                this._fileQueue.push(file);
+                this.addFile(file);
                 return file;
             } else {
                 Kiwi.Log.error('Kiwi.Loader: Audio Format not supported on this Device/Browser.', '#audio', '#unsupported');
@@ -423,7 +495,9 @@ module Kiwi.Files {
         public addJSON(key: string, url: string, storeAsGlobal: boolean = true) {
 
             var params: any = {
-                type: Kiwi.Files.File.JSON
+                type: Kiwi.Files.File.JSON,
+                key: key, 
+                url: url
             };
 
             params.fileStore = this.game.fileStore;
@@ -431,8 +505,8 @@ module Kiwi.Files {
                 params.state = this.game.states.current;
             }
 
-            var file = new Kiwi.Files.DataFile(this.game, key, url, params);
-            this._fileQueue.push(file);
+            var file = new Kiwi.Files.DataFile(this.game, params);
+            this.addFile(file);
             return file;
 
         }
@@ -474,6 +548,97 @@ module Kiwi.Files {
         */
         public addTextFile(key: string, url: string, storeAsGlobal: boolean = true) {
 
+        }
+
+        
+        /**
+        * -----------------------
+        * Deprecated - Functionality exists. Maps to its equalvent
+        * -----------------------
+        **/        
+        
+
+        /**
+        * Initialise the properities that are needed on this loader.
+        * @method init
+        * @param [progress=null] {Any} Progress callback method.
+        * @param [complete=null] {Any} Complete callback method.
+        * @param [calculateBytes=false] {boolean} 
+        * @public
+        */
+        public init(progress: any = null, complete: any = null, calculateBytes: boolean=null) {
+
+            if (calculateBytes !== null) {
+                Kiwi.Log.error('Calculating the number of bytes file have to load is currently not supported.');
+            } 
+
+            if (progress !== null) {
+                this.onQueueProgress.addOnce( progress );
+            }
+
+            if (complete !== null) {
+                this.onQueueComplete.addOnce( complete );
+            }
+
+        } 
+        /**
+        * Loops through all of the files that need to be loaded and start the load event on them. 
+        * @method startLoad
+        * @public
+        */
+        public startLoad() {
+            this.start();
+        }
+             
+        /**
+        * Returns a percentage of the amount that has been loaded so far.
+        * @method getPercentLoaded
+        * @return {Number}
+        * @public
+        */
+        public getPercentLoaded(): number {
+            return this.percentLoaded;
+        }
+
+
+        /**
+        * Returns a boolean indicating if everything in the loading que has been loaded or not.
+        * @method complete
+        * @return {boolean}
+        * @public
+        */
+        public complete(): boolean {
+            return ( this.percentLoaded === 100 );
+        }
+
+
+        /**
+        * -----------------------
+        * Deprecated - Functionality no longer exists
+        * -----------------------
+        **/
+
+        /**
+        * Returns a percentage of the amount that has been loaded so far.
+        * @method getPercentLoaded
+        * @return {Number}
+        * @public
+        */
+        public getBytesLoaded(): number {
+            return 0;
+        }
+        
+
+        /**
+        * If true (and xhr/blob is available) the loader will get the bytes total of each file in the queue to give a much more accurate progress report during load
+          If false the loader will use the file number as the progress value, i.e. if there are 4 files in the queue progress will get called 4 times (25, 50, 75, 100)
+        * @method calculateBytes
+        * @param [value] {boolean}
+        * @return {boolean}
+        * @public
+        */
+        public calculateBytes(value?: boolean): boolean {
+            return false;
         }
 
     }

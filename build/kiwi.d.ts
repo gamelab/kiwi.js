@@ -6446,19 +6446,23 @@ declare module Kiwi.Files {
         constructor(game: Game);
         public objType(): string;
         public game: Game;
-        private _tagList;
-        private _xhrList;
-        private _fileQueue;
+        private _loadingParallel;
+        private _loadingQueue;
+        private _loadingList;
         public onQueueComplete: Signal;
         public onQueueProgress: Signal;
+        public percentLoaded : number;
         public boot(): void;
         public start(): void;
-        private addFileToList(file);
+        public addFile(file: File): void;
+        public removeFile(file: File): boolean;
+        public clearQueue(): void;
+        private sortFile(file);
         private fileQueueUpdate(file);
-        private xhrStartLoading();
-        private xhrFileComplete(file);
-        private tagStartLoading();
-        private tagFileComplete(file);
+        private startLoadingQueue();
+        private queueFileComplete(file);
+        private startLoadingParallel();
+        private parallelFileComplete(file);
         /**
         * -----------------------------
         * File Addition Methods
@@ -6576,6 +6580,60 @@ declare module Kiwi.Files {
         * @public
         */
         public addTextFile(key: string, url: string, storeAsGlobal?: boolean): void;
+        /**
+        * -----------------------
+        * Deprecated - Functionality exists. Maps to its equalvent
+        * -----------------------
+        **/ /**
+        * Initialise the properities that are needed on this loader.
+        * @method init
+        * @param [progress=null] {Any} Progress callback method.
+        * @param [complete=null] {Any} Complete callback method.
+        * @param [calculateBytes=false] {boolean}
+        * @public
+        */
+        public init(progress?: any, complete?: any, calculateBytes?: boolean): void;
+        /**
+        * Loops through all of the files that need to be loaded and start the load event on them.
+        * @method startLoad
+        * @public
+        */
+        public startLoad(): void;
+        /**
+        * Returns a percentage of the amount that has been loaded so far.
+        * @method getPercentLoaded
+        * @return {Number}
+        * @public
+        */
+        public getPercentLoaded(): number;
+        /**
+        * Returns a boolean indicating if everything in the loading que has been loaded or not.
+        * @method complete
+        * @return {boolean}
+        * @public
+        */
+        public complete(): boolean;
+        /**
+        * -----------------------
+        * Deprecated - Functionality no longer exists
+        * -----------------------
+        **/
+        /**
+        * Returns a percentage of the amount that has been loaded so far.
+        * @method getPercentLoaded
+        * @return {Number}
+        * @public
+        */
+        public getBytesLoaded(): number;
+        /**
+        * If true (and xhr/blob is available) the loader will get the bytes total of each file in the queue to give a much more accurate progress report during load
+        If false the loader will use the file number as the progress value, i.e. if there are 4 files in the queue progress will get called 4 times (25, 50, 75, 100)
+        * @method calculateBytes
+        * @param [value] {boolean}
+        * @return {boolean}
+        * @public
+        */
+        public calculateBytes(value?: boolean): boolean;
     }
 }
 /**
@@ -6660,7 +6718,9 @@ declare module Kiwi.Files {
     *
     */
     class File {
-        constructor(game: Game, key: string, url: string, params?: any);
+        constructor(game: Game, params: any);
+        private parseParamsOld(dataType, url, name?, saveToFileStore?, storeAsGlobal?);
+        private parseParams(params);
         /**
         *
         * @method assignFileDetails
@@ -6687,6 +6747,7 @@ declare module Kiwi.Files {
         * Generic Properties
         * ---------------
         **/
+        public loadInParallel: boolean;
         public fileStore: FileStore;
         public useTagLoader: boolean;
         public key: string;
@@ -6708,6 +6769,7 @@ declare module Kiwi.Files {
         */
         public onComplete: Signal;
         public onProgress: Signal;
+        public onHeadLoad: Signal;
         /**
         * ---------------
         * Loading
@@ -6724,13 +6786,20 @@ declare module Kiwi.Files {
         * @method load
         * @public
         */
-        public load(): void;
+        public load(onCompleteCallback?: any, onProgressCallback?: any, customFileStore?: FileStore, maxLoadAttempts?: number, timeout?: number): void;
+        private _load();
+        /**
+        *
+        * @method loadProgress
+        * @private
+        */
+        private loadProgress();
         /**
         *
         * @method loadSuccess
-        * @public
+        * @private
         */ 
-        public loadSuccess(): void;
+        private loadSuccess();
         /**
         *
         * @method loadError
@@ -6752,6 +6821,7 @@ declare module Kiwi.Files {
         **/
         private xhrLoader();
         private xhrOnError(event);
+        private xhrOnProgress(event);
         private xhrOnLoad(event);
         public processXHR(response: any): void;
         /**
@@ -6761,6 +6831,13 @@ declare module Kiwi.Files {
         * @private
         */
         private _xhr;
+        /**
+        *
+        * @property responseType
+        * @type String
+        * @default 'text'
+        * @public
+        */
         public responseType: string;
         /**
         * -----------------
@@ -6833,6 +6910,13 @@ declare module Kiwi.Files {
         * @public
         */
         public loading: boolean;
+        /**
+        * Indicates if the file attempted to load before or not.
+        * @property complete
+        * @type boolean
+        * @default false
+        * @public
+        */
         public complete: boolean;
         /**
         * The amount of percent loaded the file is. This is out of 100.
@@ -6841,6 +6925,45 @@ declare module Kiwi.Files {
         * @public
         */
         public percentLoaded: number;
+        /**
+        * The number of bytes that have currently been loaded.
+        * This can used to create progress bars but only has a value when using the XHR method of loading.
+        * @property bytesLoaded
+        * @type Number
+        * @default 0
+        * @public
+        */
+        public bytesLoaded: number;
+        /**
+        * The total number of bytes that the file consists off.
+        * Only has a value when using the XHR method of loading.
+        * @property bytesTotal
+        * @type Number
+        * @default 0
+        * @public
+        */
+        public bytesTotal: number;
+        /**
+        * --------------------
+        * XHR Header Information
+        * --------------------
+        **/
+        /**
+        * The maximum number of load attempts when requesting the file details that will be preformed.
+        * @property maxHeadLoadAttempts
+        * @type number
+        * @default 1
+        * @public
+        */
+        public maxHeadLoadAttempts: number;
+        public headCompleteCallback: any;
+        public headCompleteContext: any;
+        public detailsReceived: boolean;
+        private getXHRHeaderInfo();
+        public loadDetails(callback?: any, context?: any): void;
+        private _xhrHeadRequest();
+        private xhrHeadOnError(event);
+        private xhrHeadOnLoad(event);
         /**
         * --------------------
         * Tagging + State
@@ -6883,6 +7006,11 @@ declare module Kiwi.Files {
         * @public
         */
         public hasTag(tag: string): boolean;
+        /**
+        * -------------------
+        * File Type
+        * -------------------
+        **/
         /**
         * A STATIC property that has the number associated with the IMAGE Datatype.
         * @property IMAGE
@@ -6994,6 +7122,157 @@ declare module Kiwi.Files {
         * @public
         */
         public isData : boolean;
+        /**
+        * ------------------
+        * Deprecated
+        * ------------------
+        **/
+        /**
+        * The name of the file being loaded.
+        * @property fileName
+        * @type String
+        * @public
+        */
+        public fileName : string;
+        /**
+        * The location of where the file is placed without the file itself (So without the files name).
+        * Example: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'
+        * @property filePath
+        * @type String
+        * @public
+        */
+        public filePath : string;
+        /**
+        * The location of where the file is placed without the file itself (So without the files name).
+        * Example: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'
+        * @property filePath
+        * @type String
+        * @public
+        */
+        public fileExtension : string;
+        /**
+        * The full filepath including the file itself.
+        * @property fileURL
+        * @type String
+        * @public
+        */
+        public fileURL : string;
+        /**
+        * The type of file that is being loaded.
+        * Is only ever given a value when used with the XHR method of loading OR if you use 'getFileDetails' before hand.
+        * The value is based off of the 'Content-Type' of the XHR's response header returns.
+        * @property fileType
+        * @type String
+        * @public
+        */
+        public fileType: string;
+        /**
+        * The size of the file that was/is being loaded.
+        * Only has a value when the file was loaded by the XHR method OR you request the file information before hand using 'getFileDetails'.
+        * @property fileSize
+        * @type Number
+        * @default 0
+        * @public
+        */
+        public fileSize: number;
+        /**
+        * The Entity Tag that is assigned to the file. O
+        * Only has a value when either using the XHR loader OR when requesting the file details.
+        * @property ETag
+        * @type String
+        * @public
+        */
+        public ETag: string;
+        /**
+        * The last date/time that this file was last modified.
+        * Only has a value when using the XHR method of loading OR when requesting the file details.
+        * @property lastModified
+        * @type String
+        * @default ''
+        * @public
+        */
+        public lastModified: string;
+        /**
+        * A method that is to be executed when this file has finished loading.
+        * @property onCompleteCallback
+        * @type Any
+        * @default null
+        * @public
+        */
+        public onCompleteCallback: any;
+        /**
+        * A method that is to be executed while this file is loading.
+        * @property onProgressCallback
+        * @type Any
+        * @default null
+        * @public
+        */
+        public onProgressCallback: any;
+        /**
+        * The time at which progress in loading the file was last occurred.
+        * @property lastProgress
+        * @type Number
+        * @public
+        */
+        public lastProgress: number;
+        /**
+        * The status of this file that is being loaded.
+        * Only used/has a value when the file was/is being loaded by the XHR method.
+        * @property status
+        * @type Number
+        * @default 0
+        * @public
+        */
+        public status: number;
+        /**
+        * The status piece of text that the XHR returns.
+        * @property statusText
+        * @type String
+        * @default ''
+        * @public
+        */
+        public statusText: string;
+        /**
+        * The ready state of the XHR loader whilst loading.
+        * @property readyState
+        * @type Number
+        * @default 0
+        * @public
+        */
+        public readyState: number;
+        /**
+        * If this file has timeout when it was loading.
+        * @property hasTimedOut
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public hasTimedOut: boolean;
+        /**
+        * If the file timed out or not.
+        * @property timedOut
+        * @type Number
+        * @default 0
+        * @public
+        */
+        public timedOut: number;
+        /**
+        * The response that is given by the XHR loader when loading is complete.
+        * @property buffer
+        * @type Any
+        * @public
+        */
+        public buffer: any;
+        /**
+        * Attempts to make the file send a XHR HEAD request to get information about the file that is going to be downloaded.
+        * This is particularly useful when you are wanting to check how large a file is before loading all of the content.
+        * @method getFileDetails
+        * @param [callback=null] {Any} The callback to send this FileInfo object to.
+        * @param [maxLoadAttempts=1] {number} The maximum amount of load attempts. Only set this if it is different from the default.
+        * @param [timeout=this.timeOutDelay] {number} The timeout delay. By default this is the same as the timeout delay property set on this file.
+        * @private
+        */
+        public getFileDetails(callback?: any, maxLoadAttempts?: number, timeout?: number): void;
     }
 }
 /**
@@ -21155,7 +21434,7 @@ declare module Kiwi {
 }
 declare module Kiwi.Files {
     class AudioFile extends File {
-        constructor(game: Game, key: string, url: string, optionalParams?: {});
+        constructor(game: Game, params?: {});
         /**
         * Returns the type of this object
         * @method objType
@@ -21169,7 +21448,7 @@ declare module Kiwi.Files {
 }
 declare module Kiwi.Files {
     class DataFile extends File {
-        constructor(game: Game, key: string, url: string, optionalParams?: {});
+        constructor(game: Game, params?: {});
         /**
         * Returns the type of this object
         * @method objType
@@ -21181,7 +21460,7 @@ declare module Kiwi.Files {
 }
 declare module Kiwi.Files {
     class TextureFile extends File {
-        constructor(game: Game, key: string, url: string, optionalParams?: {});
+        constructor(game: Game, params?: {});
         /**
         * Returns the type of this object
         * @method objType

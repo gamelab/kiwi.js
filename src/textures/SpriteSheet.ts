@@ -166,7 +166,7 @@ module Kiwi.Textures  {
             for (var y = 0; y < this.rows; y++) {
                 for (var x = 0; x < this.cols; x++) {
 
-                    if (i >= this.numCells) continue;
+                    ///if (i >= this.numCells) continue;
 
                     cells.push({
                         x: dx,

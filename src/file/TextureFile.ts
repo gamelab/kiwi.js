@@ -3,13 +3,15 @@ module Kiwi.Files {
 
     export class TextureFile extends Kiwi.Files.File {
 
-        constructor(game: Kiwi.Game, key: string, url: string, optionalParams: {}= {}) {
-            super(game, key, url, optionalParams);
+        constructor(game: Kiwi.Game, params: {}= {}) {
+            super(game, params);
 
             if (Kiwi.DEVICE.blob) {
                 this.useTagLoader = true;
+                this.loadInParallel = true;
             } else {
                 this.useTagLoader = true;
+                this.loadInParallel = true;
             }
 
         }
@@ -73,7 +75,7 @@ module Kiwi.Files {
                 this.data.src = window['webkitURL'].createObjectURL(blob);
             }
 
-            this.loadSuccess();
+            (<any>this).loadSuccess();
 
         }
 
