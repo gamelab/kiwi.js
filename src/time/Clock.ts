@@ -549,6 +549,90 @@ module Kiwi.Time {
 
         }
 
+
+        /**
+        * Set a function to execute after a certain time interval.
+        * Emulates window.setTimeout, except attached to a Kiwi.Time.Clock.
+        * This allows you to pause and manipulate time, and the timeout will respect
+        * the clock on which it is created.
+        *<br><br>
+        * No clearTimeout is provided; you should use Kiwi.Time.Timer functions
+        * to achieve further control.
+        *<br><br>
+        * Any parameters after "context" will be passed as parameters to the
+        * callback function. Note that you must specify "context" in order for
+        * this to work. You may specify "null", in which case it will default
+        * to the global scope "window".
+        *
+        * @method setTimeout
+        * @param callback {function} Function to execute
+        * @param timeout {number} Milliseconds before execution
+        * @param [context] {object} Object to be "this" for the callback
+        * @return {Kiwi.Time.Timer} Kiwi.Time.Timer object which can be used to further
+        *   manipulate the timer
+        * @public
+        */
+        public setTimeout( callback, timeout: number, context, ...args ): Timer {
+            var clock = this,
+                timer = this.createTimer( "timeoutTimer", timeout / 1000 );
+
+            if ( !context ) {
+                context = this;
+            }
+
+            timer.createTimerEvent( TimerEvent.TIMER_STOP,
+                function() {
+                    callback.apply( context, args );
+                    clock.removeTimer( timer );
+                },
+                context );
+
+            timer.start();
+
+            return timer;
+        }
+
+
+        /**
+        * Set a function to repeatedly execute at fixed time intervals.
+        * Emulates window.setInterval, except attached to a Kiwi.Time.Clock.
+        * This allows you to pause and manipulate time, and the timeout will respect
+        * the clock on which it is created.
+        *<br><br>
+        * No clearInterval is provided; you should use Kiwi.Time.Timer functions
+        * to achieve further control.
+        *<br><br>
+        * Any parameters after "context" will be passed as parameters to the
+        * callback function. Note that you must specify "context" in order for
+        * this to work. You may specify "null", in which case it will default
+        * to the global scope "window".
+        *
+        * @method setInterval
+        * @param callback {function} Function to execute
+        * @param timeout {number} Milliseconds between executions
+        * @param [context=window] {object} Object to be "this" for the callback
+        * @return {Kiwi.Time.Timer} Kiwi.Time.Timer object
+        *   which can be used to further manipulate the timer
+        * @public
+        */
+        public setInterval( callback, timeout: number, context, ...args ): Timer {
+            var timer = this.createTimer( "timeoutTimer", timeout / 1000, -1 );
+
+            if ( !context ) {
+                context = this;
+            }
+
+            timer.createTimerEvent( TimerEvent.TIMER_COUNT,
+                function() {
+                    callback.apply( context, args );
+                },
+                context );
+
+            timer.start();
+
+            return timer;
+        }
+
     }
 
 }

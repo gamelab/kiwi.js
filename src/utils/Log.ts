@@ -223,9 +223,11 @@ module Kiwi.Utils {
             var i = 0,
                 tags = [];
 
-            while (i < array.length) {
-                if (array[i].charAt(0) === '#') {
-                    tags.push(array[i]);
+            while ( i < array.length ) {
+                if ( typeof array[ i ] === "string" ) {
+                    if ( array[ i ].charAt( 0 ) === "#" ) {
+                        tags.push( array[ i ] );
+                    }
                 }
                 i++;
             }
