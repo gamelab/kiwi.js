@@ -18,9 +18,9 @@ module Kiwi.Animations {
     * @constructor
     * @param name {string} The name of this anim.
     * @param sequences {Kiwi.Animations.Sequences} The sequence that this anim will be using to animate.
-    * @param clock {Kiwi.Time.Clock} A game clock that this anim will be using to keep record of the time between frames.
+    * @param clock {Kiwi.Time.Clock} A game clock that this anim will be using to keep record of the time between frames. (Deprecated in v1.2.0, because there is no way to control it.)
     * @param parent {Kiwi.Components.AnimationManager} The animation manager that this animation belongs to.
-    * @return {Kiwi.Animations.Anim} 
+    * @return {Kiwi.Animations.Animation} 
     * 
     */
     export class Animation {
@@ -31,10 +31,11 @@ module Kiwi.Animations {
             this._sequence = sequence;
             this._speed = sequence.speed;
             this._loop = sequence.loop;
-            this._clock = clock;
             this._parent = parent;
 
-            this._lastFrameElapsed = this._clock.elapsed();
+            this._clock = clock;
+
+            this._lastFrameElapsed = this.clock.elapsed();
         }
 
         /**
@@ -155,6 +156,21 @@ module Kiwi.Animations {
         * @private
         */
         private _clock: Kiwi.Time.Clock;
+
+        /**
+        * Clock used by this Animation. If it was not set on creation,
+        * the Animation will use its parent's entity's clock.
+        * @property clock
+        * @type Kiwi.Time.Clock
+        * @public
+        * @since 1.2.0
+        */
+        public get clock(): Kiwi.Time.Clock {
+            if ( this._clock ) {
+                return this._clock;
+            }
+            return this._parent.entity.clock;
+        }
 
         /**
         * The starting time of the animation from when it was played. Internal use only.
@@ -285,7 +301,7 @@ module Kiwi.Animations {
             }
 
             this._isPlaying = true;
-            this._startTime = this._clock.elapsed();
+            this._startTime = this.clock.elapsed();
             this._tick = this._startTime + this._speed;
             if(this._onPlay !== null) this._onPlay.dispatch();
         }
@@ -376,7 +392,7 @@ module Kiwi.Animations {
             if ( this._isPlaying ) {
 
                 // How many frames do we move, ahead or behind?
-                frameDelta = ( this._clock.elapsed() -
+                frameDelta = ( this.clock.elapsed() -
                     this._lastFrameElapsed ) / this._speed;
                 if ( this._reverse ) {
                     frameDelta *= -1;
@@ -391,7 +407,7 @@ module Kiwi.Animations {
 
                 if ( frameDelta !== 0 ) {
                     this._frameIndex += frameDelta;
-                    this._lastFrameElapsed = this._clock.elapsed();
+                    this._lastFrameElapsed = this.clock.elapsed();
 
                     // Loop check
                     if ( this._loop ) {
@@ -468,6 +484,5 @@ module Kiwi.Animations {
             delete this._reverse;
             delete this._tick;
         }
-        
     }
 }

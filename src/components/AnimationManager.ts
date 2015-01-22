@@ -105,9 +105,9 @@ module Kiwi.Components {
         * The entity that this animation belongs to and thus is effecting.
         * @property entity
         * @type Kiwi.Entity
-        * @private
+        * @public
         */
-        private entity: Kiwi.Entity;
+        public entity: Kiwi.Entity;
 
         /**
         * The texture atlas that this animation is taking effect on.
@@ -191,7 +191,7 @@ module Kiwi.Components {
         * @public
         */
         public createFromSequence(sequence: Kiwi.Animations.Sequence, play: boolean= false): Kiwi.Animations.Animation {
-            this._animations[sequence.name] = new Kiwi.Animations.Animation(sequence.name, sequence, this.entity.clock, this);
+            this._animations[sequence.name] = new Kiwi.Animations.Animation(sequence.name, sequence, null, this);
 
             if (play) this.play(sequence.name);
             

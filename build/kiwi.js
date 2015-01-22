@@ -111,7 +111,7 @@ var Kiwi;
             /**
             * Holds a reference to the clocks that are being used and has a MASTER clock that is being used for the game.
             * @property time
-            * @type Kiwi.Time.ClockManage
+            * @type Kiwi.Time.ClockManager
             * @public
             */
             this.time = null;
@@ -7593,7 +7593,7 @@ var Kiwi;
             */
             AnimationManager.prototype.createFromSequence = function (sequence, play) {
                 if (typeof play === "undefined") { play = false; }
-                this._animations[sequence.name] = new Kiwi.Animations.Animation(sequence.name, sequence, this.entity.clock, this);
+                this._animations[sequence.name] = new Kiwi.Animations.Animation(sequence.name, sequence, null, this);
 
                 if (play)
                     this.play(sequence.name);
@@ -17068,9 +17068,9 @@ var Kiwi;
         * @constructor
         * @param name {string} The name of this anim.
         * @param sequences {Kiwi.Animations.Sequences} The sequence that this anim will be using to animate.
-        * @param clock {Kiwi.Time.Clock} A game clock that this anim will be using to keep record of the time between frames.
+        * @param clock {Kiwi.Time.Clock} A game clock that this anim will be using to keep record of the time between frames. (Deprecated in v1.2.0, because there is no way to control it.)
         * @param parent {Kiwi.Components.AnimationManager} The animation manager that this animation belongs to.
-        * @return {Kiwi.Animations.Anim}
+        * @return {Kiwi.Animations.Animation}
         *
         */
         var Animation = (function () {
@@ -17137,10 +17137,11 @@ var Kiwi;
                 this._sequence = sequence;
                 this._speed = sequence.speed;
                 this._loop = sequence.loop;
-                this._clock = clock;
                 this._parent = parent;
 
-                this._lastFrameElapsed = this._clock.elapsed();
+                this._clock = clock;
+
+                this._lastFrameElapsed = this.clock.elapsed();
             }
             /**
             * The type of object that this is.
@@ -17215,6 +17216,25 @@ var Kiwi;
                 },
                 set: function (value) {
                     this._speed = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Animation.prototype, "clock", {
+                /**
+                * Clock used by this Animation. If it was not set on creation,
+                * the Animation will use its parent's entity's clock.
+                * @property clock
+                * @type Kiwi.Time.Clock
+                * @public
+                * @since 1.2.0
+                */
+                get: function () {
+                    if (this._clock) {
+                        return this._clock;
+                    }
+                    return this._parent.entity.clock;
                 },
                 enumerable: true,
                 configurable: true
@@ -17304,7 +17324,7 @@ var Kiwi;
                 }
 
                 this._isPlaying = true;
-                this._startTime = this._clock.elapsed();
+                this._startTime = this.clock.elapsed();
                 this._tick = this._startTime + this._speed;
                 if (this._onPlay !== null)
                     this._onPlay.dispatch();
@@ -17399,7 +17419,7 @@ var Kiwi;
 
                 if (this._isPlaying) {
                     // How many frames do we move, ahead or behind?
-                    frameDelta = (this._clock.elapsed() - this._lastFrameElapsed) / this._speed;
+                    frameDelta = (this.clock.elapsed() - this._lastFrameElapsed) / this._speed;
                     if (this._reverse) {
                         frameDelta *= -1;
                     }
@@ -17413,7 +17433,7 @@ var Kiwi;
 
                     if (frameDelta !== 0) {
                         this._frameIndex += frameDelta;
-                        this._lastFrameElapsed = this._clock.elapsed();
+                        this._lastFrameElapsed = this.clock.elapsed();
 
                         // Loop check
                         if (this._loop) {
@@ -26673,7 +26693,7 @@ var Kiwi;
         (function (HUDComponents) {
             /**
             * A Component to manage and display a Time in a particular format.
-            * The Time Component creates a new clock on the Time Manager and it use's that clock to keep track of the time.
+            * The Time Component creates a new clock on the Time Manager and it uses that clock to keep track of the time.
             * When you create a new Time Component you can specify a format that you want the time to display in, which is a string based on keywords.
             * Current supported keywords for the format are:
             *  's' = 'seconds'
@@ -28137,6 +28157,17 @@ var Kiwi;
                 */
                 this.rate = 1;
                 /**
+                * Maximum frame duration. If a frame takes longer than this to render,
+                * the clock will only advance this far, in effect slowing down time.
+                * If this value is 0 or less, it will not be checked and frames can
+                * take any amount of time to render.
+                * @property _maxFrameDuration
+                * @type number
+                * @default -1
+                * @private
+                */
+                this._maxFrameDuration = -1;
+                /**
                 * The time the clock was most recently stopped relative to the master clock.
                 * @property _timeLastStopped
                 * @type Number
@@ -28274,6 +28305,28 @@ var Kiwi;
             Clock.prototype.started = function () {
                 return this._timeLastStarted;
             };
+
+            Object.defineProperty(Clock.prototype, "maxFrameDuration", {
+                /**
+                * Maximum frame duration. If a frame takes longer than this to render,
+                * the clock will only advance this far, in effect slowing down time.
+                * If this value is 0 or less, it will not be checked and frames can
+                * take any amount of time to render.
+                * @property maxFrameDuration
+                * @type number
+                * @default -1
+                * @public
+                */
+                get: function () {
+                    return this._maxFrameDuration;
+                },
+                set: function (value) {
+                    this._maxFrameDuration = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
 
             /**
             * The number of clock units elapsed since the clock was most recently started (not including time spent paused)
@@ -28459,6 +28512,10 @@ var Kiwi;
             */
             Clock.prototype.update = function () {
                 var frameLength = this._currentMasterElapsed - this._lastMasterElapsed;
+
+                if (this._maxFrameDuration > 0) {
+                    frameLength = Math.min(frameLength, this._maxFrameDuration);
+                }
 
                 for (var i = 0; i < this.timers.length; i++) {
                     this.timers[i].update();

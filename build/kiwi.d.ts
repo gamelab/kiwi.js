@@ -184,7 +184,7 @@ declare module Kiwi {
         /**
         * Holds a reference to the clocks that are being used and has a MASTER clock that is being used for the game.
         * @property time
-        * @type Kiwi.Time.ClockManage
+        * @type Kiwi.Time.ClockManager
         * @public
         */
         public time: Time.ClockManager;
@@ -4864,9 +4864,9 @@ declare module Kiwi.Components {
         * The entity that this animation belongs to and thus is effecting.
         * @property entity
         * @type Kiwi.Entity
-        * @private
+        * @public
         */
-        private entity;
+        public entity: Entity;
         /**
         * The texture atlas that this animation is taking effect on.
         * The value of this should be the same as the Entity.
@@ -10958,9 +10958,9 @@ declare module Kiwi.Animations {
     * @constructor
     * @param name {string} The name of this anim.
     * @param sequences {Kiwi.Animations.Sequences} The sequence that this anim will be using to animate.
-    * @param clock {Kiwi.Time.Clock} A game clock that this anim will be using to keep record of the time between frames.
+    * @param clock {Kiwi.Time.Clock} A game clock that this anim will be using to keep record of the time between frames. (Deprecated in v1.2.0, because there is no way to control it.)
     * @param parent {Kiwi.Components.AnimationManager} The animation manager that this animation belongs to.
-    * @return {Kiwi.Animations.Anim}
+    * @return {Kiwi.Animations.Animation}
     *
     */
     class Animation {
@@ -11051,6 +11051,15 @@ declare module Kiwi.Animations {
         * @private
         */
         private _clock;
+        /**
+        * Clock used by this Animation. If it was not set on creation,
+        * the Animation will use its parent's entity's clock.
+        * @property clock
+        * @type Kiwi.Time.Clock
+        * @public
+        * @since 1.2.0
+        */
+        public clock : Time.Clock;
         /**
         * The starting time of the animation from when it was played. Internal use only.
         * @property _startTime
@@ -17872,7 +17881,7 @@ declare module Kiwi.HUD.HUDComponents {
 declare module Kiwi.HUD.HUDComponents {
     /**
     * A Component to manage and display a Time in a particular format.
-    * The Time Component creates a new clock on the Time Manager and it use's that clock to keep track of the time.
+    * The Time Component creates a new clock on the Time Manager and it uses that clock to keep track of the time.
     * When you create a new Time Component you can specify a format that you want the time to display in, which is a string based on keywords.
     * Current supported keywords for the format are:
     *  's' = 'seconds'
@@ -18828,6 +18837,28 @@ declare module Kiwi.Time {
         * @since 1.2.0
         */
         public rate: number;
+        /**
+        * Maximum frame duration. If a frame takes longer than this to render,
+        * the clock will only advance this far, in effect slowing down time.
+        * If this value is 0 or less, it will not be checked and frames can
+        * take any amount of time to render.
+        * @property _maxFrameDuration
+        * @type number
+        * @default -1
+        * @private
+        */
+        private _maxFrameDuration;
+        /**
+        * Maximum frame duration. If a frame takes longer than this to render,
+        * the clock will only advance this far, in effect slowing down time.
+        * If this value is 0 or less, it will not be checked and frames can
+        * take any amount of time to render.
+        * @property maxFrameDuration
+        * @type number
+        * @default -1
+        * @public
+        */
+        public maxFrameDuration : number;
         /**
         * The number of clock units elapsed since the clock was most recently started (not including time spent paused)
         * @method elapsed

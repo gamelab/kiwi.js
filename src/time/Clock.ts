@@ -157,6 +157,36 @@ module Kiwi.Time {
         */
         public rate: number = 1;
 
+        /**
+        * Maximum frame duration. If a frame takes longer than this to render,
+        * the clock will only advance this far, in effect slowing down time.
+        * If this value is 0 or less, it will not be checked and frames can
+        * take any amount of time to render.
+        * @property _maxFrameDuration
+        * @type number
+        * @default -1
+        * @private
+        */
+        private _maxFrameDuration: number = -1;
+
+        /**
+        * Maximum frame duration. If a frame takes longer than this to render,
+        * the clock will only advance this far, in effect slowing down time.
+        * If this value is 0 or less, it will not be checked and frames can
+        * take any amount of time to render.
+        * @property maxFrameDuration
+        * @type number
+        * @default -1
+        * @public
+        */
+        public get maxFrameDuration(): number {
+            return this._maxFrameDuration;
+        }
+
+        public set maxFrameDuration( value: number ) {
+            this._maxFrameDuration = value;
+        }
+
 
         /**
         * The number of clock units elapsed since the clock was most recently started (not including time spent paused)
@@ -470,6 +500,10 @@ module Kiwi.Time {
         */
         public update() {
             var frameLength = this._currentMasterElapsed - this._lastMasterElapsed;
+
+            if ( this._maxFrameDuration > 0 ) {
+                frameLength = Math.min( frameLength, this._maxFrameDuration );
+            }
 
             for (var i = 0; i < this.timers.length; i++) {
                 this.timers[i].update();
