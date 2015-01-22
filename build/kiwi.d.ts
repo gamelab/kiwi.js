@@ -5257,6 +5257,7 @@ declare module Kiwi.Components {
         private _transformedCenter;
         /**
         * Returns the center point for the box after it has been transformed.
+        * World coordinates.
         * This is READ ONLY.
         * @property center
         * @type Kiwi.Geom.Point

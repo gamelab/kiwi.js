@@ -8105,16 +8105,16 @@ var Kiwi;
             Object.defineProperty(Box.prototype, "center", {
                 /**
                 * Returns the center point for the box after it has been transformed.
+                * World coordinates.
                 * This is READ ONLY.
                 * @property center
                 * @type Kiwi.Geom.Point
                 * @public
                 */
                 get: function () {
-                    var t = this.entity.transform;
-                    var m = t.getConcatenatedMatrix();
-                    m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
-                    this._transformedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - t.rotPointX, this.entity.height / 2 - t.rotPointY));
+                    var m = this.entity.transform.getConcatenatedMatrix();
+
+                    this._transformedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - this.entity.anchorPointX, this.entity.height / 2 - this.entity.anchorPointY));
 
                     return this._transformedCenter;
                 },

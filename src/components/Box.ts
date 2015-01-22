@@ -281,7 +281,6 @@ module Kiwi.Components {
 
             return this._rawCenter;
         }
-    
 
 
         /**
@@ -291,21 +290,23 @@ module Kiwi.Components {
         * @private
         */
         private _transformedCenter: Kiwi.Geom.Point;
-           
-        
-         
+
+
         /**
         * Returns the center point for the box after it has been transformed.
+        * World coordinates.
         * This is READ ONLY.
         * @property center
         * @type Kiwi.Geom.Point
         * @public
         */
         public get center(): Kiwi.Geom.Point {
-            var t: Kiwi.Geom.Transform = this.entity.transform;
-            var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
-            m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY)
-            this._transformedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - t.rotPointX, this.entity.height / 2 - t.rotPointY));
+            var m: Kiwi.Geom.Matrix = this.entity.transform.getConcatenatedMatrix();
+
+            this._transformedCenter = m.transformPoint(
+                new Kiwi.Geom.Point(
+                    this.entity.width / 2 - this.entity.anchorPointX,
+                    this.entity.height / 2 - this.entity.anchorPointY ) );
 
             return this._transformedCenter;
         }
@@ -319,7 +320,7 @@ module Kiwi.Components {
         * @private
         */
         private _transformedBounds: Kiwi.Geom.Rectangle;
-        
+
 
         /**
         * The 'world' transformed bounds for this entity. 
@@ -352,7 +353,7 @@ module Kiwi.Components {
         */
         public get worldBounds(): Kiwi.Geom.Rectangle {
             this._worldBounds = this._rotateRect(this.rawBounds.clone(), true);
-            
+
             return this._worldBounds;
         }
 
