@@ -19482,6 +19482,7 @@ declare module Kiwi.Time {
         * @property _timeLastCount
         * @type Number
         * @private
+        * @deprecated Better time handling in 1.2.0 deprecates this data.
         */
         private _timeLastCount;
         /**
@@ -19553,6 +19554,22 @@ declare module Kiwi.Time {
         * @public
         */
         public repeatCount: number;
+        /**
+        * Time elapsed on the current repetition
+        * @property _elapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _elapsed;
+        /**
+        * Clock time on last frame, used to calculate frame length and time elapsed
+        * @property _lastElapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _lastElapsed;
         /**
         * Checks the list of TimerEvents added and processes them based on their type.
         * @method processEvents

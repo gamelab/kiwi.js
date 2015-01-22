@@ -106,6 +106,7 @@ module Kiwi.Time {
         * @property _timeLastCount
         * @type Number
         * @private
+        * @deprecated Better time handling in 1.2.0 deprecates this data.
         */
         private _timeLastCount: number = null;
 
@@ -198,6 +199,24 @@ module Kiwi.Time {
         * @public
         */
         public repeatCount: number = 0;
+
+        /**
+        * Time elapsed on the current repetition
+        * @property _elapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _elapsed: number = 0;
+
+        /**
+        * Clock time on last frame, used to calculate frame length and time elapsed
+        * @property _lastElapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _lastElapsed: number;
         
         /**
         * Checks the list of TimerEvents added and processes them based on their type.
@@ -237,22 +256,43 @@ module Kiwi.Time {
         * @public
         */
         public update() {
+            var frameLength = this._clock.elapsed() - this._lastElapsed;
 
-            if (this._isRunning && this._clock.elapsed() - this._timeLastCount >= this.delay && this._isPaused === false)
-            {
-                this._currentCount++;
+            this._lastElapsed = this._clock.elapsed();
 
-                this.processEvents(TimerEvent.TIMER_COUNT);
-
-                this._timeLastCount = this._clock.elapsed() || 0;
-                 
-                if (this.repeatCount !== -1 && this._currentCount >= this.repeatCount)
-                {
-                    this.stop();
-                }
-
+            if ( this._isRunning ) {
+                this._elapsed += frameLength;
             }
 
+            while ( this._elapsed >= this.delay ) {
+                this._currentCount++;
+                this.processEvents( TimerEvent.TIMER_COUNT );
+                this._elapsed -= this.delay;
+
+                if ( this.repeatCount !== -1 && this._currentCount >= this.repeatCount ) {
+                    this.stop();
+                }
+            }
+
+            while ( this._elapsed < 0 ) {
+                this._currentCount--;
+                this._elapsed += this.delay;
+
+                // Do not process events; they can happen when time flows forwards
+
+                if ( this._currentCount < 0 ) {
+
+                    // Timer has regressed before its creation.
+                    // When time flows forward again, the Timer will probably
+                    // be restarted and repopulated.
+                    // There is a potential memory leak: if a Timer is created
+                    // for a single task, and has a TimerEvent that will
+                    // remove it upon completion, but the Timer is rewound to
+                    // before its creation, that removal will never fire.
+                    this.clear();
+                    this.stop();
+                }
+            }
         }
 
         /**
@@ -270,7 +310,9 @@ module Kiwi.Time {
                 this._isStopped = false;
 
                 this._currentCount = 0;
-                this._timeLastCount = this._clock.elapsed() || 0;
+
+                this._elapsed = 0;
+                this._lastElapsed = this._clock.elapsed() || 0;
 
                 this.processEvents(TimerEvent.TIMER_START);
             }

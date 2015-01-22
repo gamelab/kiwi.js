@@ -29132,6 +29132,7 @@ var Kiwi;
                 * @property _timeLastCount
                 * @type Number
                 * @private
+                * @deprecated Better time handling in 1.2.0 deprecates this data.
                 */
                 this._timeLastCount = null;
                 /**
@@ -29182,6 +29183,14 @@ var Kiwi;
                 * @public
                 */
                 this.repeatCount = 0;
+                /**
+                * Time elapsed on the current repetition
+                * @property _elapsed
+                * @type number
+                * @private
+                * @since 1.2.0
+                */
+                this._elapsed = 0;
                 this._clock = clock;
 
                 this._startEvents = [];
@@ -29270,14 +29279,38 @@ var Kiwi;
             * @public
             */
             Timer.prototype.update = function () {
-                if (this._isRunning && this._clock.elapsed() - this._timeLastCount >= this.delay && this._isPaused === false) {
+                var frameLength = this._clock.elapsed() - this._lastElapsed;
+
+                this._lastElapsed = this._clock.elapsed();
+
+                if (this._isRunning) {
+                    this._elapsed += frameLength;
+                }
+
+                while (this._elapsed >= this.delay) {
                     this._currentCount++;
-
                     this.processEvents(Time.TimerEvent.TIMER_COUNT);
-
-                    this._timeLastCount = this._clock.elapsed() || 0;
+                    this._elapsed -= this.delay;
 
                     if (this.repeatCount !== -1 && this._currentCount >= this.repeatCount) {
+                        this.stop();
+                    }
+                }
+
+                while (this._elapsed < 0) {
+                    this._currentCount--;
+                    this._elapsed += this.delay;
+
+                    // Do not process events; they can happen when time flows forwards
+                    if (this._currentCount < 0) {
+                        // Timer has regressed before its creation.
+                        // When time flows forward again, the Timer will probably
+                        // be restarted and repopulated.
+                        // There is a potential memory leak: if a Timer is created
+                        // for a single task, and has a TimerEvent that will
+                        // remove it upon completion, but the Timer is rewound to
+                        // before its creation, that removal will never fire.
+                        this.clear();
                         this.stop();
                     }
                 }
@@ -29296,7 +29329,9 @@ var Kiwi;
                     this._isStopped = false;
 
                     this._currentCount = 0;
-                    this._timeLastCount = this._clock.elapsed() || 0;
+
+                    this._elapsed = 0;
+                    this._lastElapsed = this._clock.elapsed() || 0;
 
                     this.processEvents(Time.TimerEvent.TIMER_START);
                 }
