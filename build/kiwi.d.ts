@@ -3256,15 +3256,28 @@ declare module Kiwi {
         */
         public dirty : boolean;
         /**
-        * Apply this cameras inverted matrix to a an object with x and y properties representing a point and return the transformed point.
+        * Convert from screen coordinates to world coordinates.
+        * Apply this camera's inverted matrix to an object with x and y
+        * properties representing a point and return the transformed point.
         * Useful for when calculating if coordinates with the mouse.
-        * Note: This method clones the point you pass, so that is doesn't "reset" any properties you set.
+        * Note: This method clones the point you pass,
+        * so that it doesn't "reset" any properties you set.
         * @method transformPoint
         * @param point {Kiwi.Geom.Point}
         * @return {Kiwi.Geom.Point}
         * @public
         */
         public transformPoint(point: Geom.Point): Geom.Point;
+        /**
+        * Convert from world coordinates to screen coordinates.
+        * Useful for assessing visibility.
+        * @method transformPointToScreen
+        * @param point {Kiwi.Geom.Point}
+        * @return {Kiwi.Geom.Point}
+        * @public
+        * @since 1.2.0
+        */
+        public transformPointToScreen(point: Geom.Point): Geom.Point;
         /**
         * The update loop that is executed every frame.
         * @method update
