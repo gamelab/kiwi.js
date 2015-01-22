@@ -45,14 +45,14 @@ declare module Kiwi {
         * @type number
         * @public
         */
-        public renderOption : number;
+        renderOption: number;
         /**
         * A callback function that can be passed in as an option in the conifugration object. Invoked after the boot process has completed.
         * @property bootCallbackOption
         * @type Function
         * @private
         */
-        public bootCallbackOption: Function;
+        bootCallbackOption: Function;
         /**
         * The type of device that you are targeting. This is either set to COCOON or BROWSER
         * @property _deviceTargetOption
@@ -66,7 +66,7 @@ declare module Kiwi {
         * @type number
         * @public
         */
-        public deviceTargetOption : number;
+        deviceTargetOption: number;
         /**
         * If when rendering, the game should render a new CANVAS which is above everything. This new canvas is for debugging purposes only.
         * This gets set to either DEBUG_ON or DEBUG_OFF
@@ -81,35 +81,35 @@ declare module Kiwi {
         * @type number
         * @public
         */
-        public debugOption : number;
+        debugOption: number;
         /**
         * Returns true if debug option is set to Kiwi.DEBUG_ON
         * @property debug
         * @type boolean
         * @public
         */
-        public debug : boolean;
+        debug: boolean;
         /**
         * Holds the renderer that is being used. This is determined based on the _renderMode
         * @property renderer
         * @type IRenderManager
         * @public
         */
-        public renderer: IRenderManager;
+        renderer: IRenderManager;
         /**
         * Holds the hud manager.
         * @property huds
         * @type HUDManager
         * @public
         */
-        public huds: HUD.HUDManager;
+        huds: Kiwi.HUD.HUDManager;
         /**
         * The type of object that the game is.
         * @method objType
         * @return {String} The type of object
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The object that peforms DOM and device startup operations for browsers (ie not cocoon)
         * @property _startup
@@ -117,91 +117,91 @@ declare module Kiwi {
         * @private
         */
         private _startup;
-        public id: number;
+        id: number;
         /**
         * The audio manager that handles all of the audio in game. Inside you can globally mute the audio, create new sounds, e.t.c.
         * @property audio
         * @type Kiwi.Sound.AudioManager
         * @public
         */
-        public audio: Sound.AudioManager;
+        audio: Kiwi.Sound.AudioManager;
         /**
         * The global file store for this game. This handles the storage and access of information loaded, as well as tags that maybe set for them individual files.
         * @property fileStore
         * @type Kiwi.Files.FileStore
         * @public
         */
-        public fileStore: Files.FileStore;
+        fileStore: Kiwi.Files.FileStore;
         /**
         * Handles any user input with the game. These could via the users keyboard, mouse or touch events.
         * @property input
         * @type Kiwi.Input.InputManager
         * @public
         */
-        public input: Input.InputManager;
+        input: Kiwi.Input.InputManager;
         /**
         * Manages the cameras the are on the stage. Single default Camera only in this version.
         * @property cameras
         * @type Kiwi.CameraManager
         * @public
         */
-        public cameras: CameraManager;
+        cameras: Kiwi.CameraManager;
         /**
         * Manages plugins registration and initialisation for the game instance.
         * @property pluginManager
         * @type Kiwi.PluginManager
         * @public
         */
-        public pluginManager: PluginManager;
+        pluginManager: Kiwi.PluginManager;
         /**
         * Loads files from outside sources and checks to see that they have loaded correctly or not.
         * @property loader
         * @type Kiwi.Files.Loader
         * @public
         */
-        public loader: Files.Loader;
+        loader: Kiwi.Files.Loader;
         /**
         * The Request Animation Frame that is being used for the update and render loops.
         * @property raf
         * @type Kiwi.Utils.RequestAnimationFrame
         * @public
         */
-        public raf: Utils.RequestAnimationFrame;
+        raf: Kiwi.Utils.RequestAnimationFrame;
         /**
         * The ONLY stage that is being used for this game.
         * @property stage
         * @type Stage
         * @public
         */
-        public stage: Stage;
+        stage: Kiwi.Stage;
         /**
         * Manages all of the states that exist for this game. Via the manager you can create new states, switch states and do various other tasks.
         * @property states
         * @type Kiwi.StateManager
         * @public
         */
-        public states: StateManager;
+        states: Kiwi.StateManager;
         /**
         * Holds a reference to the clocks that are being used and has a MASTER clock that is being used for the game.
         * @property time
         * @type Kiwi.Time.ClockManage
         * @public
         */
-        public time: Time.ClockManager;
+        time: Kiwi.Time.ClockManager;
         /**
         * The tween manager holds a reference to all of the tweens that are created and currently being used.
         * @property tweens
         * @type Kiwi.Animations.Tweens.TweenManager
         * @public
         */
-        public tweens: Animations.Tweens.TweenManager;
+        tweens: Kiwi.Animations.Tweens.TweenManager;
         /**
         * A Random Data Generator. This is useful for create unique ids and random information.
         * @property rnd
         * @type Kiwi.Utils.RandomDataGenerato
         * @public
         */
-        public rnd: Utils.RandomDataGenerator;
+        rnd: Kiwi.Utils.RandomDataGenerator;
         /**
         * The framerate at which the game will update at.
         * @property _framerate
@@ -251,7 +251,7 @@ declare module Kiwi {
         * @public
         * @since 1.1.0
         */
-        public frame : number;
+        frame: number;
         /**
         * The number of ideal frames since the game was launched.
         *
@@ -261,14 +261,14 @@ declare module Kiwi {
         * @public
         * @since 1.1.0
         */
-        public idealFrame : number;
+        idealFrame: number;
         /**
         * The current frameRate that the update/render loops are running at. Note that this may not be an  accurate representation.
         * @property frameRate
         * @return string
         * @public
         */
-        public frameRate : number;
+        frameRate: number;
         /**
         * The start method gets executed when the game is ready to be booted, and handles the start-up of the managers.
         * Once the managers have started up the start loop will then begin to create the game loop.
@@ -288,7 +288,7 @@ declare module Kiwi {
 *
 * @module Kiwi
 *
-*/ 
+*/
 declare module Kiwi {
     /**
     * Each game contains a single Stage which controls the creation and management of main domElements required for a Kiwi game to work.
@@ -306,14 +306,14 @@ declare module Kiwi {
     *
     */
     class Stage {
-        constructor(game: Game, name: string, width: number, height: number, scaleType: number);
+        constructor(game: Kiwi.Game, name: string, width: number, height: number, scaleType: number);
         /**
         * Returns the type of this object.
         * @method objType
         * @return {string} "Stage"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The default width of the stage.
         * @property DEFAULT_WIDTH
@@ -377,7 +377,7 @@ declare module Kiwi {
         * @default Kiwi.Stage.SCALE_NONE
         * @private
         */
-        public scaleType : number;
+        scaleType: number;
         /**
         * The alpha of the stage.
         * @property _alpha
@@ -395,7 +395,7 @@ declare module Kiwi {
         * @default 1
         * @public
         */
-        public alpha : number;
+        alpha: number;
         /**
         * The X coordinate of the stage.
         * @property _x
@@ -409,7 +409,7 @@ declare module Kiwi {
         * @type number
         * @public
         */
-        public x : number;
+        x: number;
         /**
         * The Y coordinate of the stage.
         * @property _y
@@ -423,7 +423,7 @@ declare module Kiwi {
         * @type number
         * @public
         */
-        public y : number;
+        y: number;
         /**
         * The width of the stage.
         * @property _width
@@ -438,7 +438,7 @@ declare module Kiwi {
         * @public
         * @readonly
         */
-        public width : number;
+        width: number;
         /**
         * The height of the stage
         * @property _height
@@ -453,14 +453,14 @@ declare module Kiwi {
         * @public
         * @readonly
         */
-        public height : number;
+        height: number;
         /**
         * A Signal that dispatches an event when the stage gets resized.
         * @property onResize
         * @type Kiwi.Signal
         * @public
         */
-        public onResize: Signal;
+        onResize: Kiwi.Signal;
         /**
         * A Signal which dispatches events when the window is resized.
         * Useful to detect if the screen is now in a 'landscape' or 'portrait' view on Mobile/Cocoon devices.
@@ -468,7 +468,7 @@ declare module Kiwi {
         * @type Kiwi.Signal
         * @public
         */
-        public onWindowResize: Signal;
+        onWindowResize: Kiwi.Signal;
         /**
         * Calculates and returns the amount that the container has been scale by.
         * Mainly used for re-calculating input coordinates.
@@ -480,7 +480,7 @@ declare module Kiwi {
         * @public
         */
         private _scale;
-        public scale : Geom.Point;
+        scale: Kiwi.Geom.Point;
         /**
         * Calculates and returns the amount that the container has been scale by on the X axis.
         * @property scaleX
@@ -488,7 +488,7 @@ declare module Kiwi {
         * @default 1
         * @public
         */
-        public scaleX : number;
+        scaleX: number;
         /**
         * Calculates and returns the amount that the container has been scale by on the Y axis.
         * @property scaleY
@@ -496,14 +496,14 @@ declare module Kiwi {
         * @default 1
         * @public
         */
-        public scaleY : number;
+        scaleY: number;
         /**
         * A point which determines the offset of this Stage
         * @property offset
         * @type Kiwi.Geom.Point
         * @public
         */
-        public offset: Geom.Point;
+        offset: Kiwi.Geom.Point;
         /**
         * The game this Stage belongs to
         * @property _game
@@ -517,14 +517,14 @@ declare module Kiwi {
         * @type string
         * @public
         */
-        public name: string;
+        name: string;
         /**
         * Whether or not this Stage is DOM ready.
         * @property domReady
         * @type boolean
         * @public
         */
-        public domReady: boolean;
+        domReady: boolean;
         /**
         * The background color of the stage.
         * This must be a valid 6 character hex color string such as "ffffff".
@@ -534,7 +534,7 @@ declare module Kiwi {
         * @default 'ffffff'
         * @public
         */
-        public _color: string;
+        _color: string;
         /**
         * Sets the background color of the stage via a hex value.
         *
@@ -550,7 +550,7 @@ declare module Kiwi {
         * @type string
         * @public
         */
-        public color : string;
+        color: string;
         /**
         * Allows the setting of the background color of the stage through component RGB colour values.
         *
@@ -560,7 +560,7 @@ declare module Kiwi {
         * @type Object
         * @public
         */
-        public rgbColor : any;
+        rgbColor: any;
         /**
         * Allows the setting of the background color of the stage through component RGBA colour values.
         *
@@ -573,7 +573,7 @@ declare module Kiwi {
         * @public
         * @since 1.1.0
         */
-        public rgbaColor : any;
+        rgbaColor: any;
         /**
         * Stores the normalized background color of the stage as a RGBA values between 0 and 1.
         * @property _normalizedColor
@@ -588,49 +588,49 @@ declare module Kiwi {
         * @type string
         * @public
         */
-        public normalizedColor : any;
+        normalizedColor: any;
         /**
         * The webgl rendering context.
         * @property gl
         * @type WebGLRenderingContext
         * @public
         */
-        public gl: WebGLRenderingContext;
+        gl: WebGLRenderingContext;
         /**
         * The canvas rendering context.
         * @property ctx
         * @type CanvasRenderingContext2D
         * @public
         */
-        public ctx: CanvasRenderingContext2D;
+        ctx: CanvasRenderingContext2D;
         /**
         * The canvas element that is being rendered on.
         * @property canvas
         * @type HTMLCanvasElement
         * @public
         */
-        public canvas: HTMLCanvasElement;
+        canvas: HTMLCanvasElement;
         /**
         * The debugging canvas.
         * @property debugCanvas
         * @type HTMLCanvasElement
         * @public
         */
-        public debugCanvas: HTMLCanvasElement;
+        debugCanvas: HTMLCanvasElement;
         /**
         * The debug canvas rendering context.
         * @property dctx
         * @type CanvasRenderingContext2D
         * @public
         */
-        public dctx: CanvasRenderingContext2D;
+        dctx: CanvasRenderingContext2D;
         /**
         * The parent div in which the layers and input live
         * @property container
         * @type HTMLDivElement
         * @public
         */
-        public container: HTMLDivElement;
+        container: HTMLDivElement;
         /**
         * Stores the renderer created after context detection.
         * @property _renderer
@@ -647,7 +647,7 @@ declare module Kiwi {
         * @public
         * @since 1.1.0
         */
-        public renderer : any;
+        renderer: any;
         /**
         * Is executed when the DOM has loaded and the game is just starting.
         * This is a internal method used by the core of Kiwi itself.
@@ -655,7 +655,7 @@ declare module Kiwi {
         * @param dom {HTMLElement} The
         * @public
         */
-        public boot(dom: System.Bootstrap): void;
+        boot(dom: Kiwi.System.Bootstrap): void;
         /**
         * Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser
         * Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js
@@ -665,7 +665,7 @@ declare module Kiwi {
         * @return {Kiwi.Geom.Point}
         * @public
         */
-        public getOffsetPoint(element: any, output?: Geom.Point): Geom.Point;
+        getOffsetPoint(element: any, output?: Kiwi.Geom.Point): Kiwi.Geom.Point;
         /**
         * Method that is fired when the window is resized.
         * @method _windowResized
@@ -703,7 +703,7 @@ declare module Kiwi {
         * @param height {number} The new Stage height.
         * @public
         */
-        public resize(width: number, height: number): void;
+        resize(width: number, height: number): void;
         /**
         * Sets the background color of the stage through component RGB colour values.
         * Each parameter pass is a number between 0 and 255. This method also returns a Object Literal with 'r', 'g', 'b' properties.
@@ -715,7 +715,7 @@ declare module Kiwi {
         * @return {Object} A Object literal containing the r,g,b properties.
         * @public
         */
-        public setRGBColor(r: number, g: number, b: number): any;
+        setRGBColor(r: number, g: number, b: number): any;
         /**
         * Converts a component colour value into its hex equivalent. Used when setting rgb colour values.
         *
@@ -733,7 +733,7 @@ declare module Kiwi {
         * @method createDebugCanvas
         * @public
         */
-        public createDebugCanvas(): void;
+        createDebugCanvas(): void;
         /**
         * Clears the debug canvas and fills with either the color passed.
         * If not colour is passed then Red at 20% opacity is used.
@@ -742,13 +742,13 @@ declare module Kiwi {
         * @param [color='rgba(255,0,0,0.2)'] {string} The debug color to rendering on the debug canvas.
         * @public
         */
-        public clearDebugCanvas(color?: string): void;
+        clearDebugCanvas(color?: string): void;
         /**
         * Toggles the visibility of the debug canvas.
         * @method toggleDebugCanvas
         * @public
         */
-        public toggleDebugCanvas(): void;
+        toggleDebugCanvas(): void;
         /**
         * Handles the scaling/sizing based upon the scaleType property.
         * @method _scaleContainer
@@ -785,7 +785,7 @@ declare module Kiwi {
         * @return {string} The type of this object
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The owner of this Component Manager
         * @property _owner
@@ -806,7 +806,7 @@ declare module Kiwi {
         * @type Kiwi.Component
         * @private
         */
-        public _components: any;
+        _components: any;
         /**
         * Returns true if this contains the component given, false otherwise.
         * @method hasComponent
@@ -814,7 +814,7 @@ declare module Kiwi {
         * @return {boolean} True if this component manager contains the given component, false otherwise.
         * @public
         */
-        public hasComponent(value: string): boolean;
+        hasComponent(value: string): boolean;
         /**
         * Returns true if this contains the component given and the component is active, false otherwise.
         * @method hasActiveComponent
@@ -822,7 +822,7 @@ declare module Kiwi {
         * @return {boolean} true if this manager contains the component and it is active, false otherwise.
         * @public
         */
-        public hasActiveComponent(value: string): boolean;
+        hasActiveComponent(value: string): boolean;
         /**
         * Get an existing component that has been added to the layer by its name
         * @method getComponent
@@ -830,7 +830,7 @@ declare module Kiwi {
         * @return {Kiwi.Component} The component, if found, otherwise null
         * @public
         */
-        public getComponent(value: string): any;
+        getComponent(value: string): any;
         /**
         * Adds a Component to the manager.
         * @method add
@@ -838,14 +838,14 @@ declare module Kiwi {
         * @return {Kiwi.Component} The component that was added
         * @public
         */
-        public add(component: Component): any;
+        add(component: Kiwi.Component): any;
         /**
         * Adds a batch of components to the manager at a single time.
         * @method addBatch
         * @param value* {Kiwi.Component} The component/s that you would like to add.
         * @public
         */
-        public addBatch(...paramsArr: any[]): void;
+        addBatch(...paramsArr: any[]): void;
         /**
         * Removes a component from the component manager
         * @method removeComponent
@@ -854,7 +854,7 @@ declare module Kiwi {
         * @return {boolean} true if the component was removed successfully
         * @public
         */
-        public removeComponent(component: Component, destroy?: boolean): boolean;
+        removeComponent(component: Kiwi.Component, destroy?: boolean): boolean;
         /**
         * Removes a component based on its name
         * @method removeComponentByName
@@ -863,50 +863,50 @@ declare module Kiwi {
         * @return {boolean} true if the component was removed successfully
         * @public
         */
-        public removeComponentByName(name: string, destroy?: boolean): boolean;
+        removeComponentByName(name: string, destroy?: boolean): boolean;
         /**
         * Removes all of the components from the component manager.
         * @method removeAll
         * @param [destroy=true] {boolean} If true will destroy all components
         * @public
         */
-        public removeAll(destroy?: boolean): void;
+        removeAll(destroy?: boolean): void;
         /**
         * Calls preUpdate on all active Components
         * @method preUpdate
         * @public
         */
-        public preUpdate(): void;
+        preUpdate(): void;
         /**
         * Calls update on all active Components
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * Calls postUpdate on all active Components
         * @method postUpdate
         * @public
         */
-        public postUpdate(): void;
+        postUpdate(): void;
         /**
         * Calls preRender on all active Components
         * @method preRender
         * @public
         */
-        public preRender(): void;
+        preRender(): void;
         /**
         * Renders all active Components
         * @method render
         * @public
         */
-        public render(): void;
+        render(): void;
         /**
         * Calls postRender on all active Components
         * @method postRender
         * @public
         */
-        public postRender(): void;
+        postRender(): void;
     }
 }
 /**
@@ -933,7 +933,7 @@ declare module Kiwi {
     *
     */
     class PluginManager {
-        constructor(game: Game, plugins: string[]);
+        constructor(game: Kiwi.Game, plugins: string[]);
         /**
         * An array of plugins which have been included in the webpage and registered successfully.
         * @property _availablePlugins
@@ -949,7 +949,7 @@ declare module Kiwi {
         * @static
         * @private
         */
-        static availablePlugins : any;
+        static availablePlugins: any;
         /**
         * Registers a plugin object as available. Any game instance can choose to use the plugin.
         * Plugins need only be registered once per webpage. If registered a second time it will be ignored.
@@ -965,8 +965,8 @@ declare module Kiwi {
         * @property objType
         * @type string
         * @public
-        */ 
-        public objType : string;
+        */
+        objType: string;
         /**
         * A reference to the game instance that owns the PluginManager.
         * @property objType
@@ -995,15 +995,15 @@ declare module Kiwi {
         * @method validatePlugins
         * @public
         */
-        public validatePlugins(): void;
-        public validMinimumPluginVersionExists(name: string, version: string): boolean;
+        validatePlugins(): void;
+        validMinimumPluginVersionExists(name: string, version: string): boolean;
         /**
         * Returns true if a plugin identified by the supplied pluginName is registered.
         * @method pluginIsRegistered
         * @param {string} pluginName
         * @public
         */
-        public pluginIsRegistered(pluginName: string): boolean;
+        pluginIsRegistered(pluginName: string): boolean;
         /**
         * Called after all other core objects and services created by the Kiwi.Game constructor are created.
         * Attempts to find a "create" function on each plugin and calls it if it exists.
@@ -1017,13 +1017,13 @@ declare module Kiwi {
         * @method boot
         * @public
         */
-        public boot(): void;
+        boot(): void;
         /**
         * Calls the update functions on any objects that plugins used by the game instance have designated during creation.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
     }
 }
 /**
@@ -1043,14 +1043,14 @@ declare module Kiwi {
     * @return {Kiwi.CameraManager}
     */
     class CameraManager {
-        constructor(game: Game);
+        constructor(game: Kiwi.Game);
         /**
         * Returns the type of this object
         * @method objType
         * @return {String} The type of this object
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The game this object belongs to
         * @property _game
@@ -1078,13 +1078,13 @@ declare module Kiwi {
         * @type Kiwi.Camara
         * @public
         */
-        public defaultCamera: Camera;
+        defaultCamera: Kiwi.Camera;
         /**
         * Initializes the CameraManager, creates a new camera and assigns it to the defaultCamera
         * @method boot
         * @public
         */
-        public boot(): void;
+        boot(): void;
         /**
         * Creates a new Camera and adds it to the collection of cameras.
         * @param {String} name. The name of the new camera.
@@ -1095,7 +1095,7 @@ declare module Kiwi {
         * @return {Kiwi.Camera} The new camera object.
         * @public
         */
-        public create(name: string, x: number, y: number, width: number, height: number): Camera;
+        create(name: string, x: number, y: number, width: number, height: number): Kiwi.Camera;
         /**
         * Removes the given camera, if it is present in the camera managers camera collection.
         * @method remove
@@ -1103,32 +1103,32 @@ declare module Kiwi {
         * @return {boolean} True if the camera was removed, false otherwise.
         * @public
         */
-        public remove(camera: Camera): boolean;
+        remove(camera: Kiwi.Camera): boolean;
         /**
         * Calls update on all the cameras.
         * @method update
         * @public
         */
-        public update(): boolean;
+        update(): boolean;
         /**
         * Calls the render method on all the cameras
         * @method render
         * @public
         */
-        public render(): boolean;
+        render(): boolean;
         /**
         * Removes all cameras in the camera Manager except the default camera. Does nothing if in multi camera mode.
         * @method removeAll
         * @public
         */
-        public removeAll(): void;
+        removeAll(): void;
         /**
         * Returns all cameras to origin. Called when starting a new state.
         * @method zeroAllCameras
         * @public
         * @since 1.1.0
         */
-        public zeroAllCameras(): void;
+        zeroAllCameras(): void;
         /**
         * Returns camera to origin.
         * @method zeroCamera
@@ -1136,14 +1136,14 @@ declare module Kiwi {
         * @public
         * @since 1.1.0
         */
-        public zeroCamera(camera: Camera): void;
+        zeroCamera(camera: Kiwi.Camera): void;
     }
 }
 /**
 *
 * @module Kiwi
 *
-*/ 
+*/
 declare module Kiwi {
     /**
     * A lightweight object that contains values relating to the configuration of a State in a Kiwi Game.
@@ -1155,16 +1155,16 @@ declare module Kiwi {
     * @param name {String} The name of the state which was created.
     * @return {Kiwi.StateConfig}
     *
-    */ 
+    */
     class StateConfig {
-        constructor(parent: State, name: string);
+        constructor(parent: Kiwi.State, name: string);
         /**
         * The type of object that this is.
         * @method objType
         * @return {String} "StateConfig"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The state this StateConfig belongs to.
         * @property _state
@@ -1178,11 +1178,11 @@ declare module Kiwi {
         * @type String
         * @public
         */
-        public name: string;
+        name: string;
         /**
         * Currently unused.
         */
-        public isPersistent: boolean;
+        isPersistent: boolean;
         /**
         * If this State has been created (the create method has been executed).
         * Essentually has the same meaning as 'isReady'.
@@ -1191,7 +1191,7 @@ declare module Kiwi {
         * @default false
         * @public
         */
-        public isCreated: boolean;
+        isCreated: boolean;
         /**
         * If the State has been initialised already (so the Boot and Init methods have been executed already).
         * A State only get Initialised once which is when it switched to for this first time.
@@ -1200,7 +1200,7 @@ declare module Kiwi {
         * @default false
         * @public
         */
-        public isInitialised: boolean;
+        isInitialised: boolean;
         /**
         * If the State that this config is on is 'ready' to be used (e.g. all the assets have been loaded and libraries complied)
         * or if it isn't and so it is still at the 'loading' stage.
@@ -1209,7 +1209,7 @@ declare module Kiwi {
         * @default false
         * @public
         */
-        public isReady: boolean;
+        isReady: boolean;
         /**
         * If the State that this config is on contains a Preloader Method.
         * @property hasPreloader
@@ -1217,7 +1217,7 @@ declare module Kiwi {
         * @default false
         * @public
         */
-        public hasPreloader: boolean;
+        hasPreloader: boolean;
         /**
         * The number of times the State that this config belongs to has been active/used.
         * @property runCount
@@ -1225,36 +1225,36 @@ declare module Kiwi {
         * @default 0
         * @public
         */
-        public runCount: number;
-        public type: number;
+        runCount: number;
+        type: number;
         /**
         * Stores any parameters that are to be passed to the init method when the State that this config is on is switched to.
         * @property initParams
         * @type Array
         * @public
         */
-        public initParams: any;
+        initParams: any;
         /**
         * Stores any parameters that are to be passed to the create method when the State that this config is on is switched to.
         * @property createParams
         * @type Array
         * @public
         */
-        public createParams: any;
+        createParams: any;
         /**
         * Resets the properties contained on this StateConfig object.
         * This is executed when a State is about to be destroyed as so reset's it to be switched to again.
         * @method reset
         * @public
         */
-        public reset(): void;
+        reset(): void;
     }
 }
 /**
 *
 * @module Kiwi
 *
-*/ 
+*/
 declare module Kiwi {
     /**
     * The State Manager handles the starting, parsing, looping and swapping of game States within a Kiwi Game
@@ -1268,14 +1268,14 @@ declare module Kiwi {
     *
     */
     class StateManager {
-        constructor(game: Game);
+        constructor(game: Kiwi.Game);
         /**
         * The type of object this is.
         * @method objType
         * @return {string} "StateManager"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The game that this manager belongs to.
         * @property _game
@@ -1297,7 +1297,7 @@ declare module Kiwi {
         * @default null
         * @public
         */
-        public current: State;
+        current: Kiwi.State;
         /**
         * The name of the new State that is to be switched to.
         * @property _newStateKey
@@ -1333,14 +1333,14 @@ declare module Kiwi {
         * @return {boolean} true if the State was added successfully, otherwise false
         * @public
         */
-        public addState(state: any, switchTo?: boolean): boolean;
+        addState(state: any, switchTo?: boolean): boolean;
         /**
         * Is executed once the DOM has finished loading.
         * This is an INTERNAL Kiwi method.
         * @method boot
         * @public
         */
-        public boot(): void;
+        boot(): void;
         /**
         * Switches to the name (key) of the state that you pass.
         * Does not work if the state you are switching to is already the current state OR if that state does not exist yet.
@@ -1369,7 +1369,7 @@ declare module Kiwi {
         * @return {boolean} Whether the State is going to be switched to or not.
         * @public
         */
-        public switchState(key: string, state?: any, initParams?: any, createParams?: any): boolean;
+        switchState(key: string, state?: any, initParams?: any, createParams?: any): boolean;
         /**
         * Gets a state by the key that is passed.
         * @method getState
@@ -1418,19 +1418,19 @@ declare module Kiwi {
         * @method rebuildLibraries
         * @public
         */
-        public rebuildLibraries(): void;
+        rebuildLibraries(): void;
         /**
         * The update loop that is accessible on the StateManager.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * PostRender - Called after all of the rendering has been executed in a frame.
         * @method postRender
         * @public
         */
-        public postRender(): void;
+        postRender(): void;
     }
 }
 /**
@@ -1456,7 +1456,7 @@ declare module Kiwi {
         * @public
         * @deprecated Only Kiwi.Entity and inheritors are rendered.
         */
-        render(camera: Camera): any;
+        render(camera: Kiwi.Camera): any;
         /**
         * Update the entity. Automatically called every frame.
         *
@@ -1495,7 +1495,7 @@ declare module Kiwi {
         * @type Kiwi.Game
         * @public
         */
-        game: Game;
+        game: Kiwi.Game;
         /**
         * The State that this object belongs to
         *
@@ -1503,7 +1503,7 @@ declare module Kiwi {
         * @type Kiwi.State
         * @public
         */
-        state: State;
+        state: Kiwi.State;
         /**
         * The Component Manager
         *
@@ -1511,7 +1511,7 @@ declare module Kiwi {
         * @type Kiwi.ComponentManager
         * @public
         */
-        components: ComponentManager;
+        components: Kiwi.ComponentManager;
         /**
         * An indication of whether or not this object is 'dirty' and thus needs to be re-rendered in some manner.
         *
@@ -1562,7 +1562,7 @@ declare module Kiwi {
         * @type Kiwi.Group
         * @public
         */
-        parent: Group;
+        parent: Kiwi.Group;
         /**
         * The transform for this object.
         * Transform handles the calculation of coordinates/rotation/scale etc in the game world.
@@ -1570,7 +1570,7 @@ declare module Kiwi {
         * @type Kiwi.Geom.Transform
         * @public
         */
-        transform: Geom.Transform;
+        transform: Kiwi.Geom.Transform;
         /**
         * The X coordinate of this object. This is just aliased to the transform property.
         * @property x
@@ -1722,16 +1722,16 @@ declare module Kiwi {
     * @return {Kiwi.Entity} This entity.
     *
     */
-    class Entity implements IChild {
-        constructor(state: State, x: number, y: number);
-        public glRenderer: Renderers.Renderer;
+    class Entity implements Kiwi.IChild {
+        constructor(state: Kiwi.State, x: number, y: number);
+        glRenderer: Kiwi.Renderers.Renderer;
         /**
         * Represents the position, scale, rotation and registration of this Entity.
         * @property transform
         * @type Kiwi.Geom.Transform
         * @public
         */
-        public transform: Geom.Transform;
+        transform: Kiwi.Geom.Transform;
         /**
         * The group that this entity belongs to. If added onto the state then this is the state.
         * @property _parent
@@ -1746,21 +1746,21 @@ declare module Kiwi {
         * @param val {Kiwi.Group}
         * @public
         */
-        public parent : Group;
+        parent: Kiwi.Group;
         /**
         * X coordinate of this Entity. This is just aliased to the transform property.
         * @property x
         * @type Number
         * @public
         */
-        public x : number;
+        x: number;
         /**
         * Y coordinate of this Entity. This is just aliased to the transform property.
         * @property y
         * @type Number
         * @public
         */
-        public y : number;
+        y: number;
         /**
         * X coordinate of this Entity in world space; that is, after inheriting parent transforms. This is just aliased to the transform property. Property is READ-ONLY.
         * @property worldX
@@ -1768,7 +1768,7 @@ declare module Kiwi {
         * @public
         * @since 1.1.0
         */
-        public worldX : number;
+        worldX: number;
         /**
         * Y coordinate of this Entity in world space; that is, after inheriting parent transforms. This is just aliased to the transform property. Property is READ-ONLY.
         * @property worldY
@@ -1776,21 +1776,21 @@ declare module Kiwi {
         * @public
         * @since 1.1.0
         */
-        public worldY : number;
+        worldY: number;
         /**
         * Scale X of this Entity. This is just aliased to the transform property.
         * @property scaleX
         * @type Number
         * @public
         */
-        public scaleX : number;
+        scaleX: number;
         /**
         * Scale Y coordinate of this Entity. This is just aliased to the transform property.
         * @property scaleY
         * @type Number
         * @public
         */
-        public scaleY : number;
+        scaleY: number;
         /**
         * Scale both axes of this Entity. This is just aliased to the transform property. This is WRITE-ONLY.
         * @property scale
@@ -1798,28 +1798,28 @@ declare module Kiwi {
         * @public
         * @since 1.1.0
         */
-        public scale : number;
+        scale: number;
         /**
         * Rotation of this Entity. This is just aliased to the transform property.
         * @property rotation
         * @type Number
         * @public
         */
-        public rotation : number;
+        rotation: number;
         /**
         * The rotation point on the x-axis. This is just aliased to the rotPointX on the transform object.
         * @property rotPointX
         * @type number
         * @public
         */
-        public rotPointX : number;
+        rotPointX: number;
         /**
         * The rotation point on the y-axis. This is just aliased to the rotPointY on the transform object.
         * @property rotPointY
         * @type number
         * @public
         */
-        public rotPointY : number;
+        rotPointY: number;
         /**
         * The anchor point on the x-axis. This is just aliased to the rotPointX on the transform object.
         * @property anchorPointX
@@ -1827,7 +1827,7 @@ declare module Kiwi {
         * @public
         * @since 1.1.0
         */
-        public anchorPointX : number;
+        anchorPointX: number;
         /**
         * The anchor point on the y-axis. This is just aliased to the rotPointY on the transform object.
         * @property anchorPointY
@@ -1835,14 +1835,14 @@ declare module Kiwi {
         * @public
         * @since 1.1.0
         */
-        public anchorPointY : number;
+        anchorPointY: number;
         /**
         * Returns the type of child that this is.
         * @type Number
         * @return {Number} returns the type of child that the entity is
         * @public
         */
-        public childType(): number;
+        childType(): number;
         /**
         * The alpha of this entity.
         * @property _alpha
@@ -1856,7 +1856,7 @@ declare module Kiwi {
         * @type Number
         * @public
         */
-        public alpha : number;
+        alpha: number;
         /**
         * A boolean that indicates whether or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.
         * @property _visible
@@ -1872,7 +1872,7 @@ declare module Kiwi {
         * @default true
         * @public
         */
-        public visible : boolean;
+        visible: boolean;
         /**
         * The width of the entity in pixels, pre-transform.
         *
@@ -1882,7 +1882,7 @@ declare module Kiwi {
         * @default 0
         * @public
         */
-        public width: number;
+        width: number;
         /**
         * The height of the entity in pixels, pre-transform.
         *
@@ -1892,7 +1892,7 @@ declare module Kiwi {
         * @default 0
         * @public
         */
-        public height: number;
+        height: number;
         /**
         * Scale to desired width, preserving aspect ratio. This function changes the scale, not the width. If the width changes, for example, as part of an animation sequence, the Entity will retain the new scale.
         * @method scaleToWidth
@@ -1900,7 +1900,7 @@ declare module Kiwi {
         * @public
         * @since 1.1.0
         */
-        public scaleToWidth(value: number): void;
+        scaleToWidth(value: number): void;
         /**
         * Scale to desired height, preserving aspect ratio. This function changes the scale, not the height. If the height changes, for example, as part of an animation sequence, the Entity will retain the new scale.
         * @method scaleToHeight
@@ -1908,21 +1908,21 @@ declare module Kiwi {
         * @public
         * @since 1.1.0
         */
-        public scaleToHeight(value: number): void;
+        scaleToHeight(value: number): void;
         /**
         * Center the anchor point. Moves the anchor point (rotPointX and Y) to precisely halfway along the width and height properties of this Entity.
         * @method centerAnchorPoint
         * @public
         * @since 1.1.0
         */
-        public centerAnchorPoint(): void;
+        centerAnchorPoint(): void;
         /**
         * The texture atlas that is to be used on this entity.
         * @property atlas
         * @type Kiwi.Textures.TextureAtlas
         * @public
         */
-        public atlas: Textures.TextureAtlas;
+        atlas: Kiwi.Textures.TextureAtlas;
         /**
         * Holds the current cell that is being used by the entity.
         * @property _cellIndex
@@ -1940,35 +1940,35 @@ declare module Kiwi {
         * @default 0
         * @public
         */
-        public cellIndex : number;
+        cellIndex: number;
         /**
         * The Component Manager
         * @property components
         * @type Kiwi.ComponentManager
         * @public
         */
-        public components: ComponentManager;
+        components: Kiwi.ComponentManager;
         /**
         * The game this Entity belongs to
         * @property game
         * @type Game
         * @public
         */
-        public game: Game;
+        game: Kiwi.Game;
         /**
         * The state this Entity belongs to (either the current game state or a persistent world state)
         * @property state
         * @type State
         * @public
         */
-        public state: State;
+        state: Kiwi.State;
         /**
         * A unique identifier for this Entity within the game used internally by the framework. See the name property for a friendly version.
         * @property id
         * @type string
         * @public
         */
-        public id: string;
+        id: string;
         /**
         * A name for this Entity. This is not checked for uniqueness within the Game, but is very useful for debugging
         * @property name
@@ -1976,7 +1976,7 @@ declare module Kiwi {
         * @default ''
         * @public
         */
-        public name: string;
+        name: string;
         /**
         * If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
         * @property _exists
@@ -1990,7 +1990,7 @@ declare module Kiwi {
         * @type boolean
         * @public
         */
-        public exists : boolean;
+        exists: boolean;
         /**
         * Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.
         * By default Entitys contain no tags.
@@ -2008,7 +2008,7 @@ declare module Kiwi {
         * @since 1.1.0
         * @public
         */
-        public addTag(...args: any[]): void;
+        addTag(...args: any[]): void;
         /**
         * Removes a Tag from this Entity.
         * @method removeTag
@@ -2016,7 +2016,7 @@ declare module Kiwi {
         * @since 1.1.0
         * @public
         */
-        public removeTag(...args: any[]): void;
+        removeTag(...args: any[]): void;
         /**
         * Checks to see if this Entity has a Tag based upon a string which you pass.
         * @method hasTag
@@ -2025,7 +2025,7 @@ declare module Kiwi {
         * @return {boolean}
         * @public
         */
-        public hasTag(tag: string): boolean;
+        hasTag(tag: string): boolean;
         /**
         * An active Entity is one that has its update method called by its parent.
         * @property _active
@@ -2041,7 +2041,7 @@ declare module Kiwi {
         * @type boolean
         * @public
         */
-        public active : boolean;
+        active: boolean;
         /**
         * Controls whether render is automatically called by the parent.
         * @property _willRender
@@ -2059,7 +2059,7 @@ declare module Kiwi {
         * @public
         * @deprecated Use visible instead
         */
-        public willRender : boolean;
+        willRender: boolean;
         /**
         * Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)
         * @property _inputEnabled
@@ -2074,7 +2074,7 @@ declare module Kiwi {
         * @type boolean
         * @public
         */
-        public inputEnabled : boolean;
+        inputEnabled: boolean;
         /**
         * The clock that this entity use's for time based calculations. This generated by the state on instatiation.
         * @property _clock
@@ -2088,7 +2088,7 @@ declare module Kiwi {
         * @type Kiwi.Time.Clock
         * @public
         */
-        public clock : Time.Clock;
+        clock: Kiwi.Time.Clock;
         /**
         * A value used by components to control if the Entity needs re-rendering
         * @property dirty
@@ -2102,21 +2102,21 @@ declare module Kiwi {
         * @type boolean
         * @public
         */
-        public dirty : boolean;
+        dirty: boolean;
         /**
         * The type of this object.
         * @method objType
         * @return {String} The type of the object
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * This isn't called until the Entity has been added to a Group or a State.
         * Note: If added to a Group, who is not 'active' (so the Groups update loop doesn't run) then each member will not execute either.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * Renders the entity using the canvas renderer.
         * This isn't called until the Entity has been added to a Group/State which is active.
@@ -2125,7 +2125,7 @@ declare module Kiwi {
         * @param {Camera} camera
         * @public
         */
-        public render(camera: Camera): void;
+        render(camera: Kiwi.Camera): void;
         /**
         * Renders the entity using the canvas renderer.
         * This isn't called until the Entity has been added to a Group/State which is active.
@@ -2136,14 +2136,14 @@ declare module Kiwi {
         * @param [params=null] {object} params
         * @public
         */
-        public renderGL(gl: WebGLRenderingContext, camera: Camera, params?: any): void;
+        renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
         /**
         * Used to completely destroy this entity and of its components. Used for garbage collection and developers can also use it as needed.
         * @method destroy
         * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
         * @public
         */
-        public destroy(immediate?: boolean): void;
+        destroy(immediate?: boolean): void;
     }
 }
 /**
@@ -2162,37 +2162,37 @@ declare module Kiwi {
     * @param owner {Object} The object that this component belongs to.
     * @param componentName {String} The name of this component.
     * @return {Kiwi.Component}
-    */ 
+    */
     class Component {
-        constructor(owner: IChild, name: string);
+        constructor(owner: Kiwi.IChild, name: string);
         /**
         * Returns the type of this object
         * @method objType
         * @return {String} The type of this object
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The object that owns this entity
         * @property owner
         * @type Object
         * @public
         */
-        public owner: IChild;
+        owner: Kiwi.IChild;
         /**
         * The game this Component belongs to
         * @property game
         * @type Game
         * @public
         */
-        public game: Game;
+        game: Kiwi.Game;
         /**
         * The name of this component.
         * @property name
         * @type string
         * @public
         */
-        public name: string;
+        name: string;
         /**
         * An active Component is one that has its update method called by its parent.
         * @property active
@@ -2200,7 +2200,7 @@ declare module Kiwi {
         * @default true
         * @public
         */
-        public active: boolean;
+        active: boolean;
         /**
         * The state of this component.
         * @property dirty
@@ -2209,31 +2209,31 @@ declare module Kiwi {
         * @deprecated
         * @public
         */
-        public dirty: boolean;
+        dirty: boolean;
         /**
         * Components can preUpdate, that is update before the parent updates. This is to be overriden by subclasses.
         * @method preUpdate
         * @public
         */
-        public preUpdate(): void;
+        preUpdate(): void;
         /**
         * If the component is being added to a State rather than a Game Object then over-ride its update method to perform required tasks.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * Components can postUpdate, that is run an update after the parent has updated. This is to be overriden by subclasses.
         * @method postUpdate
         * @public
         */
-        public postUpdate(): void;
+        postUpdate(): void;
         /**
         * Destroys this component and all of the properties that exist on it.
         * @method destroy
         * @public
         */
-        public destroy(): void;
+        destroy(): void;
     }
 }
 /**
@@ -2254,16 +2254,16 @@ declare module Kiwi {
     * @return {Kiwi.Group}
     *
     */
-    class Group implements IChild {
-        constructor(state: State, name?: string);
+    class Group implements Kiwi.IChild {
+        constructor(state: Kiwi.State, name?: string);
         /**
         * Returns the type of this object
         * @method objType
         * @return {String} The type of this object
         * @public
         */
-        public objType(): string;
-        public childType(): number;
+        objType(): string;
+        childType(): number;
         /**
         * A name for this Group. This is not checked for uniqueness within the Game, but is very useful for debugging.
         * @property name
@@ -2271,7 +2271,7 @@ declare module Kiwi {
         * @default ''
         * @public
         */
-        public name: string;
+        name: string;
         /**
         * The transform object for this group.
         * Transform handles the calculation of coordinates/rotation/scale e.t.c in the Game World.
@@ -2279,7 +2279,7 @@ declare module Kiwi {
         * @type Kiwi.Geom.Transform
         * @public
         */
-        public transform: Geom.Transform;
+        transform: Kiwi.Geom.Transform;
         /**
         * The parent group of this group.
         * @property _parent
@@ -2293,21 +2293,21 @@ declare module Kiwi {
         * @type Kiwi.Group
         * @public
         */
-        public parent : Group;
+        parent: Kiwi.Group;
         /**
         * The X coordinate of this group. This is just aliased to the transform property.
         * @property x
         * @type Number
         * @public
         */
-        public x : number;
+        x: number;
         /**
         * The Y coordinate of this group. This is just aliased to the transform property.
         * @property y
         * @type Number
         * @public
         */
-        public y : number;
+        y: number;
         /**
         * The X coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.
         * @property worldX
@@ -2315,7 +2315,7 @@ declare module Kiwi {
         * @public
         * @since 1.1.0
         */
-        public worldX : number;
+        worldX: number;
         /**
         * The Y coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.
         * @property worldY
@@ -2323,9 +2323,9 @@ declare module Kiwi {
         * @public
         * @since 1.1.0
         */
-        public worldY : number;
-        public scaleX : number;
-        public scaleY : number;
+        worldY: number;
+        scaleX: number;
+        scaleY: number;
         /**
         * The scale of this group. This is just aliased to the transform property. This is WRITE-ONLY.
         * @property scale
@@ -2333,8 +2333,8 @@ declare module Kiwi {
         * @public
         * @since 1.1.0
         */
-        public scale : number;
-        public rotation : number;
+        scale: number;
+        rotation: number;
         /**
         * The rotation offset of this group in the X axis. This is just aliased to the transform property.
         * @property rotPointX
@@ -2342,7 +2342,7 @@ declare module Kiwi {
         * @public
         * @since 1.1.0
         */
-        public rotPointX : number;
+        rotPointX: number;
         /**
         * The rotation offset of this group in the Y axis. This is just aliased to the transform property.
         * @property rotPointY
@@ -2350,7 +2350,7 @@ declare module Kiwi {
         * @public
         * @since 1.1.0
         */
-        public rotPointY : number;
+        rotPointY: number;
         /**
         * The anchor point offset of this group in the X axis. This is just aliased to the transform property, and is in turn an alias of rotPointX.
         * @property anchorPointX
@@ -2358,7 +2358,7 @@ declare module Kiwi {
         * @public
         * @since 1.1.0
         */
-        public anchorPointX : number;
+        anchorPointX: number;
         /**
         * The anchor point offset of this group in the Y axis. This is just aliased to the transform property, and is in turn an alias of rotPointY.
         * @property anchorPointY
@@ -2366,49 +2366,49 @@ declare module Kiwi {
         * @public
         * @since 1.1.0
         */
-        public anchorPointY : number;
+        anchorPointY: number;
         /**
         * The Component Manager
         * @property components
         * @type Kiwi.ComponentManager
         * @public
         */
-        public components: ComponentManager;
+        components: Kiwi.ComponentManager;
         /**
         * The game this Group belongs to
         * @property game
         * @type Kiwi.Game
         * @public
         */
-        public game: Game;
+        game: Kiwi.Game;
         /**
         * The State that this Group belongs to
         * @property state
         * @type Kiwi.State
         * @public
         **/
-        public state: State;
+        state: Kiwi.State;
         /**
         * A unique identifier for this Group within the game used internally by the framework. See the name property for a friendly version.
         * @property id
         * @type string
         * @public
         */
-        public id: string;
+        id: string;
         /**
         * The collection of children belonging to this group
         * @property members
         * @type Array
         * @public
         */
-        public members: IChild[];
+        members: Kiwi.IChild[];
         /**
         * Returns the total number of children in this Group. Doesn't distinguish between alive and dead children.
         * @method numChildren
         * @return {Number} The number of children in this Group
         * @public
         */
-        public numChildren(): number;
+        numChildren(): number;
         /**
         * An indication of whether or not this group is 'dirty' and thus needs to be re-rendered or not.
         * @property _dirty
@@ -2422,7 +2422,7 @@ declare module Kiwi {
         * @type boolean
         * @public
         */
-        public dirty : boolean;
+        dirty: boolean;
         /**
         * Checks if the given entity is in this group
         * @method contains
@@ -2430,7 +2430,7 @@ declare module Kiwi {
         * @return {boolean} true if entity exists in group.
         * @public
         */
-        public contains(child: IChild): boolean;
+        contains(child: Kiwi.IChild): boolean;
         /**
         * Checks to see if the given object is contained in this group as a descendant
         * @method containsDescendant
@@ -2438,7 +2438,7 @@ declare module Kiwi {
         * @return {boolean}
         * @public
         */
-        public containsDescendant(child: IChild): boolean;
+        containsDescendant(child: Kiwi.IChild): boolean;
         /**
         * Checks to see if one child is an ansector of another child.
         * @method containsAncestor
@@ -2446,8 +2446,8 @@ declare module Kiwi {
         * @param ancestor {Group} The parent (ancestor) that you are checking for.
         * @return {boolean}
         * @public
-        */ 
-        public containsAncestor(descendant: IChild, ancestor: Group): boolean;
+        */
+        containsAncestor(descendant: Kiwi.IChild, ancestor: Kiwi.Group): boolean;
         /**
         * -------------------------
         * Add Children methods
@@ -2460,7 +2460,7 @@ declare module Kiwi {
         * @return {object} The child that was added.
         * @public
         */
-        public addChild(child: IChild): IChild;
+        addChild(child: Kiwi.IChild): Kiwi.IChild;
         /**
         * Adds an Entity to this Group in the specific location. The Entity must not already be in this Group and it must be supported by the Group.
         * @method addChildAt
@@ -2469,7 +2469,7 @@ declare module Kiwi {
         * @return {object} The child.
         * @public
         */
-        public addChildAt(child: IChild, index: number): IChild;
+        addChildAt(child: Kiwi.IChild, index: number): Kiwi.IChild;
         /**
         * Adds an Entity to this Group before another child.
         * @method addChildBefore
@@ -2478,7 +2478,7 @@ declare module Kiwi {
         * @return {object} The child.
         * @public
         */
-        public addChildBefore(child: IChild, beforeChild: IChild): IChild;
+        addChildBefore(child: Kiwi.IChild, beforeChild: Kiwi.IChild): Kiwi.IChild;
         /**
         * Adds an Entity to this Group after another child.
         * @method addChildAfter
@@ -2487,7 +2487,7 @@ declare module Kiwi {
         * @return {object} The child.
         * @public
         */
-        public addChildAfter(child: IChild, afterChild: IChild): IChild;
+        addChildAfter(child: Kiwi.IChild, afterChild: Kiwi.IChild): Kiwi.IChild;
         /**
         * --------------------
         * Remove Children Methods
@@ -2501,14 +2501,14 @@ declare module Kiwi {
         * @return {object} The child.
         * @public
         */
-        public removeChild(child: IChild, destroy?: boolean): IChild;
+        removeChild(child: Kiwi.IChild, destroy?: boolean): Kiwi.IChild;
         /**
         * Removes the Entity from this Group at the given position.
         * @method removeChildAt
         * @param index {Number} The index of the child to be removed.
         * @return {object} The child, or null.
         */
-        public removeChildAt(index: number): IChild;
+        removeChildAt(index: number): Kiwi.IChild;
         /**
         * Removes all Entities from this Group within the given range.
         * @method removeChildren
@@ -2518,7 +2518,7 @@ declare module Kiwi {
         * @return {Number} The number of removed entities.
         * @public
         */
-        public removeChildren(begin?: number, end?: number, destroy?: boolean): number;
+        removeChildren(begin?: number, end?: number, destroy?: boolean): number;
         /**
         * Removes the first Entity from this Group marked as 'alive'
         * @method removeFirstAlive
@@ -2527,7 +2527,7 @@ declare module Kiwi {
         * @public
         * @deprecated in v1.1.0
         */
-        public removeFirstAlive(destroy?: boolean): IChild;
+        removeFirstAlive(destroy?: boolean): Kiwi.IChild;
         /**
         * -------------------
         * Get Children Methods
@@ -2541,7 +2541,7 @@ declare module Kiwi {
         * @return {Array}
         * @since 1.1.0
         */
-        public getAllChildren(getGroups?: boolean, destinationArray?: IChild[]): IChild[];
+        getAllChildren(getGroups?: boolean, destinationArray?: IChild[]): IChild[];
         /**
         * Get the child at a specific position in this Group by its index.
         * @method getChildAt
@@ -2549,7 +2549,7 @@ declare module Kiwi {
         * @return {object} The child, if found or null if not.
         * @public
         */
-        public getChildAt(index: number): IChild;
+        getChildAt(index: number): Kiwi.IChild;
         /**
         * Get a child from this Group by its name. By default this will not check sub-groups, but if you supply the correct flag it will check the entire scene graph under this object.
         * @method getChildByName
@@ -2558,7 +2558,7 @@ declare module Kiwi {
         * @return {object} The child, if found or null if not.
         * @public
         */
-        public getChildByName(name: string, recurse?: boolean): IChild;
+        getChildByName(name: string, recurse?: boolean): Kiwi.IChild;
         /**
         * Get a child from this Group by its UUID. By default this will not check sub-groups, but if you supply the correct flag it will check the entire scene graph under this object.
         * @method getChildByID
@@ -2567,7 +2567,7 @@ declare module Kiwi {
         * @return {object} The child, if found or null if not.
         * @public
         */
-        public getChildByID(id: string, recurse?: boolean): IChild;
+        getChildByID(id: string, recurse?: boolean): Kiwi.IChild;
         /**
         * Returns the index position of the Entity or -1 if not found.
         * @method getChildIndex
@@ -2575,7 +2575,7 @@ declare module Kiwi {
         * @return {Number} The index of the child or -1 if not found.
         * @public
         */
-        public getChildIndex(child: IChild): number;
+        getChildIndex(child: Kiwi.IChild): number;
         /**
         * Returns the first Entity from this Group marked as 'alive' or null if no members are alive
         * @method getFirstAlive
@@ -2583,7 +2583,7 @@ declare module Kiwi {
         * @public
         * @deprecated in v1.1.0
         */
-        public getFirstAlive(): IChild;
+        getFirstAlive(): Kiwi.IChild;
         /**
         * Returns the first member of the Group which is not 'alive', returns null if all members are alive.
         * @method getFirstDead
@@ -2591,7 +2591,7 @@ declare module Kiwi {
         * @public
         * @deprecated in v1.1.0
         */
-        public getFirstDead(): IChild;
+        getFirstDead(): Kiwi.IChild;
         /**
         * Returns a member at random from the group.
         * @param {Number}	StartIndex	Optional offset off the front of the array. Default value is 0, or the beginning of the array.
@@ -2599,7 +2599,7 @@ declare module Kiwi {
         * @return {object}	A child from the members list.
         * @public
         */
-        public getRandom(start?: number, length?: number): IChild;
+        getRandom(start?: number, length?: number): Kiwi.IChild;
         /**
         * Returns an array of children which contain the tag which is passed.
         * @method getChildrenByTag
@@ -2608,7 +2608,7 @@ declare module Kiwi {
         * @public
         * @since 1.1.0
         */
-        public getChildrenByTag(tag: string): IChild[];
+        getChildrenByTag(tag: string): IChild[];
         /**
         * --------------------
         * Child Depth Sorting Methods
@@ -2622,7 +2622,7 @@ declare module Kiwi {
         * @return {boolean} true if the Entity was moved to the new position, otherwise false.
         * @public
         */
-        public setChildIndex(child: IChild, index: number): boolean;
+        setChildIndex(child: Kiwi.IChild, index: number): boolean;
         /**
         * Swaps the position of two existing Entities that are a direct child of this group.
         * @method swapChildren
@@ -2631,7 +2631,7 @@ declare module Kiwi {
         * @return {boolean} true if the Entities were swapped successfully, otherwise false.
         * @public
         */
-        public swapChildren(child1: IChild, child2: IChild): boolean;
+        swapChildren(child1: Kiwi.IChild, child2: Kiwi.IChild): boolean;
         /**
         * Swaps the position of two existing Entities within the Group based on their index.
         * @method swapChildrenAt
@@ -2640,7 +2640,7 @@ declare module Kiwi {
         * @return {boolean} true if the Entities were swapped successfully, otherwise false.
         * @public
         */
-        public swapChildrenAt(index1: number, index2: number): boolean;
+        swapChildrenAt(index1: number, index2: number): boolean;
         /**
         * Replaces a child Entity in this Group with a new one.
         * @method replaceChild
@@ -2649,7 +2649,7 @@ declare module Kiwi {
         * @return {boolean} true if the Entities were replaced successfully, otherwise false.
         * @public
         */
-        public replaceChild(oldChild: IChild, newChild: IChild): boolean;
+        replaceChild(oldChild: Kiwi.IChild, newChild: Kiwi.IChild): boolean;
         /**
         * Loops through each member in the group and run a method on for each one.
         * @method forEach
@@ -2658,7 +2658,7 @@ declare module Kiwi {
         * @param [params]* {any} Any extra parameters.
         * @public
         */
-        public forEach(context: any, callback: any, ...params: any[]): void;
+        forEach(context: any, callback: any, ...params: any[]): void;
         /**
         * Loop through each member of the groups that is alive.
         * @method forEachAlive
@@ -2667,7 +2667,7 @@ declare module Kiwi {
         * @param [params]* {any} Any extra parameters.
         * @public
         */
-        public forEachAlive(context: any, callback: any, ...params: any[]): void;
+        forEachAlive(context: any, callback: any, ...params: any[]): void;
         /**
         * Sets a property on every member. If componentName is null the property is set on the entity itself, otherwise it is set on the named component. Uses runtime string property lookups. Not optimal for large groups if speed is an issue.
         * @method setAll
@@ -2676,7 +2676,7 @@ declare module Kiwi {
         * @param value {any} The value to set the property to.
         * @public
         */
-        public setAll(componentName: string, property: string, value: any): void;
+        setAll(componentName: string, property: string, value: any): void;
         /**
         * Calls a function on every member. If componentName is null the function is called on the entity itself, otherwise it is called on the named component. Uses runtime string property lookups. Not optimal for large groups if speed is an issue.
         * @method callAll
@@ -2685,13 +2685,13 @@ declare module Kiwi {
         * @param args {Array} An array of arguments to pas to the function.
         * @public
         */
-        public callAll(componentName: string, functionName: string, args?: any[]): void;
+        callAll(componentName: string, functionName: string, args?: any[]): void;
         /**
         * The update loop for this group.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
         * @property exists
@@ -2706,7 +2706,7 @@ declare module Kiwi {
         * @type boolean
         * @public
         */
-        public exists : boolean;
+        exists: boolean;
         /**
         * An active Entity is one that has its update method called by its parent.
         * @property _active
@@ -2723,7 +2723,7 @@ declare module Kiwi {
         * @default true
         * @public
         */
-        public active : boolean;
+        active: boolean;
         /**
         * The render method that is required by the IChild.
         * This method never gets called as the render is only worried about rendering entities.
@@ -2732,27 +2732,27 @@ declare module Kiwi {
         * @public
         * @deprecated
         */
-        public render(camera: Camera): void;
+        render(camera: Kiwi.Camera): void;
         /**
         * Returns the number of member which are marked as 'alive'
         * @method countLiving
         * @return {Number}
         * @public
         */
-        public countLiving(): number;
+        countLiving(): number;
         /**
         * Returns the number of member which are not marked as 'alive'
         * @method countDead
         * @return {Number}
         * @public
         */
-        public countDead(): number;
+        countDead(): number;
         /**
         * Clear all children from this Group
         * @method clear
         * @public
         */
-        public clear(): void;
+        clear(): void;
         /**
         * Controls whether render is automatically called by the parent.
         * @property _willRender
@@ -2769,7 +2769,7 @@ declare module Kiwi {
         * @public
         * @deprecated Use visible instead
         */
-        public willRender : boolean;
+        willRender: boolean;
         /**
         * A boolean that indicates whether or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.
         * @property _visible
@@ -2787,7 +2787,7 @@ declare module Kiwi {
         * @public
         * @since 1.0.1
         */
-        public visible : boolean;
+        visible: boolean;
         /**
         * ---------------
         * Tagging System
@@ -2810,7 +2810,7 @@ declare module Kiwi {
         * @since 1.1.0
         * @public
         */
-        public addTag(...args: any[]): void;
+        addTag(...args: any[]): void;
         /**
         * Removes a Tag from this Entity.
         * @method removeTag
@@ -2818,7 +2818,7 @@ declare module Kiwi {
         * @since 1.1.0
         * @public
         */
-        public removeTag(...args: any[]): void;
+        removeTag(...args: any[]): void;
         /**
         * Checks to see if this Entity has a Tag based upon a string which you pass.
         * @method hasTag
@@ -2827,7 +2827,7 @@ declare module Kiwi {
         * @return {boolean}
         * @public
         */
-        public hasTag(tag: string): boolean;
+        hasTag(tag: string): boolean;
         /**
         * Removes all children and destroys the Group.
         * @method destroy
@@ -2835,7 +2835,7 @@ declare module Kiwi {
         * @param [destroyChildren=true] {boolean} If all of the children on the group should also have their destroy methods called.
         * @public
         */
-        public destroy(immediate?: boolean, destroyChildren?: boolean): void;
+        destroy(immediate?: boolean, destroyChildren?: boolean): void;
         /**
         * A temporary property that holds a boolean indicating whether or not the group's children should be destroyed or not.
         * @property _destroyRemoveChildren
@@ -2849,7 +2849,7 @@ declare module Kiwi {
 *
 * @module Kiwi
 *
-*/ 
+*/
 declare module Kiwi {
     /**
     * A State in Kiwi.JS is the main class that developers use when wanting to create a Game.
@@ -2863,7 +2863,7 @@ declare module Kiwi {
     * @constructor
     * @param name {String} Name of this State. Should be unique to differentiate itself from other States.
     * @return {Kiwi.State}
-    */ 
+    */
     class State extends Group {
         constructor(name: string);
         /**
@@ -2872,49 +2872,49 @@ declare module Kiwi {
         * @return {String} "State"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * Returns the type of child this is.
         * @method childType
         * @return {Number} Kiwi.GROUP
         * @public
         */
-        public childType(): number;
+        childType(): number;
         /**
         * The configuration object for this State.
         * @property config
         * @type Kiwi.StateConfig
         * @public
         */
-        public config: StateConfig;
+        config: Kiwi.StateConfig;
         /**
         * A reference to the Kiwi.Game that this State belongs to.
         * @property game
         * @type Kiwi.Game
         * @public
         */
-        public game: Game;
+        game: Kiwi.Game;
         /**
         * The library that this state use's for the loading of textures.
         * @property textureLibrary
         * @type Kiwi.Textures.TextureLibrary
         * @public
         */
-        public textureLibrary: Textures.TextureLibrary;
+        textureLibrary: Kiwi.Textures.TextureLibrary;
         /**
         * The library that this state use's for the loading of audio.
         * @property audioLibrary
         * @type Kiwi.Sound.AudioLibrary
         * @public
         */
-        public audioLibrary: Sound.AudioLibrary;
+        audioLibrary: Kiwi.Sound.AudioLibrary;
         /**
         * The library that this state use's for the loading of data.
         * @property dataLibrary
         * @type Kiwi.Files.DataLibrary
         * @public
         */
-        public dataLibrary: Files.DataLibrary;
+        dataLibrary: Kiwi.Files.DataLibrary;
         /**
         * Holds all of the textures that are avaiable to be accessed once this state has been loaded.
         * E.g. If you loaded a image and named it 'flower', once everything has loaded you can then access the flower image by saying this.textures.flower
@@ -2922,7 +2922,7 @@ declare module Kiwi {
         * @type Object
         * @public
         */
-        public textures: any;
+        textures: any;
         /**
         * Holds all of the audio that are avaiable to be accessed once this state has been loaded.
         * E.g. If you loaded a piece of audio and named it 'lazerz', once everything has loaded you can then access the lazers (pew pew) by saying this.audio.lazerz
@@ -2930,7 +2930,7 @@ declare module Kiwi {
         * @type Object
         * @public
         */
-        public audio: any;
+        audio: any;
         /**
         * Holds all of the data that are avaiable to be accessed once this state has been loaded.
         * E.g. If you loaded a piece of data and named it 'cookieLocation', once everything has loaded you can then access the cookies by saying this.data.cookieLocation
@@ -2938,15 +2938,15 @@ declare module Kiwi {
         * @type Object
         * @public
         */
-        public data: any;
+        data: any;
         /**
         * This method is executed when this State is about to be switched too. This is the first method to be executed, and happens before the Init method.
         * Is called each time a State is switched to.
         * @method boot
         * @public
         */
-        public boot(): void;
-        public setType(value: number): void;
+        boot(): void;
+        setType(value: number): void;
         /**
         * Gets executed when the state has been initalised and gets switched to for the first time.
         * This method only ever gets called once and it is before the preload method.
@@ -2955,14 +2955,14 @@ declare module Kiwi {
         * @param [values] { Any }
         * @public
         */
-        public init(...paramsArr: any[]): void;
+        init(...paramsArr: any[]): void;
         /**
         * This method is where you would load of all the assets that are requried for this state or in the entire game.
         *
         * @method preload
         * @public
         */
-        public preload(): void;
+        preload(): void;
         /**
         * This method is progressively called whilst loading files and is executed each time a file has been loaded.
         * This can be used to create a 'progress' bar during the loading stage of a game.
@@ -2972,57 +2972,57 @@ declare module Kiwi {
         * @param file {Kiwi.Files.File} The last file to have been loaded.
         * @public
         */
-        public loadProgress(percent: number, bytesLoaded: number, file: Files.File): void;
+        loadProgress(percent: number, bytesLoaded: number, file: Kiwi.Files.File): void;
         /**
         * Gets executed when the game is finished loading and it is about to 'create' the state.
         * @method loadComplete
         * @public
         */
-        public loadComplete(): void;
+        loadComplete(): void;
         /**
         * The game loop that gets executed while the game is loading.
         * @method loadUpdate
         * @public
         */
-        public loadUpdate(): void;
+        loadUpdate(): void;
         /**
         * Is executed once all of the assets have loaded and the game is ready to be 'created'.
         * @method create
         * @param [values]* {Any}
         * @public
         */
-        public create(...paramsArr: any[]): void;
+        create(...paramsArr: any[]): void;
         /**
         * Is called every frame before the update loop. When overriding make sure you include a super call.
         * @method preUpdate
         * @public
         */
-        public preUpdate(): void;
+        preUpdate(): void;
         /**
         * The update loop that is executed every frame while the game is 'playing'. When overriding make sure you include a super call too.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * The post update loop is executed every frame after the update method.
         * When overriding make sure you include a super call at the end of the method.
         * @method postUpdate
         * @public
         */
-        public postUpdate(): void;
+        postUpdate(): void;
         /**
         * Called after all of the layers have rendered themselves, useful for debugging.
         * @method postRender
         * @public
         */
-        public postRender(): void;
+        postRender(): void;
         /**
         * Called just before this State is going to be Shut Down and another one is going to be switched too.
         * @method shutDown
         * @public
         */
-        public shutDown(): void;
+        shutDown(): void;
         /**
         * Adds a new image file that is be loaded when the state gets up to the loading all of the assets.
         *
@@ -3036,7 +3036,7 @@ declare module Kiwi {
         * @param [offsetY] {Number} The offset of the image when rendering on the y axis.
         * @public
         */
-        public addImage(key: string, url: string, storeAsGlobal?: boolean, width?: number, height?: number, offsetX?: number, offsetY?: number): Files.File;
+        addImage(key: string, url: string, storeAsGlobal?: boolean, width?: number, height?: number, offsetX?: number, offsetY?: number): Files.File;
         /**
         * Adds a new spritesheet image file that is be loaded when the state gets up to the loading all of the assets.
         *
@@ -3055,7 +3055,7 @@ declare module Kiwi {
         * @param [cellOffsetY=0] {Number} The spacing between cells on the y axis.
         * @public
         */
-        public addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, storeAsGlobal?: boolean, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number): Files.TextureFile;
+        addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, storeAsGlobal?: boolean, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number): Files.TextureFile;
         /**
         * Adds a new texture atlas that is to be loaded when the states gets up to the stage of loading the assets.
         *
@@ -3067,7 +3067,7 @@ declare module Kiwi {
         * @param [storeAsGlobal=true] {boolean} If the image should be delete when switching to another state or if the other states should still be able to access this image.
         * @public
         */
-        public addTextureAtlas(key: string, imageURL: string, jsonID?: string, jsonURL?: string, storeAsGlobal?: boolean): Files.TextureFile;
+        addTextureAtlas(key: string, imageURL: string, jsonID?: string, jsonURL?: string, storeAsGlobal?: boolean): Files.TextureFile;
         /**
         * Adds a json file that is to be loaded when the state gets up to the stage of loading the assets.
         *
@@ -3077,7 +3077,7 @@ declare module Kiwi {
         * @param [storeAsGlobal=true] {boolean} If the json should be deleted when switching to another state or if the other states should still be able to access this json.
         * @public
         */
-        public addJSON(key: string, url: string, storeAsGlobal?: boolean): Files.DataFile;
+        addJSON(key: string, url: string, storeAsGlobal?: boolean): Files.DataFile;
         /**
         * Adds a new audio file that is to be loaded when the state gets up to the stage of loading the assets.
         *
@@ -3086,7 +3086,7 @@ declare module Kiwi {
         * @param url {string} The location of the audio file. You can pass a array of urls, in which case the first supported filetype will be used.
         * @param [storeAsGlobal=true] {boolean} If the audio should be deleted when switching to another state or if the other states should still be able to access this audio.
         */
-        public addAudio(key: string, url: any, storeAsGlobal?: boolean): Files.File;
+        addAudio(key: string, url: any, storeAsGlobal?: boolean): Files.File;
         /**
         * Contains a reference to all of the Objects that have ever been created for this state. Generally Kiwi.Entities or Kiwi.Groups.
         * Useful for keeping track of sprites that are not used any more and need to be destroyed.
@@ -3102,7 +3102,7 @@ declare module Kiwi {
         * @param child {Object} The Object which you are adding to the tracking list.
         * @public
         */
-        public addToTrackingList(child: IChild): void;
+        addToTrackingList(child: Kiwi.IChild): void;
         /**
         * Removes a Object from the tracking list. This should only need to happen when a child is being destroyed.
         * This is an INTERNAL Kiwi method and DEVS shouldn't really need to worry about it.
@@ -3110,7 +3110,7 @@ declare module Kiwi {
         * @param child {Object} The object which is being removed from the tracking list.
         * @public
         */
-        public removeFromTrackingList(child: IChild): void;
+        removeFromTrackingList(child: Kiwi.IChild): void;
         /**
         * Destroys all of Objects in the tracking list that are not currently on stage.
         * All that currently don't have this STATE as an ancestor.
@@ -3119,14 +3119,14 @@ declare module Kiwi {
         * @return {Number} The amount of objects removed.
         * @public
         */
-        public destroyUnused(): number;
+        destroyUnused(): number;
         /**
         * Used to mark all Entities that have been created for deletion, regardless of it they are on the stage or not.
         * @method destroy
         * @param [deleteAll=true] If all of the Objects ever created should have the destroy method executed also.
         * @public
         */
-        public destroy(deleteAll?: boolean): void;
+        destroy(deleteAll?: boolean): void;
         /**
         * Recursively goes through a child given and runs the destroy method on all that are passed.
         * @method _destroyChildren
@@ -3159,28 +3159,28 @@ declare module Kiwi {
     *
     */
     class Camera {
-        constructor(game: Game, id: number, name: string, x: number, y: number, width: number, height: number);
+        constructor(game: Kiwi.Game, id: number, name: string, x: number, y: number, width: number, height: number);
         /**
         * The width of this camara.
         * @property width
         * @type Number
         * @public
         */
-        public width: number;
+        width: number;
         /**
         * The height of this camera.
         * @property height
         * @type Number
         * @public
         */
-        public height: number;
+        height: number;
         /**
         * The type of object this is.
         * @method objType
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * If true then the camera will be resized to fit the stage when the stage is resized
         * @property fitToStage
@@ -3188,14 +3188,14 @@ declare module Kiwi {
         * @default true
         * @public
         */
-        public fitToStage: boolean;
+        fitToStage: boolean;
         /**
         * The Transform controls the location of the camera within the game world. Also controls the cameras scale and rotation.
         * @property transform
         * @type Kiwi.Geom.Transform
         * @public
         */
-        public transform: Geom.Transform;
+        transform: Kiwi.Geom.Transform;
         /**
         * Updates the width/height of this camera. Is used when the stage resizes.
         * @method _updatedStageSize
@@ -3217,14 +3217,14 @@ declare module Kiwi {
         * @type number
         * @public
         */
-        public id: number;
+        id: number;
         /**
         * A name for this Camera. This is not checked for uniqueness within the Game, but is very useful for debugging.
         * @property name
         * @type string
         * @public
         */
-        public name: string;
+        name: string;
         /**
         * Controls whether this Camera is rendered
         * @property _visible
@@ -3238,7 +3238,7 @@ declare module Kiwi {
         * @type boolean
         * @public
         */
-        public visible : boolean;
+        visible: boolean;
         /**
         * A flag that indicates whether this camera needs to be rendered again at the next update loop, or if nothing has changed so it doesn't.
         * @property _dirty
@@ -3254,7 +3254,7 @@ declare module Kiwi {
         * @public
         * @deprecated As of 1.1.0, no use has been found for this property.
         */
-        public dirty : boolean;
+        dirty: boolean;
         /**
         * Apply this cameras inverted matrix to a an object with x and y properties representing a point and return the transformed point.
         * Useful for when calculating if coordinates with the mouse.
@@ -3264,19 +3264,19 @@ declare module Kiwi {
         * @return {Kiwi.Geom.Point}
         * @public
         */
-        public transformPoint(point: Geom.Point): Geom.Point;
+        transformPoint(point: Kiwi.Geom.Point): Kiwi.Geom.Point;
         /**
         * The update loop that is executed every frame.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * The render loop that is executed whilst the game is playing.
         * @method render
         * @public
         */
-        public render(): void;
+        render(): void;
     }
 }
 /**
@@ -3328,7 +3328,7 @@ declare module Kiwi {
         * @default false
         * @public
         */
-        public memorize: boolean;
+        memorize: boolean;
         /**
         * If the callbacks should propagate or not.
         * @property _shouldPropagate
@@ -3346,14 +3346,14 @@ declare module Kiwi {
         * @default true
         * @public
         */
-        public active: boolean;
+        active: boolean;
         /**
         * Returns the type of this object
         * @method objType
         * @return {String} "Signal"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * Validates a event listener an is used to check to see if it is valid or not.
         * An event listener is not valid if it is not a function.
@@ -3364,7 +3364,7 @@ declare module Kiwi {
         * @param fnName {Any} The name of the function.
         * @public
         */
-        public validateListener(listener: any, fnName: any): void;
+        validateListener(listener: any, fnName: any): void;
         /**
         * Internal Code which handles the registeration of a new callback (known as a "listener").
         * Creates a new SignalBinding for the Signal and then adds the binding to the list by its priority level.
@@ -3407,7 +3407,7 @@ declare module Kiwi {
         * @return {boolean} If this Signal already has the specified listener.
         * @public
         */
-        public has(listener: any, context?: any): boolean;
+        has(listener: any, context?: any): boolean;
         /**
         * Adds a new listener/callback to this Signal.
         * The listener attached will be executed whenever this Signal dispatches an event.
@@ -3419,7 +3419,7 @@ declare module Kiwi {
         * @return {Kiwi.SignalBinding} An Object representing the binding between the Signal and listener.
         * @public
         */
-        public add(listener: any, listenerContext?: any, priority?: number): SignalBinding;
+        add(listener: any, listenerContext?: any, priority?: number): SignalBinding;
         /**
         * Add listener to the signal that should be removed after first execution (will be executed only once).
         *
@@ -3430,7 +3430,7 @@ declare module Kiwi {
         * @return {Kiwi.SignalBinding} An Object representing the binding between the Signal and listener.
         * @public
         */
-        public addOnce(listener: any, listenerContext?: any, priority?: number): SignalBinding;
+        addOnce(listener: any, listenerContext?: any, priority?: number): SignalBinding;
         /**
         * Remove a single listener from the dispatch queue.
         *
@@ -3440,13 +3440,13 @@ declare module Kiwi {
         * @return {Function} Listener handler function.
         * @public
         */
-        public remove(listener: any, context?: any): any;
+        remove(listener: any, context?: any): any;
         /**
         * Remove all listeners from the Signal.
         * @method removeAll
         * @public
         */
-        public removeAll(): void;
+        removeAll(): void;
         /**
         * Returns the number of listeners that have been attached to this Signal.
         *
@@ -3454,7 +3454,7 @@ declare module Kiwi {
         * @return {number} Number of listeners attached to the Signal.
         * @public
         */
-        public getNumListeners(): number;
+        getNumListeners(): number;
         /**
         * Stop propagation of the event, blocking the dispatch to next listeners on the queue.
         * Note: should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.
@@ -3462,7 +3462,7 @@ declare module Kiwi {
         * @method halt
         * @public
         */
-        public halt(): void;
+        halt(): void;
         /**
         * Resume propagation of the event, resuming the dispatch to next listeners on the queue.
         * Note: should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.
@@ -3470,7 +3470,7 @@ declare module Kiwi {
         * @method resume
         * @public
         */
-        public resume(): void;
+        resume(): void;
         /**
         * Dispatch/Broadcast to all listeners added to this Signal.
         * Parameters passed to this method will also be passed to each handler.
@@ -3479,20 +3479,20 @@ declare module Kiwi {
         * @param [params]* {any} Parameters that should be passed to each handler.
         * @public
         */
-        public dispatch(...paramsArr: any[]): void;
+        dispatch(...paramsArr: any[]): void;
         /**
         * Forget memorized arguments. See the 'memorize' property.
         * @method forget
         * @public
         */
-        public forget(): void;
+        forget(): void;
         /**
         * Remove all bindings from signal and destroy any reference to external objects (destroy Signal object).
         * Note: calling any method on the signal instance after calling dispose will throw errors.
         * @method dispose
         * @public
         */
-        public dispose(): void;
+        dispose(): void;
     }
 }
 /**
@@ -3531,7 +3531,7 @@ declare module Kiwi {
         * @return {String} "SignalBinding"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * Handler function bound to the signal.
         * @property _listener
@@ -3552,7 +3552,7 @@ declare module Kiwi {
         * @type any
         * @public
         */
-        public context: any;
+        context: any;
         /**
         * Reference to Signal object that listener is currently bound to.
         * @property _signal
@@ -3566,7 +3566,7 @@ declare module Kiwi {
         * @type Number
         * @public
         */
-        public priority: number;
+        priority: number;
         /**
         * If binding is active and should be executed.
         * @property active
@@ -3574,7 +3574,7 @@ declare module Kiwi {
         * @default true
         * @public
         */
-        public active: boolean;
+        active: boolean;
         /**
         * Default parameters passed to listener during `Signal.dispatch` and `SignalBinding.execute`. (curried parameters)
         * @property params
@@ -3582,7 +3582,7 @@ declare module Kiwi {
         * @default null
         * @public
         */
-        public params: any;
+        params: any;
         /**
         * Call listener passing arbitrary parameters.
         * If this binding was added using `Signal.addOnce()` it will be automatically removed from signal dispatch queue,
@@ -3593,7 +3593,7 @@ declare module Kiwi {
         * @return {*} Value returned by the listener.
         * @public
         */
-        public execute(paramsArr?: any[]): any;
+        execute(paramsArr?: any[]): any;
         /**
         * Detach this binding from the Signal it is attached to.
         * Alias for 'Signal.remove()'
@@ -3602,41 +3602,41 @@ declare module Kiwi {
         * @return {Function|null} Handler function bound to the signal or `null` if binding was previously detached.
         * @public
         */
-        public detach(): any;
+        detach(): any;
         /**
         * Checks to see if this Binding is still bound to a Signal and contains a listener.
         * @method isBound
         * @return {boolean} `true` if binding is still bound to the signal and have a listener.
         * @public
         */
-        public isBound(): boolean;
+        isBound(): boolean;
         /**
         * Returns a boolean indicating whether this event will be exectued just once or not.
         * @method isOnce
         * @return {boolean} If SignalBinding will only be executed once.
         * @public
         */
-        public isOnce(): boolean;
+        isOnce(): boolean;
         /**
         * Returns the Handler function bound to the Signal.
         * @method getListener
         * @return {Function} Handler function bound to the signal.
         * @public
         */
-        public getListener(): any;
+        getListener(): any;
         /**
         * Returns the signal which this Binding is currently attached to.
         * @method getSignal
         * @return {Kiwi.Signal} Signal that listener is currently bound to.
         * @public
         */
-        public getSignal(): Signal;
+        getSignal(): Signal;
         /**
         * Delete instance properties
         * @method _destory
         * @public
         */
-        public _destroy(): void;
+        _destroy(): void;
     }
 }
 /**
@@ -3645,7 +3645,7 @@ declare module Kiwi {
 * @module Kiwi
 * @submodule GameObjects
 * @main GameObjects
-*/ 
+*/
 declare module Kiwi.GameObjects {
     /**
     * A Sprite is a general purpose GameObject that contains majority of the functionality that is needed/would be wanted and as such should be used only when you are wanting a GameObject with a lot of interaction. When creating a Sprite you pass to it as TextureAtlas (for the image you want to render), now if that Texture Atlas isn't a SINGLE_IMAGE then the Sprite will have an AnimationManager Component to handle any SpriteSheet animations you need.
@@ -3661,15 +3661,15 @@ declare module Kiwi.GameObjects {
     * @param [enableInput=false] {boolean} If the input component should be enabled or not.
     * @return {Sprite}
     */
-    class Sprite extends Entity {
-        constructor(state: State, atlas: Textures.TextureAtlas, x?: number, y?: number, enableInput?: boolean);
+    class Sprite extends Kiwi.Entity {
+        constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x?: number, y?: number, enableInput?: boolean);
         /**
         * Returns the type of object that this is.
         * @method objType
         * @return {string}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * Indicates whether or not this sprite is animated or not.
         * This sprite will not be animated if the texture used is a SINGLE_IMAGE.
@@ -3685,34 +3685,34 @@ declare module Kiwi.GameObjects {
         * @type Kiwi.Components.AnimationManager
         * @public
         */
-        public animation: Components.AnimationManager;
+        animation: Kiwi.Components.AnimationManager;
         /**
         * The box component that controls the bounding box around this Game Object
         * @property box
         * @type Kiwi.Components.Box
         * @public
         */
-        public box: Components.Box;
+        box: Kiwi.Components.Box;
         /**
         * The Input component controls the user interaction with this Game Object
         * @property input
         * @type Kiwi.Components.Input
         * @public
         */
-        public input: Components.Input;
+        input: Kiwi.Components.Input;
         /**
         * Called by parent when its update loop gets executed.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * Renders the GameObject using Canvas.
         * @method render
         * @param {Kiwi.Camera} camera
         * @public
         */
-        public render(camera: Camera): void;
+        render(camera: Kiwi.Camera): void;
         /**
         * Renders the GameObject using WebGL.
         * @method renderGL
@@ -3721,7 +3721,7 @@ declare module Kiwi.GameObjects {
         * @param {Object} params
         * @public
         */
-        public renderGL(gl: WebGLRenderingContext, camera: Camera, params?: any): void;
+        renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
     }
 }
 /**
@@ -3729,7 +3729,7 @@ declare module Kiwi.GameObjects {
 * @module Kiwi
 * @submodule GameObjects
 *
-*/ 
+*/
 declare module Kiwi.GameObjects {
     /**
     * A light weight game object for displaying static images that would have little or no interaction with other GameObjects. An Example of this would be a background image. Note: Since a StaticImage is lightweight it doesn't have any AnimationManager to handle the switching of cells (If you were using a SpriteSheet/TextureAtlas). In order to switch cells you can change the value of the cellIndex property.
@@ -3744,29 +3744,29 @@ declare module Kiwi.GameObjects {
     * @param [y=0] {Number} The coordinates on the y axis
     * @return {StaticImage}
     */
-    class StaticImage extends Entity {
-        constructor(state: State, atlas: Textures.TextureAtlas, x?: number, y?: number);
+    class StaticImage extends Kiwi.Entity {
+        constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x?: number, y?: number);
         /**
         * Returns the type of object that this is.
         * @method objType
         * @return {string} "StaticImage"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The Bounds component that controls the bounding box around this Game Object
         * @property box
         * @type Kiwi.Components.Box
         * @public
         */
-        public box: Components.Box;
+        box: Kiwi.Components.Box;
         /**
         * Called by the Layer to which this Game Object is attached
         * @method render
         * @param {Kiwi.Camara} camera
         * @public
         */
-        public render(camera: Camera): void;
+        render(camera: Kiwi.Camera): void;
         /**
         * Renders the GameObject using WebGL.
         * @method renderGL
@@ -3775,7 +3775,7 @@ declare module Kiwi.GameObjects {
         * @param {Object} params
         * @public
         */
-        public renderGL(gl: WebGLRenderingContext, camera: Camera, params?: any): void;
+        renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
     }
 }
 /**
@@ -3783,7 +3783,7 @@ declare module Kiwi.GameObjects {
 * @module Kiwi
 * @submodule GameObjects
 *
-*/ 
+*/
 declare module Kiwi.GameObjects {
     /**
     * Textfield is a GameObject that is used when you are wanting to render text onto the current State. The Textfield is not designed to have any interaction with other GameObjects and as such it does not have many (if any) components or even a width/height.
@@ -3802,15 +3802,15 @@ declare module Kiwi.GameObjects {
     * @param [fontFamily='sans-serif'] {String} The font family that is to be used when rendering.
     * @return {Textfield} This Game Object.
     */
-    class Textfield extends Entity {
-        constructor(state: State, text: string, x?: number, y?: number, color?: string, size?: number, weight?: string, fontFamily?: string);
+    class Textfield extends Kiwi.Entity {
+        constructor(state: Kiwi.State, text: string, x?: number, y?: number, color?: string, size?: number, weight?: string, fontFamily?: string);
         /**
         * Returns the type of object that this is
         * @method objType
         * @return {string}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The text that is to be rendered.
         * @property _text
@@ -3880,35 +3880,35 @@ declare module Kiwi.GameObjects {
         * @type string
         * @public
         */
-        public text : string;
+        text: string;
         /**
         * The color of the font that is contained in this textfield.
         * @property color
         * @type string
         * @public
         */
-        public color : string;
+        color: string;
         /**
         * The weight of the font.
         * @property fontWeight
         * @type string
         * @public
         */
-        public fontWeight : string;
+        fontWeight: string;
         /**
         * The size on font when being displayed onscreen.
         * @property fontSize
         * @type number
         * @public
         */
-        public fontSize : number;
+        fontSize: number;
         /**
         * The font family that is being used to render the text.
         * @property fontFamily
         * @type string
         * @public
         */
-        public fontFamily : string;
+        fontFamily: string;
         /**
         * A static property that contains the string to center align the text.
         * @property TEXT_ALIGN_CENTER
@@ -3946,7 +3946,7 @@ declare module Kiwi.GameObjects {
         * @type string
         * @public
         */
-        public textAlign : string;
+        textAlign: string;
         /**
         * The canvas element which the text is rendered onto.
         * @property _canvas
@@ -3981,7 +3981,7 @@ declare module Kiwi.GameObjects {
         * @param {Kiwi.Camera}
         * @public
         */
-        public render(camera: Camera): void;
+        render(camera: Kiwi.Camera): void;
         /**
         * Renders the GameObject using WebGL.
         * @method renderGL
@@ -3990,7 +3990,7 @@ declare module Kiwi.GameObjects {
         * @param {Object} params
         * @public
         */
-        public renderGL(gl: WebGLRenderingContext, camera: Camera, params?: any): void;
+        renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
     }
     /**
     * Alias of the 'Kiwi.GameObjects.Textfield'.
@@ -4023,7 +4023,7 @@ declare module Kiwi.GameObjects.Tilemap {
     * @public
     */
     class TileType {
-        constructor(tilemap: TileMap, index: number, cellIndex?: number);
+        constructor(tilemap: Kiwi.GameObjects.Tilemap.TileMap, index: number, cellIndex?: number);
         /**
         * The collision information for this type of tile.
         * It's values are the same as the Static properties inside of the ArcadePhysics Component.
@@ -4032,7 +4032,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @default NONE
         * @public
         */
-        public allowCollisions: number;
+        allowCollisions: number;
         /**
         * The properties associated with this type of tile.
         * These are set when loading a JSON file that had properties associated with a TileType.
@@ -4040,7 +4040,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @type Object
         * @public
         */
-        public properties: any;
+        properties: any;
         /**
         * The offset of this tile for rendering purposes.
         * Does not affect regular collision detection.
@@ -4048,15 +4048,15 @@ declare module Kiwi.GameObjects.Tilemap {
         * @property offset
         * @type Kiwi.Geom.Point
         * @public
-        */ 
-        public offset: Geom.Point;
+        */
+        offset: Kiwi.Geom.Point;
         /**
         * A reference to the tilemap this tile object belongs to.
         * @property tilemap
         * @type Kiwi.GameObjects.Tilemap.TileMap
         * @public
         */
-        public tilemap: TileMap;
+        tilemap: Kiwi.GameObjects.Tilemap.TileMap;
         /**
         * The index of this tile type in the core map data.
         * For example, if your map only has 16 different types of tiles in it, this will be one of those tiles and thus a number between 1 and 16.
@@ -4064,7 +4064,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @type Number
         * @public
         */
-        public index: number;
+        index: number;
         /**
         * A number relating to the cell that should be when rendering a Tile that uses this TileType.
         * A cellIndex of -1 means this type of tile will not be rendered.
@@ -4072,14 +4072,14 @@ declare module Kiwi.GameObjects.Tilemap {
         * @type number
         * @public
         */
-        public cellIndex: number;
+        cellIndex: number;
         /**
         * The type of object that it is.
         * @method objType
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
     }
 }
 /**
@@ -4104,7 +4104,7 @@ declare module Kiwi.GameObjects.Tilemap {
     * @return {TileMap}
     */
     class TileMap {
-        constructor(state: State, tileMapData?: any, atlas?: Textures.TextureAtlas, startingCell?: number);
+        constructor(state: Kiwi.State, tileMapData?: any, atlas?: Kiwi.Textures.TextureAtlas, startingCell?: number);
         /**
         * The orientation of the tilemap.
         * Note: This value does not affect the individual layers.
@@ -4113,35 +4113,35 @@ declare module Kiwi.GameObjects.Tilemap {
         * @type String
         * @public
         */
-        public orientation: string;
+        orientation: string;
         /**
         * Is an Array containing all of the TileTypes that are available on the TileMap.
         * @property tileTypes
         * @type TileType[]
         * @public
         */
-        public tileTypes: TileType[];
+        tileTypes: TileType[];
         /**
         * A list of all of the TileMapLayers that exist on the TileMap.
         * @property layers
         * @type TileMapLayer
         * @public
         */
-        public layers: TileMapLayer[];
+        layers: TileMapLayer[];
         /**
         * The state that this TileMap exists on.
         * @property state
         * @type Kiwi.State
         * @public
         */
-        public state: State;
+        state: Kiwi.State;
         /**
         * The game that this TileMap is a part of.
         * @property game
         * @type Kiwi.Game
         * @public
         */
-        public game: Game;
+        game: Kiwi.Game;
         /**
         * The default width of a single tile that a TileMapLayer is told to have upon its creation.
         * @property tileWidth
@@ -4149,7 +4149,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @default 0
         * @public
         */
-        public tileWidth: number;
+        tileWidth: number;
         /**
         * The default height of a single tile that a TileMapLayer is told to have upon its creation.
         * @property tileHeight
@@ -4157,7 +4157,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @default 0
         * @public
         */
-        public tileHeight: number;
+        tileHeight: number;
         /**
         * The default width of all TileMapLayers when they are created.
         * This value is in Tiles.
@@ -4166,7 +4166,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @default 0
         * @public
         */
-        public width: number;
+        width: number;
         /**
         * The default height of all TileMapLayers when they are created.
         * This value is in Tiles.
@@ -4175,28 +4175,28 @@ declare module Kiwi.GameObjects.Tilemap {
         * @default 0
         * @public
         */
-        public height: number;
+        height: number;
         /**
         * The width of the tilemap in pixels. This value is READ ONLY.
         * @property widthInPixels
         * @type Number
         * @public
         */
-        public widthInPixels : number;
+        widthInPixels: number;
         /**
         * The height of the tilemap in pixels. This value is READ ONLY.
         * @property heightInPixels
         * @type Number
         * @public
         */
-        public heightInPixels : number;
+        heightInPixels: number;
         /**
         * Any properties that were found in the JSON during creation.
         * @property properties
         * @type Object
         * @public
         */
-        public properties: any;
+        properties: any;
         /**
         * Creates new tilemap layers from a JSON file that you pass (has to be in the Tiled Format).
         * The texture atlas you pass is that one that each TileMapLayer found in the JSON will use, You can change the TextureAtlas afterwards.
@@ -4208,7 +4208,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @param [startingCell=0] {number} The number for the initial cell that the first TileType should use. If you pass -1 then no new TileTypes will be created.
         * @public
         */
-        public createFromFileStore(tileMapData: any, atlas: Textures.TextureAtlas, startingCell?: number): boolean;
+        createFromFileStore(tileMapData: any, atlas: Kiwi.Textures.TextureAtlas, startingCell?: number): boolean;
         /**
         * Generates new TileTypes based upon the Tileset information that lies inside the Tiled JSON.
         * This is an INTERNAL method, which is used when the createFromFileStore method is executed.
@@ -4228,7 +4228,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @param height {Number} The height of the whole map.
         * @public
         */
-        public setTo(tileWidth: number, tileHeight: number, width: number, height: number): void;
+        setTo(tileWidth: number, tileHeight: number, width: number, height: number): void;
         /**
         *-----------------------
         * Creation of Tile Types
@@ -4241,7 +4241,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @return {TileType} The TileType generated.
         * @public
         */
-        public createTileType(cell?: number): TileType;
+        createTileType(cell?: number): TileType;
         /**
         * Creates a new TileType for each cell that you pass.
         * @method createTileTypes
@@ -4249,7 +4249,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @return {TileTypes[]} The TileTypes generated.
         * @public
         */
-        public createTileTypes(cells: number[]): TileType[];
+        createTileTypes(cells: number[]): TileType[];
         /**
         * Used to create a number of TileTypes based starting cell number and how many you want from there.
         * @method createTileTypesByRange
@@ -4257,7 +4257,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @param range {Number} How many cells (from the starting cell) should be created.
         * @return {TileTypes[]} The TileTypes generated.
         */
-        public createTileTypesByRange(cellStart: number, range: number): TileType[];
+        createTileTypesByRange(cellStart: number, range: number): TileType[];
         /**
         *-----------------------
         * Cell Modifications
@@ -4270,7 +4270,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @param cell {number} The new cellIndex it should have.
         * @public
         */
-        public setCell(type: number, cell: number): void;
+        setCell(type: number, cell: number): void;
         /**
         * Changes a range of cellIndexs for Tiles the same range of TileTypes.
         * @method setCellsByRange
@@ -4279,7 +4279,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @param range {number} How many times it should run.
         * @public
         */
-        public setCellsByRange(typeStart: number, cellStart: number, range: number): void;
+        setCellsByRange(typeStart: number, cellStart: number, range: number): void;
         /**
         *-----------------------
         * Creation of Tilemap Layers
@@ -4303,19 +4303,19 @@ declare module Kiwi.GameObjects.Tilemap {
         * @return {TileMapLayer} The TileMapLayer that was created.
         * @public
         */
-        public createNewLayer(name: string, atlas: Textures.TextureAtlas, data?: number[], w?: number, h?: number, x?: number, y?: number, tw?: number, th?: number): TileMapLayer;
+        createNewLayer(name: string, atlas: Kiwi.Textures.TextureAtlas, data?: number[], w?: number, h?: number, x?: number, y?: number, tw?: number, th?: number): TileMapLayer;
         /**
         * Eventually will create a new object layer. Currently does nothing.
         * @method createNewObjectLayer
         * @public
         */
-        public createNewObjectLayer(): void;
+        createNewObjectLayer(): void;
         /**
         * Eventually will create a new image layer. Currently does nothing.
         * @method createNewObjectLayer
         * @public
         */
-        public createNewImageLayer(): void;
+        createNewImageLayer(): void;
         /**
         *-----------------------
         * TileMapLayer Management Functions
@@ -4329,7 +4329,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @return {TileMapLayer} Either the layer with the name passed, or null if no Layer with that name was found.
         * @public
         */
-        public getLayerByName(name: string): TileMapLayer;
+        getLayerByName(name: string): TileMapLayer;
         /**
         * Returns the layer with the number associated with it in the layers array.
         * @method getLayer
@@ -4337,14 +4337,14 @@ declare module Kiwi.GameObjects.Tilemap {
         * @return {TileMapLayer}
         * @public
         */
-        public getLayer(num: number): TileMapLayer;
+        getLayer(num: number): TileMapLayer;
         /**
         * The type of object that it is.
         * @method objType
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
     }
     var ISOMETRIC: string;
     var ORTHOGONAL: string;
@@ -4376,8 +4376,8 @@ declare module Kiwi.GameObjects.Tilemap {
     * @param [h=0] {Number} The height of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
     * @return {TileMapLayer}
     */
-    class TileMapLayer extends Entity {
-        constructor(tilemap: TileMap, name: string, atlas: Textures.TextureAtlas, data: number[], tw: number, th: number, x?: number, y?: number, w?: number, h?: number);
+    class TileMapLayer extends Kiwi.Entity {
+        constructor(tilemap: Kiwi.GameObjects.Tilemap.TileMap, name: string, atlas: Kiwi.Textures.TextureAtlas, data: number[], tw: number, th: number, x?: number, y?: number, w?: number, h?: number);
         /**
         * The physics component contained on the Tilemap. Use for basic collisions between People and Tiles.
         * Note: That tilemap layers a immovable and collisions with tiles are set on the individual TileTypes that are contained on the TileMap.
@@ -4385,84 +4385,84 @@ declare module Kiwi.GameObjects.Tilemap {
         * @type ArcadePhysics
         * @public
         */
-        public physics: Components.ArcadePhysics;
+        physics: Kiwi.Components.ArcadePhysics;
         /**
         * Returns the type of child that this is.
         * @type Number
         * @return {Number} returns the type of child that the entity is
         * @public
         */
-        public childType(): number;
+        childType(): number;
         /**
         * The type of object that it is.
         * @method objType
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The tilemap that this TileMapLayer is a part of.
         * @property tilemap
         * @type TileMap
         * @public
         */
-        public tilemap: TileMap;
+        tilemap: Kiwi.GameObjects.Tilemap.TileMap;
         /**
         * Properties about that this TileMapLayer has when it was created from a JSON file.
         * @property properties
         * @type Object
         * @public
         */
-        public properties: any;
+        properties: any;
         /**
         * The width of this TileMap in tiles.
         * @property width
         * @type Number
         * @public
         */
-        public width: number;
+        width: number;
         /**
         * The height of this TileMap in tiles.
         * @property height
         * @type Number
         * @public
         */
-        public height: number;
+        height: number;
         /**
         * The width of a single tile.
         * @property tileWidth
         * @type Number
         * @public
         */
-        public tileWidth: number;
+        tileWidth: number;
         /**
         * The height of a single tile.
         * @property tileHeight
         * @type Number
         * @public
         */
-        public tileHeight: number;
+        tileHeight: number;
         /**
         * The texture atlas that should be used when rendering.
         * @property atlas
         * @type Kiwi.Textures.TextureAtlas
         * @public
         */
-        public atlas: Textures.TextureAtlas;
+        atlas: Kiwi.Textures.TextureAtlas;
         /**
         * The width of the layer in pixels. This property is READ ONLY.
         * @property widthInPixels
         * @type number
         * @public
         */
-        public widthInPixels : number;
+        widthInPixels: number;
         /**
         * The height of the layer in pixels. This property is READ ONLY.
         * @property heightInPixels
         * @type number
         * @public
         */
-        public heightInPixels : number;
+        heightInPixels: number;
         /**
         * Override function to prevent unwanted inherited behaviour. Do not call.
         *
@@ -4473,10 +4473,10 @@ declare module Kiwi.GameObjects.Tilemap {
         * @deprecated Not functional on this object.
         * @since 1.1.0
         */
-        public cellIndex : number;
-        public scaleToWidth(value: number): void;
-        public scaleToHeight(value: number): void;
-        public centerAnchorPoint(): void;
+        cellIndex: number;
+        scaleToWidth(value: number): void;
+        scaleToHeight(value: number): void;
+        centerAnchorPoint(): void;
         /**
         * A list containing all the types of tiles found on this TileMapLayer.
         * @property _data
@@ -4491,7 +4491,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @return {Number} The number of tiles on this layer.
         * @public
         */
-        public countTiles(type?: number): number;
+        countTiles(type?: number): number;
         /**
         * The orientation of the of tilemap.
         * TileMaps can be either 'orthogonal' (normal) or 'isometric'.
@@ -4500,7 +4500,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @default 'orthogonal'
         * @public
         */
-        public orientation: string;
+        orientation: string;
         /**
         *-----------------------
         * Getting Tiles
@@ -4512,7 +4512,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @type number[]
         * @public
         */
-        public tileData : number[];
+        tileData: number[];
         /**
         * Returns the index of the tile based on the x and y coordinates of the tile passed.
         * If no tile is a the coordinates given then -1 is returned instead.
@@ -4523,7 +4523,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @return {Number} Either the index of the tile retrieved or -1 if none was found.
         * @public
         */
-        public getIndexFromXY(x: number, y: number): number;
+        getIndexFromXY(x: number, y: number): number;
         /**
         * Returns the TileType for a tile that is at a particular set of coordinates passed.
         * If no tile is found the null is returned instead.
@@ -4534,7 +4534,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @return {Number} The tile
         * @public
         */
-        public getTileFromXY(x: number, y: number): TileType;
+        getTileFromXY(x: number, y: number): TileType;
         /**
         * Returns the index of the tile based on the x and y pixel coordinates that are passed.
         * If no tile is a the coordinates given then -1 is returned instead.
@@ -4547,7 +4547,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @return {Number} Either the index of the tile retrieved or -1 if none was found.
         * @public
         */
-        public getIndexFromCoords(x: number, y: number): number;
+        getIndexFromCoords(x: number, y: number): number;
         /**
         * Returns the TileType for a tile that is at a particular coordinate passed.
         * If no tile is found then null is returned instead.
@@ -4560,7 +4560,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @return {Number} The tile
         * @public
         */
-        public getTileFromCoords(x: number, y: number): TileType;
+        getTileFromCoords(x: number, y: number): TileType;
         /**
         * Returns the indexes of every tile of a type you pass.
         * @method getIndexsByType
@@ -4568,7 +4568,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @return {Number[]}
         * @public
         */
-        public getIndexesByType(type: number): number[];
+        getIndexesByType(type: number): number[];
         /**
         *-----------------------
         * Tiles Manipulation
@@ -4584,7 +4584,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @return {Boolean} If a tile was changed or not.
         * @public
         */
-        public setTile(x: number, y: number, tileType: number): boolean;
+        setTile(x: number, y: number, tileType: number): boolean;
         /**
         * Sets the tile to be used at the index provided.
         * Can be used to override a tile that may already exist at the location.
@@ -4593,7 +4593,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @param tileType {Number} The new tile type to be used at that position.
         * @public
         */
-        public setTileByIndex(index: number, tileType: number): void;
+        setTileByIndex(index: number, tileType: number): void;
         /**
         * Randomizes the types of tiles used in an area of the layer. You can choose which types of tiles to use, and the area.
         * Default tile types used are everyone avaiable.
@@ -4605,7 +4605,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @param [height=this.height] {Number} How far down you want to go.
         * @public
         */
-        public randomizeTiles(types?: number[], x?: number, y?: number, width?: number, height?: number): void;
+        randomizeTiles(types?: number[], x?: number, y?: number, width?: number, height?: number): void;
         /**
         * Makes all of the tiles in the area specified a single type that is passed.
         * @method fill
@@ -4616,7 +4616,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @param [height=this.height] {Number} How far down you want to go.
         * @public
         */
-        public fill(type: number, x?: number, y?: number, width?: number, height?: number): void;
+        fill(type: number, x?: number, y?: number, width?: number, height?: number): void;
         /**
         * Replaces all tiles of typeA to typeB in the area specified. If no area is specified then it is on the whole layer.
         * @method replaceTiles
@@ -4628,7 +4628,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @param [height=this.height] {Number} How far down you want to go.
         * @public
         */
-        public replaceTiles(typeA: number, typeB: number, x?: number, y?: number, width?: number, height?: number): void;
+        replaceTiles(typeA: number, typeB: number, x?: number, y?: number, width?: number, height?: number): void;
         /**
         * Swaps all the tiles that are typeA -> typeB and typeB -> typeA inside the area specified. If no area is specified then it is on the whole layer.
         * @method swapTiles
@@ -4640,7 +4640,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @param [height=this.height] {number} How far down you want to go.
         * @public
         */
-        public swapTiles(typeA: number, typeB: number, x?: number, y?: number, width?: number, height?: number): void;
+        swapTiles(typeA: number, typeB: number, x?: number, y?: number, width?: number, height?: number): void;
         /**
         *-----------------------
         * Get Tiles By Collision Methods
@@ -4657,7 +4657,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @return {Object[]} Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.
         * @public
         */
-        public getOverlappingTiles(entity: Entity, collisionType?: number): any;
+        getOverlappingTiles(entity: Kiwi.Entity, collisionType?: number): any;
         /**
         * Returns the tiles which can collide with other objects (on ANY side unless otherwise specified) within an area provided.
         * By default the area is the whole tilemap.
@@ -4671,13 +4671,13 @@ declare module Kiwi.GameObjects.Tilemap {
         * @return {Object[]} Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.
         * @public
         */
-        public getCollidableTiles(x?: number, y?: number, width?: number, height?: number, collisionType?: number): any;
+        getCollidableTiles(x?: number, y?: number, width?: number, height?: number, collisionType?: number): any;
         /**
         * The update loop that is executed when this TileMapLayer is add to the Stage.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         *-----------------------
         * Temp Properties used During Rendering
@@ -4775,8 +4775,8 @@ declare module Kiwi.GameObjects.Tilemap {
         * @param tileH {Number} The height of the tile
         * @return {Object} With x/y properties of the location of the map onscreen.
         * @public
-        */ 
-        public chartToScreen(chartPt: any, tileW: number, tileH: number): any;
+        */
+        chartToScreen(chartPt: any, tileW: number, tileH: number): any;
         /**
         * ScreenToChart maps a point in screen coordinates into the game tile chart
         * coordinates for the tile on which the screen point falls on.
@@ -4789,15 +4789,15 @@ declare module Kiwi.GameObjects.Tilemap {
         * @return {Object} With x/y properties of the location of tile on the screen.
         * @public
         */
-        public screenToChart(scrPt: any, tileW: number, tileH: number): any;
+        screenToChart(scrPt: any, tileW: number, tileH: number): any;
         /**
         * The render loop which is used when using the Canvas renderer.
         * @method render
         * @param camera {Camera}
         * @public
         */
-        public render(camera: Camera): boolean;
-        public renderGL(gl: WebGLRenderingContext, camera: Camera, params?: any): void;
+        render(camera: Kiwi.Camera): boolean;
+        renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
     }
 }
 /**
@@ -4806,7 +4806,7 @@ declare module Kiwi.GameObjects.Tilemap {
 * @module Kiwi
 * @submodule Components
 * @main Components
-*/ 
+*/
 declare module Kiwi.Components {
     /**
     * The AnimationManager is used to handle the creation and use of spritesheet Animations on a GameObject based on the TextureAtlas it has.
@@ -4823,7 +4823,7 @@ declare module Kiwi.Components {
     * @return {Kiwi.Components.AnimationManager}
     */
     class AnimationManager extends Component {
-        constructor(entity: Entity, inheritSequences?: boolean);
+        constructor(entity: Kiwi.Entity, inheritSequences?: boolean);
         /**
         * Dispatches callbacks each time an animation is told to play through this AnimationManager.
         * Functions dispatched from this signal have ONE Parameter.
@@ -4832,7 +4832,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Signal
         * @public
         */
-        public onPlay: Signal;
+        onPlay: Kiwi.Signal;
         /**
         * Dispatches callbacks each time an animation stops.
         * Functions dispatched from this signal have ONE parameter.
@@ -4841,7 +4841,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Signal
         * @public
         */
-        public onStop: Signal;
+        onStop: Kiwi.Signal;
         /**
         * Dispatches callbacks each time the cell of the Sprite this AnimationManager belongs to updates/changes.
         * Note: This method will be dispatching events EVERY time the cell changes, so this will include when changing/switching animations.
@@ -4849,7 +4849,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Signal
         * @public
         */
-        public onUpdate: Signal;
+        onUpdate: Kiwi.Signal;
         /**
         * Dispatches callbacks each time the current animation is switched NOT when the cells of a animation change.
         * Function's dispatched from this event have TWO parameters,
@@ -4859,7 +4859,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Signal
         * @public
         */
-        public onChange: Signal;
+        onChange: Kiwi.Signal;
         /**
         * The entity that this animation belongs to and thus is effecting.
         * @property entity
@@ -4888,21 +4888,21 @@ declare module Kiwi.Components {
         * @type Kiwi.Animations.Animation
         * @public
         */
-        public currentAnimation: Animations.Animation;
+        currentAnimation: Kiwi.Animations.Animation;
         /**
         * Returns a boolean indicating whether or not the current animation is playing. This is READ ONLY.
         * @property isPlaying
         * @type boolean
         * @public
         */
-        public isPlaying : boolean;
+        isPlaying: boolean;
         /**
         * Returns a string indicating the type of object that this is.
         * @method objType
         * @return {String} "AnimationManager"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * Creates a new Animation (by creating a Sequence) that can then be played on this AnimationManager.
         * If you pass to this the name of a Animation that already exists, then the previous Animation will be overridden by this new one.
@@ -4920,7 +4920,7 @@ declare module Kiwi.Components {
         * @return {Kiwi.Animations.Animation} The Animation that was created.
         * @public
         */
-        public add(name: string, cells: number[], speed: number, loop?: boolean, play?: boolean, addToAtlas?: boolean): Animations.Animation;
+        add(name: string, cells: number[], speed: number, loop?: boolean, play?: boolean, addToAtlas?: boolean): Kiwi.Animations.Animation;
         /**
         * Creates a new Animation based on a Sequence that is passed.
         * If you pass to this the name of a Animation that already exists, then the previous Animation will be overridden by this new one.
@@ -4933,7 +4933,7 @@ declare module Kiwi.Components {
         * @return {Kiwi.Animations.Animation} The Animation that was created.
         * @public
         */
-        public createFromSequence(sequence: Animations.Sequence, play?: boolean): Animations.Animation;
+        createFromSequence(sequence: Kiwi.Animations.Sequence, play?: boolean): Kiwi.Animations.Animation;
         /**
         * Plays either the current animation or the name of the animation that you pass.
         *
@@ -4943,7 +4943,7 @@ declare module Kiwi.Components {
         * @return {Kiwi.Animations.Animation} Returns the current Animation that is now playing.
         * @public
         */
-        public play(name?: string, resetTime?: boolean): Animations.Animation;
+        play(name?: string, resetTime?: boolean): Kiwi.Animations.Animation;
         /**
         * Plays an Animation at a particular frameIndex.
         * Note: The frameIndex is a particular index of a cell in the Sequence of the Animation you would like to play.
@@ -4955,7 +4955,7 @@ declare module Kiwi.Components {
         * @return {Kiwi.Animations.Animation} Returns the current Animation that is now playing.
         * @public
         */
-        public playAt(index: number, name?: string): Animations.Animation;
+        playAt(index: number, name?: string): Kiwi.Animations.Animation;
         /**
         * An internal method used to actually play a Animation at a Index.
         *
@@ -4972,13 +4972,13 @@ declare module Kiwi.Components {
         * @method stop
         * @public
         */
-        public stop(): void;
+        stop(): void;
         /**
         * Pauses the current animation.
         * @method pause
         * @public
-        */ 
-        public pause(): void;
+        */
+        pause(): void;
         /**
         * Resumes the current animation.
         * The animation should have already been paused.
@@ -4986,7 +4986,7 @@ declare module Kiwi.Components {
         * @method resume
         * @public
         */
-        public resume(): void;
+        resume(): void;
         /**
         * Either switches to a particular animation OR a particular frame in the current animation depending on if you pass the name of an animation that exists on this Manager (as a string) or a number refering to a frame index on the Animation.
         * When you switch to a particular animation then
@@ -4999,19 +4999,19 @@ declare module Kiwi.Components {
         * @param [play=null] {boolean} Force the animation to play or stop. If null the animation base's it off what is currently happening.
         * @public
         */
-        public switchTo(val: any, play?: boolean): void;
+        switchTo(val: any, play?: boolean): void;
         /**
         * Makes the current animation go to the next frame. If the animation is at the end of the sequence it then goes back to the start.
         * @method nextFrame
         * @public
         */
-        public nextFrame(): void;
+        nextFrame(): void;
         /**
         * Makes the current animation go to the prev frame. If the animation is at the start, the animation will go the end of the sequence.
         * @method prevFrame
         * @public
         */
-        public prevFrame(): void;
+        prevFrame(): void;
         /**
         * Internal method that sets the current animation to a Animation passed.
         *
@@ -5027,28 +5027,28 @@ declare module Kiwi.Components {
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * Gets the cell that the current Animation is current at. This is READ ONLY.
         * @property currentCell
         * @type number
         * @public
         */
-        public currentCell : number;
+        currentCell: number;
         /**
         * Gets the current frame index of the cell in the Sequence that is currently playing. This is READ ONLY.
         * @property frameIndex
         * @type number
         * @public
         */
-        public frameIndex : number;
+        frameIndex: number;
         /**
         * Returns the length (Number of cells) of the current Animation that is playing. This is READ ONLY.
         * @property length
         * @type number
         * @public
         */
-        public length : number;
+        length: number;
         /**
         * Returns a Animation that is on this AnimationComponent
         * Does not check to see if that Animation exists or not.
@@ -5058,19 +5058,19 @@ declare module Kiwi.Components {
         * @return {Kiwi.Animations.Animation} The Animation that is found. Will be 'undefined' if a Animation with that name did not exist.
         * @public
         */
-        public getAnimation(name: string): Animations.Animation;
+        getAnimation(name: string): Kiwi.Animations.Animation;
         /**
         * An internal method that is used to update the cell index of an entity when an animation says it needs to update.
         * @method updateCellIndex
         * @protected
         */
-        public updateCellIndex(): void;
+        updateCellIndex(): void;
         /**
         * Destroys the animation component and runs the destroy method on all of the anims that it has.
         * @method destroy
         * @public
         */
-        public destroy(): void;
+        destroy(): void;
     }
 }
 /**
@@ -5078,7 +5078,7 @@ declare module Kiwi.Components {
 * @module Kiwi
 * @submodule Components
 *
-*/ 
+*/
 declare module Kiwi.Components {
     /**
     * The Box Component is used to handle the various 'bounds' that each GameObject has.
@@ -5115,14 +5115,14 @@ declare module Kiwi.Components {
         * @type Kiwi.Entity
         * @public
         */
-        public entity: Entity;
+        entity: Kiwi.Entity;
         /**
         * The type of object that this is.
         * @method objType
         * @return {string} "Box"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * Controls whether the hitbox should update automatically to match the hitbox of the current cell on the entity this Box component is attached to (default behaviour).
         * Or if the hitbox shouldn't auto update. Which will mean it will stay the same as the last value it had.
@@ -5133,7 +5133,7 @@ declare module Kiwi.Components {
         * @default true
         * @private
         */
-        public autoUpdate: boolean;
+        autoUpdate: boolean;
         /**
         * Indicates whether or not this component needs re-rendering/updating or not.
         * @property dirty
@@ -5141,7 +5141,7 @@ declare module Kiwi.Components {
         * @public
         * @deprecated in version 1.1.0 because the box always needed updating
         */
-        public dirty: boolean;
+        dirty: boolean;
         /**
         * Contains offset point for the hitbox
         * @property _hitboxOffset
@@ -5157,7 +5157,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Geom.Point
         * @public
         */
-        public hitboxOffset : Geom.Point;
+        hitboxOffset: Kiwi.Geom.Point;
         /**
         * Contains the offset rectangle for the raw hitbox.
         * @property _rawHitbox
@@ -5173,7 +5173,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Geom.Rectangle
         * @public
         */
-        public rawHitbox : Geom.Rectangle;
+        rawHitbox: Kiwi.Geom.Rectangle;
         /**
         * The transformed or 'normal' hitbox for the entity. This is its box after rotation/scale.
         * @property _transformedHitbox
@@ -5194,7 +5194,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Geom.Rectangle
         * @public
         */
-        public hitbox : Geom.Rectangle;
+        hitbox: Kiwi.Geom.Rectangle;
         /**
         * Returns the transformed hitbox for the entity using its 'world' coordinates.
         * This is READ ONLY.
@@ -5202,7 +5202,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Geom.Rectangle
         * @public
         */
-        public worldHitbox : Geom.Rectangle;
+        worldHitbox: Kiwi.Geom.Rectangle;
         /**
         * The 'raw' bounds of entity. This is its bounds before rotation/scale.
         * This for property is only for storage of the values and should be accessed via the getter 'rawBounds' so that it can update.
@@ -5219,7 +5219,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Geom.Rectangle
         * @public
         */
-        public rawBounds : Geom.Rectangle;
+        rawBounds: Kiwi.Geom.Rectangle;
         /**
         * Contains the 'raw' center point for the bounds.
         * @property Kiwi.Geom.Point
@@ -5234,7 +5234,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Geom.Point
         * @public
         */
-        public rawCenter : Geom.Point;
+        rawCenter: Kiwi.Geom.Point;
         /**
         * Contains the center point after the box has been transformed.
         * @property _transformedCenter
@@ -5249,7 +5249,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Geom.Point
         * @public
         */
-        public center : Geom.Point;
+        center: Kiwi.Geom.Point;
         /**
         * Contains the transformed or 'normal' bounds for this entity.
         * @property _transformedBounds
@@ -5271,7 +5271,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Geom.Rectangle
         * @public
         */
-        public bounds : Geom.Rectangle;
+        bounds: Kiwi.Geom.Rectangle;
         /**
         * Returns the 'transformed' bounds for this entity using the world coodinates.
         * This is READ ONLY.
@@ -5279,7 +5279,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Geom.Rectangle
         * @public
         */
-        public worldBounds : Geom.Rectangle;
+        worldBounds: Kiwi.Geom.Rectangle;
         /**
         * Private internal method only. Used to calculate the transformed bounds after rotation/scale.
         * @method _rotateRect
@@ -5305,7 +5305,7 @@ declare module Kiwi.Components {
         * @param [camera] {Kiwi.Camera} A camera that should be taken into account before rendered. This is the default camera by default.
         * @public
         */
-        public draw(ctx: CanvasRenderingContext2D, camera?: Camera): void;
+        draw(ctx: CanvasRenderingContext2D, camera?: Kiwi.Camera): void;
         /**
         * Method which takes four Points and then converts it into a Rectangle, which represents the area those points covered.
         * The points passed can be maybe in any order, as the are checked for validity first.
@@ -5318,13 +5318,13 @@ declare module Kiwi.Components {
         * @return {Kiwi.Geom.Rectangle} The new Rectangle that represents the area the points covered.
         * @return Rectangle
         */
-        public extents(topLeftPoint: Geom.Point, topRightPoint: Geom.Point, bottomRightPoint: Geom.Point, bottomLeftPoint: Geom.Point): Geom.Rectangle;
+        extents(topLeftPoint: Kiwi.Geom.Point, topRightPoint: Kiwi.Geom.Point, bottomRightPoint: Kiwi.Geom.Point, bottomLeftPoint: Kiwi.Geom.Point): Kiwi.Geom.Rectangle;
         /**
         * Destroys this component and all of the links it may have to other objects.
         * @method destroy
         * @public
         */
-        public destroy(): void;
+        destroy(): void;
     }
 }
 /**
@@ -5332,7 +5332,7 @@ declare module Kiwi.Components {
 * @module Kiwi
 * @submodule Components
 *
-*/ 
+*/
 declare module Kiwi.Components {
     /**
     * The Input Component is used on GameObjects in which the user may interactive with via a Mouse or Touch
@@ -5351,14 +5351,14 @@ declare module Kiwi.Components {
     * @return {Kiwi.Components.Input}
     */
     class Input extends Component {
-        constructor(owner: IChild, box: Box, enabled?: boolean);
+        constructor(owner: Kiwi.IChild, box: Kiwi.Components.Box, enabled?: boolean);
         /**
         * The type of object this input is.
         * @method objType
         * @return {string} "Input"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The bounding box that is being used for the 'hitarea'.
         * @property _box
@@ -5430,7 +5430,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Signal
         * @public
         */
-        public onEntered : Signal;
+        onEntered: Kiwi.Signal;
         /**
         * Returns the onLeft Signal, that fires events when a pointer leaves the hitbox of a entity.
         * Note: Accessing this signal enables the input.
@@ -5439,7 +5439,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Signal
         * @public
         */
-        public onLeft : Signal;
+        onLeft: Kiwi.Signal;
         /**
         * Returns the onDown Signal, that fires events when a pointer is pressed within the bounds of the signal.
         * Note: Accessing this signal enables the input.
@@ -5448,7 +5448,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Signal
         * @public
         */
-        public onDown : Signal;
+        onDown: Kiwi.Signal;
         /**
         * Returns the onUp Signal, that fires events when a pointer is released either within the bounds or was pressed initially within the bounds..
         * Note: Accessing this signal enables the input.
@@ -5457,7 +5457,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Signal
         * @public
         */
-        public onUp : Signal;
+        onUp: Kiwi.Signal;
         /**
         * Returns the onDragStarted Signal.
         * This is READ ONLY.
@@ -5465,7 +5465,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Signal
         * @public
         */
-        public onDragStarted : Signal;
+        onDragStarted: Kiwi.Signal;
         /**
         * Returns the onDragStopped Signal.
         * This is READ ONLY.
@@ -5473,7 +5473,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Signal
         * @public
         */
-        public onDragStopped : Signal;
+        onDragStopped: Kiwi.Signal;
         /**
         * A alias for the on release signal.
         * This is READ ONLY.
@@ -5481,7 +5481,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Signal
         * @public
         */
-        public onRelease : Signal;
+        onRelease: Kiwi.Signal;
         /**
         * A alias for the on press signal.
         * This is READ ONLY.
@@ -5489,7 +5489,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Signal
         * @public
         */
-        public onPress : Signal;
+        onPress: Kiwi.Signal;
         /**
         * If this input is enabled or not.
         * @property _enabled
@@ -5504,7 +5504,7 @@ declare module Kiwi.Components {
         * @type boolean
         * @public
         */
-        public enabled : boolean;
+        enabled: boolean;
         /**
         * If a pointer is current pressing down on the input, this will be a reference to that pointer. Otherwise it will be null.
         * @property _isDown
@@ -5551,7 +5551,7 @@ declare module Kiwi.Components {
         * @type boolean
         * @public
         */
-        public isDown : boolean;
+        isDown: boolean;
         /**
         * Used to see if no pointer is on this input (so it is up).
         * This is READ ONLY.
@@ -5559,7 +5559,7 @@ declare module Kiwi.Components {
         * @type boolean
         * @public
         */
-        public isUp : boolean;
+        isUp: boolean;
         /**
         * Check to see if any pointer is within the bounds of this input.
         * This is READ ONLY.
@@ -5567,7 +5567,7 @@ declare module Kiwi.Components {
         * @type boolean
         * @public
         */
-        public withinBounds : boolean;
+        withinBounds: boolean;
         /**
         * See if no pointers are within the bounds of this entity.
         * This is READ ONLY.
@@ -5575,7 +5575,7 @@ declare module Kiwi.Components {
         * @type boolean
         * @public
         */
-        public outsideBounds : boolean;
+        outsideBounds: boolean;
         /**
         * A reference to the pointer that is currently 'dragging' this Object.
         * If not dragging then this is null.
@@ -5632,14 +5632,14 @@ declare module Kiwi.Components {
         * @type boolean
         * @public
         */
-        public isDragging : boolean;
+        isDragging: boolean;
         /**
         * The drag distance that is used when dragging this object. See _dragDistance for more information.
         * @property dragDistance
         * @type number
         * @public
         */
-        public dragDistance : number;
+        dragDistance: number;
         /**
         * Temporary property that gets updated everyframe with the pointer that is currently 'down' on this entity.
         * @property _nowDown
@@ -5687,19 +5687,19 @@ declare module Kiwi.Components {
         * @param [distance=1] {number} If when dragging the Entity should snap to numbers divisible by this amount.
         * @public
         */
-        public enableDrag(snapToCenter?: boolean, distance?: number): void;
+        enableDrag(snapToCenter?: boolean, distance?: number): void;
         /**
         * Disables the dragging of this entity.
         * @method disableDrag
         * @public
         */
-        public disableDrag(): void;
+        disableDrag(): void;
         /**
         * The update loop for the input.
         * @method update
         * @protected
         */
-        public update(): void;
+        update(): void;
         /**
         * The update loop that gets executed when the game is using the touch manager.
         * @method _updateTouch
@@ -5731,7 +5731,7 @@ declare module Kiwi.Components {
         * @method destory
         * @public
         */
-        public destroy(): void;
+        destroy(): void;
     }
 }
 /**
@@ -5739,7 +5739,7 @@ declare module Kiwi.Components {
 * @module Kiwi
 * @submodule Components
 *
-*/ 
+*/
 declare module Kiwi.Components {
     /**
     * The Sound Component is a class to assist with the creation and management of multiple pieces of audio that may exist on a single Entity.
@@ -5760,7 +5760,7 @@ declare module Kiwi.Components {
         * @return {String} "Sound"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * Contains a list of all of the Audio objects that are on this component.
         * @private
@@ -5779,7 +5779,7 @@ declare module Kiwi.Components {
         * @return {Kiwi.Sound.Audio}
         * @public
         */
-        public addSound(name: string, key: string, volume?: number, loop?: boolean): Sound.Audio;
+        addSound(name: string, key: string, volume?: number, loop?: boolean): Kiwi.Sound.Audio;
         /**
         * Removes the audio sementment with the name you have given.
         *
@@ -5787,7 +5787,7 @@ declare module Kiwi.Components {
         * @param name {string} The piece of audio you would like to remove.
         * @public
         */
-        public removeSound(name: string): void;
+        removeSound(name: string): void;
         /**
         * Returns the Audio object for the sound that you pass.
         *
@@ -5796,7 +5796,7 @@ declare module Kiwi.Components {
         * @return {Kiwi.Sound.Audio}
         * @public
         */
-        public getSound(name: string): Sound.Audio;
+        getSound(name: string): Kiwi.Sound.Audio;
         /**
         * This method is used to check to see if an audio segment with the name that is specified is on this component.
         *
@@ -5813,7 +5813,7 @@ declare module Kiwi.Components {
         * @param name {string} The name of the audio file you would like to play.
         * @public
         */
-        public play(name: string): void;
+        play(name: string): void;
         /**
         * Stops the audio that you specify from playing.
         *
@@ -5821,7 +5821,7 @@ declare module Kiwi.Components {
         * @param name {string} Name of the audio file you would like to stop.
         * @public
         */
-        public stop(name: string): void;
+        stop(name: string): void;
         /**
         * Pauses the audio that you specify.
         *
@@ -5829,7 +5829,7 @@ declare module Kiwi.Components {
         * @param name {string} The name of the audio you would like to pause.
         * @public
         */
-        public pause(name: string): void;
+        pause(name: string): void;
         /**
         * Resumes the audio that you specify. Note: Audio can only resume if it was paused initially.
         *
@@ -5837,13 +5837,13 @@ declare module Kiwi.Components {
         * @param name {string} The name of the audio you would like to resume.
         * @public
         */
-        public resume(name: string): void;
+        resume(name: string): void;
         /**
         * Destroys this AudioComponent and all of the Audio objects it has.
         * @method destroy
         * @public
         */
-        public destroy(): void;
+        destroy(): void;
     }
 }
 /**
@@ -5851,7 +5851,7 @@ declare module Kiwi.Components {
 * @module Kiwi
 * @submodule Components
 *
-*/ 
+*/
 declare module Kiwi.Components {
     /**
     * Arcade Physics is an Optional Component that can be used when you are wanting to do basic physics collisions.
@@ -5872,15 +5872,15 @@ declare module Kiwi.Components {
     * @author Adam 'Atomic' Saltsman, Flixel
     *
     */
-    class ArcadePhysics extends Component {
-        constructor(entity: Entity, box?: Box);
+    class ArcadePhysics extends Kiwi.Component {
+        constructor(entity: Kiwi.Entity, box?: Kiwi.Components.Box);
         /**
         * The transform component of the entity that the ArcadePhysics is a part of.
         * @property transform
         * @type Kiwi.Geom.Transform
         * @public
         */
-        public transform: Geom.Transform;
+        transform: Kiwi.Geom.Transform;
         /**
         * The bounding box component that the collisions are going to be based off.
         * You can modify the 'hitbox' of that component to modify the collision area.
@@ -5889,14 +5889,14 @@ declare module Kiwi.Components {
         * @type Kiwi.Components.Box
         * @public
         */
-        public box: Box;
+        box: Kiwi.Components.Box;
         /**
         * Whether an object will move/alter position after a collision.
         * @property immovable
         * @type boolean
         * @public
         */
-        public immovable: boolean;
+        immovable: boolean;
         /**
         * The basic speed of this object.
         * You can modify the values contained inside this Object to change the speed.
@@ -5905,7 +5905,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Geom.Point
         * @public
         */
-        public velocity: Geom.Point;
+        velocity: Kiwi.Geom.Point;
         /**
         * The virtual mass of the object. Default value is 1.
         * Currently only used with <code>elasticity</code> during collision resolution.
@@ -5914,14 +5914,14 @@ declare module Kiwi.Components {
         * @type number
         * @public
         */
-        public mass: number;
+        mass: number;
         /**
         * The bounciness of this object.  Only affects collisions.  Default value is 0, or "not bouncy at all."
         * @property elasticity
         * @type number
         * @public
         */
-        public elasticity: number;
+        elasticity: number;
         /**
         * How fast the speed of this object is changing.
         * Useful for smooth movement and gravity.
@@ -5930,7 +5930,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Geom.Point
         * @public
         */
-        public acceleration: Geom.Point;
+        acceleration: Kiwi.Geom.Point;
         /**
         * This isn't drag exactly, more like deceleration that is only applied
         * when acceleration is not affecting the sprite.
@@ -5938,7 +5938,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Geom.Point
         * @public
         */
-        public drag: Geom.Point;
+        drag: Kiwi.Geom.Point;
         /**
         * If you are using <code>acceleration</code>, you can use <code>maxVelocity</code> with it
         * to cap the speed automatically (very useful!).
@@ -5946,35 +5946,35 @@ declare module Kiwi.Components {
         * @type Kiwi.Geom.Point
         * @public
         */
-        public maxVelocity: Geom.Point;
+        maxVelocity: Kiwi.Geom.Point;
         /**
         * This is how fast you want this sprite to spin.
         * @property angularVelocity
         * @type number
         * @public
         */
-        public angularVelocity: number;
+        angularVelocity: number;
         /**
         * How fast the spin speed should change.
         * @property angularAcceleration
         * @type number
         * @public
         */
-        public angularAcceleration: number;
+        angularAcceleration: number;
         /**
         * Like <code>drag</code> but for spinning.
         * @property angularDrag
         * @type number
         * @public
         */
-        public angularDrag: number;
+        angularDrag: number;
         /**
         * Use in conjunction with <code>angularAcceleration</code> for fluid spin speed control.
         * @property maxAngular
         * @type number
         * @public
         */
-        public maxAngular: number;
+        maxAngular: number;
         /**
         * If the Entity that this component is a part of 'moves' or not, and thus if the physics should update the motion should update each frame.
         * @property moves
@@ -5982,7 +5982,7 @@ declare module Kiwi.Components {
         * @default true
         * @public
         */
-        public moves: boolean;
+        moves: boolean;
         /**
         * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts.
         * Use bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.
@@ -5991,7 +5991,7 @@ declare module Kiwi.Components {
         * @type number
         * @public
         */
-        public touching: number;
+        touching: number;
         /**
         * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts from the previous game loop step.
         * Use bitwise operators to check the values stored here, or use isTouching().
@@ -6000,7 +6000,7 @@ declare module Kiwi.Components {
         * @type number
         * @public
         */
-        public wasTouching: number;
+        wasTouching: number;
         /**
         * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating collision directions.
         * Use bitwise operators to check the values stored here.
@@ -6010,7 +6010,7 @@ declare module Kiwi.Components {
         * @type number
         * @public
         */
-        public allowCollisions: number;
+        allowCollisions: number;
         /**
         * Important variable for collision processing.
         * Tracks the last location of the Entity. This is set during the time this method 'updates'.
@@ -6018,7 +6018,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Geom.Point
         * @public
         */
-        public last: Geom.Point;
+        last: Kiwi.Geom.Point;
         /**
         * A boolean to indicate if this object is solid or not.
         * @property _solid
@@ -6049,7 +6049,7 @@ declare module Kiwi.Components {
         * @return {boolean} If the Object is currently colliding on that side or not.
         * @public
         */
-        public isTouching(value: number): boolean;
+        isTouching(value: number): boolean;
         /**
         * Whether the object should collide with other objects or not.
         * For more control over what directions the object will collide from, use collision constants (like LEFT, FLOOR, etc)
@@ -6059,7 +6059,7 @@ declare module Kiwi.Components {
         * @return {boolean} If Object is currently solid or not.
         * @public
         */
-        public solid(value?: boolean): boolean;
+        solid(value?: boolean): boolean;
         /**
         * Sets up a callback function that will run when this object overlaps with another.
         * When the method is dispatched it will have TWO arguments.
@@ -6071,14 +6071,14 @@ declare module Kiwi.Components {
         * @param callbackContext {Any} The context that the method is to be called in.
         * @public
         */
-        public setCallback(callbackFunction: any, callbackContext: any): void;
+        setCallback(callbackFunction: any, callbackContext: any): void;
         /**
         * Returns the parent of this entity. Mainly used for executing callbacks.
         * @property parent
         * @type Kiwi.Entity
         * @public
         */
-        public parent: Entity;
+        parent: Kiwi.Entity;
         /**
         * A static method for seperating two normal GameObjects on both the X and Y Axis's.
         * Both objects need to have both an ArcadePhysics Component and a Box component in order for the separate process to succeed.
@@ -6091,7 +6091,7 @@ declare module Kiwi.Components {
         * @return {boolean}
         * @public
         */
-        static separate(object1: Entity, object2: Entity): boolean;
+        static separate(object1: Kiwi.Entity, object2: Kiwi.Entity): boolean;
         /**
         * Separates two passed GameObjects on the x-axis.
         * Both objects need to have both an ArcadePhysics Component and a Box component in order for the separate process to succeed.
@@ -6104,7 +6104,7 @@ declare module Kiwi.Components {
         * @static
         * @public
         */
-        static separateX(object1: Entity, object2: Entity): boolean;
+        static separateX(object1: Kiwi.Entity, object2: Kiwi.Entity): boolean;
         /**
         * Separates two GameObject on the y-axis. This method is executed from the 'separate' method.
         * Both objects need to have both an ArcadePhysics Component and a Box component in order for the separate process to succeed.
@@ -6117,7 +6117,7 @@ declare module Kiwi.Components {
         * @static
         * @public
         */
-        static separateY(object1: Entity, object2: Entity): boolean;
+        static separateY(object1: Kiwi.Entity, object2: Kiwi.Entity): boolean;
         /**
         * Separates a GameObject from a series of passed Tiles that lie on a TileMapLayer.
         * The gameobject needs to have a Box Component and an ArcadePhysics Component.
@@ -6131,7 +6131,7 @@ declare module Kiwi.Components {
         * @public
         * @static
         */
-        static separateTiles(object: Entity, layer: GameObjects.Tilemap.TileMapLayer, tiles: any): boolean;
+        static separateTiles(object: Entity, layer: Kiwi.GameObjects.Tilemap.TileMapLayer, tiles: any): boolean;
         /**
         * Separates a GameObjects from an Array of Tiles on the x-axis.
         * @method separateTilesX
@@ -6142,7 +6142,7 @@ declare module Kiwi.Components {
         * @public
         * @static
         */
-        static separateTilesX(object: Entity, layer: GameObjects.Tilemap.TileMapLayer, tile: any): boolean;
+        static separateTilesX(object: Entity, layer: Kiwi.GameObjects.Tilemap.TileMapLayer, tile: any): boolean;
         /**
         * Separates a GameObject from a tiles on the y-axis.
         * @method separateTilesY
@@ -6167,7 +6167,7 @@ declare module Kiwi.Components {
         * @return {Boolean} If any gameobject overlapped.
         * @public
         */
-        public overlapsTiles(gameObject: Entity, separateObjects?: boolean, collisionType?: number): boolean;
+        overlapsTiles(gameObject: Entity, separateObjects?: boolean, collisionType?: number): boolean;
         /**
         * A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity.
         * If seperateObjects is true it will seperate the two entities based on their bounding box.
@@ -6180,7 +6180,7 @@ declare module Kiwi.Components {
         * @return {boolean}
         * @public
         */
-        public overlaps(gameObject: Entity, separateObjects?: boolean): boolean;
+        overlaps(gameObject: Entity, separateObjects?: boolean): boolean;
         /**
         * A method to check to see if the parent of this physics component overlaps with another individual in a Kiwi Group.
         *
@@ -6190,7 +6190,7 @@ declare module Kiwi.Components {
         * @return { boolean } If any object in the group overlapped with the GameObject or not.
         * @public
         */
-        public overlapsGroup(group: Group, separateObjects?: boolean): boolean;
+        overlapsGroup(group: Kiwi.Group, separateObjects?: boolean): boolean;
         /**
         * A method to check to see if the parent of this physics component overlaps with any Entities that are held in an Array which is passed.
         *
@@ -6199,8 +6199,8 @@ declare module Kiwi.Components {
         * @param [separateObjects=false] {boolean} If when the objects collide you want them to seperate outwards.
         * @return {boolean} If any overlapping occured or not.
         * @public
-        */ 
-        public overlapsArray(array: any[], separateObjects?: boolean): boolean;
+        */
+        overlapsArray(array: Array<any>, separateObjects?: boolean): boolean;
         /**
         * Computes the velocity based on the parameters passed.
         * @method computeVelocity
@@ -6220,26 +6220,26 @@ declare module Kiwi.Components {
         * @method updateMotion
         * @private
         */
-        public updateMotion(): void;
+        updateMotion(): void;
         /**
         * The Update loop of the physics component
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * Removes all properties that refer to other objects or outside of this class in order to flag this object for garbage collection.
         * @method destroy
         * @public
         */
-        public destroy(): void;
+        destroy(): void;
         /**
         * The type of object that this is.
         * @method objType
         * @return {string} "ArcadePhysics"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * A Static method to check to see if two objects collide or not. Returns a boolean indicating whether they overlaped or not.
         *
@@ -6264,7 +6264,7 @@ declare module Kiwi.Components {
         * @return {boolean}
         * @public
         */
-        static collideGroup(gameObject: Entity, group: Group, seperate?: boolean): boolean;
+        static collideGroup(gameObject: Entity, group: Kiwi.Group, seperate?: boolean): boolean;
         /**
         * A Static method to check to see if a group of entities overlap with another group of entities. Returns a boolean indicating whether they overlaped or not.
         *
@@ -6276,7 +6276,7 @@ declare module Kiwi.Components {
         * @param [seperate=true] {boolean}
         * @return {boolean}
         */
-        static collideGroupGroup(group1: Group, group2: Group, seperate?: boolean): boolean;
+        static collideGroupGroup(group1: Kiwi.Group, group2: Kiwi.Group, seperate?: boolean): boolean;
         /**
         * A Static method to that checks to see if two objects overlap. Returns a boolean indicating whether they did or not.
         *
@@ -6300,7 +6300,7 @@ declare module Kiwi.Components {
         * @return {boolean}
         * @public
         */
-        static overlapsObjectGroup(gameObject: Entity, group: Group, separateObjects?: boolean): boolean;
+        static overlapsObjectGroup(gameObject: Entity, group: Kiwi.Group, separateObjects?: boolean): boolean;
         /**
         * A Static method that checks to see if any objects in one group overlap with objects in another group.
         *
@@ -6312,7 +6312,7 @@ declare module Kiwi.Components {
         * @return {boolean}
         * @public
         */
-        static overlapsGroupGroup(group1: Group, group2: Group, separateObjects?: boolean): boolean;
+        static overlapsGroupGroup(group1: Kiwi.Group, group2: Kiwi.Group, separateObjects?: boolean): boolean;
         /**
         * A Static method that checks to see if any objects from an Array collide with a Kiwi Group members.
         *
@@ -6323,7 +6323,7 @@ declare module Kiwi.Components {
         * @return {Boolean}
         * @static
         */
-        static overlapsArrayGroup(array: any[], group: Group, separateObjects?: boolean): boolean;
+        static overlapsArrayGroup(array: Array<any>, group: Kiwi.Group, separateObjects?: boolean): boolean;
         /**
         * How often the motion should be updated.
         * @property updateInterval
@@ -6443,20 +6443,20 @@ declare module Kiwi.Files {
     *
     */
     class Loader {
-        constructor(game: Game);
-        public objType(): string;
-        public game: Game;
+        constructor(game: Kiwi.Game);
+        objType(): string;
+        game: Kiwi.Game;
         private _loadingParallel;
         private _loadingQueue;
         private _loadingList;
-        public onQueueComplete: Signal;
-        public onQueueProgress: Signal;
-        public percentLoaded : number;
-        public boot(): void;
-        public start(): void;
-        public addFile(file: File): void;
-        public removeFile(file: File): boolean;
-        public clearQueue(): void;
+        onQueueComplete: Kiwi.Signal;
+        onQueueProgress: Kiwi.Signal;
+        percentLoaded: number;
+        boot(): void;
+        start(): void;
+        addFile(file: Kiwi.Files.File): void;
+        removeFile(file: Kiwi.Files.File): boolean;
+        clearQueue(): void;
         private sortFile(file);
         private fileQueueUpdate(file);
         private startLoadingQueue();
@@ -6481,7 +6481,7 @@ declare module Kiwi.Files {
         * @return {Kiwi.Files.File}
         * @public
         */
-        public addImage(key: string, url: string, width?: number, height?: number, offsetX?: number, offsetY?: number, storeAsGlobal?: boolean): File;
+        addImage(key: string, url: string, width?: number, height?: number, offsetX?: number, offsetY?: number, storeAsGlobal?: boolean): Kiwi.Files.File;
         /**
         * Creates a new file for a spritesheet and adds the file to the loading queue.
         * @method addSpriteSheet
@@ -6500,7 +6500,7 @@ declare module Kiwi.Files {
         * @return {Kiwi.Files.File}
         * @public
         */
-        public addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number, storeAsGlobal?: boolean): TextureFile;
+        addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number, storeAsGlobal?: boolean): TextureFile;
         /**
         * Creates new file's for loading a texture atlas and adds those files to the loading queue.
         * @method addTextureAtlas
@@ -6512,7 +6512,7 @@ declare module Kiwi.Files {
         * @return {Kiwi.Files.File}
         * @public
         */
-        public addTextureAtlas(key: string, imageURL: string, jsonID: string, jsonURL: string, storeAsGlobal?: boolean): TextureFile;
+        addTextureAtlas(key: string, imageURL: string, jsonID: string, jsonURL: string, storeAsGlobal?: boolean): TextureFile;
         /**
         * Creates a new File to store a audio piece.
         * This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.
@@ -6527,7 +6527,7 @@ declare module Kiwi.Files {
         * @return {Kiwi.Files.File}
         * @public
         */
-        public addAudio(key: string, url: any, storeAsGlobal?: boolean, onlyIfSupported?: boolean): File;
+        addAudio(key: string, url: any, storeAsGlobal?: boolean, onlyIfSupported?: boolean): File;
         /**
         * This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.
         * Returns a boolean if the audio file was successfully added or not to the file directory.
@@ -6549,7 +6549,7 @@ declare module Kiwi.Files {
         * @return {Kiwi.Files.File}
         * @public
         */
-        public addJSON(key: string, url: string, storeAsGlobal?: boolean): DataFile;
+        addJSON(key: string, url: string, storeAsGlobal?: boolean): DataFile;
         /**
         * Creates a new File to store XML and adds it to the loading queue.
         * @method addXML
@@ -6559,7 +6559,7 @@ declare module Kiwi.Files {
         * @return {Kiwi.Files.File}
         * @public
         */
-        public addXML(key: string, url: string, storeAsGlobal?: boolean): void;
+        addXML(key: string, url: string, storeAsGlobal?: boolean): void;
         /**
         * Creates a new File for a Binary file and adds it to the loading queue.
         * @method addBinaryFile
@@ -6569,7 +6569,7 @@ declare module Kiwi.Files {
         * @return {Kiwi.Files.File}
         * @public
         */
-        public addBinaryFile(key: string, url: string, storeAsGlobal?: boolean): void;
+        addBinaryFile(key: string, url: string, storeAsGlobal?: boolean): void;
         /**
         * Creates a new File to store a text file and adds it to the loading queue.
         * @method addTextFile
@@ -6579,12 +6579,13 @@ declare module Kiwi.Files {
         * @return {Kiwi.Files.File}
         * @public
         */
-        public addTextFile(key: string, url: string, storeAsGlobal?: boolean): void;
+        addTextFile(key: string, url: string, storeAsGlobal?: boolean): void;
         /**
         * -----------------------
         * Deprecated - Functionality exists. Maps to its equalvent
         * -----------------------
-        **/ /**
+        **/
+        /**
         * Initialise the properities that are needed on this loader.
         * @method init
         * @param [progress=null] {Any} Progress callback method.
@@ -6592,27 +6593,27 @@ declare module Kiwi.Files {
         * @param [calculateBytes=false] {boolean}
         * @public
         */
-        public init(progress?: any, complete?: any, calculateBytes?: boolean): void;
+        init(progress?: any, complete?: any, calculateBytes?: boolean): void;
         /**
         * Loops through all of the files that need to be loaded and start the load event on them.
         * @method startLoad
         * @public
         */
-        public startLoad(): void;
+        startLoad(): void;
         /**
         * Returns a percentage of the amount that has been loaded so far.
         * @method getPercentLoaded
         * @return {Number}
         * @public
         */
-        public getPercentLoaded(): number;
+        getPercentLoaded(): number;
         /**
         * Returns a boolean indicating if everything in the loading que has been loaded or not.
         * @method complete
         * @return {boolean}
         * @public
         */
-        public complete(): boolean;
+        complete(): boolean;
         /**
         * -----------------------
         * Deprecated - Functionality no longer exists
@@ -6624,16 +6625,16 @@ declare module Kiwi.Files {
         * @return {Number}
         * @public
         */
-        public getBytesLoaded(): number;
+        getBytesLoaded(): number;
         /**
         * If true (and xhr/blob is available) the loader will get the bytes total of each file in the queue to give a much more accurate progress report during load
-        If false the loader will use the file number as the progress value, i.e. if there are 4 files in the queue progress will get called 4 times (25, 50, 75, 100)
+          If false the loader will use the file number as the progress value, i.e. if there are 4 files in the queue progress will get called 4 times (25, 50, 75, 100)
         * @method calculateBytes
         * @param [value] {boolean}
         * @return {boolean}
         * @public
         */
-        public calculateBytes(value?: boolean): boolean;
+        calculateBytes(value?: boolean): boolean;
     }
 }
 /**
@@ -6654,14 +6655,14 @@ declare module Kiwi.Files {
     *
     */
     class DataLibrary {
-        constructor(game: Game);
+        constructor(game: Kiwi.Game);
         /**
         * The type of object that this is.
         * @method objType
         * @return {String} "DataLibrary"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The game that this DataLibrary belongs to.
         * @property _game
@@ -6675,28 +6676,28 @@ declare module Kiwi.Files {
         * @type Object
         * @public
         */
-        public data: any;
+        data: any;
         /**
         * Resets the Data Library and makes it ready for the next state.
         * @method clear
         * @public
         */
-        public clear(): void;
+        clear(): void;
         /**
         * Adds a new data file to the DataLibrary.
         * @method add
         * @param dataFile {Kiwi.Files.File} The File that is to be added.
         * @public
         */
-        public add(dataFile: File): void;
+        add(dataFile: Kiwi.Files.File): void;
         /**
-        * Rebuild the library from a fileStore. Clears the library and repopulates it.
-        * @method rebuild
-        * @param fileStore {Kiwi.Files.FileStore} The fileStore which is being used
-        * @param state {Kiwi.State} The State so that we know which DataLibrary to add the files tot.
-        * @public
-        */
-        public rebuild(fileStore: FileStore, state: State): void;
+       * Rebuild the library from a fileStore. Clears the library and repopulates it.
+       * @method rebuild
+       * @param fileStore {Kiwi.Files.FileStore} The fileStore which is being used
+       * @param state {Kiwi.State} The State so that we know which DataLibrary to add the files tot.
+       * @public
+       */
+        rebuild(fileStore: Kiwi.Files.FileStore, state: Kiwi.State): void;
     }
 }
 /**
@@ -6707,23 +6708,61 @@ declare module Kiwi.Files {
 */
 declare module Kiwi.Files {
     /**
-    * Handles the loading of an external data file via a tag loader OR xhr + arraybuffer, and optionally saves to the file store.
+    * Base class which handles the loading of an external data file an xhr.
+    * TextureFile, AudioFile contain fallback loading via tags and all extended Files contain methods for processing the files.
+    *
     * Also can contain information about the file (like file size, last modified, e.t.c.)
+    * Uses a object literal in its constructor since 1.2 (which is preferred), but also contains previous construction support.
     *
     * @class File
     * @namespace Kiwi.Files
     * @constructor
-    
+    * @param game {Kiwi.Game} The game that this file is for
+    * @param params {Object} Options for this file.
+    *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
+    *   @param params.url {String} Location of the file to be loaded.
+    *   @param [params.metadata={}] {Object} Any metadata to be associated with the file.
+    *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
+    *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
+    *   @param [params.type=UNKNOWN] {Number} The type of file this is.
+    *   @param [params.tags] {Array} Any tags to be associated with this file.
     * @return {Kiwi.Files.File}
     *
     */
     class File {
-        constructor(game: Game, params: any);
+        constructor(game: Kiwi.Game, params: any);
+        /**
+        * Assigns properties and variables for the constructor as in pre 1.2 Kiwi versions.
+        *
+        * @method parseParamsOld
+        * @since 1.2.0
+        * @param dataType {Number} The type of file that is being loaded. For this you can use the STATIC properties that are located on this class for quick code completion.
+        * @param path {String} The location of the file that is to be loaded.
+        * @param [name=''] {String} A name for the file. If no name is specified then the files name will be used.
+        * @param [saveToFileStore=true] {Boolean} If the file should be saved on the file store or not.
+        * @param [storeAsGlobal=true] {Boolean} If this file should be stored as a global file, or if it should be destroyed when this state gets switched out.
+        * @private
+        */
         private parseParamsOld(dataType, url, name?, saveToFileStore?, storeAsGlobal?);
+        /**
+        * Sets properties for this instance based on an object literal passed. Used when the class is being created.
+        *
+        * @method parseParams
+        * @since 1.2.0
+        * @param [params] {Object}
+        *   @param [params.metadata={}] {Object} Any metadata to be associated with the file.
+        *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
+        *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
+        *   @param [params.type=UNKNOWN] {Number} The type of file this is.
+        *   @param [params.tags] {Array} Any tags to be associated with this file.
+        * @private
+        */
         private parseParams(params);
         /**
+        * Gets the file details from the URL passed. Name, extension, and path are extracted.
         *
         * @method assignFileDetails
+        * @since 1.2.0
         * @param url {String}
         * @private
         */
@@ -6734,132 +6773,350 @@ declare module Kiwi.Files {
         * @return {String} "File"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The game that this file belongs to.
         * @property game
         * @type Kiwi.Game
+        * @since 1.2.0
         * @public
         */
-        public game: Game;
+        game: Kiwi.Game;
         /**
         * ---------------
         * Generic Properties
         * ---------------
         **/
-        public loadInParallel: boolean;
-        public fileStore: FileStore;
-        public useTagLoader: boolean;
-        public key: string;
-        public metadata: any;
-        public dataType: number;
+        /**
+        * Indicates if this file can be loaded in parallel to other files.
+        * This is usually only used files are using the tag loaders and not XHR.
+        *
+        * @property _loadInParallel
+        * @type Boolean
+        * @default false
+        * @since 1.2.0
+        * @private
+        */
+        protected _loadInParallel: boolean;
+        /**
+        * READ ONLY: Indicates if this file can be loaded in parallel to other files.
+        * This is usually only used files are using the tag loaders and not XHR.
+        *
+        * @property loadInParallel
+        * @type Boolean
+        * @default false
+        * @readOnly
+        * @since 1.2.0
+        * @private
+        */
+        loadInParallel: boolean;
+        /**
+        * The filestore this file should be added to when it has loaded.
+        * This can be replaced with a custom one if wanted.
+        *
+        * @property fileStore
+        * @type Kiwi.Files.FileStore
+        * @since 1.2.0
+        * @public
+        */
+        fileStore: Kiwi.Files.FileStore;
+        /**
+        * If this file is using tag loading instead of the XHR method.
+        * Only used by extended classes
+        *
+        * @property useTagLoader
+        * @type Boolean
+        * @since 1.2.0
+        * @protected
+        */
+        protected useTagLoader: boolean;
+        /**
+        * The 'key' is the user defined name and the users way of accessing this file once loaded.
+        * @property key
+        * @type String
+        * @public
+        */
+        key: string;
+        /**
+        * A dictionary, stores any information relating to this file.
+        * Used when loading images that are to be used as a spritesheet or texture atlas.
+        * @property data
+        * @type Any
+        * @public
+        */
+        metadata: any;
+        /**
+        * Holds the type of data that is being loaded.
+        * This should be used with the STATIC properties that hold the various datatypes that can be loaded.
+        *
+        * @property dataType
+        * @type String
+        * @public
+        */
+        dataType: number;
         /**
         * ---------------
         * File Information
         * ---------------
         */
-        public name: string;
-        public path: string;
-        public extension: string;
-        public URL: string;
+        /**
+        * The name of the file being loaded.
+        *
+        * @property name
+        * @type String
+        * @since 1.2.0
+        * @public
+        */
+        name: string;
+        /**
+        * The location of where the file is placed without the file itself (So without the files name).
+        * Example: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'
+        *
+        * @property path
+        * @type String
+        * @since 1.2.0
+        * @public
+        */
+        path: string;
+        /**
+        * The extension of the file that is being loaded.
+        * This is based upon what the file path that the developer specifies.
+        *
+        * @property extension
+        * @type String
+        * @since 1.2.0
+        * @public
+        */
+        extension: string;
+        /**
+        * The full filepath including the file itself.
+        *
+        * @property URL
+        * @type String
+        * @since 1.2.0
+        * @public
+        */
+        URL: string;
+        /**
+        * The type of file that is being loaded.
+        * Is only ever given a value when used with the XHR method of loading OR if you use 'loadDetails' before hand.
+        * The value is based off of the 'Content-Type' of the XHR's response header returns.
+        *
+        * @property type
+        * @type String
+        * @public
+        */
+        type: string;
+        /**
+        * The size of the file that was/is being loaded.
+        * Only has a value when the file was loaded by the XHR method OR you request the file information beforehand using 'loadDetails'.
+        *
+        * @property size
+        * @type Number
+        * @default 0
+        * @since 1.2.0
+        * @public
+        */
+        size: number;
         /**
         * ---------------
         * Callbacks
         * ---------------
         */
-        public onComplete: Signal;
-        public onProgress: Signal;
-        public onHeadLoad: Signal;
+        /**
+        * Signal which dispatches events when the file has successfully loaded.
+        *
+        * @property onComplete
+        * @type Kiwi.Signal
+        * @since 1.2.0
+        * @public
+        */
+        onComplete: Kiwi.Signal;
+        /**
+        * Signal which dispatches events when the file is loading.
+        * Not guarenteed to dispatch events as it depends on the method of loading being performed
+        *
+        * @property onProgress
+        * @type Kiwi.Signal
+        * @since 1.2.0
+        * @public
+        */
+        onProgress: Kiwi.Signal;
         /**
         * ---------------
         * Loading
         * ---------------
         **/
-        public data: any;
-        public timeOutDelay: number;
+        /**
+        * The particular piece of data that the developer wanted loaded. This is in a format that is based upon the datatype passed.
+        * @property data
+        * @type Any
+        * @public
+        */
+        data: any;
+        /**
+        * The number of milliseconds that the XHR should wait before timing out.
+        * Set this to NULL if you want it to not timeout.
+        *
+        * @property timeOutDelay
+        * @type Number
+        * @default 4000
+        * @public
+        */
+        timeOutDelay: number;
+        /**
+        * The default number of milliseconds that the XHR should wait before timing out.
+        * Set this to NULL if you want it to not timeout.
+        *
+        * @property TIMEOUT_DELAY
+        * @type Number
+        * @static
+        * @since 1.2.0
+        * @public
+        */
         static TIMEOUT_DELAY: number;
-        public attemptCounter: number;
-        public maxLoadAttempts: number;
+        /**
+        * The number of attempts at loading there have currently been at loading the file.
+        * This is only used with XHR methods of loading.
+        * @property attemptCounter
+        * @type Number
+        * @protected
+        */
+        protected attemptCounter: number;
+        /**
+        * The maximum attempts at loading the file that there is allowed.
+        * @property maxLoadAttempts
+        * @type Number
+        * @default 2
+        * @public
+        */
+        maxLoadAttempts: number;
+        /**
+        * The default maximum attempts at loading the file that there is allowed.
+        * @property MAX_LOAD_ATTEMPTS
+        * @type Number
+        * @default 2
+        * @static
+        * @since 1.2.0
+        * @public
+        */
         static MAX_LOAD_ATTEMPTS: number;
         /**
+        * Starts the loading process for this file.
+        * Passing parameters to this method has been deprecated and only exists for backwards compatibility.
         *
         * @method load
         * @public
         */
-        public load(onCompleteCallback?: any, onProgressCallback?: any, customFileStore?: FileStore, maxLoadAttempts?: number, timeout?: number): void;
-        private _load();
+        load(onCompleteCallback?: any, onProgressCallback?: any, customFileStore?: Kiwi.Files.FileStore, maxLoadAttempts?: number, timeout?: number): void;
         /**
-        *
-        * @method loadProgress
-        * @private
+        * Increments the counter, and calls the approprate loading method.
+        * @method _load
+        * @since 1.2.0
+        * @protected
         */
-        private loadProgress();
+        protected _load(): void;
         /**
-        *
+        * Should be called by the loading method. Dispatches the 'onProgress' callback.
+        * @method loadProgress
+        * @since 1.2.0
+        * @protected
+        */
+        protected loadProgress(): void;
+        /**
+        * Called by the loading methods when the file has been loaded and successfully processed.
+        * Dispatches the 'onComplete' callback and sets the appropriate properties.
         * @method loadSuccess
-        * @private
-        */ 
-        private loadSuccess();
+        * @since 1.2.0
+        * @protected
+        */
+        protected loadSuccess(): void;
         /**
+        * Executed when the loading process fails.
+        * This could be for any reason
         *
         * @method loadError
-        * @public
-        */ 
-        private loadError(reason);
-        /**
-        * ---------------
-        * Tag Loading
-        * ---------------
-        **/
-        public tagLoader(): void;
-        public tagOnError(event: any): void;
-        public tagOnLoad(event: any): void;
+        * @param error {Any} The event / reason for the file to not be loaded.
+        * @since 1.2.0
+        * @protected
+        */
+        protected loadError(error: any): void;
         /**
         * ---------------
         * XHR Loading
         * ---------------
         **/
-        private xhrLoader();
-        private xhrOnError(event);
-        private xhrOnProgress(event);
-        private xhrOnLoad(event);
-        public processXHR(response: any): void;
+        /**
+        * Sets up a XHR loader based on the properties of this file and parameters passed.
+        *
+        * @method xhrLoader
+        * @param [method="GET"] {String} The method this request should be made in.
+        * @param [responseType="text"] {String} The type of response we are expecting.
+        * @param [timeoutDelay] {Number}
+        * @protected
+        */
+        protected xhrLoader(method?: string, responseType?: string, timeoutDelay?: number): void;
+        /**
+        * Progress event fired whilst the file is loading via XHR.
+        * @method xhrOnProgress
+        * @param event {Any}
+        * @protected
+        */
+        protected xhrOnProgress(event: any): void;
+        /**
+        * Fired when the file has been loaded.
+        * Checks that the response contains information before marking it as a success.
+        *
+        * @method xhrOnLoad
+        * @param event {Any}
+        * @protected
+        */
+        protected xhrOnLoad(event: any): void;
+        /**
+        * Method to be overriden by those extending this class.
+        * Contains the logic for processing the information retrieved via XHR.
+        *
+        * @method processXHR
+        * @param response
+        * @protected
+        */
+        protected processXHR(response: any): void;
         /**
         * The XMLHttpRequest object. This only has a value if the xhr method of load is being used, otherwise this is null.
         * @property _xhr
         * @type XMLHttpRequest
-        * @private
+        * @protected
         */
-        private _xhr;
-        /**
-        *
-        * @property responseType
-        * @type String
-        * @default 'text'
-        * @public
-        */
-        public responseType: string;
+        protected _xhr: XMLHttpRequest;
         /**
         * -----------------
         * Loading Status
         * -----------------
         **/
         /**
-        * The time at which the loading started. Only has a value when the XHR method of loading is in use.
+        * The time at which the loading started.
         * @property timeStarted
         * @type Number
         * @default 0
         * @public
         */
-        public timeStarted: number;
+        timeStarted: number;
         /**
-        * The time at which the load finished. Only has a value if loading the file was successful and when the XHR method of loading is in use.
+        * The time at which progress in loading the file was last occurred.
+        * Only contains a value when using XHR methods of loading.
+        * @property lastProgress
+        * @type Number
+        * @public
+        */
+        lastProgress: number;
+        /**
+        * The time at which the load finished.
         * @property timeFinished
         * @type Number
         * @default 0
         * @public
         */
-        public timeFinished: number;
+        timeFinished: number;
         /**
         * The duration or how long it took to load the file. In milliseconds.
         * @property duration
@@ -6867,115 +7124,193 @@ declare module Kiwi.Files {
         * @default 0
         * @public
         */
-        public duration: number;
+        duration: number;
         /**
         * Is executed when this file starts loading.
-        * Gets the time and initalised properties that are used across both loading methods.
+        * Gets the time and resets properties used in file loading.
         * @method start
         * @private
         */
         private start();
         /**
-        * Is executed when this file stops loading. Used across all loading methods.
+        * Is executed when this file stops loading.
         * @method stop
         * @private
         */
         private stop();
         /**
-        * If the loading of the file failed or encountered an error.
+        * If file loading failed or encountered an error and so was not laoded
         * @property hasError
         * @type boolean
         * @default false
         * @public
         */
-        public hasError: boolean;
+        hasError: boolean;
         /**
         * Holds the error (if there was one) when loading the file.
         * @property error
         * @type Any
         * @public
         */
-        public error: any;
+        error: any;
         /**
-        * If the loading was a success or not.
+        * If loading was successful or not.
         * @property success
         * @type boolean
         * @public
         */
-        public success: boolean;
+        success: boolean;
         /**
         * Indication if the file is currently being loaded or not.
         * @property loading
         * @type boolean
         * @public
         */
-        public loading: boolean;
+        loading: boolean;
         /**
-        * Indicates if the file attempted to load before or not.
+        * Indicates if the file has attempted to load.
+        * This is regardless of whether it was a success or not.
         * @property complete
         * @type boolean
         * @default false
         * @public
         */
-        public complete: boolean;
+        complete: boolean;
         /**
         * The amount of percent loaded the file is. This is out of 100.
         * @property percentLoaded
         * @type Number
         * @public
         */
-        public percentLoaded: number;
+        percentLoaded: number;
         /**
         * The number of bytes that have currently been loaded.
-        * This can used to create progress bars but only has a value when using the XHR method of loading.
+        * Useful when wanting to know exactly how much data has been transferred.
+        * Only has a value when using the XHR method of loading.
+        *
         * @property bytesLoaded
         * @type Number
         * @default 0
         * @public
         */
-        public bytesLoaded: number;
+        bytesLoaded: number;
         /**
         * The total number of bytes that the file consists off.
-        * Only has a value when using the XHR method of loading.
+        * Only has a value when using the XHR method of loading
+        * or you are getting the file details before hand.
+        *
         * @property bytesTotal
         * @type Number
         * @default 0
         * @public
         */
-        public bytesTotal: number;
+        bytesTotal: number;
         /**
         * --------------------
         * XHR Header Information
         * --------------------
         **/
         /**
-        * The maximum number of load attempts when requesting the file details that will be preformed.
-        * @property maxHeadLoadAttempts
-        * @type number
-        * @default 1
+        * The callback method to be executed when the file details have been retrieved.
+        * @property headCompleteCallback
+        * @type Any
+        * @since 1.2.0
+        * @private
+        */
+        private headCompleteCallback;
+        /**
+        * The context the 'headCompleteCallback' should be executed in..
+        * @property headCompleteContext
+        * @type Any
+        * @since 1.2.0
+        * @private
+        */
+        private headCompleteContext;
+        /**
+        * An indication of whether this files information has been retrieved or not.
+        * @property detailsReceived
+        * @type boolean
+        * @default false
+        * @since 1.2.0
         * @public
         */
-        public maxHeadLoadAttempts: number;
-        public headCompleteCallback: any;
-        public headCompleteContext: any;
-        public detailsReceived: boolean;
+        detailsReceived: boolean;
+        /**
+        * Makes a XHR HEAD request to get information about the file that is going to be downloaded.
+        * This is particularly useful when you are wanting to check how large a file is before loading all of the content.
+        *
+        * @method loadDetails
+        * @param [callback] {Any}
+        * @param [context] {Any}
+        * @since 1.2.0
+        * @public
+        */
+        loadDetails(callback?: any, context?: any): void;
+        /**
+        * Retrieves the HEAD information from the XHR.
+        * This method is used for both 'load' and 'loadDetails' methods.
+        *
+        * @method getXHRHeaderInfo
+        * @since 1.2.0
+        * @private
+        */
         private getXHRHeaderInfo();
-        public loadDetails(callback?: any, context?: any): void;
-        private _xhrHeadRequest();
+        /**
+        * Sets up a XMLHttpRequest object and sends a HEAD request.
+        * @method xhrHeadRequest
+        * @since 1.2.0
+        * @private
+        */
+        private xhrHeadRequest();
+        /**
+        * Executed when a xhr head request fails
+        * @method xhrHeadOnError
+        * @param event {Any}
+        * @private
+        */
         private xhrHeadOnError(event);
+        /**
+        * Executed when a xhr head request has loaded.
+        * Checks that the status of the request is 200 before classifying it as a success.
+        * @method xhrHeadOnLoad
+        * @param event {Any}
+        * @private
+        */
         private xhrHeadOnLoad(event);
+        /**
+        * --------------------
+        * MISC
+        * --------------------
+        **/
+        /**
+        * The Entity Tag that is assigned to the file. O
+        * Only has a value when either using the XHR loader OR when requesting the file details.
+        * @property ETag
+        * @type String
+        * @public
+        */
+        ETag: string;
+        /**
+        * The last date/time that this file was last modified.
+        * Only has a value when using the XHR method of loading OR when requesting the file details.
+        * @property lastModified
+        * @type String
+        * @default ''
+        * @public
+        */
+        lastModified: string;
         /**
         * --------------------
         * Tagging + State
         * --------------------
-        */
+        **/
         /**
         * The state that added the entity - or null if it was added as global
         * @property ownerState
         * @type Kiwi.State
         * @public
         */
-        public ownerState: State;
+        ownerState: Kiwi.State;
         /**
         * Any tags that are on this file. This can be used to grab files/objects on the whole game that have these particular tag.
         * @property _tags
@@ -6990,22 +7325,25 @@ declare module Kiwi.Files {
         * @param tag {String} The tag that you would like to add
         * @public
         */
-        public addTag(tag: string): void;
+        addTag(tag: string): void;
         /**
         * Removes a tag from this file.
         * @method removeTag
         * @param tag {String} The tag that is to be removed.
         * @public
         */
-        public removeTag(tag: string): void;
+        removeTag(tag: string): void;
         /**
-        * Checks to see if a tag that is passed exists on this file and returns a boolean that is used as a indication of the results. True means that the tag exists on this file.
+        * Checks to see if a tag that is passed exists on this file.
+        * Returns a boolean that is used as a indication of the results.
+        * True means that the tag exists on this file.
+        *
         * @method hasTag
         * @param tag {String} The tag you are checking to see exists.
         * @return {Boolean} If the tag does exist on this file or not.
         * @public
         */
-        public hasTag(tag: string): boolean;
+        hasTag(tag: string): boolean;
         /**
         * -------------------
         * File Type
@@ -7105,23 +7443,26 @@ declare module Kiwi.Files {
         * An indication of if this file is texture. This is READ ONLY.
         * @property isTexture
         * @type boolean
+        * @readOnly
         * @public
         */
-        public isTexture : boolean;
+        isTexture: boolean;
         /**
         * An indication of if this file is a piece of audio. This is READ ONLY.
         * @property isAudio
         * @type boolean
+        * @readOnly
         * @public
         */
-        public isAudio : boolean;
+        isAudio: boolean;
         /**
         * An indication of if this file is data. This is READ ONLY.
         * @property isData
         * @type boolean
+        * @readOnly
         * @public
         */
-        public isData : boolean;
+        isData: boolean;
         /**
         * ------------------
         * Deprecated
@@ -7131,138 +7472,125 @@ declare module Kiwi.Files {
         * The name of the file being loaded.
         * @property fileName
         * @type String
+        * @deprecated Use `name`
         * @public
         */
-        public fileName : string;
+        fileName: string;
         /**
         * The location of where the file is placed without the file itself (So without the files name).
         * Example: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'
         * @property filePath
         * @type String
+        * @deprecated Use `path`
         * @public
         */
-        public filePath : string;
+        filePath: string;
         /**
         * The location of where the file is placed without the file itself (So without the files name).
         * Example: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'
         * @property filePath
         * @type String
+        * @deprecated Use `extension`
         * @public
         */
-        public fileExtension : string;
+        fileExtension: string;
         /**
         * The full filepath including the file itself.
         * @property fileURL
         * @type String
+        * @deprecated Use `URL`
         * @public
         */
-        public fileURL : string;
+        fileURL: string;
         /**
         * The type of file that is being loaded.
         * Is only ever given a value when used with the XHR method of loading OR if you use 'getFileDetails' before hand.
         * The value is based off of the 'Content-Type' of the XHR's response header returns.
         * @property fileType
         * @type String
+        * @deprecated Use `type`
         * @public
         */
-        public fileType: string;
+        fileType: string;
         /**
         * The size of the file that was/is being loaded.
         * Only has a value when the file was loaded by the XHR method OR you request the file information before hand using 'getFileDetails'.
         * @property fileSize
         * @type Number
-        * @default 0
+        * @deprecated Use `size`
         * @public
         */
-        public fileSize: number;
-        /**
-        * The Entity Tag that is assigned to the file. O
-        * Only has a value when either using the XHR loader OR when requesting the file details.
-        * @property ETag
-        * @type String
-        * @public
-        */
-        public ETag: string;
-        /**
-        * The last date/time that this file was last modified.
-        * Only has a value when using the XHR method of loading OR when requesting the file details.
-        * @property lastModified
-        * @type String
-        * @default ''
-        * @public
-        */
-        public lastModified: string;
+        fileSize: number;
         /**
         * A method that is to be executed when this file has finished loading.
         * @property onCompleteCallback
         * @type Any
         * @default null
+        * @deprecated Use `onComplete`
         * @public
         */
-        public onCompleteCallback: any;
         /**
         * A method that is to be executed while this file is loading.
         * @property onProgressCallback
         * @type Any
         * @default null
+        * @deprecated Use `onProgress`
         * @public
         */
-        public onProgressCallback: any;
-        /**
-        * The time at which progress in loading the file was last occurred.
-        * @property lastProgress
-        * @type Number
-        * @public
-        */
-        public lastProgress: number;
         /**
         * The status of this file that is being loaded.
         * Only used/has a value when the file was/is being loaded by the XHR method.
         * @property status
         * @type Number
         * @default 0
+        * @deprecated
         * @public
         */
-        public status: number;
+        status: number;
         /**
         * The status piece of text that the XHR returns.
         * @property statusText
         * @type String
         * @default ''
+        * @deprecated
         * @public
         */
-        public statusText: string;
+        statusText: string;
         /**
         * The ready state of the XHR loader whilst loading.
         * @property readyState
         * @type Number
         * @default 0
+        * @deprecated
         * @public
         */
-        public readyState: number;
+        readyState: number;
         /**
         * If this file has timeout when it was loading.
         * @property hasTimedOut
         * @type boolean
         * @default false
+        * @deprecated
         * @public
         */
-        public hasTimedOut: boolean;
+        hasTimedOut: boolean;
         /**
         * If the file timed out or not.
         * @property timedOut
         * @type Number
         * @default 0
+        * @deprecated
         * @public
         */
-        public timedOut: number;
+        timedOut: number;
         /**
         * The response that is given by the XHR loader when loading is complete.
         * @property buffer
         * @type Any
+        * @deprecated Use 'data' instead
         * @public
         */
-        public buffer: any;
+        buffer: any;
         /**
         * Attempts to make the file send a XHR HEAD request to get information about the file that is going to be downloaded.
         * This is particularly useful when you are wanting to check how large a file is before loading all of the content.
@@ -7270,9 +7598,10 @@ declare module Kiwi.Files {
         * @param [callback=null] {Any} The callback to send this FileInfo object to.
         * @param [maxLoadAttempts=1] {number} The maximum amount of load attempts. Only set this if it is different from the default.
         * @param [timeout=this.timeOutDelay] {number} The timeout delay. By default this is the same as the timeout delay property set on this file.
+        * @deprecated Use 'loadDetails' instead
         * @private
         */
-        public getFileDetails(callback?: any, maxLoadAttempts?: number, timeout?: number): void;
+        getFileDetails(callback?: any, maxLoadAttempts?: number, timeout?: number): void;
     }
 }
 /**
@@ -7293,14 +7622,14 @@ declare module Kiwi.Files {
     *
     */
     class FileStore {
-        constructor(game: Game);
+        constructor(game: Kiwi.Game);
         /**
         * The type of object that this is.
         * @method objType
         * @return {String} "FileStore"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The game that this FileStore belongs to.
         * @property _game
@@ -7328,7 +7657,7 @@ declare module Kiwi.Files {
         * @method boot
         * @public
         */
-        public boot(): void;
+        boot(): void;
         /**
         * Returns a particular file by the key that you specify.
         * @method getFile
@@ -7336,7 +7665,7 @@ declare module Kiwi.Files {
         * @return {Kiwi.Files.File}
         * @public
         */
-        public getFile(key: string): File;
+        getFile(key: string): Kiwi.Files.File;
         /**
         * Returns an object full of files that have a Tag that is associated with it.
         * @method getFilesByTag
@@ -7344,7 +7673,7 @@ declare module Kiwi.Files {
         * @return {Object} All of the files with that tag.
         * @public
         */
-        public getFilesByTag(tag: string): Object;
+        getFilesByTag(tag: string): Object;
         /**
         * Removes all of the files by a tag that is specified.
         * @method removeFilesByTag
@@ -7352,21 +7681,21 @@ declare module Kiwi.Files {
         * @return {Number} The number of files that were removed.
         * @public
         */
-        public removeFilesByTag(tag: string): number;
+        removeFilesByTag(tag: string): number;
         /**
         * Returns all of the keys for every file that exist on this FileStore as an array.
         * @property keys
         * @type String[]
         * @public
         */
-        public keys : string[];
+        keys: string[];
         /**
         * Returns the number of files that are on this FileStore.
         * @method size
         * @return {Number}
         * @public
         */
-        public size(): number;
+        size(): number;
         /**
         * Adds a File with a key to the FileStore. If the key that you specify already exists then this method will return false otherwise it should return true if it was added.
         * @method addFile
@@ -7375,7 +7704,7 @@ declare module Kiwi.Files {
         * @return {Boolean} If the file was added or not
         * @public
         */
-        public addFile(key: string, value: File): boolean;
+        addFile(key: string, value: Kiwi.Files.File): boolean;
         /**
         * Checks to see if a key that you pass is already being used for another file. Returns true if that key is already in used, false if it isn't.
         * @method exists
@@ -7383,14 +7712,14 @@ declare module Kiwi.Files {
         * @return {Boolean}
         * @public
         */
-        public exists(key: string): boolean;
+        exists(key: string): boolean;
         /**
         * Removes files on the FileStore that are associated with a particular state.
         * @method removeStateFiles
         * @param state {Kiwi.State}
         * @public
         */
-        public removeStateFiles(state: State): void;
+        removeStateFiles(state: Kiwi.State): void;
         /**
         * Removes a file by the key that is passed. Returns a boolean indicating if a file was removed or not.
         * Note: Only returns false if that file did not exist in the first place.
@@ -7399,7 +7728,7 @@ declare module Kiwi.Files {
         * @return {Boolean}
         * @public
         */
-        public removeFile(key: string): boolean;
+        removeFile(key: string): boolean;
     }
 }
 /**
@@ -7444,28 +7773,28 @@ declare module Kiwi.System {
         * @type boolean
         * @public
         */
-        public isReady: boolean;
+        isReady: boolean;
         /**
         * The parent div in which the layers and input live
         * @property container
         * @type HTMLDivElement
         * @public
         */
-        public container: HTMLDivElement;
+        container: HTMLDivElement;
         /**
         * This div sits on-top of all layers and captures user input
         * @property input
         * @type HTMLDivElement
         * @public
         */
-        public input: HTMLDivElement;
+        input: HTMLDivElement;
         /**
         * The type of object that this is.
         * @method objType
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * Called at the start of the game to check to see if the DOM is ready before we do anything requiring it
         * @method boot
@@ -7474,13 +7803,13 @@ declare module Kiwi.System {
         * @param {boolean} [createContainer=true]
         * @public
         */
-        public boot(domParent: string, callback?: any, createContainer?: boolean): void;
+        boot(domParent: string, callback?: any, createContainer?: boolean): void;
         /**
         * If the DOM is ready it fires our callback, otherwise sets a short timeout to try again
         * @method ready
         * @public
         */
-        public ready(): void;
+        ready(): void;
         /**
         *
         * @method _setupContainer
@@ -7494,7 +7823,7 @@ declare module Kiwi.System {
 * Kiwi - System
 * @module Kiwi
 * @submodule System
-*/ 
+*/
 declare module Kiwi.System {
     /**
     * Detects device support capabilities. Using some elements from System.js by MrDoob and Modernizr
@@ -7516,273 +7845,273 @@ declare module Kiwi.System {
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         *
         * @property iOS
         * @type boolean
         * @public
         */
-        public iOS: boolean;
+        iOS: boolean;
         /**
         *
         * @property android
         * @type boolean
         * @public
         */
-        public android: boolean;
+        android: boolean;
         /**
         *
         * @property chromeOS
         * @type boolean
         * @public
         */
-        public chromeOS: boolean;
+        chromeOS: boolean;
         /**
         *
         * @property linux
         * @type boolean
         * @public
         */
-        public linux: boolean;
+        linux: boolean;
         /**
         *
         * @property maxOS
         * @type boolean
         * @public
         */
-        public macOS: boolean;
+        macOS: boolean;
         /**
         *
         * @property windows
         * @type boolean
         * @public
         */
-        public windows: boolean;
+        windows: boolean;
         /**
         *
         * @property windowsPhone
         * @type boolean
         * @public
         */
-        public windowsPhone: boolean;
+        windowsPhone: boolean;
         /**
         *
         * @property canvas
         * @type boolean
         * @public
         */
-        public canvas: boolean;
+        canvas: boolean;
         /**
         *
         * @property file
         * @type boolean
         * @public
         */
-        public file: boolean;
+        file: boolean;
         /**
         *
         * @property fileSystem
         * @type boolean
         * @public
         */
-        public fileSystem: boolean;
+        fileSystem: boolean;
         /**
         *
         * @property localStorage
         * @type boolean
         * @public
         */
-        public localStorage: boolean;
+        localStorage: boolean;
         /**
         *
         * @property webGL
         * @type boolean
         * @public
         */
-        public webGL: boolean;
+        webGL: boolean;
         /**
         *
         * @property worker
         * @type boolean
         * @public
         */
-        public worker: boolean;
+        worker: boolean;
         /**
         *
         * @property blob
         * @type boolean
         * @public
         */
-        public blob: boolean;
+        blob: boolean;
         /**
         *
         * @property touch
         * @type boolean
         * @public
         */
-        public touch: boolean;
+        touch: boolean;
         /**
         * If the type of touch events are pointers (event msPointers)
         * @property pointerEnabled
         * @type boolean
         * @public
         */
-        public pointerEnabled: boolean;
+        pointerEnabled: boolean;
         /**
         *
         * @property arora
         * @type boolean
         * @public
         */
-        public arora: boolean;
+        arora: boolean;
         /**
         *
         * @property chrome
         * @type boolean
         * @public
         */
-        public chrome: boolean;
+        chrome: boolean;
         /**
         *
         * @property epiphany
         * @type boolean
         * @public
         */
-        public epiphany: boolean;
+        epiphany: boolean;
         /**
         *
         * @property firefox
         * @type boolean
         * @public
         */
-        public firefox: boolean;
+        firefox: boolean;
         /**
         *
         * @property ie
         * @type boolean
         * @public
         */
-        public ie: boolean;
+        ie: boolean;
         /**
         *
         * @property ieVersion
         * @type Number
         * @public
         */
-        public ieVersion: number;
+        ieVersion: number;
         /**
         *
         * @property ieMobile
         * @type boolean
         * @public
         */
-        public ieMobile: boolean;
+        ieMobile: boolean;
         /**
         *
         * @property mobileSafari
         * @type boolean
         * @public
         */
-        public mobileSafari: boolean;
+        mobileSafari: boolean;
         /**
         *
         * @property midori
         * @type boolean
         * @public
         */
-        public midori: boolean;
+        midori: boolean;
         /**
         *
         * @property opera
         * @type boolean
         * @public
         */
-        public opera: boolean;
+        opera: boolean;
         /**
         *
         * @property safari
         * @type boolean
         * @public
         */
-        public safari: boolean;
+        safari: boolean;
         /**
         *
         * @property webApp
         * @type boolean
         * @public
         */
-        public webApp: boolean;
+        webApp: boolean;
         /**
         *
         * @property audioData
         * @type boolean
         * @public
         */
-        public audioData: boolean;
+        audioData: boolean;
         /**
         *
         * @property webaudio
         * @type boolean
         * @public
         */
-        public webaudio: boolean;
+        webaudio: boolean;
         /**
         *
         * @property ogg
         * @type boolean
         * @public
         */
-        public ogg: boolean;
+        ogg: boolean;
         /**
         *
         * @property mp3
         * @type boolean
         * @public
         */
-        public mp3: boolean;
+        mp3: boolean;
         /**
         *
         * @property wav
         * @type boolean
         * @public
         */
-        public wav: boolean;
+        wav: boolean;
         /**
         *
         * @property m4a
         * @type boolean
         * @public
         */
-        public m4a: boolean;
+        m4a: boolean;
         /**
         *
         * @property iPhone
         * @type boolean
         * @public
         */
-        public iPhone: boolean;
+        iPhone: boolean;
         /**
         *
         * @property iPhone4
         * @type boolean
         * @public
         */
-        public iPhone4: boolean;
+        iPhone4: boolean;
         /**
         *
         * @property iPad
         * @type boolean
         * @public
         */
-        public iPad: boolean;
+        iPad: boolean;
         /**
         *
         * @property pixelRatio
         * @type Number
         * @public
         */
-        public pixelRatio: number;
+        pixelRatio: number;
         /**
         *
         * @method _checkOS
@@ -7819,7 +8148,7 @@ declare module Kiwi.System {
         * @return {String}
         * @public
         */
-        public getAll(): string;
+        getAll(): string;
     }
 }
 /**
@@ -7827,7 +8156,7 @@ declare module Kiwi.System {
 * @module Kiwi
 * @submodule Textures
 *
-*/ 
+*/
 declare module Kiwi.Textures {
     /**
     * A TextureAtlas is the base class that is created for each image that is loaded through Kiwi. Each TextureAtlas contains a name (the same as the key that the user chose when loading the image in),the HTMLImageElement that it is for and a number of cells.
@@ -7844,49 +8173,49 @@ declare module Kiwi.Textures {
     *
     */
     class TextureAtlas {
-        constructor(name: string, type: number, cells: any, image: any, sequences?: Animations.Sequence[]);
+        constructor(name: string, type: number, cells: any, image: any, sequences?: Kiwi.Animations.Sequence[]);
         /**
         * The type of object that this texture atlas is.
         * @method objType
         * @return string
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The name of this texture atlas
         * @property name
         * @type string
         * @public
         */
-        public name: string;
+        name: string;
         /**
         * Indicates that the image data has changed, and needs to be reuplaoded to the gpu in webGL mode.
         * @property dirty
         * @type boolean
         * @public
         */
-        public dirty: boolean;
+        dirty: boolean;
         /**
         * The image that this texture atlas is holding. Can be an HTMLImageElement or a HTMLCanvasElement
         * @property image
         * @type HTMLImageElement/HTMLCanvasElement
         * @public
         */
-        public image: any;
+        image: any;
         /**
         * The cells for this image.
         * @property cells
         * @type Array
         * @public
         */
-        public cells: any;
+        cells: any;
         /**
         * An array of Sequences that are for this texture.
         * @property sequences
         * @type Array
         * @public
         */
-        public sequences: Animations.Sequence[];
+        sequences: Kiwi.Animations.Sequence[];
         /**
         * The cell that is to be render at the start.
         * @property cellIndex
@@ -7894,7 +8223,7 @@ declare module Kiwi.Textures {
         * @default 0
         * @public
         */
-        public cellIndex: number;
+        cellIndex: number;
         /**
         * The type of texture atlas that this is. This only ever is given a value when the object is instantated.
         * @property _type
@@ -7937,8 +8266,8 @@ declare module Kiwi.Textures {
         * @type number
         * @public
         */
-        public type : number;
-        public glTextureWrapper: Renderers.GLTextureWrapper;
+        type: number;
+        glTextureWrapper: Kiwi.Renderers.GLTextureWrapper;
         /**
         * Creates a GLTextureWrapper to allow the atlas to communicate efficiently with the video card. This is mostly an internal method.
         *
@@ -7949,7 +8278,7 @@ declare module Kiwi.Textures {
         * @public
         * @since 1.1.0
         */
-        public createGLTextureWrapper(gl: WebGLRenderingContext, textureManager: Renderers.GLTextureManager): void;
+        createGLTextureWrapper(gl: WebGLRenderingContext, textureManager: Kiwi.Renderers.GLTextureManager): void;
         /**
         * Sends the texture to the video card.
         * @method enableGL
@@ -7959,7 +8288,7 @@ declare module Kiwi.Textures {
         * @public
         * @since 1.1.0
         */
-        public enableGL(gl: WebGLRenderingContext, renderer: Renderers.Renderer, textureManager: Renderers.GLTextureManager): void;
+        enableGL(gl: WebGLRenderingContext, renderer: Kiwi.Renderers.Renderer, textureManager: Kiwi.Renderers.GLTextureManager): void;
         /**
         * Will reload the texture into video memory for WebGL rendering.
         *
@@ -7968,7 +8297,7 @@ declare module Kiwi.Textures {
         * @public
         * @since 1.0.1
         */
-        public refreshTextureGL(glContext: any): void;
+        refreshTextureGL(glContext: any): void;
         /**
         * Will populate this texture atlas with information based on a JSON file that was passed.
         *
@@ -7976,7 +8305,7 @@ declare module Kiwi.Textures {
         * @param {any} atlasJSON
         * @public
         */
-        public readJSON(atlasJSON: any): void;
+        readJSON(atlasJSON: any): void;
     }
 }
 /**
@@ -7986,7 +8315,7 @@ declare module Kiwi.Textures {
 * @submodule Textures
 * @main Textures
 *
-*/ 
+*/
 declare module Kiwi.Textures {
     /**
     * Holds a reference to all of the image files (jpg, png, e.t.c) that are accessible on the State this TextureLibrary is on.
@@ -7999,14 +8328,14 @@ declare module Kiwi.Textures {
     *
     */
     class TextureLibrary {
-        constructor(game: Game);
+        constructor(game: Kiwi.Game);
         /**
         * The type of object that this is.
         * @method objType
         * @return {string}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The game that this texture library is on.
         * @property _game
@@ -8019,27 +8348,27 @@ declare module Kiwi.Textures {
         * @property textures
         * @public
         */
-        public textures: any;
+        textures: any;
         /**
         * Resets the texture library.
         * @method clear
         * @public
         */
-        public clear(): void;
+        clear(): void;
         /**
         * Adds a texture atlas to the library.
         * @method add
         * @param atlas {Kiwi.Textures.TextureAtlas}
         * @public
         */
-        public add(atlas: TextureAtlas): void;
+        add(atlas: TextureAtlas): void;
         /**
         * Adds a new image file to the texture library.
         * @method addFromFile
         * @param imageFile {Kiwi.File}
         * @public
         */
-        public addFromFile(imageFile: Files.File): void;
+        addFromFile(imageFile: Kiwi.Files.File): void;
         /**
         * Used to rebuild a Texture from the FileStore into a base2 size if it doesn't have it already.
         * @method _rebuildImage
@@ -8073,13 +8402,13 @@ declare module Kiwi.Textures {
         */
         private _buildImage(imageFile);
         /**
-        * Rebuild the library from a fileStore. Clears the library and repopulates it.
-        * @method rebuild
-        * @param {Kiwi.Files.FileStore} fileStore
-        * @param {Kiwi.State} state
-        * @public
-        */
-        public rebuild(fileStore: Files.FileStore, state: State): void;
+         * Rebuild the library from a fileStore. Clears the library and repopulates it.
+         * @method rebuild
+         * @param {Kiwi.Files.FileStore} fileStore
+         * @param {Kiwi.State} state
+         * @public
+         */
+        rebuild(fileStore: Kiwi.Files.FileStore, state: Kiwi.State): void;
     }
 }
 /**
@@ -8087,7 +8416,7 @@ declare module Kiwi.Textures {
 * @module Kiwi
 * @submodule Textures
 *
-*/ 
+*/
 declare module Kiwi.Textures {
     /**
     * A special type of TextureAtlas that is created when loading in images that are design to be SpriteSheets. A SpriteSheet will generally contain multiple cells and can also contain sequences which are then automatically added as Animations when this texture is used on a Sprite.
@@ -8117,7 +8446,7 @@ declare module Kiwi.Textures {
         * @return string
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The width of a single cell.
         * @property cellWidth
@@ -8151,7 +8480,7 @@ declare module Kiwi.Textures {
         * @type number
         * @public
         */
-        public rows : number;
+        rows: number;
         /**
         * The number of columns that are on this spritesheet
         * @property cols
@@ -8164,7 +8493,7 @@ declare module Kiwi.Textures {
         * @type number
         * @public
         */
-        public cols : number;
+        cols: number;
         /**
         * How much the whole spritesheet should be offset by on the X axis.
         * @property sheetOffsetX
@@ -8200,7 +8529,7 @@ declare module Kiwi.Textures {
         * @return {Array}
         * @public
         */
-        public generateAtlasCells(): any[];
+        generateAtlasCells(): Array<any>;
     }
 }
 /**
@@ -8208,7 +8537,7 @@ declare module Kiwi.Textures {
 * @module Kiwi
 * @submodule Textures
 *
-*/ 
+*/
 declare module Kiwi.Textures {
     /**
     * A special type of TextureAtlas that is used when the user has loaded a single image. This type of TextureAtlas contains only one cell which is generally the whole width/height of the image and starts at the coordinates 0/0. A SingleImage has a space to store sequences but this will not be used.
@@ -8233,7 +8562,7 @@ declare module Kiwi.Textures {
         * @return string
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The width of the image.
         * @property width
@@ -8268,7 +8597,7 @@ declare module Kiwi.Textures {
         * @returns{ Array }
         * @public
         */
-        public generateAtlasCells(): any[];
+        generateAtlasCells(): Array<any>;
     }
 }
 /**
@@ -8292,7 +8621,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         *
         * @method In
@@ -8342,7 +8671,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         *
         * @method In
@@ -8393,7 +8722,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         *
         * @method In
@@ -8440,7 +8769,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         *
         * @method In
@@ -8490,7 +8819,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         *
         * @method In
@@ -8539,7 +8868,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         *
         * @method In
@@ -8589,7 +8918,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         *
         * @method None
@@ -8621,7 +8950,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         *
         * @method In
@@ -8671,7 +9000,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         *
         * @method In
@@ -8721,7 +9050,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         *
         * @method In
@@ -8771,7 +9100,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         *
         * @method In
@@ -8833,14 +9162,14 @@ declare module Kiwi.Animations.Tweens {
     *
     */
     class TweenManager {
-        constructor(game: Game);
+        constructor(game: Kiwi.Game);
         /**
         * The type of object that this is.
         * @method objType
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The game that this manager belongs to.
         * @property _game
@@ -8861,13 +9190,13 @@ declare module Kiwi.Animations.Tweens {
         * @return Kiwi.Animations.Tween[]
         * @public
         */
-        public getAll(): Tween[];
+        getAll(): Tween[];
         /**
         * Removes all of the tweens on the manager.
         * @method removeAll
         * @public
         */
-        public removeAll(): void;
+        removeAll(): void;
         /**
         * Creates a new Tween.
         * @method create
@@ -8875,7 +9204,7 @@ declare module Kiwi.Animations.Tweens {
         * @return {Kiwi.Animations.Tween} The tween that was created.
         * @public
         */
-        public create(object: any): Tween;
+        create(object: any): Kiwi.Animations.Tween;
         /**
         * Adds a tween to the manager.
         * @method add
@@ -8883,7 +9212,7 @@ declare module Kiwi.Animations.Tweens {
         * @return {Kiwi.Animations.Tween}
         * @public
         */
-        public add(tween: Tween): Tween;
+        add(tween: Kiwi.Animations.Tween): Kiwi.Animations.Tween;
         /**
         * Removes a tween from this manager.
         * @method remove
@@ -8891,13 +9220,13 @@ declare module Kiwi.Animations.Tweens {
         * @return {Kiwi.Animations.Tween}
         * @public
         */
-        public remove(tween: Tween): void;
+        remove(tween: Kiwi.Animations.Tween): void;
         /**
         * The update loop.
         * @method update
         * @public
         */
-        public update(): boolean;
+        update(): boolean;
     }
 }
 /**
@@ -8933,14 +9262,14 @@ declare module Kiwi.Animations {
     *
     */
     class Tween {
-        constructor(object: any, game?: Game);
+        constructor(object: any, game?: Kiwi.Game);
         /**
         * The type of object that this is.
         * @method objType
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The game that this tween belongs to.
         * @property _game
@@ -9084,7 +9413,7 @@ declare module Kiwi.Animations {
         * @default false
         * @public
         */
-        public isRunning: boolean;
+        isRunning: boolean;
         /**
         * Sets up the various properties that define this tween.
         * The ending position/properties for this tween, how long the tween should go for, easing method to use and if should start right way.
@@ -9097,26 +9426,26 @@ declare module Kiwi.Animations {
         * @return {Kiwi.Animations.Tween}
         * @public
         */
-        public to(properties: any, duration?: number, ease?: any, autoStart?: boolean): Tween;
+        to(properties: any, duration?: number, ease?: any, autoStart?: boolean): Tween;
         /**
         * Gets the initial values for the properties that it is to animate and starts the tween process.
         * @method start
         * @public
         */
-        public start(): Tween;
+        start(): Tween;
         /**
         * Stops the Tween from running and removes it from the manager.
         * @method stop
         * @public
         */
-        public stop(): Tween;
+        stop(): Tween;
         /**
         * Sets the game and the manager of this tween.
         * @method setParent
         * @param {Kiwi.Game} value
         * @public
         */
-        public setParent(value: Game): void;
+        setParent(value: Kiwi.Game): void;
         /**
         * Sets the amount of delay that the tween is to have before it starts playing.
         * @method delay
@@ -9124,7 +9453,7 @@ declare module Kiwi.Animations {
         * @return {Kiwi.Animations.Tween}
         * @public
         */
-        public delay(amount: number): Tween;
+        delay(amount: number): Tween;
         /**
         * Sets the easing method that is to be used when animating this tween.
         * @method easing
@@ -9132,7 +9461,7 @@ declare module Kiwi.Animations {
         * @return {Kiwi.Animations.Tween}
         * @public
         */
-        public easing(easing: any): Tween;
+        easing(easing: any): Tween;
         /**
         * [REQUIRES DESCRIPTION]
         * @method interpolation
@@ -9140,7 +9469,7 @@ declare module Kiwi.Animations {
         * @return {Kiwi.Animations.Tween}
         * @public
         */
-        public interpolation(interpolation: any): Tween;
+        interpolation(interpolation: any): Tween;
         /**
         * Adds another tween that should start playing once tween has completed.
         * @method chain
@@ -9148,7 +9477,7 @@ declare module Kiwi.Animations {
         * @return {Kiwi.Animations.Tween}
         * @public
         */
-        public chain(tween: Tween): Tween;
+        chain(tween: Kiwi.Animations.Tween): Tween;
         /**
         * Adds a function that is to be executed when the tween start playing.
         * @method onStart
@@ -9157,7 +9486,7 @@ declare module Kiwi.Animations {
         * @return {Kiwi.Animations.Tween}
         * @public
         */
-        public onStart(callback: any, context: any): Tween;
+        onStart(callback: any, context: any): Tween;
         /**
         * Adds a function that is to be executed when this tween updates while it is playing.
         * @method onUpdate
@@ -9165,7 +9494,7 @@ declare module Kiwi.Animations {
         * @param context {Any} The context the method is to have when called.
         * @public
         */
-        public onUpdate(callback: any, context: any): Tween;
+        onUpdate(callback: any, context: any): Tween;
         /**
         * Defines a method that is to be called when this tween is finished.
         * @method onComplete
@@ -9173,14 +9502,14 @@ declare module Kiwi.Animations {
         * @param context {Any} The context the method is to have when called.
         * @public
         */
-        public onComplete(callback: any, context: any): Tween;
+        onComplete(callback: any, context: any): Tween;
         /**
         * The update loop is executed every frame whilst the tween is running.
         * @method update
         * @param time {Number}
         * @public
         */
-        public update(time: any): boolean;
+        update(time: any): boolean;
     }
 }
 interface IRenderManager {
@@ -9198,7 +9527,7 @@ interface IRenderManager {
 * @module Kiwi
 * @submodule Renderers
 * @main
-*/ 
+*/
 declare module Kiwi.Renderers {
     /**
     *
@@ -9210,20 +9539,20 @@ declare module Kiwi.Renderers {
     *
     */
     class CanvasRenderer implements IRenderManager {
-        constructor(game: Game);
+        constructor(game: Kiwi.Game);
         /**
         * The boot method is executed when all of the DOM elements that are needed to play the game are ready.
         * @method boot
         * @public
         */
-        public boot(): void;
+        boot(): void;
         /**
         * Returns the type of object that this is.
         * @method objType
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The game that this object belongs to.
         * @property _game
@@ -9246,19 +9575,19 @@ declare module Kiwi.Renderers {
         * @param child {object} The child that is being checked.
         * @private
         */
-        public _recurse(child: IChild): void;
-        public requestRendererInstance(rendererID: string, params?: any): Renderer;
-        public requestSharedRenderer(rendererID: string, params?: any): Renderer;
-        public initState(state: State): void;
-        public endState(state: State): void;
-        public numDrawCalls: number;
+        _recurse(child: IChild): void;
+        requestRendererInstance(rendererID: string, params?: any): Kiwi.Renderers.Renderer;
+        requestSharedRenderer(rendererID: string, params?: any): Kiwi.Renderers.Renderer;
+        initState(state: Kiwi.State): void;
+        endState(state: Kiwi.State): void;
+        numDrawCalls: number;
         /**
         * Renders all of the Elements that are on a particular camera.
         * @method render
         * @param camera {Kiwi.Camera}
         * @public
         */
-        public render(camera: Camera): void;
+        render(camera: Kiwi.Camera): void;
     }
 }
 declare var mat2d: any, mat3: any, vec2: any, vec3: any, mat4: any;
@@ -9269,7 +9598,7 @@ declare var mat2d: any, mat3: any, vec2: any, vec3: any, mat4: any;
 * @submodule Renderers
 * @main Renderers
 * @namespace Kiwi.Renderers
-*/ 
+*/
 declare module Kiwi.Renderers {
     /**
     * Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  https://github.com/toji/gl-matrix
@@ -9284,20 +9613,20 @@ declare module Kiwi.Renderers {
     * @return {Kiwi.Renderers.GLRenderManager}
     */
     class GLRenderManager implements IRenderManager {
-        constructor(game: Game);
+        constructor(game: Kiwi.Game);
         /**
         * Initialises all WebGL rendering services
         * @method boot
         * @public
         */
-        public boot(): void;
+        boot(): void;
         /**
         * The type of object that this is.
         * @method objType
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The game that this renderer is used with.
         * @property _game
@@ -9350,13 +9679,13 @@ declare module Kiwi.Renderers {
         */
         private _entityCount;
         /**
-        * Tally of number of draw calls per frame
-        * @property numDrawCalls
-        * @type number
-        * @default 0
-        * @public
-        */
-        public numDrawCalls: number;
+       * Tally of number of draw calls per frame
+       * @property numDrawCalls
+       * @type number
+       * @default 0
+       * @public
+       */
+        numDrawCalls: number;
         /**
         * Maximum allowable sprites to render per frame
         * Note:Not currently used  - candidate for deletion
@@ -9366,7 +9695,7 @@ declare module Kiwi.Renderers {
         * @private
         */
         private _maxItems;
-        public camMatrix: Float32Array;
+        camMatrix: Float32Array;
         /**
         * The most recently bound texture atlas.
         * @property _currentTextureAtlas
@@ -9381,7 +9710,7 @@ declare module Kiwi.Renderers {
         * @param {Kiwi.Textures.TextureAtlas} atlas
         * @public
         */
-        public addTexture(gl: WebGLRenderingContext, atlas: Textures.TextureAtlas): void;
+        addTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas): void;
         /**
         * An array of renderers. Shared renderers are used for batch rendering. Multiple gameobjects can use the same renderer
         * instance and add rendering info to a batch rather than rendering individually.
@@ -9405,7 +9734,7 @@ declare module Kiwi.Renderers {
         * @return {Boolean} success
         * @public
         */
-        public addSharedRenderer(rendererID: string, params?: any): boolean;
+        addSharedRenderer(rendererID: string, params?: any): boolean;
         /**
         * Adds a cloned renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. The cloneID is the name for the cloned renderer.
         *
@@ -9421,7 +9750,7 @@ declare module Kiwi.Renderers {
         * @public
         * @since 1.1.0
         */
-        public addSharedRendererClone(rendererID: string, cloneID: string, params?: any): boolean;
+        addSharedRendererClone(rendererID: string, cloneID: string, params?: any): boolean;
         /**
         * Requests a shared renderer. A game object that wants to use a shared renderer uses this method to obtain a reference to the shared renderer instance.
         * @method requestSharedRenderer
@@ -9430,7 +9759,7 @@ declare module Kiwi.Renderers {
         * @return {Kiwi.Renderers.Renderer} A shared renderer or null if none found.
         * @public
         */
-        public requestSharedRenderer(rendererID: string, params?: any): Renderer;
+        requestSharedRenderer(rendererID: string, params?: any): Kiwi.Renderers.Renderer;
         /**
         * Requests a new renderer instance. This factory method is the only way gameobjects should instantiate their own renderer.
         * The rendererID is a string that must match a renderer property of the Kiwi.Renderers object.
@@ -9442,7 +9771,7 @@ declare module Kiwi.Renderers {
         * @return {Kiwi.Renderers.Renderer} A renderer or null if none found.
         * @public
         */
-        public requestRendererInstance(rendererID: string, params?: any): Renderer;
+        requestRendererInstance(rendererID: string, params?: any): Kiwi.Renderers.Renderer;
         private _init();
         /**
         * Scales the viewport according to a scale mode and space dimensions.
@@ -9456,21 +9785,21 @@ declare module Kiwi.Renderers {
         * @public
         * @since 1.1.1
         */
-        public scaleViewport(gl: WebGLRenderingContext, mode: number, width: number, height: number): void;
+        scaleViewport(gl: WebGLRenderingContext, mode: number, width: number, height: number): void;
         /**
         * Performs initialisation required when switching to a different state. Called when a state has been switched to.
         * The textureManager is told to clear its contents from video memory, then rebuild its cache of textures from the state's texture library.
         * @method initState
         * @public
         */
-        public initState(state: State): void;
+        initState(state: Kiwi.State): void;
         /**
         * Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.
         * @method endState
         * @param state {Kiwi.State}
         * @public
         */
-        public endState(state: State): void;
+        endState(state: Kiwi.State): void;
         /**
         * Manages rendering of the scene graph - called once per frame.
         * Sets up per frame gl uniforms such as the view matrix and camera offset.
@@ -9480,7 +9809,7 @@ declare module Kiwi.Renderers {
         * @param camera {Camera}
         * @public
         */
-        public render(camera: Camera): void;
+        render(camera: Kiwi.Camera): void;
         private _sequence;
         private _batches;
         /**
@@ -9488,19 +9817,19 @@ declare module Kiwi.Renderers {
         * @method collateRenderSequence
         * @public
         */
-        public collateRenderSequence(): void;
+        collateRenderSequence(): void;
         /**
         * Adds a child to the render sequence (may be a group with children of it's own)
         * @method collateChild
         * @public
         */
-        public collateChild(child: IChild): void;
+        collateChild(child: IChild): void;
         /**
         * Sorts the render sequence into batches. Each batch requires the same renderer/shader/texture combination.
         * @method collateBatches
         * @public
         */
-        public collateBatches(): void;
+        collateBatches(): void;
         /**
         * Renders all the batches
         * @method renderBatches
@@ -9508,7 +9837,7 @@ declare module Kiwi.Renderers {
         * @param {Kiwi.Camera} camera
         * @public
         */
-        public renderBatches(gl: WebGLRenderingContext, camera: any): void;
+        renderBatches(gl: WebGLRenderingContext, camera: any): void;
         /**
         * Renders a single batch
         * @method renderBatch
@@ -9517,7 +9846,7 @@ declare module Kiwi.Renderers {
         * @param {Kiwi.Camera} camera
         * @public
         */
-        public renderBatch(gl: any, batch: any, camera: any): void;
+        renderBatch(gl: any, batch: any, camera: any): void;
         /**
         * Calls the render function on a single entity
         * @method renderEntity
@@ -9527,7 +9856,7 @@ declare module Kiwi.Renderers {
         * @public
         * @deprecated Used internally; should not be called from external functions
         */
-        public renderEntity(gl: WebGLRenderingContext, entity: any, camera: any): void;
+        renderEntity(gl: WebGLRenderingContext, entity: any, camera: any): void;
         /**
         * Ensures the atlas and renderer needed for a batch is setup
         * @method setupGLState
@@ -9535,7 +9864,7 @@ declare module Kiwi.Renderers {
         * @public
         * @deprecated Used internally; should not be called from external functions.
         */
-        public setupGLState(gl: WebGLRenderingContext, entity: any): void;
+        setupGLState(gl: WebGLRenderingContext, entity: any): void;
         /**
         * Switch renderer to the one needed by the entity that needs rendering
         * @method _switchRenderer
@@ -9582,7 +9911,7 @@ declare module Kiwi.Renderers {
 * @submodule Shaders
 * @main Shaders
 * @namespace Kiwi.Shaders
-*/ 
+*/
 declare module Kiwi.Shaders {
     /**
     * Manages all WebGL Shaders. Maintains a list of ShaderPairs
@@ -9598,11 +9927,11 @@ declare module Kiwi.Shaders {
     class ShaderManager {
         constructor();
         /**
-        * An object containing a set of properties each of which references a ShaderPair.
-        * @property _shaderPairs
-        * @type Object
-        * @private
-        */
+       * An object containing a set of properties each of which references a ShaderPair.
+       * @property _shaderPairs
+       * @type Object
+       * @private
+       */
         private _shaderPairs;
         /**
         * The shader program that is currently set to be used useing gl.useProgram.
@@ -9610,7 +9939,7 @@ declare module Kiwi.Shaders {
         * @type Array
         * @private
         */
-        public currentShader : ShaderPair;
+        currentShader: ShaderPair;
         private _currentShader;
         /**
         * Sets up a default shaderPair.
@@ -9619,14 +9948,14 @@ declare module Kiwi.Shaders {
         * @param {String} defaultShaderID
         * @public
         */
-        public init(gl: WebGLRenderingContext, defaultShaderID: string): void;
+        init(gl: WebGLRenderingContext, defaultShaderID: string): void;
         /**
         * Provides a reference to a ShaderPair. If the requested ShaderPair exists as a property on the _shaderPairs object it will be returned if already loaded,
         * otherwise it will be loaded, then returned.
         *
         * If the request is not on the list, the Kiwi.Shaders object will  be checked for a property name that matches shaderID and a new ShaderPair
         * will be instantiated, loaded, and set for use.
-        
+
         * @method requestShader
         * @param {WebGLRenderingContext} gl
         * @param {String} shaderID
@@ -9634,7 +9963,7 @@ declare module Kiwi.Shaders {
         * @return {Kiwi.Shaders.ShaderPair} a ShaderPair instance - null on fail
         * @public
         */
-        public requestShader(gl: WebGLRenderingContext, shaderID: string, use?: boolean): ShaderPair;
+        requestShader(gl: WebGLRenderingContext, shaderID: string, use?: boolean): ShaderPair;
         /**
         * Tests to see if a ShaderPair property named ShaderID exists on Kiwi.Shaders. Can be used to test for the availability of specific shaders (for fallback)
         * @method shaderExists
@@ -9643,7 +9972,7 @@ declare module Kiwi.Shaders {
         * @return {Boolean} success
         * @public
         */
-        public shaderExists(gl: WebGLRenderingContext, shaderID: string): boolean;
+        shaderExists(gl: WebGLRenderingContext, shaderID: string): boolean;
         /**
         * Creates a new instance of a ShaderPair and adds a reference to the _shaderPairs object
         * @method _addShader
@@ -9688,41 +10017,41 @@ declare module Kiwi.Renderers {
     * @return {Kiwi.Renderers.GLTextureWrapper}
     */
     class GLTextureWrapper {
-        constructor(gl: WebGLRenderingContext, atlas: Textures.TextureAtlas, upload?: boolean);
+        constructor(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas, upload?: boolean);
         /**
         * The textureAtlas used by the GLTexture
         * @property textureAtlas
         * @type Kiwi.Textures.TextureAtlas
         */
-        public textureAtlas: Textures.TextureAtlas;
+        textureAtlas: Kiwi.Textures.TextureAtlas;
         /**
         * The number of bytes in the texture
         * @property numBytes
         * @type Kiwi.Textures.TextureAtlas
         */
         private _numBytes;
-        public numBytes : number;
+        numBytes: number;
         /**
         * Returns whether the texture has been created
         * @property created
         * @type boolean
         */
         private _created;
-        public created : boolean;
+        created: boolean;
         /**
         * Returns whether the texture has been uploaded to video memory
         * @property uploaded
         * @type boolean
         */
         private _uploaded;
-        public uploaded : boolean;
+        uploaded: boolean;
         /**
         *
         * @property texture
         * @type WebGLTexture
         * @public
         */
-        public texture: WebGLTexture;
+        texture: WebGLTexture;
         /**
         * The image wrapped by this wrapper.
         * @property image
@@ -9730,35 +10059,35 @@ declare module Kiwi.Renderers {
         * @public
         */
         private _image;
-        public image : HTMLImageElement;
+        image: HTMLImageElement;
         /**
         * Creates a webgl texture object
         * @method createTexture
         * @param gl {WebGLRenderingContext}
         * @public
         */
-        public createTexture(gl: WebGLRenderingContext): boolean;
+        createTexture(gl: WebGLRenderingContext): boolean;
         /**
         * Uploads a webgl texture object to video memory
         * @method uploadTexture
         * @param gl {WebGLRenderingContext}
         * @public
         */
-        public uploadTexture(gl: WebGLRenderingContext): boolean;
+        uploadTexture(gl: WebGLRenderingContext): boolean;
         /**
         * Re-uploads a webgl texture object to video memory
         * @method refreshTexture
         * @param gl {WebGLRenderingContext}
         * @public
         */
-        public refreshTexture(gl: WebGLRenderingContext): void;
+        refreshTexture(gl: WebGLRenderingContext): void;
         /**
         * Deletes a webgl texture
         * @method deleteTexture
         * @param gl {WebGLRenderingContext}
         * @public
         */
-        public deleteTexture(gl: WebGLRenderingContext): boolean;
+        deleteTexture(gl: WebGLRenderingContext): boolean;
     }
 }
 /**
@@ -9768,14 +10097,14 @@ declare module Kiwi.Renderers {
 * @submodule Renderers
 * @main Renderers
 * @namespace Kiwi.Renderers
-*/ 
+*/
 declare module Kiwi.Renderers {
     /**
-    * Manages GL Texture objects, including creation, uploading, destruction and memory management
-    * @class GLTextureManager
-    * @constructor
-    * @return {GLTextureManager}
-    */
+   * Manages GL Texture objects, including creation, uploading, destruction and memory management
+   * @class GLTextureManager
+   * @constructor
+   * @return {GLTextureManager}
+   */
     class GLTextureManager {
         constructor();
         /**
@@ -9792,7 +10121,7 @@ declare module Kiwi.Renderers {
         * @type number
         * @public
         */
-        public maxTextureMem: number;
+        maxTextureMem: number;
         /**
         * The amount of texture memory currently uplaoded
         * @property usedTextureMem
@@ -9800,7 +10129,7 @@ declare module Kiwi.Renderers {
         * @public
         */
         private _usedTextureMem;
-        public usedTextureMem : number;
+        usedTextureMem: number;
         /**
         * The number of textures currently uplaoded
         * @property usedTextureMem
@@ -9808,14 +10137,14 @@ declare module Kiwi.Renderers {
         * @public
         */
         private _numTexturesUsed;
-        public numTexturesUsed : number;
+        numTexturesUsed: number;
         /**
         * The number of textures uploads in the last frame
         * @property numTextureWrites
         * @type number
         * @public
         */
-        public numTextureWrites: number;
+        numTextureWrites: number;
         /**
         * An array of references to all texture wrappers
         * @property _textureWrapperCache
@@ -9854,7 +10183,7 @@ declare module Kiwi.Renderers {
         * @param textureLibrary {Kiwi.Textures.TextureLibrary}
         * @public
         */
-        public uploadTextureLibrary(gl: WebGLRenderingContext, textureLibrary: Textures.TextureLibrary): void;
+        uploadTextureLibrary(gl: WebGLRenderingContext, textureLibrary: Kiwi.Textures.TextureLibrary): void;
         /**
         * Uploads a single texture to video memory
         * @method uploadTexture
@@ -9862,7 +10191,7 @@ declare module Kiwi.Renderers {
         * @param textureAtlas {Kiwi.Textures.TextureAtlas}
         * @public
         */
-        public uploadTexture(gl: WebGLRenderingContext, textureAtlas: Textures.TextureAtlas): void;
+        uploadTexture(gl: WebGLRenderingContext, textureAtlas: Kiwi.Textures.TextureAtlas): void;
         /**
         * Adds a texture wrapper to the manager. This both adds the wrapper to the manager cache, and attempts to upload the attached texture to video memory.
         * @method registerTextureWrapper
@@ -9871,14 +10200,14 @@ declare module Kiwi.Renderers {
         * @public
         * @since 1.1.0
         */
-        public registerTextureWrapper(gl: WebGLRenderingContext, glTextureWrapper: GLTextureWrapper): void;
+        registerTextureWrapper(gl: WebGLRenderingContext, glTextureWrapper: GLTextureWrapper): void;
         /**
         * Removes all textures from video memory and clears the wrapper cache
         * @method clearTextures
         * @param gl {WebGLRenderingContext}
         * @public
         */
-        public clearTextures(gl: WebGLRenderingContext): void;
+        clearTextures(gl: WebGLRenderingContext): void;
         /**
         * Binds the texture ready for use, uploads it if it isn't already
         * @method useTexture
@@ -9888,7 +10217,7 @@ declare module Kiwi.Renderers {
         * @return boolean
         * @public
         */
-        public useTexture(gl: WebGLRenderingContext, glTextureWrapper: GLTextureWrapper, textureUnit?: number): boolean;
+        useTexture(gl: WebGLRenderingContext, glTextureWrapper: GLTextureWrapper, textureUnit?: number): boolean;
         /**
         * Attempts to free space in video memory.
         *
@@ -9934,7 +10263,7 @@ declare module Kiwi.Renderers {
         * @readonly
         */
         private _created;
-        public created : boolean;
+        created: boolean;
         /**
         * Returns whether the buffer has been uploaded to video memory
         * @property created
@@ -9943,41 +10272,41 @@ declare module Kiwi.Renderers {
         * @readonly
         */
         private _uploaded;
-        public uploaded : boolean;
+        uploaded: boolean;
         /**
         * The items ito upload to the buffer
         * @property items
         * @type number[]
         * @public
         */
-        public items: number[];
+        items: number[];
         /**
         * The WebGL buffer Object
         * @property buffer
         * @type WebGLBuffer
         * @public
         */
-        public buffer: WebGLBuffer;
+        buffer: WebGLBuffer;
         /**
         * The size of each item in the buffer.
         * @property itemSize
         * @type number
         * @public
         */
-        public itemSize: number;
+        itemSize: number;
         /**
         * The number of items in the buffer
         * @property numItems
         * @type number
         * @public
         */
-        public numItems: number;
+        numItems: number;
         /**
         * Clears the item array.
         * @method clear
         * @public
         */
-        public clear(): void;
+        clear(): void;
         /**
         * Creates the array buffer.
         * @method createBuffer
@@ -9985,7 +10314,7 @@ declare module Kiwi.Renderers {
         * @return {WebGLBuffer}
         * @public
         */
-        public createBuffer(gl: WebGLRenderingContext): boolean;
+        createBuffer(gl: WebGLRenderingContext): boolean;
         /**
         * Uploads the array buffer.
         * @method uploadBuffer
@@ -9994,7 +10323,7 @@ declare module Kiwi.Renderers {
         * @return {boolean}
         * @public
         */
-        public uploadBuffer(gl: WebGLRenderingContext, items: number[]): boolean;
+        uploadBuffer(gl: WebGLRenderingContext, items: number[]): boolean;
         /**
         * Deletes the array buffer.
         * @method deleteBuffer
@@ -10002,7 +10331,7 @@ declare module Kiwi.Renderers {
         * @return {boolean}
         * @public
         */
-        public deleteBuffer(gl: WebGLRenderingContext): boolean;
+        deleteBuffer(gl: WebGLRenderingContext): boolean;
         /**
         *
         * @property squareVertices
@@ -10058,14 +10387,14 @@ declare module Kiwi.Renderers {
         * @type WebGLRenderingContext
         * @public
         */
-        public gl: WebGLRenderingContext;
+        gl: WebGLRenderingContext;
         /**
         * Dirty flag indicates whether this object has been altered and needs to be processed.
         * @property dirty
         * @type boolean
         * @public
         */
-        public dirty: boolean;
+        dirty: boolean;
         /**
         * Source RGB factor used in WebGL blendfunc.
         * @property _srcRGB
@@ -10125,7 +10454,7 @@ declare module Kiwi.Renderers {
         * @param params {Object}
         * @public
         */
-        public readConfig(params: any): void;
+        readConfig(params: any): void;
         /**
         * Formats a parameter into a GL context-compatible number. This recognises valid constant names, such as "SRC_ALPHA" or "REVERSE_AND_SUBTRACT", with some tolerance for case. It does not check for valid numeric codes.
         * @method makeConstant
@@ -10154,7 +10483,7 @@ declare module Kiwi.Renderers {
         * @param mode {String}
         * @public
         */
-        public setMode(mode: string): void;
+        setMode(mode: string): void;
         /**
         * Compares against another GLBlendMode
         * @method isIdentical
@@ -10162,14 +10491,14 @@ declare module Kiwi.Renderers {
         * @param blendMode {Kiwi.Renderers.GLBlendMode}
         * @public
         */
-        public isIdentical(blendMode: GLBlendMode): boolean;
+        isIdentical(blendMode: GLBlendMode): boolean;
         /**
         * Sets the blend mode on the video card
         * @method apply
         * @param gl {WebGLRenderingContext}
         * @public
         */
-        public apply(gl: WebGLRenderingContext): void;
+        apply(gl: WebGLRenderingContext): void;
     }
 }
 /**
@@ -10198,34 +10527,34 @@ declare module Kiwi.Renderers {
         * @type number[]
         * @public
         */
-        public indices: number[];
+        indices: number[];
         /**
         * The Element Array Buffer object
         * @property buffer
         * @type WebGLBuffer
         * @public
         */
-        public buffer: WebGLBuffer;
+        buffer: WebGLBuffer;
         /**
         * The size of each buffer item
         * @property itemSize
         * @type number
         * @public
         */
-        public itemSize: number;
+        itemSize: number;
         /**
         * The numbe of items in the buffer
         * @property numItems
         * @type number
         * @public
         */
-        public numItems: number;
+        numItems: number;
         /**
         * Clears the indices array.
         * @method clear
         * @public
         */
-        public clear(): void;
+        clear(): void;
         /**
         * Initialises the Element Array Buffer
         * @method init
@@ -10233,7 +10562,7 @@ declare module Kiwi.Renderers {
         * @return {WebGLBuffer}
         * @public
         */
-        public init(gl: WebGLRenderingContext): WebGLBuffer;
+        init(gl: WebGLRenderingContext): WebGLBuffer;
         /**
         * Refreshes the Element Array Buffer
         * @method refresh
@@ -10242,7 +10571,7 @@ declare module Kiwi.Renderers {
         * @return {WebGLBuffer}
         * @public
         */
-        public refresh(gl: WebGLRenderingContext, indices: number[]): WebGLBuffer;
+        refresh(gl: WebGLRenderingContext, indices: number[]): WebGLBuffer;
         /**
         * The required indices for a single quad.
         * @property square
@@ -10263,16 +10592,16 @@ declare module Kiwi.Renderers {
 declare module Kiwi.Renderers {
     class Renderer {
         /**
-        * Base class for WebGL Renderers. Not for instantiation.
-        * @class Renderer
-        * @constructor
-        * @namespace Kiwi.Renderers
-        * @param gl {WebGLRenderingContext}
-        * @param shaderManager {Kiwi.Shaders.ShaderManager}
-        * @param [params=null] {object}
-        * @return {Kiwi.Renderers.Renderer}
-        */
-        constructor(gl: WebGLRenderingContext, shaderManager: Shaders.ShaderManager, isBatchRenderer?: boolean);
+         * Base class for WebGL Renderers. Not for instantiation.
+         * @class Renderer
+         * @constructor
+         * @namespace Kiwi.Renderers
+         * @param gl {WebGLRenderingContext}
+           * @param shaderManager {Kiwi.Shaders.ShaderManager}
+         * @param [params=null] {object}
+         * @return {Kiwi.Renderers.Renderer}
+         */
+        constructor(gl: WebGLRenderingContext, shaderManager: Kiwi.Shaders.ShaderManager, isBatchRenderer?: boolean);
         /**
         * Identifier for this renderer
         * @property RENDERER_ID
@@ -10287,21 +10616,21 @@ declare module Kiwi.Renderers {
         * @type Float32Array
         * @public
         */
-        public camMatrix: Float32Array;
+        camMatrix: Float32Array;
         /**
         *
         * @property loaded
         * @type Array
         * @public
         */
-        public loaded: boolean;
+        loaded: boolean;
         /**
         * Reference to the shaderManager - used for requesting shaders.
         * @property shaderManager
         * @type Array
         * @public
         */
-        public shaderManager: Shaders.ShaderManager;
+        shaderManager: Kiwi.Shaders.ShaderManager;
         /**
         * Enables the renderer (for override)
         * @method enable
@@ -10309,7 +10638,7 @@ declare module Kiwi.Renderers {
         * @param [params=null] {object}
         * @public
         */
-        public enable(gl: WebGLRenderingContext, params?: any): void;
+        enable(gl: WebGLRenderingContext, params?: any): void;
         /**
         * Enables the renderer (for override)
         * @method disable
@@ -10317,7 +10646,7 @@ declare module Kiwi.Renderers {
         * @param [params=null] {object}
         * @public
         */
-        public disable(gl: WebGLRenderingContext): void;
+        disable(gl: WebGLRenderingContext): void;
         /**
         * Enables the renderer (for override)
         * @method clear
@@ -10325,14 +10654,14 @@ declare module Kiwi.Renderers {
         * @param [params=null] {object}
         * @public
         */
-        public clear(gl: WebGLRenderingContext, params: any): void;
+        clear(gl: WebGLRenderingContext, params: any): void;
         /**
         * Draw to the draw or frame buffer (for override)
         * @method draw
         * @param gl {WebGLRenderingContext}
         * @public
         */
-        public draw(gl: WebGLRenderingContext): void;
+        draw(gl: WebGLRenderingContext): void;
         /**
         * Updates the stage resolution uniforms (for override)
         * @method updateStageResolution
@@ -10340,22 +10669,22 @@ declare module Kiwi.Renderers {
         * @param res {Float32Array}
         * @public
         */
-        public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array): void;
+        updateStageResolution(gl: WebGLRenderingContext, res: Float32Array): void;
         /**
-        * Updates the texture size uniforms (for override)
-        * @method updateTextureSize
-        * @param gl {WebGLRenderingContext}
-        * @param size {Float32Array}
-        * @public
-        */
-        public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array): void;
+       * Updates the texture size uniforms (for override)
+       * @method updateTextureSize
+       * @param gl {WebGLRenderingContext}
+       * @param size {Float32Array}
+       * @public
+       */
+        updateTextureSize(gl: WebGLRenderingContext, size: Float32Array): void;
         /**
         * The shader pair used by the renderer
         * @property shaderPair
         * @type {Kiwi.Shaders.ShaderPair}
         * @public
         */
-        public shaderPair: Shaders.ShaderPair;
+        shaderPair: Kiwi.Shaders.ShaderPair;
         /**
         * This renderer's blend mode data.
         * @property blendMode
@@ -10363,7 +10692,7 @@ declare module Kiwi.Renderers {
         * @public
         * @since 1.1.0
         */
-        public blendMode: GLBlendMode;
+        blendMode: Kiwi.Renderers.GLBlendMode;
         /**
         * Returns whether this is a batch renderer.
         * @property isBatchRenderer
@@ -10371,7 +10700,7 @@ declare module Kiwi.Renderers {
         * @public
         */
         private _isBatchRenderer;
-        public isBatchRenderer : boolean;
+        isBatchRenderer: boolean;
     }
 }
 /**
@@ -10392,7 +10721,7 @@ declare module Kiwi.Renderers {
         * @param [params=null] {object}
         * @return {Kiwi.Renderers.TextureAtlasRenderer}
         */
-        constructor(gl: WebGLRenderingContext, shaderManager: Shaders.ShaderManager, params?: any);
+        constructor(gl: WebGLRenderingContext, shaderManager: Kiwi.Shaders.ShaderManager, params?: any);
         /**
         * The identifier for this renderer.
         * @property RENDERER_ID
@@ -10407,7 +10736,7 @@ declare module Kiwi.Renderers {
         * @type Kiwi.Shaders.TextureAtlasShade
         * @public
         */
-        public shaderPair: Shaders.TextureAtlasShader;
+        shaderPair: Kiwi.Shaders.TextureAtlasShader;
         /**
         * The reference to the shaderPair.
         * @property _shaderPairName
@@ -10444,28 +10773,28 @@ declare module Kiwi.Renderers {
         * @param [params=null] {object}
         * @public
         */
-        public enable(gl: WebGLRenderingContext, params?: any): void;
+        enable(gl: WebGLRenderingContext, params?: any): void;
         /**
         * Disables the renderer
         * @method disable
         * @param gl {WebGLRenderingContext}
         * @public
         */
-        public disable(gl: WebGLRenderingContext): void;
+        disable(gl: WebGLRenderingContext): void;
         /**
         * Clears the vertex buffer.
         * @method clear
         * @param gl {WebGLRenderingContext}
         * @public
         */
-        public clear(gl: WebGLRenderingContext, params: any): void;
+        clear(gl: WebGLRenderingContext, params: any): void;
         /**
         * Makes a draw call, this is where things actually get rendered to the draw buffer (or a framebuffer).
         * @method draw
         * @param gl {WebGLRenderingContext}
         * @public
         */
-        public draw(gl: WebGLRenderingContext): void;
+        draw(gl: WebGLRenderingContext): void;
         /**
         * Generates quad indices
         * @method _generateIndices
@@ -10480,7 +10809,7 @@ declare module Kiwi.Renderers {
         * @param res {Float32Array}
         * @public
         */
-        public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array): void;
+        updateStageResolution(gl: WebGLRenderingContext, res: Float32Array): void;
         /**
         * Updates the texture size uniforms
         * @method updateTextureSize
@@ -10488,7 +10817,7 @@ declare module Kiwi.Renderers {
         * @param size {Float32Array}
         * @public
         */
-        public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array): void;
+        updateTextureSize(gl: WebGLRenderingContext, size: Float32Array): void;
         /**
         * Sets shader pair by name
         * @method setShaderPair
@@ -10496,7 +10825,7 @@ declare module Kiwi.Renderers {
         * @public
         * @since 1.1.0
         */
-        public setShaderPair(shaderPair: string): void;
+        setShaderPair(shaderPair: string): void;
         /**
         * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
         * @method _collateVertexAttributeArrays
@@ -10505,14 +10834,14 @@ declare module Kiwi.Renderers {
         * @param camera {Camera}
         * @public
         */
-        public addToBatch(gl: WebGLRenderingContext, entity: Entity, camera: Camera): void;
+        addToBatch(gl: WebGLRenderingContext, entity: Entity, camera: Kiwi.Camera): void;
         /**
         * Adds an array of precalculated xyuv values to the item array
         * @method concatBatch
         * @param vertexItems {array}
         * @public
         */
-        public concatBatch(vertexItems: number[]): void;
+        concatBatch(vertexItems: Array<number>): void;
     }
 }
 /**
@@ -10546,35 +10875,35 @@ declare module Kiwi.Shaders {
         * @param gl {WebGLRenderingCotext}
         * @public
         */
-        public init(gl: WebGLRenderingContext): void;
+        init(gl: WebGLRenderingContext): void;
         /**
         * Returns whether the shader pair has been loaded and compiled.
         * @property loaded
         * @type boolean
         * @public
         */
-        public loaded: boolean;
+        loaded: boolean;
         /**
         * Vertex shader
         * @property vertShader
         * @type WebGLShader
         * @public
         */
-        public vertShader: WebGLShader;
+        vertShader: WebGLShader;
         /**
         * Fragment shader
         * @property fragShader
         * @type WebGLShader
         * @public
         */
-        public fragShader: WebGLShader;
+        fragShader: WebGLShader;
         /**
         * The WebGl shader program
         * @property shaderProgram
         * @type WebGLProgram
         * @public
         */
-        public shaderProgram: WebGLProgram;
+        shaderProgram: WebGLProgram;
         /**
         * Attaches the shaders to the program and links them
         * @method attach
@@ -10584,7 +10913,7 @@ declare module Kiwi.Shaders {
         * @return {WebGLProgram}
         * @public
         */
-        public attach(gl: WebGLRenderingContext, vertShader: WebGLShader, fragShader: WebGLShader): WebGLProgram;
+        attach(gl: WebGLRenderingContext, vertShader: WebGLShader, fragShader: WebGLShader): WebGLProgram;
         /**
         * Compiles the shaders
         * @method compile
@@ -10594,35 +10923,35 @@ declare module Kiwi.Shaders {
         * @return {WebGLShader}
         * @public
         */
-        public compile(gl: WebGLRenderingContext, src: string, shaderType: number): WebGLShader;
+        compile(gl: WebGLRenderingContext, src: string, shaderType: number): WebGLShader;
         /**
         * Uniform descriptors
         * @property uniforms
         * @type Array
         * @public
         */
-        public uniforms: any;
+        uniforms: any;
         /**
         * Attribute descriptors
         * @property attributes
         * @type Array
         * @public
         */
-        public attributes: any;
+        attributes: any;
         /**
         * Shader frag source (for override)
         * @property texture2DFrag
         * @type Array
         * @public
         */
-        public fragSource: any[];
+        fragSource: Array<any>;
         /**
         * Shader vert source (for override)
         * @property texture2DVert
         * @type Array
         * @public
         */
-        public vertSource: any[];
+        vertSource: Array<any>;
         /**
         * Sets a single uniform value and marks it as dirty.
         * @method setParam
@@ -10630,29 +10959,29 @@ declare module Kiwi.Shaders {
         * @param value {*}
         * @public
         */
-        public setParam(uniformName: string, value: any): void;
+        setParam(uniformName: string, value: any): void;
         /**
         * Applies all uniforms to the uploaded program
         * @method applyUniforms
         * @param gl {WebGLRenderingCotext}
         * @public
         */
-        public applyUniforms(gl: WebGLRenderingContext): void;
+        applyUniforms(gl: WebGLRenderingContext): void;
         /**
-        * Applies a single uniforms to the uploaded program
-        * @method applyUniform
-        * @param gl {WebGLRenderingCotext}
-        * @param name {string}
-        * @public
-        */
-        public applyUniform(gl: WebGLRenderingContext, name: string): void;
+       * Applies a single uniforms to the uploaded program
+       * @method applyUniform
+       * @param gl {WebGLRenderingCotext}
+       * @param name {string}
+       * @public
+       */
+        applyUniform(gl: WebGLRenderingContext, name: string): void;
         /**
         * Initialises all uniforms
         * @method initUniforms
         * @param gl {WebGLRenderingCotext}
         * @public
         */
-        public initUniforms(gl: WebGLRenderingContext): void;
+        initUniforms(gl: WebGLRenderingContext): void;
     }
 }
 /**
@@ -10679,35 +11008,35 @@ declare module Kiwi.Shaders {
         * @return {WebGLBuffer}
         * @public
         */
-        public init(gl: WebGLRenderingContext): void;
+        init(gl: WebGLRenderingContext): void;
         /**
         * Shader attribute references
         * @property attributes
         * @type object
         * @public
         */
-        public attributes: any;
+        attributes: any;
         /**
         * Shader uniform descriptors
         * @property uniforms
         * @type object
         * @public
         */
-        public uniforms: any;
+        uniforms: any;
         /**
         * The source for the GLSL fragment shader
         * @property fragSource
         * @type Array
         * @public
         */
-        public fragSource: string[];
+        fragSource: Array<string>;
         /**
         * The source for the GLSL vertex shader
         * @property vertSource
         * @type Array
         * @public
         */
-        public vertSource: string[];
+        vertSource: Array<string>;
     }
 }
 /**
@@ -10734,14 +11063,14 @@ declare module Kiwi.Animations {
     *
     */
     class Animation {
-        constructor(name: string, sequence: Sequence, clock: Time.Clock, parent: Components.AnimationManager);
+        constructor(name: string, sequence: Kiwi.Animations.Sequence, clock: Kiwi.Time.Clock, parent: Kiwi.Components.AnimationManager);
         /**
         * The type of object that this is.
         * @method objType
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The AnimationManager that this animation is a child of.
         * @property _parent
@@ -10755,7 +11084,7 @@ declare module Kiwi.Animations {
         * @type string
         * @public
         */
-        public name: string;
+        name: string;
         /**
         * The sequence on the texture atlas that this animation is based off.
         * @property _sequence
@@ -10776,7 +11105,7 @@ declare module Kiwi.Animations {
         * @type boolean
         * @public
         */
-        public loop : boolean;
+        loop: boolean;
         /**
         * The current frame index that the animation is currently upto.
         * Note: A frame index is the index of a particular cell in the Sequence.
@@ -10792,14 +11121,14 @@ declare module Kiwi.Animations {
         * @type number
         * @public
         */
-        public frameIndex : number;
+        frameIndex: number;
         /**
         * Returns the current cell that the animation is up to. This is READ ONLY.
         * @property currentCell
         * @type number
         * @public
         */
-        public currentCell : number;
+        currentCell: number;
         /**
         * How fast the transition is between cells. Perhaps change to frames per second to reflect actual game speed?
         * @property _speed
@@ -10813,7 +11142,7 @@ declare module Kiwi.Animations {
         * @type number
         * @public
         */
-        public speed : number;
+        speed: number;
         /**
         * The clock that is to be used to calculate the animations.
         * @property _clock
@@ -10841,13 +11170,13 @@ declare module Kiwi.Animations {
         * @type boolean
         * @public
         */
-        public reverse : boolean;
+        reverse: boolean;
         /**
         * The time at which the animation should change to the next cell
         * @property _tick
         * @type number
         * @private
-        */ 
+        */
         private _tick;
         /**
         * If the animation is currently playing or not.
@@ -10863,7 +11192,7 @@ declare module Kiwi.Animations {
         * @type boolean
         * @private
         */
-        public isPlaying : boolean;
+        isPlaying: boolean;
         /**
         * A Kiwi.Signal that dispatches an event when the animation has stopped playing.
         * @property _onStop
@@ -10871,7 +11200,7 @@ declare module Kiwi.Animations {
         * @public
         */
         private _onStop;
-        public onStop : Signal;
+        onStop: Kiwi.Signal;
         /**
         * A Kiwi.Signal that dispatches an event when the animation has started playing.
         * @property _onPlay
@@ -10879,7 +11208,7 @@ declare module Kiwi.Animations {
         * @public
         */
         private _onPlay;
-        public onPlay : Signal;
+        onPlay: Kiwi.Signal;
         /**
         * A Kiwi.Signal that dispatches an event when the animation has updated/changed frameIndexs.
         * @property _onUpdate
@@ -10887,7 +11216,7 @@ declare module Kiwi.Animations {
         * @public
         */
         private _onUpdate;
-        public onUpdate : Signal;
+        onUpdate: Kiwi.Signal;
         /**
         * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.
         * @property _onLoop
@@ -10895,7 +11224,7 @@ declare module Kiwi.Animations {
         * @public
         */
         private _onLoop;
-        public onLoop : Signal;
+        onLoop: Kiwi.Signal;
         /**
         * An Internal method used to start the animation.
         * @method _start
@@ -10908,50 +11237,50 @@ declare module Kiwi.Animations {
         * @method play
         * @public
         */
-        public play(): void;
+        play(): void;
         /**
         * Plays the animation at a particular frame
         * @method playAt
         * @param index {Number} The index of the cell in the sequence that the animation is to start at.
         * @public
         */
-        public playAt(index: number): void;
+        playAt(index: number): void;
         /**
         * Pauses the current animation.
         * @method pause
         * @public
         */
-        public pause(): void;
+        pause(): void;
         /**
         * Resumes the current animation after stopping.
         * @method resume
         * @public
         */
-        public resume(): void;
+        resume(): void;
         /**
         * Stops the current animation from playing.
         * @method stop
         * @public
         */
-        public stop(): void;
+        stop(): void;
         /**
         * Makes the animation go to the next frame. If the animation is at the end it goes back to the start.
         * @method nextFrame
         * @public
         */
-        public nextFrame(): void;
+        nextFrame(): void;
         /**
         * Makes the animation go to the previous frame. If the animation is at the first frame it goes to the end.
         * @method prevFrame
         * @public
         */
-        public prevFrame(): void;
+        prevFrame(): void;
         /**
         * The update loop. Returns a boolean indicating whether the animation has gone to a new frame or not.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * An internal method used to check to see if frame passed is valid or not
         * @method _validateFrame
@@ -10965,13 +11294,13 @@ declare module Kiwi.Animations {
         * @type number
         * @public
         */
-        public length : number;
+        length: number;
         /**
         * Destroys the anim and all of the properties that exist on it.
         * @method destroy
         * @public
         */
-        public destroy(): void;
+        destroy(): void;
     }
 }
 /**
@@ -11003,7 +11332,7 @@ declare module Kiwi.Animations {
         * @type string
         * @public
         */
-        public name: string;
+        name: string;
         /**
         * The cells that are in this animation.
         * These are a reference to the cells that are contained in a texture atlas that this sequence should be a part of.
@@ -11011,21 +11340,21 @@ declare module Kiwi.Animations {
         * @type number[]
         * @public
         */
-        public cells: number[];
+        cells: number[];
         /**
         * The time an animation should spend on each cell.
         * @property speed
         * @type boolean
         * @public
         */
-        public speed: number;
+        speed: number;
         /**
         * If the sequence should play again if it was animating and the animation reaches the last frame.
         * @property loop
         * @type boolean
         * @public
         */
-        public loop: boolean;
+        loop: boolean;
     }
 }
 /**
@@ -11033,7 +11362,7 @@ declare module Kiwi.Animations {
 * @module Kiwi
 * @submodule Input
 *
-*/ 
+*/
 declare module Kiwi.Input {
     /**
     * A compact object that holds the most important details about a Keyboard Event response.
@@ -11048,7 +11377,7 @@ declare module Kiwi.Input {
     *
     */
     class Key {
-        constructor(manager: Keyboard, keycode: number, event?: KeyboardEvent);
+        constructor(manager: Kiwi.Input.Keyboard, keycode: number, event?: KeyboardEvent);
         /**
         * If the default action for this Key should be prevented or not.
         * For example. If your game use's the spacebar you would want its default action (which is to make the website scrolldown) prevented,
@@ -11058,21 +11387,21 @@ declare module Kiwi.Input {
         * @default false
         * @public
         */
-        public preventDefault: boolean;
+        preventDefault: boolean;
         /**
         * The game that this key belongs to.
         * @property game
         * @type Kiwi.Game
         * @public
         */
-        public game: Game;
+        game: Kiwi.Game;
         /**
         * The type of object that this is.
         * @method objType
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The keyboard manager that this key belongs to.
         * @property _manager
@@ -11086,7 +11415,7 @@ declare module Kiwi.Input {
         * @type Number
         * @public
         */
-        public keyCode: number;
+        keyCode: number;
         /**
         * Indicated whether or not the key is currently down.
         * @property isDown
@@ -11094,7 +11423,7 @@ declare module Kiwi.Input {
         * @default false
         * @public
         */
-        public isDown: boolean;
+        isDown: boolean;
         /**
         * Indicates whether or not the key is currently up.
         * @property isUp
@@ -11102,7 +11431,7 @@ declare module Kiwi.Input {
         * @default true
         * @public
         */
-        public isUp: boolean;
+        isUp: boolean;
         /**
         * If the alt key was held at the time of the event happening.
         * @property altKey
@@ -11110,7 +11439,7 @@ declare module Kiwi.Input {
         * @default false
         * @public
         */
-        public altKey: boolean;
+        altKey: boolean;
         /**
         * If the ctrl key was held at the time of the event happening.
         * @property ctrlKey
@@ -11118,7 +11447,7 @@ declare module Kiwi.Input {
         * @default false
         * @public
         */
-        public ctrlKey: boolean;
+        ctrlKey: boolean;
         /**
         * If the shift key was held at the time of the event happening.
         * @property shiftKey
@@ -11126,7 +11455,7 @@ declare module Kiwi.Input {
         * @default false
         * @public
         */
-        public shiftKey: boolean;
+        shiftKey: boolean;
         /**
         * The time that the key was pressed initially.
         * @property timeDown
@@ -11134,7 +11463,7 @@ declare module Kiwi.Input {
         * @default 0
         * @public
         */
-        public timeDown: number;
+        timeDown: number;
         /**
         * The duration (in milliseconds) that the key has been down for.
         * This is property is READ ONLY.
@@ -11143,7 +11472,7 @@ declare module Kiwi.Input {
         * @default 0
         * @public
         */
-        public duration : number;
+        duration: number;
         /**
         * The time at which the key was released.
         * @property timeUp
@@ -11151,7 +11480,7 @@ declare module Kiwi.Input {
         * @default 0
         * @public
         */
-        public timeUp: number;
+        timeUp: number;
         /**
         * If this key is being 'held' down, this property will indicate the amount of times the 'onkeydown' event has fired.
         * This is reset each time the key is pressed.
@@ -11160,14 +11489,14 @@ declare module Kiwi.Input {
         * @default 0
         * @public
         */
-        public repeats: number;
+        repeats: number;
         /**
         * The 'update' method fires when an event occur's. Updates the keys properties
         * @method update
         * @param event {KeyboardEvent}
         * @public
         */
-        public update(event: KeyboardEvent): void;
+        update(event: KeyboardEvent): void;
         /**
         * Returns a boolean indicating whether or not this key was just pressed.
         * @method justPressed
@@ -11175,7 +11504,7 @@ declare module Kiwi.Input {
         * @return {boolean}
         * @public
         */
-        public justPressed(duration?: number): boolean;
+        justPressed(duration?: number): boolean;
         /**
         * Returns a boolean indicating whether or not this key was just released.
         * @method justReleased
@@ -11183,13 +11512,13 @@ declare module Kiwi.Input {
         * @return {boolean}
         * @public
         */
-        public justReleased(duration?: number): boolean;
+        justReleased(duration?: number): boolean;
         /**
         * Resets all of the properties on the Key to their default values.
         * @method reset
         * @public
         */
-        public reset(): void;
+        reset(): void;
     }
 }
 /**
@@ -11197,7 +11526,7 @@ declare module Kiwi.Input {
 * @module Kiwi
 * @submodule Input
 *
-*/ 
+*/
 declare module Kiwi.Input {
     /**
     * Handles and Manages the dispatching of keyboard events. When the user press's a button a new Key object is created.
@@ -11210,21 +11539,21 @@ declare module Kiwi.Input {
     *
     */
     class Keyboard {
-        constructor(game: Game);
+        constructor(game: Kiwi.Game);
         /**
         * The type of object that this is.
         * @method objType
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The game that this Keyboard belongs to.
         * @property game
         * @type Kiwi.Game
         * @public
         */
-        public game: Game;
+        game: Kiwi.Game;
         /**
         * Contains a reference to each Key object when they are either added to this Keyboard manager (by the developer), or when an event fires with that keycode.
         * @property _keys
@@ -11238,7 +11567,7 @@ declare module Kiwi.Input {
         * @type Keys[]
         * @public
         */
-        public keys : Key[];
+        keys: Key[];
         /**
         * The time in milliseconds which determines if a key was just pressed or not.
         * @property justPressedRate
@@ -11246,7 +11575,7 @@ declare module Kiwi.Input {
         * @default 200
         * @public
         */
-        public justPressedRate: number;
+        justPressedRate: number;
         /**
         * The time in milliseconds which determines if a key was just released or not.
         * @property justReleasedRate
@@ -11254,19 +11583,19 @@ declare module Kiwi.Input {
         * @default 200
         * @public
         */
-        public justReleasedRate: number;
+        justReleasedRate: number;
         /**
         * Is executed when the DOMElements that are need to get the game going are loaded and thus the game can 'boot'
         * @method boot
         * @public
         */
-        public boot(): void;
+        boot(): void;
         /**
         * The update loop that is executed every frame.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * A Signal that dispatches events when a key is released/is now up.
         * Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
@@ -11276,7 +11605,7 @@ declare module Kiwi.Input {
         * @type Kiwi.Signal
         * @public
         */
-        public onKeyUp: Signal;
+        onKeyUp: Kiwi.Signal;
         /**
         * A Signal that dispatches events when a key is pressed/is down.
         * This mimics the natural 'keydown' event listener, so it will keep dispatching events if the user holds the key down.
@@ -11289,7 +11618,7 @@ declare module Kiwi.Input {
         * @type Kiwi.Signal
         * @public
         */
-        public onKeyDown: Signal;
+        onKeyDown: Kiwi.Signal;
         /**
         * A Signal that dispatches events when a key is pressed/is down initially.
         * This event only fires the first time that the key is pressed, so it won't dispatch events if the user is holding the key down.
@@ -11302,19 +11631,19 @@ declare module Kiwi.Input {
         * @type Kiwi.Signal
         * @public
         */
-        public onKeyDownOnce: Signal;
+        onKeyDownOnce: Kiwi.Signal;
         /**
         * Adds the event listeners to the browser to listen for key events.
         * @method start
         * @public
         */
-        public start(): void;
+        start(): void;
         /**
         * Removes the event listeners and so effectively 'stops' all keyboard events.
         * @method stop
         * @public
         */
-        public stop(): void;
+        stop(): void;
         /**
         * Is executed when a key is pressed/is down. This then either creates a new Key (if one does not currently exist) for that keycode,
         * or it updates the key that was pressed (if one does exist).
@@ -11341,7 +11670,7 @@ declare module Kiwi.Input {
         * @return {Kiwi.Input.Key}
         * @public
         */
-        public addKey(keycode: number, preventDefault?: boolean): Key;
+        addKey(keycode: number, preventDefault?: boolean): Key;
         /**
         * Returns a boolean indicating if a key (that you pass via a keycode) was just pressed or not.
         * @method justPressed
@@ -11349,7 +11678,7 @@ declare module Kiwi.Input {
         * @param [duration=this.justPressedRate] {Number} The duration at which determines if a key was 'just' pressed or not. If not specified defaults to the justPressedRate
         * @public
         */
-        public justPressed(keycode: any, duration?: number): boolean;
+        justPressed(keycode: any, duration?: number): boolean;
         /**
         * Returns a boolean indicating if a key (that you pass via a keycode) was just released or not.
         * @method justReleased
@@ -11357,7 +11686,7 @@ declare module Kiwi.Input {
         * @param [duration=this.justReleasedRate] {Number} The duration at which determines if a key was 'just' released or not. If not specified defaults to the justReleasedRate
         * @public
         */
-        public justReleased(keycode: any, duration?: number): boolean;
+        justReleased(keycode: any, duration?: number): boolean;
         /**
         * Returns a boolean indicating whether a key (that you pass via its keycode) is down or not.
         * @method isDown
@@ -11365,7 +11694,7 @@ declare module Kiwi.Input {
         * @return {boolean}
         * @public
         */
-        public isDown(keycode: number): boolean;
+        isDown(keycode: number): boolean;
         /**
         * Returns a boolean indicating whether a key (that you pass via its keycode) is up or not.
         * @method isUp
@@ -11373,13 +11702,13 @@ declare module Kiwi.Input {
         * @return {boolean}
         * @public
         */
-        public isUp(keycode: number): boolean;
+        isUp(keycode: number): boolean;
         /**
         * Executes the reset method on every Key that currently exists.
         * @method reset
         * @public
         */
-        public reset(): void;
+        reset(): void;
     }
 }
 /**
@@ -11387,7 +11716,7 @@ declare module Kiwi.Input {
 * @module Kiwi
 * @submodule Input
 *
-*/ 
+*/
 declare module Kiwi.Input {
     /**
     * A Static class which has a property associated with all all of the character codes on a typical keyboard. While you don't need this class for your game to work, it is quite handy to use as it can speed up the development process.
@@ -11403,7 +11732,7 @@ declare module Kiwi.Input {
         * @return {string}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * A Static property that holds the keycode for the character A
         * @property A
@@ -12196,7 +12525,7 @@ declare module Kiwi.Input {
 * @module Kiwi
 * @submodule Input
 * @main Input
-*/ 
+*/
 declare module Kiwi.Input {
     /**
     * Handles the initialization and management of the various ways a user can interact with the device/game,
@@ -12210,56 +12539,56 @@ declare module Kiwi.Input {
     *
     */
     class InputManager {
-        constructor(game: Game);
+        constructor(game: Kiwi.Game);
         /**
         * The type of object this is.
         * @method objType
         * @return String
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * A Signal that dispatches a event when any Pointer is pressed from the game.
         * @property onDown
         * @type Signal
         * @public
         */
-        public onDown: Signal;
+        onDown: Kiwi.Signal;
         /**
         * A Signal that dispatches a event when any Pointer is released from the game.
         * @property onUp
         * @type Signal
         * @public
         */
-        public onUp: Signal;
+        onUp: Kiwi.Signal;
         /**
         * The game that this manager belongs to.
         * @property game
         * @type Game
         * @public
         */
-        public game: Game;
+        game: Kiwi.Game;
         /**
         * A reference to the mouse manager.
         * @property mouse
         * @type Mouse
         * @public
         */
-        public mouse: Mouse;
+        mouse: Kiwi.Input.Mouse;
         /**
         * The keyboard manager
         * @property keyboard
         * @type Keyboard
         * @public
         */
-        public keyboard: Keyboard;
+        keyboard: Kiwi.Input.Keyboard;
         /**
         * The touch manager.
         * @property touch
         * @type Touch
         * @public
         */
-        public touch: Touch;
+        touch: Kiwi.Input.Touch;
         /**
         * An array containing all of the pointers that are active on the stage.
         * @property _pointers
@@ -12273,13 +12602,13 @@ declare module Kiwi.Input {
         * @type Array
         * @public
         */
-        public pointers : Pointer[];
+        pointers: Kiwi.Input.Pointer[];
         /**
         * This method is executed when the DOM has loaded and the manager is ready to load.
         * @method boot
         * @public
         */
-        public boot(): void;
+        boot(): void;
         /**
         * A private method that gets dispatched when either the mouse or touch manager dispatches a down event
         * @method _onDownEvent
@@ -12304,53 +12633,53 @@ declare module Kiwi.Input {
         * @private
         */
         private _onUpEvent(x, y, timeDown, timeUp, duration, pointer);
-        public onPressed : Signal;
+        onPressed: Kiwi.Signal;
         /**
         * An alias for the onRelease signal that goes straight to the onUp
         * @property onReleased
         * @type Signal
         * @public
         */
-        public onReleased : Signal;
+        onReleased: Kiwi.Signal;
         /**
         * The update loop that gets executed every frame.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * Runs the reset method on the managers.
         * @method reset
         */
-        public reset(): void;
+        reset(): void;
         /**
         * The position of the last pointer that was/is active on the stage.
         * @property position
         * @type Kiwi.Geom.Point
         * @public
         */
-        public position: Geom.Point;
+        position: Kiwi.Geom.Point;
         /**
         * If an input (either touch or the mouse cursor) is currently down. Not an accurate representation, should use the individual managers.
         * @property isDown
         * @type boolean
         * @public
         */
-        public isDown: boolean;
+        isDown: boolean;
         /**
         * Populated x coordinate based on the most recent click/touch event
         * @property x
         * @type Number
         * @public
         */
-        public x : number;
+        x: number;
         /**
         * Populated y coordinate based on the most recent click/touch event
         * @property y
         * @type Number
         * @public
         */
-        public y : number;
+        y: number;
     }
 }
 /**
@@ -12358,7 +12687,7 @@ declare module Kiwi.Input {
 * @module Kiwi
 * @submodule Input
 *
-*/ 
+*/
 declare module Kiwi.Input {
     /**
     * Handles the dispatching/management of Mouse Events on a game. When this class is instantiated a MouseCursor object is also created (on this object) which holds the information that is unique to the mouse cursor, although majority of that information is still accessible inside this object.
@@ -12371,14 +12700,14 @@ declare module Kiwi.Input {
     *
     */
     class Mouse {
-        constructor(game: Game);
+        constructor(game: Kiwi.Game);
         /**
         * The type of object that this is.
         * @method objType
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The game that this mouse manager belongs to.
         * @property _game
@@ -12429,21 +12758,21 @@ declare module Kiwi.Input {
         * @type Kiwi.Signal
         * @public
         */
-        public onDown: Signal;
+        onDown: Kiwi.Signal;
         /**
         * A Signal that dispatches events when the mouse is released from being down on the stage.
         * @property onUp
         * @type Kiwi.Signal
         * @public
         */
-        public onUp: Signal;
+        onUp: Kiwi.Signal;
         /**
         * A Signal that dispatches events mouse wheel moves.
         * @property onWheel
         * @type Kiwi.Signal
         * @public
         */
-        public onWheel: Signal;
+        onWheel: Kiwi.Signal;
         /**
         * The MouseCursor that is on the stage. This contains the coordinates and information about the cursor.
         * @property _cursor
@@ -12457,13 +12786,13 @@ declare module Kiwi.Input {
         * @type Kiwi.Input.MouseCursor
         * @private
         */
-        public cursor : MouseCursor;
+        cursor: Kiwi.Input.MouseCursor;
         /**
         * This method is executed when the DOM has finished loading and thus the MouseManager can start listening for events.
         * @method boot
         * @public
         */
-        public boot(): void;
+        boot(): void;
         /**
         * Indicates whether or not the cursor is currently down. This is READ ONLY.
         * @property isDown
@@ -12471,7 +12800,7 @@ declare module Kiwi.Input {
         * @default false
         * @public
         */
-        public isDown : boolean;
+        isDown: boolean;
         /**
         * Indicates whether or not the cursor is currently up. This is READ ONLY.
         * @property isUp
@@ -12479,42 +12808,42 @@ declare module Kiwi.Input {
         * @default true
         * @public
         */
-        public isUp : boolean;
+        isUp: boolean;
         /**
         * Gets the duration in Milliseconds that the mouse cursor has either been up or down for.
         * @property duration
         * @type number
         * @public
         */
-        public duration : number;
+        duration: number;
         /**
         * Gets the x coordinate of the mouse cursor.
         * @property x
         * @type number
         * @public
         */
-        public x : number;
+        x: number;
         /**
         * Gets the y coordinate of the mouse cursor.
         * @property y
         * @type number
         * @public
         */
-        public y : number;
+        y: number;
         /**
         * Gets the wheelDeltaX coordinate of the mouse cursors wheel.
         * @property wheelDeltaX
         * @type number
         * @public
         */
-        public wheelDeltaX : number;
+        wheelDeltaX: number;
         /**
         * Gets the wheelDeltaY coordinate of the mouse cursors wheel.
         * @property wheelDeltaY
         * @type number
         * @public
         */
-        public wheelDeltaY : number;
+        wheelDeltaY: number;
         /**
         * Indicates if the ctrl key is down.
         * @property ctrlKey
@@ -12522,7 +12851,7 @@ declare module Kiwi.Input {
         * @default false
         * @public
         */
-        public ctrlKey : boolean;
+        ctrlKey: boolean;
         /**
         * Indicates if the shift key is down.
         * @property shiftKey
@@ -12530,7 +12859,7 @@ declare module Kiwi.Input {
         * @default false
         * @public
         */
-        public shiftKey : boolean;
+        shiftKey: boolean;
         /**
         * Indicates if the alt key is down.
         * @property altKey
@@ -12538,32 +12867,32 @@ declare module Kiwi.Input {
         * @default false
         * @public
         */
-        public altKey : boolean;
+        altKey: boolean;
         /**
         * Returns a number indicating the button that was used. This can be used with the STATIC button properties.
         * @property button
         * @type number
         * @public
         */
-        public button : number;
+        button: number;
         /**
         * The update loop for the cursor.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * Start the mouse event listeners on the game. Automatically called by the boot.
         * @method start
         * @public
         */
-        public start(): void;
+        start(): void;
         /**
         * Stops the mouse event listeners from working. Useful if you no longer want the mouse to 'work'/be listened to.
         * @method stop
         * @public
         */
-        public stop(): void;
+        stop(): void;
         /**
         * Method that gets fired when the mouse is pressed on the stage.
         * @method onMouseDown
@@ -12599,7 +12928,7 @@ declare module Kiwi.Input {
         * @return {boolean}
         * @public
         */
-        public justPressed(duration?: number): boolean;
+        justPressed(duration?: number): boolean;
         /**
         * Returns a boolean indicating if the mouse was 'justReleased' within a certain timeframe. The default timeframe is 200 milliseconds.
         * @method justReleased
@@ -12607,13 +12936,13 @@ declare module Kiwi.Input {
         * @return {boolean}
         * @public
         */
-        public justReleased(duration?: number): boolean;
+        justReleased(duration?: number): boolean;
         /**
         * Runs the Reset method on the MouseCursor.
         * @method reset
         * @public
         */
-        public reset(): void;
+        reset(): void;
     }
 }
 /**
@@ -12621,7 +12950,7 @@ declare module Kiwi.Input {
 * @module Kiwi
 * @submodule Input
 *
-*/ 
+*/
 declare module Kiwi.Input {
     /**
     * Handles the dispatching and management of touch based events for the game. When the Touch manager is created TEN finger objects are created and used when the user interacts with the screen. Those finger are what you can use to create games that make the most out of multitouch events.
@@ -12634,21 +12963,21 @@ declare module Kiwi.Input {
     *
     */
     class Touch {
-        constructor(game: Game);
+        constructor(game: Kiwi.Game);
         /**
         * The type of object that this is.
         * @method objType
         * @return String
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * If the touch inputs are enabled on the current device (and so if the events will fire) or not.
         * @property touchEnabled
         * @type boolean
         * @public
         */
-        public touchEnabled: boolean;
+        touchEnabled: boolean;
         /**
         * The game that this touch manager belongs to.
         * @property _game
@@ -12676,84 +13005,84 @@ declare module Kiwi.Input {
         * @type Finger[]
         * @public
         */
-        public fingers : Finger[];
+        fingers: Kiwi.Input.Finger[];
         /**
         * The first finger that is used for touch events.
         * @property finger1
         * @type Finger
         * @public
         */
-        public finger1: Finger;
+        finger1: Kiwi.Input.Finger;
         /**
         * The second finger that is used for touch events.
         * @property finger2
         * @type Finger
         * @public
         */
-        public finger2: Finger;
+        finger2: Kiwi.Input.Finger;
         /**
         * The third finger that is used for touch events.
         * @property finger3
         * @type Finger
         * @public
         */
-        public finger3: Finger;
+        finger3: Kiwi.Input.Finger;
         /**
         * The fourth finger that is used for touch events.
         * @property finger4
         * @type Finger
         * @public
         */
-        public finger4: Finger;
+        finger4: Kiwi.Input.Finger;
         /**
         * Finger number five that is used for touch events.
         * @property finger5
         * @type Finger
         * @public
         */
-        public finger5: Finger;
+        finger5: Kiwi.Input.Finger;
         /**
         * Finger number six, that is used for touch events.
         * @property finger6
         * @type Finger
         * @public
         */
-        public finger6: Finger;
+        finger6: Kiwi.Input.Finger;
         /**
         * The seventh finger used for touch events.
         * @property finger7
         * @type Finger
         * @public
         */
-        public finger7: Finger;
+        finger7: Kiwi.Input.Finger;
         /**
         * Finger number eight
         * @property finger8
         * @type Finger
         * @public
         */
-        public finger8: Finger;
+        finger8: Kiwi.Input.Finger;
         /**
         * The ninth finger that is used for touch events.
         * @property finger9
         * @type Finger
         * @public
         */
-        public finger9: Finger;
+        finger9: Kiwi.Input.Finger;
         /**
         * The tenth finger that is used for touch events.
         * @property finger10
         * @type Finger
         * @public
         */
-        public finger10: Finger;
+        finger10: Kiwi.Input.Finger;
         /**
         * The latest finger that was used for any task.
         * @property latestFinger
         * @type Finger
         * @public
         */
-        public latestFinger: Finger;
+        latestFinger: Kiwi.Input.Finger;
         /**
         * A boolean that will roughly indicate if any finger is currently down.
         * @property isDown
@@ -12761,7 +13090,7 @@ declare module Kiwi.Input {
         * @default false
         * @public
         */
-        public isDown: boolean;
+        isDown: boolean;
         /**
         * If all the fingers are up.
         * @property isUp
@@ -12769,7 +13098,7 @@ declare module Kiwi.Input {
         * @default true
         * @public
         */
-        public isUp: boolean;
+        isUp: boolean;
         /**
         * A Kiwi Signal that dispatches an event when a user presses down on the stage.
         * @property touchDown
@@ -12777,14 +13106,14 @@ declare module Kiwi.Input {
         * @public
         * @deprecated
         */
-        public touchDown: Signal;
+        touchDown: Kiwi.Signal;
         /**
         * A Kiwi Signal that dispatches an event when a user presses down on the stage.
         * @property onDown
         * @type Signal
         * @public
         */
-        public onDown : Signal;
+        onDown: Kiwi.Signal;
         /**
         * A Kiwi Signal that dispatches an event when a user releases a finger off of the stage.
         * @property touchUp
@@ -12792,14 +13121,14 @@ declare module Kiwi.Input {
         * @public
         * @deprecated
         */
-        public touchUp: Signal;
+        touchUp: Kiwi.Signal;
         /**
         * A Kiwi Signal that dispatches an event when a user releases a finger off of the stage.
         * @property onUp
         * @type Signal
         * @public
         */
-        public onUp : Signal;
+        onUp: Kiwi.Signal;
         /**
         * A Kiwi Signal that dispatches an event when a touch event is cancelled for the some reason.
         * @property touchCancel
@@ -12807,26 +13136,26 @@ declare module Kiwi.Input {
         * @public
         * @deprecated
         */
-        public touchCancel: Signal;
+        touchCancel: Kiwi.Signal;
         /**
         * A Kiwi Signal that dispatches an event when a touch event is cancelled for the some reason.
         * @property onCancel
         * @type Signal
         * @public
         */
-        public onCancel : Signal;
+        onCancel: Kiwi.Signal;
         /**
         * An internal Kiwi method that runs when the DOM is loaded and the touch manager can now 'boot' up.
         * @method boot
         * @public
         */
-        public boot(): void;
+        boot(): void;
         /**
         * Starts up the event listeners that are being used on the touch manager.
         * @method start
         * @public
         */
-        public start(): void;
+        start(): void;
         /**
         * Prevent iOS bounce-back (doesn't work?)
         * @method consumeTouchMove
@@ -12840,14 +13169,14 @@ declare module Kiwi.Input {
         * @type number
         * @public
         */
-        public x : number;
+        x: number;
         /**
         * Gets the position of the latest finger on the y axis.
         * @property y
         * @type number
         * @public
         */
-        public y : number;
+        y: number;
         /**
         * The developer defined maximum number of touch events.
         * By default this is set to 10 but this can be set to be lower.
@@ -12869,7 +13198,7 @@ declare module Kiwi.Input {
         * @type number
         * @public
         */
-        public maximumPointers : number;
+        maximumPointers: number;
         /**
         *-------------------------
         * Generic Methods for Dealing with Pointers
@@ -13036,19 +13365,19 @@ declare module Kiwi.Input {
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * This method removes all of the event listeners and thus 'stops' the touch manager.
         * @method stop
         * @public
         */
-        public stop(): void;
+        stop(): void;
         /**
         * Resets all of the fingers/pointers to their default states.
         * @method reset
         * @public
         */
-        public reset(): void;
+        reset(): void;
     }
 }
 /**
@@ -13056,7 +13385,7 @@ declare module Kiwi.Input {
 * @module Kiwi
 * @submodule Input
 *
-*/ 
+*/
 declare module Kiwi.Input {
     /**
     * Is a generic class that holds the properties/methods that are common across various different methods of inputs from the user, mainly between Touch and Mouse based events. This abstract class and such it is suppose to be extended from for individual implementations.
@@ -13069,14 +13398,14 @@ declare module Kiwi.Input {
     *
     */
     class Pointer {
-        constructor(game: Game);
+        constructor(game: Kiwi.Game);
         /**
         * The type of object this class is.
         * @method objType
         * @return {string}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The game that this pointer belongs to.
         * @property _game
@@ -13089,14 +13418,14 @@ declare module Kiwi.Input {
         * @type Game
         * @public
         */
-        public game : Game;
+        game: Kiwi.Game;
         /**
         * The unique identifier for this pointer.
         * @property _id
         * @type number
         * @private
         */
-        public id: number;
+        id: number;
         /**
         * The horizontal coordinate of point relative to the game element
         * @property x
@@ -13104,7 +13433,7 @@ declare module Kiwi.Input {
         * @default -1
         * @public
         */
-        public x: number;
+        x: number;
         /**
         * The vertical coordinate of point relative to the game element
         * @property y
@@ -13112,7 +13441,7 @@ declare module Kiwi.Input {
         * @default -1
         * @public
         */
-        public y: number;
+        y: number;
         /**
         * The horizontal coordinate of point relative to the viewport in pixels, excluding any scroll offset
         * @property clientX
@@ -13120,7 +13449,7 @@ declare module Kiwi.Input {
         * @default -1
         * @public
         */
-        public clientX: number;
+        clientX: number;
         /**
         * The vertical coordinate of point relative to the viewport in pixels, excluding any scroll offset
         * @property clientY
@@ -13128,7 +13457,7 @@ declare module Kiwi.Input {
         * @default -1
         * @public
         */
-        public clientY: number;
+        clientY: number;
         /**
         * The horizontal coordinate of point relative to the viewport in pixels, including any scroll offset
         * @property pageX
@@ -13136,7 +13465,7 @@ declare module Kiwi.Input {
         * @default -1
         * @public
         */
-        public pageX: number;
+        pageX: number;
         /**
         * The vertical coordinate of point relative to the viewport in pixels, including any scroll offset
         * @property pageY
@@ -13144,7 +13473,7 @@ declare module Kiwi.Input {
         * @default -1
         * @public
         */
-        public pageY: number;
+        pageY: number;
         /**
         * The horizontal coordinate of point relative to the screen in pixels
         * @property screenX
@@ -13152,7 +13481,7 @@ declare module Kiwi.Input {
         * @default -1
         * @public
         */
-        public screenX: number;
+        screenX: number;
         /**
         * The vertical coordinate of point relative to the screen in pixels
         * @property screenY
@@ -13160,21 +13489,21 @@ declare module Kiwi.Input {
         * @default -1
         * @public
         */
-        public screenY: number;
+        screenY: number;
         /**
         * The point that this pointer is at. Same coordinates as X/Y properties.
         * @property point
         * @type Kiwi.Geom.Point
         * @public
         */
-        public point: Geom.Point;
+        point: Kiwi.Geom.Point;
         /**
         * A circle that is representative of the area this point covers.
         * @property circle
         * @type Kiwi.Geom.Circle
         * @public
         */
-        public circle: Geom.Circle;
+        circle: Kiwi.Geom.Circle;
         /**
         * Indicates if this pointer is currently down.
         * @property isDown
@@ -13182,7 +13511,7 @@ declare module Kiwi.Input {
         * @default false
         * @public
         */
-        public isDown: boolean;
+        isDown: boolean;
         /**
         * Indicates if this pointer is currently up.
         * @property isUp
@@ -13190,7 +13519,7 @@ declare module Kiwi.Input {
         * @type boolean
         * @public
         */
-        public isUp: boolean;
+        isUp: boolean;
         /**
         * Indicates if this pointer is currently within the game.
         * @property withinGame
@@ -13198,7 +13527,7 @@ declare module Kiwi.Input {
         * @default false
         * @public
         */
-        public withinGame: boolean;
+        withinGame: boolean;
         /**
         * Indicates if this pointer is active. Note a mouse is always 'active' where as a finger is only active when it is down.
         * @property active
@@ -13206,7 +13535,7 @@ declare module Kiwi.Input {
         * @default false
         * @public
         */
-        public active: boolean;
+        active: boolean;
         /**
         * Indicates the time that the pointer was pressed initially.
         * @property timeDown
@@ -13214,7 +13543,7 @@ declare module Kiwi.Input {
         * @default 0
         * @public
         */
-        public timeDown: number;
+        timeDown: number;
         /**
         * Indicates the time that the pointer was released initially.
         * @property timeUp
@@ -13222,7 +13551,7 @@ declare module Kiwi.Input {
         * @default 0
         * @public
         */
-        public timeUp: number;
+        timeUp: number;
         /**
         * The duration that the pointer has been down for in milliseconds.
         * @property duration
@@ -13230,7 +13559,7 @@ declare module Kiwi.Input {
         * @default 0
         * @public
         */
-        public duration: number;
+        duration: number;
         /**
         * The duration that the pointer has been down for in frames.
         * @property frameDuration
@@ -13238,7 +13567,7 @@ declare module Kiwi.Input {
         * @default 0
         * @public
         */
-        public frameDuration: number;
+        frameDuration: number;
         /**
         * A time that is used to calculate if someone justPressed the pointer.
         * @property justPressedRate
@@ -13246,7 +13575,7 @@ declare module Kiwi.Input {
         * @defeault 200
         * @public
         */
-        public justPressedRate: number;
+        justPressedRate: number;
         /**
         * A time that is used to calculate if someone justReleased the pointer.
         * @property justReleasedRate
@@ -13254,21 +13583,21 @@ declare module Kiwi.Input {
         * @default 200
         * @public
         */
-        public justReleasedRate: number;
+        justReleasedRate: number;
         /**
         * The points inital coordinates when pressed down.
         * @property startPoint
         * @type Kiwi.Geom.Point
         * @public
         */
-        public startPoint: Geom.Point;
+        startPoint: Kiwi.Geom.Point;
         /**
         * The coordinates where the user released the pointer.
         * @property endPoint
         * @type Kiwi.Geom.Point
         * @public
         */
-        public endPoint: Geom.Point;
+        endPoint: Kiwi.Geom.Point;
         /**
         * The method that gets executed when the pointer presses/initially goes down on the screen.
         * From the event passed the coordinates are calculated.
@@ -13276,21 +13605,21 @@ declare module Kiwi.Input {
         * @param {event} event
         * @public
         */
-        public start(event: any): void;
+        start(event: any): void;
         /**
         * The stop method is to be called when the pointer gets released initially.
         * @method stop
         * @param {event} event
         * @public
         */
-        public stop(event: any): void;
+        stop(event: any): void;
         /**
         * Used to get the cooridnates of a pointer and inputs them to the correct properties.
         * @method move
         * @param {event} event
         * @public
         */
-        public move(event: any): void;
+        move(event: any): void;
         /**
         * Indicates if the pointer was just pressed. This is based of the justPressedRate unless otherwise specifieds.
         * @method justPressed
@@ -13298,7 +13627,7 @@ declare module Kiwi.Input {
         * @return boolean
         * @public
         */
-        public justPressed(duration?: number): boolean;
+        justPressed(duration?: number): boolean;
         /**
         * Indicates if the pointer was just released. This is based of the justReleasedRate unless otherwise specified.
         * @method justReleased
@@ -13306,7 +13635,7 @@ declare module Kiwi.Input {
         * @return boolean
         * @public
         */
-        public justReleased(duration?: number): boolean;
+        justReleased(duration?: number): boolean;
         /**
         * READ ONLY: Indicates if this pointer was pressed on the last frame or not.
         * This is only true on the frame that the point was 'justPressed' and is not a constant like 'isDown'
@@ -13316,7 +13645,7 @@ declare module Kiwi.Input {
         * @readOnly
         * @public
         */
-        public pressed : boolean;
+        pressed: boolean;
         /**
         * READ ONLY: Indicates if this pointer was released on the last frame or not.
         * This is only true on the frame that the point was 'justReleased' and is not a constant like 'isUp'
@@ -13326,19 +13655,19 @@ declare module Kiwi.Input {
         * @readOnly
         * @public
         */
-        public released : boolean;
+        released: boolean;
         /**
         * Resets the pointer properties to the default ones. Assumes that the pointer is no longer down.
         * @method reset
         * @public
         */
-        public reset(): void;
+        reset(): void;
         /**
         * The update loop for the pointer. Used only if down to update the duration.
         * @method update.
         * @public
         */
-        public update(): void;
+        update(): void;
     }
 }
 /**
@@ -13346,7 +13675,7 @@ declare module Kiwi.Input {
 * @module Kiwi
 * @submodule Input
 *
-*/ 
+*/
 declare module Kiwi.Input {
     /**
     * Holds the information about a Mouse Cursor. Such as the position of the cursor, the mouse wheels delta, the button that was used, e.t.c. Note: A mouse cursor is always active.
@@ -13362,7 +13691,7 @@ declare module Kiwi.Input {
         * @return string
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The offset of the mouse wheel on the X axis.
         * @property wheelDeltaX
@@ -13370,7 +13699,7 @@ declare module Kiwi.Input {
         * @default 0
         * @public
         */
-        public wheelDeltaX: number;
+        wheelDeltaX: number;
         /**
         * The offset of the mouse wheel on the Y axis.
         * @property wheelDeltaY
@@ -13378,77 +13707,77 @@ declare module Kiwi.Input {
         * @default 0
         * @public
         */
-        public wheelDeltaY: number;
+        wheelDeltaY: number;
         /**
         * If the ctrl key is down.
         * @property ctrlKey
         * @type boolean
         * @public
         */
-        public ctrlKey: boolean;
+        ctrlKey: boolean;
         /**
         * If the shift key is down.
         * @property shiftKey
         * @type boolean
         * @public
         */
-        public shiftKey: boolean;
+        shiftKey: boolean;
         /**
         * If the alt key is down.
         * @property altKey
         * @type boolean
         * @public
         */
-        public altKey: boolean;
+        altKey: boolean;
         /**
         * The button that got pressed. Eg. If the LEFT mouse button was pressed this number would be 0
         * @property button
         * @type number
         * @public
         */
-        public button: number;
+        button: number;
         /**
         * Indicates if the "preventDefault" method should be executed whenever a 'down' mouse event occurs.
         * @property preventDown
         * @type boolean
         * @public
         */
-        public preventDown: boolean;
+        preventDown: boolean;
         /**
         * Indicates if the "preventDefault" method should be executed whenever a 'up' mouse event occurs.
         * @property preventUp
         * @type boolean
         * @public
         */
-        public preventUp: boolean;
+        preventUp: boolean;
         /**
         * Indicates if the "preventDefault" method should be executed whenever a 'wheel' mouse event occurs.
         * @property preventWheel
         * @type boolean
         * @public
         */
-        public preventWheel: boolean;
+        preventWheel: boolean;
         /**
         * Gets executed when the mouse cursor gets initally pressed.
         * @method start
         * @param {event} event
         * @public
         */
-        public start(event: any): void;
+        start(event: any): void;
         /**
         * Gets executed when the mouse cursor gets initally released.
         * @method stop
         * @param {event} event
         * @public
         */
-        public stop(event: any): void;
+        stop(event: any): void;
         /**
         * When the mouse wheel event fires and the mouse's delta changes.
         * @method wheel
         * @param {event} event
         * @public
         */
-        public wheel(event: any): void;
+        wheel(event: any): void;
     }
 }
 /**
@@ -13456,7 +13785,7 @@ declare module Kiwi.Input {
 * @module Kiwi
 * @submodule Input
 *
-*/ 
+*/
 declare module Kiwi.Input {
     /**
     * Used with the Touch manager class, this object holds information about a single touch point/locaton (or you know a finger). By default a Finger has a diameter of 44 pixels (random average size of a finger) which can be used for collision/overlap detection. That value can be modified. Note: A Finger is only active whilst the user is 'pressing' down on stage.
@@ -13469,37 +13798,37 @@ declare module Kiwi.Input {
     * @return Finger
     */
     class Finger extends Pointer {
-        constructor(game: Game);
+        constructor(game: Kiwi.Game);
         /**
         * The type of object this is.
         * @method objType
         * @return string
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * @method start
         * @param {Any} event
         * @public
         */
-        public start(event: any): void;
+        start(event: any): void;
         /**
         * @method stop
         * @param event {Any}
         * @public
         */
-        public stop(event: any): void;
+        stop(event: any): void;
         /**
         * @method leave
         * @param event {Any}
         * @public
         */
-        public leave(event: any): void;
+        leave(event: any): void;
         /**
         * @method reset
         * @public
         */
-        public reset(): void;
+        reset(): void;
     }
 }
 /**
@@ -13530,35 +13859,35 @@ declare module Kiwi.Geom {
         * @return {String} The type of this object
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The centeral location of the box on the x-axis.
         * @property cx
         * @type Number
         * @public
         */
-        public cx: number;
+        cx: number;
         /**
         * The centeral location of the box on the y-axis.
         * @property cy
         * @type Number
         * @public
         */
-        public cy: number;
+        cy: number;
         /**
         * Half of the width.
         * @property halfWidth
         * @type Number
         * @public
         */
-        public halfWidth: number;
+        halfWidth: number;
         /**
         * Half of the height.
         * @property halfHeight
         * @type Number
         * @public
         */
-        public halfHeight: number;
+        halfHeight: number;
         /**
         * Returns the full height. This is read only.
         * @property height
@@ -13566,7 +13895,7 @@ declare module Kiwi.Geom {
         * @readOnly
         * @public
         */
-        public height : number;
+        height: number;
         /**
         * Returns the full width. This is read only.
         * @property width
@@ -13574,7 +13903,7 @@ declare module Kiwi.Geom {
         * @readOnly
         * @public
         */
-        public width : number;
+        width: number;
         /**
         * Draws the object to a canvas context passed.
         * @method draw
@@ -13582,7 +13911,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.AABB}
         * @public
         */
-        public draw(ctx: CanvasRenderingContext2D): AABB;
+        draw(ctx: CanvasRenderingContext2D): AABB;
         /**
         * Sets the position of the object.
         * @method setPosition
@@ -13591,7 +13920,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.AABB}
         * @public
         */
-        public setPosition(cx: number, cy: number): AABB;
+        setPosition(cx: number, cy: number): AABB;
         /**
         * Sets the position of the object by a point that you pass.
         *
@@ -13600,7 +13929,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.AABB}
         * @public
         */
-        public setPositionPoint(pos: Point): AABB;
+        setPositionPoint(pos: Point): AABB;
         /**
         * Returns this object but as a new Rectangle.
         *
@@ -13608,7 +13937,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Rectangle}
         * @public
         */
-        public toRect(): Rectangle;
+        toRect(): Rectangle;
         /**
         * Gives the dimension of this AABB from a rectangle's.
         * @method fromRect
@@ -13616,7 +13945,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.AABB}
         * @public
         */
-        public fromRect(rect: Rectangle): AABB;
+        fromRect(rect: Rectangle): AABB;
     }
 }
 /**
@@ -13646,7 +13975,7 @@ declare module Kiwi.Geom {
         * @return {String} "Circle"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The diameter of the circle
         * @property _diameter
@@ -13670,7 +13999,7 @@ declare module Kiwi.Geom {
         * @default 0
         * @public
         */
-        public x: number;
+        x: number;
         /**
         * The y coordinate of the center of the circle
         * @property y
@@ -13678,7 +14007,7 @@ declare module Kiwi.Geom {
         * @default 0
         * @public
         */
-        public y: number;
+        y: number;
         /**
         * The diameter of the circle.
         * The largest distance between any two points on the circle.
@@ -13688,7 +14017,7 @@ declare module Kiwi.Geom {
         * @type number
         * @public
         */
-        public diameter : number;
+        diameter: number;
         /**
         * The radius of the circle.
         * The length of a line extending from the center of the circle to any point on the circle itself.
@@ -13698,7 +14027,7 @@ declare module Kiwi.Geom {
         * @type number
         * @public
         */
-        public radius : number;
+        radius: number;
         /**
         * The circumference of the circle. This is READ ONLY.
         * @property circumference
@@ -13706,7 +14035,7 @@ declare module Kiwi.Geom {
         * @readOnly
         * @public
         */
-        public circumference : number;
+        circumference: number;
         /**
         * The sum of the y and radius properties.
         * Changing the bottom property of a Circle object has no effect on the x and y properties,
@@ -13715,7 +14044,7 @@ declare module Kiwi.Geom {
         * @type number
         * @public
         */
-        public bottom : number;
+        bottom: number;
         /**
         * The x coordinate of the leftmost point of the circle.
         * Changing the left property of a Circle object has no effect on the x and y properties.
@@ -13725,7 +14054,7 @@ declare module Kiwi.Geom {
         * @type number
         * @public
         */
-        public left : number;
+        left: number;
         /**
         * The x coordinate of the rightmost point of the circle.
         * Changing the right property of a Circle object has no effect on the x and y properties.
@@ -13735,7 +14064,7 @@ declare module Kiwi.Geom {
         * @type number
         * @public
         */
-        public right : number;
+        right: number;
         /**
         * The sum of the y minus the radius property.
         * Changing the top property of a Circle object has no effect on the x and y properties,
@@ -13745,7 +14074,7 @@ declare module Kiwi.Geom {
         * @type number
         * @public
         */
-        public top : number;
+        top: number;
         /**
         * Gets the area of this Circle. Note this is READ ONLY.
         * @property area
@@ -13753,14 +14082,14 @@ declare module Kiwi.Geom {
         * @readOnly
         * @public
         */
-        public area : number;
+        area: number;
         /**
         * Determines whether or not this Circle object is empty.
         * @method isEmpty
         * @return {boolean} A value of true if the Circle objects diameter is less than or equal to 0; otherwise false.
         * @public
         */
-        public isEmpty : boolean;
+        isEmpty: boolean;
         /**
         * Returns a new Circle object with the same values for the x, y, diameter, and radius properties as the original Circle object.
         * @method clone
@@ -13768,7 +14097,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Circle}
         * @public
         */
-        public clone(output?: Circle): Circle;
+        clone(output?: Circle): Circle;
         /**
         * Copies all of circle data from a Circle object passed (the source) into this Circle object.
         * @method copyFrom
@@ -13776,7 +14105,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Circle} This circle object
         * @public
         */
-        public copyFrom(source: Circle): Circle;
+        copyFrom(source: Circle): Circle;
         /**
         * Copies all of circle data from this Circle object into a passed Circle object (destination).
         * @method copyTo
@@ -13784,7 +14113,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Circle} The destination circle object
         * @public
         */
-        public copyTo(target: Circle): Circle;
+        copyTo(target: Circle): Circle;
         /**
         * Returns the distance from the center of this Circle object to the passed object.
         * The passed object can be a Circle, Point, or anything with x/y values.
@@ -13795,7 +14124,7 @@ declare module Kiwi.Geom {
         * @return {Number} The distance between this Point object and the destination Point object.
         * @public
         */
-        public distanceTo(target: any, round?: boolean): number;
+        distanceTo(target: any, round?: boolean): number;
         /**
         * Determines whether a Circle passed is equal to this Circle.
         * They are considered 'equal' if both circles have the same values for x, y, and diameter properties.
@@ -13805,7 +14134,7 @@ declare module Kiwi.Geom {
         * @return {boolean} A value of true if the object has exactly the same values for the x, y and diameter properties as this Circle object; otherwise false.
         * @public
         */
-        public equals(toCompare: Circle): boolean;
+        equals(toCompare: Circle): boolean;
         /**
         * Determines whether a Circle passed intersects with this Circle.
         * Returns a boolean indicating if the two circles intersect.
@@ -13815,7 +14144,7 @@ declare module Kiwi.Geom {
         * @return {boolean} A value of true if the specified object intersects with this Circle object; otherwise false.
         * @public
         */
-        public intersects(toIntersect: Circle): boolean;
+        intersects(toIntersect: Circle): boolean;
         /**
         * Returns a Point object containing the coordinates of a point on the circumference of this Circle based on the given angle.
         *
@@ -13826,7 +14155,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Point} The Point object holding the result.
         * @public
         */
-        public circumferencePoint(angle: number, asDegrees?: boolean, output?: Point): Point;
+        circumferencePoint(angle: number, asDegrees?: boolean, output?: Point): Point;
         /**
         * Adjusts the location of the Circle object, as determined by its center coordinate, by the specified amounts.
         * @method offset
@@ -13835,7 +14164,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Circle} This Circle object.
         * @public
         */
-        public offset(dx: number, dy: number): Circle;
+        offset(dx: number, dy: number): Circle;
         /**
         * Adjusts the location of the Circle object using a Point object as a parameter.
         * This method is similar to the 'offset' method, except that it takes a Point object as a parameter.
@@ -13845,7 +14174,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Circle} This Circle object.
         * @public
         */
-        public offsetPoint(point: Point): Circle;
+        offsetPoint(point: Point): Circle;
         /**
         * Sets the members of Circle to the specified values.
         *
@@ -13856,14 +14185,14 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Circle} This circle object
         * @public
         */
-        public setTo(x: number, y: number, diameter: number): Circle;
+        setTo(x: number, y: number, diameter: number): Circle;
         /**
         * Returns a string representation of this object.
         * @method toString
         * @return {string} a string representation of the instance.
         * @public
         */
-        public toString(): string;
+        toString(): string;
     }
 }
 /**
@@ -13893,7 +14222,7 @@ declare module Kiwi.Geom {
         * @return {String} "Ray"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The x component of the initial point of the ray
         * @property x1
@@ -13901,7 +14230,7 @@ declare module Kiwi.Geom {
         * @default 0
         * @public
         */
-        public x1: number;
+        x1: number;
         /**
         * The y component of the initial point of the ray
         * @property y1
@@ -13909,7 +14238,7 @@ declare module Kiwi.Geom {
         * @default 0
         * @public
         */
-        public y1: number;
+        y1: number;
         /**
         * The x component of the direction point of the ray
         * @property x2
@@ -13917,7 +14246,7 @@ declare module Kiwi.Geom {
         * @default 0
         * @public
         */
-        public x2: number;
+        x2: number;
         /**
         * The y component of the direction point of the ray
         * @property y2
@@ -13925,7 +14254,7 @@ declare module Kiwi.Geom {
         * @default 0
         * @public
         */
-        public y2: number;
+        y2: number;
         /**
         * Makes a copy of this Ray either as a new Ray object or,
         * makes a passed Ray a copy of this one.
@@ -13935,7 +14264,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Ray}
         * @public
         */
-        public clone(output?: Ray): Ray;
+        clone(output?: Ray): Ray;
         /**
         * Makes this Ray the same as a passed Ray.
         * @method copyFrom
@@ -13943,7 +14272,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Ray}
         * @public
         */
-        public copyFrom(source: Ray): Ray;
+        copyFrom(source: Ray): Ray;
         /**
         * Makes a passed Ray the same as this Ray object.
         * @method copyTo
@@ -13951,7 +14280,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Ray}
         * @public
         */
-        public copyTo(target: Ray): Ray;
+        copyTo(target: Ray): Ray;
         /**
         * Sets the origin and the direction of this Ray.
         * @method setTo
@@ -13962,7 +14291,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Ray}
         * @public
         */
-        public setTo(x1?: number, y1?: number, x2?: number, y2?: number): Ray;
+        setTo(x1?: number, y1?: number, x2?: number, y2?: number): Ray;
         /**
         * Get the angle of the ray.
         * @property angle
@@ -13970,7 +14299,7 @@ declare module Kiwi.Geom {
         * @readOnly
         * @public
         */
-        public angle : number;
+        angle: number;
         /**
         * Get the slope of the ray.
         * @property slope
@@ -13978,7 +14307,7 @@ declare module Kiwi.Geom {
         * @readOnly
         * @public
         */
-        public slope : number;
+        slope: number;
         /**
         *
         * @property yIntercept
@@ -13986,7 +14315,7 @@ declare module Kiwi.Geom {
         * @readOnly
         * @public
         */
-        public yIntercept : number;
+        yIntercept: number;
         /**
         * Check if the Ray passes through a point.
         * @method isPointOnRay
@@ -13995,21 +14324,21 @@ declare module Kiwi.Geom {
         * @return {boolean}
         * @public
         */
-        public isPointOnRay(x: number, y: number): boolean;
+        isPointOnRay(x: number, y: number): boolean;
         /**
         * Get a string representation of the ray.
         * @method toString
         * @return {String}
         * @public
         */
-        public toString(): string;
+        toString(): string;
     }
 }
 /**
 *
 * @module Kiwi
 * @submodule Geom
-*/ 
+*/
 declare module Kiwi.Geom {
     /**
     * Contains a collection of STATIC methods for determining intersections between geometric objects.
@@ -14032,7 +14361,7 @@ declare module Kiwi.Geom {
         * @return {String} "Intersect"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * -------------------------------------------------------------------------------------------
         * Distance
@@ -14206,7 +14535,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y.
         * @public
         * @static
-        */ 
+        */
         static lineSegmentToRectangle(seg: Line, rect: Rectangle, output?: IntersectResult): IntersectResult;
         /**
         * -------------------------------------------------------------------------------------------
@@ -14342,7 +14671,7 @@ declare module Kiwi.Geom {
         * @return {String} "IntersectResult"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * Holds the result of an Intersection between two geometric items.
         * TRUE means an Intersection did occur and FALSE means not.
@@ -14351,7 +14680,7 @@ declare module Kiwi.Geom {
         * @default false
         * @public
         */
-        public result: boolean;
+        result: boolean;
         /**
         * Holds the x coordinate of the point in which the Intersection occured.
         * Note: This is only set in the case the TWO geometric items are either Lines or Rays (Line like in function)
@@ -14360,7 +14689,7 @@ declare module Kiwi.Geom {
         * @type Number
         * @public
         */
-        public x: number;
+        x: number;
         /**
         * Holds the y coordinate of the point in which the Intersection occured.
         * Note: This is only set in the case the TWO geometric items are either Lines or Rays (Line like in function)
@@ -14369,49 +14698,49 @@ declare module Kiwi.Geom {
         * @type Number
         * @public
         */
-        public y: number;
+        y: number;
         /**
         * [CURRENTLY NOT IN USE]
         * @property x1
         * @type Number
         * @public
         */
-        public x1: number;
+        x1: number;
         /**
         * [CURRENTLY NOT IN USE]
         * @property y1
         * @type Number
         * @public
         */
-        public y1: number;
+        y1: number;
         /**
         * [CURRENTLY NOT IN USE]
         * @property x2
         * @type Number
         * @public
         */
-        public x2: number;
+        x2: number;
         /**
         * [CURRENTLY NOT IN USE]
         * @property y2
         * @type Number
         * @public
         */
-        public y2: number;
+        y2: number;
         /**
         * [CURRENTLY NOT IN USE]
         * @property width
         * @type Number
         * @public
         */
-        public width: number;
+        width: number;
         /**
         * [CURRENTLY NOT IN USE]
         * @property height
         * @type Number
         * @public
         */
-        public height: number;
+        height: number;
         /**
         * Sets the coordinates of the points based on the parameters passed.
         * @method setTo
@@ -14423,7 +14752,7 @@ declare module Kiwi.Geom {
         * @param {Number} [height=0]
         * @public
         */
-        public setTo(x1: number, y1: number, x2?: number, y2?: number, width?: number, height?: number): void;
+        setTo(x1: number, y1: number, x2?: number, y2?: number, width?: number, height?: number): void;
     }
 }
 /**
@@ -14455,35 +14784,35 @@ declare module Kiwi.Geom {
         * @return {string} "Line"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * X position of first point on the line.
         * @property x1
         * @type Number
         * @public
         */
-        public x1: number;
+        x1: number;
         /**
         * Y position of first point on the line.
         * @property y1
         * @type Number
         * @public
         */
-        public y1: number;
+        y1: number;
         /**
         * X position of second point.
         * @property x2
         * @type Number
         * @public
         */
-        public x2: number;
+        x2: number;
         /**
         * Y position of second point.
         * @property y2
         * @type Number
         * @public
         */
-        public y2: number;
+        y2: number;
         /**
         * Makes a clone of this Line.
         * The clone can either be a new Line Object,
@@ -14494,7 +14823,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Line}
         * @public
         */
-        public clone(output?: Line): Line;
+        clone(output?: Line): Line;
         /**
         * Make this Line a copy of another passed Line.
         * @method copyFrom
@@ -14502,7 +14831,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Line}
         * @public
         */
-        public copyFrom(source: Line): Line;
+        copyFrom(source: Line): Line;
         /**
         * Make another passed Line a copy of this one.
         * @method copyTo
@@ -14510,7 +14839,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Line}
         * @public
         */
-        public copyTo(target: Line): Line;
+        copyTo(target: Line): Line;
         /**
         * Used to set all components on the line.
         * @method setTo
@@ -14521,7 +14850,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Line}
         * @public
         */
-        public setTo(x1?: number, y1?: number, x2?: number, y2?: number): Line;
+        setTo(x1?: number, y1?: number, x2?: number, y2?: number): Line;
         /**
         * Get the length of the Line as a Line Segment.
         * @property length
@@ -14529,7 +14858,7 @@ declare module Kiwi.Geom {
         * @readOnly
         * @public
         */
-        public length : number;
+        length: number;
         /**
         * Get the y of a point on the line for a given x.
         * @method getY
@@ -14537,7 +14866,7 @@ declare module Kiwi.Geom {
         * @return {Number}
         * @public
         */
-        public getY(x: number): number;
+        getY(x: number): number;
         /**
         * Get the angle of the line.
         * @property angle
@@ -14545,7 +14874,7 @@ declare module Kiwi.Geom {
         * @readOnly
         * @public
         */
-        public angle : number;
+        angle: number;
         /**
         * Get the slope of the line (y/x).
         * @property slope
@@ -14553,7 +14882,7 @@ declare module Kiwi.Geom {
         * @readOnly
         * @public
         */
-        public slope : number;
+        slope: number;
         /**
         * Get the perpendicular slope of the line (x/y).
         * @propery perpSlope
@@ -14561,7 +14890,7 @@ declare module Kiwi.Geom {
         * @readOnly
         * @public
         */
-        public perpSlope : number;
+        perpSlope: number;
         /**
         * Get the y intercept for the line.
         * @property yIntercept
@@ -14569,7 +14898,7 @@ declare module Kiwi.Geom {
         * @readOnly
         * @public
         */
-        public yIntercept : number;
+        yIntercept: number;
         /**
         * Check if a point is on the line.
         * @method isPointOnLine
@@ -14578,7 +14907,7 @@ declare module Kiwi.Geom {
         * @return {boolean}
         * @public
         */
-        public isPointOnLine(x: number, y: number): boolean;
+        isPointOnLine(x: number, y: number): boolean;
         /**
         * Check if the point is both on the line and within the line segment.
         * @method isPointOnLineSegment
@@ -14587,7 +14916,7 @@ declare module Kiwi.Geom {
         * @return {boolean}
         * @public
         */
-        public isPointOnLineSegment(x: number, y: number): boolean;
+        isPointOnLineSegment(x: number, y: number): boolean;
         /**
         * Check to see if this Line object intersects at any point with a passed Line.
         * Note: Both are treated as extending infinately through space.
@@ -14598,7 +14927,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.IntersectResult} The Intersect Result containing the collision information.
         * @public
         */
-        public intersectLineLine(line: any): IntersectResult;
+        intersectLineLine(line: any): IntersectResult;
         /**
         * Get a line perpendicular to the line passing through a given point.
         *
@@ -14609,14 +14938,14 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Line}
         * @public
         */
-        public perp(x: number, y: number, output?: Line): Line;
+        perp(x: number, y: number, output?: Line): Line;
         /**
         * Get a string representation of the line.
         * @method toString
         * @return {String}
         * @public
         */
-        public toString(): string;
+        toString(): string;
     }
 }
 /**
@@ -14652,8 +14981,8 @@ declare module Kiwi.Geom {
         * @method objType
         * @return {String} "Matrix"
         * @public
-        */ 
-        public objType(): string;
+        */
+        objType(): string;
         /**
         * Position 0,0 of the matrix, affects scaling and rotation
         * @property a
@@ -14661,7 +14990,7 @@ declare module Kiwi.Geom {
         * @default 1
         * @public
         */
-        public a: number;
+        a: number;
         /**
         * Position 0,1 of the matrix, affects scaling and rotation.
         * @property b
@@ -14669,7 +14998,7 @@ declare module Kiwi.Geom {
         * @default 0
         * @public
         */
-        public b: number;
+        b: number;
         /**
         * Position 1,0 of the matrix, affects scaling and rotation.
         * @property c
@@ -14677,7 +15006,7 @@ declare module Kiwi.Geom {
         * @default 0
         * @public
         */
-        public c: number;
+        c: number;
         /**
         * Position 1,1 of the matrix, affects scaling and rotation.
         * @property d
@@ -14685,7 +15014,7 @@ declare module Kiwi.Geom {
         * @default 1
         * @public
         */
-        public d: number;
+        d: number;
         /**
         * Position 2,0 of the matrix, affects translation on x axis.
         * @property tx
@@ -14693,7 +15022,7 @@ declare module Kiwi.Geom {
         * @default 0
         * @public
         */
-        public tx: number;
+        tx: number;
         /**
         * Position 2,1 of the matrix, affects translation on y axis.
         * @property ty
@@ -14701,7 +15030,7 @@ declare module Kiwi.Geom {
         * @default 0
         * @public
         */
-        public ty: number;
+        ty: number;
         /**
         * Set all matrix values
         * @method setTo
@@ -14714,7 +15043,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Matrix} This object.
         * @public
         */
-        public setTo(a?: number, b?: number, c?: number, d?: number, tx?: number, ty?: number): Matrix;
+        setTo(a?: number, b?: number, c?: number, d?: number, tx?: number, ty?: number): Matrix;
         /**
         * Set matrix values from transform values
         * @method setFromTransform
@@ -14726,7 +15055,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Matrix} This object.
         * @public
         */
-        public setFromTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number): Matrix;
+        setFromTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number): Matrix;
         /**
         * Set matrix values from transform values, with rotation point data included
         * @method setFromOffsetTransform
@@ -14741,7 +15070,7 @@ declare module Kiwi.Geom {
         * @public
         * @since 1.0.1
         */
-        public setFromOffsetTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number, rotPointX: number, rotPointY: number): Matrix;
+        setFromOffsetTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number, rotPointX: number, rotPointY: number): Matrix;
         /**
         * Prepend values to this matrix, paramters supplied individually.
         * @method prepend
@@ -14754,7 +15083,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Matrix} This object.
         * @public
         */
-        public prepend(a?: number, b?: number, c?: number, d?: number, tx?: number, ty?: number): Matrix;
+        prepend(a?: number, b?: number, c?: number, d?: number, tx?: number, ty?: number): Matrix;
         /**
         * Prepend a matrix to this matrix.
         * @method prependMatrix
@@ -14762,7 +15091,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Matrix} This object.
         * @public
         */
-        public prependMatrix(m: Matrix): Matrix;
+        prependMatrix(m: Matrix): Matrix;
         /**
         * Append values to this matrix, paramters supplied individually.
         * @method append
@@ -14775,7 +15104,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Matrix} This object.
         * @public
         */
-        public append(a?: number, b?: number, c?: number, d?: number, tx?: number, ty?: number): Matrix;
+        append(a?: number, b?: number, c?: number, d?: number, tx?: number, ty?: number): Matrix;
         /**
         * Append a matrix to this matrix.
         * @method appendMatrix
@@ -14783,7 +15112,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Matrix} This object.
         * @public
         */
-        public appendMatrix(m: Matrix): Matrix;
+        appendMatrix(m: Matrix): Matrix;
         /**
         * Set the tx and ty elements of the matrix.
         * @method setPosition
@@ -14792,7 +15121,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Matrix} This object.
         * @public
         */
-        public setPosition(x: number, y: number): Matrix;
+        setPosition(x: number, y: number): Matrix;
         /**
         * Set the tx and ty elements of the matrix from an object with x and y properties.
         * @method setPositionPoint
@@ -14800,21 +15129,21 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Matrix} This object.
         * @public
         */
-        public setPositionPoint(p: any): Matrix;
+        setPositionPoint(p: any): Matrix;
         /**
         * Get the x and y position of the matrix as an object with x and y properties
         * @method setPositionVector
         * @return {Kiwi.Geom.Point} An object constructed from a literal with x and y properties.
         * @public
         */
-        public getPosition(output?: Point): Point;
+        getPosition(output?: Kiwi.Geom.Point): Kiwi.Geom.Point;
         /**
         * Set the matrix to the identity matrix - when appending or prepending this matrix to another there will be no change in the resulting matrix
         * @method identity
         * @return {Kiwi.Geom.Matrix} This object.
         * @public
         */
-        public identity(): Matrix;
+        identity(): Matrix;
         /**
         * Rotate the matrix by "radians" degrees
         * @method rotate
@@ -14822,7 +15151,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Matrix} This object.
         * @public
         */
-        public rotate(radians: number): Matrix;
+        rotate(radians: number): Matrix;
         /**
         * Translate the matrix by the amount passed.
         *
@@ -14832,7 +15161,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Matrix} This object.
         * @public
         */
-        public translate(tx: number, ty: number): Matrix;
+        translate(tx: number, ty: number): Matrix;
         /**
         * Scales the matrix by the amount passed.
         *
@@ -14842,7 +15171,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Matrix} This object.
         * @public
         */
-        public scale(scaleX: number, scaleY: number): Matrix;
+        scale(scaleX: number, scaleY: number): Matrix;
         /**
         * Apply this matrix to a an object with x and y properties representing a point and return the transformed point.
         * @method transformPoint
@@ -14850,14 +15179,14 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Matrix} This object.
         * @public
         */
-        public transformPoint(pt: any): any;
+        transformPoint(pt: any): any;
         /**
         * Invert this matrix so that it represents the opposite of it's orginal tranformaation.
         * @method invert
         * @return {Kiwi.Geom.Matrix} This object.
         * @public
         */
-        public invert(): Matrix;
+        invert(): Matrix;
         /**
         * Copy another matrix to this matrix.
         * @method copyFrom
@@ -14865,7 +15194,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Matrix} This object.
         * @public
         */
-        public copyFrom(m: Matrix): Matrix;
+        copyFrom(m: Matrix): Matrix;
         /**
         * Copy this matrix to another matrix.
         * @method copyTo
@@ -14873,21 +15202,21 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Matrix} This object.
         * @public
         */
-        public copyTo(m: Matrix): Matrix;
+        copyTo(m: Matrix): Matrix;
         /**
         * Clone this matrix and returns a new Matrix object.
         * @method clone
         * @return {Kiwi.Geom.Matrix}
         * @public
         */
-        public clone(): Matrix;
+        clone(): Matrix;
         /**
         * Returns a string representation of this object.
         * @method toString
         * @return {string} A string representation of the instance.
         * @public
         */
-        public toString : string;
+        toString: string;
     }
 }
 /**
@@ -14914,21 +15243,21 @@ declare module Kiwi.Geom {
         * @return {String} "Point"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The horizontal position of this point.
         * @property x
         * @type Number
         * @public
         */
-        public x: number;
+        x: number;
         /**
         * The vertical position of this point.
         * @property y
         * @type Number
         * @public
         */
-        public y: number;
+        y: number;
         /**
         * Converts a pair of polar coordinates to a Cartesian point coordinate and sets them on the point instance.
         * @method polar
@@ -14937,7 +15266,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Point} The new Cartesian Point object.
         * @public
         */
-        public polar(distance: number, angle: number): Point;
+        polar(distance: number, angle: number): Point;
         /**
         * Adds the coordinates of another point to the coordinates of this point to create a new point.
         * @method add
@@ -14946,7 +15275,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Point} The new Point object.
         * @public
         */
-        public add(toAdd: Point, output?: Point): Point;
+        add(toAdd: Point, output?: Point): Point;
         /**
         * Adds the given values to the coordinates of this point and returns it
         * @method addTo
@@ -14955,7 +15284,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Point} This Point object.
         * @public
         */
-        public addTo(x?: number, y?: number): Point;
+        addTo(x?: number, y?: number): Point;
         /**
         * Adds the given values to the coordinates of this point and returns it
         * @method subtractFrom
@@ -14964,14 +15293,14 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Point} This Point object.
         * @public
         */
-        public subtractFrom(x?: number, y?: number): Point;
+        subtractFrom(x?: number, y?: number): Point;
         /**
         * Inverts the x and y values of this point
         * @method invert
         * @return {Kiwi.Geom.Point} This Point object.
         * @public
         */
-        public invert(): Point;
+        invert(): Point;
         /**
         * Clamps this Point object to be between the given min and max.
         * @method clamp
@@ -14980,7 +15309,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Point} This Point object.
         * @public
         */
-        public clamp(min: number, max: number): Point;
+        clamp(min: number, max: number): Point;
         /**
         * Clamps the x value of this Point object to be between the given min and max
         * @method clampX
@@ -14989,7 +15318,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Point} This Point object.
         * @public
         */
-        public clampX(min: number, max: number): Point;
+        clampX(min: number, max: number): Point;
         /**
         * Clamps the y value of this Point object to be between the given min and max
         * @method clampY
@@ -14998,7 +15327,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Point} This Point object.
         * @public
         */
-        public clampY(min: number, max: number): Point;
+        clampY(min: number, max: number): Point;
         /**
         * Creates a copy of this Point.
         * @method clone
@@ -15006,7 +15335,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Point}
         * @public
         */
-        public clone(output?: Point): Point;
+        clone(output?: Point): Point;
         /**
         * Copies the point data from the source Point object into this Point object.
         * @method copyFrom
@@ -15014,7 +15343,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Point} This Point object. Useful for chaining method calls.
         * @public
         */
-        public copyFrom(source: Point): Point;
+        copyFrom(source: Point): Point;
         /**
         * Copies the point data from this Point object to the given target Point object.
         * @method copyTo
@@ -15022,7 +15351,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Point} The target Point object.
         * @public
         */
-        public copyTo(target: Point): Point;
+        copyTo(target: Point): Point;
         /**
         * Get the angle from this Point object to given Point object.
         * @method angleTo
@@ -15030,7 +15359,7 @@ declare module Kiwi.Geom {
         * @return {Number} angle to point
         * @public
         */
-        public angleTo(target: Point): number;
+        angleTo(target: Point): number;
         /**
         * Get the angle from this Point object to given X,Y coordinates.
         * @method angleTo
@@ -15038,7 +15367,7 @@ declare module Kiwi.Geom {
         * @param y {Number} y value.
         * @return {Number} angle to point.
         */
-        public angleToXY(x: number, y: number): number;
+        angleToXY(x: number, y: number): number;
         /**
         * Returns the distance from this Point object to the given Point object.
         * @method distanceTo
@@ -15047,7 +15376,7 @@ declare module Kiwi.Geom {
         * @return {Number} The distance between this Point object and the destination Point object.
         * @public
         */
-        public distanceTo(target: Point, round?: boolean): number;
+        distanceTo(target: Point, round?: boolean): number;
         /**
         * Returns the distance from this Point object to the given Point object.
         * @method distanceToXY
@@ -15057,7 +15386,7 @@ declare module Kiwi.Geom {
         * @return {Number} The distance between this Point object and the x/y values.
         * @public
         */
-        public distanceToXY(x: number, y: number, round?: boolean): number;
+        distanceToXY(x: number, y: number, round?: boolean): number;
         /**
         * Returns the distance between the two Point objects.
         * @method distanceBetween
@@ -15086,7 +15415,7 @@ declare module Kiwi.Geom {
         * @return {Boolean} True if distance is >= specified distance.
         * @public
         */
-        public distanceCompare(target: Point, distance: number): boolean;
+        distanceCompare(target: Point, distance: number): boolean;
         /**
         * Determines whether this Point object and the given point object are equal. They are equal if they have the same x and y values.
         * @method equals
@@ -15094,7 +15423,7 @@ declare module Kiwi.Geom {
         * @return {boolean} A value of true if the object is equal to this Point object; false if it is not equal.
         * @public
         */
-        public equals(toCompare: Point): boolean;
+        equals(toCompare: Point): boolean;
         /**
         * Determines a point between two specified points.
         * The parameter f determines where the new interpolated point is located relative to the two end points specified by parameters pt1 and pt2.
@@ -15121,7 +15450,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Point} This Point object. Useful for chaining method calls.
         * @public
         */
-        public offset(dx: number, dy: number): Point;
+        offset(dx: number, dy: number): Point;
         /**
         * Sets the x and y values of this Point object to the given coordinates.
         * @method setTo
@@ -15130,7 +15459,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Point} This Point object. Useful for chaining method calls.
         * @public
         */
-        public setTo(x: number, y: number): Point;
+        setTo(x: number, y: number): Point;
         /**
         * Subtracts the coordinates of another point from the coordinates of this point to create a new point.
         * @method subtract
@@ -15139,15 +15468,15 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Point} The new Point object.
         * @public
         */
-        public subtract(point: Point, output?: Point): Point;
-        public getCSS(): string;
+        subtract(point: Point, output?: Point): Point;
+        getCSS(): string;
         /**
         * Returns a string representation of this object.
         * @method toString
         * @return {String} a string representation of the instance.
         * @public
         */
-        public toString(): string;
+        toString(): string;
     }
 }
 /**
@@ -15180,7 +15509,7 @@ declare module Kiwi.Geom {
         * @return {String} "Rectangle"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The x coordinate of the top-left corner of the rectangle
         * @property x
@@ -15188,7 +15517,7 @@ declare module Kiwi.Geom {
         * @default 0
         * @public
         */
-        public x: number;
+        x: number;
         /**
         * The y coordinate of the top-left corner of the rectangle
         * @property y
@@ -15196,7 +15525,7 @@ declare module Kiwi.Geom {
         * @default 0
         * @public
         */
-        public y: number;
+        y: number;
         /**
         * The width of the rectangle in pixels
         * @property width
@@ -15204,7 +15533,7 @@ declare module Kiwi.Geom {
         * @default 0
         * @public
         */
-        public width: number;
+        width: number;
         /**
         * The height of the rectangle in pixels
         * @property height
@@ -15212,7 +15541,7 @@ declare module Kiwi.Geom {
         * @default 0
         * @public
         */
-        public height: number;
+        height: number;
         /**
         * The sum of the y and height properties.
         * Changing the bottom property of a Rectangle object has no effect on the x, y and width properties,
@@ -15222,7 +15551,7 @@ declare module Kiwi.Geom {
         * @type Number
         * @public
         */
-        public bottom : number;
+        bottom: number;
         /**
         * Returns a Point containing the location of the center of the Rectangle, relative to the top left edge
         * @property center
@@ -15230,28 +15559,28 @@ declare module Kiwi.Geom {
         * @readOnly
         * @public
         */
-        public center : Point;
+        center: Point;
         /**
         * Returns a Point containing the location of the Rectangle's bottom-right corner, determined by the values of the right and bottom properties.
         * @property bottomRight
         * @type Kiwi.Geom.Point
         * @public
         */
-        public bottomRight : Point;
+        bottomRight: Point;
         /**
         * The x coordinate of the top-left corner of the rectangle. Changing the left property of a Rectangle object has no effect on the y and height properties. However it does affect the width property, whereas changing the x value does not affect the width property.
         * @property left
         * @type Number
         * @public
         */
-        public left : number;
+        left: number;
         /**
         * The sum of the x and width properties. Changing the right property of a Rectangle object has no effect on the x, y and height properties. However it does affect the width property.
         * @property right
         * @type Number
         * @public
         */
-        public right : number;
+        right: number;
         /**
         * The size of the Rectangle object, expressed as a Point object with the values of the width and height properties.
         * @property size
@@ -15259,7 +15588,7 @@ declare module Kiwi.Geom {
         * @readOnly
         * @public
         */
-        public size : Point;
+        size: Point;
         /**
         * The volume of the Rectangle object in pixels, derived from width * height
         * @property volume
@@ -15267,7 +15596,7 @@ declare module Kiwi.Geom {
         * @readOnly
         * @return
         */
-        public volume : number;
+        volume: number;
         /**
         * The perimeter size of the Rectangle object in pixels. This is the sum of all 4 sides.
         * @property perimeter
@@ -15275,7 +15604,7 @@ declare module Kiwi.Geom {
         * @readOnly
         * @public
         */
-        public perimeter : number;
+        perimeter: number;
         /**
         * The y coordinate of the top-left corner of the rectangle.
         * Changing the top property of a Rectangle object has no effect on the x and width properties.
@@ -15285,14 +15614,14 @@ declare module Kiwi.Geom {
         * @return {Number}
         * @public
         */
-        public top : number;
+        top: number;
         /**
         * The location of the Rectangle object's top-left corner, determined by the x and y coordinates of the point.
         * @property topLeft
         * @type Kiwi.Geom.Point
         * @public
         */
-        public topLeft : Point;
+        topLeft: Point;
         /**
         * Returns a new Rectangle object with the same values for the x, y, width, and height properties as the original Rectangle object.
         * @method clone
@@ -15300,7 +15629,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Rectangle}
         * @public
         */
-        public clone(output?: Rectangle): Rectangle;
+        clone(output?: Rectangle): Rectangle;
         /**
         * Determines whether the specified coordinates are contained within the region defined by this Rectangle object.
         * @method contains
@@ -15309,7 +15638,7 @@ declare module Kiwi.Geom {
         * @return {boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
         * @public
         */
-        public contains(x: number, y: number): boolean;
+        contains(x: number, y: number): boolean;
         /**
         * Determines whether the specified point is contained within the rectangular region defined by this Rectangle object.
         * This method is similar to the Rectangle.contains() method, except that it takes a Point object as a parameter.
@@ -15319,7 +15648,7 @@ declare module Kiwi.Geom {
         * @return {boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
         * @public
         */
-        public containsPoint(point: Point): boolean;
+        containsPoint(point: Point): boolean;
         /**
         * Determines whether the Rectangle object specified by the rect parameter is contained within this Rectangle object.
         * A Rectangle object is said to contain another if the second Rectangle object falls entirely within the boundaries of the first.
@@ -15329,7 +15658,7 @@ declare module Kiwi.Geom {
         * @return {boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
         * @public
         */
-        public containsRect(rect: Rectangle): boolean;
+        containsRect(rect: Rectangle): boolean;
         /**
         * Copies all of rectangle data from the source Rectangle object into the calling Rectangle object.
         *
@@ -15338,7 +15667,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Rectangle} This rectangle object
         * @public
         */
-        public copyFrom(source: Rectangle): Rectangle;
+        copyFrom(source: Rectangle): Rectangle;
         /**
         * Copies all the rectangle data from this Rectangle object into the destination Rectangle object.
         * Creates a new rectangle if one was not passed.
@@ -15348,7 +15677,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Rectangle} The destination rectangle object
         * @public
         */
-        public copyTo(target?: Rectangle): Rectangle;
+        copyTo(target?: Rectangle): Rectangle;
         /**
         * Determines whether the object specified in the toCompare parameter is equal to this Rectangle object.
         * This method compares the x, y, width, and height properties of an object against the same properties of this Rectangle object.
@@ -15358,7 +15687,7 @@ declare module Kiwi.Geom {
         * @return {boolean} A value of true if the object has exactly the same values for the x, y, width, and height properties as this Rectangle object; otherwise false.
         * @public
         */
-        public equals(toCompare: Rectangle): boolean;
+        equals(toCompare: Rectangle): boolean;
         /**
         * Increases the size of the Rectangle object by the specified amounts, in pixels.
         *
@@ -15372,7 +15701,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Rectangle} This Rectangle object.
         * @public
         */
-        public inflate(dx: number, dy: number): Rectangle;
+        inflate(dx: number, dy: number): Rectangle;
         /**
         * Increases the size of the Rectangle object. This method is similar to the Rectangle.inflate() method except it takes a Point object as a parameter.
         *
@@ -15381,7 +15710,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Rectangle} This Rectangle object.
         * @public
         */
-        public inflatePoint(point: Point): Rectangle;
+        inflatePoint(point: Point): Rectangle;
         /**
         * If the Rectangle object specified in the toIntersect parameter intersects with this Rectangle object,
         * returns the area of intersection as a Rectangle object.
@@ -15393,7 +15722,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Rectangle} A Rectangle object that equals the area of intersection. If the rectangles do not intersect, this method returns an empty Rectangle object; that is, a rectangle with its x, y, width, and height properties set to 0.
         * @public
         */
-        public intersection(toIntersect: Rectangle, output?: Rectangle): Rectangle;
+        intersection(toIntersect: Rectangle, output?: Rectangle): Rectangle;
         /**
         * Determines whether the object specified in the toIntersect parameter intersects with this Rectangle object.
         * This method checks the x, y, width, and height properties of the specified Rectangle object to see if it intersects with this Rectangle object.
@@ -15403,7 +15732,7 @@ declare module Kiwi.Geom {
         * @return {boolean} A value of true if the specified object intersects with this Rectangle object; otherwise false.
         * @public
         **/
-        public intersects(toIntersect: Rectangle): boolean;
+        intersects(toIntersect: Rectangle): boolean;
         /**
         * Checks for overlaps between this Rectangle and the given Rectangle. Returns an object with boolean values for each check.
         *
@@ -15413,14 +15742,14 @@ declare module Kiwi.Geom {
         * @todo Move to an IntersectResult? Do not want to be generating all of these values each time this is called
         * @public
         */
-        public overlap(rect: Rectangle): any;
+        overlap(rect: Rectangle): any;
         /**
         * Determines whether or not this Rectangle object is empty.
         * @method isEmpty
         * @return {boolean} A value of true if the Rectangle object's width or height is less than or equal to 0; otherwise false.
         * @public
         */
-        public isEmpty(): boolean;
+        isEmpty(): boolean;
         /**
         * Adjusts the location of the Rectangle object, as determined by its top-left corner, by the specified amounts.
         *
@@ -15430,7 +15759,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Rectangle} This Rectangle object.
         * @public
         */
-        public offset(dx: number, dy: number): Rectangle;
+        offset(dx: number, dy: number): Rectangle;
         /**
         * Adjusts the location of the Rectangle object using a Point object as a parameter.
         * This method is similar to the Rectangle.offset() method, except that it takes a Point object as a parameter.
@@ -15440,7 +15769,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Rectangle} This Rectangle object.
         * @public
         */
-        public offsetPoint(point: Point): Rectangle;
+        offsetPoint(point: Point): Rectangle;
         /**
         * Sets all of the Rectangle object's properties to 0.
         * A Rectangle object is empty if its width or height is less than or equal to 0.
@@ -15449,7 +15778,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Rectangle} This rectangle object
         * @public
         */
-        public setEmpty(): Rectangle;
+        setEmpty(): Rectangle;
         /**
         * Sets the properties of Rectangle to the specified values.
         *
@@ -15461,7 +15790,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Rectangle} This rectangle object
         * @public
         */
-        public setTo(x: number, y: number, width: number, height: number): Rectangle;
+        setTo(x: number, y: number, width: number, height: number): Rectangle;
         /**
         * Adds two rectangles together to create a new Rectangle object, by filling in the horizontal and vertical space between the two rectangles.
         *
@@ -15471,7 +15800,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Rectangle} A Rectangle object that is the union of the two rectangles.
         * @public
         */
-        public union(toUnion: Rectangle, output?: Rectangle): Rectangle;
+        union(toUnion: Rectangle, output?: Rectangle): Rectangle;
         /**
         * Scales this Rectangle by values passed.
         *
@@ -15482,13 +15811,13 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Rectangle}
         * @public
         */
-        public scale(x: number, y: number, translation: Point): Rectangle;
+        scale(x: number, y: number, translation: Kiwi.Geom.Point): Rectangle;
         /**
         * Returns a string representation of this object.
         * @method toString
         * @return {String} a string representation of the instance.
         */
-        public toString(): string;
+        toString(): string;
     }
 }
 /**
@@ -15524,7 +15853,7 @@ declare module Kiwi.Geom {
         * @return {String} "Transform"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * X position of the transform
         * @property _x
@@ -15539,7 +15868,7 @@ declare module Kiwi.Geom {
         * @type Number
         * @public
         */
-        public x : number;
+        x: number;
         /**
         * Y position of the transform
         * @property _y
@@ -15554,7 +15883,7 @@ declare module Kiwi.Geom {
         * @type Number
         * @public
         */
-        public y : number;
+        y: number;
         /**
         * X scaleof the transform
         * @property _scaleX
@@ -15569,7 +15898,7 @@ declare module Kiwi.Geom {
         * @type Number
         * @public
         */
-        public scaleX : number;
+        scaleX: number;
         /**
         * Y scale of the transform
         * @property _scaleY
@@ -15584,7 +15913,7 @@ declare module Kiwi.Geom {
         * @type Number
         * @public
         */
-        public scaleY : number;
+        scaleY: number;
         /**
         * Rotation of the transform in radians.
         * @property _rotation
@@ -15599,7 +15928,7 @@ declare module Kiwi.Geom {
         * @type Number
         * @public
         */
-        public rotation : number;
+        rotation: number;
         /**
         * Rotation offset on X axis.
         * @property _rotPointX
@@ -15615,7 +15944,7 @@ declare module Kiwi.Geom {
         * @default 0
         * @public
         */
-        public rotPointX : number;
+        rotPointX: number;
         /**
         * Rotation offset on Y axis.
         * @property _rotPointY
@@ -15630,7 +15959,7 @@ declare module Kiwi.Geom {
         * @type Number
         * @public
         */
-        public rotPointY : number;
+        rotPointY: number;
         /**
         * Return the anchor point value from the X axis. (Aliases to rotPointX.)
         * @property anchorPointX
@@ -15638,7 +15967,7 @@ declare module Kiwi.Geom {
         * @public
         * @since 1.1.0
         */
-        public anchorPointX : number;
+        anchorPointX: number;
         /**
         * Return the anchor point value from the Y axis. (Aliases to rotPointY.)
         * @property anchorPointY
@@ -15646,7 +15975,7 @@ declare module Kiwi.Geom {
         * @public
         * @since 1.1.0
         */
-        public anchorPointY : number;
+        anchorPointY: number;
         /**
         * A 3x3 transformation matrix object that can be use this tranform to manipulate points or the context transformation.
         * @property _matrix
@@ -15661,7 +15990,7 @@ declare module Kiwi.Geom {
         * @readOnly
         * @public
         */
-        public matrix : Matrix;
+        matrix: Matrix;
         /**
         * The most recently calculated matrix from getConcatenatedMatrix.
         * @property _cachedConcatenatedMatrix
@@ -15676,7 +16005,7 @@ declare module Kiwi.Geom {
         * @readOnly
         * @public
         */
-        public worldX : number;
+        worldX: number;
         /**
         * Return the y of this transform translated to world space.
         * @property worldY
@@ -15684,7 +16013,7 @@ declare module Kiwi.Geom {
         * @readOnly
         * @public
         */
-        public worldY : number;
+        worldY: number;
         /**
         * The parent transform. If set to null there is no parent. Otherwise this is used by getConcatenatedMatrix to offset the current transforms by the another matrix
         * @property _parent
@@ -15700,7 +16029,7 @@ declare module Kiwi.Geom {
         * @default null
         * @public
         */
-        public parent : Transform;
+        parent: Transform;
         /**
         * Set the X and Y values of the transform.
         * @method setPosition
@@ -15709,7 +16038,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Transform} This object.
         * @public
         */
-        public setPosition(x: number, y: number): Transform;
+        setPosition(x: number, y: number): Transform;
         /**
         * Set the X and Y values of the transform from a point.
         * @method setPositionPoint
@@ -15717,7 +16046,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Transform} This object.
         * @public
         */
-        public setPositionFromPoint(point: Point): Transform;
+        setPositionFromPoint(point: Point): Transform;
         /**
         * Translate the X and Y value of the transform by point components.
         * @method translatePositionFromPoint
@@ -15725,7 +16054,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Transform} This object.
         * @public
         */
-        public translatePositionFromPoint(point: Point): Transform;
+        translatePositionFromPoint(point: Point): Transform;
         /**
         * Return a Point representing the X and Y values of the transform.
         * If no point is given a new Point objected will be created.
@@ -15735,7 +16064,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Point} A point representing the X and Y values of the transform.
         * @public
         */
-        public getPositionPoint(output?: Point): Point;
+        getPositionPoint(output?: Point): Point;
         /**
         * Set the X and Y scale value of the transform.
         * This property is set only.
@@ -15745,7 +16074,7 @@ declare module Kiwi.Geom {
         * @type Number
         * @public
         */
-        public scale : number;
+        scale: number;
         /**
         * Set the core properties of the transform.
         *
@@ -15760,14 +16089,14 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Transform} This object.
         * @public
         */
-        public setTransform(x?: number, y?: number, scaleX?: number, scaleY?: number, rotation?: number, rotPointX?: number, rotPointY?: number): Transform;
+        setTransform(x?: number, y?: number, scaleX?: number, scaleY?: number, rotation?: number, rotPointX?: number, rotPointY?: number): Transform;
         /**
         * Return the parent matrix of the transform. If there is no parent then null is returned.
         * @method getParentMatrix
         * @return {Kiwi.Geom.Matrix} The parent transform matrix.
         * @public
         */
-        public getParentMatrix(): Matrix;
+        getParentMatrix(): Matrix;
         /**
         * Return the transformation matrix that concatenates this transform with all ancestor transforms.
         * If there is no parent then this will return a matrix the same as this transforms matrix.
@@ -15775,7 +16104,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Matrix} The concatenated matrix.
         * @public
         */
-        public getConcatenatedMatrix(): Matrix;
+        getConcatenatedMatrix(): Matrix;
         /**
         * Apply this matrix to a an object with x and y properties representing a point and return the transformed point.
         * @method transformPoint
@@ -15783,7 +16112,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Point}
         * @public
         */
-        public transformPoint(point: Point): Point;
+        transformPoint(point: Point): Point;
         /**
         * Copy another transforms data to this transform. A clone of the source matrix is created for the matrix property.
         * @method copyFrom
@@ -15791,7 +16120,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Transform} This object.
         * @public
         */
-        public copyFrom(source: Transform): Transform;
+        copyFrom(source: Transform): Transform;
         /**
         * Copy this transforms data to the destination Transform.
         * A clone of this transforms matrix is created in the destination Transform Matrix.
@@ -15801,7 +16130,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Transform} This object.
         * @public
         */
-        public copyTo(destination: Transform): Transform;
+        copyTo(destination: Transform): Transform;
         /**
         * Return a clone of this transform.
         *
@@ -15810,7 +16139,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Transform} A clone of this object.
         * @public
         */
-        public clone(output?: Transform): Transform;
+        clone(output?: Transform): Transform;
         /**
         * Recursively check that a transform does not appear as its own ancestor
         * @method checkAncestor
@@ -15818,14 +16147,14 @@ declare module Kiwi.Geom {
         * @return {boolean} Returns true if the given transform is the same as this or an ancestor, otherwise false.
         * @public
         */
-        public checkAncestor(transform: Transform): boolean;
+        checkAncestor(transform: Transform): boolean;
         /**
         * Return a string represention of this object.
         * @method toString
         * @return {String} A string represention of this object.
         * @public
         */
-        public toString : string;
+        toString: string;
     }
 }
 /**
@@ -15852,21 +16181,21 @@ declare module Kiwi.Geom {
         * @return {String} "Vector2"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The x component of this Vector2.
         * @property x
         * @type Number
         * @public
         */
-        public x: number;
+        x: number;
         /**
         * The y component of this Vector2.
         * @property y
         * @type Number
         * @public
         */
-        public y: number;
+        y: number;
         /**
         * Generate a Vector2 from an angle
         * @method fromAngle
@@ -15901,7 +16230,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Vector2} A new Vector2 containing the product
         * @public
         */
-        public add(vector2: Vector2): Vector2;
+        add(vector2: Vector2): Vector2;
         /**
         * Add only the x component of another Vector2 to this vector.
         * @method addX
@@ -15909,7 +16238,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result
         * @public
         */
-        public addX(vector2: Vector2): Vector2;
+        addX(vector2: Vector2): Vector2;
         /**
         * Add only the y component of another Vector2 to this vector.
         * @method addY
@@ -15917,7 +16246,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result
         * @public
         */
-        public addY(vector2: Vector2): Vector2;
+        addY(vector2: Vector2): Vector2;
         /**
         * Subtract each component of another Vector2 from this vectors components.
         * @method subtract
@@ -15925,7 +16254,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result
         * @public
         */
-        public subtract(vector2: Vector2): Vector2;
+        subtract(vector2: Vector2): Vector2;
         /**
         * Multiply each component of another Vector2 with this vectors components.
         * @method multiply
@@ -15933,7 +16262,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result
         * @public
         */
-        public multiply(vector2: Vector2): Vector2;
+        multiply(vector2: Vector2): Vector2;
         /**
         * Multiply each component of this vector with a scalar number.
         * @method multiplyScalar
@@ -15941,7 +16270,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Vector2} A new Vector2 containing the result
         * @public
         */
-        public multiplyScalar(scalar: number): Vector2;
+        multiplyScalar(scalar: number): Vector2;
         /**
         * Calculate the dot product if a Vector2 with this Vector2.
         * @method dot
@@ -15949,49 +16278,49 @@ declare module Kiwi.Geom {
         * @return {Number} Result of dot product.
         * @public
         */
-        public dot(vector2: Vector2): number;
+        dot(vector2: Vector2): number;
         /**
         * Calculate the square length of this Vector2 (Distance from the origin).
         * @method lenSqr
         * @return {Number} The square length.
         * @public
         */
-        public lenSqr(): number;
+        lenSqr(): number;
         /**
         * Calculate the length of this Vector2 (Distance from the origin).
         * @method len
         * @return {Number} The length.
         * @public
         */
-        public len(): number;
+        len(): number;
         /**
         * Calculate a normalised unit Vector2 from this Vector2.
         * @method unit
         * @return {Kiwi.Geom.Vector2} a new Unit Length Vector2.
         * @public
         */
-        public unit(): Vector2;
+        unit(): Vector2;
         /**
         * Reduce each component of the Vector to the closest lower round value.
         * @method floor
         * @return {Kiwi.Geom.Vector2} a rounded down Vector2.
         * @public
         */
-        public floor(): Vector2;
+        floor(): Vector2;
         /**
         * Increase each component of the Vector to the closest upper round value.
         * @method ceil
         * @return {Kiwi.Geom.Vector2} a rounded up Vector2.
         * @public
         */
-        public ceil(): Vector2;
+        ceil(): Vector2;
         /**
         * Round each component of the Vector to the closest round value.
         * @method round
         * @return {Kiwi.Geom.Vector2} a rounded Vector2.
         * @public
         */
-        public round(): Vector2;
+        round(): Vector2;
         /**
         * Clamp the vector between a maximum and minimum Vector2 range component-wise.
         * @method clamp
@@ -16000,21 +16329,21 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Vector2} a clamped Vector2.
         * @public
         */
-        public clamp(min: Vector2, max: Vector2): Vector2;
+        clamp(min: Vector2, max: Vector2): Vector2;
         /**
         * Calculate a Vector2 perpendicular to this Vector2.
         * @method perp
         * @return {Kiwi.Geom.Vector2} the perpendicular Vector2.
         * @public
         */
-        public perp(): Vector2;
+        perp(): Vector2;
         /**
         * Calculate a Vector2 opposite to this Vector2.
         * @method neg
         * @return {Kiwi.Geom.Vector2} the opposite Vector2.
         * @public
         */
-        public neg(): Vector2;
+        neg(): Vector2;
         /**
         * Check if two Vector2s from equal components.
         * @method equal
@@ -16022,21 +16351,21 @@ declare module Kiwi.Geom {
         * @return {boolean} returns true if equal.
         * @public
         */
-        public equal(vector2: Vector2): boolean;
+        equal(vector2: Vector2): boolean;
         /**
         * Get a Point object with the same components as this Vector2.
         * @method point
         * @return {Kiwi.Geom.Point} A new Point.
         * @public
         */
-        public point(): Point;
+        point(): Point;
         /**
         * Set both components to zero.
         * @method clear
         * @return {Kiwi.Geom.Vector2} This object.
         * @public
         */
-        public clear(): Vector2;
+        clear(): Vector2;
         /**
         * Get a clone of this Vector2.
         * @method clone
@@ -16044,7 +16373,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Vector2} Either a new cloned Vector2 or the output vector with cloned components.
         * @public
         */
-        public clone(output?: Vector2): Vector2;
+        clone(output?: Vector2): Vector2;
         /**
         * Copy components from another Vector2.
         * @method copyFrom
@@ -16052,7 +16381,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Vector2} This object.
         * @public
         */
-        public copyFrom(source: Vector2): Vector2;
+        copyFrom(source: Vector2): Vector2;
         /**
         * Copy components to another Vector2.
         * @method copyTo
@@ -16060,7 +16389,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Vector2} The supplied Vector2.
         * @public
         */
-        public copyTo(target: Vector2): Vector2;
+        copyTo(target: Vector2): Vector2;
         /**
         * Set components on this Vector2.
         * @method setTo
@@ -16069,13 +16398,13 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Vector2} This object.
         * @public
         */
-        public setTo(x: number, y: number): Vector2;
+        setTo(x: number, y: number): Vector2;
         /**
         * Get a string representation of this object.
         * @method toString
         * @return {String} This object as a string.
         */
-        public toString(): string;
+        toString(): string;
     }
 }
 /**
@@ -16098,14 +16427,14 @@ declare module Kiwi.HUD {
     * @return HUDDisplay
     */
     class HUDDisplay {
-        constructor(game: Game, name: string);
+        constructor(game: Kiwi.Game, name: string);
         /**
         * Returns the type of object that this is.
         * @method objType
         * @return {String} "HUDDisplay"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The type of device that is being targeted for the game. This is the same as games deviceTargetOption
         * Needed as the type of device will detiremine how the items will be added to game or whether it will even work.
@@ -16128,14 +16457,14 @@ declare module Kiwi.HUD {
         * @type HTMLDivElement
         * @public
         */
-        public container: HTMLDivElement;
+        container: HTMLDivElement;
         /**
         * The name of this HUD Display.
         * @property name
         * @type String
         * @public
         */
-        public name: string;
+        name: string;
         /**
         * The game that this HUD Display is on.
         * @property _game
@@ -16158,7 +16487,7 @@ declare module Kiwi.HUD {
         * @return {Boolean} If it was successful or not.
         * @public
         */
-        public addWidget(widget: HUDWidget): boolean;
+        addWidget(widget: Kiwi.HUD.HUDWidget): boolean;
         /**
         * Removes a singular widget from the display. Returns a boolean as an indication of if anything happened or not.
         *
@@ -16167,13 +16496,13 @@ declare module Kiwi.HUD {
         * @return {boolean} If it was successful or not.
         * @public
         */
-        public removeWidget(widget: HUDWidget): boolean;
+        removeWidget(widget: Kiwi.HUD.HUDWidget): boolean;
         /**
         * Removes all of the widgets on this display.
         * @method removeAllWidgets
         * @public
         */
-        public removeAllWidgets(): void;
+        removeAllWidgets(): void;
         /**
         * Removes a widget from on the HUDDisplay.
         * @method removeFromContainer
@@ -16186,26 +16515,26 @@ declare module Kiwi.HUD {
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * Shows displays the HUD Display on screen.
         * @method show
         * @public
         */
-        public show(): void;
+        show(): void;
         /**
         * Hides the current HUD Display from the screen.
         * @method hide
         * @public
         */
-        public hide(): void;
+        hide(): void;
         /**
         * The class name that the container element that this HUDWidget current has.
         * @property class
         * @type {String}
         * @public
         */
-        public class : string;
+        class: string;
     }
 }
 /**
@@ -16232,7 +16561,7 @@ declare module Kiwi.HUD {
     * @return {Kiwi.HUD.HUDManager}
     */
     class HUDManager {
-        constructor(game: Game);
+        constructor(game: Kiwi.Game);
         /**
         * The game that this HUDManager belongs to.
         * @property _game
@@ -16261,7 +16590,7 @@ declare module Kiwi.HUD {
         * @type boolean
         * @public
         */
-        public supported : boolean;
+        supported: boolean;
         /**
         * The HTMLDivElement that is being used as the container for the whole manager.
         * @property _hudContainer
@@ -16274,14 +16603,14 @@ declare module Kiwi.HUD {
         * @method boot
         * @public
         */
-        public boot(): void;
+        boot(): void;
         /**
         * Returns the type of object this is.
         * @method objType
         * @return {String} "HUDManager"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * An array containing all of the HUDDisplays that are currently active on this HUDManager.
         * @property _huds
@@ -16312,28 +16641,28 @@ declare module Kiwi.HUD {
         * @type Kiwi.HUD.HUDDisplay
         * @public
         */
-        public defaultHUD : HUDDisplay;
+        defaultHUD: Kiwi.HUD.HUDDisplay;
         /**
         * Changes the currentHUD that is being displayed to one that is passed.
         * @method setHUD
         * @param hud {Kiwi.HUD.HUDDisplay} The HUD you want to display.
         * @public
         */
-        public setHUD(hud: HUDDisplay): void;
+        setHUD(hud: Kiwi.HUD.HUDDisplay): void;
         /**
         * Shows the currentHUD (if nothing is passed) or shows a HUDDisplay that is passed.
         * @method showHUD
         * @param [hud=currentHUD] {Kiwi.HUD.HUDDisplay} The HUDDisplay you want to show. Defaults to the currentHUD if nothing is passed.
         * @public
         */
-        public showHUD(hud?: HUDDisplay): void;
+        showHUD(hud?: Kiwi.HUD.HUDDisplay): void;
         /**
         * Hides the currentHUD (if nothing is passed) or shows a HUDDisplay that is passed.
         * @method hideHUD
         * @param [hud=currentHUD] {Kiwi.HUD.HUDDisplay} The HUDDisplay you want to hude. Defaults to the currentHUD if nothing is passed.
         * @public
         */
-        public hideHUD(hud?: HUDDisplay): void;
+        hideHUD(hud?: Kiwi.HUD.HUDDisplay): void;
         /**
         * Creates a new HUDDisplay on this HUDManager.
         *
@@ -16343,7 +16672,7 @@ declare module Kiwi.HUD {
         * @return {Kiwi.HUD.HUDDisplay} The HUDDisplay that was created.
         * @public
         */
-        public createHUD(name: string, switchTo?: boolean): HUDDisplay;
+        createHUD(name: string, switchTo?: boolean): Kiwi.HUD.HUDDisplay;
         /**
         * Removes a HUDDisplay off this manager. Returns a boolean indicating whether or not this method was a success.
         *
@@ -16352,7 +16681,7 @@ declare module Kiwi.HUD {
         * @returns {boolean} If this method succeeded or not.
         * @public
         */
-        public removeHUD(hud: HUDDisplay): boolean;
+        removeHUD(hud: Kiwi.HUD.HUDDisplay): boolean;
         /**
         * Adds a HUDDisplays HTMLDivElement to this HUDManagers container element.
         * @method addToContainer
@@ -16372,7 +16701,7 @@ declare module Kiwi.HUD {
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
     }
 }
 /**
@@ -16395,14 +16724,14 @@ declare module Kiwi.HUD {
     * @return {Kiwi.HUD.HUDWidget}
     */
     class HUDWidget {
-        constructor(game: Game, name: string, x: number, y: number);
+        constructor(game: Kiwi.Game, name: string, x: number, y: number);
         /**
         * Returns the type of object that this is.
         * @method objType
         * @return {String} "HUDWidget"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The HUDManager that this widget 'belongs' to.
         * This is mainly indented for INTERNAL Kiwi use only and is public so that sub classes can have a reference to it.
@@ -16410,7 +16739,7 @@ declare module Kiwi.HUD {
         * @type Kiwi.HUD.HUDManager
         * @protected
         */
-        public _manager: HUDManager;
+        _manager: Kiwi.HUD.HUDManager;
         /**
         * The type of device that this game is being targeted at. Same as the deviceTargetOption on the game class.
         * Used to detirmine how the HUD is to be managed behind the scenes.
@@ -16419,28 +16748,28 @@ declare module Kiwi.HUD {
         * @type _device
         * @protected
         */
-        public _device: number;
+        _device: number;
         /**
         * The game that this HUDWidget belongs to.
         * @property game
         * @type Kiwi.Game
         * @public
         */
-        public game: Game;
+        game: Kiwi.Game;
         /**
         * A quick way to reference the style object that exists on the container element of this widget.
         * @property style
         * @type any
         * @public
         */
-        public style : any;
+        style: any;
         /**
         * Called when the coordinates of the HUD Widget updates.
         * @property onCoordsUpdate
         * @type Kiwi.Signal
         * @public
         */
-        public onCoordsUpdate: Signal;
+        onCoordsUpdate: Kiwi.Signal;
         /**
         * The x coordinate of the widget
         * @property _x
@@ -16454,7 +16783,7 @@ declare module Kiwi.HUD {
         * @type number
         * @public
         */
-        public x : number;
+        x: number;
         /**
         * The y coordinate of the widget
         * @property _y
@@ -16468,28 +16797,28 @@ declare module Kiwi.HUD {
         * @type number
         * @public
         */
-        public y : number;
+        y: number;
         /**
         * The list of components that the HUDWidget use's.
         * @property components
         * @type Kiwi.ComponentManager
         * @public
         */
-        public components: ComponentManager;
+        components: Kiwi.ComponentManager;
         /**
         * The HTMLDivElement that this widget is using.
         * @property
         * @type HTMLDivElement
         * @public
         */
-        public container: HTMLDivElement;
+        container: HTMLDivElement;
         /**
         * The name of the widget which is used to identify the type of widget.
         * @property
         * @type string
         * @public
         */
-        public name: string;
+        name: string;
         /**
         * When a template has been set, this property will have a reference to the HTMLElement we can place the HUDWidget information into.
         * Currently doesn't have that great support.
@@ -16497,7 +16826,7 @@ declare module Kiwi.HUD {
         * @type HTMLElement
         * @public
         */
-        public tempElement: HTMLElement;
+        tempElement: HTMLElement;
         /**
         * The parent of the template container. So that when removing a template we can place it in the right spot
         * Currently doesn't have that great support.
@@ -16526,7 +16855,7 @@ declare module Kiwi.HUD {
         * @param [element] {string} element - ID of an HTMLElement that resides inside of the main param. This is the element that the HUDWidget can use to populate with information. E.g. Your score, health remaining, the icon, e.t.c.
         * @public
         */
-        public setTemplate(main: string, element?: string, ...paramsArr: any[]): void;
+        setTemplate(main: string, element?: string, ...paramsArr: any[]): void;
         /**
         * Used to remove any the template HTML from this HUDWidget.
         * Currently doesn't have that great support.
@@ -16534,26 +16863,26 @@ declare module Kiwi.HUD {
         * @method removeTemplate
         * @public
         */
-        public removeTemplate(): void;
+        removeTemplate(): void;
         /**
         * The class name/s that the container element that this HUDWidget current has.
         * @property class
         * @type {String}
         * @public
         */
-        public class : string;
+        class: string;
         /**
         * The game update loop.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         *
         * @method destroy
         * @public
         */
-        public destroy(): void;
+        destroy(): void;
     }
 }
 /**
@@ -16580,15 +16909,15 @@ declare module Kiwi.HUD.Widget {
     * @param y {number} The y coordinates
     * @return {Kiwi.HUD.Widget.TextField}
     */
-    class TextField extends HUDWidget {
-        constructor(game: Game, text: string, x: number, y: number);
+    class TextField extends Kiwi.HUD.HUDWidget {
+        constructor(game: Kiwi.Game, text: string, x: number, y: number);
         /**
         * Returns the type of object that this is.
         * @method objType
         * @return {String} 'TextFieldWidget'
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The text current being displayed inside this textfield.
         * @property _text
@@ -16615,7 +16944,7 @@ declare module Kiwi.HUD.Widget {
         * @param icon {string} ID of an HTMLElement that resides inside of the main param. This is the element that the HUDWidget can use to populate with information. E.g. Your score, health remaining, the icon, e.t.c.
         * @public
         */
-        public setTemplate(main: string, field?: string): void;
+        setTemplate(main: string, field?: string): void;
         /**
         * Used to remove any the template HTML from this HUDWidget.
         * Currently doesn't have great support.
@@ -16623,14 +16952,14 @@ declare module Kiwi.HUD.Widget {
         * @method removeTemplate
         * @public
         */
-        public removeTemplate(): void;
+        removeTemplate(): void;
         /**
         * The text that is currently being displayed inside the textfield.
         * @property text
         * @type string
         * @public
         */
-        public text : string;
+        text: string;
         /**
         * A string that is to be added in-front of the score. Can contain HTMLElements.
         * @property _prefix
@@ -16654,7 +16983,7 @@ declare module Kiwi.HUD.Widget {
         * @default ''
         * @public
         */
-        public suffix : string;
+        suffix: string;
         /**
         * A string that is to be added in-front of the score. Can contain HTMLElements.
         * @property _prefix
@@ -16662,13 +16991,13 @@ declare module Kiwi.HUD.Widget {
         * @default ''
         * @public
         */
-        public prefix : string;
+        prefix: string;
         /**
         * This method is intended to be overriden by subclasses which functions update the text being displayed.
         * @method _updateText
         * @protected
         */
-        public _updateText(): void;
+        _updateText(): void;
     }
 }
 /**
@@ -16695,15 +17024,15 @@ declare module Kiwi.HUD.Widget {
     * @param [color='#000'] {string} The default color of the inner bar. Defaults to #000 (black).
     * @return {Kiwi.HUD.Widget.Bar}
     */
-    class Bar extends HUDWidget {
-        constructor(game: Game, current: number, max: number, x: number, y: number, width?: number, height?: number, color?: string);
+    class Bar extends Kiwi.HUD.HUDWidget {
+        constructor(game: Kiwi.Game, current: number, max: number, x: number, y: number, width?: number, height?: number, color?: string);
         /**
         * Returns the type of object that this is.
         * @method objType
         * @return {String} "BarWidget"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The width of the container
         * @property _width
@@ -16717,7 +17046,7 @@ declare module Kiwi.HUD.Widget {
         * @type number
         * @public
         */
-        public width : number;
+        width: number;
         /**
         * The height of the container
         * @property _height
@@ -16731,7 +17060,7 @@ declare module Kiwi.HUD.Widget {
         * @type number
         * @public
         */
-        public height : number;
+        height: number;
         /**
         * Knows if this bar is ment to be horizontal or veritical
         * @property _horizontal
@@ -16745,7 +17074,7 @@ declare module Kiwi.HUD.Widget {
         * @type HTMLElement
         * @public
         */
-        public bar: HTMLElement;
+        bar: HTMLElement;
         /**
         * A reference to the HTMLElement that this class always generates.
         * @property _bar
@@ -16759,21 +17088,21 @@ declare module Kiwi.HUD.Widget {
         * @type Kiwi.HUD.HUDComponents.Counter
         * @public
         */
-        public counter: HUDComponents.Counter;
+        counter: Kiwi.HUD.HUDComponents.Counter;
         /**
         * Used to set the bar to be horizontal or vertical by passing a boolean.
         * @property horizontal
         * @type boolean
         * @public
         */
-        public horizontal : boolean;
+        horizontal: boolean;
         /**
         * Used to set the bar to be horizontal or vertical by passing a boolean.
         * @property verticle
         * @type boolean
         * @public
         */
-        public vertical : boolean;
+        vertical: boolean;
         /**
         * This method is used to remove existing DOM elements and place them inside a HUDWidget's container element.
         * Useful so that when making HUD Widgets the developer can style HUDWidgets without having to create/write to much javascript.
@@ -16784,7 +17113,7 @@ declare module Kiwi.HUD.Widget {
         * @param innerbar {string} ID of an HTMLElement that resides inside of the main param. This is the element that the HUDWidget can use to populate with information. E.g. Your score, health remaining, the icon, e.t.c.
         * @public
         */
-        public setTemplate(main: string, innerbar?: string): void;
+        setTemplate(main: string, innerbar?: string): void;
         /**
         * Used to remove any the template HTML from this HUDWidget.
         * Current not supported.
@@ -16792,14 +17121,14 @@ declare module Kiwi.HUD.Widget {
         * @method removeTemplate
         * @public
         */
-        public removeTemplate(): void;
+        removeTemplate(): void;
         /**
         * Will be called when the range has been updated and thus you will want to preform the render of the bar here.
         * This should be overriden by subclasses so that you have your own custom bars.
         * @method updateCSS
         * @public
         */
-        public updateCSS(): void;
+        updateCSS(): void;
     }
 }
 /**
@@ -16823,15 +17152,15 @@ declare module Kiwi.HUD.Widget {
     * @param y {Number} The coordinate of the icon on the y-axis.
     * @return {Kiwi.HUD.Widget.Icon}
     */
-    class Icon extends HUDWidget {
-        constructor(game: Game, atlas: Textures.TextureAtlas, x: number, y: number);
+    class Icon extends Kiwi.HUD.HUDWidget {
+        constructor(game: Kiwi.Game, atlas: Kiwi.Textures.TextureAtlas, x: number, y: number);
         /**
         * Holds the texture atlas that is being used
         * @property atlas
         * @type Kiwi.Textures.TextureAtlas
         * @public
         */
-        public atlas: Textures.TextureAtlas;
+        atlas: Kiwi.Textures.TextureAtlas;
         /**
         * The cell inside the texture atlas that this icon is using
         * @property _cellIndex
@@ -16847,41 +17176,41 @@ declare module Kiwi.HUD.Widget {
         * @default 0
         * @public
         */
-        public cellIndex : number;
+        cellIndex: number;
         /**
         * Returns the width of the cell that is being used.
         * @property width
         * @type number
         * @public
         */
-        public width : number;
+        width: number;
         /**
         * Returns the height of the cell that is being used.
         * @property height
         * @type number
         * @public
         */
-        public height : number;
+        height: number;
         /**
         * Is a reference to the element that the icon CSS is being applyed to.
         * @property icon
         * @type HTMLElement
         * @public
         */
-        public icon: HTMLElement;
+        icon: HTMLElement;
         /**
         * Removes the CSS from the Icon.
         * This can happen when setting/removing a template and is public to allow for overriding from subclasses.
         * @method _removeCSS
         * @protected
         */
-        public _removeCSS(): void;
+        _removeCSS(): void;
         /**
         * Applys the css to the HTMLElement that is to be affected.
         * @method _applyCSS
         * @protected
         */
-        public _applyCSS(): void;
+        _applyCSS(): void;
         /**
         * This method is used to remove existing DOM elements and place them inside a HUDWidget's container element.
         * Useful so that when making HUD Widgets the developer can style HUDWidgets without having to create/write to much javascript.
@@ -16892,14 +17221,14 @@ declare module Kiwi.HUD.Widget {
         * @param icon {string} icon - ID of an HTMLElement that resides inside of the main param. This is the element that the HUDWidget can use to populate with information. E.g. Your score, health remaining, the icon, e.t.c.
         * @public
         */
-        public setTemplate(main: string, icon?: string): void;
+        setTemplate(main: string, icon?: string): void;
         /**
         * Used to remove any the template HTML from this HUDWidget.
         *
         * @method removeTemplate
         * @public
         */
-        public removeTemplate(): void;
+        removeTemplate(): void;
     }
 }
 /**
@@ -16925,15 +17254,15 @@ declare module Kiwi.HUD.Widget {
     * @param y {number} The y coordinates of the last icon.
     * @return {Kiwi.HUD.Widget.IconBar}
     */
-    class IconBar extends HUDWidget {
-        constructor(game: Game, atlas: Textures.TextureAtlas, current: number, max: number, x: number, y: number);
+    class IconBar extends Kiwi.HUD.HUDWidget {
+        constructor(game: Kiwi.Game, atlas: Kiwi.Textures.TextureAtlas, current: number, max: number, x: number, y: number);
         /**
         * The type of object that this is.
         * @method objType
         * @return {String} "IconBarWidget"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The amount of spacing you want between each icon in the bar. Defaults to 0.
         * @property iconGap
@@ -16941,14 +17270,14 @@ declare module Kiwi.HUD.Widget {
         * @default 0
         * @public
         */
-        public iconGap: number;
+        iconGap: number;
         /**
         * The texture atlas that each Icon inside the IconBar will use.
         * @property atlas
         * @type Kiwi.Textures.TextureAtlas
         * @public
         */
-        public atlas: Textures.TextureAtlas;
+        atlas: Kiwi.Textures.TextureAtlas;
         /**
         * The width of a single Icon in the bar. This is based on the width of the first cell in the atlas.
         * @property width
@@ -16977,7 +17306,7 @@ declare module Kiwi.HUD.Widget {
         * @type Kiwi.HUD.HUDComponents.Counter
         * @public
         */
-        public counter: HUDComponents.Counter;
+        counter: Kiwi.HUD.HUDComponents.Counter;
         /**
         * An array of all of the icons on the screen. Each item in the array is of the type Kiwi.HUD.Widget.Icon
         * @property icons
@@ -17011,7 +17340,7 @@ declare module Kiwi.HUD.Widget {
         * @default true
         * @public
         */
-        public horizontal : boolean;
+        horizontal: boolean;
         /**
         * Used to set the bar to be horizontal or vertical by passing a boolean.
         * @property vertical
@@ -17019,7 +17348,7 @@ declare module Kiwi.HUD.Widget {
         * @default false
         * @public
         */
-        public vertical : boolean;
+        vertical: boolean;
     }
 }
 /**
@@ -17041,28 +17370,28 @@ declare module Kiwi.HUD.Widget {
     * @param [initial=0] {number} The initial score to start off at.
     * @return {Kiwi.HUD.Widget.BasicScore}
     */
-    class BasicScore extends TextField {
-        constructor(game: Game, x: number, y: number, initial?: number);
+    class BasicScore extends Kiwi.HUD.Widget.TextField {
+        constructor(game: Kiwi.Game, x: number, y: number, initial?: number);
         /**
         * Returns the type of object that this is.
         * @method objType
         * @return {String} "BasicScoreWidget"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * Holds a reference to the counter component.
         * @property counter
         * @type Kiwi.HUD.HUDComponents.Counter
         * @public
         */
-        public counter: HUDComponents.Counter;
+        counter: Kiwi.HUD.HUDComponents.Counter;
         /**
         * Updates the text inside the textfield.
         * @method _updateText
         * @private
         */
-        public _updateText(): void;
+        _updateText(): void;
     }
 }
 /**
@@ -17085,24 +17414,29 @@ declare module Kiwi.HUD.Widget {
     * @param y {number} The y-coordinates of this Widget.
     * @return {Kiwi.HUD.Widget.Button}
     */
-    class Button extends TextField {
-        constructor(game: Game, text: string, x: number, y: number);
+    class Button extends Kiwi.HUD.Widget.TextField {
+        constructor(game: Kiwi.Game, text: string, x: number, y: number);
         /**
         * The type of object that this is.
         * @method objType
         * @return {String} "ButtonWidget"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The WidgetInput component that handles the management of events for this button.
         * @property input
         * @type Kiwi.HUD.HUDComponents.WidgetInput
         * @public
         */
-        public input: HUDComponents.WidgetInput;
+        input: Kiwi.HUD.HUDComponents.WidgetInput;
     }
 }
+/**
+*
+* @module HUD
+* @submodule Widget
+*/
 declare module Kiwi.HUD.Widget {
     /**
     * A subclass of TextField which manages the displaying of a Time/Timer by creating a new clock on the Time Manager.
@@ -17118,8 +17452,8 @@ declare module Kiwi.HUD.Widget {
     * @param y {number} The position of this text on the field.
     * @return {Kiwi.HUD.Widget.Time}
     */
-    class Time extends TextField {
-        constructor(game: Game, format: string, x: number, y: number);
+    class Time extends Kiwi.HUD.Widget.TextField {
+        constructor(game: Kiwi.Game, format: string, x: number, y: number);
         /**
         * Holds the time component which manages the counting/formating of the time.
         *
@@ -17127,44 +17461,44 @@ declare module Kiwi.HUD.Widget {
         * @type Kiwi.HUD.HUDComponents.Time
         * @public
         */
-        public time: HUDComponents.Time;
+        time: Kiwi.HUD.HUDComponents.Time;
         /**
         * The type of object that this is.
         * @method objType
         * @return {String} 'TimeWidget'
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * Pauses the clock where is stands. Calls the pause method on the clock.
         * @method pause
         * @public
         */
-        public pause(): void;
+        pause(): void;
         /**
         * Stops the clock and thus the time. Calls the stop method of the clock.
         * @method stop
         * @public
         */
-        public stop(): void;
+        stop(): void;
         /**
         * Starts the clock and thus the time.
         * @method start
         * @public
         */
-        public start(): void;
+        start(): void;
         /**
         * Resumes the clock and thus the time.
         * @method resume
         * @public
         */
-        public resume(): void;
+        resume(): void;
         /**
         * The update loop.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
     }
 }
 /**
@@ -17186,15 +17520,15 @@ declare module Kiwi.HUD.Widget {
     * @param y {number} Its position on the y -axis.
     * @return {Kiwi.HUD.Widget.Menu}
     */
-    class Menu extends HUDWidget {
-        constructor(game: Game, x: number, y: number);
+    class Menu extends Kiwi.HUD.HUDWidget {
+        constructor(game: Kiwi.Game, x: number, y: number);
         /**
         * The type of object that this is.
         * @method objType
         * @return {string} "MenuWidget"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * Contains a list of all of the menu items that are currently on this menu. Each item in the list is of the type Kiwi.HUD.Widget.MenuItem.
         * @property _menuItems
@@ -17209,7 +17543,7 @@ declare module Kiwi.HUD.Widget {
         * @param value {string}
         * @public
         */
-        public setIconStyle(index: string, value: string): void;
+        setIconStyle(index: string, value: string): void;
         /**
         * An array containing all of the styles that are/will be applyed to each MenuIcon.
         * @property _styles
@@ -17225,7 +17559,7 @@ declare module Kiwi.HUD.Widget {
         * @type Array
         * @public
         */
-        public menuItems : MenuItem[];
+        menuItems: Kiwi.HUD.Widget.MenuItem[];
         /**
         * Creates a new menu item and add's it to this menu.
         * @method createMenuItem
@@ -17235,7 +17569,7 @@ declare module Kiwi.HUD.Widget {
         * @return {Kiwi.HUD.Widget.MenuItem} The newly created MenuItem.
         * @public
         */
-        public createMenuItem(text: string, x: number, y: number): MenuItem;
+        createMenuItem(text: string, x: number, y: number): Kiwi.HUD.Widget.MenuItem;
         /**
         * Adds a MenuItem to this menu.
         * @method addMenuItem
@@ -17243,14 +17577,14 @@ declare module Kiwi.HUD.Widget {
         * @return {Kiwi.HUD.Widget.MenuItem}
         * @public
         */
-        public addMenuItem(item: MenuItem): MenuItem;
+        addMenuItem(item: Kiwi.HUD.Widget.MenuItem): Kiwi.HUD.Widget.MenuItem;
         /**
         * Adds multiple MenuItems to this Menu. Each item in the array you would like to add needs to be of the type Kiwi.HUD.Widget.MenuItem.
         * @method addMenuItems
         * @param items {Array} The array containing all of the menu items you want to add.
         * @public
         */
-        public addMenuItems(items: MenuItem[]): void;
+        addMenuItems(items: Kiwi.HUD.Widget.MenuItem[]): void;
         /**
         * Returns a MenuItem based on its corresponding numeric position that you pass in the array.
         * @method getMenuItem
@@ -17258,7 +17592,7 @@ declare module Kiwi.HUD.Widget {
         * @return {Kiwi.HUD.Widget.MenuItem}
         * @public
         */
-        public getMenuItem(val: number): MenuItem;
+        getMenuItem(val: number): Kiwi.HUD.Widget.MenuItem;
         /**
         * Currently not supported or working.
         * @method setTemplate
@@ -17266,19 +17600,19 @@ declare module Kiwi.HUD.Widget {
         * @param [sub] {string}
         * @public
         */
-        public setTemplate(main: string, sub?: string): void;
+        setTemplate(main: string, sub?: string): void;
         /**
         * Currently not supported or working.
         * @method removeTemplate
         * @public
         */
-        public removeTemplate(): void;
+        removeTemplate(): void;
         /**
         * The update loop.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
     }
 }
 /**
@@ -17300,22 +17634,22 @@ declare module Kiwi.HUD.Widget {
     * @param y {number} The position of this menu item on the y-axis.
     * @return {Kiwi.HUD.Widget.MenuItem}
     */
-    class MenuItem extends Button {
-        constructor(game: Game, text: string, x: number, y: number);
+    class MenuItem extends Kiwi.HUD.Widget.Button {
+        constructor(game: Kiwi.Game, text: string, x: number, y: number);
         /**
         * The type of object that this is.
         * @method objType
         * @return {string} "MenuItem"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The Menu that this belongs to.
         * @property menu
         * @type Kiwi.HUD.Widget.Menu
         * @public
         */
-        public menu: Menu;
+        menu: Kiwi.HUD.Widget.Menu;
     }
 }
 /**
@@ -17340,7 +17674,7 @@ declare module Kiwi.HUD.HUDComponents {
     * @param [min=null] {number} The minimum value that the current can be. Default is null which means no minium.
     * @return {Kiwi.HUD.HUDComponents.Counter}
     */
-    class Counter extends Component {
+    class Counter extends Kiwi.Component {
         constructor(owner: any, current: number, max?: number, min?: number);
         /**
         * The type of object that this is.
@@ -17348,7 +17682,7 @@ declare module Kiwi.HUD.HUDComponents {
         * @return {String} 'CounterComponent'
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The current value of the range.
         * @property _current
@@ -17377,7 +17711,7 @@ declare module Kiwi.HUD.HUDComponents {
         * @type Kiwi.Signal
         * @public
         */
-        public updated: Signal;
+        updated: Kiwi.Signal;
         /**
         * Set allows setting of the maximum value that the range can be in.
         * Get returns the maximum value.
@@ -17386,7 +17720,7 @@ declare module Kiwi.HUD.HUDComponents {
         * @type number
         * @public
         */
-        public max : number;
+        max: number;
         /**
         * Set allows setting of the minimum value that the range can be in.
         * Get returns the minimum value.
@@ -17395,7 +17729,7 @@ declare module Kiwi.HUD.HUDComponents {
         * @type number
         * @public
         */
-        public min : number;
+        min: number;
         /**
         * Set allows setting of the current value that the range can be in.
         * The current value will only change if it is within the maximum/minimum values.
@@ -17405,7 +17739,7 @@ declare module Kiwi.HUD.HUDComponents {
         * @type number
         * @public
         */
-        public current : number;
+        current: number;
         /**
         * Decreases the current value by the amount past.
         * If the new amount would be less than the minimun it goes to the min instead.
@@ -17415,7 +17749,7 @@ declare module Kiwi.HUD.HUDComponents {
         * @return {number}
         * @public
         */
-        public decrease(val?: number): number;
+        decrease(val?: number): number;
         /**
         * Increases the current value by the amount past.
         * If the new amount would be greater than the maximum it goes to the max instead.
@@ -17425,13 +17759,13 @@ declare module Kiwi.HUD.HUDComponents {
         * @return {number}
         * @public
         */
-        public increase(val?: number): number;
+        increase(val?: number): number;
         /**
         * @method currentPercent
         * @return {number}
         * @public
         */
-        public currentPercent(): number;
+        currentPercent(): number;
     }
 }
 /**
@@ -17461,35 +17795,35 @@ declare module Kiwi.HUD.HUDComponents {
         * @return {String} 'WidgetInputComponent'
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * A Signal that dispatches events when the user releases the mouse on top of the HTMLElement.
         * @property onUp
         * @type Kiwi.Signal
         * @public
         */
-        public onUp: Signal;
+        onUp: Kiwi.Signal;
         /**
         * A Signal that dispatches events when the user presses the mouse on top of the HTMLElement.
         * @property onDown
         * @type Kiwi.Signal
         * @public
         */
-        public onDown: Signal;
+        onDown: Kiwi.Signal;
         /**
         * A Signal that dispatches events when the user's mouse initially goes over the top of the HTMLElement.
         * @property onOver
         * @type Kiwi.Signal
         * @public
         */
-        public onOver: Signal;
+        onOver: Kiwi.Signal;
         /**
         * A Signal that dispatches events when the user's mouse leaves the HTMLElement.
         * @property onOut
         * @type Kiwi.Signal
         * @public
         */
-        public onOut: Signal;
+        onOut: Kiwi.Signal;
         /**
         * The HTMLElement that the events are going to occur on.
         * @property _container
@@ -17504,7 +17838,7 @@ declare module Kiwi.HUD.HUDComponents {
         * @param container {HTMLElement} The new element that the events are going to occur on.
         * @public
         */
-        public setElement(container: HTMLElement): void;
+        setElement(container: HTMLElement): void;
         /**
         * Creates new bindings and adds the events to the HTMLElement.
         * @method _addEvents
@@ -17562,10 +17896,10 @@ declare module Kiwi.HUD.HUDComponents {
     }
 }
 /**
-*
-* @module HUD
-* @submodule HUDComponents
-*
+ *
+ * @module HUD
+ * @submodule HUDComponents
+ *
 */
 declare module Kiwi.HUD.HUDComponents {
     /**
@@ -17587,7 +17921,7 @@ declare module Kiwi.HUD.HUDComponents {
     * @param [format=''] {string} The format that the time is to be displayed in. Leave blank for the default time.
     * @return {Kiwi.HUD.HUDComponents.Counter}
     */
-    class Time extends Component {
+    class Time extends Kiwi.Component {
         constructor(owner: any, format?: string);
         /**
         * The type of object that this is.
@@ -17595,45 +17929,45 @@ declare module Kiwi.HUD.HUDComponents {
         * @return {String} 'TimeComponent'
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The clock that this component creates and uses to manage the current time.
         * @property clock
         * @type Kiwi.Time.Clock
         * @private
         */
-        public clock: Time.Clock;
+        clock: Kiwi.Time.Clock;
         /**
         * Indicates whether or not the clock is currently running or not, and thus whether or not the time is playing or not.
         * @property isRunning
         * @type boolean
         * @public
         */
-        public isRunning : boolean;
+        isRunning: boolean;
         /**
         * Pauses the clock where is stands. Calls the pause method on the clock.
         * @method pause
         * @public
         */
-        public pause(): void;
+        pause(): void;
         /**
         * Stops the clock and thus the time. Calls the stop method of the clock.
         * @method stop
         * @public
         */
-        public stop(): void;
+        stop(): void;
         /**
         * Starts the clock and thus the time.
         * @method start
         * @public
         */
-        public start(): void;
+        start(): void;
         /**
         * Resumes the clock and thus the time.
         * @method resume
         * @public
         */
-        public resume(): void;
+        resume(): void;
         /**
         * The format that they want the time to be displayed.
         * @property _format
@@ -17647,7 +17981,7 @@ declare module Kiwi.HUD.HUDComponents {
         * @type string
         * @public
         */
-        public format : string;
+        format: string;
         /**
         * If the clock should 'count down' instead of up.
         * @property countDown
@@ -17655,7 +17989,7 @@ declare module Kiwi.HUD.HUDComponents {
         * @default false
         * @public
         */
-        public countDown: boolean;
+        countDown: boolean;
         /**
         * Used during the formatting stage of displaying the time.
         * @property _displayString
@@ -17676,7 +18010,7 @@ declare module Kiwi.HUD.HUDComponents {
         * @type number
         * @public
         */
-        public currentTime : number;
+        currentTime: number;
         /**
         * The last time that the timer update. Used to calculate the time delta.
         * @property _timeBefore
@@ -17692,7 +18026,7 @@ declare module Kiwi.HUD.HUDComponents {
         * @param [minutes=0] {number} The number of minutes to add.
         * @public
         */
-        public setTime(milli: number, sec?: number, minutes?: number): void;
+        setTime(milli: number, sec?: number, minutes?: number): void;
         /**
         * Increases the current time by the amount passed.
         * @method addTime
@@ -17701,7 +18035,7 @@ declare module Kiwi.HUD.HUDComponents {
         * @param [minutes=0] {number} The number of minutes to add.
         * @public
         */
-        public addTime(milli: number, sec?: number, minutes?: number): void;
+        addTime(milli: number, sec?: number, minutes?: number): void;
         /**
         * Decreases the current time by the amount passed.
         * @method removeTime
@@ -17710,7 +18044,7 @@ declare module Kiwi.HUD.HUDComponents {
         * @param [minutes=0] {number} The number of minutes to add.
         * @public
         */
-        public removeTime(milli: number, sec?: number, minutes?: number): void;
+        removeTime(milli: number, sec?: number, minutes?: number): void;
         /**
         * The speed at which the time will increase/decrease by.
         * Modify this property to make the time count down slower/faster.
@@ -17719,7 +18053,7 @@ declare module Kiwi.HUD.HUDComponents {
         * @default 1
         * @private
         */
-        public speed: number;
+        speed: number;
         /**
         * Returns a string with the current time that this component is upto in the format that was passed.
         *
@@ -17727,7 +18061,7 @@ declare module Kiwi.HUD.HUDComponents {
         * @return string
         * @public
         */
-        public getTime(): string;
+        getTime(): string;
     }
 }
 /**
@@ -17737,7 +18071,7 @@ declare module Kiwi.HUD.HUDComponents {
 * @submodule Sound
 * @main Sound
 *
-*/ 
+*/
 declare module Kiwi.Sound {
     /**
     * Manages the initialisation of assets necessary when dealing with audio in the game, either through Audio Tags or the Web Audio API.
@@ -17750,14 +18084,14 @@ declare module Kiwi.Sound {
     * @return {Kiwi.Sound.AudioManager}
     */
     class AudioManager {
-        constructor(game: Game);
+        constructor(game: Kiwi.Game);
         /**
         * The type of object that this is.
         * @method objType
         * @return {String} "AudioManager"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The game that this manager belongs to.
         * @property _game
@@ -17795,7 +18129,7 @@ declare module Kiwi.Sound {
         * @type number
         * @public
         */
-        public channels: number;
+        channels: number;
         /**
         * If the current game has audio support or not.
         * Useful because audio support is spotty in mobile browsers.
@@ -17803,35 +18137,35 @@ declare module Kiwi.Sound {
         * @type boolean
         * @public
         */
-        public noAudio: boolean;
+        noAudio: boolean;
         /**
         * If the game is currently using the Web Audio API for the sound.
         * @property usingWebAudio
         * @type boolean
         * @public
         */
-        public usingWebAudio: boolean;
+        usingWebAudio: boolean;
         /**
         * If the game is using audio tags for the sound. This is the fallback if the web audio api is not supported.
         * @property usingAudioTag
         * @type boolean
         * @public
         */
-        public usingAudioTag: boolean;
+        usingAudioTag: boolean;
         /**
         * Web Audio API ONLY - The audio context that is used for decoding audio, e.t.c.
         * @property context
         * @type any
         * @public
         */
-        public context: any;
+        context: any;
         /**
         * Web Audio API ONLY - The master gain node through which all sounds play.
         * @property masterGain
         * @type any
         * @public
         */
-        public masterGain: any;
+        masterGain: any;
         /**
         * The volume of the audio before it was muted. This is used so that when the audio is unmuted the volume will resume at this point.
         * @property _muteVolume
@@ -17854,14 +18188,14 @@ declare module Kiwi.Sound {
         * @type boolean
         * @public
         */
-        public locked : boolean;
+        locked: boolean;
         /**
         * The boot method is executed when all of the DOM elements needed for the game are loaded and the game is ready to 'start' up.
         *
         * @method boot
         * @public
         */
-        public boot(): void;
+        boot(): void;
         /**
         * Is executed when a mouse event is fired on the device. This is used to enabled playback of sounds on the current device if they were awaiting for a user event.
         * @method _unlocked
@@ -17877,7 +18211,7 @@ declare module Kiwi.Sound {
         * @default false
         * @public
         */
-        public mute : boolean;
+        mute: boolean;
         /**
         * Global setting and getting of the volume.
         * A number between 0 (silence) and 1 (full volume).
@@ -17887,7 +18221,7 @@ declare module Kiwi.Sound {
         * @default 1
         * @public
         */
-        public volume : number;
+        volume: number;
         /**
         * Indicates whether or not an Audio Object is registered with this Audio Manager or not. For Kiwi Internal use only.
         * @method isRegistered
@@ -17895,7 +18229,7 @@ declare module Kiwi.Sound {
         * @return {Boolean} If the piece of audio is registered or not.
         * @public
         */
-        public isRegistered(sound: Audio): boolean;
+        isRegistered(sound: Kiwi.Sound.Audio): boolean;
         /**
         * Registers an Audio Object with this audio manager. Also assign's the audio piece a unique ID to identify it by. Internal Kiwi use only.
         * @method registerSound
@@ -17903,7 +18237,7 @@ declare module Kiwi.Sound {
         * @return { Boolean } Indication of if the sound was successfully added or not.
         * @public
         */
-        public registerSound(sound: Audio): boolean;
+        registerSound(sound: Kiwi.Sound.Audio): boolean;
         /**
         * Used to create a new sound on the audio manager. Returns the newly created sound.
         *
@@ -17914,7 +18248,7 @@ declare module Kiwi.Sound {
         * @return {Kiwi.Sound.Audio}
         * @public
         */
-        public add(key: string, volume?: number, loop?: boolean): Audio;
+        add(key: string, volume?: number, loop?: boolean): Kiwi.Sound.Audio;
         /**
         * Removes the passed sound from the AudioManager.
         * If you remove a Audio Object from the AudioManager, then that Audio Object will not have a update loop.
@@ -17924,37 +18258,37 @@ declare module Kiwi.Sound {
         * @param [destory=true] If the Audio Object should be removed or not.
         * @public
         */
-        public remove(sound: Audio, destroy?: boolean): void;
+        remove(sound: Kiwi.Sound.Audio, destroy?: boolean): void;
         /**
         * Plays all of the sounds listed in the AudioManager.
         * @method playAll
         * @public
         */
-        public playAll(): void;
+        playAll(): void;
         /**
         * Stops all of the sounds that are listed in the AudioManager from playing.
         * @method stopAll
         * @public
         */
-        public stopAll(): void;
+        stopAll(): void;
         /**
         * Pauses all of the sounds listed in the AudioManager.
         * @method pauseAll
         * @public
         */
-        public pauseAll(): void;
+        pauseAll(): void;
         /**
         * Resumes all of the sounds listed in the AudioManager.
         * @method resumeAll
         * @public
         */
-        public resumeAll(): void;
+        resumeAll(): void;
         /**
         * The update loop that is executed every frame.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
     }
 }
 /**
@@ -17962,7 +18296,7 @@ declare module Kiwi.Sound {
 * @module Kiwi
 * @submodule Sound
 *
-*/ 
+*/
 declare module Kiwi.Sound {
     /**
     * The Audio Object contains the functionality for playing a singular sound in a Kiwi Game.
@@ -17980,14 +18314,14 @@ declare module Kiwi.Sound {
     *
     */
     class Audio {
-        constructor(game: Game, key: string, volume: number, loop: boolean);
+        constructor(game: Kiwi.Game, key: string, volume: number, loop: boolean);
         /**
         * A unique ID that this audio gets assigned by the audio manager it belongs to when it is created.
         * @property id
         * @type number
         * @public
         */
-        public id: string;
+        id: string;
         /**
         * A flag that indicates whether the sound is ready to be played or not.
         * If not then this indicates that we are awaiting a user event.
@@ -18004,14 +18338,14 @@ declare module Kiwi.Sound {
         * @type boolean
         * @private
         */
-        public playable : boolean;
+        playable: boolean;
         /**
         * The type of object that this is.
         * @method objType
         * @return {String} "Audio"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The game that this sound belongs to.
         * @property _game
@@ -18025,21 +18359,21 @@ declare module Kiwi.Sound {
         * @type Any
         * @public
         */
-        public context: any;
+        context: any;
         /**
         * Web Audio API ONLY - A reference to the master gain node on the audio manager.
         * @property masterGainNode
         * @type Any
         * @public
         */
-        public masterGainNode: any;
+        masterGainNode: any;
         /**
         * Web Audio API ONLY - This sounds local gainNode that it uses.
         * @property gainNode
         * @type Any
         * @public
         */
-        public gainNode: any;
+        gainNode: any;
         /**
         * A boolean indicating whether or not that audio tags are being used to generate sounds.
         * @property _usingAudioTag
@@ -18084,14 +18418,14 @@ declare module Kiwi.Sound {
         * @type Boolean
         * @public
         */
-        public loop : boolean;
+        loop: boolean;
         /**
         * The key that was used to get the audio from the AudioLibrary.
         * @property key
         * @type string
         * @public
         */
-        public key: string;
+        key: string;
         /**
         * The property containing the file information about the audio.
         * @property _file
@@ -18115,21 +18449,21 @@ declare module Kiwi.Sound {
         * @type boolean
         * @public
         */
-        public ready: boolean;
+        ready: boolean;
         /**
         * The total duration of the audio in seconds.
         * @property totalDuration
         * @type number
         * @public
         */
-        public totalDuration: number;
+        totalDuration: number;
         /**
         * The current duration of the section of audio that is being played. In milliseconds.
         * @property duration
         * @type number
         * @public
         */
-        public duration: number;
+        duration: number;
         /**
         * Web Audio API ONLY - The audio buffer that is to be used when playing audio segments.
         * @property _buffer
@@ -18159,7 +18493,7 @@ declare module Kiwi.Sound {
         * @default false
         * @public
         */
-        public isPlaying: boolean;
+        isPlaying: boolean;
         /**
         * A indicator of if the sound is currently paused.
         * @property paused
@@ -18167,7 +18501,7 @@ declare module Kiwi.Sound {
         * @default false
         * @public
         */
-        public paused: boolean;
+        paused: boolean;
         /**
         * If the sound needs to be played but we are waiting on particular condition.
         * In the case of CocoonJS, we generally are waiting for the audio 'length' property to have a value.
@@ -18218,42 +18552,42 @@ declare module Kiwi.Sound {
         * @type Kiwi.Signal
         * @public
         */
-        public onPlay: Signal;
+        onPlay: Kiwi.Signal;
         /**
         * A Kiwi Signal that dispatches a event when the audio stops playing.
         * @property onStop
         * @type Kiwi.Signal
         * @public
         */
-        public onStop: Signal;
+        onStop: Kiwi.Signal;
         /**
         * A Kiwi Signal that dispatches a event when the audio gets paused.
         * @property onPause
         * @type Kiwi.Signal
         * @public
         */
-        public onPause: Signal;
+        onPause: Kiwi.Signal;
         /**
         * A Kiwi Signal that dispatches a event when the audio resumes.
         * @property onResume
         * @type Kiwi.Signal
         * @public
         */
-        public onResume: Signal;
+        onResume: Kiwi.Signal;
         /**
         * A Kiwi Signal that dispatches a event when the audio finishes and starts again, due to it looping.
         * @property onLoop
         * @type Kiwi.Signal
         * @public
         */
-        public onLoop: Signal;
+        onLoop: Kiwi.Signal;
         /**
         * A Kiwi Signal that dispatches a event when the audio gets muted.
         * @property onMute
         * @type Kiwi.Signal
         * @public
         */
-        public onMute: Signal;
+        onMute: Kiwi.Signal;
         /**
         * Retrieves the audio data from the file store.
         * @method _setAudio
@@ -18274,7 +18608,7 @@ declare module Kiwi.Sound {
         * @type number
         * @public
         */
-        public volume : number;
+        volume: number;
         /**
         * Mutes the sound and makes it 'silent'.
         * This will not stop the sound from playing, or events from being dispatched due when the sound has finished/is looping.
@@ -18283,7 +18617,7 @@ declare module Kiwi.Sound {
         * @type boolean
         * @public
         */
-        public mute : boolean;
+        mute: boolean;
         /**
         * Adds a new marker to the audio which will then allow for that section of audio to be played.
         *
@@ -18294,7 +18628,7 @@ declare module Kiwi.Sound {
         * @param [loop=false] {boolean} If the marker's pieve of audio should loop or not.
         * @public
         */
-        public addMarker(name: string, start: number, stop: number, loop?: boolean): void;
+        addMarker(name: string, start: number, stop: number, loop?: boolean): void;
         /**
         * Removes a currently existing marker from this audio.
         *
@@ -18302,7 +18636,7 @@ declare module Kiwi.Sound {
         * @param name {String} name of the audio that you want to remove.
         * @public
         */
-        public removeMarker(name: string): void;
+        removeMarker(name: string): void;
         /**
         * Plays the current sound/audio from the start.
         *
@@ -18311,31 +18645,31 @@ declare module Kiwi.Sound {
         * @param [forceRestart=false] {boolean} Force the audio to stop and start again. Otherwise if the audio was already playing it would ignore the play.
         * @public
         */
-        public play(marker?: string, forceRestart?: boolean): void;
+        play(marker?: string, forceRestart?: boolean): void;
         /**
         * Stop the sound from playing.
         * @method stop
         * @public
         */
-        public stop(): void;
+        stop(): void;
         /**
         * Pauses the sound so that you can resume it from at point to paused it at.
         * @method pause
         * @public
         */
-        public pause(): void;
+        pause(): void;
         /**
         * Plays the sound from when you paused the sound.
         * @method resume
         * @public
         */
-        public resume(): void;
+        resume(): void;
         /**
         * The update loop that gets executed every frame.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * This method handles the destruction of all of the properties when this audio is not longer needed.
         * You call this method when you want this method to be removed on the next garbage collection cycle.
@@ -18343,7 +18677,7 @@ declare module Kiwi.Sound {
         * @method destroy
         * @public
         */
-        public destroy(): void;
+        destroy(): void;
     }
 }
 /**
@@ -18351,7 +18685,7 @@ declare module Kiwi.Sound {
 * @module Kiwi
 * @submodule Sound
 *
-*/ 
+*/
 declare module Kiwi.Sound {
     /**
     * Holds a reference to all of the Audio Files (mp3, ogg, e.t.c) that are accessible on the State that this AudioLibrary is on.
@@ -18363,14 +18697,14 @@ declare module Kiwi.Sound {
     * @return {Kiwi.Sound.AudioLibrary}
     */
     class AudioLibrary {
-        constructor(game: Game);
+        constructor(game: Kiwi.Game);
         /**
         * The type of object that this is.
         * @method objType
         * @return {String} "AudioLibrary"
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The game that the AudioLibrary belongs to.
         * @property _game
@@ -18384,13 +18718,13 @@ declare module Kiwi.Sound {
         * @type Object
         * @public
         */
-        public audio: any;
+        audio: any;
         /**
         * Resets the audio library.
         * @method clear
         * @public
         */
-        public clear(): void;
+        clear(): void;
         /**
         * Rebuild the library from a fileStore. Clears the library and repopulates it.
         * @method rebuild
@@ -18398,14 +18732,14 @@ declare module Kiwi.Sound {
         * @param {Kiwi.State} state
         * @public
         */
-        public rebuild(fileStore: Files.FileStore, state: State): void;
+        rebuild(fileStore: Kiwi.Files.FileStore, state: Kiwi.State): void;
         /**
         * Adds a new audio file to the audio library.
         * @method add
         * @param {Kiwi.Files.File} audioFile
         * @public
         */
-        public add(audioFile: Files.File): void;
+        add(audioFile: Kiwi.Files.File): void;
     }
 }
 /**
@@ -18435,14 +18769,14 @@ declare module Kiwi.Time {
     *
     */
     class Clock {
-        constructor(manager: ClockManager, master: MasterClock, name: string, units?: number);
+        constructor(manager: Kiwi.Time.ClockManager, master: Kiwi.Time.MasterClock, name: string, units?: number);
         /**
         * The type of object that this is.
         * @method objType
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * A collection of Timer objects using this clock.
         * @property timers
@@ -18464,7 +18798,7 @@ declare module Kiwi.Time {
         * @return {Number} number of clock units.
         * @public
         */
-        public elapsedSinceFirstStarted(): number;
+        elapsedSinceFirstStarted(): number;
         /**
         * The time the clock was most recently started relative to the master clock.
         * @property _timeLastStarted
@@ -18479,14 +18813,14 @@ declare module Kiwi.Time {
         * @return {Number} milliseconds.
         * @public
         */
-        public started(): number;
+        started(): number;
         /**
         * The number of clock units elapsed since the clock was most recently started (not including time spent paused)
         * @method elapsed
         * @return {Number} number of clock units.
         * @public
         */
-        public elapsed(): number;
+        elapsed(): number;
         /**
         * The time the clock was most recently stopped relative to the master clock.
         * @property _timeLastStopped
@@ -18501,7 +18835,7 @@ declare module Kiwi.Time {
         * @return {Number} number of clock units.
         * @public
         */
-        public elapsedSinceLastStopped(): number;
+        elapsedSinceLastStopped(): number;
         /**
         * The time the clock was most receently paused relative to the master clock.
         * @property _timeLastPaused
@@ -18517,7 +18851,7 @@ declare module Kiwi.Time {
         * @return {Number} number of clock units.
         * @public
         */
-        public elapsedSinceLastPaused(): number;
+        elapsedSinceLastPaused(): number;
         /**
         * The time the clock was most recently unpaused relative to the master clock.
         * @property _timeLastUnpaused
@@ -18533,7 +18867,7 @@ declare module Kiwi.Time {
         * @return {Number} number of clock units.
         * @public
         */
-        public elapsedSinceLastUnpaused(): number;
+        elapsedSinceLastUnpaused(): number;
         /**
         * The total number of milliseconds the clock has been paused since it was last started.
         * @property _totalPaused
@@ -18557,7 +18891,7 @@ declare module Kiwi.Time {
         * @return {boolean} true if running.
         * @public
         */
-        public isRunning(): boolean;
+        isRunning(): boolean;
         /**
         * Whether the clock is in a stopped state.
         * @property _isStopped
@@ -18572,7 +18906,7 @@ declare module Kiwi.Time {
         * @return {boolean} true if stopped.
         * @public
         */
-        public isStopped(): boolean;
+        isStopped(): boolean;
         /**
         * Whether the clock is in a paused state.
         * @property _isPaused
@@ -18587,7 +18921,7 @@ declare module Kiwi.Time {
         * @return {boolean} true if paused.
         * @public
         */
-        public isPaused(): boolean;
+        isPaused(): boolean;
         /**
         * An internal reference to the state of the elapsed timer
         * @property _elapsedState
@@ -18602,21 +18936,21 @@ declare module Kiwi.Time {
         * @type ClockManager
         * @public
         */
-        public manager: ClockManager;
+        manager: Kiwi.Time.ClockManager;
         /**
         * The master clock.
         * @property master
         * @type Kiwi.Time.MasterClock
         * @public
         */
-        public master: MasterClock;
+        master: Kiwi.Time.MasterClock;
         /**
         * Name of the clock
         * @property name
         * @type string
         * @public
         */
-        public name: string;
+        name: string;
         /**
         * The number of milliseconds counted as one unit of time by the clock.
         * @property units
@@ -18624,7 +18958,7 @@ declare module Kiwi.Time {
         * @default 0
         * @public
         */
-        public units: number;
+        units: number;
         /**
         * Add an existing Timer to the Clock.
         * @method addTimer
@@ -18632,7 +18966,7 @@ declare module Kiwi.Time {
         * @return {Kiwi.Time.Clock} This Clock object.
         * @public
         */
-        public addTimer(timer: Timer): Clock;
+        addTimer(timer: Timer): Clock;
         /**
         * Creates a new Timer and adds it to this Clock.
         * @method createTimer
@@ -18643,7 +18977,7 @@ declare module Kiwi.Time {
         * @return {Kiwi.Time.Timer} The newly created Timer.
         * @public
         */
-        public createTimer(name: string, delay?: number, repeatCount?: number, start?: boolean): Timer;
+        createTimer(name: string, delay?: number, repeatCount?: number, start?: boolean): Timer;
         /**
         * Remove a Timer from this Clock based on either the Timer object or its name.
         * @method removeTimer
@@ -18652,7 +18986,7 @@ declare module Kiwi.Time {
         * @return {boolean} True if the Timer was successfully removed, false if not.
         * @public
         */
-        public removeTimer(timer?: Timer, timerName?: string): boolean;
+        removeTimer(timer?: Timer, timerName?: string): boolean;
         /**
         * Check if the Timer already exists on this Clock
         * @method checkExists
@@ -18660,62 +18994,62 @@ declare module Kiwi.Time {
         * @return {boolean} true if the Timer exists, false if not.
         * @public
         */
-        public checkExists(name: string): boolean;
+        checkExists(name: string): boolean;
         /**
         * Stop all timers attached to the clock.
         * @method stopAllTimers
         * @return {Clock} This Clock object.
         * @public
         */
-        public stopAllTimers(): Clock;
+        stopAllTimers(): Clock;
         /**
         * Convert a number to milliseconds based on clock units.
         * @method toMilliseconds.
         * @return {Number} milliseconds.
         * @public
         */
-        public convertToMilliseconds(time: number): number;
+        convertToMilliseconds(time: number): number;
         /**
         * Updates all Timers linked to this Clock.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * Start the clock. This resets the clock and starts it running.
         * @method start
         * @return {Clock} This Clock object.
         * @public
         */
-        public start(): Clock;
+        start(): Clock;
         /**
         * Pause the clock. The clock can only be paused if it is already running.
         * @method pause
         * @return {Kiwi.Time.Clock} This Clock object.
         * @public
         */
-        public pause(): Clock;
+        pause(): Clock;
         /**
         * Resume the clock. The clock can only be resumed if it is already paused.
         * @method resume
         * @return {Kiwi.Time.Clock} This Clock object.
         * @public
         */
-        public resume(): Clock;
+        resume(): Clock;
         /**
         * Stop the clock. Clock can only be stopped if it is already running or is paused.
         * @method stop
         * @return {Kiwi.Time.Clock} This Clock object.
         * @public
         */
-        public stop(): Clock;
+        stop(): Clock;
         /**
         * Returns a string representation of this object.
         * @method toString
         * @return {string} a string representation of the instance.
         * @public
         */
-        public toString(): string;
+        toString(): string;
     }
 }
 /**
@@ -18737,14 +19071,14 @@ declare module Kiwi.Time {
     *
     */
     class ClockManager {
-        constructor(game: Game);
+        constructor(game: Kiwi.Game);
         /**
         * The type of object this is.
         * @method objType
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The game that this belongs to.
         * @property _game
@@ -18766,7 +19100,7 @@ declare module Kiwi.Time {
         * @public
         * @since 1.1.10
         */
-        public rate: number;
+        rate: number;
         /**
         * The MasterClock for this manager.
         * @property master
@@ -18780,13 +19114,13 @@ declare module Kiwi.Time {
         * @type Kiwi.Time.Clock
         * @public
         */
-        public clock: Clock;
+        clock: Kiwi.Time.Clock;
         /**
         * When all of the DOM elements that the game requires have loaded successfully then this object will 'boot'.
         * @method boot
         * @public
         */
-        public boot(): void;
+        boot(): void;
         /**
         * Creates a Clock class for keeping time relative to the MasterClock.
         * @method addClock
@@ -18795,7 +19129,7 @@ declare module Kiwi.Time {
         * @return {Kiwi.Time.Clock} A reference to the newly created Clock object.
         * @public
         */
-        public addClock(name: string, units?: number): Clock;
+        addClock(name: string, units?: number): Clock;
         /**
         * Returns the Clock with the matching name. Throws and error if no Clock with that name exists
         * @method getClock
@@ -18803,20 +19137,20 @@ declare module Kiwi.Time {
         * @return {Kiwi.Time.Clock} The clock which matches the name given.
         * @public
         */
-        public getClock(name: string): Clock;
+        getClock(name: string): Clock;
         /**
         * Is executed every frame and updates all of the clocks that exist on this manager, times.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * Returns the current time. Based on the master clock.
         * @method now
         * @return {Number}
         * @public
         */
-        public now(): number;
+        now(): number;
         /**
         * Returns the elapsed time. Based on the master clock.
         * @method elapsed
@@ -18824,14 +19158,14 @@ declare module Kiwi.Time {
         * @public
         * @since 1.1.0
         */
-        public elapsed(): number;
+        elapsed(): number;
         /**
         * Returns the delta of the master clock.
         * @method delta
         * @return {Number}
         * @public
         */
-        public delta(): number;
+        delta(): number;
         /**
         * Sets the interval on the master clock.
         * @method setMasterInterval
@@ -18839,7 +19173,7 @@ declare module Kiwi.Time {
         * @public
         * @since 1.1.0
         */
-        public setMasterInterval(interval: number): void;
+        setMasterInterval(interval: number): void;
     }
 }
 /**
@@ -18868,7 +19202,7 @@ declare module Kiwi.Time {
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The time when the MasterClock was started.
         * @property _started
@@ -18882,21 +19216,21 @@ declare module Kiwi.Time {
         * @type Number
         * @public
         */
-        public time: number;
+        time: number;
         /**
         * The current time, this is straight from the Date.now() method and is updated every frame BEFORE the delta.
         * @property now
         * @type Number
         * @public
         */
-        public now: number;
+        now: number;
         /**
         * The time it takes for the time to update. Using this you can calculate the fps.
         * @property delta
         * @type Number
         * @public
         */
-        public delta: number;
+        delta: number;
         /**
         * The rate at which ideal frames are passing. Multiply per-frame iterations by this factor to create smooth movement. For example, if the ideal fps is 60, but you're only getting 45, rate will equal 1.333.
         * @property rate
@@ -18904,7 +19238,7 @@ declare module Kiwi.Time {
         * @public
         * @since 1.1.0
         */
-        public rate: number;
+        rate: number;
         /**
         * The ideal frame delta in milliseconds. This is automatically adjusted when the game sets a new frameRate.
         * @property idealDelta
@@ -18912,27 +19246,27 @@ declare module Kiwi.Time {
         * @public
         * @since 1.1.0
         */
-        public idealDelta: number;
+        idealDelta: number;
         /**
         * The time that has elapsed since the game started. In milliseconds.
         * @method elapsed
         * @return {Number}
         * @public
         */
-        public elapsed(): number;
+        elapsed(): number;
         /**
         * The time that has elapsed since the game started but in seconds.
         * @method totalElapsedSeconds
         * @return {Number}
         * @public
         */
-        public totalElapsedSeconds(): number;
+        totalElapsedSeconds(): number;
         /**
         * The update loop that should be executed every frame. Used to update the time.
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * Used to calculate the elapsed time from a point that is specified. This is returned in Milliseconds.
         * @method elapsedSince
@@ -18940,7 +19274,7 @@ declare module Kiwi.Time {
         * @return {Number}
         * @public
         */
-        public elapsedSince(since: number): number;
+        elapsedSince(since: number): number;
         /**
         * Used to calculate the elapsed time from a point that is specified BUT this is in seconds.
         * @method elapsedSecondsSince
@@ -18948,13 +19282,13 @@ declare module Kiwi.Time {
         * @return {Number }
         * @public
         */
-        public elapsedSecondsSince(since: number): number;
+        elapsedSecondsSince(since: number): number;
         /**
         * Resets the MasterClocks time.
         * @method reset
         * @public
         */
-        public reset(): void;
+        reset(): void;
     }
 }
 /**
@@ -18962,7 +19296,7 @@ declare module Kiwi.Time {
 * @module Kiwi
 * @submodule Time
 *
-*/ 
+*/
 declare module Kiwi.Time {
     /**
     * The Timer class hooks into a game Clock and allows you run code at a specified point in game time.
@@ -18987,7 +19321,7 @@ declare module Kiwi.Time {
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The number of times the timer has repeated so far.
         * @property _currentCount
@@ -19002,7 +19336,7 @@ declare module Kiwi.Time {
         * @return {Number}
         * @public
         */
-        public currentCount(): number;
+        currentCount(): number;
         /**
         * A collection of the TimerEvents associated with TimerEvent.TIMER_START
         * @property _startEvents
@@ -19052,7 +19386,7 @@ declare module Kiwi.Time {
         * @return {boolean}
         * @public
         */
-        public isRunning(): boolean;
+        isRunning(): boolean;
         /**
         * Whether the timer is in a stopped state.
         * @property _isStopped
@@ -19067,7 +19401,7 @@ declare module Kiwi.Time {
         * @return {boolean}
         * @public
         */
-        public isStopped(): boolean;
+        isStopped(): boolean;
         /**
         * Whether the timer is in a paused state.
         * @property _isPaused
@@ -19082,7 +19416,7 @@ declare module Kiwi.Time {
         * @return {boolean}
         * @public
         */
-        public isPaused(): boolean;
+        isPaused(): boolean;
         /**
         * The name of the timer.
         * @property name
@@ -19090,7 +19424,7 @@ declare module Kiwi.Time {
         * @default null
         * @public
         */
-        public name: string;
+        name: string;
         /**
         * The delay, in game clock units, that the timer will wait before firing the event
         * @property delay
@@ -19098,7 +19432,7 @@ declare module Kiwi.Time {
         * @default 0
         * @public
         */
-        public delay: number;
+        delay: number;
         /**
         * The number of times the timer will repeat before stopping.
         * @property repeatCount
@@ -19106,7 +19440,7 @@ declare module Kiwi.Time {
         * @default 0
         * @public
         */
-        public repeatCount: number;
+        repeatCount: number;
         /**
         * Checks the list of TimerEvents added and processes them based on their type.
         * @method processEvents
@@ -19119,35 +19453,35 @@ declare module Kiwi.Time {
         * @method update
         * @public
         */
-        public update(): void;
+        update(): void;
         /**
         * Start the Timer. This will reset the timer and start it. The timer can only be started if it is in a stopped state.
         * @method start
         * @return {Kiwi.Time.Timer} this object.
         * @public
         */
-        public start(): Timer;
+        start(): Timer;
         /**
         * Stop the Timer. Only possible when the timer is running or paused.
         * @method stop
         * @return {Kiwi.Time.Timer} this object.
         * @public
         */
-        public stop(): Timer;
+        stop(): Timer;
         /**
         * Pause the Timer. Only possible when the timer is running.
         * @method pause
         * @return {Kiwi.Time.Timer} this object.
         * @public
         */
-        public pause(): Timer;
+        pause(): Timer;
         /**
         * Resume the Timer. Only possible if the timer has been paused.
         * @method resume
         * @return {Kiwi.Time.Timer} this object.
         * @public
         */
-        public resume(): Timer;
+        resume(): Timer;
         /**
         * Adds an existing TimerEvent object to this Timer.
         * @method addTimerEvent
@@ -19155,7 +19489,7 @@ declare module Kiwi.Time {
         * @return {Kiwi.Time.TimerEvent} The TimerEvent object
         * @public
         */
-        public addTimerEvent(event: TimerEvent): TimerEvent;
+        addTimerEvent(event: TimerEvent): TimerEvent;
         /**
         * Creates a new TimerEvent and adds it to this Timer
         * @method createTimerEvent
@@ -19165,7 +19499,7 @@ declare module Kiwi.Time {
         * @return {Kiwi.Time.TimerEvent} The newly created TimerEvent.
         * @public
         */
-        public createTimerEvent(type: number, callback: any, context: any): TimerEvent;
+        createTimerEvent(type: number, callback: any, context: any): TimerEvent;
         /**
         * Removes a TimerEvent object from this Timer
         * @method removeTimerEvent
@@ -19173,7 +19507,7 @@ declare module Kiwi.Time {
         * @return {boolean} True if the event was removed, otherwise false.
         * @public
         */
-        public removeTimerEvent(event: TimerEvent): boolean;
+        removeTimerEvent(event: TimerEvent): boolean;
         /**
         * Removes all TimerEvent objects from this Timer
         * @method clear
@@ -19181,14 +19515,14 @@ declare module Kiwi.Time {
         * @return {boolean} True if the event was removed, otherwise false.
         * @public
         */
-        public clear(type?: number): void;
+        clear(type?: number): void;
         /**
         * Returns a string representation of this object.
         * @method toString
         * @return {string} a string representation of the instance.
         * @public
         */
-        public toString(): string;
+        toString(): string;
     }
 }
 /**
@@ -19196,7 +19530,7 @@ declare module Kiwi.Time {
 * @module Kiwi
 * @submodule Time
 *
-*/ 
+*/
 declare module Kiwi.Time {
     /**
     * A TimerEvent hooks into a Timer and is an object that is generated when you are wanting to executed a callback at a specific point in time.
@@ -19217,7 +19551,7 @@ declare module Kiwi.Time {
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * Name for the event fired when a timer starts.
         * @property TIMER_START
@@ -19268,13 +19602,13 @@ declare module Kiwi.Time {
         * @type Function
         * @public
         */
-        public type: number;
+        type: number;
         /**
         * Fires the callback associated with this TimerEvent
         * @method run
         * @public
         */
-        public run(): void;
+        run(): void;
     }
 }
 /**
@@ -19311,7 +19645,7 @@ declare module Kiwi.Utils {
         * @type number
         * @public
         */
-        public width : number;
+        width: number;
         /**
         * The height of this canvas.
         * @property _height
@@ -19325,28 +19659,28 @@ declare module Kiwi.Utils {
         * @type number
         * @private
         */
-        public height : number;
+        height: number;
         /**
         * The type of object that this is.
         * @method objType
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The canvas DOM element.
         * @property domElement
         * @type HTMLCanvasElement
         * @public
         */
-        public domElement: HTMLCanvasElement;
+        domElement: HTMLCanvasElement;
         /**
         * The 2D rendering context that is used to render anything to this canvas.
         * @property _context
         * @type CanvasRenderingContext2D
         * @public
         */
-        public context: CanvasRenderingContext2D;
+        context: CanvasRenderingContext2D;
         /**
         * If the canvas element is visible or not.
         * @property _visible
@@ -19415,7 +19749,7 @@ declare module Kiwi.Utils {
         * @default 'rgb(0,0,0)'
         * @public
         */
-        public bgColor: string;
+        bgColor: string;
         /**
         * Updates the width/height on the canvas DOM element when either one of its sizes are updated.
         * @method _updatedSize
@@ -19427,7 +19761,7 @@ declare module Kiwi.Utils {
         * @method destroy
         * @public
         */
-        public destroy(): void;
+        destroy(): void;
         /**
         * If the canvas element is visible or not.
         * @property visible
@@ -19435,7 +19769,7 @@ declare module Kiwi.Utils {
         * @default true
         * @public
         */
-        public visible : boolean;
+        visible: boolean;
         /**
         * The clearmode the is to be used when clearing the canvas.
         * @property clearMode
@@ -19443,27 +19777,27 @@ declare module Kiwi.Utils {
         * @default 1
         * @public
         */
-        public clearMode : number;
+        clearMode: number;
         /**
         * Clears the canvas using the method specified by the clearMode property.
         * @method clear
         * @public
         */
-        public clear(): void;
+        clear(): void;
         /**
         * Returns the canvas current image data as PNG.
         * @method saveAsPNG
         * @return String
         * @public
         */
-        public saveAsPNG(): string;
+        saveAsPNG(): string;
         /**
         * Returns a string representation of this object.
         * @method toString
         * @return {string} a string representation of the instance.
         * @public
         */
-        public toString(): string;
+        toString(): string;
     }
 }
 /**
@@ -19501,7 +19835,7 @@ declare module Kiwi.Utils {
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * Default function to test equality.
         * @method defaultEquals
@@ -19651,7 +19985,7 @@ declare module Kiwi.Utils {
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * Holds the value for PI. Only up to 16 significant figures.
         * @property PI
@@ -20615,7 +20949,7 @@ declare module Kiwi.Utils {
         * @return {number}
         * @static
         * @public
-        */ 
+        */
         static difference(a: number, b: number): number;
     }
 }
@@ -20646,7 +20980,7 @@ declare module Kiwi.Utils {
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * [DESCRIPTION REQUIRED]
         * @property s0
@@ -20717,28 +21051,28 @@ declare module Kiwi.Utils {
         * @param [seeds=[]] {String[]}
         * @public
         */
-        public sow(seeds?: string[]): void;
+        sow(seeds?: string[]): void;
         /**
         * Returns a random integer between 0 and 2^32
         * @method integer
         * @return {Number}
         * @public
         */
-        public integer(): number;
+        integer(): number;
         /**
         * Returns a random real number between 0 and 1
         * @method frac
         * @return {Number}
         * @public
         */
-        public frac(): number;
+        frac(): number;
         /**
         * Returns a random real number between 0 and 2^32
         * @method real
         * @return {Number}
         * @public
         */
-        public real(): number;
+        real(): number;
         /**
         * Returns a random integer between min and max
         * @method integerInRange
@@ -20747,7 +21081,7 @@ declare module Kiwi.Utils {
         * @return {Number}
         * @public
         */
-        public integerInRange(min: number, max: number): number;
+        integerInRange(min: number, max: number): number;
         /**
         * Returns a random real number between min and max
         * @method realInRange
@@ -20756,21 +21090,21 @@ declare module Kiwi.Utils {
         * @return {Number}
         * @public
         */
-        public realInRange(min: number, max: number): number;
+        realInRange(min: number, max: number): number;
         /**
         * Returns a random real number between -1 and 1
         * @method normal
         * @return {Number}
         * @public
         */
-        public normal(): number;
+        normal(): number;
         /**
         * Returns a valid v4 UUID hex string (from https://gist.github.com/1308368)
         * @method uuid
         * @return {String}
         * @public
         */
-        public uuid(): string;
+        uuid(): string;
         /**
         * Returns a random member of `array`
         * @method pick
@@ -20778,7 +21112,7 @@ declare module Kiwi.Utils {
         * @return {Any}
         * @public
         */
-        public pick(array: any): any;
+        pick(array: any): any;
         /**
         * Returns a random member of `array`, favoring the earlier entries
         * @method weightedPick
@@ -20786,14 +21120,14 @@ declare module Kiwi.Utils {
         * @return {Any}
         * @public
         */
-        public weightedPick(array: any): any;
+        weightedPick(array: any): any;
         /**
         * Returns a random word of lipsum
         * @method word
         * @return {String}
         * @public
         */
-        public word(): string;
+        word(): string;
         /**
         * Returns `n` random words of lipsum, 3 if not specified
         * @method words
@@ -20801,14 +21135,14 @@ declare module Kiwi.Utils {
         * @return {String}
         * @public
         */
-        public words(quantity?: number): string;
+        words(quantity?: number): string;
         /**
         * Returns a random lipsum sentence
         * @method sentence
         * @return {String}
         * @public
         */
-        public sentence(): String;
+        sentence(): String;
         /**
         * Returns `n` random lipsum sentences, 3 if not specified
         * @method sentences
@@ -20816,7 +21150,7 @@ declare module Kiwi.Utils {
         * @return {String}
         * @public
         */
-        public sentences(quantity?: number): string;
+        sentences(quantity?: number): string;
         /**
         * Returns a random timestamp between min and max, or between the beginning of 2000 and the end of 2020 if min and max aren't specified
         * @method timestamp
@@ -20825,14 +21159,14 @@ declare module Kiwi.Utils {
         * @return {Number}
         * @public
         */
-        public timestamp(min?: number, max?: number): number;
+        timestamp(min?: number, max?: number): number;
         /**
         * Returns a random angle between -180 and 180
         * @method angle
         * @return {Number}
         * @public
         */
-        public angle(): number;
+        angle(): number;
     }
 }
 /**
@@ -20859,7 +21193,7 @@ declare module Kiwi.Utils {
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * The callback method that gets executed every time the RAF is executed.
         * @property _callback
@@ -20873,7 +21207,7 @@ declare module Kiwi.Utils {
         * @param {Any} callback
         * @public
         */
-        public setCallback(callback: any): void;
+        setCallback(callback: any): void;
         /**
         * If the RAF is not supported, then this is the ID of the timeout that will be set.
         * @property _timeOutID
@@ -20895,28 +21229,28 @@ declare module Kiwi.Utils {
         * @return {boolean}
         * @public
         */
-        public isUsingSetTimeOut(): boolean;
+        isUsingSetTimeOut(): boolean;
         /**
         * Returns a boolean indicating wheather or not we are using the RAF. If false it means we are using setTimeout for our update loop.
         * @method usingRAF
         * @return {boolean}
         * @public
         */
-        public isUsingRAF(): boolean;
+        isUsingRAF(): boolean;
         /**
         * The last time at which the RAF was called. This is given a value at the end of the RAF loop.
         * @property lastTime
         * @type Number
         * @public
         */
-        public lastTime: number;
+        lastTime: number;
         /**
         * A timestamp that has the current time. This is updated each time the RAF loop is executed. Is updated before the last time in the loop.
         * @property currentTime
         * @type Number
         * @public
         */
-        public currentTime: number;
+        currentTime: number;
         /**
         * A boolean indicating whether or not the RAF is running.
         * @property isRunning
@@ -20924,32 +21258,32 @@ declare module Kiwi.Utils {
         * @default false
         * @public
         */
-        public isRunning: boolean;
+        isRunning: boolean;
         /**
         * Starts the RequestAnimationFrame (or setTimeout if RAF not supported).
         * @method start
         * @param [callback] {Any} A callback to be executed everyframe. Overrides the callback set at instantiation if passed.
         * @public
         */
-        public start(callback?: any): void;
+        start(callback?: any): void;
         /**
         * Stops the RAF from running.
         * @method stop
         * @public
         */
-        public stop(): void;
+        stop(): void;
         /**
         * The update loop that the RAF will continuously call.
         * @method RAFUpdate
         * @public
         */
-        public RAFUpdate(): void;
+        RAFUpdate(): void;
         /**
         * The update loop that the setTimeout method will continuously call.
         * @method SetTimeoutUpdate
         * @public
         */
-        public SetTimeoutUpdate(): void;
+        SetTimeoutUpdate(): void;
     }
 }
 /**
@@ -20995,7 +21329,7 @@ declare module Kiwi.Utils {
         *   @param [options.maxRecordings=Infinity] {Number} The maximum number of recordings to have at a single time.
         * @public
         */
-        public setDefaultsFromParams(params?: any): void;
+        setDefaultsFromParams(params?: any): void;
         /**
         * If the log, warn, or error messages should function at all.
         * When set to false messages won't display or be recorded.
@@ -21005,7 +21339,7 @@ declare module Kiwi.Utils {
         * @default true
         * @public
         */
-        public enabled: boolean;
+        enabled: boolean;
         /**
         * If messages should be recorded or not.
         *
@@ -21014,7 +21348,7 @@ declare module Kiwi.Utils {
         * @default true
         * @public
         */
-        public recording: boolean;
+        recording: boolean;
         /**
         * If the log, warn, and error methods should display when executed or not.
         * You may want to set this to 'false' when releasing a game.
@@ -21024,7 +21358,7 @@ declare module Kiwi.Utils {
         * @default true
         * @public
         */
-        public display: boolean;
+        display: boolean;
         /**
         * The maximum number of recordings to be kept at once.
         *
@@ -21033,7 +21367,7 @@ declare module Kiwi.Utils {
         * @default Infinity
         * @public
         */
-        public maxRecordings: number;
+        maxRecordings: number;
         /**
         * A list containing all messages recorded.
         *
@@ -21050,7 +21384,7 @@ declare module Kiwi.Utils {
         * @readOnly
         * @public
         */
-        public lastMessageTime : number;
+        lastMessageTime: number;
         /**
         * The number of recordings that have been saved.
         * Same as the recordings length, and won't go above the 'maxRecordings'.
@@ -21060,7 +21394,7 @@ declare module Kiwi.Utils {
         * @readOnly
         * @public
         */
-        public numRecordings : number;
+        numRecordings: number;
         /**
         * Saves a message to the 'recordings' array.
         * That message can then be retrieved later using the 'show' methods.
@@ -21071,7 +21405,7 @@ declare module Kiwi.Utils {
         * @param [logMethod=console.log] {String}
         * @public
         */
-        public record(messages: string[], tags?: string[], logMethod?: any): void;
+        record(messages: string[], tags?: string[], logMethod?: any): void;
         /**
         * Removes recordings from the list. Goes from the oldest to newest.
         * By not passing any parameters, the entire log will be cleared.
@@ -21081,7 +21415,7 @@ declare module Kiwi.Utils {
         * @param [end] {Number}
         * @private
         */
-        public clearRecordings(start?: number, end?: number): void;
+        clearRecordings(start?: number, end?: number): void;
         /**
         * Executes a particular array of messages using a method passed.
         * Takes into account the 'display' property before executing.
@@ -21102,7 +21436,7 @@ declare module Kiwi.Utils {
         * @return {Array} Elements of the array considered as tags
         * @public
         */
-        public getTagsFromArray(array: string[]): any[];
+        getTagsFromArray(array: string[]): any[];
         /**
         * Logs a message using the 'console.log' method.
         * Arguments starting with a '#' symbol are given that value as a tag.
@@ -21111,7 +21445,7 @@ declare module Kiwi.Utils {
         * @param [..args] {Any} The data you would like to log.
         * @public
         */
-        public log(...args: any[]): void;
+        log(...args: any[]): void;
         /**
         * Logs a message using the 'console.warn' method.
         * Arguments starting with a '#' symbol are given that value as a tag.
@@ -21120,7 +21454,7 @@ declare module Kiwi.Utils {
         * @param [..args] {Any} The data you would like to log.
         * @public
         */
-        public warn(...args: any[]): void;
+        warn(...args: any[]): void;
         /**
         * Logs a message using the 'console.error' method.
         * Arguments starting with a '#' symbol are given that value as a tag.
@@ -21129,7 +21463,7 @@ declare module Kiwi.Utils {
         * @param [..args] {Any} The data you would like to log.
         * @public
         */
-        public error(...args: any[]): void;
+        error(...args: any[]): void;
         /**
         * Method that displays a particular recording passed.
         *
@@ -21147,7 +21481,7 @@ declare module Kiwi.Utils {
         * @param [...args] {Any} Any tags that the recordings must have.
         * @public
         */
-        public showLast(...args: any[]): void;
+        showLast(...args: any[]): void;
         /**
         * Displays all recordings.
         *
@@ -21155,7 +21489,7 @@ declare module Kiwi.Utils {
         * @param [...args] {Any} Any tags that the recordings must have.
         * @public
         */
-        public showAll(...args: any[]): void;
+        showAll(...args: any[]): void;
         /**
         * Displays all logs recorded.
         *
@@ -21163,7 +21497,7 @@ declare module Kiwi.Utils {
         * @param [...args] {Any} Any tags that the recordings must have.
         * @public
         */
-        public showLogs(...args: any[]): void;
+        showLogs(...args: any[]): void;
         /**
         * Displays all errors recorded.
         *
@@ -21171,7 +21505,7 @@ declare module Kiwi.Utils {
         * @param [...args] {Any} Any tags that the recordings must have.
         * @public
         */
-        public showErrors(...args: any[]): void;
+        showErrors(...args: any[]): void;
         /**
         * Displays all warnings recorded.
         *
@@ -21179,7 +21513,7 @@ declare module Kiwi.Utils {
         * @param [...args] {Any} Any tags that the recordings must have.
         * @public
         */
-        public showWarnings(...args: any[]): void;
+        showWarnings(...args: any[]): void;
         /**
         * Displays a series of recordings within a time period passed.
         * Time recorded is in milliseconds
@@ -21190,7 +21524,7 @@ declare module Kiwi.Utils {
         * @param [tags] {Array} An tags that the recordings must have.
         * @public
         */
-        public showTimePeriod(start?: number, end?: number, tags?: string[]): void;
+        showTimePeriod(start?: number, end?: number, tags?: string[]): void;
     }
 }
 /**
@@ -21255,7 +21589,7 @@ declare module Kiwi {
     * @type Kiwi.Utils.Log
     * @public
     */
-    var Log: Utils.Log;
+    var Log: Kiwi.Utils.Log;
     /**
     * The version of Kiwi that is currently being used.
     * @property VERSION
@@ -21335,7 +21669,7 @@ declare module Kiwi {
     * @type Device
     * @public
     */
-    var DEVICE: System.Device;
+    var DEVICE: Kiwi.System.Device;
     /**
     * Contains a number that is used to identify objects that are a State.
     * @property STATE
@@ -21404,7 +21738,7 @@ declare module Kiwi {
         * @return {String}
         * @public
         */
-        public objType(): string;
+        objType(): string;
         /**
         * A list of all of the games that are currently on this document.
         * @property _games
@@ -21420,7 +21754,7 @@ declare module Kiwi {
         * @return {Number] The new number of games registered.
         * @public
         */
-        static register(game: Game): number;
+        static register(game: Kiwi.Game): number;
         /**
         * Returns the total number of game that are currently registered with this GameManager.
         * @method total
@@ -21432,47 +21766,168 @@ declare module Kiwi {
     var Plugins: {};
     var extend: Function;
 }
+/**
+*
+* @module Kiwi
+* @submodule Files
+*
+*/
 declare module Kiwi.Files {
-    class AudioFile extends File {
-        constructor(game: Game, params?: {});
+    /**
+    * AudioFile which contains settings, loading, and processing details for Audio files to be used.
+    *
+    * Uses tag loading for devices not supporting the WebAudioAPI. Otherwise XHR + arraybuffer loading methods are used.
+    *
+    * @class AudioFile
+    * @namespace Kiwi.Files
+    * @extends Kiwi.Files.File
+    * @since 1.2.0
+    * @constructor
+    * @param game {Kiwi.Game} The game that this file is for
+    * @param params {Object} Options for this file.
+    *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
+    *   @param params.url {String} Location of the file to be loaded.
+    *   @param [params.metadata={}] {Object} Any metadata to be associated with the file.
+    *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
+    *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
+    *   @param [params.type=UNKNOWN] {Number} The type of file this is.
+    *   @param [params.tags] {Array} Any tags to be associated with this file.
+    * @return {Kiwi.Files.AudioFile}
+    *
+    */
+    class AudioFile extends Kiwi.Files.File {
+        constructor(game: Kiwi.Game, params?: {});
         /**
         * Returns the type of this object
         * @method objType
-        * @return {String} "File"
+        * @return {String} "AudioFile"
         * @public
         */
-        public objType(): string;
-        public tagLoader(): void;
-        public processXHR(response: any): void;
+        objType(): string;
+        /**
+        * Initialises a loading method depending on detected device support.
+        * @method _load
+        * @protected
+        */
+        protected _load(): void;
+        /**
+        * Handles loading audio in via an audio tag.
+        * @method tagLoader
+        * @public
+        */
+        tagLoader(): void;
+        /**
+        * Handles decoding the arraybuffer into audio data.
+        * @method processXHR
+        * @param response
+        * @protected
+        */
+        protected processXHR(response: any): void;
     }
 }
+/**
+*
+* @module Kiwi
+* @submodule Files
+*
+*/
 declare module Kiwi.Files {
-    class DataFile extends File {
-        constructor(game: Game, params?: {});
+    /**
+    * DataFile which contains settings, loading, and processing details for Data files to be used.
+    * There is no tag loader support for this method of loading.
+    *
+    * @class DataFile
+    * @namespace Kiwi.Files
+    * @extends Kiwi.Files.File
+    * @since 1.2.0
+    * @constructor
+    * @param game {Kiwi.Game} The game that this file is for
+    * @param params {Object} Options for this file.
+    *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
+    *   @param params.url {String} Location of the file to be loaded.
+    *   @param [params.metadata={}] {Object} Any metadata to be associated with the file.
+    *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
+    *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
+    *   @param [params.type=UNKNOWN] {Number} The type of file this is.
+    *   @param [params.tags] {Array} Any tags to be associated with this file.
+    * @return {Kiwi.Files.DataFile}
+    *
+    */
+    class DataFile extends Kiwi.Files.File {
+        constructor(game: Kiwi.Game, params?: {});
         /**
         * Returns the type of this object
         * @method objType
-        * @return {String} "File"
+        * @return {String} "DataFile"
         * @public
         */
-        public objType(): string;
+        objType(): string;
     }
 }
+/**
+*
+* @module Kiwi
+* @submodule Files
+*
+*/
 declare module Kiwi.Files {
-    class TextureFile extends File {
-        constructor(game: Game, params?: {});
+    /**
+    * TextureFile which contains settings, loading, and processing information for textures/images in Kiwi.
+    *
+    * Contains two methods of loading. XHR + arraybuffer and also tag loading.
+    *
+    * @class TextureFile
+    * @namespace Kiwi.Files
+    * @extends Kiwi.Files.File
+    * @since 1.2.0
+    * @constructor
+    * @param game {Kiwi.Game} The game that this file is for
+    * @param params {Object} Options for this file.
+    *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
+    *   @param params.url {String} Location of the file to be loaded.
+    *   @param [params.metadata={}] {Object} Any metadata to be associated with the file.
+    *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
+    *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
+    *   @param [params.type=UNKNOWN] {Number} The type of file this is.
+    *   @param [params.tags] {Array} Any tags to be associated with this file.
+    * @return {Kiwi.Files.TextureFile}
+    *
+    */
+    class TextureFile extends Kiwi.Files.File {
+        constructor(game: Kiwi.Game, params?: {});
         /**
         * Returns the type of this object
         * @method objType
-        * @return {String} "File"
+        * @return {String} "TextureFile"
         * @public
         */
-        public objType(): string;
-        public tagLoader(): void;
-        public processXHR(response: any): void;
+        objType(): string;
+        /**
+        * Initialises the loading method.
+        * Tagloading is the default but also supports XHR + arraybuffer.
+        * @method _load
+        * @protected
+        */
+        protected _load(): void;
+        /**
+        * Contains the functionality for tag loading
+        * @method tagLoader
+        * @private
+        */
+        private tagLoader();
+        /**
+        * Gets the response data (which is an arraybuffer), creates a Blob from it
+        * and creates an objectURL from it.
+        *
+        * @method processXHR
+        * @param response {Any} The data stored in the 'xhr.response' tag
+        * @protected
+        */
+        protected processXHR(response: any): void;
         /**
         * Revokes the object url that was added to the window when creating the image.
         * Also tells the File that the loading is now complete.
+        *
         * @method revoke
         * @private
         */

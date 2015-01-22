@@ -5,7 +5,7 @@
     "eofline": false,
     "forin": false,
     "indent": [false, 4],
-    "label-position": true,
+    "label-position": false,
     "label-undefined": false,
     "max-line-length": [false, 140],
     "no-arg": true,
