@@ -9204,6 +9204,16 @@ declare module Kiwi.Animations {
         */
         private _object;
         /**
+        * The object that this tween is affecting.
+        * If you change this, it will continue to tween,
+        * but any properties that are not on the new object
+        * will be discarded from the tween.
+        * @property object
+        * @type any
+        * @public
+        */
+        public object : any;
+        /**
         * The starting values of the properties that the tween is animating.
         * @property _valuesStart
         * @type Object

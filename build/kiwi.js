@@ -14461,6 +14461,37 @@ var Kiwi;
             });
 
 
+            Object.defineProperty(Tween.prototype, "object", {
+                /**
+                * The object that this tween is affecting.
+                * If you change this, it will continue to tween,
+                * but any properties that are not on the new object
+                * will be discarded from the tween.
+                * @property object
+                * @type any
+                * @public
+                */
+                get: function () {
+                    return this._object;
+                },
+                set: function (value) {
+                    var i, newValues = {};
+
+                    this._object = value;
+
+                    for (i in this._valuesEnd) {
+                        if (value[i]) {
+                            newValues[i] = this._valuesEnd[i];
+                        }
+                    }
+
+                    this._valuesEnd = newValues;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
             /**
             * Sets up the various properties that define this tween.
             * The ending position/properties for this tween, how long the tween should go for, easing method to use and if should start right way.

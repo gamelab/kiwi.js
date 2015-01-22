@@ -97,6 +97,34 @@ module Kiwi.Animations {
         */
 	    private _object = null;
 
+        /**
+        * The object that this tween is affecting.
+        * If you change this, it will continue to tween,
+        * but any properties that are not on the new object
+        * will be discarded from the tween.
+        * @property object
+        * @type any
+        * @public
+        */
+        public get object(): any {
+            return this._object;
+        }
+
+        public set object( value: any ) {
+            var i,
+                newValues = {};
+
+            this._object = value;
+
+            for ( i in this._valuesEnd ) {
+                if ( value[ i ] ) {
+                    newValues[ i ] = this._valuesEnd[ i ];
+                }
+            }
+
+            this._valuesEnd = newValues;
+        }
+
         /** 
         * The starting values of the properties that the tween is animating.
         * @property _valuesStart
