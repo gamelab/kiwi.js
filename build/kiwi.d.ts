@@ -11136,6 +11136,14 @@ declare module Kiwi.Animations {
         private _onLoop;
         public onLoop : Signal;
         /**
+        * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation but is not going to play again.
+        * @property _onComplete
+        * @type Kiwi.Signal
+        * @public
+        */
+        private _onComplete;
+        public onComplete : Signal;
+        /**
         * Clock time on last frame, used to compute current animation frame.
         * @property _lastFrameElapsed
         * @type number

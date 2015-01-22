@@ -17133,6 +17133,13 @@ var Kiwi;
                 * @public
                 */
                 this._onLoop = null;
+                /**
+                * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation but is not going to play again.
+                * @property _onComplete
+                * @type Kiwi.Signal
+                * @public
+                */
+                this._onComplete = null;
                 this.name = name;
                 this._sequence = sequence;
                 this._speed = sequence.speed;
@@ -17311,6 +17318,16 @@ var Kiwi;
                 configurable: true
             });
 
+            Object.defineProperty(Animation.prototype, "onComplete", {
+                get: function () {
+                    if (this._onComplete == null)
+                        this._onComplete = new Kiwi.Signal;
+                    return this._onComplete;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             /**
             * An Internal method used to start the animation.
             * @method _start
@@ -17452,7 +17469,11 @@ var Kiwi;
                                     }
                                 }
                             }
-                        } else {
+                        } else if (this._frameIndex < 0 || this._frameIndex >= this.length) {
+                            if (this._onComplete != null) {
+                                this._onComplete.dispatch();
+                            }
+
                             // Execute the stop on the parent
                             // to allow the isPlaying boolean to remain consistent
                             this._parent.stop();

@@ -281,6 +281,19 @@ module Kiwi.Animations {
         }
 
         /**
+        * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation but is not going to play again.
+        * @property _onComplete
+        * @type Kiwi.Signal
+        * @public
+        */
+        private _onComplete: Kiwi.Signal = null;
+        
+        public get onComplete(): Kiwi.Signal {
+            if (this._onComplete == null) this._onComplete = new Kiwi.Signal;
+            return this._onComplete;
+        }
+
+        /**
         * Clock time on last frame, used to compute current animation frame.
         * @property _lastFrameElapsed
         * @type number
@@ -426,7 +439,10 @@ module Kiwi.Animations {
                                 }
                             }
                         }
-                    } else {
+                    } else if ( this._frameIndex < 0 || this._frameIndex >= this.length ) {
+                        if ( this._onComplete != null ) {
+                            this._onComplete.dispatch();
+                        }
                         // Execute the stop on the parent 
                         // to allow the isPlaying boolean to remain consistent
                         this._parent.stop();
