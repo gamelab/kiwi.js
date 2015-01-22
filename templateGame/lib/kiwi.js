@@ -1660,17 +1660,21 @@ var Kiwi;
             }
         };
 
+        /**
+        * Returns whether a valid minimum version of a plugin exists.
+        * @method validMinimumPluginVersionExists
+        * @param name {string} Name of plugin
+        * @param version {string} Minimum version
+        * @return boolean
+        * @public
+        */
         PluginManager.prototype.validMinimumPluginVersionExists = function (name, version) {
-            var pluginExists = false;
-            var minVersionSatisfied = false;
             if (this._plugins.indexOf(name) !== -1) {
-                pluginExists = true;
-                if (Kiwi.Utils.Version.greaterOrEqual(version, Kiwi.Plugins[name].version)) {
-                    minVersionSatisfied = true;
+                if (Kiwi.Utils.Version.greaterOrEqual(Kiwi.Plugins[name].version, version)) {
+                    return true;
                 }
             }
-
-            return (pluginExists && minVersionSatisfied);
+            return false;
         };
 
         /**

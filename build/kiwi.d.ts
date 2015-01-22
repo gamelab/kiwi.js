@@ -996,6 +996,14 @@ declare module Kiwi {
         * @public
         */
         public validatePlugins(): void;
+        /**
+        * Returns whether a valid minimum version of a plugin exists.
+        * @method validMinimumPluginVersionExists
+        * @param name {string} Name of plugin
+        * @param version {string} Minimum version
+        * @return boolean
+        * @public
+        */
         public validMinimumPluginVersionExists(name: string, version: string): boolean;
         /**
         * Returns true if a plugin identified by the supplied pluginName is registered.
