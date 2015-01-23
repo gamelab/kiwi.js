@@ -6037,7 +6037,7 @@ var Kiwi;
                     w: this._canvas.width,
                     h: this._canvas.height,
                     hitboxes: [{
-                            x: 0,
+                            x: this._textAlign === Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT ? 0 : this._textAlign === Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER ? -this._alignWidth * 0.5 : -this._alignWidth,
                             y: 0,
                             w: this.width,
                             h: this.height
