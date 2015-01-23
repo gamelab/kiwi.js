@@ -5802,10 +5802,10 @@ var Kiwi;
         * @param text {String} The text that is contained within this textfield.
         * @param [x=0] {Number} The new x coordinate from the Position component
         * @param [y=0] {Number} The new y coordinate from the Position component
-        * @param [color='#000000'] {String} The color of the text.
+        * @param [color="#000000"] {String} The color of the text.
         * @param [size=32] {Number} The size of the text in pixels.
-        * @param [weight='normal'] {String} The weight of the text.
-        * @param [fontFamily='sans-serif'] {String} The font family that is to be used when rendering.
+        * @param [weight="normal"] {String} The weight of the text.
+        * @param [fontFamily="sans-serif"] {String} The font family that is to be used when rendering.
         * @return {Textfield} This Game Object.
         */
         var Textfield = (function (_super) {
@@ -5813,15 +5813,16 @@ var Kiwi;
             function Textfield(state, text, x, y, color, size, weight, fontFamily) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
-                if (typeof color === "undefined") { color = '#000000'; }
+                if (typeof color === "undefined") { color = "#000000"; }
                 if (typeof size === "undefined") { size = 32; }
-                if (typeof weight === "undefined") { weight = 'normal'; }
-                if (typeof fontFamily === "undefined") { fontFamily = 'sans-serif'; }
+                if (typeof weight === "undefined") { weight = "normal"; }
+                if (typeof fontFamily === "undefined") { fontFamily = "sans-serif"; }
                 _super.call(this, state, x, y);
                 /**
                 * If the temporary canvas is dirty and needs to be re-rendered. Only used when the text field rendering is being optimised.
                 * @property _tempDirty
                 * @type boolean
+                * @private
                 */
                 this._tempDirty = true;
 
@@ -5834,24 +5835,27 @@ var Kiwi;
                 this._fontSize = size;
                 this._fontColor = color;
                 this._fontFamily = fontFamily;
-                this._textAlign = 'left';
-                this._baseline = 'top';
+                this._textAlign = "left";
+                this._baseline = "top";
 
                 this._tempDirty = true;
 
-                //Create the canvas
-                this._canvas = document.createElement('canvas');
+                // Create the canvas
+                this._canvas = document.createElement("canvas");
                 this._canvas.width = 2;
                 this._canvas.height = 2;
-                this._ctx = this._canvas.getContext('2d');
+                this._ctx = this._canvas.getContext("2d");
 
-                //Add it to the TextureLibrary
+                // Add it to the TextureLibrary
                 this.atlas = new Kiwi.Textures.SingleImage(this.game.rnd.uuid(), this._canvas);
                 this.state.textureLibrary.add(this.atlas);
                 this.atlas.dirty = true;
 
                 // Track actual text width - not canvas width (which rounds up to powers of 2), necessary for proper alignment
                 this._alignWidth = 0;
+
+                // Setup components
+                this.box = this.components.add(new Kiwi.Components.Box(this, x, y, this.width, this.height));
             }
             /**
             * Returns the type of object that this is
@@ -5955,16 +5959,12 @@ var Kiwi;
 
 
             Object.defineProperty(Textfield.prototype, "textAlign", {
-                /**
-                * Returns a string containing the text alignment for this textfield.
-                * @type string
-                * @public
-                */
                 get: function () {
                     return this._textAlign;
                 },
                 /**
-                * Changes the alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.
+                * Alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.
+                * @property textAlign
                 * @type string
                 * @public
                 */
@@ -5985,9 +5985,9 @@ var Kiwi;
             */
             Textfield.prototype._renderText = function () {
                 //Get/Set the width
-                this._ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
+                this._ctx.font = this._fontWeight + " " + this._fontSize + "px " + this._fontFamily;
 
-                //Get the size of the text.
+                // Get the size of the text.
                 var _measurements = this._ctx.measureText(this._text);
                 var width = _measurements.width;
                 var height = this._fontSize * 1.3;
@@ -5995,7 +5995,7 @@ var Kiwi;
                 // Cache alignment width
                 this._alignWidth = width;
 
-                //Is the width base2?
+                // Is the width base2?
                 if (Kiwi.Utils.Common.base2Sizes.indexOf(width) == -1) {
                     var i = 0;
                     while (width > Kiwi.Utils.Common.base2Sizes[i])
@@ -6003,7 +6003,7 @@ var Kiwi;
                     width = Kiwi.Utils.Common.base2Sizes[i];
                 }
 
-                //Is the height base2?
+                // Is the height base2?
                 if (Kiwi.Utils.Common.base2Sizes.indexOf(height) == -1) {
                     var i = 0;
                     while (height > Kiwi.Utils.Common.base2Sizes[i])
@@ -6011,27 +6011,37 @@ var Kiwi;
                     height = Kiwi.Utils.Common.base2Sizes[i];
                 }
 
-                //Apply the width/height
+                // Apply the width/height
                 this._canvas.width = width;
                 this._canvas.height = height;
 
-                //Clear the canvas
+                // Clear the canvas
                 this._ctx.clearRect(0, 0, width, height);
 
-                //Reapply the styles....cause it unapplies after a measurement...?!?
-                this._ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
+                // Reapply the styles....cause it unapplies after a measurement...?!?
+                this._ctx.font = this._fontWeight + " " + this._fontSize + "px " + this._fontFamily;
                 this._ctx.fillStyle = this._fontColor;
                 this._ctx.textBaseline = this._baseline;
 
-                //Draw the text.
+                // Draw the text.
                 this._ctx.fillText(this._text, 0, 0);
 
-                // Update inherited components
+                // Update inherited properties
                 this.width = this._alignWidth;
                 this.height = this._canvas.height;
 
                 //Update the cell and dirty/undirtyfiy
-                this.atlas.cells[0] = { x: 0, y: 0, w: this._canvas.width, h: this._canvas.height };
+                this.atlas.cells[0] = {
+                    x: 0,
+                    y: 0,
+                    w: this._canvas.width,
+                    h: this._canvas.height,
+                    hitboxes: [{
+                            x: 0,
+                            y: 0,
+                            w: this.width,
+                            h: this.height
+                        }] };
                 this._tempDirty = false;
                 this.atlas.dirty = true;
             };
@@ -6134,17 +6144,17 @@ var Kiwi;
                 //Add to the batch!
                 this.glRenderer.concatBatch(vertexItems);
             };
-            Textfield.TEXT_ALIGN_CENTER = 'center';
+            Textfield.TEXT_ALIGN_CENTER = "center";
 
-            Textfield.TEXT_ALIGN_RIGHT = 'right';
+            Textfield.TEXT_ALIGN_RIGHT = "right";
 
-            Textfield.TEXT_ALIGN_LEFT = 'left';
+            Textfield.TEXT_ALIGN_LEFT = "left";
             return Textfield;
         })(Kiwi.Entity);
         GameObjects.Textfield = Textfield;
 
         /**
-        * Alias of the 'Kiwi.GameObjects.Textfield'.
+        * Alias of the "Kiwi.GameObjects.Textfield".
         * This will continue to be an alias until we can deprecate the existing version.
         *
         * @class TextField
@@ -7983,9 +7993,9 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.autoUpdate == true && this.entity.atlas !== null) {
-                        this._hitboxOffset.x = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x;
-                        this._hitboxOffset.y = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y;
+                    if (this.autoUpdate == true && this.entity.atlas !== null && this.entity.atlas.cells && this.entity.atlas.cells[0].hitboxes) {
+                        this._hitboxOffset.x = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x || 0;
+                        this._hitboxOffset.y = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y || 0;
                     }
 
                     return this._hitboxOffset;
@@ -8011,9 +8021,12 @@ var Kiwi;
                     if (this.autoUpdate == true) {
                         var atlas = this.entity.atlas;
 
-                        if (atlas !== null) {
+                        if (atlas !== null && atlas.cells && atlas.cells[0].hitboxes) {
                             this._rawHitbox.width = atlas.cells[this.entity.cellIndex].hitboxes[0].w;
                             this._rawHitbox.height = atlas.cells[this.entity.cellIndex].hitboxes[0].h;
+                        } else {
+                            this._rawHitbox.width = this.entity.width;
+                            this._rawHitbox.height = this.entity.height;
                         }
                     }
 

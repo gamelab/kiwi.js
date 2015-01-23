@@ -3817,10 +3817,10 @@ declare module Kiwi.GameObjects {
     * @param text {String} The text that is contained within this textfield.
     * @param [x=0] {Number} The new x coordinate from the Position component
     * @param [y=0] {Number} The new y coordinate from the Position component
-    * @param [color='#000000'] {String} The color of the text.
+    * @param [color="#000000"] {String} The color of the text.
     * @param [size=32] {Number} The size of the text in pixels.
-    * @param [weight='normal'] {String} The weight of the text.
-    * @param [fontFamily='sans-serif'] {String} The font family that is to be used when rendering.
+    * @param [weight="normal"] {String} The weight of the text.
+    * @param [fontFamily="sans-serif"] {String} The font family that is to be used when rendering.
     * @return {Textfield} This Game Object.
     */
     class Textfield extends Entity {
@@ -3843,7 +3843,7 @@ declare module Kiwi.GameObjects {
         * The weight of the font.
         * @property _fontWeight
         * @type string
-        * @default 'normal'
+        * @default "normal"
         * @private
         */
         private _fontWeight;
@@ -3859,7 +3859,7 @@ declare module Kiwi.GameObjects {
         * The color of the text.
         * @property _fontColor
         * @type string
-        * @default '#000000'
+        * @default "#000000"
         * @private
         */
         private _fontColor;
@@ -3867,15 +3867,15 @@ declare module Kiwi.GameObjects {
         * The font family that is to be rendered.
         * @property _fontFamily
         * @type string
-        * @default 'sans-serif'
+        * @default "sans-serif"
         * @private
         */
         private _fontFamily;
         /**
-        * The alignment of the text. This can either be 'left', 'right' or 'center'
+        * The alignment of the text. This can either be "left", "right" or "center"
         * @property _textAlign
         * @type string
-        * @default 'center'
+        * @default "center"
         * @private
         */
         private _textAlign;
@@ -3958,12 +3958,8 @@ declare module Kiwi.GameObjects {
         */
         static TEXT_ALIGN_LEFT: string;
         /**
-        * Returns a string containing the text alignment for this textfield.
-        * @type string
-        * @public
-        */
-        /**
-        * Changes the alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.
+        * Alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.
+        * @property textAlign
         * @type string
         * @public
         */
@@ -3986,8 +3982,17 @@ declare module Kiwi.GameObjects {
         * If the temporary canvas is dirty and needs to be re-rendered. Only used when the text field rendering is being optimised.
         * @property _tempDirty
         * @type boolean
+        * @private
         */
         private _tempDirty;
+        /**
+        * Hitbox component
+        * @property box
+        * @type Kiwi.Components.Box
+        * @public
+        * @since 1.2.0
+        */
+        public box: Components.Box;
         /**
         * This method is used to render the text to an offscreen-canvas which is held in a TextureAtlas (which is generated upon the instanitation of this class).
         * This is so that the canvas doesn't render it every frame as it can be costly and so that it can be used in WebGL with the TextureAtlasRenderer.
@@ -4014,7 +4019,7 @@ declare module Kiwi.GameObjects {
         public renderGL(gl: WebGLRenderingContext, camera: Camera, params?: any): void;
     }
     /**
-    * Alias of the 'Kiwi.GameObjects.Textfield'.
+    * Alias of the "Kiwi.GameObjects.Textfield".
     * This will continue to be an alias until we can deprecate the existing version.
     *
     * @class TextField

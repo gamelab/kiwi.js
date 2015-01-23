@@ -117,9 +117,11 @@ module Kiwi.Components {
         */
         public get hitboxOffset(): Kiwi.Geom.Point {
 
-            if (this.autoUpdate == true && this.entity.atlas !== null) {
-                this._hitboxOffset.x = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x;
-                this._hitboxOffset.y = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y;
+            if ( this.autoUpdate == true && this.entity.atlas !== null && this.entity.atlas.cells && this.entity.atlas.cells[ 0 ].hitboxes ) {
+                this._hitboxOffset.x =
+                    this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x || 0;
+                this._hitboxOffset.y =
+                    this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y || 0;
 
             }
 
@@ -154,10 +156,12 @@ module Kiwi.Components {
             if (this.autoUpdate == true) {
                 var atlas = this.entity.atlas;
 
-                if (atlas !== null) {
-                    this._rawHitbox.width = atlas.cells[this.entity.cellIndex].hitboxes[0].w;
-                    this._rawHitbox.height = atlas.cells[this.entity.cellIndex].hitboxes[0].h;
-
+                if ( atlas !== null && atlas.cells && atlas.cells[ 0 ].hitboxes ) {
+                    this._rawHitbox.width = atlas.cells[ this.entity.cellIndex ].hitboxes[ 0 ].w;
+                    this._rawHitbox.height = atlas.cells[ this.entity.cellIndex ].hitboxes[ 0 ].h;
+                } else {
+                    this._rawHitbox.width = this.entity.width;
+                    this._rawHitbox.height = this.entity.height;
                 }
             }
             
