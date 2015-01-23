@@ -3086,7 +3086,7 @@ declare module Kiwi {
         * @param url {string} The location of the audio file. You can pass a array of urls, in which case the first supported filetype will be used.
         * @param [storeAsGlobal=true] {boolean} If the audio should be deleted when switching to another state or if the other states should still be able to access this audio.
         */
-        addAudio(key: string, url: any, storeAsGlobal?: boolean): Files.File;
+        addAudio(key: string, url: any, storeAsGlobal?: boolean): any;
         /**
         * Contains a reference to all of the Objects that have ever been created for this state. Generally Kiwi.Entities or Kiwi.Groups.
         * Useful for keeping track of sprites that are not used any more and need to be destroyed.
@@ -6845,19 +6845,21 @@ declare module Kiwi.Files {
         * @return {Kiwi.Files.File} The file which was created.
         * @public
         */
-        addAudio(key: string, url: any, storeAsGlobal?: boolean, onlyIfSupported?: boolean): File;
+        addAudio(key: string, url: any, storeAsGlobal?: boolean, onlyIfSupported?: boolean): any;
         /**
         * This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.
         * Returns a boolean if the audio file was successfully added or not to the file directory.
         * @method attemptToAddAudio
-        * @param key {String} The key for the audio file.
-        * @param url {String} The url of the audio to load.
-        * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
+        * @param params {Object}
+        *   @param params.key {String} The key for the audio file.
+        *   @param params.url {String} The url of the audio to load.
+        *   @param [params.state=true] {Kiwi.State} The state this file should be for.
+        *   @param [params.fileStore] {Kiwi.Files.FileStore}
         * @param [onlyIfSupported=true] {Boolean} If the audio file should only be loaded if Kiwi detects that the audio file could be played.
         * @return {Kiwi.Files.File} The file which was created.
         * @private
         */
-        private attemptToAddAudio(key, url, storeAsGlobal, onlyIfSupported);
+        private attemptToAddAudio(params, onlyIfSupported);
         /**
         * Creates a new File to store JSON and adds it to the loading queue.
         * @method addJSON
@@ -7790,6 +7792,18 @@ declare module Kiwi.Files {
         * @public
         */
         isData: boolean;
+        /**
+        * ------------------
+        * Clean Up
+        * ------------------
+        **/
+        /**
+        * Destroys all external object references on this object.
+        * @method destroy
+        * @since 1.2.0
+        * @public
+        */
+        destroy(): void;
         /**
         * ------------------
         * Deprecated
@@ -20240,6 +20254,15 @@ declare module Kiwi.Utils {
         */
         static isArray(obj: any): boolean;
         /**
+        * Checks if the given argument is an object.
+        * @method isObject
+        * @param {Any} obj
+        * @return {boolean}
+        * @static
+        * @public
+        */
+        static isObject(obj: any): boolean;
+        /**
         * Reverses a compare function.
         * @method reverseCompareFunction
         * @param {Any} compareFunction
@@ -22273,11 +22296,12 @@ declare module Kiwi.Files {
     *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
     *   @param [params.type=UNKNOWN] {Number} The type of file this is.
     *   @param [params.tags] {Array} Any tags to be associated with this file.
+    *   @param [params.xhrLoading=false] {Boolean} If xhr + arraybuffer loading should be used instead of tag loading.
     * @return {Kiwi.Files.TextureFile}
     *
     */
     class TextureFile extends Kiwi.Files.File {
-        constructor(game: Kiwi.Game, params?: {});
+        constructor(game: Kiwi.Game, params?: any);
         /**
         * Returns the type of this object
         * @method objType
@@ -22315,5 +22339,12 @@ declare module Kiwi.Files {
         * @private
         */
         private revoke();
+        /**
+        * Destroys all external object references on this object.
+        * @method destroy
+        * @since 1.2.0
+        * @public
+        */
+        destroy(): void;
     }
 }

@@ -1171,6 +1171,40 @@ module Kiwi.Files {
             return (Kiwi.Files.DataFile.prototype.objType.call(this) === this.objType());
         }
 
+        /**
+        * ------------------
+        * Clean Up
+        * ------------------
+        **/
+
+        /**
+        * Destroys all external object references on this object.
+        * @method destroy
+        * @since 1.2.0
+        * @public
+        */
+        public destroy() {
+            
+            if (this.fileStore) {
+                this.fileStore.removeFile(this.key);
+            }
+
+            this.onComplete.dispose();
+            this.onProgress.dispose();
+
+            delete this.fileStore;
+            delete this._xhr;
+            delete this.data;
+            delete this.buffer;
+            delete this.game;
+            delete this.error;
+            delete this.headCompleteCallback;
+            delete this.headCompleteContext;
+            delete this.onComplete;
+            delete this.onProgress;
+            delete this.ownerState;
+
+        }
 
         /**
         * ------------------

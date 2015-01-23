@@ -9907,18 +9907,38 @@ var Kiwi;
                 if (storeAsGlobal === void 0) { storeAsGlobal = true; }
                 var params = {
                     type: Kiwi.Files.File.IMAGE,
-                    key: key,
-                    url: url,
-                    metadata: {
+                    key: null,
+                    url: null,
+                    fileStore: this.game.fileStore,
+                    metadata: {}
+                };
+                if (Kiwi.Utils.Common.isObject(key)) {
+                    var p = key;
+                    params.key = p.key;
+                    params.url = p.url;
+                    params.metadata = {
+                        width: p.width,
+                        height: p.height,
+                        offsetX: p.offsetX,
+                        offsetY: p.offsetY
+                    };
+                    if (p.xhrLoading)
+                        params.xhrLoading = p.xhrLoading; //forces blob loading
+                    if (p.state)
+                        params.state = p.state;
+                }
+                else {
+                    if (!storeAsGlobal && this.game.states.current) {
+                        params.state = this.game.states.current;
+                    }
+                    params.key = key;
+                    params.url = url;
+                    params.metadata = {
                         width: width,
                         height: height,
                         offsetX: offsetX,
                         offsetY: offsetY
-                    }
-                };
-                params.fileStore = this.game.fileStore;
-                if (!storeAsGlobal && this.game.states.current) {
-                    params.state = this.game.states.current;
+                    };
                 }
                 var file = new Kiwi.Files.TextureFile(this.game, params);
                 this.addFileToQueue(file);
@@ -9946,9 +9966,36 @@ var Kiwi;
                 if (storeAsGlobal === void 0) { storeAsGlobal = true; }
                 var params = {
                     type: Kiwi.Files.File.SPRITE_SHEET,
-                    key: key,
-                    url: url,
-                    metadata: {
+                    key: null,
+                    url: null,
+                    fileStore: this.game.fileStore,
+                    metadata: {}
+                };
+                if (Kiwi.Utils.Common.isObject(key)) {
+                    var p = key;
+                    params.key = p.key;
+                    params.url = p.url;
+                    params.metadata = {
+                        frameWidth: p.frameWidth,
+                        frameHeight: p.frameHeight,
+                        numCells: p.numCells,
+                        rows: p.rows,
+                        cols: p.cols,
+                        sheetOffsetX: p.sheetOffsetX,
+                        sheetOffsetY: p.sheetOffsetY,
+                        cellOffsetX: p.cellOffsetX,
+                        cellOffsetY: p.cellOffsetY
+                    };
+                    if (p.state)
+                        params.state = p.state;
+                }
+                else {
+                    if (!storeAsGlobal && this.game.states.current) {
+                        params.state = this.game.states.current;
+                    }
+                    params.key = key;
+                    params.url = url;
+                    params.metadata = {
                         frameWidth: frameWidth,
                         frameHeight: frameHeight,
                         numCells: numCells,
@@ -9958,11 +10005,7 @@ var Kiwi;
                         sheetOffsetY: sheetOffsetY,
                         cellOffsetX: cellOffsetX,
                         cellOffsetY: cellOffsetY
-                    }
-                };
-                params.fileStore = this.game.fileStore;
-                if (!storeAsGlobal && this.game.states.current) {
-                    params.state = this.game.states.current;
+                    };
                 }
                 var file = new Kiwi.Files.TextureFile(this.game, params);
                 this.addFileToQueue(file);
@@ -9985,6 +10028,7 @@ var Kiwi;
                     type: Kiwi.Files.File.TEXTURE_ATLAS,
                     key: key,
                     url: imageURL,
+                    fileStore: this.game.fileStore,
                     metadata: {
                         jsonID: jsonID
                     }
@@ -9993,15 +10037,27 @@ var Kiwi;
                     type: Kiwi.Files.File.JSON,
                     key: jsonID,
                     url: jsonURL,
+                    fileStore: this.game.fileStore,
                     metadata: {
                         imageID: key
                     }
                 };
-                textureParams.fileStore = this.game.fileStore;
-                jsonParams.fileStore = this.game.fileStore;
                 if (!storeAsGlobal && this.game.states.current) {
                     textureParams.state = this.game.states.current;
                     jsonParams.state = this.game.states.current;
+                }
+                if (Kiwi.Utils.Common.isObject(key)) {
+                    var p = key;
+                    textureParams.key = p.textureAtlasKey;
+                    textureParams.url = p.textureAtlasURL;
+                    jsonParams.key = p.jsonKey;
+                    jsonParams.url = p.jsonURL;
+                    textureParams.metadata.jsonID = jsonParams.key;
+                    jsonParams.metadata.imageID = textureParams.key;
+                    if (p.state) {
+                        textureParams.state = p.state;
+                        jsonParams.state = p.state;
+                    }
                 }
                 var imageFile = new Kiwi.Files.TextureFile(this.game, textureParams);
                 var jsonFile = new Kiwi.Files.DataFile(this.game, jsonParams);
@@ -10026,21 +10082,38 @@ var Kiwi;
             Loader.prototype.addAudio = function (key, url, storeAsGlobal, onlyIfSupported) {
                 if (storeAsGlobal === void 0) { storeAsGlobal = true; }
                 if (onlyIfSupported === void 0) { onlyIfSupported = true; }
-                //If it is a string then try to load that file
-                if (Kiwi.Utils.Common.isString(url)) {
-                    return this.attemptToAddAudio(key, url, storeAsGlobal, onlyIfSupported);
+                var params = {
+                    type: Kiwi.Files.File.AUDIO,
+                    key: null,
+                    url: null,
+                    state: null,
+                    fileStore: this.game.fileStore
+                };
+                if (Kiwi.Utils.Common.isObject(key)) {
+                    params = key;
                 }
-                else if (Kiwi.Utils.Common.isArray(url)) {
-                    for (var i = 0; i < url.length; i++) {
-                        //Is the url passed not a string?
-                        if (Kiwi.Utils.Common.isString(url[i]) == false)
-                            continue;
-                        //Attempt to load it, and if successful, breakout
-                        var file = this.attemptToAddAudio(key, url[i], storeAsGlobal, onlyIfSupported);
-                        if (file) {
-                            return file;
-                        }
+                else {
+                    params.key = key;
+                    params.url = url;
+                    if (!storeAsGlobal && this.game.states.current) {
+                        params.state = this.game.states.current;
                     }
+                }
+                var i = 0, urls, file;
+                //If it is a string then try to load that file
+                if (Kiwi.Utils.Common.isString(params.url)) {
+                    urls = [params.url];
+                }
+                else {
+                    urls = params.url;
+                }
+                while (i < urls.length) {
+                    params.url = urls[i];
+                    file = this.attemptToAddAudio(params, onlyIfSupported);
+                    if (file) {
+                        return file;
+                    }
+                    i++;
                 }
                 return null;
             };
@@ -10048,23 +10121,16 @@ var Kiwi;
             * This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.
             * Returns a boolean if the audio file was successfully added or not to the file directory.
             * @method attemptToAddAudio
-            * @param key {String} The key for the audio file.
-            * @param url {String} The url of the audio to load.
-            * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
+            * @param params {Object}
+            *   @param params.key {String} The key for the audio file.
+            *   @param params.url {String} The url of the audio to load.
+            *   @param [params.state=true] {Kiwi.State} The state this file should be for.
+            *   @param [params.fileStore] {Kiwi.Files.FileStore}
             * @param [onlyIfSupported=true] {Boolean} If the audio file should only be loaded if Kiwi detects that the audio file could be played.
             * @return {Kiwi.Files.File} The file which was created.
             * @private
             */
-            Loader.prototype.attemptToAddAudio = function (key, url, storeAsGlobal, onlyIfSupported) {
-                var params = {
-                    type: Kiwi.Files.File.AUDIO,
-                    key: key,
-                    url: url
-                };
-                params.fileStore = this.game.fileStore;
-                if (!storeAsGlobal && this.game.states.current) {
-                    params.state = this.game.states.current;
-                }
+            Loader.prototype.attemptToAddAudio = function (params, onlyIfSupported) {
                 var file = new Kiwi.Files.AudioFile(this.game, params);
                 var support = false;
                 switch (file.extension) {
@@ -10106,11 +10172,22 @@ var Kiwi;
                 var params = {
                     type: Kiwi.Files.File.JSON,
                     key: key,
-                    url: url
+                    url: url,
+                    fileStore: this.game.fileStore
                 };
-                params.fileStore = this.game.fileStore;
-                if (!storeAsGlobal && this.game.states.current) {
-                    params.state = this.game.states.current;
+                if (Kiwi.Utils.Common.isObject(key)) {
+                    var p = key;
+                    params.key = p.key;
+                    params.url = p.url;
+                    if (p.parse)
+                        params.parse = p.parse;
+                    if (p.state)
+                        params.state = p.state;
+                }
+                else {
+                    if (!storeAsGlobal && this.game.states.current) {
+                        params.state = this.game.states.current;
+                    }
                 }
                 var file = new Kiwi.Files.DataFile(this.game, params);
                 this.addFileToQueue(file);
@@ -10133,8 +10210,19 @@ var Kiwi;
                     url: url,
                     fileStore: this.game.fileStore
                 };
-                if (!storeAsGlobal && this.game.states.current) {
-                    params.state = this.game.states.current;
+                if (Kiwi.Utils.Common.isObject(key)) {
+                    var p = key;
+                    params.key = p.key;
+                    params.url = p.url;
+                    if (p.parse)
+                        params.parse = p.parse;
+                    if (p.state)
+                        params.state = p.state;
+                }
+                else {
+                    if (!storeAsGlobal && this.game.states.current) {
+                        params.state = this.game.states.current;
+                    }
                 }
                 var file = new Kiwi.Files.DataFile(this.game, params);
                 this.addFileToQueue(file);
@@ -10157,8 +10245,19 @@ var Kiwi;
                     url: url,
                     fileStore: this.game.fileStore
                 };
-                if (!storeAsGlobal && this.game.states.current) {
-                    params.state = this.game.states.current;
+                if (Kiwi.Utils.Common.isObject(key)) {
+                    var p = key;
+                    params.key = p.key;
+                    params.url = p.url;
+                    if (p.parse)
+                        params.parse = p.parse;
+                    if (p.state)
+                        params.state = p.state;
+                }
+                else {
+                    if (!storeAsGlobal && this.game.states.current) {
+                        params.state = this.game.states.current;
+                    }
                 }
                 var file = new Kiwi.Files.DataFile(this.game, params);
                 this.addFileToQueue(file);
@@ -10181,8 +10280,19 @@ var Kiwi;
                     url: url,
                     fileStore: this.game.fileStore
                 };
-                if (!storeAsGlobal && this.game.states.current) {
-                    params.state = this.game.states.current;
+                if (Kiwi.Utils.Common.isObject(key)) {
+                    var p = key;
+                    params.key = p.key;
+                    params.url = p.url;
+                    if (p.parse)
+                        params.parse = p.parse;
+                    if (p.state)
+                        params.state = p.state;
+                }
+                else {
+                    if (!storeAsGlobal && this.game.states.current) {
+                        params.state = this.game.states.current;
+                    }
                 }
                 var file = new Kiwi.Files.DataFile(this.game, params);
                 this.addFileToQueue(file);
@@ -11148,6 +11258,35 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
+            /**
+            * ------------------
+            * Clean Up
+            * ------------------
+            **/
+            /**
+            * Destroys all external object references on this object.
+            * @method destroy
+            * @since 1.2.0
+            * @public
+            */
+            File.prototype.destroy = function () {
+                if (this.fileStore) {
+                    this.fileStore.removeFile(this.key);
+                }
+                this.onComplete.dispose();
+                this.onProgress.dispose();
+                delete this.fileStore;
+                delete this._xhr;
+                delete this.data;
+                delete this.buffer;
+                delete this.game;
+                delete this.error;
+                delete this.headCompleteCallback;
+                delete this.headCompleteContext;
+                delete this.onComplete;
+                delete this.onProgress;
+                delete this.ownerState;
+            };
             Object.defineProperty(File.prototype, "fileName", {
                 /**
                 * ------------------
@@ -28767,6 +28906,17 @@ var Kiwi;
                 return Object.prototype.toString.call(obj) === "[object Array]";
             };
             /**
+            * Checks if the given argument is an object.
+            * @method isObject
+            * @param {Any} obj
+            * @return {boolean}
+            * @static
+            * @public
+            */
+            Common.isObject = function (obj) {
+                return Object.prototype.toString.call(obj) === "[object Object]";
+            };
+            /**
             * Reverses a compare function.
             * @method reverseCompareFunction
             * @param {Any} compareFunction
@@ -31673,6 +31823,7 @@ var Kiwi;
         var AudioFile = (function (_super) {
             __extends(AudioFile, _super);
             function AudioFile(game, params) {
+                //Add support detection here...
                 if (params === void 0) { params = {}; }
                 _super.call(this, game, params);
                 if (this.game.audio.usingAudioTag) {
@@ -31965,6 +32116,7 @@ var Kiwi;
         *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
         *   @param [params.type=UNKNOWN] {Number} The type of file this is.
         *   @param [params.tags] {Array} Any tags to be associated with this file.
+        *   @param [params.xhrLoading=false] {Boolean} If xhr + arraybuffer loading should be used instead of tag loading.
         * @return {Kiwi.Files.TextureFile}
         *
         */
@@ -31973,9 +32125,9 @@ var Kiwi;
             function TextureFile(game, params) {
                 if (params === void 0) { params = {}; }
                 _super.call(this, game, params);
-                if (Kiwi.DEVICE.blob) {
-                    this.useTagLoader = true;
-                    this._loadInParallel = true;
+                if (params.xhrLoading) {
+                    this.useTagLoader = false;
+                    this._loadInParallel = false;
                 }
                 else {
                     this.useTagLoader = true;
@@ -32052,6 +32204,18 @@ var Kiwi;
                 else if (window['webkitURL']) {
                     window['webkitURL'].revokeObjectURL(this.data.src);
                 }
+            };
+            /**
+            * Destroys all external object references on this object.
+            * @method destroy
+            * @since 1.2.0
+            * @public
+            */
+            TextureFile.prototype.destroy = function () {
+                if (!this.useTagLoader) {
+                    this.revoke();
+                }
+                _super.prototype.destroy.call(this);
             };
             return TextureFile;
         })(Kiwi.Files.File);

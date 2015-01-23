@@ -31,7 +31,10 @@ module Kiwi.Files {
     */
     export class AudioFile extends Kiwi.Files.File {
 
-        constructor(game: Kiwi.Game, params: {}={}) {
+        constructor(game: Kiwi.Game, params: {} = {}) {
+
+            //Add support detection here...
+
             super(game, params);
 
             if ( this.game.audio.usingAudioTag ) {

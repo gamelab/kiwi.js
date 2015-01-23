@@ -26,17 +26,18 @@ module Kiwi.Files {
     *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
     *   @param [params.type=UNKNOWN] {Number} The type of file this is. 
     *   @param [params.tags] {Array} Any tags to be associated with this file.
+    *   @param [params.xhrLoading=false] {Boolean} If xhr + arraybuffer loading should be used instead of tag loading. 
     * @return {Kiwi.Files.TextureFile} 
     *
     */
     export class TextureFile extends Kiwi.Files.File {
 
-        constructor(game: Kiwi.Game, params: {}= {}) {
+        constructor(game: Kiwi.Game, params: any = {}) {
             super(game, params);
 
-            if (Kiwi.DEVICE.blob) {
-                this.useTagLoader = true;
-                this._loadInParallel = true;
+            if (params.xhrLoading) { 
+                this.useTagLoader = false;
+                this._loadInParallel = false;
             } else {
                 this.useTagLoader = true;
                 this._loadInParallel = true;
@@ -126,6 +127,22 @@ module Kiwi.Files {
             } else if (window['webkitURL']) {
                 window['webkitURL'].revokeObjectURL(this.data.src);
             }
+
+        }
+        
+        /**
+        * Destroys all external object references on this object.
+        * @method destroy
+        * @since 1.2.0
+        * @public
+        */
+        public destroy() {
+
+            if (!this.useTagLoader) {
+                this.revoke();
+            }
+
+            super.destroy();
 
         }
 
