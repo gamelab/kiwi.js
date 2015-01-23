@@ -96,9 +96,9 @@ module Kiwi.Files {
         *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
         *   @param [params.type=UNKNOWN] {Number} The type of file this is. 
         *   @param [params.tags] {Array} Any tags to be associated with this file.
-        * @private 
+        * @protected 
         */
-        private parseParams(params: any) {
+        protected parseParams(params: any) {
 
             this.fileStore = params.fileStore || null;
             this.ownerState = params.state || null;
@@ -425,6 +425,12 @@ module Kiwi.Files {
         */
         public load(onCompleteCallback?: any, onProgressCallback?: any, customFileStore?: Kiwi.Files.FileStore, maxLoadAttempts?: number, timeout?: number) {
 
+            //Not currently loading?
+            if (this.loading) {
+                Kiwi.Log.error('Kiwi.Files.File: File loading is in progress. Cannot be told to load again.', '#loading');
+                return;
+            }
+
             Kiwi.Log.log("Kiwi.Files.File: Starting to load '" + this.name + "'", '#file', '#loading');
 
             //Set the variables based on the parameters passed
@@ -449,7 +455,7 @@ module Kiwi.Files {
         */
         protected _load() {
             this.attemptCounter++;
-            this.xhrLoader( 'text' );
+            this.xhrLoader( 'GET', 'text' );
         }
 
 
@@ -609,14 +615,15 @@ module Kiwi.Files {
         }
 
         /**
-        * Method to be overriden by those extending this class.
         * Contains the logic for processing the information retrieved via XHR.
+        * Assigns the data property. 
+        * This method is also in charge of calling 'loadSuccess' (or 'loadError') when processing is complete. 
         * 
         * @method processXHR
         * @param response 
         * @protected
         */
-        protected processXHR( response ) {
+        protected processXHR( response:any ) {
             this.data = response;
             this.loadSuccess();
         }
@@ -797,6 +804,9 @@ module Kiwi.Files {
         
         /**
         * The context the 'headCompleteCallback' should be executed in..
+        * The callback is the following arguments. 
+        * 1. If the details were recieved
+        * 
         * @property headCompleteContext
         * @type Any
         * @since 1.2.0
@@ -821,6 +831,7 @@ module Kiwi.Files {
         * @method loadDetails
         * @param [callback] {Any}
         * @param [context] {Any}
+        * @return {Boolean} If the request was made
         * @since 1.2.0
         * @public
         */
@@ -829,13 +840,14 @@ module Kiwi.Files {
             //Can't continue if regular loading is progressing.
             if ( this.loading ) {
                 Kiwi.Log.error('Kiwi.Files.File: Cannot get the file details whilst the file is already loading');
-                return;
+                return false;
             }
 
             if (callback) this.headCompleteCallback = callback;
             if (context) this.headCompleteContext = context;
 
             this.xhrHeadRequest();
+            return true;
         }
 
         /**
@@ -872,7 +884,7 @@ module Kiwi.Files {
         private xhrHeadRequest() {
 
             this._xhr = new XMLHttpRequest();
-            this._xhr.open('HEAD', this.fileURL, false);
+            this._xhr.open('HEAD', this.fileURL, true);
             if (this.timeOutDelay !== null) this._xhr.timeout = this.timeOutDelay;
 
             this._xhr.onload = (event) => this.xhrHeadOnLoad(event);
@@ -908,7 +920,7 @@ module Kiwi.Files {
                 this.getXHRHeaderInfo();
 
                 if (this.headCompleteCallback) {
-                    this.headCompleteCallback.call(this.headCompleteContext, false);
+                    this.headCompleteCallback.call(this.headCompleteContext, true);
                 }
             } else {
                 this.xhrHeadOnError(null);
@@ -1170,7 +1182,7 @@ module Kiwi.Files {
         * The name of the file being loaded.
         * @property fileName
         * @type String
-        * @deprecated Use `name`
+        * @deprecated Use `name`. Deprecated as of 1.2.0
     	* @public
         */
         public get fileName(): string {
@@ -1185,7 +1197,7 @@ module Kiwi.Files {
         * Example: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'
         * @property filePath
         * @type String
-        * @deprecated Use `path`
+        * @deprecated Use `path`. Deprecated as of 1.2.0
         * @public
         */
         public get filePath(): string {
@@ -1200,7 +1212,7 @@ module Kiwi.Files {
         * Example: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'
         * @property filePath
         * @type String
-        * @deprecated Use `extension`
+        * @deprecated Use `extension`. Deprecated as of 1.2.0
         * @public
         */
         public get fileExtension(): string {
@@ -1214,7 +1226,7 @@ module Kiwi.Files {
         * The full filepath including the file itself.
         * @property fileURL
         * @type String
-        * @deprecated Use `URL`
+        * @deprecated Use `URL`. Deprecated as of 1.2.0
         * @public
     	*/
         public get fileURL(): string {
@@ -1230,7 +1242,7 @@ module Kiwi.Files {
         * The value is based off of the 'Content-Type' of the XHR's response header returns.
         * @property fileType
         * @type String
-        * @deprecated Use `type`
+        * @deprecated Use `type`. Deprecated as of 1.2.0
         * @public
         */
         public get fileType():string {
@@ -1245,7 +1257,7 @@ module Kiwi.Files {
         * Only has a value when the file was loaded by the XHR method OR you request the file information before hand using 'getFileDetails'.
         * @property fileSize
         * @type Number
-        * @deprecated Use `size`
+        * @deprecated Use `size`. Deprecated as of 1.2.0
         * @public
         */
         public get fileSize(): number {
@@ -1261,7 +1273,7 @@ module Kiwi.Files {
         * @property onCompleteCallback
         * @type Any
         * @default null
-        * @deprecated Use `onComplete`
+        * @deprecated Use `onComplete`. Deprecated as of 1.2.0
         * @public
         */
         //public onCompleteCallback: any = null;
@@ -1272,7 +1284,7 @@ module Kiwi.Files {
         * @property onProgressCallback
         * @type Any
         * @default null
-        * @deprecated Use `onProgress`
+        * @deprecated Use `onProgress`. Deprecated as of 1.2.0
         * @public
         */
         //public onProgressCallback: any = null;
@@ -1284,7 +1296,7 @@ module Kiwi.Files {
         * @property status
         * @type Number
         * @default 0
-        * @deprecated 
+        * @deprecated Deprecated as of 1.2.0
         * @public
         */
         public status: number = 0;
@@ -1295,7 +1307,7 @@ module Kiwi.Files {
         * @property statusText
         * @type String
         * @default ''
-        * @deprecated 
+        * @deprecated Deprecated as of 1.2.0
         * @public
         */
         public statusText: string = '';
@@ -1305,7 +1317,7 @@ module Kiwi.Files {
         * @property readyState
         * @type Number
         * @default 0
-        * @deprecated 
+        * @deprecated Deprecated as of 1.2.0
         * @public
         */
         public readyState: number = 0;
@@ -1315,7 +1327,7 @@ module Kiwi.Files {
         * @property hasTimedOut
         * @type boolean
         * @default false
-        * @deprecated 
+        * @deprecated Deprecated as of 1.2.0
         * @public
         */
         public hasTimedOut: boolean = false;
@@ -1325,7 +1337,7 @@ module Kiwi.Files {
         * @property timedOut
         * @type Number
         * @default 0
-        * @deprecated 
+        * @deprecated Deprecated as of 1.2.0
         * @public
         */
         public timedOut: number = 0;
@@ -1334,7 +1346,7 @@ module Kiwi.Files {
         * The response that is given by the XHR loader when loading is complete.
         * @property buffer
         * @type Any
-        * @deprecated Use 'data' instead 
+        * @deprecated Use 'data' instead. Deprecated as of 1.2.0
         * @public
         */
         public buffer: any;
@@ -1347,7 +1359,7 @@ module Kiwi.Files {
         * @param [callback=null] {Any} The callback to send this FileInfo object to.
         * @param [maxLoadAttempts=1] {number} The maximum amount of load attempts. Only set this if it is different from the default.
         * @param [timeout=this.timeOutDelay] {number} The timeout delay. By default this is the same as the timeout delay property set on this file.
-        * @deprecated Use 'loadDetails' instead
+        * @deprecated Use 'loadDetails' instead. Deprecated as of 1.2.0
         * @private
         */
         public getFileDetails(callback: any = null, maxLoadAttempts?: number, timeout: number = null) {

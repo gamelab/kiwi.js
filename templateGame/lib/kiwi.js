@@ -9393,30 +9393,107 @@ var Kiwi;
         */
         var Loader = (function () {
             function Loader(game) {
+                /**
+                * A flag indicating if the files inside the 'fileQueue' in the process of loading or not.
+                *
+                * @property _fileQueueLoading
+                * @type Boolean
+                * @default false
+                * @since 1.2.0
+                * @private
+                */
+                this._queueLoading = false;
+                /**
+                * Returns the percent of files in the '_loadingList' which have been loaded.
+                * When no files are in the list, then the percentLoaded is 100.
+                *
+                * @property percentLoaded
+                * @type Number
+                * @since 1.2.0
+                * @readOnly
+                * @public
+                */
+                this.percentLoaded = 0;
+                /**
+                * The number of files in the file queue that have been updated.
+                *
+                * @property _completeFiles
+                * @type number
+                * @default 0
+                * @private
+                */
+                this._completedFiles = 0;
+                /**
+                * -----------------------------
+                * Bytes Loaded Methods
+                * -----------------------------
+                **/
+                /**
+                * If the number of bytes for each file should be calculated before the queue starts loading.
+                * If true each file in the queue makes a XHR HEAD request first to get the total values.
+                *
+                * @property _calculateBytes
+                * @type Boolean
+                * @private
+                */
+                this._calculateBytes = false;
+                /**
+                * The index of the current file in the filelist thats size is being retrieved.
+                * @property _currentFileIndex
+                * @type number
+                * @private
+                */
+                this._currentFileIndex = 0;
+                /**
+                * Total file size (in bytes) of all files in the queue to be loaded.
+                *
+                * @property _bytesTotal
+                * @type Number
+                * @private
+                */
+                this._bytesTotal = 0;
+                /**
+                * The number of bytes loaded of files in the file queue.
+                * Not accurate if the file use tag loading AND you didn't get calculate the bytes before hand.
+                *
+                * @property _bytesLoaded
+                * @type Number
+                * @private
+                */
+                this._bytesLoaded = 0;
                 this.game = game;
             }
+            /**
+            * The type of object this is.
+            * @method objType
+            * @return {String} "Loader"
+            * @public
+            */
             Loader.prototype.objType = function () {
                 return "Loader";
             };
-            Object.defineProperty(Loader.prototype, "percentLoaded", {
+            Object.defineProperty(Loader.prototype, "queueLoading", {
+                /**
+                * READ ONLY: A flag indicating if the files inside the 'fileQueue' in the process of loading or not.
+                *
+                * @property fileQueueLoading
+                * @type Boolean
+                * @default false
+                * @readOnly
+                * @since 1.2.0
+                * @public
+                */
                 get: function () {
-                    if (this._loadingList.length === 0) {
-                        return 100;
-                    }
-                    var i = 0;
-                    var complete = 0;
-                    while (i < this._loadingList.length) {
-                        if (this._loadingList[i].complete) {
-                            complete++;
-                        }
-                        i++;
-                    }
-                    console.log(this._loadingList.length, complete);
-                    return (complete / this._loadingList.length) * 100;
+                    return this._queueLoading;
                 },
                 enumerable: true,
                 configurable: true
             });
+            /**
+            * The boot method is executed when the DOM has successfully loaded and we can now start the game.
+            * @method boot
+            * @public
+            */
             Loader.prototype.boot = function () {
                 this._loadingList = [];
                 this._loadingParallel = [];
@@ -9424,11 +9501,43 @@ var Kiwi;
                 this.onQueueComplete = new Kiwi.Signal();
                 this.onQueueProgress = new Kiwi.Signal();
             };
-            //Starts loading all the files which are on the file queue
-            Loader.prototype.start = function () {
+            /**
+            * Starts loading all the files which are in the file queue.
+            * @method start
+            * @param [calculateBytes] {Boolean} Setter for the 'calculateBytes' property.
+            * @since 1.2.0
+            * @public
+            */
+            Loader.prototype.start = function (calculateBytes) {
+                if (calculateBytes === void 0) { calculateBytes = null; }
+                if (calculateBytes !== null) {
+                    this._calculateBytes = calculateBytes;
+                }
+                if (this._queueLoading) {
+                    Kiwi.Log.warn('Kiwi.Files.Loader: Files in the queue are already being loaded');
+                    return;
+                }
+                //Reset the number of bytes laoded
+                this._bytesLoaded = 0;
+                this._bytesTotal = 0;
+                if (this._calculateBytes) {
+                    this.calculateQueuedSize(this._startLoading, this);
+                }
+                else {
+                    this._startLoading();
+                }
+            };
+            /**
+            * Loops through the file queue and starts the loading process.
+            *
+            * @method _startLoading
+            * @private
+            */
+            Loader.prototype._startLoading = function () {
                 //Any files to load?
                 if (this._loadingList.length <= 0) {
-                    Kiwi.Log.log('Kiwi.Files.Loader: No files are to load have been found.');
+                    Kiwi.Log.log('Kiwi.Files.Loader: No files are to load have been found.', '#loading');
+                    this.onQueueProgress.dispatch(100, 0, null);
                     this.onQueueComplete.dispatch();
                     return;
                 }
@@ -9436,68 +9545,180 @@ var Kiwi;
                 var i = 0, file;
                 while (i < this._loadingList.length) {
                     this.sortFile(this._loadingList[i]);
+                    if (this._calculateBytes) {
+                        this._loadingList[i].onProgress.add(this.updateFileListInformation, this);
+                    }
+                    this._loadingList[i].onComplete.addOnce(this.fileQueueUpdate, this);
                     i++;
                 }
+                this._queueLoading = true;
+                this._bytesLoaded = 0;
                 this.startLoadingQueue();
                 this.startLoadingParallel();
+                this.fileQueueUpdate(null, true);
             };
-            Loader.prototype.addFile = function (file) {
+            /**
+            * Adds a file to the queue of files to be loaded.
+            * Files cannot be added whilst the queue is currently loading,
+            * the file to add is currently loading, or has been loaded before.
+            *
+            * @method addFileToQueue
+            * @param file {Kiwi.Files.File} The file to add.
+            * @return {Boolean} If the file was added to the queue or not.
+            * @since 1.2.0
+            * @public
+            */
+            Loader.prototype.addFileToQueue = function (file) {
+                if (this._queueLoading) {
+                    Kiwi.Log.warn('Kiwi.Files.Loader: File cannot be added to the queue whilst the queue is currently loading.', '#loading', '#filequeue');
+                    return false;
+                }
                 if (file.loading || file.complete) {
-                    Kiwi.Log.warn('Kiwi.Files.Loader: File could not be added as it is currently loading or has already loaded.');
-                    return;
+                    Kiwi.Log.warn('Kiwi.Files.Loader: File could not be added as it is currently loading or has already loaded.', '#loading', '#filequeue');
+                    return false;
                 }
                 this._loadingList.push(file);
+                return true;
             };
-            Loader.prototype.removeFile = function (file) {
+            /**
+            * Removes a file from the file queue.
+            * Files cannot be removed whilst the queue is loading.
+            *
+            * @method removeFileFromQueue
+            * @param file {Kiwi.Files.File} The file to remove.
+            * @return {Boolean} If the file was added to the queue or not.
+            * @since 1.2.0
+            * @public
+            */
+            Loader.prototype.removeFileFromQueue = function (file) {
+                if (this._queueLoading) {
+                    Kiwi.Log.warn('Kiwi.Files.Loader: File cannot be remove from the queue whilst the queue is currently loading.', '#loading', '#filequeue');
+                    return false;
+                }
                 var index = this._loadingList.indexOf(file);
                 if (index === -1) {
                     return false;
                 }
                 if (file.loading) {
-                    Kiwi.Log.warn('Kiwi.Files.Loader: Cannot remove the file from the list as it is currently loading.');
+                    Kiwi.Log.warn('Kiwi.Files.Loader: Cannot remove the file from the list as it is currently loading.', '#loading', '#filequeue');
                     return false;
                 }
                 this._loadingList.splice(index, 1);
                 return true;
             };
+            /**
+            * Clears the file queue of all files.
+            *
+            * @method clearQueue
+            * @since 1.2.0
+            * @public
+            */
             Loader.prototype.clearQueue = function () {
-                this._loadingList.length = 0;
+                if (!this._queueLoading) {
+                    this._loadingList.length = 0;
+                }
+                else {
+                    Kiwi.Log.error('Kiwi.Files.Loader: Cannot clear the file queue whilst the files are being loaded.', '#loading', '#filequeue');
+                }
             };
+            /**
+            * Sorts a file and places it into either the 'loadingParallel' or 'loadingQueue'
+            * depending on the method of loading it is using.
+            *
+            * @method sortFile
+            * @param file {Kiwi.Files.File}
+            * @since 1.2.0
+            * @private
+            */
             Loader.prototype.sortFile = function (file) {
                 if (file.loadInParallel) {
                     //Push into the tag loader queue
-                    console.log('Using Tag Loader');
                     this._loadingParallel.push(file);
                 }
                 else {
                     //Push into the xhr queue
-                    console.log('Using XHR Loader');
                     this._loadingQueue.push(file);
                 }
             };
-            Loader.prototype.fileQueueUpdate = function (file) {
-                //Get the number of files in the queue that have been loaded
-                var percent = this.percentLoaded;
-                //If it is 100 percent
-                if (percent === 100) {
-                    //Clear the file queue and dispatch the loaded event
-                    this._loadingList.length = 0;
-                    this.onQueueComplete.dispatch();
+            /**
+            * Called each time a file has processed whilst loading, or has just completed loading.
+            *
+            * Calculates the new number of bytes loaded and
+            * the percentage of loading done by looping through all of the files.
+            *
+            * @method updateFileListInformation
+            * @private
+            */
+            Loader.prototype.updateFileListInformation = function () {
+                var i = 0;
+                this._completedFiles = 0;
+                this._bytesLoaded = 0;
+                while (i < this._loadingList.length) {
+                    //Was the file loaded, but we have no bytes (must have used the tag loader) and we have their details?
+                    if (this._loadingList[i].bytesLoaded === 0 && this._loadingList[i].success && this._loadingList[i].detailsReceived) {
+                        this._bytesLoaded += this._loadingList[i].size;
+                    }
+                    else {
+                        //Add the bytes loaded to the list 
+                        this._bytesLoaded += this._loadingList[i].bytesLoaded;
+                    }
+                    //Calculate percentage
+                    if (this._loadingList[i].complete) {
+                        this._completedFiles++;
+                    }
+                    i++;
+                }
+                //Calculate the percentage depending on how accurate we can be.
+                if (this._calculateBytes) {
+                    this.percentLoaded = (this._bytesLoaded / this._bytesTotal) * 100;
                 }
                 else {
-                    this.onQueueProgress.dispatch(percent);
+                    this.percentLoaded = (this._completedFiles / this._loadingList.length) * 100;
                 }
             };
-            //XHR Loader
+            /**
+            * Executed by files when they have successfully been loaded.
+            * This method checks to see if the files are in the file queue, and dispatches the appropriate events.
+            *
+            * @method fileQueueUpdate
+            * @param file {Kiwi.Files.File} The file which has been recently loaded.
+            * @param [forceProgressCheck=false] {Boolean} If the progress of file loading should be checked, regardless of the file being in the queue or not.
+            * @since 1.2.0
+            * @private
+            */
+            Loader.prototype.fileQueueUpdate = function (file, forceProgressCheck) {
+                if (forceProgressCheck === void 0) { forceProgressCheck = false; }
+                //If the file loaded is in the loadingList
+                if (!forceProgressCheck && this._loadingList.indexOf(file) === -1) {
+                    return;
+                }
+                //Update the file information.
+                this.updateFileListInformation();
+                //Dispatch progress event.
+                this.onQueueProgress.dispatch(this.percentLoaded, this.bytesLoaded, file);
+                if (this._completedFiles >= this._loadingList.length) {
+                    //Clear the file queue and dispatch the loaded event
+                    this._queueLoading = false;
+                    this.clearQueue();
+                    this.onQueueComplete.dispatch();
+                }
+            };
+            /**
+            * Starts the loading process in the loadingQueue.
+            * @method startLoadingQueue
+            * @return {Boolean}
+            * @since 1.2.0
+            * @return
+            */
             Loader.prototype.startLoadingQueue = function () {
                 //Any files to load?
                 if (this._loadingQueue.length <= 0) {
                     Kiwi.Log.log('Kiwi.Files.Loader: No queued files to load.', '#loading');
                     return false;
                 }
-                //Is the current one loading?
+                //Is the first file currently loading?
                 if (this._loadingQueue[0].loading) {
-                    console.log('Kiwi.Files.Loader: File is currently loading');
+                    console.log('Kiwi.Files.Loader: File is currently loading', '#loading');
                     return false;
                 }
                 //Attempt to load the file!
@@ -9505,42 +9726,165 @@ var Kiwi;
                 this._loadingQueue[0].load();
                 return true;
             };
+            /**
+            * Executed when a file in the 'loadingQueue' has been successfully loaded.
+            * Removes the file from the loadingQueue and executes the 'startLoadingQueue' to start loading the next file.
+            *
+            * @method queueFileComplete
+            * @param file {Kiwi.Files.File}
+            * @since 1.2.0
+            * @private
+            */
             Loader.prototype.queueFileComplete = function (file) {
-                //Remove from the XHR queue
+                //Remove from the loadingQueue
                 var index = this._loadingQueue.indexOf(file);
                 if (index === -1) {
-                    console.log('Something has gone wrong? No file has been found');
+                    Kiwi.Log.warn("Something has gone wrong? The file which executed this method doesn't exist in the loadingQueue.", '#loading', '#error');
                     return;
                 }
                 this._loadingQueue.splice(index, 1);
-                //Start loading 
-                if (!this.startLoadingQueue()) {
-                    //Loading has been completed
-                    console.log('XHR Loading Complete');
-                }
-                this.fileQueueUpdate(file);
+                //Start loading the next file
+                this.startLoadingQueue();
             };
-            //Tag Loading
+            /**
+            * Starts loading all of the files which can be loaded in parallel.
+            * @method startLoadingParallel
+            * @since 1.2.0
+            * @private
+            */
             Loader.prototype.startLoadingParallel = function () {
-                //Loop through all of the files
                 var i = 0, file;
                 while (i < this._loadingParallel.length) {
                     file = this._loadingParallel[i];
-                    file.onComplete.add(this.parallelFileComplete, this);
-                    file.load();
+                    if (!file.loading) {
+                        file.onComplete.add(this.parallelFileComplete, this);
+                        file.load();
+                    }
                     i++;
                 }
             };
+            /**
+            * Executed when a file in the 'loadingParallel' lsit has been successfully loaded.
+            * Removes the file from the list and get the fileQueue to check its progress.
+            *
+            * @method parallelFileComplete
+            * @param file {Kiwi.Files.File}
+            * @since 1.2.0
+            * @private
+            */
             Loader.prototype.parallelFileComplete = function (file) {
                 var index = this._loadingParallel.indexOf(file);
                 if (index === -1) {
-                    console.log('Something has gone wrong? No file has been found');
+                    Kiwi.Log.warn("Something has gone wrong? The file which executed this method doesn't exist in the loadingParallel.", '#loading', '#error');
                     return;
                 }
                 this._loadingParallel.splice(index, 1);
-                this.fileQueueUpdate(file);
             };
-            //File Queue
+            Object.defineProperty(Loader.prototype, "bytesTotal", {
+                /**
+                * READ ONLY: Returns the total number of bytes for the files in the file queue.
+                * Only contains a value after the 'calculateQueuedSize' method is executed.
+                *
+                * @property bytesTotal
+                * @readOnly
+                * @default 0
+                * @since 1.2.0
+                * @type Number
+                * @public
+                */
+                get: function () {
+                    return this._bytesTotal;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(Loader.prototype, "bytesLoaded", {
+                /**
+                * READ ONLY: Returns the total number of bytes for the files in the file queue.
+                * Only contains a value after the 'calculateQueuedSize' method is executed.
+                *
+                * @property bytesLoaded
+                * @readOnly
+                * @default 0
+                * @since 1.2.0
+                * @type Number
+                * @public
+                */
+                get: function () {
+                    return this._bytesLoaded;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            /**
+            * Loops through the file queue to calculate how many bytes
+            * Can only be executed when the file queue is not currently loading.
+            *
+            * @method calculateQueuedSize
+            * @param callback {any}
+            * @param [context=null] {any}
+            * @public
+            */
+            Loader.prototype.calculateQueuedSize = function (callback, context) {
+                if (context === void 0) { context = null; }
+                //Is the queue currently loading files?
+                if (this._queueLoading) {
+                    Kiwi.Log.warn('Kiwi.Files.Loader: Cannot calculate the size of the files in the filequeue whilst they are loading. ');
+                    return;
+                }
+                //Set the callbacks
+                this.onSizeCallback = callback;
+                this.onSizeContext = context;
+                // Start the process
+                this._currentFileIndex = 0;
+                this._bytesTotal = 0;
+                this._queueLoading = true;
+                this.calculateNextFileSize();
+            };
+            /**
+            * Checks to see if all the file sizes have been retrieved.
+            * If so completes the 'calculateQueuedSize' call.
+            * Otherwise continues the
+            *
+            * @method calculateNextFileSize
+            * @private
+            */
+            Loader.prototype.calculateNextFileSize = function () {
+                if (this._currentFileIndex >= this._loadingList.length) {
+                    this._queueLoading = false;
+                    this.onSizeCallback.call(this.onSizeContext, this._bytesTotal);
+                    ;
+                    return;
+                }
+                var file = this._loadingList[this._currentFileIndex];
+                //Have we already got the details for this file?
+                if (file.detailsReceived) {
+                    this.detailsReceived();
+                }
+                else {
+                    var details = file.loadDetails(this.detailsReceived, this);
+                    //Skip to the next file if the request could not be made.
+                    //Shouldn't happen.
+                    if (!details) {
+                        this.detailsReceived();
+                    }
+                }
+            };
+            /**
+            * Executed when by 'calculateNextFileSize' when the files information has been retrieved.
+            * Adds its calculated size to the _bytesTotal and executes the 'nextFileSize' method.
+            *
+            * @method detailsReceived
+            * @private
+            */
+            Loader.prototype.detailsReceived = function () {
+                var file = this._loadingList[this._currentFileIndex];
+                if (file.detailsReceived) {
+                    this._bytesTotal += file.size;
+                }
+                this._currentFileIndex++;
+                this.calculateNextFileSize();
+            };
             /**
             * -----------------------------
             * File Addition Methods
@@ -9556,7 +9900,7 @@ var Kiwi;
             * @param [offsetX] {number} An offset on the x axis of the cell.
             * @param [offsetY] {number} An offset of the y axis of the cell.
             * @param [storeAsGlobal=true] {boolean} If the image should be stored globally or not.
-            * @return {Kiwi.Files.File}
+            * @return {Kiwi.Files.File} The file which was created.
             * @public
             */
             Loader.prototype.addImage = function (key, url, width, height, offsetX, offsetY, storeAsGlobal) {
@@ -9577,7 +9921,7 @@ var Kiwi;
                     params.state = this.game.states.current;
                 }
                 var file = new Kiwi.Files.TextureFile(this.game, params);
-                this.addFile(file);
+                this.addFileToQueue(file);
                 return file;
             };
             /**
@@ -9595,7 +9939,7 @@ var Kiwi;
             * @param [cellOffsetX] {number} The spacing between each cell on the x axis.
             * @param [cellOffsetY] {number} The spacing between each cell on the y axis.
             * @param [storeAsGlobal=true] {boolean}
-            * @return {Kiwi.Files.File}
+            * @return {Kiwi.Files.File} The file which was created.
             * @public
             */
             Loader.prototype.addSpriteSheet = function (key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY, storeAsGlobal) {
@@ -9621,7 +9965,7 @@ var Kiwi;
                     params.state = this.game.states.current;
                 }
                 var file = new Kiwi.Files.TextureFile(this.game, params);
-                this.addFile(file);
+                this.addFileToQueue(file);
                 return file;
             };
             /**
@@ -9632,7 +9976,7 @@ var Kiwi;
             * @param jsonID {String} A key for the JSON file.
             * @param jsonURL {String} The url of the json file to load.
             * @param [storeAsGlobal=true] {Boolean} If hte files should be stored globally or not.
-            * @return {Kiwi.Files.File}
+            * @return {Kiwi.Files.File} The file which was created.
             * @public
             */
             Loader.prototype.addTextureAtlas = function (key, imageURL, jsonID, jsonURL, storeAsGlobal) {
@@ -9661,8 +10005,8 @@ var Kiwi;
                 }
                 var imageFile = new Kiwi.Files.TextureFile(this.game, textureParams);
                 var jsonFile = new Kiwi.Files.DataFile(this.game, jsonParams);
-                this.addFile(imageFile);
-                this.addFile(jsonFile);
+                this.addFileToQueue(imageFile);
+                this.addFileToQueue(jsonFile);
                 return imageFile;
             };
             /**
@@ -9676,7 +10020,7 @@ var Kiwi;
             * @param url {String} The url of the audio to load. You can pass an array of URLs, in which case the first supported audio filetype in the array will be loaded.
             * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
             * @param [onlyIfSupported=true] {Boolean} If the audio file should only be loaded if Kiwi detects that the audio file could be played.
-            * @return {Kiwi.Files.File}
+            * @return {Kiwi.Files.File} The file which was created.
             * @public
             */
             Loader.prototype.addAudio = function (key, url, storeAsGlobal, onlyIfSupported) {
@@ -9708,7 +10052,7 @@ var Kiwi;
             * @param url {String} The url of the audio to load.
             * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
             * @param [onlyIfSupported=true] {Boolean} If the audio file should only be loaded if Kiwi detects that the audio file could be played.
-            * @return {Kiwi.Files.File}
+            * @return {Kiwi.Files.File} The file which was created.
             * @private
             */
             Loader.prototype.attemptToAddAudio = function (key, url, storeAsGlobal, onlyIfSupported) {
@@ -9740,7 +10084,7 @@ var Kiwi;
                         break;
                 }
                 if (support == true || onlyIfSupported == false) {
-                    this.addFile(file);
+                    this.addFileToQueue(file);
                     return file;
                 }
                 else {
@@ -9754,7 +10098,7 @@ var Kiwi;
             * @param key {String} The key for the file.
             * @param url {String} The url to the json file.
             * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
-            * @return {Kiwi.Files.File}
+            * @return {Kiwi.Files.File} The file which was created.
             * @public
             */
             Loader.prototype.addJSON = function (key, url, storeAsGlobal) {
@@ -9769,7 +10113,7 @@ var Kiwi;
                     params.state = this.game.states.current;
                 }
                 var file = new Kiwi.Files.DataFile(this.game, params);
-                this.addFile(file);
+                this.addFileToQueue(file);
                 return file;
             };
             /**
@@ -9778,12 +10122,23 @@ var Kiwi;
             * @param key {String} The key for the file.
             * @param url {String} The url to the xml file.
             * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
-            * @return {Kiwi.Files.File}
+            * @return {Kiwi.Files.File} The file which was created.
             * @public
             */
             Loader.prototype.addXML = function (key, url, storeAsGlobal) {
                 if (storeAsGlobal === void 0) { storeAsGlobal = true; }
-                //
+                var params = {
+                    type: Kiwi.Files.File.XML,
+                    key: key,
+                    url: url,
+                    fileStore: this.game.fileStore
+                };
+                if (!storeAsGlobal && this.game.states.current) {
+                    params.state = this.game.states.current;
+                }
+                var file = new Kiwi.Files.DataFile(this.game, params);
+                this.addFileToQueue(file);
+                return file;
             };
             /**
             * Creates a new File for a Binary file and adds it to the loading queue.
@@ -9791,11 +10146,23 @@ var Kiwi;
             * @param key {String} The key for the file.
             * @param url {String} The url to the Binary file.
             * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
-            * @return {Kiwi.Files.File}
+            * @return {Kiwi.Files.File} The file which was created.
             * @public
             */
             Loader.prototype.addBinaryFile = function (key, url, storeAsGlobal) {
                 if (storeAsGlobal === void 0) { storeAsGlobal = true; }
+                var params = {
+                    type: Kiwi.Files.File.BINARY_DATA,
+                    key: key,
+                    url: url,
+                    fileStore: this.game.fileStore
+                };
+                if (!storeAsGlobal && this.game.states.current) {
+                    params.state = this.game.states.current;
+                }
+                var file = new Kiwi.Files.DataFile(this.game, params);
+                this.addFileToQueue(file);
+                return file;
             };
             /**
             * Creates a new File to store a text file and adds it to the loading queue.
@@ -9803,11 +10170,23 @@ var Kiwi;
             * @param key {String} The key for the file.
             * @param url {String} The url to the text file.
             * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
-            * @return {Kiwi.Files.File}
+            * @return {Kiwi.Files.File} The file which was created.
             * @public
             */
             Loader.prototype.addTextFile = function (key, url, storeAsGlobal) {
                 if (storeAsGlobal === void 0) { storeAsGlobal = true; }
+                var params = {
+                    type: Kiwi.Files.File.TEXT_DATA,
+                    key: key,
+                    url: url,
+                    fileStore: this.game.fileStore
+                };
+                if (!storeAsGlobal && this.game.states.current) {
+                    params.state = this.game.states.current;
+                }
+                var file = new Kiwi.Files.DataFile(this.game, params);
+                this.addFileToQueue(file);
+                return file;
             };
             /**
             * -----------------------
@@ -9816,10 +10195,13 @@ var Kiwi;
             **/
             /**
             * Initialise the properities that are needed on this loader.
+            * Recommended you use the 'onQueueProgress' / 'onQueueComplete' signals instead.
+            *
             * @method init
             * @param [progress=null] {Any} Progress callback method.
             * @param [complete=null] {Any} Complete callback method.
             * @param [calculateBytes=false] {boolean}
+            * @deprecated Deprecated as of 1.2.0
             * @public
             */
             Loader.prototype.init = function (progress, complete, calculateBytes) {
@@ -9827,7 +10209,7 @@ var Kiwi;
                 if (complete === void 0) { complete = null; }
                 if (calculateBytes === void 0) { calculateBytes = null; }
                 if (calculateBytes !== null) {
-                    Kiwi.Log.error('Calculating the number of bytes file have to load is currently not supported.');
+                    this._calculateBytes = calculateBytes;
                 }
                 if (progress !== null) {
                     this.onQueueProgress.addOnce(progress);
@@ -9839,6 +10221,7 @@ var Kiwi;
             /**
             * Loops through all of the files that need to be loaded and start the load event on them.
             * @method startLoad
+            * @deprecated Use 'start' instead. Deprecated as of 1.2.0
             * @public
             */
             Loader.prototype.startLoad = function () {
@@ -9848,6 +10231,7 @@ var Kiwi;
             * Returns a percentage of the amount that has been loaded so far.
             * @method getPercentLoaded
             * @return {Number}
+            * @deprecated Use 'percentLoaded' instead. Deprecated as of 1.2.0
             * @public
             */
             Loader.prototype.getPercentLoaded = function () {
@@ -9857,35 +10241,37 @@ var Kiwi;
             * Returns a boolean indicating if everything in the loading que has been loaded or not.
             * @method complete
             * @return {boolean}
+            * @deprecated Use 'percentLoaded' instead. Deprecated as of 1.2.0
             * @public
             */
             Loader.prototype.complete = function () {
                 return (this.percentLoaded === 100);
             };
             /**
-            * -----------------------
-            * Deprecated - Functionality no longer exists
-            * -----------------------
-            **/
-            /**
-            * Returns a percentage of the amount that has been loaded so far.
-            * @method getPercentLoaded
-            * @return {Number}
-            * @public
-            */
-            Loader.prototype.getBytesLoaded = function () {
-                return 0;
-            };
-            /**
-            * If true (and xhr/blob is available) the loader will get the bytes total of each file in the queue to give a much more accurate progress report during load
-              If false the loader will use the file number as the progress value, i.e. if there are 4 files in the queue progress will get called 4 times (25, 50, 75, 100)
+            * Quick way of getting / setting the private variable 'calculateBytes'
+            * To be made into a public variable once removed.
             * @method calculateBytes
             * @param [value] {boolean}
             * @return {boolean}
             * @public
             */
             Loader.prototype.calculateBytes = function (value) {
-                return false;
+                if (typeof value !== "undefined") {
+                    this._calculateBytes = value;
+                }
+                return this._calculateBytes;
+            };
+            /**
+            * Returns the total number of bytes that have been loaded so far from files in the file queue.
+            *
+            * @method getBytesLoaded
+            * @return {Number}
+            * @readOnly
+            * @deprecated Use 'bytesLoaded' instead. Deprecated as of 1.2.0
+            * @public
+            */
+            Loader.prototype.getBytesLoaded = function () {
+                return this.bytesLoaded;
             };
             return Loader;
         })();
@@ -10208,7 +10594,7 @@ var Kiwi;
                 * @property onCompleteCallback
                 * @type Any
                 * @default null
-                * @deprecated Use `onComplete`
+                * @deprecated Use `onComplete`. Deprecated as of 1.2.0
                 * @public
                 */
                 //public onCompleteCallback: any = null;
@@ -10217,7 +10603,7 @@ var Kiwi;
                 * @property onProgressCallback
                 * @type Any
                 * @default null
-                * @deprecated Use `onProgress`
+                * @deprecated Use `onProgress`. Deprecated as of 1.2.0
                 * @public
                 */
                 //public onProgressCallback: any = null;
@@ -10227,7 +10613,7 @@ var Kiwi;
                 * @property status
                 * @type Number
                 * @default 0
-                * @deprecated
+                * @deprecated Deprecated as of 1.2.0
                 * @public
                 */
                 this.status = 0;
@@ -10236,7 +10622,7 @@ var Kiwi;
                 * @property statusText
                 * @type String
                 * @default ''
-                * @deprecated
+                * @deprecated Deprecated as of 1.2.0
                 * @public
                 */
                 this.statusText = '';
@@ -10245,7 +10631,7 @@ var Kiwi;
                 * @property readyState
                 * @type Number
                 * @default 0
-                * @deprecated
+                * @deprecated Deprecated as of 1.2.0
                 * @public
                 */
                 this.readyState = 0;
@@ -10254,7 +10640,7 @@ var Kiwi;
                 * @property hasTimedOut
                 * @type boolean
                 * @default false
-                * @deprecated
+                * @deprecated Deprecated as of 1.2.0
                 * @public
                 */
                 this.hasTimedOut = false;
@@ -10263,7 +10649,7 @@ var Kiwi;
                 * @property timedOut
                 * @type Number
                 * @default 0
-                * @deprecated
+                * @deprecated Deprecated as of 1.2.0
                 * @public
                 */
                 this.timedOut = 0;
@@ -10316,7 +10702,7 @@ var Kiwi;
             *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
             *   @param [params.type=UNKNOWN] {Number} The type of file this is.
             *   @param [params.tags] {Array} Any tags to be associated with this file.
-            * @private
+            * @protected
             */
             File.prototype.parseParams = function (params) {
                 this.fileStore = params.fileStore || null;
@@ -10390,6 +10776,11 @@ var Kiwi;
             * @public
             */
             File.prototype.load = function (onCompleteCallback, onProgressCallback, customFileStore, maxLoadAttempts, timeout) {
+                //Not currently loading?
+                if (this.loading) {
+                    Kiwi.Log.error('Kiwi.Files.File: File loading is in progress. Cannot be told to load again.', '#loading');
+                    return;
+                }
                 Kiwi.Log.log("Kiwi.Files.File: Starting to load '" + this.name + "'", '#file', '#loading');
                 //Set the variables based on the parameters passed
                 //To be deprecated
@@ -10415,7 +10806,7 @@ var Kiwi;
             */
             File.prototype._load = function () {
                 this.attemptCounter++;
-                this.xhrLoader('text');
+                this.xhrLoader('GET', 'text');
             };
             /**
             * Should be called by the loading method. Dispatches the 'onProgress' callback.
@@ -10548,8 +10939,9 @@ var Kiwi;
                 }
             };
             /**
-            * Method to be overriden by those extending this class.
             * Contains the logic for processing the information retrieved via XHR.
+            * Assigns the data property.
+            * This method is also in charge of calling 'loadSuccess' (or 'loadError') when processing is complete.
             *
             * @method processXHR
             * @param response
@@ -10590,6 +10982,7 @@ var Kiwi;
             * @method loadDetails
             * @param [callback] {Any}
             * @param [context] {Any}
+            * @return {Boolean} If the request was made
             * @since 1.2.0
             * @public
             */
@@ -10599,13 +10992,14 @@ var Kiwi;
                 //Can't continue if regular loading is progressing.
                 if (this.loading) {
                     Kiwi.Log.error('Kiwi.Files.File: Cannot get the file details whilst the file is already loading');
-                    return;
+                    return false;
                 }
                 if (callback)
                     this.headCompleteCallback = callback;
                 if (context)
                     this.headCompleteContext = context;
                 this.xhrHeadRequest();
+                return true;
             };
             /**
             * Retrieves the HEAD information from the XHR.
@@ -10637,7 +11031,7 @@ var Kiwi;
             File.prototype.xhrHeadRequest = function () {
                 var _this = this;
                 this._xhr = new XMLHttpRequest();
-                this._xhr.open('HEAD', this.fileURL, false);
+                this._xhr.open('HEAD', this.fileURL, true);
                 if (this.timeOutDelay !== null)
                     this._xhr.timeout = this.timeOutDelay;
                 this._xhr.onload = function (event) { return _this.xhrHeadOnLoad(event); };
@@ -10666,7 +11060,7 @@ var Kiwi;
                 if (this._xhr.status === 200) {
                     this.getXHRHeaderInfo();
                     if (this.headCompleteCallback) {
-                        this.headCompleteCallback.call(this.headCompleteContext, false);
+                        this.headCompleteCallback.call(this.headCompleteContext, true);
                     }
                 }
                 else {
@@ -10764,7 +11158,7 @@ var Kiwi;
                 * The name of the file being loaded.
                 * @property fileName
                 * @type String
-                * @deprecated Use `name`
+                * @deprecated Use `name`. Deprecated as of 1.2.0
                 * @public
                 */
                 get: function () {
@@ -10782,7 +11176,7 @@ var Kiwi;
                 * Example: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'
                 * @property filePath
                 * @type String
-                * @deprecated Use `path`
+                * @deprecated Use `path`. Deprecated as of 1.2.0
                 * @public
                 */
                 get: function () {
@@ -10800,7 +11194,7 @@ var Kiwi;
                 * Example: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'
                 * @property filePath
                 * @type String
-                * @deprecated Use `extension`
+                * @deprecated Use `extension`. Deprecated as of 1.2.0
                 * @public
                 */
                 get: function () {
@@ -10817,7 +11211,7 @@ var Kiwi;
                 * The full filepath including the file itself.
                 * @property fileURL
                 * @type String
-                * @deprecated Use `URL`
+                * @deprecated Use `URL`. Deprecated as of 1.2.0
                 * @public
                 */
                 get: function () {
@@ -10836,7 +11230,7 @@ var Kiwi;
                 * The value is based off of the 'Content-Type' of the XHR's response header returns.
                 * @property fileType
                 * @type String
-                * @deprecated Use `type`
+                * @deprecated Use `type`. Deprecated as of 1.2.0
                 * @public
                 */
                 get: function () {
@@ -10854,7 +11248,7 @@ var Kiwi;
                 * Only has a value when the file was loaded by the XHR method OR you request the file information before hand using 'getFileDetails'.
                 * @property fileSize
                 * @type Number
-                * @deprecated Use `size`
+                * @deprecated Use `size`. Deprecated as of 1.2.0
                 * @public
                 */
                 get: function () {
@@ -10873,7 +11267,7 @@ var Kiwi;
             * @param [callback=null] {Any} The callback to send this FileInfo object to.
             * @param [maxLoadAttempts=1] {number} The maximum amount of load attempts. Only set this if it is different from the default.
             * @param [timeout=this.timeOutDelay] {number} The timeout delay. By default this is the same as the timeout delay property set on this file.
-            * @deprecated Use 'loadDetails' instead
+            * @deprecated Use 'loadDetails' instead. Deprecated as of 1.2.0
             * @private
             */
             File.prototype.getFileDetails = function (callback, maxLoadAttempts, timeout) {
@@ -31401,6 +31795,7 @@ var Kiwi;
         *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
         *   @param [params.type=UNKNOWN] {Number} The type of file this is.
         *   @param [params.tags] {Array} Any tags to be associated with this file.
+        *   @param [params.parse] {Boolean} If the response should be parsed after the file is loaded. Only used with JSON and XML types of Data files.
         * @return {Kiwi.Files.DataFile}
         *
         */
@@ -31409,9 +31804,38 @@ var Kiwi;
             function DataFile(game, params) {
                 if (params === void 0) { params = {}; }
                 _super.call(this, game, params);
+                /**
+                * If the response should be parsed (using the appropriate method) after loading.
+                * Example: If set to the true and the dataType set is json, then the response will be sent through a JSON.parse call.
+                *
+                * @property parse
+                * @type boolean
+                * @default false
+                * @public
+                */
+                this.parse = false;
                 this.useTagLoader = false;
                 this._loadInParallel = false;
             }
+            /**
+            * Sets properties for this instance based on an object literal passed. Used when the class is being created.
+            *
+            * @method parseParams
+            * @param [params] {Object}
+            *   @param [params.metadata={}] {Object} Any metadata to be associated with the file.
+            *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
+            *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
+            *   @param [params.type=UNKNOWN] {Number} The type of file this is.
+            *   @param [params.tags] {Array} Any tags to be associated with this file.
+            *   @param [params.parse] {Boolean} If the response should be parsed after the file is loaded.
+            * @protected
+            */
+            DataFile.prototype.parseParams = function (params) {
+                _super.prototype.parseParams.call(this, params);
+                if (!Kiwi.Utils.Common.isUndefined(params.parse)) {
+                    this.parse = params.parse;
+                }
+            };
             //this.dataType === File.XML || this.dataType === File.JSON || this.dataType === File.TEXT_DATA || this.dataType === File.BINARY_DATA
             /**
             * Returns the type of this object
@@ -31421,6 +31845,91 @@ var Kiwi;
             */
             DataFile.prototype.objType = function () {
                 return "DataFile";
+            };
+            /**
+            * Increments the counter, and calls the approprate loading method.
+            * @method _load
+            * @protected
+            */
+            DataFile.prototype._load = function () {
+                this.attemptCounter++;
+                //Special check for binary data. Change the loading type
+                if (this.dataType === Kiwi.Files.File.BINARY_DATA) {
+                    this.xhrLoader('GET', 'arraybuffer');
+                }
+                else {
+                    this.xhrLoader('GET', 'text');
+                }
+            };
+            /**
+            * Handles decoding the arraybuffer into audio data.
+            * @method processXHR
+            * @param response
+            * @protected
+            */
+            DataFile.prototype.processXHR = function (response) {
+                if (!this.parse) {
+                    this.data = response;
+                    this.loadSuccess();
+                    return;
+                }
+                switch (this.dataType) {
+                    case Kiwi.Files.File.JSON:
+                        this.processJSON(response);
+                        break;
+                    case Kiwi.Files.File.XML:
+                        this.parseXML(response);
+                        break;
+                    case Kiwi.Files.File.TEXT_DATA:
+                    case Kiwi.Files.File.BINARY_DATA:
+                    default:
+                        this.data = response;
+                        break;
+                }
+            };
+            /**
+            * Attempts to parse a string which is assumed to be XML. Called when 'parse' is set to true.
+            * If valid 'loadSuccess' is called, otherwise 'loadError' is executed
+            *
+            * @method parseXML
+            * @param data {String}
+            * @private
+            */
+            DataFile.prototype.parseXML = function (data) {
+                Kiwi.Log.log('Kiwi.Files.DataFile: Data loaded is being parsed as XML.', '#loading', '#parsing');
+                if (window['DOMParser']) {
+                    var parser = new DOMParser();
+                    this.data = parser.parseFromString(data, "text/xml");
+                }
+                else {
+                    this.data = new ActiveXObject("Microsoft.XMLDOM");
+                    this.data.async = "false";
+                    this.data.loadXML(data);
+                }
+                if (!this.data || !this.data.documentElement || this.data.getElementsByTagName("parsererror").length) {
+                    this.loadError('XML parse error.');
+                }
+                else {
+                    this.loadSuccess();
+                }
+            };
+            /**
+            * Attempts to parse a string which is assumed to be JSON. Called when 'parse' is set to true.
+            * If valid 'loadSuccess' is called, otherwise 'loadError' is executed
+            *
+            * @method processJSON
+            * @param data {String}
+            * @private
+            */
+            DataFile.prototype.processJSON = function (data) {
+                Kiwi.Log.log('Kiwi.Files.DataFile: Data loaded is being parsed as JSON.', '#loading', '#parsing');
+                try {
+                    this.data = JSON.parse(data);
+                    this.loadSuccess();
+                }
+                catch (e) {
+                    this.loadError(e);
+                }
             };
             return DataFile;
         })(Kiwi.Files.File);

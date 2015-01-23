@@ -6444,25 +6444,343 @@ declare module Kiwi.Files {
     */
     class Loader {
         constructor(game: Kiwi.Game);
+        /**
+        * The type of object this is.
+        * @method objType
+        * @return {String} "Loader"
+        * @public
+        */
         objType(): string;
+        /**
+        * The game this loader is attached to.
+        * @property game
+        * @type Kiwi.Game
+        * @public
+        */
         game: Kiwi.Game;
+        /**
+        * A list of files that can be loaded in parallel to one another.
+        * This list of files are currently being loaded.
+        *
+        * @property _loadingParallel
+        * @type Array
+        * @since 1.2.0
+        * @private
+        */
         private _loadingParallel;
+        /**
+        * List of files that cannot load in parallel to one another
+        * and so need to wait for previous files to load first.
+        * Generally files loaded via XHR.
+        *
+        * @property _loadingQueue
+        * @type Array
+        * @since 1.2.0
+        * @private
+        */
         private _loadingQueue;
+        /**
+        * List of files that are to be loaded.
+        * These files will be placed in the '_loadingQueue' or '_loadingParallel'
+        * lists when the queue is told to 'start' loading.
+        *
+        * @property _loadingList
+        * @type Array
+        * @since 1.2.0
+        * @private
+        */
         private _loadingList;
+        /**
+        * A Signal which dispatches callbacks when all files in the 'loadingList' have been loaded.
+        * When adding callbacks make sure to 'remove' them (or to use the 'addOnce' method)
+        * otherwise will fire when other sections use the loader.
+        *
+        * @method onQueueComplete
+        * @type Kiwi.Signal
+        * @since 1.2.0
+        * @public
+        */
         onQueueComplete: Kiwi.Signal;
+        /**
+        * A Signal which dispatches callbacks each time a file in the 'loadingList' have been loaded.
+        * Callbacks dispatched are passed the following arguments in order.
+        * 1. percent - The percentage of files loaded. A number from 0 - 100
+        * 2. bytesLoaded - The number of bytes loaded
+        * 3. file - The latest file that was loaded. First call will be null.
+        *
+        * When adding callbacks make sure to 'remove' them (or to use the 'addOnce' method)
+        * otherwise will fire when other sections use the loader.
+        *
+        * @method onQueueProgress
+        * @type Kiwi.Signal
+        * @since 1.2.0
+        * @public
+        */
         onQueueProgress: Kiwi.Signal;
+        /**
+        * A flag indicating if the files inside the 'fileQueue' in the process of loading or not.
+        *
+        * @property _fileQueueLoading
+        * @type Boolean
+        * @default false
+        * @since 1.2.0
+        * @private
+        */
+        private _queueLoading;
+        /**
+        * READ ONLY: A flag indicating if the files inside the 'fileQueue' in the process of loading or not.
+        *
+        * @property fileQueueLoading
+        * @type Boolean
+        * @default false
+        * @readOnly
+        * @since 1.2.0
+        * @public
+        */
+        queueLoading: boolean;
+        /**
+        * Returns the percent of files in the '_loadingList' which have been loaded.
+        * When no files are in the list, then the percentLoaded is 100.
+        *
+        * @property percentLoaded
+        * @type Number
+        * @since 1.2.0
+        * @readOnly
+        * @public
+        */
         percentLoaded: number;
+        /**
+        * The boot method is executed when the DOM has successfully loaded and we can now start the game.
+        * @method boot
+        * @public
+        */
         boot(): void;
-        start(): void;
-        addFile(file: Kiwi.Files.File): void;
-        removeFile(file: Kiwi.Files.File): boolean;
+        /**
+        * Starts loading all the files which are in the file queue.
+        * @method start
+        * @param [calculateBytes] {Boolean} Setter for the 'calculateBytes' property.
+        * @since 1.2.0
+        * @public
+        */
+        start(calculateBytes?: boolean): void;
+        /**
+        * Loops through the file queue and starts the loading process.
+        *
+        * @method _startLoading
+        * @private
+        */
+        private _startLoading();
+        /**
+        * Adds a file to the queue of files to be loaded.
+        * Files cannot be added whilst the queue is currently loading,
+        * the file to add is currently loading, or has been loaded before.
+        *
+        * @method addFileToQueue
+        * @param file {Kiwi.Files.File} The file to add.
+        * @return {Boolean} If the file was added to the queue or not.
+        * @since 1.2.0
+        * @public
+        */
+        addFileToQueue(file: Kiwi.Files.File): boolean;
+        /**
+        * Removes a file from the file queue.
+        * Files cannot be removed whilst the queue is loading.
+        *
+        * @method removeFileFromQueue
+        * @param file {Kiwi.Files.File} The file to remove.
+        * @return {Boolean} If the file was added to the queue or not.
+        * @since 1.2.0
+        * @public
+        */
+        removeFileFromQueue(file: Kiwi.Files.File): boolean;
+        /**
+        * Clears the file queue of all files.
+        *
+        * @method clearQueue
+        * @since 1.2.0
+        * @public
+        */
         clearQueue(): void;
+        /**
+        * Sorts a file and places it into either the 'loadingParallel' or 'loadingQueue'
+        * depending on the method of loading it is using.
+        *
+        * @method sortFile
+        * @param file {Kiwi.Files.File}
+        * @since 1.2.0
+        * @private
+        */
         private sortFile(file);
-        private fileQueueUpdate(file);
+        /**
+        * The number of files in the file queue that have been updated.
+        *
+        * @property _completeFiles
+        * @type number
+        * @default 0
+        * @private
+        */
+        private _completedFiles;
+        /**
+        * Called each time a file has processed whilst loading, or has just completed loading.
+        *
+        * Calculates the new number of bytes loaded and
+        * the percentage of loading done by looping through all of the files.
+        *
+        * @method updateFileListInformation
+        * @private
+        */
+        private updateFileListInformation();
+        /**
+        * Executed by files when they have successfully been loaded.
+        * This method checks to see if the files are in the file queue, and dispatches the appropriate events.
+        *
+        * @method fileQueueUpdate
+        * @param file {Kiwi.Files.File} The file which has been recently loaded.
+        * @param [forceProgressCheck=false] {Boolean} If the progress of file loading should be checked, regardless of the file being in the queue or not.
+        * @since 1.2.0
+        * @private
+        */
+        private fileQueueUpdate(file, forceProgressCheck?);
+        /**
+        * Starts the loading process in the loadingQueue.
+        * @method startLoadingQueue
+        * @return {Boolean}
+        * @since 1.2.0
+        * @return
+        */
         private startLoadingQueue();
+        /**
+        * Executed when a file in the 'loadingQueue' has been successfully loaded.
+        * Removes the file from the loadingQueue and executes the 'startLoadingQueue' to start loading the next file.
+        *
+        * @method queueFileComplete
+        * @param file {Kiwi.Files.File}
+        * @since 1.2.0
+        * @private
+        */
         private queueFileComplete(file);
+        /**
+        * Starts loading all of the files which can be loaded in parallel.
+        * @method startLoadingParallel
+        * @since 1.2.0
+        * @private
+        */
         private startLoadingParallel();
+        /**
+        * Executed when a file in the 'loadingParallel' lsit has been successfully loaded.
+        * Removes the file from the list and get the fileQueue to check its progress.
+        *
+        * @method parallelFileComplete
+        * @param file {Kiwi.Files.File}
+        * @since 1.2.0
+        * @private
+        */
         private parallelFileComplete(file);
+        /**
+        * -----------------------------
+        * Bytes Loaded Methods
+        * -----------------------------
+        **/
+        /**
+        * If the number of bytes for each file should be calculated before the queue starts loading.
+        * If true each file in the queue makes a XHR HEAD request first to get the total values.
+        *
+        * @property _calculateBytes
+        * @type Boolean
+        * @private
+        */
+        private _calculateBytes;
+        /**
+        * Callback for when the total number of bytes of the files in the file list has been calculated.
+        *
+        * @property onQueueSizeCalculate
+        * @type any
+        * @private
+        */
+        private onSizeCallback;
+        /**
+        * Context that the onSizeCallback should be executed in.
+        *
+        * @property onSizeContext
+        * @type any
+        * @private
+        */
+        private onSizeContext;
+        /**
+        * The index of the current file in the filelist thats size is being retrieved.
+        * @property _currentFileIndex
+        * @type number
+        * @private
+        */
+        private _currentFileIndex;
+        /**
+        * Total file size (in bytes) of all files in the queue to be loaded.
+        *
+        * @property _bytesTotal
+        * @type Number
+        * @private
+        */
+        private _bytesTotal;
+        /**
+        * READ ONLY: Returns the total number of bytes for the files in the file queue.
+        * Only contains a value after the 'calculateQueuedSize' method is executed.
+        *
+        * @property bytesTotal
+        * @readOnly
+        * @default 0
+        * @since 1.2.0
+        * @type Number
+        * @public
+        */
+        bytesTotal: number;
+        /**
+        * The number of bytes loaded of files in the file queue.
+        * Not accurate if the file use tag loading AND you didn't get calculate the bytes before hand.
+        *
+        * @property _bytesLoaded
+        * @type Number
+        * @private
+        */
+        private _bytesLoaded;
+        /**
+        * READ ONLY: Returns the total number of bytes for the files in the file queue.
+        * Only contains a value after the 'calculateQueuedSize' method is executed.
+        *
+        * @property bytesLoaded
+        * @readOnly
+        * @default 0
+        * @since 1.2.0
+        * @type Number
+        * @public
+        */
+        bytesLoaded: number;
+        /**
+        * Loops through the file queue to calculate how many bytes
+        * Can only be executed when the file queue is not currently loading.
+        *
+        * @method calculateQueuedSize
+        * @param callback {any}
+        * @param [context=null] {any}
+        * @public
+        */
+        calculateQueuedSize(callback: any, context?: any): void;
+        /**
+        * Checks to see if all the file sizes have been retrieved.
+        * If so completes the 'calculateQueuedSize' call.
+        * Otherwise continues the
+        *
+        * @method calculateNextFileSize
+        * @private
+        */
+        private calculateNextFileSize();
+        /**
+        * Executed when by 'calculateNextFileSize' when the files information has been retrieved.
+        * Adds its calculated size to the _bytesTotal and executes the 'nextFileSize' method.
+        *
+        * @method detailsReceived
+        * @private
+        */
+        private detailsReceived();
         /**
         * -----------------------------
         * File Addition Methods
@@ -6478,7 +6796,7 @@ declare module Kiwi.Files {
         * @param [offsetX] {number} An offset on the x axis of the cell.
         * @param [offsetY] {number} An offset of the y axis of the cell.
         * @param [storeAsGlobal=true] {boolean} If the image should be stored globally or not.
-        * @return {Kiwi.Files.File}
+        * @return {Kiwi.Files.File} The file which was created.
         * @public
         */
         addImage(key: string, url: string, width?: number, height?: number, offsetX?: number, offsetY?: number, storeAsGlobal?: boolean): Kiwi.Files.File;
@@ -6497,7 +6815,7 @@ declare module Kiwi.Files {
         * @param [cellOffsetX] {number} The spacing between each cell on the x axis.
         * @param [cellOffsetY] {number} The spacing between each cell on the y axis.
         * @param [storeAsGlobal=true] {boolean}
-        * @return {Kiwi.Files.File}
+        * @return {Kiwi.Files.File} The file which was created.
         * @public
         */
         addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number, storeAsGlobal?: boolean): TextureFile;
@@ -6509,7 +6827,7 @@ declare module Kiwi.Files {
         * @param jsonID {String} A key for the JSON file.
         * @param jsonURL {String} The url of the json file to load.
         * @param [storeAsGlobal=true] {Boolean} If hte files should be stored globally or not.
-        * @return {Kiwi.Files.File}
+        * @return {Kiwi.Files.File} The file which was created.
         * @public
         */
         addTextureAtlas(key: string, imageURL: string, jsonID: string, jsonURL: string, storeAsGlobal?: boolean): TextureFile;
@@ -6524,7 +6842,7 @@ declare module Kiwi.Files {
         * @param url {String} The url of the audio to load. You can pass an array of URLs, in which case the first supported audio filetype in the array will be loaded.
         * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
         * @param [onlyIfSupported=true] {Boolean} If the audio file should only be loaded if Kiwi detects that the audio file could be played.
-        * @return {Kiwi.Files.File}
+        * @return {Kiwi.Files.File} The file which was created.
         * @public
         */
         addAudio(key: string, url: any, storeAsGlobal?: boolean, onlyIfSupported?: boolean): File;
@@ -6536,7 +6854,7 @@ declare module Kiwi.Files {
         * @param url {String} The url of the audio to load.
         * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
         * @param [onlyIfSupported=true] {Boolean} If the audio file should only be loaded if Kiwi detects that the audio file could be played.
-        * @return {Kiwi.Files.File}
+        * @return {Kiwi.Files.File} The file which was created.
         * @private
         */
         private attemptToAddAudio(key, url, storeAsGlobal, onlyIfSupported);
@@ -6546,7 +6864,7 @@ declare module Kiwi.Files {
         * @param key {String} The key for the file.
         * @param url {String} The url to the json file.
         * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
-        * @return {Kiwi.Files.File}
+        * @return {Kiwi.Files.File} The file which was created.
         * @public
         */
         addJSON(key: string, url: string, storeAsGlobal?: boolean): DataFile;
@@ -6556,30 +6874,30 @@ declare module Kiwi.Files {
         * @param key {String} The key for the file.
         * @param url {String} The url to the xml file.
         * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
-        * @return {Kiwi.Files.File}
+        * @return {Kiwi.Files.File} The file which was created.
         * @public
         */
-        addXML(key: string, url: string, storeAsGlobal?: boolean): void;
+        addXML(key: string, url: string, storeAsGlobal?: boolean): DataFile;
         /**
         * Creates a new File for a Binary file and adds it to the loading queue.
         * @method addBinaryFile
         * @param key {String} The key for the file.
         * @param url {String} The url to the Binary file.
         * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
-        * @return {Kiwi.Files.File}
+        * @return {Kiwi.Files.File} The file which was created.
         * @public
         */
-        addBinaryFile(key: string, url: string, storeAsGlobal?: boolean): void;
+        addBinaryFile(key: string, url: string, storeAsGlobal?: boolean): DataFile;
         /**
         * Creates a new File to store a text file and adds it to the loading queue.
         * @method addTextFile
         * @param key {String} The key for the file.
         * @param url {String} The url to the text file.
         * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
-        * @return {Kiwi.Files.File}
+        * @return {Kiwi.Files.File} The file which was created.
         * @public
         */
-        addTextFile(key: string, url: string, storeAsGlobal?: boolean): void;
+        addTextFile(key: string, url: string, storeAsGlobal?: boolean): DataFile;
         /**
         * -----------------------
         * Deprecated - Functionality exists. Maps to its equalvent
@@ -6587,16 +6905,20 @@ declare module Kiwi.Files {
         **/
         /**
         * Initialise the properities that are needed on this loader.
+        * Recommended you use the 'onQueueProgress' / 'onQueueComplete' signals instead.
+        *
         * @method init
         * @param [progress=null] {Any} Progress callback method.
         * @param [complete=null] {Any} Complete callback method.
         * @param [calculateBytes=false] {boolean}
+        * @deprecated Deprecated as of 1.2.0
         * @public
         */
         init(progress?: any, complete?: any, calculateBytes?: boolean): void;
         /**
         * Loops through all of the files that need to be loaded and start the load event on them.
         * @method startLoad
+        * @deprecated Use 'start' instead. Deprecated as of 1.2.0
         * @public
         */
         startLoad(): void;
@@ -6604,6 +6926,7 @@ declare module Kiwi.Files {
         * Returns a percentage of the amount that has been loaded so far.
         * @method getPercentLoaded
         * @return {Number}
+        * @deprecated Use 'percentLoaded' instead. Deprecated as of 1.2.0
         * @public
         */
         getPercentLoaded(): number;
@@ -6611,30 +6934,29 @@ declare module Kiwi.Files {
         * Returns a boolean indicating if everything in the loading que has been loaded or not.
         * @method complete
         * @return {boolean}
+        * @deprecated Use 'percentLoaded' instead. Deprecated as of 1.2.0
         * @public
         */
         complete(): boolean;
         /**
-        * -----------------------
-        * Deprecated - Functionality no longer exists
-        * -----------------------
-        **/
-        /**
-        * Returns a percentage of the amount that has been loaded so far.
-        * @method getPercentLoaded
-        * @return {Number}
-        * @public
-        */
-        getBytesLoaded(): number;
-        /**
-        * If true (and xhr/blob is available) the loader will get the bytes total of each file in the queue to give a much more accurate progress report during load
-          If false the loader will use the file number as the progress value, i.e. if there are 4 files in the queue progress will get called 4 times (25, 50, 75, 100)
+        * Quick way of getting / setting the private variable 'calculateBytes'
+        * To be made into a public variable once removed.
         * @method calculateBytes
         * @param [value] {boolean}
         * @return {boolean}
         * @public
         */
         calculateBytes(value?: boolean): boolean;
+        /**
+        * Returns the total number of bytes that have been loaded so far from files in the file queue.
+        *
+        * @method getBytesLoaded
+        * @return {Number}
+        * @readOnly
+        * @deprecated Use 'bytesLoaded' instead. Deprecated as of 1.2.0
+        * @public
+        */
+        getBytesLoaded(): number;
     }
 }
 /**
@@ -6755,9 +7077,9 @@ declare module Kiwi.Files {
         *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
         *   @param [params.type=UNKNOWN] {Number} The type of file this is.
         *   @param [params.tags] {Array} Any tags to be associated with this file.
-        * @private
+        * @protected
         */
-        private parseParams(params);
+        protected parseParams(params: any): void;
         /**
         * Gets the file details from the URL passed. Name, extension, and path are extracted.
         *
@@ -7073,8 +7395,9 @@ declare module Kiwi.Files {
         */
         protected xhrOnLoad(event: any): void;
         /**
-        * Method to be overriden by those extending this class.
         * Contains the logic for processing the information retrieved via XHR.
+        * Assigns the data property.
+        * This method is also in charge of calling 'loadSuccess' (or 'loadError') when processing is complete.
         *
         * @method processXHR
         * @param response
@@ -7220,6 +7543,9 @@ declare module Kiwi.Files {
         private headCompleteCallback;
         /**
         * The context the 'headCompleteCallback' should be executed in..
+        * The callback is the following arguments.
+        * 1. If the details were recieved
+        *
         * @property headCompleteContext
         * @type Any
         * @since 1.2.0
@@ -7242,10 +7568,11 @@ declare module Kiwi.Files {
         * @method loadDetails
         * @param [callback] {Any}
         * @param [context] {Any}
+        * @return {Boolean} If the request was made
         * @since 1.2.0
         * @public
         */
-        loadDetails(callback?: any, context?: any): void;
+        loadDetails(callback?: any, context?: any): boolean;
         /**
         * Retrieves the HEAD information from the XHR.
         * This method is used for both 'load' and 'loadDetails' methods.
@@ -7472,7 +7799,7 @@ declare module Kiwi.Files {
         * The name of the file being loaded.
         * @property fileName
         * @type String
-        * @deprecated Use `name`
+        * @deprecated Use `name`. Deprecated as of 1.2.0
         * @public
         */
         fileName: string;
@@ -7481,7 +7808,7 @@ declare module Kiwi.Files {
         * Example: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'
         * @property filePath
         * @type String
-        * @deprecated Use `path`
+        * @deprecated Use `path`. Deprecated as of 1.2.0
         * @public
         */
         filePath: string;
@@ -7490,7 +7817,7 @@ declare module Kiwi.Files {
         * Example: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'
         * @property filePath
         * @type String
-        * @deprecated Use `extension`
+        * @deprecated Use `extension`. Deprecated as of 1.2.0
         * @public
         */
         fileExtension: string;
@@ -7498,7 +7825,7 @@ declare module Kiwi.Files {
         * The full filepath including the file itself.
         * @property fileURL
         * @type String
-        * @deprecated Use `URL`
+        * @deprecated Use `URL`. Deprecated as of 1.2.0
         * @public
         */
         fileURL: string;
@@ -7508,7 +7835,7 @@ declare module Kiwi.Files {
         * The value is based off of the 'Content-Type' of the XHR's response header returns.
         * @property fileType
         * @type String
-        * @deprecated Use `type`
+        * @deprecated Use `type`. Deprecated as of 1.2.0
         * @public
         */
         fileType: string;
@@ -7517,7 +7844,7 @@ declare module Kiwi.Files {
         * Only has a value when the file was loaded by the XHR method OR you request the file information before hand using 'getFileDetails'.
         * @property fileSize
         * @type Number
-        * @deprecated Use `size`
+        * @deprecated Use `size`. Deprecated as of 1.2.0
         * @public
         */
         fileSize: number;
@@ -7526,7 +7853,7 @@ declare module Kiwi.Files {
         * @property onCompleteCallback
         * @type Any
         * @default null
-        * @deprecated Use `onComplete`
+        * @deprecated Use `onComplete`. Deprecated as of 1.2.0
         * @public
         */
         /**
@@ -7534,7 +7861,7 @@ declare module Kiwi.Files {
         * @property onProgressCallback
         * @type Any
         * @default null
-        * @deprecated Use `onProgress`
+        * @deprecated Use `onProgress`. Deprecated as of 1.2.0
         * @public
         */
         /**
@@ -7543,7 +7870,7 @@ declare module Kiwi.Files {
         * @property status
         * @type Number
         * @default 0
-        * @deprecated
+        * @deprecated Deprecated as of 1.2.0
         * @public
         */
         status: number;
@@ -7552,7 +7879,7 @@ declare module Kiwi.Files {
         * @property statusText
         * @type String
         * @default ''
-        * @deprecated
+        * @deprecated Deprecated as of 1.2.0
         * @public
         */
         statusText: string;
@@ -7561,7 +7888,7 @@ declare module Kiwi.Files {
         * @property readyState
         * @type Number
         * @default 0
-        * @deprecated
+        * @deprecated Deprecated as of 1.2.0
         * @public
         */
         readyState: number;
@@ -7570,7 +7897,7 @@ declare module Kiwi.Files {
         * @property hasTimedOut
         * @type boolean
         * @default false
-        * @deprecated
+        * @deprecated Deprecated as of 1.2.0
         * @public
         */
         hasTimedOut: boolean;
@@ -7579,7 +7906,7 @@ declare module Kiwi.Files {
         * @property timedOut
         * @type Number
         * @default 0
-        * @deprecated
+        * @deprecated Deprecated as of 1.2.0
         * @public
         */
         timedOut: number;
@@ -7587,7 +7914,7 @@ declare module Kiwi.Files {
         * The response that is given by the XHR loader when loading is complete.
         * @property buffer
         * @type Any
-        * @deprecated Use 'data' instead
+        * @deprecated Use 'data' instead. Deprecated as of 1.2.0
         * @public
         */
         buffer: any;
@@ -7598,7 +7925,7 @@ declare module Kiwi.Files {
         * @param [callback=null] {Any} The callback to send this FileInfo object to.
         * @param [maxLoadAttempts=1] {number} The maximum amount of load attempts. Only set this if it is different from the default.
         * @param [timeout=this.timeOutDelay] {number} The timeout delay. By default this is the same as the timeout delay property set on this file.
-        * @deprecated Use 'loadDetails' instead
+        * @deprecated Use 'loadDetails' instead. Deprecated as of 1.2.0
         * @private
         */
         getFileDetails(callback?: any, maxLoadAttempts?: number, timeout?: number): void;
@@ -21850,11 +22177,36 @@ declare module Kiwi.Files {
     *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
     *   @param [params.type=UNKNOWN] {Number} The type of file this is.
     *   @param [params.tags] {Array} Any tags to be associated with this file.
+    *   @param [params.parse] {Boolean} If the response should be parsed after the file is loaded. Only used with JSON and XML types of Data files.
     * @return {Kiwi.Files.DataFile}
     *
     */
     class DataFile extends Kiwi.Files.File {
         constructor(game: Kiwi.Game, params?: {});
+        /**
+        * Sets properties for this instance based on an object literal passed. Used when the class is being created.
+        *
+        * @method parseParams
+        * @param [params] {Object}
+        *   @param [params.metadata={}] {Object} Any metadata to be associated with the file.
+        *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
+        *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
+        *   @param [params.type=UNKNOWN] {Number} The type of file this is.
+        *   @param [params.tags] {Array} Any tags to be associated with this file.
+        *   @param [params.parse] {Boolean} If the response should be parsed after the file is loaded.
+        * @protected
+        */
+        protected parseParams(params: any): void;
+        /**
+        * If the response should be parsed (using the appropriate method) after loading.
+        * Example: If set to the true and the dataType set is json, then the response will be sent through a JSON.parse call.
+        *
+        * @property parse
+        * @type boolean
+        * @default false
+        * @public
+        */
+        parse: boolean;
         /**
         * Returns the type of this object
         * @method objType
@@ -21862,6 +22214,37 @@ declare module Kiwi.Files {
         * @public
         */
         objType(): string;
+        /**
+        * Increments the counter, and calls the approprate loading method.
+        * @method _load
+        * @protected
+        */
+        protected _load(): void;
+        /**
+        * Handles decoding the arraybuffer into audio data.
+        * @method processXHR
+        * @param response
+        * @protected
+        */
+        protected processXHR(response: any): void;
+        /**
+        * Attempts to parse a string which is assumed to be XML. Called when 'parse' is set to true.
+        * If valid 'loadSuccess' is called, otherwise 'loadError' is executed
+        *
+        * @method parseXML
+        * @param data {String}
+        * @private
+        */
+        private parseXML(data);
+        /**
+        * Attempts to parse a string which is assumed to be JSON. Called when 'parse' is set to true.
+        * If valid 'loadSuccess' is called, otherwise 'loadError' is executed
+        *
+        * @method processJSON
+        * @param data {String}
+        * @private
+        */
+        private processJSON(data);
     }
 }
 /**
