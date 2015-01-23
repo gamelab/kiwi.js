@@ -29863,6 +29863,695 @@ var Kiwi;
     })(Kiwi.Utils || (Kiwi.Utils = {}));
     var Utils = Kiwi.Utils;
 })(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    /**
+    * @module Kiwi
+    * @submodule Utils
+    * @namespace Kiwi.Utils
+    */
+    (function (Utils) {
+        /**
+        * Utility class used to make color management more transparent.
+        * Color objects hold color and alpha values, and can get or set them
+        * in a variety of ways.
+        * <br><br>
+        * Construct this object as follows.
+        * <br><br>
+        * Pass 3 or 4 numbers to determine RGB or RGBA. If the numbers are in
+        * the range 0-1, they will be parsed as normalized numbers.
+        * If they are in the range 1-255, they will be parsed as 8-bit channels.
+        * <br><br>
+        * Pass 3 or 4 numbers followed by the string "hsv" or "hsl"
+        * (lowercase) to parse HSV or HSL color space (with optional alpha).
+        * <br><br>
+        * Pass a string containing a hexadecimal color with or without alpha
+        * (such as "ff8040ff" or "4080ff").
+        *
+        * @class Color
+        * @constructor
+        * @since 1.2.0
+        */
+        var Color = (function () {
+            function Color() {
+                var args = [];
+                for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                    args[_i] = arguments[_i + 0];
+                }
+                /**
+                * Red channel, stored as a normalized value between 0 and 1.
+                * This is most compatible with graphics hardware.
+                * @property _r
+                * @type number
+                * @default 0.5
+                * @private
+                */
+                this._r = 0.5;
+                /**
+                * Green channel, stored as a normalized value between 0 and 1.
+                * This is most compatible with graphics hardware.
+                * @property _g
+                * @type number
+                * @default 0.5
+                * @private
+                */
+                this._g = 0.5;
+                /**
+                * Blue channel, stored as a normalized value between 0 and 1.
+                * This is most compatible with graphics hardware.
+                * @property _b
+                * @type number
+                * @default 0.5
+                * @private
+                */
+                this._b = 0.5;
+                /**
+                * Alpha channel, stored as a normalized value between 0 and 1.
+                * This is most compatible with graphics hardware.
+                * @property _a
+                * @type number
+                * @default 0.5
+                * @private
+                */
+                this._a = 1;
+                return this.set.apply(this, args);
+            }
+            /**
+            * Set colors from parameters
+            * @method set
+            * @param params {object} Composite parameter object
+            * @return Kiwi.Utils.Color
+            * @public
+            */
+            Color.prototype.set = function () {
+                var params = [];
+                for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                    params[_i] = arguments[_i + 0];
+                }
+                if (params.length === 3) {
+                    this.r = params[0];
+                    this.g = params[1];
+                    this.b = params[2];
+                } else if (params.length === 4) {
+                    if (!isNaN(params[3])) {
+                        this.r = params[0];
+                        this.g = params[1];
+                        this.b = params[2];
+                        this.a = params[3];
+                    } else if (params[3] === "hsv") {
+                        this.parseHsv(params[0], params[1], params[2]);
+                    } else if (params[3] === "hsl") {
+                        this.parseHsl(params[0], params[1], params[2]);
+                    }
+                } else if (params.length === 5) {
+                    if (params[4] === "hsv") {
+                        this.parseHsv(params[0], params[1], params[2], params[3]);
+                    } else if (params[4] === "hsl") {
+                        this.parseHsl(params[0], params[1], params[2], params[3]);
+                    }
+                } else if (typeof params[0] === "string") {
+                    this.parseColorHex(params[0]);
+                }
+
+                return this;
+            };
+
+            Object.defineProperty(Color.prototype, "rNorm", {
+                /**
+                * Red channel, stored as a normalized value between 0 and 1.
+                * @property rNorm
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this._r;
+                },
+                set: function (value) {
+                    if (!isNaN(value)) {
+                        this._r = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "gNorm", {
+                /**
+                * Green channel, stored as a normalized value between 0 and 1.
+                * @property gNorm
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this._g;
+                },
+                set: function (value) {
+                    if (!isNaN(value)) {
+                        this._g = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "bNorm", {
+                /**
+                * Blue channel, stored as a normalized value between 0 and 1.
+                * @property bNorm
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this._b;
+                },
+                set: function (value) {
+                    if (!isNaN(value)) {
+                        this._b = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "aNorm", {
+                /**
+                * Alpha channel, stored as a normalized value between 0 and 1.
+                * @property aNorm
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this._a;
+                },
+                set: function (value) {
+                    if (!isNaN(value)) {
+                        this._a = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "r", {
+                /**
+                * Red channel.
+                * If set to a number in the range 0-1, is interpreted as a
+                * normalized color (see rNorm).
+                * If set to a number above 1, is interpreted as an 8-bit channel
+                * (see r255).
+                * If queried, returns a normalized number in the range 0-1.
+                * @property r
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this._r;
+                },
+                set: function (value) {
+                    if (value > 1) {
+                        this.r255 = value;
+                    } else {
+                        this.rNorm = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "g", {
+                /**
+                * Green channel.
+                * If set to a number in the range 0-1, is interpreted as a
+                * normalized color (see gNorm).
+                * If set to a number above 1, is interpreted as an 8-bit channel
+                * (see g255).
+                * If queried, returns a normalized number in the range 0-1.
+                * @property g
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this._g;
+                },
+                set: function (value) {
+                    if (value > 1) {
+                        this.g255 = value;
+                    } else {
+                        this.gNorm = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "b", {
+                /**
+                * Blue channel.
+                * If set to a number in the range 0-1, is interpreted as a
+                * normalized color (see bNorm).
+                * If set to a number above 1, is interpreted as an 8-bit channel
+                * (see b255).
+                * If queried, returns a normalized number in the range 0-1.
+                * @property b
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this._b;
+                },
+                set: function (value) {
+                    if (value > 1) {
+                        this.b255 = value;
+                    } else {
+                        this.bNorm = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "a", {
+                /**
+                * Alpha channel.
+                * If set to a number in the range 0-1, is interpreted as a
+                * normalized color (see aNorm).
+                * If set to a number above 1, is interpreted as an 8-bit channel
+                * (see a255).
+                * If queried, returns a normalized number in the range 0-1.
+                * @property a
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this._a;
+                },
+                set: function (value) {
+                    if (value > 1) {
+                        this.r255 = value;
+                    } else {
+                        this.rNorm = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "r255", {
+                /**
+                * Red channel, specified as an 8-bit channel in the range 0-255.
+                * @property r255
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return Math.round(this._r * 255);
+                },
+                set: function (value) {
+                    if (!isNaN(value)) {
+                        this._r = value / 255;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "g255", {
+                /**
+                * Green channel, specified as an 8-bit channel in the range 0-255.
+                * @property g255
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return Math.round(this._g * 255);
+                },
+                set: function (value) {
+                    if (!isNaN(value)) {
+                        this._g = value / 255;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "b255", {
+                /**
+                * Blue channel, specified as an 8-bit channel in the range 0-255.
+                * @property b255
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return Math.round(this._b * 255);
+                },
+                set: function (value) {
+                    if (!isNaN(value)) {
+                        this._b = value / 255;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "a255", {
+                /**
+                * Alpha channel, specified as an 8-bit channel in the range 0-255.
+                * @property a255
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return Math.round(this._a * 255);
+                },
+                set: function (value) {
+                    if (!isNaN(value)) {
+                        this._a = value / 255;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "red", {
+                /**
+                * Red channel, alias of r
+                * @property red
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this.r;
+                },
+                set: function (value) {
+                    this.r = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "green", {
+                /**
+                * Green channel, alias of g
+                * @property green
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this.g;
+                },
+                set: function (value) {
+                    this.g = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "blue", {
+                /**
+                * Blue channel, alias of b
+                * @property blue
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this.b;
+                },
+                set: function (value) {
+                    this.b = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "alpha", {
+                /**
+                * Alpha channel, alias of a
+                * @property alpha
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this.a;
+                },
+                set: function (value) {
+                    this.a = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            /**
+            * Parse hexadecimal colors from strings
+            * @method parseColorHex
+            * @param color {string} A hexadecimal color such as "ffffff" (no alpha)
+            *	or "ffffffff" (with alpha)
+            * @public
+            */
+            Color.prototype.parseColorHex = function (color) {
+                var bigint = parseInt(color, 16), r = this.r255, g = this.g255, b = this.b255, a = this.a255;
+
+                if (color.length === 6) {
+                    r = (bigint >> 16) & 255;
+                    g = (bigint >> 8) & 255;
+                    b = bigint & 255;
+                    a = 255;
+                } else if (color.length === 8) {
+                    r = (bigint >> 24) & 255;
+                    g = (bigint >> 16) & 255;
+                    b = (bigint >> 8) & 255;
+                    a = bigint & 255;
+                }
+
+                this.r255 = r;
+                this.g255 = g;
+                this.b255 = b;
+                this.a255 = a;
+            };
+
+            /**
+            * Returns color as a hexadecimal string
+            * @method getColorHex
+            * @param [alpha=true] {boolean} Whether to include the alpha
+            * @return string
+            * @public
+            */
+            Color.prototype.getColorHex = function (alpha) {
+                if (typeof alpha === "undefined") { alpha = true; }
+                var num, mult = 256;
+
+                if (alpha) {
+                    num = this.r255 * mult * mult * mult + this.g255 * mult * mult + this.b255 * mult + this.a255;
+                } else {
+                    num = this.r255 * mult * mult + this.g255 * mult + this.b255;
+                }
+                return num.toString(16);
+            };
+
+            /**
+            * Parses normalized HSV values into the Color.
+            * Based on algorithms at
+            * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+            * @method parseHsv
+            * @param h {number} Hue
+            * @param s {number} Saturation
+            * @param v {number} Value
+            * @public
+            */
+            Color.prototype.parseHsv = function (h, s, v, a) {
+                if (typeof a === "undefined") { a = 1; }
+                var r, g, b, i, f, p, q, t;
+
+                i = Math.floor(h * 6);
+                f = h * 6 - i;
+                p = v * (1 - s);
+                q = v * (1 - f * s);
+                t = v * (1 - (1 - f) * s);
+
+                switch (i % 6) {
+                    case 0:
+                        r = v;
+                        g = t;
+                        b = p;
+                        break;
+                    case 1:
+                        r = q;
+                        g = v;
+                        b = p;
+                        break;
+                    case 2:
+                        r = p;
+                        g = v;
+                        b = t;
+                        break;
+                    case 3:
+                        r = p;
+                        g = q;
+                        b = v;
+                        break;
+                    case 4:
+                        r = t;
+                        g = p;
+                        b = v;
+                        break;
+                    case 5:
+                        r = v;
+                        g = p;
+                        b = q;
+                        break;
+                }
+
+                this._r = r;
+                this._g = g;
+                this._b = b;
+                this._a = a;
+            };
+
+            /**
+            * Returns HSV value of the Color.
+            * Based on algorithms at
+            * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+            * @method getHsva
+            * @return {object} Object with normalized h, s, v, a properties.
+            */
+            Color.prototype.getHsva = function () {
+                var h, s, v, d, r = this._r, g = this._g, b = this._b, max = Math.max(r, g, b), min = Math.min(r, g, b);
+
+                h = max;
+                s = max;
+                v = max;
+
+                d = max - min;
+                s = max === 0 ? 0 : d / max;
+
+                if (max === min) {
+                    // Achromatic
+                    h = 0;
+                } else {
+                    switch (max) {
+                        case r:
+                            h = (g - b) / d + (g < b ? 6 : 0);
+                            break;
+                        case g:
+                            h = (b - r) / d + 2;
+                            break;
+                        case b:
+                            h = (r - g) / d + 4;
+                            break;
+                    }
+                    h /= 6;
+                }
+
+                return { h: h, s: s, v: v, a: this._a };
+            };
+
+            /**
+            * Returns HSL value of the Color.
+            * Based on algorithms at
+            * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+            * @method getHsla
+            * @return {object} Object with normalized h, s, l, a properties.
+            * @public
+            */
+            Color.prototype.getHsla = function () {
+                var d, r = this._r, g = this._g, b = this._b, max = Math.max(r, g, b), min = Math.min(r, g, b), h = (max + min) / 2, s = (max + min) / 2, l = (max + min) / 2;
+
+                if (max == min) {
+                    // Achromatic
+                    h = 0;
+                    s = 0;
+                } else {
+                    d = max - min;
+                    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                    switch (max) {
+                        case r:
+                            h = (g - b) / d + (g < b ? 6 : 0);
+                            break;
+                        case g:
+                            h = (b - r) / d + 2;
+                            break;
+                        case b:
+                            h = (r - g) / d + 4;
+                            break;
+                    }
+                    h /= 6;
+                }
+
+                return { h: h, s: s, l: l, a: this._a };
+            };
+
+            /**
+            * Parses HSL value onto the Color.
+            * Based on algorithms at
+            * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+            * @method parseHsl
+            * @param h {number} Hue
+            * @param s {number} Saturation
+            * @param l {number} Lightness
+            * @public
+            */
+            Color.prototype.parseHsl = function (h, s, l, a) {
+                if (typeof a === "undefined") { a = 1; }
+                var q, p, r = this._r, g = this._g, b = this._b;
+
+                if (s === 0) {
+                    // Achromatic
+                    r = l;
+                    g = l;
+                    b = l;
+                } else {
+                    function hue2rgb(p, q, t) {
+                        if (t < 0) {
+                            t += 1;
+                        }
+                        if (t > 1) {
+                            t -= 1;
+                        }
+                        if (t < 1 / 6) {
+                            return p + (q - p) * 6 * t;
+                        }
+                        if (t < 1 / 2) {
+                            return q;
+                        }
+                        if (t < 2 / 3) {
+                            return p + (q - p) * (2 / 3 - t) * 6;
+                        }
+                        return p;
+                    }
+
+                    q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                    p = 2 * l - q;
+                    r = hue2rgb(p, q, h + 1 / 3);
+                    g = hue2rgb(p, q, h);
+                    b = hue2rgb(p, q, h - 1 / 3);
+                }
+
+                this._r = r;
+                this._g = g;
+                this._b = b;
+                this._a = a;
+            };
+            return Color;
+        })();
+        Utils.Color = Color;
+    })(Kiwi.Utils || (Kiwi.Utils = {}));
+    var Utils = Kiwi.Utils;
+})(Kiwi || (Kiwi = {}));
 /**
 * Utils is a space that holds a wide varity of useful methods.
 *
@@ -32504,6 +33193,7 @@ var Kiwi;
 /// <reference path="time/Timer.ts" />
 /// <reference path="time/TimerEvent.ts" />
 /// <reference path="utils/Canvas.ts" />
+/// <reference path="utils/Color.ts" />
 /// <reference path="utils/Common.ts" />
 /// <reference path="utils/GameMath.ts" />
 /// <reference path="utils/RandomDataGenerator.ts" />

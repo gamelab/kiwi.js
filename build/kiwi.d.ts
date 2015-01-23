@@ -19954,6 +19954,268 @@ declare module Kiwi.Utils {
     }
 }
 /**
+* @module Kiwi
+* @submodule Utils
+* @namespace Kiwi.Utils
+*/
+declare module Kiwi.Utils {
+    /**
+    * Utility class used to make color management more transparent.
+    * Color objects hold color and alpha values, and can get or set them
+    * in a variety of ways.
+    * <br><br>
+    * Construct this object as follows.
+    * <br><br>
+    * Pass 3 or 4 numbers to determine RGB or RGBA. If the numbers are in
+    * the range 0-1, they will be parsed as normalized numbers.
+    * If they are in the range 1-255, they will be parsed as 8-bit channels.
+    * <br><br>
+    * Pass 3 or 4 numbers followed by the string "hsv" or "hsl"
+    * (lowercase) to parse HSV or HSL color space (with optional alpha).
+    * <br><br>
+    * Pass a string containing a hexadecimal color with or without alpha
+    * (such as "ff8040ff" or "4080ff").
+    *
+    * @class Color
+    * @constructor
+    * @since 1.2.0
+    */
+    class Color {
+        constructor(...args: any[]);
+        /**
+        * Set colors from parameters
+        * @method set
+        * @param params {object} Composite parameter object
+        * @return Kiwi.Utils.Color
+        * @public
+        */
+        public set(...params: any[]): Color;
+        /**
+        * Red channel, stored as a normalized value between 0 and 1.
+        * This is most compatible with graphics hardware.
+        * @property _r
+        * @type number
+        * @default 0.5
+        * @private
+        */
+        public _r: number;
+        /**
+        * Green channel, stored as a normalized value between 0 and 1.
+        * This is most compatible with graphics hardware.
+        * @property _g
+        * @type number
+        * @default 0.5
+        * @private
+        */
+        public _g: number;
+        /**
+        * Blue channel, stored as a normalized value between 0 and 1.
+        * This is most compatible with graphics hardware.
+        * @property _b
+        * @type number
+        * @default 0.5
+        * @private
+        */
+        public _b: number;
+        /**
+        * Alpha channel, stored as a normalized value between 0 and 1.
+        * This is most compatible with graphics hardware.
+        * @property _a
+        * @type number
+        * @default 0.5
+        * @private
+        */
+        public _a: number;
+        /**
+        * Red channel, stored as a normalized value between 0 and 1.
+        * @property rNorm
+        * @type number
+        * @public
+        */
+        public rNorm : number;
+        /**
+        * Green channel, stored as a normalized value between 0 and 1.
+        * @property gNorm
+        * @type number
+        * @public
+        */
+        public gNorm : number;
+        /**
+        * Blue channel, stored as a normalized value between 0 and 1.
+        * @property bNorm
+        * @type number
+        * @public
+        */
+        public bNorm : number;
+        /**
+        * Alpha channel, stored as a normalized value between 0 and 1.
+        * @property aNorm
+        * @type number
+        * @public
+        */
+        public aNorm : number;
+        /**
+        * Red channel.
+        * If set to a number in the range 0-1, is interpreted as a
+        * normalized color (see rNorm).
+        * If set to a number above 1, is interpreted as an 8-bit channel
+        * (see r255).
+        * If queried, returns a normalized number in the range 0-1.
+        * @property r
+        * @type number
+        * @public
+        */
+        public r : number;
+        /**
+        * Green channel.
+        * If set to a number in the range 0-1, is interpreted as a
+        * normalized color (see gNorm).
+        * If set to a number above 1, is interpreted as an 8-bit channel
+        * (see g255).
+        * If queried, returns a normalized number in the range 0-1.
+        * @property g
+        * @type number
+        * @public
+        */
+        public g : number;
+        /**
+        * Blue channel.
+        * If set to a number in the range 0-1, is interpreted as a
+        * normalized color (see bNorm).
+        * If set to a number above 1, is interpreted as an 8-bit channel
+        * (see b255).
+        * If queried, returns a normalized number in the range 0-1.
+        * @property b
+        * @type number
+        * @public
+        */
+        public b : number;
+        /**
+        * Alpha channel.
+        * If set to a number in the range 0-1, is interpreted as a
+        * normalized color (see aNorm).
+        * If set to a number above 1, is interpreted as an 8-bit channel
+        * (see a255).
+        * If queried, returns a normalized number in the range 0-1.
+        * @property a
+        * @type number
+        * @public
+        */
+        public a : number;
+        /**
+        * Red channel, specified as an 8-bit channel in the range 0-255.
+        * @property r255
+        * @type number
+        * @public
+        */
+        public r255 : number;
+        /**
+        * Green channel, specified as an 8-bit channel in the range 0-255.
+        * @property g255
+        * @type number
+        * @public
+        */
+        public g255 : number;
+        /**
+        * Blue channel, specified as an 8-bit channel in the range 0-255.
+        * @property b255
+        * @type number
+        * @public
+        */
+        public b255 : number;
+        /**
+        * Alpha channel, specified as an 8-bit channel in the range 0-255.
+        * @property a255
+        * @type number
+        * @public
+        */
+        public a255 : number;
+        /**
+        * Red channel, alias of r
+        * @property red
+        * @type number
+        * @public
+        */
+        public red : number;
+        /**
+        * Green channel, alias of g
+        * @property green
+        * @type number
+        * @public
+        */
+        public green : number;
+        /**
+        * Blue channel, alias of b
+        * @property blue
+        * @type number
+        * @public
+        */
+        public blue : number;
+        /**
+        * Alpha channel, alias of a
+        * @property alpha
+        * @type number
+        * @public
+        */
+        public alpha : number;
+        /**
+        * Parse hexadecimal colors from strings
+        * @method parseColorHex
+        * @param color {string} A hexadecimal color such as "ffffff" (no alpha)
+        *	or "ffffffff" (with alpha)
+        * @public
+        */
+        public parseColorHex(color: string): void;
+        /**
+        * Returns color as a hexadecimal string
+        * @method getColorHex
+        * @param [alpha=true] {boolean} Whether to include the alpha
+        * @return string
+        * @public
+        */
+        public getColorHex(alpha?: boolean): any;
+        /**
+        * Parses normalized HSV values into the Color.
+        * Based on algorithms at
+        * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+        * @method parseHsv
+        * @param h {number} Hue
+        * @param s {number} Saturation
+        * @param v {number} Value
+        * @public
+        */
+        public parseHsv(h: number, s: number, v: number, a?: number): void;
+        /**
+        * Returns HSV value of the Color.
+        * Based on algorithms at
+        * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+        * @method getHsva
+        * @return {object} Object with normalized h, s, v, a properties.
+        */
+        public getHsva(): any;
+        /**
+        * Returns HSL value of the Color.
+        * Based on algorithms at
+        * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+        * @method getHsla
+        * @return {object} Object with normalized h, s, l, a properties.
+        * @public
+        */
+        public getHsla(): any;
+        /**
+        * Parses HSL value onto the Color.
+        * Based on algorithms at
+        * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+        * @method parseHsl
+        * @param h {number} Hue
+        * @param s {number} Saturation
+        * @param l {number} Lightness
+        * @public
+        */
+        public parseHsl(h: number, s: number, l: number, a?: number): void;
+    }
+}
+/**
 * Utils is a space that holds a wide varity of useful methods.
 *
 * @module Kiwi
