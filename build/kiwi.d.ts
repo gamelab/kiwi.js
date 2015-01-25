@@ -6779,7 +6779,8 @@ declare module Kiwi.Files {
         private _bytesTotal;
         /**
         * READ ONLY: Returns the total number of bytes for the files in the file queue.
-        * Only contains a value after the 'calculateQueuedSize' method is executed.
+        * Only contains a value if you use the 'calculateBytes' and are loading files
+        * OR if you use the 'calculateQueuedSize' method.
         *
         * @property bytesTotal
         * @readOnly
@@ -6791,7 +6792,6 @@ declare module Kiwi.Files {
         bytesTotal: number;
         /**
         * The number of bytes loaded of files in the file queue.
-        * Not accurate if the file use tag loading AND you didn't get calculate the bytes before hand.
         *
         * @property _bytesLoaded
         * @type Number
@@ -6800,7 +6800,9 @@ declare module Kiwi.Files {
         private _bytesLoaded;
         /**
         * READ ONLY: Returns the total number of bytes for the files in the file queue.
-        * Only contains a value after the 'calculateQueuedSize' method is executed.
+        *
+        * If you are using this make sure you set the 'calculateBytes' property to true OR execute the 'calculateQueuedSize' method.
+        * Otherwise files that are loaded via tags will not be accurate!
         *
         * @property bytesLoaded
         * @readOnly
@@ -6811,7 +6813,11 @@ declare module Kiwi.Files {
         */
         bytesLoaded: number;
         /**
-        * Loops through the file queue to calculate how many bytes
+        * Loops through the file queue and gets file information (filesize, ETag, filetype) for each.
+        *
+        * To get accurate information about the bytesLoaded, bytesTotal, and the percentLoaded
+        * set the 'calculateBytes' property to true, as the loader will automatically execute this method before hand.
+        *
         * Can only be executed when the file queue is not currently loading.
         *
         * @method calculateQueuedSize
@@ -7015,6 +7021,14 @@ declare module Kiwi.Files {
         * @public
         */
         getBytesLoaded(): number;
+        /**
+        * Flags this loader for garbage collection. Only use this method if you are SURE you will no longer need it.
+        * Otherwise it is best to leave it alone.
+        *
+        * @method destroy
+        * @public
+        */
+        destroy(): void;
     }
 }
 /**

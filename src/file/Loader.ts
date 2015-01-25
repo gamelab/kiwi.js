@@ -109,7 +109,7 @@ module Kiwi.Files {
 
 
         /**
-        * A flag indicating if the files inside the 'fileQueue' in the process of loading or not.
+        * A flag indicating if the files inside the file queue are loading or not.
         * 
         * @property _fileQueueLoading
         * @type Boolean
@@ -120,7 +120,7 @@ module Kiwi.Files {
         private _queueLoading: boolean = false;
         
         /**
-        * READ ONLY: A flag indicating if the files inside the 'fileQueue' in the process of loading or not.
+        * READ ONLY: A flag indicating if the files inside the file queue are loading or not.
         * 
         * @property fileQueueLoading
         * @type Boolean
@@ -135,8 +135,8 @@ module Kiwi.Files {
 
 
         /**
-        * Returns the percent of files in the '_loadingList' which have been loaded.
-        * When no files are in the list, then the percentLoaded is 100. 
+        * When 'calculateBytes' is true the percentLoaded will be the `bytesLoaded / bytesTotal`. 
+        * Otherwise it is based on the `filesLoaded / numberOfFilesToLoad`. 
         *
         * @property percentLoaded
         * @type Number
@@ -182,7 +182,14 @@ module Kiwi.Files {
         }
 
         /**
-        * Starts loading all the files which are in the file queue.
+        * Starts loading all the files which are in the file queue. 
+        *
+        * To accurately use the bytesLoaded or bytesTotal properties you will need to set the 'calculateBytes' boolean to true.
+        * This may increase load times, as each file in the queue will firstly make XHR HEAD requests for information.
+        *
+        * When 'calculateBytes' is true the percentLoaded will be the `bytesLoaded / bytesTotal`. 
+        * Otherwise it is based on the `filesLoaded / numberOfFilesToLoad`. 
+        *
         * @method start
         * @param [calculateBytes] {Boolean} Setter for the 'calculateBytes' property.
         * @since 1.2.0
@@ -202,6 +209,7 @@ module Kiwi.Files {
             //Reset the number of bytes laoded
             this._bytesLoaded = 0;
             this._bytesTotal = 0;
+            this.percentLoaded = 0;
 
             if (this._calculateBytes) {
                 this.calculateQueuedSize(this._startLoading, this);
@@ -424,7 +432,8 @@ module Kiwi.Files {
 
             //Calculate the percentage depending on how accurate we can be.
             if (this._calculateBytes) {
-                this.percentLoaded = (this._bytesLoaded / this._bytesTotal) * 100;
+                
+                 = (this._bytesLoaded / this._bytesTotal) * 100;
             } else {
                 this.percentLoaded = (this._completedFiles / this._loadingList.length) * 100;
             }
@@ -621,7 +630,8 @@ module Kiwi.Files {
 
         /**
         * READ ONLY: Returns the total number of bytes for the files in the file queue.
-        * Only contains a value after the 'calculateQueuedSize' method is executed.
+        * Only contains a value if you use the 'calculateBytes' and are loading files
+        * OR if you use the 'calculateQueuedSize' method.
         * 
         * @property bytesTotal
         * @readOnly
@@ -636,7 +646,6 @@ module Kiwi.Files {
 
         /**
         * The number of bytes loaded of files in the file queue. 
-        * Not accurate if the file use tag loading AND you didn't get calculate the bytes before hand.
         * 
         * @property _bytesLoaded
         * @type Number
@@ -646,7 +655,9 @@ module Kiwi.Files {
 
         /**
         * READ ONLY: Returns the total number of bytes for the files in the file queue.
-        * Only contains a value after the 'calculateQueuedSize' method is executed.
+        *
+        * If you are using this make sure you set the 'calculateBytes' property to true OR execute the 'calculateQueuedSize' method. 
+        * Otherwise files that are loaded via tags will not be accurate!
         * 
         * @property bytesLoaded
         * @readOnly
@@ -660,7 +671,11 @@ module Kiwi.Files {
         }
 
         /**
-        * Loops through the file queue to calculate how many bytes 
+        * Loops through the file queue and gets file information (filesize, ETag, filetype) for each.
+        * 
+        * To get accurate information about the bytesLoaded, bytesTotal, and the percentLoaded 
+        * set the 'calculateBytes' property to true, as the loader will automatically execute this method before hand.
+        * 
         * Can only be executed when the file queue is not currently loading.
         * 
         * @method calculateQueuedSize
@@ -1324,6 +1339,47 @@ module Kiwi.Files {
         public getBytesLoaded(): number {
 
             return this.bytesLoaded;
+        }
+
+        /**
+        * Flags this loader for garbage collection. Only use this method if you are SURE you will no longer need it. 
+        * Otherwise it is best to leave it alone.
+        * 
+        * @method destroy
+        * @public
+        */
+        public destroy() {
+
+            this.onQueueComplete.dispose();
+            this.onQueueProgress.dispose();
+
+            delete this.game;
+
+            delete this.onQueueComplete;
+            delete this.onQueueProgress;
+
+            var i = 0;
+            while (i < this._loadingList.length) {
+                this._loadingList[i].destroy();
+                i++;
+            }
+            this._loadingList = [];
+
+            var i = 0;
+            while (i < this._loadingQueue.length) {
+                this._loadingQueue[i].destroy();
+                i++;
+            }
+            this._loadingQueue = [];
+
+            var i = 0;
+            while (i < this._loadingParallel.length) {
+                this._loadingParallel[i].destroy();
+                i++;
+            }
+            this._loadingParallel = [];
+            
+
         }
 
     }
