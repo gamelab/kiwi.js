@@ -297,7 +297,7 @@ module Kiwi {
         * @public
         */
         public addImage(key: string, url: string, storeAsGlobal: boolean = true, width?: number, height?: number, offsetX?: number, offsetY?: number) {
-            this.game.loader.addImage(key, url, width, height, offsetX, offsetY, storeAsGlobal);
+            return this.game.loader.addImage(key, url, width, height, offsetX, offsetY, storeAsGlobal);
         }
         
         /**
@@ -320,9 +320,8 @@ module Kiwi {
         */
         public addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, storeAsGlobal: boolean = true, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
 
-            this.game.loader.addSpriteSheet(key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY, storeAsGlobal);
+            return this.game.loader.addSpriteSheet(key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY, storeAsGlobal);
             
-
         }
         
         /**
@@ -338,7 +337,7 @@ module Kiwi {
         */
         public addTextureAtlas(key: string, imageURL: string, jsonID?: string, jsonURL?: string, storeAsGlobal: boolean = true) {
              
-            this.game.loader.addTextureAtlas(key, imageURL, jsonID, jsonURL, storeAsGlobal);
+            return this.game.loader.addTextureAtlas(key, imageURL, jsonID, jsonURL, storeAsGlobal);
            
         }
 
@@ -353,7 +352,7 @@ module Kiwi {
         */
         public addJSON(key: string, url: string, storeAsGlobal: boolean = true) {
 
-            this.game.loader.addJSON(key, url, storeAsGlobal);
+            return this.game.loader.addJSON(key, url, storeAsGlobal);
         }
         
         /**
@@ -366,7 +365,7 @@ module Kiwi {
         */
         public addAudio(key: string, url: any, storeAsGlobal: boolean = true) {
              
-            this.game.loader.addAudio(key, url, storeAsGlobal);
+            return this.game.loader.addAudio(key, url, storeAsGlobal);
           
         }
 

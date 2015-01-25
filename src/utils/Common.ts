@@ -182,9 +182,21 @@ module Kiwi.Utils {
         * @public
         */
         public static isArray(obj) {
-            
+
             return Object.prototype.toString.call(obj) === "[object Array]";
 
+        }
+
+        /**
+        * Checks if the given argument is an object.
+        * @method isObject 
+        * @param {Any} obj
+        * @return {boolean}
+        * @static
+        * @public
+        */
+        public static isObject(obj) {
+            return Object.prototype.toString.call(obj) === "[object Object]";
         }
 
         /**

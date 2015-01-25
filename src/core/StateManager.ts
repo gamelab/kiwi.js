@@ -321,9 +321,10 @@ module Kiwi {
             //Rebuild the Libraries before the preload is executed
             this.rebuildLibraries();
 
-            this._game.loader.init( (percent, bytes, file) => this.onLoadProgress(percent, bytes, file), () => this.onLoadComplete());
+            this._game.loader.onQueueProgress.add(this.onLoadProgress, this);
+            this._game.loader.onQueueComplete.add(this.onLoadComplete, this);
             this.current.preload();
-            this._game.loader.startLoad();
+            this._game.loader.start();
         }
 
         /**
@@ -399,6 +400,8 @@ module Kiwi {
         private onLoadComplete() {
 
             this.current.loadComplete();
+            this._game.loader.onQueueProgress.remove(this.onLoadProgress, this);
+            this._game.loader.onQueueComplete.remove(this.onLoadComplete, this);
             
             //Rebuild the Libraries again to have access the new files that were loaded.
             this.rebuildLibraries();

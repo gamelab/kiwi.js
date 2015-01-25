@@ -208,12 +208,18 @@ module Kiwi.Files {
         * @return {Boolean}
         * @public
 		*/
-        public removeFile(key: string): boolean {
+        public removeFile(key: string, destroy:boolean=false): boolean {
 
-            if (this._files[key])
-            {
+            var file = this._files[key];
+
+            if (file) {
                 this._files[key] = null;
                 delete this._files[key];
+
+                if (destroy) {
+                    this._files[key].destroy();
+                }
+
                 return true;
             }
 

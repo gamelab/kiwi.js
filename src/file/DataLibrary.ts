@@ -102,7 +102,7 @@ module Kiwi.Files {
             for (var i = 0; i < fileStoreKeys.length; i++) {
                 var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
                 if (file.isData) {
-                    Kiwi.Log.log("  Kiwi.DataLibrary: Adding Data: " + file.fileName, '#rebuild', '#adding');
+                    Kiwi.Log.log("  Kiwi.DataLibrary: Adding Data: " + file.name, '#rebuild', '#adding');
                     state.dataLibrary.add(file);
                 }
             }

@@ -150,7 +150,7 @@ module Kiwi.Textures {
 
                 }
 
-                Kiwi.Log.log('Kiwi.TextureLibrary: ' + imageFile.fileName + ' has been rebuilt to be base2.', '#texture', '#base2');
+                Kiwi.Log.log('Kiwi.TextureLibrary: ' + imageFile.name + ' has been rebuilt to be base2.', '#texture', '#base2');
 
                 //Assign the new image to the data
                 imageFile.data = newImg;
@@ -223,7 +223,7 @@ module Kiwi.Textures {
             for (var i = 0; i < fileStoreKeys.length; i++) {
                 var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
                 if (file.isTexture) {
-                    Kiwi.Log.log("  Kiwi.TextureLibrary: Adding Texture: " + file.fileName, '#texture', '#added');
+                    Kiwi.Log.log("  Kiwi.TextureLibrary: Adding Texture: " + file.name, '#texture', '#added');
                     state.textureLibrary.addFromFile(file);
                 }
             }
