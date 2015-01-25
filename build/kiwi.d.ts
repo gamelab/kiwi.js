@@ -1004,6 +1004,7 @@ declare module Kiwi {
         * @return boolean
         * @public
         */
+        validMinimumPluginVersionExists(name: string, version: string): boolean;
         /**
         * Returns true if a plugin identified by the supplied pluginName is registered.
         * @method pluginIsRegistered
@@ -3284,7 +3285,7 @@ declare module Kiwi {
         * @public
         * @since 1.2.0
         */
-        public transformPointToScreen(point: Geom.Point): Geom.Point;
+        transformPointToScreen(point: Kiwi.Geom.Point): Kiwi.Geom.Point;
         /**
         * The update loop that is executed every frame.
         * @method update
@@ -3991,7 +3992,7 @@ declare module Kiwi.GameObjects {
         * @public
         * @since 1.2.0
         */
-        public box: Components.Box;
+        box: Kiwi.Components.Box;
         /**
         * This method is used to render the text to an offscreen-canvas which is held in a TextureAtlas (which is generated upon the instanitation of this class).
         * This is so that the canvas doesn't render it every frame as it can be costly and so that it can be used in WebGL with the TextureAtlasRenderer.
@@ -4891,7 +4892,7 @@ declare module Kiwi.Components {
         * @type Kiwi.Entity
         * @public
         */
-        public entity: Entity;
+        entity: Kiwi.Entity;
         /**
         * The texture atlas that this animation is taking effect on.
         * The value of this should be the same as the Entity.
@@ -9560,7 +9561,7 @@ declare module Kiwi.Animations.Tweens {
     *
     */
     class TweenManager {
-        constructor(game: Game, clock?: Time.Clock);
+        constructor(game: Kiwi.Game, clock?: Kiwi.Time.Clock);
         /**
         * The type of object that this is.
         * @method objType
@@ -9589,7 +9590,7 @@ declare module Kiwi.Animations.Tweens {
         * @public
         * @since 1.2.0
         */
-        public clock: Time.Clock;
+        clock: Kiwi.Time.Clock;
         /**
         * Returns all of tweens that are on the manager.
         * @method getAll
@@ -9640,7 +9641,7 @@ declare module Kiwi.Animations.Tweens {
         * @public
         * @since 1.2.0
         */
-        public validateClock(): void;
+        validateClock(): void;
     }
 }
 /**
@@ -9705,7 +9706,7 @@ declare module Kiwi.Animations {
         * @private
         * @since 1.2.0
         */
-        public manager : Tweens.TweenManager;
+        manager: Kiwi.Animations.Tweens.TweenManager;
         /**
         * The object that this tween is affecting.
         * @property _object
@@ -9722,7 +9723,7 @@ declare module Kiwi.Animations {
         * @type any
         * @public
         */
-        public object : any;
+        object: any;
         /**
         * The starting values of the properties that the tween is animating.
         * @property _valuesStart
@@ -9942,7 +9943,7 @@ declare module Kiwi.Animations {
         * @return {boolean} Whether the Tween is still running
         * @public
         */
-        public update(time: number): boolean;
+        update(time: number): boolean;
     }
 }
 interface IRenderManager {
@@ -11592,7 +11593,7 @@ declare module Kiwi.Animations {
         * @public
         * @since 1.2.0
         */
-        public clock : Time.Clock;
+        clock: Kiwi.Time.Clock;
         /**
         * The starting time of the animation from when it was played. Internal use only.
         * @property _startTime
@@ -11675,7 +11676,7 @@ declare module Kiwi.Animations {
         * @public
         */
         private _onComplete;
-        public onComplete : Signal;
+        onComplete: Kiwi.Signal;
         /**
         * Clock time on last frame, used to compute current animation frame.
         * @property _lastFrameElapsed
@@ -16521,7 +16522,7 @@ declare module Kiwi.Geom {
         * @public
         * @since 1.2.0
         */
-        public locked : boolean;
+        locked: boolean;
         /**
         * Private copy.
         * Whether to ignore its parent when concatenating matrices.
@@ -16550,7 +16551,7 @@ declare module Kiwi.Geom {
         * @private
         * @since 1.2.0
         */
-        public ignoreParent : boolean;
+        ignoreParent: boolean;
         /**
         * Set the X and Y values of the transform.
         * @method setPosition
@@ -19346,7 +19347,7 @@ declare module Kiwi.Time {
         * @public
         * @since 1.2.0
         */
-        public timeScale: number;
+        timeScale: number;
         /**
         * Clock units elapsed since the clock was most recently started,
         * not including paused time.
@@ -19382,7 +19383,7 @@ declare module Kiwi.Time {
         * @public
         * @since 1.2.0
         */
-        public rate: number;
+        rate: number;
         /**
         * Maximum frame duration. If a frame takes longer than this to render,
         * the clock will only advance this far, in effect slowing down time.
@@ -19404,7 +19405,7 @@ declare module Kiwi.Time {
         * @default -1
         * @public
         */
-        public maxFrameDuration : number;
+        maxFrameDuration: number;
         /**
         * The number of clock units elapsed since the clock was most recently started (not including time spent paused)
         * @method elapsed
@@ -19663,7 +19664,7 @@ declare module Kiwi.Time {
         *   manipulate the timer
         * @public
         */
-        public setTimeout(callback: any, timeout: number, context: any, ...args: any[]): Timer;
+        setTimeout(callback: any, timeout: number, context: any, ...args: any[]): Timer;
         /**
         * Set a function to repeatedly execute at fixed time intervals.
         * Emulates window.setInterval, except attached to a Kiwi.Time.Clock.
@@ -19686,7 +19687,7 @@ declare module Kiwi.Time {
         *   which can be used to further manipulate the timer
         * @public
         */
-        public setInterval(callback: any, timeout: number, context: any, ...args: any[]): Timer;
+        setInterval(callback: any, timeout: number, context: any, ...args: any[]): Timer;
     }
 }
 /**
@@ -20490,7 +20491,7 @@ declare module Kiwi.Utils {
         * @return Kiwi.Utils.Color
         * @public
         */
-        public set(...params: any[]): Color;
+        set(...params: any[]): Color;
         /**
         * Red channel, stored as a normalized value between 0 and 1.
         * This is most compatible with graphics hardware.
@@ -20499,7 +20500,7 @@ declare module Kiwi.Utils {
         * @default 0.5
         * @private
         */
-        public _r: number;
+        _r: number;
         /**
         * Green channel, stored as a normalized value between 0 and 1.
         * This is most compatible with graphics hardware.
@@ -20508,7 +20509,7 @@ declare module Kiwi.Utils {
         * @default 0.5
         * @private
         */
-        public _g: number;
+        _g: number;
         /**
         * Blue channel, stored as a normalized value between 0 and 1.
         * This is most compatible with graphics hardware.
@@ -20517,7 +20518,7 @@ declare module Kiwi.Utils {
         * @default 0.5
         * @private
         */
-        public _b: number;
+        _b: number;
         /**
         * Alpha channel, stored as a normalized value between 0 and 1.
         * This is most compatible with graphics hardware.
@@ -20526,35 +20527,35 @@ declare module Kiwi.Utils {
         * @default 0.5
         * @private
         */
-        public _a: number;
+        _a: number;
         /**
         * Red channel, stored as a normalized value between 0 and 1.
         * @property rNorm
         * @type number
         * @public
         */
-        public rNorm : number;
+        rNorm: number;
         /**
         * Green channel, stored as a normalized value between 0 and 1.
         * @property gNorm
         * @type number
         * @public
         */
-        public gNorm : number;
+        gNorm: number;
         /**
         * Blue channel, stored as a normalized value between 0 and 1.
         * @property bNorm
         * @type number
         * @public
         */
-        public bNorm : number;
+        bNorm: number;
         /**
         * Alpha channel, stored as a normalized value between 0 and 1.
         * @property aNorm
         * @type number
         * @public
         */
-        public aNorm : number;
+        aNorm: number;
         /**
         * Red channel.
         * If set to a number in the range 0-1, is interpreted as a
@@ -20566,7 +20567,7 @@ declare module Kiwi.Utils {
         * @type number
         * @public
         */
-        public r : number;
+        r: number;
         /**
         * Green channel.
         * If set to a number in the range 0-1, is interpreted as a
@@ -20578,7 +20579,7 @@ declare module Kiwi.Utils {
         * @type number
         * @public
         */
-        public g : number;
+        g: number;
         /**
         * Blue channel.
         * If set to a number in the range 0-1, is interpreted as a
@@ -20590,7 +20591,7 @@ declare module Kiwi.Utils {
         * @type number
         * @public
         */
-        public b : number;
+        b: number;
         /**
         * Alpha channel.
         * If set to a number in the range 0-1, is interpreted as a
@@ -20602,63 +20603,63 @@ declare module Kiwi.Utils {
         * @type number
         * @public
         */
-        public a : number;
+        a: number;
         /**
         * Red channel, specified as an 8-bit channel in the range 0-255.
         * @property r255
         * @type number
         * @public
         */
-        public r255 : number;
+        r255: number;
         /**
         * Green channel, specified as an 8-bit channel in the range 0-255.
         * @property g255
         * @type number
         * @public
         */
-        public g255 : number;
+        g255: number;
         /**
         * Blue channel, specified as an 8-bit channel in the range 0-255.
         * @property b255
         * @type number
         * @public
         */
-        public b255 : number;
+        b255: number;
         /**
         * Alpha channel, specified as an 8-bit channel in the range 0-255.
         * @property a255
         * @type number
         * @public
         */
-        public a255 : number;
+        a255: number;
         /**
         * Red channel, alias of r
         * @property red
         * @type number
         * @public
         */
-        public red : number;
+        red: number;
         /**
         * Green channel, alias of g
         * @property green
         * @type number
         * @public
         */
-        public green : number;
+        green: number;
         /**
         * Blue channel, alias of b
         * @property blue
         * @type number
         * @public
         */
-        public blue : number;
+        blue: number;
         /**
         * Alpha channel, alias of a
         * @property alpha
         * @type number
         * @public
         */
-        public alpha : number;
+        alpha: number;
         /**
         * Parse hexadecimal colors from strings
         * @method parseColorHex
@@ -20666,7 +20667,7 @@ declare module Kiwi.Utils {
         *	or "ffffffff" (with alpha)
         * @public
         */
-        public parseColorHex(color: string): void;
+        parseColorHex(color: string): void;
         /**
         * Returns color as a hexadecimal string
         * @method getColorHex
@@ -20674,7 +20675,7 @@ declare module Kiwi.Utils {
         * @return string
         * @public
         */
-        public getColorHex(alpha?: boolean): any;
+        getColorHex(alpha?: boolean): any;
         /**
         * Parses normalized HSV values into the Color.
         * Based on algorithms at
@@ -20685,7 +20686,7 @@ declare module Kiwi.Utils {
         * @param v {number} Value
         * @public
         */
-        public parseHsv(h: number, s: number, v: number, a?: number): void;
+        parseHsv(h: number, s: number, v: number, a?: number): void;
         /**
         * Returns HSV value of the Color.
         * Based on algorithms at
@@ -20693,7 +20694,7 @@ declare module Kiwi.Utils {
         * @method getHsva
         * @return {object} Object with normalized h, s, v, a properties.
         */
-        public getHsva(): any;
+        getHsva(): any;
         /**
         * Returns HSL value of the Color.
         * Based on algorithms at
@@ -20702,7 +20703,7 @@ declare module Kiwi.Utils {
         * @return {object} Object with normalized h, s, l, a properties.
         * @public
         */
-        public getHsla(): any;
+        getHsla(): any;
         /**
         * Parses HSL value onto the Color.
         * Based on algorithms at
@@ -20713,7 +20714,7 @@ declare module Kiwi.Utils {
         * @param l {number} Lightness
         * @public
         */
-        public parseHsl(h: number, s: number, l: number, a?: number): void;
+        parseHsl(h: number, s: number, l: number, a?: number): void;
     }
 }
 /**

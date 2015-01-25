@@ -4658,13 +4658,10 @@ var Kiwi;
         */
         Camera.prototype.transformPointToScreen = function (point) {
             var np = point.clone();
-
             var m = this.transform.getConcatenatedMatrix();
             m.append(1, 0, 0, 1, -this.transform.rotPointX, -this.transform.rotPointY);
-
             return m.transformPoint(np);
         };
-
         /**
         * The update loop that is executed every frame.
         * @method update
@@ -5408,10 +5405,10 @@ var Kiwi;
             function Textfield(state, text, x, y, color, size, weight, fontFamily) {
                 if (x === void 0) { x = 0; }
                 if (y === void 0) { y = 0; }
-                if (typeof color === "undefined") { color = "#000000"; }
+                if (color === void 0) { color = "#000000"; }
                 if (size === void 0) { size = 32; }
-                if (typeof weight === "undefined") { weight = "normal"; }
-                if (typeof fontFamily === "undefined") { fontFamily = "sans-serif"; }
+                if (weight === void 0) { weight = "normal"; }
+                if (fontFamily === void 0) { fontFamily = "sans-serif"; }
                 _super.call(this, state, x, y);
                 /**
                 * If the temporary canvas is dirty and needs to be re-rendered. Only used when the text field rendering is being optimised.
@@ -5442,7 +5439,6 @@ var Kiwi;
                 this.atlas.dirty = true;
                 // Track actual text width - not canvas width (which rounds up to powers of 2), necessary for proper alignment
                 this._alignWidth = 0;
-
                 // Setup components
                 this.box = this.components.add(new Kiwi.Components.Box(this, x, y, this.width, this.height));
             }
@@ -5608,11 +5604,12 @@ var Kiwi;
                     w: this._canvas.width,
                     h: this._canvas.height,
                     hitboxes: [{
-                            x: this._textAlign === Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT ? 0 : this._textAlign === Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER ? -this._alignWidth * 0.5 : -this._alignWidth,
-                            y: 0,
-                            w: this.width,
-                            h: this.height
-                        }] };
+                        x: this._textAlign === Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT ? 0 : this._textAlign === Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER ? -this._alignWidth * 0.5 : -this._alignWidth,
+                        y: 0,
+                        w: this.width,
+                        h: this.height
+                    }]
+                };
                 this._tempDirty = false;
                 this.atlas.dirty = true;
             };
@@ -5708,6 +5705,7 @@ var Kiwi;
             * @final
             * @public
             */
+            Textfield.TEXT_ALIGN_CENTER = "center";
             /**
             * A static property that contains the string to right align the text.
             * @property TEXT_ALIGN_RIGHT
@@ -5716,6 +5714,7 @@ var Kiwi;
             * @final
             * @public
             */
+            Textfield.TEXT_ALIGN_RIGHT = "right";
             /**
             * A static property that contains the string to left align the text.
             * @property TEXT_ALIGN_LEFT
@@ -5724,6 +5723,7 @@ var Kiwi;
             * @final
             * @public
             */
+            Textfield.TEXT_ALIGN_LEFT = "left";
             return Textfield;
         })(Kiwi.Entity);
         GameObjects.Textfield = Textfield;
@@ -7423,7 +7423,8 @@ var Kiwi;
                         if (atlas !== null && atlas.cells && atlas.cells[0].hitboxes) {
                             this._rawHitbox.width = atlas.cells[this.entity.cellIndex].hitboxes[0].w;
                             this._rawHitbox.height = atlas.cells[this.entity.cellIndex].hitboxes[0].h;
-                        } else {
+                        }
+                        else {
                             this._rawHitbox.width = this.entity.width;
                             this._rawHitbox.height = this.entity.height;
                         }
@@ -7516,7 +7517,6 @@ var Kiwi;
                 */
                 get: function () {
                     var m = this.entity.transform.getConcatenatedMatrix();
-
                     this._transformedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - this.entity.anchorPointX, this.entity.height / 2 - this.entity.anchorPointY));
                     return this._transformedCenter;
                 },
@@ -13965,7 +13965,6 @@ var Kiwi;
                 */
                 TweenManager.prototype.update = function () {
                     var i = 0, numTweens = this._tweens.length;
-
                     if (this._tweens.length === 0) {
                         return false;
                     }
@@ -13980,7 +13979,6 @@ var Kiwi;
                     }
                     return true;
                 };
-
                 /**
                 * Validate clock; if no valid clock is found, set one from game
                 * @method validateClock
@@ -14224,8 +14222,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
-
             Object.defineProperty(Tween.prototype, "object", {
                 /**
                 * The object that this tween is affecting.
@@ -14241,22 +14237,17 @@ var Kiwi;
                 },
                 set: function (value) {
                     var i, newValues = {};
-
                     this._object = value;
-
                     for (i in this._valuesEnd) {
                         if (value[i]) {
                             newValues[i] = this._valuesEnd[i];
                         }
                     }
-
                     this._valuesEnd = newValues;
                 },
                 enumerable: true,
                 configurable: true
             });
-
-
             /**
             * Sets up the various properties that define this tween.
             * The ending position/properties for this tween, how long the tween should go for, easing method to use and if should start right way.
@@ -14293,7 +14284,6 @@ var Kiwi;
             */
             Tween.prototype.start = function () {
                 var property;
-
                 if (this._game === null || this._object === null) {
                     return;
                 }
@@ -14455,6 +14445,7 @@ var Kiwi;
                     if (end instanceof Array) {
                         this._object[property] = this._interpolationFunction(end, value);
                     }
+                    else {
                         if (typeof this._object[property] === "function") {
                             this._object[property](start + (end - start) * value);
                         }
@@ -14832,7 +14823,6 @@ var Kiwi;
             */
             GLRenderManager.prototype._init = function () {
                 Kiwi.Log.log("Initialising WebGL", '#renderer', '#webgl');
-
                 var gl = this._game.stage.gl;
                 //init stage and viewport
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
@@ -15811,7 +15801,7 @@ var Kiwi;
             ];
             /**
             *
-            * @property squareUVx
+            * @property squareUVs
             * @type number[]
             * @static
             * @default [0, 0, .1, 0, .1, .1, 0, .1]
@@ -16847,9 +16837,7 @@ var Kiwi;
                 this._speed = sequence.speed;
                 this._loop = sequence.loop;
                 this._parent = parent;
-
                 this._clock = clock;
-
                 this._lastFrameElapsed = this.clock.elapsed();
             }
             /**
@@ -16943,7 +16931,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
             Object.defineProperty(Animation.prototype, "reverse", {
                 get: function () {
                     return this._reverse;
@@ -17018,7 +17005,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
             /**
             * An Internal method used to start the animation.
             * @method _start
@@ -17114,7 +17100,6 @@ var Kiwi;
             */
             Animation.prototype.update = function () {
                 var frameDelta;
-
                 if (this._isPlaying) {
                     // How many frames do we move, ahead or behind?
                     frameDelta = (this.clock.elapsed() - this._lastFrameElapsed) / this._speed;
@@ -17124,14 +17109,13 @@ var Kiwi;
                     // Round delta, towards zero
                     if (frameDelta > 0) {
                         frameDelta = Math.floor(frameDelta);
-                    } else {
+                    }
+                    else {
                         frameDelta = Math.ceil(frameDelta);
                     }
-
                     if (frameDelta !== 0) {
                         this._frameIndex += frameDelta;
                         this._lastFrameElapsed = this.clock.elapsed();
-
                         // Loop check
                         if (this._loop) {
                             if (this._frameIndex > this.length - 1) {
@@ -17141,7 +17125,8 @@ var Kiwi;
                                         this._onLoop.dispatch();
                                     }
                                 }
-                            } else if (this._frameIndex < 0) {
+                            }
+                            else if (this._frameIndex < 0) {
                                 while (this._frameIndex < 0) {
                                     this._frameIndex += this.length;
                                     if (this._onLoop != null) {
@@ -17149,17 +17134,16 @@ var Kiwi;
                                     }
                                 }
                             }
-                        } else if (this._frameIndex < 0 || this._frameIndex >= this.length) {
+                        }
+                        else if (this._frameIndex < 0 || this._frameIndex >= this.length) {
                             if (this._onComplete != null) {
                                 this._onComplete.dispatch();
                             }
-
-                            // Execute the stop on the parent
+                            // Execute the stop on the parent 
                             // to allow the isPlaying boolean to remain consistent
                             this._parent.stop();
                             return;
                         }
-
                         this._parent.updateCellIndex();
                         if (this._onUpdate !== null) {
                             this._onUpdate.dispatch();
@@ -23703,8 +23687,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
-
             Object.defineProperty(Transform.prototype, "ignoreParent", {
                 get: function () {
                     return this._ignoreParent;
@@ -23728,7 +23710,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
             /**
             * Set the X and Y values of the transform.
             * @method setPosition
@@ -23865,7 +23846,8 @@ var Kiwi;
                 if (!this._locked) {
                     if (this._parent) {
                         this._matrix.setFromOffsetTransform(this.x, this.y, this.scaleX, this.scaleY, this.rotation, this.anchorPointX - this._parent.anchorPointX, this.anchorPointY - this._parent.anchorPointY);
-                    } else {
+                    }
+                    else {
                         this._matrix.setFromOffsetTransform(this.x, this.y, this.scaleX, this.scaleY, this.rotation, this.anchorPointX, this.anchorPointY);
                     }
                 }
@@ -27789,7 +27771,6 @@ var Kiwi;
                 if (this.units < 1) {
                     this.units = 1;
                 }
-
                 this._lastMasterElapsed = this.master.elapsed();
                 this._currentMasterElapsed = this.master.elapsed();
             }
@@ -27840,8 +27821,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
-
             /**
             * The number of clock units elapsed since the clock was most recently started (not including time spent paused)
             * @method elapsed
@@ -27850,11 +27829,6 @@ var Kiwi;
             */
             Clock.prototype.elapsed = function () {
                 return this._elapsed;
-                }
-                else if (this._elapsedState === 1) {
-                else if (this._elapsedState === 2) {
-                }
-                else if (this._elapsedState === 3) {
             };
             /**
             * The number of clock units elapsed since the clock was most recently stopped.
@@ -27951,24 +27925,22 @@ var Kiwi;
             */
             Clock.prototype.removeTimer = function (timer, timerName) {
                 if (timer === void 0) { timer = null; }
-                if (typeof timerName === "undefined") { timerName = ""; }
+                if (timerName === void 0) { timerName = ""; }
                 var index;
-
                 //  Timer object given?
                 if (timer !== null) {
                     index = this.timers.indexOf(timer);
                     if (index !== -1) {
                         this.timers.splice(index, 1);
                         return true;
-                    else {
                     }
-                } else if (timerName !== "") {
+                }
+                else if (timerName !== "") {
                     for (index = 0; index < this.timers.length; index++) {
                         if (this.timers[index].name === timerName) {
                             this.timers.splice(index, 1);
                             return true;
                         }
-                    else {
                     }
                 }
                 return false;
@@ -28016,15 +27988,12 @@ var Kiwi;
             */
             Clock.prototype.update = function () {
                 var frameLength = this._currentMasterElapsed - this._lastMasterElapsed;
-
                 if (this._maxFrameDuration > 0) {
                     frameLength = Math.min(frameLength, this._maxFrameDuration);
                 }
-
                 for (var i = 0; i < this.timers.length; i++) {
                     this.timers[i].update();
                 }
-
                 // Compute difference between last master value and this
                 // Scale that difference by timeScale
                 // If clock is running, add that value to the current time
@@ -28032,10 +28001,10 @@ var Kiwi;
                 this._currentMasterElapsed = this.master.elapsed();
                 if (this._elapsedState === 0 || this._elapsedState === 2) {
                     this._elapsed += this.timeScale * frameLength / this.units;
-                } else if (this._elapsedState === 1) {
+                }
+                else if (this._elapsedState === 1) {
                     this._totalPaused += frameLength;
                 }
-
                 // Compute time governance properties
                 // These should really be properties hereafter
                 this.rate = this.timeScale * frameLength / this.master.idealDelta;
@@ -28119,7 +28088,6 @@ var Kiwi;
             Clock.prototype.toString = function () {
                 return "[{Clock (name=" + this.name + " units=" + this.units + " running=" + this._isRunning + ")}]";
             };
-
             /**
             * Set a function to execute after a certain time interval.
             * Emulates window.setTimeout, except attached to a Kiwi.Time.Clock.
@@ -28144,25 +28112,20 @@ var Kiwi;
             */
             Clock.prototype.setTimeout = function (callback, timeout, context) {
                 var args = [];
-                for (var _i = 0; _i < (arguments.length - 3); _i++) {
-                    args[_i] = arguments[_i + 3];
+                for (var _i = 3; _i < arguments.length; _i++) {
+                    args[_i - 3] = arguments[_i];
                 }
                 var clock = this, timer = this.createTimer("timeoutTimer", timeout / 1000);
-
                 if (!context) {
                     context = this;
                 }
-
                 timer.createTimerEvent(Time.TimerEvent.TIMER_STOP, function () {
                     callback.apply(context, args);
                     clock.removeTimer(timer);
                 }, context);
-
                 timer.start();
-
                 return timer;
             };
-
             /**
             * Set a function to repeatedly execute at fixed time intervals.
             * Emulates window.setInterval, except attached to a Kiwi.Time.Clock.
@@ -28187,21 +28150,17 @@ var Kiwi;
             */
             Clock.prototype.setInterval = function (callback, timeout, context) {
                 var args = [];
-                for (var _i = 0; _i < (arguments.length - 3); _i++) {
-                    args[_i] = arguments[_i + 3];
+                for (var _i = 3; _i < arguments.length; _i++) {
+                    args[_i - 3] = arguments[_i];
                 }
                 var timer = this.createTimer("timeoutTimer", timeout / 1000, -1);
-
                 if (!context) {
                     context = this;
                 }
-
                 timer.createTimerEvent(Time.TimerEvent.TIMER_COUNT, function () {
                     callback.apply(context, args);
                 }, context);
-
                 timer.start();
-
                 return timer;
             };
             return Clock;
@@ -28702,7 +28661,6 @@ var Kiwi;
                 if (this._isRunning) {
                     this._elapsed += frameLength;
                 }
-
                 while (this._elapsed >= this.delay) {
                     this._currentCount++;
                     this.processEvents(Time.TimerEvent.TIMER_COUNT);
@@ -28711,11 +28669,9 @@ var Kiwi;
                         this.stop();
                     }
                 }
-
                 while (this._elapsed < 0) {
                     this._currentCount--;
                     this._elapsed += this.delay;
-
                     // Do not process events; they can happen when time flows forwards
                     if (this._currentCount < 0) {
                         // Timer has regressed before its creation.
@@ -28742,7 +28698,6 @@ var Kiwi;
                     this._isPaused = false;
                     this._isStopped = false;
                     this._currentCount = 0;
-
                     this._elapsed = 0;
                     this._lastElapsed = this._clock.elapsed() || 0;
                     this.processEvents(Time.TimerEvent.TIMER_START);
@@ -29265,13 +29220,14 @@ var Kiwi;
         Utils.Canvas = Canvas;
     })(Utils = Kiwi.Utils || (Kiwi.Utils = {}));
 })(Kiwi || (Kiwi = {}));
+/**
+* @module Kiwi
+* @submodule Utils
+* @namespace Kiwi.Utils
+*/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    * @module Kiwi
-    * @submodule Utils
-    * @namespace Kiwi.Utils
-    */
+    var Utils;
     (function (Utils) {
         /**
         * Utility class used to make color management more transparent.
@@ -29297,8 +29253,8 @@ var Kiwi;
         var Color = (function () {
             function Color() {
                 var args = [];
-                for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                    args[_i] = arguments[_i + 0];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
                 }
                 /**
                 * Red channel, stored as a normalized value between 0 and 1.
@@ -29347,37 +29303,41 @@ var Kiwi;
             */
             Color.prototype.set = function () {
                 var params = [];
-                for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                    params[_i] = arguments[_i + 0];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    params[_i - 0] = arguments[_i];
                 }
                 if (params.length === 3) {
                     this.r = params[0];
                     this.g = params[1];
                     this.b = params[2];
-                } else if (params.length === 4) {
+                }
+                else if (params.length === 4) {
                     if (!isNaN(params[3])) {
                         this.r = params[0];
                         this.g = params[1];
                         this.b = params[2];
                         this.a = params[3];
-                    } else if (params[3] === "hsv") {
+                    }
+                    else if (params[3] === "hsv") {
                         this.parseHsv(params[0], params[1], params[2]);
-                    } else if (params[3] === "hsl") {
+                    }
+                    else if (params[3] === "hsl") {
                         this.parseHsl(params[0], params[1], params[2]);
                     }
-                } else if (params.length === 5) {
+                }
+                else if (params.length === 5) {
                     if (params[4] === "hsv") {
                         this.parseHsv(params[0], params[1], params[2], params[3]);
-                    } else if (params[4] === "hsl") {
+                    }
+                    else if (params[4] === "hsl") {
                         this.parseHsl(params[0], params[1], params[2], params[3]);
                     }
-                } else if (typeof params[0] === "string") {
+                }
+                else if (typeof params[0] === "string") {
                     this.parseColorHex(params[0]);
                 }
-
                 return this;
             };
-
             Object.defineProperty(Color.prototype, "rNorm", {
                 /**
                 * Red channel, stored as a normalized value between 0 and 1.
@@ -29396,8 +29356,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
-
             Object.defineProperty(Color.prototype, "gNorm", {
                 /**
                 * Green channel, stored as a normalized value between 0 and 1.
@@ -29416,8 +29374,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
-
             Object.defineProperty(Color.prototype, "bNorm", {
                 /**
                 * Blue channel, stored as a normalized value between 0 and 1.
@@ -29436,8 +29392,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
-
             Object.defineProperty(Color.prototype, "aNorm", {
                 /**
                 * Alpha channel, stored as a normalized value between 0 and 1.
@@ -29456,8 +29410,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
-
             Object.defineProperty(Color.prototype, "r", {
                 /**
                 * Red channel.
@@ -29476,15 +29428,14 @@ var Kiwi;
                 set: function (value) {
                     if (value > 1) {
                         this.r255 = value;
-                    } else {
+                    }
+                    else {
                         this.rNorm = value;
                     }
                 },
                 enumerable: true,
                 configurable: true
             });
-
-
             Object.defineProperty(Color.prototype, "g", {
                 /**
                 * Green channel.
@@ -29503,15 +29454,14 @@ var Kiwi;
                 set: function (value) {
                     if (value > 1) {
                         this.g255 = value;
-                    } else {
+                    }
+                    else {
                         this.gNorm = value;
                     }
                 },
                 enumerable: true,
                 configurable: true
             });
-
-
             Object.defineProperty(Color.prototype, "b", {
                 /**
                 * Blue channel.
@@ -29530,15 +29480,14 @@ var Kiwi;
                 set: function (value) {
                     if (value > 1) {
                         this.b255 = value;
-                    } else {
+                    }
+                    else {
                         this.bNorm = value;
                     }
                 },
                 enumerable: true,
                 configurable: true
             });
-
-
             Object.defineProperty(Color.prototype, "a", {
                 /**
                 * Alpha channel.
@@ -29557,15 +29506,14 @@ var Kiwi;
                 set: function (value) {
                     if (value > 1) {
                         this.r255 = value;
-                    } else {
+                    }
+                    else {
                         this.rNorm = value;
                     }
                 },
                 enumerable: true,
                 configurable: true
             });
-
-
             Object.defineProperty(Color.prototype, "r255", {
                 /**
                 * Red channel, specified as an 8-bit channel in the range 0-255.
@@ -29584,8 +29532,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
-
             Object.defineProperty(Color.prototype, "g255", {
                 /**
                 * Green channel, specified as an 8-bit channel in the range 0-255.
@@ -29604,8 +29550,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
-
             Object.defineProperty(Color.prototype, "b255", {
                 /**
                 * Blue channel, specified as an 8-bit channel in the range 0-255.
@@ -29624,8 +29568,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
-
             Object.defineProperty(Color.prototype, "a255", {
                 /**
                 * Alpha channel, specified as an 8-bit channel in the range 0-255.
@@ -29644,8 +29586,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
-
             Object.defineProperty(Color.prototype, "red", {
                 /**
                 * Red channel, alias of r
@@ -29662,8 +29602,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
-
             Object.defineProperty(Color.prototype, "green", {
                 /**
                 * Green channel, alias of g
@@ -29680,8 +29618,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
-
             Object.defineProperty(Color.prototype, "blue", {
                 /**
                 * Blue channel, alias of b
@@ -29698,8 +29634,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
-
             Object.defineProperty(Color.prototype, "alpha", {
                 /**
                 * Alpha channel, alias of a
@@ -29716,8 +29650,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
-
             /**
             * Parse hexadecimal colors from strings
             * @method parseColorHex
@@ -29727,25 +29659,23 @@ var Kiwi;
             */
             Color.prototype.parseColorHex = function (color) {
                 var bigint = parseInt(color, 16), r = this.r255, g = this.g255, b = this.b255, a = this.a255;
-
                 if (color.length === 6) {
                     r = (bigint >> 16) & 255;
                     g = (bigint >> 8) & 255;
                     b = bigint & 255;
                     a = 255;
-                } else if (color.length === 8) {
+                }
+                else if (color.length === 8) {
                     r = (bigint >> 24) & 255;
                     g = (bigint >> 16) & 255;
                     b = (bigint >> 8) & 255;
                     a = bigint & 255;
                 }
-
                 this.r255 = r;
                 this.g255 = g;
                 this.b255 = b;
                 this.a255 = a;
             };
-
             /**
             * Returns color as a hexadecimal string
             * @method getColorHex
@@ -29754,17 +29684,16 @@ var Kiwi;
             * @public
             */
             Color.prototype.getColorHex = function (alpha) {
-                if (typeof alpha === "undefined") { alpha = true; }
+                if (alpha === void 0) { alpha = true; }
                 var num, mult = 256;
-
                 if (alpha) {
                     num = this.r255 * mult * mult * mult + this.g255 * mult * mult + this.b255 * mult + this.a255;
-                } else {
+                }
+                else {
                     num = this.r255 * mult * mult + this.g255 * mult + this.b255;
                 }
                 return num.toString(16);
             };
-
             /**
             * Parses normalized HSV values into the Color.
             * Based on algorithms at
@@ -29776,15 +29705,13 @@ var Kiwi;
             * @public
             */
             Color.prototype.parseHsv = function (h, s, v, a) {
-                if (typeof a === "undefined") { a = 1; }
+                if (a === void 0) { a = 1; }
                 var r, g, b, i, f, p, q, t;
-
                 i = Math.floor(h * 6);
                 f = h * 6 - i;
                 p = v * (1 - s);
                 q = v * (1 - f * s);
                 t = v * (1 - (1 - f) * s);
-
                 switch (i % 6) {
                     case 0:
                         r = v;
@@ -29817,13 +29744,11 @@ var Kiwi;
                         b = q;
                         break;
                 }
-
                 this._r = r;
                 this._g = g;
                 this._b = b;
                 this._a = a;
             };
-
             /**
             * Returns HSV value of the Color.
             * Based on algorithms at
@@ -29833,18 +29758,16 @@ var Kiwi;
             */
             Color.prototype.getHsva = function () {
                 var h, s, v, d, r = this._r, g = this._g, b = this._b, max = Math.max(r, g, b), min = Math.min(r, g, b);
-
                 h = max;
                 s = max;
                 v = max;
-
                 d = max - min;
                 s = max === 0 ? 0 : d / max;
-
                 if (max === min) {
                     // Achromatic
                     h = 0;
-                } else {
+                }
+                else {
                     switch (max) {
                         case r:
                             h = (g - b) / d + (g < b ? 6 : 0);
@@ -29858,10 +29781,8 @@ var Kiwi;
                     }
                     h /= 6;
                 }
-
                 return { h: h, s: s, v: v, a: this._a };
             };
-
             /**
             * Returns HSL value of the Color.
             * Based on algorithms at
@@ -29872,12 +29793,12 @@ var Kiwi;
             */
             Color.prototype.getHsla = function () {
                 var d, r = this._r, g = this._g, b = this._b, max = Math.max(r, g, b), min = Math.min(r, g, b), h = (max + min) / 2, s = (max + min) / 2, l = (max + min) / 2;
-
                 if (max == min) {
                     // Achromatic
                     h = 0;
                     s = 0;
-                } else {
+                }
+                else {
                     d = max - min;
                     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
                     switch (max) {
@@ -29893,10 +29814,8 @@ var Kiwi;
                     }
                     h /= 6;
                 }
-
                 return { h: h, s: s, l: l, a: this._a };
             };
-
             /**
             * Parses HSL value onto the Color.
             * Based on algorithms at
@@ -29908,15 +29827,15 @@ var Kiwi;
             * @public
             */
             Color.prototype.parseHsl = function (h, s, l, a) {
-                if (typeof a === "undefined") { a = 1; }
+                if (a === void 0) { a = 1; }
                 var q, p, r = this._r, g = this._g, b = this._b;
-
                 if (s === 0) {
                     // Achromatic
                     r = l;
                     g = l;
                     b = l;
-                } else {
+                }
+                else {
                     function hue2rgb(p, q, t) {
                         if (t < 0) {
                             t += 1;
@@ -29935,14 +29854,12 @@ var Kiwi;
                         }
                         return p;
                     }
-
                     q = l < 0.5 ? l * (1 + s) : l + s - l * s;
                     p = 2 * l - q;
                     r = hue2rgb(p, q, h + 1 / 3);
                     g = hue2rgb(p, q, h);
                     b = hue2rgb(p, q, h - 1 / 3);
                 }
-
                 this._r = r;
                 this._g = g;
                 this._b = b;
@@ -29951,8 +29868,7 @@ var Kiwi;
             return Color;
         })();
         Utils.Color = Color;
-    })(Kiwi.Utils || (Kiwi.Utils = {}));
-    var Utils = Kiwi.Utils;
+    })(Utils = Kiwi.Utils || (Kiwi.Utils = {}));
 })(Kiwi || (Kiwi = {}));
 /**
 * Utils is a space that holds a wide varity of useful methods.
