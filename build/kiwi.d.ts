@@ -8098,7 +8098,7 @@ declare module Kiwi.Files {
         * @return {Boolean}
         * @public
         */
-        removeFile(key: string): boolean;
+        removeFile(key: string, destroy?: boolean): boolean;
     }
 }
 /**

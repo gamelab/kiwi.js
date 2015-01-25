@@ -856,6 +856,7 @@ module Kiwi.Files {
                     cellOffsetY: p.cellOffsetY
                 };
 
+                if (p.xhrLoading) params.xhrLoading = p.xhrLoading;//forces blob loading
                 if (p.state) params.state = p.state;
 
             } else {
@@ -939,6 +940,8 @@ module Kiwi.Files {
                     textureParams.state = p.state;
                     jsonParams.state = p.state;
                 }
+
+                if (p.xhrLoading) textureParams.xhrLoading = p.xhrLoading; //forces blob loading
 
             } 
 

@@ -10028,6 +10028,8 @@ var Kiwi;
                         cellOffsetX: p.cellOffsetX,
                         cellOffsetY: p.cellOffsetY
                     };
+                    if (p.xhrLoading)
+                        params.xhrLoading = p.xhrLoading; //forces blob loading
                     if (p.state)
                         params.state = p.state;
                 }
@@ -10100,6 +10102,8 @@ var Kiwi;
                         textureParams.state = p.state;
                         jsonParams.state = p.state;
                     }
+                    if (p.xhrLoading)
+                        textureParams.xhrLoading = p.xhrLoading; //forces blob loading
                 }
                 var imageFile = new Kiwi.Files.TextureFile(this.game, textureParams);
                 var jsonFile = new Kiwi.Files.DataFile(this.game, jsonParams);
@@ -11749,10 +11753,15 @@ var Kiwi;
             * @return {Boolean}
             * @public
             */
-            FileStore.prototype.removeFile = function (key) {
-                if (this._files[key]) {
+            FileStore.prototype.removeFile = function (key, destroy) {
+                if (destroy === void 0) { destroy = false; }
+                var file = this._files[key];
+                if (file) {
                     this._files[key] = null;
                     delete this._files[key];
+                    if (destroy) {
+                        this._files[key].destroy();
+                    }
                     return true;
                 }
                 return false;
