@@ -6550,6 +6550,19 @@ declare module Kiwi.Files {
         */
         percentLoaded: number;
         /**
+        * When enabled, files which can be loaded in parallel (those which are loaded via tags)
+        * will be loaded at the same time.
+        *
+        * The default behaviour is to have the files loading in a queued fashion instead of one after another.
+        *
+        * @property enableParallelLoading
+        * @type Boolean
+        * @default false
+        * @since 1.2.0
+        * @public
+        */
+        enableParallelLoading: boolean;
+        /**
         * The boot method is executed when the DOM has successfully loaded and we can now start the game.
         * @method boot
         * @public
@@ -6602,6 +6615,14 @@ declare module Kiwi.Files {
         */
         clearQueue(): void;
         /**
+        * Starts the process of loading a file outside of the regular queue loading process.
+        * Callbacks for load completion need to be added onto the file via 'onComplete' Signal.
+        *
+        * @method loadFile
+        * @public
+        */
+        loadFile(file: Kiwi.Files.File): void;
+        /**
         * Sorts a file and places it into either the 'loadingParallel' or 'loadingQueue'
         * depending on the method of loading it is using.
         *
@@ -6610,7 +6631,7 @@ declare module Kiwi.Files {
         * @since 1.2.0
         * @private
         */
-        private sortFile(file);
+        private sortFile(file, startLoading?);
         /**
         * The number of files in the file queue that have been updated.
         *
@@ -6660,12 +6681,20 @@ declare module Kiwi.Files {
         */
         private queueFileComplete(file);
         /**
-        * Starts loading all of the files which can be loaded in parallel.
+        * Starts loading a file which can be loaded in parallel.
         * @method startLoadingParallel
+        * @param params file {Kiwi.Files.File}
         * @since 1.2.0
         * @private
         */
-        private startLoadingParallel();
+        private startLoadingParallel(file);
+        /**
+        * Starts loading all files which can be loaded in parallel.
+        * @method startLoadingAllParallel
+        * @since 1.2.0
+        * @private
+        */
+        private startLoadingAllParallel();
         /**
         * Executed when a file in the 'loadingParallel' lsit has been successfully loaded.
         * Removes the file from the list and get the fileQueue to check its progress.
@@ -22146,7 +22175,15 @@ declare module Kiwi.Files {
     *
     */
     class AudioFile extends Kiwi.Files.File {
-        constructor(game: Kiwi.Game, params?: {});
+        constructor(game: Kiwi.Game, params?: any);
+        /**
+        * For tag loading only. The crossOrigin value applied to loaded images. Very often this needs to be set to 'anonymous'
+        * @property crossOrigin
+        * @type String
+        * @default ''
+        * @public
+        */
+        crossOrigin: string;
         /**
         * Returns the type of this object
         * @method objType
@@ -22309,6 +22346,14 @@ declare module Kiwi.Files {
         * @public
         */
         objType(): string;
+        /**
+        * For tag loading only. The crossOrigin value applied to loaded images. Very often this needs to be set to 'anonymous'
+        * @property crossOrigin
+        * @type String
+        * @default ''
+        * @public
+        */
+        crossOrigin: string;
         /**
         * Initialises the loading method.
         * Tagloading is the default but also supports XHR + arraybuffer.

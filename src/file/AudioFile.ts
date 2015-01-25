@@ -31,7 +31,7 @@ module Kiwi.Files {
     */
     export class AudioFile extends Kiwi.Files.File {
 
-        constructor(game: Kiwi.Game, params: {} = {}) {
+        constructor(game: Kiwi.Game, params: any = {}) {
 
             //Add support detection here...
 
@@ -44,9 +44,22 @@ module Kiwi.Files {
                 this.useTagLoader = false;
             }
 
+            if (!Kiwi.Utils.Common.isUndefined(params.crossOrigin)) {
+                this.crossOrigin = params.crossOrigin;
+            }
+
         }
 
         //this.dataType === File.AUDIO
+
+        /**
+        * For tag loading only. The crossOrigin value applied to loaded images. Very often this needs to be set to 'anonymous'
+        * @property crossOrigin
+        * @type String
+        * @default ''
+        * @public
+        */
+        public crossOrigin: string = '';
 
         /**
         * Returns the type of this object
@@ -84,6 +97,11 @@ module Kiwi.Files {
             this.data = document.createElement('audio');
             this.data.src = this.URL;
             this.data.preload = 'auto';
+
+
+            if (this.crossOrigin) {
+                this.data.crossOrigin = this.crossOrigin;
+            }
 
             if (this.game.audio.locked) {
                 //Nothing else to do...

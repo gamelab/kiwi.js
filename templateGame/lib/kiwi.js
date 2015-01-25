@@ -9415,6 +9415,19 @@ var Kiwi;
                 */
                 this.percentLoaded = 0;
                 /**
+                * When enabled, files which can be loaded in parallel (those which are loaded via tags)
+                * will be loaded at the same time.
+                *
+                * The default behaviour is to have the files loading in a queued fashion instead of one after another.
+                *
+                * @property enableParallelLoading
+                * @type Boolean
+                * @default false
+                * @since 1.2.0
+                * @public
+                */
+                this.enableParallelLoading = false;
+                /**
                 * The number of files in the file queue that have been updated.
                 *
                 * @property _completeFiles
@@ -9544,17 +9557,17 @@ var Kiwi;
                 //There are files to load
                 var i = 0, file;
                 while (i < this._loadingList.length) {
-                    this.sortFile(this._loadingList[i]);
                     if (this._calculateBytes) {
                         this._loadingList[i].onProgress.add(this.updateFileListInformation, this);
                     }
                     this._loadingList[i].onComplete.addOnce(this.fileQueueUpdate, this);
+                    this.sortFile(this._loadingList[i]);
                     i++;
                 }
                 this._queueLoading = true;
                 this._bytesLoaded = 0;
                 this.startLoadingQueue();
-                this.startLoadingParallel();
+                this.startLoadingAllParallel();
                 this.fileQueueUpdate(null, true);
             };
             /**
@@ -9622,6 +9635,20 @@ var Kiwi;
                 }
             };
             /**
+            * Starts the process of loading a file outside of the regular queue loading process.
+            * Callbacks for load completion need to be added onto the file via 'onComplete' Signal.
+            *
+            * @method loadFile
+            * @public
+            */
+            Loader.prototype.loadFile = function (file) {
+                if (file.loading || file.complete) {
+                    Kiwi.Log.error('Kiwi.Files.Loader: Could not add file. File is already loading or has completed loading.');
+                    return;
+                }
+                this.sortFile(file, true);
+            };
+            /**
             * Sorts a file and places it into either the 'loadingParallel' or 'loadingQueue'
             * depending on the method of loading it is using.
             *
@@ -9630,14 +9657,21 @@ var Kiwi;
             * @since 1.2.0
             * @private
             */
-            Loader.prototype.sortFile = function (file) {
-                if (file.loadInParallel) {
+            Loader.prototype.sortFile = function (file, startLoading) {
+                if (startLoading === void 0) { startLoading = false; }
+                if (this.enableParallelLoading && file.loadInParallel) {
                     //Push into the tag loader queue
                     this._loadingParallel.push(file);
+                    if (startLoading) {
+                        this.startLoadingParallel(file);
+                    }
                 }
                 else {
                     //Push into the xhr queue
                     this._loadingQueue.push(file);
+                    if (startLoading) {
+                        this.startLoadingQueue();
+                    }
                 }
             };
             /**
@@ -9718,7 +9752,6 @@ var Kiwi;
                 }
                 //Is the first file currently loading?
                 if (this._loadingQueue[0].loading) {
-                    console.log('Kiwi.Files.Loader: File is currently loading', '#loading');
                     return false;
                 }
                 //Attempt to load the file!
@@ -9747,19 +9780,28 @@ var Kiwi;
                 this.startLoadingQueue();
             };
             /**
-            * Starts loading all of the files which can be loaded in parallel.
+            * Starts loading a file which can be loaded in parallel.
             * @method startLoadingParallel
+            * @param params file {Kiwi.Files.File}
             * @since 1.2.0
             * @private
             */
-            Loader.prototype.startLoadingParallel = function () {
+            Loader.prototype.startLoadingParallel = function (file) {
+                if (!file.loading) {
+                    file.onComplete.add(this.parallelFileComplete, this);
+                    file.load();
+                }
+            };
+            /**
+            * Starts loading all files which can be loaded in parallel.
+            * @method startLoadingAllParallel
+            * @since 1.2.0
+            * @private
+            */
+            Loader.prototype.startLoadingAllParallel = function () {
                 var i = 0, file;
                 while (i < this._loadingParallel.length) {
-                    file = this._loadingParallel[i];
-                    if (!file.loading) {
-                        file.onComplete.add(this.parallelFileComplete, this);
-                        file.load();
-                    }
+                    this.startLoadingParallel(this._loadingParallel[i]);
                     i++;
                 }
             };
@@ -31826,6 +31868,15 @@ var Kiwi;
                 //Add support detection here...
                 if (params === void 0) { params = {}; }
                 _super.call(this, game, params);
+                //this.dataType === File.AUDIO
+                /**
+                * For tag loading only. The crossOrigin value applied to loaded images. Very often this needs to be set to 'anonymous'
+                * @property crossOrigin
+                * @type String
+                * @default ''
+                * @public
+                */
+                this.crossOrigin = '';
                 if (this.game.audio.usingAudioTag) {
                     this.useTagLoader = true;
                     this._loadInParallel = true;
@@ -31833,8 +31884,10 @@ var Kiwi;
                 else {
                     this.useTagLoader = false;
                 }
+                if (!Kiwi.Utils.Common.isUndefined(params.crossOrigin)) {
+                    this.crossOrigin = params.crossOrigin;
+                }
             }
-            //this.dataType === File.AUDIO
             /**
             * Returns the type of this object
             * @method objType
@@ -31867,6 +31920,9 @@ var Kiwi;
                 this.data = document.createElement('audio');
                 this.data.src = this.URL;
                 this.data.preload = 'auto';
+                if (this.crossOrigin) {
+                    this.data.crossOrigin = this.crossOrigin;
+                }
                 if (this.game.audio.locked) {
                     //Nothing else to do...
                     this.loadSuccess();
@@ -32125,6 +32181,14 @@ var Kiwi;
             function TextureFile(game, params) {
                 if (params === void 0) { params = {}; }
                 _super.call(this, game, params);
+                /**
+                * For tag loading only. The crossOrigin value applied to loaded images. Very often this needs to be set to 'anonymous'
+                * @property crossOrigin
+                * @type String
+                * @default ''
+                * @public
+                */
+                this.crossOrigin = '';
                 if (params.xhrLoading) {
                     this.useTagLoader = false;
                     this._loadInParallel = false;
@@ -32132,6 +32196,9 @@ var Kiwi;
                 else {
                     this.useTagLoader = true;
                     this._loadInParallel = true;
+                }
+                if (!Kiwi.Utils.Common.isUndefined(params.crossOrigin)) {
+                    this.crossOrigin = params.crossOrigin;
                 }
             }
             /**
@@ -32168,6 +32235,9 @@ var Kiwi;
                 var _this = this;
                 this.data = new Image();
                 this.data.src = this.URL;
+                if (this.crossOrigin) {
+                    this.data.crossOrigin = this.crossOrigin;
+                }
                 this.data.onload = function () { return _this.loadSuccess(); };
                 this.data.onerror = function () { return _this.loadError(event); };
             };

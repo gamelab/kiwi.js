@@ -148,6 +148,21 @@ module Kiwi.Files {
 
 
         /**
+        * When enabled, files which can be loaded in parallel (those which are loaded via tags) 
+        * will be loaded at the same time. 
+        * 
+        * The default behaviour is to have the files loading in a queued fashion instead of one after another.
+        * 
+        * @property enableParallelLoading
+        * @type Boolean
+        * @default false
+        * @since 1.2.0
+        * @public
+        */
+        public enableParallelLoading: boolean = false; 
+
+
+        /**
         * The boot method is executed when the DOM has successfully loaded and we can now start the game.
         * @method boot
         * @public
@@ -218,13 +233,13 @@ module Kiwi.Files {
 
             while (i < this._loadingList.length) {
 
-                this.sortFile(this._loadingList[i]);
-
                 if (this._calculateBytes) {
                     this._loadingList[i].onProgress.add(this.updateFileListInformation, this);
                 }
 
                 this._loadingList[i].onComplete.addOnce(this.fileQueueUpdate, this);
+
+                this.sortFile(this._loadingList[i]);
 
                 i++;
             }
@@ -233,7 +248,7 @@ module Kiwi.Files {
             this._bytesLoaded = 0;
 
             this.startLoadingQueue();
-            this.startLoadingParallel();
+            this.startLoadingAllParallel();
 
             this.fileQueueUpdate(null, true);
 
@@ -315,6 +330,24 @@ module Kiwi.Files {
         }
 
         /**
+        * Starts the process of loading a file outside of the regular queue loading process.
+        * Callbacks for load completion need to be added onto the file via 'onComplete' Signal.
+        *
+        * @method loadFile
+        * @public
+        */
+        public loadFile(file: Kiwi.Files.File) {
+
+            if ( file.loading || file.complete ) {
+                Kiwi.Log.error('Kiwi.Files.Loader: Could not add file. File is already loading or has completed loading.');
+                return;
+            }
+
+            this.sortFile(file, true);
+
+        }
+
+        /**
         * Sorts a file and places it into either the 'loadingParallel' or 'loadingQueue' 
         * depending on the method of loading it is using.
         * 
@@ -323,16 +356,23 @@ module Kiwi.Files {
         * @since 1.2.0
         * @private
         */
-        private sortFile(file: Kiwi.Files.File) {
+        private sortFile(file: Kiwi.Files.File, startLoading: boolean = false) {
 
-            if (file.loadInParallel) {
+            if (this.enableParallelLoading && file.loadInParallel) {
                 //Push into the tag loader queue
                 this._loadingParallel.push(file);
+
+                if (startLoading) {
+                    this.startLoadingParallel(file);
+                }
 
             } else {
                 //Push into the xhr queue
                 this._loadingQueue.push(file);
 
+                if (startLoading) {
+                    this.startLoadingQueue();
+                }
             }
 
         }
@@ -440,7 +480,6 @@ module Kiwi.Files {
 
             //Is the first file currently loading?
             if (this._loadingQueue[0].loading) {
-                console.log('Kiwi.Files.Loader: File is currently loading', '#loading');
                 return false;
             }
 
@@ -459,7 +498,7 @@ module Kiwi.Files {
         * @since 1.2.0
         * @private
         */
-        private queueFileComplete(file:Kiwi.Files.File) {
+        private queueFileComplete(file: Kiwi.Files.File) {
 
             //Remove from the loadingQueue
             var index = this._loadingQueue.indexOf(file);
@@ -475,28 +514,37 @@ module Kiwi.Files {
         }
 
         /**
-        * Starts loading all of the files which can be loaded in parallel.
+        * Starts loading a file which can be loaded in parallel.
         * @method startLoadingParallel
+        * @param params file {Kiwi.Files.File}
         * @since 1.2.0
         * @private 
         */
-        private startLoadingParallel() {
+        private startLoadingParallel( file: Kiwi.Files.File) {
+
+            if (!file.loading) {
+                file.onComplete.add(this.parallelFileComplete, this);
+                file.load();
+            }
+
+        }
+        
+        /**
+        * Starts loading all files which can be loaded in parallel.
+        * @method startLoadingAllParallel
+        * @since 1.2.0
+        * @private 
+        */
+        private startLoadingAllParallel() {
 
             var i = 0,
                 file: Kiwi.Files.File;
 
             while (i < this._loadingParallel.length) {
-
-                file = this._loadingParallel[i];
-
-                if (!file.loading) {
-                    file.onComplete.add(this.parallelFileComplete, this);
-                    file.load();
-                }
-
+                this.startLoadingParallel(this._loadingParallel[i]);
                 i++;
             }
-            
+
         }
         
         /**
@@ -508,7 +556,7 @@ module Kiwi.Files {
         * @since 1.2.0
         * @private 
         */
-        private parallelFileComplete(file) {
+        private parallelFileComplete(file: Kiwi.Files.File) {
 
             var index = this._loadingParallel.indexOf(file);
             if (index === -1) {

@@ -43,6 +43,10 @@ module Kiwi.Files {
                 this._loadInParallel = true;
             }
 
+            if (!Kiwi.Utils.Common.isUndefined(params.crossOrigin) ) {
+                this.crossOrigin = params.crossOrigin;
+            }
+
         }
 
         /**
@@ -54,6 +58,15 @@ module Kiwi.Files {
         public objType() {
             return "TextureFile";
         }
+
+        /**
+        * For tag loading only. The crossOrigin value applied to loaded images. Very often this needs to be set to 'anonymous'
+        * @property crossOrigin
+        * @type String
+        * @default ''
+        * @public
+        */
+        public crossOrigin: string = '';
 
         //this.dataType === File.IMAGE || this.dataType === File.SPRITE_SHEET || this.dataType === File.TEXTURE_ATLAS
 
@@ -84,6 +97,10 @@ module Kiwi.Files {
 
             this.data = new Image();
             this.data.src = this.URL;
+
+            if (this.crossOrigin) {
+                this.data.crossOrigin = this.crossOrigin;
+            }
 
             this.data.onload = () => this.loadSuccess();
             this.data.onerror = () => this.loadError(event);
