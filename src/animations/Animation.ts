@@ -18,9 +18,9 @@ module Kiwi.Animations {
     * @constructor
     * @param name {string} The name of this anim.
     * @param sequences {Kiwi.Animations.Sequences} The sequence that this anim will be using to animate.
-    * @param clock {Kiwi.Time.Clock} A game clock that this anim will be using to keep record of the time between frames.
+    * @param clock {Kiwi.Time.Clock} A game clock that this anim will be using to keep record of the time between frames. (Deprecated in v1.2.0, because there is no way to control it.)
     * @param parent {Kiwi.Components.AnimationManager} The animation manager that this animation belongs to.
-    * @return {Kiwi.Animations.Anim} 
+    * @return {Kiwi.Animations.Animation} 
     * 
     */
     export class Animation {
@@ -31,9 +31,11 @@ module Kiwi.Animations {
             this._sequence = sequence;
             this._speed = sequence.speed;
             this._loop = sequence.loop;
-            this._clock = clock;
             this._parent = parent;
 
+            this._clock = clock;
+
+            this._lastFrameElapsed = this.clock.elapsed();
         }
 
         /**
@@ -156,6 +158,21 @@ module Kiwi.Animations {
         private _clock: Kiwi.Time.Clock;
 
         /**
+        * Clock used by this Animation. If it was not set on creation,
+        * the Animation will use its parent's entity's clock.
+        * @property clock
+        * @type Kiwi.Time.Clock
+        * @public
+        * @since 1.2.0
+        */
+        public get clock(): Kiwi.Time.Clock {
+            if ( this._clock ) {
+                return this._clock;
+            }
+            return this._parent.entity.clock;
+        }
+
+        /**
         * The starting time of the animation from when it was played. Internal use only.
         * @property _startTime
         * @type number
@@ -264,6 +281,28 @@ module Kiwi.Animations {
         }
 
         /**
+        * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation but is not going to play again.
+        * @property _onComplete
+        * @type Kiwi.Signal
+        * @public
+        */
+        private _onComplete: Kiwi.Signal = null;
+        
+        public get onComplete(): Kiwi.Signal {
+            if (this._onComplete == null) this._onComplete = new Kiwi.Signal;
+            return this._onComplete;
+        }
+
+        /**
+        * Clock time on last frame, used to compute current animation frame.
+        * @property _lastFrameElapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _lastFrameElapsed: number;
+
+        /**
         * An Internal method used to start the animation.
         * @method _start
         * @param [index=null] {number} The index of the frame in the sequence that is to play. If left as null if just starts from where it left off.
@@ -275,7 +314,7 @@ module Kiwi.Animations {
             }
 
             this._isPlaying = true;
-            this._startTime = this._clock.elapsed();
+            this._startTime = this.clock.elapsed();
             this._tick = this._startTime + this._speed;
             if(this._onPlay !== null) this._onPlay.dispatch();
         }
@@ -355,42 +394,65 @@ module Kiwi.Animations {
         }
 
         /**
-        * The update loop. Returns a boolean indicating whether the animation has gone to a new frame or not.
+        * The update loop.
+        * 
         * @method update
         * @public
         */
         public update() {
-            if (this._isPlaying) {
-                if (this._clock.elapsed() >= this._tick) {
+            var frameDelta;
 
-                    this._tick = this._clock.elapsed() + this._speed;
-                    //Would it be a valid frame?
-                    if (this._validateFrame(this._frameIndex + ((this._reverse == true) ? -1 : 1))) {
-                        
-                        this._frameIndex += (this._reverse == true) ? -1 : 1;
-                        this._parent.updateCellIndex();
-                        if(this._onUpdate !== null) this._onUpdate.dispatch();
-                    
-                    } else {
+            if ( this._isPlaying ) {
 
-                        //Is it looping?
-                        if (this._loop) {
-                            if (this._reverse) {
-                                this._frameIndex = this.length - 1;
-                            } else {
-                                this._frameIndex = 0;
+                // How many frames do we move, ahead or behind?
+                frameDelta = ( this.clock.elapsed() -
+                    this._lastFrameElapsed ) / this._speed;
+                if ( this._reverse ) {
+                    frameDelta *= -1;
+                }
+
+                // Round delta, towards zero
+                if ( frameDelta > 0 ) {
+                    frameDelta = Math.floor( frameDelta );
+                } else {
+                    frameDelta = Math.ceil( frameDelta );
+                }
+
+                if ( frameDelta !== 0 ) {
+                    this._frameIndex += frameDelta;
+                    this._lastFrameElapsed = this.clock.elapsed();
+
+                    // Loop check
+                    if ( this._loop ) {
+                        if ( this._frameIndex > this.length - 1 ) {
+                            while ( this._frameIndex > this.length - 1 ) {
+                                this._frameIndex -= this.length;
+                                if ( this._onLoop != null ) {
+                                    this._onLoop.dispatch();
+                                }
                             }
-                            this._parent.updateCellIndex();
-                            if(this._onLoop !== null) this._onLoop.dispatch();
-
-                            //Not Looping, stop animation.
-                        } else {
-                            //Execute the stop on the parent to allow the isPlaying boolean to remain consistent
-                            this._parent.stop();
+                        } else if ( this._frameIndex < 0 ) {
+                            while ( this._frameIndex < 0 ) {
+                                this._frameIndex += this.length;
+                                if ( this._onLoop != null ) {
+                                    this._onLoop.dispatch();
+                                }
+                            }
                         }
-
+                    } else if ( this._frameIndex < 0 || this._frameIndex >= this.length ) {
+                        if ( this._onComplete != null ) {
+                            this._onComplete.dispatch();
+                        }
+                        // Execute the stop on the parent 
+                        // to allow the isPlaying boolean to remain consistent
+                        this._parent.stop();
+                        return;
                     }
 
+                    this._parent.updateCellIndex();
+                    if ( this._onUpdate !== null ) {
+                        this._onUpdate.dispatch();
+                    }
                 }
             }
         }
@@ -438,6 +500,5 @@ module Kiwi.Animations {
             delete this._reverse;
             delete this._tick;
         }
-        
     }
 }

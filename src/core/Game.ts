@@ -409,7 +409,7 @@ module Kiwi {
         /**
         * Holds a reference to the clocks that are being used and has a MASTER clock that is being used for the game.
         * @property time
-        * @type Kiwi.Time.ClockManage
+        * @type Kiwi.Time.ClockManager
         * @public
         */
         public time: Kiwi.Time.ClockManager = null;

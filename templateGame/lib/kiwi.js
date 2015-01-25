@@ -111,7 +111,7 @@ var Kiwi;
             /**
             * Holds a reference to the clocks that are being used and has a MASTER clock that is being used for the game.
             * @property time
-            * @type Kiwi.Time.ClockManage
+            * @type Kiwi.Time.ClockManager
             * @public
             */
             this.time = null;
@@ -1574,16 +1574,20 @@ var Kiwi;
                 }
             }
         };
+        /**
+        * Returns whether a valid minimum version of a plugin exists.
+        * @method validMinimumPluginVersionExists
+        * @param name {string} Name of plugin
+        * @param version {string} Minimum version
+        * @return boolean
+        * @public
+        */
         PluginManager.prototype.validMinimumPluginVersionExists = function (name, version) {
-            var pluginExists = false;
-            var minVersionSatisfied = false;
             if (this._plugins.indexOf(name) !== -1) {
-                pluginExists = true;
-                if (Kiwi.Utils.Version.greaterOrEqual(version, Kiwi.Plugins[name].version)) {
-                    minVersionSatisfied = true;
+                if (Kiwi.Utils.Version.greaterOrEqual(Kiwi.Plugins[name].version, version)) {
+                    return true;
                 }
             }
-            return (pluginExists && minVersionSatisfied);
         };
         /**
         * Returns true if a plugin identified by the supplied pluginName is registered.
@@ -4624,9 +4628,12 @@ var Kiwi;
             configurable: true
         });
         /**
-        * Apply this cameras inverted matrix to a an object with x and y properties representing a point and return the transformed point.
+        * Convert from screen coordinates to world coordinates.
+        * Apply this camera's inverted matrix to an object with x and y
+        * properties representing a point and return the transformed point.
         * Useful for when calculating if coordinates with the mouse.
-        * Note: This method clones the point you pass, so that is doesn't "reset" any properties you set.
+        * Note: This method clones the point you pass,
+        * so that it doesn't "reset" any properties you set.
         * @method transformPoint
         * @param point {Kiwi.Geom.Point}
         * @return {Kiwi.Geom.Point}
@@ -4639,6 +4646,24 @@ var Kiwi;
             m.invert();
             return m.transformPoint(np);
         };
+        /**
+        * Convert from world coordinates to screen coordinates.
+        * Useful for assessing visibility.
+        * @method transformPointToScreen
+        * @param point {Kiwi.Geom.Point}
+        * @return {Kiwi.Geom.Point}
+        * @public
+        * @since 1.2.0
+        */
+        Camera.prototype.transformPointToScreen = function (point) {
+            var np = point.clone();
+
+            var m = this.transform.getConcatenatedMatrix();
+            m.append(1, 0, 0, 1, -this.transform.rotPointX, -this.transform.rotPointY);
+
+            return m.transformPoint(np);
+        };
+
         /**
         * The update loop that is executed every frame.
         * @method update
@@ -5371,10 +5396,10 @@ var Kiwi;
         * @param text {String} The text that is contained within this textfield.
         * @param [x=0] {Number} The new x coordinate from the Position component
         * @param [y=0] {Number} The new y coordinate from the Position component
-        * @param [color='#000000'] {String} The color of the text.
+        * @param [color="#000000"] {String} The color of the text.
         * @param [size=32] {Number} The size of the text in pixels.
-        * @param [weight='normal'] {String} The weight of the text.
-        * @param [fontFamily='sans-serif'] {String} The font family that is to be used when rendering.
+        * @param [weight="normal"] {String} The weight of the text.
+        * @param [fontFamily="sans-serif"] {String} The font family that is to be used when rendering.
         * @return {Textfield} This Game Object.
         */
         var Textfield = (function (_super) {
@@ -5391,6 +5416,7 @@ var Kiwi;
                 * If the temporary canvas is dirty and needs to be re-rendered. Only used when the text field rendering is being optimised.
                 * @property _tempDirty
                 * @type boolean
+                * @private
                 */
                 this._tempDirty = true;
                 if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
@@ -5401,20 +5427,23 @@ var Kiwi;
                 this._fontSize = size;
                 this._fontColor = color;
                 this._fontFamily = fontFamily;
-                this._textAlign = 'left';
-                this._baseline = 'top';
+                this._textAlign = "left";
+                this._baseline = "top";
                 this._tempDirty = true;
-                //Create the canvas
-                this._canvas = document.createElement('canvas');
+                // Create the canvas
+                this._canvas = document.createElement("canvas");
                 this._canvas.width = 2;
                 this._canvas.height = 2;
-                this._ctx = this._canvas.getContext('2d');
-                //Add it to the TextureLibrary
+                this._ctx = this._canvas.getContext("2d");
+                // Add it to the TextureLibrary
                 this.atlas = new Kiwi.Textures.SingleImage(this.game.rnd.uuid(), this._canvas);
                 this.state.textureLibrary.add(this.atlas);
                 this.atlas.dirty = true;
                 // Track actual text width - not canvas width (which rounds up to powers of 2), necessary for proper alignment
                 this._alignWidth = 0;
+
+                // Setup components
+                this.box = this.components.add(new Kiwi.Components.Box(this, x, y, this.width, this.height));
             }
             /**
             * Returns the type of object that this is
@@ -5511,16 +5540,12 @@ var Kiwi;
                 configurable: true
             });
             Object.defineProperty(Textfield.prototype, "textAlign", {
-                /**
-                * Returns a string containing the text alignment for this textfield.
-                * @type string
-                * @public
-                */
                 get: function () {
                     return this._textAlign;
                 },
                 /**
-                * Changes the alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.
+                * Alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.
+                * @property textAlign
                 * @type string
                 * @public
                 */
@@ -5540,43 +5565,53 @@ var Kiwi;
             */
             Textfield.prototype._renderText = function () {
                 //Get/Set the width
-                this._ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
-                //Get the size of the text.
+                this._ctx.font = this._fontWeight + " " + this._fontSize + "px " + this._fontFamily;
+                // Get the size of the text.
                 var _measurements = this._ctx.measureText(this._text); //when you measure the text for some reason it resets the values?! 
                 var width = _measurements.width;
                 var height = this._fontSize * 1.3; //Need to find a better way to calculate
                 // Cache alignment width
                 this._alignWidth = width;
-                //Is the width base2?
+                // Is the width base2?
                 if (Kiwi.Utils.Common.base2Sizes.indexOf(width) == -1) {
                     var i = 0;
                     while (width > Kiwi.Utils.Common.base2Sizes[i])
                         i++;
                     width = Kiwi.Utils.Common.base2Sizes[i];
                 }
-                //Is the height base2?
+                // Is the height base2?
                 if (Kiwi.Utils.Common.base2Sizes.indexOf(height) == -1) {
                     var i = 0;
                     while (height > Kiwi.Utils.Common.base2Sizes[i])
                         i++;
                     height = Kiwi.Utils.Common.base2Sizes[i];
                 }
-                //Apply the width/height
+                // Apply the width/height
                 this._canvas.width = width;
                 this._canvas.height = height;
-                //Clear the canvas
+                // Clear the canvas
                 this._ctx.clearRect(0, 0, width, height);
-                //Reapply the styles....cause it unapplies after a measurement...?!?
-                this._ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
+                // Reapply the styles....cause it unapplies after a measurement...?!?
+                this._ctx.font = this._fontWeight + " " + this._fontSize + "px " + this._fontFamily;
                 this._ctx.fillStyle = this._fontColor;
                 this._ctx.textBaseline = this._baseline;
-                //Draw the text.
+                // Draw the text.
                 this._ctx.fillText(this._text, 0, 0);
-                // Update inherited components
+                // Update inherited properties
                 this.width = this._alignWidth;
                 this.height = this._canvas.height;
                 //Update the cell and dirty/undirtyfiy
-                this.atlas.cells[0] = { x: 0, y: 0, w: this._canvas.width, h: this._canvas.height };
+                this.atlas.cells[0] = {
+                    x: 0,
+                    y: 0,
+                    w: this._canvas.width,
+                    h: this._canvas.height,
+                    hitboxes: [{
+                            x: this._textAlign === Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT ? 0 : this._textAlign === Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER ? -this._alignWidth * 0.5 : -this._alignWidth,
+                            y: 0,
+                            w: this.width,
+                            h: this.height
+                        }] };
                 this._tempDirty = false;
                 this.atlas.dirty = true;
             };
@@ -5664,7 +5699,7 @@ var Kiwi;
                 //Add to the batch!
                 this.glRenderer.concatBatch(vertexItems);
             };
-            /**
+            Textfield.TEXT_ALIGN_CENTER = "center";
             * A static property that contains the string to center align the text.
             * @property TEXT_ALIGN_CENTER
             * @type string
@@ -5672,30 +5707,27 @@ var Kiwi;
             * @final
             * @public
             */
-            Textfield.TEXT_ALIGN_CENTER = 'center';
             /**
-            * A static property that contains the string to right align the text.
+            Textfield.TEXT_ALIGN_RIGHT = "right";
             * @property TEXT_ALIGN_RIGHT
             * @type string
             * @static
             * @final
             * @public
             */
-            Textfield.TEXT_ALIGN_RIGHT = 'right';
             /**
-            * A static property that contains the string to left align the text.
+            Textfield.TEXT_ALIGN_LEFT = "left";
             * @property TEXT_ALIGN_LEFT
             * @type string
             * @static
             * @final
             * @public
             */
-            Textfield.TEXT_ALIGN_LEFT = 'left';
             return Textfield;
         })(Kiwi.Entity);
         GameObjects.Textfield = Textfield;
         /**
-        * Alias of the 'Kiwi.GameObjects.Textfield'.
+        * Alias of the "Kiwi.GameObjects.Textfield".
         * This will continue to be an alias until we can deprecate the existing version.
         *
         * @class TextField
@@ -7027,7 +7059,7 @@ var Kiwi;
             */
             AnimationManager.prototype.createFromSequence = function (sequence, play) {
                 if (play === void 0) { play = false; }
-                this._animations[sequence.name] = new Kiwi.Animations.Animation(sequence.name, sequence, this.entity.clock, this);
+                this._animations[sequence.name] = new Kiwi.Animations.Animation(sequence.name, sequence, null, this);
                 if (play)
                     this.play(sequence.name);
                 return this._animations[sequence.name];
@@ -7363,9 +7395,9 @@ var Kiwi;
                 * @public
                 */
                 get: function () {
-                    if (this.autoUpdate == true && this.entity.atlas !== null) {
-                        this._hitboxOffset.x = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x;
-                        this._hitboxOffset.y = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y;
+                    if (this.autoUpdate == true && this.entity.atlas !== null && this.entity.atlas.cells && this.entity.atlas.cells[0].hitboxes) {
+                        this._hitboxOffset.x = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x || 0;
+                        this._hitboxOffset.y = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y || 0;
                     }
                     return this._hitboxOffset;
                 },
@@ -7387,9 +7419,12 @@ var Kiwi;
                     //If the hitbox has not already been set, then update the width/height based upon the current cell that the entity has.
                     if (this.autoUpdate == true) {
                         var atlas = this.entity.atlas;
-                        if (atlas !== null) {
+                        if (atlas !== null && atlas.cells && atlas.cells[0].hitboxes) {
                             this._rawHitbox.width = atlas.cells[this.entity.cellIndex].hitboxes[0].w;
                             this._rawHitbox.height = atlas.cells[this.entity.cellIndex].hitboxes[0].h;
+                        } else {
+                            this._rawHitbox.width = this.entity.width;
+                            this._rawHitbox.height = this.entity.height;
                         }
                     }
                     return this._rawHitbox;
@@ -7472,16 +7507,16 @@ var Kiwi;
             Object.defineProperty(Box.prototype, "center", {
                 /**
                 * Returns the center point for the box after it has been transformed.
+                * World coordinates.
                 * This is READ ONLY.
                 * @property center
                 * @type Kiwi.Geom.Point
                 * @public
                 */
                 get: function () {
-                    var t = this.entity.transform;
-                    var m = t.getConcatenatedMatrix();
-                    m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
-                    this._transformedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - t.rotPointX, this.entity.height / 2 - t.rotPointY));
+                    var m = this.entity.transform.getConcatenatedMatrix();
+
+                    this._transformedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - this.entity.anchorPointX, this.entity.height / 2 - this.entity.anchorPointY));
                     return this._transformedCenter;
                 },
                 enumerable: true,
@@ -13833,7 +13868,9 @@ var Kiwi;
             * @class TweenManager
             * @namespace Kiwi.Animations.Tweens
             * @constructor
-            * @param game {Kiwi.Game}
+            * @param game {Kiwi.Game} Current game
+            * @param [clock] {Kiwi.Time.Clock} Clock to use for tweens.
+            *   Defaults to game.time.clock.
             * @return {Kiwi.Animations.TweenManager}
             *
             * @author     sole / http://soledadpenades.com
@@ -13848,9 +13885,10 @@ var Kiwi;
             *
             */
             var TweenManager = (function () {
-                function TweenManager(game) {
+                function TweenManager(game, clock) {
                     this._game = game;
                     this._tweens = [];
+                    this.clock = clock || this._game.time.clock;
                 }
                 /**
                 * The type of object that this is.
@@ -13886,7 +13924,10 @@ var Kiwi;
                 * @public
                 */
                 TweenManager.prototype.create = function (object) {
-                    return new Kiwi.Animations.Tween(object, this._game);
+                    var tween = new Kiwi.Animations.Tween(object, this._game);
+                    this.validateClock();
+                    tween.manager = this;
+                    return tween;
                 };
                 /**
                 * Adds a tween to the manager.
@@ -13897,6 +13938,8 @@ var Kiwi;
                 */
                 TweenManager.prototype.add = function (tween) {
                     tween.setParent(this._game);
+                    tween.manager = this;
+                    this.validateClock();
                     this._tweens.push(tween);
                     return tween;
                 };
@@ -13916,17 +13959,17 @@ var Kiwi;
                 /**
                 * The update loop.
                 * @method update
+                * @return {boolean} Whether anything was updated
                 * @public
                 */
                 TweenManager.prototype.update = function () {
+                    var i = 0, numTweens = this._tweens.length;
+
                     if (this._tweens.length === 0) {
                         return false;
                     }
-                    //  See if we can merge the length into the while block
-                    var i = 0;
-                    var numTweens = this._tweens.length;
                     while (i < numTweens) {
-                        if (this._tweens[i].update(this._game.time.now())) {
+                        if (this._tweens[i].update(this.clock.elapsed() * 1000)) {
                             i++;
                         }
                         else {
@@ -13935,6 +13978,21 @@ var Kiwi;
                         }
                     }
                     return true;
+                };
+
+                /**
+                * Validate clock; if no valid clock is found, set one from game
+                * @method validateClock
+                * @public
+                * @since 1.2.0
+                */
+                TweenManager.prototype.validateClock = function () {
+                    if (!this.clock) {
+                        this.clock = this._game.time.clock;
+                        if (!this.clock) {
+                            Kiwi.Log.error("Tween manager could not find valid clock!");
+                        }
+                    }
                 };
                 return TweenManager;
             })();
@@ -14148,6 +14206,56 @@ var Kiwi;
             Tween.prototype.objType = function () {
                 return "Tween";
             };
+            Object.defineProperty(Tween.prototype, "manager", {
+                /**
+                * The manager that this tween belongs to.
+                * @property manager
+                * @type Kiwi.Animations.Tweens.TweenManager
+                * @private
+                * @since 1.2.0
+                */
+                get: function () {
+                    return this._manager;
+                },
+                set: function (value) {
+                    this._manager = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Tween.prototype, "object", {
+                /**
+                * The object that this tween is affecting.
+                * If you change this, it will continue to tween,
+                * but any properties that are not on the new object
+                * will be discarded from the tween.
+                * @property object
+                * @type any
+                * @public
+                */
+                get: function () {
+                    return this._object;
+                },
+                set: function (value) {
+                    var i, newValues = {};
+
+                    this._object = value;
+
+                    for (i in this._valuesEnd) {
+                        if (value[i]) {
+                            newValues[i] = this._valuesEnd[i];
+                        }
+                    }
+
+                    this._valuesEnd = newValues;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
             /**
             * Sets up the various properties that define this tween.
             * The ending position/properties for this tween, how long the tween should go for, easing method to use and if should start right way.
@@ -14183,6 +14291,8 @@ var Kiwi;
             * @public
             */
             Tween.prototype.start = function () {
+                var property;
+
                 if (this._game === null || this._object === null) {
                     return;
                 }
@@ -14190,7 +14300,7 @@ var Kiwi;
                 this._manager.add(this);
                 this._onStartCallbackFired = false;
                 this._onCompleteCalled = false;
-                this._startTime = this._game.time.now() + this._delayTime;
+                this._startTime = this._manager.clock.elapsed() * 1000 + this._delayTime;
                 for (var property in this._valuesEnd) {
                     // This prevents the interpolation of null values or of non-existing properties
                     if (this._object[property] === null || !(property in this._object)) {
@@ -14205,7 +14315,7 @@ var Kiwi;
                         this._valuesEnd[property] = [this._object[property]].concat(this._valuesEnd[property]);
                     }
                     //  Check if property is a function
-                    if (typeof this._object[property] === 'function') {
+                    if (typeof this._object[property] === "function") {
                         this._valuesStart[property] = this._object[property]();
                     }
                     else {
@@ -14321,11 +14431,12 @@ var Kiwi;
             * The update loop is executed every frame whilst the tween is running.
             * @method update
             * @param time {Number}
+            * @return {boolean} Whether the Tween is still running
             * @public
             */
             Tween.prototype.update = function (time) {
-                if (time < this._startTime) {
-                    return true;
+                if (time < this._startTime - this._delayTime) {
+                    return false;
                 }
                 if (this._onStartCallbackFired === false) {
                     if (this._onStartCallback !== null) {
@@ -14334,7 +14445,7 @@ var Kiwi;
                     this._onStartCallbackFired = true;
                 }
                 var elapsed = (time - this._startTime) / this._duration;
-                elapsed = elapsed > 1 ? 1 : elapsed;
+                elapsed = elapsed > 1 ? 1 : elapsed < 0 ? 0 : elapsed;
                 var value = this._easingFunction(elapsed);
                 for (var property in this._valuesStart) {
                     var start = this._valuesStart[property];
@@ -14343,8 +14454,7 @@ var Kiwi;
                     if (end instanceof Array) {
                         this._object[property] = this._interpolationFunction(end, value);
                     }
-                    else {
-                        if (typeof this._object[property] === 'function') {
+                        if (typeof this._object[property] === "function") {
                             this._object[property](start + (end - start) * value);
                         }
                         else {
@@ -14355,9 +14465,9 @@ var Kiwi;
                 if (this._onUpdateCallback !== null) {
                     this._onUpdateCallback.call(this._onUpdateContext, this._object, value);
                 }
-                if (elapsed == 1) {
+                if (elapsed === 1) {
                     this.isRunning = false;
-                    if (this._onCompleteCallback !== null && this._onCompleteCalled == false) {
+                    if (this._onCompleteCallback !== null && this._onCompleteCalled === false) {
                         this._onCompleteCalled = true;
                         this._onCompleteCallback.call(this._onCompleteContext, this._object);
                     }
@@ -14720,7 +14830,8 @@ var Kiwi;
             * @private
             */
             GLRenderManager.prototype._init = function () {
-                Kiwi.Log.log("Intialising WebGL", '#renderer', '#webgl');
+                Kiwi.Log.log("Initialising WebGL", '#renderer', '#webgl');
+
                 var gl = this._game.stage.gl;
                 //init stage and viewport
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
@@ -15639,7 +15750,7 @@ var Kiwi;
             /**
             * Creates the array buffer.
             * @method createBuffer
-            * @param gl {WebGLRenderingCotext}
+            * @param gl {WebGLRenderingContext}
             * @return {WebGLBuffer}
             * @public
             */
@@ -15651,7 +15762,7 @@ var Kiwi;
             /**
             * Uploads the array buffer.
             * @method uploadBuffer
-            * @param gl {WebGLRenderingCotext}
+            * @param gl {WebGLRenderingContext}
             * @param items {Array}
             * @return {boolean}
             * @public
@@ -15668,7 +15779,7 @@ var Kiwi;
             /**
             * Deletes the array buffer.
             * @method deleteBuffer
-            * @param gl {WebGLRenderingCotext}
+            * @param gl {WebGLRenderingContext}
             * @return {boolean}
             * @public
             */
@@ -16010,7 +16121,7 @@ var Kiwi;
     var Renderers;
     (function (Renderers) {
         /**
-        * Encapsulates a WebGL E;ement Array Buffer
+        * Encapsulates a WebGL Element Array Buffer
         * @class GLElementArrayBuffer
         * @constructor
         * @namespace Kiwi.Renderers
@@ -16218,6 +16329,7 @@ var Kiwi;
             * The Renderer object for rendering Texture Atlases
             * @class TextureAtlasRenderer
             * @constructor
+            * @extends Kiwi.Renderers.Renderer
             * @namespace Kiwi.Renderers
             * @param gl {WebGLRenderingContext}
             * @param shaderManager {Kiwi.Shaders.ShaderManager}
@@ -16345,8 +16457,8 @@ var Kiwi;
                     this._shaderPairName = shaderPair;
             };
             /**
-            * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
-            * @method _collateVertexAttributeArrays
+            * Collates all xy and uv coordinates into a buffer ready for upload to video memory
+            * @method addToBatch
             * @param gl {WebGLRenderingContext}
             * @param entity {Kiwi.Entity}
             * @param camera {Camera}
@@ -16657,9 +16769,9 @@ var Kiwi;
         * @constructor
         * @param name {string} The name of this anim.
         * @param sequences {Kiwi.Animations.Sequences} The sequence that this anim will be using to animate.
-        * @param clock {Kiwi.Time.Clock} A game clock that this anim will be using to keep record of the time between frames.
+        * @param clock {Kiwi.Time.Clock} A game clock that this anim will be using to keep record of the time between frames. (Deprecated in v1.2.0, because there is no way to control it.)
         * @param parent {Kiwi.Components.AnimationManager} The animation manager that this animation belongs to.
-        * @return {Kiwi.Animations.Anim}
+        * @return {Kiwi.Animations.Animation}
         *
         */
         var Animation = (function () {
@@ -16722,12 +16834,22 @@ var Kiwi;
                 * @public
                 */
                 this._onLoop = null;
+                /**
+                * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation but is not going to play again.
+                * @property _onComplete
+                * @type Kiwi.Signal
+                * @public
+                */
+                this._onComplete = null;
                 this.name = name;
                 this._sequence = sequence;
                 this._speed = sequence.speed;
                 this._loop = sequence.loop;
-                this._clock = clock;
                 this._parent = parent;
+
+                this._clock = clock;
+
+                this._lastFrameElapsed = this.clock.elapsed();
             }
             /**
             * The type of object that this is.
@@ -16802,6 +16924,25 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
+            Object.defineProperty(Animation.prototype, "clock", {
+                /**
+                * Clock used by this Animation. If it was not set on creation,
+                * the Animation will use its parent's entity's clock.
+                * @property clock
+                * @type Kiwi.Time.Clock
+                * @public
+                * @since 1.2.0
+                */
+                get: function () {
+                    if (this._clock) {
+                        return this._clock;
+                    }
+                    return this._parent.entity.clock;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             Object.defineProperty(Animation.prototype, "reverse", {
                 get: function () {
                     return this._reverse;
@@ -16867,6 +17008,16 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
+            Object.defineProperty(Animation.prototype, "onComplete", {
+                get: function () {
+                    if (this._onComplete == null)
+                        this._onComplete = new Kiwi.Signal;
+                    return this._onComplete;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             /**
             * An Internal method used to start the animation.
             * @method _start
@@ -16879,7 +17030,7 @@ var Kiwi;
                     this.frameIndex = index;
                 }
                 this._isPlaying = true;
-                this._startTime = this._clock.elapsed();
+                this._startTime = this.clock.elapsed();
                 this._tick = this._startTime + this._speed;
                 if (this._onPlay !== null)
                     this._onPlay.dispatch();
@@ -16955,38 +17106,62 @@ var Kiwi;
                     this.frameIndex = this.length - 1;
             };
             /**
-            * The update loop. Returns a boolean indicating whether the animation has gone to a new frame or not.
+            * The update loop.
+            *
             * @method update
             * @public
             */
             Animation.prototype.update = function () {
+                var frameDelta;
+
                 if (this._isPlaying) {
-                    if (this._clock.elapsed() >= this._tick) {
-                        this._tick = this._clock.elapsed() + this._speed;
-                        //Would it be a valid frame?
-                        if (this._validateFrame(this._frameIndex + ((this._reverse == true) ? -1 : 1))) {
-                            this._frameIndex += (this._reverse == true) ? -1 : 1;
-                            this._parent.updateCellIndex();
-                            if (this._onUpdate !== null)
-                                this._onUpdate.dispatch();
+                    // How many frames do we move, ahead or behind?
+                    frameDelta = (this.clock.elapsed() - this._lastFrameElapsed) / this._speed;
+                    if (this._reverse) {
+                        frameDelta *= -1;
+                    }
+                    // Round delta, towards zero
+                    if (frameDelta > 0) {
+                        frameDelta = Math.floor(frameDelta);
+                    } else {
+                        frameDelta = Math.ceil(frameDelta);
+                    }
+
+                    if (frameDelta !== 0) {
+                        this._frameIndex += frameDelta;
+                        this._lastFrameElapsed = this.clock.elapsed();
+
+                        // Loop check
+                        if (this._loop) {
+                            if (this._frameIndex > this.length - 1) {
+                                while (this._frameIndex > this.length - 1) {
+                                    this._frameIndex -= this.length;
+                                    if (this._onLoop != null) {
+                                        this._onLoop.dispatch();
+                                    }
+                                }
+                            } else if (this._frameIndex < 0) {
+                                while (this._frameIndex < 0) {
+                                    this._frameIndex += this.length;
+                                    if (this._onLoop != null) {
+                                        this._onLoop.dispatch();
+                                    }
+                                }
+                            }
+                        } else if (this._frameIndex < 0 || this._frameIndex >= this.length) {
+                            if (this._onComplete != null) {
+                                this._onComplete.dispatch();
+                            }
+
+                            // Execute the stop on the parent
+                            // to allow the isPlaying boolean to remain consistent
+                            this._parent.stop();
+                            return;
                         }
-                        else {
-                            //Is it looping?
-                            if (this._loop) {
-                                if (this._reverse) {
-                                    this._frameIndex = this.length - 1;
-                                }
-                                else {
-                                    this._frameIndex = 0;
-                                }
-                                this._parent.updateCellIndex();
-                                if (this._onLoop !== null)
-                                    this._onLoop.dispatch();
-                            }
-                            else {
-                                //Execute the stop on the parent to allow the isPlaying boolean to remain consistent
-                                this._parent.stop();
-                            }
+
+                        this._parent.updateCellIndex();
+                        if (this._onUpdate !== null) {
+                            this._onUpdate.dispatch();
                         }
                     }
                 }
@@ -21744,7 +21919,7 @@ var Kiwi;
         * by Transform objects to represent translation, scale and rotation transformations, and to determine where objects are in world space or camera space.
         * Objects such as entities and groups may be nested, and their associated transforms may represent how they are scaled, translated and rotated relative to a parent
         * transform.
-        * By concatenating an object's transformation matrix with it's ancestors matrices, it is possible to determine the absolute position of the object in world space.
+        * By concatenating an object's transformation matrix with its ancestors matrices, it is possible to determine the absolute position of the object in world space.
         * See http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics for an in depth discussion of 2d tranformation matrices.
         *
         * @class Matrix
@@ -21942,7 +22117,7 @@ var Kiwi;
                 return this;
             };
             /**
-            * Append values to this matrix, paramters supplied individually.
+            * Append values to this matrix, parameters supplied individually.
             * @method append
             * @param [a=1]{Number} position 0,0 of the matrix, affects scaling and rotation.
             * @param [b=0]{Number} position 0,1 of the matrix, affects scaling and rotation.
@@ -22019,7 +22194,7 @@ var Kiwi;
             };
             /**
             * Get the x and y position of the matrix as an object with x and y properties
-            * @method setPositionVector
+            * @method getPosition
             * @return {Kiwi.Geom.Point} An object constructed from a literal with x and y properties.
             * @public
             */
@@ -22106,7 +22281,7 @@ var Kiwi;
                 return pt;
             };
             /**
-            * Invert this matrix so that it represents the opposite of it's orginal tranformaation.
+            * Invert this matrix so that it represents the opposite of its orginal tranformaation.
             * @method invert
             * @return {Kiwi.Geom.Matrix} This object.
             * @public
@@ -23252,10 +23427,38 @@ var Kiwi;
                 * @private
                 */
                 this._parent = null;
+                /**
+                * Private copy.
+                * Whether the Transform is locked. In locked mode, the Transform
+                * will not update its matrix, saving on computation.
+                * However, it will still follow its parent.
+                * @property _locked
+                * @type boolean
+                * @default false
+                * @private
+                * @since 1.2.0
+                */
+                this._locked = false;
+                /**
+                * Private copy.
+                * Whether to ignore its parent when concatenating matrices.
+                * If true, it won't compute parent matrices.
+                * This can save computation, but prevents it from following
+                * its parent's transforms.
+                * Use this to save some processor cycles if the transform isn't
+                * following a parent and the state does not transform.
+                * @property _ignoreParent
+                * @type boolean
+                * @default false
+                * @private
+                * @since 1.2.0
+                */
+                this._ignoreParent = false;
                 this.setTransform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY);
                 this._matrix = new Geom.Matrix();
                 this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
                 this._cachedConcatenatedMatrix = this.getConcatenatedMatrix();
+                this._concatMatrix = new Geom.Matrix();
             }
             /**
             * The type of this object.
@@ -23474,6 +23677,57 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
+            Object.defineProperty(Transform.prototype, "locked", {
+                get: function () {
+                    return this._locked;
+                },
+                /**
+                * Whether the Transform is locked. In locked mode, the Transform
+                * will not update its matrix, saving on computation.
+                * However, it will still follow its parent.
+                * When locked is set to true, it will set the matrix according to
+                * current transform values.
+                * @property locked
+                * @type boolean
+                * @default false
+                * @public
+                * @since 1.2.0
+                */
+                set: function (value) {
+                    this._locked = value;
+                    if (this._locked) {
+                        this._matrix.setFromOffsetTransform(this.x, this.y, this.scaleX, this.scaleY, this.rotation, this.anchorPointX, this.anchorPointY);
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "ignoreParent", {
+                get: function () {
+                    return this._ignoreParent;
+                },
+                /**
+                * Whether to ignore its parent when concatenating matrices.
+                * If true, it won't compute parent matrices.
+                * This can save computation, but prevents it from following
+                * its parent's transforms.
+                * Use this to save some processor cycles if the transform isn't
+                * following a parent and the state does not transform.
+                * @property ignoreParent
+                * @type boolean
+                * @default false
+                * @private
+                * @since 1.2.0
+                */
+                set: function (value) {
+                    this._ignoreParent = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             /**
             * Set the X and Y values of the transform.
             * @method setPosition
@@ -23576,41 +23830,51 @@ var Kiwi;
                 return this;
             };
             /**
-            * Return the parent matrix of the transform. If there is no parent then null is returned.
+            * Return the parent matrix of the transform.
+            * If there is no parent then null is returned.
             * @method getParentMatrix
-            * @return {Kiwi.Geom.Matrix} The parent transform matrix.
+            * @return {Kiwi.Geom.Matrix} Parent transform matrix
             * @public
             */
             Transform.prototype.getParentMatrix = function () {
                 if (this._parent) {
-                    // Obtain raw matrix; this includes anchor point offset
-                    var matrix = this._parent.getConcatenatedMatrix();
-                    // Remove anchor point offset
-                    if (this._parent.anchorPointX != 0 || this._parent.anchorPointY != 0) {
-                        matrix = matrix.clone();
-                        var inverseOffset = new Kiwi.Geom.Matrix();
-                        inverseOffset.translate(-this._parent.anchorPointX, -this._parent.anchorPointY);
-                        matrix.appendMatrix(inverseOffset);
-                    }
-                    return matrix;
+                    return this._parent.getConcatenatedMatrix();
                 }
                 return null;
             };
             /**
-            * Return the transformation matrix that concatenates this transform with all ancestor transforms.
-            * If there is no parent then this will return a matrix the same as this transforms matrix.
+            * Return the transformation matrix that concatenates this transform
+            * with all ancestor transforms. If there is no parent then this will
+            * return a matrix the same as this transform's matrix.
             * @method getConcatenatedMatrix
             * @return {Kiwi.Geom.Matrix} The concatenated matrix.
             * @public
             */
             Transform.prototype.getConcatenatedMatrix = function () {
-                this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
-                var parentMatrix = this.getParentMatrix();
-                if (parentMatrix) {
-                    var matrix = this._matrix.clone();
-                    matrix.prependMatrix(parentMatrix);
-                    this._cachedConcatenatedMatrix.copyFrom(matrix);
-                    return matrix;
+                // this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
+                // var parentMatrix = this.getParentMatrix();
+                // if (parentMatrix) {
+                //     var matrix = this._matrix.clone();
+                //     matrix.prependMatrix(parentMatrix);
+                //     this._cachedConcatenatedMatrix.copyFrom(matrix);
+                //     return matrix;
+                // }
+                // return this._matrix;
+                var parentMatrix;
+                if (!this._locked) {
+                    if (this._parent) {
+                        this._matrix.setFromOffsetTransform(this.x, this.y, this.scaleX, this.scaleY, this.rotation, this.anchorPointX - this._parent.anchorPointX, this.anchorPointY - this._parent.anchorPointY);
+                    } else {
+                        this._matrix.setFromOffsetTransform(this.x, this.y, this.scaleX, this.scaleY, this.rotation, this.anchorPointX, this.anchorPointY);
+                    }
+                }
+                if (!this._ignoreParent) {
+                    parentMatrix = this.getParentMatrix();
+                    if (parentMatrix) {
+                        this._concatMatrix.copyFrom(this._matrix);
+                        this._concatMatrix.prependMatrix(parentMatrix);
+                        return this._concatMatrix;
+                    }
                 }
                 return this._matrix;
             };
@@ -26042,7 +26306,7 @@ var Kiwi;
         (function (HUDComponents) {
             /**
             * A Component to manage and display a Time in a particular format.
-            * The Time Component creates a new clock on the Time Manager and it use's that clock to keep track of the time.
+            * The Time Component creates a new clock on the Time Manager and it uses that clock to keep track of the time.
             * When you create a new Time Component you can specify a format that you want the time to display in, which is a string based on keywords.
             * Current supported keywords for the format are:
             *  's' = 'seconds'
@@ -27358,7 +27622,6 @@ var Kiwi;
         * @param name {String} The name of the clock.
         * @param [units=1000] {Number} The units that this clock is to operate in.
         * @return {Kiwi.Time.Clock} This Clock object.
-        *
         */
         var Clock = (function () {
             function Clock(manager, master, name, units) {
@@ -27379,6 +27642,48 @@ var Kiwi;
                 * @private
                 */
                 this._timeLastStarted = null;
+                /**
+                * Rate at which time passes on this clock.
+                * 1 is normal speed. 0 is no speed. -1 is backwards.
+                * This mostly affects timers, animations and tweens.
+                * @property timeScale
+                * @type number
+                * @default 1.0
+                * @public
+                * @since 1.2.0
+                */
+                this.timeScale = 1.0;
+                /**
+                * Clock units elapsed since the clock was most recently started,
+                * not including paused time.
+                * @property _elapsed
+                * @type number
+                * @private
+                * @since 1.2.0
+                */
+                this._elapsed = 0;
+                /**
+                * Rate of time passage, as modified by time scale and frame rate.
+                * Under ideal conditions this should be 1.
+                * If the frame rate drops, this will rise. Multiply transformations
+                * by rate to get smooth change over time.
+                * @property rate
+                * @type number
+                * @public
+                * @since 1.2.0
+                */
+                this.rate = 1;
+                /**
+                * Maximum frame duration. If a frame takes longer than this to render,
+                * the clock will only advance this far, in effect slowing down time.
+                * If this value is 0 or less, it will not be checked and frames can
+                * take any amount of time to render.
+                * @property _maxFrameDuration
+                * @type number
+                * @default -1
+                * @private
+                */
+                this._maxFrameDuration = -1;
                 /**
                 * The time the clock was most recently stopped relative to the master clock.
                 * @property _timeLastStopped
@@ -27483,6 +27788,9 @@ var Kiwi;
                 if (this.units < 1) {
                     this.units = 1;
                 }
+
+                this._lastMasterElapsed = this.master.elapsed();
+                this._currentMasterElapsed = this.master.elapsed();
             }
             /**
             * The type of object that this is.
@@ -27511,6 +27819,28 @@ var Kiwi;
             Clock.prototype.started = function () {
                 return this._timeLastStarted;
             };
+            Object.defineProperty(Clock.prototype, "maxFrameDuration", {
+                /**
+                * Maximum frame duration. If a frame takes longer than this to render,
+                * the clock will only advance this far, in effect slowing down time.
+                * If this value is 0 or less, it will not be checked and frames can
+                * take any amount of time to render.
+                * @property maxFrameDuration
+                * @type number
+                * @default -1
+                * @public
+                */
+                get: function () {
+                    return this._maxFrameDuration;
+                },
+                set: function (value) {
+                    this._maxFrameDuration = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
             /**
             * The number of clock units elapsed since the clock was most recently started (not including time spent paused)
             * @method elapsed
@@ -27518,19 +27848,10 @@ var Kiwi;
             * @public
             */
             Clock.prototype.elapsed = function () {
-                if (this._elapsedState === 0) {
-                    return (this._timeLastStarted) ? ((this.master.elapsed() - this._timeLastStarted) - this._totalPaused) / this.units : null;
-                }
+                return this._elapsed;
                 else if (this._elapsedState === 1) {
-                    return (this._timeLastPaused - this._timeLastStarted - this._totalPaused) / this.units;
-                }
                 else if (this._elapsedState === 2) {
-                    //  Same as zero!
-                    return (this._timeLastStarted) ? ((this.master.elapsed() - this._timeLastStarted) - this._totalPaused) / this.units : null;
-                }
                 else if (this._elapsedState === 3) {
-                    return (this._timeLastStopped - this._timeLastStarted - this._totalPaused) / this.units;
-                }
             };
             /**
             * The number of clock units elapsed since the clock was most recently stopped.
@@ -27627,24 +27948,24 @@ var Kiwi;
             */
             Clock.prototype.removeTimer = function (timer, timerName) {
                 if (timer === void 0) { timer = null; }
-                if (timerName === void 0) { timerName = ''; }
+                if (typeof timerName === "undefined") { timerName = ""; }
+                var index;
+
                 //  Timer object given?
                 if (timer !== null) {
-                    if (this.timers[timer.name]) {
-                        delete this.timers[timer.name];
+                    index = this.timers.indexOf(timer);
+                    if (index !== -1) {
+                        this.timers.splice(index, 1);
                         return true;
-                    }
                     else {
-                        return false;
                     }
-                }
-                if (timerName !== '') {
-                    if (this.timers[timerName]) {
-                        delete this.timers[timerName];
-                        return true;
-                    }
+                } else if (timerName !== "") {
+                    for (index = 0; index < this.timers.length; index++) {
+                        if (this.timers[index].name === timerName) {
+                            this.timers.splice(index, 1);
+                            return true;
+                        }
                     else {
-                        return false;
                     }
                 }
                 return false;
@@ -27691,9 +28012,30 @@ var Kiwi;
             * @public
             */
             Clock.prototype.update = function () {
+                var frameLength = this._currentMasterElapsed - this._lastMasterElapsed;
+
+                if (this._maxFrameDuration > 0) {
+                    frameLength = Math.min(frameLength, this._maxFrameDuration);
+                }
+
                 for (var i = 0; i < this.timers.length; i++) {
                     this.timers[i].update();
                 }
+
+                // Compute difference between last master value and this
+                // Scale that difference by timeScale
+                // If clock is running, add that value to the current time
+                this._lastMasterElapsed = this._currentMasterElapsed;
+                this._currentMasterElapsed = this.master.elapsed();
+                if (this._elapsedState === 0 || this._elapsedState === 2) {
+                    this._elapsed += this.timeScale * frameLength / this.units;
+                } else if (this._elapsedState === 1) {
+                    this._totalPaused += frameLength;
+                }
+
+                // Compute time governance properties
+                // These should really be properties hereafter
+                this.rate = this.timeScale * frameLength / this.master.idealDelta;
             };
             /**
             * Start the clock. This resets the clock and starts it running.
@@ -27773,6 +28115,91 @@ var Kiwi;
             */
             Clock.prototype.toString = function () {
                 return "[{Clock (name=" + this.name + " units=" + this.units + " running=" + this._isRunning + ")}]";
+            };
+
+            /**
+            * Set a function to execute after a certain time interval.
+            * Emulates window.setTimeout, except attached to a Kiwi.Time.Clock.
+            * This allows you to pause and manipulate time, and the timeout will respect
+            * the clock on which it is created.
+            *<br><br>
+            * No clearTimeout is provided; you should use Kiwi.Time.Timer functions
+            * to achieve further control.
+            *<br><br>
+            * Any parameters after "context" will be passed as parameters to the
+            * callback function. Note that you must specify "context" in order for
+            * this to work. You may specify "null", in which case it will default
+            * to the global scope "window".
+            *
+            * @method setTimeout
+            * @param callback {function} Function to execute
+            * @param timeout {number} Milliseconds before execution
+            * @param [context] {object} Object to be "this" for the callback
+            * @return {Kiwi.Time.Timer} Kiwi.Time.Timer object which can be used to further
+            *   manipulate the timer
+            * @public
+            */
+            Clock.prototype.setTimeout = function (callback, timeout, context) {
+                var args = [];
+                for (var _i = 0; _i < (arguments.length - 3); _i++) {
+                    args[_i] = arguments[_i + 3];
+                }
+                var clock = this, timer = this.createTimer("timeoutTimer", timeout / 1000);
+
+                if (!context) {
+                    context = this;
+                }
+
+                timer.createTimerEvent(Time.TimerEvent.TIMER_STOP, function () {
+                    callback.apply(context, args);
+                    clock.removeTimer(timer);
+                }, context);
+
+                timer.start();
+
+                return timer;
+            };
+
+            /**
+            * Set a function to repeatedly execute at fixed time intervals.
+            * Emulates window.setInterval, except attached to a Kiwi.Time.Clock.
+            * This allows you to pause and manipulate time, and the timeout will respect
+            * the clock on which it is created.
+            *<br><br>
+            * No clearInterval is provided; you should use Kiwi.Time.Timer functions
+            * to achieve further control.
+            *<br><br>
+            * Any parameters after "context" will be passed as parameters to the
+            * callback function. Note that you must specify "context" in order for
+            * this to work. You may specify "null", in which case it will default
+            * to the global scope "window".
+            *
+            * @method setInterval
+            * @param callback {function} Function to execute
+            * @param timeout {number} Milliseconds between executions
+            * @param [context=window] {object} Object to be "this" for the callback
+            * @return {Kiwi.Time.Timer} Kiwi.Time.Timer object
+            *   which can be used to further manipulate the timer
+            * @public
+            */
+            Clock.prototype.setInterval = function (callback, timeout, context) {
+                var args = [];
+                for (var _i = 0; _i < (arguments.length - 3); _i++) {
+                    args[_i] = arguments[_i + 3];
+                }
+                var timer = this.createTimer("timeoutTimer", timeout / 1000, -1);
+
+                if (!context) {
+                    context = this;
+                }
+
+                timer.createTimerEvent(Time.TimerEvent.TIMER_COUNT, function () {
+                    callback.apply(context, args);
+                }, context);
+
+                timer.start();
+
+                return timer;
             };
             return Clock;
         })();
@@ -28126,6 +28553,7 @@ var Kiwi;
                 * @property _timeLastCount
                 * @type Number
                 * @private
+                * @deprecated Better time handling in 1.2.0 deprecates this data.
                 */
                 this._timeLastCount = null;
                 /**
@@ -28176,6 +28604,14 @@ var Kiwi;
                 * @public
                 */
                 this.repeatCount = 0;
+                /**
+                * Time elapsed on the current repetition
+                * @property _elapsed
+                * @type number
+                * @private
+                * @since 1.2.0
+                */
+                this._elapsed = 0;
                 this._clock = clock;
                 this._startEvents = [];
                 this._countEvents = [];
@@ -28258,11 +28694,35 @@ var Kiwi;
             * @public
             */
             Timer.prototype.update = function () {
-                if (this._isRunning && this._clock.elapsed() - this._timeLastCount >= this.delay && this._isPaused === false) {
+                var frameLength = this._clock.elapsed() - this._lastElapsed;
+                this._lastElapsed = this._clock.elapsed();
+                if (this._isRunning) {
+                    this._elapsed += frameLength;
+                }
+
+                while (this._elapsed >= this.delay) {
                     this._currentCount++;
                     this.processEvents(Time.TimerEvent.TIMER_COUNT);
-                    this._timeLastCount = this._clock.elapsed() || 0;
+                    this._elapsed -= this.delay;
                     if (this.repeatCount !== -1 && this._currentCount >= this.repeatCount) {
+                        this.stop();
+                    }
+                }
+
+                while (this._elapsed < 0) {
+                    this._currentCount--;
+                    this._elapsed += this.delay;
+
+                    // Do not process events; they can happen when time flows forwards
+                    if (this._currentCount < 0) {
+                        // Timer has regressed before its creation.
+                        // When time flows forward again, the Timer will probably
+                        // be restarted and repopulated.
+                        // There is a potential memory leak: if a Timer is created
+                        // for a single task, and has a TimerEvent that will
+                        // remove it upon completion, but the Timer is rewound to
+                        // before its creation, that removal will never fire.
+                        this.clear();
                         this.stop();
                     }
                 }
@@ -28279,7 +28739,9 @@ var Kiwi;
                     this._isPaused = false;
                     this._isStopped = false;
                     this._currentCount = 0;
-                    this._timeLastCount = this._clock.elapsed() || 0;
+
+                    this._elapsed = 0;
+                    this._lastElapsed = this._clock.elapsed() || 0;
                     this.processEvents(Time.TimerEvent.TIMER_START);
                 }
                 return this;
@@ -28799,6 +29261,695 @@ var Kiwi;
         })();
         Utils.Canvas = Canvas;
     })(Utils = Kiwi.Utils || (Kiwi.Utils = {}));
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    /**
+    * @module Kiwi
+    * @submodule Utils
+    * @namespace Kiwi.Utils
+    */
+    (function (Utils) {
+        /**
+        * Utility class used to make color management more transparent.
+        * Color objects hold color and alpha values, and can get or set them
+        * in a variety of ways.
+        * <br><br>
+        * Construct this object as follows.
+        * <br><br>
+        * Pass 3 or 4 numbers to determine RGB or RGBA. If the numbers are in
+        * the range 0-1, they will be parsed as normalized numbers.
+        * If they are in the range 1-255, they will be parsed as 8-bit channels.
+        * <br><br>
+        * Pass 3 or 4 numbers followed by the string "hsv" or "hsl"
+        * (lowercase) to parse HSV or HSL color space (with optional alpha).
+        * <br><br>
+        * Pass a string containing a hexadecimal color with or without alpha
+        * (such as "ff8040ff" or "4080ff").
+        *
+        * @class Color
+        * @constructor
+        * @since 1.2.0
+        */
+        var Color = (function () {
+            function Color() {
+                var args = [];
+                for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                    args[_i] = arguments[_i + 0];
+                }
+                /**
+                * Red channel, stored as a normalized value between 0 and 1.
+                * This is most compatible with graphics hardware.
+                * @property _r
+                * @type number
+                * @default 0.5
+                * @private
+                */
+                this._r = 0.5;
+                /**
+                * Green channel, stored as a normalized value between 0 and 1.
+                * This is most compatible with graphics hardware.
+                * @property _g
+                * @type number
+                * @default 0.5
+                * @private
+                */
+                this._g = 0.5;
+                /**
+                * Blue channel, stored as a normalized value between 0 and 1.
+                * This is most compatible with graphics hardware.
+                * @property _b
+                * @type number
+                * @default 0.5
+                * @private
+                */
+                this._b = 0.5;
+                /**
+                * Alpha channel, stored as a normalized value between 0 and 1.
+                * This is most compatible with graphics hardware.
+                * @property _a
+                * @type number
+                * @default 0.5
+                * @private
+                */
+                this._a = 1;
+                return this.set.apply(this, args);
+            }
+            /**
+            * Set colors from parameters
+            * @method set
+            * @param params {object} Composite parameter object
+            * @return Kiwi.Utils.Color
+            * @public
+            */
+            Color.prototype.set = function () {
+                var params = [];
+                for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                    params[_i] = arguments[_i + 0];
+                }
+                if (params.length === 3) {
+                    this.r = params[0];
+                    this.g = params[1];
+                    this.b = params[2];
+                } else if (params.length === 4) {
+                    if (!isNaN(params[3])) {
+                        this.r = params[0];
+                        this.g = params[1];
+                        this.b = params[2];
+                        this.a = params[3];
+                    } else if (params[3] === "hsv") {
+                        this.parseHsv(params[0], params[1], params[2]);
+                    } else if (params[3] === "hsl") {
+                        this.parseHsl(params[0], params[1], params[2]);
+                    }
+                } else if (params.length === 5) {
+                    if (params[4] === "hsv") {
+                        this.parseHsv(params[0], params[1], params[2], params[3]);
+                    } else if (params[4] === "hsl") {
+                        this.parseHsl(params[0], params[1], params[2], params[3]);
+                    }
+                } else if (typeof params[0] === "string") {
+                    this.parseColorHex(params[0]);
+                }
+
+                return this;
+            };
+
+            Object.defineProperty(Color.prototype, "rNorm", {
+                /**
+                * Red channel, stored as a normalized value between 0 and 1.
+                * @property rNorm
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this._r;
+                },
+                set: function (value) {
+                    if (!isNaN(value)) {
+                        this._r = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "gNorm", {
+                /**
+                * Green channel, stored as a normalized value between 0 and 1.
+                * @property gNorm
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this._g;
+                },
+                set: function (value) {
+                    if (!isNaN(value)) {
+                        this._g = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "bNorm", {
+                /**
+                * Blue channel, stored as a normalized value between 0 and 1.
+                * @property bNorm
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this._b;
+                },
+                set: function (value) {
+                    if (!isNaN(value)) {
+                        this._b = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "aNorm", {
+                /**
+                * Alpha channel, stored as a normalized value between 0 and 1.
+                * @property aNorm
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this._a;
+                },
+                set: function (value) {
+                    if (!isNaN(value)) {
+                        this._a = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "r", {
+                /**
+                * Red channel.
+                * If set to a number in the range 0-1, is interpreted as a
+                * normalized color (see rNorm).
+                * If set to a number above 1, is interpreted as an 8-bit channel
+                * (see r255).
+                * If queried, returns a normalized number in the range 0-1.
+                * @property r
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this._r;
+                },
+                set: function (value) {
+                    if (value > 1) {
+                        this.r255 = value;
+                    } else {
+                        this.rNorm = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "g", {
+                /**
+                * Green channel.
+                * If set to a number in the range 0-1, is interpreted as a
+                * normalized color (see gNorm).
+                * If set to a number above 1, is interpreted as an 8-bit channel
+                * (see g255).
+                * If queried, returns a normalized number in the range 0-1.
+                * @property g
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this._g;
+                },
+                set: function (value) {
+                    if (value > 1) {
+                        this.g255 = value;
+                    } else {
+                        this.gNorm = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "b", {
+                /**
+                * Blue channel.
+                * If set to a number in the range 0-1, is interpreted as a
+                * normalized color (see bNorm).
+                * If set to a number above 1, is interpreted as an 8-bit channel
+                * (see b255).
+                * If queried, returns a normalized number in the range 0-1.
+                * @property b
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this._b;
+                },
+                set: function (value) {
+                    if (value > 1) {
+                        this.b255 = value;
+                    } else {
+                        this.bNorm = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "a", {
+                /**
+                * Alpha channel.
+                * If set to a number in the range 0-1, is interpreted as a
+                * normalized color (see aNorm).
+                * If set to a number above 1, is interpreted as an 8-bit channel
+                * (see a255).
+                * If queried, returns a normalized number in the range 0-1.
+                * @property a
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this._a;
+                },
+                set: function (value) {
+                    if (value > 1) {
+                        this.r255 = value;
+                    } else {
+                        this.rNorm = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "r255", {
+                /**
+                * Red channel, specified as an 8-bit channel in the range 0-255.
+                * @property r255
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return Math.round(this._r * 255);
+                },
+                set: function (value) {
+                    if (!isNaN(value)) {
+                        this._r = value / 255;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "g255", {
+                /**
+                * Green channel, specified as an 8-bit channel in the range 0-255.
+                * @property g255
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return Math.round(this._g * 255);
+                },
+                set: function (value) {
+                    if (!isNaN(value)) {
+                        this._g = value / 255;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "b255", {
+                /**
+                * Blue channel, specified as an 8-bit channel in the range 0-255.
+                * @property b255
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return Math.round(this._b * 255);
+                },
+                set: function (value) {
+                    if (!isNaN(value)) {
+                        this._b = value / 255;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "a255", {
+                /**
+                * Alpha channel, specified as an 8-bit channel in the range 0-255.
+                * @property a255
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return Math.round(this._a * 255);
+                },
+                set: function (value) {
+                    if (!isNaN(value)) {
+                        this._a = value / 255;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "red", {
+                /**
+                * Red channel, alias of r
+                * @property red
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this.r;
+                },
+                set: function (value) {
+                    this.r = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "green", {
+                /**
+                * Green channel, alias of g
+                * @property green
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this.g;
+                },
+                set: function (value) {
+                    this.g = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "blue", {
+                /**
+                * Blue channel, alias of b
+                * @property blue
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this.b;
+                },
+                set: function (value) {
+                    this.b = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Color.prototype, "alpha", {
+                /**
+                * Alpha channel, alias of a
+                * @property alpha
+                * @type number
+                * @public
+                */
+                get: function () {
+                    return this.a;
+                },
+                set: function (value) {
+                    this.a = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            /**
+            * Parse hexadecimal colors from strings
+            * @method parseColorHex
+            * @param color {string} A hexadecimal color such as "ffffff" (no alpha)
+            *	or "ffffffff" (with alpha)
+            * @public
+            */
+            Color.prototype.parseColorHex = function (color) {
+                var bigint = parseInt(color, 16), r = this.r255, g = this.g255, b = this.b255, a = this.a255;
+
+                if (color.length === 6) {
+                    r = (bigint >> 16) & 255;
+                    g = (bigint >> 8) & 255;
+                    b = bigint & 255;
+                    a = 255;
+                } else if (color.length === 8) {
+                    r = (bigint >> 24) & 255;
+                    g = (bigint >> 16) & 255;
+                    b = (bigint >> 8) & 255;
+                    a = bigint & 255;
+                }
+
+                this.r255 = r;
+                this.g255 = g;
+                this.b255 = b;
+                this.a255 = a;
+            };
+
+            /**
+            * Returns color as a hexadecimal string
+            * @method getColorHex
+            * @param [alpha=true] {boolean} Whether to include the alpha
+            * @return string
+            * @public
+            */
+            Color.prototype.getColorHex = function (alpha) {
+                if (typeof alpha === "undefined") { alpha = true; }
+                var num, mult = 256;
+
+                if (alpha) {
+                    num = this.r255 * mult * mult * mult + this.g255 * mult * mult + this.b255 * mult + this.a255;
+                } else {
+                    num = this.r255 * mult * mult + this.g255 * mult + this.b255;
+                }
+                return num.toString(16);
+            };
+
+            /**
+            * Parses normalized HSV values into the Color.
+            * Based on algorithms at
+            * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+            * @method parseHsv
+            * @param h {number} Hue
+            * @param s {number} Saturation
+            * @param v {number} Value
+            * @public
+            */
+            Color.prototype.parseHsv = function (h, s, v, a) {
+                if (typeof a === "undefined") { a = 1; }
+                var r, g, b, i, f, p, q, t;
+
+                i = Math.floor(h * 6);
+                f = h * 6 - i;
+                p = v * (1 - s);
+                q = v * (1 - f * s);
+                t = v * (1 - (1 - f) * s);
+
+                switch (i % 6) {
+                    case 0:
+                        r = v;
+                        g = t;
+                        b = p;
+                        break;
+                    case 1:
+                        r = q;
+                        g = v;
+                        b = p;
+                        break;
+                    case 2:
+                        r = p;
+                        g = v;
+                        b = t;
+                        break;
+                    case 3:
+                        r = p;
+                        g = q;
+                        b = v;
+                        break;
+                    case 4:
+                        r = t;
+                        g = p;
+                        b = v;
+                        break;
+                    case 5:
+                        r = v;
+                        g = p;
+                        b = q;
+                        break;
+                }
+
+                this._r = r;
+                this._g = g;
+                this._b = b;
+                this._a = a;
+            };
+
+            /**
+            * Returns HSV value of the Color.
+            * Based on algorithms at
+            * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+            * @method getHsva
+            * @return {object} Object with normalized h, s, v, a properties.
+            */
+            Color.prototype.getHsva = function () {
+                var h, s, v, d, r = this._r, g = this._g, b = this._b, max = Math.max(r, g, b), min = Math.min(r, g, b);
+
+                h = max;
+                s = max;
+                v = max;
+
+                d = max - min;
+                s = max === 0 ? 0 : d / max;
+
+                if (max === min) {
+                    // Achromatic
+                    h = 0;
+                } else {
+                    switch (max) {
+                        case r:
+                            h = (g - b) / d + (g < b ? 6 : 0);
+                            break;
+                        case g:
+                            h = (b - r) / d + 2;
+                            break;
+                        case b:
+                            h = (r - g) / d + 4;
+                            break;
+                    }
+                    h /= 6;
+                }
+
+                return { h: h, s: s, v: v, a: this._a };
+            };
+
+            /**
+            * Returns HSL value of the Color.
+            * Based on algorithms at
+            * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+            * @method getHsla
+            * @return {object} Object with normalized h, s, l, a properties.
+            * @public
+            */
+            Color.prototype.getHsla = function () {
+                var d, r = this._r, g = this._g, b = this._b, max = Math.max(r, g, b), min = Math.min(r, g, b), h = (max + min) / 2, s = (max + min) / 2, l = (max + min) / 2;
+
+                if (max == min) {
+                    // Achromatic
+                    h = 0;
+                    s = 0;
+                } else {
+                    d = max - min;
+                    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                    switch (max) {
+                        case r:
+                            h = (g - b) / d + (g < b ? 6 : 0);
+                            break;
+                        case g:
+                            h = (b - r) / d + 2;
+                            break;
+                        case b:
+                            h = (r - g) / d + 4;
+                            break;
+                    }
+                    h /= 6;
+                }
+
+                return { h: h, s: s, l: l, a: this._a };
+            };
+
+            /**
+            * Parses HSL value onto the Color.
+            * Based on algorithms at
+            * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+            * @method parseHsl
+            * @param h {number} Hue
+            * @param s {number} Saturation
+            * @param l {number} Lightness
+            * @public
+            */
+            Color.prototype.parseHsl = function (h, s, l, a) {
+                if (typeof a === "undefined") { a = 1; }
+                var q, p, r = this._r, g = this._g, b = this._b;
+
+                if (s === 0) {
+                    // Achromatic
+                    r = l;
+                    g = l;
+                    b = l;
+                } else {
+                    function hue2rgb(p, q, t) {
+                        if (t < 0) {
+                            t += 1;
+                        }
+                        if (t > 1) {
+                            t -= 1;
+                        }
+                        if (t < 1 / 6) {
+                            return p + (q - p) * 6 * t;
+                        }
+                        if (t < 1 / 2) {
+                            return q;
+                        }
+                        if (t < 2 / 3) {
+                            return p + (q - p) * (2 / 3 - t) * 6;
+                        }
+                        return p;
+                    }
+
+                    q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                    p = 2 * l - q;
+                    r = hue2rgb(p, q, h + 1 / 3);
+                    g = hue2rgb(p, q, h);
+                    b = hue2rgb(p, q, h - 1 / 3);
+                }
+
+                this._r = r;
+                this._g = g;
+                this._b = b;
+                this._a = a;
+            };
+            return Color;
+        })();
+        Utils.Color = Color;
+    })(Kiwi.Utils || (Kiwi.Utils = {}));
+    var Utils = Kiwi.Utils;
 })(Kiwi || (Kiwi = {}));
 /**
 * Utils is a space that holds a wide varity of useful methods.
@@ -31220,8 +32371,10 @@ var Kiwi;
             Log.prototype.getTagsFromArray = function (array) {
                 var i = 0, tags = [];
                 while (i < array.length) {
-                    if (array[i].charAt(0) === '#') {
-                        tags.push(array[i]);
+                    if (typeof array[i] === "string") {
+                        if (array[i].charAt(0) === "#") {
+                            tags.push(array[i]);
+                        }
                     }
                     i++;
                 }
@@ -31618,6 +32771,7 @@ var Kiwi;
 /// <reference path="time/Timer.ts" />
 /// <reference path="time/TimerEvent.ts" />
 /// <reference path="utils/Canvas.ts" />
+/// <reference path="utils/Color.ts" />
 /// <reference path="utils/Common.ts" />
 /// <reference path="utils/GameMath.ts" />
 /// <reference path="utils/RandomDataGenerator.ts" />

@@ -166,9 +166,12 @@ module Kiwi {
         }
 
         /**
-	    * Apply this cameras inverted matrix to a an object with x and y properties representing a point and return the transformed point.
+        * Convert from screen coordinates to world coordinates.
+	    * Apply this camera's inverted matrix to an object with x and y
+        * properties representing a point and return the transformed point.
         * Useful for when calculating if coordinates with the mouse.
-        * Note: This method clones the point you pass, so that is doesn't "reset" any properties you set. 
+        * Note: This method clones the point you pass,
+        * so that it doesn't "reset" any properties you set. 
         * @method transformPoint
         * @param point {Kiwi.Geom.Point} 
         * @return {Kiwi.Geom.Point}
@@ -181,6 +184,24 @@ module Kiwi {
             var m = this.transform.getConcatenatedMatrix();
             m.append( 1,0,0,1, -this.transform.rotPointX, -this.transform.rotPointY );
             m.invert();
+
+            return m.transformPoint(np);
+        }
+
+        /**
+        * Convert from world coordinates to screen coordinates.
+        * Useful for assessing visibility.
+        * @method transformPointToScreen
+        * @param point {Kiwi.Geom.Point}
+        * @return {Kiwi.Geom.Point}
+        * @public
+        * @since 1.2.0
+        */
+        public transformPointToScreen( point: Kiwi.Geom.Point ): Kiwi.Geom.Point {
+            var np = point.clone();
+
+            var m = this.transform.getConcatenatedMatrix();
+            m.append( 1,0,0,1, -this.transform.rotPointX, -this.transform.rotPointY );
 
             return m.transformPoint(np);
         }

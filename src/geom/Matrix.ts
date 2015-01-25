@@ -11,7 +11,7 @@ module Kiwi.Geom {
 	* by Transform objects to represent translation, scale and rotation transformations, and to determine where objects are in world space or camera space.
 	* Objects such as entities and groups may be nested, and their associated transforms may represent how they are scaled, translated and rotated relative to a parent
     * transform.
-    * By concatenating an object's transformation matrix with it's ancestors matrices, it is possible to determine the absolute position of the object in world space.
+    * By concatenating an object's transformation matrix with its ancestors matrices, it is possible to determine the absolute position of the object in world space.
     * See http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics for an in depth discussion of 2d tranformation matrices.
     * 
     * @class Matrix
@@ -98,7 +98,7 @@ module Kiwi.Geom {
         */
         public ty: number = 0;
 
-        /** 
+        /**
         * Set all matrix values 
         * @method setTo
         * @param [a=1] {Number} position 0,0 of the matrix, affects scaling and rotation.
@@ -123,7 +123,7 @@ module Kiwi.Geom {
 
         }
 
-        /** 
+        /**
 	    * Set matrix values from transform values
 	    * @method setFromTransform
 	    * @param tx {Number} Translation on x axis.
@@ -144,7 +144,7 @@ module Kiwi.Geom {
             return this;
         }
 
-        /** 
+        /**
 	    * Set matrix values from transform values, with rotation point data included
 	    * @method setFromOffsetTransform
 	    * @param tx {Number} tx. Translation on x axis.
@@ -168,7 +168,7 @@ module Kiwi.Geom {
             return this;
         }
 
-        /** 
+        /**
         * Prepend values to this matrix, paramters supplied individually.
         * @method prepend
         * @param [a=1]{Number} position 0,0 of the matrix, affects scaling and rotation.
@@ -196,7 +196,7 @@ module Kiwi.Geom {
 
         }
 
-        /** 
+        /**
         * Prepend a matrix to this matrix.
         * @method prependMatrix
         * @param m {Kiwi.Geom.Matrix} The matrix to prepend.
@@ -219,8 +219,8 @@ module Kiwi.Geom {
 
         }
 
-        /** 
-	    * Append values to this matrix, paramters supplied individually.
+        /**
+	    * Append values to this matrix, parameters supplied individually.
 	    * @method append
 	    * @param [a=1]{Number} position 0,0 of the matrix, affects scaling and rotation.
 	    * @param [b=0]{Number} position 0,1 of the matrix, affects scaling and rotation.
@@ -246,7 +246,7 @@ module Kiwi.Geom {
             return this;
         }
 
-        /** 
+        /**
         * Append a matrix to this matrix.
         * @method appendMatrix
         * @param m {Kiwi.Geom.Matrix} The matrix to append.
@@ -268,7 +268,7 @@ module Kiwi.Geom {
             return this;
         }
 
-        /** 
+        /**
         * Set the tx and ty elements of the matrix.
         * @method setPosition
         * @param x {Number} Translation on x axis.
@@ -282,7 +282,7 @@ module Kiwi.Geom {
             return this;
         }
 
-        /** 
+        /**
 	    * Set the tx and ty elements of the matrix from an object with x and y properties.
 	    * @method setPositionPoint
 	    * @param p {Number} The object from which to copy the x and y properties from.
@@ -295,9 +295,9 @@ module Kiwi.Geom {
             return this
         }
 
-        /** 
+        /**
 	    * Get the x and y position of the matrix as an object with x and y properties
-	    * @method setPositionVector
+	    * @method getPosition
 	    * @return {Kiwi.Geom.Point} An object constructed from a literal with x and y properties.
         * @public
 	    */
@@ -305,7 +305,7 @@ module Kiwi.Geom {
             return output.setTo(this.tx, this.ty);
         }
 
-        /** 
+        /**
 	    * Set the matrix to the identity matrix - when appending or prepending this matrix to another there will be no change in the resulting matrix
 	    * @method identity
         * @return {Kiwi.Geom.Matrix} This object.
@@ -321,7 +321,7 @@ module Kiwi.Geom {
             return this;
         }
 
-        /** 
+        /**
 	    * Rotate the matrix by "radians" degrees
 	    * @method rotate
 	    * @param radians {Number} The angle (in radians) to rotate this matrix by. 
@@ -346,7 +346,7 @@ module Kiwi.Geom {
 
         }
 
-        /** 
+        /**
 	    * Translate the matrix by the amount passed.
         * 
 	    * @method translate
@@ -361,7 +361,7 @@ module Kiwi.Geom {
             return this;
         }
 
-        /** 
+        /**
 	    * Scales the matrix by the amount passed.
         *
 	    * @method scale
@@ -376,7 +376,7 @@ module Kiwi.Geom {
             return this;
         }
 
-        /** 
+        /**
 	    * Apply this matrix to a an object with x and y properties representing a point and return the transformed point.
 	    * @method transformPoint
 	    * @param pt {Object} The point to be translated.
@@ -391,8 +391,8 @@ module Kiwi.Geom {
             return pt;
         }
 
-        /** 
-	    * Invert this matrix so that it represents the opposite of it's orginal tranformaation.
+        /**
+	    * Invert this matrix so that it represents the opposite of its orginal tranformaation.
 	    * @method invert
         * @return {Kiwi.Geom.Matrix} This object.
         * @public
@@ -414,7 +414,7 @@ module Kiwi.Geom {
             return this;
         }
 
-        /** 
+        /**
 	    * Copy another matrix to this matrix.
 	    * @method copyFrom
 	    * @param m {Kiwi.Geom.Matrix} The matrixto be copied from.
@@ -432,7 +432,7 @@ module Kiwi.Geom {
             return this;
         }
 
-        /** 
+        /**
         * Copy this matrix to another matrix.
         * @method copyTo
         * @param m {Kiwi.Geom.Matrix} The matrix to copy to.
@@ -449,7 +449,7 @@ module Kiwi.Geom {
             return this;
         }
 
-        /** 
+        /**
 	    * Clone this matrix and returns a new Matrix object.
 	    * @method clone
         * @return {Kiwi.Geom.Matrix} 

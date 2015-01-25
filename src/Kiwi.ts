@@ -124,6 +124,7 @@
 /// <reference path="time/TimerEvent.ts" />
 
 /// <reference path="utils/Canvas.ts" />
+/// <reference path="utils/Color.ts" />
 /// <reference path="utils/Common.ts" />
 /// <reference path="utils/GameMath.ts" />
 /// <reference path="utils/RandomDataGenerator.ts" />

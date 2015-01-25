@@ -24,7 +24,6 @@ module Kiwi.Time {
     * @param name {String} The name of the clock.
     * @param [units=1000] {Number} The units that this clock is to operate in.
     * @return {Kiwi.Time.Clock} This Clock object.
-    * 
     */
     export class Clock {
          
@@ -36,11 +35,12 @@ module Kiwi.Time {
             this.units = units;
             this.timers = [];
 
-            if (this.units < 1)
-            {
+            if (this.units < 1) {
                 this.units = 1;
             }
 
+            this._lastMasterElapsed = this.master.elapsed();
+            this._currentMasterElapsed = this.master.elapsed();
         }
 
         /**
@@ -103,33 +103,99 @@ module Kiwi.Time {
 
         }
 
+
+        /**
+        * Rate at which time passes on this clock.
+        * 1 is normal speed. 0 is no speed. -1 is backwards.
+        * This mostly affects timers, animations and tweens.
+        * @property timeScale
+        * @type number
+        * @default 1.0
+        * @public
+        * @since 1.2.0
+        */
+        public timeScale: number = 1.0;
+
+        /**
+        * Clock units elapsed since the clock was most recently started,
+        * not including paused time.
+        * @property _elapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _elapsed: number = 0;
+
+        /**
+        * Master time on last frame
+        * @property _lastMasterElapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _lastMasterElapsed: number;
+
+        /**
+        * Master time on current frame
+        * @property _currentMasterElapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _currentMasterElapsed: number;
+
+
+        /**
+        * Rate of time passage, as modified by time scale and frame rate.
+        * Under ideal conditions this should be 1.
+        * If the frame rate drops, this will rise. Multiply transformations
+        * by rate to get smooth change over time.
+        * @property rate
+        * @type number
+        * @public
+        * @since 1.2.0
+        */
+        public rate: number = 1;
+
+        /**
+        * Maximum frame duration. If a frame takes longer than this to render,
+        * the clock will only advance this far, in effect slowing down time.
+        * If this value is 0 or less, it will not be checked and frames can
+        * take any amount of time to render.
+        * @property _maxFrameDuration
+        * @type number
+        * @default -1
+        * @private
+        */
+        private _maxFrameDuration: number = -1;
+
+        /**
+        * Maximum frame duration. If a frame takes longer than this to render,
+        * the clock will only advance this far, in effect slowing down time.
+        * If this value is 0 or less, it will not be checked and frames can
+        * take any amount of time to render.
+        * @property maxFrameDuration
+        * @type number
+        * @default -1
+        * @public
+        */
+        public get maxFrameDuration(): number {
+            return this._maxFrameDuration;
+        }
+
+        public set maxFrameDuration( value: number ) {
+            this._maxFrameDuration = value;
+        }
+
+
         /**
         * The number of clock units elapsed since the clock was most recently started (not including time spent paused)
         * @method elapsed
         * @return {Number} number of clock units.
         * @public
         */
-        public elapsed():number {
-
-            if (this._elapsedState === 0)
-            {
-                return (this._timeLastStarted) ? ((this.master.elapsed() - this._timeLastStarted) - this._totalPaused) / this.units : null;
-            
-            }
-            else if (this._elapsedState === 1)
-            {
-                return (this._timeLastPaused - this._timeLastStarted - this._totalPaused) / this.units;
-            }
-            else if (this._elapsedState === 2)
-            {
-                //  Same as zero!
-                return (this._timeLastStarted) ? ((this.master.elapsed() - this._timeLastStarted) - this._totalPaused) / this.units : null;
-            }
-            else if (this._elapsedState === 3)
-            {
-                return (this._timeLastStopped - this._timeLastStarted - this._totalPaused) / this.units;
-            }
-
+        public elapsed(): number {
+            return this._elapsed;
         }
 
         /**
@@ -356,39 +422,26 @@ module Kiwi.Time {
         * @return {boolean} True if the Timer was successfully removed, false if not.
         * @public
         */
-        public removeTimer(timer: Timer = null, timerName:string = ''): boolean {
+        public removeTimer(timer: Timer = null, timerName:string = ""): boolean {
+            var index;
 
             //  Timer object given?
-            if (timer !== null)
-            {
-                if (this.timers[timer.name])
-                {
-                    delete this.timers[timer.name];
-
+            if ( timer !== null ) {
+                index = this.timers.indexOf( timer );
+                if ( index !== -1 ) {
+                    this.timers.splice( index, 1 );
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
-            }
-
-            if (timerName !== '')
-            {
-                if (this.timers[timerName])
-                {
-                    delete this.timers[timerName];
-
-                    return true;
-                }
-                else
-                {
-                    return false;
+            } else if ( timerName !== "" ) {
+                for ( index = 0; index < this.timers.length; index++ ) {
+                    if ( this.timers[ index ].name === timerName ) {
+                        this.timers.splice( index, 1 );
+                        return true;
+                    }
                 }
             }
 
             return false;
-
         }
 
         /**
@@ -446,12 +499,30 @@ module Kiwi.Time {
         * @public
         */
         public update() {
+            var frameLength = this._currentMasterElapsed - this._lastMasterElapsed;
 
-            for (var i = 0; i < this.timers.length; i++)
-            {
+            if ( this._maxFrameDuration > 0 ) {
+                frameLength = Math.min( frameLength, this._maxFrameDuration );
+            }
+
+            for (var i = 0; i < this.timers.length; i++) {
                 this.timers[i].update();
             }
 
+            // Compute difference between last master value and this
+            // Scale that difference by timeScale
+            // If clock is running, add that value to the current time
+            this._lastMasterElapsed = this._currentMasterElapsed;
+            this._currentMasterElapsed = this.master.elapsed();
+            if ( this._elapsedState === 0 || this._elapsedState === 2 ) {
+                this._elapsed += this.timeScale * frameLength / this.units;
+            } else if ( this._elapsedState === 1 ) {
+                this._totalPaused += frameLength;
+            }
+
+            // Compute time governance properties
+            // These should really be properties hereafter
+            this.rate = this.timeScale * frameLength / this.master.idealDelta;
         }
 
         /**
@@ -562,6 +633,90 @@ module Kiwi.Time {
 
             return "[{Clock (name=" + this.name + " units=" + this.units + " running=" + this._isRunning + ")}]";
 
+        }
+
+
+        /**
+        * Set a function to execute after a certain time interval.
+        * Emulates window.setTimeout, except attached to a Kiwi.Time.Clock.
+        * This allows you to pause and manipulate time, and the timeout will respect
+        * the clock on which it is created.
+        *<br><br>
+        * No clearTimeout is provided; you should use Kiwi.Time.Timer functions
+        * to achieve further control.
+        *<br><br>
+        * Any parameters after "context" will be passed as parameters to the
+        * callback function. Note that you must specify "context" in order for
+        * this to work. You may specify "null", in which case it will default
+        * to the global scope "window".
+        *
+        * @method setTimeout
+        * @param callback {function} Function to execute
+        * @param timeout {number} Milliseconds before execution
+        * @param [context] {object} Object to be "this" for the callback
+        * @return {Kiwi.Time.Timer} Kiwi.Time.Timer object which can be used to further
+        *   manipulate the timer
+        * @public
+        */
+        public setTimeout( callback, timeout: number, context, ...args ): Timer {
+            var clock = this,
+                timer = this.createTimer( "timeoutTimer", timeout / 1000 );
+
+            if ( !context ) {
+                context = this;
+            }
+
+            timer.createTimerEvent( TimerEvent.TIMER_STOP,
+                function() {
+                    callback.apply( context, args );
+                    clock.removeTimer( timer );
+                },
+                context );
+
+            timer.start();
+
+            return timer;
+        }
+
+
+        /**
+        * Set a function to repeatedly execute at fixed time intervals.
+        * Emulates window.setInterval, except attached to a Kiwi.Time.Clock.
+        * This allows you to pause and manipulate time, and the timeout will respect
+        * the clock on which it is created.
+        *<br><br>
+        * No clearInterval is provided; you should use Kiwi.Time.Timer functions
+        * to achieve further control.
+        *<br><br>
+        * Any parameters after "context" will be passed as parameters to the
+        * callback function. Note that you must specify "context" in order for
+        * this to work. You may specify "null", in which case it will default
+        * to the global scope "window".
+        *
+        * @method setInterval
+        * @param callback {function} Function to execute
+        * @param timeout {number} Milliseconds between executions
+        * @param [context=window] {object} Object to be "this" for the callback
+        * @return {Kiwi.Time.Timer} Kiwi.Time.Timer object
+        *   which can be used to further manipulate the timer
+        * @public
+        */
+        public setInterval( callback, timeout: number, context, ...args ): Timer {
+            var timer = this.createTimer( "timeoutTimer", timeout / 1000, -1 );
+
+            if ( !context ) {
+                context = this;
+            }
+
+            timer.createTimerEvent( TimerEvent.TIMER_COUNT,
+                function() {
+                    callback.apply( context, args );
+                },
+                context );
+
+            timer.start();
+
+            return timer;
         }
 
     }

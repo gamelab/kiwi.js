@@ -100,7 +100,7 @@ module Kiwi.Renderers {
         /**
         * Creates the array buffer.
         * @method createBuffer
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @return {WebGLBuffer}
         * @public
         */
@@ -113,7 +113,7 @@ module Kiwi.Renderers {
         /**
         * Uploads the array buffer.
         * @method uploadBuffer
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @param items {Array}
         * @return {boolean}
         * @public
@@ -131,7 +131,7 @@ module Kiwi.Renderers {
         /**
         * Deletes the array buffer.
         * @method deleteBuffer
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @return {boolean}
         * @public
         */
@@ -160,7 +160,7 @@ module Kiwi.Renderers {
         
         /**
         * 
-        * @property squareUVx
+        * @property squareUVs
         * @type number[]
         * @static
         * @default [0, 0, .1, 0, .1, .1, 0, .1]

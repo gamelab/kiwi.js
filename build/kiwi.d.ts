@@ -184,7 +184,7 @@ declare module Kiwi {
         /**
         * Holds a reference to the clocks that are being used and has a MASTER clock that is being used for the game.
         * @property time
-        * @type Kiwi.Time.ClockManage
+        * @type Kiwi.Time.ClockManager
         * @public
         */
         time: Kiwi.Time.ClockManager;
@@ -996,7 +996,14 @@ declare module Kiwi {
         * @public
         */
         validatePlugins(): void;
-        validMinimumPluginVersionExists(name: string, version: string): boolean;
+        /**
+        * Returns whether a valid minimum version of a plugin exists.
+        * @method validMinimumPluginVersionExists
+        * @param name {string} Name of plugin
+        * @param version {string} Minimum version
+        * @return boolean
+        * @public
+        */
         /**
         * Returns true if a plugin identified by the supplied pluginName is registered.
         * @method pluginIsRegistered
@@ -3256,15 +3263,28 @@ declare module Kiwi {
         */
         dirty: boolean;
         /**
-        * Apply this cameras inverted matrix to a an object with x and y properties representing a point and return the transformed point.
+        * Convert from screen coordinates to world coordinates.
+        * Apply this camera's inverted matrix to an object with x and y
+        * properties representing a point and return the transformed point.
         * Useful for when calculating if coordinates with the mouse.
-        * Note: This method clones the point you pass, so that is doesn't "reset" any properties you set.
+        * Note: This method clones the point you pass,
+        * so that it doesn't "reset" any properties you set.
         * @method transformPoint
         * @param point {Kiwi.Geom.Point}
         * @return {Kiwi.Geom.Point}
         * @public
         */
         transformPoint(point: Kiwi.Geom.Point): Kiwi.Geom.Point;
+        /**
+        * Convert from world coordinates to screen coordinates.
+        * Useful for assessing visibility.
+        * @method transformPointToScreen
+        * @param point {Kiwi.Geom.Point}
+        * @return {Kiwi.Geom.Point}
+        * @public
+        * @since 1.2.0
+        */
+        public transformPointToScreen(point: Geom.Point): Geom.Point;
         /**
         * The update loop that is executed every frame.
         * @method update
@@ -3796,10 +3816,10 @@ declare module Kiwi.GameObjects {
     * @param text {String} The text that is contained within this textfield.
     * @param [x=0] {Number} The new x coordinate from the Position component
     * @param [y=0] {Number} The new y coordinate from the Position component
-    * @param [color='#000000'] {String} The color of the text.
+    * @param [color="#000000"] {String} The color of the text.
     * @param [size=32] {Number} The size of the text in pixels.
-    * @param [weight='normal'] {String} The weight of the text.
-    * @param [fontFamily='sans-serif'] {String} The font family that is to be used when rendering.
+    * @param [weight="normal"] {String} The weight of the text.
+    * @param [fontFamily="sans-serif"] {String} The font family that is to be used when rendering.
     * @return {Textfield} This Game Object.
     */
     class Textfield extends Kiwi.Entity {
@@ -3822,7 +3842,7 @@ declare module Kiwi.GameObjects {
         * The weight of the font.
         * @property _fontWeight
         * @type string
-        * @default 'normal'
+        * @default "normal"
         * @private
         */
         private _fontWeight;
@@ -3838,7 +3858,7 @@ declare module Kiwi.GameObjects {
         * The color of the text.
         * @property _fontColor
         * @type string
-        * @default '#000000'
+        * @default "#000000"
         * @private
         */
         private _fontColor;
@@ -3846,15 +3866,15 @@ declare module Kiwi.GameObjects {
         * The font family that is to be rendered.
         * @property _fontFamily
         * @type string
-        * @default 'sans-serif'
+        * @default "sans-serif"
         * @private
         */
         private _fontFamily;
         /**
-        * The alignment of the text. This can either be 'left', 'right' or 'center'
+        * The alignment of the text. This can either be "left", "right" or "center"
         * @property _textAlign
         * @type string
-        * @default 'center'
+        * @default "center"
         * @private
         */
         private _textAlign;
@@ -3937,12 +3957,8 @@ declare module Kiwi.GameObjects {
         */
         static TEXT_ALIGN_LEFT: string;
         /**
-        * Returns a string containing the text alignment for this textfield.
-        * @type string
-        * @public
-        */
-        /**
-        * Changes the alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.
+        * Alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.
+        * @property textAlign
         * @type string
         * @public
         */
@@ -3965,8 +3981,17 @@ declare module Kiwi.GameObjects {
         * If the temporary canvas is dirty and needs to be re-rendered. Only used when the text field rendering is being optimised.
         * @property _tempDirty
         * @type boolean
+        * @private
         */
         private _tempDirty;
+        /**
+        * Hitbox component
+        * @property box
+        * @type Kiwi.Components.Box
+        * @public
+        * @since 1.2.0
+        */
+        public box: Components.Box;
         /**
         * This method is used to render the text to an offscreen-canvas which is held in a TextureAtlas (which is generated upon the instanitation of this class).
         * This is so that the canvas doesn't render it every frame as it can be costly and so that it can be used in WebGL with the TextureAtlasRenderer.
@@ -3993,7 +4018,7 @@ declare module Kiwi.GameObjects {
         renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
     }
     /**
-    * Alias of the 'Kiwi.GameObjects.Textfield'.
+    * Alias of the "Kiwi.GameObjects.Textfield".
     * This will continue to be an alias until we can deprecate the existing version.
     *
     * @class TextField
@@ -4864,9 +4889,9 @@ declare module Kiwi.Components {
         * The entity that this animation belongs to and thus is effecting.
         * @property entity
         * @type Kiwi.Entity
-        * @private
+        * @public
         */
-        private entity;
+        public entity: Entity;
         /**
         * The texture atlas that this animation is taking effect on.
         * The value of this should be the same as the Entity.
@@ -5244,6 +5269,7 @@ declare module Kiwi.Components {
         private _transformedCenter;
         /**
         * Returns the center point for the box after it has been transformed.
+        * World coordinates.
         * This is READ ONLY.
         * @property center
         * @type Kiwi.Geom.Point
@@ -9517,7 +9543,9 @@ declare module Kiwi.Animations.Tweens {
     * @class TweenManager
     * @namespace Kiwi.Animations.Tweens
     * @constructor
-    * @param game {Kiwi.Game}
+    * @param game {Kiwi.Game} Current game
+    * @param [clock] {Kiwi.Time.Clock} Clock to use for tweens.
+    *   Defaults to game.time.clock.
     * @return {Kiwi.Animations.TweenManager}
     *
     * @author     sole / http://soledadpenades.com
@@ -9532,7 +9560,7 @@ declare module Kiwi.Animations.Tweens {
     *
     */
     class TweenManager {
-        constructor(game: Kiwi.Game);
+        constructor(game: Game, clock?: Time.Clock);
         /**
         * The type of object that this is.
         * @method objType
@@ -9554,6 +9582,14 @@ declare module Kiwi.Animations.Tweens {
         * @private
         */
         private _tweens;
+        /**
+        * Clock used by tweens
+        * @property clock
+        * @type Kiwi.Time.Clock
+        * @public
+        * @since 1.2.0
+        */
+        public clock: Time.Clock;
         /**
         * Returns all of tweens that are on the manager.
         * @method getAll
@@ -9594,9 +9630,17 @@ declare module Kiwi.Animations.Tweens {
         /**
         * The update loop.
         * @method update
+        * @return {boolean} Whether anything was updated
         * @public
         */
         update(): boolean;
+        /**
+        * Validate clock; if no valid clock is found, set one from game
+        * @method validateClock
+        * @public
+        * @since 1.2.0
+        */
+        public validateClock(): void;
     }
 }
 /**
@@ -9655,12 +9699,30 @@ declare module Kiwi.Animations {
         */
         private _manager;
         /**
+        * The manager that this tween belongs to.
+        * @property manager
+        * @type Kiwi.Animations.Tweens.TweenManager
+        * @private
+        * @since 1.2.0
+        */
+        public manager : Tweens.TweenManager;
+        /**
         * The object that this tween is affecting.
         * @property _object
         * @type Any
         * @private
         */
         private _object;
+        /**
+        * The object that this tween is affecting.
+        * If you change this, it will continue to tween,
+        * but any properties that are not on the new object
+        * will be discarded from the tween.
+        * @property object
+        * @type any
+        * @public
+        */
+        public object : any;
         /**
         * The starting values of the properties that the tween is animating.
         * @property _valuesStart
@@ -9877,9 +9939,10 @@ declare module Kiwi.Animations {
         * The update loop is executed every frame whilst the tween is running.
         * @method update
         * @param time {Number}
+        * @return {boolean} Whether the Tween is still running
         * @public
         */
-        update(time: any): boolean;
+        public update(time: number): boolean;
     }
 }
 interface IRenderManager {
@@ -10680,7 +10743,7 @@ declare module Kiwi.Renderers {
         /**
         * Creates the array buffer.
         * @method createBuffer
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @return {WebGLBuffer}
         * @public
         */
@@ -10688,7 +10751,7 @@ declare module Kiwi.Renderers {
         /**
         * Uploads the array buffer.
         * @method uploadBuffer
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @param items {Array}
         * @return {boolean}
         * @public
@@ -10697,7 +10760,7 @@ declare module Kiwi.Renderers {
         /**
         * Deletes the array buffer.
         * @method deleteBuffer
-        * @param gl {WebGLRenderingCotext}
+        * @param gl {WebGLRenderingContext}
         * @return {boolean}
         * @public
         */
@@ -10713,7 +10776,7 @@ declare module Kiwi.Renderers {
         static squareVertices: number[];
         /**
         *
-        * @property squareUVx
+        * @property squareUVs
         * @type number[]
         * @static
         * @default [0, 0, .1, 0, .1, .1, 0, .1]
@@ -10879,7 +10942,7 @@ declare module Kiwi.Renderers {
 */
 declare module Kiwi.Renderers {
     /**
-    * Encapsulates a WebGL E;ement Array Buffer
+    * Encapsulates a WebGL Element Array Buffer
     * @class GLElementArrayBuffer
     * @constructor
     * @namespace Kiwi.Renderers
@@ -11085,6 +11148,7 @@ declare module Kiwi.Renderers {
         * The Renderer object for rendering Texture Atlases
         * @class TextureAtlasRenderer
         * @constructor
+        * @extends Kiwi.Renderers.Renderer
         * @namespace Kiwi.Renderers
         * @param gl {WebGLRenderingContext}
         * @param shaderManager {Kiwi.Shaders.ShaderManager}
@@ -11197,8 +11261,8 @@ declare module Kiwi.Renderers {
         */
         setShaderPair(shaderPair: string): void;
         /**
-        * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
-        * @method _collateVertexAttributeArrays
+        * Collates all xy and uv coordinates into a buffer ready for upload to video memory
+        * @method addToBatch
         * @param gl {WebGLRenderingContext}
         * @param entity {Kiwi.Entity}
         * @param camera {Camera}
@@ -11427,9 +11491,9 @@ declare module Kiwi.Animations {
     * @constructor
     * @param name {string} The name of this anim.
     * @param sequences {Kiwi.Animations.Sequences} The sequence that this anim will be using to animate.
-    * @param clock {Kiwi.Time.Clock} A game clock that this anim will be using to keep record of the time between frames.
+    * @param clock {Kiwi.Time.Clock} A game clock that this anim will be using to keep record of the time between frames. (Deprecated in v1.2.0, because there is no way to control it.)
     * @param parent {Kiwi.Components.AnimationManager} The animation manager that this animation belongs to.
-    * @return {Kiwi.Animations.Anim}
+    * @return {Kiwi.Animations.Animation}
     *
     */
     class Animation {
@@ -11521,6 +11585,15 @@ declare module Kiwi.Animations {
         */
         private _clock;
         /**
+        * Clock used by this Animation. If it was not set on creation,
+        * the Animation will use its parent's entity's clock.
+        * @property clock
+        * @type Kiwi.Time.Clock
+        * @public
+        * @since 1.2.0
+        */
+        public clock : Time.Clock;
+        /**
         * The starting time of the animation from when it was played. Internal use only.
         * @property _startTime
         * @type number
@@ -11596,6 +11669,22 @@ declare module Kiwi.Animations {
         private _onLoop;
         onLoop: Kiwi.Signal;
         /**
+        * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation but is not going to play again.
+        * @property _onComplete
+        * @type Kiwi.Signal
+        * @public
+        */
+        private _onComplete;
+        public onComplete : Signal;
+        /**
+        * Clock time on last frame, used to compute current animation frame.
+        * @property _lastFrameElapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _lastFrameElapsed;
+        /**
         * An Internal method used to start the animation.
         * @method _start
         * @param [index=null] {number} The index of the frame in the sequence that is to play. If left as null if just starts from where it left off.
@@ -11646,7 +11735,8 @@ declare module Kiwi.Animations {
         */
         prevFrame(): void;
         /**
-        * The update loop. Returns a boolean indicating whether the animation has gone to a new frame or not.
+        * The update loop.
+        *
         * @method update
         * @public
         */
@@ -15329,7 +15419,7 @@ declare module Kiwi.Geom {
     * by Transform objects to represent translation, scale and rotation transformations, and to determine where objects are in world space or camera space.
     * Objects such as entities and groups may be nested, and their associated transforms may represent how they are scaled, translated and rotated relative to a parent
     * transform.
-    * By concatenating an object's transformation matrix with it's ancestors matrices, it is possible to determine the absolute position of the object in world space.
+    * By concatenating an object's transformation matrix with its ancestors matrices, it is possible to determine the absolute position of the object in world space.
     * See http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics for an in depth discussion of 2d tranformation matrices.
     *
     * @class Matrix
@@ -15463,7 +15553,7 @@ declare module Kiwi.Geom {
         */
         prependMatrix(m: Matrix): Matrix;
         /**
-        * Append values to this matrix, paramters supplied individually.
+        * Append values to this matrix, parameters supplied individually.
         * @method append
         * @param [a=1]{Number} position 0,0 of the matrix, affects scaling and rotation.
         * @param [b=0]{Number} position 0,1 of the matrix, affects scaling and rotation.
@@ -15502,7 +15592,7 @@ declare module Kiwi.Geom {
         setPositionPoint(p: any): Matrix;
         /**
         * Get the x and y position of the matrix as an object with x and y properties
-        * @method setPositionVector
+        * @method getPosition
         * @return {Kiwi.Geom.Point} An object constructed from a literal with x and y properties.
         * @public
         */
@@ -15551,7 +15641,7 @@ declare module Kiwi.Geom {
         */
         transformPoint(pt: any): any;
         /**
-        * Invert this matrix so that it represents the opposite of it's orginal tranformaation.
+        * Invert this matrix so that it represents the opposite of its orginal tranformaation.
         * @method invert
         * @return {Kiwi.Geom.Matrix} This object.
         * @public
@@ -16369,6 +16459,13 @@ declare module Kiwi.Geom {
         */
         private _cachedConcatenatedMatrix;
         /**
+        * Temporary matrix used in concatenation operations
+        * @property _concatMatrix
+        * @type Kiwi.Geom.Matrix
+        * @private
+        */
+        private _concatMatrix;
+        /**
         * Return the x of this transform translated to world space.
         * @property worldX
         * @type Number
@@ -16400,6 +16497,60 @@ declare module Kiwi.Geom {
         * @public
         */
         parent: Transform;
+        /**
+        * Private copy.
+        * Whether the Transform is locked. In locked mode, the Transform
+        * will not update its matrix, saving on computation.
+        * However, it will still follow its parent.
+        * @property _locked
+        * @type boolean
+        * @default false
+        * @private
+        * @since 1.2.0
+        */
+        private _locked;
+        /**
+        * Whether the Transform is locked. In locked mode, the Transform
+        * will not update its matrix, saving on computation.
+        * However, it will still follow its parent.
+        * When locked is set to true, it will set the matrix according to
+        * current transform values.
+        * @property locked
+        * @type boolean
+        * @default false
+        * @public
+        * @since 1.2.0
+        */
+        public locked : boolean;
+        /**
+        * Private copy.
+        * Whether to ignore its parent when concatenating matrices.
+        * If true, it won't compute parent matrices.
+        * This can save computation, but prevents it from following
+        * its parent's transforms.
+        * Use this to save some processor cycles if the transform isn't
+        * following a parent and the state does not transform.
+        * @property _ignoreParent
+        * @type boolean
+        * @default false
+        * @private
+        * @since 1.2.0
+        */
+        private _ignoreParent;
+        /**
+        * Whether to ignore its parent when concatenating matrices.
+        * If true, it won't compute parent matrices.
+        * This can save computation, but prevents it from following
+        * its parent's transforms.
+        * Use this to save some processor cycles if the transform isn't
+        * following a parent and the state does not transform.
+        * @property ignoreParent
+        * @type boolean
+        * @default false
+        * @private
+        * @since 1.2.0
+        */
+        public ignoreParent : boolean;
         /**
         * Set the X and Y values of the transform.
         * @method setPosition
@@ -16461,15 +16612,17 @@ declare module Kiwi.Geom {
         */
         setTransform(x?: number, y?: number, scaleX?: number, scaleY?: number, rotation?: number, rotPointX?: number, rotPointY?: number): Transform;
         /**
-        * Return the parent matrix of the transform. If there is no parent then null is returned.
+        * Return the parent matrix of the transform.
+        * If there is no parent then null is returned.
         * @method getParentMatrix
-        * @return {Kiwi.Geom.Matrix} The parent transform matrix.
+        * @return {Kiwi.Geom.Matrix} Parent transform matrix
         * @public
         */
         getParentMatrix(): Matrix;
         /**
-        * Return the transformation matrix that concatenates this transform with all ancestor transforms.
-        * If there is no parent then this will return a matrix the same as this transforms matrix.
+        * Return the transformation matrix that concatenates this transform
+        * with all ancestor transforms. If there is no parent then this will
+        * return a matrix the same as this transform's matrix.
         * @method getConcatenatedMatrix
         * @return {Kiwi.Geom.Matrix} The concatenated matrix.
         * @public
@@ -18274,7 +18427,7 @@ declare module Kiwi.HUD.HUDComponents {
 declare module Kiwi.HUD.HUDComponents {
     /**
     * A Component to manage and display a Time in a particular format.
-    * The Time Component creates a new clock on the Time Manager and it use's that clock to keep track of the time.
+    * The Time Component creates a new clock on the Time Manager and it uses that clock to keep track of the time.
     * When you create a new Time Component you can specify a format that you want the time to display in, which is a string based on keywords.
     * Current supported keywords for the format are:
     *  's' = 'seconds'
@@ -19136,7 +19289,6 @@ declare module Kiwi.Time {
     * @param name {String} The name of the clock.
     * @param [units=1000] {Number} The units that this clock is to operate in.
     * @return {Kiwi.Time.Clock} This Clock object.
-    *
     */
     class Clock {
         constructor(manager: Kiwi.Time.ClockManager, master: Kiwi.Time.MasterClock, name: string, units?: number);
@@ -19184,6 +19336,75 @@ declare module Kiwi.Time {
         * @public
         */
         started(): number;
+        /**
+        * Rate at which time passes on this clock.
+        * 1 is normal speed. 0 is no speed. -1 is backwards.
+        * This mostly affects timers, animations and tweens.
+        * @property timeScale
+        * @type number
+        * @default 1.0
+        * @public
+        * @since 1.2.0
+        */
+        public timeScale: number;
+        /**
+        * Clock units elapsed since the clock was most recently started,
+        * not including paused time.
+        * @property _elapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _elapsed;
+        /**
+        * Master time on last frame
+        * @property _lastMasterElapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _lastMasterElapsed;
+        /**
+        * Master time on current frame
+        * @property _currentMasterElapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _currentMasterElapsed;
+        /**
+        * Rate of time passage, as modified by time scale and frame rate.
+        * Under ideal conditions this should be 1.
+        * If the frame rate drops, this will rise. Multiply transformations
+        * by rate to get smooth change over time.
+        * @property rate
+        * @type number
+        * @public
+        * @since 1.2.0
+        */
+        public rate: number;
+        /**
+        * Maximum frame duration. If a frame takes longer than this to render,
+        * the clock will only advance this far, in effect slowing down time.
+        * If this value is 0 or less, it will not be checked and frames can
+        * take any amount of time to render.
+        * @property _maxFrameDuration
+        * @type number
+        * @default -1
+        * @private
+        */
+        private _maxFrameDuration;
+        /**
+        * Maximum frame duration. If a frame takes longer than this to render,
+        * the clock will only advance this far, in effect slowing down time.
+        * If this value is 0 or less, it will not be checked and frames can
+        * take any amount of time to render.
+        * @property maxFrameDuration
+        * @type number
+        * @default -1
+        * @public
+        */
+        public maxFrameDuration : number;
         /**
         * The number of clock units elapsed since the clock was most recently started (not including time spent paused)
         * @method elapsed
@@ -19420,6 +19641,52 @@ declare module Kiwi.Time {
         * @public
         */
         toString(): string;
+        /**
+        * Set a function to execute after a certain time interval.
+        * Emulates window.setTimeout, except attached to a Kiwi.Time.Clock.
+        * This allows you to pause and manipulate time, and the timeout will respect
+        * the clock on which it is created.
+        *<br><br>
+        * No clearTimeout is provided; you should use Kiwi.Time.Timer functions
+        * to achieve further control.
+        *<br><br>
+        * Any parameters after "context" will be passed as parameters to the
+        * callback function. Note that you must specify "context" in order for
+        * this to work. You may specify "null", in which case it will default
+        * to the global scope "window".
+        *
+        * @method setTimeout
+        * @param callback {function} Function to execute
+        * @param timeout {number} Milliseconds before execution
+        * @param [context] {object} Object to be "this" for the callback
+        * @return {Kiwi.Time.Timer} Kiwi.Time.Timer object which can be used to further
+        *   manipulate the timer
+        * @public
+        */
+        public setTimeout(callback: any, timeout: number, context: any, ...args: any[]): Timer;
+        /**
+        * Set a function to repeatedly execute at fixed time intervals.
+        * Emulates window.setInterval, except attached to a Kiwi.Time.Clock.
+        * This allows you to pause and manipulate time, and the timeout will respect
+        * the clock on which it is created.
+        *<br><br>
+        * No clearInterval is provided; you should use Kiwi.Time.Timer functions
+        * to achieve further control.
+        *<br><br>
+        * Any parameters after "context" will be passed as parameters to the
+        * callback function. Note that you must specify "context" in order for
+        * this to work. You may specify "null", in which case it will default
+        * to the global scope "window".
+        *
+        * @method setInterval
+        * @param callback {function} Function to execute
+        * @param timeout {number} Milliseconds between executions
+        * @param [context=window] {object} Object to be "this" for the callback
+        * @return {Kiwi.Time.Timer} Kiwi.Time.Timer object
+        *   which can be used to further manipulate the timer
+        * @public
+        */
+        public setInterval(callback: any, timeout: number, context: any, ...args: any[]): Timer;
     }
 }
 /**
@@ -19740,6 +20007,7 @@ declare module Kiwi.Time {
         * @property _timeLastCount
         * @type Number
         * @private
+        * @deprecated Better time handling in 1.2.0 deprecates this data.
         */
         private _timeLastCount;
         /**
@@ -19811,6 +20079,22 @@ declare module Kiwi.Time {
         * @public
         */
         repeatCount: number;
+        /**
+        * Time elapsed on the current repetition
+        * @property _elapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _elapsed;
+        /**
+        * Clock time on last frame, used to calculate frame length and time elapsed
+        * @property _lastElapsed
+        * @type number
+        * @private
+        * @since 1.2.0
+        */
+        private _lastElapsed;
         /**
         * Checks the list of TimerEvents added and processes them based on their type.
         * @method processEvents
@@ -20168,6 +20452,268 @@ declare module Kiwi.Utils {
         * @public
         */
         toString(): string;
+    }
+}
+/**
+* @module Kiwi
+* @submodule Utils
+* @namespace Kiwi.Utils
+*/
+declare module Kiwi.Utils {
+    /**
+    * Utility class used to make color management more transparent.
+    * Color objects hold color and alpha values, and can get or set them
+    * in a variety of ways.
+    * <br><br>
+    * Construct this object as follows.
+    * <br><br>
+    * Pass 3 or 4 numbers to determine RGB or RGBA. If the numbers are in
+    * the range 0-1, they will be parsed as normalized numbers.
+    * If they are in the range 1-255, they will be parsed as 8-bit channels.
+    * <br><br>
+    * Pass 3 or 4 numbers followed by the string "hsv" or "hsl"
+    * (lowercase) to parse HSV or HSL color space (with optional alpha).
+    * <br><br>
+    * Pass a string containing a hexadecimal color with or without alpha
+    * (such as "ff8040ff" or "4080ff").
+    *
+    * @class Color
+    * @constructor
+    * @since 1.2.0
+    */
+    class Color {
+        constructor(...args: any[]);
+        /**
+        * Set colors from parameters
+        * @method set
+        * @param params {object} Composite parameter object
+        * @return Kiwi.Utils.Color
+        * @public
+        */
+        public set(...params: any[]): Color;
+        /**
+        * Red channel, stored as a normalized value between 0 and 1.
+        * This is most compatible with graphics hardware.
+        * @property _r
+        * @type number
+        * @default 0.5
+        * @private
+        */
+        public _r: number;
+        /**
+        * Green channel, stored as a normalized value between 0 and 1.
+        * This is most compatible with graphics hardware.
+        * @property _g
+        * @type number
+        * @default 0.5
+        * @private
+        */
+        public _g: number;
+        /**
+        * Blue channel, stored as a normalized value between 0 and 1.
+        * This is most compatible with graphics hardware.
+        * @property _b
+        * @type number
+        * @default 0.5
+        * @private
+        */
+        public _b: number;
+        /**
+        * Alpha channel, stored as a normalized value between 0 and 1.
+        * This is most compatible with graphics hardware.
+        * @property _a
+        * @type number
+        * @default 0.5
+        * @private
+        */
+        public _a: number;
+        /**
+        * Red channel, stored as a normalized value between 0 and 1.
+        * @property rNorm
+        * @type number
+        * @public
+        */
+        public rNorm : number;
+        /**
+        * Green channel, stored as a normalized value between 0 and 1.
+        * @property gNorm
+        * @type number
+        * @public
+        */
+        public gNorm : number;
+        /**
+        * Blue channel, stored as a normalized value between 0 and 1.
+        * @property bNorm
+        * @type number
+        * @public
+        */
+        public bNorm : number;
+        /**
+        * Alpha channel, stored as a normalized value between 0 and 1.
+        * @property aNorm
+        * @type number
+        * @public
+        */
+        public aNorm : number;
+        /**
+        * Red channel.
+        * If set to a number in the range 0-1, is interpreted as a
+        * normalized color (see rNorm).
+        * If set to a number above 1, is interpreted as an 8-bit channel
+        * (see r255).
+        * If queried, returns a normalized number in the range 0-1.
+        * @property r
+        * @type number
+        * @public
+        */
+        public r : number;
+        /**
+        * Green channel.
+        * If set to a number in the range 0-1, is interpreted as a
+        * normalized color (see gNorm).
+        * If set to a number above 1, is interpreted as an 8-bit channel
+        * (see g255).
+        * If queried, returns a normalized number in the range 0-1.
+        * @property g
+        * @type number
+        * @public
+        */
+        public g : number;
+        /**
+        * Blue channel.
+        * If set to a number in the range 0-1, is interpreted as a
+        * normalized color (see bNorm).
+        * If set to a number above 1, is interpreted as an 8-bit channel
+        * (see b255).
+        * If queried, returns a normalized number in the range 0-1.
+        * @property b
+        * @type number
+        * @public
+        */
+        public b : number;
+        /**
+        * Alpha channel.
+        * If set to a number in the range 0-1, is interpreted as a
+        * normalized color (see aNorm).
+        * If set to a number above 1, is interpreted as an 8-bit channel
+        * (see a255).
+        * If queried, returns a normalized number in the range 0-1.
+        * @property a
+        * @type number
+        * @public
+        */
+        public a : number;
+        /**
+        * Red channel, specified as an 8-bit channel in the range 0-255.
+        * @property r255
+        * @type number
+        * @public
+        */
+        public r255 : number;
+        /**
+        * Green channel, specified as an 8-bit channel in the range 0-255.
+        * @property g255
+        * @type number
+        * @public
+        */
+        public g255 : number;
+        /**
+        * Blue channel, specified as an 8-bit channel in the range 0-255.
+        * @property b255
+        * @type number
+        * @public
+        */
+        public b255 : number;
+        /**
+        * Alpha channel, specified as an 8-bit channel in the range 0-255.
+        * @property a255
+        * @type number
+        * @public
+        */
+        public a255 : number;
+        /**
+        * Red channel, alias of r
+        * @property red
+        * @type number
+        * @public
+        */
+        public red : number;
+        /**
+        * Green channel, alias of g
+        * @property green
+        * @type number
+        * @public
+        */
+        public green : number;
+        /**
+        * Blue channel, alias of b
+        * @property blue
+        * @type number
+        * @public
+        */
+        public blue : number;
+        /**
+        * Alpha channel, alias of a
+        * @property alpha
+        * @type number
+        * @public
+        */
+        public alpha : number;
+        /**
+        * Parse hexadecimal colors from strings
+        * @method parseColorHex
+        * @param color {string} A hexadecimal color such as "ffffff" (no alpha)
+        *	or "ffffffff" (with alpha)
+        * @public
+        */
+        public parseColorHex(color: string): void;
+        /**
+        * Returns color as a hexadecimal string
+        * @method getColorHex
+        * @param [alpha=true] {boolean} Whether to include the alpha
+        * @return string
+        * @public
+        */
+        public getColorHex(alpha?: boolean): any;
+        /**
+        * Parses normalized HSV values into the Color.
+        * Based on algorithms at
+        * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+        * @method parseHsv
+        * @param h {number} Hue
+        * @param s {number} Saturation
+        * @param v {number} Value
+        * @public
+        */
+        public parseHsv(h: number, s: number, v: number, a?: number): void;
+        /**
+        * Returns HSV value of the Color.
+        * Based on algorithms at
+        * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+        * @method getHsva
+        * @return {object} Object with normalized h, s, v, a properties.
+        */
+        public getHsva(): any;
+        /**
+        * Returns HSL value of the Color.
+        * Based on algorithms at
+        * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+        * @method getHsla
+        * @return {object} Object with normalized h, s, l, a properties.
+        * @public
+        */
+        public getHsla(): any;
+        /**
+        * Parses HSL value onto the Color.
+        * Based on algorithms at
+        * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+        * @method parseHsl
+        * @param h {number} Hue
+        * @param s {number} Saturation
+        * @param l {number} Lightness
+        * @public
+        */
+        public parseHsl(h: number, s: number, l: number, a?: number): void;
     }
 }
 /**

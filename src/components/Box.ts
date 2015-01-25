@@ -117,9 +117,11 @@ module Kiwi.Components {
         */
         public get hitboxOffset(): Kiwi.Geom.Point {
 
-            if (this.autoUpdate == true && this.entity.atlas !== null) {
-                this._hitboxOffset.x = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x;
-                this._hitboxOffset.y = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y;
+            if ( this.autoUpdate == true && this.entity.atlas !== null && this.entity.atlas.cells && this.entity.atlas.cells[ 0 ].hitboxes ) {
+                this._hitboxOffset.x =
+                    this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x || 0;
+                this._hitboxOffset.y =
+                    this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y || 0;
 
             }
 
@@ -154,10 +156,12 @@ module Kiwi.Components {
             if (this.autoUpdate == true) {
                 var atlas = this.entity.atlas;
 
-                if (atlas !== null) {
-                    this._rawHitbox.width = atlas.cells[this.entity.cellIndex].hitboxes[0].w;
-                    this._rawHitbox.height = atlas.cells[this.entity.cellIndex].hitboxes[0].h;
-
+                if ( atlas !== null && atlas.cells && atlas.cells[ 0 ].hitboxes ) {
+                    this._rawHitbox.width = atlas.cells[ this.entity.cellIndex ].hitboxes[ 0 ].w;
+                    this._rawHitbox.height = atlas.cells[ this.entity.cellIndex ].hitboxes[ 0 ].h;
+                } else {
+                    this._rawHitbox.width = this.entity.width;
+                    this._rawHitbox.height = this.entity.height;
                 }
             }
             
@@ -281,7 +285,6 @@ module Kiwi.Components {
 
             return this._rawCenter;
         }
-    
 
 
         /**
@@ -291,21 +294,23 @@ module Kiwi.Components {
         * @private
         */
         private _transformedCenter: Kiwi.Geom.Point;
-           
-        
-         
+
+
         /**
         * Returns the center point for the box after it has been transformed.
+        * World coordinates.
         * This is READ ONLY.
         * @property center
         * @type Kiwi.Geom.Point
         * @public
         */
         public get center(): Kiwi.Geom.Point {
-            var t: Kiwi.Geom.Transform = this.entity.transform;
-            var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
-            m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY)
-            this._transformedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - t.rotPointX, this.entity.height / 2 - t.rotPointY));
+            var m: Kiwi.Geom.Matrix = this.entity.transform.getConcatenatedMatrix();
+
+            this._transformedCenter = m.transformPoint(
+                new Kiwi.Geom.Point(
+                    this.entity.width / 2 - this.entity.anchorPointX,
+                    this.entity.height / 2 - this.entity.anchorPointY ) );
 
             return this._transformedCenter;
         }
@@ -319,7 +324,7 @@ module Kiwi.Components {
         * @private
         */
         private _transformedBounds: Kiwi.Geom.Rectangle;
-        
+
 
         /**
         * The 'world' transformed bounds for this entity. 
@@ -352,7 +357,7 @@ module Kiwi.Components {
         */
         public get worldBounds(): Kiwi.Geom.Rectangle {
             this._worldBounds = this._rotateRect(this.rawBounds.clone(), true);
-            
+
             return this._worldBounds;
         }
 

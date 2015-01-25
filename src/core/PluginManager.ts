@@ -204,17 +204,22 @@ module Kiwi {
             }
         }
 
-        public validMinimumPluginVersionExists(name: string, version: string):boolean {
-            var pluginExists: boolean = false;
-            var minVersionSatisfied: boolean = false;
-            if (this._plugins.indexOf(name) !== -1) {
-                pluginExists = true;
-                if (Utils.Version.greaterOrEqual(version, Kiwi.Plugins[name].version)) {
-                    minVersionSatisfied = true;
-                } 
-            } 
 
-            return (pluginExists && minVersionSatisfied);
+        /**
+        * Returns whether a valid minimum version of a plugin exists.
+        * @method validMinimumPluginVersionExists
+        * @param name {string} Name of plugin
+        * @param version {string} Minimum version
+        * @return boolean
+        * @public
+        */
+        public validMinimumPluginVersionExists( name: string, version: string ): boolean {
+            if ( this._plugins.indexOf( name ) !== -1 ) {
+                if ( Utils.Version.greaterOrEqual( Kiwi.Plugins[ name ].version, version ) ) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /**
@@ -223,7 +228,6 @@ module Kiwi {
         * @param {string} pluginName
         * @public
         */
-
         public pluginIsRegistered(pluginName: string):boolean {
             var isRegistered: boolean = false;
             for (var i = 0; i < Kiwi.PluginManager._availablePlugins.length; i++) {
