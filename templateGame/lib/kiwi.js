@@ -29884,12 +29884,41 @@ var Kiwi;
         * <br><br>
         * Pass 3 or 4 numbers followed by the string "hsv" or "hsl"
         * (lowercase) to parse HSV or HSL color space (with optional alpha).
+        * HSV and HSL colors may be specified as normalized parameters (0-1),
+        * or as an angle (0-360) and two percentages (0-100).
         * <br><br>
         * Pass a string containing a hexadecimal color with or without alpha
-        * (such as "ff8040ff" or "4080ff").
+        * (such as "ff8040ff" or "4080ff"). You may prepend "#" or "0x", but
+        * they are not necessary and will be stripped.
+        * <br><br>
+        * Pass 1 number to set a grayscale value, or 2 numbers to set grayscale
+        * with alpha. These are interpreted as with RGB values.
+        * <br><br>
+        * The color object stores its internal values as normalized RGBA channels.
+        * This is the most mathematically useful format, and corresponds
+        * with the WebGL color paradigm. When you query the color object's values,
+        * such as with "r" or "red" properties, it will return normalized values.
+        * You can get values in the 0-255 8-bit range by calling the
+        * corresponding x255 value. For example, if r = 1, then r255 = 255.
+        * <br><br>
+        * We advise that you work with normalized colors wherever possible.
+        * While the Color object is smart enough to recognise non-normalized
+        * ranges in most cases, it cannot tell the difference between 0.5 on a
+        * 0-1 scale, and 0.5 on a 0-255 scale. Try to reduce ambiguity by working
+        * in normalized color space.
+        * <br><br>
+        * You can get HSV, HSL, and hexadecimal values with the functions
+        * "getHsva", "getHsla", and "getHex". By default, these all include an
+        * alpha term. You can omit alpha from the getHex result by calling the
+        * function with the parameter "false". As getHsva and getHsla return objects
+        * rather than strings, you can freely ignore the provided alpha.
+        * <br<br>
+        * You can modify a Color object once created using its properties, methods,
+        * or the "set" method as you would use the constructor.
         *
         * @class Color
         * @constructor
+        * @param [...args]
         * @since 1.2.0
         */
         var Color = (function () {
@@ -29934,13 +29963,16 @@ var Kiwi;
                 * @private
                 */
                 this._a = 1;
-                return this.set.apply(this, args);
+                this.set.apply(this, args);
+
+                return this;
             }
             /**
-            * Set colors from parameters
+            * Set colors from parameters, as in the class description.
+            * If you supply invalid parameters, the color will be unchanged.
             * @method set
             * @param params {object} Composite parameter object
-            * @return Kiwi.Utils.Color
+            * @return {Kiwi.Utils.Color} This object with the new color set
             * @public
             */
             Color.prototype.set = function () {
@@ -29949,28 +29981,48 @@ var Kiwi;
                     params[_i] = arguments[_i + 0];
                 }
                 if (params.length === 3) {
+                    // RGB
                     this.r = params[0];
                     this.g = params[1];
                     this.b = params[2];
                 } else if (params.length === 4) {
                     if (!isNaN(params[3])) {
+                        // RGBA
                         this.r = params[0];
                         this.g = params[1];
                         this.b = params[2];
                         this.a = params[3];
                     } else if (params[3] === "hsv") {
+                        // HSV
                         this.parseHsv(params[0], params[1], params[2]);
                     } else if (params[3] === "hsl") {
+                        // HSL
                         this.parseHsl(params[0], params[1], params[2]);
                     }
                 } else if (params.length === 5) {
                     if (params[4] === "hsv") {
+                        // HSVA
                         this.parseHsv(params[0], params[1], params[2], params[3]);
                     } else if (params[4] === "hsl") {
+                        // HSLA
                         this.parseHsl(params[0], params[1], params[2], params[3]);
                     }
-                } else if (typeof params[0] === "string") {
-                    this.parseColorHex(params[0]);
+                } else if (params.length === 1) {
+                    if (typeof params[0] === "string") {
+                        // Hexadecimal
+                        this.parseHex(params[0]);
+                    } else if (!isNaN(params[0])) {
+                        // Grayscale
+                        this.r = params[0];
+                        this.g = params[0];
+                        this.b = params[0];
+                    }
+                } else if (params.length === 2) {
+                    // Grayscale and alpha
+                    this.r = params[0];
+                    this.g = params[0];
+                    this.b = params[0];
+                    this.a = params[1];
                 }
 
                 return this;
@@ -30154,9 +30206,9 @@ var Kiwi;
                 },
                 set: function (value) {
                     if (value > 1) {
-                        this.r255 = value;
+                        this.a255 = value;
                     } else {
-                        this.rNorm = value;
+                        this.aNorm = value;
                     }
                 },
                 enumerable: true,
@@ -30318,13 +30370,23 @@ var Kiwi;
 
             /**
             * Parse hexadecimal colors from strings
-            * @method parseColorHex
+            * @method parseHex
             * @param color {string} A hexadecimal color such as "ffffff" (no alpha)
             *	or "ffffffff" (with alpha)
+            * @return {Kiwi.Utils.Color} This object with the new color set
             * @public
             */
-            Color.prototype.parseColorHex = function (color) {
-                var bigint = parseInt(color, 16), r = this.r255, g = this.g255, b = this.b255, a = this.a255;
+            Color.prototype.parseHex = function (color) {
+                var bigint, r = this.r255, g = this.g255, b = this.b255, a = this.a255;
+
+                if (color.charAt(0) === "#") {
+                    color = color.slice(1);
+                }
+                if (color.slice(0, 2) === "0x") {
+                    color = color.slice(2);
+                }
+
+                bigint = parseInt(color, 16);
 
                 if (color.length === 6) {
                     r = (bigint >> 16) & 255;
@@ -30342,16 +30404,18 @@ var Kiwi;
                 this.g255 = g;
                 this.b255 = b;
                 this.a255 = a;
+
+                return this;
             };
 
             /**
             * Returns color as a hexadecimal string
-            * @method getColorHex
+            * @method getHex
             * @param [alpha=true] {boolean} Whether to include the alpha
             * @return string
             * @public
             */
-            Color.prototype.getColorHex = function (alpha) {
+            Color.prototype.getHex = function (alpha) {
                 if (typeof alpha === "undefined") { alpha = true; }
                 var num, mult = 256;
 
@@ -30365,17 +30429,38 @@ var Kiwi;
 
             /**
             * Parses normalized HSV values into the Color.
+            * Interprets either normalized values, or H in degrees (0-360)
+            * and S and V in % (0-100).
+            * <br><br>
             * Based on algorithms at
             * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
             * @method parseHsv
             * @param h {number} Hue
             * @param s {number} Saturation
             * @param v {number} Value
+            * @return {Kiwi.Utils.Color} This object with the new color set
             * @public
             */
             Color.prototype.parseHsv = function (h, s, v, a) {
                 if (typeof a === "undefined") { a = 1; }
                 var r, g, b, i, f, p, q, t;
+
+                if (isNaN(h) || isNaN(s) || isNaN(v) || isNaN(a)) {
+                    return this;
+                }
+
+                if (h > 1) {
+                    h /= 360;
+                }
+                if (s > 1) {
+                    s /= 100;
+                }
+                if (v > 1) {
+                    v /= 100;
+                }
+                if (a > 1) {
+                    a /= 255;
+                }
 
                 i = Math.floor(h * 6);
                 f = h * 6 - i;
@@ -30420,6 +30505,8 @@ var Kiwi;
                 this._g = g;
                 this._b = b;
                 this._a = a;
+
+                return this;
             };
 
             /**
@@ -30497,17 +30584,39 @@ var Kiwi;
 
             /**
             * Parses HSL value onto the Color.
+            * Interprets either normalized values, or H in degrees (0-360)
+            * and S and L in % (0-100).
+            * <br><br>
             * Based on algorithms at
             * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
             * @method parseHsl
             * @param h {number} Hue
             * @param s {number} Saturation
             * @param l {number} Lightness
+            * @return {Kiwi.Utils.Color} This object with the new color set
             * @public
             */
             Color.prototype.parseHsl = function (h, s, l, a) {
                 if (typeof a === "undefined") { a = 1; }
                 var q, p, r = this._r, g = this._g, b = this._b;
+
+                // Sanitize values
+                if (isNaN(h) || isNaN(s) || isNaN(l) || isNaN(a)) {
+                    return this;
+                }
+
+                if (h > 1) {
+                    h /= 360;
+                }
+                if (s > 1) {
+                    s /= 100;
+                }
+                if (l > 1) {
+                    l /= 100;
+                }
+                if (a > 1) {
+                    a /= 255;
+                }
 
                 if (s === 0) {
                     // Achromatic
@@ -30515,36 +30624,49 @@ var Kiwi;
                     g = l;
                     b = l;
                 } else {
-                    function hue2rgb(p, q, t) {
-                        if (t < 0) {
-                            t += 1;
-                        }
-                        if (t > 1) {
-                            t -= 1;
-                        }
-                        if (t < 1 / 6) {
-                            return p + (q - p) * 6 * t;
-                        }
-                        if (t < 1 / 2) {
-                            return q;
-                        }
-                        if (t < 2 / 3) {
-                            return p + (q - p) * (2 / 3 - t) * 6;
-                        }
-                        return p;
-                    }
-
                     q = l < 0.5 ? l * (1 + s) : l + s - l * s;
                     p = 2 * l - q;
-                    r = hue2rgb(p, q, h + 1 / 3);
-                    g = hue2rgb(p, q, h);
-                    b = hue2rgb(p, q, h - 1 / 3);
+                    r = this._hue2rgb(p, q, h + 1 / 3);
+                    g = this._hue2rgb(p, q, h);
+                    b = this._hue2rgb(p, q, h - 1 / 3);
                 }
 
                 this._r = r;
                 this._g = g;
                 this._b = b;
                 this._a = a;
+
+                return this;
+            };
+
+            /**
+            * Method used for computing HSL values.
+            * Based on algorithms at
+            * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+            * @method _hue2rgb
+            * @param p {number}
+            * @param q {number}
+            * @param t {number}
+            * @return number
+            * @private
+            */
+            Color.prototype._hue2rgb = function (p, q, t) {
+                if (t < 0) {
+                    t += 1;
+                }
+                if (t > 1) {
+                    t -= 1;
+                }
+                if (t < 1 / 6) {
+                    return p + (q - p) * 6 * t;
+                }
+                if (t < 1 / 2) {
+                    return q;
+                }
+                if (t < 2 / 3) {
+                    return p + (q - p) * (2 / 3 - t) * 6;
+                }
+                return p;
             };
             return Color;
         })();

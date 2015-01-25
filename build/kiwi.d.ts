@@ -19972,21 +19972,51 @@ declare module Kiwi.Utils {
     * <br><br>
     * Pass 3 or 4 numbers followed by the string "hsv" or "hsl"
     * (lowercase) to parse HSV or HSL color space (with optional alpha).
+    * HSV and HSL colors may be specified as normalized parameters (0-1),
+    * or as an angle (0-360) and two percentages (0-100).
     * <br><br>
     * Pass a string containing a hexadecimal color with or without alpha
-    * (such as "ff8040ff" or "4080ff").
+    * (such as "ff8040ff" or "4080ff"). You may prepend "#" or "0x", but
+    * they are not necessary and will be stripped.
+    * <br><br>
+    * Pass 1 number to set a grayscale value, or 2 numbers to set grayscale
+    * with alpha. These are interpreted as with RGB values.
+    * <br><br>
+    * The color object stores its internal values as normalized RGBA channels.
+    * This is the most mathematically useful format, and corresponds
+    * with the WebGL color paradigm. When you query the color object's values,
+    * such as with "r" or "red" properties, it will return normalized values.
+    * You can get values in the 0-255 8-bit range by calling the
+    * corresponding x255 value. For example, if r = 1, then r255 = 255.
+    * <br><br>
+    * We advise that you work with normalized colors wherever possible.
+    * While the Color object is smart enough to recognise non-normalized
+    * ranges in most cases, it cannot tell the difference between 0.5 on a
+    * 0-1 scale, and 0.5 on a 0-255 scale. Try to reduce ambiguity by working
+    * in normalized color space.
+    * <br><br>
+    * You can get HSV, HSL, and hexadecimal values with the functions
+    * "getHsva", "getHsla", and "getHex". By default, these all include an
+    * alpha term. You can omit alpha from the getHex result by calling the
+    * function with the parameter "false". As getHsva and getHsla return objects
+    * rather than strings, you can freely ignore the provided alpha.
+    * <br<br>
+    * You can modify a Color object once created using its properties, methods,
+    * or the "set" method as you would use the constructor.
     *
     * @class Color
     * @constructor
+    * @param [...args]
     * @since 1.2.0
     */
     class Color {
         constructor(...args: any[]);
         /**
-        * Set colors from parameters
+        * Set colors from parameters, as in the class description.
+        * If you supply invalid parameters, the color will be unchanged.
         * @method set
         * @param params {object} Composite parameter object
-        * @return Kiwi.Utils.Color
+        * @return {Kiwi.Utils.Color} This object with the new color set
         * @public
         */
         public set(...params: any[]): Color;
@@ -20160,31 +20190,36 @@ declare module Kiwi.Utils {
         public alpha : number;
         /**
         * Parse hexadecimal colors from strings
-        * @method parseColorHex
+        * @method parseHex
         * @param color {string} A hexadecimal color such as "ffffff" (no alpha)
         *	or "ffffffff" (with alpha)
+        * @return {Kiwi.Utils.Color} This object with the new color set
         * @public
         */
-        public parseColorHex(color: string): void;
+        public parseHex(color: string): Color;
         /**
         * Returns color as a hexadecimal string
-        * @method getColorHex
+        * @method getHex
         * @param [alpha=true] {boolean} Whether to include the alpha
         * @return string
         * @public
         */
-        public getColorHex(alpha?: boolean): any;
+        public getHex(alpha?: boolean): any;
         /**
         * Parses normalized HSV values into the Color.
+        * Interprets either normalized values, or H in degrees (0-360)
+        * and S and V in % (0-100).
+        * <br><br>
         * Based on algorithms at
         * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
         * @method parseHsv
         * @param h {number} Hue
         * @param s {number} Saturation
         * @param v {number} Value
+        * @return {Kiwi.Utils.Color} This object with the new color set
         * @public
         */
-        public parseHsv(h: number, s: number, v: number, a?: number): void;
+        public parseHsv(h: number, s: number, v: number, a?: number): Color;
         /**
         * Returns HSV value of the Color.
         * Based on algorithms at
@@ -20204,15 +20239,31 @@ declare module Kiwi.Utils {
         public getHsla(): any;
         /**
         * Parses HSL value onto the Color.
+        * Interprets either normalized values, or H in degrees (0-360)
+        * and S and L in % (0-100).
+        * <br><br>
         * Based on algorithms at
         * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
         * @method parseHsl
         * @param h {number} Hue
         * @param s {number} Saturation
         * @param l {number} Lightness
+        * @return {Kiwi.Utils.Color} This object with the new color set
         * @public
         */
-        public parseHsl(h: number, s: number, l: number, a?: number): void;
+        public parseHsl(h: number, s: number, l: number, a?: number): Color;
+        /**
+        * Method used for computing HSL values.
+        * Based on algorithms at
+        * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+        * @method _hue2rgb
+        * @param p {number}
+        * @param q {number}
+        * @param t {number}
+        * @return number
+        * @private
+        */
+        private _hue2rgb(p, q, t);
     }
 }
 /**
