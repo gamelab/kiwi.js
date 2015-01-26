@@ -738,15 +738,19 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "color", {
             /**
-            * Sets the background color of the stage via a hex value.
+            * Sets the background color of the stage.
             *
-            * The hex colour code should not contain a hashtag "#".
+            * This can be any valid parameter for Kiwi.Utils.Color.
+            * If passing multiple parameters, do so in a single array.
             *
             * The default value is "ffffff" or pure white.
             *
-            * The hex value can optionally contain an alpha term, which defaults to full ("ff", "255" or "1.0" depending on context). For example, both "ff0000" and "ff0000ff" will evaluate to an opaque red.
-            *
-            * Note for users of CocoonJS: When using the WebGL renderer, the stage color will fill all parts of the screen outside the canvas. Kiwi.js will automatically set the color to "000000" or pure black when using CocoonJS. If you change it, and your game does not fill the entire screen, the empty portions of the screen will also change color.
+            * Note for users of CocoonJS: When using the WebGL renderer,
+            * the stage color will fill all parts of the screen outside the canvas.
+            * Kiwi.js will automatically set the color to "000000" or pure black
+            * when using CocoonJS. If you change it, and your game does not fill
+            * the entire screen, the empty portions of the screen will also change
+            * color.
             *
             * @property color
             * @type string
@@ -756,7 +760,10 @@ var Kiwi;
                 return this._color.getHex();
             },
             set: function (val) {
-                this._color.parseHex(val);
+                if (!Kiwi.Utils.Common.isArray(val)) {
+                    val = [val];
+                }
+                this._color.parseString.apply(this._color, val);
             },
             enumerable: true,
             configurable: true
@@ -1014,22 +1021,6 @@ var Kiwi;
         Stage.prototype.setRGBColor = function (r, g, b) {
             this.rgbColor = { r: r, g: g, b: b };
             return this.rgbColor;
-        };
-        /**
-        * Sets the background color of the stage.
-        * Uses Kiwi.Utils.Color for maximum flexibility.
-        * @method setColor
-        * @param [...args]
-        * @return this._color;
-        * @public
-        * @since 1.2.0
-        */
-        Stage.prototype.setColor = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            this._color.set.apply(this._color, args);
         };
         /**
         * Creates a debug canvas and adds it above the regular game canvas.
@@ -29286,22 +29277,26 @@ var Kiwi;
         * Color objects hold color and alpha values, and can get or set them
         * in a variety of ways.
         * <br><br>
-        * Construct this object as follows.
+        * Construct this object in one of the following ways.
         * <br><br>
-        * Pass 3 or 4 numbers to determine RGB or RGBA. If the numbers are in
+        * - Pass 3 or 4 numbers to determine RGB or RGBA. If the numbers are in
         * the range 0-1, they will be parsed as normalized numbers.
         * If they are in the range 1-255, they will be parsed as 8-bit channels.
         * <br><br>
-        * Pass 3 or 4 numbers followed by the string "hsv" or "hsl"
+        * - Pass 3 or 4 numbers followed by the string "hsv" or "hsl"
         * (lowercase) to parse HSV or HSL color space (with optional alpha).
         * HSV and HSL colors may be specified as normalized parameters (0-1),
         * or as an angle (0-360) and two percentages (0-100).
         * <br><br>
-        * Pass a string containing a hexadecimal color with or without alpha
+        * - Pass a string containing a hexadecimal color with or without alpha
         * (such as "ff8040ff" or "4080ff"). You may prepend "#" or "0x", but
         * they are not necessary and will be stripped.
         * <br><br>
-        * Pass 1 number to set a grayscale value, or 2 numbers to set grayscale
+        * - Pass a string containing a CSS color function, such as
+        * "rgb(255,255,255)", "rgba( 192, 127, 64, 32 )",
+        * "hsl(180, 100, 100)", or "hsla(360, 50, 50, 50)".
+        * <br><br>
+        * - Pass 1 number to set a grayscale value, or 2 numbers to set grayscale
         * with alpha. These are interpreted as with RGB values.
         * <br><br>
         * The color object stores its internal values as normalized RGBA channels.
@@ -29424,8 +29419,8 @@ var Kiwi;
                 }
                 else if (params.length === 1) {
                     if (typeof params[0] === "string") {
-                        // Hexadecimal
-                        this.parseHex(params[0]);
+                        // String format
+                        this.parseString(params[0]);
                     }
                     else if (!isNaN(params[0])) {
                         // Grayscale
@@ -29756,15 +29751,66 @@ var Kiwi;
                 configurable: true
             });
             /**
+            * Parse colors from strings
+            * @method parseString
+            * @param color {string} A CSS color specification
+            * @return {Kiwi.Utils.Color} This object with the new color set
+            * @public
+            */
+            Color.prototype.parseString = function (color) {
+                var colArray;
+                color = color.toLowerCase();
+                // RGBA notation
+                if (color.slice(0, 4) === "rgba") {
+                    color = color.replace("rgba", "");
+                    color = color.replace("(", "");
+                    color = color.replace(")", "");
+                    colArray = color.split(",");
+                    this.r = +colArray[0];
+                    this.g = +colArray[1];
+                    this.b = +colArray[2];
+                    this.a = +colArray[3];
+                }
+                else if (color.slice(0, 3) === "rgb") {
+                    color = color.replace("rgb", "");
+                    color = color.replace("(", "");
+                    color = color.replace(")", "");
+                    colArray = color.split(",");
+                    this.r = +colArray[0];
+                    this.g = +colArray[1];
+                    this.b = +colArray[2];
+                }
+                else if (color.slice(0, 4) === "hsla") {
+                    color = color.replace("hsla", "");
+                    color = color.replace("(", "");
+                    color = color.replace(")", "");
+                    colArray = color.split(",");
+                    this.parseHsl(+colArray[0], +colArray[1], +colArray[2], +colArray[3]);
+                }
+                else if (color.slice(0, 3) === "hsl") {
+                    color = color.replace("hsl", "");
+                    color = color.replace("(", "");
+                    color = color.replace(")", "");
+                    colArray = color.split(",");
+                    this.parseHsl(+colArray[0], +colArray[1], +colArray[2]);
+                }
+                else {
+                    this.parseHex(color);
+                }
+                return this;
+            };
+            /**
             * Parse hexadecimal colors from strings
             * @method parseHex
             * @param color {string} A hexadecimal color such as "ffffff" (no alpha)
-            *	or "ffffffff" (with alpha). Also supports
+            *	or "ffffffff" (with alpha). Also supports "fff" and "ffff"
+            *	with 4-bit channels.
             * @return {Kiwi.Utils.Color} This object with the new color set
             * @public
             */
             Color.prototype.parseHex = function (color) {
                 var bigint, r = this.r255, g = this.g255, b = this.b255, a = this.a255;
+                // Strip leading signifiers
                 if (color.charAt(0) === "#") {
                     color = color.slice(1);
                 }

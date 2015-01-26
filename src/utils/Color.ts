@@ -10,22 +10,26 @@ module Kiwi.Utils {
 	* Color objects hold color and alpha values, and can get or set them
 	* in a variety of ways.
 	* <br><br>
-	* Construct this object as follows.
+	* Construct this object in one of the following ways.
 	* <br><br>
-	* Pass 3 or 4 numbers to determine RGB or RGBA. If the numbers are in
+	* - Pass 3 or 4 numbers to determine RGB or RGBA. If the numbers are in
 	* the range 0-1, they will be parsed as normalized numbers.
 	* If they are in the range 1-255, they will be parsed as 8-bit channels.
 	* <br><br>
-	* Pass 3 or 4 numbers followed by the string "hsv" or "hsl"
+	* - Pass 3 or 4 numbers followed by the string "hsv" or "hsl"
 	* (lowercase) to parse HSV or HSL color space (with optional alpha).
 	* HSV and HSL colors may be specified as normalized parameters (0-1),
 	* or as an angle (0-360) and two percentages (0-100).
 	* <br><br>
-	* Pass a string containing a hexadecimal color with or without alpha
+	* - Pass a string containing a hexadecimal color with or without alpha
 	* (such as "ff8040ff" or "4080ff"). You may prepend "#" or "0x", but
 	* they are not necessary and will be stripped.
 	* <br><br>
-	* Pass 1 number to set a grayscale value, or 2 numbers to set grayscale
+	* - Pass a string containing a CSS color function, such as
+	* "rgb(255,255,255)", "rgba( 192, 127, 64, 32 )",
+	* "hsl(180, 100, 100)", or "hsla(360, 50, 50, 50)".
+	* <br><br>
+	* - Pass 1 number to set a grayscale value, or 2 numbers to set grayscale
 	* with alpha. These are interpreted as with RGB values.
 	* <br><br>
 	* The color object stores its internal values as normalized RGBA channels.
@@ -109,8 +113,8 @@ module Kiwi.Utils {
 			} else if ( params.length === 1 ) {
 				if ( typeof params[ 0 ] === "string" ) {
 
-					// Hexadecimal
-					this.parseHex( params[ 0 ] );
+					// String format
+					this.parseString( params[ 0 ] );
 				} else if ( !isNaN( params[ 0 ] ) ) {
 
 					// Grayscale
@@ -451,20 +455,71 @@ module Kiwi.Utils {
 		}
 
 		/**
-		* Parse hexadecimal colors from strings
-		* @method parseHex
-		* @param color {string} A hexadecimal color such as "ffffff" (no alpha)
-		*	or "ffffffff" (with alpha). Also supports
+		* Parse colors from strings
+		* @method parseString
+		* @param color {string} A CSS color specification
 		* @return {Kiwi.Utils.Color} This object with the new color set
 		* @public
 		*/
-		public parseHex( color: string ) {
+		public parseString( color: string ): Kiwi.Utils.Color {
+			var colArray;
+
+			color = color.toLowerCase();
+
+			// RGBA notation
+			if ( color.slice( 0, 4 ) === "rgba" ) {
+				color = color.replace( "rgba", "" );
+				color = color.replace( "(", "" );
+				color = color.replace( ")", "" );
+				colArray = color.split( "," );
+				this.r = +colArray[ 0 ];
+				this.g = +colArray[ 1 ];
+				this.b = +colArray[ 2 ];
+				this.a = +colArray[ 3 ];
+			} else if ( color.slice( 0, 3 ) === "rgb" ) {
+				color = color.replace( "rgb", "" );
+				color = color.replace( "(", "" );
+				color = color.replace( ")", "" );
+				colArray = color.split( "," );
+				this.r = +colArray[ 0 ];
+				this.g = +colArray[ 1 ];
+				this.b = +colArray[ 2 ];
+			} else if ( color.slice( 0, 4 ) === "hsla" ) {
+				color = color.replace( "hsla", "" );
+				color = color.replace( "(", "" );
+				color = color.replace( ")", "" );
+				colArray = color.split( "," );
+				this.parseHsl( +colArray[ 0 ], +colArray[ 1 ], +colArray[ 2 ], +colArray[ 3 ] );
+			} else if ( color.slice( 0, 3 ) === "hsl" ) {
+				color = color.replace( "hsl", "" );
+				color = color.replace( "(", "" );
+				color = color.replace( ")", "" );
+				colArray = color.split( "," );
+				this.parseHsl( +colArray[ 0 ], +colArray[ 1 ], +colArray[ 2 ] );
+			} else {
+				this.parseHex( color );
+			}
+
+			return this;
+		}
+
+		/**
+		* Parse hexadecimal colors from strings
+		* @method parseHex
+		* @param color {string} A hexadecimal color such as "ffffff" (no alpha)
+		*	or "ffffffff" (with alpha). Also supports "fff" and "ffff"
+		*	with 4-bit channels.
+		* @return {Kiwi.Utils.Color} This object with the new color set
+		* @public
+		*/
+		public parseHex( color: string ): Kiwi.Utils.Color {
 			var bigint,
 				r = this.r255,
 				g = this.g255,
 				b = this.b255,
 				a = this.a255;
 
+			// Strip leading signifiers
 			if ( color.charAt( 0 ) === "#" ) {
 				color = color.slice( 1 );
 			}
@@ -510,7 +565,7 @@ module Kiwi.Utils {
 		* @return string
 		* @public
 		*/
-		public getHex( alpha: boolean = true ) {
+		public getHex( alpha: boolean = true ): string {
 			var subStr,
 				str = "";
 
@@ -557,7 +612,8 @@ module Kiwi.Utils {
 		* @return {Kiwi.Utils.Color} This object with the new color set
 		* @public
 		*/
-		public parseHsv( h: number, s: number, v: number, a: number = 1 ) {
+		public parseHsv( h: number, s: number, v: number, a: number = 1 ):
+				Kiwi.Utils.Color {
 			var r, g, b, i, f, p, q, t;
 
 			if ( isNaN( h ) || isNaN( s ) || isNaN( v ) || isNaN( a ) ) {
@@ -728,7 +784,8 @@ module Kiwi.Utils {
 		* @return {Kiwi.Utils.Color} This object with the new color set
 		* @public
 		*/
-		public parseHsl( h: number, s: number, l: number, a: number = 1 ) {
+		public parseHsl( h: number, s: number, l: number, a: number = 1 ):
+				Kiwi.Utils.Color {
 			var q, p,
 				r = this._r,
 				g = this._g,
