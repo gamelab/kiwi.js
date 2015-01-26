@@ -95,6 +95,7 @@ KiwiLoadingScreen.prototype.preload = function() {
 
 	//Information about the files we need to load
 	this.loadingData = {toLoad: 0, loaded: 0};
+	this.filesToLoad = ['loadingGraphic', 'loadingJSON'];
 	this.percentLoaded = 0;
 }
 
@@ -114,35 +115,44 @@ KiwiLoadingScreen.prototype.loadProgress = function (percent, bytesLoaded, file)
 		this.finishLoading();
 	}
 
-
 	if(file == null || file == undefined) return;
 
-	if(file.key === 'loadingJSON') {
-		//Add to the Library
-		this.game.states.rebuildLibraries();
+	if( this.filesToLoad.length > 0 ) {
+		
+		var index = this.filesToLoad.indexOf( file.key );
+
+		if( index !== -1 ) {
+			this.filesToLoad.splice( index, 1 );
+		}
+
+		if( this.filesToLoad.length == 0) {
+			//Add to the Library
+			this.game.states.rebuildLibraries();
 
 
-        //Create the StaticImage
-		this.html5Logo = new Kiwi.GameObjects.StaticImage(this, this.textures['loadingGraphic'], this.game.stage.width / 2, this.game.stage.height / 2);
-		this.html5Logo.cellIndex = 0;
-		this.html5Logo.scaleX = this.scaled;
-		this.html5Logo.scaleY = this.scaled;
-		this.html5Logo.x -= this.html5Logo.box.bounds.width / 2;
-		this.html5Logo.y -= this.html5Logo.box.bounds.height / 2;
-		this.html5Logo.alpha = 0;
-		this.html5Logo.rotPointX = 0;
-		this.html5Logo.rotPointY = 0;
-		this.addChild(this.html5Logo);
+	        //Create the StaticImage
+			this.html5Logo = new Kiwi.GameObjects.StaticImage(this, this.textures['loadingGraphic'], this.game.stage.width / 2, this.game.stage.height / 2);
+			this.html5Logo.cellIndex = 0;
+			this.html5Logo.scaleX = this.scaled;
+			this.html5Logo.scaleY = this.scaled;
+			this.html5Logo.x -= this.html5Logo.box.bounds.width / 2;
+			this.html5Logo.y -= this.html5Logo.box.bounds.height / 2;
+			this.html5Logo.alpha = 0;
+			this.html5Logo.rotPointX = 0;
+			this.html5Logo.rotPointY = 0;
+			this.addChild(this.html5Logo);
 
-		//Tween
-		this.loadingTween = this.game.tweens.create(this.html5Logo);
-		this.loadingTween.onComplete(this.fadeInHTML5, this);
-		this.loadingTween.to({ alpha: 1 }, 500, Kiwi.Animations.Tweens.Easing.Linear.None);
-        this.loadingTween._onCompleteCalled = false;
-	    this.loadingTween.start();
+			//Tween
+			this.loadingTween = this.game.tweens.create(this.html5Logo);
+			this.loadingTween.onComplete(this.fadeInHTML5, this);
+			this.loadingTween.to({ alpha: 1 }, 500, Kiwi.Animations.Tweens.Easing.Linear.None);
+	        this.loadingTween._onCompleteCalled = false;
+		    this.loadingTween.start();
 
-	    //Don't need to do anything else
-	    return;
+		    //Don't need to do anything else
+		    return;
+		}
+
 	}
 
 	if(this.currentSplashState <= 1 && this.loadingData.loaded == this.loadingData.toLoad) {

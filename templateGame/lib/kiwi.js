@@ -10408,6 +10408,38 @@ var Kiwi;
                 return file;
             };
             /**
+            * Flags this loader for garbage collection. Only use this method if you are SURE you will no longer need it.
+            * Otherwise it is best to leave it alone.
+            *
+            * @method destroy
+            * @public
+            */
+            Loader.prototype.destroy = function () {
+                this.onQueueComplete.dispose();
+                this.onQueueProgress.dispose();
+                delete this.game;
+                delete this.onQueueComplete;
+                delete this.onQueueProgress;
+                var i = 0;
+                while (i < this._loadingList.length) {
+                    this._loadingList[i].destroy();
+                    i++;
+                }
+                this._loadingList = [];
+                var i = 0;
+                while (i < this._loadingQueue.length) {
+                    this._loadingQueue[i].destroy();
+                    i++;
+                }
+                this._loadingQueue = [];
+                var i = 0;
+                while (i < this._loadingParallel.length) {
+                    this._loadingParallel[i].destroy();
+                    i++;
+                }
+                this._loadingParallel = [];
+            };
+            /**
             * -----------------------
             * Deprecated - Functionality exists. Maps to its equalvent
             * -----------------------
@@ -10491,38 +10523,6 @@ var Kiwi;
             */
             Loader.prototype.getBytesLoaded = function () {
                 return this.bytesLoaded;
-            };
-            /**
-            * Flags this loader for garbage collection. Only use this method if you are SURE you will no longer need it.
-            * Otherwise it is best to leave it alone.
-            *
-            * @method destroy
-            * @public
-            */
-            Loader.prototype.destroy = function () {
-                this.onQueueComplete.dispose();
-                this.onQueueProgress.dispose();
-                delete this.game;
-                delete this.onQueueComplete;
-                delete this.onQueueProgress;
-                var i = 0;
-                while (i < this._loadingList.length) {
-                    this._loadingList[i].destroy();
-                    i++;
-                }
-                this._loadingList = [];
-                var i = 0;
-                while (i < this._loadingQueue.length) {
-                    this._loadingQueue[i].destroy();
-                    i++;
-                }
-                this._loadingQueue = [];
-                var i = 0;
-                while (i < this._loadingParallel.length) {
-                    this._loadingParallel[i].destroy();
-                    i++;
-                }
-                this._loadingParallel = [];
             };
             return Loader;
         })();

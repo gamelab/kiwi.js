@@ -6960,6 +6960,14 @@ declare module Kiwi.Files {
         */
         addTextFile(key: string, url: string, storeAsGlobal?: boolean): DataFile;
         /**
+        * Flags this loader for garbage collection. Only use this method if you are SURE you will no longer need it.
+        * Otherwise it is best to leave it alone.
+        *
+        * @method destroy
+        * @public
+        */
+        destroy(): void;
+        /**
         * -----------------------
         * Deprecated - Functionality exists. Maps to its equalvent
         * -----------------------
@@ -7018,14 +7026,6 @@ declare module Kiwi.Files {
         * @public
         */
         getBytesLoaded(): number;
-        /**
-        * Flags this loader for garbage collection. Only use this method if you are SURE you will no longer need it.
-        * Otherwise it is best to leave it alone.
-        *
-        * @method destroy
-        * @public
-        */
-        destroy(): void;
     }
 }
 /**
