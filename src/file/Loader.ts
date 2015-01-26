@@ -433,7 +433,6 @@ module Kiwi.Files {
             //Calculate the percentage depending on how accurate we can be.
             if (this._calculateBytes) {
                 this.percentLoaded = (this._bytesLoaded / this._bytesTotal) * 100;
-                this.percentLoaded = (this._bytesLoaded / this._bytesTotal) * 100;
             } else {
                 this.percentLoaded = (this._completedFiles / this._loadingList.length) * 100;
             }
