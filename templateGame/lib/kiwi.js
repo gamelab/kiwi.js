@@ -33591,7 +33591,7 @@ var Kiwi;
                     this.data.crossOrigin = this.crossOrigin;
                 }
                 this.data.onload = function () { return _this.loadSuccess(); };
-                this.data.onerror = function () { return _this.loadError(event); };
+                this.data.onerror = function (event) { return _this.loadError(event); };
             };
             /**
             * Gets the response data (which is an arraybuffer), creates a Blob from it

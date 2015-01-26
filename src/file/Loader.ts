@@ -1251,6 +1251,47 @@ module Kiwi.Files {
 
         }
 
+        /**
+        * Flags this loader for garbage collection. Only use this method if you are SURE you will no longer need it. 
+        * Otherwise it is best to leave it alone.
+        * 
+        * @method destroy
+        * @public
+        */
+        public destroy() {
+
+            this.onQueueComplete.dispose();
+            this.onQueueProgress.dispose();
+
+            delete this.game;
+
+            delete this.onQueueComplete;
+            delete this.onQueueProgress;
+
+            var i = 0;
+            while (i < this._loadingList.length) {
+                this._loadingList[i].destroy();
+                i++;
+            }
+            this._loadingList = [];
+
+            var i = 0;
+            while (i < this._loadingQueue.length) {
+                this._loadingQueue[i].destroy();
+                i++;
+            }
+            this._loadingQueue = [];
+
+            var i = 0;
+            while (i < this._loadingParallel.length) {
+                this._loadingParallel[i].destroy();
+                i++;
+            }
+            this._loadingParallel = [];
+
+
+        }
+
         
         /**
         * -----------------------
@@ -1348,47 +1389,6 @@ module Kiwi.Files {
         public getBytesLoaded(): number {
 
             return this.bytesLoaded;
-        }
-
-        /**
-        * Flags this loader for garbage collection. Only use this method if you are SURE you will no longer need it. 
-        * Otherwise it is best to leave it alone.
-        * 
-        * @method destroy
-        * @public
-        */
-        public destroy() {
-
-            this.onQueueComplete.dispose();
-            this.onQueueProgress.dispose();
-
-            delete this.game;
-
-            delete this.onQueueComplete;
-            delete this.onQueueProgress;
-
-            var i = 0;
-            while (i < this._loadingList.length) {
-                this._loadingList[i].destroy();
-                i++;
-            }
-            this._loadingList = [];
-
-            var i = 0;
-            while (i < this._loadingQueue.length) {
-                this._loadingQueue[i].destroy();
-                i++;
-            }
-            this._loadingQueue = [];
-
-            var i = 0;
-            while (i < this._loadingParallel.length) {
-                this._loadingParallel[i].destroy();
-                i++;
-            }
-            this._loadingParallel = [];
-            
-
         }
 
     }

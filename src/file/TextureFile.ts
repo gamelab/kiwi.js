@@ -103,7 +103,7 @@ module Kiwi.Files {
             }
 
             this.data.onload = () => this.loadSuccess();
-            this.data.onerror = () => this.loadError(event);
+            this.data.onerror = (event) => this.loadError(event);
 
         }
 
