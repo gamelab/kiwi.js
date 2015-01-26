@@ -22,24 +22,24 @@ module Kiwi.Utils {
          
         constructor (width: number, height: number, visible: boolean = true, offScreen: boolean = false) {
 
-          
-
-            this.domElement = <HTMLCanvasElement> document.createElement('canvas');
+            this.domElement = <HTMLCanvasElement> document.createElement("canvas");
             this.domElement.width = width;
             this.domElement.height = height;
 
             this._width = width;
             this._height = height;
 
-            this.context = this.domElement.getContext('2d');
+            this.context = this.domElement.getContext("2d");
 
             this._offScreen = offScreen;
             this._visible = visible;
 
             if (visible === false)
             {
-                this.domElement.style.display = 'none';
+                this.domElement.style.display = "none";
             }
+
+            this._bgColor = new Kiwi.Utils.Color( 0, 0, 0 );
 
         }
 
@@ -183,12 +183,32 @@ module Kiwi.Utils {
 
         /**
         * The background color to use clearing the canvas using a filled rectangle approach.
+        * You may set this with any valid Kiwi.Utils.Color parameter.
+        * If you set with multiple parameters, place them inside an array.
         * @property bgColor
         * @type String
-        * @default 'rgb(0,0,0)'
+        * @default "#000000"
         * @public
         */
-        public bgColor = 'rgb(0, 0, 0)';
+        public get bgColor(): any {
+            return "#" + this._bgColor.getHex();
+        }
+
+        public set bgColor( value: any ) {
+            if ( !Kiwi.Utils.Common.isArray( value ) ) {
+                value = [ value ];
+            }
+            this._bgColor.set.apply( this._bgColor, value );
+        }
+
+        /**
+        * Background color object.
+        * @property _bgColor
+        * @type Kiwi.Utils.Color
+        * @private
+        * @since 1.2.0
+        */
+        private _bgColor: Kiwi.Utils.Color;
 
         /**
         * Updates the width/height on the canvas DOM element when either one of its sizes are updated.
@@ -211,7 +231,7 @@ module Kiwi.Utils {
 
             if (this._offScreen === false)
             {
-                this.domElement.style.display = 'none';
+                this.domElement.style.display = "none";
               
             }
 
@@ -232,12 +252,12 @@ module Kiwi.Utils {
 
                 if (value === true)
                 {
-                    this.domElement.style.display = 'block';
+                    this.domElement.style.display = "block";
 
                 }
                 else
                 {
-                    this.domElement.style.display = 'none';
+                    this.domElement.style.display = "none";
                 }
             }
 
@@ -276,25 +296,18 @@ module Kiwi.Utils {
 		*/
         public clear() {
             
-		    if (this._clearMode === Canvas.CLEARMODE_NONE)
-		    {
+		    if (this._clearMode === Canvas.CLEARMODE_NONE) {
                 //  Do nothing
-		    }
-		    else if (this._clearMode === Canvas.CLEARMODE_CLEARRECT)
-		    {
+		    } else if (this._clearMode === Canvas.CLEARMODE_CLEARRECT) {
                 //  Clear Rect
 			    this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
 			    
-		    }
-		    else if (this._clearMode === Canvas.CLEARMODE_FILLRECT)
-		    {
+		    } else if (this._clearMode === Canvas.CLEARMODE_FILLRECT) {
                 //  Fill Rect Solid
 			    this.context.fillStyle = this.bgColor;
 			    this.context.fillRect(0, 0, this.domElement.width, this.domElement.height);
                 
-		    }
-		    else if (this._clearMode === Canvas.CLEARMODE_FILLRECT_ALPHA)
-		    {
+		    } else if (this._clearMode === Canvas.CLEARMODE_FILLRECT_ALPHA) {
                 //  Clear Rect + Fill Rect (only use if bgColor contains alpha < 255)
 			    this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
 			    this.context.fillStyle = this.bgColor;
@@ -323,7 +336,7 @@ module Kiwi.Utils {
 	    */
 	    public toString():string {
 		
-		    return '[{Canvas (width=' + this.width + ' height=' + this.height + ' visible=' + this.visible + ' offScreen=' + this._offScreen + ' clearMode=' + this.clearMode + ')}]';
+		    return "[{Canvas (width=" + this.width + " height=" + this.height + " visible=" + this.visible + " offScreen=" + this._offScreen + " clearMode=" + this.clearMode + ")}]";
 
 	    }
 

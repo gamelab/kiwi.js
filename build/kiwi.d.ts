@@ -20410,12 +20410,22 @@ declare module Kiwi.Utils {
         static CLEARMODE_FILLRECT_ALPHA: number;
         /**
         * The background color to use clearing the canvas using a filled rectangle approach.
+        * You may set this with any valid Kiwi.Utils.Color parameter.
+        * If you set with multiple parameters, place them inside an array.
         * @property bgColor
         * @type String
-        * @default 'rgb(0,0,0)'
+        * @default "#000000"
         * @public
         */
-        bgColor: string;
+        bgColor: any;
+        /**
+        * Background color object.
+        * @property _bgColor
+        * @type Kiwi.Utils.Color
+        * @private
+        * @since 1.2.0
+        */
+        private _bgColor;
         /**
         * Updates the width/height on the canvas DOM element when either one of its sizes are updated.
         * @method _updatedSize

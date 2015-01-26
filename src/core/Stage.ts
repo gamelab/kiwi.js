@@ -388,7 +388,7 @@ module Kiwi {
             if ( !Kiwi.Utils.Common.isArray( val ) ) {
                 val = [ val ];
             }
-            this._color.parseString.apply( this._color, val );
+            this._color.set.apply( this._color, val );
         }
 
         /**
