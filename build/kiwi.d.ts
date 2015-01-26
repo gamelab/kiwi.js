@@ -534,21 +534,25 @@ declare module Kiwi {
         */
         _color: Kiwi.Utils.Color;
         /**
-        * Sets the background color of the stage via a hex value.
+        * Sets the background color of the stage.
         *
-        * The hex colour code should not contain a hashtag "#".
+        * This can be any valid parameter for Kiwi.Utils.Color.
+        * If passing multiple parameters, do so in a single array.
         *
         * The default value is "ffffff" or pure white.
         *
-        * The hex value can optionally contain an alpha term, which defaults to full ("ff", "255" or "1.0" depending on context). For example, both "ff0000" and "ff0000ff" will evaluate to an opaque red.
-        *
-        * Note for users of CocoonJS: When using the WebGL renderer, the stage color will fill all parts of the screen outside the canvas. Kiwi.js will automatically set the color to "000000" or pure black when using CocoonJS. If you change it, and your game does not fill the entire screen, the empty portions of the screen will also change color.
+        * Note for users of CocoonJS: When using the WebGL renderer,
+        * the stage color will fill all parts of the screen outside the canvas.
+        * Kiwi.js will automatically set the color to "000000" or pure black
+        * when using CocoonJS. If you change it, and your game does not fill
+        * the entire screen, the empty portions of the screen will also change
+        * color.
         *
         * @property color
         * @type string
         * @public
         */
-        color: string;
+        color: any;
         /**
         * Allows the setting of the background color of the stage through component RGB colour values.
         *
@@ -709,16 +713,6 @@ declare module Kiwi {
         * @public
         */
         setRGBColor(r: number, g: number, b: number): any;
-        /**
-        * Sets the background color of the stage.
-        * Uses Kiwi.Utils.Color for maximum flexibility.
-        * @method setColor
-        * @param [...args]
-        * @return this._color;
-        * @public
-        * @since 1.2.0
-        */
-        setColor(...args: any[]): void;
         /**
         * Creates a debug canvas and adds it above the regular game canvas.
         * The debug canvas is not created by default (even with debugging on) and rendering/clearing of the canvas is upto the developer.
@@ -20483,22 +20477,26 @@ declare module Kiwi.Utils {
     * Color objects hold color and alpha values, and can get or set them
     * in a variety of ways.
     * <br><br>
-    * Construct this object as follows.
+    * Construct this object in one of the following ways.
     * <br><br>
-    * Pass 3 or 4 numbers to determine RGB or RGBA. If the numbers are in
+    * - Pass 3 or 4 numbers to determine RGB or RGBA. If the numbers are in
     * the range 0-1, they will be parsed as normalized numbers.
     * If they are in the range 1-255, they will be parsed as 8-bit channels.
     * <br><br>
-    * Pass 3 or 4 numbers followed by the string "hsv" or "hsl"
+    * - Pass 3 or 4 numbers followed by the string "hsv" or "hsl"
     * (lowercase) to parse HSV or HSL color space (with optional alpha).
     * HSV and HSL colors may be specified as normalized parameters (0-1),
     * or as an angle (0-360) and two percentages (0-100).
     * <br><br>
-    * Pass a string containing a hexadecimal color with or without alpha
+    * - Pass a string containing a hexadecimal color with or without alpha
     * (such as "ff8040ff" or "4080ff"). You may prepend "#" or "0x", but
     * they are not necessary and will be stripped.
     * <br><br>
-    * Pass 1 number to set a grayscale value, or 2 numbers to set grayscale
+    * - Pass a string containing a CSS color function, such as
+    * "rgb(255,255,255)", "rgba( 192, 127, 64, 32 )",
+    * "hsl(180, 100, 100)", or "hsla(360, 50, 50, 50)".
+    * <br><br>
+    * - Pass 1 number to set a grayscale value, or 2 numbers to set grayscale
     * with alpha. These are interpreted as with RGB values.
     * <br><br>
     * The color object stores its internal values as normalized RGBA channels.
@@ -20708,14 +20706,23 @@ declare module Kiwi.Utils {
         */
         alpha: number;
         /**
-        * Parse hexadecimal colors from strings
-        * @method parseHex
-        * @param color {string} A hexadecimal color such as "ffffff" (no alpha)
-        *	or "ffffffff" (with alpha). Also supports
+        * Parse colors from strings
+        * @method parseString
+        * @param color {string} A CSS color specification
         * @return {Kiwi.Utils.Color} This object with the new color set
         * @public
         */
-        parseHex(color: string): Color;
+        parseString(color: string): Kiwi.Utils.Color;
+        /**
+        * Parse hexadecimal colors from strings
+        * @method parseHex
+        * @param color {string} A hexadecimal color such as "ffffff" (no alpha)
+        *	or "ffffffff" (with alpha). Also supports "fff" and "ffff"
+        *	with 4-bit channels.
+        * @return {Kiwi.Utils.Color} This object with the new color set
+        * @public
+        */
+        parseHex(color: string): Kiwi.Utils.Color;
         /**
         * Returns color as a hexadecimal string
         * @method getHex
@@ -20738,7 +20745,7 @@ declare module Kiwi.Utils {
         * @return {Kiwi.Utils.Color} This object with the new color set
         * @public
         */
-        parseHsv(h: number, s: number, v: number, a?: number): Color;
+        parseHsv(h: number, s: number, v: number, a?: number): Kiwi.Utils.Color;
         /**
         * Returns HSV value of the Color.
         * Based on algorithms at
@@ -20770,7 +20777,7 @@ declare module Kiwi.Utils {
         * @return {Kiwi.Utils.Color} This object with the new color set
         * @public
         */
-        parseHsl(h: number, s: number, l: number, a?: number): Color;
+        parseHsl(h: number, s: number, l: number, a?: number): Kiwi.Utils.Color;
         /**
         * Method used for computing HSL values.
         * Based on algorithms at

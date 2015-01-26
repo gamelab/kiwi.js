@@ -362,26 +362,33 @@ module Kiwi {
         public _color: Kiwi.Utils.Color = new Kiwi.Utils.Color();
         
         /**
-        * Sets the background color of the stage via a hex value.
+        * Sets the background color of the stage.
         *
-        * The hex colour code should not contain a hashtag "#".
+        * This can be any valid parameter for Kiwi.Utils.Color.
+        * If passing multiple parameters, do so in a single array.
         *
         * The default value is "ffffff" or pure white.
         *
-        * The hex value can optionally contain an alpha term, which defaults to full ("ff", "255" or "1.0" depending on context). For example, both "ff0000" and "ff0000ff" will evaluate to an opaque red.
-        *
-        * Note for users of CocoonJS: When using the WebGL renderer, the stage color will fill all parts of the screen outside the canvas. Kiwi.js will automatically set the color to "000000" or pure black when using CocoonJS. If you change it, and your game does not fill the entire screen, the empty portions of the screen will also change color.
+        * Note for users of CocoonJS: When using the WebGL renderer,
+        * the stage color will fill all parts of the screen outside the canvas.
+        * Kiwi.js will automatically set the color to "000000" or pure black
+        * when using CocoonJS. If you change it, and your game does not fill
+        * the entire screen, the empty portions of the screen will also change
+        * color.
         *
         * @property color
         * @type string
         * @public
         */
-        public get color(): string {
+        public get color(): any {
             return this._color.getHex();
         }
 
-        public set color(val: string) {
-            this._color.parseHex( val );
+        public set color( val: any ) {
+            if ( !Kiwi.Utils.Common.isArray( val ) ) {
+                val = [ val ];
+            }
+            this._color.parseString.apply( this._color, val );
         }
 
         /**
@@ -722,19 +729,6 @@ module Kiwi {
         public setRGBColor(r: number, g: number, b: number):any {
             this.rgbColor = { r: r, g: g, b: b };
             return this.rgbColor;
-        }
-
-        /**
-        * Sets the background color of the stage.
-        * Uses Kiwi.Utils.Color for maximum flexibility.
-        * @method setColor
-        * @param [...args]
-        * @return this._color;
-        * @public
-        * @since 1.2.0
-        */
-        public setColor( ...args ) {
-            this._color.set.apply( this._color, args );
         }
 
 
