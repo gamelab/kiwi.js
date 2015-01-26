@@ -91,6 +91,10 @@
             
                 <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
             
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
             
                 <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
@@ -99,6 +103,8 @@
             
                 <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
             
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
             
                 <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
@@ -106,6 +112,8 @@
                 <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
             
@@ -257,9 +265,13 @@
             
                 <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
             
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
                 <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
             
@@ -308,6 +320,8 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -668,6 +682,13 @@
                             </li>
                         
                             <li class="index-item method public">
+                                <a href="#method_transformPointToScreen">transformPointToScreen</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_update">update</a>
 
                                 
@@ -999,7 +1020,7 @@
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l197"><code>src\core\Camera.ts:197</code></a>
+        <a href="../files/src_core_Camera.ts.html#l218"><code>src\core\Camera.ts:218</code></a>
         
         </p>
 
@@ -1081,9 +1102,121 @@
     </div>
 
     <div class="description">
-        <p>Apply this cameras inverted matrix to a an object with x and y properties representing a point and return the transformed point.
+        <p>Convert from screen coordinates to world coordinates.
+Apply this camera&#39;s inverted matrix to an object with x and y
+properties representing a point and return the transformed point.
 Useful for when calculating if coordinates with the mouse.
-Note: This method clones the point you pass, so that is doesn&#39;t &quot;reset&quot; any properties you set.</p>
+Note: This method clones the point you pass,
+so that it doesn&#39;t &quot;reset&quot; any properties you set.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">point</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_transformPointToScreen" class="method item public">
+    <h3 class="name"><code>transformPointToScreen</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>point</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Camera.ts.html#l191"><code>src\core\Camera.ts:191</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Convert from world coordinates to screen coordinates.
+Useful for assessing visibility.</p>
 
     </div>
 
@@ -1164,7 +1297,7 @@ Note: This method clones the point you pass, so that is doesn&#39;t &quot;reset&
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l188"><code>src\core\Camera.ts:188</code></a>
+        <a href="../files/src_core_Camera.ts.html#l209"><code>src\core\Camera.ts:209</code></a>
         
         </p>
 

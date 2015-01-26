@@ -91,6 +91,10 @@
             
                 <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
             
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
             
                 <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
@@ -99,6 +103,8 @@
             
                 <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
             
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
             
                 <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
@@ -106,6 +112,8 @@
                 <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
             
@@ -257,9 +265,13 @@
             
                 <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
             
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
                 <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
             
@@ -308,6 +320,8 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -680,6 +694,20 @@
                         
                             <li class="index-item property public">
                                 <a href="#property_point">point</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_pressed">pressed</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_released">released</a>
 
                                 
                                 
@@ -1164,7 +1192,7 @@
             
         
         
-        <a href="../files/src_input_Pointer.ts.html#l352"><code>src\input\Pointer.ts:352</code></a>
+        <a href="../files/src_input_Pointer.ts.html#l380"><code>src\input\Pointer.ts:380</code></a>
         
         </p>
 
@@ -1402,7 +1430,7 @@ From the event passed the coordinates are calculated.</p>
             
         
         
-        <a href="../files/src_input_Pointer.ts.html#l366"><code>src\input\Pointer.ts:366</code></a>
+        <a href="../files/src_input_Pointer.ts.html#l394"><code>src\input\Pointer.ts:394</code></a>
         
         </p>
 
@@ -2194,6 +2222,102 @@ From the event passed the coordinates are calculated.</p>
 
     <div class="description">
         <p>The point that this pointer is at. Same coordinates as X/Y properties.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_pressed" class="property item public">
+    <h3 class="name"><code>pressed</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Pointer.ts.html#l352"><code>src\input\Pointer.ts:352</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>READ ONLY: Indicates if this pointer was pressed on the last frame or not. 
+This is only true on the frame that the point was &#39;justPressed&#39; and is not a constant like &#39;isDown&#39;</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_released" class="property item public">
+    <h3 class="name"><code>released</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Pointer.ts.html#l366"><code>src\input\Pointer.ts:366</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>READ ONLY: Indicates if this pointer was released on the last frame or not. 
+This is only true on the frame that the point was &#39;justReleased&#39; and is not a constant like &#39;isUp&#39;</p>
 
     </div>
 

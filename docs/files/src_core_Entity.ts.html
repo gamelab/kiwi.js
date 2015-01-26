@@ -91,6 +91,10 @@
             
                 <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
             
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
             
                 <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
@@ -99,6 +103,8 @@
             
                 <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
             
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
             
                 <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
@@ -106,6 +112,8 @@
                 <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
             
@@ -257,9 +265,13 @@
             
                 <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
             
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
                 <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
             
@@ -308,6 +320,8 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -735,7 +749,7 @@ module Kiwi {
 
                 } else {
 
-                    if (this.game.debug) console.error(&#x27;Could not the set the cellIndex of a Entity, to cell that does not exist on its TextureAtlas.&#x27;);
+                    Kiwi.Log.error(&#x27;Could not the set the cellIndex of a Entity, to cell that does not exist on its TextureAtlas.&#x27;, &#x27;#entity&#x27;, &quot;#cellIndex&quot;);
 
                 }
             }
@@ -816,17 +830,17 @@ module Kiwi {
         /**
         * Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
         * You can pass multiple strings to add multiple tags.
-        * @method addTags
+        * @method addTag
         * @param tag {string} The tag that you would like to add to this Entity.
         * @since 1.1.0
         * @public
         */
-        public addTag() {
+        public addTag(...args: any[]) {
 
             //Loop through the arguments
-            for (var i = 0; i &lt; arguments.length; i++) {
-                if (this._tags.indexOf(arguments[i]) == -1) {
-                    this._tags.push(arguments[i]);
+            for (var i = 0; i &lt; args.length; i++) {
+                if (this._tags.indexOf(args[i]) == -1) {
+                    this._tags.push(args[i]);
                 }
             }
             
@@ -839,10 +853,10 @@ module Kiwi {
         * @since 1.1.0
         * @public
         */
-        public removeTag() {
+        public removeTag(...args: any[]) {
 
-            for (var i = 0; i &lt; arguments.length; i++) {
-                var index = this._tags.indexOf(arguments[i]);
+            for (var i = 0; i &lt; args.length; i++) {
+                var index = this._tags.indexOf(args[i]);
                 if (index !== -1) this._tags.splice(index, 1);
             }
 

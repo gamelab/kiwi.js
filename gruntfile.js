@@ -73,6 +73,11 @@ module.exports = function(grunt) {
         dest: 'docs/assets/css/logo.png'
       },
 
+      docfavicon: {
+        src: 'docstyles/favicon.png',
+        dest: 'docs/assets/favicon.png'
+      },
+
       docstyles: {
         src: 'docstyles/main.css',
         dest: 'docs/assets/css/main.css'
@@ -87,7 +92,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask("default", ["ts:build", "tslint", "concat:build", "uglify:build", "copy:templateGame"]);
   grunt.registerTask("full", ["ts:build", "concat:build", "uglify:build", "yuidoc:compile", "copy:templateGame", "copy:doclogo", "copy:docstyles"]);
-  grunt.registerTask("docs", ["yuidoc:compile", "copy:doclogo", "copy:docstyles"]);
+  grunt.registerTask("docs", ["yuidoc:compile", "copy:doclogo", "copy:docstyles", "copy:docfavicon"]);
   grunt.registerTask("join", ["concat:build"]);
 
 };

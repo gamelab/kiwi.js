@@ -91,6 +91,10 @@
             
                 <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
             
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
             
                 <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
@@ -99,6 +103,8 @@
             
                 <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
             
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
             
                 <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
@@ -106,6 +112,8 @@
                 <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
             
@@ -257,9 +265,13 @@
             
                 <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
             
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
                 <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
             
@@ -308,6 +320,8 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -544,6 +558,13 @@ Released under the MIT license
                             </li>
                         
                             <li class="index-item method public">
+                                <a href="#method_remove">remove</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_removeAll">removeAll</a>
 
                                 
@@ -583,6 +604,13 @@ Released under the MIT license
                         
                             <li class="index-item property private">
                                 <a href="#property__prevParams">_prevParams</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__shouldPropagate">_shouldPropagate</a>
 
                                 
                                 
@@ -669,7 +697,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l149"><code>src\core\Signal.ts:149</code></a>
+        <a href="../files/src_core_Signal.ts.html#l150"><code>src\core\Signal.ts:150</code></a>
         
         </p>
 
@@ -769,7 +797,7 @@ Released under the MIT license
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l168"><code>src\core\Signal.ts:168</code></a>
+        <a href="../files/src_core_Signal.ts.html#l169"><code>src\core\Signal.ts:169</code></a>
         
         </p>
 
@@ -913,7 +941,7 @@ If none match then this method returns -1.</p>
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l107"><code>src\core\Signal.ts:107</code></a>
+        <a href="../files/src_core_Signal.ts.html#l108"><code>src\core\Signal.ts:108</code></a>
         
         </p>
 
@@ -1083,7 +1111,7 @@ Creates a new SignalBinding for the Signal and then adds the binding to the list
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l213"><code>src\core\Signal.ts:213</code></a>
+        <a href="../files/src_core_Signal.ts.html#l214"><code>src\core\Signal.ts:214</code></a>
         
         </p>
 
@@ -1239,7 +1267,7 @@ The listener attached will be executed whenever this Signal dispatches an event.
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l232"><code>src\core\Signal.ts:232</code></a>
+        <a href="../files/src_core_Signal.ts.html#l233"><code>src\core\Signal.ts:233</code></a>
         
         </p>
 
@@ -1378,7 +1406,7 @@ The listener attached will be executed whenever this Signal dispatches an event.
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l332"><code>src\core\Signal.ts:332</code></a>
+        <a href="../files/src_core_Signal.ts.html#l333"><code>src\core\Signal.ts:333</code></a>
         
         </p>
 
@@ -1463,7 +1491,7 @@ Parameters passed to this method will also be passed to each handler.</p>
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l384"><code>src\core\Signal.ts:384</code></a>
+        <a href="../files/src_core_Signal.ts.html#l385"><code>src\core\Signal.ts:385</code></a>
         
         </p>
 
@@ -1521,7 +1549,7 @@ Note: calling any method on the signal instance after calling dispose will throw
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l373"><code>src\core\Signal.ts:373</code></a>
+        <a href="../files/src_core_Signal.ts.html#l374"><code>src\core\Signal.ts:374</code></a>
         
         </p>
 
@@ -1582,7 +1610,7 @@ Note: calling any method on the signal instance after calling dispose will throw
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l293"><code>src\core\Signal.ts:293</code></a>
+        <a href="../files/src_core_Signal.ts.html#l294"><code>src\core\Signal.ts:294</code></a>
         
         </p>
 
@@ -1653,7 +1681,7 @@ Note: calling any method on the signal instance after calling dispose will throw
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l306"><code>src\core\Signal.ts:306</code></a>
+        <a href="../files/src_core_Signal.ts.html#l307"><code>src\core\Signal.ts:307</code></a>
         
         </p>
 
@@ -1731,7 +1759,7 @@ Note: should be called only during signal dispatch, calling it before/after disp
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l197"><code>src\core\Signal.ts:197</code></a>
+        <a href="../files/src_core_Signal.ts.html#l198"><code>src\core\Signal.ts:198</code></a>
         
         </p>
 
@@ -1848,7 +1876,7 @@ has already been attached to this Signal.</p>
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l78"><code>src\core\Signal.ts:78</code></a>
+        <a href="../files/src_core_Signal.ts.html#l79"><code>src\core\Signal.ts:79</code></a>
         
         </p>
 
@@ -1875,6 +1903,138 @@ has already been attached to this Signal.</p>
                         <span class="type">String</span>:
                     
                     <p>&quot;Signal&quot;</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_remove" class="method item public">
+    <h3 class="name"><code>remove</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>listener</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[context=null]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Function</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Signal.ts.html#l251"><code>src\core\Signal.ts:251</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Remove a single listener from the dispatch queue.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">listener</code>
+                        <span class="type">Function</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Handler function that should be removed.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[context=null]</code>
+                        <span class="type">Any</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Execution context (since you can add the same handler multiple times if executing in a different context).</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Function</span>:
+                    
+                    <p>Listener handler function.</p>
 
                 
             </div>
@@ -1919,7 +2079,7 @@ has already been attached to this Signal.</p>
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l275"><code>src\core\Signal.ts:275</code></a>
+        <a href="../files/src_core_Signal.ts.html#l276"><code>src\core\Signal.ts:276</code></a>
         
         </p>
 
@@ -1976,7 +2136,7 @@ has already been attached to this Signal.</p>
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l319"><code>src\core\Signal.ts:319</code></a>
+        <a href="../files/src_core_Signal.ts.html#l320"><code>src\core\Signal.ts:320</code></a>
         
         </p>
 
@@ -2050,7 +2210,7 @@ Note: should be called only during signal dispatch, calling it before/after disp
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l88"><code>src\core\Signal.ts:88</code></a>
+        <a href="../files/src_core_Signal.ts.html#l89"><code>src\core\Signal.ts:89</code></a>
         
         </p>
 
@@ -2216,6 +2376,55 @@ If a event listener is not valid, then a Error is thrown.</p>
 </div>
 
                 
+                    <div id="property__shouldPropagate" class="property item private">
+    <h3 class="name"><code>_shouldPropagate</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Signal.ts.html#l58"><code>src\core\Signal.ts:58</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the callbacks should propagate or not.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> true</p>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_active" class="property item public">
     <h3 class="name"><code>active</code></h3>
     <span class="type">Boolean</span>
@@ -2241,7 +2450,7 @@ If a event listener is not valid, then a Error is thrown.</p>
             
         
         
-        <a href="../files/src_core_Signal.ts.html#l66"><code>src\core\Signal.ts:66</code></a>
+        <a href="../files/src_core_Signal.ts.html#l67"><code>src\core\Signal.ts:67</code></a>
         
         </p>
 

@@ -91,6 +91,10 @@
             
                 <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
             
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
             
                 <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
@@ -99,6 +103,8 @@
             
                 <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
             
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
             
                 <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
@@ -106,6 +112,8 @@
                 <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
             
@@ -257,9 +265,13 @@
             
                 <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
             
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
                 <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
             
@@ -309,6 +321,8 @@
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
             
+                <li><a href="../modules/Utils..html">Utils.</a></li>
+            
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
             </ul>
@@ -350,6 +364,10 @@
 <div class="box meta">
     
 
+    
+        <div class="extends">
+            Extends <a href="../classes/Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a>
+        </div>
     
 
     
@@ -548,14 +566,7 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
-                        
-                            <li class="index-item method public">
-                                <a href="#method__collateVertexAttributeArrays">_collateVertexAttributeArrays</a>
-
-                                
-                                
-                            </li>
+                    <ul class="index-list methods extends">
                         
                             <li class="index-item method private">
                                 <a href="#method__generateIndices">_generateIndices</a>
@@ -565,6 +576,13 @@
                             </li>
                         
                             <li class="index-item method public">
+                                <a href="#method_addToBatch">addToBatch</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
                                 <a href="#method_clear">clear</a>
 
                                 
@@ -578,21 +596,21 @@
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
                                 <a href="#method_disable">disable</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
                                 <a href="#method_draw">draw</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
                                 <a href="#method_enable">enable</a>
 
                                 
@@ -606,14 +624,14 @@
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
                                 <a href="#method_updateStageResolution">updateStageResolution</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public inherited">
                                 <a href="#method_updateTextureSize">updateTextureSize</a>
 
                                 
@@ -628,7 +646,7 @@
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties">
+                    <ul class="index-list properties extends">
                         
                             <li class="index-item property private">
                                 <a href="#property__indexBuffer">_indexBuffer</a>
@@ -658,6 +676,34 @@
                                 
                             </li>
                         
+                            <li class="index-item property public inherited">
+                                <a href="#property_blendMode">blendMode</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_camMatrix">camMatrix</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_isBatchRenderer">isBatchRenderer</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_loaded">loaded</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property public">
                                 <a href="#property_RENDERER_ID">RENDERER_ID</a>
 
@@ -667,7 +713,14 @@
                                 
                             </li>
                         
-                            <li class="index-item property public">
+                            <li class="index-item property public inherited">
+                                <a href="#property_shaderManager">shaderManager</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
                                 <a href="#property_shaderPair">shaderPair</a>
 
                                 
@@ -688,8 +741,98 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method__collateVertexAttributeArrays" class="method item public">
-    <h3 class="name"><code>_collateVertexAttributeArrays</code></h3>
+                    <div id="method__generateIndices" class="method item private">
+    <h3 class="name"><code>_generateIndices</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>numQuads</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l146"><code>src\render\renderers\TextureAtlasRenderer.ts:146</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Generates quad indices</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">numQuads</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_addToBatch" class="method item public">
+    <h3 class="name"><code>addToBatch</code></h3>
 
     
         <div class="args">
@@ -744,7 +887,7 @@
             
         
         
-        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l194"><code>src\render\renderers\TextureAtlasRenderer.ts:194</code></a>
+        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l195"><code>src\render\renderers\TextureAtlasRenderer.ts:195</code></a>
         
         </p>
 
@@ -755,7 +898,7 @@
     </div>
 
     <div class="description">
-        <p>Collates all xy and uv coordinates into a buffer ready for upload to viceo memory</p>
+        <p>Collates all xy and uv coordinates into a buffer ready for upload to video memory</p>
 
     </div>
 
@@ -820,96 +963,6 @@
 </div>
 
                 
-                    <div id="method__generateIndices" class="method item private">
-    <h3 class="name"><code>_generateIndices</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>numQuads</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l145"><code>src\render\renderers\TextureAtlasRenderer.ts:145</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Generates quad indices</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">numQuads</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
                     <div id="method_clear" class="method item public">
     <h3 class="name"><code>clear</code></h3>
 
@@ -945,16 +998,16 @@
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="../classes/Kiwi.Renderers.Renderer.html#method_clear">
+                Kiwi.Renderers.Renderer
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
-        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l114"><code>src\render\renderers\TextureAtlasRenderer.ts:114</code></a>
+        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l115"><code>src\render\renderers\TextureAtlasRenderer.ts:115</code></a>
         
         </p>
 
@@ -1044,7 +1097,7 @@
             
         
         
-        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l229"><code>src\render\renderers\TextureAtlasRenderer.ts:229</code></a>
+        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l230"><code>src\render\renderers\TextureAtlasRenderer.ts:230</code></a>
         
         </p>
 
@@ -1125,16 +1178,16 @@
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="../classes/Kiwi.Renderers.Renderer.html#method_disable">
+                Kiwi.Renderers.Renderer
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
-        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l103"><code>src\render\renderers\TextureAtlasRenderer.ts:103</code></a>
+        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l104"><code>src\render\renderers\TextureAtlasRenderer.ts:104</code></a>
         
         </p>
 
@@ -1215,16 +1268,16 @@
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="../classes/Kiwi.Renderers.Renderer.html#method_draw">
+                Kiwi.Renderers.Renderer
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
-        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l125"><code>src\render\renderers\TextureAtlasRenderer.ts:125</code></a>
+        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l126"><code>src\render\renderers\TextureAtlasRenderer.ts:126</code></a>
         
         </p>
 
@@ -1311,16 +1364,16 @@
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="../classes/Kiwi.Renderers.Renderer.html#method_enable">
+                Kiwi.Renderers.Renderer
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
-        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l83"><code>src\render\renderers\TextureAtlasRenderer.ts:83</code></a>
+        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l84"><code>src\render\renderers\TextureAtlasRenderer.ts:84</code></a>
         
         </p>
 
@@ -1426,7 +1479,7 @@
             
         
         
-        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l182"><code>src\render\renderers\TextureAtlasRenderer.ts:182</code></a>
+        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l183"><code>src\render\renderers\TextureAtlasRenderer.ts:183</code></a>
         
         </p>
 
@@ -1515,16 +1568,16 @@
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="../classes/Kiwi.Renderers.Renderer.html#method_updateStageResolution">
+                Kiwi.Renderers.Renderer
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
-        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l160"><code>src\render\renderers\TextureAtlasRenderer.ts:160</code></a>
+        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l161"><code>src\render\renderers\TextureAtlasRenderer.ts:161</code></a>
         
         </p>
 
@@ -1626,16 +1679,16 @@
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="../classes/Kiwi.Renderers.Renderer.html#method_updateTextureSize">
+                Kiwi.Renderers.Renderer
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
-        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l171"><code>src\render\renderers\TextureAtlasRenderer.ts:171</code></a>
+        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l172"><code>src\render\renderers\TextureAtlasRenderer.ts:172</code></a>
         
         </p>
 
@@ -1729,7 +1782,7 @@
             
         
         
-        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l75"><code>src\render\renderers\TextureAtlasRenderer.ts:75</code></a>
+        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l76"><code>src\render\renderers\TextureAtlasRenderer.ts:76</code></a>
         
         </p>
 
@@ -1776,7 +1829,7 @@
             
         
         
-        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l59"><code>src\render\renderers\TextureAtlasRenderer.ts:59</code></a>
+        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l60"><code>src\render\renderers\TextureAtlasRenderer.ts:60</code></a>
         
         </p>
 
@@ -1823,7 +1876,7 @@
             
         
         
-        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l50"><code>src\render\renderers\TextureAtlasRenderer.ts:50</code></a>
+        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l51"><code>src\render\renderers\TextureAtlasRenderer.ts:51</code></a>
         
         </p>
 
@@ -1872,7 +1925,7 @@
             
         
         
-        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l67"><code>src\render\renderers\TextureAtlasRenderer.ts:67</code></a>
+        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l68"><code>src\render\renderers\TextureAtlasRenderer.ts:68</code></a>
         
         </p>
 
@@ -1884,6 +1937,183 @@
     <div class="description">
         <p>The Vertex Buffer</p>
 
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_blendMode" class="property item public inherited">
+    <h3 class="name"><code>blendMode</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Renderers.GLBlendMode.html" class="crosslink">Kiwi.Renderers.GLBlendMode</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Renderers.Renderer.html#property_blendMode">Kiwi.Renderers.Renderer</a>:
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l135"><code>src\render\renderers\Renderer.ts:135</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>This renderer&#39;s blend mode data.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_camMatrix" class="property item public inherited">
+    <h3 class="name"><code>camMatrix</code></h3>
+    <span class="type">Float32Array</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Renderers.Renderer.html#property_camMatrix">Kiwi.Renderers.Renderer</a>:
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l40"><code>src\render\renderers\Renderer.ts:40</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The camera matrix</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_isBatchRenderer" class="property item public inherited">
+    <h3 class="name"><code>isBatchRenderer</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Renderers.Renderer.html#property_isBatchRenderer">Kiwi.Renderers.Renderer</a>:
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l145"><code>src\render\renderers\Renderer.ts:145</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns whether this is a batch renderer.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_loaded" class="property item public inherited">
+    <h3 class="name"><code>loaded</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Renderers.Renderer.html#property_loaded">Kiwi.Renderers.Renderer</a>:
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l48"><code>src\render\renderers\Renderer.ts:48</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
     </div>
 
     
@@ -1921,7 +2151,7 @@
             
         
         
-        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l33"><code>src\render\renderers\TextureAtlasRenderer.ts:33</code></a>
+        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l34"><code>src\render\renderers\TextureAtlasRenderer.ts:34</code></a>
         
         </p>
 
@@ -1932,6 +2162,50 @@
 
     <div class="description">
         <p>The identifier for this renderer.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_shaderManager" class="property item public inherited">
+    <h3 class="name"><code>shaderManager</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Renderers.Renderer.html#property_shaderManager">Kiwi.Renderers.Renderer</a>:
+            
+        
+        
+        <a href="../files/src_render_renderers_Renderer.ts.html#l56"><code>src\render\renderers\Renderer.ts:56</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Reference to the shaderManager - used for requesting shaders.</p>
 
     </div>
 
@@ -1959,16 +2233,16 @@
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="../classes/Kiwi.Renderers.Renderer.html#property_shaderPair">
+                Kiwi.Renderers.Renderer
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
-        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l42"><code>src\render\renderers\TextureAtlasRenderer.ts:42</code></a>
+        <a href="../files/src_render_renderers_TextureAtlasRenderer.ts.html#l43"><code>src\render\renderers\TextureAtlasRenderer.ts:43</code></a>
         
         </p>
 

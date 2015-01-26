@@ -91,6 +91,10 @@
             
                 <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
             
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
             
                 <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
@@ -99,6 +103,8 @@
             
                 <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
             
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
             
                 <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
@@ -106,6 +112,8 @@
                 <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
             
@@ -257,9 +265,13 @@
             
                 <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
             
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
                 <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
             
@@ -308,6 +320,8 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -391,10 +405,10 @@ module Kiwi {
 
             this._width = width;
             this._height = height;
-            this.color = &#x27;ffffff&#x27;;
+            this.color = &quot;ffffff&quot;;
             // CocoonJS should be black instead
             if(game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-                this.color = &#x27;000000&#x27;;
+                this.color = &quot;000000&quot;;
             }
 
             this._scale = new Kiwi.Geom.Point(1, 1);
@@ -545,9 +559,9 @@ module Kiwi {
         } 
         public set x(value: number) {
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.container.style.left = String(value + &#x27;px&#x27;);
+                this.container.style.left = String(value + &quot;px&quot;);
             } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-                this.canvas.style.left = String(value + &#x27;px&#x27;);
+                this.canvas.style.left = String(value + &quot;px&quot;);
             }
             this._x = value;
         }
@@ -571,9 +585,9 @@ module Kiwi {
         }
         public set y(value: number) {
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.container.style.top = String(value + &#x27;px&#x27;);
+                this.container.style.top = String(value + &quot;px&quot;);
             } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-                this.canvas.style.top = String(value + &#x27;px&#x27;);
+                this.canvas.style.top = String(value + &quot;px&quot;);
             }
             this._y = value;
         }
@@ -587,7 +601,7 @@ module Kiwi {
         private _width: number;
         
         /**
-        * The width of the stage. This is READ ONLY. See the &#x27;resize&#x27; method if you need to modify this value.
+        * The width of the stage. This is READ ONLY. See the &quot;resize&quot; method if you need to modify this value.
         * @property width
         * @type number
         * @public 
@@ -606,7 +620,7 @@ module Kiwi {
         private _height: number;
         
         /**
-        * The height of the stage. This is READ ONLY. See the &#x27;resize&#x27; method if you need to modify this value.
+        * The height of the stage. This is READ ONLY. See the &quot;resize&quot; method if you need to modify this value.
         * @property height
         * @type number
         * @public
@@ -627,7 +641,7 @@ module Kiwi {
 
         /**
         * A Signal which dispatches events when the window is resized. 
-        * Useful to detect if the screen is now in a &#x27;landscape&#x27; or &#x27;portrait&#x27; view on Mobile/Cocoon devices. 
+        * Useful to detect if the screen is now in a &quot;landscape&quot; or &quot;portrait&quot; view on Mobile/Cocoon devices. 
         * @property onWindowResize
         * @type Kiwi.Signal
         * @public
@@ -706,81 +720,64 @@ module Kiwi {
 
         /**
         * The background color of the stage. 
-        * This must be a valid 6 character hex color string such as &quot;ffffff&quot;. 
         *
         * @property _color
-        * @type string
-        * @default &#x27;ffffff&#x27;
+        * @type Kiwi.Utils.Color
         * @public
         */
-        public _color: string;
+        public _color: Kiwi.Utils.Color = new Kiwi.Utils.Color();
         
         /**
-        * Sets the background color of the stage via a hex value.
+        * Sets the background color of the stage.
         *
-        * The hex colour code should not contain a hashtag &#x27;#&#x27;.
+        * This can be any valid parameter for Kiwi.Utils.Color.
+        * If passing multiple parameters, do so in a single array.
         *
         * The default value is &quot;ffffff&quot; or pure white.
         *
-        * The hex value can optionally contain an alpha term, which defaults to full (&quot;ff&quot;, &quot;255&quot; or &quot;1.0&quot; depending on context). For example, both &quot;ff0000&quot; and &quot;ff0000ff&quot; will evaluate to an opaque red.
-        *
-        * Note for users of CocoonJS: When using the WebGL renderer, the stage color will fill all parts of the screen outside the canvas. Kiwi.js will automatically set the color to &quot;000000&quot; or pure black when using CocoonJS. If you change it, and your game does not fill the entire screen, the empty portions of the screen will also change color.
+        * Note for users of CocoonJS: When using the WebGL renderer,
+        * the stage color will fill all parts of the screen outside the canvas.
+        * Kiwi.js will automatically set the color to &quot;000000&quot; or pure black
+        * when using CocoonJS. If you change it, and your game does not fill
+        * the entire screen, the empty portions of the screen will also change
+        * color.
         *
         * @property color
         * @type string
         * @public
         */
-        public get color(): string {
-            return this._color;
+        public get color(): any {
+            return this._color.getHex();
         }
 
-        public set color(val: string) {
-            this._color = val;
-            var bigint = parseInt(val, 16);
-
-            var r = 255;
-            var g = 255;
-            var b = 255;
-            var a = 255;
-
-            if(val.length == 6) {
-                r = (bigint &gt;&gt; 16) &amp; 255;
-                g = (bigint &gt;&gt; 8) &amp; 255;
-                b = bigint &amp; 255;
-                a = 255;
+        public set color( val: any ) {
+            if ( !Kiwi.Utils.Common.isArray( val ) ) {
+                val = [ val ];
             }
-            else if (val.length == 8) {
-                r = (bigint &gt;&gt; 24) &amp; 255;
-                g = (bigint &gt;&gt; 16) &amp; 255;
-                b = (bigint &gt;&gt; 8) &amp; 255;
-                a = bigint &amp; 255;
-            }
-
-            //Converts the colour to normalized values.
-            this._normalizedColor = { r: r / 255, g: g / 255, b: b / 255, a: a / 255 };
+            this._color.parseString.apply( this._color, val );
         }
 
         /**
         * Allows the setting of the background color of the stage through component RGB colour values.
         *
-        * This property is an Object Literal with &#x27;r&#x27;, &#x27;g&#x27;, &#x27;b&#x27; colour streams of values between 0 and 255.
+        * This property is an Object Literal with &quot;r&quot;, &quot;g&quot;, &quot;b&quot; colour streams of values between 0 and 255.
         *
         * @property rgbColor
         * @type Object
         * @public
         */
         public get rgbColor():any {
-            return { r: this._normalizedColor.r * 255, g: this._normalizedColor.g * 255, b: this._normalizedColor.b * 255 };
+            return { r: this._color.r * 255, g: this._color.g * 255, b: this._color.b * 255 };
         }
 
         public set rgbColor(val: any) {
-            this.color = this.componentToHex(val.r) + this.componentToHex(val.g) + this.componentToHex(val.b);
+            this._color.set( val.r, val.g, val.b );
         }
 
         /**
         * Allows the setting of the background color of the stage through component RGBA colour values.
         *
-        * This property is an Object Literal with &#x27;r&#x27;, &#x27;g&#x27;, &#x27;b&#x27;, &#x27;a&#x27; colour streams of values between 0 and 255.
+        * This property is an Object Literal with &quot;r&quot;, &quot;g&quot;, &quot;b&quot;, &quot;a&quot; colour streams of values between 0 and 255.
         * 
         * Note that the alpha value is from 0-255, not 0-1. This is to preserve compatibility with hex-style color values, e.g. &quot;ff0000ff&quot;.
         *
@@ -790,32 +787,28 @@ module Kiwi {
         * @since 1.1.0
         */
         public get rgbaColor():any {
-            return { r: this._normalizedColor.r * 255, g: this._normalizedColor.g * 255, b: this._normalizedColor.b * 255, a: this._normalizedColor.a * 255 };
+            return { r: this._color.r * 255, g: this._color.g * 255, b: this._color.b * 255, a: this._color.a * 255 };
         }
 
         public set rgbaColor(val: any) {
-            this.color = this.componentToHex(val.r) + this.componentToHex(val.g) + this.componentToHex(val.b) + this.componentToHex(val.a);;
+            this._color.set( val.r, val.g, val.b, val.a );
         }
 
-
         /**
-        * Stores the normalized background color of the stage as a RGBA values between 0 and 1.
-        * @property _normalizedColor
-        * @type object
-        * @public
-        */
-        private _normalizedColor: any;
-        
-        /**
-        * Get the normalized background color of the stage. Returns a object with rgba values, each being between 0 and 1.
+        * Get the normalized background color of the stage.
+        * Returns an object with rgba values, each being between 0 and 1.
         * This is READ ONLY.
         * @property normalizedColor
         * @type string
         * @public
         */
         public get normalizedColor(): any {
-           return this._normalizedColor;
-        }
+            return {
+                r: this._color.r,
+                g: this._color.g,
+                b: this._color.b,
+                a: this._color.a };
+            }
 
         /**
         * The webgl rendering context.
@@ -1002,13 +995,13 @@ module Kiwi {
             
             //If we are using cocoon then create a accelerated screen canvas
             if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
-                this.canvas = &lt;HTMLCanvasElement&gt;document.createElement(navigator[&#x27;isCocoonJS&#x27;] ? &#x27;screencanvas&#x27; : &#x27;canvas&#x27;);
+                this.canvas = &lt;HTMLCanvasElement&gt;document.createElement(navigator[&quot;isCocoonJS&quot;] ? &quot;screencanvas&quot; : &quot;canvas&quot;);
             
             //Otherwise default to normal canvas
             } else {
                 this.canvas = &lt;HTMLCanvasElement&gt;document.createElement(&quot;canvas&quot;);
-                this.canvas.style.width = &#x27;100%&#x27;;
-                this.canvas.style.height = &#x27;100%&#x27;;
+                this.canvas.style.width = &quot;100%&quot;;
+                this.canvas.style.height = &quot;100%&quot;;
 
             }
 
@@ -1021,24 +1014,25 @@ module Kiwi {
             //Get 2D or GL Context; do error detection and fallback to valid rendering context
             if (this._game.renderOption === Kiwi.RENDERER_CANVAS) {
                 this.ctx = this.canvas.getContext(&quot;2d&quot;);
-                this.ctx.fillStyle = &#x27;#fff&#x27;;
+                this.ctx.fillStyle = &quot;#fff&quot;;
                 this.gl = null;
             } else if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
                 this.gl = this.canvas.getContext(&quot;webgl&quot;);
                 if (!this.gl) {
                     this.gl = this.canvas.getContext(&quot;experimental-webgl&quot;);
                     if (!this.gl) {
-                        console.warn(&quot;Kiwi.Stage: WebGL rendering is not available despite the device apparently supporting it. Reverting to CANVAS.&quot;);
+                        Kiwi.Log.warn(&quot;Kiwi.Stage: WebGL rendering is not available despite the device apparently supporting it. Reverting to CANVAS.&quot;, &quot;#renderer&quot;);
                         // Reset to canvas mode
                         this.ctx = this.canvas.getContext(&quot;2d&quot;);
-                        this.ctx.fillStyle = &#x27;#fff&#x27;;
+                        this.ctx.fillStyle = &quot;#fff&quot;;
                         this.gl = null;
                     } else {
-                        console.warn(&quot;Kiwi.Stage: &#x27;webgl&#x27; context is not available. Using &#x27;experimental-webgl&#x27;&quot;);
+                        Kiwi.Log.warn(&quot;Kiwi.Stage: &#x27;webgl&#x27; context is not available. Using &#x27;experimental-webgl&#x27;&quot;, &quot;#renderer&quot;);
                     }
                 }
-                if(this.gl) // That is, WebGL was properly supported and created
-                {
+                if ( this.gl ) {
+
+                    // That is, WebGL was properly supported and created
                     this.gl.clearColor(1, 1, 1, 1);
                     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
                     this.ctx = null;
@@ -1065,7 +1059,7 @@ module Kiwi {
 
         /**
         * Set the stage width and height for rendering purposes.
-        * This will not effect that &#x27;scaleType&#x27; that it has been set to.
+        * This will not effect that &quot;scaleType&quot; that it has been set to.
         *
         * @method resize
         * @param width {number} The new Stage width.
@@ -1086,10 +1080,10 @@ module Kiwi {
             this.onResize.dispatch(this._width, this._height);
         }
 
-        
         /**
         * Sets the background color of the stage through component RGB colour values. 
-        * Each parameter pass is a number between 0 and 255. This method also returns a Object Literal with &#x27;r&#x27;, &#x27;g&#x27;, &#x27;b&#x27; properties.
+        * Each parameter is a number between 0 and 255.
+        * This method also returns an Object Literal with &quot;r&quot;, &quot;g&quot;, &quot;b&quot; properties.
         *
         * @method setRGBColor
         * @param r {Number} The red component. A value between 0 and 255.
@@ -1105,23 +1099,9 @@ module Kiwi {
 
 
         /**
-        * Converts a component colour value into its hex equivalent. Used when setting rgb colour values.
-        * 
-        * @method componentToHex
-        * @param c {Number} The components colour value. A number between 0 and 255.
-        * @return {string} The hex equivelent of that colour string. 
-        * @private
-        */
-        private componentToHex(c: number): string {
-            var hex = c.toString(16);
-            return hex.length == 1 ? &quot;0&quot; + hex : hex;
-        }
-
-
-        /**
         * Creates a debug canvas and adds it above the regular game canvas.
         * The debug canvas is not created by default (even with debugging on) and rendering/clearing of the canvas is upto the developer. 
-        * The context for rendering can be access via the &#x27;dctx&#x27; property and you can use the &#x27;clearDebugCanvas&#x27; method to clear the canvas.
+        * The context for rendering can be access via the &quot;dctx&quot; property and you can use the &quot;clearDebugCanvas&quot; method to clear the canvas.
         *
         * @method createDebugCanvas
         * @public
@@ -1132,7 +1112,7 @@ module Kiwi {
             
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
                 //Not supported in CocoonJS only because we cannot add it to the container (as a container does not exist) and position will be hard.
-                console.log(&#x27;Debug canvas not supported in cocoon, creating canvas and context anyway&#x27;);                
+                Kiwi.Log.log(&quot;Debug canvas not supported in cocoon, creating canvas and context anyway&quot;, &quot;#debug-canvas&quot;);                
             } 
 
             this.debugCanvas = &lt;HTMLCanvasElement&gt;document.createElement(&quot;canvas&quot;);
@@ -1140,8 +1120,8 @@ module Kiwi {
             this.debugCanvas.style.position = &quot;absolute&quot;;
             this.debugCanvas.width = this.width;
             this.debugCanvas.height = this.height;
-            this.debugCanvas.style.width = &#x27;100%&#x27;;
-            this.debugCanvas.style.height = &#x27;100%&#x27;;
+            this.debugCanvas.style.width = &quot;100%&quot;;
+            this.debugCanvas.style.height = &quot;100%&quot;;
             this.dctx = this.debugCanvas.getContext(&quot;2d&quot;);
             this.clearDebugCanvas();
 
@@ -1157,10 +1137,10 @@ module Kiwi {
         * If not colour is passed then Red at 20% opacity is used.
         * 
         * @method clearDebugCanvas
-        * @param [color=&#x27;rgba(255,0,0,0.2)&#x27;] {string} The debug color to rendering on the debug canvas.
+        * @param [color=&quot;rgba(255,0,0,0.2)&quot;] {string} The debug color to rendering on the debug canvas.
         * @public
         */
-        public clearDebugCanvas(color?:string) {
+        public clearDebugCanvas( color?:string ) {
             this.dctx.fillStyle = color || &quot;rgba(255,0,0,.2)&quot;;
             this.dctx.clearRect(0, 0, this.width, this.height);
             this.dctx.fillRect(0, 0, this.width, this.height)
@@ -1184,32 +1164,32 @@ module Kiwi {
 
             if (this._game.deviceTargetOption == Kiwi.TARGET_BROWSER) {
 
-                this.container.style.width = String(this._width + &#x27;px&#x27;);
-                this.container.style.height = String(this._height + &#x27;px&#x27;);
+                this.container.style.width = String(this._width + &quot;px&quot;);
+                this.container.style.height = String(this._height + &quot;px&quot;);
 
                 if (this._scaleType == Kiwi.Stage.SCALE_NONE) {
-                    this.container.style.maxWidth = &#x27;&#x27;;
-                    this.container.style.minWidth = &#x27;&#x27;;
+                    this.container.style.maxWidth = &quot;&quot;;
+                    this.container.style.minWidth = &quot;&quot;;
                 }
 
                 //To Fit or STRETCH 
                 if (this._scaleType == Kiwi.Stage.SCALE_STRETCH || this._scaleType == Kiwi.Stage.SCALE_FIT) {
-                    this.container.style.minWidth = &#x27;100%&#x27;;
-                    this.container.style.maxWidth = &#x27;100%&#x27;;
+                    this.container.style.minWidth = &quot;100%&quot;;
+                    this.container.style.maxWidth = &quot;100%&quot;;
                 }
 
                 //If scale stretched then scale the containers height to 100% of its parents.
                 if (this._scaleType == Kiwi.Stage.SCALE_STRETCH) {
-                    this.container.style.minHeight = &#x27;100%&#x27;;
-                    this.container.style.maxHeight = &#x27;100%&#x27;;
+                    this.container.style.minHeight = &quot;100%&quot;;
+                    this.container.style.maxHeight = &quot;100%&quot;;
                 } else {
-                    this.container.style.minHeight = &#x27;&#x27;;
-                    this.container.style.maxHeight = &#x27;&#x27;;
+                    this.container.style.minHeight = &quot;&quot;;
+                    this.container.style.maxHeight = &quot;&quot;;
                 }
 
                 //If it is SCALE to FIT then scale the containers height in ratio with the containers width.
                 if (this._scaleType == Kiwi.Stage.SCALE_FIT) {
-                    this.container.style.height = String((this.container.clientWidth / this._width) * this._height) + &#x27;px&#x27;;
+                    this.container.style.height = String((this.container.clientWidth / this._width) * this._height) + &quot;px&quot;;
                 }
 
             }
@@ -1218,15 +1198,15 @@ module Kiwi {
                 // This has no effect in WebGL, and is thus handled separately.
                 switch (this._scaleType) {
                     case Kiwi.Stage.SCALE_FIT:
-                        this.canvas.style.cssText = &#x27;idtkscale:ScaleAspectFit&#x27;;
+                        this.canvas.style.cssText = &quot;idtkscale:ScaleAspectFit&quot;;
                         break;
 
                     case Kiwi.Stage.SCALE_STRETCH:
-                        this.canvas.style.cssText = &#x27;idtkscale:ScaleToFill&#x27;;
+                        this.canvas.style.cssText = &quot;idtkscale:ScaleToFill&quot;;
                         break;
 
                     case Kiwi.Stage.SCALE_NONE:
-                        this.canvas.style.cssText = &#x27;&#x27;;
+                        this.canvas.style.cssText = &quot;&quot;;
                         break;
                 }
 

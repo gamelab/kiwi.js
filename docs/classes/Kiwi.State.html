@@ -91,6 +91,10 @@
             
                 <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
             
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
             
                 <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
@@ -99,6 +103,8 @@
             
                 <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
             
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
             
                 <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
@@ -106,6 +112,8 @@
                 <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
             
@@ -257,9 +265,13 @@
             
                 <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
             
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
                 <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
             
@@ -308,6 +320,8 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -578,7 +592,7 @@ There can only ever be a single State active at a given time.</p>
                             </li>
                         
                             <li class="index-item method public inherited">
-                                <a href="#method_addTags">addTags</a>
+                                <a href="#method_addTag">addTag</a>
 
                                 
                                 
@@ -1266,7 +1280,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l467"><code>src\core\State.ts:467</code></a>
+        <a href="../files/src_core_State.ts.html#l466"><code>src\core\State.ts:466</code></a>
         
         </p>
 
@@ -1366,7 +1380,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l359"><code>src\core\State.ts:359</code></a>
+        <a href="../files/src_core_State.ts.html#l358"><code>src\core\State.ts:358</code></a>
         
         </p>
 
@@ -1491,7 +1505,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l392"><code>src\core\Group.ts:392</code></a>
+        <a href="../files/src_core_Group.ts.html#l391"><code>src\core\Group.ts:391</code></a>
         
         </p>
 
@@ -1603,7 +1617,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l458"><code>src\core\Group.ts:458</code></a>
+        <a href="../files/src_core_Group.ts.html#l460"><code>src\core\Group.ts:460</code></a>
         
         </p>
 
@@ -1614,7 +1628,7 @@ There can only ever be a single State active at a given time.</p>
     </div>
 
     <div class="description">
-        <p>Adds an Entity to this Group after another child. The Entity must not already be in this Group and it must be supported by the Group..</p>
+        <p>Adds an Entity to this Group after another child.</p>
 
     </div>
 
@@ -1731,7 +1745,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l417"><code>src\core\Group.ts:417</code></a>
+        <a href="../files/src_core_Group.ts.html#l416"><code>src\core\Group.ts:416</code></a>
         
         </p>
 
@@ -1859,7 +1873,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l437"><code>src\core\Group.ts:437</code></a>
+        <a href="../files/src_core_Group.ts.html#l436"><code>src\core\Group.ts:436</code></a>
         
         </p>
 
@@ -1870,7 +1884,7 @@ There can only ever be a single State active at a given time.</p>
     </div>
 
     <div class="description">
-        <p>Adds an Entity to this Group before another child. The Entity must not already be in this Group and it must be supported by the Group.</p>
+        <p>Adds an Entity to this Group before another child.</p>
 
     </div>
 
@@ -2220,7 +2234,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l345"><code>src\core\State.ts:345</code></a>
+        <a href="../files/src_core_State.ts.html#l344"><code>src\core\State.ts:344</code></a>
         
         </p>
 
@@ -2641,8 +2655,8 @@ There can only ever be a single State active at a given time.</p>
 </div>
 
                 
-                    <div id="method_addTags" class="method item public inherited">
-    <h3 class="name"><code>addTags</code></h3>
+                    <div id="method_addTag" class="method item public inherited">
+    <h3 class="name"><code>addTag</code></h3>
 
     
         <div class="args">
@@ -2678,11 +2692,11 @@ There can only ever be a single State active at a given time.</p>
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Group.html#method_addTags">Kiwi.Group</a>:
+                <a href="../classes/Kiwi.Group.html#method_addTag">Kiwi.Group</a>:
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1198"><code>src\core\Group.ts:1198</code></a>
+        <a href="../files/src_core_Group.ts.html#l1203"><code>src\core\Group.ts:1203</code></a>
         
         </p>
 
@@ -2800,7 +2814,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l328"><code>src\core\State.ts:328</code></a>
+        <a href="../files/src_core_State.ts.html#l327"><code>src\core\State.ts:327</code></a>
         
         </p>
 
@@ -2958,7 +2972,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l390"><code>src\core\State.ts:390</code></a>
+        <a href="../files/src_core_State.ts.html#l389"><code>src\core\State.ts:389</code></a>
         
         </p>
 
@@ -3117,7 +3131,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l972"><code>src\core\Group.ts:972</code></a>
+        <a href="../files/src_core_Group.ts.html#l977"><code>src\core\Group.ts:977</code></a>
         
         </p>
 
@@ -3302,7 +3316,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1120"><code>src\core\Group.ts:1120</code></a>
+        <a href="../files/src_core_Group.ts.html#l1125"><code>src\core\Group.ts:1125</code></a>
         
         </p>
 
@@ -3482,7 +3496,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l368"><code>src\core\Group.ts:368</code></a>
+        <a href="../files/src_core_Group.ts.html#l367"><code>src\core\Group.ts:367</code></a>
         
         </p>
 
@@ -3696,7 +3710,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1100"><code>src\core\Group.ts:1100</code></a>
+        <a href="../files/src_core_Group.ts.html#l1105"><code>src\core\Group.ts:1105</code></a>
         
         </p>
 
@@ -3766,7 +3780,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1080"><code>src\core\Group.ts:1080</code></a>
+        <a href="../files/src_core_Group.ts.html#l1085"><code>src\core\Group.ts:1085</code></a>
         
         </p>
 
@@ -3938,7 +3952,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l442"><code>src\core\State.ts:442</code></a>
+        <a href="../files/src_core_State.ts.html#l441"><code>src\core\State.ts:441</code></a>
         
         </p>
 
@@ -4024,7 +4038,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l419"><code>src\core\State.ts:419</code></a>
+        <a href="../files/src_core_State.ts.html#l418"><code>src\core\State.ts:418</code></a>
         
         </p>
 
@@ -4116,7 +4130,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l916"><code>src\core\Group.ts:916</code></a>
+        <a href="../files/src_core_Group.ts.html#l921"><code>src\core\Group.ts:921</code></a>
         
         </p>
 
@@ -4251,7 +4265,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l932"><code>src\core\Group.ts:932</code></a>
+        <a href="../files/src_core_Group.ts.html#l937"><code>src\core\Group.ts:937</code></a>
         
         </p>
 
@@ -4382,7 +4396,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l580"><code>src\core\Group.ts:580</code></a>
+        <a href="../files/src_core_Group.ts.html#l585"><code>src\core\Group.ts:585</code></a>
         
         </p>
 
@@ -4504,7 +4518,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l604"><code>src\core\Group.ts:604</code></a>
+        <a href="../files/src_core_Group.ts.html#l609"><code>src\core\Group.ts:609</code></a>
         
         </p>
 
@@ -4616,7 +4630,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l646"><code>src\core\Group.ts:646</code></a>
+        <a href="../files/src_core_Group.ts.html#l651"><code>src\core\Group.ts:651</code></a>
         
         </p>
 
@@ -4744,7 +4758,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l621"><code>src\core\Group.ts:621</code></a>
+        <a href="../files/src_core_Group.ts.html#l626"><code>src\core\Group.ts:626</code></a>
         
         </p>
 
@@ -4866,7 +4880,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l671"><code>src\core\Group.ts:671</code></a>
+        <a href="../files/src_core_Group.ts.html#l676"><code>src\core\Group.ts:676</code></a>
         
         </p>
 
@@ -4972,7 +4986,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l771"><code>src\core\Group.ts:771</code></a>
+        <a href="../files/src_core_Group.ts.html#l776"><code>src\core\Group.ts:776</code></a>
         
         </p>
 
@@ -5069,7 +5083,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l684"><code>src\core\Group.ts:684</code></a>
+        <a href="../files/src_core_Group.ts.html#l689"><code>src\core\Group.ts:689</code></a>
         
         </p>
 
@@ -5143,7 +5157,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l702"><code>src\core\Group.ts:702</code></a>
+        <a href="../files/src_core_Group.ts.html#l707"><code>src\core\Group.ts:707</code></a>
         
         </p>
 
@@ -5225,7 +5239,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1233"><code>src\core\Group.ts:1233</code></a>
+        <a href="../files/src_core_Group.ts.html#l1238"><code>src\core\Group.ts:1238</code></a>
         
         </p>
 
@@ -6055,7 +6069,7 @@ When overriding make sure you include a super call at the end of the method.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l487"><code>src\core\Group.ts:487</code></a>
+        <a href="../files/src_core_Group.ts.html#l492"><code>src\core\Group.ts:492</code></a>
         
         </p>
 
@@ -6176,7 +6190,7 @@ When overriding make sure you include a super call at the end of the method.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l515"><code>src\core\Group.ts:515</code></a>
+        <a href="../files/src_core_Group.ts.html#l520"><code>src\core\Group.ts:520</code></a>
         
         </p>
 
@@ -6294,7 +6308,7 @@ When overriding make sure you include a super call at the end of the method.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l533"><code>src\core\Group.ts:533</code></a>
+        <a href="../files/src_core_Group.ts.html#l538"><code>src\core\Group.ts:538</code></a>
         
         </p>
 
@@ -6434,7 +6448,7 @@ When overriding make sure you include a super call at the end of the method.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l559"><code>src\core\Group.ts:559</code></a>
+        <a href="../files/src_core_Group.ts.html#l564"><code>src\core\Group.ts:564</code></a>
         
         </p>
 
@@ -6542,7 +6556,7 @@ When overriding make sure you include a super call at the end of the method.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l404"><code>src\core\State.ts:404</code></a>
+        <a href="../files/src_core_State.ts.html#l403"><code>src\core\State.ts:403</code></a>
         
         </p>
 
@@ -6631,7 +6645,7 @@ This is an INTERNAL Kiwi method and DEVS shouldn&#39;t really need to worry abou
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1217"><code>src\core\Group.ts:1217</code></a>
+        <a href="../files/src_core_Group.ts.html#l1222"><code>src\core\Group.ts:1222</code></a>
         
         </p>
 
@@ -6723,7 +6737,7 @@ This is an INTERNAL Kiwi method and DEVS shouldn&#39;t really need to worry abou
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1068"><code>src\core\Group.ts:1068</code></a>
+        <a href="../files/src_core_Group.ts.html#l1073"><code>src\core\Group.ts:1073</code></a>
         
         </p>
 
@@ -6821,7 +6835,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l883"><code>src\core\Group.ts:883</code></a>
+        <a href="../files/src_core_Group.ts.html#l888"><code>src\core\Group.ts:888</code></a>
         
         </p>
 
@@ -6951,7 +6965,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l952"><code>src\core\Group.ts:952</code></a>
+        <a href="../files/src_core_Group.ts.html#l957"><code>src\core\Group.ts:957</code></a>
         
         </p>
 
@@ -7081,7 +7095,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l806"><code>src\core\Group.ts:806</code></a>
+        <a href="../files/src_core_Group.ts.html#l811"><code>src\core\Group.ts:811</code></a>
         
         </p>
 
@@ -7266,7 +7280,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l827"><code>src\core\Group.ts:827</code></a>
+        <a href="../files/src_core_Group.ts.html#l832"><code>src\core\Group.ts:832</code></a>
         
         </p>
 
@@ -7394,7 +7408,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l855"><code>src\core\Group.ts:855</code></a>
+        <a href="../files/src_core_Group.ts.html#l860"><code>src\core\Group.ts:860</code></a>
         
         </p>
 
@@ -7558,7 +7572,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1043"><code>src\core\Group.ts:1043</code></a>
+        <a href="../files/src_core_Group.ts.html#l1048"><code>src\core\Group.ts:1048</code></a>
         
         </p>
 
@@ -7604,7 +7618,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1297"><code>src\core\Group.ts:1297</code></a>
+        <a href="../files/src_core_Group.ts.html#l1302"><code>src\core\Group.ts:1302</code></a>
         
         </p>
 
@@ -7736,7 +7750,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1188"><code>src\core\Group.ts:1188</code></a>
+        <a href="../files/src_core_Group.ts.html#l1193"><code>src\core\Group.ts:1193</code></a>
         
         </p>
 
@@ -7783,7 +7797,7 @@ By default Entitys contain no tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1155"><code>src\core\Group.ts:1155</code></a>
+        <a href="../files/src_core_Group.ts.html#l1160"><code>src\core\Group.ts:1160</code></a>
         
         </p>
 
@@ -7833,7 +7847,7 @@ By default Entitys contain no tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1131"><code>src\core\Group.ts:1131</code></a>
+        <a href="../files/src_core_Group.ts.html#l1136"><code>src\core\Group.ts:1136</code></a>
         
         </p>
 
@@ -7879,7 +7893,7 @@ By default Entitys contain no tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1052"><code>src\core\Group.ts:1052</code></a>
+        <a href="../files/src_core_Group.ts.html#l1057"><code>src\core\Group.ts:1057</code></a>
         
         </p>
 
@@ -8346,7 +8360,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1020"><code>src\core\Group.ts:1020</code></a>
+        <a href="../files/src_core_Group.ts.html#l1025"><code>src\core\Group.ts:1025</code></a>
         
         </p>
 
@@ -8895,7 +8909,7 @@ E.g. If you loaded a image and named it &#39;flower&#39;, once everything has lo
             
         
         
-        <a href="../files/src_core_State.ts.html#l381"><code>src\core\State.ts:381</code></a>
+        <a href="../files/src_core_State.ts.html#l380"><code>src\core\State.ts:380</code></a>
         
         </p>
 
@@ -8985,7 +8999,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1165"><code>src\core\Group.ts:1165</code></a>
+        <a href="../files/src_core_Group.ts.html#l1170"><code>src\core\Group.ts:1170</code></a>
         
         </p>
 
@@ -9035,7 +9049,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1140"><code>src\core\Group.ts:1140</code></a>
+        <a href="../files/src_core_Group.ts.html#l1145"><code>src\core\Group.ts:1145</code></a>
         
         </p>
 

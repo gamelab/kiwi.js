@@ -91,6 +91,10 @@
             
                 <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
             
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
             
                 <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
@@ -99,6 +103,8 @@
             
                 <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
             
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
             
                 <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
@@ -106,6 +112,8 @@
                 <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
             
@@ -257,9 +265,13 @@
             
                 <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
             
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
                 <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
             
@@ -308,6 +320,8 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -375,7 +389,7 @@
 by Transform objects to represent translation, scale and rotation transformations, and to determine where objects are in world space or camera space.
 Objects such as entities and groups may be nested, and their associated transforms may represent how they are scaled, translated and rotated relative to a parent
 transform.
-By concatenating an object&#39;s transformation matrix with it&#39;s ancestors matrices, it is possible to determine the absolute position of the object in world space.
+By concatenating an object&#39;s transformation matrix with its ancestors matrices, it is possible to determine the absolute position of the object in world space.
 See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics">http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics</a> for an in depth discussion of 2d tranformation matrices.</p>
 
 </div>
@@ -665,6 +679,13 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
                             </li>
                         
                             <li class="index-item method public">
+                                <a href="#method_getPosition">getPosition</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_identity">identity</a>
 
                                 
@@ -736,13 +757,6 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
                         
                             <li class="index-item method public">
                                 <a href="#method_setPositionPoint">setPositionPoint</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_setPositionVector">setPositionVector</a>
 
                                 
                                 
@@ -931,7 +945,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
     </div>
 
     <div class="description">
-        <p>Append values to this matrix, paramters supplied individually.</p>
+        <p>Append values to this matrix, parameters supplied individually.</p>
 
     </div>
 
@@ -1467,6 +1481,81 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
 </div>
 
                 
+                    <div id="method_getPosition" class="method item public">
+    <h3 class="name"><code>getPosition</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Matrix.ts.html#l298"><code>src\geom\Matrix.ts:298</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Get the x and y position of the matrix as an object with x and y properties</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>:
+                    
+                    <p>An object constructed from a literal with x and y properties.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_identity" class="method item public">
     <h3 class="name"><code>identity</code></h3>
 
@@ -1591,7 +1680,7 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
     </div>
 
     <div class="description">
-        <p>Invert this matrix so that it represents the opposite of it&#39;s orginal tranformaation.</p>
+        <p>Invert this matrix so that it represents the opposite of its orginal tranformaation.</p>
 
     </div>
 
@@ -2936,81 +3025,6 @@ See <a href="http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_g
                         <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
                     
                     <p>This object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_setPositionVector" class="method item public">
-    <h3 class="name"><code>setPositionVector</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Matrix.ts.html#l298"><code>src\geom\Matrix.ts:298</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Get the x and y position of the matrix as an object with x and y properties</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>:
-                    
-                    <p>An object constructed from a literal with x and y properties.</p>
 
                 
             </div>

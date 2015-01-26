@@ -91,6 +91,10 @@
             
                 <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
             
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
             
                 <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
@@ -99,6 +103,8 @@
             
                 <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
             
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
             
                 <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
@@ -106,6 +112,8 @@
                 <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
             
@@ -257,9 +265,13 @@
             
                 <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
             
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
                 <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
             
@@ -308,6 +320,8 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -393,6 +407,12 @@
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code class="optional">[clock]</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
@@ -455,7 +475,26 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>Current game</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[clock]</code>
+                        <span class="type"><a href="../classes/Kiwi.Time.Clock.html" class="crosslink">Kiwi.Time.Clock</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Clock to use for tweens.
+  Defaults to game.time.clock.</p>
+
                     </div>
 
                     
@@ -558,6 +597,13 @@
                                 
                             </li>
                         
+                            <li class="index-item method public">
+                                <a href="#method_validateClock">validateClock</a>
+
+                                
+                                
+                            </li>
+                        
                     </ul>
                 </div>
             
@@ -577,6 +623,13 @@
                         
                             <li class="index-item property private">
                                 <a href="#property__tweens">_tweens</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_clock">clock</a>
 
                                 
                                 
@@ -644,7 +697,7 @@
             
         
         
-        <a href="../files/src_animations_tweens_TweenManager.ts.html#l105"><code>src\animations\tweens\TweenManager.ts:105</code></a>
+        <a href="../files/src_animations_tweens_TweenManager.ts.html#l118"><code>src\animations\tweens\TweenManager.ts:118</code></a>
         
         </p>
 
@@ -751,7 +804,7 @@
             
         
         
-        <a href="../files/src_animations_tweens_TweenManager.ts.html#l92"><code>src\animations\tweens\TweenManager.ts:92</code></a>
+        <a href="../files/src_animations_tweens_TweenManager.ts.html#l104"><code>src\animations\tweens\TweenManager.ts:104</code></a>
         
         </p>
 
@@ -850,7 +903,7 @@
             
         
         
-        <a href="../files/src_animations_tweens_TweenManager.ts.html#l69"><code>src\animations\tweens\TweenManager.ts:69</code></a>
+        <a href="../files/src_animations_tweens_TweenManager.ts.html#l81"><code>src\animations\tweens\TweenManager.ts:81</code></a>
         
         </p>
 
@@ -923,7 +976,7 @@
             
         
         
-        <a href="../files/src_animations_tweens_TweenManager.ts.html#l43"><code>src\animations\tweens\TweenManager.ts:43</code></a>
+        <a href="../files/src_animations_tweens_TweenManager.ts.html#l46"><code>src\animations\tweens\TweenManager.ts:46</code></a>
         
         </p>
 
@@ -1006,7 +1059,7 @@
             
         
         
-        <a href="../files/src_animations_tweens_TweenManager.ts.html#l122"><code>src\animations\tweens\TweenManager.ts:122</code></a>
+        <a href="../files/src_animations_tweens_TweenManager.ts.html#l134"><code>src\animations\tweens\TweenManager.ts:134</code></a>
         
         </p>
 
@@ -1099,7 +1152,7 @@
             
         
         
-        <a href="../files/src_animations_tweens_TweenManager.ts.html#l81"><code>src\animations\tweens\TweenManager.ts:81</code></a>
+        <a href="../files/src_animations_tweens_TweenManager.ts.html#l93"><code>src\animations\tweens\TweenManager.ts:93</code></a>
         
         </p>
 
@@ -1124,6 +1177,81 @@
                 
                     <div id="method_update" class="method item public">
     <h3 class="name"><code>update</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_animations_tweens_TweenManager.ts.html#l152"><code>src\animations\tweens\TweenManager.ts:152</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The update loop.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>Whether anything was updated</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_validateClock" class="method item public">
+    <h3 class="name"><code>validateClock</code></h3>
 
     
         <span class="paren">()</span>
@@ -1156,7 +1284,7 @@
             
         
         
-        <a href="../files/src_animations_tweens_TweenManager.ts.html#l140"><code>src\animations\tweens\TweenManager.ts:140</code></a>
+        <a href="../files/src_animations_tweens_TweenManager.ts.html#l178"><code>src\animations\tweens\TweenManager.ts:178</code></a>
         
         </p>
 
@@ -1164,10 +1292,12 @@
         
 
         
+            <p>Available since 1.2.0</p>
+        
     </div>
 
     <div class="description">
-        <p>The update loop.</p>
+        <p>Validate clock; if no valid clock is found, set one from game</p>
 
     </div>
 
@@ -1212,7 +1342,7 @@
             
         
         
-        <a href="../files/src_animations_tweens_TweenManager.ts.html#l53"><code>src\animations\tweens\TweenManager.ts:53</code></a>
+        <a href="../files/src_animations_tweens_TweenManager.ts.html#l56"><code>src\animations\tweens\TweenManager.ts:56</code></a>
         
         </p>
 
@@ -1259,7 +1389,7 @@
             
         
         
-        <a href="../files/src_animations_tweens_TweenManager.ts.html#l61"><code>src\animations\tweens\TweenManager.ts:61</code></a>
+        <a href="../files/src_animations_tweens_TweenManager.ts.html#l64"><code>src\animations\tweens\TweenManager.ts:64</code></a>
         
         </p>
 
@@ -1270,6 +1400,55 @@
 
     <div class="description">
         <p>An array of all of the tweens on the manager.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_clock" class="property item public">
+    <h3 class="name"><code>clock</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Time.Clock.html" class="crosslink">Kiwi.Time.Clock</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_animations_tweens_TweenManager.ts.html#l72"><code>src\animations\tweens\TweenManager.ts:72</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Clock used by tweens</p>
 
     </div>
 

@@ -91,6 +91,10 @@
             
                 <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
             
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
             
                 <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
@@ -99,6 +103,8 @@
             
                 <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
             
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
             
                 <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
@@ -106,6 +112,8 @@
                 <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
             
@@ -257,9 +265,13 @@
             
                 <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
             
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
                 <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
             
@@ -308,6 +320,8 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -708,7 +722,6 @@ module Kiwi {
         */
         public containsDescendant(child: Kiwi.IChild): boolean {
             for (var i = 0; i &lt; this.members.length; i++) {
-                console.log(i);
                 var curMember: any = this.members[i];
                 if (curMember.id == child.id || curMember.childType() == Kiwi.Group &amp;&amp; curMember.containsDesendant(child)) {
                     return true;
@@ -787,17 +800,20 @@ module Kiwi {
         }
 
         /**
-        * Adds an Entity to this Group before another child. The Entity must not already be in this Group and it must be supported by the Group.
+        * Adds an Entity to this Group before another child. 
         * @method addChildBefore
         * @param child {object} The child to be added.
         * @param beforeChild {Entity} The child before which the child will be added.
         * @return {object} The child.
         * @public
         */
-        public addChildBefore(child: Kiwi.IChild, beforeChild: Kiwi.IChild): Kiwi.IChild {                      //REWORK
+        public addChildBefore(child: Kiwi.IChild, beforeChild: Kiwi.IChild): Kiwi.IChild {                      
 
-            if (child.transform.parent !== this.transform &amp;&amp; beforeChild.transform.parent === this.transform) {
-                var index: number = this.getChildIndex(beforeChild);
+            if (beforeChild.transform.parent === this.transform) {
+
+                if (child.parent !== null) child.parent.removeChild(child);
+
+                var index: number = this.getChildIndex( beforeChild );
 
                 this.members.splice(index, 0, child);
                 child.parent = this;
@@ -808,17 +824,20 @@ module Kiwi {
         }
 
         /**
-        * Adds an Entity to this Group after another child. The Entity must not already be in this Group and it must be supported by the Group..
+        * Adds an Entity to this Group after another child. 
         * @method addChildAfter
         * @param child {object} The child to be added.
         * @param beforeChild {object} The child after which the child will be added.
         * @return {object} The child.
         * @public
         */
-        public addChildAfter(child: Kiwi.IChild, beforeChild: Kiwi.IChild): Kiwi.IChild {
+        public addChildAfter(child: Kiwi.IChild, afterChild: Kiwi.IChild): Kiwi.IChild {
            
-            if (child.transform.parent !== this.transform &amp;&amp; beforeChild.transform.parent === this.transform) { //REWORK
-                var index: number = this.getChildIndex(beforeChild) + 1;
+            if (afterChild.transform.parent === this.transform) {
+
+                if (child.parent !== null) child.parent.removeChild(child);
+
+                var index: number = this.getChildIndex(afterChild) + 1;
 
                 this.members.splice(index, 0, child);
                 child.parent = this;
@@ -1550,17 +1569,17 @@ module Kiwi {
         /**
         * Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
         * You can pass multiple strings to add multiple tags.
-        * @method addTags
+        * @method addTag
         * @param tag {string} The tag that you would like to add to this Entity.
         * @since 1.1.0
         * @public
         */
-        public addTag() {
+        public addTag(...args: any[]) {
 
             //Loop through the arguments
-            for (var i = 0; i &lt; arguments.length; i++) {
-                if (this._tags.indexOf(arguments[i]) == -1) {
-                    this._tags.push(arguments[i]);
+            for (var i = 0; i &lt; args.length; i++) {
+                if (this._tags.indexOf(args[i]) == -1) {
+                    this._tags.push(args[i]);
                 }
             }
 
@@ -1573,10 +1592,10 @@ module Kiwi {
         * @since 1.1.0
         * @public
         */
-        public removeTag() {
+        public removeTag(...args: any[]) {
 
-            for (var i = 0; i &lt; arguments.length; i++) {
-                var index = this._tags.indexOf(arguments[i]);
+            for (var i = 0; i &lt; args.length; i++) {
+                var index = this._tags.indexOf(args[i]);
                 if (index !== -1) this._tags.splice(index, 1);
             }
 

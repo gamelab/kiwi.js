@@ -91,6 +91,10 @@
             
                 <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
             
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
             
                 <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
@@ -99,6 +103,8 @@
             
                 <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
             
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
             
                 <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
@@ -106,6 +112,8 @@
                 <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
             
@@ -257,9 +265,13 @@
             
                 <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
             
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
                 <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
             
@@ -308,6 +320,8 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -469,9 +483,11 @@ module Kiwi.Components {
         */
         public get hitboxOffset(): Kiwi.Geom.Point {
 
-            if (this.autoUpdate == true &amp;&amp; this.entity.atlas !== null) {
-                this._hitboxOffset.x = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x;
-                this._hitboxOffset.y = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y;
+            if ( this.autoUpdate == true &amp;&amp; this.entity.atlas !== null &amp;&amp; this.entity.atlas.cells &amp;&amp; this.entity.atlas.cells[ 0 ].hitboxes ) {
+                this._hitboxOffset.x =
+                    this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x || 0;
+                this._hitboxOffset.y =
+                    this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y || 0;
 
             }
 
@@ -506,10 +522,12 @@ module Kiwi.Components {
             if (this.autoUpdate == true) {
                 var atlas = this.entity.atlas;
 
-                if (atlas !== null) {
-                    this._rawHitbox.width = atlas.cells[this.entity.cellIndex].hitboxes[0].w;
-                    this._rawHitbox.height = atlas.cells[this.entity.cellIndex].hitboxes[0].h;
-
+                if ( atlas !== null &amp;&amp; atlas.cells &amp;&amp; atlas.cells[ 0 ].hitboxes ) {
+                    this._rawHitbox.width = atlas.cells[ this.entity.cellIndex ].hitboxes[ 0 ].w;
+                    this._rawHitbox.height = atlas.cells[ this.entity.cellIndex ].hitboxes[ 0 ].h;
+                } else {
+                    this._rawHitbox.width = this.entity.width;
+                    this._rawHitbox.height = this.entity.height;
                 }
             }
             
@@ -633,7 +651,6 @@ module Kiwi.Components {
 
             return this._rawCenter;
         }
-    
 
 
         /**
@@ -643,21 +660,23 @@ module Kiwi.Components {
         * @private
         */
         private _transformedCenter: Kiwi.Geom.Point;
-           
-        
-         
+
+
         /**
         * Returns the center point for the box after it has been transformed.
+        * World coordinates.
         * This is READ ONLY.
         * @property center
         * @type Kiwi.Geom.Point
         * @public
         */
         public get center(): Kiwi.Geom.Point {
-            var t: Kiwi.Geom.Transform = this.entity.transform;
-            var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
-            m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY)
-            this._transformedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - t.rotPointX, this.entity.height / 2 - t.rotPointY));
+            var m: Kiwi.Geom.Matrix = this.entity.transform.getConcatenatedMatrix();
+
+            this._transformedCenter = m.transformPoint(
+                new Kiwi.Geom.Point(
+                    this.entity.width / 2 - this.entity.anchorPointX,
+                    this.entity.height / 2 - this.entity.anchorPointY ) );
 
             return this._transformedCenter;
         }
@@ -671,7 +690,7 @@ module Kiwi.Components {
         * @private
         */
         private _transformedBounds: Kiwi.Geom.Rectangle;
-        
+
 
         /**
         * The &#x27;world&#x27; transformed bounds for this entity. 
@@ -704,7 +723,7 @@ module Kiwi.Components {
         */
         public get worldBounds(): Kiwi.Geom.Rectangle {
             this._worldBounds = this._rotateRect(this.rawBounds.clone(), true);
-            
+
             return this._worldBounds;
         }
 

@@ -91,6 +91,10 @@
             
                 <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
             
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
             
                 <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
@@ -99,6 +103,8 @@
             
                 <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
             
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
             
                 <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
@@ -106,6 +112,8 @@
                 <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
             
@@ -257,9 +265,13 @@
             
                 <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
             
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
                 <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
             
@@ -308,6 +320,8 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -526,6 +540,197 @@
 
                     </div>
 
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[debug=Kiwi.DEBUG_ON]</code>
+                                    <span class="type">Number</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>If debugging is enabled or not.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[bootCallback=null]</code>
+                                    <span class="type">Function</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>A callback to be executed when the game reaches the boot stage.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[deviceTarget=Kiwi.TARGET_BROWSER]</code>
+                                    <span class="type">Number</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>The type of device Kiwi is being used on.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[renderer=Kiwi.RENDERER_AUTO]</code>
+                                    <span class="type">Number</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>The renderer Kiwi should use.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[width=Kiwi.Stage.DEFAULT_WIDTH]</code>
+                                    <span class="type">Number</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>The width of this instance of Kiwi.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[height=Kiwi.Stage.DEFAULT_HEIGHT]</code>
+                                    <span class="type">Number</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>The height of this instance of Kiwi.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[scaleType=Kiwi.Stage.SCALE_NONE]</code>
+                                    <span class="type">Number</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>The type of scaling that should be applied to Kiwi.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[plugins=[]</code>
+                                    <span class="type">Array</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>A list of the names of plugins that are to be used with this game.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[log]</code>
+                                    <span class="type">Object</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Default state of the Log properties</p>
+
+                                </div>
+
+                                
+                                    <ul class="params-list">
+                                        
+                                        <li class="param">
+                                            
+                                                <code class="param-name optional">[recording=true]</code>
+                                                <span class="type">Boolean</span>
+                                                <span class="flag optional" title="This parameter is optional.">optional</span>
+                                            
+
+                                            <div class="param-description">
+                                                If the logs should be recorded.
+                                            </div>
+                                        </li>
+                                        
+                                        <li class="param">
+                                            
+                                                <code class="param-name optional">[display=true]</code>
+                                                <span class="type">Boolean</span>
+                                                <span class="flag optional" title="This parameter is optional.">optional</span>
+                                            
+
+                                            <div class="param-description">
+                                                If the logs should be displayed or not.
+                                            </div>
+                                        </li>
+                                        
+                                        <li class="param">
+                                            
+                                                <code class="param-name optional">[enabled=true]</code>
+                                                <span class="type">Boolean</span>
+                                                <span class="flag optional" title="This parameter is optional.">optional</span>
+                                            
+
+                                            <div class="param-description">
+                                                If the Logger is enabled at all.
+                                            </div>
+                                        </li>
+                                        
+                                        <li class="param">
+                                            
+                                                <code class="param-name optional">[maxRecordings=Infinity]</code>
+                                                <span class="type">Number</span>
+                                                <span class="flag optional" title="This parameter is optional.">optional</span>
+                                            
+
+                                            <div class="param-description">
+                                                The maximum number of recordings to have at a single time.
+                                            </div>
+                                        </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                            
+                        </ul>
                     
                 </li>
             
@@ -873,7 +1078,7 @@
             
         
         
-        <a href="../files/src_core_Game.ts.html#l557"><code>src\core\Game.ts:557</code></a>
+        <a href="../files/src_core_Game.ts.html#l567"><code>src\core\Game.ts:567</code></a>
         
         </p>
 
@@ -934,7 +1139,7 @@
             
         
         
-        <a href="../files/src_core_Game.ts.html#l301"><code>src\core\Game.ts:301</code></a>
+        <a href="../files/src_core_Game.ts.html#l311"><code>src\core\Game.ts:311</code></a>
         
         </p>
 
@@ -1005,7 +1210,7 @@
             
         
         
-        <a href="../files/src_core_Game.ts.html#l516"><code>src\core\Game.ts:516</code></a>
+        <a href="../files/src_core_Game.ts.html#l526"><code>src\core\Game.ts:526</code></a>
         
         </p>
 
@@ -1062,7 +1267,7 @@ Once the managers have started up the start loop will then begin to create the g
             
         
         
-        <a href="../files/src_core_Game.ts.html#l255"><code>src\core\Game.ts:255</code></a>
+        <a href="../files/src_core_Game.ts.html#l265"><code>src\core\Game.ts:265</code></a>
         
         </p>
 
@@ -1110,7 +1315,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l441"><code>src\core\Game.ts:441</code></a>
+        <a href="../files/src_core_Game.ts.html#l451"><code>src\core\Game.ts:451</code></a>
         
         </p>
 
@@ -1157,7 +1362,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l237"><code>src\core\Game.ts:237</code></a>
+        <a href="../files/src_core_Game.ts.html#l247"><code>src\core\Game.ts:247</code></a>
         
         </p>
 
@@ -1204,7 +1409,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l457"><code>src\core\Game.ts:457</code></a>
+        <a href="../files/src_core_Game.ts.html#l467"><code>src\core\Game.ts:467</code></a>
         
         </p>
 
@@ -1253,7 +1458,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l423"><code>src\core\Game.ts:423</code></a>
+        <a href="../files/src_core_Game.ts.html#l433"><code>src\core\Game.ts:433</code></a>
         
         </p>
 
@@ -1302,7 +1507,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l432"><code>src\core\Game.ts:432</code></a>
+        <a href="../files/src_core_Game.ts.html#l442"><code>src\core\Game.ts:442</code></a>
         
         </p>
 
@@ -1351,7 +1556,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l449"><code>src\core\Game.ts:449</code></a>
+        <a href="../files/src_core_Game.ts.html#l459"><code>src\core\Game.ts:459</code></a>
         
         </p>
 
@@ -1398,7 +1603,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l211"><code>src\core\Game.ts:211</code></a>
+        <a href="../files/src_core_Game.ts.html#l221"><code>src\core\Game.ts:221</code></a>
         
         </p>
 
@@ -1445,7 +1650,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l311"><code>src\core\Game.ts:311</code></a>
+        <a href="../files/src_core_Game.ts.html#l321"><code>src\core\Game.ts:321</code></a>
         
         </p>
 
@@ -1492,7 +1697,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l327"><code>src\core\Game.ts:327</code></a>
+        <a href="../files/src_core_Game.ts.html#l337"><code>src\core\Game.ts:337</code></a>
         
         </p>
 
@@ -1539,7 +1744,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l229"><code>src\core\Game.ts:229</code></a>
+        <a href="../files/src_core_Game.ts.html#l239"><code>src\core\Game.ts:239</code></a>
         
         </p>
 
@@ -1586,7 +1791,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l351"><code>src\core\Game.ts:351</code></a>
+        <a href="../files/src_core_Game.ts.html#l361"><code>src\core\Game.ts:361</code></a>
         
         </p>
 
@@ -1633,7 +1838,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l274"><code>src\core\Game.ts:274</code></a>
+        <a href="../files/src_core_Game.ts.html#l284"><code>src\core\Game.ts:284</code></a>
         
         </p>
 
@@ -1680,7 +1885,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l264"><code>src\core\Game.ts:264</code></a>
+        <a href="../files/src_core_Game.ts.html#l274"><code>src\core\Game.ts:274</code></a>
         
         </p>
 
@@ -1727,7 +1932,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l245"><code>src\core\Game.ts:245</code></a>
+        <a href="../files/src_core_Game.ts.html#l255"><code>src\core\Game.ts:255</code></a>
         
         </p>
 
@@ -1774,7 +1979,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l335"><code>src\core\Game.ts:335</code></a>
+        <a href="../files/src_core_Game.ts.html#l345"><code>src\core\Game.ts:345</code></a>
         
         </p>
 
@@ -1821,7 +2026,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l466"><code>src\core\Game.ts:466</code></a>
+        <a href="../files/src_core_Game.ts.html#l476"><code>src\core\Game.ts:476</code></a>
         
         </p>
 
@@ -1872,7 +2077,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l498"><code>src\core\Game.ts:498</code></a>
+        <a href="../files/src_core_Game.ts.html#l508"><code>src\core\Game.ts:508</code></a>
         
         </p>
 
@@ -1919,7 +2124,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l293"><code>src\core\Game.ts:293</code></a>
+        <a href="../files/src_core_Game.ts.html#l303"><code>src\core\Game.ts:303</code></a>
         
         </p>
 
@@ -1966,7 +2171,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l484"><code>src\core\Game.ts:484</code></a>
+        <a href="../files/src_core_Game.ts.html#l494"><code>src\core\Game.ts:494</code></a>
         
         </p>
 
@@ -2016,7 +2221,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l343"><code>src\core\Game.ts:343</code></a>
+        <a href="../files/src_core_Game.ts.html#l353"><code>src\core\Game.ts:353</code></a>
         
         </p>
 
@@ -2063,7 +2268,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l367"><code>src\core\Game.ts:367</code></a>
+        <a href="../files/src_core_Game.ts.html#l377"><code>src\core\Game.ts:377</code></a>
         
         </p>
 
@@ -2110,7 +2315,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l359"><code>src\core\Game.ts:359</code></a>
+        <a href="../files/src_core_Game.ts.html#l369"><code>src\core\Game.ts:369</code></a>
         
         </p>
 
@@ -2157,7 +2362,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l375"><code>src\core\Game.ts:375</code></a>
+        <a href="../files/src_core_Game.ts.html#l385"><code>src\core\Game.ts:385</code></a>
         
         </p>
 
@@ -2204,7 +2409,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l285"><code>src\core\Game.ts:285</code></a>
+        <a href="../files/src_core_Game.ts.html#l295"><code>src\core\Game.ts:295</code></a>
         
         </p>
 
@@ -2251,7 +2456,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l219"><code>src\core\Game.ts:219</code></a>
+        <a href="../files/src_core_Game.ts.html#l229"><code>src\core\Game.ts:229</code></a>
         
         </p>
 
@@ -2298,7 +2503,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l415"><code>src\core\Game.ts:415</code></a>
+        <a href="../files/src_core_Game.ts.html#l425"><code>src\core\Game.ts:425</code></a>
         
         </p>
 
@@ -2345,7 +2550,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l383"><code>src\core\Game.ts:383</code></a>
+        <a href="../files/src_core_Game.ts.html#l393"><code>src\core\Game.ts:393</code></a>
         
         </p>
 
@@ -2392,7 +2597,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l391"><code>src\core\Game.ts:391</code></a>
+        <a href="../files/src_core_Game.ts.html#l401"><code>src\core\Game.ts:401</code></a>
         
         </p>
 
@@ -2416,7 +2621,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
                 
                     <div id="property_time" class="property item public">
     <h3 class="name"><code>time</code></h3>
-    <span class="type">Kiwi.Time.ClockManage</span>
+    <span class="type"><a href="../classes/Kiwi.Time.ClockManager.html" class="crosslink">Kiwi.Time.ClockManager</a></span>
 
     
 
@@ -2439,7 +2644,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l399"><code>src\core\Game.ts:399</code></a>
+        <a href="../files/src_core_Game.ts.html#l409"><code>src\core\Game.ts:409</code></a>
         
         </p>
 
@@ -2486,7 +2691,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l407"><code>src\core\Game.ts:407</code></a>
+        <a href="../files/src_core_Game.ts.html#l417"><code>src\core\Game.ts:417</code></a>
         
         </p>
 

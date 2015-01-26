@@ -91,6 +91,10 @@
             
                 <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
             
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
             
                 <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
@@ -99,6 +103,8 @@
             
                 <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
             
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
             
                 <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
@@ -106,6 +112,8 @@
                 <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
             
@@ -257,9 +265,13 @@
             
                 <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
             
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
                 <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
             
@@ -308,6 +320,8 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -645,13 +659,6 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                                 
                             </li>
                         
-                            <li class="index-item method private">
-                                <a href="#method_componentToHex">componentToHex</a>
-
-                                
-                                
-                            </li>
-                        
                             <li class="index-item method public">
                                 <a href="#method_createDebugCanvas">createDebugCanvas</a>
 
@@ -727,13 +734,6 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
                         
                             <li class="index-item property private">
                                 <a href="#property__height">_height</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property__normalizedColor">_normalizedColor</a>
 
                                 
                                 
@@ -1042,7 +1042,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l628"><code>src\core\Stage.ts:628</code></a>
+        <a href="../files/src_core_Stage.ts.html#l607"><code>src\core\Stage.ts:607</code></a>
         
         </p>
 
@@ -1099,7 +1099,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l643"><code>src\core\Stage.ts:643</code></a>
+        <a href="../files/src_core_Stage.ts.html#l622"><code>src\core\Stage.ts:622</code></a>
         
         </p>
 
@@ -1166,7 +1166,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l617"><code>src\core\Stage.ts:617</code></a>
+        <a href="../files/src_core_Stage.ts.html#l596"><code>src\core\Stage.ts:596</code></a>
         
         </p>
 
@@ -1248,7 +1248,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l826"><code>src\core\Stage.ts:826</code></a>
+        <a href="../files/src_core_Stage.ts.html#l792"><code>src\core\Stage.ts:792</code></a>
         
         </p>
 
@@ -1315,7 +1315,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l604"><code>src\core\Stage.ts:604</code></a>
+        <a href="../files/src_core_Stage.ts.html#l583"><code>src\core\Stage.ts:583</code></a>
         
         </p>
 
@@ -1405,7 +1405,7 @@ Such as the Canvas and the rendering contexts, as well as the width/height of th
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l544"><code>src\core\Stage.ts:544</code></a>
+        <a href="../files/src_core_Stage.ts.html#l523"><code>src\core\Stage.ts:523</code></a>
         
         </p>
 
@@ -1462,204 +1462,12 @@ This is a internal method used by the core of Kiwi itself.</p>
             
                 <li class="arg">
                     
-                        <code class="optional">[color=&#x27;rgba(255,0,0,0.2)&#x27;]</code>
+                        <code class="optional">[color=&quot;rgba(255,0,0,0.2)&quot;]</code>
                     
                 </li>
             
             </ul><span class="paren">)</span>
         </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_Stage.ts.html#l803"><code>src\core\Stage.ts:803</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Clears the debug canvas and fills with either the color passed. 
-If not colour is passed then Red at 20% opacity is used.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[color=&#x27;rgba(255,0,0,0.2)&#x27;]</code>
-                        <span class="type">String</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The debug color to rendering on the debug canvas.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_componentToHex" class="method item private">
-    <h3 class="name"><code>componentToHex</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>c</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_Stage.ts.html#l755"><code>src\core\Stage.ts:755</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Converts a component colour value into its hex equivalent. Used when setting rgb colour values.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">c</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The components colour value. A number between 0 and 255.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">String</span>:
-                    
-                    <p>The hex equivelent of that colour string.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_createDebugCanvas" class="method item public">
-    <h3 class="name"><code>createDebugCanvas</code></h3>
-
-    
-        <span class="paren">()</span>
     
 
     
@@ -1700,9 +1508,92 @@ If not colour is passed then Red at 20% opacity is used.</p>
     </div>
 
     <div class="description">
+        <p>Clears the debug canvas and fills with either the color passed. 
+If not colour is passed then Red at 20% opacity is used.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[color=&quot;rgba(255,0,0,0.2)&quot;]</code>
+                        <span class="type">String</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The debug color to rendering on the debug canvas.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_createDebugCanvas" class="method item public">
+    <h3 class="name"><code>createDebugCanvas</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Stage.ts.html#l735"><code>src\core\Stage.ts:735</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
         <p>Creates a debug canvas and adds it above the regular game canvas.
 The debug canvas is not created by default (even with debugging on) and rendering/clearing of the canvas is upto the developer. 
-The context for rendering can be access via the &#39;dctx&#39; property and you can use the &#39;clearDebugCanvas&#39; method to clear the canvas.</p>
+The context for rendering can be access via the &quot;dctx&quot; property and you can use the &quot;clearDebugCanvas&quot; method to clear the canvas.</p>
 
     </div>
 
@@ -1768,7 +1659,7 @@ The context for rendering can be access via the &#39;dctx&#39; property and you 
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l582"><code>src\core\Stage.ts:582</code></a>
+        <a href="../files/src_core_Stage.ts.html#l561"><code>src\core\Stage.ts:561</code></a>
         
         </p>
 
@@ -1967,7 +1858,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l714"><code>src\core\Stage.ts:714</code></a>
+        <a href="../files/src_core_Stage.ts.html#l694"><code>src\core\Stage.ts:694</code></a>
         
         </p>
 
@@ -1979,7 +1870,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
 
     <div class="description">
         <p>Set the stage width and height for rendering purposes.
-This will not effect that &#39;scaleType&#39; that it has been set to.</p>
+This will not effect that &quot;scaleType&quot; that it has been set to.</p>
 
     </div>
 
@@ -2091,7 +1982,7 @@ This will not effect that &#39;scaleType&#39; that it has been set to.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l738"><code>src\core\Stage.ts:738</code></a>
+        <a href="../files/src_core_Stage.ts.html#l717"><code>src\core\Stage.ts:717</code></a>
         
         </p>
 
@@ -2103,7 +1994,8 @@ This will not effect that &#39;scaleType&#39; that it has been set to.</p>
 
     <div class="description">
         <p>Sets the background color of the stage through component RGB colour values. 
-Each parameter pass is a number between 0 and 255. This method also returns a Object Literal with &#39;r&#39;, &#39;g&#39;, &#39;b&#39; properties.</p>
+Each parameter is a number between 0 and 255.
+This method also returns an Object Literal with &quot;r&quot;, &quot;g&quot;, &quot;b&quot; properties.</p>
 
     </div>
 
@@ -2219,7 +2111,7 @@ Each parameter pass is a number between 0 and 255. This method also returns a Ob
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l817"><code>src\core\Stage.ts:817</code></a>
+        <a href="../files/src_core_Stage.ts.html#l783"><code>src\core\Stage.ts:783</code></a>
         
         </p>
 
@@ -2301,7 +2193,7 @@ Each parameter pass is a number between 0 and 255. This method also returns a Ob
                 
                     <div id="property__color" class="property item public">
     <h3 class="name"><code>_color</code></h3>
-    <span class="type">String</span>
+    <span class="type"><a href="../classes/Kiwi.Utils.Color.html" class="crosslink">Kiwi.Utils.Color</a></span>
 
     
 
@@ -2334,13 +2226,10 @@ Each parameter pass is a number between 0 and 255. This method also returns a Ob
     </div>
 
     <div class="description">
-        <p>The background color of the stage. 
-This must be a valid 6 character hex color string such as &quot;ffffff&quot;.</p>
+        <p>The background color of the stage.</p>
 
     </div>
 
-    
-        <p><strong>Default:</strong> &#x27;ffffff&#x27;</p>
     
 
     
@@ -2443,53 +2332,6 @@ This must be a valid 6 character hex color string such as &quot;ffffff&quot;.</p
 </div>
 
                 
-                    <div id="property__normalizedColor" class="property item public">
-    <h3 class="name"><code>_normalizedColor</code></h3>
-    <span class="type">Object</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_Stage.ts.html#l449"><code>src\core\Stage.ts:449</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Stores the normalized background color of the stage as a RGBA values between 0 and 1.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
                     <div id="property__renderer" class="property item private">
     <h3 class="name"><code>_renderer</code></h3>
     <span class="type">Any</span>
@@ -2515,7 +2357,7 @@ This must be a valid 6 character hex color string such as &quot;ffffff&quot;.</p
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l522"><code>src\core\Stage.ts:522</code></a>
+        <a href="../files/src_core_Stage.ts.html#l501"><code>src\core\Stage.ts:501</code></a>
         
         </p>
 
@@ -2804,7 +2646,7 @@ Note: Because the alpha value is applied to the container, it will not work in C
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l486"><code>src\core\Stage.ts:486</code></a>
+        <a href="../files/src_core_Stage.ts.html#l465"><code>src\core\Stage.ts:465</code></a>
         
         </p>
 
@@ -2851,7 +2693,7 @@ Note: Because the alpha value is applied to the container, it will not work in C
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l366"><code>src\core\Stage.ts:366</code></a>
+        <a href="../files/src_core_Stage.ts.html#l364"><code>src\core\Stage.ts:364</code></a>
         
         </p>
 
@@ -2861,11 +2703,16 @@ Note: Because the alpha value is applied to the container, it will not work in C
     </div>
 
     <div class="description">
-        <p>Sets the background color of the stage via a hex value.</p>
-<p>The hex colour code should not contain a hashtag &#39;#&#39;.</p>
+        <p>Sets the background color of the stage.</p>
+<p>This can be any valid parameter for Kiwi.Utils.Color.
+If passing multiple parameters, do so in a single array.</p>
 <p>The default value is &quot;ffffff&quot; or pure white.</p>
-<p>The hex value can optionally contain an alpha term, which defaults to full (&quot;ff&quot;, &quot;255&quot; or &quot;1.0&quot; depending on context). For example, both &quot;ff0000&quot; and &quot;ff0000ff&quot; will evaluate to an opaque red.</p>
-<p>Note for users of CocoonJS: When using the WebGL renderer, the stage color will fill all parts of the screen outside the canvas. Kiwi.js will automatically set the color to &quot;000000&quot; or pure black when using CocoonJS. If you change it, and your game does not fill the entire screen, the empty portions of the screen will also change color.</p>
+<p>Note for users of CocoonJS: When using the WebGL renderer,
+the stage color will fill all parts of the screen outside the canvas.
+Kiwi.js will automatically set the color to &quot;000000&quot; or pure black
+when using CocoonJS. If you change it, and your game does not fill
+the entire screen, the empty portions of the screen will also change
+color.</p>
 
     </div>
 
@@ -2902,7 +2749,7 @@ Note: Because the alpha value is applied to the container, it will not work in C
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l513"><code>src\core\Stage.ts:513</code></a>
+        <a href="../files/src_core_Stage.ts.html#l492"><code>src\core\Stage.ts:492</code></a>
         
         </p>
 
@@ -2949,7 +2796,7 @@ Note: Because the alpha value is applied to the container, it will not work in C
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l477"><code>src\core\Stage.ts:477</code></a>
+        <a href="../files/src_core_Stage.ts.html#l456"><code>src\core\Stage.ts:456</code></a>
         
         </p>
 
@@ -2996,7 +2843,7 @@ Note: Because the alpha value is applied to the container, it will not work in C
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l504"><code>src\core\Stage.ts:504</code></a>
+        <a href="../files/src_core_Stage.ts.html#l483"><code>src\core\Stage.ts:483</code></a>
         
         </p>
 
@@ -3043,7 +2890,7 @@ Note: Because the alpha value is applied to the container, it will not work in C
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l495"><code>src\core\Stage.ts:495</code></a>
+        <a href="../files/src_core_Stage.ts.html#l474"><code>src\core\Stage.ts:474</code></a>
         
         </p>
 
@@ -3239,7 +3086,7 @@ Note: Because the alpha value is applied to the container, it will not work in C
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l468"><code>src\core\Stage.ts:468</code></a>
+        <a href="../files/src_core_Stage.ts.html#l447"><code>src\core\Stage.ts:447</code></a>
         
         </p>
 
@@ -3296,7 +3143,7 @@ Note: Because the alpha value is applied to the container, it will not work in C
     </div>
 
     <div class="description">
-        <p>The height of the stage. This is READ ONLY. See the &#39;resize&#39; method if you need to modify this value.</p>
+        <p>The height of the stage. This is READ ONLY. See the &quot;resize&quot; method if you need to modify this value.</p>
 
     </div>
 
@@ -3380,7 +3227,7 @@ Note: Because the alpha value is applied to the container, it will not work in C
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l457"><code>src\core\Stage.ts:457</code></a>
+        <a href="../files/src_core_Stage.ts.html#l431"><code>src\core\Stage.ts:431</code></a>
         
         </p>
 
@@ -3390,7 +3237,8 @@ Note: Because the alpha value is applied to the container, it will not work in C
     </div>
 
     <div class="description">
-        <p>Get the normalized background color of the stage. Returns a object with rgba values, each being between 0 and 1.
+        <p>Get the normalized background color of the stage.
+Returns an object with rgba values, each being between 0 and 1.
 This is READ ONLY.</p>
 
     </div>
@@ -3533,7 +3381,7 @@ This is READ ONLY.</p>
 
     <div class="description">
         <p>A Signal which dispatches events when the window is resized. 
-Useful to detect if the screen is now in a &#39;landscape&#39; or &#39;portrait&#39; view on Mobile/Cocoon devices.</p>
+Useful to detect if the screen is now in a &quot;landscape&quot; or &quot;portrait&quot; view on Mobile/Cocoon devices.</p>
 
     </div>
 
@@ -3570,7 +3418,7 @@ Useful to detect if the screen is now in a &#39;landscape&#39; or &#39;portrait&
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l531"><code>src\core\Stage.ts:531</code></a>
+        <a href="../files/src_core_Stage.ts.html#l510"><code>src\core\Stage.ts:510</code></a>
         
         </p>
 
@@ -3620,7 +3468,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l428"><code>src\core\Stage.ts:428</code></a>
+        <a href="../files/src_core_Stage.ts.html#l411"><code>src\core\Stage.ts:411</code></a>
         
         </p>
 
@@ -3633,7 +3481,7 @@ This is READ ONLY.</p>
 
     <div class="description">
         <p>Allows the setting of the background color of the stage through component RGBA colour values.</p>
-<p>This property is an Object Literal with &#39;r&#39;, &#39;g&#39;, &#39;b&#39;, &#39;a&#39; colour streams of values between 0 and 255.</p>
+<p>This property is an Object Literal with &quot;r&quot;, &quot;g&quot;, &quot;b&quot;, &quot;a&quot; colour streams of values between 0 and 255.</p>
 <p>Note that the alpha value is from 0-255, not 0-1. This is to preserve compatibility with hex-style color values, e.g. &quot;ff0000ff&quot;.</p>
 
     </div>
@@ -3671,7 +3519,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_core_Stage.ts.html#l411"><code>src\core\Stage.ts:411</code></a>
+        <a href="../files/src_core_Stage.ts.html#l394"><code>src\core\Stage.ts:394</code></a>
         
         </p>
 
@@ -3682,7 +3530,7 @@ This is READ ONLY.</p>
 
     <div class="description">
         <p>Allows the setting of the background color of the stage through component RGB colour values.</p>
-<p>This property is an Object Literal with &#39;r&#39;, &#39;g&#39;, &#39;b&#39; colour streams of values between 0 and 255.</p>
+<p>This property is an Object Literal with &quot;r&quot;, &quot;g&quot;, &quot;b&quot; colour streams of values between 0 and 255.</p>
 
     </div>
 
@@ -4083,7 +3931,7 @@ If the parent doesn&#39;t have a height set then the height will be the height o
     </div>
 
     <div class="description">
-        <p>The width of the stage. This is READ ONLY. See the &#39;resize&#39; method if you need to modify this value.</p>
+        <p>The width of the stage. This is READ ONLY. See the &quot;resize&quot; method if you need to modify this value.</p>
 
     </div>
 

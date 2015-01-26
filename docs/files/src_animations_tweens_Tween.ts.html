@@ -91,6 +91,10 @@
             
                 <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
             
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
             
                 <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
@@ -99,6 +103,8 @@
             
                 <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
             
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
             
                 <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
@@ -106,6 +112,8 @@
                 <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
             
@@ -257,9 +265,13 @@
             
                 <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
             
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
                 <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
             
@@ -308,6 +320,8 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -426,6 +440,21 @@ module Kiwi.Animations {
         */
         private _manager: Kiwi.Animations.Tweens.TweenManager = null;
 
+        /**
+        * The manager that this tween belongs to.
+        * @property manager
+        * @type Kiwi.Animations.Tweens.TweenManager
+        * @private
+        * @since 1.2.0
+        */
+        public get manager(): Kiwi.Animations.Tweens.TweenManager {
+            return this._manager;
+        }
+
+        public set manager( value: Kiwi.Animations.Tweens.TweenManager ) {
+            this._manager = value;
+        }
+
         /** 
         * The object that this tween is affecting.
         * @property _object
@@ -433,6 +462,34 @@ module Kiwi.Animations {
         * @private
         */
 	    private _object = null;
+
+        /**
+        * The object that this tween is affecting.
+        * If you change this, it will continue to tween,
+        * but any properties that are not on the new object
+        * will be discarded from the tween.
+        * @property object
+        * @type any
+        * @public
+        */
+        public get object(): any {
+            return this._object;
+        }
+
+        public set object( value: any ) {
+            var i,
+                newValues = {};
+
+            this._object = value;
+
+            for ( i in this._valuesEnd ) {
+                if ( value[ i ] ) {
+                    newValues[ i ] = this._valuesEnd[ i ];
+                }
+            }
+
+            this._valuesEnd = newValues;
+        }
 
         /** 
         * The starting values of the properties that the tween is animating.
@@ -620,8 +677,9 @@ module Kiwi.Animations {
         * @public
         */
 	    public start() {
+            var property;
 
-	        if (this._game === null || this._object === null)
+            if (this._game === null || this._object === null)
 	        {
 	            return;
 	        }
@@ -634,37 +692,29 @@ module Kiwi.Animations {
 
             this._onCompleteCalled = false;
 
-	        this._startTime = this._game.time.now() + this._delayTime;
+	        this._startTime = this._manager.clock.elapsed() * 1000 + this._delayTime;
 
-	        for (var property in this._valuesEnd)
-	        {
+	        for ( var property in this._valuesEnd ) {
 	            // This prevents the interpolation of null values or of non-existing properties
-	            if (this._object[property] === null || !(property in this._object))
-	            { 
+	            if ( this._object[ property ] === null || !( property in this._object ) ) {
 	                continue;
 	            }
 
 	            // check if an Array was provided as property value
-	            if (this._valuesEnd[property] instanceof Array)
-	            {
-	                if (this._valuesEnd[property].length === 0)
-	                {
+	            if ( this._valuesEnd[ property ] instanceof Array ) {
+	                if ( this._valuesEnd[ property ].length === 0 ) {
 	                    continue;
 	                }
-                     
 
 	                // create a local copy of the Array with the start value at the front
-	                this._valuesEnd[property] = [this._object[property]].concat(this._valuesEnd[property]);
+	                this._valuesEnd[ property ] = [ this._object[ property ] ].concat(this._valuesEnd[ property ]);
 	            }
 
                 //  Check if property is a function
-	            if (typeof this._object[property] === &#x27;function&#x27;)
-	            { 
-	                this._valuesStart[property] = this._object[property]();
-	            }
-	            else
-	            { 
-	                this._valuesStart[property] = this._object[property];
+	            if ( typeof this._object[ property ] === &quot;function&quot; ) {
+	                this._valuesStart[ property ] = this._object[ property ]();
+	            } else {
+	                this._valuesStart[ property ] = this._object[ property ];
 	            }
 
 	        }
@@ -812,78 +862,71 @@ module Kiwi.Animations {
         * The update loop is executed every frame whilst the tween is running.
         * @method update
         * @param time {Number}
+        * @return {boolean} Whether the Tween is still running
         * @public
         */
-	    public update(time) {
+	    public update( time: number ) {
 
-	        if (time &lt; this._startTime)
-	        {
-	            return true;
-	        }
+            if ( time &lt; this._startTime - this._delayTime ) {
+                return false;
+            }
 
-	        if (this._onStartCallbackFired === false)
-	        {
-	            if (this._onStartCallback !== null)
-	            {
-	                this._onStartCallback.call(this._onStartContext, this._object);
-	            }
+            if ( this._onStartCallbackFired === false ) {
+                if ( this._onStartCallback !== null ) {
+                    this._onStartCallback.call( this._onStartContext,
+                        this._object );
+                }
 
-	            this._onStartCallbackFired = true;
-	        }
+                this._onStartCallbackFired = true;
+            }
 
-	        var elapsed = (time - this._startTime) / this._duration;
-	        elapsed = elapsed &gt; 1 ? 1 : elapsed;
+            var elapsed = ( time - this._startTime ) / this._duration;
+            elapsed = elapsed &gt; 1 ? 1 :
+                elapsed &lt; 0 ? 0 :
+                elapsed;
 
-	        var value = this._easingFunction(elapsed);
+            var value = this._easingFunction( elapsed );
 
-	        for (var property in this._valuesStart)
-	        {
-	            var start = this._valuesStart[property];
-	            var end = this._valuesEnd[property];
+            for ( var property in this._valuesStart ) {
+                var start = this._valuesStart[ property ];
+                var end = this._valuesEnd[ property ];
 
                 //  Add checks for object, array, numeric up front
-	            if (end instanceof Array)
-	            {
-	                this._object[property] = this._interpolationFunction(end, value);
-	            }
-                else
-	            {
-	                if (typeof this._object[property] === &#x27;function&#x27;)
-	                {
-    	                this._object[property](start + (end - start) * value); 
-	                }
-	                else
-	                {
-    	                this._object[property] = start + (end - start) * value;
-	                }
-	            }
-	        }
+                if ( end instanceof Array ) {
+                    this._object[ property ] =
+                        this._interpolationFunction( end, value );
+                } else {
+                    if ( typeof this._object[ property ] === &quot;function&quot; ) {
+                        this._object[ property ]( start + ( end - start ) * value );
+                    } else {
+                        this._object[ property ] = start + ( end - start ) * value;
+                    }
+                }
+            }
 
-	        if (this._onUpdateCallback !== null)
-	        {
-	            this._onUpdateCallback.call(this._onUpdateContext, this._object, value);
-	        }
+            if ( this._onUpdateCallback !== null ) {
+                this._onUpdateCallback.call( this._onUpdateContext,
+                    this._object, value );
+            }
 
-	        if (elapsed == 1)
-	        {
-    	        this.isRunning = false;
+            if ( elapsed === 1 ) {
+                this.isRunning = false;
 
-	            if (this._onCompleteCallback !== null &amp;&amp; this._onCompleteCalled == false)
-	            {
-	                this._onCompleteCalled = true;
-	                this._onCompleteCallback.call(this._onCompleteContext, this._object);
-	            }
+                if ( this._onCompleteCallback !== null &amp;&amp;
+                        this._onCompleteCalled === false ) {
+                    this._onCompleteCalled = true;
+                    this._onCompleteCallback.call(
+                        this._onCompleteContext, this._object );
+                }
 
-	            for (var i = 0; i &lt; this._chainedTweens.length; i++)
-	            {
-	                this._chainedTweens[i].start();
-	            }
+                for ( var i = 0; i &lt; this._chainedTweens.length; i++ ) {
+                    this._chainedTweens[ i ].start();
+                }
 
-	            return false;
+                return false;
+            }
 
-	        }
-
-	        return true;
+            return true;
 
 	    }
 

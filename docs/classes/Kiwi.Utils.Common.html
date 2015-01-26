@@ -91,6 +91,10 @@
             
                 <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
             
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
             
                 <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
@@ -99,6 +103,8 @@
             
                 <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
             
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
             
                 <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
@@ -106,6 +112,8 @@
                 <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
             
@@ -257,9 +265,13 @@
             
                 <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
             
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
                 <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
             
@@ -308,6 +320,8 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -440,7 +454,7 @@ His work is licensed under the Apache License, Version 2.0 (the &quot;License&qu
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_defaultTostring">defaultTostring</a>
+                                <a href="#method_defaultToString">defaultToString</a>
 
                                 
                                     <span class="flag static">static</span>
@@ -450,6 +464,15 @@ His work is licensed under the Apache License, Version 2.0 (the &quot;License&qu
                         
                             <li class="index-item method public">
                                 <a href="#method_isArray">isArray</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_isBetween">isBetween</a>
 
                                 
                                     <span class="flag static">static</span>
@@ -468,6 +491,15 @@ His work is licensed under the Apache License, Version 2.0 (the &quot;License&qu
                         
                             <li class="index-item method public">
                                 <a href="#method_isNumeric">isNumeric</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_isObject">isObject</a>
 
                                 
                                     <span class="flag static">static</span>
@@ -601,7 +633,7 @@ His work is licensed under the Apache License, Version 2.0 (the &quot;License&qu
             
         
         
-        <a href="../files/src_utils_Common.ts.html#l209"><code>src\utils\Common.ts:209</code></a>
+        <a href="../files/src_utils_Common.ts.html#l238"><code>src\utils\Common.ts:238</code></a>
         
         </p>
 
@@ -709,7 +741,7 @@ His work is licensed under the Apache License, Version 2.0 (the &quot;License&qu
             
         
         
-        <a href="../files/src_utils_Common.ts.html#l257"><code>src\utils\Common.ts:257</code></a>
+        <a href="../files/src_utils_Common.ts.html#l286"><code>src\utils\Common.ts:286</code></a>
         
         </p>
 
@@ -1028,8 +1060,8 @@ Used mainly when creating TextureAtlases for WebGL.</p>
 </div>
 
                 
-                    <div id="method_defaultTostring" class="method item public">
-    <h3 class="name"><code>defaultTostring</code></h3>
+                    <div id="method_defaultToString" class="method item public">
+    <h3 class="name"><code>defaultToString</code></h3>
 
     
         <div class="args">
@@ -1186,7 +1218,7 @@ Used mainly when creating TextureAtlases for WebGL.</p>
             
         
         
-        <a href="../files/src_utils_Common.ts.html#l159"><code>src\utils\Common.ts:159</code></a>
+        <a href="../files/src_utils_Common.ts.html#l176"><code>src\utils\Common.ts:176</code></a>
         
         </p>
 
@@ -1217,6 +1249,159 @@ Used mainly when creating TextureAtlases for WebGL.</p>
 
                     <div class="param-description">
                          
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_isBetween" class="method item public">
+    <h3 class="name"><code>isBetween</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>x</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>min</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>max</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_utils_Common.ts.html#l103"><code>src\utils\Common.ts:103</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns a boolean indicating whether x is between two parameters passed.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The values to be checked</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">min</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The minimum value</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">max</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The maximum value</p>
+
                     </div>
 
                     
@@ -1294,7 +1479,7 @@ Used mainly when creating TextureAtlases for WebGL.</p>
             
         
         
-        <a href="../files/src_utils_Common.ts.html#l103"><code>src\utils\Common.ts:103</code></a>
+        <a href="../files/src_utils_Common.ts.html#l120"><code>src\utils\Common.ts:120</code></a>
         
         </p>
 
@@ -1402,7 +1587,7 @@ Used mainly when creating TextureAtlases for WebGL.</p>
             
         
         
-        <a href="../files/src_utils_Common.ts.html#l117"><code>src\utils\Common.ts:117</code></a>
+        <a href="../files/src_utils_Common.ts.html#l134"><code>src\utils\Common.ts:134</code></a>
         
         </p>
 
@@ -1426,6 +1611,114 @@ Used mainly when creating TextureAtlases for WebGL.</p>
                 <li class="param">
                     
                         <code class="param-name">value</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_isObject" class="method item public">
+    <h3 class="name"><code>isObject</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>obj</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_utils_Common.ts.html#l190"><code>src\utils\Common.ts:190</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Checks if the given argument is an object.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">obj</code>
                         <span class="type">Any</span>
                     
 
@@ -1510,7 +1803,7 @@ Used mainly when creating TextureAtlases for WebGL.</p>
             
         
         
-        <a href="../files/src_utils_Common.ts.html#l145"><code>src\utils\Common.ts:145</code></a>
+        <a href="../files/src_utils_Common.ts.html#l162"><code>src\utils\Common.ts:162</code></a>
         
         </p>
 
@@ -1618,7 +1911,7 @@ Used mainly when creating TextureAtlases for WebGL.</p>
             
         
         
-        <a href="../files/src_utils_Common.ts.html#l131"><code>src\utils\Common.ts:131</code></a>
+        <a href="../files/src_utils_Common.ts.html#l148"><code>src\utils\Common.ts:148</code></a>
         
         </p>
 
@@ -1799,7 +2092,7 @@ Used mainly when creating TextureAtlases for WebGL.</p>
             
         
         
-        <a href="../files/src_utils_Common.ts.html#l173"><code>src\utils\Common.ts:173</code></a>
+        <a href="../files/src_utils_Common.ts.html#l202"><code>src\utils\Common.ts:202</code></a>
         
         </p>
 
@@ -1907,7 +2200,7 @@ Used mainly when creating TextureAtlases for WebGL.</p>
             
         
         
-        <a href="../files/src_utils_Common.ts.html#l225"><code>src\utils\Common.ts:225</code></a>
+        <a href="../files/src_utils_Common.ts.html#l254"><code>src\utils\Common.ts:254</code></a>
         
         </p>
 
@@ -2002,7 +2295,7 @@ Used mainly when creating TextureAtlases for WebGL.</p>
             
         
         
-        <a href="../files/src_utils_Common.ts.html#l247"><code>src\utils\Common.ts:247</code></a>
+        <a href="../files/src_utils_Common.ts.html#l276"><code>src\utils\Common.ts:276</code></a>
         
         </p>
 

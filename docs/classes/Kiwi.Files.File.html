@@ -91,6 +91,10 @@
             
                 <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
             
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
             
                 <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
@@ -99,6 +103,8 @@
             
                 <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
             
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
             
                 <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
@@ -106,6 +112,8 @@
                 <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
             
@@ -257,9 +265,13 @@
             
                 <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
             
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
                 <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
             
@@ -308,6 +320,8 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -371,9 +385,10 @@
 
 
 <div class="box intro">
-    <p>Handles the loading of an external data file via a tag loader OR xhr + arraybuffer, and optionally saves to the file store.
-Also can contain information about the file (like file size, last modified, e.t.c.) either after it has been loaded 
-OR if you use the &#39;getFileDetails&#39; method and the properties will then be set.</p>
+    <p>Base class which handles the loading of an external data file an xhr. 
+TextureFile, AudioFile contain fallback loading via tags and all extended Files contain methods for processing the files.</p>
+<p>Also can contain information about the file (like file size, last modified, e.t.c.)
+Uses a object literal in its constructor since 1.2 (which is preferred), but also contains previous construction support.</p>
 
 </div>
 
@@ -395,31 +410,7 @@ OR if you use the &#39;getFileDetails&#39; method and the properties will then b
             
                 <li class="arg">
                     
-                        <code>dataType</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>path</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[name=&#x27;&#x27;]</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[saveToFileStore=true]</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[storeAsGlobal=true]</code>
+                        <code>params</code>
                     
                 </li>
             
@@ -485,12 +476,2268 @@ OR if you use the &#39;getFileDetails&#39; method and the properties will then b
                     
 
                     <div class="param-description">
-                        <p>The game that this file belongs to.</p>
+                        <p>The game that this file is for</p>
 
                     </div>
 
                     
                 </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Options for this file.</p>
+
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">key</code>
+                                    <span class="type">String</span>
+                                
+
+                                <div class="param-description">
+                                    <p>User defined name for this file. This would be how the user would access it in the file store.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">url</code>
+                                    <span class="type">String</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Location of the file to be loaded.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[metadata]</code>
+                                    <span class="type"></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>{Object} Any metadata to be associated with the file.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[state=null]</code>
+                                    <span class="type"><a href="../classes/Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>The state that this file belongs to. Used for defining global assets vs local assets.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[fileStore=null]</code>
+                                    <span class="type"><a href="../classes/Kiwi.Files.FileStore.html" class="crosslink">Kiwi.Files.FileStore</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>The filestore that this file should be save in automatically when loaded.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[type=UNKNOWN]</code>
+                                    <span class="type">Number</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>The type of file this is.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[tags]</code>
+                                    <span class="type">Array</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Any tags to be associated with this file.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+    </div>
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+        
+        
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                        
+                            <li class="index-item method protected">
+                                <a href="#method__load">_load</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_addTag">addTag</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_assignFileDetails">assignFileDetails</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_destroy">destroy</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private deprecated">
+                                <a href="#method_getFileDetails">getFileDetails</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_getXHRHeaderInfo">getXHRHeaderInfo</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_hasTag">hasTag</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_load">load</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_loadDetails">loadDetails</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method protected">
+                                <a href="#method_loadError">loadError</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method protected">
+                                <a href="#method_loadProgress">loadProgress</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method protected">
+                                <a href="#method_loadSuccess">loadSuccess</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method protected">
+                                <a href="#method_parseParams">parseParams</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_parseParamsOld">parseParamsOld</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method protected">
+                                <a href="#method_processXHR">processXHR</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_removeTag">removeTag</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_start">start</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_stop">stop</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_xhrHeadOnError">xhrHeadOnError</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_xhrHeadOnLoad">xhrHeadOnLoad</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_xhrHeadRequest">xhrHeadRequest</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method protected">
+                                <a href="#method_xhrLoader">xhrLoader</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method protected">
+                                <a href="#method_xhrOnLoad">xhrOnLoad</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method protected">
+                                <a href="#method_xhrOnProgress">xhrOnProgress</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                        
+                            <li class="index-item property private">
+                                <a href="#property__loadInParallel">_loadInParallel</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__tags">_tags</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property protected">
+                                <a href="#property__xhr">_xhr</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property protected">
+                                <a href="#property_attemptCounter">attemptCounter</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_AUDIO">AUDIO</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_BINARY_DATA">BINARY_DATA</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public deprecated">
+                                <a href="#property_buffer">buffer</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_bytesLoaded">bytesLoaded</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_bytesTotal">bytesTotal</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_complete">complete</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_data">data</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_data">data</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_dataType">dataType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_detailsReceived">detailsReceived</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_duration">duration</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_error">error</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_ETag">ETag</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_extension">extension</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public deprecated">
+                                <a href="#property_fileName">fileName</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item property public deprecated">
+                                <a href="#property_filePath">filePath</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item property public deprecated">
+                                <a href="#property_filePath">filePath</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item property public deprecated">
+                                <a href="#property_fileSize">fileSize</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_fileStore">fileStore</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public deprecated">
+                                <a href="#property_fileType">fileType</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item property public deprecated">
+                                <a href="#property_fileURL">fileURL</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_game">game</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_hasError">hasError</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public deprecated">
+                                <a href="#property_hasTimedOut">hasTimedOut</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property_headCompleteCallback">headCompleteCallback</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property_headCompleteContext">headCompleteContext</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_IMAGE">IMAGE</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_isAudio">isAudio</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_isData">isData</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_isTexture">isTexture</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_JSON">JSON</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_key">key</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_lastModified">lastModified</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_lastProgress">lastProgress</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_loading">loading</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property_loadInParallel">loadInParallel</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_MAX_LOAD_ATTEMPTS">MAX_LOAD_ATTEMPTS</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_maxLoadAttempts">maxLoadAttempts</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_name">name</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_onComplete">onComplete</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public deprecated">
+                                <a href="#property_onCompleteCallback">onCompleteCallback</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_onProgress">onProgress</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public deprecated">
+                                <a href="#property_onProgressCallback">onProgressCallback</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_ownerState">ownerState</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_path">path</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_percentLoaded">percentLoaded</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public deprecated">
+                                <a href="#property_readyState">readyState</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_size">size</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_SPRITE_SHEET">SPRITE_SHEET</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public deprecated">
+                                <a href="#property_status">status</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item property public deprecated">
+                                <a href="#property_statusText">statusText</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_success">success</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_TEXT_DATA">TEXT_DATA</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_TEXTUREATLAS">TEXTUREATLAS</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public deprecated">
+                                <a href="#property_timedOut">timedOut</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_timeFinished">timeFinished</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_TIMEOUT_DELAY">TIMEOUT_DELAY</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_timeOutDelay">timeOutDelay</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_timeStarted">timeStarted</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_type">type</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_UNKNOWN">UNKNOWN</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_URL">URL</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property protected">
+                                <a href="#property_useTagLoader">useTagLoader</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_XML">XML</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+
+            
+        </div>
+
+        
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method__load" class="method item protected">
+    <h3 class="name"><code>_load</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag protected">protected</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l450"><code>src\file\File.ts:450</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Increments the counter, and calls the approprate loading method.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_addTag" class="method item public">
+    <h3 class="name"><code>addTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l982"><code>src\file\File.ts:982</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Adds a new tag to this file.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The tag that you would like to add</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_assignFileDetails" class="method item private">
+    <h3 class="name"><code>assignFileDetails</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>url</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l123"><code>src\file\File.ts:123</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Gets the file details from the URL passed. Name, extension, and path are extracted.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">url</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_destroy" class="method item public">
+    <h3 class="name"><code>destroy</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l1180"><code>src\file\File.ts:1180</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Destroys all external object references on this object.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_getFileDetails" class="method item private deprecated">
+    <h3 class="name"><code>getFileDetails</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code class="optional">[callback=null]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[maxLoadAttempts=1]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[timeout=this.timeOutDelay]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+        <span class="flag deprecated" title="Use &#x27;loadDetails&#x27; instead. Deprecated as of 1.2.0">deprecated</span>
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l1389"><code>src\file\File.ts:1389</code></a>
+        
+        </p>
+
+
+        
+            <p>Deprecated: Use &#x27;loadDetails&#x27; instead. Deprecated as of 1.2.0</p>
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Attempts to make the file send a XHR HEAD request to get information about the file that is going to be downloaded.
+This is particularly useful when you are wanting to check how large a file is before loading all of the content.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[callback=null]</code>
+                        <span class="type">Any</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The callback to send this FileInfo object to.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[maxLoadAttempts=1]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The maximum amount of load attempts. Only set this if it is different from the default.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[timeout=this.timeOutDelay]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The timeout delay. By default this is the same as the timeout delay property set on this file.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_getXHRHeaderInfo" class="method item private">
+    <h3 class="name"><code>getXHRHeaderInfo</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l853"><code>src\file\File.ts:853</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Retrieves the HEAD information from the XHR. 
+This method is used for both &#39;load&#39; and &#39;loadDetails&#39; methods.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_hasTag" class="method item public">
+    <h3 class="name"><code>hasTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l1009"><code>src\file\File.ts:1009</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Checks to see if a tag that is passed exists on this file.
+Returns a boolean that is used as a indication of the results. 
+True means that the tag exists on this file.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The tag you are checking to see exists.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>If the tag does exist on this file or not.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_load" class="method item public">
+    <h3 class="name"><code>load</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l419"><code>src\file\File.ts:419</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Starts the loading process for this file. 
+Passing parameters to this method has been deprecated and only exists for backwards compatibility.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_loadDetails" class="method item public">
+    <h3 class="name"><code>loadDetails</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code class="optional">[callback]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[context]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l827"><code>src\file\File.ts:827</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Makes a XHR HEAD request to get information about the file that is going to be downloaded.
+This is particularly useful when you are wanting to check how large a file is before loading all of the content.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[callback]</code>
+                        <span class="type">Any</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[context]</code>
+                        <span class="type">Any</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>If the request was made</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_loadError" class="method item protected">
+    <h3 class="name"><code>loadError</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>error</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag protected">protected</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l499"><code>src\file\File.ts:499</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Executed when the loading process fails. 
+This could be for any reason</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">error</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The event / reason for the file to not be loaded.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_loadProgress" class="method item protected">
+    <h3 class="name"><code>loadProgress</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag protected">protected</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l462"><code>src\file\File.ts:462</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Should be called by the loading method. Dispatches the &#39;onProgress&#39; callback.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_loadSuccess" class="method item protected">
+    <h3 class="name"><code>loadSuccess</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag protected">protected</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l473"><code>src\file\File.ts:473</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Called by the loading methods when the file has been loaded and successfully processed.
+Dispatches the &#39;onComplete&#39; callback and sets the appropriate properties.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l151"><code>src\file\File.ts:151</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns the type of this object</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                    <p>&quot;File&quot;</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_parseParams" class="method item protected">
+    <h3 class="name"><code>parseParams</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code class="optional">[params]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag protected">protected</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l88"><code>src\file\File.ts:88</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Sets properties for this instance based on an object literal passed. Used when the class is being created.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[params]</code>
+                        <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[metadata]</code>
+                                    <span class="type"></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>{Object} Any metadata to be associated with the file.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[state=null]</code>
+                                    <span class="type"><a href="../classes/Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>The state that this file belongs to. Used for defining global assets vs local assets.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[fileStore=null]</code>
+                                    <span class="type"><a href="../classes/Kiwi.Files.FileStore.html" class="crosslink">Kiwi.Files.FileStore</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>The filestore that this file should be save in automatically when loaded.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[type=UNKNOWN]</code>
+                                    <span class="type">Number</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>The type of file this is.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[tags]</code>
+                                    <span class="type">Array</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Any tags to be associated with this file.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_parseParamsOld" class="method item private">
+    <h3 class="name"><code>parseParamsOld</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>dataType</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>path</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[name=&#x27;&#x27;]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[saveToFileStore=true]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[storeAsGlobal=true]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l59"><code>src\file\File.ts:59</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Assigns properties and variables for the constructor as in pre 1.2 Kiwi versions.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
             
                 <li class="param">
                     
@@ -580,672 +2827,13 @@ OR if you use the &#39;getFileDetails&#39; method and the properties will then b
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
-                    
-                
-            </div>
-        </div>
-    
 
     
 </div>
 
-    </div>
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-        
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-        
-        
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-        
-        
-        
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-            
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods">
-                        
-                            <li class="index-item method public">
-                                <a href="#method_addTag">addTag</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_completeXHRHeadRequest">completeXHRHeadRequest</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_createBlob">createBlob</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_getFileDetails">getFileDetails</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_getResponseHeaders">getResponseHeaders</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_hasTag">hasTag</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_load">load</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_objType">objType</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_parseComplete">parseComplete</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_processFile">processFile</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_removeTag">removeTag</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_revoke">revoke</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_sendXHRHeadRequest">sendXHRHeadRequest</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_start">start</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_stop">stop</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_tagLoader">tagLoader</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_tagLoaderIOSLoad">tagLoaderIOSLoad</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_tagLoaderOnError">tagLoaderOnError</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_tagLoaderOnLoad">tagLoaderOnLoad</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_tagLoaderOnReadyStateChange">tagLoaderOnReadyStateChange</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_tagLoaderProgressThrough">tagLoaderProgressThrough</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_xhrHeadOnError">xhrHeadOnError</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_xhrHeadOnTimeout">xhrHeadOnTimeout</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_xhrLoader">xhrLoader</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_xhrOnAbort">xhrOnAbort</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_xhrOnError">xhrOnError</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_xhrOnLoad">xhrOnLoad</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_xhrOnLoadStart">xhrOnLoadStart</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_xhrOnProgress">xhrOnProgress</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_xhrOnReadyStateChange">xhrOnReadyStateChange</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_xhrOnTimeout">xhrOnTimeout</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
-            
-
-            
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                        
-                            <li class="index-item property private">
-                                <a href="#property__fileStore">_fileStore</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__game">_game</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__saveToFileStore">_saveToFileStore</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__tags">_tags</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__useTagLoader">_useTagLoader</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__xhr">_xhr</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_attemptCounter">attemptCounter</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_AUDIO">AUDIO</a>
-
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_BINARY_DATA">BINARY_DATA</a>
-
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_buffer">buffer</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_bytesLoaded">bytesLoaded</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_bytesTotal">bytesTotal</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_data">data</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_data">data</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_dataType">dataType</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_duration">duration</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_error">error</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_ETag">ETag</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_fileExtension">fileExtension</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_fileName">fileName</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_filePath">filePath</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_fileSize">fileSize</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_fileType">fileType</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_fileURL">fileURL</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_hasError">hasError</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_hasTimedOut">hasTimedOut</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_IMAGE">IMAGE</a>
-
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_isAudio">isAudio</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_isData">isData</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_isTexture">isTexture</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_JSON">JSON</a>
-
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_key">key</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_lastModified">lastModified</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_lastProgress">lastProgress</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_maxHeadLoadAttempts">maxHeadLoadAttempts</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_maxLoadAttempts">maxLoadAttempts</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_onCompleteCallback">onCompleteCallback</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_onProgressCallback">onProgressCallback</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_ownerState">ownerState</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_percentLoaded">percentLoaded</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_readyState">readyState</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_SPRITE_SHEET">SPRITE_SHEET</a>
-
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_status">status</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_statusText">statusText</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_success">success</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_TEXT_DATA">TEXT_DATA</a>
-
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_TEXTUREATLAS">TEXTUREATLAS</a>
-
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_timedOut">timedOut</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_timeFinished">timeFinished</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_timeOutDelay">timeOutDelay</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_timeStarted">timeStarted</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_XML">XML</a>
-
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
-            
-
-            
-
-            
-        </div>
-
-        
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
                 
-                    <div id="method_addTag" class="method item public">
-    <h3 class="name"><code>addTag</code></h3>
+                    <div id="method_processXHR" class="method item protected">
+    <h3 class="name"><code>processXHR</code></h3>
 
     
         <div class="args">
@@ -1253,7 +2841,7 @@ OR if you use the &#39;getFileDetails&#39; method and the properties will then b
             
                 <li class="arg">
                     
-                        <code>tag</code>
+                        <code>response</code>
                     
                 </li>
             
@@ -1266,7 +2854,7 @@ OR if you use the &#39;getFileDetails&#39; method and the properties will then b
     
 
     
-        <span class="flag public">public</span>
+        <span class="flag protected">protected</span>
     
 
     
@@ -1288,7 +2876,7 @@ OR if you use the &#39;getFileDetails&#39; method and the properties will then b
             
         
         
-        <a href="../files/src_file_File.ts.html#l125"><code>src\file\File.ts:125</code></a>
+        <a href="../files/src_file_File.ts.html#l617"><code>src\file\File.ts:617</code></a>
         
         </p>
 
@@ -1299,7 +2887,9 @@ OR if you use the &#39;getFileDetails&#39; method and the properties will then b
     </div>
 
     <div class="description">
-        <p>Adds a new tag to this file.</p>
+        <p>Contains the logic for processing the information retrieved via XHR.
+Assigns the data property. 
+This method is also in charge of calling &#39;loadSuccess&#39; (or &#39;loadError&#39;) when processing is complete.</p>
 
     </div>
 
@@ -1311,15 +2901,14 @@ OR if you use the &#39;getFileDetails&#39; method and the properties will then b
             
                 <li class="param">
                     
-                        <code class="param-name">tag</code>
-                        <span class="type">String</span>
+                        <code class="param-name">response</code>
+                        <span class="type">Object</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The tag that you would like to add</p>
-
+                         
                     </div>
 
                     
@@ -1327,868 +2916,6 @@ OR if you use the &#39;getFileDetails&#39; method and the properties will then b
             
             </ul>
         </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_completeXHRHeadRequest" class="method item private">
-    <h3 class="name"><code>completeXHRHeadRequest</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>outcome</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l1396"><code>src\file\File.ts:1396</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Used to finialise the XHR Head Request (used with get File Details). 
-When passed an outcome this method will see if it can &#39;try again&#39; otherwise it will just finish the attempt.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">outcome</code>
-                        <span class="type">Boolean</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>If the outcome was a success or not.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_createBlob" class="method item private">
-    <h3 class="name"><code>createBlob</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l1184"><code>src\file\File.ts:1184</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Creates a new Binary Large Object for the data that was loaded through the XHR.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_getFileDetails" class="method item private">
-    <h3 class="name"><code>getFileDetails</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code class="optional">[callback=null]</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[maxLoadAttempts=1]</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[timeout=this.timeOutDelay]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l1295"><code>src\file\File.ts:1295</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Attempts to make the file send a XHR HEAD request to get information about the file that is going to be downloaded.
-This is particularly useful when you are wanting to check how large a file is before loading all of the content.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[callback=null]</code>
-                        <span class="type">Any</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The callback to send this FileInfo object to.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[maxLoadAttempts=1]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The maximum amount of load attempts. Only set this if it is different from the default.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[timeout=this.timeOutDelay]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The timeout delay. By default this is the same as the timeout delay property set on this file.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_getResponseHeaders" class="method item private">
-    <h3 class="name"><code>getResponseHeaders</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>event</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l1368"><code>src\file\File.ts:1368</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Process the response headers received.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">event</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The XHR event.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_hasTag" class="method item public">
-    <h3 class="name"><code>hasTag</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>tag</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l152"><code>src\file\File.ts:152</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Checks to see if a tag that is passed exists on this file and returns a boolean that is used as a indication of the results. True means that the tag exists on this file.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">tag</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The tag you are checking to see exists.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
-                    
-                    <p>If the tag does exist on this file or not.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_load" class="method item public">
-    <h3 class="name"><code>load</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code class="optional">[onCompleteCallback=null]</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[onProgressCallback=null]</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[customFileStore=null]</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[maxLoadAttempts]</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[timeout]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l581"><code>src\file\File.ts:581</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Starts the loading process for this file.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[onCompleteCallback=null]</code>
-                        <span class="type">Any</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The callback method to execute when this file has loaded.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[onProgressCallback=null]</code>
-                        <span class="type">Any</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The callback method to execute while this file is loading.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[customFileStore=null]</code>
-                        <span class="type">Any</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>A custom filestore that is file should be added to.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[maxLoadAttempts]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The maximum amount of times to try and load this file.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[timeout]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The timeout to use when loading the file. Overrides the default timeout if passed otherwise uses the default 2000 milliseconds.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_objType" class="method item public">
-    <h3 class="name"><code>objType</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l95"><code>src\file\File.ts:95</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns the type of this object</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">String</span>:
-                    
-                    <p>&quot;File&quot;</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_parseComplete" class="method item private">
-    <h3 class="name"><code>parseComplete</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l1258"><code>src\file\File.ts:1258</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Executed when this file has completed loading (this could be due to it failing or succeeding).</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_processFile" class="method item private">
-    <h3 class="name"><code>processFile</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l1112"><code>src\file\File.ts:1112</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Handles the processing of the files information when it was loaded via the xhr + arraybuffer method. 
-Is only executed when the loading was a success</p>
-
-    </div>
-
     
 
     
@@ -2241,7 +2968,7 @@ Is only executed when the loading was a success</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l138"><code>src\file\File.ts:138</code></a>
+        <a href="../files/src_file_File.ts.html#l995"><code>src\file\File.ts:995</code></a>
         
         </p>
 
@@ -2272,156 +2999,6 @@ Is only executed when the loading was a success</p>
 
                     <div class="param-description">
                         <p>The tag that is to be removed.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_revoke" class="method item private">
-    <h3 class="name"><code>revoke</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l1236"><code>src\file\File.ts:1236</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Revokes the object url that was added to the window when creating the image. 
-Also tells the File that the loading is now complete.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_sendXHRHeadRequest" class="method item private">
-    <h3 class="name"><code>sendXHRHeadRequest</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>timeout</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l1316"><code>src\file\File.ts:1316</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Sends a XHR request for the HEAD information of this file. 
-Useful as it can will contain the information about the file before loading the actual file.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">timeout</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The timeout delay.</p>
 
                     </div>
 
@@ -2472,7 +3049,7 @@ Useful as it can will contain the information about the file before loading the 
             
         
         
-        <a href="../files/src_file_File.ts.html#l624"><code>src\file\File.ts:624</code></a>
+        <a href="../files/src_file_File.ts.html#l683"><code>src\file\File.ts:683</code></a>
         
         </p>
 
@@ -2484,7 +3061,7 @@ Useful as it can will contain the information about the file before loading the 
 
     <div class="description">
         <p>Is executed when this file starts loading. 
-Gets the time and initalised properties that are used across both loading methods.</p>
+Gets the time and resets properties used in file loading.</p>
 
     </div>
 
@@ -2530,7 +3107,7 @@ Gets the time and initalised properties that are used across both loading method
             
         
         
-        <a href="../files/src_file_File.ts.html#l640"><code>src\file\File.ts:640</code></a>
+        <a href="../files/src_file_File.ts.html#l699"><code>src\file\File.ts:699</code></a>
         
         </p>
 
@@ -2541,486 +3118,10 @@ Gets the time and initalised properties that are used across both loading method
     </div>
 
     <div class="description">
-        <p>Is executed when this file stops loading. Used across all loading methods.</p>
+        <p>Is executed when this file stops loading.</p>
 
     </div>
 
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_tagLoader" class="method item private">
-    <h3 class="name"><code>tagLoader</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l659"><code>src\file\File.ts:659</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Handles the loading of the file when using the tag loader method. 
-Only supports the IMAGES and AUDIO files.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_tagLoaderIOSLoad" class="method item private">
-    <h3 class="name"><code>tagLoaderIOSLoad</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l763"><code>src\file\File.ts:763</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Is executed when iOS (or another device) is being used and the audio is &#39;locked&#39;.
-&#39;Fakes&#39; the loading and tells the rest of the game to carry on.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_tagLoaderOnError" class="method item private">
-    <h3 class="name"><code>tagLoaderOnError</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>event</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l718"><code>src\file\File.ts:718</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Is executed when the tag loader encounters a error that stops it from loading.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">event</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_tagLoaderOnLoad" class="method item private">
-    <h3 class="name"><code>tagLoaderOnLoad</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>event</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l775"><code>src\file\File.ts:775</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Is executed when the file has successfully loaded.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">event</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_tagLoaderOnReadyStateChange" class="method item private">
-    <h3 class="name"><code>tagLoaderOnReadyStateChange</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>event</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l708"><code>src\file\File.ts:708</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Is executed when the tag loader changes its ready state.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">event</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_tagLoaderProgressThrough" class="method item private">
-    <h3 class="name"><code>tagLoaderProgressThrough</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>event</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l736"><code>src\file\File.ts:736</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Is executed when an audio file can play the whole way through with stopping to load.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">event</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
     
 
     
@@ -3073,7 +3174,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l1352"><code>src\file\File.ts:1352</code></a>
+        <a href="../files/src_file_File.ts.html#l896"><code>src\file\File.ts:896</code></a>
         
         </p>
 
@@ -3084,7 +3185,7 @@ Only supports the IMAGES and AUDIO files.</p>
     </div>
 
     <div class="description">
-        <p>Is executed when this XHR head request has a error.</p>
+        <p>Executed when a xhr head request fails</p>
 
     </div>
 
@@ -3103,8 +3204,7 @@ Only supports the IMAGES and AUDIO files.</p>
                     
 
                     <div class="param-description">
-                        <p>The event containing the reason why this event failed.</p>
-
+                         
                     </div>
 
                     
@@ -3120,8 +3220,8 @@ Only supports the IMAGES and AUDIO files.</p>
 </div>
 
                 
-                    <div id="method_xhrHeadOnTimeout" class="method item private">
-    <h3 class="name"><code>xhrHeadOnTimeout</code></h3>
+                    <div id="method_xhrHeadOnLoad" class="method item private">
+    <h3 class="name"><code>xhrHeadOnLoad</code></h3>
 
     
         <div class="args">
@@ -3164,7 +3264,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l1336"><code>src\file\File.ts:1336</code></a>
+        <a href="../files/src_file_File.ts.html#l910"><code>src\file\File.ts:910</code></a>
         
         </p>
 
@@ -3175,7 +3275,8 @@ Only supports the IMAGES and AUDIO files.</p>
     </div>
 
     <div class="description">
-        <p>Is executed when the XHR head request timed out.</p>
+        <p>Executed when a xhr head request has loaded.
+Checks that the status of the request is 200 before classifying it as a success.</p>
 
     </div>
 
@@ -3210,8 +3311,8 @@ Only supports the IMAGES and AUDIO files.</p>
 </div>
 
                 
-                    <div id="method_xhrLoader" class="method item private">
-    <h3 class="name"><code>xhrLoader</code></h3>
+                    <div id="method_xhrHeadRequest" class="method item private">
+    <h3 class="name"><code>xhrHeadRequest</code></h3>
 
     
         <span class="paren">()</span>
@@ -3244,7 +3345,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l923"><code>src\file\File.ts:923</code></a>
+        <a href="../files/src_file_File.ts.html#l878"><code>src\file\File.ts:878</code></a>
         
         </p>
 
@@ -3252,10 +3353,12 @@ Only supports the IMAGES and AUDIO files.</p>
         
 
         
+            <p>Available since 1.2.0</p>
+        
     </div>
 
     <div class="description">
-        <p>Sets up a XHR loader based on the properties of this file.</p>
+        <p>Sets up a XMLHttpRequest object and sends a HEAD request.</p>
 
     </div>
 
@@ -3267,8 +3370,8 @@ Only supports the IMAGES and AUDIO files.</p>
 </div>
 
                 
-                    <div id="method_xhrOnAbort" class="method item private">
-    <h3 class="name"><code>xhrOnAbort</code></h3>
+                    <div id="method_xhrLoader" class="method item protected">
+    <h3 class="name"><code>xhrLoader</code></h3>
 
     
         <div class="args">
@@ -3276,7 +3379,19 @@ Only supports the IMAGES and AUDIO files.</p>
             
                 <li class="arg">
                     
-                        <code>event</code>
+                        <code class="optional">[method=&quot;GET&quot;]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[responseType=&quot;text&quot;]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[timeoutDelay]</code>
                     
                 </li>
             
@@ -3289,7 +3404,7 @@ Only supports the IMAGES and AUDIO files.</p>
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag protected">protected</span>
     
 
     
@@ -3311,7 +3426,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l983"><code>src\file\File.ts:983</code></a>
+        <a href="../files/src_file_File.ts.html#l534"><code>src\file\File.ts:534</code></a>
         
         </p>
 
@@ -3322,7 +3437,7 @@ Only supports the IMAGES and AUDIO files.</p>
     </div>
 
     <div class="description">
-        <p>Runs when the XHR loader aborts the load for some reason.</p>
+        <p>Sets up a XHR loader based on the properties of this file and parameters passed.</p>
 
     </div>
 
@@ -3334,8 +3449,43 @@ Only supports the IMAGES and AUDIO files.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">event</code>
-                        <span class="type">Any</span>
+                        <code class="param-name optional">[method=&quot;GET&quot;]</code>
+                        <span class="type">String</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The method this request should be made in.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[responseType=&quot;text&quot;]</code>
+                        <span class="type">String</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The type of response we are expecting.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[timeoutDelay]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
@@ -3357,97 +3507,7 @@ Only supports the IMAGES and AUDIO files.</p>
 </div>
 
                 
-                    <div id="method_xhrOnError" class="method item private">
-    <h3 class="name"><code>xhrOnError</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>event</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l997"><code>src\file\File.ts:997</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Runs when the XHR loader encounters a error.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">event</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_xhrOnLoad" class="method item private">
+                    <div id="method_xhrOnLoad" class="method item protected">
     <h3 class="name"><code>xhrOnLoad</code></h3>
 
     
@@ -3469,7 +3529,7 @@ Only supports the IMAGES and AUDIO files.</p>
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag protected">protected</span>
     
 
     
@@ -3491,7 +3551,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l1047"><code>src\file\File.ts:1047</code></a>
+        <a href="../files/src_file_File.ts.html#l591"><code>src\file\File.ts:591</code></a>
         
         </p>
 
@@ -3502,98 +3562,8 @@ Only supports the IMAGES and AUDIO files.</p>
     </div>
 
     <div class="description">
-        <p>Once the file has finished downloading (or pulled from the browser cache) this onload event fires.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">event</code>
-                        <span class="type">Event</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The XHR event.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_xhrOnLoadStart" class="method item private">
-    <h3 class="name"><code>xhrOnLoadStart</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>event</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l969"><code>src\file\File.ts:969</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Is executed when the XHR loader starts to load the file.</p>
+        <p>Fired when the file has been loaded. 
+Checks that the response contains information before marking it as a success.</p>
 
     </div>
 
@@ -3628,7 +3598,7 @@ Only supports the IMAGES and AUDIO files.</p>
 </div>
 
                 
-                    <div id="method_xhrOnProgress" class="method item private">
+                    <div id="method_xhrOnProgress" class="method item protected">
     <h3 class="name"><code>xhrOnProgress</code></h3>
 
     
@@ -3650,7 +3620,7 @@ Only supports the IMAGES and AUDIO files.</p>
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag protected">protected</span>
     
 
     
@@ -3672,7 +3642,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l1027"><code>src\file\File.ts:1027</code></a>
+        <a href="../files/src_file_File.ts.html#l576"><code>src\file\File.ts:576</code></a>
         
         </p>
 
@@ -3683,187 +3653,7 @@ Only supports the IMAGES and AUDIO files.</p>
     </div>
 
     <div class="description">
-        <p>Is execute whilst loading of the file is occuring. Updates the number of bytes that have been loaded and percentage loaded.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">event</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_xhrOnReadyStateChange" class="method item private">
-    <h3 class="name"><code>xhrOnReadyStateChange</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>event</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l952"><code>src\file\File.ts:952</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Is executed when the XHR loader has changed its ready state.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">event</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_xhrOnTimeout" class="method item private">
-    <h3 class="name"><code>xhrOnTimeout</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>event</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l1011"><code>src\file\File.ts:1011</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Is executed when the xhr</p>
+        <p>Progress event fired whilst the file is loading via XHR.</p>
 
     </div>
 
@@ -3906,102 +3696,8 @@ Only supports the IMAGES and AUDIO files.</p>
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property__fileStore" class="property item private">
-    <h3 class="name"><code>_fileStore</code></h3>
-    <span class="type"><a href="../classes/Kiwi.Files.FileStore.html" class="crosslink">Kiwi.Files.FileStore</a></span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l282"><code>src\file\File.ts:282</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The file store that this file is a member of.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__game" class="property item private">
-    <h3 class="name"><code>_game</code></h3>
-    <span class="type"><a href="../classes/Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l264"><code>src\file\File.ts:264</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The game that this file belongs to.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__saveToFileStore" class="property item private">
-    <h3 class="name"><code>_saveToFileStore</code></h3>
+                    <div id="property__loadInParallel" class="property item private">
+    <h3 class="name"><code>_loadInParallel</code></h3>
     <span class="type">Boolean</span>
 
     
@@ -4025,22 +3721,25 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l291"><code>src\file\File.ts:291</code></a>
+        <a href="../files/src_file_File.ts.html#l177"><code>src\file\File.ts:177</code></a>
         
         </p>
 
         
 
         
+            <p>Available since 1.2.0</p>
+        
     </div>
 
     <div class="description">
-        <p>Used to determine if this file should be saved to the file store or not.</p>
+        <p>Indicates if this file can be loaded in parallel to other files. 
+This is usually only used files are using the tag loaders and not XHR.</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> true</p>
+        <p><strong>Default:</strong> false</p>
     
 
     
@@ -4074,7 +3773,7 @@ Only supports the IMAGES and AUDIO files.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l115"><code>src\file\File.ts:115</code></a>
+        <a href="../files/src_file_File.ts.html#l972"><code>src\file\File.ts:972</code></a>
         
         </p>
 
@@ -4098,64 +3797,14 @@ Only supports the IMAGES and AUDIO files.</p>
 </div>
 
                 
-                    <div id="property__useTagLoader" class="property item private">
-    <h3 class="name"><code>_useTagLoader</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_File.ts.html#l301"><code>src\file\File.ts:301</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>If when loading the file in we have loaded the file in using a tag loader (older browsers) or we are using the an XHR loader + array buffer.
-By default we use the tag loader and only used the second method if the browser supports it.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> true</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__xhr" class="property item private">
+                    <div id="property__xhr" class="property item protected">
     <h3 class="name"><code>_xhr</code></h3>
     <span class="type">XMLHttpRequest</span>
 
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag protected">protected</span>
     
 
     
@@ -4173,7 +3822,7 @@ By default we use the tag loader and only used the second method if the browser 
             
         
         
-        <a href="../files/src_file_File.ts.html#l273"><code>src\file\File.ts:273</code></a>
+        <a href="../files/src_file_File.ts.html#l631"><code>src\file\File.ts:631</code></a>
         
         </p>
 
@@ -4195,14 +3844,14 @@ By default we use the tag loader and only used the second method if the browser 
 </div>
 
                 
-                    <div id="property_attemptCounter" class="property item public">
+                    <div id="property_attemptCounter" class="property item protected">
     <h3 class="name"><code>attemptCounter</code></h3>
     <span class="type">Number</span>
 
     
 
     
-        <span class="flag public">public</span>
+        <span class="flag protected">protected</span>
     
 
     
@@ -4220,7 +3869,7 @@ By default we use the tag loader and only used the second method if the browser 
             
         
         
-        <a href="../files/src_file_File.ts.html#l893"><code>src\file\File.ts:893</code></a>
+        <a href="../files/src_file_File.ts.html#l390"><code>src\file\File.ts:390</code></a>
         
         </p>
 
@@ -4272,7 +3921,7 @@ This is only used with XHR methods of loading.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l204"><code>src\file\File.ts:204</code></a>
+        <a href="../files/src_file_File.ts.html#l1069"><code>src\file\File.ts:1069</code></a>
         
         </p>
 
@@ -4325,7 +3974,7 @@ This is only used with XHR methods of loading.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l240"><code>src\file\File.ts:240</code></a>
+        <a href="../files/src_file_File.ts.html#l1105"><code>src\file\File.ts:1105</code></a>
         
         </p>
 
@@ -4349,10 +3998,12 @@ This is only used with XHR methods of loading.</p>
 </div>
 
                 
-                    <div id="property_buffer" class="property item public">
+                    <div id="property_buffer" class="property item public deprecated">
     <h3 class="name"><code>buffer</code></h3>
     <span class="type">Any</span>
 
+    
+        <span class="flag deprecated" title="Use &#x27;data&#x27; instead. Deprecated as of 1.2.0">deprecated</span>
     
 
     
@@ -4374,10 +4025,12 @@ This is only used with XHR methods of loading.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l914"><code>src\file\File.ts:914</code></a>
+        <a href="../files/src_file_File.ts.html#l1379"><code>src\file\File.ts:1379</code></a>
         
         </p>
 
+        
+            <p>Deprecated: Use &#x27;data&#x27; instead. Deprecated as of 1.2.0</p>
         
 
         
@@ -4421,7 +4074,7 @@ This is only used with XHR methods of loading.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l830"><code>src\file\File.ts:830</code></a>
+        <a href="../files/src_file_File.ts.html#l765"><code>src\file\File.ts:765</code></a>
         
         </p>
 
@@ -4432,7 +4085,8 @@ This is only used with XHR methods of loading.</p>
 
     <div class="description">
         <p>The number of bytes that have currently been loaded. 
-This can used to create progress bars but only has a value when using the XHR method of loading.</p>
+Useful when wanting to know exactly how much data has been transferred.
+Only has a value when using the XHR method of loading.</p>
 
     </div>
 
@@ -4471,7 +4125,7 @@ This can used to create progress bars but only has a value when using the XHR me
             
         
         
-        <a href="../files/src_file_File.ts.html#l841"><code>src\file\File.ts:841</code></a>
+        <a href="../files/src_file_File.ts.html#l778"><code>src\file\File.ts:778</code></a>
         
         </p>
 
@@ -4482,12 +4136,63 @@ This can used to create progress bars but only has a value when using the XHR me
 
     <div class="description">
         <p>The total number of bytes that the file consists off.
-Only has a value when using the XHR method of loading.</p>
+Only has a value when using the XHR method of loading 
+or you are getting the file details before hand.</p>
 
     </div>
 
     
         <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_complete" class="property item public">
+    <h3 class="name"><code>complete</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l747"><code>src\file\File.ts:747</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Indicates if the file has attempted to load.
+This is regardless of whether it was a success or not.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
     
 
     
@@ -4521,7 +4226,7 @@ Only has a value when using the XHR method of loading.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l515"><code>src\file\File.ts:515</code></a>
+        <a href="../files/src_file_File.ts.html#l234"><code>src\file\File.ts:234</code></a>
         
         </p>
 
@@ -4532,7 +4237,7 @@ Only has a value when using the XHR method of loading.</p>
 
     <div class="description">
         <p>A dictionary, stores any information relating to this file.
-Is useful when loading images that are to be used as a spritesheet or texture atlas.</p>
+Used when loading images that are to be used as a spritesheet or texture atlas.</p>
 
     </div>
 
@@ -4544,12 +4249,14 @@ Is useful when loading images that are to be used as a spritesheet or texture at
 </div>
 
                 
-                    <div id="property_data" class="property item">
+                    <div id="property_data" class="property item public">
     <h3 class="name"><code>data</code></h3>
     <span class="type">Any</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -4567,7 +4274,7 @@ Is useful when loading images that are to be used as a spritesheet or texture at
             
         
         
-        <a href="../files/src_file_File.ts.html#l507"><code>src\file\File.ts:507</code></a>
+        <a href="../files/src_file_File.ts.html#l359"><code>src\file\File.ts:359</code></a>
         
         </p>
 
@@ -4614,7 +4321,7 @@ Is useful when loading images that are to be used as a spritesheet or texture at
             
         
         
-        <a href="../files/src_file_File.ts.html#l312"><code>src\file\File.ts:312</code></a>
+        <a href="../files/src_file_File.ts.html#l243"><code>src\file\File.ts:243</code></a>
         
         </p>
 
@@ -4624,10 +4331,62 @@ Is useful when loading images that are to be used as a spritesheet or texture at
     </div>
 
     <div class="description">
-        <p>Holds the type of data that is being loaded. This should be used with the STATIC properties that hold the various datatypes that can be loaded.</p>
+        <p>Holds the type of data that is being loaded. 
+This should be used with the STATIC properties that hold the various datatypes that can be loaded.</p>
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_detailsReceived" class="property item public">
+    <h3 class="name"><code>detailsReceived</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l817"><code>src\file\File.ts:817</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>An indication of whether this files information has been retrieved or not.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
     
 
     
@@ -4661,7 +4420,7 @@ Is useful when loading images that are to be used as a spritesheet or texture at
             
         
         
-        <a href="../files/src_file_File.ts.html#l431"><code>src\file\File.ts:431</code></a>
+        <a href="../files/src_file_File.ts.html#l673"><code>src\file\File.ts:673</code></a>
         
         </p>
 
@@ -4710,7 +4469,7 @@ Is useful when loading images that are to be used as a spritesheet or texture at
             
         
         
-        <a href="../files/src_file_File.ts.html#l460"><code>src\file\File.ts:460</code></a>
+        <a href="../files/src_file_File.ts.html#l723"><code>src\file\File.ts:723</code></a>
         
         </p>
 
@@ -4757,7 +4516,7 @@ Is useful when loading images that are to be used as a spritesheet or texture at
             
         
         
-        <a href="../files/src_file_File.ts.html#l390"><code>src\file\File.ts:390</code></a>
+        <a href="../files/src_file_File.ts.html#l937"><code>src\file\File.ts:937</code></a>
         
         </p>
 
@@ -4780,8 +4539,8 @@ Only has a value when either using the XHR loader OR when requesting the file de
 </div>
 
                 
-                    <div id="property_fileExtension" class="property item public">
-    <h3 class="name"><code>fileExtension</code></h3>
+                    <div id="property_extension" class="property item public">
+    <h3 class="name"><code>extension</code></h3>
     <span class="type">String</span>
 
     
@@ -4805,18 +4564,20 @@ Only has a value when either using the XHR loader OR when requesting the file de
             
         
         
-        <a href="../files/src_file_File.ts.html#l360"><code>src\file\File.ts:360</code></a>
+        <a href="../files/src_file_File.ts.html#l281"><code>src\file\File.ts:281</code></a>
         
         </p>
 
         
 
         
+            <p>Available since 1.2.0</p>
+        
     </div>
 
     <div class="description">
         <p>The extension of the file that is being loaded.
-This is based upon what the file path that the developer (you) specify.</p>
+This is based upon what the file path that the developer specifies.</p>
 
     </div>
 
@@ -4828,10 +4589,12 @@ This is based upon what the file path that the developer (you) specify.</p>
 </div>
 
                 
-                    <div id="property_fileName" class="property item public">
+                    <div id="property_fileName" class="property item public deprecated">
     <h3 class="name"><code>fileName</code></h3>
     <span class="type">String</span>
 
+    
+        <span class="flag deprecated" title="Use &#x60;name&#x60;. Deprecated as of 1.2.0">deprecated</span>
     
 
     
@@ -4853,10 +4616,12 @@ This is based upon what the file path that the developer (you) specify.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l330"><code>src\file\File.ts:330</code></a>
+        <a href="../files/src_file_File.ts.html#l1215"><code>src\file\File.ts:1215</code></a>
         
         </p>
 
+        
+            <p>Deprecated: Use &#x60;name&#x60;. Deprecated as of 1.2.0</p>
         
 
         
@@ -4875,10 +4640,12 @@ This is based upon what the file path that the developer (you) specify.</p>
 </div>
 
                 
-                    <div id="property_filePath" class="property item public">
+                    <div id="property_filePath" class="property item public deprecated">
     <h3 class="name"><code>filePath</code></h3>
     <span class="type">String</span>
 
+    
+        <span class="flag deprecated" title="Use &#x60;path&#x60;. Deprecated as of 1.2.0">deprecated</span>
     
 
     
@@ -4900,10 +4667,12 @@ This is based upon what the file path that the developer (you) specify.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l339"><code>src\file\File.ts:339</code></a>
+        <a href="../files/src_file_File.ts.html#l1229"><code>src\file\File.ts:1229</code></a>
         
         </p>
 
+        
+            <p>Deprecated: Use &#x60;path&#x60;. Deprecated as of 1.2.0</p>
         
 
         
@@ -4923,10 +4692,12 @@ Example: If the file you are load is located at &#39;images/awesomeImage.png&#39
 </div>
 
                 
-                    <div id="property_fileSize" class="property item public">
-    <h3 class="name"><code>fileSize</code></h3>
-    <span class="type">Number</span>
+                    <div id="property_filePath" class="property item public deprecated">
+    <h3 class="name"><code>filePath</code></h3>
+    <span class="type">String</span>
 
+    
+        <span class="flag deprecated" title="Use &#x60;extension&#x60;. Deprecated as of 1.2.0">deprecated</span>
     
 
     
@@ -4948,10 +4719,64 @@ Example: If the file you are load is located at &#39;images/awesomeImage.png&#39
             
         
         
-        <a href="../files/src_file_File.ts.html#l379"><code>src\file\File.ts:379</code></a>
+        <a href="../files/src_file_File.ts.html#l1244"><code>src\file\File.ts:1244</code></a>
         
         </p>
 
+        
+            <p>Deprecated: Use &#x60;extension&#x60;. Deprecated as of 1.2.0</p>
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The location of where the file is placed without the file itself (So without the files name).
+Example: If the file you are load is located at &#39;images/awesomeImage.png&#39; then the filepath will be &#39;images/&#39;</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_fileSize" class="property item public deprecated">
+    <h3 class="name"><code>fileSize</code></h3>
+    <span class="type">Number</span>
+
+    
+        <span class="flag deprecated" title="Use &#x60;size&#x60;. Deprecated as of 1.2.0">deprecated</span>
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l1289"><code>src\file\File.ts:1289</code></a>
+        
+        </p>
+
+        
+            <p>Deprecated: Use &#x60;size&#x60;. Deprecated as of 1.2.0</p>
         
 
         
@@ -4964,8 +4789,6 @@ Only has a value when the file was loaded by the XHR method OR you request the f
     </div>
 
     
-        <p><strong>Default:</strong> 0</p>
-    
 
     
 
@@ -4973,9 +4796,9 @@ Only has a value when the file was loaded by the XHR method OR you request the f
 </div>
 
                 
-                    <div id="property_fileType" class="property item public">
-    <h3 class="name"><code>fileType</code></h3>
-    <span class="type">String</span>
+                    <div id="property_fileStore" class="property item public">
+    <h3 class="name"><code>fileStore</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Files.FileStore.html" class="crosslink">Kiwi.Files.FileStore</a></span>
 
     
 
@@ -4998,10 +4821,64 @@ Only has a value when the file was loaded by the XHR method OR you request the f
             
         
         
-        <a href="../files/src_file_File.ts.html#l349"><code>src\file\File.ts:349</code></a>
+        <a href="../files/src_file_File.ts.html#l204"><code>src\file\File.ts:204</code></a>
         
         </p>
 
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>The filestore this file should be added to when it has loaded. 
+This can be replaced with a custom one if wanted.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_fileType" class="property item public deprecated">
+    <h3 class="name"><code>fileType</code></h3>
+    <span class="type">String</span>
+
+    
+        <span class="flag deprecated" title="Use &#x60;type&#x60;. Deprecated as of 1.2.0">deprecated</span>
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l1273"><code>src\file\File.ts:1273</code></a>
+        
+        </p>
+
+        
+            <p>Deprecated: Use &#x60;type&#x60;. Deprecated as of 1.2.0</p>
         
 
         
@@ -5022,9 +4899,60 @@ The value is based off of the &#39;Content-Type&#39; of the XHR&#39;s response h
 </div>
 
                 
-                    <div id="property_fileURL" class="property item public">
+                    <div id="property_fileURL" class="property item public deprecated">
     <h3 class="name"><code>fileURL</code></h3>
     <span class="type">String</span>
+
+    
+        <span class="flag deprecated" title="Use &#x60;URL&#x60;. Deprecated as of 1.2.0">deprecated</span>
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l1259"><code>src\file\File.ts:1259</code></a>
+        
+        </p>
+
+        
+            <p>Deprecated: Use &#x60;URL&#x60;. Deprecated as of 1.2.0</p>
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The full filepath including the file itself.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_game" class="property item public">
+    <h3 class="name"><code>game</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
 
     
 
@@ -5047,17 +4975,19 @@ The value is based off of the &#39;Content-Type&#39; of the XHR&#39;s response h
             
         
         
-        <a href="../files/src_file_File.ts.html#l370"><code>src\file\File.ts:370</code></a>
+        <a href="../files/src_file_File.ts.html#l161"><code>src\file\File.ts:161</code></a>
         
         </p>
 
         
 
         
+            <p>Available since 1.2.0</p>
+        
     </div>
 
     <div class="description">
-        <p>The full filepath including the file itself.</p>
+        <p>The game that this file belongs to.</p>
 
     </div>
 
@@ -5094,7 +5024,7 @@ The value is based off of the &#39;Content-Type&#39; of the XHR&#39;s response h
             
         
         
-        <a href="../files/src_file_File.ts.html#l441"><code>src\file\File.ts:441</code></a>
+        <a href="../files/src_file_File.ts.html#l714"><code>src\file\File.ts:714</code></a>
         
         </p>
 
@@ -5104,7 +5034,7 @@ The value is based off of the &#39;Content-Type&#39; of the XHR&#39;s response h
     </div>
 
     <div class="description">
-        <p>If the loading of the file failed or encountered an error.</p>
+        <p>If file loading failed or encountered an error and so was not laoded</p>
 
     </div>
 
@@ -5118,10 +5048,12 @@ The value is based off of the &#39;Content-Type&#39; of the XHR&#39;s response h
 </div>
 
                 
-                    <div id="property_hasTimedOut" class="property item public">
+                    <div id="property_hasTimedOut" class="property item public deprecated">
     <h3 class="name"><code>hasTimedOut</code></h3>
     <span class="type">Boolean</span>
 
+    
+        <span class="flag deprecated" title="Deprecated as of 1.2.0">deprecated</span>
     
 
     
@@ -5143,10 +5075,12 @@ The value is based off of the &#39;Content-Type&#39; of the XHR&#39;s response h
             
         
         
-        <a href="../files/src_file_File.ts.html#l873"><code>src\file\File.ts:873</code></a>
+        <a href="../files/src_file_File.ts.html#l1359"><code>src\file\File.ts:1359</code></a>
         
         </p>
 
+        
+            <p>Deprecated: Deprecated as of 1.2.0</p>
         
 
         
@@ -5159,6 +5093,108 @@ The value is based off of the &#39;Content-Type&#39; of the XHR&#39;s response h
 
     
         <p><strong>Default:</strong> false</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_headCompleteCallback" class="property item private">
+    <h3 class="name"><code>headCompleteCallback</code></h3>
+    <span class="type">Any</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l796"><code>src\file\File.ts:796</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>The callback method to be executed when the file details have been retrieved.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_headCompleteContext" class="property item private">
+    <h3 class="name"><code>headCompleteContext</code></h3>
+    <span class="type">Any</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l805"><code>src\file\File.ts:805</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>The context the &#39;headCompleteCallback&#39; should be executed in..
+The callback is the following arguments. </p>
+<ol>
+<li>If the details were recieved</li>
+</ol>
+
+    </div>
+
     
 
     
@@ -5196,7 +5232,7 @@ The value is based off of the &#39;Content-Type&#39; of the XHR&#39;s response h
             
         
         
-        <a href="../files/src_file_File.ts.html#l168"><code>src\file\File.ts:168</code></a>
+        <a href="../files/src_file_File.ts.html#l1033"><code>src\file\File.ts:1033</code></a>
         
         </p>
 
@@ -5245,7 +5281,7 @@ The value is based off of the &#39;Content-Type&#39; of the XHR&#39;s response h
             
         
         
-        <a href="../files/src_file_File.ts.html#l546"><code>src\file\File.ts:546</code></a>
+        <a href="../files/src_file_File.ts.html#l1151"><code>src\file\File.ts:1151</code></a>
         
         </p>
 
@@ -5292,7 +5328,7 @@ The value is based off of the &#39;Content-Type&#39; of the XHR&#39;s response h
             
         
         
-        <a href="../files/src_file_File.ts.html#l560"><code>src\file\File.ts:560</code></a>
+        <a href="../files/src_file_File.ts.html#l1163"><code>src\file\File.ts:1163</code></a>
         
         </p>
 
@@ -5339,7 +5375,7 @@ The value is based off of the &#39;Content-Type&#39; of the XHR&#39;s response h
             
         
         
-        <a href="../files/src_file_File.ts.html#l532"><code>src\file\File.ts:532</code></a>
+        <a href="../files/src_file_File.ts.html#l1139"><code>src\file\File.ts:1139</code></a>
         
         </p>
 
@@ -5390,7 +5426,7 @@ The value is based off of the &#39;Content-Type&#39; of the XHR&#39;s response h
             
         
         
-        <a href="../files/src_file_File.ts.html#l216"><code>src\file\File.ts:216</code></a>
+        <a href="../files/src_file_File.ts.html#l1081"><code>src\file\File.ts:1081</code></a>
         
         </p>
 
@@ -5439,7 +5475,7 @@ The value is based off of the &#39;Content-Type&#39; of the XHR&#39;s response h
             
         
         
-        <a href="../files/src_file_File.ts.html#l321"><code>src\file\File.ts:321</code></a>
+        <a href="../files/src_file_File.ts.html#l226"><code>src\file\File.ts:226</code></a>
         
         </p>
 
@@ -5486,7 +5522,7 @@ The value is based off of the &#39;Content-Type&#39; of the XHR&#39;s response h
             
         
         
-        <a href="../files/src_file_File.ts.html#l400"><code>src\file\File.ts:400</code></a>
+        <a href="../files/src_file_File.ts.html#l946"><code>src\file\File.ts:946</code></a>
         
         </p>
 
@@ -5536,7 +5572,7 @@ Only has a value when using the XHR method of loading OR when requesting the fil
             
         
         
-        <a href="../files/src_file_File.ts.html#l489"><code>src\file\File.ts:489</code></a>
+        <a href="../files/src_file_File.ts.html#l654"><code>src\file\File.ts:654</code></a>
         
         </p>
 
@@ -5546,7 +5582,8 @@ Only has a value when using the XHR method of loading OR when requesting the fil
     </div>
 
     <div class="description">
-        <p>The time at which progress in loading the file was last occurred.</p>
+        <p>The time at which progress in loading the file was last occurred.
+Only contains a value when using XHR methods of loading.</p>
 
     </div>
 
@@ -5558,9 +5595,9 @@ Only has a value when using the XHR method of loading OR when requesting the fil
 </div>
 
                 
-                    <div id="property_maxHeadLoadAttempts" class="property item public">
-    <h3 class="name"><code>maxHeadLoadAttempts</code></h3>
-    <span class="type">Number</span>
+                    <div id="property_loading" class="property item public">
+    <h3 class="name"><code>loading</code></h3>
+    <span class="type">Boolean</span>
 
     
 
@@ -5583,7 +5620,7 @@ Only has a value when using the XHR method of loading OR when requesting the fil
             
         
         
-        <a href="../files/src_file_File.ts.html#l1285"><code>src\file\File.ts:1285</code></a>
+        <a href="../files/src_file_File.ts.html#l739"><code>src\file\File.ts:739</code></a>
         
         </p>
 
@@ -5593,12 +5630,115 @@ Only has a value when using the XHR method of loading OR when requesting the fil
     </div>
 
     <div class="description">
-        <p>The maximum number of load attempts when requesting the file details that will be preformed.</p>
+        <p>Indication if the file is currently being loaded or not.</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> 1</p>
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_loadInParallel" class="property item private">
+    <h3 class="name"><code>loadInParallel</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l189"><code>src\file\File.ts:189</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>READ ONLY: Indicates if this file can be loaded in parallel to other files. 
+This is usually only used files are using the tag loaders and not XHR.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_MAX_LOAD_ATTEMPTS" class="property item public">
+    <h3 class="name"><code>MAX_LOAD_ATTEMPTS</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l408"><code>src\file\File.ts:408</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>The default maximum attempts at loading the file that there is allowed.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 2</p>
     
 
     
@@ -5632,7 +5772,7 @@ Only has a value when using the XHR method of loading OR when requesting the fil
             
         
         
-        <a href="../files/src_file_File.ts.html#l903"><code>src\file\File.ts:903</code></a>
+        <a href="../files/src_file_File.ts.html#l399"><code>src\file\File.ts:399</code></a>
         
         </p>
 
@@ -5642,8 +5782,7 @@ Only has a value when using the XHR method of loading OR when requesting the fil
     </div>
 
     <div class="description">
-        <p>The maximum attempts at loading the file that there is allowed.
-Only used with XHR methods of loading.</p>
+        <p>The maximum attempts at loading the file that there is allowed.</p>
 
     </div>
 
@@ -5657,9 +5796,9 @@ Only used with XHR methods of loading.</p>
 </div>
 
                 
-                    <div id="property_onCompleteCallback" class="property item public">
-    <h3 class="name"><code>onCompleteCallback</code></h3>
-    <span class="type">Any</span>
+                    <div id="property_name" class="property item public">
+    <h3 class="name"><code>name</code></h3>
+    <span class="type">String</span>
 
     
 
@@ -5682,10 +5821,112 @@ Only used with XHR methods of loading.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l469"><code>src\file\File.ts:469</code></a>
+        <a href="../files/src_file_File.ts.html#l260"><code>src\file\File.ts:260</code></a>
         
         </p>
 
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>The name of the file being loaded.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_onComplete" class="property item public">
+    <h3 class="name"><code>onComplete</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l331"><code>src\file\File.ts:331</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Signal which dispatches events when the file has successfully loaded.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_onCompleteCallback" class="property item public deprecated">
+    <h3 class="name"><code>onCompleteCallback</code></h3>
+    <span class="type">Any</span>
+
+    
+        <span class="flag deprecated" title="Use &#x60;onComplete&#x60;. Deprecated as of 1.2.0">deprecated</span>
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l1305"><code>src\file\File.ts:1305</code></a>
+        
+        </p>
+
+        
+            <p>Deprecated: Use &#x60;onComplete&#x60;. Deprecated as of 1.2.0</p>
         
 
         
@@ -5706,9 +5947,9 @@ Only used with XHR methods of loading.</p>
 </div>
 
                 
-                    <div id="property_onProgressCallback" class="property item public">
-    <h3 class="name"><code>onProgressCallback</code></h3>
-    <span class="type">Any</span>
+                    <div id="property_onProgress" class="property item public">
+    <h3 class="name"><code>onProgress</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
 
     
 
@@ -5731,10 +5972,64 @@ Only used with XHR methods of loading.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l479"><code>src\file\File.ts:479</code></a>
+        <a href="../files/src_file_File.ts.html#l341"><code>src\file\File.ts:341</code></a>
         
         </p>
 
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Signal which dispatches events when the file is loading. 
+Not guarenteed to dispatch events as it depends on the method of loading being performed</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_onProgressCallback" class="property item public deprecated">
+    <h3 class="name"><code>onProgressCallback</code></h3>
+    <span class="type">Any</span>
+
+    
+        <span class="flag deprecated" title="Use &#x60;onProgress&#x60;. Deprecated as of 1.2.0">deprecated</span>
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l1316"><code>src\file\File.ts:1316</code></a>
+        
+        </p>
+
+        
+            <p>Deprecated: Use &#x60;onProgress&#x60;. Deprecated as of 1.2.0</p>
         
 
         
@@ -5780,7 +6075,7 @@ Only used with XHR methods of loading.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l106"><code>src\file\File.ts:106</code></a>
+        <a href="../files/src_file_File.ts.html#l963"><code>src\file\File.ts:963</code></a>
         
         </p>
 
@@ -5791,6 +6086,56 @@ Only used with XHR methods of loading.</p>
 
     <div class="description">
         <p>The state that added the entity - or null if it was added as global</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_path" class="property item public">
+    <h3 class="name"><code>path</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l270"><code>src\file\File.ts:270</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>The location of where the file is placed without the file itself (So without the files name).
+Example: If the file you are load is located at &#39;images/awesomeImage.png&#39; then the filepath will be &#39;images/&#39;</p>
 
     </div>
 
@@ -5827,7 +6172,7 @@ Only used with XHR methods of loading.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l498"><code>src\file\File.ts:498</code></a>
+        <a href="../files/src_file_File.ts.html#l757"><code>src\file\File.ts:757</code></a>
         
         </p>
 
@@ -5849,8 +6194,61 @@ Only used with XHR methods of loading.</p>
 </div>
 
                 
-                    <div id="property_readyState" class="property item public">
+                    <div id="property_readyState" class="property item public deprecated">
     <h3 class="name"><code>readyState</code></h3>
+    <span class="type">Number</span>
+
+    
+        <span class="flag deprecated" title="Deprecated as of 1.2.0">deprecated</span>
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l1349"><code>src\file\File.ts:1349</code></a>
+        
+        </p>
+
+        
+            <p>Deprecated: Deprecated as of 1.2.0</p>
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The ready state of the XHR loader whilst loading.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_size" class="property item public">
+    <h3 class="name"><code>size</code></h3>
     <span class="type">Number</span>
 
     
@@ -5874,17 +6272,20 @@ Only used with XHR methods of loading.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l852"><code>src\file\File.ts:852</code></a>
+        <a href="../files/src_file_File.ts.html#l313"><code>src\file\File.ts:313</code></a>
         
         </p>
 
         
 
         
+            <p>Available since 1.2.0</p>
+        
     </div>
 
     <div class="description">
-        <p>The ready state of the XHR loader whilst loading.</p>
+        <p>The size of the file that was/is being loaded. 
+Only has a value when the file was loaded by the XHR method OR you request the file information beforehand using &#39;loadDetails&#39;.</p>
 
     </div>
 
@@ -5927,7 +6328,7 @@ Only used with XHR methods of loading.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l180"><code>src\file\File.ts:180</code></a>
+        <a href="../files/src_file_File.ts.html#l1045"><code>src\file\File.ts:1045</code></a>
         
         </p>
 
@@ -5951,10 +6352,12 @@ Only used with XHR methods of loading.</p>
 </div>
 
                 
-                    <div id="property_status" class="property item public">
+                    <div id="property_status" class="property item public deprecated">
     <h3 class="name"><code>status</code></h3>
     <span class="type">Number</span>
 
+    
+        <span class="flag deprecated" title="Deprecated as of 1.2.0">deprecated</span>
     
 
     
@@ -5976,10 +6379,12 @@ Only used with XHR methods of loading.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l809"><code>src\file\File.ts:809</code></a>
+        <a href="../files/src_file_File.ts.html#l1327"><code>src\file\File.ts:1327</code></a>
         
         </p>
 
+        
+            <p>Deprecated: Deprecated as of 1.2.0</p>
         
 
         
@@ -6001,10 +6406,12 @@ Only used/has a value when the file was/is being loaded by the XHR method.</p>
 </div>
 
                 
-                    <div id="property_statusText" class="property item public">
+                    <div id="property_statusText" class="property item public deprecated">
     <h3 class="name"><code>statusText</code></h3>
     <span class="type">String</span>
 
+    
+        <span class="flag deprecated" title="Deprecated as of 1.2.0">deprecated</span>
     
 
     
@@ -6026,10 +6433,12 @@ Only used/has a value when the file was/is being loaded by the XHR method.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l820"><code>src\file\File.ts:820</code></a>
+        <a href="../files/src_file_File.ts.html#l1339"><code>src\file\File.ts:1339</code></a>
         
         </p>
 
+        
+            <p>Deprecated: Deprecated as of 1.2.0</p>
         
 
         
@@ -6075,7 +6484,7 @@ Only used/has a value when the file was/is being loaded by the XHR method.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l451"><code>src\file\File.ts:451</code></a>
+        <a href="../files/src_file_File.ts.html#l731"><code>src\file\File.ts:731</code></a>
         
         </p>
 
@@ -6085,7 +6494,7 @@ Only used/has a value when the file was/is being loaded by the XHR method.</p>
     </div>
 
     <div class="description">
-        <p>If the loading was a success or not.</p>
+        <p>If loading was successful or not.</p>
 
     </div>
 
@@ -6126,7 +6535,7 @@ Only used/has a value when the file was/is being loaded by the XHR method.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l252"><code>src\file\File.ts:252</code></a>
+        <a href="../files/src_file_File.ts.html#l1117"><code>src\file\File.ts:1117</code></a>
         
         </p>
 
@@ -6179,7 +6588,7 @@ Only used/has a value when the file was/is being loaded by the XHR method.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l192"><code>src\file\File.ts:192</code></a>
+        <a href="../files/src_file_File.ts.html#l1057"><code>src\file\File.ts:1057</code></a>
         
         </p>
 
@@ -6203,10 +6612,12 @@ Only used/has a value when the file was/is being loaded by the XHR method.</p>
 </div>
 
                 
-                    <div id="property_timedOut" class="property item public">
+                    <div id="property_timedOut" class="property item public deprecated">
     <h3 class="name"><code>timedOut</code></h3>
     <span class="type">Number</span>
 
+    
+        <span class="flag deprecated" title="Deprecated as of 1.2.0">deprecated</span>
     
 
     
@@ -6228,10 +6639,12 @@ Only used/has a value when the file was/is being loaded by the XHR method.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l883"><code>src\file\File.ts:883</code></a>
+        <a href="../files/src_file_File.ts.html#l1369"><code>src\file\File.ts:1369</code></a>
         
         </p>
 
+        
+            <p>Deprecated: Deprecated as of 1.2.0</p>
         
 
         
@@ -6277,7 +6690,7 @@ Only used/has a value when the file was/is being loaded by the XHR method.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l421"><code>src\file\File.ts:421</code></a>
+        <a href="../files/src_file_File.ts.html#l663"><code>src\file\File.ts:663</code></a>
         
         </p>
 
@@ -6287,12 +6700,64 @@ Only used/has a value when the file was/is being loaded by the XHR method.</p>
     </div>
 
     <div class="description">
-        <p>The time at which the load finished. Only has a value if loading the file was successful and when the XHR method of loading is in use.</p>
+        <p>The time at which the load finished.</p>
 
     </div>
 
     
         <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_TIMEOUT_DELAY" class="property item public">
+    <h3 class="name"><code>TIMEOUT_DELAY</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l378"><code>src\file\File.ts:378</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>The default number of milliseconds that the XHR should wait before timing out.
+Set this to NULL if you want it to not timeout.</p>
+
+    </div>
+
     
 
     
@@ -6326,7 +6791,7 @@ Only used/has a value when the file was/is being loaded by the XHR method.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l862"><code>src\file\File.ts:862</code></a>
+        <a href="../files/src_file_File.ts.html#l367"><code>src\file\File.ts:367</code></a>
         
         </p>
 
@@ -6336,7 +6801,7 @@ Only used/has a value when the file was/is being loaded by the XHR method.</p>
     </div>
 
     <div class="description">
-        <p>The default number of milliseconds that the XHR should wait before timing out.
+        <p>The number of milliseconds that the XHR should wait before timing out.
 Set this to NULL if you want it to not timeout.</p>
 
     </div>
@@ -6376,7 +6841,7 @@ Set this to NULL if you want it to not timeout.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l411"><code>src\file\File.ts:411</code></a>
+        <a href="../files/src_file_File.ts.html#l645"><code>src\file\File.ts:645</code></a>
         
         </p>
 
@@ -6386,12 +6851,212 @@ Set this to NULL if you want it to not timeout.</p>
     </div>
 
     <div class="description">
-        <p>The time at which the loading started. Only has a value when the XHR method of loading is in use.</p>
+        <p>The time at which the loading started.</p>
 
     </div>
 
     
         <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_type" class="property item public">
+    <h3 class="name"><code>type</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l302"><code>src\file\File.ts:302</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The type of file that is being loaded.
+Is only ever given a value when used with the XHR method of loading OR if you use &#39;loadDetails&#39; before hand.
+The value is based off of the &#39;Content-Type&#39; of the XHR&#39;s response header returns.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_UNKNOWN" class="property item public">
+    <h3 class="name"><code>UNKNOWN</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l1128"><code>src\file\File.ts:1128</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+        <p><strong>Default:</strong> 8</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_URL" class="property item public">
+    <h3 class="name"><code>URL</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l292"><code>src\file\File.ts:292</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>The full filepath including the file itself.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_useTagLoader" class="property item protected">
+    <h3 class="name"><code>useTagLoader</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag protected">protected</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_File.ts.html#l215"><code>src\file\File.ts:215</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>If this file is using tag loading instead of the XHR method. 
+Only used by extended classes</p>
+
+    </div>
+
     
 
     
@@ -6429,7 +7094,7 @@ Set this to NULL if you want it to not timeout.</p>
             
         
         
-        <a href="../files/src_file_File.ts.html#l228"><code>src\file\File.ts:228</code></a>
+        <a href="../files/src_file_File.ts.html#l1093"><code>src\file\File.ts:1093</code></a>
         
         </p>
 

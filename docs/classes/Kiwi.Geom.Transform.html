@@ -91,6 +91,10 @@
             
                 <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
             
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
             
                 <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
@@ -99,6 +103,8 @@
             
                 <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
             
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
             
                 <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
@@ -106,6 +112,8 @@
                 <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
             
@@ -257,9 +265,13 @@
             
                 <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
             
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
                 <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
             
@@ -308,6 +320,8 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -770,6 +784,27 @@
                             </li>
                         
                             <li class="index-item property private">
+                                <a href="#property__concatMatrix">_concatMatrix</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__ignoreParent">_ignoreParent</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__locked">_locked</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
                                 <a href="#property__matrix">_matrix</a>
 
                                 
@@ -841,6 +876,20 @@
                         
                             <li class="index-item property public">
                                 <a href="#property_anchorPointY">anchorPointY</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property_ignoreParent">ignoreParent</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_locked">locked</a>
 
                                 
                                 
@@ -992,7 +1041,7 @@
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l551"><code>src\geom\Transform.ts:551</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l662"><code>src\geom\Transform.ts:662</code></a>
         
         </p>
 
@@ -1101,7 +1150,7 @@
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l535"><code>src\geom\Transform.ts:535</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l646"><code>src\geom\Transform.ts:646</code></a>
         
         </p>
 
@@ -1211,7 +1260,7 @@
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l499"><code>src\geom\Transform.ts:499</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l610"><code>src\geom\Transform.ts:610</code></a>
         
         </p>
 
@@ -1320,7 +1369,7 @@
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l518"><code>src\geom\Transform.ts:518</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l629"><code>src\geom\Transform.ts:629</code></a>
         
         </p>
 
@@ -1420,7 +1469,7 @@ A clone of this transforms matrix is created in the destination Transform Matrix
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l459"><code>src\geom\Transform.ts:459</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l539"><code>src\geom\Transform.ts:539</code></a>
         
         </p>
 
@@ -1431,8 +1480,9 @@ A clone of this transforms matrix is created in the destination Transform Matrix
     </div>
 
     <div class="description">
-        <p>Return the transformation matrix that concatenates this transform with all ancestor transforms.
-If there is no parent then this will return a matrix the same as this transforms matrix.</p>
+        <p>Return the transformation matrix that concatenates this transform
+with all ancestor transforms. If there is no parent then this will
+return a matrix the same as this transform&#39;s matrix.</p>
 
     </div>
 
@@ -1496,7 +1546,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l435"><code>src\geom\Transform.ts:435</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l523"><code>src\geom\Transform.ts:523</code></a>
         
         </p>
 
@@ -1507,7 +1557,8 @@ If there is no parent then this will return a matrix the same as this transforms
     </div>
 
     <div class="description">
-        <p>Return the parent matrix of the transform. If there is no parent then null is returned.</p>
+        <p>Return the parent matrix of the transform.
+If there is no parent then null is returned.</p>
 
     </div>
 
@@ -1522,7 +1573,7 @@ If there is no parent then this will return a matrix the same as this transforms
                     
                         <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>:
                     
-                    <p>The parent transform matrix.</p>
+                    <p>Parent transform matrix</p>
 
                 
             </div>
@@ -1581,7 +1632,7 @@ If there is no parent then this will return a matrix the same as this transforms
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l375"><code>src\geom\Transform.ts:375</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l463"><code>src\geom\Transform.ts:463</code></a>
         
         </p>
 
@@ -1682,7 +1733,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l42"><code>src\geom\Transform.ts:42</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l43"><code>src\geom\Transform.ts:43</code></a>
         
         </p>
 
@@ -1773,7 +1824,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l324"><code>src\geom\Transform.ts:324</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l412"><code>src\geom\Transform.ts:412</code></a>
         
         </p>
 
@@ -1896,7 +1947,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l341"><code>src\geom\Transform.ts:341</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l429"><code>src\geom\Transform.ts:429</code></a>
         
         </p>
 
@@ -2041,7 +2092,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l406"><code>src\geom\Transform.ts:406</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l494"><code>src\geom\Transform.ts:494</code></a>
         
         </p>
 
@@ -2243,7 +2294,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l574"><code>src\geom\Transform.ts:574</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l685"><code>src\geom\Transform.ts:685</code></a>
         
         </p>
 
@@ -2328,7 +2379,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l484"><code>src\geom\Transform.ts:484</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l595"><code>src\geom\Transform.ts:595</code></a>
         
         </p>
 
@@ -2434,7 +2485,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l358"><code>src\geom\Transform.ts:358</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l446"><code>src\geom\Transform.ts:446</code></a>
         
         </p>
 
@@ -2528,7 +2579,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l263"><code>src\geom\Transform.ts:263</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l264"><code>src\geom\Transform.ts:264</code></a>
         
         </p>
 
@@ -2542,6 +2593,164 @@ If no point is given a new Point objected will be created.</p>
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__concatMatrix" class="property item private">
+    <h3 class="name"><code>_concatMatrix</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Transform.ts.html#l272"><code>src\geom\Transform.ts:272</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Temporary matrix used in concatenation operations</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__ignoreParent" class="property item private">
+    <h3 class="name"><code>_ignoreParent</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Transform.ts.html#l374"><code>src\geom\Transform.ts:374</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Private copy.
+Whether to ignore its parent when concatenating matrices.
+If true, it won&#39;t compute parent matrices.
+This can save computation, but prevents it from following
+its parent&#39;s transforms.
+Use this to save some processor cycles if the transform isn&#39;t
+following a parent and the state does not transform.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__locked" class="property item private">
+    <h3 class="name"><code>_locked</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Transform.ts.html#l334"><code>src\geom\Transform.ts:334</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Private copy.
+Whether the Transform is locked. In locked mode, the Transform
+will not update its matrix, saving on computation.
+However, it will still follow its parent.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
     
 
     
@@ -2575,7 +2784,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l242"><code>src\geom\Transform.ts:242</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l243"><code>src\geom\Transform.ts:243</code></a>
         
         </p>
 
@@ -2622,7 +2831,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l298"><code>src\geom\Transform.ts:298</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l307"><code>src\geom\Transform.ts:307</code></a>
         
         </p>
 
@@ -2671,7 +2880,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l144"><code>src\geom\Transform.ts:144</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l145"><code>src\geom\Transform.ts:145</code></a>
         
         </p>
 
@@ -2720,7 +2929,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l167"><code>src\geom\Transform.ts:167</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l168"><code>src\geom\Transform.ts:168</code></a>
         
         </p>
 
@@ -2769,7 +2978,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l191"><code>src\geom\Transform.ts:191</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l192"><code>src\geom\Transform.ts:192</code></a>
         
         </p>
 
@@ -2818,7 +3027,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l99"><code>src\geom\Transform.ts:99</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l100"><code>src\geom\Transform.ts:100</code></a>
         
         </p>
 
@@ -2867,7 +3076,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l122"><code>src\geom\Transform.ts:122</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l123"><code>src\geom\Transform.ts:123</code></a>
         
         </p>
 
@@ -2916,7 +3125,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l52"><code>src\geom\Transform.ts:52</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l53"><code>src\geom\Transform.ts:53</code></a>
         
         </p>
 
@@ -2965,7 +3174,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l76"><code>src\geom\Transform.ts:76</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l77"><code>src\geom\Transform.ts:77</code></a>
         
         </p>
 
@@ -3014,7 +3223,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l214"><code>src\geom\Transform.ts:214</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l215"><code>src\geom\Transform.ts:215</code></a>
         
         </p>
 
@@ -3063,7 +3272,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l228"><code>src\geom\Transform.ts:228</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l229"><code>src\geom\Transform.ts:229</code></a>
         
         </p>
 
@@ -3079,6 +3288,117 @@ If no point is given a new Point objected will be created.</p>
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_ignoreParent" class="property item private">
+    <h3 class="name"><code>ignoreParent</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Transform.ts.html#l390"><code>src\geom\Transform.ts:390</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Whether to ignore its parent when concatenating matrices.
+If true, it won&#39;t compute parent matrices.
+This can save computation, but prevents it from following
+its parent&#39;s transforms.
+Use this to save some processor cycles if the transform isn&#39;t
+following a parent and the state does not transform.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_locked" class="property item public">
+    <h3 class="name"><code>locked</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Transform.ts.html#l347"><code>src\geom\Transform.ts:347</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Whether the Transform is locked. In locked mode, the Transform
+will not update its matrix, saving on computation.
+However, it will still follow its parent.
+When locked is set to true, it will set the matrix according to
+current transform values.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
     
 
     
@@ -3112,7 +3432,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l250"><code>src\geom\Transform.ts:250</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l251"><code>src\geom\Transform.ts:251</code></a>
         
         </p>
 
@@ -3159,7 +3479,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l307"><code>src\geom\Transform.ts:307</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l316"><code>src\geom\Transform.ts:316</code></a>
         
         </p>
 
@@ -3208,7 +3528,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l153"><code>src\geom\Transform.ts:153</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l154"><code>src\geom\Transform.ts:154</code></a>
         
         </p>
 
@@ -3255,7 +3575,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l176"><code>src\geom\Transform.ts:176</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l177"><code>src\geom\Transform.ts:177</code></a>
         
         </p>
 
@@ -3304,7 +3624,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l200"><code>src\geom\Transform.ts:200</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l201"><code>src\geom\Transform.ts:201</code></a>
         
         </p>
 
@@ -3351,7 +3671,7 @@ If no point is given a new Point objected will be created.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l390"><code>src\geom\Transform.ts:390</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l478"><code>src\geom\Transform.ts:478</code></a>
         
         </p>
 
@@ -3400,7 +3720,7 @@ In the future this will be looked into and updated as needed.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l108"><code>src\geom\Transform.ts:108</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l109"><code>src\geom\Transform.ts:109</code></a>
         
         </p>
 
@@ -3447,7 +3767,7 @@ In the future this will be looked into and updated as needed.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l131"><code>src\geom\Transform.ts:131</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l132"><code>src\geom\Transform.ts:132</code></a>
         
         </p>
 
@@ -3494,7 +3814,7 @@ In the future this will be looked into and updated as needed.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l271"><code>src\geom\Transform.ts:271</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l280"><code>src\geom\Transform.ts:280</code></a>
         
         </p>
 
@@ -3541,7 +3861,7 @@ In the future this will be looked into and updated as needed.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l284"><code>src\geom\Transform.ts:284</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l293"><code>src\geom\Transform.ts:293</code></a>
         
         </p>
 
@@ -3588,7 +3908,7 @@ In the future this will be looked into and updated as needed.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l61"><code>src\geom\Transform.ts:61</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l62"><code>src\geom\Transform.ts:62</code></a>
         
         </p>
 
@@ -3635,7 +3955,7 @@ In the future this will be looked into and updated as needed.</p>
             
         
         
-        <a href="../files/src_geom_Transform.ts.html#l85"><code>src\geom\Transform.ts:85</code></a>
+        <a href="../files/src_geom_Transform.ts.html#l86"><code>src\geom\Transform.ts:86</code></a>
         
         </p>
 

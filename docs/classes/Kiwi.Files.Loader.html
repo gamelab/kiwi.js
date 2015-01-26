@@ -91,6 +91,10 @@
             
                 <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
             
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
             
                 <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
@@ -99,6 +103,8 @@
             
                 <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
             
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
             
                 <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
@@ -106,6 +112,8 @@
                 <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
             
@@ -257,9 +265,13 @@
             
                 <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
             
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
                 <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
             
@@ -308,6 +320,8 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -510,6 +524,13 @@
 
                     <ul class="index-list methods">
                         
+                            <li class="index-item method private">
+                                <a href="#method__startLoading">_startLoading</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public">
                                 <a href="#method_addAudio">addAudio</a>
 
@@ -519,6 +540,13 @@
                         
                             <li class="index-item method public">
                                 <a href="#method_addBinaryFile">addBinaryFile</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_addFileToQueue">addFileToQueue</a>
 
                                 
                                 
@@ -559,13 +587,6 @@
                                 
                             </li>
                         
-                            <li class="index-item method private">
-                                <a href="#method_addToBytesTotal">addToBytesTotal</a>
-
-                                
-                                
-                            </li>
-                        
                             <li class="index-item method public">
                                 <a href="#method_addXML">addXML</a>
 
@@ -594,57 +615,86 @@
                                 
                             </li>
                         
+                            <li class="index-item method private">
+                                <a href="#method_calculateNextFileSize">calculateNextFileSize</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public">
+                                <a href="#method_calculateQueuedSize">calculateQueuedSize</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_clearQueue">clearQueue</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public deprecated">
                                 <a href="#method_complete">complete</a>
 
                                 
                                 
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_fileLoadComplete">fileLoadComplete</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_fileLoadProgress">fileLoadProgress</a>
-
-                                
+                                    <span class="flag deprecated">deprecated</span>
                                 
                             </li>
                         
                             <li class="index-item method public">
+                                <a href="#method_destroy">destroy</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_detailsReceived">detailsReceived</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_fileQueueUpdate">fileQueueUpdate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public deprecated">
                                 <a href="#method_getBytesLoaded">getBytesLoaded</a>
 
                                 
                                 
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_getNextFileSize">getNextFileSize</a>
-
-                                
+                                    <span class="flag deprecated">deprecated</span>
                                 
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public deprecated">
                                 <a href="#method_getPercentLoaded">getPercentLoaded</a>
 
                                 
                                 
+                                    <span class="flag deprecated">deprecated</span>
+                                
                             </li>
                         
-                            <li class="index-item method public">
+                            <li class="index-item method public deprecated">
                                 <a href="#method_init">init</a>
 
                                 
                                 
+                                    <span class="flag deprecated">deprecated</span>
+                                
                             </li>
                         
-                            <li class="index-item method private">
-                                <a href="#method_nextFile">nextFile</a>
+                            <li class="index-item method public">
+                                <a href="#method_loadFile">loadFile</a>
 
                                 
                                 
@@ -658,7 +708,86 @@
                             </li>
                         
                             <li class="index-item method public">
+                                <a href="#method_onQueueComplete">onQueueComplete</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_onQueueProgress">onQueueProgress</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_parallelFileComplete">parallelFileComplete</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_queueFileComplete">queueFileComplete</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_removeFileFromQueue">removeFileFromQueue</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_sortFile">sortFile</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_start">start</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public deprecated">
                                 <a href="#method_startLoad">startLoad</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_startLoadingAllParallel">startLoadingAllParallel</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_startLoadingParallel">startLoadingParallel</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_startLoadingQueue">startLoadingQueue</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_updateFileListInformation">updateFileListInformation</a>
 
                                 
                                 
@@ -673,13 +802,6 @@
                     <h3>Properties</h3>
 
                     <ul class="index-list properties">
-                        
-                            <li class="index-item property private">
-                                <a href="#property__bytesCurrent">_bytesCurrent</a>
-
-                                
-                                
-                            </li>
                         
                             <li class="index-item property private">
                                 <a href="#property__bytesLoaded">_bytesLoaded</a>
@@ -703,70 +825,98 @@
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__complete">_complete</a>
+                                <a href="#property__completeFiles">_completeFiles</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__currentFile">_currentFile</a>
+                                <a href="#property__currentFileIndex">_currentFileIndex</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__fileChunk">_fileChunk</a>
+                                <a href="#property__fileQueueLoading">_fileQueueLoading</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__fileList">_fileList</a>
+                                <a href="#property__loadingList">_loadingList</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__fileTotal">_fileTotal</a>
+                                <a href="#property__loadingParallel">_loadingParallel</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__game">_game</a>
+                                <a href="#property__loadingQueue">_loadingQueue</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_bytesLoaded">bytesLoaded</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_bytesTotal">bytesTotal</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_enableParallelLoading">enableParallelLoading</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_fileQueueLoading">fileQueueLoading</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_game">game</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__loadList">_loadList</a>
+                                <a href="#property_onQueueSizeCalculate">onQueueSizeCalculate</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__onCompleteCallback">_onCompleteCallback</a>
+                                <a href="#property_onSizeContext">onSizeContext</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property private">
-                                <a href="#property__onProgressCallback">_onProgressCallback</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__percentLoaded">_percentLoaded</a>
+                            <li class="index-item property public">
+                                <a href="#property_percentLoaded">percentLoaded</a>
 
                                 
                                 
@@ -784,6 +934,63 @@
         
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method__startLoading" class="method item private">
+    <h3 class="name"><code>_startLoading</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l222"><code>src\file\Loader.ts:222</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Loops through the file queue and starts the loading process.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
 
                 
                     <div id="method_addAudio" class="method item public">
@@ -822,6 +1029,10 @@
     
 
     
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
+        </span>
+    
 
     
 
@@ -848,7 +1059,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l264"><code>src\file\Loader.ts:264</code></a>
+        <a href="../files/src_file_Loader.ts.html#l977"><code>src\file\Loader.ts:977</code></a>
         
         </p>
 
@@ -931,7 +1142,7 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
                     
 
                     <div class="param-description">
-                        <p>If the audio file should only be loaded if Kiwi detects that the audio file could be played. Set this to fa</p>
+                        <p>If the audio file should only be loaded if Kiwi detects that the audio file could be played.</p>
 
                     </div>
 
@@ -942,6 +1153,20 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
         </div>
     
 
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
+                    
+                    <p>The file which was created.</p>
+
+                
+            </div>
+        </div>
     
 
     
@@ -978,6 +1203,10 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
     
 
     
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
+        </span>
+    
 
     
 
@@ -1004,7 +1233,7 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l372"><code>src\file\Loader.ts:372</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1170"><code>src\file\Loader.ts:1170</code></a>
         
         </p>
 
@@ -1079,6 +1308,133 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
     
 
     
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
+                    
+                    <p>The file which was created.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_addFileToQueue" class="method item public">
+    <h3 class="name"><code>addFileToQueue</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>file</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l265"><code>src\file\Loader.ts:265</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Adds a file to the queue of files to be loaded.
+Files cannot be added whilst the queue is currently loading, 
+the file to add is currently loading, or has been loaded before.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">file</code>
+                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The file to add.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>If the file was added to the queue or not.</p>
+
+                
+            </div>
+        </div>
+    
 
     
 </div>
@@ -1138,6 +1494,10 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
     
 
     
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
+        </span>
+    
 
     
 
@@ -1164,7 +1524,7 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l191"><code>src\file\Loader.ts:191</code></a>
+        <a href="../files/src_file_Loader.ts.html#l766"><code>src\file\Loader.ts:766</code></a>
         
         </p>
 
@@ -1307,6 +1667,20 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
     
 
     
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
+                    
+                    <p>The file which was created.</p>
+
+                
+            </div>
+        </div>
+    
 
     
 </div>
@@ -1342,6 +1716,10 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
     
 
     
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
+        </span>
+    
 
     
 
@@ -1368,7 +1746,7 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l344"><code>src\file\Loader.ts:344</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1086"><code>src\file\Loader.ts:1086</code></a>
         
         </p>
 
@@ -1442,6 +1820,20 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
         </div>
     
 
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
+                    
+                    <p>The file which was created.</p>
+
+                
+            </div>
+        </div>
     
 
     
@@ -1532,6 +1924,10 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
     
 
     
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
+        </span>
+    
 
     
 
@@ -1558,7 +1954,7 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l212"><code>src\file\Loader.ts:212</code></a>
+        <a href="../files/src_file_Loader.ts.html#l828"><code>src\file\Loader.ts:828</code></a>
         
         </p>
 
@@ -1783,6 +2179,20 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
     
 
     
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
+                    
+                    <p>The file which was created.</p>
+
+                
+            </div>
+        </div>
+    
 
     
 </div>
@@ -1818,6 +2228,10 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
     
 
     
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
+        </span>
+    
 
     
 
@@ -1844,7 +2258,7 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l386"><code>src\file\Loader.ts:386</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1212"><code>src\file\Loader.ts:1212</code></a>
         
         </p>
 
@@ -1919,6 +2333,20 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
     
 
     
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
+                    
+                    <p>The file which was created.</p>
+
+                
+            </div>
+        </div>
+    
 
     
 </div>
@@ -1966,6 +2394,10 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
     
 
     
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
+        </span>
+    
 
     
 
@@ -1992,7 +2424,7 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l240"><code>src\file\Loader.ts:240</code></a>
+        <a href="../files/src_file_Loader.ts.html#l907"><code>src\file\Loader.ts:907</code></a>
         
         </p>
 
@@ -2099,95 +2531,19 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
     
 
     
+        <div class="returns">
+            <h4>Returns:</h4>
 
-    
-</div>
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
+                    
+                    <p>The file which was created.</p>
 
                 
-                    <div id="method_addToBytesTotal" class="method item private">
-    <h3 class="name"><code>addToBytesTotal</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>file</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
+            </div>
         </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_Loader.ts.html#l460"><code>src\file\Loader.ts:460</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Adds the number of bytes that a File is to the total number of bytes loaded.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">file</code>
-                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
     
 
     
@@ -2224,6 +2580,10 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
     
 
     
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
+        </span>
+    
 
     
 
@@ -2250,7 +2610,7 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l358"><code>src\file\Loader.ts:358</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1128"><code>src\file\Loader.ts:1128</code></a>
         
         </p>
 
@@ -2325,6 +2685,20 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
     
 
     
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
+                    
+                    <p>The file which was created.</p>
+
+                
+            </div>
+        </div>
+    
 
     
 </div>
@@ -2339,19 +2713,7 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
             
                 <li class="arg">
                     
-                        <code>key</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>url</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[storeAsGlobal=true]</code>
+                        <code>params</code>
                     
                 </li>
             
@@ -2365,6 +2727,10 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
         </div>
     
 
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
+        </span>
     
 
     
@@ -2392,7 +2758,7 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l299"><code>src\file\Loader.ts:299</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1038"><code>src\file\Loader.ts:1038</code></a>
         
         </p>
 
@@ -2416,50 +2782,77 @@ Returns a boolean if the audio file was successfully added or not to the file di
             
                 <li class="param">
                     
-                        <code class="param-name">key</code>
-                        <span class="type">String</span>
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The key for the audio file.</p>
-
+                         
                     </div>
 
                     
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">url</code>
-                        <span class="type">String</span>
-                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">key</code>
+                                    <span class="type">String</span>
+                                
 
-                    
+                                <div class="param-description">
+                                    <p>The key for the audio file.</p>
 
-                    <div class="param-description">
-                        <p>The url of the audio to load.</p>
+                                </div>
 
-                    </div>
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">url</code>
+                                    <span class="type">String</span>
+                                
 
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[storeAsGlobal=true]</code>
-                        <span class="type">Boolean</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
+                                <div class="param-description">
+                                    <p>The url of the audio to load.</p>
 
-                    
+                                </div>
 
-                    <div class="param-description">
-                        <p>If the file should be stored globally.</p>
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[state=true]</code>
+                                    <span class="type"><a href="../classes/Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
 
-                    </div>
+                                <div class="param-description">
+                                    <p>The state this file should be for.</p>
 
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[fileStore]</code>
+                                    <span class="type"><a href="../classes/Kiwi.Files.FileStore.html" class="crosslink">Kiwi.Files.FileStore</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
                     
                 </li>
             
@@ -2473,7 +2866,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
                     
 
                     <div class="param-description">
-                        <p>If the audio file should only be loaded if Kiwi detects that the audio file could be played. Set this to fa</p>
+                        <p>If the audio file should only be loaded if Kiwi detects that the audio file could be played.</p>
 
                     </div>
 
@@ -2484,6 +2877,20 @@ Returns a boolean if the audio file was successfully added or not to the file di
         </div>
     
 
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
+                    
+                    <p>The file which was created.</p>
+
+                
+            </div>
+        </div>
     
 
     
@@ -2524,7 +2931,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l151"><code>src\file\Loader.ts:151</code></a>
+        <a href="../files/src_file_Loader.ts.html#l165"><code>src\file\Loader.ts:165</code></a>
         
         </p>
 
@@ -2595,7 +3002,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l594"><code>src\file\Loader.ts:594</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1322"><code>src\file\Loader.ts:1322</code></a>
         
         </p>
 
@@ -2606,8 +3013,8 @@ Returns a boolean if the audio file was successfully added or not to the file di
     </div>
 
     <div class="description">
-        <p>If true (and xhr/blob is available) the loader will get the bytes total of each file in the queue to give a much more accurate progress report during load
-         If false the loader will use the file number as the progress value, i.e. if there are 4 files in the queue progress will get called 4 times (25, 50, 75, 100)</p>
+        <p>Quick way of getting / setting the private variable &#39;calculateBytes&#39;
+To be made into a public variable once removed.</p>
 
     </div>
 
@@ -2655,17 +3062,88 @@ Returns a boolean if the audio file was successfully added or not to the file di
 </div>
 
                 
-                    <div id="method_complete" class="method item public">
-    <h3 class="name"><code>complete</code></h3>
+                    <div id="method_calculateNextFileSize" class="method item private">
+    <h3 class="name"><code>calculateNextFileSize</code></h3>
 
     
         <span class="paren">()</span>
     
 
     
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l705"><code>src\file\Loader.ts:705</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Checks to see if all the file sizes have been retrieved. 
+If so completes the &#39;calculateQueuedSize&#39; call.
+Otherwise continues the</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_calculateQueuedSize" class="method item public">
+    <h3 class="name"><code>calculateQueuedSize</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>callback</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[context=null]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
     
 
     
@@ -2693,11 +3171,177 @@ Returns a boolean if the audio file was successfully added or not to the file di
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l613"><code>src\file\Loader.ts:613</code></a>
+        <a href="../files/src_file_Loader.ts.html#l672"><code>src\file\Loader.ts:672</code></a>
         
         </p>
 
 
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Loops through the file queue and gets file information (filesize, ETag, filetype) for each.</p>
+<p>To get accurate information about the bytesLoaded, bytesTotal, and the percentLoaded 
+set the &#39;calculateBytes&#39; property to true, as the loader will automatically execute this method before hand.</p>
+<p>Can only be executed when the file queue is not currently loading.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">callback</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[context=null]</code>
+                        <span class="type">Any</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_clearQueue" class="method item public">
+    <h3 class="name"><code>clearQueue</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l324"><code>src\file\Loader.ts:324</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Clears the file queue of all files.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_complete" class="method item public deprecated">
+    <h3 class="name"><code>complete</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+        <span class="flag deprecated" title="Use &#x27;percentLoaded&#x27; instead. Deprecated as of 1.2.0">deprecated</span>
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l1311"><code>src\file\Loader.ts:1311</code></a>
+        
+        </p>
+
+
+        
+            <p>Deprecated: Use &#x27;percentLoaded&#x27; instead. Deprecated as of 1.2.0</p>
         
 
         
@@ -2728,197 +3372,13 @@ Returns a boolean if the audio file was successfully added or not to the file di
 </div>
 
                 
-                    <div id="method_fileLoadComplete" class="method item private">
-    <h3 class="name"><code>fileLoadComplete</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>file</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_Loader.ts.html#l512"><code>src\file\Loader.ts:512</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Executed when a file has been successfully loaded. This method then decides whether loading is complete or we need to load the next file.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">file</code>
-                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_fileLoadProgress" class="method item private">
-    <h3 class="name"><code>fileLoadProgress</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>file</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_Loader.ts.html#l491"><code>src\file\Loader.ts:491</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Executed whilst a file is being loaded.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">file</code>
-                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_getBytesLoaded" class="method item public">
-    <h3 class="name"><code>getBytesLoaded</code></h3>
+                    <div id="method_destroy" class="method item public">
+    <h3 class="name"><code>destroy</code></h3>
 
     
         <span class="paren">()</span>
     
 
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
     
 
     
@@ -2946,7 +3406,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l563"><code>src\file\Loader.ts:563</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1353"><code>src\file\Loader.ts:1353</code></a>
         
         </p>
 
@@ -2957,7 +3417,248 @@ Returns a boolean if the audio file was successfully added or not to the file di
     </div>
 
     <div class="description">
-        <p>Returns the total number of bytes that have been loaded so far.</p>
+        <p>Flags this loader for garbage collection. Only use this method if you are SURE you will no longer need it. 
+Otherwise it is best to leave it alone.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_detailsReceived" class="method item private">
+    <h3 class="name"><code>detailsReceived</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l738"><code>src\file\Loader.ts:738</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Executed when by &#39;calculateNextFileSize&#39; when the files information has been retrieved.
+Adds its calculated size to the _bytesTotal and executes the &#39;nextFileSize&#39; method.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_fileQueueUpdate" class="method item private">
+    <h3 class="name"><code>fileQueueUpdate</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>file</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[forceProgressCheck=false]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l442"><code>src\file\Loader.ts:442</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Executed by files when they have successfully been loaded.
+This method checks to see if the files are in the file queue, and dispatches the appropriate events.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">file</code>
+                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The file which has been recently loaded.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[forceProgressCheck=false]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If the progress of file loading should be checked, regardless of the file being in the queue or not.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_getBytesLoaded" class="method item public deprecated">
+    <h3 class="name"><code>getBytesLoaded</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+    
+
+    
+        <span class="flag deprecated" title="Use &#x27;bytesLoaded&#x27; instead. Deprecated as of 1.2.0">deprecated</span>
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l1339"><code>src\file\Loader.ts:1339</code></a>
+        
+        </p>
+
+
+        
+            <p>Deprecated: Use &#x27;bytesLoaded&#x27; instead. Deprecated as of 1.2.0</p>
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns the total number of bytes that have been loaded so far from files in the file queue.</p>
 
     </div>
 
@@ -2981,64 +3682,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
 </div>
 
                 
-                    <div id="method_getNextFileSize" class="method item private">
-    <h3 class="name"><code>getNextFileSize</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_Loader.ts.html#l439"><code>src\file\Loader.ts:439</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Calculates the size of the new file that is to be loaded.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_getPercentLoaded" class="method item public">
+                    <div id="method_getPercentLoaded" class="method item public deprecated">
     <h3 class="name"><code>getPercentLoaded</code></h3>
 
     
@@ -3051,6 +3695,8 @@ Returns a boolean if the audio file was successfully added or not to the file di
         </span>
     
 
+    
+        <span class="flag deprecated" title="Use &#x27;percentLoaded&#x27; instead. Deprecated as of 1.2.0">deprecated</span>
     
 
     
@@ -3076,11 +3722,13 @@ Returns a boolean if the audio file was successfully added or not to the file di
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l575"><code>src\file\Loader.ts:575</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1299"><code>src\file\Loader.ts:1299</code></a>
         
         </p>
 
 
+        
+            <p>Deprecated: Use &#x27;percentLoaded&#x27; instead. Deprecated as of 1.2.0</p>
         
 
         
@@ -3111,7 +3759,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
 </div>
 
                 
-                    <div id="method_init" class="method item public">
+                    <div id="method_init" class="method item public deprecated">
     <h3 class="name"><code>init</code></h3>
 
     
@@ -3143,6 +3791,8 @@ Returns a boolean if the audio file was successfully added or not to the file di
     
 
     
+        <span class="flag deprecated" title="Deprecated as of 1.2.0">deprecated</span>
+    
 
     
         <span class="flag public">public</span>
@@ -3167,18 +3817,21 @@ Returns a boolean if the audio file was successfully added or not to the file di
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l163"><code>src\file\Loader.ts:163</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1262"><code>src\file\Loader.ts:1262</code></a>
         
         </p>
 
 
+        
+            <p>Deprecated: Deprecated as of 1.2.0</p>
         
 
         
     </div>
 
     <div class="description">
-        <p>Initialise the properities that are needed on this loader.</p>
+        <p>Initialise the properities that are needed on this loader.
+Recommended you use the &#39;onQueueProgress&#39; / &#39;onQueueComplete&#39; signals instead.</p>
 
     </div>
 
@@ -3248,8 +3901,8 @@ Returns a boolean if the audio file was successfully added or not to the file di
 </div>
 
                 
-                    <div id="method_nextFile" class="method item private">
-    <h3 class="name"><code>nextFile</code></h3>
+                    <div id="method_loadFile" class="method item public">
+    <h3 class="name"><code>loadFile</code></h3>
 
     
         <span class="paren">()</span>
@@ -3260,7 +3913,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag public">public</span>
     
 
     
@@ -3282,7 +3935,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l476"><code>src\file\Loader.ts:476</code></a>
+        <a href="../files/src_file_Loader.ts.html#l340"><code>src\file\Loader.ts:340</code></a>
         
         </p>
 
@@ -3293,7 +3946,8 @@ Returns a boolean if the audio file was successfully added or not to the file di
     </div>
 
     <div class="description">
-        <p>Starts the loading of the next file in the list.</p>
+        <p>Starts the process of loading a file outside of the regular queue loading process.
+Callbacks for load completion need to be added onto the file via &#39;onComplete&#39; Signal.</p>
 
     </div>
 
@@ -3354,7 +4008,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
     </div>
 
     <div class="description">
-        <p>The type of object that this is.</p>
+        <p>The type of object this is.</p>
 
     </div>
 
@@ -3380,8 +4034,8 @@ Returns a boolean if the audio file was successfully added or not to the file di
 </div>
 
                 
-                    <div id="method_startLoad" class="method item public">
-    <h3 class="name"><code>startLoad</code></h3>
+                    <div id="method_onQueueComplete" class="method item public">
+    <h3 class="name"><code>onQueueComplete</code></h3>
 
     
         <span class="paren">()</span>
@@ -3414,11 +4068,632 @@ Returns a boolean if the audio file was successfully added or not to the file di
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l400"><code>src\file\Loader.ts:400</code></a>
+        <a href="../files/src_file_Loader.ts.html#l81"><code>src\file\Loader.ts:81</code></a>
         
         </p>
 
 
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>A Signal which dispatches callbacks when all files in the &#39;loadingList&#39; have been loaded.
+When adding callbacks make sure to &#39;remove&#39; them (or to use the &#39;addOnce&#39; method) 
+otherwise will fire when other sections use the loader.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_onQueueProgress" class="method item public">
+    <h3 class="name"><code>onQueueProgress</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l93"><code>src\file\Loader.ts:93</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>A Signal which dispatches callbacks each time a file in the &#39;loadingList&#39; have been loaded.
+Callbacks dispatched are passed the following arguments in order.</p>
+<ol>
+<li>percent - The percentage of files loaded. A number from 0 - 100</li>
+<li>bytesLoaded - The number of bytes loaded </li>
+<li>file - The latest file that was loaded. First call will be null.</li>
+</ol>
+<p>When adding callbacks make sure to &#39;remove&#39; them (or to use the &#39;addOnce&#39; method) 
+otherwise will fire when other sections use the loader.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_parallelFileComplete" class="method item private">
+    <h3 class="name"><code>parallelFileComplete</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>file</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l558"><code>src\file\Loader.ts:558</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Executed when a file in the &#39;loadingParallel&#39; lsit has been successfully loaded.
+Removes the file from the list and get the fileQueue to check its progress.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">file</code>
+                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_queueFileComplete" class="method item private">
+    <h3 class="name"><code>queueFileComplete</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>file</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l500"><code>src\file\Loader.ts:500</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Executed when a file in the &#39;loadingQueue&#39; has been successfully loaded.
+Removes the file from the loadingQueue and executes the &#39;startLoadingQueue&#39; to start loading the next file.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">file</code>
+                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_removeFileFromQueue" class="method item public">
+    <h3 class="name"><code>removeFileFromQueue</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>file</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l292"><code>src\file\Loader.ts:292</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Removes a file from the file queue. 
+Files cannot be removed whilst the queue is loading.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">file</code>
+                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The file to remove.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>If the file was added to the queue or not.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_sortFile" class="method item private">
+    <h3 class="name"><code>sortFile</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>file</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l358"><code>src\file\Loader.ts:358</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Sorts a file and places it into either the &#39;loadingParallel&#39; or &#39;loadingQueue&#39; 
+depending on the method of loading it is using.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">file</code>
+                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_start" class="method item public">
+    <h3 class="name"><code>start</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code class="optional">[calculateBytes]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l184"><code>src\file\Loader.ts:184</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Starts loading all the files which are in the file queue. </p>
+<p>To accurately use the bytesLoaded or bytesTotal properties you will need to set the &#39;calculateBytes&#39; boolean to true.
+This may increase load times, as each file in the queue will firstly make XHR HEAD requests for information.</p>
+<p>When &#39;calculateBytes&#39; is true the percentLoaded will be the <code>bytesLoaded / bytesTotal</code>. 
+Otherwise it is based on the <code>filesLoaded / numberOfFilesToLoad</code>.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[calculateBytes]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Setter for the &#39;calculateBytes&#39; property.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_startLoad" class="method item public deprecated">
+    <h3 class="name"><code>startLoad</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+        <span class="flag deprecated" title="Use &#x27;start&#x27; instead. Deprecated as of 1.2.0">deprecated</span>
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l1289"><code>src\file\Loader.ts:1289</code></a>
+        
+        </p>
+
+
+        
+            <p>Deprecated: Use &#x27;start&#x27; instead. Deprecated as of 1.2.0</p>
         
 
         
@@ -3437,22 +4712,23 @@ Returns a boolean if the audio file was successfully added or not to the file di
 </div>
 
                 
-            </div>
-        
+                    <div id="method_startLoadingAllParallel" class="method item private">
+    <h3 class="name"><code>startLoadingAllParallel</code></h3>
 
-        
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
+    
+        <span class="paren">()</span>
+    
 
-                
-                    <div id="property__bytesCurrent" class="property item private">
-    <h3 class="name"><code>_bytesCurrent</code></h3>
-    <span class="type">Number</span>
+    
 
     
 
     
         <span class="flag private">private</span>
+    
+
+    
+
     
 
     
@@ -3470,17 +4746,20 @@ Returns a boolean if the audio file was successfully added or not to the file di
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l119"><code>src\file\Loader.ts:119</code></a>
+        <a href="../files/src_file_Loader.ts.html#l540"><code>src\file\Loader.ts:540</code></a>
         
         </p>
 
+
         
 
+        
+            <p>Available since 1.2.0</p>
         
     </div>
 
     <div class="description">
-        <p>Total number of bytes loaded from last completed file</p>
+        <p>Starts loading all files which can be loaded in parallel.</p>
 
     </div>
 
@@ -3490,6 +4769,237 @@ Returns a boolean if the audio file was successfully added or not to the file di
 
     
 </div>
+
+                
+                    <div id="method_startLoadingParallel" class="method item private">
+    <h3 class="name"><code>startLoadingParallel</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l524"><code>src\file\Loader.ts:524</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Starts loading a file which can be loaded in parallel.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>file</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_startLoadingQueue" class="method item">
+    <h3 class="name"><code>startLoadingQueue</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l474"><code>src\file\Loader.ts:474</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Starts the loading process in the loadingQueue.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_updateFileListInformation" class="method item private">
+    <h3 class="name"><code>updateFileListInformation</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l398"><code>src\file\Loader.ts:398</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Called each time a file has processed whilst loading, or has just completed loading.</p>
+<p>Calculates the new number of bytes loaded and 
+the percentage of loading done by looping through all of the files.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
 
                 
                     <div id="property__bytesLoaded" class="property item private">
@@ -3517,7 +5027,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l111"><code>src\file\Loader.ts:111</code></a>
+        <a href="../files/src_file_Loader.ts.html#l646"><code>src\file\Loader.ts:646</code></a>
         
         </p>
 
@@ -3527,7 +5037,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
     </div>
 
     <div class="description">
-        <p>Total number of bytes loaded so far (out of _bytesTotal)</p>
+        <p>The number of bytes loaded of files in the file queue.</p>
 
     </div>
 
@@ -3564,7 +5074,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l103"><code>src\file\Loader.ts:103</code></a>
+        <a href="../files/src_file_Loader.ts.html#l621"><code>src\file\Loader.ts:621</code></a>
         
         </p>
 
@@ -3574,7 +5084,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
     </div>
 
     <div class="description">
-        <p>Total file size (in bytes) of all files to be loaded - only set if calculateBytes is true</p>
+        <p>Total file size (in bytes) of all files in the queue to be loaded.</p>
 
     </div>
 
@@ -3611,7 +5121,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l78"><code>src\file\Loader.ts:78</code></a>
+        <a href="../files/src_file_Loader.ts.html#l585"><code>src\file\Loader.ts:585</code></a>
         
         </p>
 
@@ -3621,12 +5131,11 @@ Returns a boolean if the audio file was successfully added or not to the file di
     </div>
 
     <div class="description">
-        <p>If a real byte value calculation will be made prior to the load (much smoother progress bar but costs HEAD calls x total file count)</p>
+        <p>If the number of bytes for each file should be calculated before the queue starts loading.
+If true each file in the queue makes a XHR HEAD request first to get the total values.</p>
 
     </div>
 
-    
-        <p><strong>Default:</strong> true</p>
     
 
     
@@ -3635,8 +5144,104 @@ Returns a boolean if the audio file was successfully added or not to the file di
 </div>
 
                 
-                    <div id="property__complete" class="property item private">
-    <h3 class="name"><code>_complete</code></h3>
+                    <div id="property__completeFiles" class="property item private">
+    <h3 class="name"><code>_completeFiles</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l388"><code>src\file\Loader.ts:388</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The number of files in the file queue that have been updated.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__currentFileIndex" class="property item private">
+    <h3 class="name"><code>_currentFileIndex</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l613"><code>src\file\Loader.ts:613</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The index of the current file in the filelist thats size is being retrieved.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__fileQueueLoading" class="property item private">
+    <h3 class="name"><code>_fileQueueLoading</code></h3>
     <span class="type">Boolean</span>
 
     
@@ -3660,20 +5265,24 @@ Returns a boolean if the audio file was successfully added or not to the file di
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l143"><code>src\file\Loader.ts:143</code></a>
+        <a href="../files/src_file_Loader.ts.html#l111"><code>src\file\Loader.ts:111</code></a>
         
         </p>
 
         
 
         
+            <p>Available since 1.2.0</p>
+        
     </div>
 
     <div class="description">
-        <p>Everything in the queue loaded?</p>
+        <p>A flag indicating if the files inside the file queue are loading or not.</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> false</p>
     
 
     
@@ -3682,9 +5291,9 @@ Returns a boolean if the audio file was successfully added or not to the file di
 </div>
 
                 
-                    <div id="property__currentFile" class="property item private">
-    <h3 class="name"><code>_currentFile</code></h3>
-    <span class="type">Number</span>
+                    <div id="property__loadingList" class="property item private">
+    <h3 class="name"><code>_loadingList</code></h3>
+    <span class="type">Array</span>
 
     
 
@@ -3707,17 +5316,21 @@ Returns a boolean if the audio file was successfully added or not to the file di
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l95"><code>src\file\Loader.ts:95</code></a>
+        <a href="../files/src_file_Loader.ts.html#l69"><code>src\file\Loader.ts:69</code></a>
         
         </p>
 
         
 
         
+            <p>Available since 1.2.0</p>
+        
     </div>
 
     <div class="description">
-        <p>The most recently loaded file (out of the total)</p>
+        <p>List of files that are to be loaded. 
+These files will be placed in the &#39;_loadingQueue&#39; or &#39;_loadingParallel&#39; 
+lists when the queue is told to &#39;start&#39; loading.</p>
 
     </div>
 
@@ -3729,55 +5342,8 @@ Returns a boolean if the audio file was successfully added or not to the file di
 </div>
 
                 
-                    <div id="property__fileChunk" class="property item private">
-    <h3 class="name"><code>_fileChunk</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_Loader.ts.html#l127"><code>src\file\Loader.ts:127</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>When using the tag loader we don&#39;t have a byte total, just a X of files total - this holds the percentage each file from that total is worth</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__fileList" class="property item private">
-    <h3 class="name"><code>_fileList</code></h3>
+                    <div id="property__loadingParallel" class="property item private">
+    <h3 class="name"><code>_loadingParallel</code></h3>
     <span class="type">Array</span>
 
     
@@ -3808,10 +5374,13 @@ Returns a boolean if the audio file was successfully added or not to the file di
         
 
         
+            <p>Available since 1.2.0</p>
+        
     </div>
 
     <div class="description">
-        <p>A list of all of the files that need to be loaded. Each item in the array is of the type Kiwi.Files.File.</p>
+        <p>A list of files that can be loaded in parallel to one another.
+This list of files are currently being loaded.</p>
 
     </div>
 
@@ -3823,9 +5392,9 @@ Returns a boolean if the audio file was successfully added or not to the file di
 </div>
 
                 
-                    <div id="property__fileTotal" class="property item private">
-    <h3 class="name"><code>_fileTotal</code></h3>
-    <span class="type">Number</span>
+                    <div id="property__loadingQueue" class="property item private">
+    <h3 class="name"><code>_loadingQueue</code></h3>
+    <span class="type">Array</span>
 
     
 
@@ -3848,17 +5417,21 @@ Returns a boolean if the audio file was successfully added or not to the file di
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l87"><code>src\file\Loader.ts:87</code></a>
+        <a href="../files/src_file_Loader.ts.html#l57"><code>src\file\Loader.ts:57</code></a>
         
         </p>
 
         
 
         
+            <p>Available since 1.2.0</p>
+        
     </div>
 
     <div class="description">
-        <p>Total number of files to be loaded</p>
+        <p>List of files that cannot load in parallel to one another
+and so need to wait for previous files to load first. 
+Generally files loaded via XHR.</p>
 
     </div>
 
@@ -3870,14 +5443,224 @@ Returns a boolean if the audio file was successfully added or not to the file di
 </div>
 
                 
-                    <div id="property__game" class="property item private">
-    <h3 class="name"><code>_game</code></h3>
+                    <div id="property_bytesLoaded" class="property item public">
+    <h3 class="name"><code>bytesLoaded</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l655"><code>src\file\Loader.ts:655</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>READ ONLY: Returns the total number of bytes for the files in the file queue.</p>
+<p>If you are using this make sure you set the &#39;calculateBytes&#39; property to true OR execute the &#39;calculateQueuedSize&#39; method. 
+Otherwise files that are loaded via tags will not be accurate!</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_bytesTotal" class="property item public">
+    <h3 class="name"><code>bytesTotal</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l630"><code>src\file\Loader.ts:630</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>READ ONLY: Returns the total number of bytes for the files in the file queue.
+Only contains a value if you use the &#39;calculateBytes&#39; and are loading files
+OR if you use the &#39;calculateQueuedSize&#39; method.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_enableParallelLoading" class="property item public">
+    <h3 class="name"><code>enableParallelLoading</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l150"><code>src\file\Loader.ts:150</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>When enabled, files which can be loaded in parallel (those which are loaded via tags) 
+will be loaded at the same time. </p>
+<p>The default behaviour is to have the files loading in a queued fashion instead of one after another.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_fileQueueLoading" class="property item public">
+    <h3 class="name"><code>fileQueueLoading</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l122"><code>src\file\Loader.ts:122</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>READ ONLY: A flag indicating if the files inside the file queue are loading or not.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_game" class="property item public">
+    <h3 class="name"><code>game</code></h3>
     <span class="type"><a href="../classes/Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
 
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag public">public</span>
     
 
     
@@ -3905,7 +5688,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
     </div>
 
     <div class="description">
-        <p>The game that this loader belongs to.</p>
+        <p>The game this loader is attached to.</p>
 
     </div>
 
@@ -3917,9 +5700,9 @@ Returns a boolean if the audio file was successfully added or not to the file di
 </div>
 
                 
-                    <div id="property__loadList" class="property item private">
-    <h3 class="name"><code>_loadList</code></h3>
-    <span class="type">Array</span>
+                    <div id="property_onQueueSizeCalculate" class="property item private">
+    <h3 class="name"><code>onQueueSizeCalculate</code></h3>
+    <span class="type">Any</span>
 
     
 
@@ -3942,7 +5725,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l54"><code>src\file\Loader.ts:54</code></a>
+        <a href="../files/src_file_Loader.ts.html#l595"><code>src\file\Loader.ts:595</code></a>
         
         </p>
 
@@ -3952,7 +5735,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
     </div>
 
     <div class="description">
-        <p>A list of all of the files that have been loaded. Each item in the array is of the type Kiwi.Files.File.</p>
+        <p>Callback for when the total number of bytes of the files in the file list has been calculated.</p>
 
     </div>
 
@@ -3964,9 +5747,9 @@ Returns a boolean if the audio file was successfully added or not to the file di
 </div>
 
                 
-                    <div id="property__onCompleteCallback" class="property item private">
-    <h3 class="name"><code>_onCompleteCallback</code></h3>
-    <span class="type">Function</span>
+                    <div id="property_onSizeContext" class="property item private">
+    <h3 class="name"><code>onSizeContext</code></h3>
+    <span class="type">Any</span>
 
     
 
@@ -3989,7 +5772,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l70"><code>src\file\Loader.ts:70</code></a>
+        <a href="../files/src_file_Loader.ts.html#l604"><code>src\file\Loader.ts:604</code></a>
         
         </p>
 
@@ -3999,7 +5782,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
     </div>
 
     <div class="description">
-        <p>A callback that is to be called when the loader has finished loading files.</p>
+        <p>Context that the onSizeCallback should be executed in.</p>
 
     </div>
 
@@ -4011,61 +5794,14 @@ Returns a boolean if the audio file was successfully added or not to the file di
 </div>
 
                 
-                    <div id="property__onProgressCallback" class="property item private">
-    <h3 class="name"><code>_onProgressCallback</code></h3>
-    <span class="type">Function</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_Loader.ts.html#l62"><code>src\file\Loader.ts:62</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A callback that is to be called while the loader is in the process of loading files.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__percentLoaded" class="property item private">
-    <h3 class="name"><code>_percentLoaded</code></h3>
+                    <div id="property_percentLoaded" class="property item public">
+    <h3 class="name"><code>percentLoaded</code></h3>
     <span class="type">Number</span>
 
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag public">public</span>
     
 
     
@@ -4083,17 +5819,20 @@ Returns a boolean if the audio file was successfully added or not to the file di
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l135"><code>src\file\Loader.ts:135</code></a>
+        <a href="../files/src_file_Loader.ts.html#l137"><code>src\file\Loader.ts:137</code></a>
         
         </p>
 
         
 
         
+            <p>Available since 1.2.0</p>
+        
     </div>
 
     <div class="description">
-        <p>The total % of the current queue that has been loaded</p>
+        <p>When &#39;calculateBytes&#39; is true the percentLoaded will be the <code>bytesLoaded / bytesTotal</code>. 
+Otherwise it is based on the <code>filesLoaded / numberOfFilesToLoad</code>.</p>
 
     </div>
 

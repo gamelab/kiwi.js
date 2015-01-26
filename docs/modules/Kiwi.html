@@ -91,6 +91,10 @@
             
                 <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
             
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
             
                 <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
@@ -99,6 +103,8 @@
             
                 <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
             
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
                 <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
             
                 <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
@@ -106,6 +112,8 @@
                 <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
             
@@ -257,9 +265,13 @@
             
                 <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
             
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
                 <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
             
                 <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
             
@@ -309,6 +321,8 @@
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
             
+                <li><a href="../modules/Utils..html">Utils.</a></li>
+            
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
             </ul>
@@ -354,7 +368,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_Kiwi.ts.html#l296"><code>src\Kiwi.ts:296</code></a>
+            Defined in: <a href="../files/src_Kiwi.ts.html#l307"><code>src\Kiwi.ts:307</code></a>
         </div>
     
 
@@ -451,6 +465,18 @@ The top level namespace in which all core classes and modules are defined.</p>
                 </li>
             
                 <li class="module-class">
+                    <a href="../classes/Kiwi.Files.AudioFile.html">
+                        Kiwi.Files.AudioFile
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/Kiwi.Files.DataFile.html">
+                        Kiwi.Files.DataFile
+                    </a>
+                </li>
+            
+                <li class="module-class">
                     <a href="../classes/Kiwi.Files.DataLibrary.html">
                         Kiwi.Files.DataLibrary
                     </a>
@@ -471,6 +497,12 @@ The top level namespace in which all core classes and modules are defined.</p>
                 <li class="module-class">
                     <a href="../classes/Kiwi.Files.Loader.html">
                         Kiwi.Files.Loader
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/Kiwi.Files.TextureFile.html">
+                        Kiwi.Files.TextureFile
                     </a>
                 </li>
             
@@ -501,6 +533,12 @@ The top level namespace in which all core classes and modules are defined.</p>
                 <li class="module-class">
                     <a href="../classes/Kiwi.GameObjects.Textfield.html">
                         Kiwi.GameObjects.Textfield
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/Kiwi.GameObjects.TextField.html">
+                        Kiwi.GameObjects.TextField
                     </a>
                 </li>
             
@@ -859,6 +897,12 @@ The top level namespace in which all core classes and modules are defined.</p>
                 </li>
             
                 <li class="module-class">
+                    <a href="../classes/Kiwi.Utils.Color.html">
+                        Kiwi.Utils.Color
+                    </a>
+                </li>
+            
+                <li class="module-class">
                     <a href="../classes/Kiwi.Utils.Common.html">
                         Kiwi.Utils.Common
                     </a>
@@ -867,6 +911,12 @@ The top level namespace in which all core classes and modules are defined.</p>
                 <li class="module-class">
                     <a href="../classes/Kiwi.Utils.GameMath.html">
                         Kiwi.Utils.GameMath
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/Kiwi.Utils.Log.html">
+                        Kiwi.Utils.Log
                     </a>
                 </li>
             
@@ -914,7 +964,9 @@ The top level namespace in which all core classes and modules are defined.</p>
                     </a>
 
                     <div class="module-submodule-description">
-                        Holds a reference to all of the data Files (json, xml, e.t.c) that are accessible on the State that this DataLibrary is on.
+                        AudioFile which contains settings, loading, and processing details for Audio files to be used. 
+
+Uses tag loading for devices not supporting the WebAudioAPI. Otherwise XHR + arraybuffer loading methods are used.
                     </div>
                 </li>
             
@@ -1017,6 +1069,24 @@ Kiwi.Renderer objects use a ShaderPair to draw.
 
                     <div class="module-submodule-description">
                         Utils is a space that holds a wide varity of useful methods.
+                    </div>
+                </li>
+            
+                <li class="module-submodule">
+                    <a href="../modules/Utils..html">
+                        Utils.
+                    </a>
+
+                    <div class="module-submodule-description">
+                        A utilty class used to add management functionality to common console methods. 
+You can use this class by either creating a new instance, or using the instance at the namespace 'Kiwi.Log'.
+
+log/error/warn methods contained on this class function just like their 'console' equivalents except that:
+- You can assign a tag to message by adding a '#' symbol to the front of a parameter. Example: this.log('Hi', '#welcome'); 
+- Messages can have multiple tags. Example: this.log('Hi', '#welcome', '#greeting');
+- Messages are recorded (by default) and can then search through any messages saved.
+
+You can use the 'show' commands to search through recordings and find specific messages.
                     </div>
                 </li>
             
