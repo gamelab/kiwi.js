@@ -763,7 +763,7 @@ var Kiwi;
                 if (!Kiwi.Utils.Common.isArray(val)) {
                     val = [val];
                 }
-                this._color.parseString.apply(this._color, val);
+                this._color.set.apply(this._color, val);
             },
             enumerable: true,
             configurable: true
@@ -29067,25 +29067,18 @@ var Kiwi;
                 * @private
                 */
                 this._clearMode = 1;
-                /**
-                * The background color to use clearing the canvas using a filled rectangle approach.
-                * @property bgColor
-                * @type String
-                * @default 'rgb(0,0,0)'
-                * @public
-                */
-                this.bgColor = 'rgb(0, 0, 0)';
-                this.domElement = document.createElement('canvas');
+                this.domElement = document.createElement("canvas");
                 this.domElement.width = width;
                 this.domElement.height = height;
                 this._width = width;
                 this._height = height;
-                this.context = this.domElement.getContext('2d');
+                this.context = this.domElement.getContext("2d");
                 this._offScreen = offScreen;
                 this._visible = visible;
                 if (visible === false) {
-                    this.domElement.style.display = 'none';
+                    this.domElement.style.display = "none";
                 }
+                this._bgColor = new Kiwi.Utils.Color(0, 0, 0);
             }
             Object.defineProperty(Canvas.prototype, "width", {
                 get: function () {
@@ -29130,6 +29123,28 @@ var Kiwi;
             Canvas.prototype.objType = function () {
                 return "Canvas";
             };
+            Object.defineProperty(Canvas.prototype, "bgColor", {
+                /**
+                * The background color to use clearing the canvas using a filled rectangle approach.
+                * You may set this with any valid Kiwi.Utils.Color parameter.
+                * If you set with multiple parameters, place them inside an array.
+                * @property bgColor
+                * @type String
+                * @default "#000000"
+                * @public
+                */
+                get: function () {
+                    return "#" + this._bgColor.getHex();
+                },
+                set: function (value) {
+                    if (!Kiwi.Utils.Common.isArray(value)) {
+                        value = [value];
+                    }
+                    this._bgColor.set.apply(this._bgColor, value);
+                },
+                enumerable: true,
+                configurable: true
+            });
             /**
             * Updates the width/height on the canvas DOM element when either one of its sizes are updated.
             * @method _updatedSize
@@ -29146,7 +29161,7 @@ var Kiwi;
             */
             Canvas.prototype.destroy = function () {
                 if (this._offScreen === false) {
-                    this.domElement.style.display = 'none';
+                    this.domElement.style.display = "none";
                 }
             };
             Object.defineProperty(Canvas.prototype, "visible", {
@@ -29164,10 +29179,10 @@ var Kiwi;
                     if (value !== null && value !== this._visible) {
                         this._visible = value;
                         if (value === true) {
-                            this.domElement.style.display = 'block';
+                            this.domElement.style.display = "block";
                         }
                         else {
-                            this.domElement.style.display = 'none';
+                            this.domElement.style.display = "none";
                         }
                     }
                 },
@@ -29233,7 +29248,7 @@ var Kiwi;
             * @public
             */
             Canvas.prototype.toString = function () {
-                return '[{Canvas (width=' + this.width + ' height=' + this.height + ' visible=' + this.visible + ' offScreen=' + this._offScreen + ' clearMode=' + this.clearMode + ')}]';
+                return "[{Canvas (width=" + this.width + " height=" + this.height + " visible=" + this.visible + " offScreen=" + this._offScreen + " clearMode=" + this.clearMode + ")}]";
             };
             /**
             * A STATIC property that holds the number associated with no clear mode.
