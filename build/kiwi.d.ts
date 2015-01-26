@@ -3852,8 +3852,7 @@ declare module Kiwi.GameObjects {
         /**
         * The color of the text.
         * @property _fontColor
-        * @type string
-        * @default "#000000"
+        * @type Kiwi.Utils.Color
         * @private
         */
         private _fontColor;
@@ -3898,11 +3897,14 @@ declare module Kiwi.GameObjects {
         text: string;
         /**
         * The color of the font that is contained in this textfield.
+        * May be set with a string, or an array of any valid
+        * Kiwi.Utils.Color arguments.
+        * Returns a hex string prepended with "#".
         * @property color
         * @type string
         * @public
         */
-        color: string;
+        color: any;
         /**
         * The weight of the font.
         * @property fontWeight
@@ -6539,7 +6541,7 @@ declare module Kiwi.Files {
         */
         onQueueProgress: Kiwi.Signal;
         /**
-        * A flag indicating if the files inside the 'fileQueue' in the process of loading or not.
+        * A flag indicating if the files inside the file queue are loading or not.
         *
         * @property _fileQueueLoading
         * @type Boolean
@@ -6549,7 +6551,7 @@ declare module Kiwi.Files {
         */
         private _queueLoading;
         /**
-        * READ ONLY: A flag indicating if the files inside the 'fileQueue' in the process of loading or not.
+        * READ ONLY: A flag indicating if the files inside the file queue are loading or not.
         *
         * @property fileQueueLoading
         * @type Boolean
@@ -6560,8 +6562,8 @@ declare module Kiwi.Files {
         */
         queueLoading: boolean;
         /**
-        * Returns the percent of files in the '_loadingList' which have been loaded.
-        * When no files are in the list, then the percentLoaded is 100.
+        * When 'calculateBytes' is true the percentLoaded will be the `bytesLoaded / bytesTotal`.
+        * Otherwise it is based on the `filesLoaded / numberOfFilesToLoad`.
         *
         * @property percentLoaded
         * @type Number
@@ -6591,6 +6593,13 @@ declare module Kiwi.Files {
         boot(): void;
         /**
         * Starts loading all the files which are in the file queue.
+        *
+        * To accurately use the bytesLoaded or bytesTotal properties you will need to set the 'calculateBytes' boolean to true.
+        * This may increase load times, as each file in the queue will firstly make XHR HEAD requests for information.
+        *
+        * When 'calculateBytes' is true the percentLoaded will be the `bytesLoaded / bytesTotal`.
+        * Otherwise it is based on the `filesLoaded / numberOfFilesToLoad`.
+        *
         * @method start
         * @param [calculateBytes] {Boolean} Setter for the 'calculateBytes' property.
         * @since 1.2.0
@@ -6773,7 +6782,8 @@ declare module Kiwi.Files {
         private _bytesTotal;
         /**
         * READ ONLY: Returns the total number of bytes for the files in the file queue.
-        * Only contains a value after the 'calculateQueuedSize' method is executed.
+        * Only contains a value if you use the 'calculateBytes' and are loading files
+        * OR if you use the 'calculateQueuedSize' method.
         *
         * @property bytesTotal
         * @readOnly
@@ -6785,7 +6795,6 @@ declare module Kiwi.Files {
         bytesTotal: number;
         /**
         * The number of bytes loaded of files in the file queue.
-        * Not accurate if the file use tag loading AND you didn't get calculate the bytes before hand.
         *
         * @property _bytesLoaded
         * @type Number
@@ -6794,7 +6803,9 @@ declare module Kiwi.Files {
         private _bytesLoaded;
         /**
         * READ ONLY: Returns the total number of bytes for the files in the file queue.
-        * Only contains a value after the 'calculateQueuedSize' method is executed.
+        *
+        * If you are using this make sure you set the 'calculateBytes' property to true OR execute the 'calculateQueuedSize' method.
+        * Otherwise files that are loaded via tags will not be accurate!
         *
         * @property bytesLoaded
         * @readOnly
@@ -6805,7 +6816,11 @@ declare module Kiwi.Files {
         */
         bytesLoaded: number;
         /**
-        * Loops through the file queue to calculate how many bytes
+        * Loops through the file queue and gets file information (filesize, ETag, filetype) for each.
+        *
+        * To get accurate information about the bytesLoaded, bytesTotal, and the percentLoaded
+        * set the 'calculateBytes' property to true, as the loader will automatically execute this method before hand.
+        *
         * Can only be executed when the file queue is not currently loading.
         *
         * @method calculateQueuedSize
@@ -7009,6 +7024,14 @@ declare module Kiwi.Files {
         * @public
         */
         getBytesLoaded(): number;
+        /**
+        * Flags this loader for garbage collection. Only use this method if you are SURE you will no longer need it.
+        * Otherwise it is best to leave it alone.
+        *
+        * @method destroy
+        * @public
+        */
+        destroy(): void;
     }
 }
 /**
@@ -20688,7 +20711,7 @@ declare module Kiwi.Utils {
         * Parse hexadecimal colors from strings
         * @method parseHex
         * @param color {string} A hexadecimal color such as "ffffff" (no alpha)
-        *	or "ffffffff" (with alpha)
+        *	or "ffffffff" (with alpha). Also supports
         * @return {Kiwi.Utils.Color} This object with the new color set
         * @public
         */
@@ -20700,7 +20723,7 @@ declare module Kiwi.Utils {
         * @return string
         * @public
         */
-        getHex(alpha?: boolean): any;
+        getHex(alpha?: boolean): string;
         /**
         * Parses normalized HSV values into the Color.
         * Interprets either normalized values, or H in degrees (0-360)

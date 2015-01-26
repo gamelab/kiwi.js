@@ -454,7 +454,7 @@ module Kiwi.Utils {
 		* Parse hexadecimal colors from strings
 		* @method parseHex
 		* @param color {string} A hexadecimal color such as "ffffff" (no alpha)
-		*	or "ffffffff" (with alpha)
+		*	or "ffffffff" (with alpha). Also supports
 		* @return {Kiwi.Utils.Color} This object with the new color set
 		* @public
 		*/
@@ -474,13 +474,21 @@ module Kiwi.Utils {
 
 			bigint = parseInt( color, 16 );
 
-			if ( color.length === 6 ) {
+			if ( color.length === 3 ) {
+				r = 17 * ( ( bigint >> 8 ) & 15 );
+				g = 17 * ( ( bigint >> 4 ) & 15 );
+				b = 17 * ( bigint & 15 );
+			} else if ( color.length === 4 ) {
+				r = 17 * ( ( bigint >> 12 ) & 15 );
+				g = 17 * ( ( bigint >> 8 ) & 15 );
+				b = 17 * ( ( bigint >> 4 ) & 15 );
+				a = 17 * ( bigint & 15 );
+			} else if ( color.length === 6 ) {
 				r = ( bigint >> 16 ) & 255;
 				g = ( bigint >> 8 ) & 255;
 				b = bigint & 255;
 				a = 255;
-			}
-			else if ( color.length === 8 ) {
+			} else if ( color.length === 8 ) {
 				r = ( bigint >> 24 ) & 255;
 				g = ( bigint >> 16 ) & 255;
 				b = ( bigint >> 8 ) & 255;
@@ -503,20 +511,36 @@ module Kiwi.Utils {
 		* @public
 		*/
 		public getHex( alpha: boolean = true ) {
-			var num,
-				mult = 256;
+			var subStr,
+				str = "";
+
+			subStr = this.r255.toString( 16 );
+			while( subStr.length < 2 ) {
+				subStr = "0" + subStr;
+			}
+			str += subStr;
+
+			subStr = this.g255.toString( 16 );
+			while( subStr.length < 2 ) {
+				subStr = "0" + subStr;
+			}
+			str += subStr;
+
+			subStr = this.b255.toString( 16 );
+			while( subStr.length < 2 ) {
+				subStr = "0" + subStr;
+			}
+			str += subStr;
 
 			if ( alpha ) {
-				num = this.r255 * mult * mult * mult +
-					this.g255 * mult * mult +
-					this.b255 * mult +
-					this.a255;
-			} else {
-				num = this.r255 * mult * mult +
-				this.g255 * mult +
-				this.b255;
+				subStr = this.a255.toString( 16 );
+				while( subStr.length < 2 ) {
+					subStr = "0" + subStr;
+				}
+				str += subStr;
 			}
-			return num.toString( 16 );
+
+			return str;
 		}
 
 		/**

@@ -37,7 +37,7 @@ module Kiwi.GameObjects {
             this._text = text;
             this._fontWeight = weight;
             this._fontSize = size;
-            this._fontColor = color;
+            this._fontColor = new Kiwi.Utils.Color( color );
             this._fontFamily = fontFamily;
             this._textAlign = "left";
             this._baseline = "top";
@@ -103,11 +103,10 @@ module Kiwi.GameObjects {
         /**
         * The color of the text.
         * @property _fontColor
-        * @type string
-        * @default "#000000"
+        * @type Kiwi.Utils.Color
         * @private
         */
-        private _fontColor: string;
+        private _fontColor: Kiwi.Utils.Color;
 
         /**
         * The font family that is to be rendered.
@@ -162,17 +161,23 @@ module Kiwi.GameObjects {
 
         /**
         * The color of the font that is contained in this textfield.
+        * May be set with a string, or an array of any valid
+        * Kiwi.Utils.Color arguments.
+        * Returns a hex string prepended with "#".
         * @property color
         * @type string
         * @public
         */
-        public set color(val: string) {
-            this._fontColor = val;
+        public set color( val: any ) {
+            if ( !Kiwi.Utils.Common.isArray( val ) ) {
+                val = [ val ];
+            }
+            this._fontColor.set.apply( this._fontColor, val );
             this._tempDirty = true;
    
         } 
-        public get color(): string {
-            return this._fontColor;
+        public get color(): any {
+            return "#" + this._fontColor.getHex();
         }
 
         /**
@@ -342,7 +347,7 @@ module Kiwi.GameObjects {
 
             // Reapply the styles....cause it unapplies after a measurement...?!?
             this._ctx.font = this._fontWeight + " " + this._fontSize + "px " + this._fontFamily;
-            this._ctx.fillStyle = this._fontColor;
+            this._ctx.fillStyle = this.color.slice( 0, 7 );
             this._ctx.textBaseline = this._baseline;
 
             // Draw the text.

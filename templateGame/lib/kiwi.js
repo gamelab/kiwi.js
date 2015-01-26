@@ -5423,7 +5423,7 @@ var Kiwi;
                 this._text = text;
                 this._fontWeight = weight;
                 this._fontSize = size;
-                this._fontColor = color;
+                this._fontColor = new Kiwi.Utils.Color(color);
                 this._fontFamily = fontFamily;
                 this._textAlign = "left";
                 this._baseline = "top";
@@ -5470,16 +5470,22 @@ var Kiwi;
             });
             Object.defineProperty(Textfield.prototype, "color", {
                 get: function () {
-                    return this._fontColor;
+                    return "#" + this._fontColor.getHex();
                 },
                 /**
                 * The color of the font that is contained in this textfield.
+                * May be set with a string, or an array of any valid
+                * Kiwi.Utils.Color arguments.
+                * Returns a hex string prepended with "#".
                 * @property color
                 * @type string
                 * @public
                 */
                 set: function (val) {
-                    this._fontColor = val;
+                    if (!Kiwi.Utils.Common.isArray(val)) {
+                        val = [val];
+                    }
+                    this._fontColor.set.apply(this._fontColor, val);
                     this._tempDirty = true;
                 },
                 enumerable: true,
@@ -5590,7 +5596,7 @@ var Kiwi;
                 this._ctx.clearRect(0, 0, width, height);
                 // Reapply the styles....cause it unapplies after a measurement...?!?
                 this._ctx.font = this._fontWeight + " " + this._fontSize + "px " + this._fontFamily;
-                this._ctx.fillStyle = this._fontColor;
+                this._ctx.fillStyle = this.color.slice(0, 7);
                 this._ctx.textBaseline = this._baseline;
                 // Draw the text.
                 this._ctx.fillText(this._text, 0, 0);
@@ -9430,7 +9436,7 @@ var Kiwi;
         var Loader = (function () {
             function Loader(game) {
                 /**
-                * A flag indicating if the files inside the 'fileQueue' in the process of loading or not.
+                * A flag indicating if the files inside the file queue are loading or not.
                 *
                 * @property _fileQueueLoading
                 * @type Boolean
@@ -9440,8 +9446,8 @@ var Kiwi;
                 */
                 this._queueLoading = false;
                 /**
-                * Returns the percent of files in the '_loadingList' which have been loaded.
-                * When no files are in the list, then the percentLoaded is 100.
+                * When 'calculateBytes' is true the percentLoaded will be the `bytesLoaded / bytesTotal`.
+                * Otherwise it is based on the `filesLoaded / numberOfFilesToLoad`.
                 *
                 * @property percentLoaded
                 * @type Number
@@ -9503,7 +9509,6 @@ var Kiwi;
                 this._bytesTotal = 0;
                 /**
                 * The number of bytes loaded of files in the file queue.
-                * Not accurate if the file use tag loading AND you didn't get calculate the bytes before hand.
                 *
                 * @property _bytesLoaded
                 * @type Number
@@ -9523,7 +9528,7 @@ var Kiwi;
             };
             Object.defineProperty(Loader.prototype, "queueLoading", {
                 /**
-                * READ ONLY: A flag indicating if the files inside the 'fileQueue' in the process of loading or not.
+                * READ ONLY: A flag indicating if the files inside the file queue are loading or not.
                 *
                 * @property fileQueueLoading
                 * @type Boolean
@@ -9552,6 +9557,13 @@ var Kiwi;
             };
             /**
             * Starts loading all the files which are in the file queue.
+            *
+            * To accurately use the bytesLoaded or bytesTotal properties you will need to set the 'calculateBytes' boolean to true.
+            * This may increase load times, as each file in the queue will firstly make XHR HEAD requests for information.
+            *
+            * When 'calculateBytes' is true the percentLoaded will be the `bytesLoaded / bytesTotal`.
+            * Otherwise it is based on the `filesLoaded / numberOfFilesToLoad`.
+            *
             * @method start
             * @param [calculateBytes] {Boolean} Setter for the 'calculateBytes' property.
             * @since 1.2.0
@@ -9569,6 +9581,7 @@ var Kiwi;
                 //Reset the number of bytes laoded
                 this._bytesLoaded = 0;
                 this._bytesTotal = 0;
+                this.percentLoaded = 0;
                 if (this._calculateBytes) {
                     this.calculateQueuedSize(this._startLoading, this);
                 }
@@ -9861,7 +9874,8 @@ var Kiwi;
             Object.defineProperty(Loader.prototype, "bytesTotal", {
                 /**
                 * READ ONLY: Returns the total number of bytes for the files in the file queue.
-                * Only contains a value after the 'calculateQueuedSize' method is executed.
+                * Only contains a value if you use the 'calculateBytes' and are loading files
+                * OR if you use the 'calculateQueuedSize' method.
                 *
                 * @property bytesTotal
                 * @readOnly
@@ -9879,7 +9893,9 @@ var Kiwi;
             Object.defineProperty(Loader.prototype, "bytesLoaded", {
                 /**
                 * READ ONLY: Returns the total number of bytes for the files in the file queue.
-                * Only contains a value after the 'calculateQueuedSize' method is executed.
+                *
+                * If you are using this make sure you set the 'calculateBytes' property to true OR execute the 'calculateQueuedSize' method.
+                * Otherwise files that are loaded via tags will not be accurate!
                 *
                 * @property bytesLoaded
                 * @readOnly
@@ -9895,7 +9911,11 @@ var Kiwi;
                 configurable: true
             });
             /**
-            * Loops through the file queue to calculate how many bytes
+            * Loops through the file queue and gets file information (filesize, ETag, filetype) for each.
+            *
+            * To get accurate information about the bytesLoaded, bytesTotal, and the percentLoaded
+            * set the 'calculateBytes' property to true, as the loader will automatically execute this method before hand.
+            *
             * Can only be executed when the file queue is not currently loading.
             *
             * @method calculateQueuedSize
@@ -10464,6 +10484,38 @@ var Kiwi;
             */
             Loader.prototype.getBytesLoaded = function () {
                 return this.bytesLoaded;
+            };
+            /**
+            * Flags this loader for garbage collection. Only use this method if you are SURE you will no longer need it.
+            * Otherwise it is best to leave it alone.
+            *
+            * @method destroy
+            * @public
+            */
+            Loader.prototype.destroy = function () {
+                this.onQueueComplete.dispose();
+                this.onQueueProgress.dispose();
+                delete this.game;
+                delete this.onQueueComplete;
+                delete this.onQueueProgress;
+                var i = 0;
+                while (i < this._loadingList.length) {
+                    this._loadingList[i].destroy();
+                    i++;
+                }
+                this._loadingList = [];
+                var i = 0;
+                while (i < this._loadingQueue.length) {
+                    this._loadingQueue[i].destroy();
+                    i++;
+                }
+                this._loadingQueue = [];
+                var i = 0;
+                while (i < this._loadingParallel.length) {
+                    this._loadingParallel[i].destroy();
+                    i++;
+                }
+                this._loadingParallel = [];
             };
             return Loader;
         })();
@@ -29707,7 +29759,7 @@ var Kiwi;
             * Parse hexadecimal colors from strings
             * @method parseHex
             * @param color {string} A hexadecimal color such as "ffffff" (no alpha)
-            *	or "ffffffff" (with alpha)
+            *	or "ffffffff" (with alpha). Also supports
             * @return {Kiwi.Utils.Color} This object with the new color set
             * @public
             */
@@ -29720,7 +29772,18 @@ var Kiwi;
                     color = color.slice(2);
                 }
                 bigint = parseInt(color, 16);
-                if (color.length === 6) {
+                if (color.length === 3) {
+                    r = 17 * ((bigint >> 8) & 15);
+                    g = 17 * ((bigint >> 4) & 15);
+                    b = 17 * (bigint & 15);
+                }
+                else if (color.length === 4) {
+                    r = 17 * ((bigint >> 12) & 15);
+                    g = 17 * ((bigint >> 8) & 15);
+                    b = 17 * ((bigint >> 4) & 15);
+                    a = 17 * (bigint & 15);
+                }
+                else if (color.length === 6) {
                     r = (bigint >> 16) & 255;
                     g = (bigint >> 8) & 255;
                     b = bigint & 255;
@@ -29747,14 +29810,30 @@ var Kiwi;
             */
             Color.prototype.getHex = function (alpha) {
                 if (alpha === void 0) { alpha = true; }
-                var num, mult = 256;
+                var subStr, str = "";
+                subStr = this.r255.toString(16);
+                while (subStr.length < 2) {
+                    subStr = "0" + subStr;
+                }
+                str += subStr;
+                subStr = this.g255.toString(16);
+                while (subStr.length < 2) {
+                    subStr = "0" + subStr;
+                }
+                str += subStr;
+                subStr = this.b255.toString(16);
+                while (subStr.length < 2) {
+                    subStr = "0" + subStr;
+                }
+                str += subStr;
                 if (alpha) {
-                    num = this.r255 * mult * mult * mult + this.g255 * mult * mult + this.b255 * mult + this.a255;
+                    subStr = this.a255.toString(16);
+                    while (subStr.length < 2) {
+                        subStr = "0" + subStr;
+                    }
+                    str += subStr;
                 }
-                else {
-                    num = this.r255 * mult * mult + this.g255 * mult + this.b255;
-                }
-                return num.toString(16);
+                return str;
             };
             /**
             * Parses normalized HSV values into the Color.
