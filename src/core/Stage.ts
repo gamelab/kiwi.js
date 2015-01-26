@@ -611,7 +611,12 @@ module Kiwi {
         */
         private _calculateContainerScale() {
 
+            //Calculate the scale twice
+            //This will give the correct scale upon completion the second run
+            //Temporary fix until the Scale Manager is implemented
             this._scaleContainer();
+            this._scaleContainer();
+
             this.offset = this.getOffsetPoint(this.container);
 
             this._scale.x = this._width / this.container.clientWidth;
@@ -798,6 +803,8 @@ module Kiwi {
 
             if (this._game.deviceTargetOption == Kiwi.TARGET_BROWSER) {
 
+                var clientWidth = this.container.clientWidth;
+
                 this.container.style.width = String(this._width + "px");
                 this.container.style.height = String(this._height + "px");
 
@@ -823,7 +830,7 @@ module Kiwi {
 
                 //If it is SCALE to FIT then scale the containers height in ratio with the containers width.
                 if (this._scaleType == Kiwi.Stage.SCALE_FIT) {
-                    this.container.style.height = String((this.container.clientWidth / this._width) * this._height) + "px";
+                    this.container.style.height = String((clientWidth / this._width) * this._height) + "px";
                 }
 
             }
