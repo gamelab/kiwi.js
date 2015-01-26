@@ -1,33 +1,30 @@
-Kiwi.js 1.2.0 (Work In Progress)
+Kiwi.js 1.2.0
 =============
 
-![Splash](http://kiwi-js.s3.amazonaws.com/wounds-with-friends.jpg) 
+![Splash](http://kiwi-js.s3.amazonaws.com/wounds-with-friends.jpg)
 
-Kiwi.js is the worlds easiest to use Open Source HTML5 game framework for making both mobile and desktop HTML5 browser games. 
+Kiwi.js is the world's easiest to use Open Source HTML5 game framework for making both mobile and desktop HTML5 browser games.
 
-Our focus is blazingly fast WebGL rendering and complimentary tools to make professional quality serious games. We use [CocoonJS](https://www.ludei.com/) for publishing games and App creation. 
+Our focus is blazingly fast WebGL rendering and complementary tools to make professional quality serious games. We use [CocoonJS](https://www.ludei.com/) for publishing games and App creation.
 
-Version: 1.1.1 "Shigeru"
+Version: 1.2.0 "Williams"
 
 - Visit the [Official Website](http://www.kiwijs.org/documentation/getting-started/)
 - Follow us on [Twitter](http://www.twitter.com/kiwijsengine)
-- Explore Source code for [Kiwi.js examples](http://www.kiwijs.org/examples/)  
-- Read our [API Documentation](http://api.kiwijs.org/) 
+- Explore Source code for [Kiwi.js examples](http://www.kiwijs.org/examples/)
+- Read our [API Documentation](http://api.kiwijs.org/)
 - Browse our Plugin Repository
 - [Contact](http://www.kiwijs.org/help/) us for more information
 
-
-##Welcome to Kiwi!  
-
+##Welcome to Kiwi!
 
 Born out of a desire to democratize HTML5 game development and to make something that we love available to the masses, we bring you Kiwi.js.
 
-We don’t mean to brag (too much), but Kiwi.js is fast. With hardware accelerated WebGL rendering, you can expect your games to be easily deployed across mobile and desktop browsers. But wait, they can also be deployed to mobile devices as native apps, using the [CocoonJS](https://www.ludei.com/) framework.
+We don't mean to brag (too much), but Kiwi.js is fast. With hardware accelerated WebGL rendering, you can expect your games to be easily deployed across mobile and desktop browsers. But wait, they can also be deployed to mobile devices as native apps, using the [CocoonJS](https://www.ludei.com/) framework.
 
-Our mission is to follow the best open source community practices. We’re backing that up by providing professional support when its needed, so everyone — commercial developers as well as indies — feel the love.
+Our mission is to follow the best open source community practices. We're backing that up by providing professional support when its needed, so everyone — commercial developers as well as indies — feel the love.
 
-And we do think you’re going to feel the love. What couldn’t you love about a game engine that is named after a fluffy adorable bird *and* one of the world’s greatest game inventors?
-
+And we do think you're going to feel the love. What couldn't you love about a game engine that is named after a fluffy adorable bird *and* one of the world's greatest game inventors?
 
 ##How to Guides
 
@@ -38,21 +35,82 @@ Our [Official Documentation Codex](http://www.kiwijs.org/documentation/getting-s
 
 ## Release Notes for this Version
 
+Number tags refer to [GitHub issues](https://github.com/gamelab/kiwi.js/issues).
+
+### v1.2.0 "Williams"
+
+#### New Features
+
+* Pro architecture tools out the wazoo
+* All `Component` objects on a Group or Entity will automatically update when the State updates. This permits a full Entity Component System. (#122)
+* `Clock` greatly improved (#143)
+  - Time can run at any rate, in any direction
+  - `rate` property available on clocks
+  - Animation, Tween, and TweenManager can now use any Clock
+* Timer Helpers implemented. You can now call `Clock.setInterval` and `Clock.setTimeout`, rather than mess around with three or more calls to get the same effect. These helpers run on game clocks, and will respect clock manipulation and pausing. (#44)
+* `Kiwi.Log` added. This replaces and upgrades `console.log` functionality, with recording, tagging, and selective muting. It's a big step up for debug! (#117)
+* `Kiwi.Utils.Color` object can record and output color values in a very wide range of formats, including RGB, RGBA, HSL, HSV, CSS color functions, and normalized or integer values. (#135)
+  - TextField, State, and Kiwi.Utils.Canvas now use Color objects.
+* File system is more flexible
+  - Parallel loading option for lightning-fast downloads
+  - Load files with easy-to-use parameters
+  - Easily manage state-specific files
+* `Transform` optimisations (#141)
+  - Improved performance
+  - Transform may be set `lock = true` to prevent updates and increase performance
+  - Transform may be set `ignoreParents = true` to save performance with objects whose parents don't update
+* `Animation` has a `Signal` called `onComplete` which fires after finishing (#143)
+* `TextField` now has a hitbox (#137)
+* Game `domParent` parameter can now use CSS selectors (#131)
+* `Kiwi.Utils.Common.between( x, a, b )` method added. It's much faster to check if something is between two numbers now. (#118)
+* `Input.Pointers` now has `pressed` and `released` getters, allowing you to see if a mouse or finger was pressed or released in the last frame only. (#115)
+* `Camera.transformPointToScreen` added, allowing you to translate world points to screen coordinates. This is the opposite of `Camera.transformPoint`. (#112)
+* You may now reassign `Tween.object`, transferring a Tween from one object to another. (#109)
+* `State.loadProgress()` can now estimate bytes loaded (#66)
+
+#### Bug Fixes
+
+* `scaleType: Kiwi.Stage.SCALE_FIT` now scales correctly when browser window is manually resized to be smaller than the canvas. (#147)
+* XHR loading works with Nodewebkit where status codes are unavailable (#144)
+* `Kiwi.Utils.Common.defaultToString` is now in camelCase (#140)
+* `TileMapLayer.getOverlappingTiles` now works correctly with negative coordinates (#139)
+* `Kiwi.Time.Clock.removeTimer` works correctly (#138)
+* Audio objects now loop correctly after being paused and resumed (#132)
+* `PluginManager` now correctly allows requirements that match or exceed requested version number, rather than those that match or precede it. (#130)
+* Game prints the correct error message when no stage was specified, or an incorrect stage was specified. (#129)
+* Mouse events now include button data. (#126)
+* `AnimationManager` now calls `onUpdate` after changing `cellIndex`, ensuring that callbacks have more accurate data regarding cells. (#125)
+* `StaticImage.objType()` now reports "StaticImage" instead of "Sprite" (#119)
+* Spritesheet texture atlas correctly enumerates number of cells. (#116)
+* `Timer` resumes where it left off after being paused (#113)
+* File loader now correctly interprets files without extensions in CocoonJS (#106)
+
+#### Deprecations and Removals
+
+* `Textfield` is deprecated in favour of `TextField` alias (#134)
+* `Kiwi.Utils.Common.defaultToString` is now in camelCase (#140)
+
+#### Project Architecture
+
+* Switched to Typescript 1.4. Run `npm update` to upgrade your packages.
+
+More details can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.js) under the [1.2.0 milestone](https://github.com/gamelab/kiwi.js/issues?q=milestone%3Av1.2.0)
+
+
+## Release Notes for Previous Versions
+
 ### v1.1.1
 
 #### Bug Fixes
 
 * Blend modes now work correctly in CocoonJS when `deviceTarget: Kiwi.TARGET_COCOON` is set, fixing a number of bugs. This allows CocoonJS deployment to a wider range of devices with more reliable quality.
 * Methods on a number of Geometric Objects (such as the `angleTo` method on `Point`) have been fixed.
-* Mouse events (down, up, scrollwheel and move) now prevent the default action from escaping to the rest of the page. 
-* For CocoonJS the default stage colour is now '#000000'. Even if your game doesn't fill the entire screen, the WebGL renderer will use this colour to fill all parts outside of the game area. 
+* Mouse events (down, up, scrollwheel and move) now prevent the default action from escaping to the rest of the page.
+* For CocoonJS the default stage colour is now '#000000'. Even if your game doesn't fill the entire screen, the WebGL renderer will use this colour to fill all parts outside of the game area.
 
 More details on the problems solved can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.js) under the [1.1.1 milestone](https://github.com/gamelab/kiwi.js/issues?q=milestone%3Av1.1.1+is%3Aclosed)
 
-
-## Release Notes for Previous Versions
-
-### v1.1.0
+### v1.1.0 "Iwutani"
 
 #### New Features
 
@@ -103,7 +161,7 @@ More details on the problems solved can be found on the [Kiwi.JS repo](https://g
 * CocoonJS input now works properly. You are required to have no DOM elements in your HTML body for this to work.
 * Touch input now no longer reports two `onUp` events per touch. Issue may still persist on default Android browser.
 * Prevent switching a State while another State is loading.
-* `Group.getRandom()` now returns proper results. 
+* `Group.getRandom()` now returns proper results.
 * Groups now correctly respect child position when the group has a non-zero anchor point.
 * Stage offset is correctly calculated, allowing for correct input positions.
 * Numerous small corrections to documentation: API reference is much more accurate.
@@ -117,29 +175,29 @@ More details on the problems solved can be found on the [Kiwi.JS repo](https://g
 
 ### v1.0.1
 
-#### Bug Fixes and Changes 
+#### Bug Fixes and Changes
 
 * Thanks to @zzarcon the Grunt file now has more clarity.
 * @tjwudi has pushed up numerious fixes to the Documentation!
-* Bug fix where multiple debug canvases could be generated from subsequent 'createDebugCanvas' calls. 
+* Bug fix where multiple debug canvases could be generated from subsequent 'createDebugCanvas' calls.
 * The debug canvas now responds to the "scaleType" property on the 'Stage'.
-* Tilemap layers no longer return error messages about the cellIndex. 
-* Groups now use correct rotation point, as does the Camera and the State. 
-* Fixed a bug where the HUDIcon would not work with Textures use a Canvas.   
-* Canvas renderer now behaves more like the WebGL renderer. 
+* Tilemap layers no longer return error messages about the cellIndex.
+* Groups now use correct rotation point, as does the Camera and the State.
+* Fixed a bug where the HUDIcon would not work with Textures use a Canvas.
+* Canvas renderer now behaves more like the WebGL renderer.
 * Fixed a WebGL bug where alphas between 0 and 1 made the page background color bleed through.
 * The WebGL renderer now clears every frame which solves the bug where nothing would appear.
 * Textures that are set to 'dirty' are now re-uploaded to video memory. This fixes other bugs, such as the Textfield not working in WebGL.
 * Visibility flag now works correctly with groups: no children are rendered.
 * Visibility flag now works correctly under WebGL renderer.
-* Upgraded Kiwi.js to use Typescript version 1.0.0. 
+* Upgraded Kiwi.js to use Typescript version 1.0.0.
 
 ##Features
 
 ####Powerful Rendering
-Kiwi uses a custom built WebGL rendering system for targetting modern mobile and desktop browsers as well as mobile apps through [CocoonJS](https://www.ludei.com/).
+Kiwi uses a custom built WebGL rendering system for targeting modern mobile and desktop browsers as well as mobile apps through [CocoonJS](https://www.ludei.com/).
 
-Not only is Kiwi lightning quick but it is also extendable, meaning that fellow contributors can easily write their own powerful rendering Plugins and Add-ons using WebGL Shaders. For instance our WebGL Particle Plugin creates stunning special FX using this system.
+Not only is Kiwi lightning quick but it is also extendible, meaning that fellow contributors can easily write their own powerful rendering Plugins and Add-ons using WebGL Shaders. For instance our WebGL Particle Plugin creates stunning special FX using this system.
 
 Of course, you can render to canvas too, which means older browsers, and mobile browsers, don't miss out.
 
@@ -152,14 +210,14 @@ A state management system lets you easily move between and manage game states. E
 ####Flexible Asset Loading and Management
 It's easy to load in images, sound and data. You can decide when you want it to load (e.g. in a single payload at the beginning, or on a per state basis). When your assets are loaded they're super easy to access from data libraries.
 
-####Gameobjects - Sprites, Images, Textfields 
-Gameobjects are objects that get rendered in your game. Whether they're frame-based sprites, webGL particles, static images or textfields, they all can be moved in the game world and placed in the scene graph.
+####Gameobjects - Sprites, Images, Textfields
+Gameobjects are objects that get rendered in your game. Whether they're frame-based sprites, webGL particles, static images or text fields, they all can be moved in the game world and placed in the scene graph.
 
 ####Entity/Component system
 Each gameobject is an "Entity" and can have "components" attached to it. Components are small pieces of code that do something useful. For instance the arcade physics system is implemented as a component. If you want your game object to use physics, simply attach a physics component to it. Some of the standard gameobjects have components such as animation already attached. You can also write your own components.
 
-####Scenegraph (Grouping objects)
-The scenegraph represents all of the gameobjects that visible in your gameworld. You can group objects, and place groups within groups. You can animate and move your objects and groups and they'll behave in a consistent manner depending on how they are nested.
+####Scene Graph (Grouping objects)
+The scene graph represents all of the gameobjects that visible in your gameworld. You can group objects, and place groups within groups. You can animate and move your objects and groups and they'll behave in a consistent manner depending on how they are nested.
 
 ####Animation
 Sprites have an animation component that enables frame by animation from spritesheets and texture atlases. You can easily define frame sequences and frame lengths, play, pause, loop and reverse animations. There is also a built in tweening system.
@@ -167,7 +225,7 @@ Sprites have an animation component that enables frame by animation from sprites
 ####Input (Including Touch)
 Kiwi.js supports input for mouse, keyboard and of course touch. Mouse and touch events are easily handled by Kiwi.js pointer objects, so in most cases you don't have to worry about where the input is coming from.
 
-####Camera 
+####Camera
 Your game world is viewed through a controllable camera, which you can move and spin.
 
 ####Tilemaps
@@ -176,21 +234,18 @@ Kiwi.js has support for tilemaps, including multiple tile layers. The Tiled map 
 ####Audio
 Kiwi.js supports the WebAudio api, and falls back to using `<audio>` tag when it is not available. Audio sprites are also supported, unless of course your device happens to be some weird futuristic ghetto blaster.
 
-####Monitization
-As fellow game developers we know what it is like to be hungry, shivering on the corner holding a can of change in one hand and a damp “will code for cash” cardboard sign in the other. 
+####Monetization
+As fellow game developers we know what it is like to be hungry, shivering on the corner holding a can of change in one hand and a damp "will code for cash" cardboard sign in the other.
 
 Because of this, creating an In-App Purchasing Plugin to allow you to monetize your games was a top priority and is available now.
 
-[CocoonJS](https://www.ludei.com/) users can easily sell add a virtual currency to consumable goods via the AppStore
-
+[CocoonJS](https://www.ludei.com/) users can easily add a virtual currency to consumable goods via the AppStore.
 
 ####Plugin System
 As part of our dedication to open source principles, the plugin system lets developers extend many aspects of Kiwi.js. The rules around creating them are unobtrusive, making plugins easy to create and attach. Plugins will soon be able to be sold in the upcoming Kiwi.js marketplace.
 
 ####Integration with powerful tools
-Kiwi.js is part of a larger ecosystem of products which will enable you to create games and game content using specialised tools such as the Gamefroot cloud based game building solution. [Because you can never get enough power](https://www.youtube.com/watch?v=YQwYNca4iog) 
-
-
+Kiwi.js is part of a larger ecosystem of products which will enable you to create games and game content using specialised tools such as the Gamefroot cloud based game building solution. [Because you can never get enough power](https://www.youtube.com/watch?v=YQwYNca4iog)
 
 ##Getting Started
 
@@ -199,6 +254,7 @@ Kiwi.js is part of a larger ecosystem of products which will enable you to creat
 There are several ways to get started, starting from scratch is the generally accepted way to go about this, but if you want to get up and running even faster, Kiwi.js "Blueprint" games will help get your game building experience off to a flying start.
 
 Choose from any of the following:
+
 - [HTML5 match-three game](http://www.kiwijs.org/documentation/blueprints/html5-match-three-game-blueprint/)
 - [HTML5 hidden object](http://www.kiwijs.org/documentation/blueprints/hidden-object-blueprint/)
 - [HTML5 dressup game](http://www.kiwijs.org/documentation/blueprints/dress-up-blueprint/)
@@ -215,42 +271,37 @@ There will be an ever increasing library of free and premium blueprints to get y
 
 ##Starting from scratch
 
-The easiest way to start with a blank game is to take a copy of the `/gameTemplate` folder. This contains a recommnded folder structure and all default files already in place.
+The easiest way to start with a blank game is to take a copy of the `/gameTemplate` folder. This contains a recommended folder structure and all default files already in place.
 
-You will need to use a web server to open the index file.
+You will need to use a web server to open the index file. We suggest XAMPP, WAMP or MAMP.
 
 A more advanced, but still simple, way to create a blank game is to use the [Kiwi.js Yeoman Generator](https://github.com/gamelab/generator-kiwigame). This will create build files and other goodies for you as well.
-
-
 
 ###Viewing the examples
 
 We have a throng of examples. So many, in fact, that one kiwi got tired carrying them all. As generous souls, we put them in their own repo. Check out the [examples repo](https://github.com/gamelab/examples) and look in `tutorials/core`.
 
-
-
 ###What's in this repo?
 
-Note: If you just want to use the framework, the kiwi.js and kiwi.min.js files are located in the `/build` folder, and the docs in the `/docs` folder, and there is a template game in the `/templateGame` folder. You probably don't need to worry about the rest of the repo! 
+Note: If you just want to use the framework, the kiwi.js and kiwi.min.js files are located in the `/build` folder, and the docs in the `/docs` folder, and there is a template game in the `/templateGame` folder. You probably don't need to worry about the rest of the repo!
 
 ###Folders
 
-* build - The kiwi.js and kiwi.min.js files  
+* build - The kiwi.js and kiwi.min.js files
 * src - The kiwi.js framework source code
 * docs - API documentation on the Kiwi.JS framework.
 * docstyles - Used to store assets for building docs.
-* templateGame - An example TemplateGame to help you on your way to developing a Kiwi.JS game.  
+* templateGame - An example TemplateGame to help you on your way to developing a Kiwi.JS game.
 
 ###Files
 
 * .gitignore - mask files from git
 * bower.json - see below about bower installation
-* grunfile.js - used for building the framework
-* license.txt - The MIT license 
+* gruntfile.js - used for building the framework
+* license.txt - The MIT license
 * package.json - the npm package used for installing dev dependencies
 * README.md - this file!
 * tslint.json - the tslint configuration file
-
 
 ![Splash](http://html5experts.jp/wp-content/uploads/2013/11/image05.png)
 
@@ -258,6 +309,7 @@ Note: If you just want to use the framework, the kiwi.js and kiwi.min.js files a
 
 ###Bower
 If you use the [Bower](http://bower.io/) package manager you can install kiwi.js with
+
 ```
 bower install kiwijs
 ```
@@ -271,12 +323,9 @@ yo kiwigame
 
 It's best to look at our Yeoman Game Generator repo for full details.
 
-
 ###Using Grunt
 
-
-This requires installing node.js, and the grunt CLI package. 
-There are a few thing you can do with grunt, including linting and compiling the typescript, uglifying the result and compiling the docs.
+This requires installing node.js, and the grunt CLI package. There are a few thing you can do with grunt, including linting and compiling the typescript, uglifying the result and compiling the docs.
 
 To build, lint and uglify use the default
 ```
@@ -296,12 +345,14 @@ grunt docs
 The csproj and grunt compilation methods both output a single kiwi.js file in `/build`
 Grunt will also create a min.js version and also output a kiwi.d.ts definition file in `/build` as well
 
-###Building Kiwi manually
+###Using Visual Studio
 
-You don't need to build the library to use it. The repo has prebuilt files in the `/build` folder.
+* Requires Microsoft Visual Studio 2013 or later.
+* Install the TypeScript plugin.
 
-Kiwi.js is currently using Typescript 1.0.0
-Either - use Visual Studio/TS extension. There are csproj files for the main project.
+There are csproj files for the main project.
+
+We advise that you build using Grunt, as this will correctly concatenate certain additional files.
 
 ##Extending Kiwi.js
 
@@ -313,7 +364,6 @@ We built Kiwi.js from the ground up as a plugable system. You can add multiple p
 
 Kiwi.js is built in such a way that your plugins can do very simple or very powerful things. For example:
 
-
 - A utility plugin, such as an inventory for keeping track of items a player has collected.
 - A gameobject plugin, that creates programmable tower defense unit.
 - A component plugin, such as a specialised physics system that can be applied to any gameobject.
@@ -321,8 +371,7 @@ Kiwi.js is built in such a way that your plugins can do very simple or very powe
 - A service plugin, such as an ad-network or in-app purchasing system.
 - Stop your bathtub from automatically draining whenever you try to take a bath.
 
-To learn about building Plugins view the tutorials on [kiwijs.org](http://www.kiwijs.org/documentation/tutorials/what-are-plugins-in-kiwi-js/). You can also get started with Plugins using the Kiwi.js [Yeoman Plugin Generator](https://github.com/gamelab/generator-kiwiplugin). 
-
+To learn about building Plugins view the tutorials on [kiwijs.org](http://www.kiwijs.org/documentation/tutorials/what-are-plugins-in-kiwi-js/). You can also get started with Plugins using the Kiwi.js [Yeoman Plugin Generator](https://github.com/gamelab/generator-kiwiplugin).
 
 ##Tools
 
@@ -337,10 +386,7 @@ Stay tuned for more updates and more tools!
 
 Here are some of the features planned for future releases.
 
-- Multiplayer capability (yup, that's right!)
-- WebGL lighting
 - Productivity tools!
-- Advanced physics engine
 - Multiple cameras with filters
 - A whole new world!
 
@@ -350,7 +396,7 @@ We'd love for you to get involved and help make Kiwi.js the best damn game frame
 
 - If you find a bug then please report it on GitHub issues
 - If you have feature request, or have written a game or demo that shows Kiwi in use then please get in touch. We'd love to hear from you! Please email: dan@gamefroot.com
-- If you have a pull request for Kiwi, please only do so against the dev branch and not against the master branch. 
+- If you have a pull request for Kiwi, please only do so against the dev branch and not against the master branch.
 - Before submitting a Pull Request please run your code through JSHint to check for stylistic or formatting errors.
 
 ##Bugs?
@@ -377,9 +423,9 @@ A massive shoutout to our contributors on Github!
 - @ic5y
 - Hector Zarco Garcia @zzarcon
 - John Wu @tjwudi
+- Ryan Loader @RaniSputnik
 
 *Kiwi.js also uses code from a number of open source projects. Effort has been made to clearly identify authors in the code comments. If you notice and missing or incorrect attribution please let us know.*
-
 
 ##License
 
