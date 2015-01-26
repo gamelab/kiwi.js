@@ -9745,6 +9745,7 @@ var Kiwi;
                 //Calculate the percentage depending on how accurate we can be.
                 if (this._calculateBytes) {
                     this.percentLoaded = (this._bytesLoaded / this._bytesTotal) * 100;
+                    this.percentLoaded = (this._bytesLoaded / this._bytesTotal) * 100;
                 }
                 else {
                     this.percentLoaded = (this._completedFiles / this._loadingList.length) * 100;
@@ -10015,6 +10016,8 @@ var Kiwi;
                         params.xhrLoading = p.xhrLoading; //forces blob loading
                     if (p.state)
                         params.state = p.state;
+                    if (p.tags)
+                        params.tags = p.tags;
                 }
                 else {
                     if (!storeAsGlobal && this.game.states.current) {
@@ -10079,6 +10082,8 @@ var Kiwi;
                         params.xhrLoading = p.xhrLoading; //forces blob loading
                     if (p.state)
                         params.state = p.state;
+                    if (p.tags)
+                        params.tags = p.tags;
                 }
                 else {
                     if (!storeAsGlobal && this.game.states.current) {
@@ -10151,6 +10156,10 @@ var Kiwi;
                     }
                     if (p.xhrLoading)
                         textureParams.xhrLoading = p.xhrLoading; //forces blob loading
+                    if (p.tags) {
+                        jsonParams.tags = p.tags;
+                        textureParams.tags = p.tags;
+                    }
                 }
                 var imageFile = new Kiwi.Files.TextureFile(this.game, textureParams);
                 var jsonFile = new Kiwi.Files.DataFile(this.game, jsonParams);
@@ -10276,6 +10285,8 @@ var Kiwi;
                         params.parse = p.parse;
                     if (p.state)
                         params.state = p.state;
+                    if (p.tags)
+                        params.tags = p.tags;
                 }
                 else {
                     if (!storeAsGlobal && this.game.states.current) {
@@ -10311,6 +10322,8 @@ var Kiwi;
                         params.parse = p.parse;
                     if (p.state)
                         params.state = p.state;
+                    if (p.tags)
+                        params.tags = p.tags;
                 }
                 else {
                     if (!storeAsGlobal && this.game.states.current) {
@@ -10346,6 +10359,8 @@ var Kiwi;
                         params.parse = p.parse;
                     if (p.state)
                         params.state = p.state;
+                    if (p.tags)
+                        params.tags = p.tags;
                 }
                 else {
                     if (!storeAsGlobal && this.game.states.current) {
@@ -10381,6 +10396,8 @@ var Kiwi;
                         params.parse = p.parse;
                     if (p.state)
                         params.state = p.state;
+                    if (p.tags)
+                        params.tags = p.tags;
                 }
                 else {
                     if (!storeAsGlobal && this.game.states.current) {
