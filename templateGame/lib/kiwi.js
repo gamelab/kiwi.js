@@ -9430,7 +9430,7 @@ var Kiwi;
         var Loader = (function () {
             function Loader(game) {
                 /**
-                * A flag indicating if the files inside the 'fileQueue' in the process of loading or not.
+                * A flag indicating if the files inside the file queue are loading or not.
                 *
                 * @property _fileQueueLoading
                 * @type Boolean
@@ -9440,8 +9440,8 @@ var Kiwi;
                 */
                 this._queueLoading = false;
                 /**
-                * Returns the percent of files in the '_loadingList' which have been loaded.
-                * When no files are in the list, then the percentLoaded is 100.
+                * When 'calculateBytes' is true the percentLoaded will be the `bytesLoaded / bytesTotal`.
+                * Otherwise it is based on the `filesLoaded / numberOfFilesToLoad`.
                 *
                 * @property percentLoaded
                 * @type Number
@@ -9522,7 +9522,7 @@ var Kiwi;
             };
             Object.defineProperty(Loader.prototype, "queueLoading", {
                 /**
-                * READ ONLY: A flag indicating if the files inside the 'fileQueue' in the process of loading or not.
+                * READ ONLY: A flag indicating if the files inside the file queue are loading or not.
                 *
                 * @property fileQueueLoading
                 * @type Boolean
@@ -9551,6 +9551,13 @@ var Kiwi;
             };
             /**
             * Starts loading all the files which are in the file queue.
+            *
+            * To accurately use the bytesLoaded or bytesTotal properties you will need to set the 'calculateBytes' boolean to true.
+            * This may increase load times, as each file in the queue will firstly make XHR HEAD requests for information.
+            *
+            * When 'calculateBytes' is true the percentLoaded will be the `bytesLoaded / bytesTotal`.
+            * Otherwise it is based on the `filesLoaded / numberOfFilesToLoad`.
+            *
             * @method start
             * @param [calculateBytes] {Boolean} Setter for the 'calculateBytes' property.
             * @since 1.2.0
@@ -9568,6 +9575,7 @@ var Kiwi;
                 //Reset the number of bytes laoded
                 this._bytesLoaded = 0;
                 this._bytesTotal = 0;
+                this.percentLoaded = 0;
                 if (this._calculateBytes) {
                     this.calculateQueuedSize(this._startLoading, this);
                 }
@@ -10010,6 +10018,8 @@ var Kiwi;
                         params.xhrLoading = p.xhrLoading; //forces blob loading
                     if (p.state)
                         params.state = p.state;
+                    if (p.tags)
+                        params.tags = p.tags;
                 }
                 else {
                     if (!storeAsGlobal && this.game.states.current) {
@@ -10074,6 +10084,8 @@ var Kiwi;
                         params.xhrLoading = p.xhrLoading; //forces blob loading
                     if (p.state)
                         params.state = p.state;
+                    if (p.tags)
+                        params.tags = p.tags;
                 }
                 else {
                     if (!storeAsGlobal && this.game.states.current) {
@@ -10146,6 +10158,10 @@ var Kiwi;
                     }
                     if (p.xhrLoading)
                         textureParams.xhrLoading = p.xhrLoading; //forces blob loading
+                    if (p.tags) {
+                        jsonParams.tags = p.tags;
+                        textureParams.tags = p.tags;
+                    }
                 }
                 var imageFile = new Kiwi.Files.TextureFile(this.game, textureParams);
                 var jsonFile = new Kiwi.Files.DataFile(this.game, jsonParams);
@@ -10271,6 +10287,8 @@ var Kiwi;
                         params.parse = p.parse;
                     if (p.state)
                         params.state = p.state;
+                    if (p.tags)
+                        params.tags = p.tags;
                 }
                 else {
                     if (!storeAsGlobal && this.game.states.current) {
@@ -10306,6 +10324,8 @@ var Kiwi;
                         params.parse = p.parse;
                     if (p.state)
                         params.state = p.state;
+                    if (p.tags)
+                        params.tags = p.tags;
                 }
                 else {
                     if (!storeAsGlobal && this.game.states.current) {
@@ -10341,6 +10361,8 @@ var Kiwi;
                         params.parse = p.parse;
                     if (p.state)
                         params.state = p.state;
+                    if (p.tags)
+                        params.tags = p.tags;
                 }
                 else {
                     if (!storeAsGlobal && this.game.states.current) {
@@ -10376,6 +10398,8 @@ var Kiwi;
                         params.parse = p.parse;
                     if (p.state)
                         params.state = p.state;
+                    if (p.tags)
+                        params.tags = p.tags;
                 }
                 else {
                     if (!storeAsGlobal && this.game.states.current) {

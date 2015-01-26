@@ -432,8 +432,7 @@ module Kiwi.Files {
 
             //Calculate the percentage depending on how accurate we can be.
             if (this._calculateBytes) {
-                
-                 = (this._bytesLoaded / this._bytesTotal) * 100;
+                this.percentLoaded = (this._bytesLoaded / this._bytesTotal) * 100;
             } else {
                 this.percentLoaded = (this._completedFiles / this._loadingList.length) * 100;
             }
@@ -800,7 +799,8 @@ module Kiwi.Files {
                 };
 
                 if (p.xhrLoading) params.xhrLoading = p.xhrLoading;//forces blob loading
-                if(p.state) params.state = p.state;
+                if (p.state) params.state = p.state;
+                if (p.tags) params.tags = p.tags;
 
             } else {
 
@@ -873,6 +873,7 @@ module Kiwi.Files {
 
                 if (p.xhrLoading) params.xhrLoading = p.xhrLoading;//forces blob loading
                 if (p.state) params.state = p.state;
+                if (p.tags) params.tags = p.tags;
 
             } else {
 
@@ -957,6 +958,10 @@ module Kiwi.Files {
                 }
 
                 if (p.xhrLoading) textureParams.xhrLoading = p.xhrLoading; //forces blob loading
+                if (p.tags) {
+                    jsonParams.tags = p.tags;
+                    textureParams.tags = p.tags;
+                }
 
             } 
 
@@ -1104,6 +1109,7 @@ module Kiwi.Files {
 
                 if (p.parse) params.parse = p.parse;
                 if (p.state) params.state = p.state;
+                if (p.tags) params.tags = p.tags;
 
             } else {
 
@@ -1145,6 +1151,7 @@ module Kiwi.Files {
 
                 if (p.parse) params.parse = p.parse;
                 if (p.state) params.state = p.state;
+                if (p.tags) params.tags = p.tags;
 
             } else {
 
@@ -1186,6 +1193,7 @@ module Kiwi.Files {
 
                 if (p.parse) params.parse = p.parse;
                 if (p.state) params.state = p.state;
+                if (p.tags) params.tags = p.tags;
 
             } else {
 
@@ -1227,6 +1235,7 @@ module Kiwi.Files {
 
                 if (p.parse) params.parse = p.parse;
                 if (p.state) params.state = p.state;
+                if (p.tags) params.tags = p.tags;
 
             } else {
 

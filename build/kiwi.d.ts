@@ -6545,7 +6545,7 @@ declare module Kiwi.Files {
         */
         onQueueProgress: Kiwi.Signal;
         /**
-        * A flag indicating if the files inside the 'fileQueue' in the process of loading or not.
+        * A flag indicating if the files inside the file queue are loading or not.
         *
         * @property _fileQueueLoading
         * @type Boolean
@@ -6555,7 +6555,7 @@ declare module Kiwi.Files {
         */
         private _queueLoading;
         /**
-        * READ ONLY: A flag indicating if the files inside the 'fileQueue' in the process of loading or not.
+        * READ ONLY: A flag indicating if the files inside the file queue are loading or not.
         *
         * @property fileQueueLoading
         * @type Boolean
@@ -6566,8 +6566,8 @@ declare module Kiwi.Files {
         */
         queueLoading: boolean;
         /**
-        * Returns the percent of files in the '_loadingList' which have been loaded.
-        * When no files are in the list, then the percentLoaded is 100.
+        * When 'calculateBytes' is true the percentLoaded will be the `bytesLoaded / bytesTotal`.
+        * Otherwise it is based on the `filesLoaded / numberOfFilesToLoad`.
         *
         * @property percentLoaded
         * @type Number
@@ -6597,6 +6597,13 @@ declare module Kiwi.Files {
         boot(): void;
         /**
         * Starts loading all the files which are in the file queue.
+        *
+        * To accurately use the bytesLoaded or bytesTotal properties you will need to set the 'calculateBytes' boolean to true.
+        * This may increase load times, as each file in the queue will firstly make XHR HEAD requests for information.
+        *
+        * When 'calculateBytes' is true the percentLoaded will be the `bytesLoaded / bytesTotal`.
+        * Otherwise it is based on the `filesLoaded / numberOfFilesToLoad`.
+        *
         * @method start
         * @param [calculateBytes] {Boolean} Setter for the 'calculateBytes' property.
         * @since 1.2.0
