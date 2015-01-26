@@ -545,6 +545,14 @@ var Kiwi;
             */
             this.offset = new Kiwi.Geom.Point();
             /**
+            * The background color of the stage.
+            *
+            * @property _color
+            * @type Kiwi.Utils.Color
+            * @public
+            */
+            this._color = new Kiwi.Utils.Color();
+            /**
             * The parent div in which the layers and input live
             * @property container
             * @type HTMLDivElement
@@ -560,10 +568,10 @@ var Kiwi;
             this._y = 0;
             this._width = width;
             this._height = height;
-            this.color = 'ffffff';
+            this.color = "ffffff";
             // CocoonJS should be black instead
             if (game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-                this.color = '000000';
+                this.color = "000000";
             }
             this._scale = new Kiwi.Geom.Point(1, 1);
             this._scaleType = scaleType;
@@ -633,10 +641,10 @@ var Kiwi;
             },
             set: function (value) {
                 if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    this.container.style.left = String(value + 'px');
+                    this.container.style.left = String(value + "px");
                 }
                 else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-                    this.canvas.style.left = String(value + 'px');
+                    this.canvas.style.left = String(value + "px");
                 }
                 this._x = value;
             },
@@ -655,10 +663,10 @@ var Kiwi;
             },
             set: function (value) {
                 if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    this.container.style.top = String(value + 'px');
+                    this.container.style.top = String(value + "px");
                 }
                 else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-                    this.canvas.style.top = String(value + 'px');
+                    this.canvas.style.top = String(value + "px");
                 }
                 this._y = value;
             },
@@ -667,7 +675,7 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "width", {
             /**
-            * The width of the stage. This is READ ONLY. See the 'resize' method if you need to modify this value.
+            * The width of the stage. This is READ ONLY. See the "resize" method if you need to modify this value.
             * @property width
             * @type number
             * @public
@@ -681,7 +689,7 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "height", {
             /**
-            * The height of the stage. This is READ ONLY. See the 'resize' method if you need to modify this value.
+            * The height of the stage. This is READ ONLY. See the "resize" method if you need to modify this value.
             * @property height
             * @type number
             * @public
@@ -732,7 +740,7 @@ var Kiwi;
             /**
             * Sets the background color of the stage via a hex value.
             *
-            * The hex colour code should not contain a hashtag '#'.
+            * The hex colour code should not contain a hashtag "#".
             *
             * The default value is "ffffff" or pure white.
             *
@@ -745,29 +753,10 @@ var Kiwi;
             * @public
             */
             get: function () {
-                return this._color;
+                return this._color.getHex();
             },
             set: function (val) {
-                this._color = val;
-                var bigint = parseInt(val, 16);
-                var r = 255;
-                var g = 255;
-                var b = 255;
-                var a = 255;
-                if (val.length == 6) {
-                    r = (bigint >> 16) & 255;
-                    g = (bigint >> 8) & 255;
-                    b = bigint & 255;
-                    a = 255;
-                }
-                else if (val.length == 8) {
-                    r = (bigint >> 24) & 255;
-                    g = (bigint >> 16) & 255;
-                    b = (bigint >> 8) & 255;
-                    a = bigint & 255;
-                }
-                //Converts the colour to normalized values.
-                this._normalizedColor = { r: r / 255, g: g / 255, b: b / 255, a: a / 255 };
+                this._color.parseHex(val);
             },
             enumerable: true,
             configurable: true
@@ -776,17 +765,17 @@ var Kiwi;
             /**
             * Allows the setting of the background color of the stage through component RGB colour values.
             *
-            * This property is an Object Literal with 'r', 'g', 'b' colour streams of values between 0 and 255.
+            * This property is an Object Literal with "r", "g", "b" colour streams of values between 0 and 255.
             *
             * @property rgbColor
             * @type Object
             * @public
             */
             get: function () {
-                return { r: this._normalizedColor.r * 255, g: this._normalizedColor.g * 255, b: this._normalizedColor.b * 255 };
+                return { r: this._color.r * 255, g: this._color.g * 255, b: this._color.b * 255 };
             },
             set: function (val) {
-                this.color = this.componentToHex(val.r) + this.componentToHex(val.g) + this.componentToHex(val.b);
+                this._color.set(val.r, val.g, val.b);
             },
             enumerable: true,
             configurable: true
@@ -795,7 +784,7 @@ var Kiwi;
             /**
             * Allows the setting of the background color of the stage through component RGBA colour values.
             *
-            * This property is an Object Literal with 'r', 'g', 'b', 'a' colour streams of values between 0 and 255.
+            * This property is an Object Literal with "r", "g", "b", "a" colour streams of values between 0 and 255.
             *
             * Note that the alpha value is from 0-255, not 0-1. This is to preserve compatibility with hex-style color values, e.g. "ff0000ff".
             *
@@ -805,25 +794,30 @@ var Kiwi;
             * @since 1.1.0
             */
             get: function () {
-                return { r: this._normalizedColor.r * 255, g: this._normalizedColor.g * 255, b: this._normalizedColor.b * 255, a: this._normalizedColor.a * 255 };
+                return { r: this._color.r * 255, g: this._color.g * 255, b: this._color.b * 255, a: this._color.a * 255 };
             },
             set: function (val) {
-                this.color = this.componentToHex(val.r) + this.componentToHex(val.g) + this.componentToHex(val.b) + this.componentToHex(val.a);
-                ;
+                this._color.set(val.r, val.g, val.b, val.a);
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(Stage.prototype, "normalizedColor", {
             /**
-            * Get the normalized background color of the stage. Returns a object with rgba values, each being between 0 and 1.
+            * Get the normalized background color of the stage.
+            * Returns an object with rgba values, each being between 0 and 1.
             * This is READ ONLY.
             * @property normalizedColor
             * @type string
             * @public
             */
             get: function () {
-                return this._normalizedColor;
+                return {
+                    r: this._color.r,
+                    g: this._color.g,
+                    b: this._color.b,
+                    a: this._color.a
+                };
             },
             enumerable: true,
             configurable: true
@@ -932,12 +926,12 @@ var Kiwi;
         Stage.prototype._createCompositeCanvas = function () {
             //If we are using cocoon then create a accelerated screen canvas
             if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
-                this.canvas = document.createElement(navigator['isCocoonJS'] ? 'screencanvas' : 'canvas');
+                this.canvas = document.createElement(navigator["isCocoonJS"] ? "screencanvas" : "canvas");
             }
             else {
                 this.canvas = document.createElement("canvas");
-                this.canvas.style.width = '100%';
-                this.canvas.style.height = '100%';
+                this.canvas.style.width = "100%";
+                this.canvas.style.height = "100%";
             }
             this.canvas.id = this._game.id + "compositeCanvas";
             this.canvas.style.position = "absolute";
@@ -946,7 +940,7 @@ var Kiwi;
             //Get 2D or GL Context; do error detection and fallback to valid rendering context
             if (this._game.renderOption === Kiwi.RENDERER_CANVAS) {
                 this.ctx = this.canvas.getContext("2d");
-                this.ctx.fillStyle = '#fff';
+                this.ctx.fillStyle = "#fff";
                 this.gl = null;
             }
             else if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
@@ -954,17 +948,18 @@ var Kiwi;
                 if (!this.gl) {
                     this.gl = this.canvas.getContext("experimental-webgl");
                     if (!this.gl) {
-                        Kiwi.Log.warn("Kiwi.Stage: WebGL rendering is not available despite the device apparently supporting it. Reverting to CANVAS.", '#renderer');
+                        Kiwi.Log.warn("Kiwi.Stage: WebGL rendering is not available despite the device apparently supporting it. Reverting to CANVAS.", "#renderer");
                         // Reset to canvas mode
                         this.ctx = this.canvas.getContext("2d");
-                        this.ctx.fillStyle = '#fff';
+                        this.ctx.fillStyle = "#fff";
                         this.gl = null;
                     }
                     else {
-                        Kiwi.Log.warn("Kiwi.Stage: 'webgl' context is not available. Using 'experimental-webgl'", '#renderer');
+                        Kiwi.Log.warn("Kiwi.Stage: 'webgl' context is not available. Using 'experimental-webgl'", "#renderer");
                     }
                 }
                 if (this.gl) {
+                    // That is, WebGL was properly supported and created
                     this.gl.clearColor(1, 1, 1, 1);
                     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
                     this.ctx = null;
@@ -987,7 +982,7 @@ var Kiwi;
         };
         /**
         * Set the stage width and height for rendering purposes.
-        * This will not effect that 'scaleType' that it has been set to.
+        * This will not effect that "scaleType" that it has been set to.
         *
         * @method resize
         * @param width {number} The new Stage width.
@@ -1006,7 +1001,8 @@ var Kiwi;
         };
         /**
         * Sets the background color of the stage through component RGB colour values.
-        * Each parameter pass is a number between 0 and 255. This method also returns a Object Literal with 'r', 'g', 'b' properties.
+        * Each parameter is a number between 0 and 255.
+        * This method also returns an Object Literal with "r", "g", "b" properties.
         *
         * @method setRGBColor
         * @param r {Number} The red component. A value between 0 and 255.
@@ -1020,21 +1016,25 @@ var Kiwi;
             return this.rgbColor;
         };
         /**
-        * Converts a component colour value into its hex equivalent. Used when setting rgb colour values.
-        *
-        * @method componentToHex
-        * @param c {Number} The components colour value. A number between 0 and 255.
-        * @return {string} The hex equivelent of that colour string.
-        * @private
+        * Sets the background color of the stage.
+        * Uses Kiwi.Utils.Color for maximum flexibility.
+        * @method setColor
+        * @param [...args]
+        * @return this._color;
+        * @public
+        * @since 1.2.0
         */
-        Stage.prototype.componentToHex = function (c) {
-            var hex = c.toString(16);
-            return hex.length == 1 ? "0" + hex : hex;
+        Stage.prototype.setColor = function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            this._color.set.apply(this._color, args);
         };
         /**
         * Creates a debug canvas and adds it above the regular game canvas.
         * The debug canvas is not created by default (even with debugging on) and rendering/clearing of the canvas is upto the developer.
-        * The context for rendering can be access via the 'dctx' property and you can use the 'clearDebugCanvas' method to clear the canvas.
+        * The context for rendering can be access via the "dctx" property and you can use the "clearDebugCanvas" method to clear the canvas.
         *
         * @method createDebugCanvas
         * @public
@@ -1044,15 +1044,15 @@ var Kiwi;
                 return;
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
                 //Not supported in CocoonJS only because we cannot add it to the container (as a container does not exist) and position will be hard.
-                Kiwi.Log.log('Debug canvas not supported in cocoon, creating canvas and context anyway', '#debug-canvas');
+                Kiwi.Log.log("Debug canvas not supported in cocoon, creating canvas and context anyway", "#debug-canvas");
             }
             this.debugCanvas = document.createElement("canvas");
             this.debugCanvas.id = this._game.id + "debugCanvas";
             this.debugCanvas.style.position = "absolute";
             this.debugCanvas.width = this.width;
             this.debugCanvas.height = this.height;
-            this.debugCanvas.style.width = '100%';
-            this.debugCanvas.style.height = '100%';
+            this.debugCanvas.style.width = "100%";
+            this.debugCanvas.style.height = "100%";
             this.dctx = this.debugCanvas.getContext("2d");
             this.clearDebugCanvas();
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
@@ -1064,7 +1064,7 @@ var Kiwi;
         * If not colour is passed then Red at 20% opacity is used.
         *
         * @method clearDebugCanvas
-        * @param [color='rgba(255,0,0,0.2)'] {string} The debug color to rendering on the debug canvas.
+        * @param [color="rgba(255,0,0,0.2)"] {string} The debug color to rendering on the debug canvas.
         * @public
         */
         Stage.prototype.clearDebugCanvas = function (color) {
@@ -1087,41 +1087,41 @@ var Kiwi;
         */
         Stage.prototype._scaleContainer = function () {
             if (this._game.deviceTargetOption == Kiwi.TARGET_BROWSER) {
-                this.container.style.width = String(this._width + 'px');
-                this.container.style.height = String(this._height + 'px');
+                this.container.style.width = String(this._width + "px");
+                this.container.style.height = String(this._height + "px");
                 if (this._scaleType == Kiwi.Stage.SCALE_NONE) {
-                    this.container.style.maxWidth = '';
-                    this.container.style.minWidth = '';
+                    this.container.style.maxWidth = "";
+                    this.container.style.minWidth = "";
                 }
                 //To Fit or STRETCH 
                 if (this._scaleType == Kiwi.Stage.SCALE_STRETCH || this._scaleType == Kiwi.Stage.SCALE_FIT) {
-                    this.container.style.minWidth = '100%';
-                    this.container.style.maxWidth = '100%';
+                    this.container.style.minWidth = "100%";
+                    this.container.style.maxWidth = "100%";
                 }
                 //If scale stretched then scale the containers height to 100% of its parents.
                 if (this._scaleType == Kiwi.Stage.SCALE_STRETCH) {
-                    this.container.style.minHeight = '100%';
-                    this.container.style.maxHeight = '100%';
+                    this.container.style.minHeight = "100%";
+                    this.container.style.maxHeight = "100%";
                 }
                 else {
-                    this.container.style.minHeight = '';
-                    this.container.style.maxHeight = '';
+                    this.container.style.minHeight = "";
+                    this.container.style.maxHeight = "";
                 }
                 //If it is SCALE to FIT then scale the containers height in ratio with the containers width.
                 if (this._scaleType == Kiwi.Stage.SCALE_FIT) {
-                    this.container.style.height = String((this.container.clientWidth / this._width) * this._height) + 'px';
+                    this.container.style.height = String((this.container.clientWidth / this._width) * this._height) + "px";
                 }
             }
             if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
                 switch (this._scaleType) {
                     case Kiwi.Stage.SCALE_FIT:
-                        this.canvas.style.cssText = 'idtkscale:ScaleAspectFit';
+                        this.canvas.style.cssText = "idtkscale:ScaleAspectFit";
                         break;
                     case Kiwi.Stage.SCALE_STRETCH:
-                        this.canvas.style.cssText = 'idtkscale:ScaleToFill';
+                        this.canvas.style.cssText = "idtkscale:ScaleToFill";
                         break;
                     case Kiwi.Stage.SCALE_NONE:
-                        this.canvas.style.cssText = '';
+                        this.canvas.style.cssText = "";
                         break;
                 }
             }
@@ -5423,7 +5423,7 @@ var Kiwi;
                 this._text = text;
                 this._fontWeight = weight;
                 this._fontSize = size;
-                this._fontColor = color;
+                this._fontColor = new Kiwi.Utils.Color(color);
                 this._fontFamily = fontFamily;
                 this._textAlign = "left";
                 this._baseline = "top";
@@ -5470,16 +5470,22 @@ var Kiwi;
             });
             Object.defineProperty(Textfield.prototype, "color", {
                 get: function () {
-                    return this._fontColor;
+                    return "#" + this._fontColor.getHex();
                 },
                 /**
                 * The color of the font that is contained in this textfield.
+                * May be set with a string, or an array of any valid
+                * Kiwi.Utils.Color arguments.
+                * Returns a hex string prepended with "#".
                 * @property color
                 * @type string
                 * @public
                 */
                 set: function (val) {
-                    this._fontColor = val;
+                    if (!Kiwi.Utils.Common.isArray(val)) {
+                        val = [val];
+                    }
+                    this._fontColor.set.apply(this._fontColor, val);
                     this._tempDirty = true;
                 },
                 enumerable: true,
@@ -5590,7 +5596,7 @@ var Kiwi;
                 this._ctx.clearRect(0, 0, width, height);
                 // Reapply the styles....cause it unapplies after a measurement...?!?
                 this._ctx.font = this._fontWeight + " " + this._fontSize + "px " + this._fontFamily;
-                this._ctx.fillStyle = this._fontColor;
+                this._ctx.fillStyle = this.color.slice(0, 7);
                 this._ctx.textBaseline = this._baseline;
                 // Draw the text.
                 this._ctx.fillText(this._text, 0, 0);
@@ -29304,12 +29310,41 @@ var Kiwi;
         * <br><br>
         * Pass 3 or 4 numbers followed by the string "hsv" or "hsl"
         * (lowercase) to parse HSV or HSL color space (with optional alpha).
+        * HSV and HSL colors may be specified as normalized parameters (0-1),
+        * or as an angle (0-360) and two percentages (0-100).
         * <br><br>
         * Pass a string containing a hexadecimal color with or without alpha
-        * (such as "ff8040ff" or "4080ff").
+        * (such as "ff8040ff" or "4080ff"). You may prepend "#" or "0x", but
+        * they are not necessary and will be stripped.
+        * <br><br>
+        * Pass 1 number to set a grayscale value, or 2 numbers to set grayscale
+        * with alpha. These are interpreted as with RGB values.
+        * <br><br>
+        * The color object stores its internal values as normalized RGBA channels.
+        * This is the most mathematically useful format, and corresponds
+        * with the WebGL color paradigm. When you query the color object's values,
+        * such as with "r" or "red" properties, it will return normalized values.
+        * You can get values in the 0-255 8-bit range by calling the
+        * corresponding x255 value. For example, if r = 1, then r255 = 255.
+        * <br><br>
+        * We advise that you work with normalized colors wherever possible.
+        * While the Color object is smart enough to recognise non-normalized
+        * ranges in most cases, it cannot tell the difference between 0.5 on a
+        * 0-1 scale, and 0.5 on a 0-255 scale. Try to reduce ambiguity by working
+        * in normalized color space.
+        * <br><br>
+        * You can get HSV, HSL, and hexadecimal values with the functions
+        * "getHsva", "getHsla", and "getHex". By default, these all include an
+        * alpha term. You can omit alpha from the getHex result by calling the
+        * function with the parameter "false". As getHsva and getHsla return objects
+        * rather than strings, you can freely ignore the provided alpha.
+        * <br<br>
+        * You can modify a Color object once created using its properties, methods,
+        * or the "set" method as you would use the constructor.
         *
         * @class Color
         * @constructor
+        * @param [...args]
         * @since 1.2.0
         */
         var Color = (function () {
@@ -29354,13 +29389,15 @@ var Kiwi;
                 * @private
                 */
                 this._a = 1;
-                return this.set.apply(this, args);
+                this.set.apply(this, args);
+                return this;
             }
             /**
-            * Set colors from parameters
+            * Set colors from parameters, as in the class description.
+            * If you supply invalid parameters, the color will be unchanged.
             * @method set
             * @param params {object} Composite parameter object
-            * @return Kiwi.Utils.Color
+            * @return {Kiwi.Utils.Color} This object with the new color set
             * @public
             */
             Color.prototype.set = function () {
@@ -29369,34 +29406,56 @@ var Kiwi;
                     params[_i - 0] = arguments[_i];
                 }
                 if (params.length === 3) {
+                    // RGB
                     this.r = params[0];
                     this.g = params[1];
                     this.b = params[2];
                 }
                 else if (params.length === 4) {
                     if (!isNaN(params[3])) {
+                        // RGBA
                         this.r = params[0];
                         this.g = params[1];
                         this.b = params[2];
                         this.a = params[3];
                     }
                     else if (params[3] === "hsv") {
+                        // HSV
                         this.parseHsv(params[0], params[1], params[2]);
                     }
                     else if (params[3] === "hsl") {
+                        // HSL
                         this.parseHsl(params[0], params[1], params[2]);
                     }
                 }
                 else if (params.length === 5) {
                     if (params[4] === "hsv") {
+                        // HSVA
                         this.parseHsv(params[0], params[1], params[2], params[3]);
                     }
                     else if (params[4] === "hsl") {
+                        // HSLA
                         this.parseHsl(params[0], params[1], params[2], params[3]);
                     }
                 }
-                else if (typeof params[0] === "string") {
-                    this.parseColorHex(params[0]);
+                else if (params.length === 1) {
+                    if (typeof params[0] === "string") {
+                        // Hexadecimal
+                        this.parseHex(params[0]);
+                    }
+                    else if (!isNaN(params[0])) {
+                        // Grayscale
+                        this.r = params[0];
+                        this.g = params[0];
+                        this.b = params[0];
+                    }
+                }
+                else if (params.length === 2) {
+                    // Grayscale and alpha
+                    this.r = params[0];
+                    this.g = params[0];
+                    this.b = params[0];
+                    this.a = params[1];
                 }
                 return this;
             };
@@ -29567,10 +29626,10 @@ var Kiwi;
                 },
                 set: function (value) {
                     if (value > 1) {
-                        this.r255 = value;
+                        this.a255 = value;
                     }
                     else {
-                        this.rNorm = value;
+                        this.aNorm = value;
                     }
                 },
                 enumerable: true,
@@ -29714,14 +29773,33 @@ var Kiwi;
             });
             /**
             * Parse hexadecimal colors from strings
-            * @method parseColorHex
+            * @method parseHex
             * @param color {string} A hexadecimal color such as "ffffff" (no alpha)
-            *	or "ffffffff" (with alpha)
+            *	or "ffffffff" (with alpha). Also supports
+            * @return {Kiwi.Utils.Color} This object with the new color set
             * @public
             */
-            Color.prototype.parseColorHex = function (color) {
-                var bigint = parseInt(color, 16), r = this.r255, g = this.g255, b = this.b255, a = this.a255;
-                if (color.length === 6) {
+            Color.prototype.parseHex = function (color) {
+                var bigint, r = this.r255, g = this.g255, b = this.b255, a = this.a255;
+                if (color.charAt(0) === "#") {
+                    color = color.slice(1);
+                }
+                if (color.slice(0, 2) === "0x") {
+                    color = color.slice(2);
+                }
+                bigint = parseInt(color, 16);
+                if (color.length === 3) {
+                    r = 17 * ((bigint >> 8) & 15);
+                    g = 17 * ((bigint >> 4) & 15);
+                    b = 17 * (bigint & 15);
+                }
+                else if (color.length === 4) {
+                    r = 17 * ((bigint >> 12) & 15);
+                    g = 17 * ((bigint >> 8) & 15);
+                    b = 17 * ((bigint >> 4) & 15);
+                    a = 17 * (bigint & 15);
+                }
+                else if (color.length === 6) {
                     r = (bigint >> 16) & 255;
                     g = (bigint >> 8) & 255;
                     b = bigint & 255;
@@ -29737,38 +29815,74 @@ var Kiwi;
                 this.g255 = g;
                 this.b255 = b;
                 this.a255 = a;
+                return this;
             };
             /**
             * Returns color as a hexadecimal string
-            * @method getColorHex
+            * @method getHex
             * @param [alpha=true] {boolean} Whether to include the alpha
             * @return string
             * @public
             */
-            Color.prototype.getColorHex = function (alpha) {
+            Color.prototype.getHex = function (alpha) {
                 if (alpha === void 0) { alpha = true; }
-                var num, mult = 256;
+                var subStr, str = "";
+                subStr = this.r255.toString(16);
+                while (subStr.length < 2) {
+                    subStr = "0" + subStr;
+                }
+                str += subStr;
+                subStr = this.g255.toString(16);
+                while (subStr.length < 2) {
+                    subStr = "0" + subStr;
+                }
+                str += subStr;
+                subStr = this.b255.toString(16);
+                while (subStr.length < 2) {
+                    subStr = "0" + subStr;
+                }
+                str += subStr;
                 if (alpha) {
-                    num = this.r255 * mult * mult * mult + this.g255 * mult * mult + this.b255 * mult + this.a255;
+                    subStr = this.a255.toString(16);
+                    while (subStr.length < 2) {
+                        subStr = "0" + subStr;
+                    }
+                    str += subStr;
                 }
-                else {
-                    num = this.r255 * mult * mult + this.g255 * mult + this.b255;
-                }
-                return num.toString(16);
+                return str;
             };
             /**
             * Parses normalized HSV values into the Color.
+            * Interprets either normalized values, or H in degrees (0-360)
+            * and S and V in % (0-100).
+            * <br><br>
             * Based on algorithms at
             * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
             * @method parseHsv
             * @param h {number} Hue
             * @param s {number} Saturation
             * @param v {number} Value
+            * @return {Kiwi.Utils.Color} This object with the new color set
             * @public
             */
             Color.prototype.parseHsv = function (h, s, v, a) {
                 if (a === void 0) { a = 1; }
                 var r, g, b, i, f, p, q, t;
+                if (isNaN(h) || isNaN(s) || isNaN(v) || isNaN(a)) {
+                    return this;
+                }
+                if (h > 1) {
+                    h /= 360;
+                }
+                if (s > 1) {
+                    s /= 100;
+                }
+                if (v > 1) {
+                    v /= 100;
+                }
+                if (a > 1) {
+                    a /= 255;
+                }
                 i = Math.floor(h * 6);
                 f = h * 6 - i;
                 p = v * (1 - s);
@@ -29810,6 +29924,7 @@ var Kiwi;
                 this._g = g;
                 this._b = b;
                 this._a = a;
+                return this;
             };
             /**
             * Returns HSV value of the Color.
@@ -29880,17 +29995,37 @@ var Kiwi;
             };
             /**
             * Parses HSL value onto the Color.
+            * Interprets either normalized values, or H in degrees (0-360)
+            * and S and L in % (0-100).
+            * <br><br>
             * Based on algorithms at
             * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
             * @method parseHsl
             * @param h {number} Hue
             * @param s {number} Saturation
             * @param l {number} Lightness
+            * @return {Kiwi.Utils.Color} This object with the new color set
             * @public
             */
             Color.prototype.parseHsl = function (h, s, l, a) {
                 if (a === void 0) { a = 1; }
                 var q, p, r = this._r, g = this._g, b = this._b;
+                // Sanitize values
+                if (isNaN(h) || isNaN(s) || isNaN(l) || isNaN(a)) {
+                    return this;
+                }
+                if (h > 1) {
+                    h /= 360;
+                }
+                if (s > 1) {
+                    s /= 100;
+                }
+                if (l > 1) {
+                    l /= 100;
+                }
+                if (a > 1) {
+                    a /= 255;
+                }
                 if (s === 0) {
                     // Achromatic
                     r = l;
@@ -29898,34 +30033,46 @@ var Kiwi;
                     b = l;
                 }
                 else {
-                    function hue2rgb(p, q, t) {
-                        if (t < 0) {
-                            t += 1;
-                        }
-                        if (t > 1) {
-                            t -= 1;
-                        }
-                        if (t < 1 / 6) {
-                            return p + (q - p) * 6 * t;
-                        }
-                        if (t < 1 / 2) {
-                            return q;
-                        }
-                        if (t < 2 / 3) {
-                            return p + (q - p) * (2 / 3 - t) * 6;
-                        }
-                        return p;
-                    }
                     q = l < 0.5 ? l * (1 + s) : l + s - l * s;
                     p = 2 * l - q;
-                    r = hue2rgb(p, q, h + 1 / 3);
-                    g = hue2rgb(p, q, h);
-                    b = hue2rgb(p, q, h - 1 / 3);
+                    r = this._hue2rgb(p, q, h + 1 / 3);
+                    g = this._hue2rgb(p, q, h);
+                    b = this._hue2rgb(p, q, h - 1 / 3);
                 }
                 this._r = r;
                 this._g = g;
                 this._b = b;
                 this._a = a;
+                return this;
+            };
+            /**
+            * Method used for computing HSL values.
+            * Based on algorithms at
+            * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+            * @method _hue2rgb
+            * @param p {number}
+            * @param q {number}
+            * @param t {number}
+            * @return number
+            * @private
+            */
+            Color.prototype._hue2rgb = function (p, q, t) {
+                if (t < 0) {
+                    t += 1;
+                }
+                if (t > 1) {
+                    t -= 1;
+                }
+                if (t < 1 / 6) {
+                    return p + (q - p) * 6 * t;
+                }
+                if (t < 1 / 2) {
+                    return q;
+                }
+                if (t < 2 / 3) {
+                    return p + (q - p) * (2 / 3 - t) * 6;
+                }
+                return p;
             };
             return Color;
         })();
