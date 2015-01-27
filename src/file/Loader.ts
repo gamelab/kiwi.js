@@ -1001,6 +1001,7 @@ module Kiwi.Files {
 
             if (Kiwi.Utils.Common.isObject(key)) {
                 params = (<any>key);
+                params.fileStore = this.game.fileStore;
 
             } else {
                 params.key = key;

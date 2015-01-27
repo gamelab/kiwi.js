@@ -10204,6 +10204,7 @@ var Kiwi;
                 };
                 if (Kiwi.Utils.Common.isObject(key)) {
                     params = key;
+                    params.fileStore = this.game.fileStore;
                 }
                 else {
                     params.key = key;
@@ -26925,7 +26926,7 @@ var Kiwi;
                 if (destroy === void 0) { destroy = true; }
                 for (var i = 0; i < this._sounds.length; i++) {
                     if (sound.id == this._sounds[i].id) {
-                        if (this.usingWebAudio)
+                        if (this.usingWebAudio && sound.gainNode)
                             sound.gainNode.disconnect();
                         if (destroy == true)
                             sound.destroy();

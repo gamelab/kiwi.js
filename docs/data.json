@@ -21918,7 +21918,7 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1039,
+            "line": 1040,
             "description": "This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.\nReturns a boolean if the audio file was successfully added or not to the file directory.",
             "itemtype": "method",
             "name": "_attemptToAddAudio",
@@ -21974,7 +21974,7 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1087,
+            "line": 1088,
             "description": "Creates a new File to store JSON and adds it to the loading queue.",
             "itemtype": "method",
             "name": "addJSON",
@@ -22010,7 +22010,7 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1129,
+            "line": 1130,
             "description": "Creates a new File to store XML and adds it to the loading queue.",
             "itemtype": "method",
             "name": "addXML",
@@ -22046,7 +22046,7 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1171,
+            "line": 1172,
             "description": "Creates a new File for a Binary file and adds it to the loading queue.",
             "itemtype": "method",
             "name": "addBinaryFile",
@@ -22082,7 +22082,7 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1213,
+            "line": 1214,
             "description": "Creates a new File to store a text file and adds it to the loading queue.",
             "itemtype": "method",
             "name": "addTextFile",
@@ -22118,7 +22118,7 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1255,
+            "line": 1256,
             "description": "Flags this loader for garbage collection. Only use this method if you are SURE you will no longer need it. \nOtherwise it is best to leave it alone.",
             "itemtype": "method",
             "name": "destroy",
@@ -22131,7 +22131,7 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1297,
+            "line": 1298,
             "description": "-----------------------\nDeprecated - Functionality exists. Maps to its equalvent\n-----------------------",
             "class": "Kiwi.Files.Loader",
             "module": "Kiwi",
@@ -22140,7 +22140,7 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1304,
+            "line": 1305,
             "description": "Initialise the properities that are needed on this loader.\nRecommended you use the 'onQueueProgress' / 'onQueueComplete' signals instead.",
             "itemtype": "method",
             "name": "init",
@@ -22178,7 +22178,7 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1331,
+            "line": 1332,
             "description": "Loops through all of the files that need to be loaded and start the load event on them.",
             "itemtype": "method",
             "name": "startLoad",
@@ -22193,7 +22193,7 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1341,
+            "line": 1342,
             "description": "Returns a percentage of the amount that has been loaded so far.",
             "itemtype": "method",
             "name": "getPercentLoaded",
@@ -22212,7 +22212,7 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1353,
+            "line": 1354,
             "description": "Returns a boolean indicating if everything in the loading que has been loaded or not.",
             "itemtype": "method",
             "name": "complete",
@@ -22231,7 +22231,7 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1364,
+            "line": 1365,
             "description": "Quick way of getting / setting the private variable 'calculateBytes'\nTo be made into a public variable once removed.",
             "itemtype": "method",
             "name": "calculateBytes",
@@ -22256,7 +22256,7 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1381,
+            "line": 1382,
             "description": "Returns the total number of bytes that have been loaded so far from files in the file queue.",
             "itemtype": "method",
             "name": "getBytesLoaded",
@@ -51449,7 +51449,7 @@
         },
         {
             "message": "Missing item type\n-----------------------\nDeprecated - Functionality exists. Maps to its equalvent\n-----------------------",
-            "line": " src/file/Loader.ts:1297"
+            "line": " src/file/Loader.ts:1298"
         },
         {
             "message": "Missing item type\n-----------------------\n Creation of Tile Types\n-----------------------",
