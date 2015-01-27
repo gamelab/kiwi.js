@@ -384,7 +384,7 @@ module Kiwi.Sound {
                 if (sound.id == this._sounds[i].id) {
 
 
-                    if (this.usingWebAudio) sound.gainNode.disconnect();
+                    if (this.usingWebAudio && sound.gainNode) sound.gainNode.disconnect();
 
                     if (destroy == true) sound.destroy();
 
