@@ -68,7 +68,7 @@ module Kiwi.System {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Bootstrap"
         * @public
         */
         public objType() {

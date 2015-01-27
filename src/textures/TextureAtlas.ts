@@ -34,7 +34,7 @@ module Kiwi.Textures {
         /**
         * The type of object that this texture atlas is.
         * @method objType
-        * @return string
+        * @return {string} "TextureAtlas"
         * @public
         */
         public objType(): string {

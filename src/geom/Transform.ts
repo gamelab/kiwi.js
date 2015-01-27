@@ -263,6 +263,8 @@ module Kiwi.Geom {
 
         /** 
         * The most recently calculated matrix from getConcatenatedMatrix.
+        * Not used or updated after object creation.
+        * Candidate for deprecation.
         * @property _cachedConcatenatedMatrix
         * @type Kiwi.Geom.Matrix
         * @private
@@ -397,7 +399,7 @@ module Kiwi.Geom {
         * @property ignoreParent
         * @type boolean
         * @default false
-        * @private
+        * @public
         * @since 1.2.0
         */
         public set ignoreParent( value: boolean ) {
@@ -464,7 +466,7 @@ module Kiwi.Geom {
         * Return a Point representing the X and Y values of the transform.
         * If no point is given a new Point objected will be created.
         *
-        * @method getPostionPoint
+        * @method getPositionPoint
         * @param [output] {Kiwi.Geom.Point} The Point to output the coordinates into. Creates a new Point if none given.
         * @return {Kiwi.Geom.Point} A point representing the X and Y values of the transform.
         * @public

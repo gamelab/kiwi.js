@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\input\Finger.ts - Kiwi.js</title>
+    <title>src/input/Finger.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -360,7 +360,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\input\Finger.ts</h1>
+                        <h1 class="file-heading">File: src/input/Finger.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -374,7 +374,11 @@
 module Kiwi.Input {
 
     /**
-    * Used with the Touch manager class, this object holds information about a single touch point/locaton (or you know a finger). By default a Finger has a diameter of 44 pixels (random average size of a finger) which can be used for collision/overlap detection. That value can be modified. Note: A Finger is only active whilst the user is &#x27;pressing&#x27; down on stage. 
+    * Used with the Touch manager class, this object holds information about a
+    * single touch point/location (or, you know, a finger). By default a Finger
+    * has a diameter of 44 pixels (random average size of a finger) which can
+    * be used for collision/overlap detection. That value can be modified.
+    * Note: A Finger is only active whilst the user is &#x27;pressing&#x27; down on stage. 
     *
     * @class Finger
     * @extends Pointer
@@ -389,17 +393,17 @@ module Kiwi.Input {
             super(game);
             this.circle.diameter = 44; //The diameter of your average finger!
         }
-        
+
         /**
         * The type of object this is. 
         * @method objType
-        * @return string
+        * @return {string} &quot;Finger&quot;
         * @public
         */
         public objType(): string {
-            return &#x27;Finger&#x27;;
+            return &quot;Finger&quot;;
         }
-        
+
         /** 
         * @method start
         * @param {Any} event
@@ -409,7 +413,7 @@ module Kiwi.Input {
             this.active = true;
             super.start(event);
         }
-        
+
         /**
         * @method stop
         * @param event {Any}
@@ -438,7 +442,7 @@ module Kiwi.Input {
             this.active = false;
             super.reset();
         }
-          
+
     }
 
 }

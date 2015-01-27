@@ -55,7 +55,7 @@ module Kiwi.Input {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Key"
         * @public
         */
         public objType() {

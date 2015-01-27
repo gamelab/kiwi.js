@@ -368,7 +368,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_utils_Version.ts.html#l9"><code>src\utils\Version.ts:9</code></a>
+            Defined in: <a href="../files/src_utils_Version.ts.html#l9"><code>src&#x2F;utils&#x2F;Version.ts:9</code></a>
         </div>
     
 
@@ -424,7 +424,7 @@
             
         
         
-        <a href="../files/src_utils_Version.ts.html#l9"><code>src\utils\Version.ts:9</code></a>
+        <a href="../files/src_utils_Version.ts.html#l9"><code>src&#x2F;utils&#x2F;Version.ts:9</code></a>
         
         </p>
 
@@ -471,7 +471,7 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method public">
-                                <a href="#method_parseVersion">parseVersion</a>
+                                <a href="#method_compareVersions">compareVersions</a>
 
                                 
                                     <span class="flag static">static</span>
@@ -480,7 +480,7 @@
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_parseVersion">parseVersion</a>
+                                <a href="#method_greaterOrEqual">greaterOrEqual</a>
 
                                 
                                     <span class="flag static">static</span>
@@ -513,116 +513,8 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_parseVersion" class="method item public">
-    <h3 class="name"><code>parseVersion</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>version</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Object</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-        <span class="flag static">static</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_utils_Version.ts.html#l17"><code>src\utils\Version.ts:17</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Parses a string such as &quot;1.2.3&quot; and returns an oject containing numeric properties for majorVersion, minorVersion and patchVersion</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">version</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Object</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_parseVersion" class="method item public">
-    <h3 class="name"><code>parseVersion</code></h3>
+                    <div id="method_compareVersions" class="method item public">
+    <h3 class="name"><code>compareVersions</code></h3>
 
     
         <div class="args">
@@ -677,7 +569,7 @@
             
         
         
-        <a href="../files/src_utils_Version.ts.html#l34"><code>src\utils\Version.ts:34</code></a>
+        <a href="../files/src_utils_Version.ts.html#l34"><code>src&#x2F;utils&#x2F;Version.ts:34</code></a>
         
         </p>
 
@@ -688,7 +580,8 @@
     </div>
 
     <div class="description">
-        <p>Compares two semver version strings such as &quot;0.1.0&quot; and &quot;0.2.1&quot;. Returns &quot;greater&quot;, &quot;less&quot; or &quot;equal&quot;.</p>
+        <p>Compares two semver version strings such as &quot;0.1.0&quot; and &quot;0.2.1&quot;.
+Returns &quot;greater&quot;, &quot;less&quot; or &quot;equal&quot;.</p>
 
     </div>
 
@@ -741,6 +634,8 @@
                     
                         <span class="type">String</span>:
                     
+                    <p>&quot;greater&quot;, &quot;less&quot; or &quot;equal&quot;</p>
+
                 
             </div>
         </div>
@@ -750,8 +645,8 @@
 </div>
 
                 
-                    <div id="method_parseVersion" class="method item public">
-    <h3 class="name"><code>parseVersion</code></h3>
+                    <div id="method_greaterOrEqual" class="method item public">
+    <h3 class="name"><code>greaterOrEqual</code></h3>
 
     
         <div class="args">
@@ -806,7 +701,7 @@
             
         
         
-        <a href="../files/src_utils_Version.ts.html#l71"><code>src\utils\Version.ts:71</code></a>
+        <a href="../files/src_utils_Version.ts.html#l72"><code>src&#x2F;utils&#x2F;Version.ts:72</code></a>
         
         </p>
 
@@ -870,6 +765,116 @@
                     
                         <span class="type">Boolean</span>:
                     
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_parseVersion" class="method item public">
+    <h3 class="name"><code>parseVersion</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>version</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_utils_Version.ts.html#l17"><code>src&#x2F;utils&#x2F;Version.ts:17</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Parses a string such as &quot;1.2.3&quot; and returns an oject containing numeric properties for majorVersion, minorVersion and patchVersion</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">version</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>Object with properties majorVersion, minorVersion, patchVersion.</p>
+
                 
             </div>
         </div>

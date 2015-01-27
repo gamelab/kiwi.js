@@ -14,7 +14,7 @@ module Kiwi.Utils {
     * log/error/warn methods contained on this class function just like their 'console' equivalents except that:
     * - You can assign a tag to message by adding a '#' symbol to the front of a parameter. Example: this.log('Hi', '#welcome'); 
     * - Messages can have multiple tags. Example: this.log('Hi', '#welcome', '#greeting');
-    * - Messages are recorded (by default) and can then search through any messages saved.
+    * - Messages are recorded (by default) and you can then search through any messages saved.
     *
     * You can use the 'show' commands to search through recordings and find specific messages. 
     *
@@ -183,7 +183,7 @@ module Kiwi.Utils {
         * @method clearRecordings
         * @param [start=0] {Number} 
         * @param [end] {Number} 
-        * @private
+        * @public
         */
         public clearRecordings(start: number=0, end: number=this.recordings.length) {
 

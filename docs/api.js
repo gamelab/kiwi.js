@@ -243,7 +243,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Utils.",
             "name": "Utils.",
-            "description": "A utilty class used to add management functionality to common console methods. \nYou can use this class by either creating a new instance, or using the instance at the namespace 'Kiwi.Log'.\n\nlog/error/warn methods contained on this class function just like their 'console' equivalents except that:\n- You can assign a tag to message by adding a '#' symbol to the front of a parameter. Example: this.log('Hi', '#welcome'); \n- Messages can have multiple tags. Example: this.log('Hi', '#welcome', '#greeting');\n- Messages are recorded (by default) and can then search through any messages saved.\n\nYou can use the 'show' commands to search through recordings and find specific messages."
+            "description": "A utilty class used to add management functionality to common console methods. \nYou can use this class by either creating a new instance, or using the instance at the namespace 'Kiwi.Log'.\n\nlog/error/warn methods contained on this class function just like their 'console' equivalents except that:\n- You can assign a tag to message by adding a '#' symbol to the front of a parameter. Example: this.log('Hi', '#welcome'); \n- Messages can have multiple tags. Example: this.log('Hi', '#welcome', '#greeting');\n- Messages are recorded (by default) and you can then search through any messages saved.\n\nYou can use the 'show' commands to search through recordings and find specific messages."
         },
         {
             "displayName": "Widget",

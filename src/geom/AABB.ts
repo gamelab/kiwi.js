@@ -33,7 +33,7 @@ module Kiwi.Geom {
         /**
         * Returns the type of this object
         * @method objType
-        * @return {String} The type of this object
+        * @return {String} "AABB"
         * @public
         */
         public objType() {

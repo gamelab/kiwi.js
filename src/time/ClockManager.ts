@@ -29,7 +29,7 @@ module Kiwi.Time {
         /**
         * The type of object this is.
         * @method objType
-        * @return {String}
+        * @return {String} "ClockManager"
         * @public
         */
         public objType() {
@@ -108,7 +108,8 @@ module Kiwi.Time {
         }
 
         /**
-        * Returns the Clock with the matching name. Throws and error if no Clock with that name exists
+        * Returns the Clock with the matching name.
+        * Throws an error if no Clock with that name exists
         * @method getClock
         * @param name {string} The name of the Clock to be returned.
         * @return {Kiwi.Time.Clock} The clock which matches the name given.
@@ -127,7 +128,7 @@ module Kiwi.Time {
         }
 
         /**
-        * Is executed every frame and updates all of the clocks that exist on this manager, times.
+        * Is executed every frame and updates all of the clocks that exist on this manager.
         * @method update
         * @public
         */

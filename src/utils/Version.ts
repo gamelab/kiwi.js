@@ -18,7 +18,7 @@ module Kiwi.Utils {
         * Parses a string such as "1.2.3" and returns an oject containing numeric properties for majorVersion, minorVersion and patchVersion
         * @method parseVersion
         * @param version {String}
-        * @return {Object}
+        * @return {Object} Object with properties majorVersion, minorVersion, patchVersion.
         * @public
         * @static
         */
@@ -32,11 +32,12 @@ module Kiwi.Utils {
         }
 
         /**
-        * Compares two semver version strings such as "0.1.0" and "0.2.1". Returns "greater", "less" or "equal". 
-        * @method parseVersion
+        * Compares two semver version strings such as "0.1.0" and "0.2.1".
+        * Returns "greater", "less" or "equal".
+        * @method compareVersions
         * @param version1 {String}
         * @param version2 {String}
-        * @return {String}
+        * @return {String} "greater", "less" or "equal"
         * @public
         * @static
         */
@@ -70,7 +71,7 @@ module Kiwi.Utils {
 
         /**
         * Compares two semver version strings such as "0.1.0" and "0.2.1". Returns true if version1 is greater than version2. 
-        * @method parseVersion
+        * @method greaterOrEqual
         * @param version1 {String}
         * @param version2 {String}
         * @return {boolean}

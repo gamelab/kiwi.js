@@ -51,7 +51,7 @@ module Kiwi.Animations {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Tween"
         * @public
         */
         public objType() {

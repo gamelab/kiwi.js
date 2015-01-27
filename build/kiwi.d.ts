@@ -106,7 +106,7 @@ declare module Kiwi {
         /**
         * The type of object that the game is.
         * @method objType
-        * @return {String} The type of object
+        * @return {String} "Game"
         * @public
         */
         objType(): string;
@@ -375,7 +375,7 @@ declare module Kiwi {
         * @property scaleType
         * @type number
         * @default Kiwi.Stage.SCALE_NONE
-        * @private
+        * @public
         */
         scaleType: number;
         /**
@@ -752,10 +752,14 @@ declare module Kiwi {
 */
 declare module Kiwi {
     /**
-    * The component manager is a class that is used to handle components that are active on a particular object. Any object
-    * that has a component manager attached to it can use components.
-    * If you want to check to see if a particular component is on an object you can ask the component manager,
-    * or when updating components you can tell the component manager to update and all of the components will update as well.
+    * The component manager is a class that is used to handle components that
+    * are active on a particular object. Any object that has a component
+    * manager attached to it can use components. If you want to check to see if
+    * a particular component is on an object you can ask the component manager.
+    *
+    * The component manager is updated once per frame (as part of its owner's
+    * update), and updates all active components. This is very useful for
+    * creating modular, customised behaviors on entities.
     *
     * @class ComponentManager
     * @namespace Kiwi
@@ -770,7 +774,7 @@ declare module Kiwi {
         /**
         * Returns the type of this object
         * @method objType
-        * @return {string} The type of this object
+        * @return {string} "ComponentManager"
         * @public
         */
         objType(): string;
@@ -951,7 +955,7 @@ declare module Kiwi {
         /**
         * Identifies the object as a PluginManager.
         * @property objType
-        * @type string
+        * @type {string} "PluginManager"
         * @public
         */
         objType: string;
@@ -1043,7 +1047,7 @@ declare module Kiwi {
         /**
         * Returns the type of this object
         * @method objType
-        * @return {String} The type of this object
+        * @return {String} "CameraManager"
         * @public
         */
         objType(): string;
@@ -1707,7 +1711,7 @@ declare module Kiwi {
 declare module Kiwi {
     /**
     * An Entity is a base class for game objects to extend from and thus you should never directly instantiate this class.
-    * Every entity requires that you pass to it the state that it belongs too, that way when you switch states the appropriate entitys can be deleted.
+    * Every entity requires that you pass to it the state to which it belongs, so that when you switch states the appropriate entities can be deleted.
     *
     * @class Entity
     * @namespace Kiwi
@@ -2087,7 +2091,7 @@ declare module Kiwi {
         clock: Kiwi.Time.Clock;
         /**
         * A value used by components to control if the Entity needs re-rendering
-        * @property dirty
+        * @property _dirty
         * @type boolean
         * @private
         */
@@ -2102,7 +2106,7 @@ declare module Kiwi {
         /**
         * The type of this object.
         * @method objType
-        * @return {String} The type of the object
+        * @return {String} "Entity"
         * @public
         */
         objType(): string;
@@ -2134,7 +2138,10 @@ declare module Kiwi {
         */
         renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
         /**
-        * Used to completely destroy this entity and of its components. Used for garbage collection and developers can also use it as needed.
+        * Used to completely destroy this entity and of its components.
+        * Used for garbage collection and developers can also use it as needed.
+        * It is more reliable to use "exists = false", as this will ensure
+        * that "destroy" is called at a convenient time.
         * @method destroy
         * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
         * @public
@@ -2164,7 +2171,7 @@ declare module Kiwi {
         /**
         * Returns the type of this object
         * @method objType
-        * @return {String} The type of this object
+        * @return {String} "Component"
         * @public
         */
         objType(): string;
@@ -2255,7 +2262,7 @@ declare module Kiwi {
         /**
         * Returns the type of this object
         * @method objType
-        * @return {String} The type of this object
+        * @return {String} "Group"
         * @public
         */
         objType(): string;
@@ -3173,7 +3180,7 @@ declare module Kiwi {
         /**
         * The type of object this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Camera"
         * @public
         */
         objType(): string;
@@ -3255,21 +3262,20 @@ declare module Kiwi {
         * Convert from screen coordinates to world coordinates.
         * Apply this camera's inverted matrix to an object with x and y
         * properties representing a point and return the transformed point.
-        * Useful for when calculating if coordinates with the mouse.
-        * Note: This method clones the point you pass,
-        * so that it doesn't "reset" any properties you set.
+        * Useful for calculating coordinates with the mouse.
         * @method transformPoint
         * @param point {Kiwi.Geom.Point}
-        * @return {Kiwi.Geom.Point}
+        * @return {Kiwi.Geom.Point} Transformed clone of the original Point.
         * @public
         */
         transformPoint(point: Kiwi.Geom.Point): Kiwi.Geom.Point;
         /**
         * Convert from world coordinates to screen coordinates.
         * Useful for assessing visibility.
+        * Similar to "transformPoint", but in reverse.
         * @method transformPointToScreen
         * @param point {Kiwi.Geom.Point}
-        * @return {Kiwi.Geom.Point}
+        * @return {Kiwi.Geom.Point} Transformed clone of the original Point.
         * @public
         * @since 1.2.0
         */
@@ -3675,7 +3681,7 @@ declare module Kiwi.GameObjects {
         /**
         * Returns the type of object that this is.
         * @method objType
-        * @return {string}
+        * @return {string} "Sprite"
         * @public
         */
         objType(): string;
@@ -3816,7 +3822,7 @@ declare module Kiwi.GameObjects {
         /**
         * Returns the type of object that this is
         * @method objType
-        * @return {string}
+        * @return {string} "Textfield"
         * @public
         */
         objType(): string;
@@ -4092,7 +4098,7 @@ declare module Kiwi.GameObjects.Tilemap {
         /**
         * The type of object that it is.
         * @method objType
-        * @return {String}
+        * @return {String} "TileType"
         * @public
         */
         objType(): string;
@@ -4357,7 +4363,7 @@ declare module Kiwi.GameObjects.Tilemap {
         /**
         * The type of object that it is.
         * @method objType
-        * @return {String}
+        * @return {String} "TileMap"
         * @public
         */
         objType(): string;
@@ -4412,7 +4418,7 @@ declare module Kiwi.GameObjects.Tilemap {
         /**
         * The type of object that it is.
         * @method objType
-        * @return {String}
+        * @return {String} "TileMapLayer"
         * @public
         */
         objType(): string;
@@ -6650,12 +6656,12 @@ declare module Kiwi.Files {
         * Sorts a file and places it into either the 'loadingParallel' or 'loadingQueue'
         * depending on the method of loading it is using.
         *
-        * @method sortFile
+        * @method _sortFile
         * @param file {Kiwi.Files.File}
         * @since 1.2.0
         * @private
         */
-        private sortFile(file, startLoading?);
+        private _sortFile(file, startLoading?);
         /**
         * The number of files in the file queue that have been updated.
         *
@@ -6671,64 +6677,65 @@ declare module Kiwi.Files {
         * Calculates the new number of bytes loaded and
         * the percentage of loading done by looping through all of the files.
         *
-        * @method updateFileListInformation
+        * @method _updateFileListInformation
         * @private
         */
-        private updateFileListInformation();
+        private _updateFileListInformation();
         /**
         * Executed by files when they have successfully been loaded.
         * This method checks to see if the files are in the file queue, and dispatches the appropriate events.
         *
-        * @method fileQueueUpdate
+        * @method _fileQueueUpdate
         * @param file {Kiwi.Files.File} The file which has been recently loaded.
         * @param [forceProgressCheck=false] {Boolean} If the progress of file loading should be checked, regardless of the file being in the queue or not.
         * @since 1.2.0
         * @private
         */
-        private fileQueueUpdate(file, forceProgressCheck?);
+        private _fileQueueUpdate(file, forceProgressCheck?);
         /**
         * Starts the loading process in the loadingQueue.
-        * @method startLoadingQueue
+        * @method _startLoadingQueue
         * @return {Boolean}
+        * @private
         * @since 1.2.0
-        * @return
+        * @return {boolean} Whether the first file is loading
         */
-        private startLoadingQueue();
+        private _startLoadingQueue();
         /**
         * Executed when a file in the 'loadingQueue' has been successfully loaded.
-        * Removes the file from the loadingQueue and executes the 'startLoadingQueue' to start loading the next file.
+        * Removes the file from the loadingQueue and executes the '_startLoadingQueue' to start loading the next file.
         *
-        * @method queueFileComplete
+        * @method _queueFileComplete
         * @param file {Kiwi.Files.File}
         * @since 1.2.0
         * @private
         */
-        private queueFileComplete(file);
+        private _queueFileComplete(file);
         /**
         * Starts loading a file which can be loaded in parallel.
-        * @method startLoadingParallel
+        * @method _startLoadingParallel
         * @param params file {Kiwi.Files.File}
         * @since 1.2.0
         * @private
         */
-        private startLoadingParallel(file);
+        private _startLoadingParallel(file);
         /**
         * Starts loading all files which can be loaded in parallel.
-        * @method startLoadingAllParallel
+        * @method _startLoadingAllParallel
         * @since 1.2.0
         * @private
         */
-        private startLoadingAllParallel();
+        private _startLoadingAllParallel();
         /**
         * Executed when a file in the 'loadingParallel' lsit has been successfully loaded.
         * Removes the file from the list and get the fileQueue to check its progress.
         *
-        * @method parallelFileComplete
+        * @method _parallelFileComplete
         * @param file {Kiwi.Files.File}
         * @since 1.2.0
         * @private
         */
-        private parallelFileComplete(file);
+        private _parallelFileComplete(file);
         /**
         * -----------------------------
         * Bytes Loaded Methods
@@ -6825,21 +6832,21 @@ declare module Kiwi.Files {
         calculateQueuedSize(callback: any, context?: any): void;
         /**
         * Checks to see if all the file sizes have been retrieved.
-        * If so completes the 'calculateQueuedSize' call.
-        * Otherwise continues the
+        * If so completes the "calculateQueuedSize" call.
+        * Otherwise requests the next file's details.
         *
-        * @method calculateNextFileSize
+        * @method _calculateNextFileSize
         * @private
         */
-        private calculateNextFileSize();
+        private _calculateNextFileSize();
         /**
-        * Executed when by 'calculateNextFileSize' when the files information has been retrieved.
+        * Executed when by '_calculateNextFileSize' when the files information has been retrieved.
         * Adds its calculated size to the _bytesTotal and executes the 'nextFileSize' method.
         *
-        * @method detailsReceived
+        * @method _detailsReceived
         * @private
         */
-        private detailsReceived();
+        private _detailsReceived();
         /**
         * -----------------------------
         * File Addition Methods
@@ -6908,7 +6915,7 @@ declare module Kiwi.Files {
         /**
         * This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.
         * Returns a boolean if the audio file was successfully added or not to the file directory.
-        * @method attemptToAddAudio
+        * @method _attemptToAddAudio
         * @param params {Object}
         *   @param params.key {String} The key for the audio file.
         *   @param params.url {String} The url of the audio to load.
@@ -6918,7 +6925,7 @@ declare module Kiwi.Files {
         * @return {Kiwi.Files.File} The file which was created.
         * @private
         */
-        private attemptToAddAudio(params, onlyIfSupported);
+        private _attemptToAddAudio(params, onlyIfSupported);
         /**
         * Creates a new File to store JSON and adds it to the loading queue.
         * @method addJSON
@@ -7063,7 +7070,7 @@ declare module Kiwi.Files {
         private _game;
         /**
         * Contains all of the data that this available.
-        * @property textures
+        * @property data
         * @type Object
         * @public
         */
@@ -7103,7 +7110,7 @@ declare module Kiwi.Files {
     * TextureFile, AudioFile contain fallback loading via tags and all extended Files contain methods for processing the files.
     *
     * Also can contain information about the file (like file size, last modified, e.t.c.)
-    * Uses a object literal in its constructor since 1.2 (which is preferred), but also contains previous construction support.
+    * Uses an object literal in its constructor since 1.2 (which is preferred), but also contains previous construction support.
     *
     * @class File
     * @namespace Kiwi.Files
@@ -7112,7 +7119,7 @@ declare module Kiwi.Files {
     * @param params {Object} Options for this file.
     *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
     *   @param params.url {String} Location of the file to be loaded.
-    *   @param [params.metadata={}] {Object} Any metadata to be associated with the file.
+    *   @param {Object} [params.metadata={}] Any metadata to be associated with the file.
     *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
     *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
     *   @param [params.type=UNKNOWN] {Number} The type of file this is.
@@ -7125,7 +7132,7 @@ declare module Kiwi.Files {
         /**
         * Assigns properties and variables for the constructor as in pre 1.2 Kiwi versions.
         *
-        * @method parseParamsOld
+        * @method _parseParamsOld
         * @since 1.2.0
         * @param dataType {Number} The type of file that is being loaded. For this you can use the STATIC properties that are located on this class for quick code completion.
         * @param path {String} The location of the file that is to be loaded.
@@ -7134,7 +7141,7 @@ declare module Kiwi.Files {
         * @param [storeAsGlobal=true] {Boolean} If this file should be stored as a global file, or if it should be destroyed when this state gets switched out.
         * @private
         */
-        private parseParamsOld(dataType, url, name?, saveToFileStore?, storeAsGlobal?);
+        private _parseParamsOld(dataType, url, name?, saveToFileStore?, storeAsGlobal?);
         /**
         * Sets properties for this instance based on an object literal passed. Used when the class is being created.
         *
@@ -7152,12 +7159,12 @@ declare module Kiwi.Files {
         /**
         * Gets the file details from the URL passed. Name, extension, and path are extracted.
         *
-        * @method assignFileDetails
-        * @since 1.2.0
+        * @method _assignFileDetails
         * @param url {String}
         * @private
+        * @since 1.2.0
         */
-        private assignFileDetails(url);
+        private _assignFileDetails(url);
         /**
         * Returns the type of this object
         * @method objType
@@ -7468,11 +7475,11 @@ declare module Kiwi.Files {
         * Assigns the data property.
         * This method is also in charge of calling 'loadSuccess' (or 'loadError') when processing is complete.
         *
-        * @method processXHR
+        * @method processXhr
         * @param response
         * @protected
         */
-        protected processXHR(response: any): void;
+        protected processXhr(response: any): void;
         /**
         * The XMLHttpRequest object. This only has a value if the xhr method of load is being used, otherwise this is null.
         * @property _xhr
@@ -7520,16 +7527,16 @@ declare module Kiwi.Files {
         /**
         * Is executed when this file starts loading.
         * Gets the time and resets properties used in file loading.
-        * @method start
+        * @method _start
         * @private
         */
-        private start();
+        private _start();
         /**
         * Is executed when this file stops loading.
-        * @method stop
+        * @method _stop
         * @private
         */
-        private stop();
+        private _stop();
         /**
         * If file loading failed or encountered an error and so was not laoded
         * @property hasError
@@ -7646,11 +7653,11 @@ declare module Kiwi.Files {
         * Retrieves the HEAD information from the XHR.
         * This method is used for both 'load' and 'loadDetails' methods.
         *
-        * @method getXHRHeaderInfo
+        * @method _getXhrHeaderInfo
         * @since 1.2.0
         * @private
         */
-        private getXHRHeaderInfo();
+        private _getXhrHeaderInfo();
         /**
         * Sets up a XMLHttpRequest object and sends a HEAD request.
         * @method xhrHeadRequest
@@ -7666,7 +7673,7 @@ declare module Kiwi.Files {
         */
         private xhrHeadOnError(event);
         /**
-        * Executed when a xhr head request has loaded.
+        * Executed when a XHR head request has loaded.
         * Checks that the status of the request is 200 before classifying it as a success.
         * @method xhrHeadOnLoad
         * @param event {Any}
@@ -8199,7 +8206,7 @@ declare module Kiwi.System {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Bootstrap"
         * @public
         */
         objType(): string;
@@ -8250,7 +8257,7 @@ declare module Kiwi.System {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Device"
         * @public
         */
         objType(): string;
@@ -8585,7 +8592,7 @@ declare module Kiwi.Textures {
         /**
         * The type of object that this texture atlas is.
         * @method objType
-        * @return string
+        * @return {string} "TextureAtlas"
         * @public
         */
         objType(): string;
@@ -8851,7 +8858,7 @@ declare module Kiwi.Textures {
         /**
         * The type of object that this is.
         * @method objType
-        * @return string
+        * @return {string} "SpriteSheet"
         * @public
         */
         objType(): string;
@@ -8967,7 +8974,7 @@ declare module Kiwi.Textures {
         /**
         * The type of object that this is.
         * @method objType
-        * @return string
+        * @return {string} "SingleImage"
         * @public
         */
         objType(): string;
@@ -9026,7 +9033,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         /**
         * The type of object this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Back"
         * @public
         */
         objType(): string;
@@ -9076,7 +9083,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Bounce"
         * @public
         */
         objType(): string;
@@ -9127,7 +9134,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Circular"
         * @public
         */
         objType(): string;
@@ -9174,7 +9181,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Cubic"
         * @public
         */
         objType(): string;
@@ -9224,7 +9231,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Elastic"
         * @public
         */
         objType(): string;
@@ -9273,7 +9280,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Exponential"
         * @public
         */
         objType(): string;
@@ -9323,7 +9330,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Linear"
         * @public
         */
         objType(): string;
@@ -9355,7 +9362,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Quadratic"
         * @public
         */
         objType(): string;
@@ -9405,7 +9412,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Quartic"
         * @public
         */
         objType(): string;
@@ -9455,7 +9462,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Quintic"
         * @public
         */
         objType(): string;
@@ -9505,7 +9512,7 @@ declare module Kiwi.Animations.Tweens.Easing {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Sinusoidal"
         * @public
         */
         objType(): string;
@@ -9576,7 +9583,7 @@ declare module Kiwi.Animations.Tweens {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "TweenManager"
         * @public
         */
         objType(): string;
@@ -9635,10 +9642,10 @@ declare module Kiwi.Animations.Tweens {
         * Removes a tween from this manager.
         * @method remove
         * @param tween {Kiwi.Animations.Tween} The tween that you would like to remove.
-        * @return {Kiwi.Animations.Tween}
+        * @return {Kiwi.Animations.Tween} The tween passed in.
         * @public
         */
-        remove(tween: Kiwi.Animations.Tween): void;
+        remove(tween: Kiwi.Animations.Tween): Tween;
         /**
         * The update loop.
         * @method update
@@ -9692,7 +9699,7 @@ declare module Kiwi.Animations {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Tween"
         * @public
         */
         objType(): string;
@@ -9994,7 +10001,7 @@ declare module Kiwi.Renderers {
         /**
         * Returns the type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "CanvasRenderer"
         * @public
         */
         objType(): string;
@@ -10068,7 +10075,7 @@ declare module Kiwi.Renderers {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "GLRenderManager"
         * @public
         */
         objType(): string;
@@ -11513,7 +11520,7 @@ declare module Kiwi.Animations {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Animation"
         * @public
         */
         objType(): string;
@@ -11634,7 +11641,7 @@ declare module Kiwi.Animations {
         */
         private _tick;
         /**
-        * If the animation is currently playing or not.
+        * Whether the animation is currently playing or not.
         * @property _isPlaying
         * @type boolean
         * @default false
@@ -11642,10 +11649,10 @@ declare module Kiwi.Animations {
         */
         private _isPlaying;
         /**
-        * If the animation is currently playing or not.
+        * Whether the animation is currently playing or not. Read-only.
         * @property isPlaying
         * @type boolean
-        * @private
+        * @public
         */
         isPlaying: boolean;
         /**
@@ -11685,6 +11692,7 @@ declare module Kiwi.Animations {
         * @property _onComplete
         * @type Kiwi.Signal
         * @public
+        * @since 1.2.0
         */
         private _onComplete;
         onComplete: Kiwi.Signal;
@@ -11870,7 +11878,7 @@ declare module Kiwi.Input {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Key"
         * @public
         */
         objType(): string;
@@ -12015,7 +12023,7 @@ declare module Kiwi.Input {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Keyboard"
         * @public
         */
         objType(): string;
@@ -12201,7 +12209,7 @@ declare module Kiwi.Input {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {string}
+        * @return {string} "Keycodes"
         * @public
         */
         objType(): string;
@@ -13015,7 +13023,7 @@ declare module Kiwi.Input {
         /**
         * The type of object this is.
         * @method objType
-        * @return String
+        * @return {String} "InputManager"
         * @public
         */
         objType(): string;
@@ -13176,7 +13184,7 @@ declare module Kiwi.Input {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Mouse"
         * @public
         */
         objType(): string;
@@ -13439,7 +13447,7 @@ declare module Kiwi.Input {
         /**
         * The type of object that this is.
         * @method objType
-        * @return String
+        * @return {String} "TouchManager"
         * @public
         */
         objType(): string;
@@ -13874,7 +13882,7 @@ declare module Kiwi.Input {
         /**
         * The type of object this class is.
         * @method objType
-        * @return {string}
+        * @return {string} "Pointer"
         * @public
         */
         objType(): string;
@@ -14136,7 +14144,7 @@ declare module Kiwi.Input {
         reset(): void;
         /**
         * The update loop for the pointer. Used only if down to update the duration.
-        * @method update.
+        * @method update
         * @public
         */
         update(): void;
@@ -14150,7 +14158,9 @@ declare module Kiwi.Input {
 */
 declare module Kiwi.Input {
     /**
-    * Holds the information about a Mouse Cursor. Such as the position of the cursor, the mouse wheels delta, the button that was used, e.t.c. Note: A mouse cursor is always active.
+    * Holds the information about a Mouse Cursor, such as the position of the
+    * cursor, the mouse wheel's delta, the button that was used, e.t.c.
+    * Note: A mouse cursor is always active.
     *
     * @class MouseCursor
     * @namespace Kiwi.Input
@@ -14160,7 +14170,7 @@ declare module Kiwi.Input {
         /**
         * The type of object this class is.
         * @method objType
-        * @return string
+        * @return {string} "MouseCursor"
         * @public
         */
         objType(): string;
@@ -14260,7 +14270,11 @@ declare module Kiwi.Input {
 */
 declare module Kiwi.Input {
     /**
-    * Used with the Touch manager class, this object holds information about a single touch point/locaton (or you know a finger). By default a Finger has a diameter of 44 pixels (random average size of a finger) which can be used for collision/overlap detection. That value can be modified. Note: A Finger is only active whilst the user is 'pressing' down on stage.
+    * Used with the Touch manager class, this object holds information about a
+    * single touch point/location (or, you know, a finger). By default a Finger
+    * has a diameter of 44 pixels (random average size of a finger) which can
+    * be used for collision/overlap detection. That value can be modified.
+    * Note: A Finger is only active whilst the user is 'pressing' down on stage.
     *
     * @class Finger
     * @extends Pointer
@@ -14274,7 +14288,7 @@ declare module Kiwi.Input {
         /**
         * The type of object this is.
         * @method objType
-        * @return string
+        * @return {string} "Finger"
         * @public
         */
         objType(): string;
@@ -14328,7 +14342,7 @@ declare module Kiwi.Geom {
         /**
         * Returns the type of this object
         * @method objType
-        * @return {String} The type of this object
+        * @return {String} "AABB"
         * @public
         */
         objType(): string;
@@ -16465,6 +16479,8 @@ declare module Kiwi.Geom {
         matrix: Matrix;
         /**
         * The most recently calculated matrix from getConcatenatedMatrix.
+        * Not used or updated after object creation.
+        * Candidate for deprecation.
         * @property _cachedConcatenatedMatrix
         * @type Kiwi.Geom.Matrix
         * @private
@@ -16559,7 +16575,7 @@ declare module Kiwi.Geom {
         * @property ignoreParent
         * @type boolean
         * @default false
-        * @private
+        * @public
         * @since 1.2.0
         */
         ignoreParent: boolean;
@@ -16592,7 +16608,7 @@ declare module Kiwi.Geom {
         * Return a Point representing the X and Y values of the transform.
         * If no point is given a new Point objected will be created.
         *
-        * @method getPostionPoint
+        * @method getPositionPoint
         * @param [output] {Kiwi.Geom.Point} The Point to output the coordinates into. Creates a new Point if none given.
         * @return {Kiwi.Geom.Point} A point representing the X and Y values of the transform.
         * @public
@@ -19288,18 +19304,18 @@ declare module Kiwi.Time {
     * The Clock class offers a way of tracking time within a game. When creating a new Clock you should NOT directly instantiate this class but instead use the addClock method on a ClockManager.
     * - The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started. This happens automatically and there is no need to do anything to set this up.
     * - An instance of a clock is used to track time in arbitrary units (milliseconds by default)
-    * - A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it.
+    * - A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it. It can also have its time scale freely transformed.
     * - Any number of timers can be attached to a clock. See the Kiwi.Time.Timer class for timer details.
-    * - If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused.
-    * (Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)
+    * - If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused. (Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)
+    * - Animations and TweenManagers can use any Clock.
     *
     * @class Clock
     * @namespace Kiwi.Time
     * @constructor
-    * @param manager {ClockManager} The ClockManager that this clock belongs to. .
+    * @param manager {ClockManager} The ClockManager that this clock belongs to.
     * @param master {Kiwi.Time.MasterClock} The MasterClock that it is getting the time in relation to.
     * @param name {String} The name of the clock.
-    * @param [units=1000] {Number} The units that this clock is to operate in.
+    * @param [units=1000] {Number} The units that this clock is to operate in per second.
     * @return {Kiwi.Time.Clock} This Clock object.
     */
     class Clock {
@@ -19307,7 +19323,7 @@ declare module Kiwi.Time {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Clock"
         * @public
         */
         objType(): string;
@@ -19608,6 +19624,7 @@ declare module Kiwi.Time {
         /**
         * Convert a number to milliseconds based on clock units.
         * @method toMilliseconds.
+        * @param time {number} seconds
         * @return {Number} milliseconds.
         * @public
         */
@@ -19658,10 +19675,10 @@ declare module Kiwi.Time {
         * Emulates window.setTimeout, except attached to a Kiwi.Time.Clock.
         * This allows you to pause and manipulate time, and the timeout will respect
         * the clock on which it is created.
-        *<br><br>
+        *
         * No clearTimeout is provided; you should use Kiwi.Time.Timer functions
         * to achieve further control.
-        *<br><br>
+        *
         * Any parameters after "context" will be passed as parameters to the
         * callback function. Note that you must specify "context" in order for
         * this to work. You may specify "null", in which case it will default
@@ -19681,10 +19698,10 @@ declare module Kiwi.Time {
         * Emulates window.setInterval, except attached to a Kiwi.Time.Clock.
         * This allows you to pause and manipulate time, and the timeout will respect
         * the clock on which it is created.
-        *<br><br>
+        *
         * No clearInterval is provided; you should use Kiwi.Time.Timer functions
         * to achieve further control.
-        *<br><br>
+        *
         * Any parameters after "context" will be passed as parameters to the
         * callback function. Note that you must specify "context" in order for
         * this to work. You may specify "null", in which case it will default
@@ -19724,7 +19741,7 @@ declare module Kiwi.Time {
         /**
         * The type of object this is.
         * @method objType
-        * @return {String}
+        * @return {String} "ClockManager"
         * @public
         */
         objType(): string;
@@ -19780,7 +19797,8 @@ declare module Kiwi.Time {
         */
         addClock(name: string, units?: number): Clock;
         /**
-        * Returns the Clock with the matching name. Throws and error if no Clock with that name exists
+        * Returns the Clock with the matching name.
+        * Throws an error if no Clock with that name exists
         * @method getClock
         * @param name {string} The name of the Clock to be returned.
         * @return {Kiwi.Time.Clock} The clock which matches the name given.
@@ -19788,7 +19806,7 @@ declare module Kiwi.Time {
         */
         getClock(name: string): Clock;
         /**
-        * Is executed every frame and updates all of the clocks that exist on this manager, times.
+        * Is executed every frame and updates all of the clocks that exist on this manager.
         * @method update
         * @public
         */
@@ -19848,7 +19866,7 @@ declare module Kiwi.Time {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "MasterClock"
         * @public
         */
         objType(): string;
@@ -19967,7 +19985,7 @@ declare module Kiwi.Time {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Timer"
         * @public
         */
         objType(): string;
@@ -20214,7 +20232,7 @@ declare module Kiwi.Time {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "TimerEvent"
         * @public
         */
         objType(): string;
@@ -20329,7 +20347,7 @@ declare module Kiwi.Utils {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Canvas"
         * @public
         */
         objType(): string;
@@ -20486,54 +20504,54 @@ declare module Kiwi.Utils {
     * Utility class used to make color management more transparent.
     * Color objects hold color and alpha values, and can get or set them
     * in a variety of ways.
-    * <br><br>
+    *
     * Construct this object in one of the following ways.
-    * <br><br>
+    *
     * - Pass 3 or 4 numbers to determine RGB or RGBA. If the numbers are in
     * the range 0-1, they will be parsed as normalized numbers.
     * If they are in the range 1-255, they will be parsed as 8-bit channels.
-    * <br><br>
+    *
     * - Pass 3 or 4 numbers followed by the string "hsv" or "hsl"
     * (lowercase) to parse HSV or HSL color space (with optional alpha).
     * HSV and HSL colors may be specified as normalized parameters (0-1),
     * or as an angle (0-360) and two percentages (0-100).
-    * <br><br>
+    *
     * - Pass a string containing a hexadecimal color with or without alpha
     * (such as "ff8040ff" or "4080ff"). You may prepend "#" or "0x", but
     * they are not necessary and will be stripped.
-    * <br><br>
+    *
     * - Pass a string containing a CSS color function, such as
     * "rgb(255,255,255)", "rgba( 192, 127, 64, 32 )",
     * "hsl(180, 100, 100)", or "hsla(360, 50, 50, 50)".
-    * <br><br>
+    *
     * - Pass 1 number to set a grayscale value, or 2 numbers to set grayscale
     * with alpha. These are interpreted as with RGB values.
-    * <br><br>
+    *
     * The color object stores its internal values as normalized RGBA channels.
     * This is the most mathematically useful format, and corresponds
     * with the WebGL color paradigm. When you query the color object's values,
     * such as with "r" or "red" properties, it will return normalized values.
     * You can get values in the 0-255 8-bit range by calling the
     * corresponding x255 value. For example, if r = 1, then r255 = 255.
-    * <br><br>
+    *
     * We advise that you work with normalized colors wherever possible.
     * While the Color object is smart enough to recognise non-normalized
     * ranges in most cases, it cannot tell the difference between 0.5 on a
     * 0-1 scale, and 0.5 on a 0-255 scale. Try to reduce ambiguity by working
     * in normalized color space.
-    * <br><br>
+    *
     * You can get HSV, HSL, and hexadecimal values with the functions
     * "getHsva", "getHsla", and "getHex". By default, these all include an
     * alpha term. You can omit alpha from the getHex result by calling the
     * function with the parameter "false". As getHsva and getHsla return objects
     * rather than strings, you can freely ignore the provided alpha.
-    * <br<br>
+    *
     * You can modify a Color object once created using its properties, methods,
     * or the "set" method as you would use the constructor.
     *
     * @class Color
     * @constructor
-    * @param [...args]
+    * @param [...args] Any number of arguments
     * @since 1.2.0
     */
     class Color {
@@ -20737,7 +20755,7 @@ declare module Kiwi.Utils {
         * Returns color as a hexadecimal string
         * @method getHex
         * @param [alpha=true] {boolean} Whether to include the alpha
-        * @return string
+        * @return {string} A hexadecimal color such as "13579bdf"
         * @public
         */
         getHex(alpha?: boolean): string;
@@ -20745,13 +20763,14 @@ declare module Kiwi.Utils {
         * Parses normalized HSV values into the Color.
         * Interprets either normalized values, or H in degrees (0-360)
         * and S and V in % (0-100).
-        * <br><br>
+        *
         * Based on algorithms at
         * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
         * @method parseHsv
         * @param h {number} Hue
         * @param s {number} Saturation
         * @param v {number} Value
+        * @param a {number} Alpha
         * @return {Kiwi.Utils.Color} This object with the new color set
         * @public
         */
@@ -20765,6 +20784,22 @@ declare module Kiwi.Utils {
         */
         getHsva(): any;
         /**
+        * Parses HSL value onto the Color.
+        * Interprets either normalized values, or H in degrees (0-360)
+        * and S and L in % (0-100).
+        *
+        * Based on algorithms at
+        * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+        * @method parseHsl
+        * @param h {number} Hue
+        * @param s {number} Saturation
+        * @param l {number} Lightness
+        * @param a {number} Alpha
+        * @return {Kiwi.Utils.Color} This object with the new color set
+        * @public
+        */
+        parseHsl(h: number, s: number, l: number, a?: number): Kiwi.Utils.Color;
+        /**
         * Returns HSL value of the Color.
         * Based on algorithms at
         * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
@@ -20773,21 +20808,6 @@ declare module Kiwi.Utils {
         * @public
         */
         getHsla(): any;
-        /**
-        * Parses HSL value onto the Color.
-        * Interprets either normalized values, or H in degrees (0-360)
-        * and S and L in % (0-100).
-        * <br><br>
-        * Based on algorithms at
-        * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
-        * @method parseHsl
-        * @param h {number} Hue
-        * @param s {number} Saturation
-        * @param l {number} Lightness
-        * @return {Kiwi.Utils.Color} This object with the new color set
-        * @public
-        */
-        parseHsl(h: number, s: number, l: number, a?: number): Kiwi.Utils.Color;
         /**
         * Method used for computing HSL values.
         * Based on algorithms at
@@ -20834,7 +20854,7 @@ declare module Kiwi.Utils {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Common"
         * @public
         */
         objType(): string;
@@ -20993,7 +21013,7 @@ declare module Kiwi.Utils {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "GameMath"
         * @public
         */
         objType(): string;
@@ -21988,7 +22008,7 @@ declare module Kiwi.Utils {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "RandomDataGenerator"
         * @public
         */
         objType(): string;
@@ -22201,7 +22221,7 @@ declare module Kiwi.Utils {
         /**
         * The type of obect that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "RequestAnimationFrame"
         * @public
         */
         objType(): string;
@@ -22311,7 +22331,7 @@ declare module Kiwi.Utils {
     * log/error/warn methods contained on this class function just like their 'console' equivalents except that:
     * - You can assign a tag to message by adding a '#' symbol to the front of a parameter. Example: this.log('Hi', '#welcome');
     * - Messages can have multiple tags. Example: this.log('Hi', '#welcome', '#greeting');
-    * - Messages are recorded (by default) and can then search through any messages saved.
+    * - Messages are recorded (by default) and you can then search through any messages saved.
     *
     * You can use the 'show' commands to search through recordings and find specific messages.
     *
@@ -22424,7 +22444,7 @@ declare module Kiwi.Utils {
         * @method clearRecordings
         * @param [start=0] {Number}
         * @param [end] {Number}
-        * @private
+        * @public
         */
         clearRecordings(start?: number, end?: number): void;
         /**
@@ -22555,7 +22575,7 @@ declare module Kiwi.Utils {
         * Parses a string such as "1.2.3" and returns an oject containing numeric properties for majorVersion, minorVersion and patchVersion
         * @method parseVersion
         * @param version {String}
-        * @return {Object}
+        * @return {Object} Object with properties majorVersion, minorVersion, patchVersion.
         * @public
         * @static
         */
@@ -22565,18 +22585,19 @@ declare module Kiwi.Utils {
             patchVersion: number;
         };
         /**
-        * Compares two semver version strings such as "0.1.0" and "0.2.1". Returns "greater", "less" or "equal".
-        * @method parseVersion
+        * Compares two semver version strings such as "0.1.0" and "0.2.1".
+        * Returns "greater", "less" or "equal".
+        * @method compareVersions
         * @param version1 {String}
         * @param version2 {String}
-        * @return {String}
+        * @return {String} "greater", "less" or "equal"
         * @public
         * @static
         */
         static compareVersions(version1: string, version2: string): string;
         /**
         * Compares two semver version strings such as "0.1.0" and "0.2.1". Returns true if version1 is greater than version2.
-        * @method parseVersion
+        * @method greaterOrEqual
         * @param version1 {String}
         * @param version2 {String}
         * @return {boolean}
@@ -22746,7 +22767,7 @@ declare module Kiwi {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "GameManager"
         * @public
         */
         objType(): string;
@@ -22798,13 +22819,12 @@ declare module Kiwi.Files {
     * @param params {Object} Options for this file.
     *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
     *   @param params.url {String} Location of the file to be loaded.
-    *   @param [params.metadata={}] {Object} Any metadata to be associated with the file.
+    *   @param {Object} [params.metadata={}] Any metadata to be associated with the file.
     *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
     *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
     *   @param [params.type=UNKNOWN] {Number} The type of file this is.
     *   @param [params.tags] {Array} Any tags to be associated with this file.
     * @return {Kiwi.Files.AudioFile}
-    *
     */
     class AudioFile extends Kiwi.Files.File {
         constructor(game: Kiwi.Game, params?: any);
@@ -22837,11 +22857,11 @@ declare module Kiwi.Files {
         tagLoader(): void;
         /**
         * Handles decoding the arraybuffer into audio data.
-        * @method processXHR
+        * @method processXhr
         * @param response
         * @protected
         */
-        protected processXHR(response: any): void;
+        protected processXhr(response: any): void;
     }
 }
 /**
@@ -22864,7 +22884,7 @@ declare module Kiwi.Files {
     * @param params {Object} Options for this file.
     *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
     *   @param params.url {String} Location of the file to be loaded.
-    *   @param [params.metadata={}] {Object} Any metadata to be associated with the file.
+    *   @param {Object} [params.metadata={}] Any metadata to be associated with the file.
     *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
     *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
     *   @param [params.type=UNKNOWN] {Number} The type of file this is.
@@ -22914,11 +22934,11 @@ declare module Kiwi.Files {
         protected _load(): void;
         /**
         * Handles decoding the arraybuffer into audio data.
-        * @method processXHR
+        * @method processXhr
         * @param response
         * @protected
         */
-        protected processXHR(response: any): void;
+        protected processXhr(response: any): void;
         /**
         * Attempts to parse a string which is assumed to be XML. Called when 'parse' is set to true.
         * If valid 'loadSuccess' is called, otherwise 'loadError' is executed
@@ -22960,7 +22980,7 @@ declare module Kiwi.Files {
     * @param params {Object} Options for this file.
     *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
     *   @param params.url {String} Location of the file to be loaded.
-    *   @param [params.metadata={}] {Object} Any metadata to be associated with the file.
+    *   @param {Object} [params.metadata={}] Any metadata to be associated with the file.
     *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
     *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
     *   @param [params.type=UNKNOWN] {Number} The type of file this is.
@@ -23003,11 +23023,11 @@ declare module Kiwi.Files {
         * Gets the response data (which is an arraybuffer), creates a Blob from it
         * and creates an objectURL from it.
         *
-        * @method processXHR
+        * @method processXhr
         * @param response {Any} The data stored in the 'xhr.response' tag
         * @protected
         */
-        protected processXHR(response: any): void;
+        protected processXhr(response: any): void;
         /**
         * Revokes the object url that was added to the window when creating the image.
         * Also tells the File that the loading is now complete.

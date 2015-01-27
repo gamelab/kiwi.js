@@ -311,7 +311,7 @@ module Kiwi {
         /**
         * The type of object that the game is.
         * @method objType
-        * @return {String} The type of object
+        * @return {String} "Game"
         * @public
         */
         public objType() {

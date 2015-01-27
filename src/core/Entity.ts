@@ -8,7 +8,7 @@ module Kiwi {
 
     /**
     * An Entity is a base class for game objects to extend from and thus you should never directly instantiate this class.
-    * Every entity requires that you pass to it the state that it belongs too, that way when you switch states the appropriate entitys can be deleted.
+    * Every entity requires that you pass to it the state to which it belongs, so that when you switch states the appropriate entities can be deleted.
     * 
     * @class Entity
     * @namespace Kiwi
@@ -610,7 +610,7 @@ module Kiwi {
 
         /**
 		* A value used by components to control if the Entity needs re-rendering
-        * @property dirty
+        * @property _dirty
         * @type boolean
         * @private
     	*/
@@ -634,7 +634,7 @@ module Kiwi {
         /**
         * The type of this object.
         * @method objType
-        * @return {String} The type of the object
+        * @return {String} "Entity"
         * @public
         */
         public objType() {
@@ -682,7 +682,10 @@ module Kiwi {
         }
 
         /**
-        * Used to completely destroy this entity and of its components. Used for garbage collection and developers can also use it as needed.
+        * Used to completely destroy this entity and of its components.
+        * Used for garbage collection and developers can also use it as needed.
+        * It is more reliable to use "exists = false", as this will ensure
+        * that "destroy" is called at a convenient time.
         * @method destroy
         * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
         * @public

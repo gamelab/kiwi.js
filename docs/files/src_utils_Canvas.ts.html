@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\utils\Canvas.ts - Kiwi.js</title>
+    <title>src/utils/Canvas.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -360,7 +360,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\utils\Canvas.ts</h1>
+                        <h1 class="file-heading">File: src/utils/Canvas.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -388,24 +388,24 @@ module Kiwi.Utils {
          
         constructor (width: number, height: number, visible: boolean = true, offScreen: boolean = false) {
 
-          
-
-            this.domElement = &lt;HTMLCanvasElement&gt; document.createElement(&#x27;canvas&#x27;);
+            this.domElement = &lt;HTMLCanvasElement&gt; document.createElement(&quot;canvas&quot;);
             this.domElement.width = width;
             this.domElement.height = height;
 
             this._width = width;
             this._height = height;
 
-            this.context = this.domElement.getContext(&#x27;2d&#x27;);
+            this.context = this.domElement.getContext(&quot;2d&quot;);
 
             this._offScreen = offScreen;
             this._visible = visible;
 
             if (visible === false)
             {
-                this.domElement.style.display = &#x27;none&#x27;;
+                this.domElement.style.display = &quot;none&quot;;
             }
+
+            this._bgColor = new Kiwi.Utils.Color( 0, 0, 0 );
 
         }
 
@@ -456,7 +456,7 @@ module Kiwi.Utils {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} &quot;Canvas&quot;
         * @public
         */
         public objType() {
@@ -549,12 +549,32 @@ module Kiwi.Utils {
 
         /**
         * The background color to use clearing the canvas using a filled rectangle approach.
+        * You may set this with any valid Kiwi.Utils.Color parameter.
+        * If you set with multiple parameters, place them inside an array.
         * @property bgColor
         * @type String
-        * @default &#x27;rgb(0,0,0)&#x27;
+        * @default &quot;#000000&quot;
         * @public
         */
-        public bgColor = &#x27;rgb(0, 0, 0)&#x27;;
+        public get bgColor(): any {
+            return &quot;#&quot; + this._bgColor.getHex();
+        }
+
+        public set bgColor( value: any ) {
+            if ( !Kiwi.Utils.Common.isArray( value ) ) {
+                value = [ value ];
+            }
+            this._bgColor.set.apply( this._bgColor, value );
+        }
+
+        /**
+        * Background color object.
+        * @property _bgColor
+        * @type Kiwi.Utils.Color
+        * @private
+        * @since 1.2.0
+        */
+        private _bgColor: Kiwi.Utils.Color;
 
         /**
         * Updates the width/height on the canvas DOM element when either one of its sizes are updated.
@@ -577,7 +597,7 @@ module Kiwi.Utils {
 
             if (this._offScreen === false)
             {
-                this.domElement.style.display = &#x27;none&#x27;;
+                this.domElement.style.display = &quot;none&quot;;
               
             }
 
@@ -598,12 +618,12 @@ module Kiwi.Utils {
 
                 if (value === true)
                 {
-                    this.domElement.style.display = &#x27;block&#x27;;
+                    this.domElement.style.display = &quot;block&quot;;
 
                 }
                 else
                 {
-                    this.domElement.style.display = &#x27;none&#x27;;
+                    this.domElement.style.display = &quot;none&quot;;
                 }
             }
 
@@ -642,25 +662,18 @@ module Kiwi.Utils {
 		*/
         public clear() {
             
-		    if (this._clearMode === Canvas.CLEARMODE_NONE)
-		    {
+		    if (this._clearMode === Canvas.CLEARMODE_NONE) {
                 //  Do nothing
-		    }
-		    else if (this._clearMode === Canvas.CLEARMODE_CLEARRECT)
-		    {
+		    } else if (this._clearMode === Canvas.CLEARMODE_CLEARRECT) {
                 //  Clear Rect
 			    this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
 			    
-		    }
-		    else if (this._clearMode === Canvas.CLEARMODE_FILLRECT)
-		    {
+		    } else if (this._clearMode === Canvas.CLEARMODE_FILLRECT) {
                 //  Fill Rect Solid
 			    this.context.fillStyle = this.bgColor;
 			    this.context.fillRect(0, 0, this.domElement.width, this.domElement.height);
                 
-		    }
-		    else if (this._clearMode === Canvas.CLEARMODE_FILLRECT_ALPHA)
-		    {
+		    } else if (this._clearMode === Canvas.CLEARMODE_FILLRECT_ALPHA) {
                 //  Clear Rect + Fill Rect (only use if bgColor contains alpha &lt; 255)
 			    this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
 			    this.context.fillStyle = this.bgColor;
@@ -689,7 +702,7 @@ module Kiwi.Utils {
 	    */
 	    public toString():string {
 		
-		    return &#x27;[{Canvas (width=&#x27; + this.width + &#x27; height=&#x27; + this.height + &#x27; visible=&#x27; + this.visible + &#x27; offScreen=&#x27; + this._offScreen + &#x27; clearMode=&#x27; + this.clearMode + &#x27;)}]&#x27;;
+		    return &quot;[{Canvas (width=&quot; + this.width + &quot; height=&quot; + this.height + &quot; visible=&quot; + this.visible + &quot; offScreen=&quot; + this._offScreen + &quot; clearMode=&quot; + this.clearMode + &quot;)}]&quot;;
 
 	    }
 

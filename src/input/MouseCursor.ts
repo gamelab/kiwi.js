@@ -8,24 +8,26 @@
 module Kiwi.Input {
     
     /**
-    * Holds the information about a Mouse Cursor. Such as the position of the cursor, the mouse wheels delta, the button that was used, e.t.c. Note: A mouse cursor is always active.
+    * Holds the information about a Mouse Cursor, such as the position of the
+    * cursor, the mouse wheel's delta, the button that was used, e.t.c.
+    * Note: A mouse cursor is always active.
     *
     * @class MouseCursor
     * @namespace Kiwi.Input
     * @extends Pointer
     */
     export class MouseCursor extends Pointer {
-        
+
         /**
         * The type of object this class is.
         * @method objType
-        * @return string
+        * @return {string} "MouseCursor"
         * @public
         */
         public objType(): string {
-            return 'MouseCursor';
+            return "MouseCursor";
         }
-        
+
         /**
         * The offset of the mouse wheel on the X axis.
         * @property wheelDeltaX
@@ -34,7 +36,7 @@ module Kiwi.Input {
         * @public
         */
         public wheelDeltaX: number = 0;
-         
+
         /**
         * The offset of the mouse wheel on the Y axis.
         * @property wheelDeltaY
@@ -43,7 +45,7 @@ module Kiwi.Input {
         * @public
         */
         public wheelDeltaY: number = 0;
-         
+
         /**
         * If the ctrl key is down.
         * @property ctrlKey
@@ -51,7 +53,7 @@ module Kiwi.Input {
         * @public
         */
         public ctrlKey: boolean;
-         
+
         /**
         * If the shift key is down.
         * @property shiftKey
@@ -59,7 +61,7 @@ module Kiwi.Input {
         * @public
         */
         public shiftKey: boolean;
-         
+
         /**
         * If the alt key is down.
         * @property altKey
@@ -67,7 +69,7 @@ module Kiwi.Input {
         * @public
         */
         public altKey: boolean;
-         
+
         /**
         * The button that got pressed. Eg. If the LEFT mouse button was pressed this number would be 0
         * @property button
@@ -152,7 +154,7 @@ module Kiwi.Input {
                 this.wheelDeltaY = event['wheelDeltaY'];
             } else {
                 this.wheelDeltaY = event.deltaY;
-            } 
+            }
         }
 
     }

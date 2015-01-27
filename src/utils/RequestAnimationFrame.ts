@@ -35,7 +35,7 @@ module Kiwi.Utils {
         /**
         * The type of obect that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "RequestAnimationFrame"
         * @public
         */
         public objType() {

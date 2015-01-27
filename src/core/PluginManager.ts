@@ -96,9 +96,9 @@ module Kiwi {
         /**
         * Identifies the object as a PluginManager. 
         * @property objType
-        * @type string
+        * @type {string} "PluginManager"
         * @public
-        */       
+        */
         public get objType(): string {
             return "PluginManager";
         }

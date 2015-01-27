@@ -67,7 +67,7 @@ module Kiwi.GameObjects {
         /**
         * Returns the type of object that this is
         * @method objType
-        * @return {string}
+        * @return {string} "Textfield"
         * @public
         */
         public objType() {

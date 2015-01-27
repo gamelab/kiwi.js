@@ -18,7 +18,7 @@ module Kiwi.Animations.Tweens.Easing {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Quintic"
         * @public
         */
         public objType() {

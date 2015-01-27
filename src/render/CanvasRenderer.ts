@@ -49,7 +49,7 @@ module Kiwi.Renderers {
         /**
         * Returns the type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "CanvasRenderer"
         * @public
         */
         public objType() {

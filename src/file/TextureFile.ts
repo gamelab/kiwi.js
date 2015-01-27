@@ -21,7 +21,7 @@ module Kiwi.Files {
     * @param params {Object} Options for this file.
     *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store. 
     *   @param params.url {String} Location of the file to be loaded.
-    *   @param [params.metadata={}] {Object} Any metadata to be associated with the file. 
+    *   @param {Object} [params.metadata={}] Any metadata to be associated with the file. 
     *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
     *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
     *   @param [params.type=UNKNOWN] {Number} The type of file this is. 
@@ -111,11 +111,11 @@ module Kiwi.Files {
         * Gets the response data (which is an arraybuffer), creates a Blob from it 
         * and creates an objectURL from it.
         *
-        * @method processXHR
+        * @method processXhr
         * @param response {Any} The data stored in the 'xhr.response' tag
         * @protected
         */
-        protected processXHR( response:any ) {
+        protected processXhr( response:any ) {
             
             this.data = document.createElement('img');
             var blob = new Blob([response], { type: this.type });

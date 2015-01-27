@@ -45,11 +45,11 @@ module Kiwi {
         /**
         * Returns the type of this object
         * @method objType
-        * @return {String} The type of this object
+        * @return {String} "Group"
         * @public
         */
         public objType(): string {
-            return 'Group';
+            return "Group";
         }
 
         /*

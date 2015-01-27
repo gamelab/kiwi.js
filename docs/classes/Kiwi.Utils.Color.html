@@ -368,7 +368,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_utils_Color.ts.html#l8"><code>src\utils\Color.ts:8</code></a>
+            Defined in: <a href="../files/src_utils_Color.ts.html#l8"><code>src&#x2F;utils&#x2F;Color.ts:8</code></a>
         </div>
     
 
@@ -389,53 +389,48 @@
 <div class="box intro">
     <p>Utility class used to make color management more transparent.
 Color objects hold color and alpha values, and can get or set them
-in a variety of ways.
-<br><br>
-Construct this object in one of the following ways.
-<br><br></p>
+in a variety of ways.</p>
+<p>Construct this object in one of the following ways.</p>
 <ul>
-<li>Pass 3 or 4 numbers to determine RGB or RGBA. If the numbers are in
+<li><p>Pass 3 or 4 numbers to determine RGB or RGBA. If the numbers are in
 the range 0-1, they will be parsed as normalized numbers.
-If they are in the range 1-255, they will be parsed as 8-bit channels.
-<br><br></li>
-<li>Pass 3 or 4 numbers followed by the string &quot;hsv&quot; or &quot;hsl&quot;
+If they are in the range 1-255, they will be parsed as 8-bit channels.</p>
+</li>
+<li><p>Pass 3 or 4 numbers followed by the string &quot;hsv&quot; or &quot;hsl&quot;
 (lowercase) to parse HSV or HSL color space (with optional alpha).
 HSV and HSL colors may be specified as normalized parameters (0-1),
-or as an angle (0-360) and two percentages (0-100).
-<br><br></li>
-<li>Pass a string containing a hexadecimal color with or without alpha
+or as an angle (0-360) and two percentages (0-100).</p>
+</li>
+<li><p>Pass a string containing a hexadecimal color with or without alpha
 (such as &quot;ff8040ff&quot; or &quot;4080ff&quot;). You may prepend &quot;#&quot; or &quot;0x&quot;, but
-they are not necessary and will be stripped.
-<br><br></li>
-<li>Pass a string containing a CSS color function, such as
+they are not necessary and will be stripped.</p>
+</li>
+<li><p>Pass a string containing a CSS color function, such as
 &quot;rgb(255,255,255)&quot;, &quot;rgba( 192, 127, 64, 32 )&quot;,
-&quot;hsl(180, 100, 100)&quot;, or &quot;hsla(360, 50, 50, 50)&quot;.
-<br><br></li>
-<li>Pass 1 number to set a grayscale value, or 2 numbers to set grayscale
-with alpha. These are interpreted as with RGB values.
-<br><br>
-The color object stores its internal values as normalized RGBA channels.
+&quot;hsl(180, 100, 100)&quot;, or &quot;hsla(360, 50, 50, 50)&quot;.</p>
+</li>
+<li><p>Pass 1 number to set a grayscale value, or 2 numbers to set grayscale
+with alpha. These are interpreted as with RGB values.</p>
+</li>
+</ul>
+<p>The color object stores its internal values as normalized RGBA channels.
 This is the most mathematically useful format, and corresponds
 with the WebGL color paradigm. When you query the color object&#39;s values,
 such as with &quot;r&quot; or &quot;red&quot; properties, it will return normalized values.
 You can get values in the 0-255 8-bit range by calling the
-corresponding x255 value. For example, if r = 1, then r255 = 255.
-<br><br>
-We advise that you work with normalized colors wherever possible.
+corresponding x255 value. For example, if r = 1, then r255 = 255.</p>
+<p>We advise that you work with normalized colors wherever possible.
 While the Color object is smart enough to recognise non-normalized
 ranges in most cases, it cannot tell the difference between 0.5 on a
 0-1 scale, and 0.5 on a 0-255 scale. Try to reduce ambiguity by working
-in normalized color space.
-<br><br>
-You can get HSV, HSL, and hexadecimal values with the functions
+in normalized color space.</p>
+<p>You can get HSV, HSL, and hexadecimal values with the functions
 &quot;getHsva&quot;, &quot;getHsla&quot;, and &quot;getHex&quot;. By default, these all include an
 alpha term. You can omit alpha from the getHex result by calling the
 function with the parameter &quot;false&quot;. As getHsva and getHsla return objects
-rather than strings, you can freely ignore the provided alpha.
-<br<br>
-You can modify a Color object once created using its properties, methods,
-or the &quot;set&quot; method as you would use the constructor.</li>
-</ul>
+rather than strings, you can freely ignore the provided alpha.</p>
+<p>You can modify a Color object once created using its properties, methods,
+or the &quot;set&quot; method as you would use the constructor.</p>
 
 </div>
 
@@ -484,7 +479,7 @@ or the &quot;set&quot; method as you would use the constructor.</li>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l8"><code>src\utils\Color.ts:8</code></a>
+        <a href="../files/src_utils_Color.ts.html#l8"><code>src&#x2F;utils&#x2F;Color.ts:8</code></a>
         
         </p>
 
@@ -516,7 +511,8 @@ or the &quot;set&quot; method as you would use the constructor.</li>
                     
 
                     <div class="param-description">
-                         
+                        <p>Any number of arguments</p>
+
                     </div>
 
                     
@@ -845,7 +841,7 @@ or the &quot;set&quot; method as you would use the constructor.</li>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l836"><code>src\utils\Color.ts:836</code></a>
+        <a href="../files/src_utils_Color.ts.html#l838"><code>src&#x2F;utils&#x2F;Color.ts:838</code></a>
         
         </p>
 
@@ -954,7 +950,7 @@ Based on algorithms at
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">String</span>
         </span>
     
 
@@ -983,7 +979,7 @@ Based on algorithms at
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l561"><code>src\utils\Color.ts:561</code></a>
+        <a href="../files/src_utils_Color.ts.html#l561"><code>src&#x2F;utils&#x2F;Color.ts:561</code></a>
         
         </p>
 
@@ -1032,7 +1028,9 @@ Based on algorithms at
             <div class="returns-description">
                 
                     
-                    <p>string</p>
+                        <span class="type">String</span>:
+                    
+                    <p>A hexadecimal color such as &quot;13579bdf&quot;</p>
 
                 
             </div>
@@ -1081,7 +1079,7 @@ Based on algorithms at
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l728"><code>src\utils\Color.ts:728</code></a>
+        <a href="../files/src_utils_Color.ts.html#l793"><code>src&#x2F;utils&#x2F;Color.ts:793</code></a>
         
         </p>
 
@@ -1156,7 +1154,7 @@ Based on algorithms at
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l683"><code>src\utils\Color.ts:683</code></a>
+        <a href="../files/src_utils_Color.ts.html#l684"><code>src&#x2F;utils&#x2F;Color.ts:684</code></a>
         
         </p>
 
@@ -1243,7 +1241,7 @@ Based on algorithms at
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l506"><code>src\utils\Color.ts:506</code></a>
+        <a href="../files/src_utils_Color.ts.html#l506"><code>src&#x2F;utils&#x2F;Color.ts:506</code></a>
         
         </p>
 
@@ -1331,6 +1329,12 @@ Based on algorithms at
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code>a</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
@@ -1366,7 +1370,7 @@ Based on algorithms at
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l773"><code>src\utils\Color.ts:773</code></a>
+        <a href="../files/src_utils_Color.ts.html#l729"><code>src&#x2F;utils&#x2F;Color.ts:729</code></a>
         
         </p>
 
@@ -1379,9 +1383,8 @@ Based on algorithms at
     <div class="description">
         <p>Parses HSL value onto the Color.
 Interprets either normalized values, or H in degrees (0-360)
-and S and L in % (0-100).
-<br><br>
-Based on algorithms at
+and S and L in % (0-100).</p>
+<p>Based on algorithms at
 <a href="http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c">http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c</a></p>
 
     </div>
@@ -1440,6 +1443,22 @@ Based on algorithms at
                     
                 </li>
             
+                <li class="param">
+                    
+                        <code class="param-name">a</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Alpha</p>
+
+                    </div>
+
+                    
+                </li>
+            
             </ul>
         </div>
     
@@ -1489,6 +1508,12 @@ Based on algorithms at
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code>a</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
@@ -1524,7 +1549,7 @@ Based on algorithms at
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l601"><code>src\utils\Color.ts:601</code></a>
+        <a href="../files/src_utils_Color.ts.html#l601"><code>src&#x2F;utils&#x2F;Color.ts:601</code></a>
         
         </p>
 
@@ -1537,9 +1562,8 @@ Based on algorithms at
     <div class="description">
         <p>Parses normalized HSV values into the Color.
 Interprets either normalized values, or H in degrees (0-360)
-and S and V in % (0-100).
-<br><br>
-Based on algorithms at
+and S and V in % (0-100).</p>
+<p>Based on algorithms at
 <a href="http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c">http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c</a></p>
 
     </div>
@@ -1592,6 +1616,22 @@ Based on algorithms at
 
                     <div class="param-description">
                         <p>Value</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">a</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Alpha</p>
 
                     </div>
 
@@ -1670,7 +1710,7 @@ Based on algorithms at
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l457"><code>src\utils\Color.ts:457</code></a>
+        <a href="../files/src_utils_Color.ts.html#l457"><code>src&#x2F;utils&#x2F;Color.ts:457</code></a>
         
         </p>
 
@@ -1779,7 +1819,7 @@ Based on algorithms at
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l70"><code>src\utils\Color.ts:70</code></a>
+        <a href="../files/src_utils_Color.ts.html#l70"><code>src&#x2F;utils&#x2F;Color.ts:70</code></a>
         
         </p>
 
@@ -1874,7 +1914,7 @@ If you supply invalid parameters, the color will be unchanged.</p>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l169"><code>src\utils\Color.ts:169</code></a>
+        <a href="../files/src_utils_Color.ts.html#l169"><code>src&#x2F;utils&#x2F;Color.ts:169</code></a>
         
         </p>
 
@@ -1924,7 +1964,7 @@ This is most compatible with graphics hardware.</p>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l159"><code>src\utils\Color.ts:159</code></a>
+        <a href="../files/src_utils_Color.ts.html#l159"><code>src&#x2F;utils&#x2F;Color.ts:159</code></a>
         
         </p>
 
@@ -1974,7 +2014,7 @@ This is most compatible with graphics hardware.</p>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l149"><code>src\utils\Color.ts:149</code></a>
+        <a href="../files/src_utils_Color.ts.html#l149"><code>src&#x2F;utils&#x2F;Color.ts:149</code></a>
         
         </p>
 
@@ -2024,7 +2064,7 @@ This is most compatible with graphics hardware.</p>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l139"><code>src\utils\Color.ts:139</code></a>
+        <a href="../files/src_utils_Color.ts.html#l139"><code>src&#x2F;utils&#x2F;Color.ts:139</code></a>
         
         </p>
 
@@ -2074,7 +2114,7 @@ This is most compatible with graphics hardware.</p>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l314"><code>src\utils\Color.ts:314</code></a>
+        <a href="../files/src_utils_Color.ts.html#l314"><code>src&#x2F;utils&#x2F;Color.ts:314</code></a>
         
         </p>
 
@@ -2126,7 +2166,7 @@ If queried, returns a normalized number in the range 0-1.</p>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l385"><code>src\utils\Color.ts:385</code></a>
+        <a href="../files/src_utils_Color.ts.html#l385"><code>src&#x2F;utils&#x2F;Color.ts:385</code></a>
         
         </p>
 
@@ -2173,7 +2213,7 @@ If queried, returns a normalized number in the range 0-1.</p>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l443"><code>src\utils\Color.ts:443</code></a>
+        <a href="../files/src_utils_Color.ts.html#l443"><code>src&#x2F;utils&#x2F;Color.ts:443</code></a>
         
         </p>
 
@@ -2220,7 +2260,7 @@ If queried, returns a normalized number in the range 0-1.</p>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l229"><code>src\utils\Color.ts:229</code></a>
+        <a href="../files/src_utils_Color.ts.html#l229"><code>src&#x2F;utils&#x2F;Color.ts:229</code></a>
         
         </p>
 
@@ -2267,7 +2307,7 @@ If queried, returns a normalized number in the range 0-1.</p>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l291"><code>src\utils\Color.ts:291</code></a>
+        <a href="../files/src_utils_Color.ts.html#l291"><code>src&#x2F;utils&#x2F;Color.ts:291</code></a>
         
         </p>
 
@@ -2319,7 +2359,7 @@ If queried, returns a normalized number in the range 0-1.</p>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l369"><code>src\utils\Color.ts:369</code></a>
+        <a href="../files/src_utils_Color.ts.html#l369"><code>src&#x2F;utils&#x2F;Color.ts:369</code></a>
         
         </p>
 
@@ -2366,7 +2406,7 @@ If queried, returns a normalized number in the range 0-1.</p>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l429"><code>src\utils\Color.ts:429</code></a>
+        <a href="../files/src_utils_Color.ts.html#l429"><code>src&#x2F;utils&#x2F;Color.ts:429</code></a>
         
         </p>
 
@@ -2413,7 +2453,7 @@ If queried, returns a normalized number in the range 0-1.</p>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l213"><code>src\utils\Color.ts:213</code></a>
+        <a href="../files/src_utils_Color.ts.html#l213"><code>src&#x2F;utils&#x2F;Color.ts:213</code></a>
         
         </p>
 
@@ -2460,7 +2500,7 @@ If queried, returns a normalized number in the range 0-1.</p>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l268"><code>src\utils\Color.ts:268</code></a>
+        <a href="../files/src_utils_Color.ts.html#l268"><code>src&#x2F;utils&#x2F;Color.ts:268</code></a>
         
         </p>
 
@@ -2512,7 +2552,7 @@ If queried, returns a normalized number in the range 0-1.</p>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l353"><code>src\utils\Color.ts:353</code></a>
+        <a href="../files/src_utils_Color.ts.html#l353"><code>src&#x2F;utils&#x2F;Color.ts:353</code></a>
         
         </p>
 
@@ -2559,7 +2599,7 @@ If queried, returns a normalized number in the range 0-1.</p>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l197"><code>src\utils\Color.ts:197</code></a>
+        <a href="../files/src_utils_Color.ts.html#l197"><code>src&#x2F;utils&#x2F;Color.ts:197</code></a>
         
         </p>
 
@@ -2606,7 +2646,7 @@ If queried, returns a normalized number in the range 0-1.</p>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l415"><code>src\utils\Color.ts:415</code></a>
+        <a href="../files/src_utils_Color.ts.html#l415"><code>src&#x2F;utils&#x2F;Color.ts:415</code></a>
         
         </p>
 
@@ -2653,7 +2693,7 @@ If queried, returns a normalized number in the range 0-1.</p>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l245"><code>src\utils\Color.ts:245</code></a>
+        <a href="../files/src_utils_Color.ts.html#l245"><code>src&#x2F;utils&#x2F;Color.ts:245</code></a>
         
         </p>
 
@@ -2705,7 +2745,7 @@ If queried, returns a normalized number in the range 0-1.</p>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l337"><code>src\utils\Color.ts:337</code></a>
+        <a href="../files/src_utils_Color.ts.html#l337"><code>src&#x2F;utils&#x2F;Color.ts:337</code></a>
         
         </p>
 
@@ -2752,7 +2792,7 @@ If queried, returns a normalized number in the range 0-1.</p>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l401"><code>src\utils\Color.ts:401</code></a>
+        <a href="../files/src_utils_Color.ts.html#l401"><code>src&#x2F;utils&#x2F;Color.ts:401</code></a>
         
         </p>
 
@@ -2799,7 +2839,7 @@ If queried, returns a normalized number in the range 0-1.</p>
             
         
         
-        <a href="../files/src_utils_Color.ts.html#l181"><code>src\utils\Color.ts:181</code></a>
+        <a href="../files/src_utils_Color.ts.html#l181"><code>src&#x2F;utils&#x2F;Color.ts:181</code></a>
         
         </p>
 

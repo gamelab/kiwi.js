@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\utils\Version.ts - Kiwi.js</title>
+    <title>src/utils/Version.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -360,7 +360,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\utils\Version.ts</h1>
+                        <h1 class="file-heading">File: src/utils/Version.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -384,7 +384,7 @@ module Kiwi.Utils {
         * Parses a string such as &quot;1.2.3&quot; and returns an oject containing numeric properties for majorVersion, minorVersion and patchVersion
         * @method parseVersion
         * @param version {String}
-        * @return {Object}
+        * @return {Object} Object with properties majorVersion, minorVersion, patchVersion.
         * @public
         * @static
         */
@@ -398,11 +398,12 @@ module Kiwi.Utils {
         }
 
         /**
-        * Compares two semver version strings such as &quot;0.1.0&quot; and &quot;0.2.1&quot;. Returns &quot;greater&quot;, &quot;less&quot; or &quot;equal&quot;. 
-        * @method parseVersion
+        * Compares two semver version strings such as &quot;0.1.0&quot; and &quot;0.2.1&quot;.
+        * Returns &quot;greater&quot;, &quot;less&quot; or &quot;equal&quot;.
+        * @method compareVersions
         * @param version1 {String}
         * @param version2 {String}
-        * @return {String}
+        * @return {String} &quot;greater&quot;, &quot;less&quot; or &quot;equal&quot;
         * @public
         * @static
         */
@@ -436,7 +437,7 @@ module Kiwi.Utils {
 
         /**
         * Compares two semver version strings such as &quot;0.1.0&quot; and &quot;0.2.1&quot;. Returns true if version1 is greater than version2. 
-        * @method parseVersion
+        * @method greaterOrEqual
         * @param version1 {String}
         * @param version2 {String}
         * @return {boolean}

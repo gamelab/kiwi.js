@@ -242,12 +242,12 @@ module Kiwi.Files {
             while (i < this._loadingList.length) {
 
                 if (this._calculateBytes) {
-                    this._loadingList[i].onProgress.add(this.updateFileListInformation, this);
+                    this._loadingList[i].onProgress.add(this._updateFileListInformation, this);
                 }
 
-                this._loadingList[i].onComplete.addOnce(this.fileQueueUpdate, this);
+                this._loadingList[i].onComplete.addOnce(this._fileQueueUpdate, this);
 
-                this.sortFile(this._loadingList[i]);
+                this._sortFile(this._loadingList[i]);
 
                 i++;
             }
@@ -255,10 +255,10 @@ module Kiwi.Files {
             this._queueLoading = true;
             this._bytesLoaded = 0;
 
-            this.startLoadingQueue();
-            this.startLoadingAllParallel();
+            this._startLoadingQueue();
+            this._startLoadingAllParallel();
 
-            this.fileQueueUpdate(null, true);
+            this._fileQueueUpdate(null, true);
 
         }
 
@@ -351,7 +351,7 @@ module Kiwi.Files {
                 return;
             }
 
-            this.sortFile(file, true);
+            this._sortFile(file, true);
 
         }
 
@@ -359,19 +359,19 @@ module Kiwi.Files {
         * Sorts a file and places it into either the 'loadingParallel' or 'loadingQueue' 
         * depending on the method of loading it is using.
         * 
-        * @method sortFile
+        * @method _sortFile
         * @param file {Kiwi.Files.File}
         * @since 1.2.0
         * @private
         */
-        private sortFile(file: Kiwi.Files.File, startLoading: boolean = false) {
+        private _sortFile(file: Kiwi.Files.File, startLoading: boolean = false) {
 
             if (this.enableParallelLoading && file.loadInParallel) {
                 //Push into the tag loader queue
                 this._loadingParallel.push(file);
 
                 if (startLoading) {
-                    this.startLoadingParallel(file);
+                    this._startLoadingParallel(file);
                 }
 
             } else {
@@ -379,7 +379,7 @@ module Kiwi.Files {
                 this._loadingQueue.push(file);
 
                 if (startLoading) {
-                    this.startLoadingQueue();
+                    this._startLoadingQueue();
                 }
             }
 
@@ -401,10 +401,10 @@ module Kiwi.Files {
         * Calculates the new number of bytes loaded and 
         * the percentage of loading done by looping through all of the files.
         * 
-        * @method updateFileListInformation
+        * @method _updateFileListInformation
         * @private
         */
-        private updateFileListInformation() {
+        private _updateFileListInformation() {
 
             var i = 0;
 
@@ -443,13 +443,13 @@ module Kiwi.Files {
         * Executed by files when they have successfully been loaded.
         * This method checks to see if the files are in the file queue, and dispatches the appropriate events.
         * 
-        * @method fileQueueUpdate
+        * @method _fileQueueUpdate
         * @param file {Kiwi.Files.File} The file which has been recently loaded.
         * @param [forceProgressCheck=false] {Boolean} If the progress of file loading should be checked, regardless of the file being in the queue or not.
         * @since 1.2.0
         * @private
         */
-        private fileQueueUpdate(file: Kiwi.Files.File, forceProgressCheck: boolean = false) {
+        private _fileQueueUpdate(file: Kiwi.Files.File, forceProgressCheck: boolean = false) {
 
             //If the file loaded is in the loadingList
             if (!forceProgressCheck && this._loadingList.indexOf(file) === -1) {
@@ -457,7 +457,7 @@ module Kiwi.Files {
             }
 
             //Update the file information.
-            this.updateFileListInformation();
+            this._updateFileListInformation();
 
             //Dispatch progress event.
             this.onQueueProgress.dispatch(this.percentLoaded, this.bytesLoaded, file);
@@ -473,12 +473,13 @@ module Kiwi.Files {
 
         /**
         * Starts the loading process in the loadingQueue. 
-        * @method startLoadingQueue
+        * @method _startLoadingQueue
         * @return {Boolean}
+        * @private
         * @since 1.2.0
-        * @return 
+        * @return {boolean} Whether the first file is loading
         */
-        private startLoadingQueue(): boolean {
+        private _startLoadingQueue(): boolean {
 
             //Any files to load?
             if (this._loadingQueue.length <= 0) {
@@ -492,21 +493,21 @@ module Kiwi.Files {
             }
 
             //Attempt to load the file!
-            this._loadingQueue[0].onComplete.addOnce(this.queueFileComplete, this);
+            this._loadingQueue[0].onComplete.addOnce(this._queueFileComplete, this);
             this._loadingQueue[0].load();
             return true;
         }
 
         /**
         * Executed when a file in the 'loadingQueue' has been successfully loaded.
-        * Removes the file from the loadingQueue and executes the 'startLoadingQueue' to start loading the next file. 
+        * Removes the file from the loadingQueue and executes the '_startLoadingQueue' to start loading the next file. 
         * 
-        * @method queueFileComplete
+        * @method _queueFileComplete
         * @param file {Kiwi.Files.File}
         * @since 1.2.0
         * @private
         */
-        private queueFileComplete(file: Kiwi.Files.File) {
+        private _queueFileComplete(file: Kiwi.Files.File) {
 
             //Remove from the loadingQueue
             var index = this._loadingQueue.indexOf(file);
@@ -518,20 +519,20 @@ module Kiwi.Files {
             this._loadingQueue.splice(index, 1);
 
             //Start loading the next file
-            this.startLoadingQueue();
+            this._startLoadingQueue();
         }
 
         /**
         * Starts loading a file which can be loaded in parallel.
-        * @method startLoadingParallel
+        * @method _startLoadingParallel
         * @param params file {Kiwi.Files.File}
         * @since 1.2.0
         * @private 
         */
-        private startLoadingParallel( file: Kiwi.Files.File) {
+        private _startLoadingParallel( file: Kiwi.Files.File) {
 
             if (!file.loading) {
-                file.onComplete.add(this.parallelFileComplete, this);
+                file.onComplete.add(this._parallelFileComplete, this);
                 file.load();
             }
 
@@ -539,17 +540,17 @@ module Kiwi.Files {
         
         /**
         * Starts loading all files which can be loaded in parallel.
-        * @method startLoadingAllParallel
+        * @method _startLoadingAllParallel
         * @since 1.2.0
         * @private 
         */
-        private startLoadingAllParallel() {
+        private _startLoadingAllParallel() {
 
             var i = 0,
                 file: Kiwi.Files.File;
 
             while (i < this._loadingParallel.length) {
-                this.startLoadingParallel(this._loadingParallel[i]);
+                this._startLoadingParallel(this._loadingParallel[i]);
                 i++;
             }
 
@@ -559,12 +560,12 @@ module Kiwi.Files {
         * Executed when a file in the 'loadingParallel' lsit has been successfully loaded.
         * Removes the file from the list and get the fileQueue to check its progress.
         * 
-        * @method parallelFileComplete
+        * @method _parallelFileComplete
         * @param file {Kiwi.Files.File}
         * @since 1.2.0
         * @private 
         */
-        private parallelFileComplete(file: Kiwi.Files.File) {
+        private _parallelFileComplete(file: Kiwi.Files.File) {
 
             var index = this._loadingParallel.indexOf(file);
             if (index === -1) {
@@ -699,18 +700,18 @@ module Kiwi.Files {
             this._bytesTotal = 0;
             this._queueLoading = true;
 
-            this.calculateNextFileSize();
+            this._calculateNextFileSize();
         }
 
         /**
         * Checks to see if all the file sizes have been retrieved. 
-        * If so completes the 'calculateQueuedSize' call.
-        * Otherwise continues the 
+        * If so completes the "calculateQueuedSize" call.
+        * Otherwise requests the next file's details.
         *
-        * @method calculateNextFileSize
+        * @method _calculateNextFileSize
         * @private
         */
-        private calculateNextFileSize() {
+        private _calculateNextFileSize() {
 
             if (this._currentFileIndex >= this._loadingList.length) {
                 this._queueLoading = false;
@@ -722,27 +723,27 @@ module Kiwi.Files {
 
             //Have we already got the details for this file?
             if (file.detailsReceived) {
-                this.detailsReceived();
+                this._detailsReceived();
             } else {
-                var details = file.loadDetails(this.detailsReceived, this);
+                var details = file.loadDetails(this._detailsReceived, this);
 
                 //Skip to the next file if the request could not be made.
                 //Shouldn't happen.
                 if (!details) {
-                    this.detailsReceived();
+                    this._detailsReceived();
                 }
             } 
 
         }
 
         /**
-        * Executed when by 'calculateNextFileSize' when the files information has been retrieved.
+        * Executed when by '_calculateNextFileSize' when the files information has been retrieved.
         * Adds its calculated size to the _bytesTotal and executes the 'nextFileSize' method.
         * 
-        * @method detailsReceived
+        * @method _detailsReceived
         * @private 
         */
-        private detailsReceived() {
+        private _detailsReceived() {
 
             var file = this._loadingList[this._currentFileIndex];
 
@@ -751,7 +752,7 @@ module Kiwi.Files {
             }
 
             this._currentFileIndex++;
-            this.calculateNextFileSize();
+            this._calculateNextFileSize();
 
         }
 
@@ -1024,7 +1025,7 @@ module Kiwi.Files {
             while (i < urls.length) {
 
                 params.url = urls[i]
-                file = this.attemptToAddAudio(params, onlyIfSupported);
+                file = this._attemptToAddAudio(params, onlyIfSupported);
                 if (file) {
                     return file;
                 }
@@ -1038,7 +1039,7 @@ module Kiwi.Files {
         /**
         * This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.
         * Returns a boolean if the audio file was successfully added or not to the file directory.
-        * @method attemptToAddAudio
+        * @method _attemptToAddAudio
         * @param params {Object} 
         *   @param params.key {String} The key for the audio file.
         *   @param params.url {String} The url of the audio to load. 
@@ -1048,7 +1049,7 @@ module Kiwi.Files {
         * @return {Kiwi.Files.File} The file which was created.
         * @private
         */
-        private attemptToAddAudio(params:any, onlyIfSupported: boolean): Kiwi.Files.File {
+        private _attemptToAddAudio(params:any, onlyIfSupported: boolean): Kiwi.Files.File {
 
             var file = new Kiwi.Files.AudioFile(this.game, params);
             var support = false;

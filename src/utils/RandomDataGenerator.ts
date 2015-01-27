@@ -30,7 +30,7 @@ module Kiwi.Utils {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "RandomDataGenerator"
         * @public
         */
         public objType() {

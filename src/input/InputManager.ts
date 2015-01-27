@@ -29,7 +29,7 @@ module Kiwi.Input {
         /**
         * The type of object this is.
         * @method objType
-        * @return String
+        * @return {String} "InputManager"
         * @public
         */
         public objType() {

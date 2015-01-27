@@ -78,7 +78,7 @@ module Kiwi.GameObjects.Tilemap {
         /**
         * The type of object that it is.
         * @method objType
-        * @return {String}
+        * @return {String} "TileMapLayer"
         * @public
         */
         public objType() {

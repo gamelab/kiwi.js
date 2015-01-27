@@ -29,7 +29,7 @@ module Kiwi {
         /**
         * Returns the type of this object
         * @method objType
-        * @return {String} The type of this object
+        * @return {String} "CameraManager"
         * @public
         */
         public objType():string {

@@ -30,7 +30,7 @@ module Kiwi.Time {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "MasterClock"
         * @public
         */
         public objType() {

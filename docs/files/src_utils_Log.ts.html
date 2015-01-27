@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\utils\Log.ts - Kiwi.js</title>
+    <title>src/utils/Log.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -360,7 +360,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\utils\Log.ts</h1>
+                        <h1 class="file-heading">File: src/utils/Log.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -380,7 +380,7 @@ module Kiwi.Utils {
     * log/error/warn methods contained on this class function just like their &#x27;console&#x27; equivalents except that:
     * - You can assign a tag to message by adding a &#x27;#&#x27; symbol to the front of a parameter. Example: this.log(&#x27;Hi&#x27;, &#x27;#welcome&#x27;); 
     * - Messages can have multiple tags. Example: this.log(&#x27;Hi&#x27;, &#x27;#welcome&#x27;, &#x27;#greeting&#x27;);
-    * - Messages are recorded (by default) and can then search through any messages saved.
+    * - Messages are recorded (by default) and you can then search through any messages saved.
     *
     * You can use the &#x27;show&#x27; commands to search through recordings and find specific messages. 
     *
@@ -549,7 +549,7 @@ module Kiwi.Utils {
         * @method clearRecordings
         * @param [start=0] {Number} 
         * @param [end] {Number} 
-        * @private
+        * @public
         */
         public clearRecordings(start: number=0, end: number=this.recordings.length) {
 

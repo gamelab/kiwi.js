@@ -41,11 +41,11 @@ module Kiwi.Animations {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Animation"
         * @public
         */
         public objType(): string {
-            return 'Animation';
+            return "Animation";
         }
 
         /**
@@ -210,7 +210,7 @@ module Kiwi.Animations {
         private _tick: number;
 
         /**
-        * If the animation is currently playing or not.
+        * Whether the animation is currently playing or not.
         * @property _isPlaying
         * @type boolean
         * @default false
@@ -219,10 +219,10 @@ module Kiwi.Animations {
         private _isPlaying: boolean = false;
 
         /**
-        * If the animation is currently playing or not.
+        * Whether the animation is currently playing or not. Read-only.
         * @property isPlaying
         * @type boolean
-        * @private
+        * @public
         */
         public get isPlaying(): boolean {
             return this._isPlaying;
@@ -285,6 +285,7 @@ module Kiwi.Animations {
         * @property _onComplete
         * @type Kiwi.Signal
         * @public
+        * @since 1.2.0
         */
         private _onComplete: Kiwi.Signal = null;
         

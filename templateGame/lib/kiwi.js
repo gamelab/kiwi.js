@@ -379,7 +379,7 @@ var Kiwi;
         /**
         * The type of object that the game is.
         * @method objType
-        * @return {String} The type of object
+        * @return {String} "Game"
         * @public
         */
         Game.prototype.objType = function () {
@@ -597,7 +597,7 @@ var Kiwi;
             * @property scaleType
             * @type number
             * @default Kiwi.Stage.SCALE_NONE
-            * @private
+            * @public
             */
             set: function (val) {
                 this._scaleType = val;
@@ -1182,10 +1182,14 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     /**
-    * The component manager is a class that is used to handle components that are active on a particular object. Any object
-    * that has a component manager attached to it can use components.
-    * If you want to check to see if a particular component is on an object you can ask the component manager,
-    * or when updating components you can tell the component manager to update and all of the components will update as well.
+    * The component manager is a class that is used to handle components that
+    * are active on a particular object. Any object that has a component
+    * manager attached to it can use components. If you want to check to see if
+    * a particular component is on an object you can ask the component manager.
+    *
+    * The component manager is updated once per frame (as part of its owner's
+    * update), and updates all active components. This is very useful for
+    * creating modular, customised behaviors on entities.
     *
     * @class ComponentManager
     * @namespace Kiwi
@@ -1204,7 +1208,7 @@ var Kiwi;
         /**
         * Returns the type of this object
         * @method objType
-        * @return {string} The type of this object
+        * @return {string} "ComponentManager"
         * @public
         */
         ComponentManager.prototype.objType = function () {
@@ -1490,7 +1494,7 @@ var Kiwi;
             /**
             * Identifies the object as a PluginManager.
             * @property objType
-            * @type string
+            * @type {string} "PluginManager"
             * @public
             */
             get: function () {
@@ -1683,7 +1687,7 @@ var Kiwi;
         /**
         * Returns the type of this object
         * @method objType
-        * @return {String} The type of this object
+        * @return {String} "CameraManager"
         * @public
         */
         CameraManager.prototype.objType = function () {
@@ -2279,7 +2283,7 @@ var Kiwi;
 (function (Kiwi) {
     /**
     * An Entity is a base class for game objects to extend from and thus you should never directly instantiate this class.
-    * Every entity requires that you pass to it the state that it belongs too, that way when you switch states the appropriate entitys can be deleted.
+    * Every entity requires that you pass to it the state to which it belongs, so that when you switch states the appropriate entities can be deleted.
     *
     * @class Entity
     * @namespace Kiwi
@@ -2850,7 +2854,7 @@ var Kiwi;
         /**
         * The type of this object.
         * @method objType
-        * @return {String} The type of the object
+        * @return {String} "Entity"
         * @public
         */
         Entity.prototype.objType = function () {
@@ -2891,7 +2895,10 @@ var Kiwi;
             if (params === void 0) { params = null; }
         };
         /**
-        * Used to completely destroy this entity and of its components. Used for garbage collection and developers can also use it as needed.
+        * Used to completely destroy this entity and of its components.
+        * Used for garbage collection and developers can also use it as needed.
+        * It is more reliable to use "exists = false", as this will ensure
+        * that "destroy" is called at a convenient time.
         * @method destroy
         * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
         * @public
@@ -2966,7 +2973,7 @@ var Kiwi;
         /**
         * Returns the type of this object
         * @method objType
-        * @return {String} The type of this object
+        * @return {String} "Component"
         * @public
         */
         Component.prototype.objType = function () {
@@ -3106,11 +3113,11 @@ var Kiwi;
         /**
         * Returns the type of this object
         * @method objType
-        * @return {String} The type of this object
+        * @return {String} "Group"
         * @public
         */
         Group.prototype.objType = function () {
-            return 'Group';
+            return "Group";
         };
         /*
         * Represents the type of child that this is.
@@ -4574,7 +4581,7 @@ var Kiwi;
         /**
         * The type of object this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Camera"
         * @public
         */
         Camera.prototype.objType = function () {
@@ -4628,12 +4635,10 @@ var Kiwi;
         * Convert from screen coordinates to world coordinates.
         * Apply this camera's inverted matrix to an object with x and y
         * properties representing a point and return the transformed point.
-        * Useful for when calculating if coordinates with the mouse.
-        * Note: This method clones the point you pass,
-        * so that it doesn't "reset" any properties you set.
+        * Useful for calculating coordinates with the mouse.
         * @method transformPoint
         * @param point {Kiwi.Geom.Point}
-        * @return {Kiwi.Geom.Point}
+        * @return {Kiwi.Geom.Point} Transformed clone of the original Point.
         * @public
         */
         Camera.prototype.transformPoint = function (point) {
@@ -4646,9 +4651,10 @@ var Kiwi;
         /**
         * Convert from world coordinates to screen coordinates.
         * Useful for assessing visibility.
+        * Similar to "transformPoint", but in reverse.
         * @method transformPointToScreen
         * @param point {Kiwi.Geom.Point}
-        * @return {Kiwi.Geom.Point}
+        * @return {Kiwi.Geom.Point} Transformed clone of the original Point.
         * @public
         * @since 1.2.0
         */
@@ -5212,7 +5218,7 @@ var Kiwi;
             /**
             * Returns the type of object that this is.
             * @method objType
-            * @return {string}
+            * @return {string} "Sprite"
             * @public
             */
             Sprite.prototype.objType = function () {
@@ -5441,7 +5447,7 @@ var Kiwi;
             /**
             * Returns the type of object that this is
             * @method objType
-            * @return {string}
+            * @return {string} "Textfield"
             * @public
             */
             Textfield.prototype.objType = function () {
@@ -5793,7 +5799,7 @@ var Kiwi;
                 /**
                 * The type of object that it is.
                 * @method objType
-                * @return {String}
+                * @return {String} "TileType"
                 * @public
                 */
                 TileType.prototype.objType = function () {
@@ -6198,7 +6204,7 @@ var Kiwi;
                 /**
                 * The type of object that it is.
                 * @method objType
-                * @return {String}
+                * @return {String} "TileMap"
                 * @public
                 */
                 TileMap.prototype.objType = function () {
@@ -6299,7 +6305,7 @@ var Kiwi;
                 /**
                 * The type of object that it is.
                 * @method objType
-                * @return {String}
+                * @return {String} "TileMapLayer"
                 * @public
                 */
                 TileMapLayer.prototype.objType = function () {
@@ -9603,17 +9609,17 @@ var Kiwi;
                 var i = 0, file;
                 while (i < this._loadingList.length) {
                     if (this._calculateBytes) {
-                        this._loadingList[i].onProgress.add(this.updateFileListInformation, this);
+                        this._loadingList[i].onProgress.add(this._updateFileListInformation, this);
                     }
-                    this._loadingList[i].onComplete.addOnce(this.fileQueueUpdate, this);
-                    this.sortFile(this._loadingList[i]);
+                    this._loadingList[i].onComplete.addOnce(this._fileQueueUpdate, this);
+                    this._sortFile(this._loadingList[i]);
                     i++;
                 }
                 this._queueLoading = true;
                 this._bytesLoaded = 0;
-                this.startLoadingQueue();
-                this.startLoadingAllParallel();
-                this.fileQueueUpdate(null, true);
+                this._startLoadingQueue();
+                this._startLoadingAllParallel();
+                this._fileQueueUpdate(null, true);
             };
             /**
             * Adds a file to the queue of files to be loaded.
@@ -9691,31 +9697,31 @@ var Kiwi;
                     Kiwi.Log.error('Kiwi.Files.Loader: Could not add file. File is already loading or has completed loading.');
                     return;
                 }
-                this.sortFile(file, true);
+                this._sortFile(file, true);
             };
             /**
             * Sorts a file and places it into either the 'loadingParallel' or 'loadingQueue'
             * depending on the method of loading it is using.
             *
-            * @method sortFile
+            * @method _sortFile
             * @param file {Kiwi.Files.File}
             * @since 1.2.0
             * @private
             */
-            Loader.prototype.sortFile = function (file, startLoading) {
+            Loader.prototype._sortFile = function (file, startLoading) {
                 if (startLoading === void 0) { startLoading = false; }
                 if (this.enableParallelLoading && file.loadInParallel) {
                     //Push into the tag loader queue
                     this._loadingParallel.push(file);
                     if (startLoading) {
-                        this.startLoadingParallel(file);
+                        this._startLoadingParallel(file);
                     }
                 }
                 else {
                     //Push into the xhr queue
                     this._loadingQueue.push(file);
                     if (startLoading) {
-                        this.startLoadingQueue();
+                        this._startLoadingQueue();
                     }
                 }
             };
@@ -9725,10 +9731,10 @@ var Kiwi;
             * Calculates the new number of bytes loaded and
             * the percentage of loading done by looping through all of the files.
             *
-            * @method updateFileListInformation
+            * @method _updateFileListInformation
             * @private
             */
-            Loader.prototype.updateFileListInformation = function () {
+            Loader.prototype._updateFileListInformation = function () {
                 var i = 0;
                 this._completedFiles = 0;
                 this._bytesLoaded = 0;
@@ -9759,20 +9765,20 @@ var Kiwi;
             * Executed by files when they have successfully been loaded.
             * This method checks to see if the files are in the file queue, and dispatches the appropriate events.
             *
-            * @method fileQueueUpdate
+            * @method _fileQueueUpdate
             * @param file {Kiwi.Files.File} The file which has been recently loaded.
             * @param [forceProgressCheck=false] {Boolean} If the progress of file loading should be checked, regardless of the file being in the queue or not.
             * @since 1.2.0
             * @private
             */
-            Loader.prototype.fileQueueUpdate = function (file, forceProgressCheck) {
+            Loader.prototype._fileQueueUpdate = function (file, forceProgressCheck) {
                 if (forceProgressCheck === void 0) { forceProgressCheck = false; }
                 //If the file loaded is in the loadingList
                 if (!forceProgressCheck && this._loadingList.indexOf(file) === -1) {
                     return;
                 }
                 //Update the file information.
-                this.updateFileListInformation();
+                this._updateFileListInformation();
                 //Dispatch progress event.
                 this.onQueueProgress.dispatch(this.percentLoaded, this.bytesLoaded, file);
                 if (this._completedFiles >= this._loadingList.length) {
@@ -9784,12 +9790,13 @@ var Kiwi;
             };
             /**
             * Starts the loading process in the loadingQueue.
-            * @method startLoadingQueue
+            * @method _startLoadingQueue
             * @return {Boolean}
+            * @private
             * @since 1.2.0
-            * @return
+            * @return {boolean} Whether the first file is loading
             */
-            Loader.prototype.startLoadingQueue = function () {
+            Loader.prototype._startLoadingQueue = function () {
                 //Any files to load?
                 if (this._loadingQueue.length <= 0) {
                     Kiwi.Log.log('Kiwi.Files.Loader: No queued files to load.', '#loading');
@@ -9800,20 +9807,20 @@ var Kiwi;
                     return false;
                 }
                 //Attempt to load the file!
-                this._loadingQueue[0].onComplete.addOnce(this.queueFileComplete, this);
+                this._loadingQueue[0].onComplete.addOnce(this._queueFileComplete, this);
                 this._loadingQueue[0].load();
                 return true;
             };
             /**
             * Executed when a file in the 'loadingQueue' has been successfully loaded.
-            * Removes the file from the loadingQueue and executes the 'startLoadingQueue' to start loading the next file.
+            * Removes the file from the loadingQueue and executes the '_startLoadingQueue' to start loading the next file.
             *
-            * @method queueFileComplete
+            * @method _queueFileComplete
             * @param file {Kiwi.Files.File}
             * @since 1.2.0
             * @private
             */
-            Loader.prototype.queueFileComplete = function (file) {
+            Loader.prototype._queueFileComplete = function (file) {
                 //Remove from the loadingQueue
                 var index = this._loadingQueue.indexOf(file);
                 if (index === -1) {
@@ -9822,31 +9829,31 @@ var Kiwi;
                 }
                 this._loadingQueue.splice(index, 1);
                 //Start loading the next file
-                this.startLoadingQueue();
+                this._startLoadingQueue();
             };
             /**
             * Starts loading a file which can be loaded in parallel.
-            * @method startLoadingParallel
+            * @method _startLoadingParallel
             * @param params file {Kiwi.Files.File}
             * @since 1.2.0
             * @private
             */
-            Loader.prototype.startLoadingParallel = function (file) {
+            Loader.prototype._startLoadingParallel = function (file) {
                 if (!file.loading) {
-                    file.onComplete.add(this.parallelFileComplete, this);
+                    file.onComplete.add(this._parallelFileComplete, this);
                     file.load();
                 }
             };
             /**
             * Starts loading all files which can be loaded in parallel.
-            * @method startLoadingAllParallel
+            * @method _startLoadingAllParallel
             * @since 1.2.0
             * @private
             */
-            Loader.prototype.startLoadingAllParallel = function () {
+            Loader.prototype._startLoadingAllParallel = function () {
                 var i = 0, file;
                 while (i < this._loadingParallel.length) {
-                    this.startLoadingParallel(this._loadingParallel[i]);
+                    this._startLoadingParallel(this._loadingParallel[i]);
                     i++;
                 }
             };
@@ -9854,12 +9861,12 @@ var Kiwi;
             * Executed when a file in the 'loadingParallel' lsit has been successfully loaded.
             * Removes the file from the list and get the fileQueue to check its progress.
             *
-            * @method parallelFileComplete
+            * @method _parallelFileComplete
             * @param file {Kiwi.Files.File}
             * @since 1.2.0
             * @private
             */
-            Loader.prototype.parallelFileComplete = function (file) {
+            Loader.prototype._parallelFileComplete = function (file) {
                 var index = this._loadingParallel.indexOf(file);
                 if (index === -1) {
                     Kiwi.Log.warn("Something has gone wrong? The file which executed this method doesn't exist in the loadingParallel.", '#loading', '#error');
@@ -9933,17 +9940,17 @@ var Kiwi;
                 this._currentFileIndex = 0;
                 this._bytesTotal = 0;
                 this._queueLoading = true;
-                this.calculateNextFileSize();
+                this._calculateNextFileSize();
             };
             /**
             * Checks to see if all the file sizes have been retrieved.
-            * If so completes the 'calculateQueuedSize' call.
-            * Otherwise continues the
+            * If so completes the "calculateQueuedSize" call.
+            * Otherwise requests the next file's details.
             *
-            * @method calculateNextFileSize
+            * @method _calculateNextFileSize
             * @private
             */
-            Loader.prototype.calculateNextFileSize = function () {
+            Loader.prototype._calculateNextFileSize = function () {
                 if (this._currentFileIndex >= this._loadingList.length) {
                     this._queueLoading = false;
                     this.onSizeCallback.call(this.onSizeContext, this._bytesTotal);
@@ -9953,31 +9960,31 @@ var Kiwi;
                 var file = this._loadingList[this._currentFileIndex];
                 //Have we already got the details for this file?
                 if (file.detailsReceived) {
-                    this.detailsReceived();
+                    this._detailsReceived();
                 }
                 else {
-                    var details = file.loadDetails(this.detailsReceived, this);
+                    var details = file.loadDetails(this._detailsReceived, this);
                     //Skip to the next file if the request could not be made.
                     //Shouldn't happen.
                     if (!details) {
-                        this.detailsReceived();
+                        this._detailsReceived();
                     }
                 }
             };
             /**
-            * Executed when by 'calculateNextFileSize' when the files information has been retrieved.
+            * Executed when by '_calculateNextFileSize' when the files information has been retrieved.
             * Adds its calculated size to the _bytesTotal and executes the 'nextFileSize' method.
             *
-            * @method detailsReceived
+            * @method _detailsReceived
             * @private
             */
-            Loader.prototype.detailsReceived = function () {
+            Loader.prototype._detailsReceived = function () {
                 var file = this._loadingList[this._currentFileIndex];
                 if (file.detailsReceived) {
                     this._bytesTotal += file.size;
                 }
                 this._currentFileIndex++;
-                this.calculateNextFileSize();
+                this._calculateNextFileSize();
             };
             /**
             * -----------------------------
@@ -10215,7 +10222,7 @@ var Kiwi;
                 }
                 while (i < urls.length) {
                     params.url = urls[i];
-                    file = this.attemptToAddAudio(params, onlyIfSupported);
+                    file = this._attemptToAddAudio(params, onlyIfSupported);
                     if (file) {
                         return file;
                     }
@@ -10226,7 +10233,7 @@ var Kiwi;
             /**
             * This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.
             * Returns a boolean if the audio file was successfully added or not to the file directory.
-            * @method attemptToAddAudio
+            * @method _attemptToAddAudio
             * @param params {Object}
             *   @param params.key {String} The key for the audio file.
             *   @param params.url {String} The url of the audio to load.
@@ -10236,7 +10243,7 @@ var Kiwi;
             * @return {Kiwi.Files.File} The file which was created.
             * @private
             */
-            Loader.prototype.attemptToAddAudio = function (params, onlyIfSupported) {
+            Loader.prototype._attemptToAddAudio = function (params, onlyIfSupported) {
                 var file = new Kiwi.Files.AudioFile(this.game, params);
                 var support = false;
                 switch (file.extension) {
@@ -10635,7 +10642,7 @@ var Kiwi;
         * TextureFile, AudioFile contain fallback loading via tags and all extended Files contain methods for processing the files.
         *
         * Also can contain information about the file (like file size, last modified, e.t.c.)
-        * Uses a object literal in its constructor since 1.2 (which is preferred), but also contains previous construction support.
+        * Uses an object literal in its constructor since 1.2 (which is preferred), but also contains previous construction support.
         *
         * @class File
         * @namespace Kiwi.Files
@@ -10644,7 +10651,7 @@ var Kiwi;
         * @param params {Object} Options for this file.
         *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
         *   @param params.url {String} Location of the file to be loaded.
-        *   @param [params.metadata={}] {Object} Any metadata to be associated with the file.
+        *   @param {Object} [params.metadata={}] Any metadata to be associated with the file.
         *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
         *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
         *   @param [params.type=UNKNOWN] {Number} The type of file this is.
@@ -10914,18 +10921,18 @@ var Kiwi;
                 this.onProgress = new Kiwi.Signal;
                 if (Kiwi.Utils.Common.isNumeric(params)) {
                     //Deprecate
-                    this.parseParamsOld(params, arguments[2], arguments[3], arguments[4], arguments[5]);
+                    this._parseParamsOld(params, arguments[2], arguments[3], arguments[4], arguments[5]);
                 }
                 else {
                     this.key = params.key;
-                    this.assignFileDetails(params.url);
+                    this._assignFileDetails(params.url);
                     this.parseParams(params);
                 }
             }
             /**
             * Assigns properties and variables for the constructor as in pre 1.2 Kiwi versions.
             *
-            * @method parseParamsOld
+            * @method _parseParamsOld
             * @since 1.2.0
             * @param dataType {Number} The type of file that is being loaded. For this you can use the STATIC properties that are located on this class for quick code completion.
             * @param path {String} The location of the file that is to be loaded.
@@ -10934,12 +10941,12 @@ var Kiwi;
             * @param [storeAsGlobal=true] {Boolean} If this file should be stored as a global file, or if it should be destroyed when this state gets switched out.
             * @private
             */
-            File.prototype.parseParamsOld = function (dataType, url, name, saveToFileStore, storeAsGlobal) {
+            File.prototype._parseParamsOld = function (dataType, url, name, saveToFileStore, storeAsGlobal) {
                 if (name === void 0) { name = ''; }
                 if (saveToFileStore === void 0) { saveToFileStore = true; }
                 if (storeAsGlobal === void 0) { storeAsGlobal = true; }
                 this.dataType = dataType;
-                this.assignFileDetails(url);
+                this._assignFileDetails(url);
                 if (saveToFileStore) {
                     this.fileStore = this.game.fileStore;
                 }
@@ -10979,12 +10986,12 @@ var Kiwi;
             /**
             * Gets the file details from the URL passed. Name, extension, and path are extracted.
             *
-            * @method assignFileDetails
-            * @since 1.2.0
+            * @method _assignFileDetails
             * @param url {String}
             * @private
+            * @since 1.2.0
             */
-            File.prototype.assignFileDetails = function (url) {
+            File.prototype._assignFileDetails = function (url) {
                 this.URL = url;
                 if (url.lastIndexOf('/') > -1) {
                     this.name = url.substr(url.lastIndexOf('/') + 1);
@@ -11051,7 +11058,7 @@ var Kiwi;
                 if (typeof timeout !== "undefined")
                     this.timeOutDelay = timeout;
                 //Start Loading!!!
-                this.start();
+                this._start();
                 this._load();
             };
             /**
@@ -11087,7 +11094,7 @@ var Kiwi;
                 }
                 this.success = true;
                 this.hasError = false;
-                this.stop();
+                this._stop();
                 if (this.fileStore) {
                     this.fileStore.addFile(this.key, this);
                 }
@@ -11110,7 +11117,7 @@ var Kiwi;
                     this.hasError = true;
                     this.success = false;
                     this.error = error;
-                    this.stop();
+                    this._stop();
                     this.onComplete.dispatch(this);
                 }
                 else {
@@ -11186,9 +11193,9 @@ var Kiwi;
                 this.statusText = this._xhr.statusText;
                 // Easiest to just see if the response isn't null, and thus has data or not.
                 if (this._xhr.response) {
-                    this.getXHRHeaderInfo();
+                    this._getXhrHeaderInfo();
                     this.buffer = this._xhr.response; //Deprecate
-                    this.processXHR(this._xhr.response);
+                    this.processXhr(this._xhr.response);
                 }
                 else {
                     this.loadError(event);
@@ -11199,21 +11206,21 @@ var Kiwi;
             * Assigns the data property.
             * This method is also in charge of calling 'loadSuccess' (or 'loadError') when processing is complete.
             *
-            * @method processXHR
+            * @method processXhr
             * @param response
             * @protected
             */
-            File.prototype.processXHR = function (response) {
+            File.prototype.processXhr = function (response) {
                 this.data = response;
                 this.loadSuccess();
             };
             /**
             * Is executed when this file starts loading.
             * Gets the time and resets properties used in file loading.
-            * @method start
+            * @method _start
             * @private
             */
-            File.prototype.start = function () {
+            File.prototype._start = function () {
                 this.attemptCounter = 0;
                 this.loading = true;
                 this.timeStarted = Date.now();
@@ -11221,10 +11228,10 @@ var Kiwi;
             };
             /**
             * Is executed when this file stops loading.
-            * @method stop
+            * @method _stop
             * @private
             */
-            File.prototype.stop = function () {
+            File.prototype._stop = function () {
                 this.loading = false;
                 this.complete = true;
                 this.percentLoaded = 100;
@@ -11261,11 +11268,11 @@ var Kiwi;
             * Retrieves the HEAD information from the XHR.
             * This method is used for both 'load' and 'loadDetails' methods.
             *
-            * @method getXHRHeaderInfo
+            * @method _getXhrHeaderInfo
             * @since 1.2.0
             * @private
             */
-            File.prototype.getXHRHeaderInfo = function () {
+            File.prototype._getXhrHeaderInfo = function () {
                 if (!this._xhr) {
                     return;
                 }
@@ -11306,7 +11313,7 @@ var Kiwi;
                 }
             };
             /**
-            * Executed when a xhr head request has loaded.
+            * Executed when a XHR head request has loaded.
             * Checks that the status of the request is 200 before classifying it as a success.
             * @method xhrHeadOnLoad
             * @param event {Any}
@@ -11314,7 +11321,7 @@ var Kiwi;
             */
             File.prototype.xhrHeadOnLoad = function (event) {
                 if (this._xhr.status === 200) {
-                    this.getXHRHeaderInfo();
+                    this._getXhrHeaderInfo();
                     if (this.headCompleteCallback) {
                         this.headCompleteCallback.call(this.headCompleteContext, true);
                     }
@@ -11915,7 +11922,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "Bootstrap"
             * @public
             */
             Bootstrap.prototype.objType = function () {
@@ -12320,7 +12327,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "Device"
             * @public
             */
             Device.prototype.objType = function () {
@@ -12580,7 +12587,7 @@ var Kiwi;
             /**
             * The type of object that this texture atlas is.
             * @method objType
-            * @return string
+            * @return {string} "TextureAtlas"
             * @public
             */
             TextureAtlas.prototype.objType = function () {
@@ -12940,7 +12947,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return string
+            * @return {string} "SpriteSheet"
             * @public
             */
             SpriteSheet.prototype.objType = function () {
@@ -13054,7 +13061,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return string
+            * @return {string} "SingleImage"
             * @public
             */
             SingleImage.prototype.objType = function () {
@@ -13101,7 +13108,7 @@ var Kiwi;
                     /**
                     * The type of object this is.
                     * @method objType
-                    * @return {String}
+                    * @return {String} "Back"
                     * @public
                     */
                     Back.prototype.objType = function () {
@@ -13178,7 +13185,7 @@ var Kiwi;
                     /**
                     * The type of object that this is.
                     * @method objType
-                    * @return {String}
+                    * @return {String} "Bounce"
                     * @public
                     */
                     Bounce.prototype.objType = function () {
@@ -13264,7 +13271,7 @@ var Kiwi;
                     /**
                     * The type of object that this is.
                     * @method objType
-                    * @return {String}
+                    * @return {String} "Circular"
                     * @public
                     */
                     Circular.prototype.objType = function () {
@@ -13335,7 +13342,7 @@ var Kiwi;
                     /**
                     * The type of object that this is.
                     * @method objType
-                    * @return {String}
+                    * @return {String} "Cubic"
                     * @public
                     */
                     Cubic.prototype.objType = function () {
@@ -13409,7 +13416,7 @@ var Kiwi;
                     /**
                     * The type of object that this is.
                     * @method objType
-                    * @return {String}
+                    * @return {String} "Elastic"
                     * @public
                     */
                     Elastic.prototype.objType = function () {
@@ -13515,7 +13522,7 @@ var Kiwi;
                     /**
                     * The type of object that this is.
                     * @method objType
-                    * @return {String}
+                    * @return {String} "Exponential"
                     * @public
                     */
                     Exponential.prototype.objType = function () {
@@ -13593,7 +13600,7 @@ var Kiwi;
                     /**
                     * The type of object that this is.
                     * @method objType
-                    * @return {String}
+                    * @return {String} "Linear"
                     * @public
                     */
                     Linear.prototype.objType = function () {
@@ -13643,7 +13650,7 @@ var Kiwi;
                     /**
                     * The type of object that this is.
                     * @method objType
-                    * @return {String}
+                    * @return {String} "Quadratic"
                     * @public
                     */
                     Quadratic.prototype.objType = function () {
@@ -13717,7 +13724,7 @@ var Kiwi;
                     /**
                     * The type of object that this is.
                     * @method objType
-                    * @return {String}
+                    * @return {String} "Quartic"
                     * @public
                     */
                     Quartic.prototype.objType = function () {
@@ -13791,7 +13798,7 @@ var Kiwi;
                     /**
                     * The type of object that this is.
                     * @method objType
-                    * @return {String}
+                    * @return {String} "Quintic"
                     * @public
                     */
                     Quintic.prototype.objType = function () {
@@ -13865,7 +13872,7 @@ var Kiwi;
                     /**
                     * The type of object that this is.
                     * @method objType
-                    * @return {String}
+                    * @return {String} "Sinusoidal"
                     * @public
                     */
                     Sinusoidal.prototype.objType = function () {
@@ -13958,7 +13965,7 @@ var Kiwi;
                 /**
                 * The type of object that this is.
                 * @method objType
-                * @return {String}
+                * @return {String} "TweenManager"
                 * @public
                 */
                 TweenManager.prototype.objType = function () {
@@ -14012,7 +14019,7 @@ var Kiwi;
                 * Removes a tween from this manager.
                 * @method remove
                 * @param tween {Kiwi.Animations.Tween} The tween that you would like to remove.
-                * @return {Kiwi.Animations.Tween}
+                * @return {Kiwi.Animations.Tween} The tween passed in.
                 * @public
                 */
                 TweenManager.prototype.remove = function (tween) {
@@ -14020,6 +14027,7 @@ var Kiwi;
                     if (i !== -1) {
                         this._tweens.splice(i, 1);
                     }
+                    return tween;
                 };
                 /**
                 * The update loop.
@@ -14263,7 +14271,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "Tween"
             * @public
             */
             Tween.prototype.objType = function () {
@@ -14574,7 +14582,7 @@ var Kiwi;
             /**
             * Returns the type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "CanvasRenderer"
             * @public
             */
             CanvasRenderer.prototype.objType = function () {
@@ -14752,7 +14760,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "GLRenderManager"
             * @public
             */
             GLRenderManager.prototype.objType = function () {
@@ -16854,7 +16862,7 @@ var Kiwi;
                 */
                 this._reverse = false;
                 /**
-                * If the animation is currently playing or not.
+                * Whether the animation is currently playing or not.
                 * @property _isPlaying
                 * @type boolean
                 * @default false
@@ -16894,6 +16902,7 @@ var Kiwi;
                 * @property _onComplete
                 * @type Kiwi.Signal
                 * @public
+                * @since 1.2.0
                 */
                 this._onComplete = null;
                 this.name = name;
@@ -16907,11 +16916,11 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "Animation"
             * @public
             */
             Animation.prototype.objType = function () {
-                return 'Animation';
+                return "Animation";
             };
             Object.defineProperty(Animation.prototype, "loop", {
                 /**
@@ -17013,10 +17022,10 @@ var Kiwi;
             });
             Object.defineProperty(Animation.prototype, "isPlaying", {
                 /**
-                * If the animation is currently playing or not.
+                * Whether the animation is currently playing or not. Read-only.
                 * @property isPlaying
                 * @type boolean
-                * @private
+                * @public
                 */
                 get: function () {
                     return this._isPlaying;
@@ -17416,7 +17425,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "Key"
             * @public
             */
             Key.prototype.objType = function () {
@@ -17576,7 +17585,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "Keyboard"
             * @public
             */
             Keyboard.prototype.objType = function () {
@@ -17787,7 +17796,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {string}
+            * @return {string} "Keycodes"
             * @public
             */
             Keycodes.prototype.objType = function () {
@@ -18611,7 +18620,7 @@ var Kiwi;
             /**
             * The type of object this is.
             * @method objType
-            * @return String
+            * @return {String} "InputManager"
             * @public
             */
             InputManager.prototype.objType = function () {
@@ -18802,7 +18811,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "Mouse"
             * @public
             */
             Mouse.prototype.objType = function () {
@@ -19203,11 +19212,11 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return String
+            * @return {String} "TouchManager"
             * @public
             */
             Touch.prototype.objType = function () {
-                return 'TouchManager';
+                return "TouchManager";
             };
             Object.defineProperty(Touch.prototype, "fingers", {
                 /**
@@ -19914,11 +19923,11 @@ var Kiwi;
             /**
             * The type of object this class is.
             * @method objType
-            * @return {string}
+            * @return {string} "Pointer"
             * @public
             */
             Pointer.prototype.objType = function () {
-                return 'Pointer';
+                return "Pointer";
             };
             Object.defineProperty(Pointer.prototype, "game", {
                 /**
@@ -20061,7 +20070,7 @@ var Kiwi;
             };
             /**
             * The update loop for the pointer. Used only if down to update the duration.
-            * @method update.
+            * @method update
             * @public
             */
             Pointer.prototype.update = function () {
@@ -20086,7 +20095,9 @@ var Kiwi;
     var Input;
     (function (Input) {
         /**
-        * Holds the information about a Mouse Cursor. Such as the position of the cursor, the mouse wheels delta, the button that was used, e.t.c. Note: A mouse cursor is always active.
+        * Holds the information about a Mouse Cursor, such as the position of the
+        * cursor, the mouse wheel's delta, the button that was used, e.t.c.
+        * Note: A mouse cursor is always active.
         *
         * @class MouseCursor
         * @namespace Kiwi.Input
@@ -20137,11 +20148,11 @@ var Kiwi;
             /**
             * The type of object this class is.
             * @method objType
-            * @return string
+            * @return {string} "MouseCursor"
             * @public
             */
             MouseCursor.prototype.objType = function () {
-                return 'MouseCursor';
+                return "MouseCursor";
             };
             /**
             * Gets executed when the mouse cursor gets initally pressed.
@@ -20208,7 +20219,11 @@ var Kiwi;
     var Input;
     (function (Input) {
         /**
-        * Used with the Touch manager class, this object holds information about a single touch point/locaton (or you know a finger). By default a Finger has a diameter of 44 pixels (random average size of a finger) which can be used for collision/overlap detection. That value can be modified. Note: A Finger is only active whilst the user is 'pressing' down on stage.
+        * Used with the Touch manager class, this object holds information about a
+        * single touch point/location (or, you know, a finger). By default a Finger
+        * has a diameter of 44 pixels (random average size of a finger) which can
+        * be used for collision/overlap detection. That value can be modified.
+        * Note: A Finger is only active whilst the user is 'pressing' down on stage.
         *
         * @class Finger
         * @extends Pointer
@@ -20226,11 +20241,11 @@ var Kiwi;
             /**
             * The type of object this is.
             * @method objType
-            * @return string
+            * @return {string} "Finger"
             * @public
             */
             Finger.prototype.objType = function () {
-                return 'Finger';
+                return "Finger";
             };
             /**
             * @method start
@@ -20333,7 +20348,7 @@ var Kiwi;
             /**
             * Returns the type of this object
             * @method objType
-            * @return {String} The type of this object
+            * @return {String} "AABB"
             * @public
             */
             AABB.prototype.objType = function () {
@@ -23765,7 +23780,7 @@ var Kiwi;
                 * @property ignoreParent
                 * @type boolean
                 * @default false
-                * @private
+                * @public
                 * @since 1.2.0
                 */
                 set: function (value) {
@@ -23818,7 +23833,7 @@ var Kiwi;
             * Return a Point representing the X and Y values of the transform.
             * If no point is given a new Point objected will be created.
             *
-            * @method getPostionPoint
+            * @method getPositionPoint
             * @param [output] {Kiwi.Geom.Point} The Point to output the coordinates into. Creates a new Point if none given.
             * @return {Kiwi.Geom.Point} A point representing the X and Y values of the transform.
             * @public
@@ -27656,18 +27671,18 @@ var Kiwi;
         * The Clock class offers a way of tracking time within a game. When creating a new Clock you should NOT directly instantiate this class but instead use the addClock method on a ClockManager.
         * - The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started. This happens automatically and there is no need to do anything to set this up.
         * - An instance of a clock is used to track time in arbitrary units (milliseconds by default)
-        * - A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it.
+        * - A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it. It can also have its time scale freely transformed.
         * - Any number of timers can be attached to a clock. See the Kiwi.Time.Timer class for timer details.
-        * - If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused.
-        * (Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)
+        * - If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused. (Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)
+        * - Animations and TweenManagers can use any Clock.
         *
         * @class Clock
         * @namespace Kiwi.Time
         * @constructor
-        * @param manager {ClockManager} The ClockManager that this clock belongs to. .
+        * @param manager {ClockManager} The ClockManager that this clock belongs to.
         * @param master {Kiwi.Time.MasterClock} The MasterClock that it is getting the time in relation to.
         * @param name {String} The name of the clock.
-        * @param [units=1000] {Number} The units that this clock is to operate in.
+        * @param [units=1000] {Number} The units that this clock is to operate in per second.
         * @return {Kiwi.Time.Clock} This Clock object.
         */
         var Clock = (function () {
@@ -27841,7 +27856,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "Clock"
             * @public
             */
             Clock.prototype.objType = function () {
@@ -28039,6 +28054,7 @@ var Kiwi;
             /**
             * Convert a number to milliseconds based on clock units.
             * @method toMilliseconds.
+            * @param time {number} seconds
             * @return {Number} milliseconds.
             * @public
             */
@@ -28157,10 +28173,10 @@ var Kiwi;
             * Emulates window.setTimeout, except attached to a Kiwi.Time.Clock.
             * This allows you to pause and manipulate time, and the timeout will respect
             * the clock on which it is created.
-            *<br><br>
+            *
             * No clearTimeout is provided; you should use Kiwi.Time.Timer functions
             * to achieve further control.
-            *<br><br>
+            *
             * Any parameters after "context" will be passed as parameters to the
             * callback function. Note that you must specify "context" in order for
             * this to work. You may specify "null", in which case it will default
@@ -28195,10 +28211,10 @@ var Kiwi;
             * Emulates window.setInterval, except attached to a Kiwi.Time.Clock.
             * This allows you to pause and manipulate time, and the timeout will respect
             * the clock on which it is created.
-            *<br><br>
+            *
             * No clearInterval is provided; you should use Kiwi.Time.Timer functions
             * to achieve further control.
-            *<br><br>
+            *
             * Any parameters after "context" will be passed as parameters to the
             * callback function. Note that you must specify "context" in order for
             * this to work. You may specify "null", in which case it will default
@@ -28275,7 +28291,7 @@ var Kiwi;
             /**
             * The type of object this is.
             * @method objType
-            * @return {String}
+            * @return {String} "ClockManager"
             * @public
             */
             ClockManager.prototype.objType = function () {
@@ -28305,7 +28321,8 @@ var Kiwi;
                 return this._clocks[this._clocks.length - 1];
             };
             /**
-            * Returns the Clock with the matching name. Throws and error if no Clock with that name exists
+            * Returns the Clock with the matching name.
+            * Throws an error if no Clock with that name exists
             * @method getClock
             * @param name {string} The name of the Clock to be returned.
             * @return {Kiwi.Time.Clock} The clock which matches the name given.
@@ -28319,7 +28336,7 @@ var Kiwi;
                 }
             };
             /**
-            * Is executed every frame and updates all of the clocks that exist on this manager, times.
+            * Is executed every frame and updates all of the clocks that exist on this manager.
             * @method update
             * @public
             */
@@ -28440,7 +28457,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "MasterClock"
             * @public
             */
             MasterClock.prototype.objType = function () {
@@ -28649,7 +28666,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "Timer"
             * @public
             */
             Timer.prototype.objType = function () {
@@ -28959,7 +28976,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "TimerEvent"
             * @public
             */
             TimerEvent.prototype.objType = function () {
@@ -29121,7 +29138,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "Canvas"
             * @public
             */
             Canvas.prototype.objType = function () {
@@ -29312,54 +29329,54 @@ var Kiwi;
         * Utility class used to make color management more transparent.
         * Color objects hold color and alpha values, and can get or set them
         * in a variety of ways.
-        * <br><br>
+        *
         * Construct this object in one of the following ways.
-        * <br><br>
+        *
         * - Pass 3 or 4 numbers to determine RGB or RGBA. If the numbers are in
         * the range 0-1, they will be parsed as normalized numbers.
         * If they are in the range 1-255, they will be parsed as 8-bit channels.
-        * <br><br>
+        *
         * - Pass 3 or 4 numbers followed by the string "hsv" or "hsl"
         * (lowercase) to parse HSV or HSL color space (with optional alpha).
         * HSV and HSL colors may be specified as normalized parameters (0-1),
         * or as an angle (0-360) and two percentages (0-100).
-        * <br><br>
+        *
         * - Pass a string containing a hexadecimal color with or without alpha
         * (such as "ff8040ff" or "4080ff"). You may prepend "#" or "0x", but
         * they are not necessary and will be stripped.
-        * <br><br>
+        *
         * - Pass a string containing a CSS color function, such as
         * "rgb(255,255,255)", "rgba( 192, 127, 64, 32 )",
         * "hsl(180, 100, 100)", or "hsla(360, 50, 50, 50)".
-        * <br><br>
+        *
         * - Pass 1 number to set a grayscale value, or 2 numbers to set grayscale
         * with alpha. These are interpreted as with RGB values.
-        * <br><br>
+        *
         * The color object stores its internal values as normalized RGBA channels.
         * This is the most mathematically useful format, and corresponds
         * with the WebGL color paradigm. When you query the color object's values,
         * such as with "r" or "red" properties, it will return normalized values.
         * You can get values in the 0-255 8-bit range by calling the
         * corresponding x255 value. For example, if r = 1, then r255 = 255.
-        * <br><br>
+        *
         * We advise that you work with normalized colors wherever possible.
         * While the Color object is smart enough to recognise non-normalized
         * ranges in most cases, it cannot tell the difference between 0.5 on a
         * 0-1 scale, and 0.5 on a 0-255 scale. Try to reduce ambiguity by working
         * in normalized color space.
-        * <br><br>
+        *
         * You can get HSV, HSL, and hexadecimal values with the functions
         * "getHsva", "getHsla", and "getHex". By default, these all include an
         * alpha term. You can omit alpha from the getHex result by calling the
         * function with the parameter "false". As getHsva and getHsla return objects
         * rather than strings, you can freely ignore the provided alpha.
-        * <br<br>
+        *
         * You can modify a Color object once created using its properties, methods,
         * or the "set" method as you would use the constructor.
         *
         * @class Color
         * @constructor
-        * @param [...args]
+        * @param [...args] Any number of arguments
         * @since 1.2.0
         */
         var Color = (function () {
@@ -29887,7 +29904,7 @@ var Kiwi;
             * Returns color as a hexadecimal string
             * @method getHex
             * @param [alpha=true] {boolean} Whether to include the alpha
-            * @return string
+            * @return {string} A hexadecimal color such as "13579bdf"
             * @public
             */
             Color.prototype.getHex = function (alpha) {
@@ -29921,13 +29938,14 @@ var Kiwi;
             * Parses normalized HSV values into the Color.
             * Interprets either normalized values, or H in degrees (0-360)
             * and S and V in % (0-100).
-            * <br><br>
+            *
             * Based on algorithms at
             * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
             * @method parseHsv
             * @param h {number} Hue
             * @param s {number} Saturation
             * @param v {number} Value
+            * @param a {number} Alpha
             * @return {Kiwi.Utils.Color} This object with the new color set
             * @public
             */
@@ -30027,49 +30045,17 @@ var Kiwi;
                 return { h: h, s: s, v: v, a: this._a };
             };
             /**
-            * Returns HSL value of the Color.
-            * Based on algorithms at
-            * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
-            * @method getHsla
-            * @return {object} Object with normalized h, s, l, a properties.
-            * @public
-            */
-            Color.prototype.getHsla = function () {
-                var d, r = this._r, g = this._g, b = this._b, max = Math.max(r, g, b), min = Math.min(r, g, b), h = (max + min) / 2, s = (max + min) / 2, l = (max + min) / 2;
-                if (max == min) {
-                    // Achromatic
-                    h = 0;
-                    s = 0;
-                }
-                else {
-                    d = max - min;
-                    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-                    switch (max) {
-                        case r:
-                            h = (g - b) / d + (g < b ? 6 : 0);
-                            break;
-                        case g:
-                            h = (b - r) / d + 2;
-                            break;
-                        case b:
-                            h = (r - g) / d + 4;
-                            break;
-                    }
-                    h /= 6;
-                }
-                return { h: h, s: s, l: l, a: this._a };
-            };
-            /**
             * Parses HSL value onto the Color.
             * Interprets either normalized values, or H in degrees (0-360)
             * and S and L in % (0-100).
-            * <br><br>
+            *
             * Based on algorithms at
             * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
             * @method parseHsl
             * @param h {number} Hue
             * @param s {number} Saturation
             * @param l {number} Lightness
+            * @param a {number} Alpha
             * @return {Kiwi.Utils.Color} This object with the new color set
             * @public
             */
@@ -30110,6 +30096,39 @@ var Kiwi;
                 this._b = b;
                 this._a = a;
                 return this;
+            };
+            /**
+            * Returns HSL value of the Color.
+            * Based on algorithms at
+            * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+            * @method getHsla
+            * @return {object} Object with normalized h, s, l, a properties.
+            * @public
+            */
+            Color.prototype.getHsla = function () {
+                var d, r = this._r, g = this._g, b = this._b, max = Math.max(r, g, b), min = Math.min(r, g, b), h = (max + min) / 2, s = (max + min) / 2, l = (max + min) / 2;
+                if (max == min) {
+                    // Achromatic
+                    h = 0;
+                    s = 0;
+                }
+                else {
+                    d = max - min;
+                    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                    switch (max) {
+                        case r:
+                            h = (g - b) / d + (g < b ? 6 : 0);
+                            break;
+                        case g:
+                            h = (b - r) / d + 2;
+                            break;
+                        case b:
+                            h = (r - g) / d + 4;
+                            break;
+                    }
+                    h /= 6;
+                }
+                return { h: h, s: s, l: l, a: this._a };
             };
             /**
             * Method used for computing HSL values.
@@ -30192,7 +30211,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "Common"
             * @public
             */
             Common.prototype.objType = function () {
@@ -30449,7 +30468,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "GameMath"
             * @public
             */
             GameMath.prototype.objType = function () {
@@ -31929,7 +31948,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "RandomDataGenerator"
             * @public
             */
             RandomDataGenerator.prototype.objType = function () {
@@ -32243,7 +32262,7 @@ var Kiwi;
             /**
             * The type of obect that this is.
             * @method objType
-            * @return {String}
+            * @return {String} "RequestAnimationFrame"
             * @public
             */
             RequestAnimationFrame.prototype.objType = function () {
@@ -32371,7 +32390,7 @@ var Kiwi;
         * log/error/warn methods contained on this class function just like their 'console' equivalents except that:
         * - You can assign a tag to message by adding a '#' symbol to the front of a parameter. Example: this.log('Hi', '#welcome');
         * - Messages can have multiple tags. Example: this.log('Hi', '#welcome', '#greeting');
-        * - Messages are recorded (by default) and can then search through any messages saved.
+        * - Messages are recorded (by default) and you can then search through any messages saved.
         *
         * You can use the 'show' commands to search through recordings and find specific messages.
         *
@@ -32530,7 +32549,7 @@ var Kiwi;
             * @method clearRecordings
             * @param [start=0] {Number}
             * @param [end] {Number}
-            * @private
+            * @public
             */
             Log.prototype.clearRecordings = function (start, end) {
                 if (start === void 0) { start = 0; }
@@ -32792,7 +32811,7 @@ var Kiwi;
             * Parses a string such as "1.2.3" and returns an oject containing numeric properties for majorVersion, minorVersion and patchVersion
             * @method parseVersion
             * @param version {String}
-            * @return {Object}
+            * @return {Object} Object with properties majorVersion, minorVersion, patchVersion.
             * @public
             * @static
             */
@@ -32805,11 +32824,12 @@ var Kiwi;
                 };
             };
             /**
-            * Compares two semver version strings such as "0.1.0" and "0.2.1". Returns "greater", "less" or "equal".
-            * @method parseVersion
+            * Compares two semver version strings such as "0.1.0" and "0.2.1".
+            * Returns "greater", "less" or "equal".
+            * @method compareVersions
             * @param version1 {String}
             * @param version2 {String}
-            * @return {String}
+            * @return {String} "greater", "less" or "equal"
             * @public
             * @static
             */
@@ -32841,7 +32861,7 @@ var Kiwi;
             };
             /**
             * Compares two semver version strings such as "0.1.0" and "0.2.1". Returns true if version1 is greater than version2.
-            * @method parseVersion
+            * @method greaterOrEqual
             * @param version1 {String}
             * @param version2 {String}
             * @return {boolean}
@@ -33139,7 +33159,7 @@ var Kiwi;
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "GameManager"
         * @public
         */
         GameManager.prototype.objType = function () {
@@ -33211,13 +33231,12 @@ var Kiwi;
         * @param params {Object} Options for this file.
         *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
         *   @param params.url {String} Location of the file to be loaded.
-        *   @param [params.metadata={}] {Object} Any metadata to be associated with the file.
+        *   @param {Object} [params.metadata={}] Any metadata to be associated with the file.
         *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
         *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
         *   @param [params.type=UNKNOWN] {Number} The type of file this is.
         *   @param [params.tags] {Array} Any tags to be associated with this file.
         * @return {Kiwi.Files.AudioFile}
-        *
         */
         var AudioFile = (function (_super) {
             __extends(AudioFile, _super);
@@ -33307,11 +33326,11 @@ var Kiwi;
             };
             /**
             * Handles decoding the arraybuffer into audio data.
-            * @method processXHR
+            * @method processXhr
             * @param response
             * @protected
             */
-            AudioFile.prototype.processXHR = function (response) {
+            AudioFile.prototype.processXhr = function (response) {
                 this.data = {
                     raw: response,
                     decoded: false,
@@ -33354,7 +33373,7 @@ var Kiwi;
         * @param params {Object} Options for this file.
         *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
         *   @param params.url {String} Location of the file to be loaded.
-        *   @param [params.metadata={}] {Object} Any metadata to be associated with the file.
+        *   @param {Object} [params.metadata={}] Any metadata to be associated with the file.
         *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
         *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
         *   @param [params.type=UNKNOWN] {Number} The type of file this is.
@@ -33427,11 +33446,11 @@ var Kiwi;
             };
             /**
             * Handles decoding the arraybuffer into audio data.
-            * @method processXHR
+            * @method processXhr
             * @param response
             * @protected
             */
-            DataFile.prototype.processXHR = function (response) {
+            DataFile.prototype.processXhr = function (response) {
                 if (!this.parse) {
                     this.data = response;
                     this.loadSuccess();
@@ -33524,7 +33543,7 @@ var Kiwi;
         * @param params {Object} Options for this file.
         *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
         *   @param params.url {String} Location of the file to be loaded.
-        *   @param [params.metadata={}] {Object} Any metadata to be associated with the file.
+        *   @param {Object} [params.metadata={}] Any metadata to be associated with the file.
         *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
         *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
         *   @param [params.type=UNKNOWN] {Number} The type of file this is.
@@ -33602,11 +33621,11 @@ var Kiwi;
             * Gets the response data (which is an arraybuffer), creates a Blob from it
             * and creates an objectURL from it.
             *
-            * @method processXHR
+            * @method processXhr
             * @param response {Any} The data stored in the 'xhr.response' tag
             * @protected
             */
-            TextureFile.prototype.processXHR = function (response) {
+            TextureFile.prototype.processXhr = function (response) {
                 this.data = document.createElement('img');
                 var blob = new Blob([response], { type: this.type });
                 if (window['URL']) {

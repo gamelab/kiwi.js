@@ -46,7 +46,7 @@ module Kiwi.Animations.Tweens {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "TweenManager"
         * @public
         */
         public objType() {
@@ -135,7 +135,7 @@ module Kiwi.Animations.Tweens {
         * Removes a tween from this manager.
         * @method remove
         * @param tween {Kiwi.Animations.Tween} The tween that you would like to remove.
-        * @return {Kiwi.Animations.Tween}
+        * @return {Kiwi.Animations.Tween} The tween passed in.
         * @public
         */
         public remove(tween: Kiwi.Animations.Tween) {
@@ -147,6 +147,7 @@ module Kiwi.Animations.Tweens {
                 this._tweens.splice(i, 1);
             }
 
+            return tween;
         }
 
         /** 

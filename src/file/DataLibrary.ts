@@ -45,7 +45,7 @@ module Kiwi.Files {
 
         /**
         * Contains all of the data that this available.
-        * @property textures
+        * @property data
         * @type Object
         * @public
         */

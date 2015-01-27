@@ -50,7 +50,7 @@ module Kiwi.Textures  {
         /**
         * The type of object that this is.
         * @method objType
-        * @return string
+        * @return {string} "SpriteSheet"
         * @public
         */
         public objType(): string {

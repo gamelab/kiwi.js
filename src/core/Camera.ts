@@ -59,7 +59,7 @@ module Kiwi {
         /**
         * The type of object this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Camera"
         * @public
         */
         public objType() {
@@ -169,12 +169,10 @@ module Kiwi {
         * Convert from screen coordinates to world coordinates.
 	    * Apply this camera's inverted matrix to an object with x and y
         * properties representing a point and return the transformed point.
-        * Useful for when calculating if coordinates with the mouse.
-        * Note: This method clones the point you pass,
-        * so that it doesn't "reset" any properties you set. 
+        * Useful for calculating coordinates with the mouse.
         * @method transformPoint
         * @param point {Kiwi.Geom.Point} 
-        * @return {Kiwi.Geom.Point}
+        * @return {Kiwi.Geom.Point} Transformed clone of the original Point.
         * @public
         */
         public transformPoint(point: Kiwi.Geom.Point): Kiwi.Geom.Point {
@@ -191,9 +189,10 @@ module Kiwi {
         /**
         * Convert from world coordinates to screen coordinates.
         * Useful for assessing visibility.
+        * Similar to "transformPoint", but in reverse.
         * @method transformPointToScreen
         * @param point {Kiwi.Geom.Point}
-        * @return {Kiwi.Geom.Point}
+        * @return {Kiwi.Geom.Point} Transformed clone of the original Point.
         * @public
         * @since 1.2.0
         */

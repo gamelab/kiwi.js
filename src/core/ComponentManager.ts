@@ -7,10 +7,14 @@
 module Kiwi {
 
     /**
-    * The component manager is a class that is used to handle components that are active on a particular object. Any object
-    * that has a component manager attached to it can use components.
-    * If you want to check to see if a particular component is on an object you can ask the component manager, 
-    * or when updating components you can tell the component manager to update and all of the components will update as well.
+    * The component manager is a class that is used to handle components that
+    * are active on a particular object. Any object that has a component
+    * manager attached to it can use components. If you want to check to see if
+    * a particular component is on an object you can ask the component manager.
+    *
+    * The component manager is updated once per frame (as part of its owner's
+    * update), and updates all active components. This is very useful for
+    * creating modular, customised behaviors on entities.
     *
     * @class ComponentManager
     * @namespace Kiwi
@@ -34,7 +38,7 @@ module Kiwi {
         /**
         * Returns the type of this object
         * @method objType
-        * @return {string} The type of this object
+        * @return {string} "ComponentManager"
         * @public
         */
         public objType():string {

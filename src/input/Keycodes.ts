@@ -19,7 +19,7 @@ module Kiwi.Input {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {string}
+        * @return {string} "Keycodes"
         * @public
         */
         public objType() {

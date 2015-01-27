@@ -132,7 +132,7 @@ module Kiwi {
         * @property scaleType
         * @type number
         * @default Kiwi.Stage.SCALE_NONE
-        * @private
+        * @public
         */
         public set scaleType(val: number) {
             this._scaleType = val;

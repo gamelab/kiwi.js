@@ -18,7 +18,7 @@ module Kiwi.Input {
     *
     */
     export class Pointer {
-         
+
         constructor(game:Kiwi.Game) {
             this._game = game;
             this.point = new Kiwi.Geom.Point();
@@ -30,11 +30,11 @@ module Kiwi.Input {
         /**
         * The type of object this class is.
         * @method objType
-        * @return {string}
+        * @return {string} "Pointer"
         * @public
         */
         public objType():string {
-            return 'Pointer';
+            return "Pointer";
         }
 
         /**
@@ -79,7 +79,7 @@ module Kiwi.Input {
         * @public
         */
         public y: number = -1;
-        
+
         /**
         * The horizontal coordinate of point relative to the viewport in pixels, excluding any scroll offset
         * @property clientX
@@ -141,7 +141,7 @@ module Kiwi.Input {
         * @public
         */
         public point: Kiwi.Geom.Point;
-        
+
         /**
         * A circle that is representative of the area this point covers.
         * @property circle
@@ -149,7 +149,7 @@ module Kiwi.Input {
         * @public
         */
         public circle: Kiwi.Geom.Circle;
-         
+
         /**
         * Indicates if this pointer is currently down.
         * @property isDown
@@ -158,7 +158,7 @@ module Kiwi.Input {
         * @public
         */
         public isDown: boolean = false;
-        
+
         /**
         * Indicates if this pointer is currently up.
         * @property isUp
@@ -167,7 +167,7 @@ module Kiwi.Input {
         * @public
         */
         public isUp: boolean = true;
-         
+
         /**
         * Indicates if this pointer is currently within the game.
         * @property withinGame
@@ -176,7 +176,7 @@ module Kiwi.Input {
         * @public
         */
         public withinGame: boolean = false;
-         
+
         /**
         * Indicates if this pointer is active. Note a mouse is always 'active' where as a finger is only active when it is down.
         * @property active
@@ -185,7 +185,7 @@ module Kiwi.Input {
         * @public
         */
         public active: boolean = false;
-         
+
         /**
         * Indicates the time that the pointer was pressed initially.
         * @property timeDown
@@ -194,7 +194,7 @@ module Kiwi.Input {
         * @public
         */
         public timeDown: number = 0;
-        
+
         /**
         * Indicates the time that the pointer was released initially.
         * @property timeUp
@@ -203,7 +203,7 @@ module Kiwi.Input {
         * @public
         */
         public timeUp: number = 0;
-        
+
         /**
         * The duration that the pointer has been down for in milliseconds.
         * @property duration
@@ -212,7 +212,7 @@ module Kiwi.Input {
         * @public
         */
         public duration: number = 0;
-        
+
         /**
         * The duration that the pointer has been down for in frames.
         * @property frameDuration
@@ -221,7 +221,7 @@ module Kiwi.Input {
         * @public
         */
         public frameDuration: number = 0;
-        
+
         /**
         * A time that is used to calculate if someone justPressed the pointer.
         * @property justPressedRate
@@ -230,7 +230,7 @@ module Kiwi.Input {
         * @public
         */
         public justPressedRate: number = 200;
-         
+
         /**
         * A time that is used to calculate if someone justReleased the pointer.
         * @property justReleasedRate
@@ -239,7 +239,7 @@ module Kiwi.Input {
         * @public
         */
         public justReleasedRate: number = 200;
-        
+
         /**
         * The points inital coordinates when pressed down.
         * @property startPoint
@@ -272,7 +272,7 @@ module Kiwi.Input {
             this.isUp = false;
             this.timeDown = this.game.time.now();
         }
-        
+
         /**
         * The stop method is to be called when the pointer gets released initially. 
         * @method stop
@@ -288,7 +288,7 @@ module Kiwi.Input {
             this.timeUp = this.game.time.now();
             this.duration = this.timeUp - this.timeDown;
         }
-         
+
         /**
         * Used to get the cooridnates of a pointer and inputs them to the correct properties.  
         * @method move
@@ -314,7 +314,7 @@ module Kiwi.Input {
 
             this.duration = this.game.time.now() - this.timeDown;
         }
-         
+
         /**
         * Indicates if the pointer was just pressed. This is based of the justPressedRate unless otherwise specifieds.
         * @method justPressed
@@ -331,7 +331,7 @@ module Kiwi.Input {
             }
 
         }
-         
+
         /**
         * Indicates if the pointer was just released. This is based of the justReleasedRate unless otherwise specified.
         * @method justReleased
@@ -390,10 +390,10 @@ module Kiwi.Input {
             this.duration = 0;
             this.frameDuration = 0;
         }
-            
+
         /**
         * The update loop for the pointer. Used only if down to update the duration.
-        * @method update.
+        * @method update
         * @public
         */
         public update() {

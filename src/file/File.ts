@@ -12,7 +12,7 @@ module Kiwi.Files {
     * TextureFile, AudioFile contain fallback loading via tags and all extended Files contain methods for processing the files.
     *
     * Also can contain information about the file (like file size, last modified, e.t.c.)
-    * Uses a object literal in its constructor since 1.2 (which is preferred), but also contains previous construction support.
+    * Uses an object literal in its constructor since 1.2 (which is preferred), but also contains previous construction support.
     * 
     * @class File
     * @namespace Kiwi.Files
@@ -21,7 +21,7 @@ module Kiwi.Files {
     * @param params {Object} Options for this file.
     *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store. 
     *   @param params.url {String} Location of the file to be loaded.
-    *   @param [params.metadata={}] {Object} Any metadata to be associated with the file. 
+    *   @param {Object} [params.metadata={}] Any metadata to be associated with the file. 
     *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
     *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
     *   @param [params.type=UNKNOWN] {Number} The type of file this is. 
@@ -41,13 +41,13 @@ module Kiwi.Files {
 
             if (Kiwi.Utils.Common.isNumeric(params)) {
                 //Deprecate
-                this.parseParamsOld(params, arguments[2], arguments[3], arguments[4], arguments[5]);
+                this._parseParamsOld(params, arguments[2], arguments[3], arguments[4], arguments[5]);
 
             } else {
 
                 this.key = params.key;
 
-                this.assignFileDetails(params.url);
+                this._assignFileDetails(params.url);
 
                 this.parseParams(params);
 
@@ -59,7 +59,7 @@ module Kiwi.Files {
         /**
         * Assigns properties and variables for the constructor as in pre 1.2 Kiwi versions. 
         * 
-        * @method parseParamsOld
+        * @method _parseParamsOld
         * @since 1.2.0
         * @param dataType {Number} The type of file that is being loaded. For this you can use the STATIC properties that are located on this class for quick code completion.
         * @param path {String} The location of the file that is to be loaded.
@@ -68,11 +68,11 @@ module Kiwi.Files {
         * @param [storeAsGlobal=true] {Boolean} If this file should be stored as a global file, or if it should be destroyed when this state gets switched out.
         * @private
         */
-        private parseParamsOld(dataType: number, url: string, name: string = '', saveToFileStore: boolean = true, storeAsGlobal: boolean = true) {
+        private _parseParamsOld(dataType: number, url: string, name: string = '', saveToFileStore: boolean = true, storeAsGlobal: boolean = true) {
 
             this.dataType = dataType;
 
-            this.assignFileDetails(url);
+            this._assignFileDetails(url);
 
             if (saveToFileStore) {
                 this.fileStore = this.game.fileStore;
@@ -123,12 +123,12 @@ module Kiwi.Files {
         /**
         * Gets the file details from the URL passed. Name, extension, and path are extracted.
         *
-        * @method assignFileDetails
-        * @since 1.2.0
+        * @method _assignFileDetails
         * @param url {String}
         * @private
+        * @since 1.2.0
         */
-        private assignFileDetails( url:string ) {
+        private _assignFileDetails( url:string ) {
 
             this.URL = url;
 
@@ -442,7 +442,7 @@ module Kiwi.Files {
             if (typeof timeout !== "undefined") this.timeOutDelay = timeout;
 
             //Start Loading!!!
-            this.start();
+            this._start();
             this._load();
         }
 
@@ -486,7 +486,7 @@ module Kiwi.Files {
 
             this.success = true;
             this.hasError = false;
-            this.stop();
+            this._stop();
 
             if (this.fileStore) {
                 this.fileStore.addFile(this.key, this);
@@ -514,7 +514,7 @@ module Kiwi.Files {
                 this.hasError = true;
                 this.success = false;
                 this.error = error;
-                this.stop();
+                this._stop();
                 this.onComplete.dispatch(this);
 
             } else {
@@ -604,9 +604,9 @@ module Kiwi.Files {
 
             // Easiest to just see if the response isn't null, and thus has data or not.
             if (this._xhr.response) {
-                this.getXHRHeaderInfo();
+                this._getXhrHeaderInfo();
                 this.buffer = this._xhr.response; //Deprecate
-                this.processXHR(this._xhr.response);
+                this.processXhr(this._xhr.response);
 
             } else {
                 this.loadError(event);
@@ -619,11 +619,11 @@ module Kiwi.Files {
         * Assigns the data property. 
         * This method is also in charge of calling 'loadSuccess' (or 'loadError') when processing is complete. 
         * 
-        * @method processXHR
+        * @method processXhr
         * @param response 
         * @protected
         */
-        protected processXHR( response:any ) {
+        protected processXhr( response:any ) {
             this.data = response;
             this.loadSuccess();
         }
@@ -683,10 +683,10 @@ module Kiwi.Files {
         /**
         * Is executed when this file starts loading. 
         * Gets the time and resets properties used in file loading.
-        * @method start
+        * @method _start
         * @private
         */
-        private start() {
+        private _start() {
 
             this.attemptCounter = 0;
             this.loading = true;
@@ -698,10 +698,10 @@ module Kiwi.Files {
 
         /**
         * Is executed when this file stops loading. 
-        * @method stop
+        * @method _stop
         * @private
         */
-        private stop() {
+        private _stop() {
 
             this.loading = false;
             this.complete = true;
@@ -854,11 +854,11 @@ module Kiwi.Files {
         * Retrieves the HEAD information from the XHR. 
         * This method is used for both 'load' and 'loadDetails' methods.
         * 
-        * @method getXHRHeaderInfo
+        * @method _getXhrHeaderInfo
         * @since 1.2.0
         * @private
         */
-        private getXHRHeaderInfo() {
+        private _getXhrHeaderInfo() {
 
             if (!this._xhr) {
                 return;
@@ -898,7 +898,7 @@ module Kiwi.Files {
         * @method xhrHeadOnError
         * @param event {Any}
         * @private
-        */ 
+        */
         private xhrHeadOnError(event) {
 
             if (this.headCompleteCallback) {
@@ -908,7 +908,7 @@ module Kiwi.Files {
         }
 
         /**
-        * Executed when a xhr head request has loaded.
+        * Executed when a XHR head request has loaded.
         * Checks that the status of the request is 200 before classifying it as a success.
         * @method xhrHeadOnLoad
         * @param event {Any}
@@ -917,7 +917,7 @@ module Kiwi.Files {
         private xhrHeadOnLoad(event) {
 
             if (this._xhr.status === 200) {
-                this.getXHRHeaderInfo();
+                this._getXhrHeaderInfo();
 
                 if (this.headCompleteCallback) {
                     this.headCompleteCallback.call(this.headCompleteContext, true);

@@ -9,54 +9,54 @@ module Kiwi.Utils {
 	* Utility class used to make color management more transparent.
 	* Color objects hold color and alpha values, and can get or set them
 	* in a variety of ways.
-	* <br><br>
+	*
 	* Construct this object in one of the following ways.
-	* <br><br>
+	*
 	* - Pass 3 or 4 numbers to determine RGB or RGBA. If the numbers are in
 	* the range 0-1, they will be parsed as normalized numbers.
 	* If they are in the range 1-255, they will be parsed as 8-bit channels.
-	* <br><br>
+	*
 	* - Pass 3 or 4 numbers followed by the string "hsv" or "hsl"
 	* (lowercase) to parse HSV or HSL color space (with optional alpha).
 	* HSV and HSL colors may be specified as normalized parameters (0-1),
 	* or as an angle (0-360) and two percentages (0-100).
-	* <br><br>
+	*
 	* - Pass a string containing a hexadecimal color with or without alpha
 	* (such as "ff8040ff" or "4080ff"). You may prepend "#" or "0x", but
 	* they are not necessary and will be stripped.
-	* <br><br>
+	*
 	* - Pass a string containing a CSS color function, such as
 	* "rgb(255,255,255)", "rgba( 192, 127, 64, 32 )",
 	* "hsl(180, 100, 100)", or "hsla(360, 50, 50, 50)".
-	* <br><br>
+	*
 	* - Pass 1 number to set a grayscale value, or 2 numbers to set grayscale
 	* with alpha. These are interpreted as with RGB values.
-	* <br><br>
+	*
 	* The color object stores its internal values as normalized RGBA channels.
 	* This is the most mathematically useful format, and corresponds
 	* with the WebGL color paradigm. When you query the color object's values,
 	* such as with "r" or "red" properties, it will return normalized values.
 	* You can get values in the 0-255 8-bit range by calling the
 	* corresponding x255 value. For example, if r = 1, then r255 = 255.
-	* <br><br>
+	*
 	* We advise that you work with normalized colors wherever possible.
 	* While the Color object is smart enough to recognise non-normalized
 	* ranges in most cases, it cannot tell the difference between 0.5 on a
 	* 0-1 scale, and 0.5 on a 0-255 scale. Try to reduce ambiguity by working
 	* in normalized color space.
-	* <br><br>
+	*
 	* You can get HSV, HSL, and hexadecimal values with the functions
 	* "getHsva", "getHsla", and "getHex". By default, these all include an
 	* alpha term. You can omit alpha from the getHex result by calling the
 	* function with the parameter "false". As getHsva and getHsla return objects
 	* rather than strings, you can freely ignore the provided alpha.
-	* <br<br>
+	*
 	* You can modify a Color object once created using its properties, methods,
 	* or the "set" method as you would use the constructor.
 	*
 	* @class Color
 	* @constructor
-	* @param [...args]
+	* @param [...args] Any number of arguments
 	* @since 1.2.0
 	*/
 	export class Color {
@@ -562,7 +562,7 @@ module Kiwi.Utils {
 		* Returns color as a hexadecimal string
 		* @method getHex
 		* @param [alpha=true] {boolean} Whether to include the alpha
-		* @return string
+		* @return {string} A hexadecimal color such as "13579bdf"
 		* @public
 		*/
 		public getHex( alpha: boolean = true ): string {
@@ -602,13 +602,14 @@ module Kiwi.Utils {
 		* Parses normalized HSV values into the Color.
 		* Interprets either normalized values, or H in degrees (0-360)
 		* and S and V in % (0-100).
-		* <br><br>
+		*
 		* Based on algorithms at
 		* http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
 		* @method parseHsv
 		* @param h {number} Hue
 		* @param s {number} Saturation
 		* @param v {number} Value
+		* @param a {number} Alpha
 		* @return {Kiwi.Utils.Color} This object with the new color set
 		* @public
 		*/
@@ -726,61 +727,17 @@ module Kiwi.Utils {
 
 
 		/**
-		* Returns HSL value of the Color.
-		* Based on algorithms at
-		* http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
-		* @method getHsla
-		* @return {object} Object with normalized h, s, l, a properties.
-		* @public
-		*/
-		public getHsla(): any {
-			var d,
-				r = this._r,
-				g = this._g,
-				b = this._b,
-				max = Math.max( r, g, b ),
-				min = Math.min( r, g, b ),
-				h = ( max + min ) / 2,
-				s = ( max + min ) / 2,
-				l = ( max + min ) / 2;
-
-			if ( max == min ) {
-
-				// Achromatic
-				h = 0;
-				s = 0;
-			} else {
-				d = max - min;
-				s = l > 0.5 ? d / ( 2 - max - min ) : d / ( max + min );
-				switch( max ) {
-					case r:
-						h = ( g - b ) / d + ( g < b ? 6 : 0 );
-						break;
-					case g:
-						h = ( b - r ) / d + 2;
-						break;
-					case b:
-						h = ( r - g ) / d + 4;
-						break;
-				}
-				h /= 6;
-			}
-
-			return { h: h, s: s, l: l, a: this._a };
-		}
-
-
-		/**
 		* Parses HSL value onto the Color.
 		* Interprets either normalized values, or H in degrees (0-360)
 		* and S and L in % (0-100).
-		* <br><br>
+		* 
 		* Based on algorithms at
 		* http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
 		* @method parseHsl
 		* @param h {number} Hue
 		* @param s {number} Saturation
 		* @param l {number} Lightness
+		* @param a {number} Alpha
 		* @return {Kiwi.Utils.Color} This object with the new color set
 		* @public
 		*/
@@ -830,6 +787,51 @@ module Kiwi.Utils {
 			this._a = a;
 
 			return this;
+		}
+
+
+		/**
+		* Returns HSL value of the Color.
+		* Based on algorithms at
+		* http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+		* @method getHsla
+		* @return {object} Object with normalized h, s, l, a properties.
+		* @public
+		*/
+		public getHsla(): any {
+			var d,
+				r = this._r,
+				g = this._g,
+				b = this._b,
+				max = Math.max( r, g, b ),
+				min = Math.min( r, g, b ),
+				h = ( max + min ) / 2,
+				s = ( max + min ) / 2,
+				l = ( max + min ) / 2;
+
+			if ( max == min ) {
+
+				// Achromatic
+				h = 0;
+				s = 0;
+			} else {
+				d = max - min;
+				s = l > 0.5 ? d / ( 2 - max - min ) : d / ( max + min );
+				switch( max ) {
+					case r:
+						h = ( g - b ) / d + ( g < b ? 6 : 0 );
+						break;
+					case g:
+						h = ( b - r ) / d + 2;
+						break;
+					case b:
+						h = ( r - g ) / d + 4;
+						break;
+				}
+				h /= 6;
+			}
+
+			return { h: h, s: s, l: l, a: this._a };
 		}
 
 

@@ -11,18 +11,18 @@ module Kiwi.Time {
     * The Clock class offers a way of tracking time within a game. When creating a new Clock you should NOT directly instantiate this class but instead use the addClock method on a ClockManager.
     * - The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started. This happens automatically and there is no need to do anything to set this up.
     * - An instance of a clock is used to track time in arbitrary units (milliseconds by default)
-    * - A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it.
+    * - A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it. It can also have its time scale freely transformed.
     * - Any number of timers can be attached to a clock. See the Kiwi.Time.Timer class for timer details.
-    * - If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused.
-    * (Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)
+    * - If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused. (Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)
+    * - Animations and TweenManagers can use any Clock.
     * 
     * @class Clock
     * @namespace Kiwi.Time
     * @constructor
-    * @param manager {ClockManager} The ClockManager that this clock belongs to. .
+    * @param manager {ClockManager} The ClockManager that this clock belongs to.
     * @param master {Kiwi.Time.MasterClock} The MasterClock that it is getting the time in relation to.
     * @param name {String} The name of the clock.
-    * @param [units=1000] {Number} The units that this clock is to operate in.
+    * @param [units=1000] {Number} The units that this clock is to operate in per second.
     * @return {Kiwi.Time.Clock} This Clock object.
     */
     export class Clock {
@@ -46,7 +46,7 @@ module Kiwi.Time {
         /**
         * The type of object that this is.
         * @method objType
-        * @return {String}
+        * @return {String} "Clock"
         * @public
         */
         public objType() {
@@ -484,6 +484,7 @@ module Kiwi.Time {
         /**
         * Convert a number to milliseconds based on clock units.
         * @method toMilliseconds.
+        * @param time {number} seconds
         * @return {Number} milliseconds.
         * @public
         */
@@ -641,10 +642,10 @@ module Kiwi.Time {
         * Emulates window.setTimeout, except attached to a Kiwi.Time.Clock.
         * This allows you to pause and manipulate time, and the timeout will respect
         * the clock on which it is created.
-        *<br><br>
+        *
         * No clearTimeout is provided; you should use Kiwi.Time.Timer functions
         * to achieve further control.
-        *<br><br>
+        *
         * Any parameters after "context" will be passed as parameters to the
         * callback function. Note that you must specify "context" in order for
         * this to work. You may specify "null", in which case it will default
@@ -684,10 +685,10 @@ module Kiwi.Time {
         * Emulates window.setInterval, except attached to a Kiwi.Time.Clock.
         * This allows you to pause and manipulate time, and the timeout will respect
         * the clock on which it is created.
-        *<br><br>
+        *
         * No clearInterval is provided; you should use Kiwi.Time.Timer functions
         * to achieve further control.
-        *<br><br>
+        *
         * Any parameters after "context" will be passed as parameters to the
         * callback function. Note that you must specify "context" in order for
         * this to work. You may specify "null", in which case it will default

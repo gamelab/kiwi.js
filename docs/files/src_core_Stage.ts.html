@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\core\Stage.ts - Kiwi.js</title>
+    <title>src/core/Stage.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -360,7 +360,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\core\Stage.ts</h1>
+                        <h1 class="file-heading">File: src/core/Stage.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -498,7 +498,7 @@ module Kiwi {
         * @property scaleType
         * @type number
         * @default Kiwi.Stage.SCALE_NONE
-        * @private
+        * @public
         */
         public set scaleType(val: number) {
             this._scaleType = val;
@@ -754,7 +754,7 @@ module Kiwi {
             if ( !Kiwi.Utils.Common.isArray( val ) ) {
                 val = [ val ];
             }
-            this._color.parseString.apply( this._color, val );
+            this._color.set.apply( this._color, val );
         }
 
         /**
@@ -977,7 +977,12 @@ module Kiwi {
         */
         private _calculateContainerScale() {
 
+            //Calculate the scale twice
+            //This will give the correct scale upon completion the second run
+            //Temporary fix until the Scale Manager is implemented
             this._scaleContainer();
+            this._scaleContainer();
+
             this.offset = this.getOffsetPoint(this.container);
 
             this._scale.x = this._width / this.container.clientWidth;
@@ -1164,6 +1169,8 @@ module Kiwi {
 
             if (this._game.deviceTargetOption == Kiwi.TARGET_BROWSER) {
 
+                var clientWidth = this.container.clientWidth;
+
                 this.container.style.width = String(this._width + &quot;px&quot;);
                 this.container.style.height = String(this._height + &quot;px&quot;);
 
@@ -1189,7 +1196,7 @@ module Kiwi {
 
                 //If it is SCALE to FIT then scale the containers height in ratio with the containers width.
                 if (this._scaleType == Kiwi.Stage.SCALE_FIT) {
-                    this.container.style.height = String((this.container.clientWidth / this._width) * this._height) + &quot;px&quot;;
+                    this.container.style.height = String((clientWidth / this._width) * this._height) + &quot;px&quot;;
                 }
 
             }
